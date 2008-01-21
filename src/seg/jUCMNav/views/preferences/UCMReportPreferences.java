@@ -13,13 +13,13 @@ import seg.jUCMNav.JUCMNavPlugin;
  */
 public class UCMReportPreferences {
     
-    public final static Boolean DEFAULTUCMSHOWDESC = true; //$NON-NLS-1$
-    public final static Boolean DEFAULTUCMSHOWRESPONSIBILITY = true; //$NON-NLS-1$
-    public final static Boolean DEFAULTUCMSHOWSTUB = true; //$NON-NLS-1$
-    public final static Boolean DEFAULTUCMSHOWORFORK = true; //$NON-NLS-1$
-    public final static Boolean DEFAULTUCMSHOWANDFORK = true; //$NON-NLS-1$
-    public final static Boolean DEFAULTUCMSHOWSTARTPOINT = true; //$NON-NLS-1$
-    public final static Boolean DEFAULTUCMSHOWENDPOINT = true; //$NON-NLS-1$
+    public final static boolean DEFAULTUCMSHOWDESC = true; //$NON-NLS-1$
+    public final static boolean DEFAULTUCMSHOWRESPONSIBILITY = true; //$NON-NLS-1$
+    public final static boolean DEFAULTUCMSHOWSTUB = true; //$NON-NLS-1$
+    public final static boolean DEFAULTUCMSHOWORFORK = true; //$NON-NLS-1$
+    public final static boolean DEFAULTUCMSHOWANDFORK = true; //$NON-NLS-1$
+    public final static boolean DEFAULTUCMSHOWSTARTPOINT = true; //$NON-NLS-1$
+    public final static boolean DEFAULTUCMSHOWENDPOINT = true; //$NON-NLS-1$
 
 
     public final static String PREF_UCMSHOWDESC = "seg.jUCMNav.UCMReportPreference.UCMSHOWDESC"; //$NON-NLS-1$
@@ -58,7 +58,7 @@ public class UCMReportPreferences {
      * 
      * @return the show ucm description 
      */
-    public static Boolean getUCMSHOWDESC() {
+    public static boolean getUCMSHOWDESC() {
         return getPreferenceStore().getBoolean(PREF_UCMSHOWDESC);
     }
 
@@ -66,7 +66,7 @@ public class UCMReportPreferences {
      * 
      * @return the show responsibility node
      */
-    public static Boolean getUCMSHOWRESPONSIBILITY() {
+    public static boolean getUCMSHOWRESPONSIBILITY() {
         return getPreferenceStore().getBoolean(PREF_UCMSHOWRESPONSIBILITY);
     }
 
@@ -74,7 +74,7 @@ public class UCMReportPreferences {
      * 
      * @return the show stub node
      */
-    public static Boolean getUCMSHOWSTUB() {
+    public static boolean getUCMSHOWSTUB() {
         return getPreferenceStore().getBoolean(PREF_UCMSHOWSTUB);
     }
 
@@ -82,7 +82,7 @@ public class UCMReportPreferences {
      * 
      * @return the show OrFork node 
      */
-    public static Boolean getUCMSHOWORFORK() {
+    public static boolean getUCMSHOWORFORK() {
         return getPreferenceStore().getBoolean(PREF_UCMSHOWORFORK);
     }
 
@@ -90,7 +90,7 @@ public class UCMReportPreferences {
      * 
      * @return the show AndFork node 
      */
-    public static Boolean getAndForkOrder() {
+    public static boolean getAndForkOrder() {
         return getPreferenceStore().getBoolean(PREF_UCMSHOWANDFORK);
     }
 
@@ -98,7 +98,7 @@ public class UCMReportPreferences {
      * 
      * @return the show StartPoint node
      */
-    public static Boolean getUCMSHOWSTARTPOINT() {
+    public static boolean getUCMSHOWSTARTPOINT() {
         return getPreferenceStore().getBoolean(PREF_UCMSHOWSTARTPOINT);
     }
     
@@ -106,7 +106,7 @@ public class UCMReportPreferences {
      * 
      * @return the show EndPoint node
      */
-    public static Boolean getUCMSHOWENDPOINT() {
+    public static boolean getUCMSHOWENDPOINT() {
         return getPreferenceStore().getBoolean(PREF_UCMSHOWENDPOINT);
     }
 
@@ -117,7 +117,7 @@ public class UCMReportPreferences {
      * @param bool
      *            show or not the description node type 
      */
-    public static void setUCMSHOWDESC(Boolean bool) {
+    public static void setUCMSHOWDESC(boolean bool) {
         getPreferenceStore().setValue(PREF_UCMSHOWDESC, bool);
     }
 
@@ -126,7 +126,7 @@ public class UCMReportPreferences {
      * @param bool
      *            show or not the responsibility node type 
      */
-    public static void setUCMSHOWRESPONSIBILITY(Boolean bool) {
+    public static void setUCMSHOWRESPONSIBILITY(boolean bool) {
         getPreferenceStore().setValue(PREF_UCMSHOWRESPONSIBILITY, bool);
     }
     /**
@@ -134,7 +134,7 @@ public class UCMReportPreferences {
      * @param bool
      *            show or not the stub node type 
      */
-    public static void setUCMSHOWSTUB(Boolean bool) {
+    public static void setUCMSHOWSTUB(boolean bool) {
         getPreferenceStore().setValue(PREF_UCMSHOWSTUB, bool);
     }
     
@@ -143,7 +143,7 @@ public class UCMReportPreferences {
      * @param bool
      *            show or not the OrFork node type 
      */
-    public static void setOrFork(Boolean bool) {
+    public static void setOrFork(boolean bool) {
         getPreferenceStore().setValue(PREF_UCMSHOWORFORK, bool);
     }
     
@@ -152,7 +152,7 @@ public class UCMReportPreferences {
      * @param bool
      *            show or not the AndFork node type 
      */
-    public static void setAndFork(Boolean bool) {
+    public static void setAndFork(boolean bool) {
         getPreferenceStore().setValue(PREF_UCMSHOWANDFORK, bool);
     }
     
@@ -161,7 +161,7 @@ public class UCMReportPreferences {
      * @param bool
      *            tshow or not the SartPoint node type 
      */
-    public static void setStartPoint(Boolean bool) {
+    public static void setStartPoint(boolean bool) {
         getPreferenceStore().setValue(PREF_UCMSHOWSTARTPOINT, bool);
     }
     
@@ -171,7 +171,7 @@ public class UCMReportPreferences {
      * @param bool
      *           show or not the EndPoint node type 
      */
-    public static void setEndPoint(Boolean bool) {
+    public static void setEndPoint(boolean bool) {
         getPreferenceStore().setValue(PREF_UCMSHOWENDPOINT, bool);
     }
     

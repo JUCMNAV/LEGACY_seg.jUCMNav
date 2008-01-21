@@ -74,7 +74,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    
     public void createUCMDiagramDescription(Document document, URNmodelElement element, IURNDiagram diagram) {
 
         try {
@@ -128,19 +128,24 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 PathNode currentNode = (PathNode) iter.next();
 
                 if (showRespRefNode && currentNode instanceof RespRef) {
-                    respRefSection.put(respRefNo, currentNode);
+                    Integer hashKey = new Integer(respRefNo);
+                    respRefSection.put(hashKey, currentNode);
                     respRefNo++;
                 } else if (showStubNode && currentNode instanceof Stub) {
-                    stubSection.put(stubNo, currentNode);
+                    Integer hashKey = new Integer(stubNo);
+                    stubSection.put(hashKey, currentNode);
                     stubNo++;
                 } else if (showOrForkImplNode && currentNode instanceof OrForkImpl) {
-                    orForkImplSection.put(orForkImplNo, currentNode);
+                    Integer hashKey = new Integer(orForkImplNo);
+                    orForkImplSection.put(hashKey, currentNode);
                     orForkImplNo++;
                 } else if (showStartPointNode && currentNode instanceof StartPoint) {
-                    startPointSection.put(startPointNo, currentNode);
+                    Integer hashKey = new Integer(startPointNo);
+                    startPointSection.put(hashKey, currentNode);
                     startPointNo++;
                 } else if (showEndPointNode && currentNode instanceof EndPoint) {
-                    endPointSection.put(endPointNo, currentNode);
+                    Integer hashKey = new Integer(endPointNo);
+                    endPointSection.put(hashKey, currentNode);
                     endPointNo++;
                 }
 
@@ -154,7 +159,8 @@ public class UCMDiagramSection extends PDFReportDiagram {
                         firstStub = false;
                     }
 
-                    Stub stub = (Stub) stubSection.get(i4);
+                    Integer hashKey = new Integer(i4);
+                    Stub stub = (Stub) stubSection.get(hashKey);
                     insertStub(document, stub);
                     document.add(Chunk.NEWLINE);
 
@@ -169,7 +175,8 @@ public class UCMDiagramSection extends PDFReportDiagram {
                         firstOrFork = false;
                     }
 
-                    OrForkImpl orFork = (OrForkImpl) orForkImplSection.get(i4);
+                    Integer hashKey = new Integer(i4);
+                    OrForkImpl orFork = (OrForkImpl) orForkImplSection.get(hashKey);
                     insertOrForkProbability(document, orFork);
                     document.add(Chunk.NEWLINE);
                 }
@@ -182,7 +189,8 @@ public class UCMDiagramSection extends PDFReportDiagram {
                         firstStartPoint = false;
                     }
 
-                    StartPoint startPoint = (StartPoint) startPointSection.get(i4);
+                    Integer hashKey = new Integer(i4);
+                    StartPoint startPoint = (StartPoint) startPointSection.get(hashKey);
                     insertStartPoint(document, startPoint);
                     document.add(Chunk.NEWLINE);
                 }
@@ -195,7 +203,8 @@ public class UCMDiagramSection extends PDFReportDiagram {
                         firstEndPoint = false;
                     }
 
-                    EndPoint endPoint = (EndPoint) endPointSection.get(i4);
+                    Integer hashKey = new Integer(i4);
+                    EndPoint endPoint = (EndPoint) endPointSection.get(hashKey);
                     insertEndPoint(document, endPoint);
                     document.add(Chunk.NEWLINE);
                 }
@@ -235,7 +244,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 
     }
 
-    @SuppressWarnings("unchecked")
+    
     private void insertOrForkProbability(Document document, PathNode node) {
         try {
             for (Iterator iter = node.getSucc().iterator(); iter.hasNext();) {
@@ -295,7 +304,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    
     private void insertSuccessorDescription(Document document, PathNode node) {
         try {
             int i = 1;
@@ -318,7 +327,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    
     private void insertStub(Document document, Stub node) {
         try {
             // name and description

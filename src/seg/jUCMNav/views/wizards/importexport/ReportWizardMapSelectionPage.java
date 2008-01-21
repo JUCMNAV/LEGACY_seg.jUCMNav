@@ -32,7 +32,7 @@ import urncore.IURNDiagram;
  * @author dessure
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class ReportWizardMapSelectionPage extends WizardPage {
 
     // to be filled with alternatives from the extension points

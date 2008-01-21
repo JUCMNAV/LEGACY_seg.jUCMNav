@@ -54,7 +54,7 @@ public class RTFReportDiagram extends PDFReport {
      * @param pagesize
      *            the rectangle with dimensions for the size of page
      */
-    @SuppressWarnings("unchecked")
+    
     public void createRTFReportDiagramsAndDescription(Document document, URNdefinition urndef, HashMap mapDiagrams, Rectangle pagesize) {
         try {
             document.add(Chunk.NEXTPAGE);
@@ -135,7 +135,7 @@ public class RTFReportDiagram extends PDFReport {
      * @param pagesize
      *            the rectangle with dimensions for the size of page
      */
-    @SuppressWarnings("unchecked")
+    
     public void insertDiagram(Document document, HashMap mapDiagrams, IURNDiagram diagram, URNdefinition urndef, int i, Rectangle pagesize) {
         try {
             // get the high level IFigure to be saved.

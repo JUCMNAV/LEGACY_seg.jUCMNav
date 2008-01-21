@@ -58,7 +58,7 @@ public class Report extends URNReport {
 
     private String filename;
 
-    @Override
+    
     public int getType() {
 
         return 0;
@@ -78,7 +78,7 @@ public class Report extends URNReport {
      * @param pagesize
      *            the report page size
      */
-    @SuppressWarnings("unchecked")
+    
     public void export(URNspec urn, HashMap mapDiagrams, String filename, Document document, Rectangle pagesize) throws InvocationTargetException {
         // TODO remove all hardcoded preferences, font names and sizes
         // TODO report description strings should be externalized
@@ -123,7 +123,7 @@ public class Report extends URNReport {
      * not used
      * 
      */
-    @SuppressWarnings("unchecked")
+    
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
 
     }

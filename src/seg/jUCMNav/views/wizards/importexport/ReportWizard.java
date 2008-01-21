@@ -34,7 +34,7 @@ import urncore.IURNDiagram;
  * @author dessure
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class ReportWizard extends ExportWizard {
 
     protected static final String PAGE0 = Messages.getString("ReportWizard.reportWizard"); //$NON-NLS-1$

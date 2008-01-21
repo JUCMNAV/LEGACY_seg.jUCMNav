@@ -35,7 +35,7 @@ public class RTFReport extends Report {
      * @param filename
      *            the filename to create the report
      */
-    @SuppressWarnings("unchecked")
+    
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
 
         // Create a report document with page size from preferences, 72 points per inch

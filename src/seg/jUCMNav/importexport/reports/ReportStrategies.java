@@ -72,7 +72,7 @@ public class ReportStrategies extends ReportDataDictionary {
      * @param strategies
      *            the strategies we need to evaluate
      */
-    @SuppressWarnings("unchecked")
+    
     private void writeStrategiesLegend(Document document, HashMap strategies) {
 
         try {
@@ -82,7 +82,8 @@ public class ReportStrategies extends ReportDataDictionary {
 
             for (int i = 1; i <= strategies.size(); i++) {
                 // name and description
-                EvaluationStrategy strategy = (EvaluationStrategy) strategies.get(i);
+                Integer i2 = new Integer(i);
+                EvaluationStrategy strategy = (EvaluationStrategy) strategies.get(i2);
 
                 String strategyName = strategy.getName();
                 String columnNo = i + "";
@@ -106,7 +107,7 @@ public class ReportStrategies extends ReportDataDictionary {
      * @param pagesize
      *            the size of the report page
      */
-    @SuppressWarnings("unchecked")
+    
     private void writeStrategies(Document document, GRLspec grlspec, Rectangle pagesize) {
 
         try {
@@ -136,7 +137,8 @@ public class ReportStrategies extends ReportDataDictionary {
                         int columnNo = 1;
                         for (Iterator iter2 = evalGroup.getStrategies().iterator(); iter2.hasNext();) {
                             EvaluationStrategy strategy = (EvaluationStrategy) iter2.next();
-                            strategies.put(columnNo, strategy);
+                            Integer hashKey = new Integer(columnNo);
+                            strategies.put(hashKey, strategy);
                             columnNo++;
                         }
                         float nbOfStrategies = strategies.size();
@@ -219,7 +221,8 @@ public class ReportStrategies extends ReportDataDictionary {
                                 // column 1 contains strategy 1, column 2 -> strategy 2, ...
                                 for (int column = lastCellAdded; column <= lastCellOfPage; column++) {
                                     // for each strategy (i.e. bcolumn), get evaluation for the intentionalElement of the row
-                                    EvaluationStrategy currentStrategy = (EvaluationStrategy) strategies.get(column);
+                                    Integer hashKey = new Integer(column);
+                                    EvaluationStrategy currentStrategy = (EvaluationStrategy) strategies.get(hashKey);
                                     writeEvaluation(table, currentStrategy, intElement, strategyCellWidth);
 
                                 }
@@ -266,7 +269,7 @@ public class ReportStrategies extends ReportDataDictionary {
      *            the number of cells the strategy has to fill
      */
 
-    @SuppressWarnings("unchecked")
+    
     protected void writeEvaluation(Table table, EvaluationStrategy strategy, IntentionalElement intentionalElement, int strategyCellWidth) throws IOException {
         EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
         EvaluationStrategyManager.getInstance(false).calculateEvaluation();

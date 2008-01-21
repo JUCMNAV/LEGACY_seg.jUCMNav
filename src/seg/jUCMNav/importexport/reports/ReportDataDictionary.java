@@ -114,7 +114,7 @@ public class ReportDataDictionary extends Report {
      * @param ucmspec
      *            the ucm specification used to retrieve elements
      */
-    @SuppressWarnings("unchecked")
+    
     public void writeScenarioGroups(Document document, UCMspec ucmspec) {
         try {
             document.add(new Paragraph("UCM Scenario Groups documentation", header1Font));
@@ -161,7 +161,7 @@ public class ReportDataDictionary extends Report {
      * @param ucmspec
      *            the ucm specification used to retrieve elements
      */
-    @SuppressWarnings("unchecked")
+    
     public void writeVariables(Document document, UCMspec ucmspec) {
 
         try {
@@ -204,7 +204,7 @@ public class ReportDataDictionary extends Report {
      * @param ucmspec
      *            the ucm specification used to retrieve elements
      */
-    @SuppressWarnings("unchecked")
+    
     public void writeEnumerationTypes(Document document, UCMspec ucmspec) {
 
         try {
@@ -259,7 +259,7 @@ public class ReportDataDictionary extends Report {
      * @param grlspec
      *            the grl specification used to retrieve elements
      */
-    @SuppressWarnings("unchecked")
+    
     public void writeIntElements(Document document, GRLspec grlspec) {
 
         try {
@@ -289,7 +289,7 @@ public class ReportDataDictionary extends Report {
      * @param grlspec
      *            the grl specification used to retrieve elements
      */
-    @SuppressWarnings("unchecked")
+    
     public void writeActors(Document document, GRLspec grlspec) {
 
         try {
@@ -320,7 +320,7 @@ public class ReportDataDictionary extends Report {
      *            the urn definition used to retrieve elements
      */
 
-    @SuppressWarnings("unchecked")
+    
     public void writeResponsibilities(Document document, URNdefinition urndef) {
 
         try {
@@ -349,7 +349,8 @@ public class ReportDataDictionary extends Report {
      * @param urndef
      *            the urn definition used to retrieve elements
      */
-    @SuppressWarnings("unchecked")
+    
+    
     public void writeComponents(Document document, URNdefinition urndef) {
 
         try {

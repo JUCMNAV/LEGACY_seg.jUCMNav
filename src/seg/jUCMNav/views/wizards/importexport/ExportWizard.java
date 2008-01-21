@@ -56,7 +56,7 @@ import urncore.URNmodelElement;
  * @author jkealey
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class ExportWizard extends Wizard implements IExportWizard {
 
     protected static final String PAGE0 = Messages.getString("ExportWizard.ExportURNorUCM"); //$NON-NLS-1$
@@ -147,7 +147,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * @param editor
      * @param diagram
      */
-    @SuppressWarnings("unchecked")
+    
     protected void defineMapping(UCMNavMultiPageEditor editor, IURNDiagram diagram) {
         mapsToEditor.put(diagram, editor);
         mapsToSpecificEditor.put(diagram, editor.getEditor(editor.getModel().getUrndef().getSpecDiagrams().indexOf(diagram)));
@@ -156,7 +156,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
     /**
      * Saves all images and closes opened editors.
      */
-    @SuppressWarnings("unchecked")
+    
     protected boolean doFinish(IProgressMonitor monitor) throws Exception {
         boolean b = ((ExportWizardMapSelectionPage) getPage(PAGE1)).finish();
         postHooks = new Vector();

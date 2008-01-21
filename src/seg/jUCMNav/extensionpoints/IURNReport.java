@@ -24,7 +24,6 @@ public interface IURNReport {
      *            the filename of the report
      */
 
-    @SuppressWarnings("unchecked")
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException;
 
 }

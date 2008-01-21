@@ -58,7 +58,7 @@ public class PDFReport extends Report {
      * @param filename
      *            the report filename
      */
-    @SuppressWarnings("unchecked")
+    
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
 
         // Create a report document with page size from preferences, 72 points per inch
@@ -120,7 +120,7 @@ public class PDFReport extends Report {
      *            the rectangle with dimensions for the size of page
      * 
      */
-    @SuppressWarnings("unchecked")
+    
     public void insertDiagram(Document document, HashMap mapDiagrams, IURNDiagram diagram, URNdefinition urndef, int i, Rectangle pagesize) {
         try {
             // get the high level IFigure to be saved.
