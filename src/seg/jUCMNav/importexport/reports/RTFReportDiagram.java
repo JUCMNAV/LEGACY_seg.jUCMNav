@@ -1,17 +1,13 @@
 package seg.jUCMNav.importexport.reports;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.util.HashMap;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.importexport.ExportImageGIF;

@@ -1,18 +1,8 @@
 package seg.jUCMNav.importexport.reports;
 
-import seg.jUCMNav.importexport.ExportImageGIF;
-import seg.jUCMNav.importexport.reports.utils.ReportUtils;
-import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
-import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
-import urn.URNspec;
-import urncore.IURNDiagram;
-import urncore.URNdefinition;
-import urncore.URNmodelElement;
-
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.draw2d.IFigure;
@@ -22,19 +12,21 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.importexport.ExportImageGIF;
+import seg.jUCMNav.importexport.reports.utils.ReportUtils;
+import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
+import urn.URNspec;
+import urncore.IURNDiagram;
+import urncore.URNdefinition;
+import urncore.URNmodelElement;
+
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.Paragraph;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.Table;
-import com.lowagie.text.pdf.PdfAction;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfDestination;
-import com.lowagie.text.pdf.PdfLayer;
-import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**

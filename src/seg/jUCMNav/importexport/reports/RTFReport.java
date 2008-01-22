@@ -1,16 +1,15 @@
 package seg.jUCMNav.importexport.reports;
 
-import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
-import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
-import urn.URNspec;
-
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
 
-import com.lowagie.text.Anchor;
+import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
+import urn.URNspec;
+
 import com.lowagie.text.Document;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.rtf.RtfWriter2;

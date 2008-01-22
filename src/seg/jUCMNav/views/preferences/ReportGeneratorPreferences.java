@@ -1,7 +1,6 @@
 package seg.jUCMNav.views.preferences;
 
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.swt.graphics.RGB;
 
 import seg.jUCMNav.JUCMNavPlugin;
 
