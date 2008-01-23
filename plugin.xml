@@ -66,6 +66,16 @@
                menubarPath="seg.jUCMnav/ext"
                style="push"
                tooltip="%VerifySyntax"/>
+		 <action
+               actionID="seg.jUCMNav.actions.staticSemantic.VerifyStaticSemanticDelegate"
+               class="seg.jUCMNav.actions.staticSemantic.VerifyStaticSemanticDelegate"
+               icon="icons/condition.gif"
+               id="seg.jUCMNav.actions.staticAnalysis.VerifyStaticSemanticDelegate"
+               label="%VerifyStaticSemantics"
+               menubarPath="seg.jUCMnav/ext"
+               style="push"
+               tooltip="%VerifyStaticSemantics"/>
+               
       </editorContribution>
    </extension>
    <extension
@@ -259,6 +269,11 @@
             class="seg.jUCMNav.views.preferences.UCMReportPreferencePage"
             id="seg.jUCMNav.views.preferences.UCMReportPreferencePage"
             name="%UCMReportPreferences"/>
+	  <page
+            category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            class="seg.jUCMNav.views.preferences.StaticSemanticPreferencePage"
+            id="seg.jUCMNav.views.preferences.StaticSemanticPreferencesPage"
+            name="%StaticSemanticPreferences"/>
       </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
