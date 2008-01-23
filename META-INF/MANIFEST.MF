@@ -124,6 +124,8 @@ Require-Bundle: org.eclipse.ui,
  javax.xml.rpc;resolution:=optional,
  org.apache.commons.discovery;resolution:=optional,
  javax.wsdl15;resolution:=optional,
- javax.xml.soap;resolution:=optional
+ javax.xml.soap;resolution:=optional,
+ org.eclipse.ocl,
+ org.eclipse.ocl.ecore
 Eclipse-LazyStart: true
 
