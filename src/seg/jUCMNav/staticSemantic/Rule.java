@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.ocl.OCL;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.Query;
@@ -24,7 +21,7 @@ public class Rule {
 	private String classifier;
 	private String query;
 	private String description;
-	private List<String> utilities;
+	private List utilities;
 	private boolean    enabled;
 	private String errors;
 	public Rule()
@@ -36,7 +33,7 @@ public class Rule {
         this.enabled = false;
         this.description = "";
         this.errors = "";
-        this.utilities = new ArrayList<String>() ;
+        this.utilities = new ArrayList() ;
         }
 	/**
 	 * @param context	OCL expression that returns a Sequence of a classifier specified in the second parameter 
@@ -52,7 +49,7 @@ public class Rule {
 		this.enabled = enabled;
 		this.description = description;
 		this.errors = "";
-		this.utilities = new ArrayList<String>() ;
+		this.utilities = new ArrayList() ;
 	}
 
 	public void addUtility(String untility)
@@ -72,9 +69,9 @@ public class Rule {
 	{
 		return name;
 	}
-	public List<String> getClassifierAsList()
+	public List getClassifierAsList()
 	{
-		ArrayList<String> array = new ArrayList<String>();
+		ArrayList array = new ArrayList();
 		StringTokenizer tok = new StringTokenizer(classifier,"::");
 		while (tok.hasMoreTokens()) {
 	         array.add(tok.nextToken());
@@ -107,18 +104,20 @@ public class Rule {
     public void setQuery(String query) {
         this.query = query;
     }
-    public List<String> getUtilities() {
+    public List getUtilities() {
         return utilities;
     }	
     public boolean isValid()
     {
      
-        OCL<?, EClassifier, EOperation, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
+//        OCL<?, EClassifier, EOperation, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
+        OCL ocl;
         ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
-        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
+//        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
+        OCLHelper helper = ocl.createOCLHelper();
         //verify context
-        List<String> name = this.getClassifierAsList();
-        EClassifier e = ocl.getEnvironment().lookupClassifier(name);
+        List name = this.getClassifierAsList();
+        EClassifier e = (EClassifier) ocl.getEnvironment().lookupClassifier(name);
         if (e == null) {
             errors += "Classifier " + this.getClassifier() + " is invalid.";
             return false;
@@ -126,7 +125,7 @@ public class Rule {
         //verify utilities
         for(int i =0; i<this.getUtilities().size();++i)
         {
-            String op =this.getUtilities().get(i); 
+            String op =(String) this.getUtilities().get(i); 
             try {
                 helper.setContext(e);
                 helper.defineOperation(op);
@@ -138,9 +137,11 @@ public class Rule {
         //verify query constraint
         try {
             helper.setContext(UrnPackage.Literals.UR_NSPEC);
-            OCLExpression<EClassifier> query;
+//            OCLExpression<EClassifier> query;
+            OCLExpression query;
             query = helper.createQuery(this.getContext());
-            Query<EClassifier, EClass, EObject> queryEval = ocl.createQuery(query);
+//            Query<EClassifier, EClass, EObject> queryEval = ocl.createQuery(query);
+            Query queryEval = ocl.createQuery(query);
         } catch (ParserException e1) {
             errors+="Query constraint error:" + e1.getMessage();
             return false;
@@ -148,8 +149,11 @@ public class Rule {
         //verify incariant constraint
         try {
             helper.setContext(e);
-            Constraint invariant = helper.createInvariant(this.getQuery());
+/*            Constraint invariant = helper.createInvariant(this.getQuery());
             Query<EClassifier, EClass, EObject> constraintEval = ocl.createQuery(invariant);
+*/
+            Constraint invariant = (Constraint) helper.createInvariant(this.getQuery());
+            Query constraintEval = ocl.createQuery(invariant);
             
         } catch (ParserException e1) {
             errors+= "Invariant contraint error:" + e1.getMessage();

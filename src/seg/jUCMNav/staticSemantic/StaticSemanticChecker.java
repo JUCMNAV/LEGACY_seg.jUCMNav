@@ -1,22 +1,12 @@
 package seg.jUCMNav.staticSemantic;
 
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.Vector;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
-
 import org.eclipse.ocl.OCL;
-import org.eclipse.ocl.OCLInput;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.Query;
 import org.eclipse.ocl.ecore.Constraint;
@@ -46,40 +36,50 @@ public class StaticSemanticChecker {
         int nViolated = 0;
         FileInputStream in = null;
         try {
-            for (Rule r : StaticSemanticDefMgr.loadDefinitions()) {
+            Rule[] rules = StaticSemanticDefMgr.loadDefinitions();
+            for (int i=0;i<rules.length;++i) {
+                Rule r = rules[i];
                 if (r.isEnabled()) {
                     nTotal++;
                     try {
-                        OCL<?, EClassifier, EOperation, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
+//                        OCL<?, EClassifier, EOperation, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
+                        OCL ocl;
+
                         ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
-                        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
-                        List<String> name = r.getClassifierAsList();
-                        EClassifier e = ocl.getEnvironment().lookupClassifier(name);
+//                        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
+                        OCLHelper helper = ocl.createOCLHelper();                        List name = r.getClassifierAsList();
+                        EClassifier e = (EClassifier) ocl.getEnvironment().lookupClassifier(name);
                         if (e == null) {
                             String s = "Rule <" + r.getName() + ">: Classifier can't be found:\"" + r.getClassifier() + "\"";
                             problems.add(new StaticCheckingMsg(s));
                         } else {
 
-                            for(String op: r.getUtilities())
+                            for(int k=0;k<r.getUtilities().size();++k)
                             {
+                                String op = (String) r.getUtilities().get(k);
                                 helper.setContext(e);
                                 helper.defineOperation(op);
                             }
                             helper.setContext(UrnPackage.Literals.UR_NSPEC);
-                            OCLExpression<EClassifier> query = helper.createQuery(r.getContext());
+/*                            OCLExpression<EClassifier> query = helper.createQuery(r.getContext());
                             Query<EClassifier, EClass, EObject> queryEval = ocl.createQuery(query);
+*/
+                            OCLExpression query = helper.createQuery(r.getContext());
+                            Query queryEval = ocl.createQuery(query);
 
-                            @SuppressWarnings("unchecked")
-                            List<EObject> objects = (List<EObject>) queryEval.evaluate(urn);
+//                            @SuppressWarnings("unchecked")
+                            List objects = (List) queryEval.evaluate(urn);
 
                             helper.setContext(e);
 
-                            Constraint invariant = helper.createInvariant(r.getQuery());
+                            Constraint invariant = (Constraint) helper.createInvariant(r.getQuery());
 
-                            Query<EClassifier, EClass, EObject> constraintEval = ocl.createQuery(invariant);
+//                            Query<EClassifier, EClass, EObject> constraintEval = ocl.createQuery(invariant);
+                            Query constraintEval = ocl.createQuery(invariant);
 
-                            List<EObject> violatedObjs = constraintEval.reject(objects);
-                            for (EObject o : violatedObjs) {
+                            List violatedObjs = constraintEval.reject(objects);
+                            for (int k=0;k< violatedObjs.size();++k) {
+                                EObject o = (EObject) violatedObjs.get(k);
                                 res = false;
                                 String s = r.getName();
                                 problems.add(new StaticCheckingMsg(s, o));

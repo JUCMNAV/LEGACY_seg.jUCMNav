@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions.staticSemantic;
 
-import java.util.Iterator;
 import java.util.Vector;
 
 import seg.jUCMNav.staticSemantic.*;
@@ -15,8 +14,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.importexport.csm.Messages;
-import seg.jUCMNav.importexport.csm.one2one.CsmExportWarning;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import urncore.URNmodelElement;
 
@@ -30,7 +27,7 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
 
     public void run(IAction action) {
     	if (editor!=null) {
-    		Vector<StaticCheckingMsg> problems = new Vector<StaticCheckingMsg>();
+    		Vector problems = new Vector();
     		StaticSemanticChecker.getInstance().check(editor.getModel(),problems);
     		refreshProblemView(problems);
     	}
@@ -40,7 +37,7 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
 
     }
 
-    private void refreshProblemView(Vector<StaticCheckingMsg> problems)
+    private void refreshProblemView(Vector problems)
     {
         if (editor != null) {
             IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
@@ -57,8 +54,8 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
         
             if (problems.size() > 0) {
 
-                for (StaticCheckingMsg o: problems) {
-
+                for (int i=0;i< problems.size();++i) {
+                    StaticCheckingMsg o =  (StaticCheckingMsg)problems.get(i); 
                     try {
                         IMarker marker = resource.createMarker(IMarker.PROBLEM);
                         marker.setAttribute(IMarker.SEVERITY, o.getSeverity());

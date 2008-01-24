@@ -5,14 +5,10 @@ package seg.jUCMNav.views.preferences;
 
 import java.util.ArrayList;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -25,11 +21,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.staticSemantic.Rule;
 import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
 
@@ -64,7 +58,6 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
     /* (non-Javadoc)
      * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
      */
-    @Override
     protected Control createContents(Composite parent) {
         Label label1 = new Label(parent,SWT.LEFT);
         label1.setText("Rules defined:");
@@ -79,8 +72,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
             TableColumn column = new TableColumn (table, SWT.NONE);
             column.setText (titles [i]);
         }
-        for(TableColumn tc: table.getColumns())
+        for(int i=0;i< table.getColumns().length;++i)
         {
+            TableColumn tc = table.getColumns()[i];
             tc.pack();
         }
        
@@ -226,7 +220,7 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         dlg.setDescription(item.getText(TBL_COLUMN_DESCRIPTION));
         dlg.setConstraint(item.getText(TBL_COLUMN_CONSTRAINT));
         
-        ArrayList<String> utilities = new ArrayList<String>();
+        ArrayList utilities = new ArrayList();
         
         String sNumber = item.getData(APPDATA_UTILITIES_NUMBER).toString();
         int nNumber = Integer.parseInt(sNumber);
@@ -243,8 +237,11 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
             Button chk = (Button) editor.getEditor();
             
             Rule r = new Rule(dlg.getName(),dlg.getContext(),dlg.getQuery(),dlg.getConstraint(),chk.getSelection(),dlg.getDescription());
-            for(String s:dlg.getUtilities())
+            for(int i=0;i<dlg.getUtilities().size();++i)
+            {
+                String s = (String) dlg.getUtilities().get(i);
                 r.addUtility(s);
+            }
             updateRule(table.getSelection()[0],r);
         }       
     }
@@ -256,9 +253,11 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         if(Window.OK==dlg.open())
         {
             Rule r = new Rule(dlg.getName(),dlg.getContext(),dlg.getQuery(),dlg.getConstraint(),true,dlg.getDescription());
-            for(String s:dlg.getUtilities())
+            for(int i=0;i<dlg.getUtilities().size();++i)
+            {
+                String s = (String) dlg.getUtilities().get(i);
                 r.addUtility(s);
-            
+            }
             appendRule(r);
             table.setSelection(table.getItemCount()-1);
         }
@@ -298,18 +297,19 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         item.setText(TBL_COLUMN_CONSTRAINT, r.getQuery());
         item.setText(TBL_COLUMN_UTILITY, String.valueOf(r.getUtilities().size()));
         
-        item.setData(APPDATA_UTILITIES_NUMBER, r.getUtilities().size());
+        
+        item.setData(APPDATA_UTILITIES_NUMBER, new Integer( r.getUtilities().size()));
         
         int nNumber = Integer.parseInt(item.getData(APPDATA_UTILITIES_NUMBER).toString());
         
-        int i =0;
-        for(String u: r.getUtilities())
+        
+        for(int i =0;i<r.getUtilities().size();++i)
         {
+            String u = (String) r.getUtilities().get(i);
             item.setData( APPDATA_UTILITY + i, u);
-            i++;
         }        
     }
-    @Override
+
     protected void performDefaults() {
         super.performDefaults();
         Rule[] rules = StaticSemanticDefMgr.getDefaultDefinitions();
@@ -321,14 +321,14 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
     }
 
     private void populateTable(Rule[] rules) {
-       for(Rule r:rules)
+       for(int i=0;i<rules.length;++i)
        {
+           Rule r = rules[i];
            appendRule(r);
        }
         
     }
 
-    @Override
     public boolean performOk() {
         Rule[] rules = retriveRules();
         StaticSemanticDefMgr.saveDefinitions(rules);

@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Text;
  * @author Byrne
  *
  */
-import org.eclipse.swt.events.SelectionListener;
 
 import seg.jUCMNav.staticSemantic.Rule;
 public class RuleEditDialog extends Dialog implements SelectionListener {
@@ -54,7 +53,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     private Button btnEdit;
     private Button btnDelete;
  
-    List<String> utilities = new ArrayList<String>();
+    List utilities = new ArrayList();
     private Table table;
     
     /**
@@ -71,7 +70,6 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         super(parentShell);
      }
 
-    @Override
     protected Control createDialogArea(Composite parent) {
         Composite composite = (Composite) super.createDialogArea(parent);
               
@@ -192,8 +190,9 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         txtDesc.setText(getDescription());
         txtCheck.setText(getConstraint());
         txtQuery.setText(getQuery());
-        for(String s:utilities)
+        for(int i =0; i< utilities.size();++i)
         {
+            String s = (String) utilities.get(i);
             appendUtility(s);
         }
         table.pack();
@@ -202,7 +201,6 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
        
     }
 
-    @Override
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
         newShell.setText(title);
@@ -216,12 +214,11 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         this.title = title;
     }
 
-    public void setUtilites(List<String> utilities)
+    public void setUtilites(List utilities)
     {
         this.utilities = utilities;
     }
     
-    @Override
     protected void okPressed() {
         this.setName(txtName.getText());
         this.setContext(txtContext.getText());
@@ -229,14 +226,16 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         this.setConstraint(txtCheck.getText());
         this.setDescription(txtDesc.getText());
         utilities.clear();
-        for(TableItem item:table.getItems())
+        for(int i =0;i<table.getItems().length;++i)
         {
+            TableItem item = table.getItems()[i];
             utilities.add(item.getText());
         }
         
         Rule r = new Rule(name,context,query,constraint,false,description);
-        for(String s:utilities)
+        for(int i=0;i<utilities.size();++i)
         {
+            String s = (String) utilities.get(i);
             r.addUtility(s);
         }       
         if(r.isValid()){
@@ -351,7 +350,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         updateUtility(item,text);
     }
 
-    public List<String> getUtilities() {
+    public List getUtilities() {
         return utilities;
     }
 

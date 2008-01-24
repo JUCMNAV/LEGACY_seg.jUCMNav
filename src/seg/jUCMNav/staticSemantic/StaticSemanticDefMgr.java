@@ -24,10 +24,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.SWT;
 import org.w3c.dom.*;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
 import seg.jUCMNav.JUCMNavPlugin;
 
 public class StaticSemanticDefMgr {
@@ -93,7 +90,7 @@ public class StaticSemanticDefMgr {
             int nUtilities = rules[i].getUtilities().size();
             store.setValue(name + UTILiTIES_NUMBER, nUtilities);
             for (int j = 0; j < nUtilities; ++j) {
-                store.setValue(name + UTILiTIES + j, rules[i].getUtilities().get(j));
+                store.setValue(name + UTILiTIES + j, (String) rules[i].getUtilities().get(j));
             }
         }
 
@@ -129,7 +126,8 @@ public class StaticSemanticDefMgr {
             Element root = doc.createElement("Rules");
             doc.appendChild(root);
 
-            for (Rule r : rules) {
+            for (int i=0;i< rules.length;++i) {
+                Rule r = rules[i];
                 Element ruleNode = buildRuleNode(doc, r);
                 root.appendChild(ruleNode);
             }
@@ -174,7 +172,7 @@ public class StaticSemanticDefMgr {
         Element utilities = doc.createElement("Utilities");
         for (int i = 0; i < r.getUtilities().size(); ++i) {
             Element utility = doc.createElement("Utility");
-            utility.setTextContent(r.getUtilities().get(i));
+            utility.setTextContent((String) r.getUtilities().get(i));
             utilities.appendChild(utility);
         }
         root.appendChild(utilities);
@@ -236,7 +234,8 @@ public class StaticSemanticDefMgr {
 
         if (rules != null) {
             Rule[] oldRules = loadDefinitions();
-            for (Rule r : rules) {
+            for (int i=0;i<rules.length;++i) {
+                Rule r = rules[i];
                 String name = r.getName();
                 int j = 0;
                 String tryName = name;
@@ -279,7 +278,8 @@ public class StaticSemanticDefMgr {
     }
 
     private static boolean isNameConflict(String name, Rule[] rules) {
-        for (Rule r : rules) {
+        for (int i=0;i<rules.length;++i) {
+            Rule r = rules[i];
             if (r.getName().compareTo(name) == 0)
                 return true;
         }
