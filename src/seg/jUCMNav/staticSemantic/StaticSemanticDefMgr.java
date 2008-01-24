@@ -2,6 +2,7 @@ package seg.jUCMNav.staticSemantic;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,7 +30,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 
 public class StaticSemanticDefMgr {
 
-    private static final String RULE_SCHEMA = "d:/ruleschema.xml";
+    private static final String RULE_SCHEMA = "ruleschema.xsd";
     private static final String SELECTED_SUFFIX = "Selected";
     private static final String RULE_NUMBER = "RuleNumber";
     private static final String DESCCRIPTION_SUFFIX = "_Desccription";
@@ -253,7 +254,8 @@ public class StaticSemanticDefMgr {
     private static boolean isValidRuleFile(String file,Shell parent) {
         boolean bValid = true;
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Source schemaSource = new StreamSource(new File(RULE_SCHEMA));
+        InputStream ruleSchemaIS = StaticSemanticDefMgr.class.getResourceAsStream(RULE_SCHEMA);
+        Source schemaSource = new StreamSource(ruleSchemaIS);
         Schema schema;
         try {
             schema = schemaFactory.newSchema(schemaSource);
