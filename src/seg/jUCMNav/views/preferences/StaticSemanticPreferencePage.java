@@ -3,8 +3,12 @@
  */
 package seg.jUCMNav.views.preferences;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -18,12 +22,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.staticSemantic.Rule;
 import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
 
@@ -54,15 +60,25 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
     private Button btnDelete;
     private Button btnExport;
     private Button btnImport;
+    private Button btnShowDescription;
    
     /* (non-Javadoc)
      * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
      */
     protected Control createContents(Composite parent) {
+        
+        Composite head = new Composite(parent,SWT.NULL);
+        GridLayout headLayout = new GridLayout();
+        headLayout.numColumns = 1;
+        head.setLayout(headLayout);    
+        head.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));   
+        btnShowDescription = new Button(head,SWT.CHECK);
+        btnShowDescription.setText("Show rule description in the rule violation reporting");
+        
         Label label1 = new Label(parent,SWT.LEFT);
         label1.setText("Rules defined:");
         
-        table = new Table (parent,  SWT.BORDER |SWT.SINGLE|SWT.FULL_SELECTION);
+        table = new Table (parent,  SWT.BORDER |SWT.MULTI|SWT.FULL_SELECTION);
         table.setLinesVisible(true);
         table.setHeaderVisible(true);
 //        table.addSelectionListener(this);
@@ -119,6 +135,7 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         table.pack();
         table.setFocus();
         table.setSelection(0);
+        btnShowDescription.setSelection(StaticSemanticDefMgr.isShowDesc());
     }
 
     /* (non-Javadoc)
@@ -174,7 +191,7 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
                 {
                     rules[i] = retriveOneRule(items[i]);
                 }
-                StaticSemanticDefMgr.Export(rules, file);
+                StaticSemanticDefMgr.exportRules(rules, file);
             }
         }
     }
@@ -188,14 +205,31 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
             //save modification before import new rules
             performOk();
             
-            Rule[] rules = StaticSemanticDefMgr.Import(file,getControl().getShell());
-            this.populateTable(rules);
+            try {
+                Rule[] rules;
+                rules = StaticSemanticDefMgr.importRules(file,getControl().getShell());
+                this.populateTable(rules);
+            } catch (FileNotFoundException e) {
+                MessageBox msg = new MessageBox(getControl().getShell(), SWT.ICON_ERROR);
+                msg.setMessage(e.getMessage());
+                msg.setText("Failure to import rules");
+                msg.open();            
+            }
         }
     }
 
     private void performDelete() {
-        int idx = table.getSelectionIndex();
-        deleteRule(idx);
+
+        int nDelete = table.getSelectionCount();
+        if(nDelete>0)
+        {
+            MessageBox msg = new MessageBox(getControl().getShell(), SWT.YES|SWT.NO);
+            msg.setMessage("Are you sure to delete the selected "+nDelete+" rules?");
+            msg.setText("Rule delete confirmation");
+            if(SWT.NO == msg.open())
+                return ;            
+        }
+        deleteRule( table.getSelectionIndices());
     }
 
     /**
@@ -203,12 +237,31 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
      */
     private void deleteRule(int idx) {
         TableEditor editor = (TableEditor) table.getItem(idx).getData(APPDATA_CHECKBOX);
+        table.remove(idx);
         editor.getEditor().dispose();
         editor.dispose();
-        table.remove(idx);
+        table.setSelection(0);
+    }
+    private void deleteRule(int[] indices) {
+        for(int i=0;i<indices.length;++i)
+        {
+            TableEditor editor = (TableEditor) table.getItem(indices[i]).getData(APPDATA_CHECKBOX);
+            editor.getEditor().dispose();
+            editor.dispose();
+        }
+        table.remove(indices);
     }
 
     private void performEdit() {
+        //Check if only one item selected
+        if(table.getSelectionCount()!=1)
+        {
+            MessageBox msg = new MessageBox(getControl().getShell(), SWT.ICON_WARNING);
+            msg.setMessage("Please select one and only one rule to edit");
+            msg.setText("Rule selection");
+            msg.open();            
+            return;
+        }
         RuleEditDialog dlg = new RuleEditDialog(getControl().getShell());
         
         TableItem item = table.getSelection()[0];
@@ -318,6 +371,7 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
             deleteRule(table.getItemCount()-1);
         }
         populateTable(rules);
+        btnShowDescription.setSelection(true);
     }
 
     private void populateTable(Rule[] rules) {
@@ -332,6 +386,7 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
     public boolean performOk() {
         Rule[] rules = retriveRules();
         StaticSemanticDefMgr.saveDefinitions(rules);
+        StaticSemanticDefMgr.setShowDesc(btnShowDescription.getSelection());
         return true;
     }
 

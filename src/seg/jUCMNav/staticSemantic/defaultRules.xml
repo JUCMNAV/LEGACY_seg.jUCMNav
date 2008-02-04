@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>Responsibility_Desc_NonEmpty</Name>
+		<Description>All UCM responsibility definitions should have a non-empty description</Description>
+		<Classification>urncore::Responsibility</Classification>
+		<Query>self.urndef.responsibilities-&gt;asSequence()</Query>
+		<Constraint>self.description.size()&gt;0</Constraint>
+		<Utilities/>
+	</Rule>
+	
+	<Rule>
+		<Name>Component_Desc_NonEmpty</Name>
+		<Description>All UCM component definitions should have a non-empty description</Description>
+		<Classification>urncore::Component</Classification>
+		<Query>self.urndef.components-&gt;select(ce|ce.oclIsTypeOf(urncore::Component))-&gt;asSequence()</Query>
+		<Constraint>self.description.size()&gt;0</Constraint>
+		<Utilities/>
+	</Rule>
+		
+	<Rule>
+		<Name>Contribution_No_Unknown</Name>
+		<Description>There should not be unknown contributions in GRL models</Description>
+		<Classification>grl::Contribution</Classification>
+		<Query>self.grlspec.links-&gt;select(ce|ce.oclIsTypeOf(grl::Contribution))-&gt;asSequence()</Query>
+		<Constraint>self.contribution&lt;&gt;grl::ContributionType::Unknown</Constraint>
+		<Utilities/>
+	</Rule>
+	
+	<Rule>
+		<Name>Actor_No_Cycle</Name>
+		<Description>There should not be containment cycles in GRL actors</Description>
+		<Classification>grl::ActorRef</Classification>
+		<Query>self.urndef.specDiagrams-&gt;select(d|d.oclIsTypeOf(grl::GRLGraph)).contRefs-&gt;select(r|r.oclIsTypeOf(grl::ActorRef))-&gt;asSequence()</Query>
+		<Constraint>not(self.ancestors()-&gt;exists(ar|ar.contDef.oclAsType(Actor).id=self.contDef.oclAsType(Actor).id))</Constraint>
+		<Utilities>
+			<Utility>ancestorSet(current:Set(ActorRef)):Set(ActorRef)=
+        let oneStep:Set(ActorRef)= current-&gt;iterate(ar; result : Set(ActorRef) = Set{} |
+           ar.contDef.contRefs-&gt;union(if ar.parent-&gt;notEmpty() then ar.parent-&gt;asSet() else Set{} endif)
+                -&gt;collect(o|o.oclAsType(ActorRef))-&gt;asSet()
+            )
+        in
+        if current-&gt;size() &lt; current-&gt;union(oneStep)-&gt;size()  -- The set get bigger
+        then ancestorSet(current-&gt;union(oneStep))
+        else
+        current
+        endif
+			</Utility>
+			<Utility>ancestors():Set(ActorRef)= ancestorSet(
+           if self.parent-&gt;notEmpty()then
+                self.parent.contDef.contRefs-&gt;union(  self.parent-&gt;asSet() )
+                -&gt;collect(o|o.oclAsType(ActorRef))-&gt;asSet()
+            else
+                Set{}
+            endif
+        )
+     	   </Utility>
+    	</Utilities>
+	</Rule>
+</Rules>

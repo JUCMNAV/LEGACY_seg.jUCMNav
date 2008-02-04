@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.ocl.OCL;
+import org.eclipse.ocl.OCLInput;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.Query;
 import org.eclipse.ocl.ecore.Constraint;
@@ -113,6 +114,13 @@ public class Rule {
 //        OCL<?, EClassifier, EOperation, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
         OCL ocl;
         ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
+        OCLInput lib = new OCLInput(this.getClass().getResourceAsStream("library.ocl"));
+        try {
+            ocl.parse(lib);
+        } catch (ParserException e2) {
+            errors+= "Library error:" + e2.getMessage();
+            return false;
+        }
 //        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
         OCLHelper helper = ocl.createOCLHelper();
         //verify context

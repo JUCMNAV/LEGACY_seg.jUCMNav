@@ -1,0 +1,11 @@
+package urn
+context URNspec
+def: SetContextResponsibility():Sequence(urncore::Responsibility)= 
+		self.urndef.responsibilities -> asSequence()
+		
+def: SetContextActorRef():Sequence(grl::ActorRef) =
+		self.urndef.specDiagrams->select(d|d.oclIsTypeOf(grl::GRLGraph)).contRefs
+			->select(r|r.oclIsTypeOf(grl::ActorRef))
+			->collect(o|o.oclAsType(grl::ActorRef))
+			->asSequence()
+endpackage

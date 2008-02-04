@@ -7,6 +7,7 @@ import java.util.Vector;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ocl.OCL;
+import org.eclipse.ocl.OCLInput;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.Query;
 import org.eclipse.ocl.ecore.Constraint;
@@ -46,8 +47,11 @@ public class StaticSemanticChecker {
                         OCL ocl;
 
                         ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
+                        OCLInput lib = new OCLInput(this.getClass().getResourceAsStream("library.ocl"));
+                        ocl.parse(lib);
 //                        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
-                        OCLHelper helper = ocl.createOCLHelper();                        List name = r.getClassifierAsList();
+                        OCLHelper helper = ocl.createOCLHelper();
+                        List name = r.getClassifierAsList();
                         EClassifier e = (EClassifier) ocl.getEnvironment().lookupClassifier(name);
                         if (e == null) {
                             String s = "Rule <" + r.getName() + ">: Classifier can't be found:\"" + r.getClassifier() + "\"";
@@ -81,7 +85,13 @@ public class StaticSemanticChecker {
                             for (int k=0;k< violatedObjs.size();++k) {
                                 EObject o = (EObject) violatedObjs.get(k);
                                 res = false;
-                                String s = r.getName();
+                                String s = "";
+                                if(StaticSemanticDefMgr.isShowDesc()){
+                                    s = r.getDescription()+"("+r.getName()+")";
+                                }else
+                                {
+                                    s = r.getName();
+                                }
                                 problems.add(new StaticCheckingMsg(s, o));
                             }
                             if (violatedObjs.size()>0) nViolated++;
