@@ -235,7 +235,7 @@ public class StaticSemanticDefMgr {
                     renamingMsg += "\n" + "The rule of " + name + " is renamed to " + name + j;
                 }
             }
-            if (!renamingMsg.isEmpty()) {
+            if (renamingMsg.length()!=0) {
                 MessageBox msg = new MessageBox(parent, SWT.ICON_WARNING);
                 msg.setMessage(renamingMsg);
                 msg.setText("Rule(s)is/are renamed due to the name conflict");
