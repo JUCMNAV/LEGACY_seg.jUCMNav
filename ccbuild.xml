@@ -56,6 +56,7 @@ this file is kept here with the information necessary for a good build by cruise
 		<include name="log4j*.jar"/>			
 		<include name="saaj.jar"/>			
 		<include name="wsdl4j*.jar"/>			
+		<include name="org.eclipse.ocl*.jar"/>			
 	</patternset>
 	<patternset id="jucmnav.lib.classpath">
 		<include name="lib/*.jar" />
