@@ -5,6 +5,7 @@ import org.eclipse.jface.dialogs.Dialog;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -44,7 +45,12 @@ public class RuleUtilityEditDialog extends Dialog {
     }
     protected Control createDialogArea(Composite parent) {
         Composite composite = (Composite) super.createDialogArea(parent);
-        txtExpression = new Text(parent,SWT.MULTI | SWT.BORDER | SWT.H_SCROLL|SWT.V_SCROLL);
+        Composite c1 = new Composite(parent,SWT.NULL);
+        GridLayout layout1 = new GridLayout();
+        layout1.numColumns = 1;
+        c1.setLayout(layout1);
+        
+        txtExpression = new Text(c1,SWT.MULTI | SWT.BORDER | SWT.H_SCROLL|SWT.V_SCROLL);
         
         txtExpression.setText(this.sUtilityExpression);
         txtExpression.setLayoutData(new GridData( 600,200));

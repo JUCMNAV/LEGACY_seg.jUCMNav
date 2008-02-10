@@ -12,12 +12,14 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -71,11 +73,21 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
      }
 
     protected Control createDialogArea(Composite parent) {
+/*        FillLayout fl = new FillLayout();
+        fl.marginHeight = 10;
+        fl.marginWidth = 10;
+        parent.setLayoutData(fl);
+*/        
         Composite composite = (Composite) super.createDialogArea(parent);
               
-        Label lblName = new Label(parent,SWT.LEFT);
+        Composite c1 = new Composite(parent,SWT.NULL);
+        GridLayout layout1 = new GridLayout();
+        layout1.numColumns = 1;
+        c1.setLayout(layout1);
+
+        Label lblName = new Label(c1,SWT.LEFT);
         lblName.setText("Rule Name:");
-        txtName = new Text(parent,SWT.SINGLE | SWT.BORDER);
+        txtName = new Text(c1,SWT.SINGLE | SWT.BORDER);
         /*txtName.addModifyListener(new ModifyListener(){
             @Override
             public void modifyText(ModifyEvent e) {
@@ -90,9 +102,9 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
                
 //        txtDesc.setEditable(false);
         
-        Label lblContext = new Label(parent,SWT.LEFT);
+        Label lblContext = new Label(c1,SWT.LEFT);
         lblContext.setText("Context:");
-        txtContext = new Text(parent,SWT.MULTI | SWT.BORDER);
+        txtContext = new Text(c1,SWT.MULTI | SWT.BORDER);
         /*txtContext.addModifyListener(new ModifyListener(){
             @Override
             public void modifyText(ModifyEvent e) {
@@ -105,9 +117,9 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         txtContext.setSize(200, SWT.DEFAULT);
 //       txtContext.setEditable(false);
         
-        Label lblQuery = new Label(parent,SWT.LEFT);
+        Label lblQuery = new Label(c1,SWT.LEFT);
         lblQuery.setText("OCL query expression of collecting all objects to be checked:");
-        txtQuery = new Text(parent,SWT.MULTI | SWT.BORDER);
+        txtQuery = new Text(c1,SWT.MULTI | SWT.BORDER);
        /* txtQuery.addModifyListener(new ModifyListener(){
             @Override
             public void modifyText(ModifyEvent e) {
@@ -121,9 +133,9 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         txtQuery.setSize(600, SWT.DEFAULT);
 //        txtQuery.setEditable(false);
         
-        Label lblCheck = new Label(parent,SWT.LEFT);
+        Label lblCheck = new Label(c1,SWT.LEFT);
         lblCheck.setText("OCL constraint expression:");
-        txtCheck = new Text(parent,SWT.MULTI | SWT.BORDER);
+        txtCheck = new Text(c1,SWT.MULTI | SWT.BORDER);
         /*txtCheck.addModifyListener(new ModifyListener(){
             @Override
             public void modifyText(ModifyEvent e) {
@@ -137,16 +149,16 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         txtCheck.setSize(600, 600);
 //        txtCheck.setEditable(false);
         
-        Label lblDesc = new Label(parent,SWT.LEFT);
+        Label lblDesc = new Label(c1,SWT.LEFT);
         lblDesc.setText("Rule Description:");
-        txtDesc = new Text(parent,SWT.MULTI | SWT.BORDER);
+        txtDesc = new Text(c1,SWT.MULTI | SWT.BORDER);
         txtDesc.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtDesc.setSize(600, SWT.DEFAULT);
         
-        Label lblUtilities = new Label(parent,SWT.LEFT);
+        Label lblUtilities = new Label(c1,SWT.LEFT);
         lblDesc.setText("Description:");
         
-        table = new Table (parent,  SWT.BORDER |SWT.SINGLE|SWT.FULL_SELECTION);
+        table = new Table (c1,  SWT.BORDER |SWT.SINGLE|SWT.FULL_SELECTION);
         table.setLinesVisible(true);
         table.setHeaderVisible(true);      
         TableColumn column = new TableColumn (table, SWT.NONE);
@@ -158,11 +170,11 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             tc.pack();
         } */      
         //table.setSize (table.computeSize (SWT.DEFAULT, SWT.DEFAULT));
-        table.setSize(600, 600);
-        table.setLayoutData(new GridData(600,100));
+ //       table.setSize(600, 600);
+        table.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL|GridData.GRAB_VERTICAL|GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL));
                 
         
-        Composite c = new Composite(parent,SWT.NULL);
+        Composite c = new Composite(c1,SWT.NULL);
         GridLayout layout = new GridLayout();
         layout.numColumns = 3;
         c.setLayout(layout);

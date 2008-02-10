@@ -95,7 +95,8 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         }
        
         table.setSize (table.computeSize (SWT.DEFAULT, SWT.DEFAULT));
-        table.setLayoutData(new GridData(400,400));
+        table.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL 
+                |GridData.VERTICAL_ALIGN_FILL |GridData.GRAB_VERTICAL) );   
         
         Composite c = new Composite(parent,SWT.NULL);
         GridLayout layout = new GridLayout();

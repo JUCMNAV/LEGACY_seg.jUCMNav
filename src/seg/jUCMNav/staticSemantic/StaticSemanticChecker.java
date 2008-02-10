@@ -87,7 +87,7 @@ public class StaticSemanticChecker {
                                 res = false;
                                 String s = "";
                                 if(StaticSemanticDefMgr.isShowDesc()){
-                                    s = r.getDescription()+"("+r.getName()+")";
+                                    s = r.getDescription()+" ("+r.getName()+")";
                                 }else
                                 {
                                     s = r.getName();
