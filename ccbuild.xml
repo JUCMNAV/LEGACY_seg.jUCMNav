@@ -4,6 +4,8 @@
 This file is the main file to be used by jucmnav. 
 build.xml is used for the update site only; as the wizards only work when build.xml is auto-generated, 
 this file is kept here with the information necessary for a good build by cruisecontrol.
+
+The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol folder. 
 -->
 <project name="seg.jUCMNav" default="build.jars" basedir=".">
 
