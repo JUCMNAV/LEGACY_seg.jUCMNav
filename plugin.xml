@@ -271,7 +271,7 @@
             name="%UCMReportPreferences"/>
 	  <page
             category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
-            class="seg.jUCMNav.views.preferences.StaticSemanticPreferencePage"
+            class="seg.jUCMNav.views.preferences.staticSemantic.StaticSemanticPreferencePage"
             id="seg.jUCMNav.views.preferences.StaticSemanticPreferencesPage"
             name="%StaticSemanticPreferences"/>
       </extension>

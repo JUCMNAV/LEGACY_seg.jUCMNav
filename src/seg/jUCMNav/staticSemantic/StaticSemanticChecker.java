@@ -37,9 +37,9 @@ public class StaticSemanticChecker {
         int nViolated = 0;
         FileInputStream in = null;
         try {
-            Rule[] rules = StaticSemanticDefMgr.loadDefinitions();
-            for (int i=0;i<rules.length;++i) {
-                Rule r = rules[i];
+            List rules = StaticSemanticDefMgr.instance().getRules();
+            for (int i=0;i<rules.size();++i) {
+                Rule r = (Rule) rules.get(i);
                 if (r.isEnabled()) {
                     nTotal++;
                     try {
@@ -86,7 +86,7 @@ public class StaticSemanticChecker {
                                 EObject o = (EObject) violatedObjs.get(k);
                                 res = false;
                                 String s = "";
-                                if(StaticSemanticDefMgr.isShowDesc()){
+                                if(StaticSemanticDefMgr.instance().isShowDesc()){
                                     s = r.getDescription()+" ("+r.getName()+")";
                                 }else
                                 {

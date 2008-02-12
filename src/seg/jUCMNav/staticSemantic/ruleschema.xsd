@@ -7,18 +7,19 @@ elementFormDefault="qualified">
       <xs:element name="Rule" maxOccurs="unbounded">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="Name" type="xs:string"/>
-            <xs:element name="Description" type="xs:string"/>
-            <xs:element name="Classification" type="xs:string"/>
-            <xs:element name="Query" type="xs:string"/>
-            <xs:element name="Constraint" type="xs:string"/>            
-            <xs:element name="Utilities" >
-	            <xs:complexType>
-			     <xs:sequence>
-			      	<xs:element name="Utility" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-	             </xs:sequence>
-				</xs:complexType>
-	            </xs:element>
+          	<xs:element name="Name" type="xs:string" maxOccurs="1" minOccurs="1"/>
+          	<xs:element name="Description" type="xs:string" maxOccurs="1" minOccurs="1"/>
+          	<xs:element name="Classification" type="xs:string" maxOccurs="1" minOccurs="1"/>
+          	<xs:element name="Query" type="xs:string" maxOccurs="1" minOccurs="1"/>
+          	<xs:element name="Constraint" type="xs:string" maxOccurs="1" minOccurs="1"/>
+          	<xs:element name="Utilities" maxOccurs="unbounded" minOccurs="0">
+          		<xs:complexType>
+          			<xs:sequence>
+          				<xs:element name="Utility" type="xs:string"
+          					minOccurs="0" maxOccurs="unbounded" />
+          			</xs:sequence>
+          		</xs:complexType>
+          	</xs:element>
           </xs:sequence>
         </xs:complexType>
       </xs:element>

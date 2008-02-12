@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -32,6 +34,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 
 public class StaticSemanticDefMgr {
 
+    private static final String RULE_NAME = "RuleName";
     private static final String SHOW_DESCRIPTION = "SHOW_DESCRIPTION";
     private static final String RULE_SCHEMA = "ruleschema.xsd";
     private static final String SELECTED_SUFFIX = "Selected";
@@ -45,67 +48,122 @@ public class StaticSemanticDefMgr {
     private static final String UTILITY_DEFINITIONS = "UtilityDefinitions";
     private static final String UTILITIES_NUMBER = "_UtilitiesNumber";
     private static final String UTILITIES = "Utility";
+    private static final String GROUP_NUMBER = "GroupNumber";
+    private static final String GROUP_PREFIX = "Group";
+    private static final String MEMBER_NUMBER = "MemberNumber";
 
-    static public Rule[] getDefaultDefinitions() {
+    private static StaticSemanticDefMgr instance_ = null;
+
+    private List rules;
+    private List groups;
+    private boolean bShowDesc;
+
+    private StaticSemanticDefMgr() {
+
+    }
+
+    public static StaticSemanticDefMgr instance() {
+        if (instance_ == null) {
+            instance_ = new StaticSemanticDefMgr();
+        }
+        return instance_;
+    }
+
+    public List getDefaultDefinitions() {
         InputStream rulesDefaultIS = StaticSemanticDefMgr.class.getResourceAsStream("defaultRules.xml");
 
         return readRules(rulesDefaultIS, null);
     }
 
-    public static void saveDefinitions(Rule[] rules) {
+    private void saveRules() {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
-        store.setValue(RULE_NUMBER, rules.length);
-        for (int i = 0; i < rules.length; ++i) {
+        store.setValue(RULE_NUMBER, rules.size());
+        for (int i = 0; i < rules.size(); ++i) {
+            Rule r = (Rule) rules.get(i);
             String name = RULE_PREFIX + i;
-            store.setValue(name + SELECTED_SUFFIX, rules[i].isEnabled());
-            store.setValue(name + NAME_SUFFIX, rules[i].getName());
-            store.setValue(name + CLASSIFIER_SUFFIX, rules[i].getClassifier());
-            store.setValue(name + CONTEXT_SUFFIX, rules[i].getContext());
-            store.setValue(name + CONSTRAINT_SUFFIX, rules[i].getQuery());
-            store.setValue(name + DESCCRIPTION_SUFFIX, rules[i].getDescription());
-            int nUtilities = rules[i].getUtilities().size();
+            store.setValue(name + SELECTED_SUFFIX, r.isEnabled());
+            store.setValue(name + NAME_SUFFIX, r.getName());
+            store.setValue(name + CLASSIFIER_SUFFIX, r.getClassifier());
+            store.setValue(name + CONTEXT_SUFFIX, r.getContext());
+            store.setValue(name + CONSTRAINT_SUFFIX, r.getQuery());
+            store.setValue(name + DESCCRIPTION_SUFFIX, r.getDescription());
+            int nUtilities = r.getUtilities().size();
             store.setValue(name + UTILITIES_NUMBER, nUtilities);
             for (int j = 0; j < nUtilities; ++j) {
-                store.setValue(name + UTILITIES + j, (String) rules[i].getUtilities().get(j));
+                store.setValue(name + UTILITIES + j, (String) r.getUtilities().get(j));
             }
         }
 
     }
 
-    public static Rule[] loadDefinitions() {
+    private void loadRules() {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         store.setDefault(RULE_NUMBER, -1);
         int count = store.getInt(RULE_NUMBER);
-        if (count == -1)
-            return getDefaultDefinitions();
+        if (count == -1) {
+            getDefaultDefinitions();
+            return;
+        }
 
-        Rule[] rules = new Rule[count];
+        rules = new ArrayList();
         for (int i = 0; i < count; ++i) {
-            rules[i] = new Rule();
             String name = RULE_PREFIX + i;
-            rules[i].setEnabled(store.getBoolean(name + SELECTED_SUFFIX));
-            rules[i].setName(store.getString(name + NAME_SUFFIX));
-            rules[i].setClassifier(store.getString(name + CLASSIFIER_SUFFIX));
-            rules[i].setContext(store.getString(name + CONTEXT_SUFFIX));
-            rules[i].setQuery(store.getString(name + CONSTRAINT_SUFFIX));
-            rules[i].setDescription(store.getString(name + DESCCRIPTION_SUFFIX));
+            Rule r = new Rule(store.getString(name + NAME_SUFFIX),
+                        store.getString(name + CLASSIFIER_SUFFIX),
+                        store.getString(name + CONTEXT_SUFFIX),
+                        store.getString(name + CONSTRAINT_SUFFIX),
+                        store.getBoolean(name + SELECTED_SUFFIX),
+                        store.getString(name + DESCCRIPTION_SUFFIX)
+                    );
             int nUtilities = store.getInt(name + UTILITIES_NUMBER);
             for (int j = 0; j < nUtilities; ++j) {
-                rules[i].addUtility(store.getString(name + UTILITIES + j));
+                r.addUtility(store.getString(name + UTILITIES + j));
             }
+            rules.add(r);
         }
-        return rules;
     }
 
-    public static void exportRules(Rule[] rules, String path) {
+    public List getGroups() {
+        return groups;
+    }
+
+
+
+    public Rule lookupRule(String ruleName) {
+        Rule r = null;
+        for (int i = 0; i < rules.size(); ++i) {
+            Rule rr = (Rule) rules.get(i);
+            if (rr.getName().compareTo(ruleName) == 0)
+            {
+                r = rr;
+                break;
+            }
+        }
+        return r;
+    }
+
+    private List getDefaultGroups() {
+        List dg = new ArrayList();
+        RuleGroup g = new RuleGroup("All");
+        g.addRule(rules);
+        dg.add(g);
+        
+        dg.add(new RuleGroup("Performance Scenario"));      
+        dg.add(new RuleGroup("Aspect"));
+        dg.add(new RuleGroup("Performance"));
+        dg.add( new RuleGroup("Scenario Aspect"));
+        return dg;
+    }
+
+    public static void exportRules(List rules, String path) {
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = builder.newDocument();
             Element root = doc.createElement("Rules");
             doc.appendChild(root);
 
-            for (int i = 0; i < rules.length; ++i) {
-                Rule r = rules[i];
+            for (int i = 0; i < rules.size(); ++i) {
+                Rule r = (Rule) rules.get(i);
                 Element ruleNode = buildRuleNode(doc, r);
                 root.appendChild(ruleNode);
             }
@@ -157,17 +215,17 @@ public class StaticSemanticDefMgr {
         return root;
     }
 
-    private static Rule[] readRules(InputStream rulesIS, Shell parent) {
-        Rule[] rules = null;
+    private static List readRules(InputStream rulesIS, Shell parent) {
+        List rules = null;
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
             Document doc = builder.parse(rulesIS);
             Element root = doc.getDocumentElement();
             NodeList utilityNodes = root.getElementsByTagName("Rule");
-            rules = new Rule[utilityNodes.getLength()];
+            rules = new ArrayList();
             for (int i = 0; i < utilityNodes.getLength(); ++i) {
-                rules[i] = new Rule();
+                Rule r = new Rule("");
                 Node utilityNode = utilityNodes.item(i);
                 Node node = utilityNode.getFirstChild();
                 while (node != null) {
@@ -176,7 +234,7 @@ public class StaticSemanticDefMgr {
                         Node u = node.getFirstChild();
                         while (u != null) {
                             if (u.getNodeName().compareTo("Utility") == 0) {
-                                rules[i].addUtility(u.getTextContent());
+                               r.addUtility(u.getTextContent());
                             }
                             u = u.getNextSibling();
                         }
@@ -184,20 +242,22 @@ public class StaticSemanticDefMgr {
                     } else {
                         String value = node.getTextContent();
                         if (nodeName.compareTo("Name") == 0) {
-                            rules[i].setName(value);
+                            r.setName(value);
                         } else if (nodeName.compareTo("Description") == 0) {
-                            rules[i].setDescription(value);
+                            r.setDescription(value);
                         } else if (nodeName.compareTo("Classification") == 0) {
-                            rules[i].setClassifier(value);
+                            r.setClassifier(value);
                         } else if (nodeName.compareTo("Query") == 0) {
-                            rules[i].setContext(value);
+                            r.setContext(value);
                         } else if (nodeName.compareTo("Constraint") == 0) {
-                            rules[i].setQuery(value);
+                            r.setQuery(value);
                         }
                     }
                     node = node.getNextSibling();
                 }
+                rules.add(r);
             }
+            
         } catch (ParserConfigurationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -212,22 +272,21 @@ public class StaticSemanticDefMgr {
         return rules;
     }
 
-    public static Rule[] importRules(String rulesFile, Shell parent) throws FileNotFoundException {
-        Rule[] rules = null;
+    public List importRules(String rulesFile, Shell parent) throws FileNotFoundException {
+        List rulesTmp = null;
         if (isValidRuleFile(new FileInputStream(rulesFile), parent)) {
 
-            rules = readRules(new FileInputStream(rulesFile), parent);
+            rulesTmp = readRules(new FileInputStream(rulesFile), parent);
         }
 
-        if (rules != null) {
+        if (rulesTmp != null) {
             String renamingMsg = "";
-            Rule[] oldRules = loadDefinitions();
-            for (int i = 0; i < rules.length; ++i) {
-                Rule r = rules[i];
+            for (int i = 0; i < rulesTmp.size(); ++i) {
+                Rule r = (Rule) rulesTmp.get(i);
                 String name = r.getName();
                 int j = 0;
                 String tryName = name;
-                while (isNameConflict(tryName, oldRules)) {
+                while (isNameConflict(tryName, rules)) {
                     tryName = name + (++j);
                 }
                 if (j != 0) {
@@ -235,15 +294,32 @@ public class StaticSemanticDefMgr {
                     renamingMsg += "\n" + "The rule of " + name + " is renamed to " + name + j;
                 }
             }
-            if (renamingMsg.length()!=0) {
+            RuleGroup g = lookupGroup("Imported");
+            if(g==null)
+            {
+                g = new RuleGroup("Imported");
+                addGroup(g);
+            }
+            g.addRule(rulesTmp);
+            
+            if (renamingMsg.length() != 0) {
                 MessageBox msg = new MessageBox(parent, SWT.ICON_WARNING);
                 msg.setMessage(renamingMsg);
                 msg.setText("Rule(s)is/are renamed due to the name conflict");
                 msg.open();
             }
-
+            addRule(rulesTmp);
         }
         return rules;
+    }
+
+    private void addRule(List rulesIn) {
+        for(int i=0;i<rulesIn.size();++i)
+        {
+            Rule r = (Rule) rulesIn.get(i);
+            addRule(r );
+        }
+        
     }
 
     private static boolean isValidRuleFile(InputStream rulesIS, Shell parent) {
@@ -274,24 +350,164 @@ public class StaticSemanticDefMgr {
         return bValid;
     }
 
-    private static boolean isNameConflict(String name, Rule[] rules) {
-        for (int i = 0; i < rules.length; ++i) {
-            Rule r = rules[i];
+    private static boolean isNameConflict(String name, List rules) {
+        for (int i = 0; i < rules.size(); ++i) {
+            Rule r = (Rule) rules.get(i);
             if (r.getName().compareTo(name) == 0)
                 return true;
         }
         return false;
     }
 
-    public static boolean isShowDesc() {
-        IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
-        return store.getBoolean(SHOW_DESCRIPTION);
+    public boolean isShowDesc() {
+        return bShowDesc;
     }
 
-    public static void setShowDesc(boolean bChecked) {
-        IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
-        store.setValue(SHOW_DESCRIPTION, bChecked);
-
+    public void setShowDesc(boolean bChecked) {
+        bShowDesc = bChecked;
     }
 
+    public List getRules() {
+        return rules;
+    }
+    public void save()
+    {
+        saveRules();
+        saveGroups();
+        saveOthers();
+    }
+    public void load()
+    {
+        loadRules();
+        loadGroups();
+        loadOthers();
+    }
+    private void loadOthers()
+    {
+        IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
+        bShowDesc =  store.getBoolean(SHOW_DESCRIPTION);
+    }
+    private void saveOthers()
+    {
+        IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
+        store.setValue(SHOW_DESCRIPTION, bShowDesc);  
+    }
+    private void saveGroups()
+    {
+        IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
+        store.setValue(GROUP_NUMBER, groups.size()-1);
+        
+        for(int i=0,k=0;i< groups.size();++i) {
+            RuleGroup g = (RuleGroup) groups.get(i);
+            if(g.getName().compareTo("All")==0) continue;
+            String groupName = GROUP_PREFIX + k++;
+            store.setValue(groupName + NAME_SUFFIX,g.getName());
+            store.setValue(groupName + MEMBER_NUMBER,g.getRules().size());
+            for (int j = 0; j < g.getRules().size(); ++j) {
+                Rule r = (Rule) g.getRules().get(j);
+                store.setValue(groupName + RULE_NAME + j, r.getName());
+            }
+        }
+    }
+    private void loadGroups() {
+        IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
+        store.setDefault(GROUP_NUMBER, -1);
+        int count = store.getInt(GROUP_NUMBER);
+        if (count == -1) {
+            groups = getDefaultGroups();
+
+        } else {
+
+            groups = new ArrayList();
+            RuleGroup g = new RuleGroup("All");
+            g.addRule(rules);
+            groups.add(g);
+            
+            for (int i = 0; i < count; ++i) {
+                String groupName = GROUP_PREFIX + i;
+                g = new RuleGroup(store.getString(groupName + NAME_SUFFIX));
+                int nGroup = store.getInt(groupName + MEMBER_NUMBER);
+                for(int j = 0; j < nGroup; ++j) {
+                    String ruleName = store.getString(groupName + RULE_NAME + j);
+                    Rule r = lookupRule(ruleName);
+                    if (r != null) {
+                        g.addRule(r);
+                    }                   
+                }
+                groups.add(g);
+            }
+        }
+
+    }
+    
+    //create a new rule instance. If a rule with the same name exists, return null
+    public Rule createRule(String name,String classifier,String context, String query,boolean enabled, String description)
+    {
+        Rule r = lookupRule(name);
+        if(r==null)
+            return new Rule(name,classifier,context, query,enabled, description);
+        return null;
+    }
+    //create a new rule instance. If a rule with the same name exists, return null
+    public Rule createRule(String name)
+    {
+        Rule r = lookupRule(name);
+        if(r==null)
+            return new Rule(name);
+        return null;
+    }
+    
+    public RuleGroup creatRuelGroup(String groupName)
+    {
+        RuleGroup g = lookupGroup(groupName);
+        if(g==null)
+            return new RuleGroup(groupName);
+        return null;
+    }
+
+    public RuleGroup lookupGroup(String groupName) {
+        RuleGroup g = null;
+        for (int i = 0; i < groups.size(); ++i) {
+            RuleGroup gg = (RuleGroup) groups.get(i);
+            if (gg.getName().compareTo(groupName) == 0)
+            {
+                g = gg;
+                break;
+            }
+        }
+        return g;
+    }
+
+    public void addRule(Rule rule) {
+        if(lookupRule(rule.getName())==null)
+        {
+            rules.add(rule);
+            RuleGroup all = lookupGroup("All");
+            all.addRule(rule);
+        }
+        
+    }
+
+    public void addGroup(RuleGroup group) {
+        if(lookupGroup(group.getName())==null)
+        {
+            groups.add(group);
+        }
+        
+    }
+
+    public void removeRule(Rule r) {
+        rules.remove(r);
+    }
+
+    public void removeGroup(RuleGroup g) {
+        groups.remove(g);
+        
+    }
+
+    public void loadDefault() {
+        rules = getDefaultDefinitions();
+        groups = getDefaultGroups();
+        bShowDesc = true;
+    }
 }

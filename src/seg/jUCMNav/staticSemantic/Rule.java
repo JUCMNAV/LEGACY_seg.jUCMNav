@@ -25,12 +25,12 @@ public class Rule {
 	private List utilities;
 	private boolean    enabled;
 	private String errors;
-	public Rule()
+	Rule(String name)
 	{
         this.context = "";
         this.classifier = "";
         this.query = "";
-        this.name = "";
+        this.name = name;
         this.enabled = false;
         this.description = "";
         this.errors = "";
@@ -41,7 +41,7 @@ public class Rule {
 	 * @param classifier	qualified name path, for example, Package::SubPackage:ClassName
 	 * @param query		OCL expression that describes an invariant in the context specified in the second parameter
 	 */
-	public Rule(String name,String classifier,String context, String query,boolean enabled, String description)
+	Rule(String name,String classifier,String context, String query,boolean enabled, String description)
 	{
 		this.context = context;
 		this.classifier = classifier;
@@ -172,5 +172,8 @@ public class Rule {
     }
     public String getErrors() {
         return errors;
+    }
+    public void clearUtilities() {
+        utilities.clear();        
     }
 }
