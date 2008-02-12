@@ -114,7 +114,11 @@ public class ExportCSV implements IURNExport {
             
             //Description
             write(COMMA);
-            write(strategy.getDescription());
+            String desc = strategy.getDescription();
+            if (desc == null) {
+            	desc = new String("");
+            }
+            write(desc.replace(',', ';')); // Replace commas with semicolons
             
             //Author
             write(COMMA);
@@ -125,7 +129,7 @@ public class ExportCSV implements IURNExport {
     }
     
     /**
-     * Writes the information about evaluations for a grl stategy.
+     * Writes the information about evaluations for a grl strategy.
      * 
      * @param strategy
      *            EvaluationStrategy
