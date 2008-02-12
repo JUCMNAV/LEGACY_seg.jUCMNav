@@ -824,7 +824,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		this.preventUpdate = true;
 		if (plug.getPrecondition() != null) {
 			txtLabelCondition.setText(plug.getPrecondition().getLabel() == null ? "" : plug.getPrecondition().getLabel()); //$NON-NLS-1$
-			txtExpCondition.setText(plug.getPrecondition().getExpression() == null ? "" : plug.getPrecondition().getExpression()); //$NON-NLS-1$
+			// Replaces && with &&&& for correct visualization, see bug #556
+			txtExpCondition.setText(plug.getPrecondition().getExpression() == null ? "" : plug.getPrecondition().getExpression().replaceAll("&&", "&&&&")); //$NON-NLS-1$
 			txtDescCondition.setText(plug.getPrecondition().getDescription() == null ? "" : plug.getPrecondition().getDescription()); //$NON-NLS-1$
 		} else {
 			txtLabelCondition.setText(""); //$NON-NLS-1$
@@ -1172,7 +1173,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		/*
 		 * TODO: seek to enhance the kludge by looking further back into the command stack (instead of stopping at the very last command)
 		 */
-		// avoid duplicate entries for plugin binding probabiliy
+		// avoid duplicate entries for plugin binding probability
 		if (getCommandStack().getUndoCommand() instanceof ChangePluginBindingProbCommand && command instanceof ChangePluginBindingProbCommand) {
 			ChangePluginBindingProbCommand changeProbability1 = (ChangePluginBindingProbCommand) getCommandStack().getUndoCommand();
 			ChangePluginBindingProbCommand changeProbability2 = (ChangePluginBindingProbCommand) command;
