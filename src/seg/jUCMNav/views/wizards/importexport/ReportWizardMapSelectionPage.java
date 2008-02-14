@@ -53,7 +53,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
 
     // if ReportPreferenceHelper.UCM, list of maps to Report. to be filtered by selection in lstMaps
     // otherwise, you can infer the list of URN to Report from the maps and keeping only the first occurence of each URNSpec
-    private Vector mapsToReport;
+    private Vector mapsToExport;
 
     // the folder in which to save the files.
     private String sReportPath;
@@ -71,17 +71,17 @@ public class ReportWizardMapSelectionPage extends WizardPage {
 
     /**
      * @param pageName
-     * @param mapsToReport
+     * @param mapsToExport
      * @param mapsToEditor
      * 
      */
-    protected ReportWizardMapSelectionPage(String pageName, Vector mapsToReport, HashMap mapsToEditor) {
+    protected ReportWizardMapSelectionPage(String pageName, Vector mapsToExport, HashMap mapsToEditor) {
         super(pageName);
         setDescription(Messages.getString("ReportWizardPage.pleaseSelectFormatAndDirectory"));
         setTitle(Messages.getString("ReportWizardPage.reportWizard"));
 
         this.mapsToEditor = mapsToEditor;
-        this.mapsToReport = mapsToReport;
+        this.mapsToExport = mapsToExport;
 
     }
 
@@ -217,7 +217,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         Vector selected = ((ReportWizard) getWizard()).getSelectedDiagrams();
         Vector vIndices = new Vector();
         int i=0;
-        for (Iterator iter = mapsToReport.iterator(); iter.hasNext();) {
+        for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
             IURNDiagram diagram = (IURNDiagram) iter.next();
 
 
@@ -260,8 +260,8 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         fillSelectionList();
         lblFilenamePrefix.setVisible(true);
         txtFilenamePrefix.setVisible(true);
-        if (mapsToReport.size()>0)
-            txtFilenamePrefix.setText(ExportWizard.getFilePrefix((IURNDiagram)mapsToReport.get(0)));
+        if (mapsToExport.size()>0)
+            txtFilenamePrefix.setText(ExportWizard.getFilePrefix((IURNDiagram)mapsToExport.get(0)));
         fillTypeDropDown();
 
     }
@@ -281,7 +281,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         ReportPreferenceHelper.setReportType(iTypeSelectionIndex);
         ReportPreferenceHelper.setFilenamePrefix(sFilename);
 
-        updatemapsToReport();
+        updatemapsToExport();
 
 
         return true;
@@ -302,8 +302,10 @@ public class ReportWizardMapSelectionPage extends WizardPage {
      * Rebuilds mapToReport according to the current selection.
      * 
      */
-    private void updatemapsToReport() {
-        Vector toKeep = new Vector();
+    private void updatemapsToExport() {
+       /*
+        * backup 
+        * Vector toKeep = new Vector();
 
 
         // since our indexes don't directly map, our job is a bit complicated
@@ -311,8 +313,8 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         // in the list of maps to Report.
         Vector v = new Vector();
         int j = 0, k = 0;
-        for (int i = 0; i < mapsToReport.size(); i++) {
-            IURNDiagram m = (IURNDiagram) mapsToReport.get(i);
+        for (int i = 0; i < mapsToExport.size(); i++) {
+            IURNDiagram m = (IURNDiagram) mapsToExport.get(i);
             if (!v.contains(m.getUrndefinition().getUrnspec())) {
                 v.add(m.getUrndefinition().getUrnspec());
                 if (iMapSelectionIndices[j] == k) {
@@ -324,8 +326,23 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         }
 
 
-        mapsToReport.removeAllElements();
-        mapsToReport.addAll(toKeep);
+        mapsToExport.removeAllElements();
+        mapsToExport.addAll(toKeep);
+        
+        */
+        
+        Vector toKeep = new Vector();
+
+        
+            // direct mapping
+            for (int i = 0; i < iMapSelectionIndices.length; i++) {
+                int index = iMapSelectionIndices[i];
+                toKeep.add(mapsToExport.get(index));
+            }
+        
+
+        mapsToExport.removeAllElements();
+        mapsToExport.addAll(toKeep);
 
     }
 
@@ -341,7 +358,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
             setErrorMessage(null);
         }
 
-        if (mapsToReport.size() == 0 )
+        if (mapsToExport.size() == 0 )
             setErrorMessage(Messages.getString("ReportWizardPage.noMapsSelected")); 
 
         if (txtFilenamePrefix.getText() == "")

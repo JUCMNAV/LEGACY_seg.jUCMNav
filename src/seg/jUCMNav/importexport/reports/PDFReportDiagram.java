@@ -2,6 +2,7 @@ package seg.jUCMNav.importexport.reports;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
@@ -54,11 +55,12 @@ public class PDFReportDiagram extends PDFReport {
     public void createPDFReportDiagramsAndDescription(Document document, URNdefinition urndef, HashMap mapDiagrams, Rectangle pagesize) {
         try {
             document.add(Chunk.NEXTPAGE);
-
-            for (int i = 0; i < urndef.getSpecDiagrams().size(); i++) {
-                IURNDiagram diagram = (IURNDiagram) urndef.getSpecDiagrams().get(i);
+            int i = 0;
+                for (Iterator iter = mapDiagrams.keySet().iterator(); iter.hasNext();) {
+                i++;
+                IURNDiagram diagram = (IURNDiagram) iter.next();
                 URNmodelElement element = (URNmodelElement) diagram;
-
+            
                 // diagram Header
                 createHeader1(document, element.getName());
 
@@ -164,7 +166,7 @@ public class PDFReportDiagram extends PDFReport {
             image.dispose();
             awtImage.flush();
 
-            boolean isLast = i == urndef.getSpecDiagrams().size() - 1;
+            boolean isLast = i == mapDiagrams.size() - 1;
 
         } catch (Exception e) {
             jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());

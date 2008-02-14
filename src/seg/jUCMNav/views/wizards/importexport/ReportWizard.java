@@ -39,6 +39,7 @@ public class ReportWizard extends ExportWizard {
 
     protected static final String PAGE0 = Messages.getString("ReportWizard.reportWizard"); //$NON-NLS-1$
 
+    
     /**
      * Add the map selection page
      */
@@ -93,13 +94,13 @@ public class ReportWizard extends ExportWizard {
 
             HashMap mapDiagrams = new HashMap();
 
-            for (Iterator iter = editor.getModel().getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
-                IURNDiagram diag = (IURNDiagram) iter.next();
+            for (int i = 0; i < mapsToExport.size(); i++) {
+                IURNDiagram diag = (IURNDiagram) mapsToExport.get(i);
                 UrnEditor editor2 = ((UrnEditor) mapsToSpecificEditor.get(diag));
                 LayeredPane pane = ((URNRootEditPart) (editor2.getGraphicalViewer().getRootEditPart())).getScaledLayers();
                 mapDiagrams.put(diag, pane);
             }
-
+            
             // export diagrams from URN
             exporter.export(editor.getModel(), mapDiagrams, genericPath.toOSString());
 
