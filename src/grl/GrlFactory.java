@@ -197,15 +197,6 @@ public interface GrlFactory extends EFactory {
 	ContributionContextGroup createContributionContextGroup();
 
 				/**
-	 * Returns a new object of class '<em>New Class</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>New Class</em>'.
-	 * @generated
-	 */
-	NewClass createNewClass();
-
-				/**
 	 * Returns a new object of class '<em>Contribution Context</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

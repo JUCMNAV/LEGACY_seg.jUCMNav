@@ -153,9 +153,6 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 			public Object caseContributionContextGroup(ContributionContextGroup object) {
 				return createContributionContextGroupAdapter();
 			}
-			public Object caseNewClass(NewClass object) {
-				return createNewClassAdapter();
-			}
 			public Object caseContributionContext(ContributionContext object) {
 				return createContributionContextAdapter();
 			}
@@ -470,20 +467,6 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createContributionContextGroupAdapter() {
-		return null;
-	}
-
-				/**
-	 * Creates a new adapter for an object of class '{@link grl.NewClass <em>New Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see grl.NewClass
-	 * @generated
-	 */
-	public Adapter createNewClassAdapter() {
 		return null;
 	}
 

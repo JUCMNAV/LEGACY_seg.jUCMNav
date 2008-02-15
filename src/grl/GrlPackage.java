@@ -469,7 +469,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getGRLLinkableElement()
 	 * @generated
 	 */
-	int GRL_LINKABLE_ELEMENT = 22;
+	int GRL_LINKABLE_ELEMENT = 21;
 
 				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
@@ -2333,25 +2333,6 @@ public interface GrlPackage extends EPackage {
 	int CONTRIBUTION_CONTEXT_GROUP_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
 
 				/**
-	 * The meta object id for the '{@link grl.impl.NewClassImpl <em>New Class</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see grl.impl.NewClassImpl
-	 * @see grl.impl.GrlPackageImpl#getNewClass()
-	 * @generated
-	 */
-	int NEW_CLASS = 19;
-
-				/**
-	 * The number of structural features of the '<em>New Class</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NEW_CLASS_FEATURE_COUNT = 0;
-
-				/**
 	 * The meta object id for the '{@link grl.impl.ContributionContextImpl <em>Contribution Context</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2359,7 +2340,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getContributionContext()
 	 * @generated
 	 */
-	int CONTRIBUTION_CONTEXT = 20;
+	int CONTRIBUTION_CONTEXT = 19;
 
 				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
@@ -2459,7 +2440,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getContributionChange()
 	 * @generated
 	 */
-	int CONTRIBUTION_CHANGE = 21;
+	int CONTRIBUTION_CHANGE = 20;
 
 				/**
 	 * The feature id for the '<em><b>New Contribution</b></em>' attribute.
@@ -2514,7 +2495,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getCollapsedActorRef()
 	 * @generated
 	 */
-	int COLLAPSED_ACTOR_REF = 23;
+	int COLLAPSED_ACTOR_REF = 22;
 
 				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
@@ -2650,7 +2631,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getCriticality()
 	 * @generated
 	 */
-    int CRITICALITY = 24;
+    int CRITICALITY = 23;
 
     /**
 	 * The meta object id for the '{@link grl.IntentionalElementType <em>Intentional Element Type</em>}' enum.
@@ -2660,7 +2641,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getIntentionalElementType()
 	 * @generated
 	 */
-    int INTENTIONAL_ELEMENT_TYPE = 25;
+    int INTENTIONAL_ELEMENT_TYPE = 24;
 
     /**
 	 * The meta object id for the '{@link grl.Priority <em>Priority</em>}' enum.
@@ -2670,7 +2651,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getPriority()
 	 * @generated
 	 */
-    int PRIORITY = 26;
+    int PRIORITY = 25;
 
     /**
 	 * The meta object id for the '{@link grl.ContributionType <em>Contribution Type</em>}' enum.
@@ -2680,7 +2661,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getContributionType()
 	 * @generated
 	 */
-    int CONTRIBUTION_TYPE = 27;
+    int CONTRIBUTION_TYPE = 26;
 
     /**
 	 * The meta object id for the '{@link grl.DecompositionType <em>Decomposition Type</em>}' enum.
@@ -2690,7 +2671,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getDecompositionType()
 	 * @generated
 	 */
-    int DECOMPOSITION_TYPE = 28;
+    int DECOMPOSITION_TYPE = 27;
 
 
     /**
@@ -2701,7 +2682,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getQualitativeLabel()
 	 * @generated
 	 */
-	int QUALITATIVE_LABEL = 29;
+	int QUALITATIVE_LABEL = 28;
 
 
 				/**
@@ -2712,7 +2693,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getImportanceType()
 	 * @generated
 	 */
-	int IMPORTANCE_TYPE = 30;
+	int IMPORTANCE_TYPE = 29;
 
 
 				/**
@@ -3487,16 +3468,6 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getContributionContextGroup_Contribs();
-
-				/**
-	 * Returns the meta object for class '{@link grl.NewClass <em>New Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>New Class</em>'.
-	 * @see grl.NewClass
-	 * @generated
-	 */
-	EClass getNewClass();
 
 				/**
 	 * Returns the meta object for class '{@link grl.ContributionContext <em>Contribution Context</em>}'.
@@ -4342,16 +4313,6 @@ public interface GrlPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CONTRIBUTION_CONTEXT_GROUP__CONTRIBS = eINSTANCE.getContributionContextGroup_Contribs();
-
-								/**
-		 * The meta object literal for the '{@link grl.impl.NewClassImpl <em>New Class</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see grl.impl.NewClassImpl
-		 * @see grl.impl.GrlPackageImpl#getNewClass()
-		 * @generated
-		 */
-		EClass NEW_CLASS = eINSTANCE.getNewClass();
 
 								/**
 		 * The meta object literal for the '{@link grl.impl.ContributionContextImpl <em>Contribution Context</em>}' class.

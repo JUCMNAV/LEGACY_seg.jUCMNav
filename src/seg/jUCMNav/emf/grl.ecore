@@ -176,7 +176,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="contribs" upperBound="-1"
         eType="#//ContributionContext" eOpposite="#//ContributionContext/groups"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NewClass"/>
   <eClassifiers xsi:type="ecore:EClass" name="ContributionContext" eSuperTypes="urncore.ecore#//GRLmodelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/contributionContexts"/>

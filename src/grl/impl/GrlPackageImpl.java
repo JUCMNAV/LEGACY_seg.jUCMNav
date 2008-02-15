@@ -35,7 +35,6 @@ import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
-import grl.NewClass;
 import grl.Priority;
 import grl.QualitativeLabel;
 import grl.StrategiesGroup;
@@ -203,13 +202,6 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	private EClass contributionContextGroupEClass = null;
-
-				/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass newClassEClass = null;
 
 				/**
 	 * <!-- begin-user-doc -->
@@ -1032,15 +1024,6 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNewClass() {
-		return newClassEClass;
-	}
-
-				/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getContributionContext() {
 		return contributionContextEClass;
 	}
@@ -1335,8 +1318,6 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		createEReference(contributionContextGroupEClass, CONTRIBUTION_CONTEXT_GROUP__GRLSPEC);
 		createEReference(contributionContextGroupEClass, CONTRIBUTION_CONTEXT_GROUP__CONTRIBS);
 
-		newClassEClass = createEClass(NEW_CLASS);
-
 		contributionContextEClass = createEClass(CONTRIBUTION_CONTEXT);
 		createEReference(contributionContextEClass, CONTRIBUTION_CONTEXT__GRLSPEC);
 		createEReference(contributionContextEClass, CONTRIBUTION_CONTEXT__GROUPS);
@@ -1511,8 +1492,6 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEClass(contributionContextGroupEClass, ContributionContextGroup.class, "ContributionContextGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getContributionContextGroup_Grlspec(), this.getGRLspec(), this.getGRLspec_ContributionGroups(), "grlspec", null, 1, 1, ContributionContextGroup.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getContributionContextGroup_Contribs(), this.getContributionContext(), this.getContributionContext_Groups(), "contribs", null, 0, -1, ContributionContextGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(newClassEClass, NewClass.class, "NewClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(contributionContextEClass, ContributionContext.class, "ContributionContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getContributionContext_Grlspec(), this.getGRLspec(), this.getGRLspec_ContributionContexts(), "grlspec", null, 1, 1, ContributionContext.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

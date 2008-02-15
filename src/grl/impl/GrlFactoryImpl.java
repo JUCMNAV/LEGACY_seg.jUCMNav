@@ -103,7 +103,6 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 			case GrlPackage.BELIEF_LINK: return createBeliefLink();
 			case GrlPackage.STRATEGIES_GROUP: return createStrategiesGroup();
 			case GrlPackage.CONTRIBUTION_CONTEXT_GROUP: return createContributionContextGroup();
-			case GrlPackage.NEW_CLASS: return createNewClass();
 			case GrlPackage.CONTRIBUTION_CONTEXT: return createContributionContext();
 			case GrlPackage.CONTRIBUTION_CHANGE: return createContributionChange();
 			case GrlPackage.COLLAPSED_ACTOR_REF: return createCollapsedActorRef();
@@ -352,16 +351,6 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 	public ContributionContextGroup createContributionContextGroup() {
 		ContributionContextGroupImpl contributionContextGroup = new ContributionContextGroupImpl();
 		return contributionContextGroup;
-	}
-
-				/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NewClass createNewClass() {
-		NewClassImpl newClass = new NewClassImpl();
-		return newClass;
 	}
 
 				/**

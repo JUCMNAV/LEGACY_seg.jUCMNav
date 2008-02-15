@@ -288,7 +288,6 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//ContributionContextGroup/grlspec"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//ContributionContextGroup/contribs"/>
     </genClasses>
-    <genClasses ecoreClass="grl.ecore#//NewClass"/>
     <genClasses ecoreClass="grl.ecore#//ContributionContext">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//ContributionContext/grlspec"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//ContributionContext/groups"/>

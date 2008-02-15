@@ -272,12 +272,6 @@ public class GrlSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case GrlPackage.NEW_CLASS: {
-				NewClass newClass = (NewClass)theEObject;
-				Object result = caseNewClass(newClass);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case GrlPackage.CONTRIBUTION_CONTEXT: {
 				ContributionContext contributionContext = (ContributionContext)theEObject;
 				Object result = caseContributionContext(contributionContext);
@@ -596,21 +590,6 @@ public class GrlSwitch {
 	 * @generated
 	 */
 	public Object caseContributionContextGroup(ContributionContextGroup object) {
-		return null;
-	}
-
-				/**
-	 * Returns the result of interpreting the object as an instance of '<em>New Class</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>New Class</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseNewClass(NewClass object) {
 		return null;
 	}
 
