@@ -50,7 +50,6 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.map.impl.ComponentRefImpl#getRole <em>Role</em>}</li>
  *   <li>{@link ucm.map.impl.ComponentRefImpl#getReplicationFactor <em>Replication Factor</em>}</li>
  *   <li>{@link ucm.map.impl.ComponentRefImpl#isAnchored <em>Anchored</em>}</li>
- *   <li>{@link ucm.map.impl.ComponentRefImpl#isContext <em>Context</em>}</li>
  *   <li>{@link ucm.map.impl.ComponentRefImpl#getParentBindings <em>Parent Bindings</em>}</li>
  *   <li>{@link ucm.map.impl.ComponentRefImpl#getPluginBindings <em>Plugin Bindings</em>}</li>
  * </ul>
@@ -270,26 +269,6 @@ public class ComponentRefImpl extends UCMmodelElementImpl implements ComponentRe
     protected boolean anchored = ANCHORED_EDEFAULT;
 
     /**
-	 * The default value of the '{@link #isContext() <em>Context</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isContext()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean CONTEXT_EDEFAULT = false;
-
-				/**
-	 * The cached value of the '{@link #isContext() <em>Context</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isContext()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean context = CONTEXT_EDEFAULT;
-
-				/**
 	 * The cached value of the '{@link #getParentBindings() <em>Parent Bindings</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -728,27 +707,6 @@ public class ComponentRefImpl extends UCMmodelElementImpl implements ComponentRe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isContext() {
-		return context;
-	}
-
-				/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setContext(boolean newContext) {
-		boolean oldContext = context;
-		context = newContext;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.COMPONENT_REF__CONTEXT, oldContext, context));
-	}
-
-				/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList getParentBindings() {
 		if (parentBindings == null) {
 			parentBindings = new EObjectWithInverseResolvingEList(ComponentBinding.class, this, MapPackage.COMPONENT_REF__PARENT_BINDINGS, MapPackage.COMPONENT_BINDING__PARENT_COMPONENT);
@@ -880,8 +838,6 @@ public class ComponentRefImpl extends UCMmodelElementImpl implements ComponentRe
 				return new Integer(getReplicationFactor());
 			case MapPackage.COMPONENT_REF__ANCHORED:
 				return isAnchored() ? Boolean.TRUE : Boolean.FALSE;
-			case MapPackage.COMPONENT_REF__CONTEXT:
-				return isContext() ? Boolean.TRUE : Boolean.FALSE;
 			case MapPackage.COMPONENT_REF__PARENT_BINDINGS:
 				return getParentBindings();
 			case MapPackage.COMPONENT_REF__PLUGIN_BINDINGS:
@@ -940,9 +896,6 @@ public class ComponentRefImpl extends UCMmodelElementImpl implements ComponentRe
 				return;
 			case MapPackage.COMPONENT_REF__ANCHORED:
 				setAnchored(((Boolean)newValue).booleanValue());
-				return;
-			case MapPackage.COMPONENT_REF__CONTEXT:
-				setContext(((Boolean)newValue).booleanValue());
 				return;
 			case MapPackage.COMPONENT_REF__PARENT_BINDINGS:
 				getParentBindings().clear();
@@ -1005,9 +958,6 @@ public class ComponentRefImpl extends UCMmodelElementImpl implements ComponentRe
 			case MapPackage.COMPONENT_REF__ANCHORED:
 				setAnchored(ANCHORED_EDEFAULT);
 				return;
-			case MapPackage.COMPONENT_REF__CONTEXT:
-				setContext(CONTEXT_EDEFAULT);
-				return;
 			case MapPackage.COMPONENT_REF__PARENT_BINDINGS:
 				getParentBindings().clear();
 				return;
@@ -1053,8 +1003,6 @@ public class ComponentRefImpl extends UCMmodelElementImpl implements ComponentRe
 				return replicationFactor != REPLICATION_FACTOR_EDEFAULT;
 			case MapPackage.COMPONENT_REF__ANCHORED:
 				return anchored != ANCHORED_EDEFAULT;
-			case MapPackage.COMPONENT_REF__CONTEXT:
-				return context != CONTEXT_EDEFAULT;
 			case MapPackage.COMPONENT_REF__PARENT_BINDINGS:
 				return parentBindings != null && !parentBindings.isEmpty();
 			case MapPackage.COMPONENT_REF__PLUGIN_BINDINGS:
@@ -1138,8 +1086,6 @@ public class ComponentRefImpl extends UCMmodelElementImpl implements ComponentRe
 		result.append(replicationFactor);
 		result.append(", anchored: ");
 		result.append(anchored);
-		result.append(", context: ");
-		result.append(context);
 		result.append(')');
 		return result.toString();
 	}

@@ -444,11 +444,20 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComponent_Context() {
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(3);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
     public EReference getComponent_Type() {
-		return (EReference)componentEClass.getEStructuralFeatures().get(3);
+		return (EReference)componentEClass.getEStructuralFeatures().get(4);
 	}
 
     /**
@@ -457,15 +466,6 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 	 * @generated
 	 */
 	public EReference getComponent_Urndefinition() {
-		return (EReference)componentEClass.getEStructuralFeatures().get(4);
-	}
-
-				/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getComponent_IncludedComponent() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -474,7 +474,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_IncludingComponent() {
+	public EReference getComponent_IncludedComponent() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -483,7 +483,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_Resource() {
+	public EReference getComponent_IncludingComponent() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -492,8 +492,17 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_Host() {
+	public EReference getComponent_Resource() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(8);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponent_Host() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(9);
 	}
 
 				/**
@@ -1227,6 +1236,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		createEAttribute(componentEClass, COMPONENT__KIND);
 		createEAttribute(componentEClass, COMPONENT__PROTECTED);
 		createEAttribute(componentEClass, COMPONENT__SLOT);
+		createEAttribute(componentEClass, COMPONENT__CONTEXT);
 		createEReference(componentEClass, COMPONENT__TYPE);
 		createEReference(componentEClass, COMPONENT__URNDEFINITION);
 		createEReference(componentEClass, COMPONENT__INCLUDED_COMPONENT);
@@ -1391,6 +1401,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		initEAttribute(getComponent_Kind(), this.getComponentKind(), "kind", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_Protected(), ecorePackage.getEBoolean(), "protected", "false", 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_Slot(), ecorePackage.getEBoolean(), "slot", "false", 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponent_Context(), ecorePackage.getEBoolean(), "context", "false", 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_Type(), this.getComponentType(), this.getComponentType_Instances(), "type", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_Urndefinition(), this.getURNdefinition(), this.getURNdefinition_Components(), "urndefinition", null, 1, 1, Component.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_IncludedComponent(), this.getComponent(), this.getComponent_IncludingComponent(), "includedComponent", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

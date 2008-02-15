@@ -25,7 +25,6 @@ import urncore.UCMmodelElement;
  *   <li>{@link ucm.map.ComponentRef#getRole <em>Role</em>}</li>
  *   <li>{@link ucm.map.ComponentRef#getReplicationFactor <em>Replication Factor</em>}</li>
  *   <li>{@link ucm.map.ComponentRef#isAnchored <em>Anchored</em>}</li>
- *   <li>{@link ucm.map.ComponentRef#isContext <em>Context</em>}</li>
  *   <li>{@link ucm.map.ComponentRef#getParentBindings <em>Parent Bindings</em>}</li>
  *   <li>{@link ucm.map.ComponentRef#getPluginBindings <em>Plugin Bindings</em>}</li>
  * </ul>
@@ -115,33 +114,6 @@ public interface ComponentRef extends UCMmodelElement, IURNContainerRef {
 	 * @generated
 	 */
     void setAnchored(boolean value);
-
-				/**
-	 * Returns the value of the '<em><b>Context</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Context</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Context</em>' attribute.
-	 * @see #setContext(boolean)
-	 * @see ucm.map.MapPackage#getComponentRef_Context()
-	 * @model default="false"
-	 * @generated
-	 */
-	boolean isContext();
-
-				/**
-	 * Sets the value of the '{@link ucm.map.ComponentRef#isContext <em>Context</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Context</em>' attribute.
-	 * @see #isContext()
-	 * @generated
-	 */
-	void setContext(boolean value);
 
 				/**
 	 * Returns the value of the '<em><b>Parent Bindings</b></em>' reference list.

@@ -26,6 +26,7 @@ import ucm.performance.ProcessingResource;
  *   <li>{@link urncore.Component#getKind <em>Kind</em>}</li>
  *   <li>{@link urncore.Component#isProtected <em>Protected</em>}</li>
  *   <li>{@link urncore.Component#isSlot <em>Slot</em>}</li>
+ *   <li>{@link urncore.Component#isContext <em>Context</em>}</li>
  *   <li>{@link urncore.Component#getType <em>Type</em>}</li>
  *   <li>{@link urncore.Component#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link urncore.Component#getIncludedComponent <em>Included Component</em>}</li>
@@ -122,6 +123,33 @@ public interface Component extends UCMmodelElement, IURNContainer {
 	 * @generated
 	 */
 	void setSlot(boolean value);
+
+				/**
+	 * Returns the value of the '<em><b>Context</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Context</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Context</em>' attribute.
+	 * @see #setContext(boolean)
+	 * @see urncore.UrncorePackage#getComponent_Context()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isContext();
+
+	/**
+	 * Sets the value of the '{@link urncore.Component#isContext <em>Context</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Context</em>' attribute.
+	 * @see #isContext()
+	 * @generated
+	 */
+	void setContext(boolean value);
 
 				/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.

@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Documents and Settings\damyot.damyotlap\Desktop\URNmeeting\URN_19-jUCMNav.mdl</foreignModel>
+  <foreignModel>C:\Documents and Settings\damyot.damyotlap\My Documents\work\jucmnav\URN_19.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -58,6 +58,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Component/kind"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Component/protected"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Component/slot"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Component/context"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Component/type"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Component/urndefinition"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//Component/includedComponent"/>
@@ -494,7 +495,6 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/ComponentRef/role"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/ComponentRef/replicationFactor"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/ComponentRef/anchored"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/ComponentRef/context"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference ucm.ecore#//map/ComponentRef/parentBindings"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"

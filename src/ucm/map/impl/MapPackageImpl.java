@@ -859,17 +859,8 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getComponentRef_Context() {
-		return (EAttribute)componentRefEClass.getEStructuralFeatures().get(3);
-	}
-
-				/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getComponentRef_ParentBindings() {
-		return (EReference)componentRefEClass.getEStructuralFeatures().get(4);
+		return (EReference)componentRefEClass.getEStructuralFeatures().get(3);
 	}
 
 				/**
@@ -878,7 +869,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * @generated
 	 */
 	public EReference getComponentRef_PluginBindings() {
-		return (EReference)componentRefEClass.getEStructuralFeatures().get(5);
+		return (EReference)componentRefEClass.getEStructuralFeatures().get(4);
 	}
 
 				/**
@@ -1076,7 +1067,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		createEAttribute(componentRefEClass, COMPONENT_REF__ROLE);
 		createEAttribute(componentRefEClass, COMPONENT_REF__REPLICATION_FACTOR);
 		createEAttribute(componentRefEClass, COMPONENT_REF__ANCHORED);
-		createEAttribute(componentRefEClass, COMPONENT_REF__CONTEXT);
 		createEReference(componentRefEClass, COMPONENT_REF__PARENT_BINDINGS);
 		createEReference(componentRefEClass, COMPONENT_REF__PLUGIN_BINDINGS);
 
@@ -1224,7 +1214,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		initEAttribute(getComponentRef_Role(), ecorePackage.getEString(), "role", null, 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponentRef_ReplicationFactor(), ecorePackage.getEInt(), "replicationFactor", "1", 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponentRef_Anchored(), ecorePackage.getEBoolean(), "anchored", "false", 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getComponentRef_Context(), ecorePackage.getEBoolean(), "context", "false", 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponentRef_ParentBindings(), this.getComponentBinding(), this.getComponentBinding_ParentComponent(), "parentBindings", null, 0, -1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponentRef_PluginBindings(), this.getComponentBinding(), this.getComponentBinding_PluginComponent(), "pluginBindings", null, 0, -1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

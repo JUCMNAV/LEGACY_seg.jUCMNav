@@ -2229,22 +2229,13 @@ public interface MapPackage extends EPackage {
     int COMPONENT_REF__ANCHORED = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 13;
 
     /**
-	 * The feature id for the '<em><b>Context</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_REF__CONTEXT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 14;
-
-				/**
 	 * The feature id for the '<em><b>Parent Bindings</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_REF__PARENT_BINDINGS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 15;
+	int COMPONENT_REF__PARENT_BINDINGS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 14;
 
 				/**
 	 * The feature id for the '<em><b>Plugin Bindings</b></em>' reference list.
@@ -2253,7 +2244,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_REF__PLUGIN_BINDINGS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 16;
+	int COMPONENT_REF__PLUGIN_BINDINGS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 15;
 
 				/**
 	 * The number of structural features of the '<em>Component Ref</em>' class.
@@ -2262,7 +2253,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int COMPONENT_REF_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 17;
+    int COMPONENT_REF_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 16;
 
     /**
 	 * The meta object id for the '{@link ucm.map.impl.TimerImpl <em>Timer</em>}' class.
@@ -3550,17 +3541,6 @@ public interface MapPackage extends EPackage {
     EAttribute getComponentRef_Anchored();
 
     /**
-	 * Returns the meta object for the attribute '{@link ucm.map.ComponentRef#isContext <em>Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Context</em>'.
-	 * @see ucm.map.ComponentRef#isContext()
-	 * @see #getComponentRef()
-	 * @generated
-	 */
-	EAttribute getComponentRef_Context();
-
-				/**
 	 * Returns the meta object for the reference list '{@link ucm.map.ComponentRef#getParentBindings <em>Parent Bindings</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4238,14 +4218,6 @@ public interface MapPackage extends EPackage {
 		EAttribute COMPONENT_REF__ANCHORED = eINSTANCE.getComponentRef_Anchored();
 
         /**
-		 * The meta object literal for the '<em><b>Context</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute COMPONENT_REF__CONTEXT = eINSTANCE.getComponentRef_Context();
-
-								/**
 		 * The meta object literal for the '<em><b>Parent Bindings</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->

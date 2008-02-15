@@ -525,13 +525,22 @@ public interface UrncorePackage extends EPackage {
     int COMPONENT__SLOT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
 
     /**
+	 * The feature id for the '<em><b>Context</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__CONTEXT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
+
+				/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int COMPONENT__TYPE = UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
+    int COMPONENT__TYPE = UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
 
     /**
 	 * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -540,7 +549,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__URNDEFINITION = UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
+	int COMPONENT__URNDEFINITION = UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
 
 				/**
 	 * The feature id for the '<em><b>Included Component</b></em>' reference list.
@@ -549,7 +558,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int COMPONENT__INCLUDED_COMPONENT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
+    int COMPONENT__INCLUDED_COMPONENT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 10;
 
 				/**
 	 * The feature id for the '<em><b>Including Component</b></em>' reference.
@@ -558,7 +567,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__INCLUDING_COMPONENT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 10;
+	int COMPONENT__INCLUDING_COMPONENT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 11;
 
 				/**
 	 * The feature id for the '<em><b>Resource</b></em>' reference.
@@ -567,7 +576,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int COMPONENT__RESOURCE = UC_MMODEL_ELEMENT_FEATURE_COUNT + 11;
+    int COMPONENT__RESOURCE = UC_MMODEL_ELEMENT_FEATURE_COUNT + 12;
 
 				/**
 	 * The feature id for the '<em><b>Host</b></em>' reference.
@@ -576,7 +585,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int COMPONENT__HOST = UC_MMODEL_ELEMENT_FEATURE_COUNT + 12;
+    int COMPONENT__HOST = UC_MMODEL_ELEMENT_FEATURE_COUNT + 13;
 
 				/**
 	 * The number of structural features of the '<em>Component</em>' class.
@@ -585,7 +594,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int COMPONENT_FEATURE_COUNT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 13;
+    int COMPONENT_FEATURE_COUNT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 14;
 
     /**
 	 * The meta object id for the '{@link urncore.impl.ComponentTypeImpl <em>Component Type</em>}' class.
@@ -1759,6 +1768,17 @@ public interface UrncorePackage extends EPackage {
 	EAttribute getComponent_Slot();
 
 				/**
+	 * Returns the meta object for the attribute '{@link urncore.Component#isContext <em>Context</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Context</em>'.
+	 * @see urncore.Component#isContext()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_Context();
+
+				/**
 	 * Returns the meta object for the reference '{@link urncore.Component#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2806,6 +2826,14 @@ public interface UrncorePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute COMPONENT__SLOT = eINSTANCE.getComponent_Slot();
+
+								/**
+		 * The meta object literal for the '<em><b>Context</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__CONTEXT = eINSTANCE.getComponent_Context();
 
 								/**
 		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.

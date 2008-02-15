@@ -43,6 +43,7 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.ComponentImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link urncore.impl.ComponentImpl#isProtected <em>Protected</em>}</li>
  *   <li>{@link urncore.impl.ComponentImpl#isSlot <em>Slot</em>}</li>
+ *   <li>{@link urncore.impl.ComponentImpl#isContext <em>Context</em>}</li>
  *   <li>{@link urncore.impl.ComponentImpl#getType <em>Type</em>}</li>
  *   <li>{@link urncore.impl.ComponentImpl#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link urncore.impl.ComponentImpl#getIncludedComponent <em>Included Component</em>}</li>
@@ -172,6 +173,24 @@ public class ComponentImpl extends UCMmodelElementImpl implements Component {
 	 * @ordered
 	 */
 	protected boolean slot = SLOT_EDEFAULT;
+				/**
+	 * The default value of the '{@link #isContext() <em>Context</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isContext()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean CONTEXT_EDEFAULT = false;
+	/**
+	 * The cached value of the '{@link #isContext() <em>Context</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isContext()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean context = CONTEXT_EDEFAULT;
 				/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -373,6 +392,27 @@ public class ComponentImpl extends UCMmodelElementImpl implements Component {
 		slot = newSlot;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT__SLOT, oldSlot, slot));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isContext() {
+		return context;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setContext(boolean newContext) {
+		boolean oldContext = context;
+		context = newContext;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT__CONTEXT, oldContext, context));
 	}
 
 				/**
@@ -762,6 +802,8 @@ public class ComponentImpl extends UCMmodelElementImpl implements Component {
 				return isProtected() ? Boolean.TRUE : Boolean.FALSE;
 			case UrncorePackage.COMPONENT__SLOT:
 				return isSlot() ? Boolean.TRUE : Boolean.FALSE;
+			case UrncorePackage.COMPONENT__CONTEXT:
+				return isContext() ? Boolean.TRUE : Boolean.FALSE;
 			case UrncorePackage.COMPONENT__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
@@ -810,6 +852,9 @@ public class ComponentImpl extends UCMmodelElementImpl implements Component {
 				return;
 			case UrncorePackage.COMPONENT__SLOT:
 				setSlot(((Boolean)newValue).booleanValue());
+				return;
+			case UrncorePackage.COMPONENT__CONTEXT:
+				setContext(((Boolean)newValue).booleanValue());
 				return;
 			case UrncorePackage.COMPONENT__TYPE:
 				setType((ComponentType)newValue);
@@ -862,6 +907,9 @@ public class ComponentImpl extends UCMmodelElementImpl implements Component {
 			case UrncorePackage.COMPONENT__SLOT:
 				setSlot(SLOT_EDEFAULT);
 				return;
+			case UrncorePackage.COMPONENT__CONTEXT:
+				setContext(CONTEXT_EDEFAULT);
+				return;
 			case UrncorePackage.COMPONENT__TYPE:
 				setType((ComponentType)null);
 				return;
@@ -905,6 +953,8 @@ public class ComponentImpl extends UCMmodelElementImpl implements Component {
 				return protected_ != PROTECTED_EDEFAULT;
 			case UrncorePackage.COMPONENT__SLOT:
 				return slot != SLOT_EDEFAULT;
+			case UrncorePackage.COMPONENT__CONTEXT:
+				return context != CONTEXT_EDEFAULT;
 			case UrncorePackage.COMPONENT__TYPE:
 				return type != null;
 			case UrncorePackage.COMPONENT__URNDEFINITION:
@@ -978,6 +1028,8 @@ public class ComponentImpl extends UCMmodelElementImpl implements Component {
 		result.append(protected_);
 		result.append(", slot: ");
 		result.append(slot);
+		result.append(", context: ");
+		result.append(context);
 		result.append(')');
 		return result.toString();
 	}

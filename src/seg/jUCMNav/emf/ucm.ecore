@@ -201,8 +201,6 @@
           defaultValueLiteral="1"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="anchored" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="context" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-          defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentBindings" upperBound="-1"
           eType="#//map/ComponentBinding" eOpposite="#//map/ComponentBinding/parentComponent"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBindings" upperBound="-1"
