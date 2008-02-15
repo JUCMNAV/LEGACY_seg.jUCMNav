@@ -25,7 +25,7 @@ import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import ucm.map.UCMmap;
 import urn.URNlink;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.IURNDiagram;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
@@ -292,7 +292,7 @@ public class URNLinksDialog {
         ucmelements = new Vector();
         if (type.equals(COMPONENT)){
             for (Iterator it = urn.getUrndef().getComponents().iterator(); it.hasNext();){
-                ComponentElement comp = (ComponentElement)it.next();
+                Component comp = (Component)it.next();
                 if (comp.getToLinks().size() == 0){
                     comboUcmElement.add(comp.getName() + " (" + comp.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
                     ucmelements.add(comp);

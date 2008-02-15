@@ -23,7 +23,7 @@ import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.Condition;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
@@ -179,8 +179,8 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
             if (aborted)
                 return;
             parent = ref.getParent();
-            if (ref.getContDef() instanceof ComponentElement) {
-                definition = (ComponentElement) ref.getContDef();
+            if (ref.getContDef() instanceof Component) {
+                definition = (Component) ref.getContDef();
             } else if (ref.getContDef() instanceof Actor) {
                 definition = (Actor) ref.getContDef();
             }

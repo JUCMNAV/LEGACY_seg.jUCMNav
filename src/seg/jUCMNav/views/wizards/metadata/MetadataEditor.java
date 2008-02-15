@@ -30,7 +30,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.metadata.ChangeMetadataCommand;
 import ucm.map.ComponentRef;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.Metadata;
 import urncore.URNmodelElement;
 
@@ -121,7 +121,7 @@ public class MetadataEditor extends Wizard {
             KPIInformationElement kpiInformationElem = ((KPIInformationElementRef) defaultSelected).getDef();
             this.defaultSelected = kpiInformationElem;
         } else if (defaultSelected instanceof ComponentRef) {
-            ComponentElement compElem = (ComponentElement) ((ComponentRef) defaultSelected).getContDef();
+            Component compElem = (Component) ((ComponentRef) defaultSelected).getContDef();
             this.defaultSelected = compElem;
         } else {
             this.defaultSelected = defaultSelected;
@@ -169,7 +169,7 @@ public class MetadataEditor extends Wizard {
                                     v.add(kpiInformationElem);
                                 }
                             } else if (urnelem instanceof ComponentRef) {
-                                ComponentElement compElem = (ComponentElement) ((ComponentRef) urnelem).getContDef();
+                                Component compElem = (Component) ((ComponentRef) urnelem).getContDef();
 
                                 if (compElem != null && !v.contains(compElem)) {
                                     v.add(compElem);

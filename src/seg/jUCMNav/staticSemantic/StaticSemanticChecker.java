@@ -54,7 +54,7 @@ public class StaticSemanticChecker {
                         List name = r.getClassifierAsList();
                         EClassifier e = (EClassifier) ocl.getEnvironment().lookupClassifier(name);
                         if (e == null) {
-                            String s = "Rule <" + r.getName() + ">: Classifier can't be found:\"" + r.getClassifier() + "\"";
+                            String s = "Rule <" + r.getName() + ">: Classifier cannot be found:\"" + r.getClassifier() + "\"";
                             problems.add(new StaticCheckingMsg(s));
                         } else {
 
@@ -97,7 +97,7 @@ public class StaticSemanticChecker {
                             if (violatedObjs.size()>0) nViolated++;
                         }
                     } catch (ParserException e) {
-                        String s = "Parse OCL expression error:" + e.getLocalizedMessage();
+                        String s = "Parse OCL expression error: " + e.getLocalizedMessage();
                         s += "\n\t" + r.getContext();
                         s += "\n\t" + r.getQuery();
                         problems.add(new StaticCheckingMsg(s));
@@ -108,7 +108,7 @@ public class StaticSemanticChecker {
             problems.add(new StaticCheckingMsg(e.getLocalizedMessage()));
         }
         //A summary information message is added
-        String sumMsg = String.valueOf(nTotal) + " rules are checked totally."+ nViolated + " of them is/are violated.";
+        String sumMsg = String.valueOf(nTotal) + " rules were checked. "+ nViolated + " of them were violated.";
         StaticCheckingMsg summary = new StaticCheckingMsg(sumMsg);
         summary.setInfo();
         problems.insertElementAt(summary, 0);

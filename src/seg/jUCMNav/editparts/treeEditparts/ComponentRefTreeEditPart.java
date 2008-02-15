@@ -10,7 +10,6 @@ import seg.jUCMNav.editpolicies.element.ComponentRefComponentEditPolicy;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 import ucm.map.ComponentRef;
 import urncore.Component;
-import urncore.ComponentElement;
 import urncore.ComponentKind;
 
 /**
@@ -64,7 +63,7 @@ public class ComponentRefTreeEditPart extends UrnModelElementTreeEditPart {
      * Returns the icon appropriate for the definition's kind
      */
     protected Image getImage() {
-        ComponentElement comp = (ComponentElement)getCompRef().getContDef();
+        Component comp = (Component)getCompRef().getContDef();
         if (super.getImage() == null) {
             if (comp instanceof Component) {
                 setImage(ComponentTreeEditPart.getComponentImage(((Component) comp).getKind()));

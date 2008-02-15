@@ -15,7 +15,7 @@ import seg.jUCMNav.model.wrappers.ComponentTreeWrapper;
 import ucm.performance.GeneralResource;
 import ucm.performance.PassiveResource;
 import ucm.performance.ProcessingResource;
-import urncore.ComponentElement;
+import urncore.Component;
 
 /**
  * TreeEditPart for resources
@@ -24,117 +24,116 @@ import urncore.ComponentElement;
  */
 public class GeneralResourceTreeEditPart extends UrnModelElementTreeEditPart {
 
-    /**
-     * @param model
-     *            the resource
-     */
-    public GeneralResourceTreeEditPart(GeneralResource model) {
-        super(model);
-    }
+	/**
+	 * @param model
+	 *            the resource
+	 */
+	public GeneralResourceTreeEditPart(GeneralResource model) {
+		super(model);
+	}
 
-    /**
-     * @return the resource
-     */
-    protected GeneralResource getResource() {
-        return (GeneralResource) getModel();
-    }
+	/**
+	 * @return the resource
+	 */
+	protected GeneralResource getResource() {
+		return (GeneralResource) getModel();
+	}
 
-    /**
-     * Returns the icon appropriate for this component's kind
-     */
-    protected Image getImage() {
-        if (super.getImage() == null) {
-            if (getResource() instanceof GeneralResource) {
-                setImage(getResourceImage((GeneralResource)getResource()));
-            } else {
-                setImage(getResourceImage(null));
-            }
+	/**
+	 * Returns the icon appropriate for this component's kind
+	 */
+	protected Image getImage() {
+		if (super.getImage() == null) {
+			if (getResource() instanceof GeneralResource) {
+				setImage(getResourceImage((GeneralResource) getResource()));
+			} else {
+				setImage(getResourceImage(null));
+			}
 
-        }
-        return super.getImage();
-    }
+		}
+		return super.getImage();
+	}
 
-    /**
-     * Returns an image appropriate for a particular type of resource. 
-     * 
-     * @param resx
-     *            the resource
-     * @return the icon associated with the resource
-     */
-    protected static Image getResourceImage(GeneralResource resx) {
-        
-        if (resx instanceof PassiveResource) {
-            return (JUCMNavPlugin.getImage( "icons/Agent16.gif")); //$NON-NLS-1$
-        } else if (resx instanceof ProcessingResource) {
-            return (JUCMNavPlugin.getImage( "icons/Process16.gif")); //$NON-NLS-1$
-        } else { //else if (resx instanceof ExternalOperation) {
-            return (JUCMNavPlugin.getImage( "icons/Node16.gif")); //$NON-NLS-1$
-        }
+	/**
+	 * Returns an image appropriate for a particular type of resource.
+	 * 
+	 * @param resx
+	 *            the resource
+	 * @return the icon associated with the resource
+	 */
+	protected static Image getResourceImage(GeneralResource resx) {
 
-    }
+		if (resx instanceof PassiveResource) {
+			return (JUCMNavPlugin.getImage("icons/Agent16.gif")); //$NON-NLS-1$
+		} else if (resx instanceof ProcessingResource) {
+			return (JUCMNavPlugin.getImage("icons/Process16.gif")); //$NON-NLS-1$
+		} else { // else if (resx instanceof ExternalOperation) {
+			return (JUCMNavPlugin.getImage("icons/Node16.gif")); //$NON-NLS-1$
+		}
 
-    /**
-     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
-     */
-    protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ResourceComponentEditPolicy());
-    }
+	}
 
-    /**
-     * Sets unused definitions to a lighter color.
-     * 
-     * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
-     */
-    protected void refreshVisuals() {
-    	GeneralResource res = getResource();
+	/**
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE,
+				new ResourceComponentEditPolicy());
+	}
 
-    	boolean isUsed = (res.getPerfMeasures().size() != 0); // Is the resource used?
+	/**
+	 * Sets unused definitions to a lighter color.
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
+	 */
+	protected void refreshVisuals() {
+		GeneralResource res = getResource();
 
-    	if (!isUsed){
-    		if (res instanceof PassiveResource) {
-    			PassiveResource passiveResource = (PassiveResource) res;
-    			isUsed = (passiveResource.getComponent()!=null);
-    		} else if (res instanceof ProcessingResource) {
-    			ProcessingResource processingResource = (ProcessingResource) res;
-    			isUsed = (processingResource.getComponents().size() != 0);
-    		}
-    		else if (res instanceof ucm.performance.ExternalOperation) {
-    			ucm.performance.ExternalOperation externalOperation = (ucm.performance.ExternalOperation) res;
-    			isUsed = (externalOperation.getDemands().size() != 0);
-    		}
-    	}
-                        	
-        if (isUsed)
-            ((TreeItem) widget).setForeground(ColorManager.BLACK);
-        else
-            ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
+		boolean isUsed = false;
 
-        super.refreshVisuals();
-    }
-    
-    /**
-     * Return the sorted list of component or responsibility definitions.
-     */
-    protected List getModelChildren() {
-        ArrayList list = new ArrayList();
-    	GeneralResource res = getResource();
-    	
-        if (res instanceof PassiveResource) {
-            PassiveResource passiveResource = (PassiveResource) res;
-            if (passiveResource.getComponent()!=null)
-                list.add(new ComponentTreeWrapper(passiveResource.getComponent(), passiveResource));
-            
-        } else if (res instanceof ProcessingResource) {
-            ProcessingResource processingResource = (ProcessingResource) res;
-            for (Iterator iter = list.iterator(); iter.hasNext();) {
-                ComponentElement comp = (ComponentElement) iter.next();
-                list.add(new ComponentTreeWrapper(comp, processingResource));
-            }
-        } else if (res instanceof ucm.performance.ExternalOperation) {
+		if (res instanceof PassiveResource) {
+			PassiveResource passiveResource = (PassiveResource) res;
+			isUsed = (passiveResource.getComponent() != null);
+		} else if (res instanceof ProcessingResource) {
+			ProcessingResource processingResource = (ProcessingResource) res;
+			isUsed = (processingResource.getComponents().size() != 0);
+		} else if (res instanceof ucm.performance.ExternalOperation) {
+			ucm.performance.ExternalOperation externalOperation = (ucm.performance.ExternalOperation) res;
+			isUsed = (externalOperation.getDemands().size() != 0);
+		}
+
+		if (isUsed)
+			((TreeItem) widget).setForeground(ColorManager.BLACK);
+		else
+			((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
+
+		super.refreshVisuals();
+	}
+
+	/**
+	 * Return the sorted list of component or responsibility definitions.
+	 */
+	protected List getModelChildren() {
+		ArrayList list = new ArrayList();
+		GeneralResource res = getResource();
+
+		if (res instanceof PassiveResource) {
+			PassiveResource passiveResource = (PassiveResource) res;
+			if (passiveResource.getComponent() != null)
+				list.add(new ComponentTreeWrapper(passiveResource
+						.getComponent(), passiveResource));
+
+		} else if (res instanceof ProcessingResource) {
+			ProcessingResource processingResource = (ProcessingResource) res;
+			for (Iterator iter = list.iterator(); iter.hasNext();) {
+				Component comp = (Component) iter.next();
+				list.add(new ComponentTreeWrapper(comp, processingResource));
+			}
+		} else if (res instanceof ucm.performance.ExternalOperation) {
 			ucm.performance.ExternalOperation externalOperation = (ucm.performance.ExternalOperation) res;
 			list.addAll(externalOperation.getDemands());
-        }
-        
-        return list;
-    }
+		}
+
+		return list;
+	}
 }

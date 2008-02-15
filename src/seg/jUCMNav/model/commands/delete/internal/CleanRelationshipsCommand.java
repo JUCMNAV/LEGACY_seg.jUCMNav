@@ -26,7 +26,6 @@ import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import ucm.performance.Demand;
 import ucm.performance.GeneralResource;
-import ucm.performance.PerfMeasure;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -392,18 +391,7 @@ public class CleanRelationshipsCommand extends CompoundCommand {
                     add(cmd);
             }
         }
-        for (Iterator iter = resx.getPerfMeasures().iterator(); iter.hasNext();) {
-            PerfMeasure perfMeasure = (PerfMeasure) iter.next();
-            // assuming a PerfMeasure can exist without a GeneralResource:
-            if (perfMeasure.getResource() != null) {
-                perfMeasure.setResource(null);
-            }
-            // else:
-            /*
-             * DeletePerfMeasureCommand delPerfMeasureCmd = new DeletePerfMeasureCommand(perfMeasure); if (delPerfMeasureCmd.canExecute()) {
-             * add(delPerfMeasureCmd); }
-             */
-        }
+
         add(new RemoveLinkedInfoCommand(resx));
     }
 

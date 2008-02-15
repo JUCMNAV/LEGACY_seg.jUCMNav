@@ -95,7 +95,8 @@ public class KPIViewObject {
         if (elementLinks != null) {
             intentionalElementNames = new String[elementLinks.length];
             for (int i = 0; i < elementLinks.length; i++) {
-                IntentionalElement intElem = elementLinks[i].getDest();
+            	// TODO: Make sure this GRLLinkableElement is an IntentionalElement
+            	IntentionalElement intElem = (IntentionalElement) elementLinks[i].getDest();
                 if (intElem != null) {
                     String intElemName = intElem.getName();
                     intentionalElementNames[i] = intElemName;

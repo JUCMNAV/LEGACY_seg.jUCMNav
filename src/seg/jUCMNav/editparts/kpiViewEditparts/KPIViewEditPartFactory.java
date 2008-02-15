@@ -14,7 +14,7 @@ import org.eclipse.gef.EditPartFactory;
 import ucm.map.ComponentRef;
 import ucm.map.RespRef;
 import ucm.map.UCMmap;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.Responsibility;
 
 /**
@@ -45,10 +45,10 @@ public class KPIViewEditPartFactory implements EditPartFactory {
             return new KPIViewResponsibilityEditPart((Responsibility) model);
         } else if (model instanceof RespRef) {
             return new KPIViewResponsibilityEditPart((RespRef) model);
-        } else if (model instanceof ComponentElement) {
-            return new KPIViewComponentElementEditPart((ComponentElement) model);
+        } else if (model instanceof Component) {
+            return new KPIViewComponentEditPart((Component) model);
         } else if (model instanceof ComponentRef) {
-            return new KPIViewComponentElementEditPart((ComponentRef) model);
+            return new KPIViewComponentEditPart((ComponentRef) model);
         } else if (model instanceof UCMmap) {
             return new KPIViewUCMmapEditPart((UCMmap) model);
         } else if (model instanceof KPIViewObject) {

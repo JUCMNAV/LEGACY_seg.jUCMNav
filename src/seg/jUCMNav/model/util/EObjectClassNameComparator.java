@@ -15,7 +15,7 @@ import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.RespRef;
 import ucm.performance.Demand;
-import urncore.ComponentElement;
+import urncore.Component;
 
 /**
  * Orders EObjects by class name then by element name.
@@ -73,7 +73,7 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
         // but have to deal with special cases
 
         if (o instanceof ComponentRef && ((ComponentRef) o).getContDef() != null) {
-            s = ((ComponentElement) ((ComponentRef) o).getContDef()).getName();
+            s = ((Component) ((ComponentRef) o).getContDef()).getName();
         } else if (o instanceof ActorRef && ((ActorRef) o).getContDef() != null) {
             s = ((Actor) ((ActorRef) o).getContDef()).getName();
         } else if (o instanceof RespRef && ((RespRef) o).getRespDef() != null) {

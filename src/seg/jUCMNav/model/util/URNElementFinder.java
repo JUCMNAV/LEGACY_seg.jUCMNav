@@ -11,7 +11,7 @@ import ucm.map.UCMmap;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.GRLmodelElement;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
@@ -40,7 +40,7 @@ public class URNElementFinder {
     public static Object find(URNspec urn, String id) {
 
         Object o = null;
-        if ((o = findComponentElement(urn, id)) != null)
+        if ((o = findComponent(urn, id)) != null)
             return o;
         if ((o = findResponsibility(urn, id)) != null)
             return o;
@@ -79,7 +79,7 @@ public class URNElementFinder {
     public static Object findByName(URNspec urn, String name) {
 
         Object o = null;
-        if ((o = findComponentElementByName(urn, name)) != null)
+        if ((o = findComponentByName(urn, name)) != null)
             return o;
         if ((o = findResponsibilityByName(urn, name)) != null)
             return o;
@@ -96,8 +96,8 @@ public class URNElementFinder {
      * @param id
      * @return matching component element
      */
-    public static ComponentElement findComponentElement(URNspec urn, String id) {
-        return (ComponentElement) find(urn.getUrndef().getComponents(), id);
+    public static Component findComponent(URNspec urn, String id) {
+        return (Component) find(urn.getUrndef().getComponents(), id);
     }
 
     /**
@@ -132,8 +132,8 @@ public class URNElementFinder {
      * @param name
      * @return matching component element
      */
-    public static ComponentElement findComponentElementByName(URNspec urn, String name) {
-        return (ComponentElement) findByName(urn.getUrndef().getComponents(), name);
+    public static Component findComponentByName(URNspec urn, String name) {
+        return (Component) findByName(urn.getUrndef().getComponents(), name);
     }
 
     /**

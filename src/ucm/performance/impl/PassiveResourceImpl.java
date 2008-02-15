@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import ucm.performance.PassiveResource;
 import ucm.performance.PerformancePackage;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.UrncorePackage;
 
 /**
@@ -32,174 +32,174 @@ import urncore.UrncorePackage;
  */
 public class PassiveResourceImpl extends GeneralResourceImpl implements PassiveResource {
     /**
-     * The cached value of the '{@link #getComponent() <em>Component</em>}' reference.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getComponent() <em>Component</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getComponent()
-     * @generated
-     * @ordered
-     */
-    protected ComponentElement component = null;
+	 * @see #getComponent()
+	 * @generated
+	 * @ordered
+	 */
+    protected Component component;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected PassiveResourceImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return PerformancePackage.Literals.PASSIVE_RESOURCE;
-    }
+		return PerformancePackage.Literals.PASSIVE_RESOURCE;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public ComponentElement getComponent() {
-        if (component != null && component.eIsProxy()) {
-            InternalEObject oldComponent = (InternalEObject)component;
-            component = (ComponentElement)eResolveProxy(oldComponent);
-            if (component != oldComponent) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, oldComponent, component));
-            }
-        }
-        return component;
-    }
+	 * @generated
+	 */
+    public Component getComponent() {
+		if (component != null && component.eIsProxy()) {
+			InternalEObject oldComponent = (InternalEObject)component;
+			component = (Component)eResolveProxy(oldComponent);
+			if (component != oldComponent) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, oldComponent, component));
+			}
+		}
+		return component;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public ComponentElement basicGetComponent() {
-        return component;
-    }
+	 * @generated
+	 */
+    public Component basicGetComponent() {
+		return component;
+	}
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain basicSetComponent(ComponentElement newComponent, NotificationChain msgs) {
-        ComponentElement oldComponent = component;
-        component = newComponent;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, oldComponent, newComponent);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setComponent(ComponentElement newComponent) {
-        if (newComponent != component) {
-            NotificationChain msgs = null;
-            if (component != null)
-                msgs = ((InternalEObject)component).eInverseRemove(this, UrncorePackage.COMPONENT_ELEMENT__RESOURCE, ComponentElement.class, msgs);
-            if (newComponent != null)
-                msgs = ((InternalEObject)newComponent).eInverseAdd(this, UrncorePackage.COMPONENT_ELEMENT__RESOURCE, ComponentElement.class, msgs);
-            msgs = basicSetComponent(newComponent, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, newComponent, newComponent));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
+	public NotificationChain basicSetComponent(Component newComponent, NotificationChain msgs) {
+		Component oldComponent = component;
+		component = newComponent;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, oldComponent, newComponent);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComponent(Component newComponent) {
+		if (newComponent != component) {
+			NotificationChain msgs = null;
+			if (component != null)
+				msgs = ((InternalEObject)component).eInverseRemove(this, UrncorePackage.COMPONENT__RESOURCE, Component.class, msgs);
+			if (newComponent != null)
+				msgs = ((InternalEObject)newComponent).eInverseAdd(this, UrncorePackage.COMPONENT__RESOURCE, Component.class, msgs);
+			msgs = basicSetComponent(newComponent, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, newComponent, newComponent));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
-                if (component != null)
-                    msgs = ((InternalEObject)component).eInverseRemove(this, UrncorePackage.COMPONENT_ELEMENT__RESOURCE, ComponentElement.class, msgs);
-                return basicSetComponent((ComponentElement)otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
+				if (component != null)
+					msgs = ((InternalEObject)component).eInverseRemove(this, UrncorePackage.COMPONENT__RESOURCE, Component.class, msgs);
+				return basicSetComponent((Component)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
-                return basicSetComponent(null, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
+				return basicSetComponent(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
-                if (resolve) return getComponent();
-                return basicGetComponent();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
+				if (resolve) return getComponent();
+				return basicGetComponent();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
-                setComponent((ComponentElement)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
+				setComponent((Component)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
-                setComponent((ComponentElement)null);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
+				setComponent((Component)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
-                return component != null;
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case PerformancePackage.PASSIVE_RESOURCE__COMPONENT:
+				return component != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //PassiveResourceImpl

@@ -16,6 +16,10 @@
         eType="#//StrategiesGroup" containment="true" eOpposite="#//StrategiesGroup/grlspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="strategies" upperBound="-1"
         eType="#//EvaluationStrategy" containment="true" eOpposite="#//EvaluationStrategy/grlspec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contributionGroups" upperBound="-1"
+        eType="#//ContributionContextGroup" containment="true" eOpposite="#//ContributionContextGroup/grlspec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contributionContexts" upperBound="-1"
+        eType="#//ContributionContext" containment="true" eOpposite="#//ContributionContext/grlspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="kpiInformationElements"
         upperBound="-1" eType="#//kpimodel/KPIInformationElement" containment="true"
         eOpposite="#//kpimodel/KPIInformationElement/grlspec"/>
@@ -27,10 +31,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="Belief" eSuperTypes="#//GRLNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IntentionalElement" eSuperTypes="urncore.ecore#//GRLmodelElement">
+  <eClassifiers xsi:type="ecore:EClass" name="IntentionalElement" eSuperTypes="#//GRLLinkableElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//IntentionalElementType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="decompositionType" eType="#//DecompositionType"
         defaultValueLiteral="And"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importance" eType="#//ImportanceType"
+        defaultValueLiteral="None"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importanceQuantitative"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="filled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
@@ -39,14 +47,14 @@
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/intElements"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="refs" upperBound="-1" eType="#//IntentionalElementRef"
         eOpposite="#//IntentionalElementRef/def"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="linksSrc" upperBound="-1"
-        eType="#//ElementLink" eOpposite="#//ElementLink/src"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="linksDest" upperBound="-1"
-        eType="#//ElementLink" eOpposite="#//ElementLink/dest"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNContainer">
+  <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//GRLLinkableElement urncore.ecore#//IURNContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/actors"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedActors" upperBound="-1"
+        eType="#//Actor" eOpposite="#//Actor/includingActor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includingActor" eType="#//Actor"
+        eOpposite="#//Actor/includedActors"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Criticality">
     <eLiterals name="High"/>
@@ -80,6 +88,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Contribution" eSuperTypes="#//ElementLink">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="contribution" eType="#//ContributionType"
         defaultValueLiteral="Unknown"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantitativeContribution"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="correlation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>
@@ -103,10 +113,10 @@
         eOpposite="#//LinkRef/link"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/links"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="src" lowerBound="1" eType="#//IntentionalElement"
-        eOpposite="#//IntentionalElement/linksSrc"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dest" lowerBound="1" eType="#//IntentionalElement"
-        eOpposite="#//IntentionalElement/linksDest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dest" lowerBound="1" eType="#//GRLLinkableElement"
+        eOpposite="#//GRLLinkableElement/linksDest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="src" lowerBound="1" eType="#//GRLLinkableElement"
+        eOpposite="#//GRLLinkableElement/linksSrc"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Decomposition" eSuperTypes="#//ElementLink"/>
   <eClassifiers xsi:type="ecore:EClass" name="Dependency" eSuperTypes="#//ElementLink"/>
@@ -117,6 +127,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Evaluation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualitativeEvaluation"
+        eType="#//QualitativeLabel" defaultValueLiteral="None"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="intElement" lowerBound="1"
         eType="#//IntentionalElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="strategies" lowerBound="1"
@@ -149,6 +161,54 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/groups"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QualitativeLabel">
+    <eLiterals name="Denied"/>
+    <eLiterals name="WeaklyDenied" value="1"/>
+    <eLiterals name="WeaklySatisfied" value="2"/>
+    <eLiterals name="Satisfied" value="3"/>
+    <eLiterals name="Conflict" value="4"/>
+    <eLiterals name="Unknown" value="5"/>
+    <eLiterals name="None" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContributionContextGroup" eSuperTypes="urncore.ecore#//GRLmodelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
+        eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/contributionGroups"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contribs" upperBound="-1"
+        eType="#//ContributionContext" eOpposite="#//ContributionContext/groups"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NewClass"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ContributionContext" eSuperTypes="urncore.ecore#//GRLmodelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
+        eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/contributionContexts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="groups" upperBound="-1"
+        eType="#//ContributionContextGroup" eOpposite="#//ContributionContextGroup/contribs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changes" upperBound="-1"
+        eType="#//ContributionChange" containment="true" eOpposite="#//ContributionChange/context"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContributionChange">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newContribution" eType="#//ContributionType"
+        defaultValueLiteral="Unknown"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newQuantitativeContribution"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="context" lowerBound="1"
+        eType="#//ContributionContext" transient="true" eOpposite="#//ContributionContext/changes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contribution" lowerBound="1"
+        eType="#//Contribution"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ImportanceType">
+    <eLiterals name="High"/>
+    <eLiterals name="Medium" value="1"/>
+    <eLiterals name="Low" value="2"/>
+    <eLiterals name="None" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GRLLinkableElement" abstract="true"
+      eSuperTypes="urncore.ecore#//GRLmodelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linksDest" upperBound="-1"
+        eType="#//ElementLink" eOpposite="#//ElementLink/dest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linksSrc" upperBound="-1"
+        eType="#//ElementLink" eOpposite="#//ElementLink/src"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CollapsedActorRef" eSuperTypes="#//GRLNode"/>
   <eSubpackages name="kpimodel" nsURI="http:///grl/kpimodel.ecore" nsPrefix="grl.kpimodel">
     <eClassifiers xsi:type="ecore:EClass" name="IndicatorGroup" eSuperTypes="urncore.ecore#//GRLmodelElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

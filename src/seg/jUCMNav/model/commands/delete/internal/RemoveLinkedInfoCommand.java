@@ -24,7 +24,7 @@ import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.Condition;
 
 /**
@@ -50,7 +50,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     private PathNode scenarioPathNode;
     private ScenarioDef scenario;
     private EnumerationType enumType;
-    private List components; // Single ComponentElement or list of ComponentRegular 
+    private List components; // Single Component or list of ComponentRegular 
     private List perfMeasures;
     
 
@@ -170,8 +170,6 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 ProcessingResource processingResource = (ProcessingResource) element;
                 this.components.addAll(processingResource.getComponents());
             }
-            this.perfMeasures = new ArrayList();
-            this.perfMeasures.addAll(((GeneralResource)element).getPerfMeasures());
         }
         redo();
     }
@@ -200,7 +198,6 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 ProcessingResource processingResource = (ProcessingResource) element;
                 processingResource.getComponents().clear();
             }
-            ((GeneralResource)element).getPerfMeasures().clear();
         }
         testPostConditions();
 
@@ -228,12 +225,11 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 if (this.components.size()==0)
                     passiveResource.setComponent(null);
                 else
-                    passiveResource.setComponent((ComponentElement)this.components.get(0));
+                    passiveResource.setComponent((Component)this.components.get(0));
             } else if (element instanceof ProcessingResource) {
                 ProcessingResource processingResource = (ProcessingResource) element;
                 processingResource.getComponents().addAll(this.components);
             }
-            ((GeneralResource)element).getPerfMeasures().addAll(this.perfMeasures);
         }
         testPreConditions();
     }
@@ -273,7 +269,6 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         if (element instanceof GeneralResource)
         {
         	GeneralResource resource = (GeneralResource) element;
-            assert resource.getPerfMeasures().size()==0 : "performance measures still linked"; //$NON-NLS-1$
         }
 
     }

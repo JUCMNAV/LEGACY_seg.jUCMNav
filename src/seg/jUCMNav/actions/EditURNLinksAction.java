@@ -7,7 +7,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.urnlinks.URNLinksDialog;
 import urn.URNlink;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 
@@ -58,7 +58,7 @@ public class EditURNLinksAction extends URNSelectionAction {
                 return false;
             }
         } else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF){
-            ComponentElement comp = (ComponentElement)sel.getComponentref().getContDef();
+            Component comp = (Component)sel.getComponentref().getContDef();
             if (comp.getFromLinks().size() > 0){
                 element = ((URNlink)comp.getFromLinks().get(0)).getToElem();
                 return true;

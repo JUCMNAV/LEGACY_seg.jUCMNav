@@ -37,7 +37,7 @@ import seg.jUCMNav.model.commands.create.ConnectCommand;
 import seg.jUCMNav.model.commands.create.CreateLabelCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
-import seg.jUCMNav.model.commands.delete.DeleteComponentElementCommand;
+import seg.jUCMNav.model.commands.delete.DeleteComponentCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteLabelCommand;
 import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
@@ -76,7 +76,7 @@ import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.IURNDiagram;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
@@ -650,20 +650,20 @@ public class JUCMNavCommandTests extends TestCase {
      * 
      *  
      */
-    public void testDeleteComponentElementCommand() {
+    public void testDeleteComponentCommand() {
         testSetConstraintComponentRefCommand();
 
-        Command cmd = new DeleteComponentElementCommand((ComponentElement)compRef.getContDef());
-        assertTrue("Should not be able to execute DeleteComponentElementCommand.", !cmd.canExecute()); //$NON-NLS-1$
+        Command cmd = new DeleteComponentCommand((Component)compRef.getContDef());
+        assertTrue("Should not be able to execute DeleteComponentCommand.", !cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        ComponentElement compDef = (ComponentElement)compRef.getContDef();
+        Component compDef = (Component)compRef.getContDef();
         cmd = new DeleteComponentRefCommand(compRef);
         assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        cmd = new DeleteComponentElementCommand(compDef);
-        assertTrue("Can't execute DeleteComponentElementCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cmd = new DeleteComponentCommand(compDef);
+        assertTrue("Can't execute DeleteComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }

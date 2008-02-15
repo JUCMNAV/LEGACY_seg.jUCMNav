@@ -40,7 +40,7 @@ import ucmscenarios.ScenarioSpec;
 import ucmscenarios.Sequence;
 import ucmscenarios.UcmscenariosFactory;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.Condition;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
@@ -152,7 +152,7 @@ public class ScenarioGenerator {
         _environmentComponent = comp;
 
         for (Iterator iter = urnspec.getUrndef().getComponents().iterator(); iter.hasNext();) {
-            ComponentElement element = (ComponentElement) iter.next();
+            Component element = (Component) iter.next();
 
             comp = f.createComponent();
             setIdNameDesc(element, comp);
@@ -182,7 +182,7 @@ public class ScenarioGenerator {
             instance = f.createInstance();
             setIdNameDesc(element, instance);
             // refs have no useful names.
-            instance.setName(((ComponentElement) element.getContDef()).getName());
+            instance.setName(((Component) element.getContDef()).getName());
             instance.setScenario(scenario);
             hmCompRefToInstance.put(element, instance);
         }
@@ -748,7 +748,7 @@ public class ScenarioGenerator {
      *            the component definition
      * @return the component.
      */
-    private ucmscenarios.Component getComponent(ComponentElement comp) {
+    private ucmscenarios.Component getComponent(Component comp) {
 
         if (hmCompDefToComponent.containsKey(comp))
             return (ucmscenarios.Component) hmCompDefToComponent.get(comp);
@@ -764,8 +764,8 @@ public class ScenarioGenerator {
      *            the reference
      * @return the definition
      */
-    private ComponentElement getDef(ComponentRef element) {
-        return ((ComponentElement) element.getContDef());
+    private Component getDef(ComponentRef element) {
+        return ((Component) element.getContDef());
     }
 
     /**

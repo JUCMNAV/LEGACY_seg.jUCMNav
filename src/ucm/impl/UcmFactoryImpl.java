@@ -26,74 +26,74 @@ import ucm.UcmPackage;
  */
 public class UcmFactoryImpl extends EFactoryImpl implements UcmFactory {
     /**
-     * Creates the default factory implementation.
-     * <!-- begin-user-doc -->
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public static UcmFactory init() {
-        try {
-            UcmFactory theUcmFactory = (UcmFactory)EPackage.Registry.INSTANCE.getEFactory("http:///ucm.ecore"); 
-            if (theUcmFactory != null) {
-                return theUcmFactory;
-            }
-        }
-        catch (Exception exception) {
-            EcorePlugin.INSTANCE.log(exception);
-        }
-        return new UcmFactoryImpl();
-    }
+		try {
+			UcmFactory theUcmFactory = (UcmFactory)EPackage.Registry.INSTANCE.getEFactory("http:///ucm.ecore"); 
+			if (theUcmFactory != null) {
+				return theUcmFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new UcmFactoryImpl();
+	}
 
     /**
-     * Creates an instance of the factory.
-     * <!-- begin-user-doc -->
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public UcmFactoryImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EObject create(EClass eClass) {
-        switch (eClass.getClassifierID()) {
-            case UcmPackage.UC_MSPEC: return createUCMspec();
-            default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-        }
-    }
+		switch (eClass.getClassifierID()) {
+			case UcmPackage.UC_MSPEC: return createUCMspec();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public UCMspec createUCMspec() {
-        UCMspecImpl ucMspec = new UCMspecImpl();
-        return ucMspec;
-    }
+		UCMspecImpl ucMspec = new UCMspecImpl();
+		return ucMspec;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public UcmPackage getUcmPackage() {
-        return (UcmPackage)getEPackage();
-    }
+		return (UcmPackage)getEPackage();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @deprecated
-     * @generated
-     */
+	 * @deprecated
+	 * @generated
+	 */
     public static UcmPackage getPackage() {
-        return UcmPackage.eINSTANCE;
-    }
+		return UcmPackage.eINSTANCE;
+	}
 
 } //UcmFactoryImpl

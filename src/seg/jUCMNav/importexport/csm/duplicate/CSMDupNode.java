@@ -25,15 +25,12 @@ import seg.jUCMNav.importexport.csm.one2one.StartPointConverter;
 import seg.jUCMNav.importexport.csm.one2one.StubConverter;
 import seg.jUCMNav.importexport.csm.one2one.TimerConverter;
 import seg.jUCMNav.importexport.csm.one2one.WaitingPlaceConverter;
-import ucm.map.Abort;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.FailurePoint;
-import ucm.map.Loop;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
@@ -42,7 +39,6 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
-import ucm.performance.Timestamp;
 
 /**
  * A CSMDupNode is a reference to a node in the original UCMmap.
@@ -251,20 +247,12 @@ public class CSMDupNode {
             resourcesUpstream = resourcesDownstream;
         } else if (node instanceof OrJoin) {
             type = ORJOIN;
-        } else if (node instanceof Timestamp) {
-            type = TIMESTAMP;
-        } else if (node instanceof FailurePoint) {
-            type = FAILURE;
         } else if (node instanceof DirectionArrow) {
             type = ARROW;
         } else if (node instanceof Connect) {
             type = CONNECT;
-        } else if (node instanceof Abort) {
-            type = ABORT;
         } else if (node instanceof WaitingPlace) {
             type = WAIT;
-        } else if (node instanceof Loop) {
-            type = LOOP;
         } else {
             type = UNDEFINED;
         }

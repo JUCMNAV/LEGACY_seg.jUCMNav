@@ -4,7 +4,7 @@
 package seg.jUCMNav.model.commands.delete.internal;
 
 import grl.ElementLink;
-import grl.IntentionalElement;
+import grl.GRLLinkableElement;
 
 import org.eclipse.gef.commands.Command;
 
@@ -22,7 +22,7 @@ public class RemoveElementLinkCommand extends Command implements JUCMNavCommand 
 
     ElementLink link;
     URNspec urn;
-    IntentionalElement src, dest;
+    GRLLinkableElement src, dest;
     boolean aborted = false;
 
     /**

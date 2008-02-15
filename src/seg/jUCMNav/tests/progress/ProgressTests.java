@@ -99,7 +99,7 @@ import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.ComponentKind;
 import urncore.UCMmodelElement;
 
@@ -534,7 +534,7 @@ public class ProgressTests extends TestCase {
     public void testReqCompCompBind2() {
         testReqCompCompBind1();
         ComponentRef parent = (ComponentRef) getMap().getContRefs().get(1);
-        ((ComponentElement)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
+        ((Component)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
 
         // create a property source on the small component ref
         ComponentRef cr = (ComponentRef) getMap().getContRefs().get(2);
@@ -580,7 +580,7 @@ public class ProgressTests extends TestCase {
     public void testReqCompCompUnbind2() {
         testReqCompCompBind1();
         ComponentRef parent = (ComponentRef) getMap().getContRefs().get(1);
-        ((ComponentElement)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
+        ((Component)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
 
         // create a property source on the large component ref
         Vector v = getAttributeDescriptor(parent, "parent"); //$NON-NLS-1$
@@ -629,7 +629,7 @@ public class ProgressTests extends TestCase {
         testReqCompPathBind1();
         PathNode node = (PathNode) getMap().getNodes().get(1);
         ComponentRef parent = (ComponentRef) getMap().getContRefs().get(1);
-        ((ComponentElement)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
+        ((Component)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
 
         Vector v = getAttributeDescriptor(node, "contRef"); //$NON-NLS-1$
         String[] values = ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
@@ -669,7 +669,7 @@ public class ProgressTests extends TestCase {
         testReqCompPathUnbind1();
         PathNode node = (PathNode) getMap().getNodes().get(1);
         ComponentRef parent = (ComponentRef) getMap().getContRefs().get(1);
-        ((ComponentElement)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
+        ((Component)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
 
         Vector v = getAttributeDescriptor(node, "contRef"); //$NON-NLS-1$
         String[] values = ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();

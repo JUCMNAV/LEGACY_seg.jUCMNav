@@ -5,15 +5,14 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.editpolicies.element.ComponentElementComponentEditPolicy;
+import seg.jUCMNav.editpolicies.element.ComponentComponentEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.wrappers.ComponentTreeWrapper;
 import urncore.Component;
-import urncore.ComponentElement;
 import urncore.ComponentKind;
 
 /**
- * TreeEditPart for ComponentElements.
+ * TreeEditPart for Components.
  * 
  * @author Etienne Tremblay, jkealey
  */
@@ -25,7 +24,7 @@ public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
      * @param model
      *            the component definition
      */
-    public ComponentTreeEditPart(ComponentElement model) {
+    public ComponentTreeEditPart(Component model) {
         super(model);
     }
     
@@ -42,8 +41,8 @@ public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
     /**
      * @return the component definition
      */
-    protected ComponentElement getComp() {
-        return (ComponentElement) getModel();
+    protected Component getComp() {
+        return (Component) getModel();
     }
 
     /**
@@ -87,7 +86,7 @@ public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentElementComponentEditPolicy(wrapper));
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentComponentEditPolicy(wrapper));
     }
 
     /**

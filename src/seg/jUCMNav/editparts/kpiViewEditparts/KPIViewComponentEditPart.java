@@ -11,19 +11,19 @@ import java.util.Map;
 
 import ucm.map.ComponentRef;
 import urn.URNlink;
-import urncore.ComponentElement;
+import urncore.Component;
 
 /**
  * @author pchen
  * 
  */
-public class KPIViewComponentElementEditPart extends AbstractKPIViewEditPart {
+public class KPIViewComponentEditPart extends AbstractKPIViewEditPart {
 
-    public KPIViewComponentElementEditPart(ComponentElement element) {
+    public KPIViewComponentEditPart(Component element) {
         super(element);
     }
 
-    public KPIViewComponentElementEditPart(ComponentRef ref) {
+    public KPIViewComponentEditPart(ComponentRef ref) {
         super(ref.getContDef());
     }
 
@@ -35,7 +35,7 @@ public class KPIViewComponentElementEditPart extends AbstractKPIViewEditPart {
         Map indicatorMap = new HashMap();
 
         // Collect indicators through urn links
-        ComponentElement model = getNode();
+        Component model = getNode();
         List urnLinks = model.getToLinks();
         for (int i = 0; i < urnLinks.size(); i++) {
             if (((URNlink) urnLinks.get(i)).getFromElem() instanceof IntentionalElement) {
@@ -61,7 +61,8 @@ public class KPIViewComponentElementEditPart extends AbstractKPIViewEditPart {
         ElementLink[] elementLinks = (ElementLink[]) model.getLinksDest().toArray(new ElementLink[0]);
         if (elementLinks != null) {
             for (int i = 0; i < elementLinks.length; i++) {
-                IntentionalElement intElem = elementLinks[i].getSrc();
+            	// TODO: Make sure this GRLLinkableElement is an IntentionalElement
+                IntentionalElement intElem = (IntentionalElement) elementLinks[i].getSrc();
                 if (intElem instanceof Indicator) {
                     indicatorMap.put(((Indicator) intElem).getId(), (Indicator) intElem);
                 } else {
@@ -76,8 +77,8 @@ public class KPIViewComponentElementEditPart extends AbstractKPIViewEditPart {
      * 
      * @return the KPI information element.
      */
-    private ComponentElement getNode() {
-        return (ComponentElement) getModel();
+    private Component getNode() {
+        return (Component) getModel();
     }
 
 }

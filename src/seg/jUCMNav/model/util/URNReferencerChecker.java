@@ -11,7 +11,6 @@ import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.Component;
-import urncore.ComponentElement;
 import urncore.ComponentKind;
 import urncore.Condition;
 import urncore.IURNDiagram;
@@ -46,7 +45,7 @@ public class URNReferencerChecker {
                     ComponentRef compRef = (ComponentRef) iter.next();
                     if (compRef.getContDef() == null)
                         // not linked? create one.
-                        compRef.setContDef((ComponentElement) ModelCreationFactory.getNewObject(urn, Component.class, ComponentKind.TEAM));
+                        compRef.setContDef((Component) ModelCreationFactory.getNewObject(urn, Component.class, ComponentKind.TEAM));
                     urn.getUrndef().getComponents().add(compRef.getContDef());
                 }
     
@@ -73,7 +72,7 @@ public class URNReferencerChecker {
 
         // uncomment the following to verify that components with colors are filled
         /*
-         * for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) { ComponentElement comp = (ComponentElement) iter.next(); if
+         * for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) { Component comp = (Component) iter.next(); if
          * (comp.getFillColor() != null && comp.getFillColor().length() > 0 && !comp.isFilled()) comp.setFilled(true); }
          */
     }

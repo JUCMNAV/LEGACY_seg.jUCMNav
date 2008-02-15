@@ -5,7 +5,7 @@ import ucm.performance.ExternalOperation;
 import ucm.performance.GeneralResource;
 import ucm.performance.PassiveResource;
 import ucm.performance.ProcessingResource;
-import urncore.ComponentRegular;
+import urncore.Component;
 
 /**
  * Provides supports for the management of (UCM elements converted to) CSM resources. A CSM resource may be deduced implicitly from some UCM components and
@@ -57,7 +57,7 @@ public class CSMResource {
     public CSMResource(ComponentRef compRef) {
         this.compRef = compRef;
         type = COMPREF;
-        name = ((ComponentRegular) compRef.getContDef()).getId();
+        name = ((Component) compRef.getContDef()).getId();
         quantity = "" + this.compRef.getReplicationFactor(); //$NON-NLS-1$
     }
 

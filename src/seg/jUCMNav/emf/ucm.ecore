@@ -6,10 +6,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="UCMspec">
     <eStructuralFeatures xsi:type="ecore:EReference" name="urnspec" lowerBound="1"
         eType="ecore:EClass urn.ecore#//URNspec" transient="true" eOpposite="urn.ecore#//URNspec/ucmspec"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="resptimereq" upperBound="-1"
-        eType="#//performance/ResponseTimeReq" containment="true" eOpposite="#//performance/ResponseTimeReq/ucmspec"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="perfMeasures" upperBound="-1"
-        eType="#//performance/PerfMeasure" containment="true" eOpposite="#//performance/PerfMeasure/ucmspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="resources" upperBound="-1"
         eType="#//performance/GeneralResource" containment="true" eOpposite="#//performance/GeneralResource/ucmspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioGroups" upperBound="-1"
@@ -20,58 +16,17 @@
         eType="#//scenario/EnumerationType" containment="true" eOpposite="#//scenario/EnumerationType/ucmspec"/>
   </eClassifiers>
   <eSubpackages name="performance" nsURI="http:///ucm/performance.ecore" nsPrefix="ucm.performance">
-    <eClassifiers xsi:type="ecore:EClass" name="Timestamp" eSuperTypes="#//map/PathNode">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="targets" upperBound="-1"
-          eType="#//performance/ResponseTimeReq" eOpposite="#//performance/ResponseTimeReq/ts1"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="sources" upperBound="-1"
-          eType="#//performance/ResponseTimeReq" eOpposite="#//performance/ResponseTimeReq/ts2"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ResponseTimeReq" eSuperTypes="urncore.ecore#//UCMmodelElement">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="responseTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="percentage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="ucmspec" lowerBound="1"
-          eType="#//UCMspec" transient="true" eOpposite="#//UCMspec/resptimereq"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="ts1" lowerBound="1" eType="#//performance/Timestamp"
-          eOpposite="#//performance/Timestamp/targets"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="ts2" lowerBound="1" eType="#//performance/Timestamp"
-          eOpposite="#//performance/Timestamp/sources"/>
-    </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="DeviceKind">
       <eLiterals name="Processor"/>
       <eLiterals name="Disk" value="1"/>
       <eLiterals name="DSP" value="2"/>
       <eLiterals name="Other" value="3"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EEnum" name="PerfValueKind">
-      <eLiterals name="Mean"/>
-      <eLiterals name="Variance" value="1"/>
-      <eLiterals name="Percentile" value="2"/>
-      <eLiterals name="Moment" value="3"/>
-      <eLiterals name="Min" value="4"/>
-      <eLiterals name="Max" value="5"/>
-      <eLiterals name="Distribution" value="6"/>
-      <eLiterals name="Unknown" value="7"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EEnum" name="PerfValueSource">
-      <eLiterals name="Required"/>
-      <eLiterals name="Assumed" value="1"/>
-      <eLiterals name="Predicted" value="2"/>
-      <eLiterals name="Measured" value="3"/>
-      <eLiterals name="Unknown" value="4"/>
-    </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="ArrivalProcess">
       <eLiterals name="PoissonPDF"/>
       <eLiterals name="Periodic" value="1"/>
       <eLiterals name="Uniform" value="2"/>
       <eLiterals name="PhaseType" value="3"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EEnum" name="PerfAttribute">
-      <eLiterals name="Delay"/>
-      <eLiterals name="Throughput" value="1"/>
-      <eLiterals name="Utilization" value="2"/>
-      <eLiterals name="Interval" value="3"/>
-      <eLiterals name="Wait" value="4"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Workload" eSuperTypes="urncore.ecore#//UCMmodelElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="closed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
@@ -85,50 +40,19 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="population" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="startPoint" lowerBound="1"
           eType="#//map/StartPoint" transient="true" eOpposite="#//map/StartPoint/workload"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="responseTime" upperBound="-1"
-          eType="#//performance/PerfMeasure" eOpposite="#//performance/PerfMeasure/duration"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="GeneralResource" abstract="true" eSuperTypes="urncore.ecore#//UCMmodelElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplicity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="schedPolicy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ucmspec" lowerBound="1"
           eType="#//UCMspec" transient="true" eOpposite="#//UCMspec/resources"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="perfMeasures" upperBound="-1"
-          eType="#//performance/PerfMeasure" eOpposite="#//performance/PerfMeasure/resource"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="PerfMeasure" eSuperTypes="urncore.ecore#//UCMmodelElement">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="measure" eType="#//performance/PerfAttribute"
-          defaultValueLiteral="Delay"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="ucmspec" lowerBound="1"
-          eType="#//UCMspec" transient="true" eOpposite="#//UCMspec/perfMeasures"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="perfValues" upperBound="-1"
-          eType="#//performance/PerfValue" containment="true" eOpposite="#//performance/PerfValue/perfMeasure"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="duration" eType="#//performance/Workload"
-          eOpposite="#//performance/Workload/responseTime"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="resource" eType="#//performance/GeneralResource"
-          eOpposite="#//performance/GeneralResource/perfMeasures"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="trigger" eType="#//map/PathNode"
-          eOpposite="#//map/PathNode/perfMTrig"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="end" eType="#//map/PathNode"
-          eOpposite="#//map/PathNode/perfMEnd"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="PerfValue">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//performance/PerfValueKind"
-          defaultValueLiteral="Unknown"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="#//performance/PerfValueSource"
-          defaultValueLiteral="Unknown"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="percentile" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kthMoment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="perfMeasure" lowerBound="1"
-          eType="#//performance/PerfMeasure" transient="true" eOpposite="#//performance/PerfMeasure/perfValues"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ActiveResource" abstract="true" eSuperTypes="#//performance/GeneralResource">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="opTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="PassiveResource" eSuperTypes="#//performance/GeneralResource">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="ecore:EClass urncore.ecore#//ComponentElement"
-          eOpposite="urncore.ecore#//ComponentElement/resource"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="ecore:EClass urncore.ecore#//Component"
+          eOpposite="urncore.ecore#//Component/resource"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ExternalOperation" eSuperTypes="#//performance/ActiveResource">
       <eStructuralFeatures xsi:type="ecore:EReference" name="demands" upperBound="-1"
@@ -137,7 +61,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="ProcessingResource" eSuperTypes="#//performance/ActiveResource">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//performance/DeviceKind"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
-          eType="ecore:EClass urncore.ecore#//ComponentRegular" eOpposite="urncore.ecore#//ComponentRegular/host"/>
+          eType="ecore:EClass urncore.ecore#//Component" eOpposite="urncore.ecore#//Component/host"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Demand">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -174,9 +98,6 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="respDef" lowerBound="1"
           eType="ecore:EClass urncore.ecore#//Responsibility" eOpposite="urncore.ecore#//Responsibility/respRefs"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Loop" eSuperTypes="#//map/PathNode">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OrJoin" eSuperTypes="#//map/PathNode">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
@@ -209,15 +130,14 @@
           defaultValueLiteral="1"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="pointcut" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="synchronization" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="blocking" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
           eType="#//map/PluginBinding" containment="true" eOpposite="#//map/PluginBinding/stub"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="PathNode" abstract="true" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//IURNNode">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="perfMTrig" upperBound="-1"
-          eType="#//performance/PerfMeasure" eOpposite="#//performance/PerfMeasure/trigger"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="perfMEnd" upperBound="-1"
-          eType="#//performance/PerfMeasure" eOpposite="#//performance/PerfMeasure/end"/>
-    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PathNode" abstract="true" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//IURNNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="EndPoint" eSuperTypes="#//map/PathNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="An end-point (or end bar, or result) has usually one  source hyperedge (and possibly a target hyperedge to a connect  for linking to starts or waiting places). The  resulting-event-list gives the set of events that occur once the  sequence of actions in a path are completed. The  postcondition-list must be satisfied once the sequence is  completed. "/>
@@ -243,12 +163,10 @@
           upperBound="-1" eType="#//scenario/ScenarioStartPoint" eOpposite="#//scenario/ScenarioStartPoint/startPoint"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UCMmap" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//IURNDiagram">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleton" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentStub" upperBound="-1"
           eType="#//map/PluginBinding" eOpposite="#//map/PluginBinding/plugin"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Abort" eSuperTypes="#//map/PathNode">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="Condition" upperBound="-1"
-          eType="ecore:EClass urncore.ecore#//Condition"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="PluginBinding">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -259,6 +177,8 @@
           defaultValueLiteral="1.0"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="transaction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="replicationFactor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+          defaultValueLiteral="1"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="in" lowerBound="1" upperBound="-1"
           eType="#//map/InBinding" containment="true" eOpposite="#//map/InBinding/binding"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="out" lowerBound="1" upperBound="-1"
@@ -269,6 +189,8 @@
           eType="#//map/UCMmap" eOpposite="#//map/UCMmap/parentStub"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="precondition" eType="ecore:EClass urncore.ecore#//Condition"
           containment="true" eOpposite="urncore.ecore#//Condition/pluginBinding"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+          eType="#//map/ComponentBinding" containment="true" eOpposite="#//map/ComponentBinding/binding"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ComponentRef" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//IURNContainerRef">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -279,6 +201,12 @@
           defaultValueLiteral="1"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="anchored" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="context" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parentBindings" upperBound="-1"
+          eType="#//map/ComponentBinding" eOpposite="#//map/ComponentBinding/parentComponent"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBindings" upperBound="-1"
+          eType="#//map/ComponentBinding" eOpposite="#//map/ComponentBinding/pluginComponent"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Timer" eSuperTypes="#//map/WaitingPlace">
       <eStructuralFeatures xsi:type="ecore:EReference" name="timeoutPath" eType="#//map/NodeConnection"/>
@@ -287,8 +215,15 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="EmptyPoint" eSuperTypes="#//map/PathNode"/>
-    <eClassifiers xsi:type="ecore:EClass" name="FailurePoint" eSuperTypes="#//map/PathNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="DirectionArrow" eSuperTypes="#//map/PathNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentBinding">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="binding" lowerBound="1"
+          eType="#//map/PluginBinding" transient="true" eOpposite="#//map/PluginBinding/components"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parentComponent" lowerBound="1"
+          eType="#//map/ComponentRef" eOpposite="#//map/ComponentRef/parentBindings"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pluginComponent" lowerBound="1"
+          eType="#//map/ComponentRef" eOpposite="#//map/ComponentRef/pluginBindings"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="scenario" nsURI="http:///ucm/scenario.ecore" nsPrefix="ucm.scenario">
     <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="urncore.ecore#//UCMmodelElement">

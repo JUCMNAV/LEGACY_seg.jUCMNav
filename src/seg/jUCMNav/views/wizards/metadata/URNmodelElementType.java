@@ -17,14 +17,12 @@ import seg.jUCMNav.Messages;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.UCMmap;
-import ucm.performance.PerfMeasure;
-import ucm.performance.ResponseTimeReq;
 import ucm.performance.Workload;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.Variable;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 
@@ -46,8 +44,6 @@ public class URNmodelElementType {
             Messages.getString("URNmodelElementType.Component"), //$NON-NLS-1$
             Messages.getString("URNmodelElementType.Enumeration"), //$NON-NLS-1$
             Messages.getString("URNmodelElementType.PathNode"), //$NON-NLS-1$
-            Messages.getString("URNmodelElementType.PerfMeasure"), //$NON-NLS-1$
-            Messages.getString("URNmodelElementType.ResponseTimeReq"), //$NON-NLS-1$
             Messages.getString("URNmodelElementType.Responsibility"), //$NON-NLS-1$
             Messages.getString("URNmodelElementType.RespRef"), //$NON-NLS-1$
             Messages.getString("URNmodelElementType.Scenario"), //$NON-NLS-1$
@@ -69,20 +65,18 @@ public class URNmodelElementType {
         urnElementTypes.put(urnElementTypeNames[5], GRLNode.class);
         urnElementTypes.put(urnElementTypeNames[6], IntentionalElement.class);
         urnElementTypes.put(urnElementTypeNames[7], StrategiesGroup.class);
-        urnElementTypes.put(urnElementTypeNames[8], ComponentElement.class);
+        urnElementTypes.put(urnElementTypeNames[8], Component.class);
         urnElementTypes.put(urnElementTypeNames[9], EnumerationType.class);
         urnElementTypes.put(urnElementTypeNames[10], PathNode.class);
-        urnElementTypes.put(urnElementTypeNames[11], PerfMeasure.class);
-        urnElementTypes.put(urnElementTypeNames[12], ResponseTimeReq.class);
-        urnElementTypes.put(urnElementTypeNames[13], Responsibility.class);
-        urnElementTypes.put(urnElementTypeNames[14], RespRef.class);
-        urnElementTypes.put(urnElementTypeNames[15], ScenarioDef.class);
-        urnElementTypes.put(urnElementTypeNames[16], ScenarioGroup.class);
-        urnElementTypes.put(urnElementTypeNames[17], UCMmap.class);
-        urnElementTypes.put(urnElementTypeNames[18], Variable.class);
-        urnElementTypes.put(urnElementTypeNames[19], Workload.class);
-        urnElementTypes.put(urnElementTypeNames[20], KPIInformationElement.class);
-        urnElementTypes.put(urnElementTypeNames[21], KPIModelLink.class);
-        urnElementTypes.put(urnElementTypeNames[22], IndicatorGroup.class);
+        urnElementTypes.put(urnElementTypeNames[11], Responsibility.class);
+        urnElementTypes.put(urnElementTypeNames[12], RespRef.class);
+        urnElementTypes.put(urnElementTypeNames[13], ScenarioDef.class);
+        urnElementTypes.put(urnElementTypeNames[14], ScenarioGroup.class);
+        urnElementTypes.put(urnElementTypeNames[15], UCMmap.class);
+        urnElementTypes.put(urnElementTypeNames[16], Variable.class);
+        urnElementTypes.put(urnElementTypeNames[17], Workload.class);
+        urnElementTypes.put(urnElementTypeNames[18], KPIInformationElement.class);
+        urnElementTypes.put(urnElementTypeNames[19], KPIModelLink.class);
+        urnElementTypes.put(urnElementTypeNames[20], IndicatorGroup.class);
     }
 }

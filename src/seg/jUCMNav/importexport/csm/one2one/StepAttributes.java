@@ -9,7 +9,6 @@ import ucm.map.Stub;
 import ucm.performance.ProcessingResource;
 import urncore.Component;
 import urncore.ComponentKind;
-import urncore.ComponentRegular;
 import urncore.IURNContainerRef;
 
 /**
@@ -50,8 +49,8 @@ public class StepAttributes {
     public static void Component(PrintStream ps, PathNode pathnode) {
         IURNContainerRef contRef = pathnode.getContRef();
         if ((ComponentRef) contRef != null && ((ComponentRef) contRef).getId() != null) {
-            if (contRef.getContDef() instanceof ComponentRegular) {
-                ComponentRegular compReg = (ComponentRegular) contRef.getContDef();
+            if (contRef.getContDef() instanceof Component) {
+                Component compReg = (Component) contRef.getContDef();
                 ComponentKind compKind = compReg.getKind();
                 /*
                  * Produce the "component" attribute only if the component reference is refering to a component of kind Process, Agent, Teamn or Object.

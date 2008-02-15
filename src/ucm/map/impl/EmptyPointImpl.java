@@ -22,21 +22,21 @@ import ucm.map.MapPackage;
  */
 public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EmptyPointImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.Literals.EMPTY_POINT;
-    }
+		return MapPackage.Literals.EMPTY_POINT;
+	}
 
 } //EmptyPointImpl

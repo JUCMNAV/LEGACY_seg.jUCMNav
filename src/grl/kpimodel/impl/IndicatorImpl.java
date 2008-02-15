@@ -41,161 +41,161 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class IndicatorImpl extends IntentionalElementImpl implements Indicator {
     /**
-     * The cached value of the '{@link #getKpiModelLinksDest() <em>Kpi Model Links Dest</em>}' reference list.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getKpiModelLinksDest() <em>Kpi Model Links Dest</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getKpiModelLinksDest()
-     * @generated
-     * @ordered
-     */
-    protected EList kpiModelLinksDest = null;
+	 * @see #getKpiModelLinksDest()
+	 * @generated
+	 * @ordered
+	 */
+    protected EList kpiModelLinksDest;
 
     /**
-     * The cached value of the '{@link #getGroups() <em>Groups</em>}' reference list.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getGroups() <em>Groups</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getGroups()
-     * @generated
-     * @ordered
-     */
-    protected EList groups = null;
+	 * @see #getGroups()
+	 * @generated
+	 * @ordered
+	 */
+    protected EList groups;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected IndicatorImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return KpimodelPackage.Literals.INDICATOR;
-    }
+		return KpimodelPackage.Literals.INDICATOR;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getKpiModelLinksDest() {
-        if (kpiModelLinksDest == null) {
-            kpiModelLinksDest = new EObjectWithInverseResolvingEList(KPIModelLink.class, this, KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST, KpimodelPackage.KPI_MODEL_LINK__IND_DEST);
-        }
-        return kpiModelLinksDest;
-    }
+		if (kpiModelLinksDest == null) {
+			kpiModelLinksDest = new EObjectWithInverseResolvingEList(KPIModelLink.class, this, KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST, KpimodelPackage.KPI_MODEL_LINK__IND_DEST);
+		}
+		return kpiModelLinksDest;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getGroups() {
-        if (groups == null) {
-            groups = new EObjectWithInverseResolvingEList.ManyInverse(IndicatorGroup.class, this, KpimodelPackage.INDICATOR__GROUPS, KpimodelPackage.INDICATOR_GROUP__INDICATORS);
-        }
-        return groups;
-    }
+		if (groups == null) {
+			groups = new EObjectWithInverseResolvingEList.ManyInverse(IndicatorGroup.class, this, KpimodelPackage.INDICATOR__GROUPS, KpimodelPackage.INDICATOR_GROUP__INDICATORS);
+		}
+		return groups;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
-                return ((InternalEList)getKpiModelLinksDest()).basicAdd(otherEnd, msgs);
-            case KpimodelPackage.INDICATOR__GROUPS:
-                return ((InternalEList)getGroups()).basicAdd(otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
+				return ((InternalEList)getKpiModelLinksDest()).basicAdd(otherEnd, msgs);
+			case KpimodelPackage.INDICATOR__GROUPS:
+				return ((InternalEList)getGroups()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
-                return ((InternalEList)getKpiModelLinksDest()).basicRemove(otherEnd, msgs);
-            case KpimodelPackage.INDICATOR__GROUPS:
-                return ((InternalEList)getGroups()).basicRemove(otherEnd, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
+				return ((InternalEList)getKpiModelLinksDest()).basicRemove(otherEnd, msgs);
+			case KpimodelPackage.INDICATOR__GROUPS:
+				return ((InternalEList)getGroups()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
-                return getKpiModelLinksDest();
-            case KpimodelPackage.INDICATOR__GROUPS:
-                return getGroups();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
+				return getKpiModelLinksDest();
+			case KpimodelPackage.INDICATOR__GROUPS:
+				return getGroups();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
-                getKpiModelLinksDest().clear();
-                getKpiModelLinksDest().addAll((Collection)newValue);
-                return;
-            case KpimodelPackage.INDICATOR__GROUPS:
-                getGroups().clear();
-                getGroups().addAll((Collection)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
+				getKpiModelLinksDest().clear();
+				getKpiModelLinksDest().addAll((Collection)newValue);
+				return;
+			case KpimodelPackage.INDICATOR__GROUPS:
+				getGroups().clear();
+				getGroups().addAll((Collection)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
-                getKpiModelLinksDest().clear();
-                return;
-            case KpimodelPackage.INDICATOR__GROUPS:
-                getGroups().clear();
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
+				getKpiModelLinksDest().clear();
+				return;
+			case KpimodelPackage.INDICATOR__GROUPS:
+				getGroups().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
-                return kpiModelLinksDest != null && !kpiModelLinksDest.isEmpty();
-            case KpimodelPackage.INDICATOR__GROUPS:
-                return groups != null && !groups.isEmpty();
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case KpimodelPackage.INDICATOR__KPI_MODEL_LINKS_DEST:
+				return kpiModelLinksDest != null && !kpiModelLinksDest.isEmpty();
+			case KpimodelPackage.INDICATOR__GROUPS:
+				return groups != null && !groups.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //IndicatorImpl

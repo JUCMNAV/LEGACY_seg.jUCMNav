@@ -23,6 +23,8 @@
         eType="ecore:EClass urncore.ecore#//URNdefinition" containment="true" eOpposite="urncore.ecore#//URNdefinition/urnspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="urnLinks" upperBound="-1"
         eType="#//URNlink" containment="true" eOpposite="#//URNlink/urnspec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metadata" upperBound="-1"
+        eType="ecore:EClass urncore.ecore#//Metadata" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="URNlink">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -32,5 +34,7 @@
         eType="ecore:EClass urncore.ecore#//URNmodelElement" eOpposite="urncore.ecore#//URNmodelElement/fromLinks"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="toElem" lowerBound="1"
         eType="ecore:EClass urncore.ecore#//URNmodelElement" eOpposite="urncore.ecore#//URNmodelElement/toLinks"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metadata" upperBound="-1"
+        eType="ecore:EClass urncore.ecore#//Metadata" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

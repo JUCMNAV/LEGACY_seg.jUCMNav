@@ -5,6 +5,7 @@ import grl.Decomposition;
 import grl.DecompositionType;
 import grl.Dependency;
 import grl.GrlPackage;
+import grl.IntentionalElement;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
 
@@ -273,13 +274,14 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
         refreshBendpoints();
         if (getLinkRef().getLink() instanceof Decomposition){
             Decomposition decomp = (Decomposition)getLinkRef().getLink();
-            if (decomp.getDest().getDecompositionType().getValue() == DecompositionType.AND){
+            IntentionalElement elem = (IntentionalElement) decomp.getDest(); 
+            if (elem.getDecompositionType().getValue() == DecompositionType.AND){
                 getLinkRefFigure().setType(LinkRefConnection.TYPE_DECOMPOSITION_AND);
             } else {
                 getLinkRefFigure().setType(LinkRefConnection.TYPE_DECOMPOSITION_OR);
             }
-            if (decompLabel.getText() != decomp.getDest().getDecompositionType().getName()){
-                decompLabel.setText(decomp.getDest().getDecompositionType().getName());
+            if (decompLabel.getText() != elem.getDecompositionType().getName()){
+                decompLabel.setText(elem.getDecompositionType().getName());
                 decompLabel.setVisible(true);
             }
         } else if(getLinkRef().getLink() instanceof Contribution){

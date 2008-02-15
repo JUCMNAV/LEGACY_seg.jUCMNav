@@ -45,299 +45,299 @@ import urncore.UrncorePackage;
  */
 public class StartPointImpl extends PathNodeImpl implements StartPoint {
     /**
-     * The cached value of the '{@link #getWorkload() <em>Workload</em>}' containment reference.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWorkload() <em>Workload</em>}' containment reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getWorkload()
-     * @generated
-     * @ordered
-     */
-    protected Workload workload = null;
+	 * @see #getWorkload()
+	 * @generated
+	 * @ordered
+	 */
+    protected Workload workload;
 
     /**
-     * The cached value of the '{@link #getInBindings() <em>In Bindings</em>}' reference list.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getInBindings() <em>In Bindings</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getInBindings()
-     * @generated
-     * @ordered
-     */
-    protected EList inBindings = null;
+	 * @see #getInBindings()
+	 * @generated
+	 * @ordered
+	 */
+    protected EList inBindings;
 
     /**
-     * The cached value of the '{@link #getPrecondition() <em>Precondition</em>}' containment reference.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getPrecondition() <em>Precondition</em>}' containment reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getPrecondition()
-     * @generated
-     * @ordered
-     */
-    protected Condition precondition = null;
+	 * @see #getPrecondition()
+	 * @generated
+	 * @ordered
+	 */
+    protected Condition precondition;
 
     /**
-     * The cached value of the '{@link #getScenarioStartPoints() <em>Scenario Start Points</em>}' reference list.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getScenarioStartPoints() <em>Scenario Start Points</em>}' reference list.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @see #getScenarioStartPoints()
-     * @generated
-     * @ordered
-     */
-	protected EList scenarioStartPoints = null;
+	 * @see #getScenarioStartPoints()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList scenarioStartPoints;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected StartPointImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.Literals.START_POINT;
-    }
+		return MapPackage.Literals.START_POINT;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Workload getWorkload() {
-        return workload;
-    }
+		return workload;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetWorkload(Workload newWorkload, NotificationChain msgs) {
-        Workload oldWorkload = workload;
-        workload = newWorkload;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__WORKLOAD, oldWorkload, newWorkload);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		Workload oldWorkload = workload;
+		workload = newWorkload;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__WORKLOAD, oldWorkload, newWorkload);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setWorkload(Workload newWorkload) {
-        if (newWorkload != workload) {
-            NotificationChain msgs = null;
-            if (workload != null)
-                msgs = ((InternalEObject)workload).eInverseRemove(this, PerformancePackage.WORKLOAD__START_POINT, Workload.class, msgs);
-            if (newWorkload != null)
-                msgs = ((InternalEObject)newWorkload).eInverseAdd(this, PerformancePackage.WORKLOAD__START_POINT, Workload.class, msgs);
-            msgs = basicSetWorkload(newWorkload, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__WORKLOAD, newWorkload, newWorkload));
-    }
+		if (newWorkload != workload) {
+			NotificationChain msgs = null;
+			if (workload != null)
+				msgs = ((InternalEObject)workload).eInverseRemove(this, PerformancePackage.WORKLOAD__START_POINT, Workload.class, msgs);
+			if (newWorkload != null)
+				msgs = ((InternalEObject)newWorkload).eInverseAdd(this, PerformancePackage.WORKLOAD__START_POINT, Workload.class, msgs);
+			msgs = basicSetWorkload(newWorkload, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__WORKLOAD, newWorkload, newWorkload));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getInBindings() {
-        if (inBindings == null) {
-            inBindings = new EObjectWithInverseResolvingEList(InBinding.class, this, MapPackage.START_POINT__IN_BINDINGS, MapPackage.IN_BINDING__START_POINT);
-        }
-        return inBindings;
-    }
+		if (inBindings == null) {
+			inBindings = new EObjectWithInverseResolvingEList(InBinding.class, this, MapPackage.START_POINT__IN_BINDINGS, MapPackage.IN_BINDING__START_POINT);
+		}
+		return inBindings;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Condition getPrecondition() {
-        return precondition;
-    }
+		return precondition;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetPrecondition(Condition newPrecondition, NotificationChain msgs) {
-        Condition oldPrecondition = precondition;
-        precondition = newPrecondition;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__PRECONDITION, oldPrecondition, newPrecondition);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		Condition oldPrecondition = precondition;
+		precondition = newPrecondition;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__PRECONDITION, oldPrecondition, newPrecondition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setPrecondition(Condition newPrecondition) {
-        if (newPrecondition != precondition) {
-            NotificationChain msgs = null;
-            if (precondition != null)
-                msgs = ((InternalEObject)precondition).eInverseRemove(this, UrncorePackage.CONDITION__START_POINT, Condition.class, msgs);
-            if (newPrecondition != null)
-                msgs = ((InternalEObject)newPrecondition).eInverseAdd(this, UrncorePackage.CONDITION__START_POINT, Condition.class, msgs);
-            msgs = basicSetPrecondition(newPrecondition, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__PRECONDITION, newPrecondition, newPrecondition));
-    }
+		if (newPrecondition != precondition) {
+			NotificationChain msgs = null;
+			if (precondition != null)
+				msgs = ((InternalEObject)precondition).eInverseRemove(this, UrncorePackage.CONDITION__START_POINT, Condition.class, msgs);
+			if (newPrecondition != null)
+				msgs = ((InternalEObject)newPrecondition).eInverseAdd(this, UrncorePackage.CONDITION__START_POINT, Condition.class, msgs);
+			msgs = basicSetPrecondition(newPrecondition, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__PRECONDITION, newPrecondition, newPrecondition));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public EList getScenarioStartPoints() {
-        if (scenarioStartPoints == null) {
-            scenarioStartPoints = new EObjectWithInverseResolvingEList(ScenarioStartPoint.class, this, MapPackage.START_POINT__SCENARIO_START_POINTS, ScenarioPackage.SCENARIO_START_POINT__START_POINT);
-        }
-        return scenarioStartPoints;
-    }
+		if (scenarioStartPoints == null) {
+			scenarioStartPoints = new EObjectWithInverseResolvingEList(ScenarioStartPoint.class, this, MapPackage.START_POINT__SCENARIO_START_POINTS, ScenarioPackage.SCENARIO_START_POINT__START_POINT);
+		}
+		return scenarioStartPoints;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case MapPackage.START_POINT__WORKLOAD:
-                if (workload != null)
-                    msgs = ((InternalEObject)workload).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.START_POINT__WORKLOAD, null, msgs);
-                return basicSetWorkload((Workload)otherEnd, msgs);
-            case MapPackage.START_POINT__IN_BINDINGS:
-                return ((InternalEList)getInBindings()).basicAdd(otherEnd, msgs);
-            case MapPackage.START_POINT__PRECONDITION:
-                if (precondition != null)
-                    msgs = ((InternalEObject)precondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.START_POINT__PRECONDITION, null, msgs);
-                return basicSetPrecondition((Condition)otherEnd, msgs);
-            case MapPackage.START_POINT__SCENARIO_START_POINTS:
-                return ((InternalEList)getScenarioStartPoints()).basicAdd(otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case MapPackage.START_POINT__WORKLOAD:
+				if (workload != null)
+					msgs = ((InternalEObject)workload).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.START_POINT__WORKLOAD, null, msgs);
+				return basicSetWorkload((Workload)otherEnd, msgs);
+			case MapPackage.START_POINT__IN_BINDINGS:
+				return ((InternalEList)getInBindings()).basicAdd(otherEnd, msgs);
+			case MapPackage.START_POINT__PRECONDITION:
+				if (precondition != null)
+					msgs = ((InternalEObject)precondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.START_POINT__PRECONDITION, null, msgs);
+				return basicSetPrecondition((Condition)otherEnd, msgs);
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				return ((InternalEList)getScenarioStartPoints()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case MapPackage.START_POINT__WORKLOAD:
-                return basicSetWorkload(null, msgs);
-            case MapPackage.START_POINT__IN_BINDINGS:
-                return ((InternalEList)getInBindings()).basicRemove(otherEnd, msgs);
-            case MapPackage.START_POINT__PRECONDITION:
-                return basicSetPrecondition(null, msgs);
-            case MapPackage.START_POINT__SCENARIO_START_POINTS:
-                return ((InternalEList)getScenarioStartPoints()).basicRemove(otherEnd, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case MapPackage.START_POINT__WORKLOAD:
+				return basicSetWorkload(null, msgs);
+			case MapPackage.START_POINT__IN_BINDINGS:
+				return ((InternalEList)getInBindings()).basicRemove(otherEnd, msgs);
+			case MapPackage.START_POINT__PRECONDITION:
+				return basicSetPrecondition(null, msgs);
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				return ((InternalEList)getScenarioStartPoints()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case MapPackage.START_POINT__WORKLOAD:
-                return getWorkload();
-            case MapPackage.START_POINT__IN_BINDINGS:
-                return getInBindings();
-            case MapPackage.START_POINT__PRECONDITION:
-                return getPrecondition();
-            case MapPackage.START_POINT__SCENARIO_START_POINTS:
-                return getScenarioStartPoints();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case MapPackage.START_POINT__WORKLOAD:
+				return getWorkload();
+			case MapPackage.START_POINT__IN_BINDINGS:
+				return getInBindings();
+			case MapPackage.START_POINT__PRECONDITION:
+				return getPrecondition();
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				return getScenarioStartPoints();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case MapPackage.START_POINT__WORKLOAD:
-                setWorkload((Workload)newValue);
-                return;
-            case MapPackage.START_POINT__IN_BINDINGS:
-                getInBindings().clear();
-                getInBindings().addAll((Collection)newValue);
-                return;
-            case MapPackage.START_POINT__PRECONDITION:
-                setPrecondition((Condition)newValue);
-                return;
-            case MapPackage.START_POINT__SCENARIO_START_POINTS:
-                getScenarioStartPoints().clear();
-                getScenarioStartPoints().addAll((Collection)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case MapPackage.START_POINT__WORKLOAD:
+				setWorkload((Workload)newValue);
+				return;
+			case MapPackage.START_POINT__IN_BINDINGS:
+				getInBindings().clear();
+				getInBindings().addAll((Collection)newValue);
+				return;
+			case MapPackage.START_POINT__PRECONDITION:
+				setPrecondition((Condition)newValue);
+				return;
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				getScenarioStartPoints().clear();
+				getScenarioStartPoints().addAll((Collection)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case MapPackage.START_POINT__WORKLOAD:
-                setWorkload((Workload)null);
-                return;
-            case MapPackage.START_POINT__IN_BINDINGS:
-                getInBindings().clear();
-                return;
-            case MapPackage.START_POINT__PRECONDITION:
-                setPrecondition((Condition)null);
-                return;
-            case MapPackage.START_POINT__SCENARIO_START_POINTS:
-                getScenarioStartPoints().clear();
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.START_POINT__WORKLOAD:
+				setWorkload((Workload)null);
+				return;
+			case MapPackage.START_POINT__IN_BINDINGS:
+				getInBindings().clear();
+				return;
+			case MapPackage.START_POINT__PRECONDITION:
+				setPrecondition((Condition)null);
+				return;
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				getScenarioStartPoints().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case MapPackage.START_POINT__WORKLOAD:
-                return workload != null;
-            case MapPackage.START_POINT__IN_BINDINGS:
-                return inBindings != null && !inBindings.isEmpty();
-            case MapPackage.START_POINT__PRECONDITION:
-                return precondition != null;
-            case MapPackage.START_POINT__SCENARIO_START_POINTS:
-                return scenarioStartPoints != null && !scenarioStartPoints.isEmpty();
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.START_POINT__WORKLOAD:
+				return workload != null;
+			case MapPackage.START_POINT__IN_BINDINGS:
+				return inBindings != null && !inBindings.isEmpty();
+			case MapPackage.START_POINT__PRECONDITION:
+				return precondition != null;
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				return scenarioStartPoints != null && !scenarioStartPoints.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //StartPointImpl

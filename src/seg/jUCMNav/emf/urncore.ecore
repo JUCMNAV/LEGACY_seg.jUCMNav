@@ -8,12 +8,14 @@
         eType="ecore:EClass urn.ecore#//URNspec" transient="true" eOpposite="urn.ecore#//URNspec/urndef"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="responsibilities" upperBound="-1"
         eType="#//Responsibility" containment="true" eOpposite="#//Responsibility/urndefinition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
-        eType="#//ComponentElement" containment="true" eOpposite="#//ComponentElement/urndefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="specDiagrams" upperBound="-1"
         eType="#//IURNDiagram" containment="true" eOpposite="#//IURNDiagram/urndefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="concerns" upperBound="-1"
         eType="#//Concern" containment="true" eOpposite="#//Concern/urndefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Component" containment="true" eOpposite="#//Component/urndefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componentTypes" upperBound="-1"
+        eType="#//ComponentType" containment="true" eOpposite="#//ComponentType/urndefinition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Responsibility" eSuperTypes="#//UCMmodelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="empty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
@@ -26,20 +28,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="respRefs" lowerBound="1"
         upperBound="-1" eType="ecore:EClass ucm.ecore#//map/RespRef" eOpposite="ucm.ecore#//map/RespRef/respDef"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ComponentRegular" abstract="true" eSuperTypes="#//ComponentElement">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="ComponentRegular can be protected (e.g., by a semaphone) or not. Dynamic components have the slot attribute set to true. ComponentRegular can include sub-components."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ComponentKind"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protected" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="slot" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="includedComponent" upperBound="-1"
-        eType="#//ComponentElement" eOpposite="#//ComponentElement/includingComponent"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="host" eType="ecore:EClass ucm.ecore#//performance/ProcessingResource"
-        eOpposite="ucm.ecore#//performance/ProcessingResource/components"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ComponentKind">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Correspond to the component types defined originally for Use Case Maps by Buhr et al."/>
@@ -51,66 +39,38 @@
     <eLiterals name="Actor" value="4"/>
     <eLiterals name="Other" value="5"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ComponentElement" abstract="true" eSuperTypes="#//UCMmodelElement #//IURNContainer">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Abstract class for ComponentType, Component (instances), and Pools."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="urndefinition" lowerBound="1"
-        eType="#//URNdefinition" transient="true" eOpposite="#//URNdefinition/components"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="includingComponent" eType="#//ComponentRegular"
-        eOpposite="#//ComponentRegular/includedComponent"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="resource" eType="ecore:EClass ucm.ecore#//performance/PassiveResource"
-        eOpposite="ucm.ecore#//performance/PassiveResource/component"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Pool" eSuperTypes="#//ComponentElement">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Pools are containers for data or dynamic components. "/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ofComponents" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="componentType" eType="#//ComponentType"
-        eOpposite="#//ComponentType/pools"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dynResponsibilities" upperBound="-1"
-        eType="#//DynamicResponsibility" eOpposite="#//DynamicResponsibility/pool"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Component" eSuperTypes="#//ComponentRegular">
+  <eClassifiers xsi:type="ecore:EClass" name="Component" eSuperTypes="#//UCMmodelElement #//IURNContainer">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Component instance, which can be of a specific ComponentType."/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ComponentKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protected" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="slot" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//ComponentType"
         eOpposite="#//ComponentType/instances"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="urndefinition" lowerBound="1"
+        eType="#//URNdefinition" transient="true" eOpposite="#//URNdefinition/components"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedComponent" upperBound="-1"
+        eType="#//Component" eOpposite="#//Component/includingComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includingComponent" eType="#//Component"
+        eOpposite="#//Component/includedComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resource" eType="ecore:EClass ucm.ecore#//performance/PassiveResource"
+        eOpposite="ucm.ecore#//performance/PassiveResource/component"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="host" eType="ecore:EClass ucm.ecore#//performance/ProcessingResource"
+        eOpposite="ucm.ecore#//performance/ProcessingResource/components"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ComponentType" eSuperTypes="#//ComponentRegular">
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentType" eSuperTypes="#//UCMmodelElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="User-defined component type. Type hiearchies (trees) can also be created."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="subType" upperBound="-1"
-        eType="#//ComponentType" eOpposite="#//ComponentType/superType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="superType" eType="#//ComponentType"
-        eOpposite="#//ComponentType/subType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="instances" upperBound="-1"
         eType="#//Component" eOpposite="#//Component/type"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pools" upperBound="-1"
-        eType="#//Pool" eOpposite="#//Pool/componentType"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DynamicResponsibility" eSuperTypes="#//Responsibility">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="TBD."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//DynamicRespKind"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="toPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrowLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pool" eType="#//Pool" eOpposite="#//Pool/dynResponsibilities"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="urndefinition" lowerBound="1"
+        eType="#//URNdefinition" transient="true" eOpposite="#//URNdefinition/componentTypes"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UCMmodelElement" abstract="true" eSuperTypes="#//URNmodelElement"/>
-  <eClassifiers xsi:type="ecore:EEnum" name="DynamicRespKind">
-    <eLiterals name="Move"/>
-    <eLiterals name="MoveStay" value="1"/>
-    <eLiterals name="Create" value="2"/>
-    <eLiterals name="Copy" value="3"/>
-    <eLiterals name="Destroy" value="4"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GRLmodelElement" abstract="true" eSuperTypes="#//URNmodelElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="NodeLabel" eSuperTypes="#//Label">
     <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1" eType="#//IURNNode"
@@ -136,6 +96,8 @@
         transient="true" eOpposite="ucm.ecore#//map/PluginBinding/precondition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodeConnection" eType="ecore:EClass ucm.ecore#//map/NodeConnection"
         transient="true" eOpposite="ucm.ecore#//map/NodeConnection/condition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concern" eType="#//Concern"
+        transient="true" eOpposite="#//Concern/condition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDefPre" eType="ecore:EClass ucm.ecore#//scenario/ScenarioDef"
         transient="true" eOpposite="ucm.ecore#//scenario/ScenarioDef/preconditions"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDefPost" eType="ecore:EClass ucm.ecore#//scenario/ScenarioDef"
@@ -213,6 +175,8 @@
         eType="#//IURNNode" eOpposite="#//IURNNode/pred"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
         eType="#//IURNDiagram" transient="true" eOpposite="#//IURNDiagram/connections"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//ConnectionLabel"
+        containment="true" eOpposite="#//ConnectionLabel/connection"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Metadata">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -223,5 +187,11 @@
         eType="#//URNdefinition" transient="true" eOpposite="#//URNdefinition/concerns"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="specDiagrams" upperBound="-1"
         eType="#//IURNDiagram" eOpposite="#//IURNDiagram/concern"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Condition"
+        containment="true" eOpposite="#//Condition/concern"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectionLabel" eSuperTypes="#//Label">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connection" lowerBound="1"
+        eType="#//IURNConnection" transient="true" eOpposite="#//IURNConnection/label"/>
   </eClassifiers>
 </ecore:EPackage>

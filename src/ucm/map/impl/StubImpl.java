@@ -32,6 +32,8 @@ import ucm.map.Stub;
  *   <li>{@link ucm.map.impl.StubImpl#isShared <em>Shared</em>}</li>
  *   <li>{@link ucm.map.impl.StubImpl#getRepetitionCount <em>Repetition Count</em>}</li>
  *   <li>{@link ucm.map.impl.StubImpl#isPointcut <em>Pointcut</em>}</li>
+ *   <li>{@link ucm.map.impl.StubImpl#isSynchronization <em>Synchronization</em>}</li>
+ *   <li>{@link ucm.map.impl.StubImpl#isBlocking <em>Blocking</em>}</li>
  *   <li>{@link ucm.map.impl.StubImpl#getBindings <em>Bindings</em>}</li>
  * </ul>
  * </p>
@@ -40,349 +42,455 @@ import ucm.map.Stub;
  */
 public class StubImpl extends PathNodeImpl implements Stub {
     /**
-     * The default value of the '{@link #isDynamic() <em>Dynamic</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #isDynamic() <em>Dynamic</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isDynamic()
-     * @generated
-     * @ordered
-     */
+	 * @see #isDynamic()
+	 * @generated
+	 * @ordered
+	 */
     protected static final boolean DYNAMIC_EDEFAULT = false;
 
     /**
-     * The cached value of the '{@link #isDynamic() <em>Dynamic</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #isDynamic() <em>Dynamic</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isDynamic()
-     * @generated
-     * @ordered
-     */
+	 * @see #isDynamic()
+	 * @generated
+	 * @ordered
+	 */
     protected boolean dynamic = DYNAMIC_EDEFAULT;
 
     /**
-     * The default value of the '{@link #isShared() <em>Shared</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #isShared() <em>Shared</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isShared()
-     * @generated
-     * @ordered
-     */
+	 * @see #isShared()
+	 * @generated
+	 * @ordered
+	 */
     protected static final boolean SHARED_EDEFAULT = false;
 
     /**
-     * The cached value of the '{@link #isShared() <em>Shared</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #isShared() <em>Shared</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isShared()
-     * @generated
-     * @ordered
-     */
+	 * @see #isShared()
+	 * @generated
+	 * @ordered
+	 */
     protected boolean shared = SHARED_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getRepetitionCount() <em>Repetition Count</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getRepetitionCount() <em>Repetition Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @see #getRepetitionCount()
-     * @generated
-     * @ordered
-     */
+	 * @see #getRepetitionCount()
+	 * @generated
+	 * @ordered
+	 */
 	protected static final String REPETITION_COUNT_EDEFAULT = "1";
 
     /**
-     * The cached value of the '{@link #getRepetitionCount() <em>Repetition Count</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getRepetitionCount() <em>Repetition Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @see #getRepetitionCount()
-     * @generated
-     * @ordered
-     */
+	 * @see #getRepetitionCount()
+	 * @generated
+	 * @ordered
+	 */
 	protected String repetitionCount = REPETITION_COUNT_EDEFAULT;
 
     /**
-     * The default value of the '{@link #isPointcut() <em>Pointcut</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #isPointcut() <em>Pointcut</em>}' attribute.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @see #isPointcut()
-     * @generated
-     * @ordered
-     */
+	 * @see #isPointcut()
+	 * @generated
+	 * @ordered
+	 */
 	protected static final boolean POINTCUT_EDEFAULT = false;
 
     /**
-     * The cached value of the '{@link #isPointcut() <em>Pointcut</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #isPointcut() <em>Pointcut</em>}' attribute.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @see #isPointcut()
-     * @generated
-     * @ordered
-     */
+	 * @see #isPointcut()
+	 * @generated
+	 * @ordered
+	 */
 	protected boolean pointcut = POINTCUT_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getBindings() <em>Bindings</em>}' containment reference list.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #isSynchronization() <em>Synchronization</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSynchronization()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SYNCHRONIZATION_EDEFAULT = false;
+
+				/**
+	 * The cached value of the '{@link #isSynchronization() <em>Synchronization</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSynchronization()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean synchronization = SYNCHRONIZATION_EDEFAULT;
+
+				/**
+	 * The default value of the '{@link #isBlocking() <em>Blocking</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isBlocking()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean BLOCKING_EDEFAULT = false;
+
+				/**
+	 * The cached value of the '{@link #isBlocking() <em>Blocking</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isBlocking()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean blocking = BLOCKING_EDEFAULT;
+
+				/**
+	 * The cached value of the '{@link #getBindings() <em>Bindings</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getBindings()
-     * @generated
-     * @ordered
-     */
-    protected EList bindings = null;
+	 * @see #getBindings()
+	 * @generated
+	 * @ordered
+	 */
+    protected EList bindings;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected StubImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.Literals.STUB;
-    }
+		return MapPackage.Literals.STUB;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean isDynamic() {
-        return dynamic;
-    }
+		return dynamic;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setDynamic(boolean newDynamic) {
-        boolean oldDynamic = dynamic;
-        dynamic = newDynamic;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__DYNAMIC, oldDynamic, dynamic));
-    }
+		boolean oldDynamic = dynamic;
+		dynamic = newDynamic;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__DYNAMIC, oldDynamic, dynamic));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean isShared() {
-        return shared;
-    }
+		return shared;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setShared(boolean newShared) {
-        boolean oldShared = shared;
-        shared = newShared;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__SHARED, oldShared, shared));
-    }
+		boolean oldShared = shared;
+		shared = newShared;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__SHARED, oldShared, shared));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public String getRepetitionCount() {
-        return repetitionCount;
-    }
+		return repetitionCount;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void setRepetitionCount(String newRepetitionCount) {
-        String oldRepetitionCount = repetitionCount;
-        repetitionCount = newRepetitionCount;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__REPETITION_COUNT, oldRepetitionCount, repetitionCount));
-    }
+		String oldRepetitionCount = repetitionCount;
+		repetitionCount = newRepetitionCount;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__REPETITION_COUNT, oldRepetitionCount, repetitionCount));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getBindings() {
-        if (bindings == null) {
-            bindings = new EObjectContainmentWithInverseEList(PluginBinding.class, this, MapPackage.STUB__BINDINGS, MapPackage.PLUGIN_BINDING__STUB);
-        }
-        return bindings;
-    }
+		if (bindings == null) {
+			bindings = new EObjectContainmentWithInverseEList(PluginBinding.class, this, MapPackage.STUB__BINDINGS, MapPackage.PLUGIN_BINDING__STUB);
+		}
+		return bindings;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean isPointcut() {
-        return pointcut;
-    }
+		return pointcut;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void setPointcut(boolean newPointcut) {
-        boolean oldPointcut = pointcut;
-        pointcut = newPointcut;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__POINTCUT, oldPointcut, pointcut));
-    }
+		boolean oldPointcut = pointcut;
+		pointcut = newPointcut;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__POINTCUT, oldPointcut, pointcut));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
+	public boolean isSynchronization() {
+		return synchronization;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSynchronization(boolean newSynchronization) {
+		boolean oldSynchronization = synchronization;
+		synchronization = newSynchronization;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__SYNCHRONIZATION, oldSynchronization, synchronization));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isBlocking() {
+		return blocking;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBlocking(boolean newBlocking) {
+		boolean oldBlocking = blocking;
+		blocking = newBlocking;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__BLOCKING, oldBlocking, blocking));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case MapPackage.STUB__BINDINGS:
-                return ((InternalEList)getBindings()).basicAdd(otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case MapPackage.STUB__BINDINGS:
+				return ((InternalEList)getBindings()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case MapPackage.STUB__BINDINGS:
-                return ((InternalEList)getBindings()).basicRemove(otherEnd, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case MapPackage.STUB__BINDINGS:
+				return ((InternalEList)getBindings()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case MapPackage.STUB__DYNAMIC:
-                return isDynamic() ? Boolean.TRUE : Boolean.FALSE;
-            case MapPackage.STUB__SHARED:
-                return isShared() ? Boolean.TRUE : Boolean.FALSE;
-            case MapPackage.STUB__REPETITION_COUNT:
-                return getRepetitionCount();
-            case MapPackage.STUB__POINTCUT:
-                return isPointcut() ? Boolean.TRUE : Boolean.FALSE;
-            case MapPackage.STUB__BINDINGS:
-                return getBindings();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case MapPackage.STUB__DYNAMIC:
+				return isDynamic() ? Boolean.TRUE : Boolean.FALSE;
+			case MapPackage.STUB__SHARED:
+				return isShared() ? Boolean.TRUE : Boolean.FALSE;
+			case MapPackage.STUB__REPETITION_COUNT:
+				return getRepetitionCount();
+			case MapPackage.STUB__POINTCUT:
+				return isPointcut() ? Boolean.TRUE : Boolean.FALSE;
+			case MapPackage.STUB__SYNCHRONIZATION:
+				return isSynchronization() ? Boolean.TRUE : Boolean.FALSE;
+			case MapPackage.STUB__BLOCKING:
+				return isBlocking() ? Boolean.TRUE : Boolean.FALSE;
+			case MapPackage.STUB__BINDINGS:
+				return getBindings();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case MapPackage.STUB__DYNAMIC:
-                setDynamic(((Boolean)newValue).booleanValue());
-                return;
-            case MapPackage.STUB__SHARED:
-                setShared(((Boolean)newValue).booleanValue());
-                return;
-            case MapPackage.STUB__REPETITION_COUNT:
-                setRepetitionCount((String)newValue);
-                return;
-            case MapPackage.STUB__POINTCUT:
-                setPointcut(((Boolean)newValue).booleanValue());
-                return;
-            case MapPackage.STUB__BINDINGS:
-                getBindings().clear();
-                getBindings().addAll((Collection)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case MapPackage.STUB__DYNAMIC:
+				setDynamic(((Boolean)newValue).booleanValue());
+				return;
+			case MapPackage.STUB__SHARED:
+				setShared(((Boolean)newValue).booleanValue());
+				return;
+			case MapPackage.STUB__REPETITION_COUNT:
+				setRepetitionCount((String)newValue);
+				return;
+			case MapPackage.STUB__POINTCUT:
+				setPointcut(((Boolean)newValue).booleanValue());
+				return;
+			case MapPackage.STUB__SYNCHRONIZATION:
+				setSynchronization(((Boolean)newValue).booleanValue());
+				return;
+			case MapPackage.STUB__BLOCKING:
+				setBlocking(((Boolean)newValue).booleanValue());
+				return;
+			case MapPackage.STUB__BINDINGS:
+				getBindings().clear();
+				getBindings().addAll((Collection)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case MapPackage.STUB__DYNAMIC:
-                setDynamic(DYNAMIC_EDEFAULT);
-                return;
-            case MapPackage.STUB__SHARED:
-                setShared(SHARED_EDEFAULT);
-                return;
-            case MapPackage.STUB__REPETITION_COUNT:
-                setRepetitionCount(REPETITION_COUNT_EDEFAULT);
-                return;
-            case MapPackage.STUB__POINTCUT:
-                setPointcut(POINTCUT_EDEFAULT);
-                return;
-            case MapPackage.STUB__BINDINGS:
-                getBindings().clear();
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.STUB__DYNAMIC:
+				setDynamic(DYNAMIC_EDEFAULT);
+				return;
+			case MapPackage.STUB__SHARED:
+				setShared(SHARED_EDEFAULT);
+				return;
+			case MapPackage.STUB__REPETITION_COUNT:
+				setRepetitionCount(REPETITION_COUNT_EDEFAULT);
+				return;
+			case MapPackage.STUB__POINTCUT:
+				setPointcut(POINTCUT_EDEFAULT);
+				return;
+			case MapPackage.STUB__SYNCHRONIZATION:
+				setSynchronization(SYNCHRONIZATION_EDEFAULT);
+				return;
+			case MapPackage.STUB__BLOCKING:
+				setBlocking(BLOCKING_EDEFAULT);
+				return;
+			case MapPackage.STUB__BINDINGS:
+				getBindings().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case MapPackage.STUB__DYNAMIC:
-                return dynamic != DYNAMIC_EDEFAULT;
-            case MapPackage.STUB__SHARED:
-                return shared != SHARED_EDEFAULT;
-            case MapPackage.STUB__REPETITION_COUNT:
-                return REPETITION_COUNT_EDEFAULT == null ? repetitionCount != null : !REPETITION_COUNT_EDEFAULT.equals(repetitionCount);
-            case MapPackage.STUB__POINTCUT:
-                return pointcut != POINTCUT_EDEFAULT;
-            case MapPackage.STUB__BINDINGS:
-                return bindings != null && !bindings.isEmpty();
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.STUB__DYNAMIC:
+				return dynamic != DYNAMIC_EDEFAULT;
+			case MapPackage.STUB__SHARED:
+				return shared != SHARED_EDEFAULT;
+			case MapPackage.STUB__REPETITION_COUNT:
+				return REPETITION_COUNT_EDEFAULT == null ? repetitionCount != null : !REPETITION_COUNT_EDEFAULT.equals(repetitionCount);
+			case MapPackage.STUB__POINTCUT:
+				return pointcut != POINTCUT_EDEFAULT;
+			case MapPackage.STUB__SYNCHRONIZATION:
+				return synchronization != SYNCHRONIZATION_EDEFAULT;
+			case MapPackage.STUB__BLOCKING:
+				return blocking != BLOCKING_EDEFAULT;
+			case MapPackage.STUB__BINDINGS:
+				return bindings != null && !bindings.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (dynamic: ");
-        result.append(dynamic);
-        result.append(", shared: ");
-        result.append(shared);
-        result.append(", repetitionCount: ");
-        result.append(repetitionCount);
-        result.append(", pointcut: ");
-        result.append(pointcut);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (dynamic: ");
+		result.append(dynamic);
+		result.append(", shared: ");
+		result.append(shared);
+		result.append(", repetitionCount: ");
+		result.append(repetitionCount);
+		result.append(", pointcut: ");
+		result.append(pointcut);
+		result.append(", synchronization: ");
+		result.append(synchronization);
+		result.append(", blocking: ");
+		result.append(blocking);
+		result.append(')');
+		return result.toString();
+	}
 
 } //StubImpl

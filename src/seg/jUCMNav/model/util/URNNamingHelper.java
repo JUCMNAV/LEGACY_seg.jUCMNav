@@ -46,7 +46,6 @@ import ucm.scenario.ScenarioGroup;
 import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Component;
-import urncore.ComponentElement;
 import urncore.Condition;
 import urncore.GRLmodelElement;
 import urncore.IURNContainer;
@@ -385,7 +384,7 @@ public class URNNamingHelper {
 
         // look at all components
         for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
-            ComponentElement comp = (ComponentElement) iter.next();
+            Component comp = (Component) iter.next();
             if (!isNameAndIDSet(comp)) {
                 setElementNameAndID(urn, comp);
             }
@@ -565,7 +564,7 @@ public class URNNamingHelper {
 
     /**
      * Given an object that might not have its name or ID set, set the default id and name. For the ID, it should be the next one available in the URNspec. For
-     * the name, it uses getPrefix() for most cases, getPrefix() concatenated with the ID for componentelements and reponsibilities. Does not verify naming
+     * the name, it uses getPrefix() for most cases, getPrefix() concatenated with the ID for Components and reponsibilities. Does not verify naming
      * unicity.
      * 
      * @param urn
@@ -575,12 +574,12 @@ public class URNNamingHelper {
      */
     public static void setElementNameAndID(URNspec urn, Object o) {
 
-        // ComponentElement, Actors and Responsibility are two special cases;
+        // Component, Actors and Responsibility are two special cases;
         // they must have unique names.
         // Generics would help minimize the code for the rest; we could use EMF
         // to determine of the name and id attributes exist but decided to go
         // for legibility
-        if (o instanceof ComponentElement || o instanceof Responsibility || o instanceof Actor || o instanceof IntentionalElement || o instanceof Belief
+        if (o instanceof Component || o instanceof Responsibility || o instanceof Actor || o instanceof IntentionalElement || o instanceof Belief
                 || o instanceof ElementLink || o instanceof StrategiesGroup || o instanceof ScenarioGroup || o instanceof KPIInformationElement
                 || o instanceof KPIModelLink || o instanceof IndicatorGroup) {
             URNmodelElement ce = (URNmodelElement) o;
@@ -803,7 +802,7 @@ public class URNNamingHelper {
         Collection c;
         if (elem instanceof Responsibility) {
             c = urn.getUrndef().getResponsibilities();
-        } else if (elem instanceof ComponentElement) {
+        } else if (elem instanceof Component) {
             c = urn.getUrndef().getComponents();
         } else if (elem instanceof IntentionalElement) {
             c = urn.getGrlspec().getIntElements();

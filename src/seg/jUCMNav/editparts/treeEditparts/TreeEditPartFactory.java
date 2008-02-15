@@ -24,7 +24,7 @@ import ucm.map.UCMmap;
 import ucm.performance.Demand;
 import ucm.performance.GeneralResource;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.Concern;
 import urncore.Responsibility;
 
@@ -67,8 +67,8 @@ public class TreeEditPartFactory implements EditPartFactory {
             return new PathNodeTreeEditPart((PathNode) model);
         else if (model instanceof String)
             return new LabelTreeEditPart(model, urn);
-        else if (model instanceof ComponentElement)
-            return new ComponentTreeEditPart((ComponentElement) model);
+        else if (model instanceof Component)
+            return new ComponentTreeEditPart((Component) model);
         else if (model instanceof ComponentTreeWrapper)
             return new ComponentTreeEditPart((ComponentTreeWrapper) model);
         else if (model instanceof Responsibility)

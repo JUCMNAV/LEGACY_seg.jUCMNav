@@ -77,7 +77,6 @@ import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
 import urncore.Component;
-import urncore.ComponentElement;
 import urncore.ComponentKind;
 import urncore.ComponentLabel;
 import urncore.Concern;
@@ -114,7 +113,7 @@ public class ModelCreationFactory implements CreationFactory {
     public static final int DEFAULT_UCM_COMPONENT_WIDTH = 100;
     public static final int DEFAULT_GRL_COMPONENT_HEIGHT = 200;
     public static final int DEFAULT_GRL_COMPONENT_WIDTH = 200;
-    public static final String URNSPEC_VERSION = "0.918"; //$NON-NLS-1$
+    public static final String URNSPEC_VERSION = "0.919b"; //$NON-NLS-1$
 
     private Object preDefinedDefinition;
 
@@ -544,7 +543,7 @@ public class ModelCreationFactory implements CreationFactory {
         }
 
         // verify unique names
-        if (result instanceof Responsibility || result instanceof ComponentElement || result instanceof Variable) {
+        if (result instanceof Responsibility || result instanceof Component || result instanceof Variable) {
             URNNamingHelper.resolveNamingConflict(urn, (UCMmodelElement) result);
         }
 

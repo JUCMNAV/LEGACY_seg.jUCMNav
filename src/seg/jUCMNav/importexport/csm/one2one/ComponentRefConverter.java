@@ -7,7 +7,6 @@ import ucm.map.ComponentRef;
 import ucm.performance.ProcessingResource;
 import urncore.Component;
 import urncore.ComponentKind;
-import urncore.ComponentRegular;
 
 /**
  * Creates the CSM representation(Component) of the Component-Ref object.
@@ -23,11 +22,11 @@ public class ComponentRefConverter {
     private ComponentRef childrenCompRef;
 
     // component definitions
-    private ComponentRegular compDef;
+    private Component compDef;
 
-    private ComponentRegular parentCompDef;
+    private Component parentCompDef;
 
-    private ComponentRegular childrenCompDef;
+    private Component childrenCompDef;
 
     // other variables
     private String childrenIDs = new String();
@@ -43,7 +42,7 @@ public class ComponentRefConverter {
     // constructors
     public ComponentRefConverter(ComponentRef compRef) {
         this.compRef = compRef;
-        compDef = (ComponentRegular) compRef.getContDef();
+        compDef = (Component) compRef.getContDef();
 
         // processing active_process
         activeProcess = false;
@@ -62,7 +61,7 @@ public class ComponentRefConverter {
         // initialize parentID only if a reference to the parentID component exists
         if (((ComponentRef) compRef.getParent()) != null) {
             parentCompRef = (ComponentRef) compRef.getParent();
-            parentCompDef = (ComponentRegular) parentCompRef.getContDef();
+            parentCompDef = (Component) parentCompRef.getContDef();
             parentID += "c" + parentCompDef.getId(); //$NON-NLS-1$
         } else {
         	parentID += " "; //$NON-NLS-1$
@@ -71,7 +70,7 @@ public class ComponentRefConverter {
         // retrieve childrenIDs
         for (Iterator iter = compRef.getChildren().listIterator(); iter.hasNext();) {
             childrenCompRef = (ComponentRef) iter.next();
-            childrenCompDef = (ComponentRegular) childrenCompRef.getContDef();
+            childrenCompDef = (Component) childrenCompRef.getContDef();
             childrenIDs += "c" + childrenCompDef.getId() + " "; //$NON-NLS-1$ //$NON-NLS-2$
         }
 
@@ -90,9 +89,9 @@ public class ComponentRefConverter {
         String comp_host = ""; //$NON-NLS-1$
         // resources do not exist yet. js
         if (compRef.getContDef() != null) {
-            if (compRef.getContDef() instanceof ComponentRegular) {
-                if (((ComponentRegular) compRef.getContDef()).getHost() != null) {
-                    ProcessingResource procRes = ((ComponentRegular) compRef.getContDef()).getHost();
+            if (compRef.getContDef() instanceof Component) {
+                if (((Component) compRef.getContDef()).getHost() != null) {
+                    ProcessingResource procRes = ((Component) compRef.getContDef()).getHost();
                     comp_host = "host=\"" + "r" + procRes.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
             }

@@ -11,12 +11,12 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.UCMmap;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.Concern;
 import urncore.Responsibility;
 
 /**
- * This class unlinks a Map from its ComponentRef->ComponentElement and RespRef->Responsibility references. It will also remove the map from its URNspec.
+ * This class unlinks a Map from its ComponentRef->Component and RespRef->Responsibility references. It will also remove the map from its URNspec.
  * 
  * Intended to be used only by DeleteMapCommand, as PluginBindings might subsist.   
  * 
@@ -171,7 +171,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
         // re-add references
         for (Iterator iter = map.getContRefs().iterator(); iter.hasNext();) {
             ComponentRef comp = (ComponentRef) iter.next();
-            comp.setContDef((ComponentElement) htReferences.get(comp));
+            comp.setContDef((Component) htReferences.get(comp));
         }
 
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {

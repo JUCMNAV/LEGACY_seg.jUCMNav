@@ -11,22 +11,15 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import ucm.map.PathNode;
 import ucm.performance.*;
-
 import ucm.performance.ActiveResource;
 import ucm.performance.Demand;
 import ucm.performance.ExternalOperation;
 import ucm.performance.GeneralResource;
 import ucm.performance.PassiveResource;
-import ucm.performance.PerfMeasure;
-import ucm.performance.PerfValue;
 import ucm.performance.PerformancePackage;
 import ucm.performance.ProcessingResource;
-import ucm.performance.ResponseTimeReq;
-import ucm.performance.Timestamp;
 import ucm.performance.Workload;
-import urncore.IURNNode;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -45,399 +38,277 @@ import urncore.URNmodelElement;
  */
 public class PerformanceSwitch {
     /**
-     * The cached model package
-     * <!-- begin-user-doc -->
+	 * The cached model package
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected static PerformancePackage modelPackage;
 
     /**
-     * Creates an instance of the switch.
-     * <!-- begin-user-doc -->
+	 * Creates an instance of the switch.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public PerformanceSwitch() {
-        if (modelPackage == null) {
-            modelPackage = PerformancePackage.eINSTANCE;
-        }
-    }
+		if (modelPackage == null) {
+			modelPackage = PerformancePackage.eINSTANCE;
+		}
+	}
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc -->
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
     public Object doSwitch(EObject theEObject) {
-        return doSwitch(theEObject.eClass(), theEObject);
-    }
+		return doSwitch(theEObject.eClass(), theEObject);
+	}
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc -->
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
     protected Object doSwitch(EClass theEClass, EObject theEObject) {
-        if (theEClass.eContainer() == modelPackage) {
-            return doSwitch(theEClass.getClassifierID(), theEObject);
-        }
-        else {
-            List eSuperTypes = theEClass.getESuperTypes();
-            return
-                eSuperTypes.isEmpty() ?
-                    defaultCase(theEObject) :
-                    doSwitch((EClass)eSuperTypes.get(0), theEObject);
-        }
-    }
+		if (theEClass.eContainer() == modelPackage) {
+			return doSwitch(theEClass.getClassifierID(), theEObject);
+		}
+		else {
+			List eSuperTypes = theEClass.getESuperTypes();
+			return
+				eSuperTypes.isEmpty() ?
+					defaultCase(theEObject) :
+					doSwitch((EClass)eSuperTypes.get(0), theEObject);
+		}
+	}
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc -->
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
     protected Object doSwitch(int classifierID, EObject theEObject) {
-        switch (classifierID) {
-            case PerformancePackage.TIMESTAMP: {
-                Timestamp timestamp = (Timestamp)theEObject;
-                Object result = caseTimestamp(timestamp);
-                if (result == null) result = casePathNode(timestamp);
-                if (result == null) result = caseUCMmodelElement(timestamp);
-                if (result == null) result = caseIURNNode(timestamp);
-                if (result == null) result = caseURNmodelElement(timestamp);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case PerformancePackage.RESPONSE_TIME_REQ: {
-                ResponseTimeReq responseTimeReq = (ResponseTimeReq)theEObject;
-                Object result = caseResponseTimeReq(responseTimeReq);
-                if (result == null) result = caseUCMmodelElement(responseTimeReq);
-                if (result == null) result = caseURNmodelElement(responseTimeReq);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case PerformancePackage.WORKLOAD: {
-                Workload workload = (Workload)theEObject;
-                Object result = caseWorkload(workload);
-                if (result == null) result = caseUCMmodelElement(workload);
-                if (result == null) result = caseURNmodelElement(workload);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case PerformancePackage.GENERAL_RESOURCE: {
-                GeneralResource generalResource = (GeneralResource)theEObject;
-                Object result = caseGeneralResource(generalResource);
-                if (result == null) result = caseUCMmodelElement(generalResource);
-                if (result == null) result = caseURNmodelElement(generalResource);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case PerformancePackage.PERF_MEASURE: {
-                PerfMeasure perfMeasure = (PerfMeasure)theEObject;
-                Object result = casePerfMeasure(perfMeasure);
-                if (result == null) result = caseUCMmodelElement(perfMeasure);
-                if (result == null) result = caseURNmodelElement(perfMeasure);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case PerformancePackage.PERF_VALUE: {
-                PerfValue perfValue = (PerfValue)theEObject;
-                Object result = casePerfValue(perfValue);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case PerformancePackage.ACTIVE_RESOURCE: {
-                ActiveResource activeResource = (ActiveResource)theEObject;
-                Object result = caseActiveResource(activeResource);
-                if (result == null) result = caseGeneralResource(activeResource);
-                if (result == null) result = caseUCMmodelElement(activeResource);
-                if (result == null) result = caseURNmodelElement(activeResource);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case PerformancePackage.PASSIVE_RESOURCE: {
-                PassiveResource passiveResource = (PassiveResource)theEObject;
-                Object result = casePassiveResource(passiveResource);
-                if (result == null) result = caseGeneralResource(passiveResource);
-                if (result == null) result = caseUCMmodelElement(passiveResource);
-                if (result == null) result = caseURNmodelElement(passiveResource);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case PerformancePackage.EXTERNAL_OPERATION: {
-                ExternalOperation externalOperation = (ExternalOperation)theEObject;
-                Object result = caseExternalOperation(externalOperation);
-                if (result == null) result = caseActiveResource(externalOperation);
-                if (result == null) result = caseGeneralResource(externalOperation);
-                if (result == null) result = caseUCMmodelElement(externalOperation);
-                if (result == null) result = caseURNmodelElement(externalOperation);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case PerformancePackage.PROCESSING_RESOURCE: {
-                ProcessingResource processingResource = (ProcessingResource)theEObject;
-                Object result = caseProcessingResource(processingResource);
-                if (result == null) result = caseActiveResource(processingResource);
-                if (result == null) result = caseGeneralResource(processingResource);
-                if (result == null) result = caseUCMmodelElement(processingResource);
-                if (result == null) result = caseURNmodelElement(processingResource);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case PerformancePackage.DEMAND: {
-                Demand demand = (Demand)theEObject;
-                Object result = caseDemand(demand);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            default: return defaultCase(theEObject);
-        }
-    }
+		switch (classifierID) {
+			case PerformancePackage.WORKLOAD: {
+				Workload workload = (Workload)theEObject;
+				Object result = caseWorkload(workload);
+				if (result == null) result = caseUCMmodelElement(workload);
+				if (result == null) result = caseURNmodelElement(workload);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerformancePackage.GENERAL_RESOURCE: {
+				GeneralResource generalResource = (GeneralResource)theEObject;
+				Object result = caseGeneralResource(generalResource);
+				if (result == null) result = caseUCMmodelElement(generalResource);
+				if (result == null) result = caseURNmodelElement(generalResource);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerformancePackage.ACTIVE_RESOURCE: {
+				ActiveResource activeResource = (ActiveResource)theEObject;
+				Object result = caseActiveResource(activeResource);
+				if (result == null) result = caseGeneralResource(activeResource);
+				if (result == null) result = caseUCMmodelElement(activeResource);
+				if (result == null) result = caseURNmodelElement(activeResource);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerformancePackage.PASSIVE_RESOURCE: {
+				PassiveResource passiveResource = (PassiveResource)theEObject;
+				Object result = casePassiveResource(passiveResource);
+				if (result == null) result = caseGeneralResource(passiveResource);
+				if (result == null) result = caseUCMmodelElement(passiveResource);
+				if (result == null) result = caseURNmodelElement(passiveResource);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerformancePackage.EXTERNAL_OPERATION: {
+				ExternalOperation externalOperation = (ExternalOperation)theEObject;
+				Object result = caseExternalOperation(externalOperation);
+				if (result == null) result = caseActiveResource(externalOperation);
+				if (result == null) result = caseGeneralResource(externalOperation);
+				if (result == null) result = caseUCMmodelElement(externalOperation);
+				if (result == null) result = caseURNmodelElement(externalOperation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerformancePackage.PROCESSING_RESOURCE: {
+				ProcessingResource processingResource = (ProcessingResource)theEObject;
+				Object result = caseProcessingResource(processingResource);
+				if (result == null) result = caseActiveResource(processingResource);
+				if (result == null) result = caseGeneralResource(processingResource);
+				if (result == null) result = caseUCMmodelElement(processingResource);
+				if (result == null) result = caseURNmodelElement(processingResource);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerformancePackage.DEMAND: {
+				Demand demand = (Demand)theEObject;
+				Object result = caseDemand(demand);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			default: return defaultCase(theEObject);
+		}
+	}
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Timestamp</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Workload</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Timestamp</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object caseTimestamp(Timestamp object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Response Time Req</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Response Time Req</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object caseResponseTimeReq(ResponseTimeReq object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Workload</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Workload</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Workload</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseWorkload(Workload object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>General Resource</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>General Resource</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>General Resource</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>General Resource</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseGeneralResource(GeneralResource object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Perf Measure</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Active Resource</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Perf Measure</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object casePerfMeasure(PerfMeasure object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Perf Value</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Perf Value</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object casePerfValue(PerfValue object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Active Resource</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Active Resource</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Active Resource</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseActiveResource(ActiveResource object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Passive Resource</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Passive Resource</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Passive Resource</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Passive Resource</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object casePassiveResource(PassiveResource object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>External Operation</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>External Operation</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>External Operation</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>External Operation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseExternalOperation(ExternalOperation object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Processing Resource</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Processing Resource</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Processing Resource</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Processing Resource</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseProcessingResource(ProcessingResource object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Demand</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Demand</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Demand</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Demand</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseDemand(Demand object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>UR Nmodel Element</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>UR Nmodel Element</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>UR Nmodel Element</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>UR Nmodel Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseURNmodelElement(URNmodelElement object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>UC Mmodel Element</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>UC Mmodel Element</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>UC Mmodel Element</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>UC Mmodel Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseUCMmodelElement(UCMmodelElement object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>IURN Node</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>IURN Node</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object caseIURNNode(IURNNode object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Path Node</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Path Node</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object casePathNode(PathNode object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch, but this is the last case anyway.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+	 * @generated
+	 */
     public Object defaultCase(EObject object) {
-        return null;
-    }
+		return null;
+	}
 
 } //PerformanceSwitch

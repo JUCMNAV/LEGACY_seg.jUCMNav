@@ -89,7 +89,8 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         IntentionalElement intElem = (IntentionalElement)evalReady.remove(0);
 
         for (Iterator j=intElem.getLinksSrc().iterator();j.hasNext();){
-            IntentionalElement temp = ((ElementLink)j.next()).getDest();
+        	// TODO Need to make sure this GRLLinkableElement is really an IntentionalElement
+            IntentionalElement temp = (IntentionalElement) ((ElementLink)j.next()).getDest();
             if (evaluationCalculation.containsKey(temp)){
                 EvaluationCalculation calc = (EvaluationCalculation)evaluationCalculation.get(temp);
                 calc.linkCalc += 1;

@@ -5,22 +5,21 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.commands.delete.internal.RemoveComponentElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.RemoveComponentCommand;
 import urn.URNlink;
-import urncore.ComponentElement;
-import urncore.ComponentRegular;
+import urncore.Component;
 
 /**
- * Command to delete a ComponentElement. Sould also remove all the URNlink.
+ * Command to delete a Component. Sould also remove all the URNlink.
  * 
  * @author jkealey, Jean-Francois Roy
  *  
  */
-public class DeleteComponentElementCommand extends CompoundCommand {
+public class DeleteComponentCommand extends CompoundCommand {
 
-    public DeleteComponentElementCommand(ComponentElement cd) {
+    public DeleteComponentCommand(Component cd) {
         
-        setLabel(Messages.getString("DeleteComponentElementCommand.deleteComponentElement")); //$NON-NLS-1$
+        setLabel(Messages.getString("DeleteComponentCommand.deleteComponent")); //$NON-NLS-1$
         
         //Remove the URNlinks
         for (Iterator it = cd.getFromLinks().iterator(); it.hasNext();){
@@ -37,15 +36,15 @@ public class DeleteComponentElementCommand extends CompoundCommand {
             add(new RemoveResourceFromComponentCommand(cd, cd.getResource()));
         }
         
-        if (cd instanceof ComponentRegular) {
-            ComponentRegular regular = (ComponentRegular) cd;
+        if (cd instanceof Component) {
+            Component regular = (Component) cd;
             if (regular.getHost()!=null)
             {
                 add(new RemoveResourceFromComponentCommand(regular, regular.getHost()));
             }
         }
         
-        add(new RemoveComponentElementCommand(cd));
+        add(new RemoveComponentCommand(cd));
         
     }
 }

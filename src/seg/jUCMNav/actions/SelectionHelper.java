@@ -49,7 +49,7 @@ import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.ComponentLabel;
 import urncore.Concern;
 import urncore.Condition;
@@ -453,8 +453,8 @@ public class SelectionHelper {
         }
 
         if (urnspec == null) {
-            if (model instanceof ComponentElement) {
-                ComponentElement element = (ComponentElement) model;
+            if (model instanceof Component) {
+                Component element = (Component) model;
                 urnspec = element.getUrndefinition().getUrnspec();
             } else if (model instanceof Actor) {
                 Actor actor = (Actor) model;

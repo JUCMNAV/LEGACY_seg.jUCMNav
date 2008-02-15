@@ -4,25 +4,25 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 
 /**
- * Command to delete a ComponentElement. (Remove it from the model). Can only do it if it has no references.
+ * Command to delete a Component. (Remove it from the model). Can only do it if it has no references.
  * 
  * @author jkealey
  *  
  */
-public class RemoveComponentElementCommand extends Command implements JUCMNavCommand {
+public class RemoveComponentCommand extends Command implements JUCMNavCommand {
 
     // the component definition to delete
-    private ComponentElement compDef;
+    private Component compDef;
 
     // the URNspec in which it is contained
     private URNspec urn;
 
-    public RemoveComponentElementCommand(ComponentElement cd) {
+    public RemoveComponentCommand(Component cd) {
         setCompDef(cd);
-        setLabel("Delete ComponentElement"); //$NON-NLS-1$
+        setLabel("Delete Component"); //$NON-NLS-1$
     }
 
     /**
@@ -47,7 +47,7 @@ public class RemoveComponentElementCommand extends Command implements JUCMNavCom
     /**
      * @return the component definition to delete
      */
-    public ComponentElement getCompDef() {
+    public Component getCompDef() {
         return compDef;
     }
 
@@ -68,7 +68,7 @@ public class RemoveComponentElementCommand extends Command implements JUCMNavCom
      * @param compDef
      *            the component definition to delete.
      */
-    public void setCompDef(ComponentElement compDef) {
+    public void setCompDef(Component compDef) {
         this.compDef = compDef;
     }
 

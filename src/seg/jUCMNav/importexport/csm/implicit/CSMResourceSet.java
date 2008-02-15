@@ -11,9 +11,8 @@ import ucm.map.RespRef;
 import ucm.performance.Demand;
 import ucm.performance.GeneralResource;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
 import urncore.ComponentKind;
-import urncore.ComponentRegular;
 import urncore.Metadata;
 import urncore.Responsibility;
 
@@ -136,9 +135,9 @@ public class CSMResourceSet {
     /**
      * Registers a resource to be managed for each of the following cases:
      * <UL>
-     * <LI>UCM ComponentRegular of kind Team, Object, Process and Agent
-     * <LI>ProcessingResource bound to a UCM ComponentRegular
-     * <LI>PassiveResource bound to a UCM ComponentElement
+     * <LI>UCM Component of kind Team, Object, Process and Agent
+     * <LI>ProcessingResource bound to a UCM Component
+     * <LI>PassiveResource bound to a UCM Component
      * </UL>
      * 
      * @param compRef
@@ -149,24 +148,24 @@ public class CSMResourceSet {
 	    // In order to obtain outermost precedence component-wise, traversal is processed
 	    // using a head recursion approach
             getContainingComponentsAndResources((ComponentRef) compRef.getParent(), resourcesIn);
-            // TYPE:  UCM ComponentRegular of kind Team, Object, Process and Agent
-            if (compRef.getContDef() instanceof ComponentRegular) {
-                // TODO: check that only ComponentRegular has a *kind* ?
-                if (((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.TEAM_LITERAL)
-                        || ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.OBJECT_LITERAL)
-                        || ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.PROCESS_LITERAL)
-                        || ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.AGENT_LITERAL)) {
+            // TYPE:  UCM Component of kind Team, Object, Process and Agent
+            if (compRef.getContDef() instanceof Component) {
+                // TODO: check that only Component has a *kind* ?
+                if (((Component) compRef.getContDef()).getKind().equals(ComponentKind.TEAM_LITERAL)
+                        || ((Component) compRef.getContDef()).getKind().equals(ComponentKind.OBJECT_LITERAL)
+                        || ((Component) compRef.getContDef()).getKind().equals(ComponentKind.PROCESS_LITERAL)
+                        || ((Component) compRef.getContDef()).getKind().equals(ComponentKind.AGENT_LITERAL)) {
                     resourcesIn[resources_count++] = new CSMResource(compRef);
                 }
-                // TYPE: ProcessingResource bound to a UCM ComponentRegular
-                if (((ComponentRegular) compRef.getContDef()).getResource() != null) {
-                    resourcesIn[resources_count++] = new CSMResource(((ComponentRegular) compRef.getContDef()).getResource());
+                // TYPE: ProcessingResource bound to a UCM Component
+                if (((Component) compRef.getContDef()).getResource() != null) {
+                    resourcesIn[resources_count++] = new CSMResource(((Component) compRef.getContDef()).getResource());
                 }
-            // Possibly a futile test (because ComponentElement seem inexistent...).  Nevertheless...
-            // TYPE: PassiveResource bound to a UCM ComponentElement
-            } else if (compRef.getContDef() instanceof ComponentElement) {
-                if (((ComponentElement) compRef.getContDef()).getResource() != null) {
-                    resourcesIn[resources_count++] = new CSMResource(((ComponentElement) compRef.getContDef()).getResource());
+            // Possibly a futile test (because Component seem inexistent...).  Nevertheless...
+            // TYPE: PassiveResource bound to a UCM Component
+            } else if (compRef.getContDef() instanceof Component) {
+                if (((Component) compRef.getContDef()).getResource() != null) {
+                    resourcesIn[resources_count++] = new CSMResource(((Component) compRef.getContDef()).getResource());
                 }
             }
         }
