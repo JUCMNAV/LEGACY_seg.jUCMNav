@@ -20,6 +20,7 @@ import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
+import urncore.Condition; //<BM>
 
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
@@ -247,26 +248,37 @@ public class UCMDiagramSection extends PDFReportDiagram {
     
     private void insertOrForkProbability(Document document, PathNode node) {
         try {
-            for (Iterator iter = node.getSucc().iterator(); iter.hasNext();) {
+            
+            for (Iterator iter = node.getSucc().iterator(); iter.hasNext();) {   
+                //<BM> <2008-02-21> NodeConnection class - 'probability' attribute
                 NodeConnection element = (NodeConnection) iter.next();
 
-                // find source associated with predecessor
-                IURNNode urnNode = element.getTarget();
+                //<BM> <2008-02-23> Extract OrFork attributes(label, expression)                                   
+                Condition orCondition = element.getCondition();
+
+                //<BM> <2008-02-23> Extract probability attribute
                 double probability = element.getProbability();
-
-                UCMmodelElement ucmElement = (UCMmodelElement) urnNode;
-
-                document.add(new Chunk("Output " + urnNode.getLabel() + ": "));
-                document.add(new Chunk(ucmElement.getName()));
-                document.add(new Chunk(" probability -> " + probability));
-                document.add(Chunk.NEWLINE);
+                
+                // <BM> <2008-02-24> check if the label and expression strings are empty
+                if(orCondition.getLabel() != null && ! "".equals(orCondition.getLabel())) {  
+                    
+                    document.add(new Chunk("[" + orCondition.getLabel() + "]:")); //<BM> <2008-02-23> Search for label result                
+                    
+                    if(orCondition.getExpression() != null && ! "".equals(orCondition.getExpression())) {            
+                        
+                        document.add(new Chunk(orCondition.getExpression()));         //<BM> <2008-02-23> Search for expression result
+                        
+                    }
+                }
+                // <BM> <2008-02-24> no need to check probability for empty since it always has a default value of 1.0
+                document.add(new Chunk(" (probability: " + probability + ")"));//<BM> <2008-02-21> Fixed the way probability is output
 
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
     }
+}
 
     private void insertResponsibility(Document document, RespRef node) {
         try {
