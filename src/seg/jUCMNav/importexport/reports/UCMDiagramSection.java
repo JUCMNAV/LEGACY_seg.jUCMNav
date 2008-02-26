@@ -272,7 +272,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 }
                 // <BM> <2008-02-24> no need to check probability for empty since it always has a default value of 1.0
                 document.add(new Chunk(" (probability: " + probability + ")"));//<BM> <2008-02-21> Fixed the way probability is output
-
+                document.add(Chunk.NEWLINE);
             }
 
         } catch (Exception e) {
