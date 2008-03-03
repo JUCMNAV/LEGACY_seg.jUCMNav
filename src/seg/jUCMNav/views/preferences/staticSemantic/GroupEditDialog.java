@@ -21,36 +21,55 @@ import org.eclipse.swt.widgets.Text;
 import seg.jUCMNav.staticSemantic.Rule;
 import seg.jUCMNav.staticSemantic.RuleGroup;
 import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
-
+/**
+ * This class provides the GUI of creating a new group or editing an existing group. The dialog is resizable.
+ * 
+ * @author Byrne Yan
+ *
+ */
 public class GroupEditDialog extends Dialog {
 
     private static final int BTN_ID_AddToGroup = IDialogConstants.CANCEL_ID + 1;
     private static final int BTN_ID_AddAllToGroup = IDialogConstants.CANCEL_ID + 2;
     private static final int BTN_ID_RemoveFromGroup = IDialogConstants.CANCEL_ID + 3;
     private static final int BTN_ID_RemoveAllFromGroup = IDialogConstants.CANCEL_ID + 4;
+    /**
+     * A table that contains all rules in the group
+     */
     private Table members;
+    /**
+     * A table that contains all rules not in the group
+     */
     private Table nonMembers;
     
+    /**
+     * The rule group associated with the dialog
+     */
     private RuleGroup group;
+    /**
+     * The GUI component for the group name
+     */
     private Text txtName;
     
     public GroupEditDialog(Shell parentShell) {
         super(parentShell);
-        // TODO Auto-generated constructor stub
         this.setShellStyle(this.getShellStyle() | SWT.RESIZE);
     }
 
     public GroupEditDialog(IShellProvider parentShell) {
         super(parentShell);
-        // TODO Auto-generated constructor stub
         this.setShellStyle(this.getShellStyle() | SWT.RESIZE);
     }
-
+    /**
+     * Close the dialog without saving the modification of group
+     */
     protected void cancelPressed() {
-        // TODO Auto-generated method stub
         super.cancelPressed();
     }
 
+    /**
+     * Create all GUI components
+     */
     protected Control createDialogArea(Composite parent) {
         Composite control = (Composite) super.createDialogArea(parent);
         
@@ -145,6 +164,11 @@ public class GroupEditDialog extends Dialog {
         return control;
     }
 
+    /**
+     * Append a specified rule to a specified table.
+     * @param table the table to which the specified rule will be appended
+     * @param rule the rule that will be appended to the specified table
+     */
     private void appendRule(Table table, Rule rule) {
         TableItem item = new TableItem (table, SWT.NONE);
         item.setData(rule);
@@ -153,6 +177,13 @@ public class GroupEditDialog extends Dialog {
         
     }
 
+    /**
+     * Close the dialog with saving the modified group. The following regularities are checked:
+     * <ul>
+     * <li>The group name must be not empty
+     * <li>The group name must be uniqe
+     * </ul>
+     */
     protected void okPressed() {
         if(txtName.getText().trim().length()==0)
         {
@@ -184,12 +215,17 @@ public class GroupEditDialog extends Dialog {
         super.okPressed();
     }
 
+    /**
+     * Associated a group object with the dialog
+     */
     public void setGroup(RuleGroup group) {
         this.group = group;
     }
 
+    /**
+     * Set the title of the dialog
+     */
     protected void configureShell(Shell newShell) {
-        // TODO Auto-generated method stub
         super.configureShell(newShell);
         if(group!=null)
             newShell.setText("Edit a group");
@@ -197,6 +233,9 @@ public class GroupEditDialog extends Dialog {
             newShell.setText("Create a group");
     }
 
+    /**
+     * Button click event dispacher
+     */
     protected void buttonPressed(int buttonId) {
         switch( buttonId)
         {
@@ -217,6 +256,9 @@ public class GroupEditDialog extends Dialog {
         super.buttonPressed(buttonId);
     }
 
+    /**
+     * Remove all rules in the group and put them back the non-members table
+     */
     private void removeAllFromGroup() {
         TableItem[] itmes = members.getItems();
         for(int i=0;i<itmes.length;++i)
@@ -226,7 +268,9 @@ public class GroupEditDialog extends Dialog {
         members.removeAll();        
     }
 
- 
+    /**
+     * Remove all selected rules in the group and put them back the non-members table
+     */
     private void removeSelectionFromGroup() {
         TableItem[] itmes = members.getSelection();
         for(int i=0;i<itmes.length;++i)
@@ -236,6 +280,9 @@ public class GroupEditDialog extends Dialog {
         members.remove(members.getSelectionIndices());        
     }
 
+    /**
+     * Add all rules in the non-members table to the group
+     */
     private void addAllToGroup() {
         TableItem[] itmes = nonMembers.getItems();
         for(int i=0;i<itmes.length;++i)
@@ -245,6 +292,9 @@ public class GroupEditDialog extends Dialog {
         nonMembers.removeAll();        
     }
 
+    /**
+     * Add all selected rules in the non-members table to the group
+     */
     private void addSelectionToGroup() {
         TableItem[] itmes = nonMembers.getSelection();
         for(int i=0;i<itmes.length;++i)
@@ -254,6 +304,9 @@ public class GroupEditDialog extends Dialog {
         nonMembers.remove(nonMembers.getSelectionIndices());        
     }
 
+    /**
+     * Returns the group object associated with the dialog
+     */
     public RuleGroup getGroup() {
         return group;
     }

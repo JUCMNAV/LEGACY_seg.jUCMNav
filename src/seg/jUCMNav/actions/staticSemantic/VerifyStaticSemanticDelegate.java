@@ -17,14 +17,24 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import urncore.URNmodelElement;
 
+/**
+ * This is an action to the menu "Static Check".
+ * 
+ * @author Byrne Yan
+ *
+ */
 public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
     private UCMNavMultiPageEditor editor;
 
     public void setActiveEditor(IAction action, IEditorPart targetEditor) {
         editor = (UCMNavMultiPageEditor) targetEditor;
-
 	}
 
+    /**
+     * Check all selected rules by class StaticSemanticChecker and then report the result in the problem view.
+     * 
+     * @see StaticSemanticChecker
+     */
     public void run(IAction action) {
     	if (editor!=null) {
     		Vector problems = new Vector();
@@ -37,6 +47,11 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
 
     }
 
+    /**
+     * 
+     * @param problems  A list of problems which contain check results information. The content of the vector must be type of StaticCheckingMsg.
+     * @see StaticCheckingMsg
+     */
     private void refreshProblemView(Vector problems)
     {
         if (editor != null) {

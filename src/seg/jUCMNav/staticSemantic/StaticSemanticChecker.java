@@ -16,11 +16,20 @@ import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.helper.OCLHelper;
 import urn.*;
 
+/**
+ * This class encapuslates the rule checking action.
+ * 
+ * @author Byrne Yan
+ *
+ */
 public class StaticSemanticChecker {
 
-    // static MessageConsoleStream msg;
+    
     private static StaticSemanticChecker instance = null;
 
+    /**
+     * Returns the singleton instance of StaticSemanticChecker
+     */
     public static StaticSemanticChecker getInstance() {
         if (instance == null) {
             instance = new StaticSemanticChecker();
@@ -28,9 +37,19 @@ public class StaticSemanticChecker {
         return instance;
     }
 
+    /**
+     * Prevent the StaticSemanticChecker from being created outside the class
+     */
     private StaticSemanticChecker() {
     }
 
+    /**
+     * Check all activated rules on the specified the URNSpec object. All violations and a checking summary are saved in the problems.
+     * @param urn   a URNSpec object
+     * @param problems a vector which holds rule violations
+     * @return true if no rule is violated, otherwise false
+     * @see StaticSemanticDefMgr
+     */
     public boolean check(URNspec urn, Vector problems) {
         boolean res = true;
         int nTotal = 0;

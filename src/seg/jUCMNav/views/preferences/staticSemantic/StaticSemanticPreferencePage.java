@@ -36,7 +36,17 @@ import seg.jUCMNav.staticSemantic.RuleGroup;
 import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
 
 /**
- * @author Byrne
+ * This class provides an Eclipse preference page for the static checking settings. The settings include:
+ * <ul>
+ * <li>The switch of showing the rule secription on the problem view when reporting the checking result.
+ * <il>Enable/disable a rule or rules by individual rule or groups
+ * <li>Open a rule group creating/editing dialog
+ * <li>Open a rule cretaing/editing dialog 
+ * <li>Load default settings
+ * <li>Save all setting to the preference store
+ * </ul>
+ * 
+ * @author Byrne Yan
  * 
  */
 public class StaticSemanticPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, SelectionListener {
@@ -58,6 +68,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
     private static final int TBL_COLUMN_CONSTRAINT = 4;
     private static final int TBL_COLUMN_UTILITY = 6;
 
+    /**
+     * The tree represnts rule groups and rules in the crresponding group
+     */
     private Tree tree;
     private Button btnNewRule;
     private Button btnNewGroup;
@@ -70,7 +83,7 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
     private Button btnDelete;
 
     /*
-     * (non-Javadoc)
+     * Create all GUI components
      * 
      * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
      */
@@ -156,7 +169,11 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         return null;
     }
 
-    // check all sub rule items of the group item
+    /**
+     * Put a check/uncheck on all sub rule items of the specified group item
+     * @param item  the spcified tree item on which a check/uncheck will be put
+     * @param checked   true if a check is  put, false if not.
+     */
     protected void checkRules(TreeItem item, boolean checked) {
         TreeItem[] ruleItems = item.getItems();
         for (int i = 0; i < ruleItems.length; ++i) {
@@ -168,7 +185,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 
     }
 
-    // check all groups based their rules
+    /**
+     * Put a check mark on all groups based on their rules.If all rules of a group are checked, the group is put on checked mark. If only some of rules of a group are checked, the group is put on a greyed mark. If no rules of a group is checked, the group is put on an unchecked mark.
+     */
     protected void checkGroups() {
         TreeItem[] groupItems = tree.getItems();
         for (int i = 0; i < groupItems.length; ++i) {
@@ -194,8 +213,12 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 
     }
 
-    // check all rule items that point to the same rule
-    // no change to any group items
+    /**
+     * Put an checked or unchecked mark on all rule items that point to the specified same rules. No change to any group items
+     * @param item  the tree item that will not be considered during the processing.
+     * @param rules the specified rules. Any rule item that point to one of these rules will be put on a specified mark.
+     * @param checked true if an checked mark will be put on, otherwise false.
+     */
     protected void checkSameRules(TreeItem item, Rule[] rules, boolean checked) {
         TreeItem[] groupItems = tree.getItems();
         for (int i = 0; i < groupItems.length; ++i) {
@@ -218,6 +241,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 
     }
 
+    /**
+     * Fill contents of all GUI componets
+     */
     private void initializeValues() {
         StaticSemanticDefMgr.instance().load();
         btnShowDescription.setSelection(StaticSemanticDefMgr.instance().isShowDesc());
@@ -245,7 +271,7 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
     }
 
     /*
-     * (non-Javadoc)
+     * Buttons click event dispacher
      * 
      * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
      */
@@ -269,6 +295,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         }
     }
 
+    /**
+     * Remove the selected rule group or rule item. Notice: the group of "All" can not be removed.
+     */
     private void performDelete() {
         TreeItem[] items = tree.getSelection();
         for (int i = 0; i < items.length; ++i) {
@@ -288,6 +317,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         updateTree();
     }
 
+    /**
+     * Open a dialog to create a new group and put the created group into the tree.
+     */
     private void performNewGroup() {
         GroupEditDialog dlg = new GroupEditDialog(getControl().getShell());
         if (Window.OK == dlg.open()) {
@@ -296,6 +328,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         }
     }
 
+    /**
+     * Open a dialog ro create a new rule and update the group items that contains this rule(A rule is always in the group of "All").
+     */
     private void performNewRule() {
         RuleEditDialog dlg = new RuleEditDialog(getControl().getShell());
 
@@ -305,6 +340,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         }
     }
 
+    /**
+     * Export selected rules into a file that the user specifies in the file dialog.Notice: only rule items in the selected items are exported. group items selected are ignored.
+     */
     private void performExport() {
 
         TreeItem[] items = tree.getSelection();
@@ -326,6 +364,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 
     }
 
+    /**
+     * Import rules in the file that the user specifies in the file dialog.
+     */
     private void performImport() {
 
         FileDialog dlg = new FileDialog(getControl().getShell(), SWT.OPEN);
@@ -346,25 +387,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         }
     }
 
-    /*
-     * private void performDelete() {
-     * 
-     * int nDelete = table.getSelectionCount(); if(nDelete>0) { MessageBox msg = new MessageBox(getControl().getShell(), SWT.YES|SWT.NO); msg.setMessage("Are
-     * you sure to delete the selected "+nDelete+" rules?"); msg.setText("Rule delete confirmation"); if(SWT.NO == msg.open()) return ; } deleteRule(
-     * table.getSelectionIndices()); }
-     * 
-     *//**
-         * @param idx
-         */
-    /*
-     * private void deleteRule(int idx) { TableEditor editor = (TableEditor) table.getItem(idx).getData(APPDATA_CHECKBOX); table.remove(idx);
-     * editor.getEditor().dispose(); editor.dispose(); table.setSelection(0); }
+    /**
+     * Edit the selected rule or rule group. If more than one item is selected, a warning message dialog is showed.
      */
-    /*
-     * private void deleteRule(int[] indices) { for(int i=0;i<indices.length;++i) { TableEditor editor = (TableEditor)
-     * table.getItem(indices[i]).getData(APPDATA_CHECKBOX); editor.getEditor().dispose(); editor.dispose(); } table.remove(indices); }
-     */
-
     private void performEdit() {
         // Check if only one item selected
         if (tree.getSelectionCount() != 1) {
@@ -387,6 +412,10 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 
     }
 
+    /**
+     * Update a rule group items due to the change of members of the group. The enable/disabled information will not be changed even it is not saved.
+     * @param item
+     */
     private void updateGroupNode(TreeItem item) {
         RuleGroup group = (RuleGroup) item.getData();
 
@@ -400,6 +429,11 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 
     }
 
+    /**
+     * Resore all enabled/dsiabled information on the subitems of the specified item.
+     * @param item  the specified item
+     * @param checkInfo the HashMap object that holds all enabled/disabled information
+     */
     private void restoreCheckState(TreeItem item, HashMap checkInfo) {
         TreeItem[] items = item.getItems();
         for (int i = 0; i < items.length; ++i) {
@@ -411,6 +445,11 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 
     }
 
+    /**
+     * Save enabled/disabled information of all subitems of the specified item to the specied HashMap.
+     * @param item  the specified tree item
+     * @return  HashMap the HashMap object that holds all enabled/disabled information
+     */
     private HashMap saveCheckInfo(TreeItem item) {
         HashMap info = new HashMap();
         TreeItem[] items = item.getItems();
@@ -421,7 +460,8 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
     }
 
     /**
-     * @param r
+     * Open a dialog to edit a rule.
+     * @param r the rule object to be edited
      */
     private void editRule(Rule r) {
         RuleEditDialog dlg = new RuleEditDialog(getControl().getShell());
@@ -431,12 +471,19 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         dlg.open();
     }
 
+    /**
+     * Update the entire tree based on the system groups and rules.
+     */
     private void updateTree() {
         tree.removeAll();
         populateTree();
 
     }
 
+    /**
+     * Open a dialog to edit a specified rule group. Notice: the group of "All" can not be edited.
+     * @param g the rule group to be edited
+     */
     private void editRuleGroup(RuleGroup g) {
         if (g.getName().compareTo("All") == 0) {
             MessageBox msg = new MessageBox(getControl().getShell(), SWT.ICON_WARNING);
@@ -451,40 +498,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 
     }
 
-    /*
-     * private void performNew() {
-     * 
-     * RuleEditDialog dlg = new RuleEditDialog(getControl().getShell()); dlg.setTitle("Define a new rule"); if(Window.OK==dlg.open()) { Rule r = new
-     * Rule(dlg.getName(),dlg.getContext(),dlg.getQuery(),dlg.getConstraint(),true,dlg.getDescription()); for(int i=0;i<dlg.getUtilities().size();++i) { String
-     * s = (String) dlg.getUtilities().get(i); r.addUtility(s); } appendRule(r); table.setSelection(table.getItemCount()-1); } }
-     */
     /**
+     * Set all dafault values of settings
      * 
-     * 
-     */
-    /*
-     * private void appendRule(Rule r) { TableItem item = new TableItem (table, SWT.NONE);
-     * 
-     * TableEditor editor = new TableEditor (table); Button btnSelect = new Button(table,SWT.CHECK); editor.grabHorizontal = true;
-     * btnSelect.setSelection(r.isEnabled()); editor.setEditor(btnSelect, item, BTN_COLUMN_CHECK);
-     * 
-     * item.setData(APPDATA_CHECKBOX,editor); item.setData(APPDATA_UTILITIES_NUMBER,r.getUtilities().size()); for(int i=0;i<r.getUtilities().size();++i) {
-     * item.setData(APPDATA_UTILITY+i,r.getUtilities().get(i)); } updateRule(item, r); }
-     * 
-     * private void updateRule(TableItem item, Rule r) { TableEditor editor = (TableEditor) item.getData(APPDATA_CHECKBOX); Button chk = (Button)
-     * editor.getEditor();
-     * 
-     * chk.setSelection(r.isEnabled()); item.setText(TBL_COLUMN_NAME, r.getName()); item.setText(TBL_COLUMN_DESCRIPTION, r.getDescription());
-     * item.setText(TBL_COLUMN_CLASSIFIER, r.getClassifier()); item.setText(TBL_COLUMN_CONTEXT, r.getContext()); item.setText(TBL_COLUMN_CONSTRAINT,
-     * r.getQuery()); item.setText(TBL_COLUMN_UTILITY, String.valueOf(r.getUtilities().size()));
-     * 
-     * 
-     * item.setData(APPDATA_UTILITIES_NUMBER, new Integer( r.getUtilities().size()));
-     * 
-     * int nNumber = Integer.parseInt(item.getData(APPDATA_UTILITIES_NUMBER).toString());
-     * 
-     * 
-     * for(int i =0;i<r.getUtilities().size();++i) { String u = (String) r.getUtilities().get(i); item.setData( APPDATA_UTILITY + i, u); } }
      */
     protected void performDefaults() {
         super.performDefaults();
@@ -496,6 +512,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 
     }
 
+    /**
+     * Construct the entire tree based on the system groups and rules.
+     */
     private void populateTree() {
         List groups = StaticSemanticDefMgr.instance().getGroups();
         for (int i = 0; i < groups.size(); ++i) {
@@ -507,8 +526,9 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
     }
 
     /**
-     * @param item
-     * @param g
+     * Construc subitens of the specified rule group tree item based on the specified rule group object.
+     * @param item  the specified rule group tree item
+     * @param g the specified rule group object
      */
     private void populateGroupNode(TreeItem item, RuleGroup g) {
         item.setText(new String[] { g.getName(), "", "", "", "" });
@@ -524,38 +544,17 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         }
     }
 
+    /**
+     * Close the preference page and save all settings
+     */
     public boolean performOk() {
-
         StaticSemanticDefMgr.instance().save();
         return true;
     }
 
-    /*
-     * private Rule[] retriveRules() { Rule[] rules = new Rule[table.getItemCount()]; for(int i=0;i<table.getItemCount();++i) { rules[i] =
-     * retriveOneRule(table.getItem(i)); } return rules; }
-     */
     /**
-     * @param item
+     * Close the preference page and discard all changes of settings
      */
-    private Rule retriveOneRule(TableItem item) {
-
-        TableEditor editor = (TableEditor) item.getData(APPDATA_CHECKBOX);
-        Button chk = (Button) editor.getEditor();
-        Rule r = StaticSemanticDefMgr.instance().createRule(item.getText(TBL_COLUMN_NAME));
-        r.setContext(item.getText(TBL_COLUMN_CONTEXT));
-        r.setClassifier(item.getText(TBL_COLUMN_CLASSIFIER));
-        r.setDescription(item.getText(TBL_COLUMN_DESCRIPTION));
-        r.setQuery(item.getText(TBL_COLUMN_CONSTRAINT));
-        r.setEnabled(chk.getSelection());
-
-        int nNumber = Integer.parseInt(item.getData(APPDATA_UTILITIES_NUMBER).toString());
-
-        for (int j = 0; j < nNumber; ++j) {
-            r.addUtility(item.getData(APPDATA_UTILITY + j).toString());
-        }
-        return r;
-    }
-
     public boolean performCancel() {
         StaticSemanticDefMgr.instance().load();
         return super.performCancel();

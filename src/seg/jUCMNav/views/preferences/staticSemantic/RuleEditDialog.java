@@ -29,7 +29,12 @@ import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
  */
 
 import seg.jUCMNav.staticSemantic.Rule;
-
+/**
+ * This dialof provides the GUI of creating 1 new static checking rule or editing an exisiting rule. In this dialog, users can change the rule name, rule classifier, contxt expression,invariant expression and rule description. Furthermore, a user can open a utility editor from this dialog to create or edit a utility.
+ *  
+ * @author Byrne Yan
+ *
+ */
 public class RuleEditDialog extends Dialog implements SelectionListener {
 
     private static final String BUTTON_DEFINE_A_NEW_UTILITY = "New";
@@ -38,32 +43,47 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
 
     private Rule rule = null;
 
+    /**
+     * The rule name
+     */
     private Text txtName;
+    /**
+     * The rule classifier
+     */
     private Text txtContext;
+    /**
+     * The rule context expression
+     */
     private Text txtQuery;
+    /**
+     * The rule invariant expression
+     */
     private Text txtCheck;
+    /**
+     * The rule description
+     */
     private Text txtDesc;
 
     private Button btnNew;
     private Button btnEdit;
     private Button btnDelete;
 
+    /**
+     * A table that contains all utilities
+     */
     private Table table;
 
-    /**
-     * @param parentShell
-     */
     public RuleEditDialog(Shell parentShell) {
         super(parentShell);
     }
 
-    /**
-     * @param parentShell
-     */
     public RuleEditDialog(IShellProvider parentShell) {
         super(parentShell);
     }
-
+    /**
+     * Create all GUI components. 
+     * 
+     */
     protected Control createDialogArea(Composite parent) {
         /*
          * FillLayout fl = new FillLayout(); fl.marginHeight = 10; fl.marginWidth = 10; parent.setLayoutData(fl);
@@ -168,6 +188,9 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         return composite;
     }
 
+    /**
+     * Fill contents of components based on the rule object associated with this dailog.
+     */
     private void init() {
         if (rule != null) {
             txtName.setText(rule.getName());
@@ -186,6 +209,9 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
 
     }
 
+    /**
+     * Specify the title of dialog.
+     */
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
         if (rule == null)
@@ -194,6 +220,14 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             newShell.setText("Edit a rule");
     }
 
+    /**
+     * Close the dialog with saving the rule contents. The following regularities are checked:
+     * <ul>
+     * <li>The rule name must not be empty ( after trimming all leading and tailing spaces )
+     * <li>The rule name must be uniqe
+     * <li>The rule classifier, context expression, invraint expression and utilities must be valid.
+     * </ul>
+     */
     protected void okPressed() {
         if(txtName.getText().trim().length()==0)
         {
@@ -216,6 +250,10 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
                 return;
             }
 
+            for (int i = 0; i < table.getItems().length; ++i) {
+                TableItem item = table.getItems()[i];
+                r.addUtility(item.getText());
+            }
             if (r.isValid() == false) {
                 MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
                 msg.setMessage(r.getErrors());
@@ -264,6 +302,9 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         // do nothing
     }
 
+    /**
+     * Button click event dispacher
+     */
     public void widgetSelected(SelectionEvent e) {
         if (e.getSource() instanceof Button) {
             Button btn = (Button) e.getSource();
@@ -278,12 +319,19 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
 
     }
 
+    /**
+     * Remove a specified utility in the table and then make a selection on the next utility.
+     * @param idx   the row index of the utility
+     */
     private void performDeleteUtility(int idx) {
         table.remove(idx);
         table.select(idx);
 
     }
 
+    /**
+     * Open the RuleUtilityEditDialog and update the utility after the dialog is closed.
+     */
     private void performEditUtility() {
         RuleUtilityEditDialog dlg = new RuleUtilityEditDialog(this.getShell());
         dlg.setTitle("Modify a utility");
@@ -293,10 +341,18 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         }
     }
 
+    /**
+     * Update a row of table with the specified content
+     * @param item  the row of table to be updated
+     * @param text  the content to be updated to the table
+     */
     private void updateUtility(TableItem item, String text) {
         item.setText(0, text);
     }
 
+    /**
+     * Open a rule utility creating dialog and then append the created utility at the end of the table and make a selction on this item.
+     */
     private void performNewUtility() {
 
         RuleUtilityEditDialog dlg = new RuleUtilityEditDialog(this.getShell());
@@ -307,16 +363,27 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         }
     }
 
+    /**
+     * Append a new table item with the specified content
+     * @param text  the content to be appended
+     */
     private void appendUtility(String text) {
         TableItem item = new TableItem(table, SWT.NONE);
         table.select(table.getItemCount() - 1);
         updateUtility(item, text);
     }
 
+    /**
+     * Returns the rule object associated with the dialog
+     */
     public Rule getRule() {
         return rule;
     }
 
+    /**
+     * Asscociated a rule object with the dialog.
+     * @param rule
+     */
     public void setRule(Rule rule) {
         this.rule = rule;
     }

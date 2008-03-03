@@ -31,7 +31,18 @@ import org.eclipse.swt.SWT;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import seg.jUCMNav.JUCMNavPlugin;
-
+/**
+ * This class is the control center of all rule defining features:
+ * <ul>
+ * <li>Rule and RuleGroup manipulatation
+ * <li>Rule and RuleGroup persistence
+ * <li>Rule imports and exports
+ * <li>Switch of showing rule description in the problem view
+ * </ul>
+ * 
+ * @author Byrne Yan
+ *
+ */
 public class StaticSemanticDefMgr {
 
     private static final String RULE_NAME = "RuleName";
@@ -58,10 +69,16 @@ public class StaticSemanticDefMgr {
     private List groups;
     private boolean bShowDesc;
 
+    /**
+     * Prevents the StaticSemanticDefMgr from being created outside the class
+     */
     private StaticSemanticDefMgr() {
 
     }
 
+    /**
+     * Returns the singleton instance of StaticSemanticDefMgr
+     */
     public static StaticSemanticDefMgr instance() {
         if (instance_ == null) {
             instance_ = new StaticSemanticDefMgr();
@@ -69,12 +86,19 @@ public class StaticSemanticDefMgr {
         return instance_;
     }
 
+    /**
+     * Load default rule definitions from the file "defaultRules.xml".
+     * @return a list of rules
+     */
     public List getDefaultDefinitions() {
         InputStream rulesDefaultIS = StaticSemanticDefMgr.class.getResourceAsStream("defaultRules.xml");
 
-        return readRules(rulesDefaultIS, null);
+        return readRules(rulesDefaultIS);
     }
 
+    /**
+     * Saves all rules in memory into the preference store
+     */
     private void saveRules() {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         store.setValue(RULE_NUMBER, rules.size());
@@ -96,6 +120,9 @@ public class StaticSemanticDefMgr {
 
     }
 
+    /**
+     * Loads all rules from the preference store
+     */
     private void loadRules() {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         store.setDefault(RULE_NUMBER, -1);
@@ -123,12 +150,18 @@ public class StaticSemanticDefMgr {
         }
     }
 
+    /**
+     * Returns all groups
+     */
     public List getGroups() {
         return groups;
     }
 
-
-
+    /**
+     * Lookup a rule with the rule name.
+     * @param ruleName  the rule name
+     * @return the rule found, if no rule is found, a null is retruned.
+     */
     public Rule lookupRule(String ruleName) {
         Rule r = null;
         for (int i = 0; i < rules.size(); ++i) {
@@ -142,6 +175,9 @@ public class StaticSemanticDefMgr {
         return r;
     }
 
+    /**
+     * Returns a list of default groups.
+     */
     private List getDefaultGroups() {
         List dg = new ArrayList();
         RuleGroup g = new RuleGroup("All");
@@ -155,6 +191,11 @@ public class StaticSemanticDefMgr {
         return dg;
     }
 
+    /**
+     * Exports rules into an XML file on the specified path.  
+     * @param rules the rules are exportes
+     * @param path  the location where the rules XML file exists.
+     */
     public static void exportRules(List rules, String path) {
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -181,6 +222,12 @@ public class StaticSemanticDefMgr {
         }
     }
 
+    /**
+     * Create an XML element based on a static checking rule
+     * @param doc  an XML Document
+     * @param r a static checking rule
+     * @return an XML element
+     */
     private static Element buildRuleNode(Document doc, Rule r) {
         Element root = doc.createElement("Rule");
 
@@ -215,7 +262,12 @@ public class StaticSemanticDefMgr {
         return root;
     }
 
-    private static List readRules(InputStream rulesIS, Shell parent) {
+    /**
+     * Reads rules from an InputStream.
+     * @param rulesIS   an InputStream which contains rule information
+     * @return a list of rules
+     */
+    private static List readRules(InputStream rulesIS) {
         List rules = null;
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -272,11 +324,18 @@ public class StaticSemanticDefMgr {
         return rules;
     }
 
+    /**
+     * Imports rules from a specified XML file
+     * @param rulesFile the path of the XML file that contains rule definitions
+     * @param parent a Shell, which is used as parent when a messgae box is showed.
+     * @return a list of rules
+     * @throws FileNotFoundException
+     */
     public List importRules(String rulesFile, Shell parent) throws FileNotFoundException {
         List rulesTmp = null;
         if (isValidRuleFile(new FileInputStream(rulesFile), parent)) {
 
-            rulesTmp = readRules(new FileInputStream(rulesFile), parent);
+            rulesTmp = readRules(new FileInputStream(rulesFile));
         }
 
         if (rulesTmp != null) {
@@ -313,6 +372,10 @@ public class StaticSemanticDefMgr {
         return rules;
     }
 
+    /**
+     * Put a bunch of rules into the system rules
+     * @param rulesIn a bunch of rules which are going to be put into the system rules
+     */
     private void addRule(List rulesIn) {
         for(int i=0;i<rulesIn.size();++i)
         {
@@ -322,6 +385,12 @@ public class StaticSemanticDefMgr {
         
     }
 
+    /**
+     * Test if an InputStream contains valid rules
+     * @param rulesIS an InputStream
+     * @param parent a Shell, which is used as parent when a messgae box is showed.
+     * @return true if it is valid, otherwise false
+     */
     private static boolean isValidRuleFile(InputStream rulesIS, Shell parent) {
         boolean bValid = true;
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -350,6 +419,12 @@ public class StaticSemanticDefMgr {
         return bValid;
     }
 
+    /**
+     * Test if a rule name exists in a bunch of rules
+     * @param name the rule name
+     * @param rules a bunch of rules
+     * @return true if it exists, otherwise false
+     */
     private static boolean isNameConflict(String name, List rules) {
         for (int i = 0; i < rules.size(); ++i) {
             Rule r = (Rule) rules.get(i);
@@ -359,39 +434,65 @@ public class StaticSemanticDefMgr {
         return false;
     }
 
+    /**
+     * Check if the switch of showing description in the problem view is on or off.
+     * @return true if it is on, otherwise off.
+     */
     public boolean isShowDesc() {
         return bShowDesc;
     }
 
+    /**
+     * Set the switch of showing description in the problem view.
+     * @param bChecked true to switch on, false to switch off
+     */
     public void setShowDesc(boolean bChecked) {
         bShowDesc = bChecked;
     }
 
+    /**
+     * Returns all system rules
+     */
     public List getRules() {
         return rules;
     }
+    /**
+     * Save all settings into the preference store
+     */
     public void save()
     {
         saveRules();
         saveGroups();
         saveOthers();
     }
+    /**
+     * Load all setting from the preference store
+     */
     public void load()
     {
         loadRules();
         loadGroups();
         loadOthers();
     }
+    /**
+     * Load the setting of switch of showing description in the problem view.
+     */
     private void loadOthers()
     {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         bShowDesc =  store.getBoolean(SHOW_DESCRIPTION);
     }
+    /**
+     * Save the setting of switch of showing description in the problem view into the preference store
+     */
     private void saveOthers()
     {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         store.setValue(SHOW_DESCRIPTION, bShowDesc);  
     }
+    /**
+     * Save all group information into the preference store
+     */
     private void saveGroups()
     {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
@@ -409,6 +510,10 @@ public class StaticSemanticDefMgr {
             }
         }
     }
+    
+    /**
+     * Load all group information from the preference store
+     */
     private void loadGroups() {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         store.setDefault(GROUP_NUMBER, -1);
@@ -440,7 +545,10 @@ public class StaticSemanticDefMgr {
 
     }
     
-    //create a new rule instance. If a rule with the same name exists, return null
+    
+    /**
+     * Creates a new rule instance with 6 propertie values. If a rule with the same name exists, return null
+     */
     public Rule createRule(String name,String classifier,String context, String query,boolean enabled, String description)
     {
         Rule r = lookupRule(name);
@@ -448,7 +556,10 @@ public class StaticSemanticDefMgr {
             return new Rule(name,classifier,context, query,enabled, description);
         return null;
     }
-    //create a new rule instance. If a rule with the same name exists, return null
+    
+    /**
+     * Creates a new rule instance with rule name. If a rule with the same name exists, return null.
+     */
     public Rule createRule(String name)
     {
         Rule r = lookupRule(name);
@@ -457,6 +568,9 @@ public class StaticSemanticDefMgr {
         return null;
     }
     
+    /**
+     * Creates a rule group instance wiht a group name. If a group with the same name exists, return null.
+     */
     public RuleGroup creatRuelGroup(String groupName)
     {
         RuleGroup g = lookupGroup(groupName);
@@ -465,6 +579,10 @@ public class StaticSemanticDefMgr {
         return null;
     }
 
+    /**
+     * Lookup a RuleGroup with a group name
+     * @return a RuleGroup instance found. If no such group is foudn, returns null.
+     */
     public RuleGroup lookupGroup(String groupName) {
         RuleGroup g = null;
         for (int i = 0; i < groups.size(); ++i) {
@@ -478,6 +596,10 @@ public class StaticSemanticDefMgr {
         return g;
     }
 
+    /**
+     * Add a rule into system rules. If it is in the system rules, do nothing. 
+     * @param rule
+     */
     public void addRule(Rule rule) {
         if(lookupRule(rule.getName())==null)
         {
@@ -488,6 +610,10 @@ public class StaticSemanticDefMgr {
         
     }
 
+    /**
+     * Add a rule group into the system groups. If it is in the system groups, do nothing.
+     * @param group
+     */
     public void addGroup(RuleGroup group) {
         if(lookupGroup(group.getName())==null)
         {
@@ -496,15 +622,24 @@ public class StaticSemanticDefMgr {
         
     }
 
+    /**
+     * Remove a rule from the system rules
+     */
     public void removeRule(Rule r) {
         rules.remove(r);
     }
 
+    /**
+     * Remove a group from the system rules.
+     */
     public void removeGroup(RuleGroup g) {
         groups.remove(g);
         
     }
 
+    /**
+     * Reset all setting into default values.
+     */
     public void loadDefault() {
         rules = getDefaultDefinitions();
         groups = getDefaultGroups();

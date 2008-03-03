@@ -2,12 +2,20 @@ package seg.jUCMNav.staticSemantic;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
-
+/**
+ * This class encapusaltes a static checking result.
+ * 
+ * @author Byrne Yan
+ *
+ */
 public class StaticCheckingMsg {
 private	String message;
 private EObject location;
 private int severity;
 
+/**
+ * Constructs a static checking message with a string of message
+ */
 public StaticCheckingMsg(String msg)
 {
 	this.setMessage(msg);
@@ -15,29 +23,48 @@ public StaticCheckingMsg(String msg)
 	this.setError();
 }
 
+/**
+ * Constructs a static checking message with a string of message and an error location object
+ * @param msg   a string of the error message
+ * @param loc   an object on which the error occurs
+ */
 public StaticCheckingMsg(String msg, EObject loc)
 {
 	this.setMessage(msg);
 	this.setLocation(loc);
 	this.setError();
 }
+
+/**
+ * Return the error message
+ */
 public String getMessage() {
 	return message;
 }
+/**
+ * Set the error message
+ */
 public void setMessage(String message) {
 	this.message = message;
 }
+/**
+ * Returns the error object
+ */
 public EObject getLocation() {
 	return location;
 }
+/**
+ * Set the error object
+ */
 public void setLocation(EObject location) {
 	this.location = location;
 }
+/**
+ * Returns the severity of the error
+ * @return the value of severity
+ */
 public int getSeverity() {
 	return severity;
-}
-public void setSeverity(int severity) {
-	this.severity = severity;
 }
 
 /**

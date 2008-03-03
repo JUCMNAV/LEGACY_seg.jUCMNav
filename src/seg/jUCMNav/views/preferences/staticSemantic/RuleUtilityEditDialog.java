@@ -11,38 +11,60 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * This class provides the GUI of creating a new rule utility or editing an exisiting utility.
+ * 
+ * @author Byrne Yan
+ *
+ */
 public class RuleUtilityEditDialog extends Dialog {
+    /**
+     * The title of the dialog
+     */
     private String title;
+    /**
+     * The utility expression
+     */
     private String sUtilityExpression="";
     Text txtExpression;
     
     public RuleUtilityEditDialog(Shell parent) {
         super(parent);
-        // TODO Auto-generated constructor stub
     }
-    /**
-     * @param parentShell
-     */
     public RuleUtilityEditDialog(IShellProvider parentShell) {
         super(parentShell);
-        // TODO Auto-generated constructor stub
     }
+    /**
+     * Set the title of the dialog
+     */
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
         newShell.setText(title);
     }    
     
+    /**
+     * Set the utility expression
+     */
     public void setText(String sExpression)
     {
         sUtilityExpression = sExpression;
     }
+    /**
+     * Returns the utility expression
+     */
     public String getText()
     {
         return sUtilityExpression;
     }
+    /**
+     * Set the title of dialog. This method must be called before the dialog is created.
+     */
     public void setTitle(String title) {
         this.title = title;
     }
+    /**
+     * Create all GUI components.
+     */
     protected Control createDialogArea(Composite parent) {
         Composite composite = (Composite) super.createDialogArea(parent);
         Composite c1 = new Composite(parent,SWT.NULL);
@@ -57,6 +79,9 @@ public class RuleUtilityEditDialog extends Dialog {
        
         return composite;
     }
+    /**
+     * Close the dialog with saving the utility expression.
+     */
     protected void okPressed() {
         this.sUtilityExpression = txtExpression.getText();
         super.okPressed();
