@@ -224,16 +224,14 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
         for (int i = 0; i < groupItems.length; ++i) {
             TreeItem[] ruleItems = groupItems[i].getItems();
             for (int j = 0; j < ruleItems.length; ++j) {
-                if (ruleItems[j] != item) {
-                    Rule rule = (Rule) ruleItems[j].getData();
-                    for (int k = 0; k < rules.length; ++k) {
-                        if (rule == rules[k]) {
-                            ruleItems[j].setGrayed(false);
-                            ruleItems[j].setChecked(checked);
-                            Rule r = (Rule) ruleItems[j].getData();
-                            r.setEnabled(checked);
-                            break;
-                        }
+                Rule rule = (Rule) ruleItems[j].getData();
+                for (int k = 0; k < rules.length; ++k) {
+                    if (rule == rules[k]) {
+                        ruleItems[j].setGrayed(false);
+                        ruleItems[j].setChecked(checked);
+                        Rule r = (Rule) ruleItems[j].getData();
+                        r.setEnabled(checked);
+                        break;
                     }
                 }
             }
