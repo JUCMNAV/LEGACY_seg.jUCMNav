@@ -627,6 +627,12 @@ public class StaticSemanticDefMgr {
      */
     public void removeRule(Rule r) {
         rules.remove(r);
+        //traverse all groups and then remove r from them
+        for(int i=0;i<groups.size();++i)
+        {
+            RuleGroup g = (RuleGroup) groups.get(i);
+            g.removeRule(r);
+        }
     }
 
     /**
