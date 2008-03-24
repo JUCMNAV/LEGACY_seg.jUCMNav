@@ -30,9 +30,9 @@ import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
 public class GroupEditDialog extends Dialog {
 
     private static final int BTN_ID_AddToGroup = IDialogConstants.CANCEL_ID + 1;
-    private static final int BTN_ID_AddAllToGroup = IDialogConstants.CANCEL_ID + 2;
+//    private static final int BTN_ID_AddAllToGroup = IDialogConstants.CANCEL_ID + 2;
     private static final int BTN_ID_RemoveFromGroup = IDialogConstants.CANCEL_ID + 3;
-    private static final int BTN_ID_RemoveAllFromGroup = IDialogConstants.CANCEL_ID + 4;
+//    private static final int BTN_ID_RemoveAllFromGroup = IDialogConstants.CANCEL_ID + 4;
     /**
      * A table that contains all rules in the group
      */
@@ -121,15 +121,10 @@ public class GroupEditDialog extends Dialog {
         //Middle panel
         
         //Since CreateButton increases one coulmn of parent's layout, to keep the number of column not changed, we decrease one first
+        middleLayout.numColumns --;        
+        this.createButton(middle, BTN_ID_AddToGroup, "Add to group", false);
         middleLayout.numColumns --;
-         
-        this.createButton(middle, BTN_ID_AddToGroup, "^", false);
-        middleLayout.numColumns --;
-        this.createButton(middle, BTN_ID_AddAllToGroup, "^^^", false);
-        middleLayout.numColumns --;
-        this.createButton(middle, BTN_ID_RemoveFromGroup, "V", false);
-        middleLayout.numColumns --;
-        this.createButton(middle, BTN_ID_RemoveAllFromGroup, "VVV", false);
+        this.createButton(middle, BTN_ID_RemoveFromGroup, "Remove from group", false);
       
         //Bottom panel
         Label lblNonMembers  = new Label(bottom,SWT.None);
@@ -242,31 +237,14 @@ public class GroupEditDialog extends Dialog {
             case BTN_ID_AddToGroup:
                 addSelectionToGroup();
                 break;
-            case BTN_ID_AddAllToGroup:
-                addAllToGroup();
-                break;
             case BTN_ID_RemoveFromGroup:
                 removeSelectionFromGroup();
-                break;
-            case BTN_ID_RemoveAllFromGroup:
-                removeAllFromGroup();
                 break;
         }
             
         super.buttonPressed(buttonId);
     }
 
-    /**
-     * Remove all rules in the group and put them back the non-members table
-     */
-    private void removeAllFromGroup() {
-        TableItem[] itmes = members.getItems();
-        for(int i=0;i<itmes.length;++i)
-        {
-            appendRule(nonMembers,(Rule) itmes[i].getData());
-        }
-        members.removeAll();        
-    }
 
     /**
      * Remove all selected rules in the group and put them back the non-members table
@@ -278,18 +256,6 @@ public class GroupEditDialog extends Dialog {
             appendRule(nonMembers,(Rule) itmes[i].getData());
         }
         members.remove(members.getSelectionIndices());        
-    }
-
-    /**
-     * Add all rules in the non-members table to the group
-     */
-    private void addAllToGroup() {
-        TableItem[] itmes = nonMembers.getItems();
-        for(int i=0;i<itmes.length;++i)
-        {
-            appendRule(members,(Rule) itmes[i].getData());
-        }
-        nonMembers.removeAll();        
     }
 
     /**
