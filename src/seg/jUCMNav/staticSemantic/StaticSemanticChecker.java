@@ -87,7 +87,7 @@ public class StaticSemanticChecker {
 /*                            OCLExpression<EClassifier> query = helper.createQuery(r.getContext());
                             Query<EClassifier, EClass, EObject> queryEval = ocl.createQuery(query);
 */
-                            OCLExpression query = helper.createQuery(r.getContext());
+                            OCLExpression query = helper.createQuery(r.getContext()+"->asSequence()");
                             Query queryEval = ocl.createQuery(query);
 
 //                            @SuppressWarnings("unchecked")
