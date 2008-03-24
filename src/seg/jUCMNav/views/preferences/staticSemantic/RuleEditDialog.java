@@ -294,6 +294,10 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             rule.setDescription(txtDesc.getText());
             rule.setContext(txtQuery.getText());
             rule.setQuery(txtCheck.getText());
+            for (int i = 0; i < table.getItems().length; ++i) {
+                TableItem item = table.getItems()[i];
+                rule.addUtility(item.getText());
+            }
         }
         super.okPressed();
     }
