@@ -82,6 +82,7 @@ public class StaticSemanticDefMgr {
     public static StaticSemanticDefMgr instance() {
         if (instance_ == null) {
             instance_ = new StaticSemanticDefMgr();
+            instance_.load();
         }
         return instance_;
     }
