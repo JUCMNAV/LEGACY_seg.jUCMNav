@@ -455,11 +455,20 @@ public class URNNamingHelper {
             URNmodelElement elem = (URNmodelElement) IDConflicts.get(0);
 
             do {
+            	String oldDescription="Description...";
                 // set it to nothing
                 elem.setId(""); //$NON-NLS-1$
 
                 // get the next ID; might take a while.. find first free space.
+                if (elem instanceof Belief) {
+                	// Bug 555. We do not want to override the description in a duplicated belief.
+                	oldDescription = ((Belief) elem).getDescription();
+                }
                 setElementNameAndID(urn, elem);
+                if (elem instanceof Belief) {
+                	// Bug 555. Reinsert old description in duplicated belief.
+                	((Belief) elem).setDescription(oldDescription);
+                }
             } while (htIDs.containsKey(elem.getId()));
             htIDs.put(elem.getId(), null);
 
