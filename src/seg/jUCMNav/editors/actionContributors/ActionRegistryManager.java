@@ -41,6 +41,7 @@ import seg.jUCMNav.actions.AddResponsibility;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
+import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.DisconnectAction;
@@ -296,6 +297,10 @@ public class ActionRegistryManager {
 
         action = new AddBeliefAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addBelief"));  //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ChangeDecompositionTypeAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.changeDecompositionType"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddMapAction(editor);

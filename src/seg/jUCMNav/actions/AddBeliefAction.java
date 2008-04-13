@@ -33,7 +33,7 @@ public class AddBeliefAction extends URNSelectionAction {
     }
 
     /**
-     * We need to have a URNspec.
+     * We need to have an intentional element reference selected.
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

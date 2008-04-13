@@ -70,6 +70,7 @@ import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
 import seg.jUCMNav.model.commands.delete.DeleteStrategiesGroupCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import seg.jUCMNav.model.commands.transformations.AddBeliefToIntentionalElementRefCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeDecompositionTypeCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
 import ucm.map.UCMmap;
@@ -318,6 +319,27 @@ public class JUCMNavGRLCommandTests extends TestCase {
         cs.execute(cmd);        
     }
     
+    public void testChangeDecompositionTypeCommand(){
+        testAddIntentionalElementRefCommand();
+        IntentionalElementRef destination = (IntentionalElementRef)ModelCreationFactory.getNewObject(urnspec,IntentionalElementRef.class, IntentionalElementType.GOAL);
+        
+        int oldType = destination.getDef().getDecompositionType().getValue();
+        
+        //Change the decomposition type
+        Command cmd1 = new ChangeDecompositionTypeCommand(destination);
+        assertTrue("Can't execute ChangeDecompositionTypeCommand.", cmd1.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd1);
+        
+        //Check that the decomposition type has changed
+        assertTrue("ChangeDecompositionTypeCommand: type has not changed.", oldType != destination.getDef().getDecompositionType().getValue()); //$NON-NLS-1$
+        
+        // Change for the 2nd time
+        Command cmd2 = new ChangeDecompositionTypeCommand(destination);
+        assertTrue("Can't execute ChangeDecompositionTypeCommand.", cmd2.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd2);        
+        assertTrue("ChangeDecompositionTypeCommand: type has not rechanged.", oldType == destination.getDef().getDecompositionType().getValue()); //$NON-NLS-1$
+    }
+
     public void testContainerRefBindChildCommand(){
         //This test bind an actor ref and a node to a parent actorref
         testAddContainerRefCommand();
