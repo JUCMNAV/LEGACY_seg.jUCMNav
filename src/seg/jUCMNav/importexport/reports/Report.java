@@ -95,6 +95,11 @@ public class Report extends URNReport {
                 urndef = urn.getUrndef();
             }
 
+            //<BM> Insert title page for report
+            ReportTitlePage titlePage = new ReportTitlePage();
+            titlePage.CreateTitlePage(document, urn);
+            //<BM> 
+            
             // Report header
             ReportHeader reportHeader = new ReportHeader();
             reportHeader.createReportHeader(document, filename);
