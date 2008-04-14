@@ -1,13 +1,10 @@
 package seg.jUCMNav.importexport.reports;
 
 import java.text.SimpleDateFormat;
-
-//import org.eclipse.swt.graphics.Color;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import urn.URNspec; 
 import com.lowagie.text.*;
-//import com.lowagie.text.Image.*;
 
 
 public class ReportTitlePage extends Report {
@@ -20,103 +17,75 @@ public void CreateTitlePage(Document document,URNspec urn) {
     
     try 
     {   
-        
-        
-        // Create some space between the header and the image
+                
+/*        // Create some space between the header and the image
         for (int x = 0; x<7; x++) {
         
-            Paragraph topSpace = new Paragraph("     "); 
             document.add(Chunk.NEWLINE);
               
-        }
+        }*/
+
         
-        //Image titlePageImage = (JUCMNavPlugin.getImage( "icons/LogoFinalLarge.gif"));
-        //com.lowagie.text.Image.getInstance(titlePageImage);
-        //com.lowagie.text.Image image1 = com.lowagie.text.Image.getInstance ( "/seg.jUCMNav/icons/LogoFinalLarge.gif");
-        //ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")
-        
-        //temporary until I can get the image in place
+        // jUCMNav title
         Font font = new Font(Font.COURIER, 36, Font.BOLD);
         Paragraph projectName = new Paragraph("  jUCMNav  ",font);
         projectName.setAlignment (Element.ALIGN_CENTER);
         document.add(projectName);
         
+        document.add(Chunk.NEWLINE);
         
-        // jUCMNav Image here!
-        //Image image = Image.getInstance ("icons/LogoFinalLarge.gif");
-        //Image image = Image.getInstance ("C:\\temp\\LogoFinalLarge.gif");
-        //image.setAlignment (Image.MIDDLE);
-        //document.add (image);
+        // Load jUCMNav image by returning the runtime of the class of the object and retrieve its resources
+        Image image = Image.getInstance (getClass().getResource("/seg/jUCMNav/icons/LogoFinalLarge.gif"));
+        image.setAlignment (Image.MIDDLE);
+        document.add (image);
         
         Paragraph appURL = new Paragraph("http://www.softwareengineering.ca/jucmnav");
         appURL.setAlignment (Element.ALIGN_CENTER);
         document.add(appURL);
         
      // Create some space between the image and the title page info
-        for (int x = 0; x<20; x++) {
+        for (int x = 0; x<6; x++) {
             
             document.add(Chunk.NEWLINE); 
 
         }
-        
-        
-/*        Paragraph modelName = new Paragraph("Title: " + CheckforEmpty(urn.getName())); 
-        modelName.setAlignment (Element.ALIGN_CENTER);
-        document.add(modelName);
-        
-        Paragraph modelDescription = new Paragraph("Description: " + CheckforEmpty(urn.getDescription())); 
-        modelDescription.setAlignment (Element.ALIGN_CENTER);
-        document.add(modelDescription);
-        
-        Paragraph modelAuthor = new Paragraph("Author: " + CheckforEmpty(urn.getAuthor())); 
-        modelAuthor.setAlignment (Element.ALIGN_CENTER);
-        document.add(modelAuthor);
-        
-        Paragraph modelCreationDate = new Paragraph("Creation Date: " + CheckforEmpty(urn.getCreated())); 
-        modelCreationDate.setAlignment (Element.ALIGN_CENTER);
-        document.add(modelCreationDate);
-        
-        Paragraph modelModifiedDate = new Paragraph("Modification Date: " + CheckforEmpty(urn.getModified())); 
-        modelModifiedDate.setAlignment (Element.ALIGN_CENTER);
-        document.add(modelModifiedDate);*/
-        
-        //SimpleDateFormat format = new SimpleDateFormat("MMMMM d, yyyy HH:mm:ss aaa z");
-        //String date = format.format(new java.util.Date());
-        //Paragraph modelGeneratedDate = new Paragraph("Report Generation Date: " + date); 
-        //modelGeneratedDate.setAlignment (Element.ALIGN_CENTER);
-        //document.add(modelGeneratedDate);
-        
-/*        Paragraph modelSpecVersion = new Paragraph("Specification Version: " + CheckforEmpty(urn.getSpecVersion())); 
-        modelSpecVersion.setAlignment (Element.ALIGN_CENTER);
-        document.add(modelSpecVersion);*/
+
         
         Font specsFont = new Font(Font.BOLD);
         
         Table specsTable = ReportUtils.createTable(2, 2, 0, 70);
-        
+
+        // URN title
         Chunk titleLabel = new Chunk("Title:", specsFont);
         Chunk titleValue = new Chunk(CheckforEmpty(urn.getName()));
         
+        // URN description
         Chunk descriptionLabel = new Chunk("Description:",specsFont);
         Chunk descriptionValue = new Chunk(CheckforEmpty(urn.getDescription()));
         
+        // URN author
         Chunk authorLabel = new Chunk("Author:",specsFont);
         Chunk authorValue = new Chunk(CheckforEmpty(urn.getAuthor()));
         
+        // URN creation date
         Chunk creationLabel = new Chunk("Creation Date:",specsFont);
         Chunk creationValue = new Chunk(CheckforEmpty(urn.getCreated()));
         
+        // URN modification date/time
         Chunk modLabel = new Chunk("Modification Date:",specsFont);
         Chunk modValue = new Chunk(CheckforEmpty(urn.getModified()));
         
+        // URN current date/time
         SimpleDateFormat format = new SimpleDateFormat("MMMMM d, yyyy HH:mm:ss aaa z");
         String date = format.format(new java.util.Date());
         Chunk dateLabel = new Chunk("Report Generation Date:", specsFont);
         Chunk dateValue = new Chunk(date);
         
+        //URN specification version
         Chunk specLabel = new Chunk("Specification Version:", specsFont);
         Chunk specValue = new Chunk(CheckforEmpty(urn.getSpecVersion()));
         
+        //Create each table cell
         Cell titleCell = new Cell(titleLabel);
         Cell titleCellValue = new Cell(titleValue);
         titleCell.setBorder(Rectangle.NO_BORDER);

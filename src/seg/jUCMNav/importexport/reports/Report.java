@@ -95,7 +95,7 @@ public class Report extends URNReport {
                 urndef = urn.getUrndef();
             }
 
-            //<BM> Insert title page for report
+            //<BM> Insert title page for PDF and RTF report
             ReportTitlePage titlePage = new ReportTitlePage();
             titlePage.CreateTitlePage(document, urn);
             //<BM> 
