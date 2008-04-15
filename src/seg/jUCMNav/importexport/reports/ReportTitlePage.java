@@ -28,7 +28,7 @@ public void CreateTitlePage(Document document,URNspec urn) {
         
         // jUCMNav title
         Font font = new Font(Font.COURIER, 36, Font.BOLD);
-        Paragraph projectName = new Paragraph("  jUCMNav  ",font);
+        Paragraph projectName = new Paragraph("  jUCMNav Report  ",font);
         projectName.setAlignment (Element.ALIGN_CENTER);
         document.add(projectName);
         
@@ -138,9 +138,6 @@ public void CreateTitlePage(Document document,URNspec urn) {
         
         specsTable.addCell(dateCell);
         specsTable.addCell(dateCellValue);
-        
-        specsTable.addCell(creationCell);
-        specsTable.addCell(creationCellValue);
         
         specsTable.addCell(specCell);
         specsTable.addCell(specCellValue);
