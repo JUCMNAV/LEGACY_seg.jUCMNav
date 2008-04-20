@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
+import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import urncore.IURNDiagram;
 
 /**
@@ -38,7 +39,8 @@ public abstract class ExportImage implements IUseCaseMapExport {
         pane.paint(graphics);
 
         ImageLoader loader = new ImageLoader();
-        loader.data = new ImageData[] { image.getImageData() };
+        loader.data = new ImageData[] { ReportUtils.cropImage(image.getImageData()) };
+        //loader.data = new ImageData[] { image.getImageData() };
         loader.save(fos, getType());
         
         

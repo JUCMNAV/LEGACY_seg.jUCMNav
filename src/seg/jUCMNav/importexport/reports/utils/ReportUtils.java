@@ -29,6 +29,8 @@ import com.lowagie.text.Table;
  */
 public class ReportUtils {
 
+       
+    
     /**
      * return the area in which the image will be inserted in the report
      * 
@@ -226,21 +228,24 @@ public class ReportUtils {
     public static ImageData cropImage(ImageData image) {
 
         PaletteData palette = image.palette;
-        int imageHeight = image.height;
-        int imageWidth = image.width;
-
+        int imageHeight = image.height;     
+        int imageWidth = image.width;       
+   
         // variables used to construct the crop rectangle initialization
         int cropRectangleX = 0;
         int cropRectangleY = 0;
         int cropRectangleWidth = 0;
         int cropRectangleHeight = 0;
 
-        int left = imageWidth;
+        int left = imageWidth;          
         int right = 0;
         int bottom = 0;
-        int top = imageHeight;
-        int backgroundColor = 248;
-
+        int top = imageHeight;      
+        //int backgroundColor = 248;
+        int backgroundColor = 255;
+        int black = 0;
+        
+/* original routine
         for (int x = 0; x < imageWidth - 1; x++) {
             // find the top limit of crop rectangle, with 0,0 being top left corner of image
             for (int y = 0; y < imageHeight; y++) {
@@ -259,7 +264,26 @@ public class ReportUtils {
                 }
             }
         }
+        
+       */
 
+        for (int x = 0; x < imageWidth; x++) {
+            // find the top limit of crop rectangle, with 0,0 being top left corner of image
+            for (int y = 0; y < imageHeight; y++) {
+                int pixel = image.getPixel(x, y);
+                RGB rgb = palette.getRGB(pixel);
+                // if pixel is black then keep its top position
+                // TODO check preferred values for background color
+                if (rgb.blue == black && rgb.green == black && rgb.red == black) {
+                    if (y < top) {
+                        top = y;
+                    }
+                     
+                }
+            }
+        }
+
+        
         for (int y = 0; y < imageHeight; y++) {
             // find the left limit of crop rectangle, with 0,0 being top left corner of image
             for (int x = 0; x < imageWidth; x++) {
@@ -267,12 +291,9 @@ public class ReportUtils {
                 RGB rgb = palette.getRGB(pixel);
                 // if pixel is not white then keep y value
                 // TODO check prefered values for bground color
-                if (rgb.blue != backgroundColor || rgb.green != backgroundColor || rgb.red != backgroundColor) {
+                if (rgb.blue == black && rgb.green == black && rgb.red == black) {
                     if (x < left) {
-                        if (x > 1)
-                            left = x - 2;
-                        else
-                            left = x;
+                       left = x;
                     }
                 }
             }
@@ -286,7 +307,7 @@ public class ReportUtils {
                 RGB rgb = palette.getRGB(pixel);
                 // if pixel is not white then keep y value
                 // TODO check prefered values for bground color
-                if (rgb.blue != backgroundColor || rgb.green != backgroundColor || rgb.red != backgroundColor) {
+                if (rgb.blue == black && rgb.green == black && rgb.red == black) {
                     if (x > right) {
                         right = x;
                     }
@@ -300,7 +321,7 @@ public class ReportUtils {
                 int pixel = image.getPixel(x, y);
                 RGB rgb = palette.getRGB(pixel);
                 // if pixel is not white then keep y value
-                if (rgb.blue != backgroundColor || rgb.green != backgroundColor || rgb.red != backgroundColor) {
+                if (rgb.blue == black && rgb.green == black && rgb.red == black) {
                     if (y > bottom)
                         bottom = y;
                 }
@@ -313,7 +334,7 @@ public class ReportUtils {
         cropRectangleWidth = right - left + 1;
         cropRectangleHeight = bottom - top + 1;
 
-        ImageData croppedImage = new ImageData(cropRectangleWidth, cropRectangleHeight, 8, palette);
+        ImageData croppedImage = new ImageData(cropRectangleWidth, cropRectangleHeight, image.depth, image.palette);
 
         for (int x = cropRectangleX; x < cropRectangleWidth + cropRectangleX; x++) {
             for (int y = cropRectangleY; y < cropRectangleHeight + cropRectangleY; y++) {
