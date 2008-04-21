@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.core.internal.resources.Workspace;
@@ -20,6 +21,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.extensionpoints.IURNExportPrePostHooks;
@@ -50,6 +52,18 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 		if (c.size()==0)
 			return;
 		
+		boolean scenarioDefFound = false; // Is there at least one scenario definition?
+        for (Iterator groups = urn.getUcmspec().getScenarioGroups().iterator(); groups.hasNext() && !scenarioDefFound;) {
+        	if ( ((ScenarioGroup) groups.next()).getScenarios().size() > 0) {
+        		scenarioDefFound = true; 
+        	}
+        }
+        
+        if (!scenarioDefFound) { // No scenario definition. Avoid Invalid thread access exception.
+        	// TODO: Need to find a better way to report such errors!
+        	System.out.println(Messages.getString("ExportMSC.NoScenarioDefined")); //$NON-NLS-1$
+        	return;
+        }
 		this.newFilename = filename;
 		            
 		Vector v = new Vector();
@@ -68,16 +82,10 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 			else 
 				ScenarioUtils.setActiveScenario(urn.getUcmspec(), v);
 		}
-			
-		
-		
-
 	}
 
 	public void postHook(IWorkbenchPage page) {
 		try {
-			
-
 			URI newFile = (new File(this.newFilename)).toURI().normalize();
 			URI workspaceFile = ResourcesPlugin.getWorkspace().getRoot().getLocationURI().normalize();
 						
@@ -95,8 +103,6 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 				page.openEditor(new FileEditorInput(file), desc.getId());
 			}
 			
-
-			   
 			} catch (Exception ex) {
 				// hide any errors.
 			}
