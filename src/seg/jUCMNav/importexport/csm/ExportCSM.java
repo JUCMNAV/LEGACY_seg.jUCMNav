@@ -946,7 +946,7 @@ public class ExportCSM implements IURNExport {
      * @param warnings
      *            a vector of {@link CsmExportWarning}s to be pushed to the problems view.
      */
-    private static void refreshProblemsView(Vector warnings) {
+    public static void refreshProblemsView(Vector warnings) {
     	
     	 
         IWorkbenchWindow[] wbw = PlatformUI.getWorkbench().getWorkbenchWindows();

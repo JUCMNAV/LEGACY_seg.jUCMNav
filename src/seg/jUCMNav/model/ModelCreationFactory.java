@@ -591,8 +591,7 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setCreated(sDate);
         urnspec.setModified(sDate);
 
-        urnspec.setUrnVersion("0.17"); //$NON-NLS-1$
-        urnspec.setSpecVersion(URNSPEC_VERSION);
+        urnspec.setUrnVersion(URNSPEC_VERSION); //$NON-NLS-1$
 
         // Set the author to the current user
         urnspec.setAuthor(GeneralPreferencePage.getAuthor());
