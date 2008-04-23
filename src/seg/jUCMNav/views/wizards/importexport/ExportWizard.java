@@ -53,7 +53,7 @@ import urncore.URNmodelElement;
  * 
  * Will look into its IStructuredSelection and find all applicable maps.
  * 
- * @author jkealey
+ * @author jkealey, dessure
  * 
  */
 
@@ -62,9 +62,6 @@ public class ExportWizard extends Wizard implements IExportWizard {
     protected static final String PAGE0 = Messages.getString("ExportWizard.ExportURNorUCM"); //$NON-NLS-1$
     protected static final String PAGE1 = Messages.getString("ExportImageWizard.exportImage"); //$NON-NLS-1$
 
-    public boolean needsProgressMonitor() {
-        return true;
-    }
     /**
      * Removes illegal characters from filenames. Not sure if the complete list is here.
      * 
@@ -126,6 +123,13 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
     }
 
+    /**
+     * Indicates whether this wizard needs a progress monitor.
+     */
+    public boolean needsProgressMonitor() {
+        return true;
+    }
+    
     /**
      * Add both pages
      */
@@ -263,7 +267,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      */
 
     protected void ExportURN(IURNDiagram diagram, Vector v) throws Exception {
-        // dont output same URN multiple times.
+        // don't output same URN multiple times.
         if (v.contains(diagram.getUrndefinition().getUrnspec()))
             return; // we've already exported this URNSpec
         v.add(diagram.getUrndefinition().getUrnspec());
@@ -463,8 +467,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
                     if (obj instanceof IURNDiagram) {
                         IURNDiagram diagram = (IURNDiagram) obj;
                         addSelectedDiagram(diagram);
-                        // this.mapsToExport.add(obj);
-                        // defineMapping(editor, diagram);
+
                         // define all mappings because they are used by some exports
                         for (Iterator iterator = diagram.getUrndefinition().getSpecDiagrams().iterator(); iterator.hasNext();) {
                             IURNDiagram diagram2 = (IURNDiagram) iterator.next();
