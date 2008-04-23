@@ -62,6 +62,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
     protected static final String PAGE0 = Messages.getString("ExportWizard.ExportURNorUCM"); //$NON-NLS-1$
     protected static final String PAGE1 = Messages.getString("ExportImageWizard.exportImage"); //$NON-NLS-1$
 
+    public boolean needsProgressMonitor() {
+        return true;
+    }
     /**
      * Removes illegal characters from filenames. Not sure if the complete list is here.
      * 
