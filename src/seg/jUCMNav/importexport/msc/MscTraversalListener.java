@@ -123,8 +123,7 @@ public class MscTraversalListener implements ITraversalListener {
 		htScenarioToMap = new HashMap();
 		urnspec = ModelCreationFactory.getNewURNspec(true, false);
 		
-		// TODO: find a better way to store this information. URNspec should have metadata. 
-		//urnspec.setAuthor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getTitle());
+		// TODO: find a better way to store this information, e.g., use URNspec metadata. 
 		urnspec.setAuthor(originalFilename);
 
 		cs = new CommandStack();

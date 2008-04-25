@@ -25,6 +25,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.extensionpoints.IURNExportPrePostHooks;
+import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.preferences.ScenarioExportPreferences;
 import ucm.scenario.ScenarioDef;
@@ -60,8 +61,7 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
         }
         
         if (!scenarioDefFound) { // No scenario definition. Avoid Invalid thread access exception.
-        	// TODO: Need to find a better way to report such errors!
-        	System.out.println(Messages.getString("ExportMSC.NoScenarioDefined")); //$NON-NLS-1$
+			jUCMNavErrorDialog warningMessage = new jUCMNavErrorDialog(Messages.getString("ExportMSC.NoScenarioDefined"));
         	return;
         }
 		this.newFilename = filename;

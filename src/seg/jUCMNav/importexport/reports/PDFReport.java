@@ -13,10 +13,10 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * implements the export functionality called by the ReportGenerator Wizard. It extends the Report class containing all generic code for all report types.
+ * Exports as a PDF Report. Implements the export functionality called by the ReportGenerator Wizard. 
+ * It extends the Report class containing all generic code for all report types.
  * 
  * This class contains code specific to PDF generation (headers, footers, ...)
- * 
  * 
  * @author dessure
  * 

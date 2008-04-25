@@ -32,11 +32,11 @@ public class Report extends URNReport {
 
     private FileOutputStream fos = null;
     protected Font reportTitleFont = new Font(Font.HELVETICA, 24, Font.UNDERLINE);
-    protected Font header1Font = new Font(Font.HELVETICA, 14, Font.BOLD);
-    protected Font header2Font = new Font(Font.HELVETICA, 12, Font.BOLD);
-    protected Font descriptionFont = new Font(Font.HELVETICA, 12, Font.NORMAL);
-    protected Font descriptionBoldFont = new Font(Font.HELVETICA, 12, Font.BOLD);
-    protected Font diagramHeaderFont = new Font(Font.HELVETICA, 14, Font.BOLD);
+    protected Font header1Font = new Font(Font.HELVETICA, 12, Font.BOLD);
+    protected Font header2Font = new Font(Font.HELVETICA, 11, Font.BOLD);
+    protected Font descriptionFont = new Font(Font.HELVETICA, 10, Font.NORMAL);
+    protected Font descriptionBoldFont = new Font(Font.HELVETICA, 11, Font.BOLD);
+    protected Font diagramHeaderFont = new Font(Font.HELVETICA, 12, Font.BOLD);
     protected Font figureLegendFont = new Font(Font.HELVETICA, 10, Font.NORMAL + Font.ITALIC);
     protected Font headerFont = new Font(Font.HELVETICA, 10, Font.NORMAL + Font.ITALIC);
     protected Font footerFont = new Font(Font.HELVETICA, 10, Font.NORMAL + Font.ITALIC);

@@ -7,9 +7,14 @@ import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.importexport.ExportImageGIF;
 
@@ -29,34 +34,59 @@ import com.lowagie.text.Table;
  */
 public class ReportUtils {
 
+	/**
+	 * For setting up resolution. 1.0 = 100% zoom.
+	 * Export speed slows down by the square of this value...
+	 * 
+	 */
+	public final static float ZOOMFACTOR = 1.5f; 
 
 
 	/**
-	 * return the area in which the image will be inserted in the report
-	 * 
 	 * @param pagesize
-	 *            the actual size of a report page
-	 * @param margin
-	 *            the space we leave for margins
-	 * @param pageRatioImageHeight
-	 *            the actual pagesize ratio we want the image Height to occupy
-	 * 
+	 * 			the actual size of a report page
+	 * @param imageWidth
+	 * 			the width of the image
+	 * @param imageHeight
+	 * 			the height of the image
+	 * @param img
+	 * 			the Image
 	 */
-	public static Rectangle getImageArea(Rectangle pagesize, int margin, float pageRatioImageHeight) {
+	private static void imageSmartScale(Rectangle pagesize, int imageWidth, int imageHeight, Image img) {
+		
+		// if the image boundaries are bigger than the page size, resize the image
+		float pageWidth = pagesize.getWidth();
+		float pageHeight = pagesize.getHeight();
 
-		float imageAreaHeight = pagesize.getHeight() * pageRatioImageHeight - margin;
-		float imageAreaWidth = pagesize.getWidth() - 2 * margin;
-		Rectangle imageArea = new Rectangle(imageAreaWidth, imageAreaHeight);
-		return imageArea;
+		// scale down from 100% zoom for nice and readable font size on paper
+		float newWidth = (float) imageWidth * 0.75f / ZOOMFACTOR;  
+		float newHeight = (float) imageHeight * 0.75f / ZOOMFACTOR;
+
+		// too wide?
+		if (newWidth > pageWidth - 72f) {
+			newHeight = newHeight * ((pageWidth - 72f)/newWidth);
+			newWidth = pageWidth - 72f; // leave 0.5in margin on each side
+		}
+
+		// still too high?
+		if (newHeight > pageHeight * 0.70f) {
+			newWidth = newWidth * (pageHeight * 0.70f / newHeight);
+			newHeight = pageHeight * 0.70f; // no higher than 70% of the page. Leaves room for headings/titles.
+		}
+
+		img.scaleToFit(newWidth, newHeight);
+		img.setAlignment(com.lowagie.text.Image.MIDDLE);
+		
 	}
-
+	
+	
 	/**
 	 * insert the java.awt image into the document
 	 * 
 	 * @param document
 	 *            the actual document in which we insert the image
 	 * @param awtImage
-	 *              the image in AWT format, needed for iText library
+	 *            the image in AWT format, needed for iText library
 	 * @param pagesize
 	 *            the actual size of a report page
 	 * @param imageWidth
@@ -69,35 +99,14 @@ public class ReportUtils {
 
 		try {
 
-			Image img1 = Image.getInstance(awtImage, null);
+			Image img = Image.getInstance(awtImage, null);
 
-			// if the image boundaries are bigger than the pagesize, resize the image
-			float pageWidth = pagesize.getWidth();
-			float pageHeight = pagesize.getHeight();
-
-			float newWidth = (float) imageWidth * 0.75f;  // Scale down from 100% zoom for good font size 
-			float newHeight = (float) imageHeight * 0.75f;
-
-			// too wide?
-			if (imageWidth > pageWidth - 72f) {
-				newWidth = pageWidth - 72f; // leave 0.5in margin on each side
-				newHeight = imageHeight * (newWidth/imageWidth);
-			}
-			
-			// still too high?
-			if (newHeight > pageHeight * 0.75f) {
-				newWidth = newWidth * (pageHeight * 0.75f / newHeight);
-				newHeight = pageHeight * 0.75f; // no higher than 75% of the page. Leaves room for headings/titles.
-			}
-			
-			img1.scaleToFit(newWidth, newHeight);
-			img1.setAlignment(com.lowagie.text.Image.MIDDLE);
-			document.add(img1);
+			imageSmartScale(pagesize, imageWidth, imageHeight, img);
+			document.add(img);
 
 		} catch (Exception e) {
 			jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
 			e.printStackTrace();
-
 		}
 
 	}
@@ -122,39 +131,34 @@ public class ReportUtils {
 
 		try {
 
-			ExportImageGIF gifImage = new ExportImageGIF();
-			gifImage.export(pane, "tmpfile.gif");
+			int paneWidth = Math.round(pane.getSize().width*ReportUtils.ZOOMFACTOR);
+			int paneHeight = Math.round(pane.getSize().height*ReportUtils.ZOOMFACTOR);
+			org.eclipse.swt.graphics.Image image = new org.eclipse.swt.graphics.Image(Display.getCurrent(), paneWidth, paneHeight);
+
+			GC gc = new GC(image);
+			SWTGraphics graphics = new SWTGraphics(gc);
+			// zoom for better resolution
+			graphics.scale(ReportUtils.ZOOMFACTOR); 
+
+			// if the bounds are in the negative x/y, we don't see them without a translation
+			graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
+			pane.paint(graphics);
+
+			ImageLoader loader = new ImageLoader();
+			loader.data = new ImageData[] { ExportImageGIF.downSample(image) };
+			loader.save("tmpfile.gif", SWT.IMAGE_GIF);
 
 			Image rtfImage = Image.getInstance("tmpfile.gif");
+			
+	        gc.dispose();
+	        image.dispose();
 
-			// TODO refactor same code as above
-			// if the image boundaries are bigger than the pagesize, resize the image
-			float pageWidth = pagesize.getWidth();
-			float pageHeight = pagesize.getHeight();
-			float ratioLargeImage = 0.5f;
-			float ratioSmallImage = 0.25f;
-			if (imageWidth > pageWidth + 20 || imageHeight > pageHeight + 20) {
-				// resize the image, default margin size is used, same value as the one used in document constructor
-				// we use half of the page of image as well
-				// TODO these values should be obtained dynamically
-				Rectangle imageArea = getImageArea(pagesize, 36, ratioLargeImage);
-				rtfImage.scaleToFit(imageArea.getWidth(), imageArea.getHeight());
-			} else {
-				Rectangle imageArea = getImageArea(pagesize, 36, ratioSmallImage);
-				rtfImage.scaleToFit(imageArea.getWidth(), imageArea.getHeight());
-			}
-
-			rtfImage.setAlignment(com.lowagie.text.Image.MIDDLE);
-
+			imageSmartScale(pagesize, imageWidth, imageHeight, rtfImage);
 			document.add(rtfImage);
-
-
-
 
 		} catch (Exception e) {
 			jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
 			e.printStackTrace();
-
 		}
 
 	}
@@ -439,4 +443,20 @@ public class ReportUtils {
 		return para1;
 	}
 
+	/**
+	 * checks whether the String s exists and is not empty
+	 * 
+	 * @param s
+	 *            the String to check
+	 * 
+	 *  @return exists
+	 *            indicates whether s is not null and not empty
+	 */	
+	public static boolean notEmpty(String s) {
+		boolean exists = false;
+
+		if (s != null)
+			exists = (s != "");
+		return exists;
+	}
 }

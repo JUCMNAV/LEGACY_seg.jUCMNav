@@ -20,24 +20,13 @@ public class ReportPreferenceHelper {
     public final static String PREF_PATH = "seg.jUCMNav.CreateReport.Path"; //$NON-NLS-1$
     public final static String PREF_FILENAMEPREFIX = "seg.jUCMNav.CreateReport.Filename"; //$NON-NLS-1$
     
-    // values of PREF_REPORTSCOPE
-    //public static final int URN_DIAGRAM = 0;
-    //public static final int URN = 1;
 
     /**
      * Sets the default values for the report wizard.
      */
     public static void createPreferences() {
         getPreferenceStore().setDefault(PREF_PATH, DEFAULTPATH);
-      //  getPreferenceStore().setDefault(PREF_REPORTSCOPE, DEFAULTREPORTSCOPE);
     }
-
-    /**
-     * @return the current export type, either UCM or URN
-     
-    public static int getReportScope() {
-        return getPreferenceStore().getInt(PREF_REPORTSCOPE);
-   }*/
 
     /**
      * 
@@ -69,16 +58,7 @@ public class ReportPreferenceHelper {
     public static IPreferenceStore getPreferenceStore() {
         return JUCMNavPlugin.getDefault().getPreferenceStore();
     }
-
-    /**
-     * @param type
-     *            either UCM or URN
-     
-    public static void setReportScope(int type) {
-        getPreferenceStore().setValue(PREF_REPORTSCOPE, type);
-    }
-*/
-    
+   
     /**
      * 
      * @param type

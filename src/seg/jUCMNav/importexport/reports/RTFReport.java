@@ -15,7 +15,8 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.rtf.RtfWriter2;
 
 /**
- * Exports as a RTF Report
+ * Exports as a RTF Report. Implements the export functionality called by the ReportGenerator Wizard. 
+ * It extends the Report class containing all generic code for all report types.
  * 
  * This class contains code specific to RTF generation (headers, footers, ...)
  * 
@@ -25,14 +26,14 @@ import com.lowagie.text.rtf.RtfWriter2;
 public class RTFReport extends Report {
 
     /**
-     * creates the data dictionary section in the report
+     * main logic to create the rtf report
      * 
      * @param urn
-     *            the urn spec to use in order to retrieve elements
+     *            the urn specification we report on
      * @param mapDiagrams
-     *            the diagrams to insert and document in the report
+     *            list of diagrams to be documented
      * @param filename
-     *            the filename to create the report
+     *            the report filename
      */
     
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {

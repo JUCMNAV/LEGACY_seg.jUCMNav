@@ -261,19 +261,19 @@ public class UCMDiagramSection extends PDFReportDiagram {
 
 				// <BM> <2008-02-24> check if the label and expression strings are empty
 				if (orCondition != null) {
-					if(orCondition.getLabel() != null && ! "".equals(orCondition.getLabel())) {  
+					if(ReportUtils.notEmpty(orCondition.getLabel())) {  
 
-						document.add(new Chunk("[" + orCondition.getLabel() + "]:")); //<BM> <2008-02-23> Search for label result                
+						document.add(new Chunk("[" + orCondition.getLabel() + "] ==> ", descriptionFont)); //<BM> <2008-02-23> Search for label result                
 
-						if(orCondition.getExpression() != null && ! "".equals(orCondition.getExpression())) {            
+						if(ReportUtils.notEmpty(orCondition.getExpression())) {            
 
-							document.add(new Chunk(orCondition.getExpression()));         //<BM> <2008-02-23> Search for expression result
+							document.add(new Chunk(orCondition.getExpression(), descriptionFont));         //<BM> <2008-02-23> Search for expression result
 
 						}
 					}
 				}
 				// <BM> <2008-02-24> no need to check probability for empty since it always has a default value of 1.0
-				document.add(new Chunk(" (probability: " + probability + ")"));//<BM> <2008-02-21> Fixed the way probability is output
+				document.add(new Chunk(" (probability: " + probability + ")", descriptionFont));//<BM> <2008-02-21> Fixed the way probability is output
 				document.add(Chunk.NEWLINE);
 			}
 
@@ -364,7 +364,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				Paragraph pluginMapPar = new Paragraph();
 				pluginMapPar.setIndentationLeft(10);
 				document.add(Chunk.NEWLINE);
-				Chunk pluginMap1 = new Chunk("Plugin Map -" + element.getPlugin().getName(), pluginMapTitleFont);
+				Chunk pluginMap1 = new Chunk("Plugin Map - " + element.getPlugin().getName(), pluginMapTitleFont);
 				pluginMapPar.add(pluginMap1);
 				document.add(pluginMapPar);
 
@@ -415,33 +415,30 @@ public class UCMDiagramSection extends PDFReportDiagram {
 
 				// Additional plugin binding information
 				Paragraph addlInfo = new Paragraph();
-				addlInfo.setIndentationLeft(10);
+				addlInfo.setIndentationLeft(20);
+				addlInfo.add(new Chunk("Precondition:", bindingsHeaderFont));
+				addlInfo.add(Chunk.NEWLINE);
 
-				if (element.getPrecondition().getLabel() != null) {
-					Chunk details = new Chunk("Precondition: " + element.getPrecondition().getLabel(), pluginMapTitleFont);
+				if (ReportUtils.notEmpty(element.getPrecondition().getLabel())) {
+					Chunk details = new Chunk("   Label: " + element.getPrecondition().getLabel(), pluginMapTitleFont);
 					addlInfo.add(details);
 					addlInfo.add(Chunk.NEWLINE);
 				}
-				if (element.getPrecondition().getExpression() != null) {
-					Chunk details = new Chunk("Expression: " + element.getPrecondition().getExpression(), pluginMapTitleFont);
+				if (ReportUtils.notEmpty(element.getPrecondition().getExpression())) {
+					Chunk details = new Chunk("   Expression: " + element.getPrecondition().getExpression(), pluginMapTitleFont);
 					addlInfo.add(details);
 					addlInfo.add(Chunk.NEWLINE);
 				}
-				if (element.getPrecondition().getDescription() != null) {
-					Chunk details = new Chunk("Description: " + element.getPrecondition().getDescription(), pluginMapTitleFont);
+				if (ReportUtils.notEmpty(element.getPrecondition().getDescription())) {
+					Chunk details = new Chunk("   Description: " + element.getPrecondition().getDescription(), pluginMapTitleFont);
 					addlInfo.add(details);
 					addlInfo.add(Chunk.NEWLINE);
 				}
-				if (element.isTransaction()) {
-					Chunk details = new Chunk("Transaction: true", pluginMapTitleFont);
-					addlInfo.add(details);
-					addlInfo.add(Chunk.NEWLINE);
-				} else {
-					Chunk details = new Chunk("Transaction: false", pluginMapTitleFont);
-					addlInfo.add(details);
-					addlInfo.add(Chunk.NEWLINE);
-				}
-				Chunk details = new Chunk("Probability: " + element.getProbability() + "", pluginMapTitleFont);
+				Chunk details = new Chunk("Transaction: " + element.isTransaction(), pluginMapTitleFont);
+				addlInfo.add(details);
+				addlInfo.add(Chunk.NEWLINE);
+
+				details = new Chunk("Probability: " + element.getProbability() + "", pluginMapTitleFont);
 				addlInfo.add(details);
 
 				document.add(addlInfo);

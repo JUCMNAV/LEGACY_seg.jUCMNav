@@ -139,11 +139,15 @@ public class PDFReportDiagram extends PDFReport {
 			// get the high level IFigure to be saved.
 			IFigure pane = (IFigure) mapDiagrams.get(diagram);
 
-			// TODO refactor, this comes from ExportImageGIF
-			Image image = new Image(Display.getCurrent(), pane.getSize().width, pane.getSize().height);
+			int paneWidth = Math.round(pane.getSize().width*ReportUtils.ZOOMFACTOR);
+			int paneHeight = Math.round(pane.getSize().height*ReportUtils.ZOOMFACTOR);
+			Image image = new Image(Display.getCurrent(), paneWidth, paneHeight);
 
 			GC gc = new GC(image);
 			SWTGraphics graphics = new SWTGraphics(gc);
+
+			// zoom for better resolution
+			graphics.scale(ReportUtils.ZOOMFACTOR); 
 
 			// if the bounds are in the negative x/y, we don't see them without a translation
 			graphics.translate(-pane.getBounds().x, -pane.getBounds().y);

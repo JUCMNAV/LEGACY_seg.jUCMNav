@@ -247,6 +247,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
      */
     private void fillTypeDropDown() {
         cboReportType.setItems(ReportExtensionPointHelper.getExportLabels());
+        cboReportType.select(0); // Select PDF by default
     }
 
     /**
@@ -303,36 +304,8 @@ public class ReportWizardMapSelectionPage extends WizardPage {
      * 
      */
     private void updatemapsToExport() {
-       /*
-        * backup 
-        * Vector toKeep = new Vector();
-
-
-        // since our indexes don't directly map, our job is a bit complicated
-        // a selected index references to the first occurence of a URNspec
-        // in the list of maps to Report.
-        Vector v = new Vector();
-        int j = 0, k = 0;
-        for (int i = 0; i < mapsToExport.size(); i++) {
-            IURNDiagram m = (IURNDiagram) mapsToExport.get(i);
-            if (!v.contains(m.getUrndefinition().getUrnspec())) {
-                v.add(m.getUrndefinition().getUrnspec());
-                if (iMapSelectionIndices[j] == k) {
-                    toKeep.add(m);
-                    j++;
-                }
-                k++;
-            }
-        }
-
-
-        mapsToExport.removeAllElements();
-        mapsToExport.addAll(toKeep);
-        
-        */
         
         Vector toKeep = new Vector();
-
         
             // direct mapping
             for (int i = 0; i < iMapSelectionIndices.length; i++) {
@@ -340,7 +313,6 @@ public class ReportWizardMapSelectionPage extends WizardPage {
                 toKeep.add(mapsToExport.get(index));
             }
         
-
         mapsToExport.removeAllElements();
         mapsToExport.addAll(toKeep);
 
