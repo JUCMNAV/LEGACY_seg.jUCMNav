@@ -74,19 +74,23 @@ public class ReportUtils {
 			// if the image boundaries are bigger than the pagesize, resize the image
 			float pageWidth = pagesize.getWidth();
 			float pageHeight = pagesize.getHeight();
-			float ratioLargeImage = 0.5f;
-			float ratioSmallImage = 0.25f;
-			if (imageWidth > pageWidth + 20 || imageHeight > pageHeight + 20) {
-				// resize the image, default margin size is used, same value as the one used in document constructor
-				// we use half of the page of image as well
-				// TODO these values should be obtained dynamically
-				Rectangle imageArea = getImageArea(pagesize, 36, ratioLargeImage);
-				img1.scaleToFit(imageArea.getWidth(), imageArea.getHeight());
-			} else {
-				Rectangle imageArea = getImageArea(pagesize, 36, ratioSmallImage);
-				img1.scaleToFit(imageArea.getWidth(), imageArea.getHeight());
-			}
 
+			float newWidth = (float) imageWidth * 0.75f;  // Scale down from 100% zoom for good font size 
+			float newHeight = (float) imageHeight * 0.75f;
+
+			// too wide?
+			if (imageWidth > pageWidth - 72f) {
+				newWidth = pageWidth - 72f; // leave 0.5in margin on each side
+				newHeight = imageHeight * (newWidth/imageWidth);
+			}
+			
+			// still too high?
+			if (newHeight > pageHeight * 0.75f) {
+				newWidth = newWidth * (pageHeight * 0.75f / newHeight);
+				newHeight = pageHeight * 0.75f; // no higher than 75% of the page. Leaves room for headings/titles.
+			}
+			
+			img1.scaleToFit(newWidth, newHeight);
 			img1.setAlignment(com.lowagie.text.Image.MIDDLE);
 			document.add(img1);
 

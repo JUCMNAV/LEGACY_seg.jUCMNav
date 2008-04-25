@@ -65,8 +65,7 @@ public class PDFReport extends Report {
                 reportDiagrams.createPDFReportDiagramsAndDescription(document, urndef, mapDiagrams, pagesize);
 
             }
-            
-            
+             
             document.close();
 
         } catch (Exception e) {
