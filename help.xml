@@ -3,40 +3,89 @@
 
 <toc label="jUCMNav Online Help" topic="helpcontent/helponline.html">
         <topic label="Part I - Introduction" href="helpcontent/helponline.html#Part_I_Introduction">
+            <topic label="User Requirements Notation (URN)" href="helpcontent/helponline.html#User_Requirements_Notation_URN" />
+			<topic label="The Goal-Oriented Requirements Language (GRL)" href="helpcontent/helponline.html#The_Goal_oriented_Requirement_La" >
+				<topic label="GRL in a Nutshell" href="helpcontent/helponline.html#GRL_in_a_Nutshell" />
+				<topic label="Why use the Goal-oriented Requirement Language?" href="helpcontent/helponline.html#Why_use_the_Goal_oriented_Requir" />
+			</topic>
             <topic label="The Use Case Maps (UCM) Notation" href="helpcontent/helponline.html#The_Use_Case_Maps_UCM_Notation">
                 <topic label="UCMs in a Nutshell" href="helpcontent/helponline.html#UCMs_in_a_Nutshell" />
                 <topic label="Why Use Case Maps?" href="helpcontent/helponline.html#Why_Use_Case_Maps" />
             </topic>
-			<topic label="The Goal-Oriented Requirements Language (GRL)" href="helpcontent/helponline.html#The_Goal_Oriented_Requirements_L" />
             <topic label="Reference" href="helpcontent/helponline.html#Reference" />
             <topic label="Quick Tour of Eclipse and jUCMNav" href="helpcontent/helponline.html#Quick_Tour_of_Eclipse_and_jUCMNa">
-                <topic label="Creating Files" href="helpcontent/helponline.html#Creating_Files" />
+                <topic label="Creating and Opening Files" href="helpcontent/helponline.html#Creating_and_Opening_Files" />
                 <topic label="Perspectives" href="helpcontent/helponline.html#Perspectives" />
                 <topic label="Views and Editor" href="helpcontent/helponline.html#Views_and_Editor" />
+                <topic label="Preferences" href="helpcontent/helponline.html#Preferences" />
             </topic>
         </topic>
         <topic label="Part II - Basic Editing" href="helpcontent/helponline.html#Part_II_Basic_Editing">
             <topic label="Keyboard shortcuts" href="helpcontent/helponline.html#Keyboard_shortcuts" />
+            <topic label="Diagrams" href="helpcontent/helponline.html#Diagrams">
+            	<topic label="Adding a GRL or UCM diagram" href="helpcontent/helponline.html#Adding_a_GRL_or_UCM_diagram" />
+            	<topic label="References versus Definitions" href="helpcontent/helponline.html#References_versus_Definitions" />
+            </topic>           
             <topic label="Components (UCM) / Actors (GRL)" href="helpcontent/helponline.html#Components_UCM_Actors_GRL" />
+            <topic label="Intentional Elements (GRL)" href="helpcontent/helponline.html#Intentional_Elements_GRL" />
+ 			<topic label="Beliefs (GRL)" href="helpcontent/helponline.html#Beliefs_GRL" />
             <topic label="Creating Paths (UCM)" href="helpcontent/helponline.html#Creating_Paths_UCM" />
+            <topic label="Decomposition, Dependencies, and Contributions (GRL) " href="helpcontent/helponline.html#Decomposition_Dependencies_and_C" />
             <topic label="Elements bound to components (UCM) / actors (GRL)" href="helpcontent/helponline.html#Elements_bound_to_components_UCM" />
             <topic label="Working with labels (UCM/GRL)" href="helpcontent/helponline.html#Working_with_labels_UCM_GRL" />
             <topic label="Forks/Joins (UCM)" href="helpcontent/helponline.html#Forks_Joins_UCM" />
             <topic label="Conditions (UCM)" href="helpcontent/helponline.html#Conditions_UCM" />
             <topic label="Deletion (UCM/GRL)" href="helpcontent/helponline.html#Deletion_UCM_GRL" />
             <topic label="Waiting places, timers and connects (UCM)" href="helpcontent/helponline.html#Waiting_places_timers_and_connec" />
-            <topic label="Intentional Elements (GRL)" href="helpcontent/helponline.html#Intentional_Elements_GRL" />
-            <topic label="Decomposition, Dependencies, and Contributions (GRL) " href="helpcontent/helponline.html#Decomposition_Dependencies_and_C" />
-			<topic label="Beliefs (GRL)" href="helpcontent/helponline.html#Beliefs_GRL" />
         </topic>
         <topic label="Part III - Advanced Editing" href="helpcontent/helponline.html#Part_III_Advanced_Editing">
-            <topic label="Working with Multiple Maps" href="helpcontent/helponline.html#Working_with_Multiple_Maps" />
             <topic label="Zooming and view modes" href="helpcontent/helponline.html#Zooming_and_view_modes" />
             <topic label="Auto-layout" href="helpcontent/helponline.html#Auto_layout" />
             <topic label="Using Stubs" href="helpcontent/helponline.html#Using_Stubs" />
-            <topic label="Exporting Images" href="helpcontent/helponline.html#Exporting_Images" />
-            <topic label="Import/Export" href="helpcontent/helponline.html#Import_Export"/>
+            <topic label="Import/Export" href="helpcontent/helponline.html#Import_Export">
+            	<topic label="Exporting Images" href="helpcontent/helponline.html#Exporting_Images" />
+            	<topic label="Other Import/Exports" href="helpcontent/helponline.html#Other_Import_Exports" />            	
+            </topic>
+            <topic label="Report Generation" href="helpcontent/helponline.html#Report_Generation"/>
+            <topic label="GRL Catalogues" href="helpcontent/helponline.html#GRL_Catalogues"/>
+            <topic label="Metadata" href="helpcontent/helponline.html#Metadata"/>
         </topic>
-        <topic label="Part IV - GRL Strategies" href="helpcontent/helponline.html#Part_IV_GRL_Strategies"/>
-		<topic label="Part V - UCM Scenarios" href="helpcontent/helponline.html#Part_V_UCM_Scenarios"/>
+        <topic label="Part IV - GRL Strategies" href="helpcontent/helponline.html#Part_IV_GRL_Strategies">
+            <topic label="Quantitative Evaluation" href="helpcontent/helponline.html#Quantitative_Evaluation" />
+            <topic label="Managing Strategies" href="helpcontent/helponline.html#Managing_Strategies" />
+            <topic label="Analyzing GRL models" href="helpcontent/helponline.html#Analyzing_GRL_models" />
+            <topic label="Exporting Strategies in CSV" href="helpcontent/helponline.html#Exporting_Strategies_in_CSV" />
+            <topic label="URN Links" href="helpcontent/helponline.html#URN_Links" />          
+        </topic>
+		<topic label="Part V - UCM Scenarios" href="helpcontent/helponline.html#Part_V_UCM_Scenarios">
+            <topic label="Code and Condition Editor" href="helpcontent/helponline.html#Code_and_Condition_Editor">
+            	<topic label="Variables" href="helpcontent/helponline.html#Variables" />
+            	<topic label="BNF Grammar" href="helpcontent/helponline.html#BNF_Grammar" />
+            	<topic label="Examples" href="helpcontent/helponline.html#Examples" />
+            </topic>
+          	<topic label="Scenario Children" href="helpcontent/helponline.html#Scenario_children">
+          		<topic label="Start Points" href="helpcontent/helponline.html#Start_Points" />
+          		<topic label="End Points" href="helpcontent/helponline.html#End_Points" />
+          		<topic label="Variable initializations, preconditions and postconditions" href="helpcontent/helponline.html#Variable_initializations_precond" />
+          		<topic label="Included Scenarios" href="helpcontent/helponline.html#Included_Scenarios" />
+          	</topic>
+            <topic label="Executing a Scenario" href="helpcontent/helponline.html#Executing_a_Scenario">
+	            <topic label="Detecting Problems" href="helpcontent/helponline.html#Detecting_Problems" />
+	            <topic label="Scenario Traversal Preferences" href="helpcontent/helponline.html#Scenario_Traversal_Preferences" />
+          	</topic>
+        </topic>
+		<topic label="Part VI - MSC Viewer" href="helpcontent/helponline.html#Part_VI_MSC_Viewer">
+            <topic label="Exporting MSC images" href="helpcontent/helponline.html#Exporting_MSC_images" />
+        </topic>
+		<topic label="Part VII - Static Semantics Checking Tools" href="helpcontent/helponline.html#Part_VII_Static_Semantics_Checki">
+            <topic label="Creating a rule" href="helpcontent/helponline.html#Creating_a_rule" />
+            <topic label="Grouping a rule" href="helpcontent/helponline.html#Grouping_a_rule" />
+            <topic label="Enabling/disabling rules" href="helpcontent/helponline.html#Enabling_disabling_rules" />
+            <topic label="Running a check/verification" href="helpcontent/helponline.html#Running_a_check_verification" />
+            <topic label="Exporting/importing a rule" href="helpcontent/helponline.html#Exporting_importing_a_rule" />
+        </topic>
+		<topic label="Part VIII - Key Performance Indicators" href="helpcontent/helponline.html#Part_VIII_Key_Performance_Indica">
+            <topic label="List of Key Performance Indicators view" href="helpcontent/helponline.html#List_of_Key_Performance_Indicato" />
+            <topic label="Key Performance Indicators view" href="helpcontent/helponline.html#Key_Performance_Indicators_view" />
+        </topic>
 </toc>
