@@ -102,20 +102,22 @@ public class StaticSemanticDefMgr {
      */
     private void saveRules() {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
-        store.setValue(RULE_NUMBER, rules.size());
-        for (int i = 0; i < rules.size(); ++i) {
-            Rule r = (Rule) rules.get(i);
-            String name = RULE_PREFIX + i;
-            store.setValue(name + SELECTED_SUFFIX, r.isEnabled());
-            store.setValue(name + NAME_SUFFIX, r.getName());
-            store.setValue(name + CLASSIFIER_SUFFIX, r.getClassifier());
-            store.setValue(name + CONTEXT_SUFFIX, r.getContext());
-            store.setValue(name + CONSTRAINT_SUFFIX, r.getQuery());
-            store.setValue(name + DESCCRIPTION_SUFFIX, r.getDescription());
-            int nUtilities = r.getUtilities().size();
-            store.setValue(name + UTILITIES_NUMBER, nUtilities);
-            for (int j = 0; j < nUtilities; ++j) {
-                store.setValue(name + UTILITIES + j, (String) r.getUtilities().get(j));
+        if (rules != null) {
+            store.setValue(RULE_NUMBER, rules.size());
+            for (int i = 0; i < rules.size(); ++i) {
+                Rule r = (Rule) rules.get(i);
+                String name = RULE_PREFIX + i;
+                store.setValue(name + SELECTED_SUFFIX, r.isEnabled());
+                store.setValue(name + NAME_SUFFIX, r.getName());
+                store.setValue(name + CLASSIFIER_SUFFIX, r.getClassifier());
+                store.setValue(name + CONTEXT_SUFFIX, r.getContext());
+                store.setValue(name + CONSTRAINT_SUFFIX, r.getQuery());
+                store.setValue(name + DESCCRIPTION_SUFFIX, r.getDescription());
+                int nUtilities = r.getUtilities().size();
+                store.setValue(name + UTILITIES_NUMBER, nUtilities);
+                for (int j = 0; j < nUtilities; ++j) {
+                    store.setValue(name + UTILITIES + j, (String) r.getUtilities().get(j));
+                }        	
             }
         }
 
@@ -129,7 +131,7 @@ public class StaticSemanticDefMgr {
         store.setDefault(RULE_NUMBER, -1);
         int count = store.getInt(RULE_NUMBER);
         if (count == -1) {
-            getDefaultDefinitions();
+            rules = getDefaultDefinitions();
             return;
         }
 
@@ -165,6 +167,8 @@ public class StaticSemanticDefMgr {
      */
     public Rule lookupRule(String ruleName) {
         Rule r = null;
+        if (rules == null)
+        	return null;
         for (int i = 0; i < rules.size(); ++i) {
             Rule rr = (Rule) rules.get(i);
             if (rr.getName().compareTo(ruleName) == 0)

@@ -56,10 +56,12 @@ public class RuleGroup {
      */
     public void addRule(List rules)
     {
-        for(int i=0;i<rules.size();++i)
-        {
-            addRule((Rule) rules.get(i));
-        }
+    	if (rules != null) {
+            for(int i=0;i<rules.size();++i)
+            {
+                addRule((Rule) rules.get(i));
+            }
+    	}
     }
     /**
      * Returns all rules in the group
