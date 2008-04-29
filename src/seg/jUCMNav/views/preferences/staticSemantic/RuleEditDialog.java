@@ -30,7 +30,7 @@ import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
 
 import seg.jUCMNav.staticSemantic.Rule;
 /**
- * This dialof provides the GUI of creating 1 new static checking rule or editing an exisiting rule. In this dialog, users can change the rule name, rule classifier, contxt expression,invariant expression and rule description. Furthermore, a user can open a utility editor from this dialog to create or edit a utility.
+ * This dialog provides the GUI of creating 1 new static checking rule or editing an existing rule. In this dialog, users can change the rule name, rule classifier, contxt expression,invariant expression and rule description. Furthermore, a user can open a utility editor from this dialog to create or edit a utility.
  *  
  * @author Byrne Yan
  *
@@ -85,9 +85,6 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
      * 
      */
     protected Control createDialogArea(Composite parent) {
-        /*
-         * FillLayout fl = new FillLayout(); fl.marginHeight = 10; fl.marginWidth = 10; parent.setLayoutData(fl);
-         */
         Composite composite = (Composite) super.createDialogArea(parent);
 
         Composite c1 = new Composite(parent, SWT.NULL);
@@ -98,50 +95,26 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         Label lblName = new Label(c1, SWT.LEFT);
         lblName.setText("Rule Name:");
         txtName = new Text(c1, SWT.SINGLE | SWT.BORDER);
-        /*
-         * txtName.addModifyListener(new ModifyListener(){ @Override public void modifyText(ModifyEvent e) { eventTextNameModify();
-         *  } } );
-         */
         txtName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtName.setSize(200, SWT.DEFAULT);
-        // txtName.setEditable(false);
-
-        // txtDesc.setEditable(false);
 
         Label lblContext = new Label(c1, SWT.LEFT);
         lblContext.setText("Context:");
         txtContext = new Text(c1, SWT.MULTI | SWT.BORDER);
-        /*
-         * txtContext.addModifyListener(new ModifyListener(){ @Override public void modifyText(ModifyEvent e) { eventTextNameModify();
-         *  } } );
-         */
         txtContext.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtContext.setSize(200, SWT.DEFAULT);
-        // txtContext.setEditable(false);
 
         Label lblQuery = new Label(c1, SWT.LEFT);
         lblQuery.setText("OCL query expression of collecting all objects to be checked:");
         txtQuery = new Text(c1, SWT.MULTI | SWT.BORDER);
-        /*
-         * txtQuery.addModifyListener(new ModifyListener(){ @Override public void modifyText(ModifyEvent e) { eventTextNameModify();
-         *  } } );
-         */
         txtQuery.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-        // txtCheck.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtQuery.setSize(600, SWT.DEFAULT);
-        // txtQuery.setEditable(false);
 
         Label lblCheck = new Label(c1, SWT.LEFT);
         lblCheck.setText("OCL constraint expression:");
         txtCheck = new Text(c1, SWT.MULTI | SWT.BORDER);
-        /*
-         * txtCheck.addModifyListener(new ModifyListener(){ @Override public void modifyText(ModifyEvent e) { eventTextNameModify();
-         *  } } );
-         */
-        // txtCheck.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
         txtCheck.setLayoutData(new GridData(GridData.FILL_BOTH));
         txtCheck.setSize(600, 600);
-        // txtCheck.setEditable(false);
 
         Label lblDesc = new Label(c1, SWT.LEFT);
         lblDesc.setText("Rule Description:");
@@ -159,11 +132,6 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         column.setText("Utilities");
         column.setWidth(600);
 
-        /*
-         * for(TableColumn tc: table.getColumns()) { tc.pack(); }
-         */
-        // table.setSize (table.computeSize (SWT.DEFAULT, SWT.DEFAULT));
-        // table.setSize(600, 600);
         table.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL));
 
         Composite c = new Composite(c1, SWT.NULL);
@@ -224,8 +192,8 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
      * Close the dialog with saving the rule contents. The following regularities are checked:
      * <ul>
      * <li>The rule name must not be empty ( after trimming all leading and tailing spaces )
-     * <li>The rule name must be uniqe
-     * <li>The rule classifier, context expression, invraint expression and utilities must be valid.
+     * <li>The rule name must be unique
+     * <li>The rule classifier, context expression, invariant expression and utilities must be valid.
      * </ul>
      */
     protected void okPressed() {
@@ -233,7 +201,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         {
             MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
             msg.setMessage("Rule name should not be empty.");
-            msg.setText("Invalidated rule difinition");
+            msg.setText("Invalid rule difinition");
             msg.open();
             return;
         }
@@ -245,7 +213,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             if (r == null) {
                 MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
                 msg.setMessage("Rule name duplicates");
-                msg.setText("Invalidated rule difinition");
+                msg.setText("Invalid rule difinition");
                 msg.open();
                 return;
             }
@@ -257,20 +225,20 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             if (r.isValid() == false) {
                 MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
                 msg.setMessage(r.getErrors());
-                msg.setText("Invalidated rule difinition");
+                msg.setText("Invalid rule difinition");
                 msg.open();
                 return;
             }
             rule = r;
         } else // edit mode
         {
-            if (rule.getName().compareTo(txtName.getText()) != 0)// name is chenged
+            if (rule.getName().compareTo(txtName.getText()) != 0)// name is changed
             {
                 Rule r = StaticSemanticDefMgr.instance().lookupRule(txtName.getText());
                 if (r != null) {
                     MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
                     msg.setMessage("Rule name duplicates");
-                    msg.setText("Invalidated rule difinition");
+                    msg.setText("Invalid rule difinition");
                     msg.open();
                     return;
                 }
@@ -285,7 +253,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
               
                     MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
                     msg.setMessage(r.getErrors());
-                    msg.setText("Invalidated rule difinition");
+                    msg.setText("Invalid rule difinition");
                     msg.open();
                     return;
             }
@@ -307,7 +275,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     }
 
     /**
-     * Button click event dispacher
+     * Button click event dispatcher
      */
     public void widgetSelected(SelectionEvent e) {
         if (e.getSource() instanceof Button) {
@@ -385,7 +353,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     }
 
     /**
-     * Asscociated a rule object with the dialog.
+     * Associated a rule object with the dialog.
      * @param rule
      */
     public void setRule(Rule rule) {

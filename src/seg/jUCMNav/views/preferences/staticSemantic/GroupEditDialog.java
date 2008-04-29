@@ -30,9 +30,8 @@ import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
 public class GroupEditDialog extends Dialog {
 
     private static final int BTN_ID_AddToGroup = IDialogConstants.CANCEL_ID + 1;
-//    private static final int BTN_ID_AddAllToGroup = IDialogConstants.CANCEL_ID + 2;
     private static final int BTN_ID_RemoveFromGroup = IDialogConstants.CANCEL_ID + 3;
-//    private static final int BTN_ID_RemoveAllFromGroup = IDialogConstants.CANCEL_ID + 4;
+
     /**
      * A table that contains all rules in the group
      */
@@ -107,7 +106,7 @@ public class GroupEditDialog extends Dialog {
        
         members = new Table(top,SWT.MULTI|SWT.FULL_SELECTION|SWT.BORDER);
         members.setHeaderVisible(true);
-        String[] titles = { "Name", "Descreption", "Context", "Query Expression", "Constraint Expression" };
+        String[] titles = { "Name", "Description", "Context", "Query Expression", "Constraint Expression" };
         int[] widths = { 150, 50, 50, 50, 50 };
         for (int i = 0; i < titles.length; i++) {
             TableColumn column = new TableColumn(members, SWT.LEFT);
@@ -120,7 +119,7 @@ public class GroupEditDialog extends Dialog {
         
         //Middle panel
         
-        //Since CreateButton increases one coulmn of parent's layout, to keep the number of column not changed, we decrease one first
+        //Since CreateButton increases one column of parent's layout, to keep the number of column not changed, we decrease one first
         middleLayout.numColumns --;        
         this.createButton(middle, BTN_ID_AddToGroup, "Add to group", false);
         middleLayout.numColumns --;
@@ -176,7 +175,7 @@ public class GroupEditDialog extends Dialog {
      * Close the dialog with saving the modified group. The following regularities are checked:
      * <ul>
      * <li>The group name must be not empty
-     * <li>The group name must be uniqe
+     * <li>The group name must be unique
      * </ul>
      */
     protected void okPressed() {
@@ -184,7 +183,7 @@ public class GroupEditDialog extends Dialog {
         {
             MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
             msg.setMessage("Group name should not be empty.");
-            msg.setText("Invalidated group difinition");
+            msg.setText("Invalid group difinition");
             msg.open();
             return;
         }
@@ -193,7 +192,7 @@ public class GroupEditDialog extends Dialog {
         {
             MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
             msg.setMessage("Group name duplicates");
-            msg.setText("Invalidated group difinition");
+            msg.setText("Invalid group difinition");
             msg.open();
             return;
         }
@@ -229,7 +228,7 @@ public class GroupEditDialog extends Dialog {
     }
 
     /**
-     * Button click event dispacher
+     * Button click event dispatcher
      */
     protected void buttonPressed(int buttonId) {
         switch( buttonId)

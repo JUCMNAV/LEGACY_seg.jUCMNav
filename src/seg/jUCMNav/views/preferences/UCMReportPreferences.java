@@ -158,7 +158,7 @@ public class UCMReportPreferences {
     /**
      * 
      * @param bool
-     *            tshow or not the SartPoint node type 
+     *            show or not the StartPoint node type 
      */
     public static void setStartPoint(boolean bool) {
         getPreferenceStore().setValue(PREF_UCMSHOWSTARTPOINT, bool);

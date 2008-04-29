@@ -103,7 +103,7 @@ public class ScenarioTraversalPreferences {
     /**
      * 
      * @param b 
-     *      should we integrate strategy intentional elements as varibles for scenarios?
+     *      should we integrate strategy intentional elements as variables for scenarios?
      */
     public static void setShouldIntegrateStrategyVariables(boolean b) {
         getPreferenceStore().setValue(PREF_INTEGRATESTRATEGYVARIABLES, b);

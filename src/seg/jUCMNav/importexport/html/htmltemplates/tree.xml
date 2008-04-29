@@ -15,10 +15,10 @@
 <!ELEMENT baseY (#PCDATA)>
 ]>
 <tree>
-	<branch id="UCM" branchlink="notRedirect" baseX="0" baseY="0">
+	<branch id="UCM" branchLink="notRedirect" baseX="0" baseY="0">
 		<branchText>UCM</branchText>
 	</branch>
-	<branch id="GRL" branchlink="notRedirect" baseX="0" baseY="0">
+	<branch id="GRL" branchLink="notRedirect" baseX="0" baseY="0">
 		<branchText>GRL</branchText>
 	</branch>
 </tree>

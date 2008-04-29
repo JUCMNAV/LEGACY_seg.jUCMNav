@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * This class provides the GUI of creating a new rule utility or editing an exisiting utility.
+ * This class provides the GUI of creating a new rule utility or editing an existing utility.
  * 
  * @author Byrne Yan
  *
@@ -25,7 +25,7 @@ public class RuleUtilityEditDialog extends Dialog {
     /**
      * The utility expression
      */
-    private String sUtilityExpression="";
+    private String sUtilityExpression="";  //$NON-NLS-1$
     Text txtExpression;
     
     public RuleUtilityEditDialog(Shell parent) {
