@@ -11,7 +11,7 @@ import seg.jUCMNav.JUCMNavPlugin;
  * 
  */
 public class KPIMonitoringPreferences {
-    public final static String DEFAULT_WEBSERVICEADDRESS = "http://localhost:8080/SampleService/SampleServiceBean";
+    public final static String DEFAULT_WEBSERVICEADDRESS = "http://localhost:8080/SampleService/SampleServiceBean"; //$NON-NLS-1$
 
     public final static String PREF_WEBSERVICEADDRESS = "seg.jUCMNav.KPIMonitoring.WebServiceAddress"; //$NON-NLS-1$
 

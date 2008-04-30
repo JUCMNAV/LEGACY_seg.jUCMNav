@@ -28,9 +28,9 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
 public class KPIViewObject {
 
     // Basic Indicator information
-    private String id = "";
-    private String name = "";
-    private String description = "";
+    private String id = ""; //$NON-NLS-1$
+    private String name = ""; //$NON-NLS-1$
+    private String description = ""; //$NON-NLS-1$
 
     // Indicator groups
     private String[] indicatorGroupNames = new String[0];
@@ -46,7 +46,7 @@ public class KPIViewObject {
     private double thresholdValue = 0.0;
     private double worstValue = 0.0;
     private double evaluationValue = 0.0;
-    private String unit = "";
+    private String unit = ""; //$NON-NLS-1$
 
     // KPI information elements
     private Map kpiInformationMap = new HashMap();
@@ -81,7 +81,7 @@ public class KPIViewObject {
     public KPIViewObject(Indicator indicator) {
         id = indicator.getId();
         name = indicator.getName();
-        description = indicator.getDescription() == null ? "" : indicator.getDescription();
+        description = indicator.getDescription() == null ? "" : indicator.getDescription(); //$NON-NLS-1$
 
         List indicatorGroups = indicator.getGroups();
         if (indicatorGroups != null) {
@@ -112,7 +112,7 @@ public class KPIViewObject {
         thresholdValue = kpiEvalValueSet.getThresholdValue();
         worstValue = kpiEvalValueSet.getWorstValue();
         evaluationValue = kpiEvalValueSet.getEvaluationValue();
-        unit = kpiEvalValueSet.getUnit() == null ? "" : kpiEvalValueSet.getUnit();
+        unit = kpiEvalValueSet.getUnit() == null ? "" : kpiEvalValueSet.getUnit(); //$NON-NLS-1$
 
         KPIModelLink[] kpiModelLinks = (KPIModelLink[]) indicator.getKpiModelLinksDest().toArray(new KPIModelLink[0]);
         if (kpiModelLinks != null) {
@@ -122,7 +122,7 @@ public class KPIViewObject {
 
                 String valueOfDimension = EvaluationStrategyManager.getInstance().getValueOfDimension(kpiInfoElem);
                 String levelOfDimension = EvaluationStrategyManager.getInstance().getLevelOfDimension(kpiInfoElem);
-                String kpiInfoSetting = (valueOfDimension == null ? "-" : valueOfDimension) + " (" + (levelOfDimension == null ? "-" : levelOfDimension) + ")";
+                String kpiInfoSetting = (valueOfDimension == null ? "-" : valueOfDimension) + " (" + (levelOfDimension == null ? "-" : levelOfDimension) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
                 kpiInformationMap.put(kpiInfoElemName, kpiInfoSetting);
             }

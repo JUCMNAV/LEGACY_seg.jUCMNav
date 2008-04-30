@@ -276,8 +276,8 @@ public class KPIInformationElementPropertySource extends URNElementPropertySourc
                 EvaluationStrategyManager.getInstance().getEvaluationStrategy().eSet(feature, null);
             } else if (propertyid.getEClass().getName() == "KPIInformationConfig") { //$NON-NLS-1$
                 // The default value for an KPIInformationConfig is ""
-                EvaluationStrategyManager.getInstance().setLevelOfDimension(def, "");
-                EvaluationStrategyManager.getInstance().setValueOfDimension(def, "");
+                EvaluationStrategyManager.getInstance().setLevelOfDimension(def, ""); //$NON-NLS-1$
+                EvaluationStrategyManager.getInstance().setValueOfDimension(def, ""); //$NON-NLS-1$
             } else
                 object.eSet(feature, null);
         } else
@@ -308,13 +308,13 @@ public class KPIInformationElementPropertySource extends URNElementPropertySourc
             createCmd.execute();
 
             def = ((KPIInformationElementRef) object).getDef();
-        } else if (feature.getContainerClass() == KPIInformationConfig.class && feature.getName() == "levelOfDimension") {
+        } else if (feature.getContainerClass() == KPIInformationConfig.class && feature.getName() == "levelOfDimension") { //$NON-NLS-1$
             // The feature should be a String
             if (feature.getEType().getInstanceClass() == String.class) {
                 String temp = (String) value;
                 EvaluationStrategyManager.getInstance().setLevelOfDimension(def, temp);
             }
-        } else if (feature.getContainerClass() == KPIInformationConfig.class && feature.getName() == "valueOfDimension") {
+        } else if (feature.getContainerClass() == KPIInformationConfig.class && feature.getName() == "valueOfDimension") { //$NON-NLS-1$
             // The feature should be a String
             if (feature.getEType().getInstanceClass() == String.class) {
                 String temp = (String) value;

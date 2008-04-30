@@ -455,7 +455,7 @@ public class URNNamingHelper {
             URNmodelElement elem = (URNmodelElement) IDConflicts.get(0);
 
             do {
-            	String oldDescription="Description...";
+            	String oldDescription="Description..."; //$NON-NLS-1$
                 // set it to nothing
                 elem.setId(""); //$NON-NLS-1$
 

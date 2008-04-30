@@ -61,7 +61,7 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
         }
         
         if (!scenarioDefFound) { // No scenario definition. Avoid Invalid thread access exception.
-			jUCMNavErrorDialog warningMessage = new jUCMNavErrorDialog(Messages.getString("ExportMSC.NoScenarioDefined"));
+			jUCMNavErrorDialog warningMessage = new jUCMNavErrorDialog(Messages.getString("ExportMSC.NoScenarioDefined")); //$NON-NLS-1$
         	return;
         }
 		this.newFilename = filename;
@@ -92,7 +92,7 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 			if (newFile.toString().startsWith(workspaceFile.toString()))
 			{
 				String path = newFile.toString().substring(workspaceFile.toString().length());
-                path = path.replaceAll("%20", " ");
+                path = path.replaceAll("%20", " "); //$NON-NLS-1$ //$NON-NLS-2$
 
 				IFile file = (IFile) ((Workspace) ResourcesPlugin.getWorkspace()).newResource(new Path(path), IResource.FILE);
 				file.getParent().refreshLocal(1, null);

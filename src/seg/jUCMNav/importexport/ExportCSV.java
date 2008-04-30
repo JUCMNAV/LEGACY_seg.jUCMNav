@@ -116,7 +116,7 @@ public class ExportCSV implements IURNExport {
             write(COMMA);
             String desc = strategy.getDescription();
             if (desc == null) {
-            	desc = new String("");
+            	desc = new String(""); //$NON-NLS-1$
             }
             write(desc.replace(',', ';')); // Replace commas with semicolons
             
@@ -155,7 +155,7 @@ public class ExportCSV implements IURNExport {
             Evaluation evaluation = EvaluationStrategyManager.getInstance(false).getEvaluationObject(element);
             
             if(evaluation.getStrategies() != null) {
-               	write(COMMA + evaluation.getEvaluation() + "*");
+               	write(COMMA + evaluation.getEvaluation() + "*"); //$NON-NLS-1$
             } else {
             	write(COMMA + evaluation.getEvaluation()); //$NON-NLS-1$
             }

@@ -163,7 +163,7 @@ public class MakeWellFormedCommand extends CompoundCommand {
 					NodeConnection nc = (NodeConnection) iterator.next();
 					PathNode pn = (PathNode) nc.getSource();
 					if (pn instanceof DirectionArrow) {
-						if (MetadataHelper.getMetaData(pn, "type") != null && MetadataHelper.getMetaData(pn, "type").equalsIgnoreCase("TRIGGER_END")) {
+						if (MetadataHelper.getMetaData(pn, "type") != null && MetadataHelper.getMetaData(pn, "type").equalsIgnoreCase("TRIGGER_END")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 							URNspec urn = pn.getDiagram().getUrndefinition().getUrnspec();
 							DirectionArrow da = (DirectionArrow) ModelCreationFactory.getNewObject(urn, DirectionArrow.class);

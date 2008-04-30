@@ -40,7 +40,7 @@ public class AutoLayoutPreferences {
      * Sets the default values in the preference store.
      */
     public static void createPreferences() {
-    	if (System.getProperty("os.name").startsWith("Windows"))
+    	if (System.getProperty("os.name").startsWith("Windows")) //$NON-NLS-1$ //$NON-NLS-2$
     	{
     		// Default only provided to Windows. See bug #561
     		getPreferenceStore().setDefault(AutoLayoutPreferences.PREF_DOTPATH, AutoLayoutPreferences.DEFAULTDOTPATH);

@@ -180,7 +180,7 @@ public class EObjectPropertySource implements IPropertySource2 {
             pd.setCategory(Messages.getString("EObjectPropertySource.appearance")); //$NON-NLS-1$
         } else if (name.equals("enabled")) { //$NON-NLS-1$ 
             pd.setCategory(Messages.getString("EObjectPropertySource.ScenarioStrategy")); //$NON-NLS-1$
-        } else if (name.equalsIgnoreCase("isTimeMeasure") || name.equalsIgnoreCase("isCostMeasure") || name.equalsIgnoreCase("isQualityMeasure") || name.equalsIgnoreCase("isFlexibilityMeasure")) { //$NON-NLS-1$
+        } else if (name.equalsIgnoreCase("isTimeMeasure") || name.equalsIgnoreCase("isCostMeasure") || name.equalsIgnoreCase("isQualityMeasure") || name.equalsIgnoreCase("isFlexibilityMeasure")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             pd.setCategory(Messages.getString("EObjectPropertySource.Indicator")); //$NON-NLS-1$
         } else if (object.eClass() != propertyid.getEClass()) {
             pd.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$

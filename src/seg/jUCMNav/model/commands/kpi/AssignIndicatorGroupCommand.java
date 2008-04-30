@@ -29,7 +29,7 @@ public class AssignIndicatorGroupCommand extends Command implements JUCMNavComma
         this.assignedIndicatorGroups = assignedIndGrps;
         this.grlSpec = indicator.getGrlspec();
 
-        setLabel(Messages.getString("AssignIndicatorGroupCommand.assignIndicatorGroups"));
+        setLabel(Messages.getString("AssignIndicatorGroupCommand.assignIndicatorGroups")); //$NON-NLS-1$
     }
 
     /**

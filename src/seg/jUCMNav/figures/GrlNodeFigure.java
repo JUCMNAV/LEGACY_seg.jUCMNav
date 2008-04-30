@@ -76,7 +76,7 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
 
         textFlow = new TextFlow();
         // Slightly larger font here used for GRL node labels.
-        textFlow.setFont(new Font(Display.getDefault(), new FontData("Tahoma", 9, SWT.NONE)));
+        textFlow.setFont(new Font(Display.getDefault(), new FontData("Tahoma", 9, SWT.NONE))); //$NON-NLS-1$
         
         textFlow.setLayoutManager(new ParagraphTextLayout(textFlow,
                 ParagraphTextLayout.WORD_WRAP_HARD));

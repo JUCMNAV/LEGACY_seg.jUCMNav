@@ -436,7 +436,7 @@ public class ScenarioGenerator {
                     compRef = addDoSimple(seq, pn);
 
                 if (!processedPathNodes.containsKey(pn))
-                    processedPathNodes.put(pn, "ignored");
+                    processedPathNodes.put(pn, "ignored"); //$NON-NLS-1$
 
             } else if (pn instanceof StartPoint || pn instanceof EndPoint || pn instanceof Timer) {
                 compRef = addDoSimple(seq, pn);

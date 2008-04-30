@@ -34,7 +34,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 /**
  * This class is the control center of all rule defining features:
  * <ul>
- * <li>Rule and RuleGroup manipulatation
+ * <li>Rule and RuleGroup manipulation
  * <li>Rule and RuleGroup persistence
  * <li>Rule imports and exports
  * <li>Switch of showing rule description in the problem view
@@ -198,7 +198,7 @@ public class StaticSemanticDefMgr {
 
     /**
      * Exports rules into an XML file on the specified path.  
-     * @param rules the rules are exportes
+     * @param rules the rules to export
      * @param path  the location where the rules XML file exists.
      */
     public static void exportRules(List rules, String path) {
@@ -393,7 +393,7 @@ public class StaticSemanticDefMgr {
     /**
      * Test if an InputStream contains valid rules
      * @param rulesIS an InputStream
-     * @param parent a Shell, which is used as parent when a messgae box is showed.
+     * @param parent a Shell, which is used as parent when a message box is showed.
      * @return true if it is valid, otherwise false
      */
     private static boolean isValidRuleFile(InputStream rulesIS, Shell parent) {
@@ -552,7 +552,7 @@ public class StaticSemanticDefMgr {
     
     
     /**
-     * Creates a new rule instance with 6 propertie values. If a rule with the same name exists, return null
+     * Creates a new rule instance with 6 property values. If a rule with the same name exists, return null
      */
     public Rule createRule(String name,String classifier,String context, String query,boolean enabled, String description)
     {
@@ -574,7 +574,7 @@ public class StaticSemanticDefMgr {
     }
     
     /**
-     * Creates a rule group instance wiht a group name. If a group with the same name exists, return null.
+     * Creates a rule group instance with a group name. If a group with the same name exists, return null.
      */
     public RuleGroup creatRuelGroup(String groupName)
     {
@@ -586,7 +586,7 @@ public class StaticSemanticDefMgr {
 
     /**
      * Lookup a RuleGroup with a group name
-     * @return a RuleGroup instance found. If no such group is foudn, returns null.
+     * @return a RuleGroup instance found. If no such group is found, returns null.
      */
     public RuleGroup lookupGroup(String groupName) {
         RuleGroup g = null;

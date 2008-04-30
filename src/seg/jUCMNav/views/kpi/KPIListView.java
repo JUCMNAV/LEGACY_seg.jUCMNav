@@ -116,7 +116,7 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
                         try {
                             kpiValueRes.requestKPIValues(evalObjects);
                         } catch (Throwable th) {
-                            System.out.println("The required plug-in maybe not installed.");
+                            System.out.println(Messages.getString("KPIListView.0")); //$NON-NLS-1$
                         }
                     }
 
@@ -124,9 +124,9 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
             }
         };
 
-        retrieveKPIValues.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/refresh.gif"));
-        retrieveKPIValues.setToolTipText(Messages.getString("KPIListView.Retrieve"));
-        retrieveKPIValues.setText(Messages.getString("KPIListView.Retrieve"));
+        retrieveKPIValues.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/refresh.gif")); //$NON-NLS-1$
+        retrieveKPIValues.setToolTipText(Messages.getString("KPIListView.Retrieve")); //$NON-NLS-1$
+        retrieveKPIValues.setText(Messages.getString("KPIListView.Retrieve")); //$NON-NLS-1$
 
         IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();
         tbm.add(retrieveKPIValues);

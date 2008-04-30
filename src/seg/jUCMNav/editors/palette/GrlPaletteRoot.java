@@ -141,7 +141,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
         kpiModelDrawer.add(entry);
 
         // Add Dimension
-        entry = new URNElementCreationEntry(Messages.getString("GrlPaletteRoot.dimension"), Messages.getString("GrlPaletteRoot.createDimension"),
+        entry = new URNElementCreationEntry(Messages.getString("GrlPaletteRoot.dimension"), Messages.getString("GrlPaletteRoot.createDimension"), //$NON-NLS-1$ //$NON-NLS-2$
                 KPIInformationElementRef.class, new ModelCreationFactory(getURNspec(), KPIInformationElementRef.class), JUCMNavPlugin
                         .getImageDescriptor("icons/Dimension16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Dimension24.gif")); //$NON-NLS-1$

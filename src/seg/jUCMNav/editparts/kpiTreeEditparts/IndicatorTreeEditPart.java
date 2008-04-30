@@ -50,7 +50,7 @@ public class IndicatorTreeEditPart extends KPIUrnModelElementTreeEditPart {
      * Returns the icon
      */
     protected Image getImage() {
-        String iconFile = "icons/indicator.gif";
+        String iconFile = "icons/indicator.gif"; //$NON-NLS-1$
 
         EvaluationStrategyManager sm = EvaluationStrategyManager.getInstance();
         if (sm.getEvaluationStrategy() != null) {
@@ -58,14 +58,14 @@ public class IndicatorTreeEditPart extends KPIUrnModelElementTreeEditPart {
             int evalLevel = eval.getEvaluation();
             KPIEvalValueSet kpiEvalValueSet = eval.getKpiEvalValueSet();
             if (evalLevel > 0) {
-                iconFile = "icons/indicator_up.gif";
+                iconFile = "icons/indicator_up.gif"; //$NON-NLS-1$
             } else if (evalLevel < 0) {
-                iconFile = "icons/indicator_down.gif";
+                iconFile = "icons/indicator_down.gif"; //$NON-NLS-1$
             } else {
-                iconFile = "icons/indicator_flat.gif";
+                iconFile = "icons/indicator_flat.gif"; //$NON-NLS-1$
             }
         } else {
-            iconFile = "icons/indicator.gif";
+            iconFile = "icons/indicator.gif"; //$NON-NLS-1$
         }
         
         setImage(JUCMNavPlugin.getImage(iconFile));

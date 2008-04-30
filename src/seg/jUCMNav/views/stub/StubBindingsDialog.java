@@ -825,7 +825,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		if (plug.getPrecondition() != null) {
 			txtLabelCondition.setText(plug.getPrecondition().getLabel() == null ? "" : plug.getPrecondition().getLabel()); //$NON-NLS-1$
 			// Replaces && with &&&& for correct visualization, see bug #556
-			txtExpCondition.setText(plug.getPrecondition().getExpression() == null ? "" : plug.getPrecondition().getExpression().replaceAll("&&", "&&&&")); //$NON-NLS-1$
+			txtExpCondition.setText(plug.getPrecondition().getExpression() == null ? "" : plug.getPrecondition().getExpression().replaceAll("&&", "&&&&")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			txtDescCondition.setText(plug.getPrecondition().getDescription() == null ? "" : plug.getPrecondition().getDescription()); //$NON-NLS-1$
 		} else {
 			txtLabelCondition.setText(""); //$NON-NLS-1$

@@ -18,6 +18,7 @@ import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.kpiViewEditparts.KPIViewObject;
 import seg.jUCMNav.figures.ColorManager;
 
@@ -83,7 +84,7 @@ public class KPIViewObjectFigure extends Figure {
     private int evalLine_x2 = 0;
     private int evalLine_y2 = 0;
 
-    private String evalColorStr = "0,0,0";
+    private String evalColorStr = "0,0,0"; //$NON-NLS-1$
 
     public KPIViewObjectFigure(KPIViewObject object) {
         this.kpiViewObject = object;
@@ -119,7 +120,7 @@ public class KPIViewObjectFigure extends Figure {
         this.setForegroundColor(ColorManager.BLACK);
 
         GroupBoxBorder border = new GroupBoxBorder();
-        border.setLabel(kpiViewObject.getName() + " (" + kpiViewObject.getId() + ")");
+        border.setLabel(kpiViewObject.getName() + " (" + kpiViewObject.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
         border.setTextColor(ColorManager.BLUE);
         this.setBorder(border);
 
@@ -276,57 +277,57 @@ public class KPIViewObjectFigure extends Figure {
         evalLine_x2 = evalLine_x1;
 
         if (kpiViewObject.getEvaluationLevel() == 0) {
-            evalColorStr = "255,255,0";
+            evalColorStr = "255,255,0"; //$NON-NLS-1$
         } else {
             int partial = (Math.abs((Math.abs(kpiViewObject.getEvaluationLevel()) - 100)) * 255 / 100);
             if (kpiViewObject.getEvaluationLevel() < 0) {
-                evalColorStr = "255," + partial + ",0";
+                evalColorStr = "255," + partial + ",0"; //$NON-NLS-1$ //$NON-NLS-2$
             } else {
-                evalColorStr = partial + ",255,0";
+                evalColorStr = partial + ",255,0"; //$NON-NLS-1$
             }
         }
     }
 
     public void setSubjectText() {
         // Setup groups text
-        String groupsTitle = "Groups: ";
-        String groupsText = "[";
+        String groupsTitle = Messages.getString("KPIViewObjectFigure.Groups"); //$NON-NLS-1$
+        String groupsText = "["; //$NON-NLS-1$
         String[] groups = kpiViewObject.getIndicatorGroupNames();
         for (int i = 0; i < groups.length; i++) {
-            groupsText += groups[i] + ", ";
+            groupsText += groups[i] + ", "; //$NON-NLS-1$
         }
-        groupsText = groupsText.length() > 1 ? groupsText.substring(0, groupsText.length() - 2) + "]" : "";
+        groupsText = groupsText.length() > 1 ? groupsText.substring(0, groupsText.length() - 2) + "]" : ""; //$NON-NLS-1$ //$NON-NLS-2$
         groupsTextFlow.setText(groupsTitle + groupsText);
 
         // Setup intentionalElements text
-        String intElemsTitle = "Evaluation of: ";
-        String intElemsText = "[";
+        String intElemsTitle = Messages.getString("KPIViewObjectFigure.EvaluationOf"); //$NON-NLS-1$
+        String intElemsText = "["; //$NON-NLS-1$
         String[] intElems = kpiViewObject.getIntentionalElementNames();
         for (int i = 0; i < intElems.length; i++) {
-            intElemsText += intElems[i] + ", ";
+            intElemsText += intElems[i] + ", "; //$NON-NLS-1$
         }
-        intElemsText = intElemsText.length() > 1 ? intElemsText.substring(0, intElemsText.length() - 2) + "]" : "";
+        intElemsText = intElemsText.length() > 1 ? intElemsText.substring(0, intElemsText.length() - 2) + "]" : ""; //$NON-NLS-1$ //$NON-NLS-2$
         intElemsTextFlow.setText(intElemsTitle + intElemsText);
 
         // Setup kpi information text
-        String kpiInformationTitle = "Dimensions: ";
-        String kpiInformationText = "";
+        String kpiInformationTitle = Messages.getString("KPIViewObjectFigure.Dimensions"); //$NON-NLS-1$
+        String kpiInformationText = ""; //$NON-NLS-1$
         Map kpiInfoMap = kpiViewObject.getKpiInformationMap();
         Iterator kpiInfoNames = kpiInfoMap.keySet().iterator();
         while (kpiInfoNames.hasNext()) {
             String kpiInfoName = (String) kpiInfoNames.next();
             String kpiInfoSetting = (String) kpiInfoMap.get(kpiInfoName);
-            kpiInformationText += "[ " + kpiInfoName + " : " + kpiInfoSetting + " ]  ";
+            kpiInformationText += "[ " + kpiInfoName + " : " + kpiInfoSetting + " ]  "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
-        kpiInformationText = kpiInformationText.length() > 0 ? kpiInformationText.substring(0, kpiInformationText.length() - 2) : "";
+        kpiInformationText = kpiInformationText.length() > 0 ? kpiInformationText.substring(0, kpiInformationText.length() - 2) : ""; //$NON-NLS-1$
         kpiInformationTextFlow.setText(kpiInformationTitle + kpiInformationText);
 
         // Setup description text
-        String descTitle = "Description: ";
+        String descTitle = Messages.getString("KPIViewObjectFigure.Description"); //$NON-NLS-1$
         descTextFlow.setText(descTitle + kpiViewObject.getDescription());
 
         // Setup unit text
-        String unitTitle = "Unit: ";
+        String unitTitle = Messages.getString("KPIViewObjectFigure.Unit"); //$NON-NLS-1$
         unitTextFlow.setText(unitTitle + kpiViewObject.getUnit());
 
         // set constraints
@@ -370,11 +371,11 @@ public class KPIViewObjectFigure extends Figure {
 
     public void setKPIBarText() {
         // draw text boxes
-        targetValueTextFlow.setText("target value\r\n(" + String.valueOf(kpiViewObject.getTargetValue()) + ")");
-        thresholdValueTextFlow.setText("threshold value (" + String.valueOf(kpiViewObject.getThresholdValue()) + ")");
-        worstValueTextFlow.setText("worst value\r\n(" + String.valueOf(kpiViewObject.getWorstValue()) + ")");
-        evalValueTextFlow.setText("evaluation value (" + String.valueOf(kpiViewObject.getEvaluationValue()) + ")\r\nevaluation level ("
-                + String.valueOf(kpiViewObject.getEvaluationLevel()) + ")");
+        targetValueTextFlow.setText(Messages.getString("KPIViewObjectFigure.TargetValue") + String.valueOf(kpiViewObject.getTargetValue()) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+        thresholdValueTextFlow.setText(Messages.getString("KPIViewObjectFigure.ThresholdValue") + String.valueOf(kpiViewObject.getThresholdValue()) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+        worstValueTextFlow.setText(Messages.getString("KPIViewObjectFigure.WorstValue") + String.valueOf(kpiViewObject.getWorstValue()) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+        evalValueTextFlow.setText(Messages.getString("KPIViewObjectFigure.EvaluationValue") + String.valueOf(kpiViewObject.getEvaluationValue()) + Messages.getString("KPIViewObjectFigure.EvaluationLevel") //$NON-NLS-1$ //$NON-NLS-2$
+                + String.valueOf(kpiViewObject.getEvaluationLevel()) + ")"); //$NON-NLS-1$
 
         setKPITextFlowPageConstraint(targetValueFlowPage, kpiBar.x + kpiBar.width + 10 - BORDER_SHIFT_X, kpiBar.y - BORDER_SHIFT_Y);
         setKPITextFlowPageConstraint(thresholdValueFlowPage, thresholdLine_x2 - getDefaultTextDimension().width / 2 - BORDER_SHIFT_X, thresholdLine_y2 + 5
