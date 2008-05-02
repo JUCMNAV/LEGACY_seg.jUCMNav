@@ -150,9 +150,9 @@ public class IndicatorPropertySource extends URNElementPropertySource {
         PropertyDescriptor pd = null;
         String name = attr.getName().toLowerCase();
 
-        if (name.equals("groups") && getEditableValue() instanceof Indicator) {
+        if (name.equals("groups") && getEditableValue() instanceof Indicator) { //$NON-NLS-1$
             pd = new IndicatorGroupPropertyDescriptor(propertyid, (Indicator) getEditableValue());
-            pd.setCategory(Messages.getString("EObjectPropertySource.Indicator"));
+            pd.setCategory(Messages.getString("EObjectPropertySource.Indicator")); //$NON-NLS-1$
         } else {
             pd = new TextPropertyDescriptor(propertyid, attr.getName());
         }
@@ -258,7 +258,7 @@ public class IndicatorPropertySource extends URNElementPropertySource {
             pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
             descriptors.add(pd);
         } else if (attr.getName() == "evaluationValue") { //$NON-NLS-1$
-            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "Evaluation value");
+            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "Evaluation value"); //$NON-NLS-1$
 
             ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
                 public String isValid(Object value) {
@@ -278,7 +278,7 @@ public class IndicatorPropertySource extends URNElementPropertySource {
             pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
             descriptors.add(pd);
         } else if (attr.getName() == "unit") { //$NON-NLS-1$
-            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "Unit");
+            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "Unit"); //$NON-NLS-1$
 
             ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
                 public String isValid(Object value) {
@@ -328,7 +328,7 @@ public class IndicatorPropertySource extends URNElementPropertySource {
             result = EvaluationStrategyManager.getInstance().getEvaluationStrategy().eGet(feature);
         } else if (propertyid.getEClass().getName() == "Evaluation") { //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).eGet(feature);
-        } else if (propertyid.getEClass().getName() == "KPIEvalValueSet") {
+        } else if (propertyid.getEClass().getName() == "KPIEvalValueSet") { //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).getKpiEvalValueSet().eGet(feature);
         } else
             result = object.eGet(feature);

@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.staticSemantic.Rule;
 import seg.jUCMNav.staticSemantic.RuleGroup;
 import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
@@ -48,15 +49,15 @@ import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
  * 
  */
 public class StaticSemanticPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, SelectionListener {
-	private static final String APPDATA_UTILITIES_NUMBER = "UtilitiesNumber";
-	private static final String APPDATA_CHECKBOX = "CheckBox";
-	private static final String APPDATA_UTILITY = "Utility";
-	private static final String BUTTON_EDIT_THE_SELECTED_RULE = "Edit";
-	private static final String BUTTON_DEFINE_A_NEW_RULE = "New Rule";
-	private static final String BUTTON_DEFINE_A_NEW_GROUP = "New Group";
-	private static final String BUTTON_DELETE = "Delete";
-	private static final String BUTTON_EXPORT = "Export";
-	private static final String BUTTON_IMPORT = "Import";
+	private static final String APPDATA_UTILITIES_NUMBER = Messages.getString("StaticSemanticPreferencePage.UtilitiesNumber"); //$NON-NLS-1$
+	private static final String APPDATA_CHECKBOX = Messages.getString("StaticSemanticPreferencePage.Checkbox"); //$NON-NLS-1$
+	private static final String APPDATA_UTILITY = Messages.getString("StaticSemanticPreferencePage.Utility"); //$NON-NLS-1$
+	private static final String BUTTON_EDIT_THE_SELECTED_RULE = Messages.getString("StaticSemanticPreferencePage.Edit"); //$NON-NLS-1$
+	private static final String BUTTON_DEFINE_A_NEW_RULE = Messages.getString("StaticSemanticPreferencePage.NewRule"); //$NON-NLS-1$
+	private static final String BUTTON_DEFINE_A_NEW_GROUP = Messages.getString("StaticSemanticPreferencePage.NewGroup"); //$NON-NLS-1$
+	private static final String BUTTON_DELETE = Messages.getString("StaticSemanticPreferencePage.Delete"); //$NON-NLS-1$
+	private static final String BUTTON_EXPORT = Messages.getString("StaticSemanticPreferencePage.Export"); //$NON-NLS-1$
+	private static final String BUTTON_IMPORT = Messages.getString("StaticSemanticPreferencePage.Import"); //$NON-NLS-1$
 
 	private static final int BTN_COLUMN_CHECK = 0;
 	private static final int TBL_COLUMN_NAME = 1;
@@ -93,10 +94,10 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 		head.setLayout(headLayout);
 		head.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
 		btnShowDescription = new Button(head, SWT.CHECK);
-		btnShowDescription.setText("Show rule description in the rule violation reporting");
+		btnShowDescription.setText(Messages.getString("StaticSemanticPreferencePage.ShowRule")); //$NON-NLS-1$
 
 		Label label1 = new Label(parent, SWT.LEFT);
-		label1.setText("Rules defined:");
+		label1.setText(Messages.getString("StaticSemanticPreferencePage.RulesDefined")); //$NON-NLS-1$
 
 		tree = new Tree(parent, SWT.BORDER | SWT.CHECK | SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI | SWT.FULL_SELECTION);
 		tree.setHeaderVisible(true);
@@ -123,7 +124,7 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 			}
 		});
 
-		String[] titles = { "Name", "Context", "Query Expression", "Constraint Expression", "Description", "Utilities" };
+		String[] titles = { Messages.getString("StaticSemanticPreferencePage.Name"), Messages.getString("StaticSemanticPreferencePage.Context"), Messages.getString("StaticSemanticPreferencePage.QueryExpression"), Messages.getString("StaticSemanticPreferencePage.ConstraintExpression"), Messages.getString("StaticSemanticPreferencePage.Description"), Messages.getString("StaticSemanticPreferencePage.Utilities") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 		int[] widths = { 150, 50, 50, 50, 50, 50 };
 		for (int i = 0; i < titles.length; i++) {
 			TreeColumn column = new TreeColumn(tree, SWT.LEFT);
@@ -377,7 +378,7 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 			} catch (FileNotFoundException e) {
 				MessageBox msg = new MessageBox(getControl().getShell(), SWT.ICON_ERROR);
 				msg.setMessage(e.getMessage());
-				msg.setText("Failure to import rules");
+				msg.setText(Messages.getString("StaticSemanticPreferencePage.FailureToImport")); //$NON-NLS-1$
 				msg.open();
 			}
 		}
@@ -390,8 +391,8 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 		// Check if only one item selected
 		if (tree.getSelectionCount() != 1) {
 			MessageBox msg = new MessageBox(getControl().getShell(), SWT.ICON_WARNING);
-			msg.setMessage("Please select one and only one rule to edit");
-			msg.setText("Rule selection");
+			msg.setMessage(Messages.getString("StaticSemanticPreferencePage.PleaseSelectOne")); //$NON-NLS-1$
+			msg.setText(Messages.getString("StaticSemanticPreferencePage.RuleSelection")); //$NON-NLS-1$
 			msg.open();
 			return;
 		}
@@ -481,10 +482,10 @@ public class StaticSemanticPreferencePage extends PreferencePage implements IWor
 	 * @param g the rule group to be edited
 	 */
 	private void editRuleGroup(RuleGroup g) {
-		if (g.getName().compareTo("All") == 0) {
+		if (g.getName().compareTo("All") == 0) { //$NON-NLS-1$
 			MessageBox msg = new MessageBox(getControl().getShell(), SWT.ICON_WARNING);
-			msg.setMessage("The special group [All] can not be edited.");
-			msg.setText("Warning");
+			msg.setMessage(Messages.getString("StaticSemanticPreferencePage.SpecialGroupAll")); //$NON-NLS-1$
+			msg.setText(Messages.getString("StaticSemanticPreferencePage.0")); //$NON-NLS-1$
 			msg.open();
 			return;
 		}

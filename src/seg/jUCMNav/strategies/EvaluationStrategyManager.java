@@ -137,7 +137,7 @@ public class EvaluationStrategyManager {
         } else if (temp != null) {
             return temp.getLevelOfDimension();
         } else
-            return "";
+            return ""; //$NON-NLS-1$
 
     }
 
@@ -150,7 +150,7 @@ public class EvaluationStrategyManager {
         } else if (temp != null) {
             return temp.getValueOfDimension();
         } else
-            return "";
+            return ""; //$NON-NLS-1$
 
     }
 
@@ -316,13 +316,13 @@ public class EvaluationStrategyManager {
         Evaluation eval = (Evaluation) evaluations.get(element);
         KPIEvalValueSet kpiEval = eval.getKpiEvalValueSet();
 
-        if (feature.getName().equals("targetValue")) {
+        if (feature.getName().equals("targetValue")) { //$NON-NLS-1$
             kpiEval.setTargetValue(value);
-        } else if (feature.getName().equals("thresholdValue")) {
+        } else if (feature.getName().equals("thresholdValue")) { //$NON-NLS-1$
             kpiEval.setThresholdValue(value);
-        } else if (feature.getName().equals("worstValue")) {
+        } else if (feature.getName().equals("worstValue")) { //$NON-NLS-1$
             kpiEval.setWorstValue(value);
-        } else if (feature.getName().equals("evaluationValue")) {
+        } else if (feature.getName().equals("evaluationValue")) { //$NON-NLS-1$
             kpiEval.setEvaluationValue(value);
         }
 
@@ -360,7 +360,7 @@ public class EvaluationStrategyManager {
         Evaluation eval = (Evaluation) evaluations.get(element);
         KPIEvalValueSet kpiEval = eval.getKpiEvalValueSet();
 
-        if (feature.getName().equals("unit")) {
+        if (feature.getName().equals("unit")) { //$NON-NLS-1$
             kpiEval.setUnit(value);
         }
     }

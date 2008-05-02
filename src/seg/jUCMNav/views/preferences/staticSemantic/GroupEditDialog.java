@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.staticSemantic.Rule;
 import seg.jUCMNav.staticSemantic.RuleGroup;
 import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
@@ -98,7 +99,7 @@ public class GroupEditDialog extends Dialog {
         head.setLayoutData(new GridData(GridData.FILL_BOTH ));
         
         Label lblName  = new Label(head,SWT.None);
-        lblName.setText("Group name:");
+        lblName.setText(Messages.getString("GroupEditDialog.GroupName")); //$NON-NLS-1$
         txtName = new Text(head,SWT.BORDER);
         txtName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         if(group!=null)
@@ -106,7 +107,7 @@ public class GroupEditDialog extends Dialog {
        
         members = new Table(top,SWT.MULTI|SWT.FULL_SELECTION|SWT.BORDER);
         members.setHeaderVisible(true);
-        String[] titles = { "Name", "Description", "Context", "Query Expression", "Constraint Expression" };
+        String[] titles = { Messages.getString("GroupEditDialog.Name"), Messages.getString("GroupEditDialog.Description"), Messages.getString("GroupEditDialog.Context"), Messages.getString("GroupEditDialog.QueryExpression"), Messages.getString("GroupEditDialog.ConstraintExpression") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
         int[] widths = { 150, 50, 50, 50, 50 };
         for (int i = 0; i < titles.length; i++) {
             TableColumn column = new TableColumn(members, SWT.LEFT);
@@ -121,13 +122,13 @@ public class GroupEditDialog extends Dialog {
         
         //Since CreateButton increases one column of parent's layout, to keep the number of column not changed, we decrease one first
         middleLayout.numColumns --;        
-        this.createButton(middle, BTN_ID_AddToGroup, "Add to group", false);
+        this.createButton(middle, BTN_ID_AddToGroup, Messages.getString("GroupEditDialog.AddToGroup"), false); //$NON-NLS-1$
         middleLayout.numColumns --;
-        this.createButton(middle, BTN_ID_RemoveFromGroup, "Remove from group", false);
+        this.createButton(middle, BTN_ID_RemoveFromGroup, Messages.getString("GroupEditDialog.RemoveFromGroup"), false); //$NON-NLS-1$
       
         //Bottom panel
         Label lblNonMembers  = new Label(bottom,SWT.None);
-        lblNonMembers.setText("Other rules:");
+        lblNonMembers.setText(Messages.getString("GroupEditDialog.OtherRules")); //$NON-NLS-1$
         nonMembers = new Table(bottom,SWT.MULTI|SWT.FULL_SELECTION|SWT.BORDER);
         nonMembers.setHeaderVisible(true);
         for (int i = 0; i < titles.length; i++) {
@@ -182,8 +183,8 @@ public class GroupEditDialog extends Dialog {
         if(txtName.getText().trim().length()==0)
         {
             MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
-            msg.setMessage("Group name should not be empty.");
-            msg.setText("Invalid group difinition");
+            msg.setMessage(Messages.getString("GroupEditDialog.GroupNameNotEmpty")); //$NON-NLS-1$
+            msg.setText(Messages.getString("GroupEditDialog.InvalidGroupDefinition")); //$NON-NLS-1$
             msg.open();
             return;
         }
@@ -191,8 +192,8 @@ public class GroupEditDialog extends Dialog {
                 && StaticSemanticDefMgr.instance().lookupGroup(txtName.getText())!=null)
         {
             MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
-            msg.setMessage("Group name duplicates");
-            msg.setText("Invalid group difinition");
+            msg.setMessage(Messages.getString("GroupEditDialog.GroupNameDuplicates")); //$NON-NLS-1$
+            msg.setText(Messages.getString("GroupEditDialog.InvalidGroupDefinition")); //$NON-NLS-1$
             msg.open();
             return;
         }
@@ -222,9 +223,9 @@ public class GroupEditDialog extends Dialog {
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
         if(group!=null)
-            newShell.setText("Edit a group");
+            newShell.setText(Messages.getString("GroupEditDialog.EditGroup")); //$NON-NLS-1$
         else
-            newShell.setText("Create a group");
+            newShell.setText(Messages.getString("GroupEditDialog.CreateGroup")); //$NON-NLS-1$
     }
 
     /**

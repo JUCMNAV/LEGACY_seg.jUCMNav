@@ -630,22 +630,22 @@ public class ModelCreationFactory implements CreationFactory {
 
         // Create the default IndicatorGroups
         IndicatorGroup indicatorGroup = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
-        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.time"));
+        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.time")); //$NON-NLS-1$
         indicatorGroup.setIsRedesignCategory(true);
         urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
 
         indicatorGroup = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
-        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.cost"));
+        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.cost")); //$NON-NLS-1$
         indicatorGroup.setIsRedesignCategory(true);
         urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
 
         indicatorGroup = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
-        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.quality"));
+        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.quality")); //$NON-NLS-1$
         indicatorGroup.setIsRedesignCategory(true);
         urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
 
         indicatorGroup = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
-        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.flexibility"));
+        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.flexibility")); //$NON-NLS-1$
         indicatorGroup.setIsRedesignCategory(true);
         urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
 

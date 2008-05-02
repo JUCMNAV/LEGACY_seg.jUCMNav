@@ -31,14 +31,14 @@ public class KPIValueWebServiceBeanServiceLocator extends org.apache.axis.client
     }
 
     // Use to get a proxy class for KPIValueWebServiceBeanPort
-    private java.lang.String KPIValueWebServiceBeanPort_address = "";
+    private java.lang.String KPIValueWebServiceBeanPort_address = ""; //$NON-NLS-1$
 
     public java.lang.String getKPIValueWebServiceBeanPortAddress() {
         return KPIValueWebServiceBeanPort_address;
     }
 
     // The WSDD service name defaults to the port name.
-    private java.lang.String KPIValueWebServiceBeanPortWSDDServiceName = "KPIValueWebServiceBeanPort";
+    private java.lang.String KPIValueWebServiceBeanPortWSDDServiceName = "KPIValueWebServiceBeanPort"; //$NON-NLS-1$
 
     public java.lang.String getKPIValueWebServiceBeanPortWSDDServiceName() {
         return KPIValueWebServiceBeanPortWSDDServiceName;
@@ -86,8 +86,8 @@ public class KPIValueWebServiceBeanServiceLocator extends org.apache.axis.client
         } catch (java.lang.Throwable t) {
             throw new javax.xml.rpc.ServiceException(t);
         }
-        throw new javax.xml.rpc.ServiceException("There is no stub implementation for the interface:  "
-                + (serviceEndpointInterface == null ? "null" : serviceEndpointInterface.getName()));
+        throw new javax.xml.rpc.ServiceException("There is no stub implementation for the interface:  " //$NON-NLS-1$
+                + (serviceEndpointInterface == null ? "null" : serviceEndpointInterface.getName())); //$NON-NLS-1$
     }
 
     /**
@@ -98,7 +98,7 @@ public class KPIValueWebServiceBeanServiceLocator extends org.apache.axis.client
             return getPort(serviceEndpointInterface);
         }
         java.lang.String inputPortName = portName.getLocalPart();
-        if ("KPIValueWebServiceBeanPort".equals(inputPortName)) {
+        if ("KPIValueWebServiceBeanPort".equals(inputPortName)) { //$NON-NLS-1$
             return getKPIValueWebServiceBeanPort();
         } else {
             java.rmi.Remote _stub = getPort(serviceEndpointInterface);
@@ -108,7 +108,7 @@ public class KPIValueWebServiceBeanServiceLocator extends org.apache.axis.client
     }
 
     public javax.xml.namespace.QName getServiceName() {
-        return new javax.xml.namespace.QName("http://service.bpm.com/", "KPIValueWebServiceBeanService");
+        return new javax.xml.namespace.QName("http://service.bpm.com/", "KPIValueWebServiceBeanService"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     private java.util.HashSet ports = null;
@@ -116,7 +116,7 @@ public class KPIValueWebServiceBeanServiceLocator extends org.apache.axis.client
     public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
-            ports.add(new javax.xml.namespace.QName("http://service.bpm.com/", "KPIValueWebServiceBeanPort"));
+            ports.add(new javax.xml.namespace.QName("http://service.bpm.com/", "KPIValueWebServiceBeanPort")); //$NON-NLS-1$ //$NON-NLS-2$
         }
         return ports.iterator();
     }
@@ -126,10 +126,10 @@ public class KPIValueWebServiceBeanServiceLocator extends org.apache.axis.client
      */
     public void setEndpointAddress(java.lang.String portName, java.lang.String address) throws javax.xml.rpc.ServiceException {
 
-        if ("KPIValueWebServiceBeanPort".equals(portName)) {
+        if ("KPIValueWebServiceBeanPort".equals(portName)) { //$NON-NLS-1$
             setKPIValueWebServiceBeanPortEndpointAddress(address);
         } else { // Unknown Port Name
-            throw new javax.xml.rpc.ServiceException(" Cannot set Endpoint Address for Unknown Port" + portName);
+            throw new javax.xml.rpc.ServiceException(" Cannot set Endpoint Address for Unknown Port" + portName); //$NON-NLS-1$
         }
     }
 

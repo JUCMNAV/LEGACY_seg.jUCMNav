@@ -95,20 +95,20 @@ public class JUCMNavKPICommandTests extends TestCase {
         testBindings = true;
 
         IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-        IProject testproject = workspaceRoot.getProject("jUCMNav-KPI-tests");
+        IProject testproject = workspaceRoot.getProject("jUCMNav-KPI-tests"); //$NON-NLS-1$
         if (!testproject.exists())
             testproject.create(null);
 
         if (!testproject.isOpen())
             testproject.open(null);
 
-        IFile testfile = testproject.getFile("jUCMNav-KPI-test.jucm");
+        IFile testfile = testproject.getFile("jUCMNav-KPI-test.jucm"); //$NON-NLS-1$
 
         // start with clean file
         if (testfile.exists())
             testfile.delete(true, false, null);
 
-        testfile.create(new ByteArrayInputStream("".getBytes()), false, null);
+        testfile.create(new ByteArrayInputStream("".getBytes()), false, null); //$NON-NLS-1$
 
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(testfile.getName());
@@ -122,13 +122,13 @@ public class JUCMNavKPICommandTests extends TestCase {
 
         // Delete the default UCM map
         Command cmd = new DeleteMapCommand((UCMmap) urnspec.getUrndef().getSpecDiagrams().get(0));
-        assertTrue("Can't execute DeleteMapCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteMapCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // Create a new GRLGraph
         cmd = new CreateGrlGraphCommand(urnspec);
         graph = ((CreateGrlGraphCommand) cmd).getDiagram();
-        assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -146,16 +146,16 @@ public class JUCMNavKPICommandTests extends TestCase {
         int i = cs.getCommands().length;
 
         if (cs.getCommands().length > 0) {
-            assertTrue("Can't undo first command", cs.canUndo());
+            assertTrue("Can't undo first command", cs.canUndo()); //$NON-NLS-1$
             cs.undo();
             editor.doSave(null);
-            assertTrue("Can't redo first command", cs.canRedo());
+            assertTrue("Can't redo first command", cs.canRedo()); //$NON-NLS-1$
             cs.redo();
             editor.doSave(null);
         }
 
         while (i-- > 0) {
-            assertTrue("Can't undo a certain command", cs.canUndo());
+            assertTrue("Can't undo a certain command", cs.canUndo()); //$NON-NLS-1$
             cs.undo();
         }
 
@@ -163,7 +163,7 @@ public class JUCMNavKPICommandTests extends TestCase {
 
         i = cs.getCommands().length;
         while (i-- > 0) {
-            assertTrue("Can't redo a certain command", cs.canRedo());
+            assertTrue("Can't redo a certain command", cs.canRedo()); //$NON-NLS-1$
             cs.redo();
         }
 
@@ -183,7 +183,7 @@ public class JUCMNavKPICommandTests extends TestCase {
         Command cmd;
 
         cmd = new AddIntentionalElementRefCommand(graph, indRef);
-        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         ind = (Indicator) indRef.getDef();
@@ -194,11 +194,11 @@ public class JUCMNavKPICommandTests extends TestCase {
         testCreateStrategyCommand();
 
         kpiInfoConfig = (KPIInformationConfig) ModelCreationFactory.getNewObject(urnspec, KPIInformationConfig.class);
-        kpiInfoConfig.setLevelOfDimension("year");
-        kpiInfoConfig.setValueOfDimension("2007");
+        kpiInfoConfig.setLevelOfDimension("year"); //$NON-NLS-1$
+        kpiInfoConfig.setValueOfDimension("2007"); //$NON-NLS-1$
         Command cmd = new AddKPIInformationConfigCommand(kpiInfoConfig, kpiInfoElem, strategy);
 
-        assertTrue("Can't execute AddKPIInformationConfigCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddKPIInformationConfigCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -208,7 +208,7 @@ public class JUCMNavKPICommandTests extends TestCase {
         Command cmd;
 
         cmd = new AddKPIInformationElementRefCommand(graph, kpiInfoElemRef);
-        assertTrue("Can't execute AddKPIInformationElementRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddKPIInformationElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         kpiInfoElem = kpiInfoElemRef.getDef();
@@ -217,25 +217,25 @@ public class JUCMNavKPICommandTests extends TestCase {
     public void testCreateAllKPIModelLinkRefCommand() {
         // Create 2 diagrams, add 3 elements with references in each them and create link between the elements
         Command cmd = new CreateGrlGraphCommand(urnspec);
-        assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // Create 3 elements in the first graph
         IntentionalElementRef ref1 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
                 IntentionalElementType.TASK);
         cmd = new AddIntentionalElementRefCommand(graph, ref1);
-        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         IntentionalElementRef ref2 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
                 IntentionalElementType.INDICATOR);
         cmd = new AddIntentionalElementRefCommand(graph, ref2);
-        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         KPIInformationElementRef ref3 = (KPIInformationElementRef) ModelCreationFactory.getNewObject(urnspec, KPIInformationElementRef.class);
         cmd = new AddKPIInformationElementRefCommand(graph, ref3);
-        assertTrue("Can't execute AddKPIInformationElementRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddKPIInformationElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // Create links between ref1 and ref2
@@ -243,7 +243,7 @@ public class JUCMNavKPICommandTests extends TestCase {
 
         cmd = new CreateElementLinkCommand(urnspec, ref2.getDef(), contrib);
         ((CreateElementLinkCommand) cmd).setTarget(ref1.getDef());
-        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // Create links between ref2 and ref3
@@ -251,25 +251,25 @@ public class JUCMNavKPICommandTests extends TestCase {
 
         cmd = new CreateKPIModelLinkCommand(urnspec, ref3.getDef(), kpiModelLink);
         ((CreateKPIModelLinkCommand) cmd).setTarget(ref2.getDef());
-        assertTrue("Can't execute CreateKPIModelLinkCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateKPIModelLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // Create 3 elements in the second graph
         IntentionalElementRef ref1Diag2 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
                 IntentionalElementType.TASK);
         cmd = new AddIntentionalElementRefCommand(graph, ref1Diag2);
-        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         IntentionalElementRef ref2Diag2 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
                 IntentionalElementType.INDICATOR);
         cmd = new AddIntentionalElementRefCommand(graph, ref2Diag2);
-        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         KPIInformationElementRef ref3Diag2 = (KPIInformationElementRef) ModelCreationFactory.getNewObject(urnspec, KPIInformationElementRef.class);
         cmd = new AddKPIInformationElementRefCommand(graph, ref3Diag2);
-        assertTrue("Can't execute AddKPIInformationElementRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddKPIInformationElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // Set the element's definition to the same for both diagrams
@@ -279,21 +279,21 @@ public class JUCMNavKPICommandTests extends TestCase {
 
         // Execute the CreateAllLinkRef command
         cmd = new CreateAllLinkRefCommand(ref2Diag2);
-        assertTrue("Can't execute CreateAllLinkRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateAllLinkRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // Execute the CreateAllKPIModelLinkRef command
         cmd = new CreateAllKPIModelLinkRefCommand(ref3Diag2);
-        assertTrue("Can't execute CreateAllKPIModelLinkRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateAllKPIModelLinkRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
     public void testCreateIndicatorGroupCommand() {
         indGroup = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
-        indGroup.setName("groupx");
+        indGroup.setName("groupx"); //$NON-NLS-1$
 
         Command cmd = new CreateIndicatorGroupCommand(urnspec, indGroup);
-        assertTrue("Can't execute CreateIndicatorGroupCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateIndicatorGroupCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -306,7 +306,7 @@ public class JUCMNavKPICommandTests extends TestCase {
 
         cmd = new CreateKPIModelLinkCommand(urnspec, kpiInfoElem, kpiModelLink);
         ((CreateKPIModelLinkCommand) cmd).setTarget(ind);
-        assertTrue("Can't execute CreateKPIModelLinkCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateKPIModelLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -314,7 +314,7 @@ public class JUCMNavKPICommandTests extends TestCase {
         testCreateKPIModelLinkCommand();
 
         Command cmd = new DeleteAllKPIModelLinkRefCommand(kpiInfoElemRef);
-        assertTrue("Can't execute DeleteAllKPIModelLinkRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteAllKPIModelLinkRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -322,7 +322,7 @@ public class JUCMNavKPICommandTests extends TestCase {
         testCreateIndicatorGroupCommand();
 
         Command cmd = new DeleteIndicatorGroupCommand(indGroup);
-        assertTrue("Can't execute DeleteIndicatorGroupCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteIndicatorGroupCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -331,11 +331,11 @@ public class JUCMNavKPICommandTests extends TestCase {
 
         // The node should be deleted before the definition
         Command cmd = new DeleteGRLNodeCommand(kpiInfoElemRef);
-        assertTrue("Can't execute DeleteGRLNodeCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteGRLNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         cmd = new DeleteKPIInformationElementCommand(kpiInfoElem);
-        assertTrue("Can't execute DeleteIntentionalElementCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteIntentionalElementCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -343,7 +343,7 @@ public class JUCMNavKPICommandTests extends TestCase {
         testCreateKPIModelLinkCommand();
 
         Command cmd = new DeleteKPIModelLinkCommand(kpiModelLink);
-        assertTrue("Can't execute DeleteKPIModelLinkCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteKPIModelLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -352,21 +352,21 @@ public class JUCMNavKPICommandTests extends TestCase {
 
         // Create three indicator groups
         IndicatorGroup indGroup1 = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
-        indGroup1.setName("group1");
+        indGroup1.setName("group1"); //$NON-NLS-1$
         Command cmd = new CreateIndicatorGroupCommand(urnspec, indGroup1);
-        assertTrue("Can't execute CreateIndicatorGroupCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateIndicatorGroupCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         IndicatorGroup indGroup2 = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
-        indGroup2.setName("group2");
+        indGroup2.setName("group2"); //$NON-NLS-1$
         cmd = new CreateIndicatorGroupCommand(urnspec, indGroup2);
-        assertTrue("Can't execute CreateIndicatorGroupCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateIndicatorGroupCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         IndicatorGroup indGroup3 = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
-        indGroup3.setName("group3");
+        indGroup3.setName("group3"); //$NON-NLS-1$
         cmd = new CreateIndicatorGroupCommand(urnspec, indGroup3);
-        assertTrue("Can't execute CreateIndicatorGroupCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateIndicatorGroupCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // Assigning groups to the indicator
@@ -375,7 +375,7 @@ public class JUCMNavKPICommandTests extends TestCase {
         indGroups.add(indGroup2);
         indGroups.add(indGroup3);
         cmd = new AssignIndicatorGroupCommand(ind, indGroups);
-        assertTrue("Can't execute AssignIndicatorGroupCommand.", cmd.canExecute());
+        assertTrue("Can't execute AssignIndicatorGroupCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -383,7 +383,7 @@ public class JUCMNavKPICommandTests extends TestCase {
         strategiesGroup = (StrategiesGroup) ModelCreationFactory.getNewObject(urnspec, StrategiesGroup.class);
 
         Command cmd = new CreateStrategiesGroupCommand(urnspec, strategiesGroup);
-        assertTrue("Can't execute CreateStrategiesGroupCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateStrategiesGroupCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -393,7 +393,7 @@ public class JUCMNavKPICommandTests extends TestCase {
 
         Command cmd = new CreateStrategyCommand(urnspec, strategiesGroup);
         strategy = ((CreateStrategyCommand) cmd).getStrategy();
-        assertTrue("Can't execute CreateStrategyCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateStrategyCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -409,7 +409,7 @@ public class JUCMNavKPICommandTests extends TestCase {
 
                 for (Iterator iter2 = graph.getNodes().iterator(); iter2.hasNext();) {
                     GRLNode gn = (GRLNode) iter2.next();
-                    assertEquals("GRLNode " + gn.toString() + " is not properly bound.", ParentFinder.getPossibleParent(gn), gn.getContRef());
+                    assertEquals("GRLNode " + gn.toString() + " is not properly bound.", ParentFinder.getPossibleParent(gn), gn.getContRef()); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
         }

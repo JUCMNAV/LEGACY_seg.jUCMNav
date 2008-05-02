@@ -104,8 +104,8 @@ public class IndicatorGroupDialog {
      */
     private void createSShell() {
         shell = new Shell(SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-        shell.setImage(JUCMNavPlugin.getImage("icons/perspectiveIcon.gif"));
-        shell.setText(Messages.getString("IndicatorGroupDialog.shellTitle"));
+        shell.setImage(JUCMNavPlugin.getImage("icons/perspectiveIcon.gif")); //$NON-NLS-1$
+        shell.setText(Messages.getString("IndicatorGroupDialog.shellTitle")); //$NON-NLS-1$
         shell.setSize(new Point(shell_w, shell_h));
         shell.setLocation(new Point((shell.getDisplay().getBounds().width - shell_w) / 2, (shell.getDisplay().getBounds().height - shell_h) / 2));
         createGroup();
@@ -113,16 +113,16 @@ public class IndicatorGroupDialog {
         createGroupAssignedIndicatorGroups();
         buttonFinish = new Button(shell, SWT.NONE);
         buttonFinish.setBounds(new Rectangle(404, 377, 91, 26));
-        buttonFinish.setText(Messages.getString("IndicatorGroupDialog.finish"));
+        buttonFinish.setText(Messages.getString("IndicatorGroupDialog.finish")); //$NON-NLS-1$
         buttonAssign = new Button(shell, SWT.ARROW | SWT.RIGHT);
         buttonAssign.setBounds(new Rectangle(278, 203, 40, 23));
-        buttonAssign.setText(Messages.getString("IndicatorGroupDialog.assign"));
+        buttonAssign.setText(Messages.getString("IndicatorGroupDialog.assign")); //$NON-NLS-1$
         buttonRemove = new Button(shell, SWT.ARROW | SWT.LEFT);
         buttonRemove.setBounds(new Rectangle(278, 232, 40, 23));
-        buttonRemove.setText(Messages.getString("IndicatorGroupDialog.remove"));
+        buttonRemove.setText(Messages.getString("IndicatorGroupDialog.remove")); //$NON-NLS-1$
         buttonCancel = new Button(shell, SWT.NONE);
         buttonCancel.setBounds(new Rectangle(499, 377, 91, 26));
-        buttonCancel.setText(Messages.getString("IndicatorGroupDialog.cancel"));
+        buttonCancel.setText(Messages.getString("IndicatorGroupDialog.cancel")); //$NON-NLS-1$
 
         buttonFinish.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
             public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -210,15 +210,15 @@ public class IndicatorGroupDialog {
         groupAvailableIndicatorGroups.setText(Messages.getString("IndicatorGroupDialog.groupAvailableIndicatorGroups")); //$NON-NLS-1$
         groupAvailableIndicatorGroups.setBounds(new Rectangle(5, 86, 267, 271));
         treeAvailableIndicatorGroups = new Tree(groupAvailableIndicatorGroups, SWT.BORDER | SWT.CHECK);
-        treeAvailableIndicatorGroups.setToolTipText(Messages.getString("IndicatorGroupDialog.groupAvailableIndicatorGroups.tiptext"));
+        treeAvailableIndicatorGroups.setToolTipText(Messages.getString("IndicatorGroupDialog.groupAvailableIndicatorGroups.tiptext")); //$NON-NLS-1$
         treeAvailableIndicatorGroups.setBounds(new Rectangle(6, 51, 253, 212));
 
         TreeColumn nameCol = new TreeColumn(treeAvailableIndicatorGroups, SWT.LEFT);
-        nameCol.setText("Name");
+        nameCol.setText(Messages.getString("IndicatorGroupDialog.Name")); //$NON-NLS-1$
         nameCol.pack();
 
         TreeColumn idCol = new TreeColumn(treeAvailableIndicatorGroups, SWT.LEFT);
-        idCol.setText("ID");
+        idCol.setText("ID"); //$NON-NLS-1$
         idCol.pack();
     }
 
@@ -231,15 +231,15 @@ public class IndicatorGroupDialog {
         groupAssignedIndicatorGroups.setText(Messages.getString("IndicatorGroupDialog.groupAssignedIndicatorGroups")); //$NON-NLS-1$
         groupAssignedIndicatorGroups.setBounds(new Rectangle(324, 86, 267, 271));
         treeAssignedIndicatorGroups = new Tree(groupAssignedIndicatorGroups, SWT.BORDER | SWT.CHECK);
-        treeAssignedIndicatorGroups.setToolTipText(Messages.getString("IndicatorGroupDialog.groupAssignedIndicatorGroups.tiptext"));
+        treeAssignedIndicatorGroups.setToolTipText(Messages.getString("IndicatorGroupDialog.groupAssignedIndicatorGroups.tiptext")); //$NON-NLS-1$
         treeAssignedIndicatorGroups.setBounds(new Rectangle(6, 22, 253, 241));
 
         TreeColumn nameCol = new TreeColumn(treeAssignedIndicatorGroups, SWT.LEFT);
-        nameCol.setText("Name");
+        nameCol.setText(Messages.getString("IndicatorGroupDialog.Name")); //$NON-NLS-1$
         nameCol.pack();
 
         TreeColumn idCol = new TreeColumn(treeAssignedIndicatorGroups, SWT.LEFT);
-        idCol.setText("ID");
+        idCol.setText("ID"); //$NON-NLS-1$
         idCol.pack();
     }
 

@@ -138,25 +138,25 @@ public class KpiEntity implements Serializable {
     private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(KpiEntity.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://service.bpm.com/", "kpiEntity"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://service.bpm.com/", "kpiEntity")); //$NON-NLS-1$ //$NON-NLS-2$
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("indicatorName");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "indicatorName"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setFieldName("indicatorName"); //$NON-NLS-1$
+        elemField.setXmlName(new javax.xml.namespace.QName("", "indicatorName")); //$NON-NLS-1$ //$NON-NLS-2$
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string")); //$NON-NLS-1$ //$NON-NLS-2$
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("kpiValue");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "kpiValue"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setFieldName("kpiValue"); //$NON-NLS-1$
+        elemField.setXmlName(new javax.xml.namespace.QName("", "kpiValue")); //$NON-NLS-1$ //$NON-NLS-2$
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string")); //$NON-NLS-1$ //$NON-NLS-2$
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("strategyName");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "strategyName"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setFieldName("strategyName"); //$NON-NLS-1$
+        elemField.setXmlName(new javax.xml.namespace.QName("", "strategyName")); //$NON-NLS-1$ //$NON-NLS-2$
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string")); //$NON-NLS-1$ //$NON-NLS-2$
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);

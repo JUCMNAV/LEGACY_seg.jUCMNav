@@ -21,6 +21,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
 
 /**
@@ -37,9 +39,9 @@ import seg.jUCMNav.staticSemantic.Rule;
  */
 public class RuleEditDialog extends Dialog implements SelectionListener {
 
-    private static final String BUTTON_DEFINE_A_NEW_UTILITY = "New";
-    private static final String BUTTON_DEFINE_A_EDIT_UTILITY = "Edit";
-    private static final String BUTTON_DEFINE_A_DELETE_UTILITY = "Delete";
+    private static final String BUTTON_DEFINE_A_NEW_UTILITY = Messages.getString("RuleEditDialog.New"); //$NON-NLS-1$
+    private static final String BUTTON_DEFINE_A_EDIT_UTILITY = Messages.getString("RuleEditDialog.Edit"); //$NON-NLS-1$
+    private static final String BUTTON_DEFINE_A_DELETE_UTILITY = Messages.getString("RuleEditDialog.Delete"); //$NON-NLS-1$
 
     private Rule rule = null;
 
@@ -93,43 +95,43 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         c1.setLayout(layout1);
 
         Label lblName = new Label(c1, SWT.LEFT);
-        lblName.setText("Rule Name:");
+        lblName.setText(Messages.getString("RuleEditDialog.RuleName")); //$NON-NLS-1$
         txtName = new Text(c1, SWT.SINGLE | SWT.BORDER);
         txtName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtName.setSize(200, SWT.DEFAULT);
 
         Label lblContext = new Label(c1, SWT.LEFT);
-        lblContext.setText("Context:");
+        lblContext.setText(Messages.getString("RuleEditDialog.Context")); //$NON-NLS-1$
         txtContext = new Text(c1, SWT.MULTI | SWT.BORDER);
         txtContext.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtContext.setSize(200, SWT.DEFAULT);
 
         Label lblQuery = new Label(c1, SWT.LEFT);
-        lblQuery.setText("OCL query expression of collecting all objects to be checked:");
+        lblQuery.setText(Messages.getString("RuleEditDialog.QueryExpression")); //$NON-NLS-1$
         txtQuery = new Text(c1, SWT.MULTI | SWT.BORDER);
         txtQuery.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
         txtQuery.setSize(600, SWT.DEFAULT);
 
         Label lblCheck = new Label(c1, SWT.LEFT);
-        lblCheck.setText("OCL constraint expression:");
+        lblCheck.setText(Messages.getString("RuleEditDialog.ConstraintExpression")); //$NON-NLS-1$
         txtCheck = new Text(c1, SWT.MULTI | SWT.BORDER);
         txtCheck.setLayoutData(new GridData(GridData.FILL_BOTH));
         txtCheck.setSize(600, 600);
 
         Label lblDesc = new Label(c1, SWT.LEFT);
-        lblDesc.setText("Rule Description:");
+        lblDesc.setText(Messages.getString("RuleEditDialog.RuleDescription")); //$NON-NLS-1$
         txtDesc = new Text(c1, SWT.MULTI | SWT.BORDER);
         txtDesc.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtDesc.setSize(600, SWT.DEFAULT);
 
         Label lblUtilities = new Label(c1, SWT.LEFT);
-        lblDesc.setText("Description:");
+        lblDesc.setText(Messages.getString("RuleEditDialog.Description")); //$NON-NLS-1$
 
         table = new Table(c1, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
         table.setLinesVisible(true);
         table.setHeaderVisible(true);
         TableColumn column = new TableColumn(table, SWT.NONE);
-        column.setText("Utilities");
+        column.setText(Messages.getString("RuleEditDialog.Utilities")); //$NON-NLS-1$
         column.setWidth(600);
 
         table.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL));
@@ -183,9 +185,9 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
         if (rule == null)
-            newShell.setText("Create a rule");
+            newShell.setText(Messages.getString("RuleEditDialog.CreateARule")); //$NON-NLS-1$
         else
-            newShell.setText("Edit a rule");
+            newShell.setText(Messages.getString("RuleEditDialog.EditARule")); //$NON-NLS-1$
     }
 
     /**
@@ -200,8 +202,8 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         if(txtName.getText().trim().length()==0)
         {
             MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
-            msg.setMessage("Rule name should not be empty.");
-            msg.setText("Invalid rule difinition");
+            msg.setMessage(Messages.getString("RuleEditDialog.RuleNameNotEmpty")); //$NON-NLS-1$
+            msg.setText(Messages.getString("RuleEditDialog.InvalidRuleDefinition")); //$NON-NLS-1$
             msg.open();
             return;
         }
@@ -212,8 +214,8 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
                     txtDesc.getText());
             if (r == null) {
                 MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
-                msg.setMessage("Rule name duplicates");
-                msg.setText("Invalid rule difinition");
+                msg.setMessage(Messages.getString("RuleEditDialog.RuleNameDuplicates")); //$NON-NLS-1$
+                msg.setText(Messages.getString("RuleEditDialog.InvalidRuleDefinition")); //$NON-NLS-1$
                 msg.open();
                 return;
             }
@@ -225,7 +227,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             if (r.isValid() == false) {
                 MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
                 msg.setMessage(r.getErrors());
-                msg.setText("Invalid rule difinition");
+                msg.setText(Messages.getString("RuleEditDialog.InvalidRuleDefinition")); //$NON-NLS-1$
                 msg.open();
                 return;
             }
@@ -237,13 +239,13 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
                 Rule r = StaticSemanticDefMgr.instance().lookupRule(txtName.getText());
                 if (r != null) {
                     MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
-                    msg.setMessage("Rule name duplicates");
-                    msg.setText("Invalid rule difinition");
+                    msg.setMessage(Messages.getString("RuleEditDialog.RuleNameDuplicates")); //$NON-NLS-1$
+                    msg.setText(Messages.getString("RuleEditDialog.InvalidRuleDefinition")); //$NON-NLS-1$
                     msg.open();
                     return;
                 }
             }
-            Rule r = StaticSemanticDefMgr.instance().createRule("", txtContext.getText(), this.txtQuery.getText(), this.txtCheck.getText(), false,
+            Rule r = StaticSemanticDefMgr.instance().createRule("", txtContext.getText(), this.txtQuery.getText(), this.txtCheck.getText(), false, //$NON-NLS-1$
                     txtDesc.getText());
             for (int i = 0; i < table.getItems().length; ++i) {
                 TableItem item = table.getItems()[i];
@@ -253,7 +255,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
               
                     MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
                     msg.setMessage(r.getErrors());
-                    msg.setText("Invalid rule difinition");
+                    msg.setText(Messages.getString("RuleEditDialog.InvalidRuleDefinition")); //$NON-NLS-1$
                     msg.open();
                     return;
             }
@@ -306,7 +308,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
      */
     private void performEditUtility() {
         RuleUtilityEditDialog dlg = new RuleUtilityEditDialog(this.getShell());
-        dlg.setTitle("Modify a utility");
+        dlg.setTitle(Messages.getString("RuleEditDialog.ModifyUtility")); //$NON-NLS-1$
         dlg.setText(table.getSelection()[0].getText());
         if (Window.OK == dlg.open()) {
             updateUtility(table.getSelection()[0], dlg.getText());
@@ -328,7 +330,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     private void performNewUtility() {
 
         RuleUtilityEditDialog dlg = new RuleUtilityEditDialog(this.getShell());
-        dlg.setTitle("Define a new utility");
+        dlg.setTitle(Messages.getString("RuleEditDialog.DefineNewUtility")); //$NON-NLS-1$
         if (Window.OK == dlg.open()) {
             appendUtility(dlg.getText());
             table.setSelection(table.getItemCount() - 1);

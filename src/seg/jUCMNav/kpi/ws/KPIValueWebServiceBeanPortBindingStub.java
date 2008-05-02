@@ -28,14 +28,14 @@ public class KPIValueWebServiceBeanPortBindingStub extends org.apache.axis.clien
         org.apache.axis.description.OperationDesc oper;
         org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
-        oper.setName("retrieveKPIValues");
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "kpiEntities"), org.apache.axis.description.ParameterDesc.IN,
-                new javax.xml.namespace.QName("http://service.bpm.com/", "kpiEntity"), seg.jUCMNav.kpi.ws.KpiEntity[].class, false, false);
+        oper.setName("retrieveKPIValues"); //$NON-NLS-1$
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "kpiEntities"), org.apache.axis.description.ParameterDesc.IN, //$NON-NLS-1$ //$NON-NLS-2$
+                new javax.xml.namespace.QName("http://service.bpm.com/", "kpiEntity"), seg.jUCMNav.kpi.ws.KpiEntity[].class, false, false); //$NON-NLS-1$ //$NON-NLS-2$
         param.setOmittable(true);
         oper.addParameter(param);
-        oper.setReturnType(new javax.xml.namespace.QName("http://service.bpm.com/", "kpiEntity"));
+        oper.setReturnType(new javax.xml.namespace.QName("http://service.bpm.com/", "kpiEntity")); //$NON-NLS-1$ //$NON-NLS-2$
         oper.setReturnClass(seg.jUCMNav.kpi.ws.KpiEntity[].class);
-        oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
+        oper.setReturnQName(new javax.xml.namespace.QName("", "return")); //$NON-NLS-1$ //$NON-NLS-2$
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[0] = oper;
@@ -57,7 +57,7 @@ public class KPIValueWebServiceBeanPortBindingStub extends org.apache.axis.clien
         } else {
             super.service = service;
         }
-        ((org.apache.axis.client.Service) super.service).setTypeMappingVersion("1.2");
+        ((org.apache.axis.client.Service) super.service).setTypeMappingVersion("1.2"); //$NON-NLS-1$
         java.lang.Class cls;
         javax.xml.namespace.QName qName;
         javax.xml.namespace.QName qName2;
@@ -71,7 +71,7 @@ public class KPIValueWebServiceBeanPortBindingStub extends org.apache.axis.clien
         java.lang.Class simpledf = org.apache.axis.encoding.ser.SimpleDeserializerFactory.class;
         java.lang.Class simplelistsf = org.apache.axis.encoding.ser.SimpleListSerializerFactory.class;
         java.lang.Class simplelistdf = org.apache.axis.encoding.ser.SimpleListDeserializerFactory.class;
-        qName = new javax.xml.namespace.QName("http://service.bpm.com/", "kpiEntity");
+        qName = new javax.xml.namespace.QName("http://service.bpm.com/", "kpiEntity"); //$NON-NLS-1$ //$NON-NLS-2$
         cachedSerQNames.add(qName);
         cls = seg.jUCMNav.kpi.ws.KpiEntity.class;
         cachedSerClasses.add(cls);
@@ -133,7 +133,7 @@ public class KPIValueWebServiceBeanPortBindingStub extends org.apache.axis.clien
             }
             return _call;
         } catch (java.lang.Throwable _t) {
-            throw new org.apache.axis.AxisFault("Failure trying to get the Call object", _t);
+            throw new org.apache.axis.AxisFault("Failure trying to get the Call object", _t); //$NON-NLS-1$
         }
     }
 
@@ -144,12 +144,12 @@ public class KPIValueWebServiceBeanPortBindingStub extends org.apache.axis.clien
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[0]);
         _call.setUseSOAPAction(true);
-        _call.setSOAPActionURI("");
+        _call.setSOAPActionURI(""); //$NON-NLS-1$
         _call.setEncodingStyle(null);
         _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
         _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
-        _call.setOperationName(new javax.xml.namespace.QName("http://service.bpm.com/", "retrieveKPIValues"));
+        _call.setOperationName(new javax.xml.namespace.QName("http://service.bpm.com/", "retrieveKPIValues")); //$NON-NLS-1$ //$NON-NLS-2$
 
         setRequestHeaders(_call);
         setAttachments(_call);

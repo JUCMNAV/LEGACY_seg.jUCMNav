@@ -70,13 +70,13 @@ public class Rule {
 	 */
 	Rule(String name)
 	{
-        this.context = "";
-        this.classifier = "";
-        this.query = "";
+        this.context = ""; //$NON-NLS-1$
+        this.classifier = ""; //$NON-NLS-1$
+        this.query = ""; //$NON-NLS-1$
         this.name = name;
         this.enabled = false;
-        this.description = "";
-        this.errors = "";
+        this.description = ""; //$NON-NLS-1$
+        this.errors = ""; //$NON-NLS-1$
         this.utilities = new ArrayList() ;
         }
 	/**
@@ -96,7 +96,7 @@ public class Rule {
 		this.name = name;
 		this.enabled = enabled;
 		this.description = description;
-		this.errors = "";
+		this.errors = ""; //$NON-NLS-1$
 		this.utilities = new ArrayList() ;
 	}
 
@@ -141,7 +141,7 @@ public class Rule {
 	public List getClassifierAsList()
 	{
 		ArrayList array = new ArrayList();
-		StringTokenizer tok = new StringTokenizer(classifier,"::");
+		StringTokenizer tok = new StringTokenizer(classifier,"::"); //$NON-NLS-1$
 		while (tok.hasMoreTokens()) {
 	         array.add(tok.nextToken());
 	     }
@@ -218,11 +218,11 @@ public class Rule {
 //        OCL<?, EClassifier, EOperation, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
         OCL ocl;
         ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
-        OCLInput lib = new OCLInput(this.getClass().getResourceAsStream("library.ocl"));
+        OCLInput lib = new OCLInput(this.getClass().getResourceAsStream("library.ocl")); //$NON-NLS-1$
         try {
             ocl.parse(lib);
         } catch (ParserException e2) {
-            errors+= "Library error:" + e2.getMessage();
+            errors+= "Library error:" + e2.getMessage(); //$NON-NLS-1$
             return false;
         }
 //        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
@@ -231,7 +231,7 @@ public class Rule {
         List name = this.getClassifierAsList();
         EClassifier e = (EClassifier) ocl.getEnvironment().lookupClassifier(name);
         if (e == null) {
-            errors += "Classifier " + this.getClassifier() + " is invalid.";
+            errors += "Classifier " + this.getClassifier() + " is invalid."; //$NON-NLS-1$ //$NON-NLS-2$
             return false;
         }        
         //verify utilities
@@ -242,7 +242,7 @@ public class Rule {
                 helper.setContext(e);
                 helper.defineOperation(op);
             } catch (ParserException e1) {
-                errors+= "Utilities #"+ (i+1)+" error:" + e1.getMessage();
+                errors+= "Utilities #"+ (i+1)+" error:" + e1.getMessage(); //$NON-NLS-1$ //$NON-NLS-2$
                 return false;
             }           
         }
@@ -255,7 +255,7 @@ public class Rule {
 //            Query<EClassifier, EClass, EObject> queryEval = ocl.createQuery(query);
             Query queryEval = ocl.createQuery(query);
         } catch (ParserException e1) {
-            errors+="Query constraint error:" + e1.getMessage();
+            errors+="Query constraint error:" + e1.getMessage(); //$NON-NLS-1$
             return false;
         }
         //verify incariant constraint
@@ -268,7 +268,7 @@ public class Rule {
             Query constraintEval = ocl.createQuery(invariant);
             
         } catch (ParserException e1) {
-            errors+= "Invariant contraint error:" + e1.getMessage();
+            errors+= "Invariant contraint error:" + e1.getMessage(); //$NON-NLS-1$
             return false;
         }
   

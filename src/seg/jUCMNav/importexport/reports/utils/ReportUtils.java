@@ -146,9 +146,9 @@ public class ReportUtils {
 
 			ImageLoader loader = new ImageLoader();
 			loader.data = new ImageData[] { ExportImageGIF.downSample(image) };
-			loader.save("tmpfile.gif", SWT.IMAGE_GIF);
+			loader.save("tmpfile.gif", SWT.IMAGE_GIF); //$NON-NLS-1$
 
-			Image rtfImage = Image.getInstance("tmpfile.gif");
+			Image rtfImage = Image.getInstance("tmpfile.gif"); //$NON-NLS-1$
 			
 	        gc.dispose();
 	        image.dispose();
@@ -423,7 +423,7 @@ public class ReportUtils {
 	 *            the newly created paragraph with the new line inserted
 	 */
 	public static Paragraph getParagraphWithSeparator(Document document, String leftPart, String separator, String rightPart, Font font) {
-		Paragraph para1 = new Paragraph("", font);
+		Paragraph para1 = new Paragraph("", font); //$NON-NLS-1$
 		try {
 			if (rightPart != null) {
 				if (rightPart.length() == 0) {
@@ -456,7 +456,7 @@ public class ReportUtils {
 		boolean exists = false;
 
 		if (s != null)
-			exists = (s != "");
+			exists = (s != ""); //$NON-NLS-1$
 		return exists;
 	}
 }

@@ -9,7 +9,7 @@ public class KPIValueWebServiceBeanProxy implements seg.jUCMNav.kpi.ws.KPIValueW
     private seg.jUCMNav.kpi.ws.KPIValueWebServiceBean kPIValueWebServiceBean = null;
 
     // Use to get a proxy class for KPIValueWebServiceBeanPort
-    private java.lang.String KPIValueWebServiceBeanPort_address = "";
+    private java.lang.String KPIValueWebServiceBeanPort_address = ""; //$NON-NLS-1$
 
     public KPIValueWebServiceBeanProxy(String address) {
         this.KPIValueWebServiceBeanPort_address = address;
@@ -22,9 +22,9 @@ public class KPIValueWebServiceBeanProxy implements seg.jUCMNav.kpi.ws.KPIValueW
                     .getKPIValueWebServiceBeanPort();
             if (kPIValueWebServiceBean != null) {
                 if (_endpoint != null)
-                    ((javax.xml.rpc.Stub) kPIValueWebServiceBean)._setProperty("javax.xml.rpc.service.endpoint.address", _endpoint);
+                    ((javax.xml.rpc.Stub) kPIValueWebServiceBean)._setProperty("javax.xml.rpc.service.endpoint.address", _endpoint); //$NON-NLS-1$
                 else
-                    _endpoint = (String) ((javax.xml.rpc.Stub) kPIValueWebServiceBean)._getProperty("javax.xml.rpc.service.endpoint.address");
+                    _endpoint = (String) ((javax.xml.rpc.Stub) kPIValueWebServiceBean)._getProperty("javax.xml.rpc.service.endpoint.address"); //$NON-NLS-1$
             }
 
         } catch (javax.xml.rpc.ServiceException serviceException) {
@@ -38,7 +38,7 @@ public class KPIValueWebServiceBeanProxy implements seg.jUCMNav.kpi.ws.KPIValueW
     public void setEndpoint(String endpoint) {
         _endpoint = endpoint;
         if (kPIValueWebServiceBean != null)
-            ((javax.xml.rpc.Stub) kPIValueWebServiceBean)._setProperty("javax.xml.rpc.service.endpoint.address", _endpoint);
+            ((javax.xml.rpc.Stub) kPIValueWebServiceBean)._setProperty("javax.xml.rpc.service.endpoint.address", _endpoint); //$NON-NLS-1$
 
     }
 

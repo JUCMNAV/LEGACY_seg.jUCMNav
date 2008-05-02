@@ -77,8 +77,8 @@ public class ReportWizardMapSelectionPage extends WizardPage {
      */
     protected ReportWizardMapSelectionPage(String pageName, Vector mapsToExport, HashMap mapsToEditor) {
         super(pageName);
-        setDescription(Messages.getString("ReportWizardPage.pleaseSelectFormatAndDirectory"));
-        setTitle(Messages.getString("ReportWizardPage.reportWizard"));
+        setDescription(Messages.getString("ReportWizardPage.pleaseSelectFormatAndDirectory")); //$NON-NLS-1$
+        setTitle(Messages.getString("ReportWizardPage.reportWizard")); //$NON-NLS-1$
 
         this.mapsToEditor = mapsToEditor;
         this.mapsToExport = mapsToExport;
@@ -108,7 +108,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         GridData data;
 
         Label lblPath = new Label(composite, SWT.NONE);
-        lblPath.setText(Messages.getString("ReportWizardPage.reportDirectory"));
+        lblPath.setText(Messages.getString("ReportWizardPage.reportDirectory")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 4;
         lblPath.setLayoutData(data);
@@ -137,7 +137,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
                 DirectoryDialog dialog = new DirectoryDialog(getShell(), SWT.OPEN);
                 dialog.setFilterPath(txtReportPath.getText());
 
-                dialog.setText(Messages.getString("ReportWizardPage.reportDirectory")); 
+                dialog.setText(Messages.getString("ReportWizardPage.reportDirectory"));  //$NON-NLS-1$
                 String path = dialog.open();
 
                 if (path != null) {
@@ -325,16 +325,16 @@ public class ReportWizardMapSelectionPage extends WizardPage {
     private void verifyPage() {
         File dir = new File(txtReportPath.getText());
         if (!(dir.exists() && dir.isDirectory())) {
-            setErrorMessage(Messages.getString("ReportWizardPage.invalidPath")); 
+            setErrorMessage(Messages.getString("ReportWizardPage.invalidPath"));  //$NON-NLS-1$
         } else {
             setErrorMessage(null);
         }
 
         if (mapsToExport.size() == 0 )
-            setErrorMessage(Messages.getString("ReportWizardPage.noMapsSelected")); 
+            setErrorMessage(Messages.getString("ReportWizardPage.noMapsSelected"));  //$NON-NLS-1$
 
-        if (txtFilenamePrefix.getText() == "")
-            setErrorMessage(Messages.getString("ReportWizardMapSelectionPage.invalidFilename")); 
+        if (txtFilenamePrefix.getText() == "") //$NON-NLS-1$
+            setErrorMessage(Messages.getString("ReportWizardMapSelectionPage.invalidFilename"));  //$NON-NLS-1$
         
         
         setPageComplete(getErrorMessage() == null && 

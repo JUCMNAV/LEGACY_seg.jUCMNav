@@ -31,6 +31,7 @@ import org.eclipse.swt.SWT;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 /**
  * This class is the control center of all rule defining features:
  * <ul>
@@ -45,23 +46,23 @@ import seg.jUCMNav.JUCMNavPlugin;
  */
 public class StaticSemanticDefMgr {
 
-    private static final String RULE_NAME = "RuleName";
-    private static final String SHOW_DESCRIPTION = "SHOW_DESCRIPTION";
-    private static final String RULE_SCHEMA = "ruleschema.xsd";
-    private static final String SELECTED_SUFFIX = "Selected";
-    private static final String RULE_NUMBER = "RuleNumber";
-    private static final String DESCCRIPTION_SUFFIX = "_Desccription";
-    private static final String CONSTRAINT_SUFFIX = "_Constraint";
-    private static final String CONTEXT_SUFFIX = "_Context";
-    private static final String CLASSIFIER_SUFFIX = "_Classifier";
-    private static final String NAME_SUFFIX = "_Name";
-    private static final String RULE_PREFIX = "Rule";
-    private static final String UTILITY_DEFINITIONS = "UtilityDefinitions";
-    private static final String UTILITIES_NUMBER = "_UtilitiesNumber";
-    private static final String UTILITIES = "Utility";
-    private static final String GROUP_NUMBER = "GroupNumber";
-    private static final String GROUP_PREFIX = "Group";
-    private static final String MEMBER_NUMBER = "MemberNumber";
+    private static final String RULE_NAME = "RuleName"; //$NON-NLS-1$
+    private static final String SHOW_DESCRIPTION = "SHOW_DESCRIPTION"; //$NON-NLS-1$
+    private static final String RULE_SCHEMA = "ruleschema.xsd"; //$NON-NLS-1$
+    private static final String SELECTED_SUFFIX = "Selected"; //$NON-NLS-1$
+    private static final String RULE_NUMBER = "RuleNumber"; //$NON-NLS-1$
+    private static final String DESCCRIPTION_SUFFIX = "_Desccription"; //$NON-NLS-1$
+    private static final String CONSTRAINT_SUFFIX = "_Constraint"; //$NON-NLS-1$
+    private static final String CONTEXT_SUFFIX = "_Context"; //$NON-NLS-1$
+    private static final String CLASSIFIER_SUFFIX = "_Classifier"; //$NON-NLS-1$
+    private static final String NAME_SUFFIX = "_Name"; //$NON-NLS-1$
+    private static final String RULE_PREFIX = "Rule"; //$NON-NLS-1$
+    private static final String UTILITY_DEFINITIONS = "UtilityDefinitions"; //$NON-NLS-1$
+    private static final String UTILITIES_NUMBER = "_UtilitiesNumber"; //$NON-NLS-1$
+    private static final String UTILITIES = "Utility"; //$NON-NLS-1$
+    private static final String GROUP_NUMBER = "GroupNumber"; //$NON-NLS-1$
+    private static final String GROUP_PREFIX = "Group"; //$NON-NLS-1$
+    private static final String MEMBER_NUMBER = "MemberNumber"; //$NON-NLS-1$
 
     private static StaticSemanticDefMgr instance_ = null;
 
@@ -92,7 +93,7 @@ public class StaticSemanticDefMgr {
      * @return a list of rules
      */
     public List getDefaultDefinitions() {
-        InputStream rulesDefaultIS = StaticSemanticDefMgr.class.getResourceAsStream("defaultRules.xml");
+        InputStream rulesDefaultIS = StaticSemanticDefMgr.class.getResourceAsStream("defaultRules.xml"); //$NON-NLS-1$
 
         return readRules(rulesDefaultIS);
     }
@@ -185,14 +186,14 @@ public class StaticSemanticDefMgr {
      */
     private List getDefaultGroups() {
         List dg = new ArrayList();
-        RuleGroup g = new RuleGroup("All");
+        RuleGroup g = new RuleGroup("All"); //$NON-NLS-1$
         g.addRule(rules);
         dg.add(g);
         
-        dg.add(new RuleGroup("Performance Scenario"));      
-        dg.add(new RuleGroup("Aspect"));
-        dg.add(new RuleGroup("Performance"));
-        dg.add( new RuleGroup("Scenario Aspect"));
+        dg.add(new RuleGroup("Performance Scenario"));       //$NON-NLS-1$
+        dg.add(new RuleGroup("Aspect")); //$NON-NLS-1$
+        dg.add(new RuleGroup("Performance")); //$NON-NLS-1$
+        dg.add( new RuleGroup("Scenario Aspect")); //$NON-NLS-1$
         return dg;
     }
 
@@ -205,7 +206,7 @@ public class StaticSemanticDefMgr {
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = builder.newDocument();
-            Element root = doc.createElement("Rules");
+            Element root = doc.createElement("Rules"); //$NON-NLS-1$
             doc.appendChild(root);
 
             for (int i = 0; i < rules.size(); ++i) {
@@ -234,32 +235,32 @@ public class StaticSemanticDefMgr {
      * @return an XML element
      */
     private static Element buildRuleNode(Document doc, Rule r) {
-        Element root = doc.createElement("Rule");
+        Element root = doc.createElement("Rule"); //$NON-NLS-1$
 
         // Name
-        Element name = doc.createElement("Name");
+        Element name = doc.createElement("Name"); //$NON-NLS-1$
         name.setTextContent(r.getName());
         root.appendChild(name);
         // Description
-        Element desc = doc.createElement("Description");
+        Element desc = doc.createElement("Description"); //$NON-NLS-1$
         desc.setTextContent(r.getDescription());
         root.appendChild(desc);
         // Classification
-        Element classifier = doc.createElement("Classification");
+        Element classifier = doc.createElement("Classification"); //$NON-NLS-1$
         classifier.setTextContent(r.getClassifier());
         root.appendChild(classifier);
         // Query
-        Element query = doc.createElement("Query");
+        Element query = doc.createElement("Query"); //$NON-NLS-1$
         query.setTextContent(r.getContext());
         root.appendChild(query);
         // Constraint
-        Element constraint = doc.createElement("Constraint");
+        Element constraint = doc.createElement("Constraint"); //$NON-NLS-1$
         constraint.setTextContent(r.getQuery());
         root.appendChild(constraint);
         // Utilities
-        Element utilities = doc.createElement("Utilities");
+        Element utilities = doc.createElement("Utilities"); //$NON-NLS-1$
         for (int i = 0; i < r.getUtilities().size(); ++i) {
-            Element utility = doc.createElement("Utility");
+            Element utility = doc.createElement("Utility"); //$NON-NLS-1$
             utility.setTextContent((String) r.getUtilities().get(i));
             utilities.appendChild(utility);
         }
@@ -279,18 +280,18 @@ public class StaticSemanticDefMgr {
 
             Document doc = builder.parse(rulesIS);
             Element root = doc.getDocumentElement();
-            NodeList utilityNodes = root.getElementsByTagName("Rule");
+            NodeList utilityNodes = root.getElementsByTagName("Rule"); //$NON-NLS-1$
             rules = new ArrayList();
             for (int i = 0; i < utilityNodes.getLength(); ++i) {
-                Rule r = new Rule("");
+                Rule r = new Rule(""); //$NON-NLS-1$
                 Node utilityNode = utilityNodes.item(i);
                 Node node = utilityNode.getFirstChild();
                 while (node != null) {
                     String nodeName = node.getNodeName();
-                    if (nodeName.compareTo("Utilities") == 0) {
+                    if (nodeName.compareTo("Utilities") == 0) { //$NON-NLS-1$
                         Node u = node.getFirstChild();
                         while (u != null) {
-                            if (u.getNodeName().compareTo("Utility") == 0) {
+                            if (u.getNodeName().compareTo("Utility") == 0) { //$NON-NLS-1$
                                r.addUtility(u.getTextContent());
                             }
                             u = u.getNextSibling();
@@ -298,15 +299,15 @@ public class StaticSemanticDefMgr {
 
                     } else {
                         String value = node.getTextContent();
-                        if (nodeName.compareTo("Name") == 0) {
+                        if (nodeName.compareTo("Name") == 0) { //$NON-NLS-1$
                             r.setName(value);
-                        } else if (nodeName.compareTo("Description") == 0) {
+                        } else if (nodeName.compareTo("Description") == 0) { //$NON-NLS-1$
                             r.setDescription(value);
-                        } else if (nodeName.compareTo("Classification") == 0) {
+                        } else if (nodeName.compareTo("Classification") == 0) { //$NON-NLS-1$
                             r.setClassifier(value);
-                        } else if (nodeName.compareTo("Query") == 0) {
+                        } else if (nodeName.compareTo("Query") == 0) { //$NON-NLS-1$
                             r.setContext(value);
-                        } else if (nodeName.compareTo("Constraint") == 0) {
+                        } else if (nodeName.compareTo("Constraint") == 0) { //$NON-NLS-1$
                             r.setQuery(value);
                         }
                     }
@@ -344,7 +345,7 @@ public class StaticSemanticDefMgr {
         }
 
         if (rulesTmp != null) {
-            String renamingMsg = "";
+            String renamingMsg = ""; //$NON-NLS-1$
             for (int i = 0; i < rulesTmp.size(); ++i) {
                 Rule r = (Rule) rulesTmp.get(i);
                 String name = r.getName();
@@ -355,13 +356,13 @@ public class StaticSemanticDefMgr {
                 }
                 if (j != 0) {
                     r.setName(name + j);
-                    renamingMsg += "\n" + "The rule of " + name + " is renamed to " + name + j;
+                    renamingMsg += "\n" + Messages.getString("StaticSemanticDefMgr.RuleName") + name + Messages.getString("StaticSemanticDefMgr.IsRenamed") + name + j; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
             }
-            RuleGroup g = lookupGroup("Imported");
+            RuleGroup g = lookupGroup("Imported"); //$NON-NLS-1$
             if(g==null)
             {
-                g = new RuleGroup("Imported");
+                g = new RuleGroup("Imported"); //$NON-NLS-1$
                 addGroup(g);
             }
             g.addRule(rulesTmp);
@@ -369,7 +370,7 @@ public class StaticSemanticDefMgr {
             if (renamingMsg.length() != 0) {
                 MessageBox msg = new MessageBox(parent, SWT.ICON_WARNING);
                 msg.setMessage(renamingMsg);
-                msg.setText("Rule(s)is/are renamed due to the name conflict");
+                msg.setText(Messages.getString("StaticSemanticDefMgr.RulesRenames")); //$NON-NLS-1$
                 msg.open();
             }
             addRule(rulesTmp);
@@ -410,14 +411,14 @@ public class StaticSemanticDefMgr {
             bValid = false;
             MessageBox msg = new MessageBox(parent, SWT.ICON_ERROR);
             msg.setMessage(e.getMessage());
-            msg.setText("Invalidated rule file");
+            msg.setText(Messages.getString("StaticSemanticDefMgr.InvalidRuleFile")); //$NON-NLS-1$
             msg.open();
             // e.printStackTrace();
         } catch (IOException e) {
             bValid = false;
             MessageBox msg = new MessageBox(parent, SWT.ICON_ERROR);
             msg.setMessage(e.getMessage());
-            msg.setText("Error when opening a rule file");
+            msg.setText(Messages.getString("StaticSemanticDefMgr.ErrorOpening")); //$NON-NLS-1$
             msg.open();
             // e.printStackTrace();
         }
@@ -505,7 +506,7 @@ public class StaticSemanticDefMgr {
         
         for(int i=0,k=0;i< groups.size();++i) {
             RuleGroup g = (RuleGroup) groups.get(i);
-            if(g.getName().compareTo("All")==0) continue;
+            if(g.getName().compareTo("All")==0) continue; //$NON-NLS-1$
             String groupName = GROUP_PREFIX + k++;
             store.setValue(groupName + NAME_SUFFIX,g.getName());
             store.setValue(groupName + MEMBER_NUMBER,g.getRules().size());
@@ -529,7 +530,7 @@ public class StaticSemanticDefMgr {
         } else {
 
             groups = new ArrayList();
-            RuleGroup g = new RuleGroup("All");
+            RuleGroup g = new RuleGroup("All"); //$NON-NLS-1$
             g.addRule(rules);
             groups.add(g);
             
@@ -609,7 +610,7 @@ public class StaticSemanticDefMgr {
         if(lookupRule(rule.getName())==null)
         {
             rules.add(rule);
-            RuleGroup all = lookupGroup("All");
+            RuleGroup all = lookupGroup("All"); //$NON-NLS-1$
             all.addRule(rule);
         }
         

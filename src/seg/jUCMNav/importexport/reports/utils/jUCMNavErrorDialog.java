@@ -30,7 +30,7 @@ public class jUCMNavErrorDialog {
     public jUCMNavErrorDialog(String errorMessage) {
         MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
 
-        messageBox.setText("Warning");
+        messageBox.setText("Warning"); //$NON-NLS-1$
         messageBox.setMessage(errorMessage);
         messageBox.open();
     }

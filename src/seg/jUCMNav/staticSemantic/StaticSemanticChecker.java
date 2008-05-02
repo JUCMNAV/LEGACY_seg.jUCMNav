@@ -14,6 +14,8 @@ import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.ecore.EcoreEnvironmentFactory;
 import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.helper.OCLHelper;
+
+import seg.jUCMNav.Messages;
 import urn.*;
 
 /**
@@ -66,14 +68,14 @@ public class StaticSemanticChecker {
                         OCL ocl;
 
                         ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
-                        OCLInput lib = new OCLInput(this.getClass().getResourceAsStream("library.ocl"));
+                        OCLInput lib = new OCLInput(this.getClass().getResourceAsStream("library.ocl")); //$NON-NLS-1$
                         ocl.parse(lib);
 //                        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
                         OCLHelper helper = ocl.createOCLHelper();
                         List name = r.getClassifierAsList();
                         EClassifier e = (EClassifier) ocl.getEnvironment().lookupClassifier(name);
                         if (e == null) {
-                            String s = "Rule <" + r.getName() + ">: Classifier cannot be found:\"" + r.getClassifier() + "\"";
+                            String s = Messages.getString("StaticSemanticChecker.Rule") + r.getName() + Messages.getString("StaticSemanticChecker.ClassifierNotFound") + r.getClassifier() + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                             problems.add(new StaticCheckingMsg(s));
                         } else {
 
@@ -87,7 +89,7 @@ public class StaticSemanticChecker {
 /*                            OCLExpression<EClassifier> query = helper.createQuery(r.getContext());
                             Query<EClassifier, EClass, EObject> queryEval = ocl.createQuery(query);
 */
-                            OCLExpression query = helper.createQuery(r.getContext()+"->asSequence()");
+                            OCLExpression query = helper.createQuery(r.getContext()+"->asSequence()"); //$NON-NLS-1$
                             Query queryEval = ocl.createQuery(query);
 
 //                            @SuppressWarnings("unchecked")
@@ -104,9 +106,9 @@ public class StaticSemanticChecker {
                             for (int k=0;k< violatedObjs.size();++k) {
                                 EObject o = (EObject) violatedObjs.get(k);
                                 res = false;
-                                String s = "";
+                                String s = ""; //$NON-NLS-1$
                                 if(StaticSemanticDefMgr.instance().isShowDesc()){
-                                    s = r.getDescription()+" ("+r.getName()+")";
+                                    s = r.getDescription()+" ("+r.getName()+")"; //$NON-NLS-1$ //$NON-NLS-2$
                                 }else
                                 {
                                     s = r.getName();
@@ -116,9 +118,9 @@ public class StaticSemanticChecker {
                             if (violatedObjs.size()>0) nViolated++;
                         }
                     } catch (ParserException e) {
-                        String s = "Parse OCL expression error: " + e.getLocalizedMessage();
-                        s += "\n\t" + r.getContext();
-                        s += "\n\t" + r.getQuery();
+                        String s = Messages.getString("StaticSemanticChecker.ParseError") + e.getLocalizedMessage(); //$NON-NLS-1$
+                        s += "\n\t" + r.getContext(); //$NON-NLS-1$
+                        s += "\n\t" + r.getQuery(); //$NON-NLS-1$
                         problems.add(new StaticCheckingMsg(s));
                     }
                 }
@@ -127,7 +129,7 @@ public class StaticSemanticChecker {
             problems.add(new StaticCheckingMsg(e.getLocalizedMessage()));
         }
         //A summary information message is added
-        String sumMsg = String.valueOf(nTotal) + " rules were checked. "+ nViolated + " of them were violated.";
+        String sumMsg = String.valueOf(nTotal) + Messages.getString("StaticSemanticChecker.RulesChecked")+ nViolated + Messages.getString("StaticSemanticChecker.Violated"); //$NON-NLS-1$ //$NON-NLS-2$
         StaticCheckingMsg summary = new StaticCheckingMsg(sumMsg);
         summary.setInfo();
         problems.insertElementAt(summary, 0);

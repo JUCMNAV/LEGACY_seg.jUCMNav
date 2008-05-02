@@ -428,15 +428,12 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.RunAllScenariosInGroup")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action); 
         
-		//_js_
         action = new ManageDemandAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.ManageDemandAction")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action); 
 
-	//_js_
         action = new ManageResourcesAction(editor);
-//        action.setText(Messages.getString("ActionRegistryManager.ManageResourcesAction")); //$NON-NLS-1$
-        action.setText("Manage Resources"); //$NON-NLS-1$
+        action.setText(Messages.getString("ActionRegistryManager.ManageResourcesAction")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action); 
 
         // keep at bottom
@@ -449,15 +446,15 @@ public class ActionRegistryManager {
         
         if (JUCMNavPlugin.isInDebug()) {
             action = new MakeWellFormedAction(editor);
-            action.setText("Transform URN so that concurrency is linearizable (well-formed).");
+            action.setText("Transform URN so that concurrency is linearizable (well-formed)."); //$NON-NLS-1$
             addEditPartAction((SelectionAction) action);
             
             action = new SimplifyForksAndJoinsAction(editor);
-            action.setText("Simplify Forks and Joins.");
+            action.setText("Simplify Forks and Joins."); //$NON-NLS-1$
             addEditPartAction((SelectionAction) action);
             
             action = new TrimEmptyPointsAction(editor);
-            action.setText("Delete all empty points.");
+            action.setText("Delete all empty points."); //$NON-NLS-1$
             addEditPartAction((SelectionAction) action);
         }
         
