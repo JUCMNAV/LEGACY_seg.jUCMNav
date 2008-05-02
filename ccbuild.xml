@@ -351,6 +351,19 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		    <fileset dir="src/seg/jUCMNav/icons"/>
 		</copy>
 		
+		<!-- damyot: create lib directory, May 2, 2008 -->
+		<mkdir dir="${temp.folder}/seg.jUCMNav_${jucmnav.version}/lib"/>
+		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/lib">
+		    <fileset dir="src/seg/jUCMNav/lib"/>
+		</copy>
+				
+		<!-- damyot: create lib directory, May 2, 2008 -->
+		<mkdir dir="${temp.folder}/seg.jUCMNav_${jucmnav.version}/schema"/>
+		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/schema">
+		    <fileset dir="src/seg/jUCMNav/schema"/>
+		</copy>
+				
+		
 		<zip zipfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<jar manifest="META-INF/MANIFEST.MF" jarfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.jar" basedir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/" update="false" />
 		<delete dir="${temp.folder}"/>
