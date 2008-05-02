@@ -36,6 +36,7 @@ import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.actions.ImportAction;
+import seg.jUCMNav.actions.GenerateReportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
@@ -213,6 +214,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(ExportAction.EXPORT);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(GenerateReportAction.GENERATEREPORT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 

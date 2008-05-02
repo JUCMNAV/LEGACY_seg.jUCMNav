@@ -51,6 +51,7 @@ import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.actions.ImportAction;
+import seg.jUCMNav.actions.GenerateReportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
@@ -319,6 +320,9 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.import")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new GenerateReportAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.report")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
 
         action = new EditURNLinksAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.editURNLinks"));  //$NON-NLS-1$

@@ -179,7 +179,7 @@
    <extension
          point="org.eclipse.ui.exportWizards">
       <wizard
-            icon="icons/perspectiveIcon.gif"
+            icon="icons/report16.gif"
             class="seg.jUCMNav.views.wizards.importexport.ReportWizard"
             name="%UrnReport"
             id="seg.jUCMNav.views.wizards.importexport.ReportWizard">
