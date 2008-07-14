@@ -123,12 +123,38 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
 	 * @generated
 	 */
     public void setContribution(ContributionType newContribution) {
-		ContributionType oldContribution = contribution;
-		contribution = newContribution == null ? CONTRIBUTION_EDEFAULT : newContribution;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION__CONTRIBUTION, oldContribution, contribution));
+    	setAutoContribution(newContribution, true);
 	}
 
+    /**
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 */
+    public void setAutoContribution(ContributionType newContribution, boolean updateQuantitative) {
+		ContributionType oldContribution = contribution;
+		contribution = newContribution == null ? CONTRIBUTION_EDEFAULT : newContribution;
+		
+		if(updateQuantitative) {
+			String type = newContribution.getName();
+			if(ContributionType.MAKE_LITERAL.getName().equals(type))
+				setAutoQuantitativeContribution(100, false);
+			else if(ContributionType.SOME_POSITIVE_LITERAL.getName().equals(type))
+				setAutoQuantitativeContribution(50, false);
+			else if(ContributionType.HELP_LITERAL.getName().equals(type))
+				setAutoQuantitativeContribution(25, false);
+			else if(ContributionType.SOME_NEGATIVE_LITERAL.getName().equals(type))
+				setAutoQuantitativeContribution(-50, false);
+			else if(ContributionType.HURT_LITERAL.getName().equals(type))
+				setAutoQuantitativeContribution(-25, false);
+			else if(ContributionType.BREAK_LITERAL.getName().equals(type))
+				setAutoQuantitativeContribution(-100, false);
+			else 
+				setAutoQuantitativeContribution(0, false);
+		}
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION__CONTRIBUTION, oldContribution, contribution));
+	}		
     /**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -144,12 +170,42 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
 	 * @generated
 	 */
 	public void setQuantitativeContribution(int newQuantitativeContribution) {
+		setAutoQuantitativeContribution(newQuantitativeContribution, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAutoQuantitativeContribution(int newQuantitativeContribution, boolean updateQualitative) {
+		if(newQuantitativeContribution > 100 || newQuantitativeContribution < -100) 
+			return;
+		
 		int oldQuantitativeContribution = quantitativeContribution;
 		quantitativeContribution = newQuantitativeContribution;
+
+		if(updateQualitative) {
+			if(newQuantitativeContribution == 100)
+				setAutoContribution(ContributionType.MAKE_LITERAL, false);
+			else if(newQuantitativeContribution >= 50 && newQuantitativeContribution < 100) 
+				setAutoContribution(ContributionType.SOME_POSITIVE_LITERAL, false);
+			else if(newQuantitativeContribution > 0 && newQuantitativeContribution < 50)
+				setAutoContribution(ContributionType.HELP_LITERAL, false);
+			else if(newQuantitativeContribution > -50 && newQuantitativeContribution < 0)
+				setAutoContribution(ContributionType.HURT_LITERAL, false);
+			else if(newQuantitativeContribution > -100 && newQuantitativeContribution <= -50)
+				setAutoContribution(ContributionType.SOME_NEGATIVE_LITERAL, false);
+			else if(newQuantitativeContribution == -100) 
+				setAutoContribution(ContributionType.BREAK_LITERAL, false);
+			else
+				setAutoContribution(ContributionType.UNKNOWN_LITERAL, false);
+		}
+		
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION__QUANTITATIVE_CONTRIBUTION, oldQuantitativeContribution, quantitativeContribution));
 	}
-
+	
 				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

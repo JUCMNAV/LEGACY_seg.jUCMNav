@@ -5,6 +5,7 @@ import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.IntentionalElement;
+import grl.QualitativeLabel;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KPIInformationElement;
@@ -276,6 +277,21 @@ public class EvaluationStrategyManager {
         }
     }
 
+    public synchronized void setIntentionalElementQualitativeEvaluation(IntentionalElement element, QualitativeLabel value) {
+    	Evaluation eval = (Evaluation) evaluations.get(element);
+        // Change the value in the evaluation
+        if (value != eval.getQualitativeEvaluation()) {
+            eval.setQualitativeEvaluation(value);
+        }
+        // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
+        AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
+        if (cmd.canExecute()) {
+            cmd.execute();
+        }
+
+        calculateEvaluation();    	
+    }
+    
     public synchronized void setLevelOfDimension(KPIInformationElement element, String value) {
         if (value != null) {
             KPIInformationConfig config = (KPIInformationConfig) kpiInformationConfigs.get(element);

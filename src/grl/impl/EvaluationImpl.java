@@ -133,11 +133,28 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setEvaluation(int newEvaluation) {
+    public void setEvaluation(int newQuantitativeEvaluation) {
+    	setAutoQuantitativeEvaluation(newQuantitativeEvaluation,true);		
+	}
+    public void setAutoQuantitativeEvaluation(int newQuantitativeEvaluation, boolean updateQualitative) {
 		int oldEvaluation = evaluation;
-		evaluation = newEvaluation;
+		evaluation = newQuantitativeEvaluation;
+
+		if(updateQualitative) {
+			if(newQuantitativeEvaluation == 100) 
+				setAutoQualitativeEvaluation(QualitativeLabel.SATISFIED_LITERAL, false);
+			else if(newQuantitativeEvaluation > 0 && newQuantitativeEvaluation < 100)
+				setAutoQualitativeEvaluation(QualitativeLabel.WEAKLY_SATISFIED_LITERAL, false);	
+			else if(newQuantitativeEvaluation > -100 && newQuantitativeEvaluation < 0)
+				setAutoQualitativeEvaluation(QualitativeLabel.WEAKLY_DENIED_LITERAL, false);
+			else if(newQuantitativeEvaluation == -100)
+				setAutoQualitativeEvaluation(QualitativeLabel.DENIED_LITERAL, false);
+			else
+				setAutoQualitativeEvaluation(QualitativeLabel.UNKNOWN_LITERAL, false);
+		}
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__EVALUATION, oldEvaluation, evaluation));
+		
 	}
 
     /**
@@ -155,8 +172,26 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
 	 * @generated
 	 */
 	public void setQualitativeEvaluation(QualitativeLabel newQualitativeEvaluation) {
+		setAutoQualitativeEvaluation(newQualitativeEvaluation, true);
+	}
+	
+	public void setAutoQualitativeEvaluation(QualitativeLabel newQualitativeEvaluation, boolean updateQuantitative) {
 		QualitativeLabel oldQualitativeEvaluation = qualitativeEvaluation;
 		qualitativeEvaluation = newQualitativeEvaluation == null ? QUALITATIVE_EVALUATION_EDEFAULT : newQualitativeEvaluation;
+		
+		if(updateQuantitative) {
+			String type = newQualitativeEvaluation.getName();
+			if(QualitativeLabel.SATISFIED_LITERAL.getName().equals(type))
+				setAutoQuantitativeEvaluation(100, false);
+			else if(QualitativeLabel.WEAKLY_SATISFIED_LITERAL.getName().equals(type))
+				setAutoQuantitativeEvaluation(50, false);
+			else if(QualitativeLabel.WEAKLY_DENIED_LITERAL.getName().equals(type))
+				setAutoQuantitativeEvaluation(-50, false);		
+			else if(QualitativeLabel.DENIED_LITERAL.getName().equals(type))
+				setAutoQuantitativeEvaluation(-100, false);
+			else
+				setAutoQuantitativeEvaluation(0, false);			
+		}
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__QUALITATIVE_EVALUATION, oldQualitativeEvaluation, qualitativeEvaluation));
 	}
