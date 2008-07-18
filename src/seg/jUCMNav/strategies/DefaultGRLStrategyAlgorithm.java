@@ -158,10 +158,10 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                                 resultContrib = srcNode * 0.5;
                                 break;
                             case ContributionType.SOME_NEGATIVE:
-                                resultContrib = srcNode * -0.25;
+                                resultContrib = srcNode * -0.5;
                                 break;
                             case ContributionType.HURT:
-                                resultContrib = srcNode * -0.5;
+                                resultContrib = srcNode * -0.25;
                                 break;
                             case ContributionType.BREAK:
                                 resultContrib = srcNode * -1;
