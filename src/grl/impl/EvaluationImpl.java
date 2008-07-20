@@ -181,15 +181,15 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
 		
 		if(updateQuantitative) {
 			String type = newQualitativeEvaluation.getName();
-			if(QualitativeLabel.SATISFIED_LITERAL.getName().equals(type))
+			if(QualitativeLabel.SATISFIED_LITERAL.getName().equals(type) && evaluation < 100)
 				setAutoQuantitativeEvaluation(100, false);
-			else if(QualitativeLabel.WEAKLY_SATISFIED_LITERAL.getName().equals(type))
+			else if(QualitativeLabel.WEAKLY_SATISFIED_LITERAL.getName().equals(type) && (evaluation <= 0 || evaluation == 100))
 				setAutoQuantitativeEvaluation(50, false);
-			else if(QualitativeLabel.WEAKLY_DENIED_LITERAL.getName().equals(type))
+			else if(QualitativeLabel.WEAKLY_DENIED_LITERAL.getName().equals(type) && (evaluation >= 0 || evaluation == -100))
 				setAutoQuantitativeEvaluation(-50, false);		
-			else if(QualitativeLabel.DENIED_LITERAL.getName().equals(type))
+			else if(QualitativeLabel.DENIED_LITERAL.getName().equals(type) && evaluation > -100)
 				setAutoQuantitativeEvaluation(-100, false);
-			else
+			else if(QualitativeLabel.UNKNOWN_LITERAL.getName().equals(type) && evaluation != 0)
 				setAutoQuantitativeEvaluation(0, false);			
 		}
 		if (eNotificationRequired())

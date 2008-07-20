@@ -137,19 +137,19 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
 		
 		if(updateQuantitative) {
 			String type = newContribution.getName();
-			if(ContributionType.MAKE_LITERAL.getName().equals(type))
+			if(ContributionType.MAKE_LITERAL.getName().equals(type) && quantitativeContribution < 100)
 				setAutoQuantitativeContribution(100, false);
-			else if(ContributionType.SOME_POSITIVE_LITERAL.getName().equals(type))
+			else if(ContributionType.SOME_POSITIVE_LITERAL.getName().equals(type) && (quantitativeContribution == 100 || quantitativeContribution < 50))
 				setAutoQuantitativeContribution(50, false);
-			else if(ContributionType.HELP_LITERAL.getName().equals(type))
+			else if(ContributionType.HELP_LITERAL.getName().equals(type) && (quantitativeContribution >= 50 || quantitativeContribution <= 0))
 				setAutoQuantitativeContribution(25, false);
-			else if(ContributionType.SOME_NEGATIVE_LITERAL.getName().equals(type))
+			else if(ContributionType.SOME_NEGATIVE_LITERAL.getName().equals(type) && quantitativeContribution == -100 || quantitativeContribution > -50)
 				setAutoQuantitativeContribution(-50, false);
-			else if(ContributionType.HURT_LITERAL.getName().equals(type))
+			else if(ContributionType.HURT_LITERAL.getName().equals(type) && quantitativeContribution <= -50 || quantitativeContribution >= 0)
 				setAutoQuantitativeContribution(-25, false);
-			else if(ContributionType.BREAK_LITERAL.getName().equals(type))
+			else if(ContributionType.BREAK_LITERAL.getName().equals(type) && quantitativeContribution > -100)
 				setAutoQuantitativeContribution(-100, false);
-			else 
+			else if(ContributionType.UNKNOWN_LITERAL.getName().equals(type) && quantitativeContribution != 0)
 				setAutoQuantitativeContribution(0, false);
 		}
 		if (eNotificationRequired())
