@@ -266,6 +266,7 @@ public class EvaluationStrategyManager {
             // Change the value in the evaluation
             if (value != eval.getEvaluation()) {
                 eval.setEvaluation(value);
+                syncIntentionalElementQualitativeEvaluation(eval, value);
             }
             // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
             AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
@@ -277,11 +278,28 @@ public class EvaluationStrategyManager {
         }
     }
 
+    private void syncIntentionalElementQualitativeEvaluation(Evaluation eval, int value) {
+    	QualitativeLabel label = eval.getQualitativeEvaluation();
+		
+		if(value == 100 && !label.equals(QualitativeLabel.SATISFIED_LITERAL)) 
+			eval.setQualitativeEvaluation(QualitativeLabel.SATISFIED_LITERAL);
+		else if(value > 0 && value < 100 && !label.equals(QualitativeLabel.WEAKLY_SATISFIED_LITERAL))
+			eval.setQualitativeEvaluation(QualitativeLabel.WEAKLY_SATISFIED_LITERAL);
+		else if(value > -100 && value < 0 && !label.equals(QualitativeLabel.WEAKLY_DENIED_LITERAL))
+			eval.setQualitativeEvaluation(QualitativeLabel.WEAKLY_DENIED_LITERAL);
+		else if(value == -100 && !label.equals(QualitativeLabel.DENIED_LITERAL))
+			eval.setQualitativeEvaluation(QualitativeLabel.DENIED_LITERAL);
+		else if(value == 0 && !label.equals(QualitativeLabel.UNKNOWN_LITERAL))
+			eval.setQualitativeEvaluation(QualitativeLabel.UNKNOWN_LITERAL);
+    	
+    }
+    
     public synchronized void setIntentionalElementQualitativeEvaluation(IntentionalElement element, QualitativeLabel value) {
     	Evaluation eval = (Evaluation) evaluations.get(element);
         // Change the value in the evaluation
         if (value != eval.getQualitativeEvaluation()) {
             eval.setQualitativeEvaluation(value);
+            syncIntentionalElementEvaluation(eval, value);
         }
         // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
         AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
@@ -290,6 +308,23 @@ public class EvaluationStrategyManager {
         }
 
         calculateEvaluation();    	
+    }
+    
+    private void syncIntentionalElementEvaluation(Evaluation eval, QualitativeLabel value) {
+		String type = eval.getQualitativeEvaluation().getName();
+		int evaluation = eval.getEvaluation();
+		
+		if(QualitativeLabel.SATISFIED_LITERAL.getName().equals(type) && evaluation < 100)
+			eval.setEvaluation(100);
+		else if(QualitativeLabel.WEAKLY_SATISFIED_LITERAL.getName().equals(type) && (evaluation <= 0 || evaluation == 100))
+			eval.setEvaluation(50);
+		else if(QualitativeLabel.WEAKLY_DENIED_LITERAL.getName().equals(type) && (evaluation >= 0 || evaluation == -100))
+			eval.setEvaluation(-50);
+		else if(QualitativeLabel.DENIED_LITERAL.getName().equals(type) && evaluation > -100)
+			eval.setEvaluation(-100);
+		else if(QualitativeLabel.UNKNOWN_LITERAL.getName().equals(type) && evaluation != 0)
+			eval.setEvaluation(0);
+    	
     }
     
     public synchronized void setLevelOfDimension(KPIInformationElement element, String value) {
