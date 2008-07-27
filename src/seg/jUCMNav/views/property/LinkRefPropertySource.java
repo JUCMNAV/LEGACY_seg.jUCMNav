@@ -3,7 +3,6 @@ package seg.jUCMNav.views.property;
 import grl.Contribution;
 import grl.ContributionType;
 import grl.ElementLink;
-import grl.Evaluation;
 import grl.LinkRef;
 
 import java.util.Collection;
@@ -15,15 +14,13 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
-import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import urn.URNspec;
 
 /**
  * Property source for LinkRefs
  * 
- * @author Jean-François Roy
+ * @author Jean-François Roy, sghanava
  *
  */
 public class LinkRefPropertySource extends URNElementPropertySource {
@@ -119,8 +116,14 @@ public class LinkRefPropertySource extends URNElementPropertySource {
         } else
             object.eSet(feature, result);
     }
-    
-    private synchronized void setElementLinkQualitativeContribution(ElementLink link, ContributionType type) {
+        
+    /**
+     * Sets the qualitative contribution
+     * @param link the link to which to apply the new value 
+     * @param type the new qualitative contribution type
+     * 
+     */    
+      private synchronized void setElementLinkQualitativeContribution(ElementLink link, ContributionType type) {
         // Change the value in the evaluation
     	Contribution ele = (Contribution)link;
         if (type != ele.getContribution()) {
@@ -134,7 +137,13 @@ public class LinkRefPropertySource extends URNElementPropertySource {
         //}
     }
     
-    private synchronized void setElementLinkQuantitativeContribution(ElementLink link, int value) {
+      /**
+       * Sets the quantitative contribution
+       * @param link the link to which to apply the new value  
+       * @param value the new quantitative contribution type 
+       * 
+       */    
+         private synchronized void setElementLinkQuantitativeContribution(ElementLink link, int value) {
     	Contribution ele = (Contribution)link;
        // Change the value in the evaluation
     	if(value < -100) value=-100;
@@ -150,18 +159,24 @@ public class LinkRefPropertySource extends URNElementPropertySource {
         //}
     }
     
+    /**
+     * Synchronize the quantitative evaluation to the qualitative evaluation
+     * @param ele contribution model for which its type is being synchronized
+     * @param value qualitative value for the contribution link
+     * 
+     */     
     private void syncElementLinkQuantitativeContribution(Contribution ele, ContributionType value) {
     	int quantitativeContribution = ele.getQuantitativeContribution();
 		String type = value.getName();
 		if(ContributionType.MAKE_LITERAL.getName().equals(type) && quantitativeContribution < 100)
 			ele.setQuantitativeContribution(100);
 		else if(ContributionType.SOME_POSITIVE_LITERAL.getName().equals(type) && (quantitativeContribution == 100 || quantitativeContribution < 50))
-			ele.setQuantitativeContribution(50);
+			ele.setQuantitativeContribution(75);
 		else if(ContributionType.HELP_LITERAL.getName().equals(type) && (quantitativeContribution >= 50 || quantitativeContribution <= 0))
 			ele.setQuantitativeContribution(25);
-		else if(ContributionType.SOME_NEGATIVE_LITERAL.getName().equals(type) && quantitativeContribution == -100 || quantitativeContribution > -50)
-			ele.setQuantitativeContribution(-50);
-		else if(ContributionType.HURT_LITERAL.getName().equals(type) && quantitativeContribution <= -50 || quantitativeContribution >= 0)
+		else if(ContributionType.SOME_NEGATIVE_LITERAL.getName().equals(type) && (quantitativeContribution == -100 || quantitativeContribution > -50))
+			ele.setQuantitativeContribution(-75);
+		else if(ContributionType.HURT_LITERAL.getName().equals(type) && (quantitativeContribution <= -50 || quantitativeContribution >= 0))
 			ele.setQuantitativeContribution(-25);
 		else if(ContributionType.BREAK_LITERAL.getName().equals(type) && quantitativeContribution > -100)
 			ele.setQuantitativeContribution(-100);
@@ -169,7 +184,14 @@ public class LinkRefPropertySource extends URNElementPropertySource {
 			ele.setQuantitativeContribution(0);
 	}
     
-    private void syncElementLinkQualitativeContribution(Contribution ele, int newQuantitativeContribution) {
+    
+    /**
+     * Synchronize the qualitative contribution to the quantitative contribution
+     * @param ele contribution model for which its type is being synchronized
+     * @param newQuantitativeContribution quantitative value for the contribution link
+     * 
+     */
+      private void syncElementLinkQualitativeContribution(Contribution ele, int newQuantitativeContribution) {
     	ContributionType type = ele.getContribution();
 		if(newQuantitativeContribution == 100 && !type.equals(ContributionType.MAKE_LITERAL))
 			ele.setContribution(ContributionType.MAKE_LITERAL);

@@ -27,12 +27,13 @@ import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
 import seg.jUCMNav.model.commands.create.AddKPIInformationConfigCommand;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 
 /**
  * This class is a singleton responsible to manage the current strategy. It does the evaluation calculation for IntentionalElement, create the Evaluation and
  * return the value of the evaluation given an IntentionalElement for the current strategy.
  * 
- * @author Jean-François Roy, pchen
+ * @author Jean-François Roy, pchen, sghanava
  * 
  */
 public class EvaluationStrategyManager {
@@ -77,14 +78,18 @@ public class EvaluationStrategyManager {
         if (strategy == null) {
             return;
         }
-        algo = new DefaultGRLStrategyAlgorithm();
+        
+        setupEvaluationAlgorithm();
 
         algo.init(strategy, evaluations);
 
         while (algo.hasNextNode()) {
             IntentionalElement element = algo.nextNode();
             Evaluation eval = (Evaluation) evaluations.get(element);
-            eval.setEvaluation(algo.getEvaluation(element));
+            int val = algo.getEvaluation(element);
+            eval.setEvaluation(val);
+            syncIntentionalElementQualitativeEvaluation(eval, val);
+            
         }
 
         // Refresh all the diagrams if canRefresh set to true
@@ -127,6 +132,36 @@ public class EvaluationStrategyManager {
         } else
             return 0;
 
+    }
+    
+    /**
+     * This method returns the evaluation strategy algorithm if it is been prepared, if not
+     * it will sets it up
+     * @return the evaluation strategy algorithm
+     * 
+     */
+    public synchronized IGRLStrategyAlgorithm getEvaluationAlgorithm() {
+    	if(algo == null) setupEvaluationAlgorithm();
+    	return algo;
+    }
+    
+    /**
+     * Prepares the value from the properties preference page 
+     * and creates the algorithm accordingly 
+     * 
+     */
+    public synchronized void setupEvaluationAlgorithm() {
+        String algoChoice = StrategyEvaluationPreferences.getAlgorithm();
+    	
+        if(StrategyEvaluationPreferences.MIXED_ALGORITHM.equals(algoChoice))
+        	algo = new MixedGRLStrategyAlgorithm();
+        else if(StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM.equals(algoChoice))
+        	algo = new QuantitativeGRLStrategyAlgorithm();
+        else if(StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM.equals(algoChoice))
+        	algo = new QualitativeGRLStrategyAlgorithm();
+        else 
+        	algo = new DefaultGRLStrategyAlgorithm();
+    	
     }
 
     public synchronized String getLevelOfDimension(KPIInformationElement elem) {
@@ -258,10 +293,16 @@ public class EvaluationStrategyManager {
             }
         }
     }
-
+    
+    /**
+     * Sets the quantitative evaluation
+     * @param element the element to apply the new value to
+     * @param value the new quantitative evaluation value 
+     * 
+     */
     public synchronized void setIntentionalElementEvaluation(IntentionalElement element, int value) {
         // The evaluation could only be between 100 and -100. Do nothing if it is not the case
-        if (value <= 100 && value >= -100) {
+        if (value <= IGRLStrategyAlgorithm.SATISFICED && value >= IGRLStrategyAlgorithm.UNDECIDED) {
             Evaluation eval = (Evaluation) evaluations.get(element);
             // Change the value in the evaluation
             if (value != eval.getEvaluation()) {
@@ -277,23 +318,39 @@ public class EvaluationStrategyManager {
             calculateEvaluation();
         }
     }
-
+    
+    /**
+     * Synchronize the qualitative evaluation to the quantitative evaluation
+     * @param eval evaluation model for the intentional element being synchronized
+     * @param value quantitative value for the intentional element
+     * 
+     */
     private void syncIntentionalElementQualitativeEvaluation(Evaluation eval, int value) {
     	QualitativeLabel label = eval.getQualitativeEvaluation();
 		
-		if(value == 100 && !label.equals(QualitativeLabel.SATISFIED_LITERAL)) 
+		if(value == IGRLStrategyAlgorithm.SATISFICED && !label.equals(QualitativeLabel.SATISFIED_LITERAL)) 
 			eval.setQualitativeEvaluation(QualitativeLabel.SATISFIED_LITERAL);
-		else if(value > 0 && value < 100 && !label.equals(QualitativeLabel.WEAKLY_SATISFIED_LITERAL))
+		else if(value > IGRLStrategyAlgorithm.NONE && value < IGRLStrategyAlgorithm.SATISFICED && !label.equals(QualitativeLabel.WEAKLY_SATISFIED_LITERAL))
 			eval.setQualitativeEvaluation(QualitativeLabel.WEAKLY_SATISFIED_LITERAL);
-		else if(value > -100 && value < 0 && !label.equals(QualitativeLabel.WEAKLY_DENIED_LITERAL))
+		else if(value > IGRLStrategyAlgorithm.DENIED && value < IGRLStrategyAlgorithm.NONE && !label.equals(QualitativeLabel.WEAKLY_DENIED_LITERAL))
 			eval.setQualitativeEvaluation(QualitativeLabel.WEAKLY_DENIED_LITERAL);
-		else if(value == -100 && !label.equals(QualitativeLabel.DENIED_LITERAL))
+		else if(value == IGRLStrategyAlgorithm.DENIED && !label.equals(QualitativeLabel.DENIED_LITERAL))
 			eval.setQualitativeEvaluation(QualitativeLabel.DENIED_LITERAL);
-		else if(value == 0 && !label.equals(QualitativeLabel.UNKNOWN_LITERAL))
+		else if(value == IGRLStrategyAlgorithm.NONE && !label.equals(QualitativeLabel.NONE_LITERAL))
+			eval.setQualitativeEvaluation(QualitativeLabel.NONE_LITERAL);
+		else if(value == IGRLStrategyAlgorithm.CONFLICT && !label.equals(QualitativeLabel.CONFLICT_LITERAL))
+			eval.setQualitativeEvaluation(QualitativeLabel.CONFLICT_LITERAL);
+		else if(value == IGRLStrategyAlgorithm.UNDECIDED && !label.equals(QualitativeLabel.UNKNOWN_LITERAL))
 			eval.setQualitativeEvaluation(QualitativeLabel.UNKNOWN_LITERAL);
     	
     }
     
+    /**
+     * Sets the qualitative evaluation
+     * @param element the element to which to apply the new value 
+     * @param value the new qualitative evaluation value 
+     * 
+     */    
     public synchronized void setIntentionalElementQualitativeEvaluation(IntentionalElement element, QualitativeLabel value) {
     	Evaluation eval = (Evaluation) evaluations.get(element);
         // Change the value in the evaluation
@@ -310,20 +367,30 @@ public class EvaluationStrategyManager {
         calculateEvaluation();    	
     }
     
+    /**
+     * Synchronizes the quantitative evaluation to the qualitative evaluation
+     * @param eval evaluation model for the intentional element being synchronized
+     * @param value qualitative evaluation value of the intentional element
+     * 
+     */
     private void syncIntentionalElementEvaluation(Evaluation eval, QualitativeLabel value) {
 		String type = eval.getQualitativeEvaluation().getName();
 		int evaluation = eval.getEvaluation();
 		
-		if(QualitativeLabel.SATISFIED_LITERAL.getName().equals(type) && evaluation < 100)
-			eval.setEvaluation(100);
-		else if(QualitativeLabel.WEAKLY_SATISFIED_LITERAL.getName().equals(type) && (evaluation <= 0 || evaluation == 100))
-			eval.setEvaluation(50);
-		else if(QualitativeLabel.WEAKLY_DENIED_LITERAL.getName().equals(type) && (evaluation >= 0 || evaluation == -100))
-			eval.setEvaluation(-50);
-		else if(QualitativeLabel.DENIED_LITERAL.getName().equals(type) && evaluation > -100)
-			eval.setEvaluation(-100);
-		else if(QualitativeLabel.UNKNOWN_LITERAL.getName().equals(type) && evaluation != 0)
-			eval.setEvaluation(0);
+		if(QualitativeLabel.SATISFIED_LITERAL.getName().equals(type) && evaluation < IGRLStrategyAlgorithm.SATISFICED)
+			eval.setEvaluation(IGRLStrategyAlgorithm.SATISFICED);
+		else if(QualitativeLabel.WEAKLY_SATISFIED_LITERAL.getName().equals(type) && (evaluation <= IGRLStrategyAlgorithm.NONE || evaluation == IGRLStrategyAlgorithm.SATISFICED))
+			eval.setEvaluation(IGRLStrategyAlgorithm.WSATISFICED);
+		else if(QualitativeLabel.WEAKLY_DENIED_LITERAL.getName().equals(type) && (evaluation >= IGRLStrategyAlgorithm.NONE || evaluation == IGRLStrategyAlgorithm.DENIED))
+			eval.setEvaluation(IGRLStrategyAlgorithm.WDENIED);
+		else if(QualitativeLabel.DENIED_LITERAL.getName().equals(type) && evaluation > IGRLStrategyAlgorithm.DENIED)
+			eval.setEvaluation(IGRLStrategyAlgorithm.DENIED);
+		else if(QualitativeLabel.NONE_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.NONE)
+			eval.setEvaluation(IGRLStrategyAlgorithm.NONE);
+		else if(QualitativeLabel.CONFLICT_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.CONFLICT)
+			eval.setEvaluation(IGRLStrategyAlgorithm.CONFLICT);
+		else if(QualitativeLabel.UNKNOWN_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.UNDECIDED)
+			eval.setEvaluation(IGRLStrategyAlgorithm.UNDECIDED);
     	
     }
     

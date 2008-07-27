@@ -7,14 +7,22 @@ import seg.jUCMNav.JUCMNavPlugin;
 /**
  * Encapsulates load/save of the strategy evaluation properties. 
  * 
- * @author jkealey
+ * @author jkealey, sghanava
  * 
  */
 public class StrategyEvaluationPreferences {
 
     public final static int DEFAULT_TOLERANCE = 10;
     public final static boolean DEFAULT_EVALFILLED = true;
+    public final static String DEFAULT_ALGORITHM = "1";
+    public final static String QUALITATIVE_ALGORITHM = "2";
+    public final static String QUANTITATIVE_ALGORITHM = "3";
+    public final static String MIXED_ALGORITHM = "4";
+    
+    public final static int NUM_ALGORITHMS = 4;
+    
 
+    public static final String PREF_ALGORITHM = "PREF_ALGORITHM"; //$NON-NLS-1$    
     public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$
     public static final String PREF_EVALFILLED = "PREF_EVALFILLED"; //$NON-NLS-1$
 
@@ -31,6 +39,7 @@ public class StrategyEvaluationPreferences {
      * Sets the default values in the preference store.
      */
     public static void createPreferences() {
+        getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_ALGORITHM, StrategyEvaluationPreferences.DEFAULT_ALGORITHM);    	
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_TOLERANCE, StrategyEvaluationPreferences.DEFAULT_TOLERANCE);
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_EVALFILLED, StrategyEvaluationPreferences.DEFAULT_EVALFILLED);
     }
@@ -51,6 +60,13 @@ public class StrategyEvaluationPreferences {
         return getPreferenceStore().getBoolean(PREF_EVALFILLED);
     }
 
+    /**
+     * 
+     * @return the grl strategy evaluation algorithm
+     */
+    public static String getAlgorithm() {
+        return getPreferenceStore().getString(PREF_ALGORITHM);
+    }
 
     /**
      * 
@@ -69,5 +85,15 @@ public class StrategyEvaluationPreferences {
     public static void setFillElements(boolean b) {
         getPreferenceStore().setValue(PREF_EVALFILLED, b);
     }
+    
+    /**
+     * 
+     * @param b
+     *            set the GRL evaluation strategy
+     */
+    public static void setAlgorithm(String b) {
+        getPreferenceStore().setValue(PREF_ALGORITHM, b);
+    }
+    
 
 }

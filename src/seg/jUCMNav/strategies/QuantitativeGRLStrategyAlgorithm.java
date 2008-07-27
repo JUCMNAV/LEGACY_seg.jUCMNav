@@ -3,7 +3,6 @@ package seg.jUCMNav.strategies;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Contribution;
-import grl.ContributionType;
 import grl.Criticality;
 import grl.Decomposition;
 import grl.DecompositionType;
@@ -26,14 +25,14 @@ import urncore.IURNNode;
 /**
  * This class implement the default GRL evaluation algorithm.
  * 
- * @author Jean-François Roy
+ * @author sghanava
  *
  */
-public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
+public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     
     /**
      * Data container object used by the propagation mechanism. 
-     * @author Jean-François Roy
+     * @author sghanava
      *
      */
     private static class EvaluationCalculation{
@@ -104,6 +103,11 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     }
 
     /* (non-Javadoc)
+     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluationType()
+     */
+    public int getEvaluationType() { return IGRLStrategyAlgorithm.EVAL_QUANTITATIVE; }
+    
+    /* (non-Javadoc)
      * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluation(grl.IntentionalElement)
      */
     public int getEvaluation(IntentionalElement element) {
@@ -139,37 +143,13 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 }
             } else if (link instanceof Contribution){
                 Contribution contrib = (Contribution)link;
-                if (contrib.getContribution().getValue() != ContributionType.UNKNOWN){
-                    int srcNode = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
-                    //The source node value is between -100 and 100. For the contribution calculation, 
-                    //denied value correspond to 0. The value should be between 0 and 100 and the source evaluation should not be 0.
-                    if (srcNode != 0){
-                        srcNode = 50 + srcNode/2;
-                        
-                        double resultContrib;
-                        switch (contrib.getContribution().getValue()){
-                            case ContributionType.MAKE:
-                                resultContrib = srcNode;
-                                break;
-                            case ContributionType.HELP:
-                                resultContrib = srcNode * 0.5;
-                                break;
-                            case ContributionType.SOME_POSITIVE:
-                                resultContrib = srcNode * 0.25;
-                                break;
-                            case ContributionType.SOME_NEGATIVE:
-                                resultContrib = srcNode * -0.25;
-                                break;
-                            case ContributionType.HURT:
-                                resultContrib = srcNode * -0.5;
-                                break;
-                            case ContributionType.BREAK:
-                                resultContrib = srcNode * -1;
-                                break;
-                            default:
-                                resultContrib = 0;
-                                break;
-                        }
+                int quantitativeContrib = contrib.getQuantitativeContribution();
+                int srcNode = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
+                
+                double resultContrib;
+                
+                resultContrib = (quantitativeContrib * srcNode)/100;
+                
                         if (resultContrib != 0){
                             contributionValues[contribArrayIt] = 
                                 (new Double(Math.round(resultContrib))).intValue();
@@ -177,8 +157,6 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                         }
                     }
                 }
-            }
-        }
         if (decompositionValue >=-100){
             result = decompositionValue;
         }
@@ -301,10 +279,5 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         }
         return total;
     }
-
-    /* (non-Javadoc)
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluationType()
-     */
-    public int getEvaluationType() { return IGRLStrategyAlgorithm.EVAL_MIXED; }
 
 }

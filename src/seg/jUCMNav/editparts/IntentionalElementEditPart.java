@@ -38,6 +38,7 @@ import seg.jUCMNav.editpolicies.directEditPolicy.GrlNodeDirectEditPolicy;
 import seg.jUCMNav.editpolicies.directEditPolicy.IntentionalElementNodeEditPolicy;
 import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.GrlNodeFeedbackEditPolicy;
+import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.IntentionalElementFigure;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -50,7 +51,7 @@ import urncore.IURNNode;
  * EditPart for all IntentialElementRef.
  * It listen for changes in the references and the definitions
  * 
- * @author Jean-François Roy
+ * @author Jean-François Roy, sghanava
  *
  */
 public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeEditPart{
@@ -302,11 +303,15 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                if (StrategyEvaluationPreferences.getFillElements())
 	                {
 	                    String color;
-	                    if (evaluation.getEvaluation() == 0){
+	                    if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE){
 	                        color = "255,255,0"; //$NON-NLS-1$
+	                    } else if(evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT) {
+	                    	color = "159,169,252"; //$NON-NLS-1$
+	                    } else if(evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
+	                    	color = "255,255,255"; //$NON-NLS-1$
 	                    } else {
-	                        int partial = (Math.abs((Math.abs(evaluation.getEvaluation())-100))*255/100);
-	                        if (evaluation.getEvaluation() < 0){
+	                        int partial = (Math.abs((Math.abs(evaluation.getEvaluation())-IGRLStrategyAlgorithm.SATISFICED))*255/IGRLStrategyAlgorithm.SATISFICED);
+	                        if (evaluation.getEvaluation() < IGRLStrategyAlgorithm.NONE){
 	                            color = "255," + partial + ",0"; //$NON-NLS-1$ //$NON-NLS-2$
 	                        } else{
 	                            color = partial + ",255,0"; //$NON-NLS-1$
@@ -314,11 +319,18 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                    }
 	                    ((IntentionalElementFigure) figure).setColors("75,75,75", color, true); //$NON-NLS-1$
 	                }   
-	                String text = String.valueOf(evaluation.getEvaluation());
-	                if (evaluation.getStrategies() != null){
-	                    text = text + "*"; //$NON-NLS-1$
-	                }
+	                
+	                int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
+
+	                String text = (evaluation.getStrategies() != null ? "*" : "");
+	                
+	                if(evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE) {
+		                String evalStr = String.valueOf(evaluation.getEvaluation());
+		                text = evalStr + text; //$NON-NLS-1$		                
+	                } 
+	                
 	                evaluationLabel.setText(text);
+	                
 	                Point position = getNodeFigure().getLocation();
 	                position.y = position.y -16;
 	                // position.x = position.x + getNodeFigure().getBounds().width;
@@ -335,19 +347,28 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 //	                    evaluationImg.dispose();
 //	                    evaluationImg = null;
 //	                }
-	                //Set the label icon
-	                if (evaluation.getEvaluation() == -100){
-	                    evaluationImg = (JUCMNavPlugin.getImage( "icons/denied.gif"));     //$NON-NLS-1$
-	                } else if (evaluation.getEvaluation() > -100 && evaluation.getEvaluation()<0){
-	                    evaluationImg = (JUCMNavPlugin.getImage( "icons/wdenied.gif")); //$NON-NLS-1$
-	                } else if (evaluation.getEvaluation() == 0){
-	                    evaluationImg = (JUCMNavPlugin.getImage( "icons/undecided.gif")); //$NON-NLS-1$
-	                } else if (evaluation.getEvaluation() > 0 && evaluation.getEvaluation()< 100){
-	                    evaluationImg = (JUCMNavPlugin.getImage( "icons/wsatisficed.gif")); //$NON-NLS-1$
-	                } else if (evaluation.getEvaluation() == 100){
-	                    evaluationImg = (JUCMNavPlugin.getImage( "icons/satisficed.gif")); //$NON-NLS-1$
-	                } 
-                    evaluationLabel.setIcon(evaluationImg);
+	                
+	                if(evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
+		                //Set the label icon
+		                if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.DENIED){
+		                    evaluationImg = (JUCMNavPlugin.getImage( "icons/denied.gif"));     //$NON-NLS-1$
+		                } else if (evaluation.getEvaluation() > IGRLStrategyAlgorithm.DENIED && evaluation.getEvaluation()<IGRLStrategyAlgorithm.NONE){
+		                    evaluationImg = (JUCMNavPlugin.getImage( "icons/wdenied.gif")); //$NON-NLS-1$
+		                } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE){
+		                    evaluationImg = (JUCMNavPlugin.getImage( "icons/none.gif")); //$NON-NLS-1$
+		                } else if (evaluation.getEvaluation() > IGRLStrategyAlgorithm.NONE && evaluation.getEvaluation()< IGRLStrategyAlgorithm.SATISFICED){
+		                    evaluationImg = (JUCMNavPlugin.getImage( "icons/wsatisficed.gif")); //$NON-NLS-1$
+		                } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.SATISFICED){
+		                    evaluationImg = (JUCMNavPlugin.getImage( "icons/satisficed.gif")); //$NON-NLS-1$
+		                } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT){
+		                    evaluationImg = (JUCMNavPlugin.getImage( "icons/conflict.gif")); //$NON-NLS-1$
+		                } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED){
+		                    evaluationImg = (JUCMNavPlugin.getImage( "icons/undecided.gif")); //$NON-NLS-1$
+		                }
+	                    evaluationLabel.setIcon(evaluationImg);
+	                } else {
+	                	evaluationLabel.setIcon(null);
+	                }
                 }
                 refreshConnections();
             }

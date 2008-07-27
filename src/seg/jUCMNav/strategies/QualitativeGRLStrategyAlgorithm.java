@@ -3,7 +3,6 @@ package seg.jUCMNav.strategies;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Contribution;
-import grl.ContributionType;
 import grl.Criticality;
 import grl.Decomposition;
 import grl.DecompositionType;
@@ -14,26 +13,67 @@ import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.Priority;
+import grl.QualitativeLabel;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
-import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
+import seg.jUCMNav.model.util.DependencyQualitativeLabelComparitor;
 import urncore.IURNNode;
 
 /**
  * This class implement the default GRL evaluation algorithm.
  * 
- * @author Jean-François Roy
+ * @author sghanava
  *
  */
-public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
+public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     
+	private static int D = QualitativeLabel.DENIED;
+	private static int WD = QualitativeLabel.WEAKLY_DENIED;
+	private static int WS = QualitativeLabel.WEAKLY_SATISFIED;
+	private static int S = QualitativeLabel.SATISFIED;
+	private static int C = QualitativeLabel.CONFLICT;
+	private static int U = QualitativeLabel.UNKNOWN;
+	private static int N = QualitativeLabel.NONE;
+	
+	
+	private static int[][] contribTable1 = {
+		// M,  H+, s+, u, s-, H-, B
+	      {D,  WD, WD, N, WS, WS, S},  //D
+	      {WD, WD, WD, N, WS, WS, WS}, //WD
+	      {WS, WS, WS, N, WD, WD, WD}, //WS
+	      {S,  WS, WS, N, WD, WD, D},  //S
+	      {C,  C,  C,  C, C,  C,  C},  //C
+	      {U,  U,  U,  U, U,  U,  U},  //U
+	      {N,  N,  N,  N, N,  N,  N},  //N
+		    };
+
+	 int[][] contribTable2 = {
+		      {D,  D,  WD, C,  C,  U, D}, //D
+		      {D,  WD, N,  WS, C,  U, WD}, //WD
+		      {WD, N,  WS, S,  C,  U, WS}, //WS
+		      {C,  WS, S,  S,  C,  U, S}, //S
+		      {C,  C,  C,  C,  C,  C, C}, //C
+		      {U,  U,  U,  U,  C,  U, U}, //U
+		      {D,  WD, WS, S,  C,  U, N}, //N
+		    };
+	
+	 int[] contribMap = { 
+			 IGRLStrategyAlgorithm.DENIED, 
+			 IGRLStrategyAlgorithm.WDENIED, 
+			 IGRLStrategyAlgorithm.WSATISFICED, 
+			 IGRLStrategyAlgorithm.SATISFICED, 
+			 IGRLStrategyAlgorithm.CONFLICT, 
+			 IGRLStrategyAlgorithm.UNDECIDED,
+			 IGRLStrategyAlgorithm.NONE,
+			};
+		
     /**
      * Data container object used by the propagation mechanism. 
-     * @author Jean-François Roy
+     * @author sghanava
      *
      */
     private static class EvaluationCalculation{
@@ -104,6 +144,11 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     }
 
     /* (non-Javadoc)
+     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluationType()
+     */
+    public int getEvaluationType() { return IGRLStrategyAlgorithm.EVAL_QUALITATIVE; }
+    
+    /* (non-Javadoc)
      * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluation(grl.IntentionalElement)
      */
     public int getEvaluation(IntentionalElement element) {
@@ -111,107 +156,176 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         if ((element.getLinksDest().size() == 0) || (eval.getIntElement() != null)){
             return eval.getEvaluation();
         }
-        int result = 0;
-        int decompositionValue = -10000;
-        int dependencyValue = 10000;
-        int [] contributionValues = new int[100];
-        int contribArrayIt = 0;
+        
+        int result = 0;              
+                
+        boolean hasDecomposition = false;
+        int decomSums[] = new int[7];
+        for(int i = 0; i < 7; i++) { decomSums[i] = 0; }
+        
+        QualitativeLabel depMinLabel = null;
+        DependencyQualitativeLabelComparitor labelComp = new DependencyQualitativeLabelComparitor();
+        int numContributions = 0;
+        int sums[] = new int[7];
+        for(int i = 0; i < 7; i++) { sums[i] = 0; }
         
         Iterator it = element.getLinksDest().iterator(); //Return the list of elementlink
         while (it.hasNext()){
             ElementLink link = (ElementLink)it.next();
+            
+            //handle decomposition
             if (link instanceof Decomposition){
-                if (decompositionValue < -100){
-                    decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
-                } else if (element.getDecompositionType().getValue() == DecompositionType.AND){
-                    if (decompositionValue > ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
-                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
-                    }
-                } else if (element.getDecompositionType().getValue() == DecompositionType.OR){
-                    if (decompositionValue < ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
-                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
-                    }
-                } 
+            	if(!hasDecomposition) hasDecomposition=true;
+            	QualitativeLabel decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getQualitativeEvaluation();
+            	int qval = decompositionValue.getValue();
+            	decomSums[qval]++;
+            	
             } else if (link instanceof Dependency){
-                if (dependencyValue > ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()
-                        && ((Evaluation)evaluations.get(link.getSrc())).getEvaluation() != 0){
-                    dependencyValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
-                }
+            	
+//            	if(depMinLabel == null)
+//            		depMinLabel = ((Evaluation)evaluations.get(element)).getQualitativeEvaluation();
+            	QualitativeLabel depValue = ((Evaluation)evaluations.get(link.getSrc())).getQualitativeEvaluation();
+            	if(depMinLabel == null) depMinLabel = depValue;
+            	else if(labelComp.compare(depValue, depMinLabel) > 0)
+        			depMinLabel = depValue;
             } else if (link instanceof Contribution){
                 Contribution contrib = (Contribution)link;
-                if (contrib.getContribution().getValue() != ContributionType.UNKNOWN){
-                    int srcNode = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
-                    //The source node value is between -100 and 100. For the contribution calculation, 
-                    //denied value correspond to 0. The value should be between 0 and 100 and the source evaluation should not be 0.
-                    if (srcNode != 0){
-                        srcNode = 50 + srcNode/2;
-                        
-                        double resultContrib;
-                        switch (contrib.getContribution().getValue()){
-                            case ContributionType.MAKE:
-                                resultContrib = srcNode;
-                                break;
-                            case ContributionType.HELP:
-                                resultContrib = srcNode * 0.5;
-                                break;
-                            case ContributionType.SOME_POSITIVE:
-                                resultContrib = srcNode * 0.25;
-                                break;
-                            case ContributionType.SOME_NEGATIVE:
-                                resultContrib = srcNode * -0.25;
-                                break;
-                            case ContributionType.HURT:
-                                resultContrib = srcNode * -0.5;
-                                break;
-                            case ContributionType.BREAK:
-                                resultContrib = srcNode * -1;
-                                break;
-                            default:
-                                resultContrib = 0;
-                                break;
-                        }
-                        if (resultContrib != 0){
-                            contributionValues[contribArrayIt] = 
-                                (new Double(Math.round(resultContrib))).intValue();
-                            contribArrayIt++;
-                        }
-                    }
-                }
+                int contValue = contrib.getContribution().getValue();
+                QualitativeLabel srcNode = ((Evaluation)evaluations.get(link.getSrc())).getQualitativeEvaluation();
+                int qualValue = srcNode.getValue();
+                
+
+                int ci = contribTable1[qualValue][contValue];
+                sums[ci]++;
+                numContributions++;
             }
         }
-        if (decompositionValue >=-100){
-            result = decompositionValue;
+        
+        
+        if (hasDecomposition){        	       	
+        	int dns = decomSums[S];
+        	int dnws = decomSums[WS];
+        	int dnn = decomSums[N];
+        	int dnwd = decomSums[WD];
+        	int dnd = decomSums[D];
+        	int dnc = decomSums[C];
+        	int dnu = decomSums[U];
+        	
+        	if (element.getDecompositionType().getValue() == DecompositionType.AND){
+        		if (dnd > 0){
+        			return contribMap[D];         
+        		} else if ((dnc > 0) || (dnu > 0) ){
+        			return contribMap[U];
+        		} else if (dnwd > 0){
+        			return contribMap[WD];
+        		} else if (dnn > 0){
+        			return contribMap[N];
+        		} else if (dnws > 0){
+        			return contribMap[WS];
+        		} else if (dns > 0){
+        			return contribMap[S];
+        		}
+        	} else if (element.getDecompositionType().getValue() == DecompositionType.OR){
+        		if (dns > 0){
+        			return contribMap[S];         
+        		} else if ((dnc > 0) || (dnu > 0) ){
+        			return contribMap[U];
+        		} else if (dnws > 0){
+        			return contribMap[WS];
+        		} else if (dnn > 0){
+        			return contribMap[N];
+        		} else if (dnwd > 0){
+        			return contribMap[WD];
+        		} else if (dnd > 0){
+        			return contribMap[D];
+        		}
+        	}
         }
-        if (contributionValues.length > 0){
-            int numDenied = 0;
-            int numSatisfied = 0;
-            int contribValue = 0;
-            
-            for (int i=0;i<contribArrayIt;i++){
-                if (contributionValues[i] == 100){
-                    numSatisfied++;
-                } else if(contributionValues[i] == -100){
-                    numDenied++;
-                }
-                contribValue += contributionValues[i];
-            }
-            
-            if (contribValue > (100 - StrategyEvaluationPreferences.getTolerance()) && numSatisfied == 0){
-                contribValue = 100 - StrategyEvaluationPreferences.getTolerance();
-            } else if (contribValue < (-100 + StrategyEvaluationPreferences.getTolerance()) && numDenied == 0){
-                contribValue = -100 + StrategyEvaluationPreferences.getTolerance();
-            }
-            result = result + contribValue;
-            
-            if (result > 100 || result<-100){
-                result = (result/Math.abs(result))*100;
-            }
-            
+        
+        if (numContributions > 0){
+        	
+        	if(numContributions > 1) {
+	        	int ns = sums[S];
+	        	int nws = sums[WS];
+	        	int nn = sums[N];
+	        	int nwd = sums[WD];
+	        	int nd = sums[D];
+	        	int nc = sums[C];
+	        	int nu = sums[U];
+	        	
+	        	int w1 = getW1(nws,nwd);
+	        	int w2 = getW2(ns, nd);
+	        	int w3 = getW3(nc, nu);
+	        	
+	        	int ei = ( w3 == -1 ? contribTable2[w1][w2] : w3);
+	        	return contribMap[ei];
+        	} else {
+        		for(int i = 0; i < sums.length; i++) {
+        			if(sums[i] > 0){
+        				result= contribMap[i];
+        				return result;
+        			}
+        		}
+        	}
         }
-        if ((dependencyValue <= 100) && (result > dependencyValue)){
-            result = dependencyValue;
+        
+      
+        	
+        	
+        if (depMinLabel != null){
+            result = contribMap[depMinLabel.getValue()];
         }
         return result;
+    }
+    
+    /**
+     * Gets the evaluation value of the first sets of evaluations. 
+     * @author Sepideh Ghanavati
+     *
+     */
+    private int getW1(int nws, int nwd) {
+/**
+ * w1 
+ 	= ws, if nws > nwd
+	= wd, if nwd > nws
+	= n, otherwise
+ */   	
+    	if(nws > nwd) return WS;
+    	if(nwd > nws) return WD;
+    	return N;
+    }
+    
+    /**
+     * Get the evaluation value of the second sets of evaluations. 
+     * @author Sepideh Ghanavati
+     *
+     */
+    private int getW2(int ns, int nd) {
+/**
+ * w2
+  	= c, if ns >0 && nd >0
+	= s, if ns >0 && nd=0
+	= d, if nd >0 && ns=0
+	= n, if ns =0 && nd=0
+ */
+    	if(ns > 0 && nd > 0) return C;
+    	if(ns > 0 && nd == 0) return S;
+    	if(nd > 0 && ns == 0) return D;
+    	return N;
+    }
+    
+    
+    /**
+     * Get the evaluation value of W3. 
+     * @author Sepideh Ghanavati
+     *
+     */
+    private int getW3(int nc, int nu) {
+/**
+ * w3	= u, if nc > 0
+ */
+    	if(nc > 0 || nu > 0) return U;
+    	return -1; //never considered
     }
     
     /* (non-Javadoc)
@@ -301,10 +415,5 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         }
         return total;
     }
-
-    /* (non-Javadoc)
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluationType()
-     */
-    public int getEvaluationType() { return IGRLStrategyAlgorithm.EVAL_MIXED; }
 
 }

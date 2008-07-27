@@ -30,6 +30,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.LinkRefBendpointEditPolicy;
 import seg.jUCMNav.editpolicies.element.LinkRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
+import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -40,7 +41,7 @@ import urncore.IURNDiagram;
 
 /**
  * Edit part associate with the LinkRef in GRL diagram
- * @author Jean-François Roy
+ * @author Jean-François Roy, sghanava
  *
  */
 public class LinkRefEditPart extends AbstractConnectionEditPart{
@@ -272,6 +273,9 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
      */
     protected void refreshVisuals(){
         refreshBendpoints();
+
+        int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
+        
         if (getLinkRef().getLink() instanceof Decomposition){
             Decomposition decomp = (Decomposition)getLinkRef().getLink();
             IntentionalElement elem = (IntentionalElement) decomp.getDest(); 
@@ -297,7 +301,11 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
             if (!type.equals("Unknown")){ //$NON-NLS-1$
             	
                 if (GeneralPreferencePage.getGrlTextVisible()) {
-                	contributionLabel.setText(type);
+	                if(/*evalType == IGRLStrategyAlgorithm.EVAL_MIXED ||*/ evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE) {
+	                	contributionLabel.setText(""+contrib.getQuantitativeContribution());
+	                } else {
+	                	contributionLabel.setText(type);
+	                }
                 } else {
                 	contributionLabel.setText(""); //$NON-NLS-1$
                 }
@@ -306,6 +314,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
 //                    img.dispose();
 //                    img = null;
 //                }
+                
                 //Set the icon
                 if (type.equals("Make")){ //$NON-NLS-1$
                     img = (JUCMNavPlugin.getImage( "icons/Make.gif")); //$NON-NLS-1$

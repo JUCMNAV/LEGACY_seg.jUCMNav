@@ -1,6 +1,7 @@
 package seg.jUCMNav.views.preferences;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.IntegerFieldEditor;
@@ -13,7 +14,7 @@ import seg.jUCMNav.Messages;
 /**
  * Preference page for strategy evaluation
  * 
- * @author jkealey
+ * @author jkealey, sghanava
  * 
  */
 public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
@@ -33,7 +34,16 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
      * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
      */
     protected void createFieldEditors() {
-        // Initialize all field editors.
+    	// Initialize all field editors.
+    	String[][] algos = new String[StrategyEvaluationPreferences.NUM_ALGORITHMS][1];
+    	algos[0] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.DefaultGRL"), StrategyEvaluationPreferences.DEFAULT_ALGORITHM};
+        algos[1] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.QualitativeGRL"), StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM};
+        algos[2] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.QuantitativeGRL"), StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM};
+        algos[3] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.MixedGRL"), StrategyEvaluationPreferences.MIXED_ALGORITHM};
+    	
+    	ComboFieldEditor pref_algorithm = new ComboFieldEditor(StrategyEvaluationPreferences.PREF_ALGORITHM, Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm"), algos, getFieldEditorParent());  //$NON-NLS-1$
+        addField(pref_algorithm);
+
         IntegerFieldEditor tolerance = new IntegerFieldEditor(StrategyEvaluationPreferences.PREF_TOLERANCE, Messages.getString("GeneralPreferencePage.GRLEvaluationAlgorithmTolerance"), getFieldEditorParent());  //$NON-NLS-1$
         addField(tolerance);
         

@@ -26,14 +26,14 @@ import urncore.IURNNode;
 /**
  * This class implement the default GRL evaluation algorithm.
  * 
- * @author Jean-François Roy
+ * @author sghanava
  *
  */
-public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
+public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     
     /**
      * Data container object used by the propagation mechanism. 
-     * @author Jean-François Roy
+     * @author sghanava
      *
      */
     private static class EvaluationCalculation{
@@ -104,6 +104,11 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     }
 
     /* (non-Javadoc)
+     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluationType()
+     */
+    public int getEvaluationType() { return IGRLStrategyAlgorithm.EVAL_MIXED; }
+    
+    /* (non-Javadoc)
      * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluation(grl.IntentionalElement)
      */
     public int getEvaluation(IntentionalElement element) {
@@ -141,27 +146,23 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 Contribution contrib = (Contribution)link;
                 if (contrib.getContribution().getValue() != ContributionType.UNKNOWN){
                     int srcNode = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
-                    //The source node value is between -100 and 100. For the contribution calculation, 
-                    //denied value correspond to 0. The value should be between 0 and 100 and the source evaluation should not be 0.
                     if (srcNode != 0){
-                        srcNode = 50 + srcNode/2;
-                        
-                        double resultContrib;
+                       double resultContrib;
                         switch (contrib.getContribution().getValue()){
                             case ContributionType.MAKE:
                                 resultContrib = srcNode;
                                 break;
                             case ContributionType.HELP:
-                                resultContrib = srcNode * 0.5;
-                                break;
-                            case ContributionType.SOME_POSITIVE:
                                 resultContrib = srcNode * 0.25;
                                 break;
+                            case ContributionType.SOME_POSITIVE:
+                                resultContrib = srcNode * 0.75;
+                                break;
                             case ContributionType.SOME_NEGATIVE:
-                                resultContrib = srcNode * -0.25;
+                                resultContrib = srcNode * -0.75;
                                 break;
                             case ContributionType.HURT:
-                                resultContrib = srcNode * -0.5;
+                                resultContrib = srcNode * -0.25;
                                 break;
                             case ContributionType.BREAK:
                                 resultContrib = srcNode * -1;
@@ -301,10 +302,5 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         }
         return total;
     }
-
-    /* (non-Javadoc)
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluationType()
-     */
-    public int getEvaluationType() { return IGRLStrategyAlgorithm.EVAL_MIXED; }
 
 }
