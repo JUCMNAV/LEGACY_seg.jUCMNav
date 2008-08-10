@@ -4,7 +4,6 @@ import grl.Actor;
 import grl.ActorRef;
 import grl.Contribution;
 import grl.ContributionType;
-import grl.Criticality;
 import grl.Decomposition;
 import grl.DecompositionType;
 import grl.Dependency;
@@ -13,7 +12,6 @@ import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
-import grl.Priority;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -138,8 +136,8 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     }
                 } 
             } else if (link instanceof Dependency){
-                if (dependencyValue > ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()
-                        && ((Evaluation)evaluations.get(link.getSrc())).getEvaluation() != 0){
+                if (dependencyValue > ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
+                        //&& ((Evaluation)evaluations.get(link.getSrc())).getEvaluation() != 0){
                     dependencyValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
                 }
             } else if (link instanceof Contribution){
@@ -219,8 +217,7 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
      * @see seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm#getActorEvaluation(grl.Actor)
      */
     public int getActorEvaluation(Actor actor){
-        double satisficed = 0;
-        double denied = 0;
+        float resultEval = 0;
 
         int total = 0;
         
@@ -231,74 +228,20 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             Iterator iterNode = ref.getNodes().iterator();
             while(iterNode.hasNext()){
                 IURNNode node = (IURNNode)iterNode.next();
-                if (node instanceof IntentionalElementRef){
-                    IntentionalElementRef element = (IntentionalElementRef)node;
-                    int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element.getDef());
-                    switch (element.getCriticality().getValue()){
-                    case Criticality.HIGH:
-                        if (evaluation > 0){
-                            satisficed = satisficed + (evaluation*1.5);
-                        } else {
-                            denied = denied + (evaluation*1.5);
-                        }
-                        total++;
-                        break;
-                    case Criticality.MEDIUM:
-                        if (evaluation > 0){
-                            satisficed = satisficed + evaluation;
-                        } else {
-                            denied = denied + evaluation;
-                        }
-                        total++;
-                        break;
-                    case Criticality.LOW:
-                        if (evaluation > 0){
-                            satisficed = satisficed + (evaluation*0.5);
-                        } else {
-                            denied = denied + (evaluation*0.5);
-                        }
-                        total++;
-                        break;
-                    default:
-                        break;
-                    }
-                    
-                    switch (element.getPriority().getValue()){
-                    case Priority.HIGH:
-                        if (evaluation > 0){
-                            satisficed = satisficed + (evaluation*1.5);
-                        } else {
-                            denied = denied + (evaluation*1.5);
-                        }
-                        total++;
-                        break;
-                    case Priority.MEDIUM:
-                        if (evaluation > 0){
-                            satisficed = satisficed + evaluation;
-                        } else {
-                            denied = denied + evaluation;
-                        }
-                        total++;
-                        break;
-                    case Priority.LOW:
-                        if (evaluation > 0){
-                            satisficed = satisficed + (evaluation*0.5);
-                        } else {
-                            denied = denied + (evaluation*0.5);
-                        }
-                        total++;
-                        break;
-                    default:
-                        break;
-                    }
+                if(node instanceof IntentionalElementRef) {
+                    IntentionalElementRef elementRef = (IntentionalElementRef)node;
+                    IntentionalElement element = elementRef.getDef();
+                    int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
+                    int importance = element.getImportanceQuantitative();                    
+                    float deltaEval = ((float)evaluation)*(((float)importance)/100f);
+                    resultEval += deltaEval;
+                    total++;
+                       
                 }
             }
         }
         if (total > 0){
-            total = new Double((satisficed +denied)/total).intValue();
-        }
-        if (Math.abs(total) > 100){
-            total = (Math.abs(total)/total)*100;
+            total = Math.round(resultEval/total);
         }
         return total;
     }

@@ -4,6 +4,7 @@ import grl.Actor;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
+import grl.ImportanceType;
 import grl.IntentionalElement;
 import grl.QualitativeLabel;
 import grl.kpimodel.KPIEvalValueSet;
@@ -85,6 +86,7 @@ public class EvaluationStrategyManager {
 
         while (algo.hasNextNode()) {
             IntentionalElement element = algo.nextNode();
+            String elementName = element.getName();
             Evaluation eval = (Evaluation) evaluations.get(element);
             int val = algo.getEvaluation(element);
             eval.setEvaluation(val);
@@ -153,11 +155,11 @@ public class EvaluationStrategyManager {
     public synchronized void setupEvaluationAlgorithm() {
         String algoChoice = StrategyEvaluationPreferences.getAlgorithm();
     	
-        if(StrategyEvaluationPreferences.MIXED_ALGORITHM.equals(algoChoice))
+        if((StrategyEvaluationPreferences.MIXED_ALGORITHM+"").equals(algoChoice))
         	algo = new MixedGRLStrategyAlgorithm();
-        else if(StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM.equals(algoChoice))
+        else if((StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM+"").equals(algoChoice))
         	algo = new QuantitativeGRLStrategyAlgorithm();
-        else if(StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM.equals(algoChoice))
+        else if((StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM+"").equals(algoChoice))
         	algo = new QualitativeGRLStrategyAlgorithm();
         else 
         	algo = new DefaultGRLStrategyAlgorithm();
@@ -295,6 +297,92 @@ public class EvaluationStrategyManager {
     }
     
     /**
+     * Sets the quantitative importance of an intentional element
+     * @param element the element to apply the new value to
+     * @param value the new quantitative importance value 
+     * 
+     */
+    public synchronized void setIntentionalElementQuantitativeImportance(IntentionalElement element, int value) {
+        // The importance should be between 0 and 100
+        if (value <= 100 && value >= 0) {
+            
+            // Change the value in the evaluation
+            if (value != element.getImportanceQuantitative()) {
+                element.setImportanceQuantitative(value);
+                syncIntentionalElementQuantitativeImportance(element, value);
+            }
+            
+            //do we have a command for this?
+            calculateEvaluation();      
+        }
+    }
+    
+    /**
+     * Synchronize the qualitative importance to the quantitative importance
+     * @param element intentional element model for the intentional element being synchronized
+     * @param value quantitative value for the intentional element
+     * 
+     */
+    private void syncIntentionalElementQuantitativeImportance(IntentionalElement element, int value) {
+        ImportanceType label = element.getImportance();
+        
+        ImportanceType toSet = getQualitativeImportanceForQuantitativeValue(value);
+        
+        if(!label.equals(toSet))
+            element.setImportance(toSet);
+        
+    }
+
+    public static ImportanceType getQualitativeImportanceForQuantitativeValue(int value) {
+        if(value >= 66 && value <= 100) 
+            return ImportanceType.HIGH_LITERAL;
+        else if(value >= 33 && value < 66)
+            return ImportanceType.MEDIUM_LITERAL;
+        else if(value > 0 && value < 33)
+            return ImportanceType.LOW_LITERAL;
+        else if(value == 0)
+            return ImportanceType.NONE_LITERAL;
+        return null;
+    }    
+
+    /**
+     * Sets the qualitative importance
+     * @param element the element to which to apply the new value 
+     * @param value the new qualitative importance value 
+     * 
+     */    
+    public synchronized void setIntentionalElementQualitativeImportance(IntentionalElement element, ImportanceType value) {
+        // Change the value in the evaluation
+        if (value != element.getImportance()) {
+            element.setImportance(value);
+            syncIntentionalElementQualitativeImportance(element);
+        }
+        //do we have a command for this?
+        calculateEvaluation();      
+    }
+    
+    /**
+     * Synchronizes the quantitative evaluation to the qualitative evaluation
+     * @param eval evaluation model for the intentional element being synchronized
+     * @param value qualitative evaluation value of the intentional element
+     * 
+     */
+    private void syncIntentionalElementQualitativeImportance(IntentionalElement element) {
+        String type = element.getImportance().getName();
+        int importance = element.getImportanceQuantitative();
+        
+        if(ImportanceType.HIGH_LITERAL.getName().equals(type) && (importance < 66))
+            element.setImportanceQuantitative(100);
+        else if(ImportanceType.MEDIUM_LITERAL.getName().equals(type) && (importance < 33 || importance >= 66))
+            element.setImportanceQuantitative(50);
+        else if(ImportanceType.LOW_LITERAL.getName().equals(type) && (importance == 0 || importance >= 33))
+            element.setImportanceQuantitative(25);
+        else if(ImportanceType.NONE_LITERAL.getName().equals(type) && (importance > 0))
+            element.setImportanceQuantitative(0);
+        
+    }    
+    
+    /**
      * Sets the quantitative evaluation
      * @param element the element to apply the new value to
      * @param value the new quantitative evaluation value 
@@ -328,23 +416,30 @@ public class EvaluationStrategyManager {
     private void syncIntentionalElementQualitativeEvaluation(Evaluation eval, int value) {
     	QualitativeLabel label = eval.getQualitativeEvaluation();
 		
-		if(value == IGRLStrategyAlgorithm.SATISFICED && !label.equals(QualitativeLabel.SATISFIED_LITERAL)) 
-			eval.setQualitativeEvaluation(QualitativeLabel.SATISFIED_LITERAL);
-		else if(value > IGRLStrategyAlgorithm.NONE && value < IGRLStrategyAlgorithm.SATISFICED && !label.equals(QualitativeLabel.WEAKLY_SATISFIED_LITERAL))
-			eval.setQualitativeEvaluation(QualitativeLabel.WEAKLY_SATISFIED_LITERAL);
-		else if(value > IGRLStrategyAlgorithm.DENIED && value < IGRLStrategyAlgorithm.NONE && !label.equals(QualitativeLabel.WEAKLY_DENIED_LITERAL))
-			eval.setQualitativeEvaluation(QualitativeLabel.WEAKLY_DENIED_LITERAL);
-		else if(value == IGRLStrategyAlgorithm.DENIED && !label.equals(QualitativeLabel.DENIED_LITERAL))
-			eval.setQualitativeEvaluation(QualitativeLabel.DENIED_LITERAL);
-		else if(value == IGRLStrategyAlgorithm.NONE && !label.equals(QualitativeLabel.NONE_LITERAL))
-			eval.setQualitativeEvaluation(QualitativeLabel.NONE_LITERAL);
-		else if(value == IGRLStrategyAlgorithm.CONFLICT && !label.equals(QualitativeLabel.CONFLICT_LITERAL))
-			eval.setQualitativeEvaluation(QualitativeLabel.CONFLICT_LITERAL);
-		else if(value == IGRLStrategyAlgorithm.UNDECIDED && !label.equals(QualitativeLabel.UNKNOWN_LITERAL))
-			eval.setQualitativeEvaluation(QualitativeLabel.UNKNOWN_LITERAL);
+    	QualitativeLabel toSet = getQualitativeEvaluationForQuantitativeValue(value);
+    	
+		if(!label.equals(toSet))
+		    eval.setQualitativeEvaluation(toSet);
     	
     }
     
+    public static QualitativeLabel getQualitativeEvaluationForQuantitativeValue(int value) {
+        if(value == IGRLStrategyAlgorithm.SATISFICED) 
+            return QualitativeLabel.SATISFIED_LITERAL;
+        else if(value > IGRLStrategyAlgorithm.NONE && value < IGRLStrategyAlgorithm.SATISFICED)
+            return QualitativeLabel.WEAKLY_SATISFIED_LITERAL;
+        else if(value > IGRLStrategyAlgorithm.DENIED && value < IGRLStrategyAlgorithm.NONE)
+            return QualitativeLabel.WEAKLY_DENIED_LITERAL;
+        else if(value == IGRLStrategyAlgorithm.DENIED)
+            return QualitativeLabel.DENIED_LITERAL;
+        else if(value == IGRLStrategyAlgorithm.NONE)
+            return QualitativeLabel.NONE_LITERAL;
+        else if(value == IGRLStrategyAlgorithm.CONFLICT)
+            return QualitativeLabel.CONFLICT_LITERAL;
+        else if(value == IGRLStrategyAlgorithm.UNDECIDED)
+            return QualitativeLabel.UNKNOWN_LITERAL;    
+        return null;
+    }
     /**
      * Sets the qualitative evaluation
      * @param element the element to which to apply the new value 
@@ -356,7 +451,7 @@ public class EvaluationStrategyManager {
         // Change the value in the evaluation
         if (value != eval.getQualitativeEvaluation()) {
             eval.setQualitativeEvaluation(value);
-            syncIntentionalElementEvaluation(eval, value);
+            syncIntentionalElementEvaluation(eval);
         }
         // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
         AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
@@ -373,7 +468,7 @@ public class EvaluationStrategyManager {
      * @param value qualitative evaluation value of the intentional element
      * 
      */
-    private void syncIntentionalElementEvaluation(Evaluation eval, QualitativeLabel value) {
+    private void syncIntentionalElementEvaluation(Evaluation eval) {
 		String type = eval.getQualitativeEvaluation().getName();
 		int evaluation = eval.getEvaluation();
 		

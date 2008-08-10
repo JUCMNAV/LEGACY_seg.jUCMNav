@@ -3,16 +3,15 @@ package seg.jUCMNav.strategies;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Contribution;
-import grl.Criticality;
 import grl.Decomposition;
 import grl.DecompositionType;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
+import grl.ImportanceType;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
-import grl.Priority;
 import grl.QualitativeLabel;
 
 import java.util.HashMap;
@@ -46,7 +45,7 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 	      {WD, WD, WD, N, WS, WS, WS}, //WD
 	      {WS, WS, WS, N, WD, WD, WD}, //WS
 	      {S,  WS, WS, N, WD, WD, D},  //S
-	      {C,  C,  C,  C, C,  C,  C},  //C
+	      {U,  U,  U,  U, U,  U,  U},  //C
 	      {U,  U,  U,  U, U,  U,  U},  //U
 	      {N,  N,  N,  N, N,  N,  N},  //N
 		    };
@@ -71,6 +70,12 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 			 IGRLStrategyAlgorithm.NONE,
 			};
 		
+	 int[][] importanceMap = {
+	         { D, D, S,  S, C, U, N }, //high
+	         { D, WD,WS, S, C, U, N }, //med
+	         { WD,WD,WS, WS,C, U, N }, //low
+	         { N, N, N,  N, N, N, N }, //none
+	 };
     /**
      * Data container object used by the propagation mechanism. 
      * @author sghanava
@@ -164,6 +169,7 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         for(int i = 0; i < 7; i++) { decomSums[i] = 0; }
         
         QualitativeLabel depMinLabel = null;
+        boolean foundSmallerDependency = false;
         DependencyQualitativeLabelComparitor labelComp = new DependencyQualitativeLabelComparitor();
         int numContributions = 0;
         int sums[] = new int[7];
@@ -175,19 +181,20 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             
             //handle decomposition
             if (link instanceof Decomposition){
-            	if(!hasDecomposition) hasDecomposition=true;
-            	QualitativeLabel decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getQualitativeEvaluation();
-            	int qval = decompositionValue.getValue();
-            	decomSums[qval]++;
-            	
+                if(!hasDecomposition) hasDecomposition=true;
+                QualitativeLabel decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getQualitativeEvaluation();
+                int qval = decompositionValue.getValue();
+                decomSums[qval]++;
+                
             } else if (link instanceof Dependency){
-            	
-//            	if(depMinLabel == null)
-//            		depMinLabel = ((Evaluation)evaluations.get(element)).getQualitativeEvaluation();
-            	QualitativeLabel depValue = ((Evaluation)evaluations.get(link.getSrc())).getQualitativeEvaluation();
-            	if(depMinLabel == null) depMinLabel = depValue;
-            	else if(labelComp.compare(depValue, depMinLabel) > 0)
-        			depMinLabel = depValue;
+                if(depMinLabel == null)
+                    depMinLabel = ((Evaluation)evaluations.get(element)).getQualitativeEvaluation();
+                QualitativeLabel depValue = ((Evaluation)evaluations.get(link.getSrc())).getQualitativeEvaluation();
+ 
+                if(labelComp.compare(depValue, depMinLabel) > 0) {
+                    depMinLabel = depValue;
+                    foundSmallerDependency = true;
+                }
             } else if (link instanceof Contribution){
                 Contribution contrib = (Contribution)link;
                 int contValue = contrib.getContribution().getValue();
@@ -201,81 +208,90 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             }
         }
         
-        
-        if (hasDecomposition){        	       	
-        	int dns = decomSums[S];
-        	int dnws = decomSums[WS];
-        	int dnn = decomSums[N];
-        	int dnwd = decomSums[WD];
-        	int dnd = decomSums[D];
-        	int dnc = decomSums[C];
-        	int dnu = decomSums[U];
-        	
-        	if (element.getDecompositionType().getValue() == DecompositionType.AND){
-        		if (dnd > 0){
-        			return contribMap[D];         
-        		} else if ((dnc > 0) || (dnu > 0) ){
-        			return contribMap[U];
-        		} else if (dnwd > 0){
-        			return contribMap[WD];
-        		} else if (dnn > 0){
-        			return contribMap[N];
-        		} else if (dnws > 0){
-        			return contribMap[WS];
-        		} else if (dns > 0){
-        			return contribMap[S];
-        		}
-        	} else if (element.getDecompositionType().getValue() == DecompositionType.OR){
-        		if (dns > 0){
-        			return contribMap[S];         
-        		} else if ((dnc > 0) || (dnu > 0) ){
-        			return contribMap[U];
-        		} else if (dnws > 0){
-        			return contribMap[WS];
-        		} else if (dnn > 0){
-        			return contribMap[N];
-        		} else if (dnwd > 0){
-        			return contribMap[WD];
-        		} else if (dnd > 0){
-        			return contribMap[D];
-        		}
-        	}
+        if (hasDecomposition){                  
+            int dns = decomSums[S];
+            int dnws = decomSums[WS];
+            int dnn = decomSums[N];
+            int dnwd = decomSums[WD];
+            int dnd = decomSums[D];
+            int dnc = decomSums[C];
+            int dnu = decomSums[U];
+            
+            if (element.getDecompositionType().getValue() == DecompositionType.AND){
+                if (dnd > 0){
+                    result = contribMap[D];
+                } else if ((dnc > 0) || (dnu > 0) ){
+                    result = contribMap[U];
+                } else if (dnwd > 0){
+                    result = contribMap[WD];
+                } else if (dnn > 0){
+                    result = contribMap[N];
+                } else if (dnws > 0){
+                    result = contribMap[WS];
+                } else if (dns > 0){
+                    result = contribMap[S];
+                }
+            } else if (element.getDecompositionType().getValue() == DecompositionType.OR){
+                if (dns > 0){
+                    result = contribMap[S];
+                } else if ((dnc > 0) || (dnu > 0) ){
+                    result = contribMap[U];
+                } else if (dnws > 0){
+                    result = contribMap[WS];
+                } else if (dnn > 0){
+                    result = contribMap[N];
+                } else if (dnwd > 0){
+                    result = contribMap[WD];
+                } else if (dnd > 0){
+                    result = contribMap[D];
+                }
+            }
         }
         
         if (numContributions > 0){
-        	
-        	if(numContributions > 1) {
-	        	int ns = sums[S];
-	        	int nws = sums[WS];
-	        	int nn = sums[N];
-	        	int nwd = sums[WD];
-	        	int nd = sums[D];
-	        	int nc = sums[C];
-	        	int nu = sums[U];
-	        	
-	        	int w1 = getW1(nws,nwd);
-	        	int w2 = getW2(ns, nd);
-	        	int w3 = getW3(nc, nu);
-	        	
-	        	int ei = ( w3 == -1 ? contribTable2[w1][w2] : w3);
-	        	return contribMap[ei];
-        	} else {
-        		for(int i = 0; i < sums.length; i++) {
-        			if(sums[i] > 0){
-        				result= contribMap[i];
-        				return result;
-        			}
-        		}
-        	}
+            result= getQualitativeContribution(sums, numContributions);
+            
+        }
+    
+        if (depMinLabel != null) {
+            QualitativeLabel currLabel = null;
+            
+            if(result != 0)
+                currLabel = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue(result);
+            else
+                currLabel = QualitativeLabel.NONE_LITERAL;
+            
+            if(labelComp.compare(depMinLabel, currLabel) > 0)
+                result = contribMap[depMinLabel.getValue()];
         }
         
-      
-        	
-        	
-        if (depMinLabel != null){
-            result = contribMap[depMinLabel.getValue()];
-        }
         return result;
+    }
+    
+    private int getQualitativeContribution(int[] sums, int numRead) {
+        int toRet = 0;
+        if(numRead > 1) {
+            int ns = sums[S];
+            int nws = sums[WS];
+            int nn = sums[N];
+            int nwd = sums[WD];
+            int nd = sums[D];
+            int nc = sums[C];
+            int nu = sums[U];
+            
+            int w1 = getW1(nws,nwd);
+            int w2 = getW2(ns, nd);
+            int w3 = getW3(nc, nu);
+            
+            int ei = ( w3 == -1 ? contribTable2[w1][w2] : w3);
+            toRet = contribMap[ei];   
+        } else {
+            for(int i = 0; i < sums.length; i++) {
+                if(sums[i] > 0)
+                    toRet= contribMap[i];
+            }
+        }        
+        return toRet;
     }
     
     /**
@@ -297,7 +313,6 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     
     /**
      * Get the evaluation value of the second sets of evaluations. 
-     * @author Sepideh Ghanavati
      *
      */
     private int getW2(int ns, int nd) {
@@ -317,7 +332,6 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     
     /**
      * Get the evaluation value of W3. 
-     * @author Sepideh Ghanavati
      *
      */
     private int getW3(int nc, int nu) {
@@ -337,6 +351,9 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 
         int total = 0;
         
+        int sums[] = new int[7];
+        for(int i = 0; i < 7; i++) { sums[i] = 0; }
+        
         Iterator iter = actor.getContRefs().iterator();
         while (iter.hasNext()){
             //Parse through the node bind to this actor
@@ -344,76 +361,23 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             Iterator iterNode = ref.getNodes().iterator();
             while(iterNode.hasNext()){
                 IURNNode node = (IURNNode)iterNode.next();
-                if (node instanceof IntentionalElementRef){
-                    IntentionalElementRef element = (IntentionalElementRef)node;
-                    int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element.getDef());
-                    switch (element.getCriticality().getValue()){
-                    case Criticality.HIGH:
-                        if (evaluation > 0){
-                            satisficed = satisficed + (evaluation*1.5);
-                        } else {
-                            denied = denied + (evaluation*1.5);
-                        }
-                        total++;
-                        break;
-                    case Criticality.MEDIUM:
-                        if (evaluation > 0){
-                            satisficed = satisficed + evaluation;
-                        } else {
-                            denied = denied + evaluation;
-                        }
-                        total++;
-                        break;
-                    case Criticality.LOW:
-                        if (evaluation > 0){
-                            satisficed = satisficed + (evaluation*0.5);
-                        } else {
-                            denied = denied + (evaluation*0.5);
-                        }
-                        total++;
-                        break;
-                    default:
-                        break;
-                    }
+                if(node instanceof IntentionalElementRef) {
+                    IntentionalElementRef elementRef = (IntentionalElementRef)node;
+                    IntentionalElement element = elementRef.getDef();
+                    int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
+                    ImportanceType importance = element.getImportance();
                     
-                    switch (element.getPriority().getValue()){
-                    case Priority.HIGH:
-                        if (evaluation > 0){
-                            satisficed = satisficed + (evaluation*1.5);
-                        } else {
-                            denied = denied + (evaluation*1.5);
-                        }
-                        total++;
-                        break;
-                    case Priority.MEDIUM:
-                        if (evaluation > 0){
-                            satisficed = satisficed + evaluation;
-                        } else {
-                            denied = denied + evaluation;
-                        }
-                        total++;
-                        break;
-                    case Priority.LOW:
-                        if (evaluation > 0){
-                            satisficed = satisficed + (evaluation*0.5);
-                        } else {
-                            denied = denied + (evaluation*0.5);
-                        }
-                        total++;
-                        break;
-                    default:
-                        break;
-                    }
+                    QualitativeLabel ql = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue(evaluation);
+                    int ci = importanceMap[importance.getValue()][ql.getValue()];
+                    sums[ci]++;
+                    total++;
                 }
             }
         }
-        if (total > 0){
-            total = new Double((satisficed +denied)/total).intValue();
-        }
-        if (Math.abs(total) > 100){
-            total = (Math.abs(total)/total)*100;
-        }
-        return total;
+        
+            
+        return getQualitativeContribution(sums, total);
+        
     }
 
 }

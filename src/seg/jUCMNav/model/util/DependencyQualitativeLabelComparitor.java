@@ -22,7 +22,7 @@ public class DependencyQualitativeLabelComparitor implements Comparator, Seriali
 	    {-1,  -1,  0,  1, -1,  -1, -1}, //WS
 	    {-1,  -1, -1,  0, -1,  -1, -1},  //S
 	    {-1,   1,  1,  1,  0,   1,  1},  //C
-	    {-1,   1,  1,  1,  1,   0,  1},  //U
+	    {-1,   1,  1,  1, -1,   0,  1},  //U
 	    {-1,  -1,  1,  1, -1,  -1,  0},  //N
 	};
 	

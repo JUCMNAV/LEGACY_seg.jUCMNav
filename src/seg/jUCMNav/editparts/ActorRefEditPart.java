@@ -5,6 +5,7 @@ package seg.jUCMNav.editparts;
 
 import grl.Actor;
 import grl.ActorRef;
+import grl.QualitativeLabel;
 
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.FreeformViewport;
@@ -24,6 +25,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.ActorRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
+import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.ActorFigure;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -32,7 +34,7 @@ import seg.jUCMNav.views.property.ContainerPropertySource;
 /**
  * Edit part for the Actor Ref, who listen for changes in both ref and def
  * 
- * @author Jean-François Roy
+ * @author Jean-François Roy, sghanava
  * 
  */
 public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
@@ -82,7 +84,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         evaluationLabel.setVisible(false);
 
-        evaluationLabel.setSize(50, 16);
+        evaluationLabel.setSize(58, 16);
         evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor16.gif")); //$NON-NLS-1$
         evaluationLabel.setIcon(evaluationImg);
         try {
@@ -173,6 +175,8 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         figure.setBounds(bounds);
         figure.setLocation(location);
 
+        int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
+        
         try {
             // set information for specific drawing
             if (getActorRef().getContDef() instanceof Actor) {
@@ -188,10 +192,50 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 evaluationLabel.setVisible(false);
             } else {
                 // Calculate the actor evaluation
-                evaluationLabel.setText(calculateEvaluation());
+                String evaluation = calculateEvaluation();
+                if(evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
+                    evaluationLabel.setText(evaluation);
+                }
+                
+                if(evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
+                    
+                    int evalInt = Integer.parseInt(evaluation);
+                    //Set the label icon
+                    QualitativeLabel ql = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue((evalInt));
+                    switch(ql.getValue()) 
+                    {
+                    case QualitativeLabel.DENIED:
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-D-24x16.gif"));
+                        break;
+                    case QualitativeLabel.WEAKLY_DENIED:
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-WD-24x16.gif"));
+                        break;
+                    case QualitativeLabel.WEAKLY_SATISFIED:
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-WS-24x16.gif"));
+                        break;
+                    case QualitativeLabel.SATISFIED:
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-S-24x16.gif"));
+                        break;
+                    case QualitativeLabel.CONFLICT:
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-C-24x16.gif"));
+                        break;
+                    case QualitativeLabel.UNKNOWN:
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-U-24x16.gif"));
+                        break;
+                    case QualitativeLabel.NONE:
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-N-24x16.gif"));
+                        break;
+                        
+                    }
+                    evaluationLabel.setIcon(evaluationImg);
+                } 
+                
+                
                 evaluationLabel.setLocation(getActorFigure().getLocation());
-                evaluationLabel.setVisible(true);
+                evaluationLabel.setVisible(true); 
             }
+            
+                       
         } catch (NullPointerException e) {
         } // if the figure have been deleted, the root edit part is not accessible anymore
 

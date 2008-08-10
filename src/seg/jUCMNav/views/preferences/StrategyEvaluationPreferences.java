@@ -14,11 +14,13 @@ public class StrategyEvaluationPreferences {
 
     public final static int DEFAULT_TOLERANCE = 10;
     public final static boolean DEFAULT_EVALFILLED = true;
-    public final static String DEFAULT_ALGORITHM = "1";
-    public final static String QUALITATIVE_ALGORITHM = "2";
-    public final static String QUANTITATIVE_ALGORITHM = "3";
-    public final static String MIXED_ALGORITHM = "4";
     
+    public final static int QUANTITATIVE_ALGORITHM = 0;
+    public final static int QUALITATIVE_ALGORITHM = 1;
+    public final static int MIXED_ALGORITHM = 2;
+    public final static int ROY_2006_GRL_ALGORITHM = 3;
+    
+    public final static int DEFAULT_GRL_ALGORITHM = 0; //this should always be 0
     public final static int NUM_ALGORITHMS = 4;
     
 
@@ -39,7 +41,7 @@ public class StrategyEvaluationPreferences {
      * Sets the default values in the preference store.
      */
     public static void createPreferences() {
-        getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_ALGORITHM, StrategyEvaluationPreferences.DEFAULT_ALGORITHM);    	
+        getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_ALGORITHM, StrategyEvaluationPreferences.DEFAULT_GRL_ALGORITHM+"");    	
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_TOLERANCE, StrategyEvaluationPreferences.DEFAULT_TOLERANCE);
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_EVALFILLED, StrategyEvaluationPreferences.DEFAULT_EVALFILLED);
     }

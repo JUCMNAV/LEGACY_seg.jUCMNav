@@ -5,6 +5,7 @@ package seg.jUCMNav.views.property;
 
 import grl.Evaluation;
 import grl.EvaluationStrategy;
+import grl.ImportanceType;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.QualitativeLabel;
@@ -488,6 +489,14 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             } else if (feature.getEType().getInstanceClass() == String.class) {
                 EvaluationStrategyManager.getInstance().setKPIEvalValueSetUnit(def, feature, (String) value);
             }
+        } else if(feature.getContainerClass() == IntentionalElement.class) {
+            if (feature.getEType().getInstanceClass() == ImportanceType.class) {
+                ImportanceType temp = ImportanceType.get(((Integer)value).intValue());
+                EvaluationStrategyManager.getInstance().setIntentionalElementQualitativeImportance(def, temp);
+            } else if (feature.getEType().getInstanceClass() == int.class) {
+                Integer temp = new Integer(Integer.parseInt((String) value));
+                EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance(def, temp.intValue());
+            }            
         } else if (feature.getName() == "name") { //$NON-NLS-1$
             String message = URNNamingHelper.isNameValid(urn, (URNmodelElement) object, value.toString());
 

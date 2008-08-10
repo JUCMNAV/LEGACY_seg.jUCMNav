@@ -36,10 +36,10 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
     protected void createFieldEditors() {
     	// Initialize all field editors.
     	String[][] algos = new String[StrategyEvaluationPreferences.NUM_ALGORITHMS][1];
-    	algos[0] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.DefaultGRL"), StrategyEvaluationPreferences.DEFAULT_ALGORITHM};
-        algos[1] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.QualitativeGRL"), StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM};
-        algos[2] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.QuantitativeGRL"), StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM};
-        algos[3] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.MixedGRL"), StrategyEvaluationPreferences.MIXED_ALGORITHM};
+    	algos[StrategyEvaluationPreferences.ROY_2006_GRL_ALGORITHM] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.ROY_2006_GRL_ALGORITHM"), (StrategyEvaluationPreferences.ROY_2006_GRL_ALGORITHM+"")};
+        algos[StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.QualitativeGRL"), (StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM+"")};
+        algos[StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.QuantitativeGRL"), (StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM+"")};
+        algos[StrategyEvaluationPreferences.MIXED_ALGORITHM] = new String[]{Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.MixedGRL"), (StrategyEvaluationPreferences.MIXED_ALGORITHM+"")};
     	
     	ComboFieldEditor pref_algorithm = new ComboFieldEditor(StrategyEvaluationPreferences.PREF_ALGORITHM, Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm"), algos, getFieldEditorParent());  //$NON-NLS-1$
         addField(pref_algorithm);
