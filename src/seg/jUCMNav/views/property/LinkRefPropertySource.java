@@ -104,6 +104,8 @@ public class LinkRefPropertySource extends URNElementPropertySource {
             } else if(feature.getEType().getInstanceClass() == ContributionType.class) {
             	ContributionType label = ContributionType.get(((Integer)value).intValue());
             	setElementLinkQualitativeContribution(element, label);
+            } else {
+                super.setPropertyValue(id, value);
             }
         } else {
             super.setPropertyValue(id, value);

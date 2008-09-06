@@ -71,10 +71,10 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 			};
 		
 	 int[][] importanceMap = {
-	         { D, D, S,  S, C, U, N }, //high
-	         { D, WD,WS, S, C, U, N }, //med
-	         { WD,WD,WS, WS,C, U, N }, //low
-	         { N, N, N,  N, N, N, N }, //none
+	         { D, WD,WS,S, C, U, N }, //high
+	         { WD,WD,WS,WS,C, U, N }, //med
+	         { WD,N, N, WS,C, U, N }, //low
+	         { N, N, N, N, N, N, N }, //none
 	 };
     /**
      * Data container object used by the propagation mechanism. 
@@ -162,7 +162,8 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             return eval.getEvaluation();
         }
         
-        int result = 0;              
+        int result = -1;
+        int tempResult = 0;
                 
         boolean hasDecomposition = false;
         int decomSums[] = new int[7];
@@ -219,57 +220,59 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             
             if (element.getDecompositionType().getValue() == DecompositionType.AND){
                 if (dnd > 0){
-                    result = contribMap[D];
+                    result = D;
                 } else if ((dnc > 0) || (dnu > 0) ){
-                    result = contribMap[U];
+                    result = U;
                 } else if (dnwd > 0){
-                    result = contribMap[WD];
+                    result = WD;
                 } else if (dnn > 0){
-                    result = contribMap[N];
+                    result = N;
                 } else if (dnws > 0){
-                    result = contribMap[WS];
+                    result = WS;
                 } else if (dns > 0){
-                    result = contribMap[S];
+                    result = S;
                 }
             } else if (element.getDecompositionType().getValue() == DecompositionType.OR){
                 if (dns > 0){
-                    result = contribMap[S];
+                    result = S;
                 } else if ((dnc > 0) || (dnu > 0) ){
-                    result = contribMap[U];
+                    result = U;
                 } else if (dnws > 0){
-                    result = contribMap[WS];
+                    result = WS;
                 } else if (dnn > 0){
-                    result = contribMap[N];
+                    result = N;
                 } else if (dnwd > 0){
-                    result = contribMap[WD];
+                    result = WD;
                 } else if (dnd > 0){
-                    result = contribMap[D];
+                    result = D;
                 }
             }
         }
         
-        if (numContributions > 0){
-            result= getQualitativeContribution(sums, numContributions);
-            
+        if (numContributions > 0 && result == -1 ){
+            result= getQualitativeContribution(sums, numContributions);            
+        } else if (numContributions > 0 && result != -1){
+            tempResult= getQualitativeContribution(sums, numContributions);
+            result = contribTable2[result][tempResult];
         }
     
         if (depMinLabel != null) {
             QualitativeLabel currLabel = null;
             
-            if(result != 0)
-                currLabel = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue(result);
+            if(result != -1)
+                currLabel = QualitativeLabel.get(result);
             else
                 currLabel = QualitativeLabel.NONE_LITERAL;
             
             if(labelComp.compare(depMinLabel, currLabel) > 0)
-                result = contribMap[depMinLabel.getValue()];
+                result = depMinLabel.getValue();
         }
         
-        return result;
+        return (result != -1 ? contribMap[result] : 0);
     }
     
     private int getQualitativeContribution(int[] sums, int numRead) {
-        int toRet = 0;
+        int toRet = -1;
         if(numRead > 1) {
             int ns = sums[S];
             int nws = sums[WS];
@@ -284,11 +287,11 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             int w3 = getW3(nc, nu);
             
             int ei = ( w3 == -1 ? contribTable2[w1][w2] : w3);
-            toRet = contribMap[ei];   
+            toRet = ei;   
         } else {
             for(int i = 0; i < sums.length; i++) {
                 if(sums[i] > 0)
-                    toRet= contribMap[i];
+                    toRet= i;
             }
         }        
         return toRet;
@@ -375,8 +378,8 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             }
         }
         
-            
-        return getQualitativeContribution(sums, total);
+        int result = getQualitativeContribution(sums, total);
+        return (result != -1 ? contribMap[result] : 0);
         
     }
 

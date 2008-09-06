@@ -159,23 +159,15 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             result = decompositionValue;
         }
         if (contributionValues.length > 0){
-            int numDenied = 0;
-            int numSatisfied = 0;
+            
+            boolean hasSatisfy = (result==100);
+            boolean hasDeny = (result==-100);
             int contribValue = 0;
             
             for (int i=0;i<contribArrayIt;i++){
-                if (contributionValues[i] == 100){
-                    numSatisfied++;
-                } else if(contributionValues[i] == -100){
-                    numDenied++;
-                }
+                if (contributionValues[i] == 100) hasSatisfy = true;
+                if (contributionValues[i] == -100) hasDeny = true;
                 contribValue += contributionValues[i];
-            }
-            
-            if (contribValue > (100 - StrategyEvaluationPreferences.getTolerance()) && numSatisfied == 0){
-                contribValue = 100 - StrategyEvaluationPreferences.getTolerance();
-            } else if (contribValue < (-100 + StrategyEvaluationPreferences.getTolerance()) && numDenied == 0){
-                contribValue = -100 + StrategyEvaluationPreferences.getTolerance();
             }
             result = result + contribValue;
             
@@ -183,6 +175,17 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 result = (result/Math.abs(result))*100;
             }
             
+            if (result >= (100 - StrategyEvaluationPreferences.getTolerance()) && !hasSatisfy){
+                if(contribValue > 0)
+                    result = Math.max(decompositionValue, 100 - StrategyEvaluationPreferences.getTolerance());
+                else
+                    result = Math.max(result, 100 - StrategyEvaluationPreferences.getTolerance());
+            } else if (result <= (-100 + StrategyEvaluationPreferences.getTolerance()) && !hasDeny) {
+                if(contribValue < 0)
+                    result = Math.min(decompositionValue, -100 + StrategyEvaluationPreferences.getTolerance());
+                else
+                    result = Math.min(result, -100 + StrategyEvaluationPreferences.getTolerance());
+            }
         }
         if ((dependencyValue <= 100) && (result > dependencyValue)){
             result = dependencyValue;
@@ -210,10 +213,12 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     IntentionalElement element = elementRef.getDef();
                     int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
                     int importance = element.getImportanceQuantitative();
+                    if (importance != 0){
+                        float deltaEval = ((float)evaluation)*(((float)importance)/100f);
+                        resultEval += deltaEval;
+                        total++;
+                    }
                     
-                    float deltaEval = ((float)evaluation)*(((float)importance)/100f);
-                    resultEval += deltaEval;
-                    total++;
                        
                 }
             }

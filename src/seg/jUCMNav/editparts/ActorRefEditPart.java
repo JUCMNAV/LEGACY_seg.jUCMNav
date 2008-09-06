@@ -196,9 +196,13 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 if(evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
                     evaluationLabel.setText(evaluation);
                 }
+                evaluationLabel.setLocation(getActorFigure().getLocation());
+                evaluationLabel.setVisible(true);
                 
                 if(evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
                     
+                    if(evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE)
+                        evaluationLabel.setText(null);
                     int evalInt = Integer.parseInt(evaluation);
                     //Set the label icon
                     QualitativeLabel ql = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue((evalInt));
@@ -228,6 +232,8 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                         
                     }
                     evaluationLabel.setIcon(evaluationImg);
+                }else {
+                    evaluationLabel.setIcon(null);
                 } 
                 
                 

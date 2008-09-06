@@ -480,6 +480,8 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             } else if(feature.getEType().getInstanceClass() == QualitativeLabel.class) {
             	QualitativeLabel label = QualitativeLabel.get(((Integer)value).intValue());
             	EvaluationStrategyManager.getInstance().setIntentionalElementQualitativeEvaluation(def, label);
+            } else {
+                super.setPropertyValue(id, value);
             }
         } else if (feature.getContainerClass() == KPIEvalValueSet.class) {
             // The feature should be a number, except the unit which is String
@@ -488,7 +490,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 EvaluationStrategyManager.getInstance().setKPIEvalValueSet(def, feature, temp.doubleValue());
             } else if (feature.getEType().getInstanceClass() == String.class) {
                 EvaluationStrategyManager.getInstance().setKPIEvalValueSetUnit(def, feature, (String) value);
-            }
+            } 
         } else if(feature.getContainerClass() == IntentionalElement.class) {
             if (feature.getEType().getInstanceClass() == ImportanceType.class) {
                 ImportanceType temp = ImportanceType.get(((Integer)value).intValue());
@@ -496,7 +498,10 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             } else if (feature.getEType().getInstanceClass() == int.class) {
                 Integer temp = new Integer(Integer.parseInt((String) value));
                 EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance(def, temp.intValue());
-            }            
+            } else {
+                super.setPropertyValue(id, value);
+            }
+            
         } else if (feature.getName() == "name") { //$NON-NLS-1$
             String message = URNNamingHelper.isNameValid(urn, (URNmodelElement) object, value.toString());
 

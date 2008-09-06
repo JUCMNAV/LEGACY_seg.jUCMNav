@@ -315,7 +315,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
 //                    img = null;
 //                }
                 
-                //Set the icon
+                //Set the icon            
                 if (type.equals("Make")){ //$NON-NLS-1$
                     img = (JUCMNavPlugin.getImage( "icons/Make.gif")); //$NON-NLS-1$
                 } else if (type.equals("Help")){ //$NON-NLS-1$
