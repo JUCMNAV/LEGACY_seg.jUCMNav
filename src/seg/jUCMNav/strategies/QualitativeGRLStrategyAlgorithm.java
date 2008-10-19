@@ -299,7 +299,6 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     
     /**
      * Gets the evaluation value of the first sets of evaluations. 
-     * @author Sepideh Ghanavati
      *
      */
     private int getW1(int nws, int nwd) {

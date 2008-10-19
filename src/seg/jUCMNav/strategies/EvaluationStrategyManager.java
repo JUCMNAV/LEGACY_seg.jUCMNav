@@ -363,8 +363,7 @@ public class EvaluationStrategyManager {
     
     /**
      * Synchronizes the quantitative evaluation to the qualitative evaluation
-     * @param eval evaluation model for the intentional element being synchronized
-     * @param value qualitative evaluation value of the intentional element
+     * @param element the intentional element being synchronized
      * 
      */
     private void syncIntentionalElementQualitativeImportance(IntentionalElement element) {
@@ -465,7 +464,6 @@ public class EvaluationStrategyManager {
     /**
      * Synchronizes the quantitative evaluation to the qualitative evaluation
      * @param eval evaluation model for the intentional element being synchronized
-     * @param value qualitative evaluation value of the intentional element
      * 
      */
     private void syncIntentionalElementEvaluation(Evaluation eval) {
