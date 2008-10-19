@@ -204,7 +204,7 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 else
                     result = Math.max(result, 100 - StrategyEvaluationPreferences.getTolerance());
             } else if (result <= (-100 + StrategyEvaluationPreferences.getTolerance()) && !hasDeny) {
-                if(contribValue < 0)
+                if( (contribValue) < 0 && (decompositionValue > -10000) ) // Need to consider that there might be no decomposition
                     result = Math.min(decompositionValue, -100 + StrategyEvaluationPreferences.getTolerance());
                 else
                     result = Math.min(result, -100 + StrategyEvaluationPreferences.getTolerance());
