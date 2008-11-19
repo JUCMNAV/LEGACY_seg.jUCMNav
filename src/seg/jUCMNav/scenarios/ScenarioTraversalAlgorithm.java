@@ -158,6 +158,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 	}
 	
 	/* (non-Javadoc)
+	 * Run all scenarios except those in the special Init group
      * @see seg.jUCMNav.scenarios.IScenarioTraversalAlgorithm#traverse()
      */
 	public void traverse() throws TraversalException {
@@ -170,16 +171,19 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 			if (ucmspec != null) {
 				for (Iterator iter = ucmspec.getScenarioGroups().iterator(); iter.hasNext();) {
 					ScenarioGroup group = (ScenarioGroup) iter.next();
-					for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
-						ScenarioDef scen = (ScenarioDef) iterator.next();
-						env = (UcmEnvironment) initenv.clone();
-						resp = traverse_scenario(scen);
-						// abort
-						if (resp.getError() != null) {
-
-							SyntaxChecker.refreshProblemsView(warnings);
-
-							throw new TraversalException(resp.getError());
+						if (group.getName().compareToIgnoreCase("Init") != 0){
+                        // This is not the special Init group
+						for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
+							ScenarioDef scen = (ScenarioDef) iterator.next();
+							env = (UcmEnvironment) initenv.clone();
+							resp = traverse_scenario(scen);
+							// abort
+							if (resp.getError() != null) {
+	
+								SyntaxChecker.refreshProblemsView(warnings);
+	
+								throw new TraversalException(resp.getError());
+							}
 						}
 					}
 				}
