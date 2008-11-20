@@ -304,21 +304,21 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                {
 	                    String color;
 	                    if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE){
-	                        color = "255,255,0"; //$NON-NLS-1$
+	                        color = "255,255,127"; //$NON-NLS-1$
 	                    } else if(evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT) {
-	                    	color = "159,169,252"; //$NON-NLS-1$
+	                    	color = "0,255,255"; //$NON-NLS-1$
 	                    } else if(evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
-	                    	color = "255,255,255"; //$NON-NLS-1$
+	                    	color = "192,192,192"; //$NON-NLS-1$
 	                    } else {
-	                        int partial = (Math.abs((Math.abs(evaluation.getEvaluation())-IGRLStrategyAlgorithm.SATISFICED))*255/IGRLStrategyAlgorithm.SATISFICED);
+	                        int partial = (Math.abs((Math.abs(evaluation.getEvaluation())-IGRLStrategyAlgorithm.SATISFICED))*160/IGRLStrategyAlgorithm.SATISFICED) + 96;
 	                        if (evaluation.getEvaluation() < IGRLStrategyAlgorithm.NONE){
-	                            color = "255," + partial + ",0"; //$NON-NLS-1$ //$NON-NLS-2$
+	                            color = "255," + partial + ",96"; //$NON-NLS-1$ //$NON-NLS-2$
 	                        } else{
-	                            color = partial + ",255,0"; //$NON-NLS-1$
+	                            color = partial + ",255,96"; //$NON-NLS-1$
 	                        }
 	                    }
-	                    ((IntentionalElementFigure) figure).setColors("75,75,75", color, true); //$NON-NLS-1$
-	                }   
+	                    ((IntentionalElementFigure) figure).setColors("0,0,0", color, true); //$NON-NLS-1$
+	                }  
 	                
 	                int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
 
@@ -333,20 +333,12 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                
 	                Point position = getNodeFigure().getLocation();
 	                position.y = position.y -16;
-	                // position.x = position.x + getNodeFigure().getBounds().width;
 	                
-	                // Take zoom facrtor into consideration to fix the label position
+	                // Take zoom factor into consideration to fix the label position
 	                double zoomLevel = ((ZoomManager) ((ScrollingGraphicalViewer) getViewer()).getProperty(ZoomManager.class.toString())).getZoom();
 	                
-//	                position.x = (int) (position.x * zoomLevel);
-//	                position.y = (int) (position.y * zoomLevel);
 	                evaluationLabel.setLocation(position);
 	                evaluationLabel.setVisible(true);
-	                
-//	                if (evaluationImg != null) {
-//	                    evaluationImg.dispose();
-//	                    evaluationImg = null;
-//	                }
 	                
 	                if(evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
 		                //Set the label icon
