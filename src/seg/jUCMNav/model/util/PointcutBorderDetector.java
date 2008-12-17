@@ -29,25 +29,30 @@ public class PointcutBorderDetector {
 		if ((node instanceof StartPoint || node instanceof EndPoint)) {
 			// only unnamed start or end point can be used as a border for a pointcut expression
 			if (((UCMmodelElement) node).getName().trim().equals("")) { //$NON-NLS-1$
-	    		List bindings = ((UCMmap) ((IURNNode) node).getDiagram()).getParentStub();
-	    		boolean pluggedIntoPointcutStub = false;
-	    		boolean pluggedIntoNormalStub = false;
-	    		if (bindings != null) {
-	    			for (Iterator iter = bindings.iterator(); iter.hasNext();) {
-	    				PluginBinding binding = (PluginBinding) iter.next();
-	    				Stub stub = binding.getStub(); 
-	    				if (stub != null) {
-	    					if (stub.isPointcut())
-	    						pluggedIntoPointcutStub = true;
-	    					else
-	    						pluggedIntoNormalStub = true;
-	    				}
-	    			}
-	    		}
-	    		// node must be plugged into at least one pointcut stub and no normal stubs
-	    		isPointcutBorder = pluggedIntoPointcutStub && !pluggedIntoNormalStub;
-	    	}
-	    }
+				UCMmap ucm = (UCMmap) (node).getDiagram();
+				if (ucm != null) {
+					List bindings = ucm.getParentStub();
+					boolean pluggedIntoPointcutStub = false;
+					boolean pluggedIntoNormalStub = false;
+					if (bindings != null){
+						if (!bindings.isEmpty()) {
+							for (Iterator iter = bindings.iterator(); iter.hasNext();) {
+								PluginBinding binding = (PluginBinding) iter.next();
+								Stub stub = binding.getStub(); 
+								if (stub != null) {
+									if (stub.isPointcut())
+										pluggedIntoPointcutStub = true;
+									else
+										pluggedIntoNormalStub = true;
+								}
+							}
+						}
+					}
+					// node must be plugged into at least one pointcut stub and no normal stubs
+					isPointcutBorder = pluggedIntoPointcutStub && !pluggedIntoNormalStub;
+				}
+			}
+		}
 		return isPointcutBorder;
 	}
 
