@@ -10,6 +10,7 @@ import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.actions.RetargetAction;
 
 import seg.jUCMNav.Messages;
 
@@ -30,6 +31,10 @@ public class UCMActionBarContributor extends ActionBarContributor {
         addRetargetAction(new RedoRetargetAction());
         addRetargetAction(new ZoomInRetargetAction());
         addRetargetAction(new ZoomOutRetargetAction());
+        addRetargetAction((RetargetAction)ActionFactory.COPY.create(getPage().getWorkbenchWindow()));
+        addRetargetAction((RetargetAction)ActionFactory.CUT.create(getPage().getWorkbenchWindow()));
+        addRetargetAction((RetargetAction)ActionFactory.PASTE.create(getPage().getWorkbenchWindow()));
+        
 
     }
 
@@ -42,6 +47,10 @@ public class UCMActionBarContributor extends ActionBarContributor {
         super.contributeToToolBar(toolBarManager);
         toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
         toolBarManager.add(getAction(ActionFactory.REDO.getId()));
+        toolBarManager.add(new Separator());
+        toolBarManager.add(getAction(ActionFactory.COPY.getId()));
+        toolBarManager.add(getAction(ActionFactory.CUT.getId()));
+        toolBarManager.add(getAction(ActionFactory.PASTE.getId()));
         toolBarManager.add(new Separator());
         String[] zoomStrings = new String[] { ZoomManager.FIT_ALL, ZoomManager.FIT_HEIGHT, ZoomManager.FIT_WIDTH };
         toolBarManager.add(new ZoomComboContributionItem(getPage(), zoomStrings));

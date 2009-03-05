@@ -76,6 +76,15 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ActionFactory.REDO.getId());
         manager.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
+        action = getActionRegistry().getAction(ActionFactory.CUT.getId());
+        manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);      
+
+        action = getActionRegistry().getAction(ActionFactory.COPY.getId());
+        manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);      
+
+        action = getActionRegistry().getAction(ActionFactory.PASTE.getId());
+        manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);      
+        
         action = getActionRegistry().getAction(GEFActionConstants.ZOOM_IN);
         manager.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
 
