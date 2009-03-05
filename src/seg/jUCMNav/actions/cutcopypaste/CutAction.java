@@ -24,7 +24,6 @@ public class CutAction extends DeleteAction
 	}
 	
 
-	@Override
 	public void run()
 	{
 		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
