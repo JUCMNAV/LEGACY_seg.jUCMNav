@@ -9,6 +9,7 @@ import grl.GRLGraph;
 import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.IntentionalElementType;
 import grl.StrategiesGroup;
 import grl.kpimodel.IndicatorGroup;
 import grl.kpimodel.KPIInformationElement;
@@ -602,7 +603,11 @@ public class URNNamingHelper {
             
             // Set the name properly for intentional elements. "IntentionalElementXXX" is too long...
             if (o instanceof IntentionalElement) {
-            	ce.setName( ( (IntentionalElement) o).getType().toString() + ce.getId()); //$NON-NLS-1$
+            	// Fix badly named intentional element type Ressource (should have only 1 s...)
+            	if ( ((IntentionalElement) o).getType().getValue() == IntentionalElementType.RESSOURCE)
+            		ce.setName( "Resource" + ce.getId()); //$NON-NLS-1$
+            	else
+            		ce.setName( ( (IntentionalElement) o).getType().toString() + ce.getId()); //$NON-NLS-1$
             }
 
             // Dummy description for beliefs

@@ -415,9 +415,9 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     }
 
     /**
-     * Return the ressource tracker of this editor.
+     * Return the resource tracker of this editor.
      * 
-     * @return The ressource tracker of this editor.
+     * @return The resource tracker of this editor.
      */
     private ResourceTracker getResourceTracker() {
         if (resourceTracker == null)

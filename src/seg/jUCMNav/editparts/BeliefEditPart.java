@@ -22,6 +22,7 @@ import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.GrlNodeFeedbackEditPolicy;
 import seg.jUCMNav.figures.BeliefFigure;
 import seg.jUCMNav.figures.GrlNodeFigure;
+import seg.jUCMNav.figures.util.UrnMetadata;
 import urncore.IURNNode;
 
 /**
@@ -166,17 +167,15 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
  
         setText();
 
+        //Set the tool tip
+        UrnMetadata.setToolTip(getBelief(), getNodeFigure());
+
         if (((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
-            ((BeliefFigure) figure).setColors("75,75,75", "0,0,0", false); //$NON-NLS-1$ //$NON-NLS-2$
+            ((BeliefFigure) figure).setColors("25,25,25", "0,0,0", false); //$NON-NLS-1$ //$NON-NLS-2$
         } else{
             ((BeliefFigure) figure).setColors("0,0,0", "0,0,0", false); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
-        // set information for specific drawing
-        //Line color for belief is gray
-        //((BeliefFigure) figure).setColors("165,165,165", "0,0,0", true);
-
-        //   Make the label recenter itself.
         figure.validate(); 
 
     }
@@ -185,6 +184,8 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
      * Sets the label's text, given its referenced model element.
      */
     private void setText() {
-        getNodeFigure().setEditableText(getBelief().getDescription());
+    	String stereotypes = UrnMetadata.getStereotypes(getBelief());
+    	String description = getBelief().getDescription();
+    	getNodeFigure().setEditableText(description + stereotypes);
     }
 }

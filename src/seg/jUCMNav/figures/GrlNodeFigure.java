@@ -19,6 +19,8 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.figures.util.UrnMetadata;
+
 /**
  * This is a figure representing a GRL node. Extend this class to create GrlNode
  * @author Jean-François Roy
@@ -122,7 +124,7 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
      * @see seg.jUCMNav.figures.LabelElementFigure#getText()
      */
     public String getEditableText() {
-        return textFlow.getText();
+    	return UrnMetadata.removeStereotypes(textFlow.getText());
     }
     
     /**

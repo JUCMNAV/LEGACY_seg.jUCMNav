@@ -6,6 +6,8 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+import seg.jUCMNav.figures.util.UrnMetadata;
+
 /**
  * Figure for UCM Labels; uses an EditableLabel.
  * 
@@ -31,11 +33,7 @@ public class LabelFigure extends Label implements LabelElementFigure {
      * Use this method instead of getText for LabelFigure
      */
     public String getEditableText() {
-        if (!additionalText.equals("")){ //$NON-NLS-1$
-            int sub = super.getText().lastIndexOf("{"); //$NON-NLS-1$
-            return super.getText().substring(0,sub);
-        }
-        return super.getText();
+    	return UrnMetadata.removeStereotypes(super.getText());
     }
     
     /**
@@ -79,7 +77,7 @@ public class LabelFigure extends Label implements LabelElementFigure {
      */
     public void setEditableText(String newText) {
         if (! additionalText.equals("")){ //$NON-NLS-1$
-            super.setText(newText + "{" + additionalText + "}"); //$NON-NLS-1$ //$NON-NLS-2$
+            super.setText(newText + additionalText);
         } else{
             super.setText(newText);
         }

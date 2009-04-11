@@ -28,6 +28,7 @@ import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.ActorFigure;
 import seg.jUCMNav.figures.ColorManager;
+import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 
@@ -82,11 +83,12 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
     protected IFigure createFigure() {
         evaluationLabel = new Label();
         evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
-        evaluationLabel.setVisible(false);
 
         evaluationLabel.setSize(58, 16);
         evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor16.gif")); //$NON-NLS-1$
         evaluationLabel.setIcon(evaluationImg);
+        evaluationLabel.setText("");
+        evaluationLabel.setVisible(true);
         try {
             ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
                     .getChildren().get(0)).add(evaluationLabel);
@@ -110,7 +112,6 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
 //                evaluationImg.dispose();
 //                evaluationImg = null;
 //            }
-            evaluationLabel.setVisible(false);
             // ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
             ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
                     .getChildren().get(0)).remove(evaluationLabel);
@@ -181,23 +182,26 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
             // set information for specific drawing
             if (getActorRef().getContDef() instanceof Actor) {
                 Actor actor = (Actor) getActorRef().getContDef();
+                // Set the tool tip
+                UrnMetadata.setToolTip(actor, figure);
                 if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                     ((ActorFigure) figure).setColors(actor.getLineColor(), actor.getFillColor(), actor.isFilled());
                 } else {
-                    ((ActorFigure) figure).setColors("75,75,75", actor.getFillColor(), actor.isFilled()); //$NON-NLS-1$
+                    ((ActorFigure) figure).setColors("25,25,25", actor.getFillColor(), actor.isFilled()); //$NON-NLS-1$
                 }
 
             }
-            if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
-                evaluationLabel.setVisible(false);
-            } else {
+        	evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor16.gif")); //$NON-NLS-1$
+            evaluationLabel.setText("");
+            
+
+            if (((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                 // Calculate the actor evaluation
                 String evaluation = calculateEvaluation();
                 if(evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
                     evaluationLabel.setText(evaluation);
                 }
                 evaluationLabel.setLocation(getActorFigure().getLocation());
-                evaluationLabel.setVisible(true);
                 
                 if(evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
                     
@@ -209,38 +213,34 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                     switch(ql.getValue()) 
                     {
                     case QualitativeLabel.DENIED:
-                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-D-24x16.gif"));
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-D-24x16.gif"));  //$NON-NLS-1$
                         break;
                     case QualitativeLabel.WEAKLY_DENIED:
-                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-WD-24x16.gif"));
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-WD-24x16.gif")); //$NON-NLS-1$
                         break;
                     case QualitativeLabel.WEAKLY_SATISFIED:
-                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-WS-24x16.gif"));
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-WS-24x16.gif")); //$NON-NLS-1$
                         break;
                     case QualitativeLabel.SATISFIED:
-                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-S-24x16.gif"));
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-S-24x16.gif")); //$NON-NLS-1$
                         break;
                     case QualitativeLabel.CONFLICT:
-                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-C-24x16.gif"));
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-C-24x16.gif")); //$NON-NLS-1$
                         break;
                     case QualitativeLabel.UNKNOWN:
-                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-U-24x16.gif"));
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-U-24x16.gif")); //$NON-NLS-1$
                         break;
                     case QualitativeLabel.NONE:
-                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-N-24x16.gif"));
+                        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor-N-24x16.gif")); //$NON-NLS-1$
                         break;
                         
                     }
-                    evaluationLabel.setIcon(evaluationImg);
-                }else {
-                    evaluationLabel.setIcon(null);
                 } 
                 
-                
-                evaluationLabel.setLocation(getActorFigure().getLocation());
-                evaluationLabel.setVisible(true); 
             }
-            
+            evaluationLabel.setIcon(evaluationImg);
+            evaluationLabel.setLocation(getActorFigure().getLocation());
+
                        
         } catch (NullPointerException e) {
         } // if the figure have been deleted, the root edit part is not accessible anymore

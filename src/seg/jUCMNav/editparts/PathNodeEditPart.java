@@ -47,6 +47,7 @@ import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.TimerFigure;
+import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.model.util.PointcutBorderDetector;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.stub.PluginListDialog;
@@ -524,10 +525,11 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         }
         boolean scenariosActive = ScenarioUtils.getActiveScenario(node)!=null && ScenarioUtils.getTraversalHitCount(node)>0;
         nodeFigure.setTraversed(scenariosActive);
+        // Set tool tip or hit count.
         if (ScenarioUtils.getActiveScenario(node)!=null) 
         	nodeFigure.setToolTip(new Label(Messages.getString("PathNodeEditPart.Hits") + ScenarioUtils.getTraversalHitCount(node))); //$NON-NLS-1$
         else
-        	nodeFigure.setToolTip(null);
+            UrnMetadata.setToolTip(node, nodeFigure);
 
         // check if path node is used as a border for a pointcut expression
         nodeFigure.setIsPointcutBorder(PointcutBorderDetector.detectPointcutBorder(node));

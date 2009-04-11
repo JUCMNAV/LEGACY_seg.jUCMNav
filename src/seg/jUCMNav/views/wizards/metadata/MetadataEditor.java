@@ -1,5 +1,7 @@
 package seg.jUCMNav.views.wizards.metadata;
 
+import grl.Actor;
+import grl.ActorRef;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.kpimodel.KPIInformationElement;
@@ -29,9 +31,11 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.metadata.ChangeMetadataCommand;
 import ucm.map.ComponentRef;
+import ucm.map.RespRef;
 import urn.URNspec;
 import urncore.Component;
 import urncore.Metadata;
+import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 /**
@@ -113,16 +117,22 @@ public class MetadataEditor extends Wizard {
         // This code prevents the addition of metadata on *references* to intentional elements
         // and components. This was also prevented for responsibility references in the past
         // but this had to be allowed for CSM export.
-        // Daniel is actually not sure why this should be prevented...
+        // CHANGED on April 10, 2009: No longer allowed for resp. references... Too annoying.
         if (defaultSelected instanceof IntentionalElementRef) {
             IntentionalElement intentionalElem = ((IntentionalElementRef) defaultSelected).getDef();
             this.defaultSelected = intentionalElem;
+        } else if (defaultSelected instanceof RespRef) {
+        	Responsibility respElem = ((RespRef) defaultSelected).getRespDef();
+            this.defaultSelected = respElem;
         } else if (defaultSelected instanceof KPIInformationElementRef) {
             KPIInformationElement kpiInformationElem = ((KPIInformationElementRef) defaultSelected).getDef();
             this.defaultSelected = kpiInformationElem;
         } else if (defaultSelected instanceof ComponentRef) {
             Component compElem = (Component) ((ComponentRef) defaultSelected).getContDef();
             this.defaultSelected = compElem;
+        } else if (defaultSelected instanceof ActorRef) {
+            Actor actorElem = (Actor) ((ActorRef) defaultSelected).getContDef();
+            this.defaultSelected = actorElem;
         } else {
             this.defaultSelected = defaultSelected;
         }
@@ -155,25 +165,12 @@ public class MetadataEditor extends Wizard {
                             // This code prevents the addition of metadata on *references* to intentional elements
                             // and components. This was also prevented for responsibility references in the past
                             // but this had to be allowed for CSM export.
-                            // Daniel is actually not sure why this should be prevented...
+                            // CHANGED on April 10, 2009: No longer allowed for resp. references... Too annoying.
                             if (urnelem instanceof IntentionalElementRef) {
-                                IntentionalElement intentionalElem = ((IntentionalElementRef) urnelem).getDef();
-
-                                if (intentionalElem != null && !v.contains(intentionalElem)) {
-                                    v.add(intentionalElem);
-                                }
                             } else if (urnelem instanceof KPIInformationElementRef) {
-                                KPIInformationElement kpiInformationElem = ((KPIInformationElementRef) urnelem).getDef();
-
-                                if (kpiInformationElem != null && !v.contains(kpiInformationElem)) {
-                                    v.add(kpiInformationElem);
-                                }
+                            } else if (urnelem instanceof ActorRef) {
                             } else if (urnelem instanceof ComponentRef) {
-                                Component compElem = (Component) ((ComponentRef) urnelem).getContDef();
-
-                                if (compElem != null && !v.contains(compElem)) {
-                                    v.add(compElem);
-                                }
+                            } else if (urnelem instanceof RespRef) {
                             } else {
                                 v.add(urnelem);
                             }

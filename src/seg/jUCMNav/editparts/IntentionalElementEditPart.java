@@ -34,6 +34,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.directEditPolicy.GrlNodeDirectEditPolicy;
 import seg.jUCMNav.editpolicies.directEditPolicy.IntentionalElementNodeEditPolicy;
 import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
@@ -41,11 +42,14 @@ import seg.jUCMNav.editpolicies.feedback.GrlNodeFeedbackEditPolicy;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.IntentionalElementFigure;
+import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
+import urn.URNlink;
 import urncore.IURNConnection;
 import urncore.IURNNode;
+import urncore.Metadata;
 
 /**
  * EditPart for all IntentialElementRef.
@@ -128,10 +132,6 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      */
     public void deactivate() {
         if (isActive()){
-//            if (evaluationImg != null) {
-//                evaluationImg.dispose();
-//                evaluationImg = null;
-//            }
             // bug 435: ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
             ((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).remove(evaluationLabel);
             if (getNode() instanceof IntentionalElementRef && (getNode()).getDef() != null)
@@ -142,7 +142,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     }
     
     /**
-     * When nodes are dragged in GEF, they explictly remove connections from being possible drop targets. By overriding DragEditPartsTracker, we allow this
+     * When nodes are dragged in GEF, they explicitly remove connections from being possible drop targets. By overriding DragEditPartsTracker, we allow this
      * behaviour.
      * 
      * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
@@ -243,7 +243,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         int featureId = notification.getFeatureID(GrlPackage.class);
         if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE || 
                 featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY || 
-                featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY){
+                featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY ||
+                featureId == GrlPackage.INTENTIONAL_ELEMENT__IMPORTANCE){
             EvaluationStrategyManager.getInstance().calculateEvaluation();
             
             for (Iterator iter = getNode().getDef().getLinksDest().iterator(); iter.hasNext();) {
@@ -282,17 +283,36 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         figure.setLocation(location);
         
         setText();
-
+        
         // set information for specific drawing
         if ((getNode()).getDef() != null && 
                 ((getNode()).getDef() instanceof IntentionalElement)) {
             IntentionalElement elem = (getNode()).getDef();
             ((IntentionalElementFigure) figure).setType(elem.getType().getValue());
+
+            //Set the tool tip
+            UrnMetadata.setToolTip(elem, getNodeFigure());
+
             //Set the line color and fill color. Option only available in design view
             if (getParent()==null || !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
                 ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
                 ((IntentionalElementPropertySource)getPropertySource()).setEvaluationStrategyView(false);
-                evaluationLabel.setVisible(false);
+                if (elem.getFromLinks().size() + elem.getToLinks().size()>0)
+                {
+                    evaluationLabel.setText("");
+                	evaluationLabel.setIcon(JUCMNavPlugin.getImage( "icons/urnlink.gif")); //$NON-NLS-1$
+                    Point position = getNodeFigure().getLocation();
+	                position.y = position.y -16;
+	                position.x = position.x -8;
+	                evaluationLabel.setLocation(position);
+                    evaluationLabel.setVisible(true);
+                }
+                else
+                {
+                	evaluationLabel.setIcon(null);
+                    evaluationLabel.setVisible(false);
+                }
+                
             } else { 
                 //Set strategy view to true
                 ((IntentionalElementPropertySource)getPropertySource()).setEvaluationStrategyView(true);
@@ -322,7 +342,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                
 	                int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
 
-	                String text = (evaluation.getStrategies() != null ? "*" : "");
+	                String text = (evaluation.getStrategies() != null ? "(*)" : "");
 	                
 	                if(evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE) {
 		                String evalStr = String.valueOf(evaluation.getEvaluation());
@@ -359,15 +379,16 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 		                }
 	                    evaluationLabel.setIcon(evaluationImg);
 	                } else {
-	                	evaluationLabel.setIcon(null);
+	                	if (elem.getFromLinks().size() + elem.getToLinks().size() >0)
+	                		evaluationLabel.setIcon(JUCMNavPlugin.getImage( "icons/urnlink.gif")); //$NON-NLS-1$
+	                	else
+	                		evaluationLabel.setIcon(null);
 	                }
                 }
                 refreshConnections();
-            }
-            
+            }       
         }
 
-        
         
         //   Make the label recenter itself.
         figure.validate(); 
@@ -394,11 +415,13 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     }
     
     /**
-     * Sets the label's text, given its referenced model element.
+     * Sets the label's text, given its referenced model element. Add stereotypes if any.
      */
     private void setText() {
         if (getNode().getDef() != null){
-            getNodeFigure().setEditableText(getNode().getDef().getName());
+        	String stereotypes = UrnMetadata.getStereotypes(getNode().getDef());
+        	String name = getNode().getDef().getName();
+            getNodeFigure().setEditableText(name + stereotypes);
         }
     }
 }

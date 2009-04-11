@@ -13,6 +13,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.editpolicies.element.ComponentRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
 import seg.jUCMNav.figures.ComponentRefFigure;
+import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.UCMmap;
@@ -74,7 +75,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         if (isActive() && getComponentRef().getContDef() != null)
             getComponentRef().getContDef().eAdapters().remove(this);
          
-        //stop listenening to reference
+        //stop listening to reference
         super.deactivate();
 
     }
@@ -127,14 +128,11 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
 
         // set information for specific drawing
         if (getComponentRef().getContDef() instanceof Component) {
-            Component comp = (Component) getComponentRef().getContDef();
-            ((ComponentRefFigure) figure).setKind(comp.getKind().getValue());
-//            if (!((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
-                ((ComponentRefFigure) figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
-//            } else { 
-//                ((ComponentRefFigure) figure).setColors("75,75,75", comp.getFillColor(), comp.isFilled());
-//            }
-            
+        	Component comp = (Component) getComponentRef().getContDef();
+        	((ComponentRefFigure) figure).setKind(comp.getKind().getValue());
+        	((ComponentRefFigure) figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
+            // Set the tool tip
+            UrnMetadata.setToolTip(comp, figure);
         }
 
         //   Make the label recenter itself.
