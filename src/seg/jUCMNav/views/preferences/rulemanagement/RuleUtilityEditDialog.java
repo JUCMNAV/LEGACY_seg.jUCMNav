@@ -1,4 +1,4 @@
-package seg.jUCMNav.views.preferences.staticSemantic;
+package seg.jUCMNav.views.preferences.rulemanagement;
 
 import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.jface.dialogs.Dialog;

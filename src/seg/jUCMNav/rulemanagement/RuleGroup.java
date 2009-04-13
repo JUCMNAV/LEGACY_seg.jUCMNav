@@ -1,7 +1,8 @@
-package seg.jUCMNav.staticSemantic;
+package seg.jUCMNav.rulemanagement;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * This class represents a rule group.  A rule group can contains any number of rules and a rule can be in any rule group.
@@ -22,7 +23,7 @@ public class RuleGroup {
     /**
      * Constructs a rule group with a group name
      */
-    RuleGroup(String name)
+   public RuleGroup(String name)
     {
         this.name = name;
         members = new ArrayList();

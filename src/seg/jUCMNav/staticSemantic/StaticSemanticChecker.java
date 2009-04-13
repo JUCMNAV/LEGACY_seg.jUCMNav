@@ -16,7 +16,12 @@ import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.helper.OCLHelper;
 
 import seg.jUCMNav.Messages;
-import urn.*;
+import seg.jUCMNav.rulemanagement.Rule;
+import seg.jUCMNav.rulemanagement.RuleManagementCheckingMessage;
+import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
+import seg.jUCMNav.rulemanagement.RuleManagementUtil;
+import urn.URNspec;
+import urn.UrnPackage;
 
 /**
  * This class encapuslates the rule checking action.
@@ -68,7 +73,8 @@ public class StaticSemanticChecker {
                         OCL ocl;
 
                         ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
-                        OCLInput lib = new OCLInput(this.getClass().getResourceAsStream("library.ocl")); //$NON-NLS-1$
+                       // OCLInput lib = new OCLInput(this.getClass().getResourceAsStream("library.ocl")); //$NON-NLS-1$
+                        OCLInput lib = new OCLInput(RuleManagementDefinitionManager.class.getResourceAsStream("library.ocl")); //$NON-NLS-1$
                         ocl.parse(lib);
 //                        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
                         OCLHelper helper = ocl.createOCLHelper();
@@ -76,7 +82,7 @@ public class StaticSemanticChecker {
                         EClassifier e = (EClassifier) ocl.getEnvironment().lookupClassifier(name);
                         if (e == null) {
                             String s = Messages.getString("StaticSemanticChecker.Rule") + r.getName() + Messages.getString("StaticSemanticChecker.ClassifierNotFound") + r.getClassifier() + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                            problems.add(new StaticCheckingMsg(s));
+                            problems.add(new RuleManagementCheckingMessage(s));
                         } else {
 
                             for(int k=0;k<r.getUtilities().size();++k)
@@ -113,7 +119,7 @@ public class StaticSemanticChecker {
                                 {
                                     s = r.getName();
                                 }
-                                problems.add(new StaticCheckingMsg(s, o));
+                                problems.add(new RuleManagementCheckingMessage(s, o));
                             }
                             if (violatedObjs.size()>0) nViolated++;
                         }
@@ -121,16 +127,16 @@ public class StaticSemanticChecker {
                         String s = Messages.getString("StaticSemanticChecker.ParseError") + e.getLocalizedMessage(); //$NON-NLS-1$
                         s += "\n\t" + r.getContext(); //$NON-NLS-1$
                         s += "\n\t" + r.getQuery(); //$NON-NLS-1$
-                        problems.add(new StaticCheckingMsg(s));
+                        problems.add(new RuleManagementCheckingMessage(s));
                     }
                 }
             }
         } catch (Exception e) {
-            problems.add(new StaticCheckingMsg(e.getLocalizedMessage()));
+            problems.add(new RuleManagementCheckingMessage(e.getLocalizedMessage()));
         }
         //A summary information message is added
         String sumMsg = String.valueOf(nTotal) + Messages.getString("StaticSemanticChecker.RulesChecked")+ nViolated + Messages.getString("StaticSemanticChecker.Violated"); //$NON-NLS-1$ //$NON-NLS-2$
-        StaticCheckingMsg summary = new StaticCheckingMsg(sumMsg);
+        RuleManagementCheckingMessage summary = new RuleManagementCheckingMessage(sumMsg);
         summary.setInfo();
         problems.insertElementAt(summary, 0);
         return res;

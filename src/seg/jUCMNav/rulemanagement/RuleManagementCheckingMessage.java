@@ -1,4 +1,4 @@
-package seg.jUCMNav.staticSemantic;
+package seg.jUCMNav.rulemanagement;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
  * @author Byrne Yan
  *
  */
-public class StaticCheckingMsg {
+public class RuleManagementCheckingMessage {
 private	String message;
 private EObject location;
 private int severity;
@@ -16,7 +16,7 @@ private int severity;
 /**
  * Constructs a static checking message with a string of message
  */
-public StaticCheckingMsg(String msg)
+public RuleManagementCheckingMessage(String msg)
 {
 	this.setMessage(msg);
 	this.location = null;
@@ -28,7 +28,7 @@ public StaticCheckingMsg(String msg)
  * @param msg   a string of the error message
  * @param loc   an object on which the error occurs
  */
-public StaticCheckingMsg(String msg, EObject loc)
+public RuleManagementCheckingMessage(String msg, EObject loc)
 {
 	this.setMessage(msg);
 	this.setLocation(loc);

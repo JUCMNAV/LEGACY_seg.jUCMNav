@@ -1,7 +1,7 @@
 /**
  * 
  */
-package seg.jUCMNav.views.preferences.staticSemantic;
+package seg.jUCMNav.views.preferences.rulemanagement;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.window.IShellProvider;
@@ -23,14 +23,16 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
+import seg.jUCMNav.rulemanagement.Rule;
+import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
+
 
 /**
  * @author Byrne
  * 
  */
 
-import seg.jUCMNav.staticSemantic.Rule;
+
 /**
  * This dialog provides the GUI of creating 1 new static checking rule or editing an existing rule. In this dialog, users can change the rule name, rule classifier, contxt expression,invariant expression and rule description. Furthermore, a user can open a utility editor from this dialog to create or edit a utility.
  *  
@@ -60,7 +62,8 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     /**
      * The rule invariant expression
      */
-    private Text txtCheck;
+    protected Text txtCheck;
+    
     /**
      * The rule description
      */
@@ -69,18 +72,22 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     private Button btnNew;
     private Button btnEdit;
     private Button btnDelete;
+    
+    private RuleManagementDefinitionManager defferManager;
 
     /**
      * A table that contains all utilities
      */
     private Table table;
 
-    public RuleEditDialog(Shell parentShell) {
+    public RuleEditDialog(Shell parentShell, RuleManagementDefinitionManager defferManager) {
         super(parentShell);
+        this.defferManager = defferManager;
     }
 
-    public RuleEditDialog(IShellProvider parentShell) {
+    public RuleEditDialog(IShellProvider parentShell, RuleManagementDefinitionManager defferManager) {
         super(parentShell);
+        this.defferManager = defferManager;
     }
     /**
      * Create all GUI components. 
@@ -107,16 +114,21 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         txtContext.setSize(200, SWT.DEFAULT);
 
         Label lblQuery = new Label(c1, SWT.LEFT);
-        lblQuery.setText(Messages.getString("RuleEditDialog.QueryExpression")); //$NON-NLS-1$
+        lblQuery.setText(getQueryLabel()); //$NON-NLS-1$
         txtQuery = new Text(c1, SWT.MULTI | SWT.BORDER);
         txtQuery.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
         txtQuery.setSize(600, SWT.DEFAULT);
-
+        
+        // create the GUI for constraint
+        createConstraintGUI(c1);
+        
+        /*
         Label lblCheck = new Label(c1, SWT.LEFT);
         lblCheck.setText(Messages.getString("RuleEditDialog.ConstraintExpression")); //$NON-NLS-1$
         txtCheck = new Text(c1, SWT.MULTI | SWT.BORDER);
         txtCheck.setLayoutData(new GridData(GridData.FILL_BOTH));
         txtCheck.setSize(600, 600);
+        */
 
         Label lblDesc = new Label(c1, SWT.LEFT);
         lblDesc.setText(Messages.getString("RuleEditDialog.RuleDescription")); //$NON-NLS-1$
@@ -157,6 +169,18 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         init();
         return composite;
     }
+    
+    protected String getQueryLabel(){
+    	return Messages.getString("RuleEditDialog.QueryExpression");
+    }
+    
+    protected void createConstraintGUI(Composite c1){
+    	Label lblCheck = new Label(c1, SWT.LEFT);
+        lblCheck.setText(Messages.getString("RuleEditDialog.ConstraintExpression")); //$NON-NLS-1$
+        txtCheck = new Text(c1, SWT.MULTI | SWT.BORDER);
+        txtCheck.setLayoutData(new GridData(GridData.FILL_BOTH));
+        txtCheck.setSize(600, 600);
+    }
 
     /**
      * Fill contents of components based on the rule object associated with this dailog.
@@ -166,7 +190,10 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             txtName.setText(rule.getName());
             txtContext.setText(rule.getClassifier());
             txtQuery.setText(rule.getContext());
-            txtCheck.setText(rule.getQuery());
+            
+            if(txtCheck != null){
+            	txtCheck.setText(rule.getQuery());
+            }
             txtDesc.setText(rule.getDescription());
             for (int i = 0; i < rule.getUtilities().size(); ++i) {
                 String s = (String) rule.getUtilities().get(i);
@@ -210,7 +237,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
 
         if (rule == null)// create mode
         {
-            Rule r = StaticSemanticDefMgr.instance().createRule(txtName.getText(), txtContext.getText(), txtQuery.getText(), txtCheck.getText(), false,
+            Rule r = defferManager.createRule(txtName.getText(), txtContext.getText(), txtQuery.getText(), txtCheck == null ? "" : txtCheck.getText(), false,
                     txtDesc.getText());
             if (r == null) {
                 MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
@@ -236,7 +263,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         {
             if (rule.getName().compareTo(txtName.getText()) != 0)// name is changed
             {
-                Rule r = StaticSemanticDefMgr.instance().lookupRule(txtName.getText());
+                Rule r = defferManager.lookupRule(txtName.getText());
                 if (r != null) {
                     MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
                     msg.setMessage(Messages.getString("RuleEditDialog.RuleNameDuplicates")); //$NON-NLS-1$
@@ -245,7 +272,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
                     return;
                 }
             }
-            Rule r = StaticSemanticDefMgr.instance().createRule("", txtContext.getText(), this.txtQuery.getText(), this.txtCheck.getText(), false, //$NON-NLS-1$
+            Rule r = defferManager.createRule("", txtContext.getText(), this.txtQuery.getText(), this.txtCheck == null ? "" :this.txtCheck.getText(), false, //$NON-NLS-1$
                     txtDesc.getText());
             for (int i = 0; i < table.getItems().length; ++i) {
                 TableItem item = table.getItems()[i];
@@ -263,7 +290,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             rule.setClassifier(txtContext.getText());
             rule.setDescription(txtDesc.getText());
             rule.setContext(txtQuery.getText());
-            rule.setQuery(txtCheck.getText());
+            rule.setQuery(txtCheck == null ? "" :txtCheck.getText());
             for (int i = 0; i < table.getItems().length; ++i) {
                 TableItem item = table.getItems()[i];
                 rule.addUtility(item.getText());

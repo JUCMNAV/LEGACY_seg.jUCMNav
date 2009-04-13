@@ -1,4 +1,4 @@
-package seg.jUCMNav.views.preferences.staticSemantic;
+package seg.jUCMNav.views.preferences.rulemanagement;
 
 import java.util.List;
 
@@ -19,9 +19,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.staticSemantic.Rule;
-import seg.jUCMNav.staticSemantic.RuleGroup;
-import seg.jUCMNav.staticSemantic.StaticSemanticDefMgr;
+import seg.jUCMNav.rulemanagement.Rule;
+import seg.jUCMNav.rulemanagement.RuleGroup;
+import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
+
 /**
  * This class provides the GUI of creating a new group or editing an existing group. The dialog is resizable.
  * 
@@ -32,6 +33,7 @@ public class GroupEditDialog extends Dialog {
 
     private static final int BTN_ID_AddToGroup = IDialogConstants.CANCEL_ID + 1;
     private static final int BTN_ID_RemoveFromGroup = IDialogConstants.CANCEL_ID + 3;
+    private RuleManagementDefinitionManager defferManager;
 
     /**
      * A table that contains all rules in the group
@@ -51,14 +53,16 @@ public class GroupEditDialog extends Dialog {
      */
     private Text txtName;
     
-    public GroupEditDialog(Shell parentShell) {
+    public GroupEditDialog(Shell parentShell, RuleManagementDefinitionManager defferManager) {
         super(parentShell);
         this.setShellStyle(this.getShellStyle() | SWT.RESIZE);
+        this.defferManager = defferManager;
     }
 
-    public GroupEditDialog(IShellProvider parentShell) {
+    public GroupEditDialog(IShellProvider parentShell, RuleManagementDefinitionManager defferManager) {
         super(parentShell);
         this.setShellStyle(this.getShellStyle() | SWT.RESIZE);
+        this.defferManager = defferManager;
     }
     /**
      * Close the dialog without saving the modification of group
@@ -147,7 +151,7 @@ public class GroupEditDialog extends Dialog {
                 appendRule(members,(Rule) rules.get(i));
             }
         }
-        List allRules = StaticSemanticDefMgr.instance().getRules();
+        List allRules = defferManager.getRules();
         for(int i=0;i<allRules.size();++i)
         {
             Rule r = (Rule) allRules.get(i);
@@ -189,7 +193,7 @@ public class GroupEditDialog extends Dialog {
             return;
         }
         if( (group==null || group.getName().compareTo(txtName.getText())!=0) 
-                && StaticSemanticDefMgr.instance().lookupGroup(txtName.getText())!=null)
+                && defferManager.lookupGroup(txtName.getText())!=null)
         {
             MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
             msg.setMessage(Messages.getString("GroupEditDialog.GroupNameDuplicates")); //$NON-NLS-1$
@@ -199,7 +203,7 @@ public class GroupEditDialog extends Dialog {
         }
         if(group==null)//create mode
         {
-            group = StaticSemanticDefMgr.instance().creatRuelGroup(txtName.getText());                    
+            group = defferManager.creatRuelGroup(txtName.getText());                    
         }
         group.removeAll();
         TableItem[] items = members.getItems();

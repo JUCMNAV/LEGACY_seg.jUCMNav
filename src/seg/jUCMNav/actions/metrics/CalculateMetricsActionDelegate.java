@@ -1,9 +1,6 @@
-package seg.jUCMNav.actions.staticSemantic;
+package seg.jUCMNav.actions.metrics;
 
 import java.util.Vector;
-
-import seg.jUCMNav.rulemanagement.RuleManagementCheckingMessage;
-import seg.jUCMNav.staticSemantic.*;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -15,47 +12,37 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.metrics.MetricsCalculator;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.rulemanagement.RuleManagementCheckingMessage;
 import urncore.URNmodelElement;
 
-/**
- * This is an action to the menu "Static Check".
- * 
- * @author Byrne Yan
- *e
- */
-public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
-    private UCMNavMultiPageEditor editor;
+public class CalculateMetricsActionDelegate implements IEditorActionDelegate {
+	
+	private UCMNavMultiPageEditor editor;
+	
+	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
+		this.editor = (UCMNavMultiPageEditor)targetEditor;
 
-    public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-        editor = (UCMNavMultiPageEditor) targetEditor;
 	}
 
-    /**
-     * Check all selected rules by class StaticSemanticChecker and then report the result in the problem view.
-     * 
-     * @see StaticSemanticChecker
-     */
-    public void run(IAction action) {
-    	if (editor!=null) {
-    		Vector problems = new Vector();
-    		StaticSemanticChecker.getInstance().check(editor.getModel(),problems);
-    		refreshProblemView(problems);
-    	}
-    }
+	public void run(IAction action) {
+		if(editor != null){
+			Vector result = new Vector();
+			MetricsCalculator.getInstance().calculate(editor.getModel(), result);
+			refreshResultView(result);
+		}
 
-    public void selectionChanged(IAction action, ISelection selection) {
+	}
 
-    }
+	public void selectionChanged(IAction action, ISelection selection) {
+		// TODO Auto-generated method stub
 
-    /**
-     * 
-     * @param problems  A list of problems which contain check results information. The content of the vector must be type of StaticCheckingMsg.
-     * @see RuleManagementCheckingMessage
-     */
-    private void refreshProblemView(Vector problems)
-    {
-        if (editor != null) {
+	}
+	
+	public void refreshResultView(Vector result){
+		if(editor != null){
+
             IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
             try {
 
@@ -65,13 +52,13 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
                     marker.delete();
                 }
             } catch (CoreException ex) {
-            	problems.add(new RuleManagementCheckingMessage(ex.getMessage()));  //$NON-NLS-1$
+            	result.add(new RuleManagementCheckingMessage(ex.getMessage()));  //$NON-NLS-1$
             }
         
-            if (problems.size() > 0) {
+            if (result.size() > 0) {
 
-                for (int i=0;i< problems.size();++i) {
-                    RuleManagementCheckingMessage o =  (RuleManagementCheckingMessage)problems.get(i); 
+                for (int i=0;i< result.size();++i) {
+                    RuleManagementCheckingMessage o =  (RuleManagementCheckingMessage)result.get(i); 
                     try {
                         IMarker marker = resource.createMarker(IMarker.PROBLEM);
                         marker.setAttribute(IMarker.SEVERITY, o.getSeverity());
@@ -85,11 +72,14 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
                         }
 
                     } catch (CoreException ex) {
-                    	problems.add(new RuleManagementCheckingMessage(ex.getMessage()));  //$NON-NLS-1$
+                    	result.add(new RuleManagementCheckingMessage(ex.getMessage()));  //$NON-NLS-1$
                     }
 
                 }
             } 
-        }
-    }
+			
+		}
+		
+	}
+
 }

@@ -1,4 +1,4 @@
-package seg.jUCMNav.staticSemantic;
+package seg.jUCMNav.rulemanagement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ public class Rule {
 	 * Construct a rule with the rule name and the rule is disabled and all other fileds are empty.
 	 * @param name The rule name
 	 */
-	Rule(String name)
+	public Rule(String name)
 	{
         this.context = ""; //$NON-NLS-1$
         this.classifier = ""; //$NON-NLS-1$
@@ -88,7 +88,7 @@ public class Rule {
 	 * @param enabled      This enabled/disabled indicator
 	 * @param description  The rule description
 	 */
-	Rule(String name,String classifier,String context, String query,boolean enabled, String description)
+	public Rule(String name,String classifier,String context, String query,boolean enabled, String description)
 	{
 		this.context = context;
 		this.classifier = classifier;
