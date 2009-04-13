@@ -75,6 +75,16 @@
                menubarPath="seg.jUCMnav/ext"
                style="push"
                tooltip="%VerifyStaticSemantics"/>
+   <action
+         actionID="seg.jUCMNav.actions.matrics.CalculateMatricsActionDelegate"
+         class="seg.jUCMNav.actions.metrics.CalculateMetricsActionDelegate"
+         icon="icons/condition.gif"
+         id="seg.jUCMNav.actions.matrics.CalculateMatricsActionDelegate"
+         label="Calculate Metrics"
+         menubarPath="seg.jUCMnav/ext"
+         style="push"
+         tooltip="Calculate metrics">
+   </action>
                
       </editorContribution>
    </extension>
@@ -274,6 +284,12 @@
             class="seg.jUCMNav.views.preferences.staticSemantic.StaticSemanticPreferencePage"
             id="seg.jUCMNav.views.preferences.StaticSemanticPreferencesPage"
             name="%StaticSemanticPreferences"/>
+   <page
+         category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+         class="seg.jUCMNav.views.preferences.metrics.MetricsPreferencePage"
+         id="seg.jUCMNav.views.preferences.metrics.MetricsPreferencePage"
+         name="%MetricsPreference">
+   </page>
       </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
