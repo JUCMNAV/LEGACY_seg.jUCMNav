@@ -197,9 +197,8 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
      * @see seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm#getActorEvaluation(grl.Actor)
      */
     public int getActorEvaluation(Actor actor){
-        float resultEval = 0;
-
-        int total = 0;
+        int sumEval = 0;
+        int sumImportance = 0;
         
         Iterator iter = actor.getContRefs().iterator();
         while (iter.hasNext()){
@@ -214,20 +213,19 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
                     int importance = element.getImportanceQuantitative();
                     if (importance != 0){
-                        float deltaEval = ((float)evaluation)*(((float)importance)/100f);
-                        resultEval += deltaEval;
-                        total++;
+                        sumEval += evaluation*importance;
+                        sumImportance += importance;
                     }
                     
                        
                 }
             }
         }
-        if (total > 0){
-            total = Math.round(resultEval/total);
+        if (sumImportance > 0){
+        	sumImportance = sumEval/sumImportance;
         }
         
-        return total;
+        return sumImportance;
     }
 
 }
