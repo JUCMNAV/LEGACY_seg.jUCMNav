@@ -83,17 +83,23 @@ public class UrnMetadata {
 	public static String removeStereotypes(String text) {
 		String name = text;
 
-		// Removes stereotypes at the end of the name
-		int sub = name.
-		indexOf(" «"); //$NON-NLS-1$
+		// Removes importance
+		int sub = name.indexOf("  ("); //$NON-NLS-1$
 		if (sub>-1)
 			name = name.substring(0,sub);
 		else
 		{
-			// Removes ¶ at the end of the name
-			sub = name.indexOf(METADATA_PRESENCE); //$NON-NLS-1$
+			// Removes stereotypes at the end of the name
+			sub = name.indexOf(" «"); //$NON-NLS-1$
 			if (sub>-1)
 				name = name.substring(0,sub);
+			else
+			{
+				// Removes ¶ at the end of the name
+				sub = name.indexOf(METADATA_PRESENCE); //$NON-NLS-1$
+				if (sub>-1)
+					name = name.substring(0,sub);
+			}
 		}
 		return name;
 	}
@@ -122,7 +128,7 @@ public class UrnMetadata {
 		Iterator it=elem.getMetadata().iterator();
 		while (it.hasNext()){
 			Metadata metadata = (Metadata) it.next();
-			if (!metadata.getName().startsWith(STEREOTYPE_PREFIX)) {
+			if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
 				metadataText = metadataText + "\n    " + metadata.getName() + "=" +  metadata.getValue();  //$NON-NLS-1$  $NON-NLS-2$
 			}
 		}

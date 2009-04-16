@@ -421,7 +421,28 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         if (getNode().getDef() != null){
         	String stereotypes = UrnMetadata.getStereotypes(getNode().getDef());
         	String name = getNode().getDef().getName();
-            getNodeFigure().setEditableText(name + stereotypes);
+
+        	// Handle importance annotation
+        	String importance = "";
+            int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();           
+            if(evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE) {
+            	if (getNode().getDef().getImportanceQuantitative()>0) {
+            		importance = "  (" + String.valueOf(getNode().getDef().getImportanceQuantitative()) + ")"; //$NON-NLS-1$  $NON-NLS-2$
+            	}
+            } 
+            else if(evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE)
+            {
+            	switch (getNode().getDef().getImportance().getValue()) {
+            		case 0: importance = "  (H)"; //$NON-NLS-1$
+            				break;
+            		case 1: importance = "  (M)"; //$NON-NLS-1$
+            				break;
+            		case 2: importance = "  (L)"; //$NON-NLS-1$
+            	}
+            }
+            // Roy's algo does not use importance but priority and criticality... Deprecated.
+            
+            getNodeFigure().setEditableText(name + importance + stereotypes);
         }
     }
 }
