@@ -113,19 +113,19 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 			The date formatter also cannot truncate a year to a single character so we're hardcoding
 			'5' for 2005, TODO: change to '6', '7', etc. We can't use full year because of number overflow restrictions.
 			-->
-			<format property="buildtime" pattern="'8'MMdd.'v'HHmm"/>
+			<format property="buildtime" pattern="'9'MMdd.'v'HHmm"/>
 		</tstamp>
 		
 
 
-		<condition property="jucmnav.version" value="3.2.${buildtime}">
+		<condition property="jucmnav.version" value="3.2.1">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>
 		</condition>
 
 
-<!--		 <property name="jucmnav.version" value="3.2.0" /> -->
+<!--		 <property name="jucmnav.version" value="3.2.1" /> -->
 		<echo>Building version: ${jucmnav.version}</echo>
 		
 	</target>
@@ -142,15 +142,15 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 	
 	<target name="build.fullzip.exactversion">
 		<antcall target="init">
-			<param name="jucmnav.version" value="3.2.0"/>
+			<param name="jucmnav.version" value="3.2.1"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="clean">
-			<param name="jucmnav.version" value="3.2.0"/>
+			<param name="jucmnav.version" value="3.2.1"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="zip.plugin">
-			<param name="jucmnav.version" value="3.2.0"/>
+			<param name="jucmnav.version" value="3.2.1"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 	</target>
