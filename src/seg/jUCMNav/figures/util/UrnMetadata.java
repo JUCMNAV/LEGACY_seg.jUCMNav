@@ -35,7 +35,7 @@ public class UrnMetadata {
 		URNmodelElement elem = (URNmodelElement)object;
 		Iterator it = elem.getMetadata().iterator();
 		boolean result = false;
-		
+
 		while (it.hasNext() && !result)
 		{
 			Metadata metadata = (Metadata) it.next();
@@ -45,7 +45,7 @@ public class UrnMetadata {
 		return result;
 	}
 
-	
+
 	/**
 	 * Checks whether there are metadata associated with the element
 	 * Adds those that are stereotypes, and indicates the presence of others.
@@ -129,7 +129,7 @@ public class UrnMetadata {
 		while (it.hasNext()){
 			Metadata metadata = (Metadata) it.next();
 			if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
-				metadataText = metadataText + "\n    " + metadata.getName() + "=" +  metadata.getValue();  //$NON-NLS-1$  $NON-NLS-2$
+				metadataText = metadataText + "\n    " + metadata.getName() + "=" +  metadata.getValue() + " ";  //$NON-NLS-1$  $NON-NLS-2$ $NON-NLS-3$
 			}
 		}
 
@@ -137,7 +137,7 @@ public class UrnMetadata {
 			if (descOnly) {
 				toolTipText = toolTipText + "\n\n";    //$NON-NLS-1$
 			}
-			toolTipText = toolTipText + " METADATA:" + metadataText;    //$NON-NLS-1$
+			toolTipText = toolTipText + " METADATA: " + metadataText;    //$NON-NLS-1$
 			descOnly = false;
 		}
 
@@ -149,23 +149,25 @@ public class UrnMetadata {
 				toolTipText = toolTipText.concat("\n");    //$NON-NLS-1$
 			}
 			descOnly = false;			
-			toolTipText = toolTipText + " URN LINKS:";    //$NON-NLS-1$
+			toolTipText = toolTipText + " URN LINKS: ";    //$NON-NLS-1$
 
 			it=elem.getFromLinks().iterator();
 			while (it.hasNext()){
 				String classname;
-				URNlink link = (URNlink) it.next();				
-				if (link.getToElem() instanceof IntentionalElement) {
-					classname = ((IntentionalElement)link.getToElem()).getType().getName();
-				} 
-				else if (link.getToElem() instanceof Component) {
-					classname = ((Component)link.getToElem()).getKind().getName();
-				} 
-				else {
-					classname = link.getToElem().getClass().toString();
-					classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4);
+				URNlink link = (URNlink) it.next();	
+				if (link.getToElem()!=null) { // Needed for link creation with partial refresh...
+					if (link.getToElem() instanceof IntentionalElement) {
+						classname = ((IntentionalElement)link.getToElem()).getType().getName();
+					} 
+					else if (link.getToElem() instanceof Component) {
+						classname = ((Component)link.getToElem()).getKind().getName();
+					} 
+					else {
+						classname = link.getToElem().getClass().toString();
+						classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4);
+					}
+					toolTipText = toolTipText + "\n    to " + link.getToElem().getName() + " (" + classname + ") ";    //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
 				}
-				toolTipText = toolTipText + "\n    to " + link.getToElem().getName() + " (" + classname + ")";    //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
 			}
 			it=elem.getToLinks().iterator();
 			while (it.hasNext()){
@@ -181,7 +183,7 @@ public class UrnMetadata {
 					classname = link.getFromElem().getClass().toString();
 					classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4);
 				}
-				toolTipText = toolTipText + "\n    from " + link.getFromElem().getName()+ " (" + classname + ")";    //$NON-NLS-1$  $NON-NLS-2$ $NON-NLS-3$
+				toolTipText = toolTipText + "\n    from " + link.getFromElem().getName()+ " (" + classname + ") ";    //$NON-NLS-1$  $NON-NLS-2$ $NON-NLS-3$
 			}
 		}
 

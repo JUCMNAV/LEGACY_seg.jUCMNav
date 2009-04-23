@@ -1,6 +1,7 @@
 package seg.jUCMNav.views.urnlinks;
 
 import grl.Actor;
+import grl.ActorRef;
 import grl.IntentionalElement;
 
 import java.util.Iterator;
@@ -254,8 +255,13 @@ public class URNLinksDialog {
                     fromElement, toElement);
             if (cmd.canExecute()){
                 execute(cmd);
+                // Patch to refresh the element's tool tip...
+                if (fromElement instanceof URNmodelElement) {
+                	URNmodelElement me = (URNmodelElement)fromElement;
+                	me.setName(me.getName());
+                }
             }
-        }
+       }
     }
     
     private void deleteLink(){

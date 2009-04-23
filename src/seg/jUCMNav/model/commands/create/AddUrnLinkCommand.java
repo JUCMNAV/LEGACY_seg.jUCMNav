@@ -43,8 +43,9 @@ public class AddUrnLinkCommand extends Command implements JUCMNavCommand {
      */
     public boolean canExecute() {
         
-        if ((urn != null && link != null && from != null && to != null) && 
-                (to.getToLinks().size() == 0)){ //We only support 1 link from the to element
+        if ((urn != null && link != null && from != null && to != null)) {
+        	// Restriction below is now removed (DA)    
+        	// && (to.getToLinks().size() == 0)){ //We only support 1 link from the to element
             return true;
         } 
         return false;

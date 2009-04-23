@@ -369,7 +369,8 @@ public class LabelEditPart extends ModelElementEditPart {
 				} else {
 					//Remove the icon
 					if (iconImg != null) {
-						labelFigure.setIcon(null);
+						iconImg = null;
+						labelFigure.setIcon(iconImg);
 					}
 
 				}

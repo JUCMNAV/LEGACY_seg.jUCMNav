@@ -120,7 +120,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
             }
         }
 
-        // stop listenening to reference
+        // stop listening to reference
         super.deactivate();
     }
 
