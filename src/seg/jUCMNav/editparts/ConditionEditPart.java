@@ -113,11 +113,37 @@ public class ConditionEditPart extends LabelEditPart {
 
         if (cond != null) {
             if (cond.getLabel() != null && !cond.getLabel().equals("")) { //$NON-NLS-1$
-                labelFigure.setEditableText("[" + cond.getLabel() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+                labelFigure.setText("[" + cond.getLabel() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
                 labelFigure.setVisible(true);
             } else {
                 labelFigure.setVisible(false);
                 this.setSelected(0);
+            }
+            
+            // Set tool tip with description and formal expression, if any
+            String toolTipText=""; //$NON-NLS-1$
+            if (cond.getExpression()!=null && !cond.getExpression().equals("")) {   //$NON-NLS-1$
+            	if (cond.getDescription()!=null && !cond.getDescription().equals("")) { //$NON-NLS-1$
+                	// Both
+            		toolTipText = " " + cond.getDescription() + " \n " + cond.getExpression() + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            	}
+            	else {
+                	// Expression only
+            		toolTipText = " " + cond.getExpression() + " "; //$NON-NLS-1$ //$NON-NLS-2$            		
+            	}
+            }
+            else {            	
+            	if (cond.getDescription()!=null && !cond.getDescription().equals("")) { //$NON-NLS-1$
+                	// Description only
+            		toolTipText = " " + cond.getDescription() + " "; //$NON-NLS-1$ //$NON-NLS-2$
+            	}
+            }
+            
+            if (toolTipText.equals("")) {   //$NON-NLS-1$
+            	labelFigure.setToolTip(null);
+            }
+            else {
+            	labelFigure.setToolTip(new org.eclipse.draw2d.Label (toolTipText));
             }
 
             // get color from preferences
