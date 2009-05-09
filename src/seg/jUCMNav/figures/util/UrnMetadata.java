@@ -166,7 +166,7 @@ public class UrnMetadata {
 						classname = link.getToElem().getClass().toString();
 						classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4);
 					}
-					toolTipText = toolTipText + "\n    to " + link.getToElem().getName() + " (" + classname + ") ";    //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
+					toolTipText = toolTipText + "\n   " + link.getType() + " to " + link.getToElem().getName() + " (" + classname + ") ";    //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
 				}
 			}
 			it=elem.getToLinks().iterator();
@@ -183,7 +183,7 @@ public class UrnMetadata {
 					classname = link.getFromElem().getClass().toString();
 					classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4);
 				}
-				toolTipText = toolTipText + "\n    from " + link.getFromElem().getName()+ " (" + classname + ") ";    //$NON-NLS-1$  $NON-NLS-2$ $NON-NLS-3$
+				toolTipText = toolTipText + "\n   " + link.getType() + " from " + link.getFromElem().getName()+ " (" + classname + ") ";    //$NON-NLS-1$  $NON-NLS-2$ $NON-NLS-3$
 			}
 		}
 

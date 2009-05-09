@@ -134,9 +134,9 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 		btnNewRule.setText(BUTTON_DEFINE_A_NEW_RULE);
 		btnNewRule.addSelectionListener(this);
 
-		btnNewRule = new Button(c, SWT.PUSH);
-		btnNewRule.setText(BUTTON_DEFINE_A_NEW_GROUP);
-		btnNewRule.addSelectionListener(this);
+		btnNewGroup = new Button(c, SWT.PUSH);
+		btnNewGroup.setText(BUTTON_DEFINE_A_NEW_GROUP);
+		btnNewGroup.addSelectionListener(this);
 
 		btnEdit = new Button(c, SWT.PUSH);
 		btnEdit.setText(BUTTON_EDIT_THE_SELECTED_RULE);

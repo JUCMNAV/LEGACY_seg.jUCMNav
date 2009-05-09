@@ -16,7 +16,7 @@ import seg.jUCMNav.rulemanagement.RuleManagementUtil;
  * <li>Rule and RuleGroup manipulation
  * <li>Rule and RuleGroup persistence
  * <li>Rule imports and exports
- * <li>Switch of showing rule description in the problem view
+ * <li>Decision of showing rule description in the problem view
  * </ul>
  * 
  * @author Byrne Yan

@@ -121,14 +121,6 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         
         // create the GUI for constraint
         createConstraintGUI(c1);
-        
-        /*
-        Label lblCheck = new Label(c1, SWT.LEFT);
-        lblCheck.setText(Messages.getString("RuleEditDialog.ConstraintExpression")); //$NON-NLS-1$
-        txtCheck = new Text(c1, SWT.MULTI | SWT.BORDER);
-        txtCheck.setLayoutData(new GridData(GridData.FILL_BOTH));
-        txtCheck.setSize(600, 600);
-        */
 
         Label lblDesc = new Label(c1, SWT.LEFT);
         lblDesc.setText(Messages.getString("RuleEditDialog.RuleDescription")); //$NON-NLS-1$
@@ -183,7 +175,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     }
 
     /**
-     * Fill contents of components based on the rule object associated with this dailog.
+     * Fill contents of components based on the rule object associated with this dialog.
      */
     private void init() {
         if (rule != null) {

@@ -119,7 +119,7 @@ public class Clipboard
 	/**
 	 * Returns the clipboard contents in textual format.
 	 * 
-	 * @return
+	 * @return the clipboard contents in textual format
 	 */
 	public String getTextualContents()
 	{
