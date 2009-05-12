@@ -36,6 +36,14 @@ public class StaticSemanticPreferencePage extends RuleManagementPreferencePage {
 	protected RuleManagementDefinitionManager getDefinitionManager(){
 		return StaticSemanticDefMgr.instance();
 	}
+	
+	@Override
+	protected void performShowDescriptionChanged() {
+		StaticSemanticDefMgr.instance().setShowDesc(btnShowDescription.getSelection());
+		
+		
+	}
+	
 
 
 	

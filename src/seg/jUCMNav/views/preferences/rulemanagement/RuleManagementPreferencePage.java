@@ -8,6 +8,8 @@ import java.util.List;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -37,7 +39,7 @@ import seg.jUCMNav.rulemanagement.RuleManagementUtil;
   * @author Anisur Rahman
   *
   */
-public abstract class RuleManagementPreferencePage  extends PreferencePage implements IWorkbenchPreferencePage, SelectionListener{
+public abstract class RuleManagementPreferencePage  extends PreferencePage implements IWorkbenchPreferencePage, SelectionListener, FocusListener{
 
 	private static final String APPDATA_UTILITIES_NUMBER = Messages.getString("RuleManagementPreferencePage.UtilitiesNumber"); //$NON-NLS-1$
 	private static final String APPDATA_CHECKBOX = Messages.getString("RuleManagementPreferencePage.Checkbox"); //$NON-NLS-1$
@@ -85,6 +87,8 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 		head.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
 		btnShowDescription = new Button(head, SWT.CHECK);
 		btnShowDescription.setText(Messages.getString("RuleManagementPreferencePage.ShowRule")); //$NON-NLS-1$
+		//btnShowDescription.addSelectionListener(this);
+		btnShowDescription.addFocusListener(this);
 
 		Label label1 = new Label(parent, SWT.LEFT);
 		label1.setText(Messages.getString("RuleManagementPreferencePage.RulesDefined")); //$NON-NLS-1$
@@ -153,6 +157,8 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 		btnExport = new Button(c, SWT.PUSH);
 		btnExport.setText(BUTTON_EXPORT);
 		btnExport.addSelectionListener(this);
+		
+		
 
 		initializeValues();
 		return null;
@@ -280,9 +286,27 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 				performImport();
 			} else if (btn.getText().compareTo(BUTTON_EXPORT) == 0) {
 				performExport();
-			}
+			}			
+			//else if (btn.getText().compareToIgnoreCase(APPDATA_CHECKBOX) == 0){
+			//	performSaveDescriptionPreference();
+			//}
+			
 		}
 	}
+	
+	
+	
+	public void focusGained(FocusEvent e) {
+		performShowDescriptionChanged();
+		
+	}
+
+	public void focusLost(FocusEvent e) {
+		performShowDescriptionChanged();
+		
+	}
+
+	protected abstract void performShowDescriptionChanged();
 
 	/**
 	 * Remove the selected rule group or rule item. Notice: the group of "All" can not be removed.

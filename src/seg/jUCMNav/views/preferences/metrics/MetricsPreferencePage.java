@@ -36,5 +36,13 @@ public class MetricsPreferencePage extends RuleManagementPreferencePage  {
 
 	}
 
+	@Override
+	protected void performShowDescriptionChanged() {
+		MetricsDefinitionManager.instance().setShowDesc(btnShowDescription.getSelection());
+		
+	}
+	
+	
+
 	
 }

@@ -91,6 +91,7 @@ public class MetricsDefinitionManager extends RuleManagementDefinitionManager {
      */
     public void setShowDesc(boolean bChecked) {
         bShowDesc = bChecked;
+       // saveShowDescriptonPreference();
     }
     
     protected void loadShowDescriptonPreference(){

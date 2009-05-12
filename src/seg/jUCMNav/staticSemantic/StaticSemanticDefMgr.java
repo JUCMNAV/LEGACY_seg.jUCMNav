@@ -101,6 +101,7 @@ public class StaticSemanticDefMgr extends RuleManagementDefinitionManager{
      */
     public void setShowDesc(boolean bChecked) {
         bShowDesc = bChecked;
+        //saveShowDescriptonPreference();
     }
     
     protected void loadShowDescriptonPreference(){
