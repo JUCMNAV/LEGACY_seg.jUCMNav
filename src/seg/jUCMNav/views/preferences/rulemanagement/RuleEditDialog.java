@@ -116,7 +116,12 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         Label lblQuery = new Label(c1, SWT.LEFT);
         lblQuery.setText(getQueryLabel()); //$NON-NLS-1$
         txtQuery = new Text(c1, SWT.MULTI | SWT.BORDER);
-        txtQuery.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+       // txtQuery.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+       // txtQuery.setSize(600, SWT.DEFAULT);
+        
+        GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+        gd.heightHint = 80;
+        txtQuery.setLayoutData(gd); 
         txtQuery.setSize(600, SWT.DEFAULT);
         
         // create the GUI for constraint
