@@ -1,6 +1,7 @@
 package seg.jUCMNav.views.preferences.metrics;
 
 import org.eclipse.jface.window.IShellProvider;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
@@ -37,6 +38,13 @@ public class MetricsRuleEditDialog extends RuleEditDialog {
     protected String getQueryLabel(){
     	return Messages.getString("MetricsRuleEditDialog.QueryExpression");
     }
+    
+    protected GridData getQueryGridData(){
+   	 GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+        gd.heightHint = 80;
+        return gd;
+   	
+   }
     
 
 }

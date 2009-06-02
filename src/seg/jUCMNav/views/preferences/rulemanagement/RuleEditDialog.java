@@ -119,8 +119,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
        // txtQuery.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
        // txtQuery.setSize(600, SWT.DEFAULT);
         
-        GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
-        gd.heightHint = 80;
+        GridData gd = getQueryGridData();
         txtQuery.setLayoutData(gd); 
         txtQuery.setSize(600, SWT.DEFAULT);
         
@@ -167,6 +166,13 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         return composite;
     }
     
+    protected GridData getQueryGridData(){
+    	 GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+         gd.heightHint = 50;
+         return gd;
+    	
+    }
+    
     protected String getQueryLabel(){
     	return Messages.getString("RuleEditDialog.QueryExpression");
     }
@@ -175,8 +181,15 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     	Label lblCheck = new Label(c1, SWT.LEFT);
         lblCheck.setText(Messages.getString("RuleEditDialog.ConstraintExpression")); //$NON-NLS-1$
         txtCheck = new Text(c1, SWT.MULTI | SWT.BORDER);
-        txtCheck.setLayoutData(new GridData(GridData.FILL_BOTH));
-        txtCheck.setSize(600, 600);
+       // txtCheck.setLayoutData(new GridData(GridData.FILL_BOTH));
+        
+     
+         GridData gdText = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+         gdText.heightHint = 80;
+         txtCheck.setLayoutData(gdText); 
+         txtCheck.setSize(600, SWT.DEFAULT);
+        
+        
     }
 
     /**
