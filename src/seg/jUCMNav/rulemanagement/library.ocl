@@ -9,3 +9,30 @@ def: SetContextActorRef():Sequence(grl::ActorRef) =
 			->collect(o|o.oclAsType(grl::ActorRef))
 			->asSequence()
 endpackage
+
+package grl
+context EvaluationStrategy
+
+-- For features in software product lines: In a strategy, feature A requires feature B
+def: featureRequires(nameA:String, nameB:String):Boolean=
+
+	let 
+		a:IntentionalElement = grlspec.intElements -> select(t | t.type = IntentionalElementType::Task and t.name = nameA) -> asSequence() -> first(),
+		b:IntentionalElement = grlspec.intElements -> select(t | t.type = IntentionalElementType::Task and t.name = nameB) -> asSequence() -> first(),
+		i100:Collection(IntentionalElement) = (evaluations -> select(e | e.evaluation = 100)) -> collect(intElement)
+	in
+		(i100 -> includes(a)) implies (i100 -> includes(b))
+
+-- For features in software product lines: In a strategy, feature A conflicts with feature B
+def: featureConflictsWith(nameA:String, nameB:String):Boolean=
+
+	let 
+		a:IntentionalElement = grlspec.intElements -> select(t | t.type = IntentionalElementType::Task and t.name = nameA) -> asSequence() -> first(),
+		b:IntentionalElement = grlspec.intElements -> select(t | t.type = IntentionalElementType::Task and t.name = nameB) -> asSequence() -> first(),
+		i100:Collection(IntentionalElement) = (evaluations -> select(e | e.evaluation = 100)) -> collect(intElement),
+		i_not0:Collection(IntentionalElement) = (evaluations -> select(e | e.evaluation <> 0)) -> collect(intElement)
+		
+	in
+		(i100 -> includes(a)) implies (i_not0 -> excludes(b))
+endpackage
+
