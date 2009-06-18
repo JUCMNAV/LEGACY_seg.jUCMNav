@@ -29,7 +29,7 @@ public class EditCodeAction extends URNSelectionAction {
 	public EditCodeAction(IWorkbenchPart part) {
 		super(part);
 		setId(EDITCODEACTION);
-		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")); //$NON-NLS-1$
+		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/condition.gif")); //$NON-NLS-1$
 	}
 
 	/**

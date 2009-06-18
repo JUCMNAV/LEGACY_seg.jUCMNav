@@ -352,7 +352,7 @@ public class ActionRegistryManager
 		addEditPartAction((SelectionAction) action);
 
 		action = new DirectEditAction((IWorkbenchPart) editor);
-		action.setText(Messages.getString("ActionRegistryManager.edit")); //$NON-NLS-1$
+		action.setText(Messages.getString("ActionRegistryManager.DirectEdit")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 
 		action = new ExportAction(editor);
