@@ -325,6 +325,8 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 			
 		<!-- Include help in the zip for integration with eclipse help-->
 		<copy file="help.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
+		<copy file="help_contexts.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
+
 		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" >
 			<fileset dir="./">
 				<include name="helpcontent/**/*.*"/>
