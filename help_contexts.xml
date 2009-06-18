@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.contexts"?>
+<contexts>
+   <context  id="help_general" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context id="autolayout">
+      <description>You may find more information on this subject in our online help.</description>
+      <topic href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Auto_layout" label="Auto-Layout"/>
+   </context>
+   <context  id="newfile" >
+		<description>Choose the folder where the new *.jucm file should be created, enter its name, and select what diagrams you want created by default (UCM and/or GRL).</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="concerns" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="export_mapselection" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="export_typeselection" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="import_fileselection" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="import_mapselection" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="managedemand" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="manage_resources" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="scenario_addstartend" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="scenario_addvariableenums" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="scenario_addvariableinits" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="scenario_addvariable" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="scenario_codeeditor" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>
+   <context  id="scenario_includescenario" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>  
+   <context  id="scenario_init" >
+		<description>You may find more information on this subject in our online help.</description>
+		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
+   </context>     
+</contexts>

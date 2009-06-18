@@ -60,6 +60,8 @@ public class NewUcmFileWizardPage extends WizardPage {
 	 * Creates the buttons and fields for the New .jucm File Wizard
 	 */
 	public void createControl(Composite parent) {
+		
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.newfile");
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);

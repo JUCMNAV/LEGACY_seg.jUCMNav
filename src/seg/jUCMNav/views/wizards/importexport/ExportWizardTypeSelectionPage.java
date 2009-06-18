@@ -9,6 +9,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.UCMExportExtensionPointHelper;
@@ -38,6 +39,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
      * Contains radio button to decide on the export type and a label explaning the alternatives.
      */
     public void createControl(Composite parent) {
+    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.export_typeselection");
         // create the composite to hold the widgets
         Composite composite = new Composite(parent, SWT.NONE);
 

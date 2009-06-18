@@ -34,6 +34,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.help.IWorkbenchHelpSystem;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -163,9 +165,13 @@ public class MetadataEditorPage extends WizardPage {
      * Creates the page.
      */
     public void createControl(Composite parent) {
+    	
+    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.metadata");
+
         container = new Composite(parent, SWT.NULL);
         shell = container.getShell();
 
+        
         GridLayout layout = new GridLayout();
         container.setLayout(layout);
         layout.numColumns = 5;
@@ -240,7 +246,7 @@ public class MetadataEditorPage extends WizardPage {
             }
 
         });
-
+        
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 5;
         gd.widthHint = 250;
@@ -328,7 +334,7 @@ public class MetadataEditorPage extends WizardPage {
 
         setControl(container);
         metadataTable.forceFocus();
-
+        
     }
 
     /**

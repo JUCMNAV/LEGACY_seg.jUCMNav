@@ -16,7 +16,7 @@
             extensions="jucm"
             icon="icons/ucm16.gif"
             id="seg.jUCMNav.MainEditor"
-            name="seg.jUCMNav.MainEditor"/>
+            name="jUCMNav"/>
    </extension>
    <extension
          point="org.eclipse.ui.editorActions">
@@ -392,6 +392,12 @@
       <markerResolutionGenerator
             class="seg.jUCMNav.views.QuickFixer"
             markerType="org.eclipse.core.resources.problemmarker"/>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="help_contexts.xml">
+      </contexts>
    </extension>
 
 </plugin>

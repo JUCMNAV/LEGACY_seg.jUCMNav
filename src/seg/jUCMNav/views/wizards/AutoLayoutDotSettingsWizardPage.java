@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.preferences.AutoLayoutPreferences;
@@ -47,6 +48,9 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     public void createControl(Composite parent) {
+    	
+    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.autolayout");
+    	
         // create the composite to hold the widgets
         Composite composite = new Composite(parent, SWT.NONE);
 

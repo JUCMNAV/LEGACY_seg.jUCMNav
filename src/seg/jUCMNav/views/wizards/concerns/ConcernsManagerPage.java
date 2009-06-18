@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -264,6 +265,7 @@ public class ConcernsManagerPage extends WizardPage {
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createControl(Composite parent) {
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.concerns");
 		Composite container = createWidgets(parent);
 		refreshControl(); // also adds listeners
 		setControl(container);

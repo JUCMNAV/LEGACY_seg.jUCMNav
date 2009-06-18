@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.UCMExportExtensionPointHelper;
@@ -89,6 +90,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
      * Contains controls to set the export directory, export file type and selected maps.
      */
     public void createControl(Composite parent) {
+    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.export_mapselection");
         SelectionListener selList = new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent e) {
                 verifyPage();

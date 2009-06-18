@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -69,7 +70,7 @@ public class AddVariableWizardInitsPage extends WizardPage {
 	 * Creates the page.
 	 */
 	public void createControl(Composite parent) {
-
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_addvariableinits");
 		Composite container = new Composite(parent, SWT.NULL);
 
 		GridLayout layout = new GridLayout();

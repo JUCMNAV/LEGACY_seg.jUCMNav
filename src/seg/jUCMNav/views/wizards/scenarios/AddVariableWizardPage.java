@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -53,7 +54,7 @@ public class AddVariableWizardPage extends WizardPage {
 	 * Creates the page.
 	 */
 	public void createControl(Composite parent) {
-
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_addvariable");
 		Composite container = new Composite(parent, SWT.NULL);
 
 		GridLayout layout = new GridLayout();
