@@ -37,7 +37,7 @@ import urn.URNspec;
  * 
  * @author Etienne Tremblay
  */
-public class PathTool extends CreationTool implements ISelectionChangedListener {
+public class PathTool extends BaseCreationTool implements ISelectionChangedListener {
 
     /**
      * <code>ENDPOINT</code>: State value when an EndPoint is selected.

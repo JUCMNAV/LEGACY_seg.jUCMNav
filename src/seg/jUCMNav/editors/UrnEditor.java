@@ -37,6 +37,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
+import seg.jUCMNav.actions.palette.SelectPaletteEntryAction;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
 import urncore.IURNDiagram;
@@ -44,7 +45,7 @@ import urncore.IURNDiagram;
 /**
  * This is an abstract class for any urn editor used in UCMNavMultiPageEditor
  * 
- * @author Jean-François Roy
+ * @author Jean-François Roy, jkealey
  *TODO Remove extends to GraphicalEditorWithFlyoutPalette and copy code in this class
  */
 public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
@@ -176,6 +177,19 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
 
             sharedKeyHandler.put(KeyStroke.getReleased(SWT.ESC, SWT.ESC, 0), getActionRegistry()
                     .getAction(SelectDefaultPaletteToolAction.SETDEFAULTPALETTETOOL));
+            
+            for (int letter = (int)'a'; letter<(int)'z'; letter++) {
+            	sharedKeyHandler.put(KeyStroke.getReleased((char)letter,(char)letter,0), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
+            	sharedKeyHandler.put(KeyStroke.getReleased((char)(letter-32),(char)letter,SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
+            	
+            	// doesn't seem to work - not important. (caps)  
+            	sharedKeyHandler.put(KeyStroke.getReleased((char)(letter-32),(char)letter,SWT.CAPS_LOCK), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
+            }
+            
+            char letter = '>'; 
+            sharedKeyHandler.put(KeyStroke.getReleased(letter,'.',SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId(letter)));
+            letter = ' ';
+            sharedKeyHandler.put(KeyStroke.getReleased(letter,letter,0), getActionRegistry().getAction(SelectPaletteEntryAction.getId(letter)));
 
         }
         return sharedKeyHandler;

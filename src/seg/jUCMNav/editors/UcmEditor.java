@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
@@ -76,7 +77,9 @@ public class UcmEditor extends UrnEditor {
             provider.removeMenuListener((IMenuListener) menuExtenders.get(0));
 
         viewer.setEditPartFactory(new GraphicalEditPartFactory((UCMmap) getModel()));
-        viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
+        KeyHandler handler = new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler());
+        viewer.setKeyHandler(handler);
+        getEditDomain().getPaletteViewer().setKeyHandler(handler);
     }
 
     /**

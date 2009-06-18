@@ -1,14 +1,13 @@
 package seg.jUCMNav.editors.palette.tools;
 
 import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.gef.tools.CreationTool;
 
 /**
  * Creation tool that doesn't get unloaded after creation, only after invalid mouse click. 
  * 
  * @author jkealey
  */
-public class URNElementCreationTool extends CreationTool {
+public class URNElementCreationTool extends BaseCreationTool {
 
     /**
      *  
@@ -29,4 +28,5 @@ public class URNElementCreationTool extends CreationTool {
 
         return super.handleButtonUp(button);
     }
+    
 }

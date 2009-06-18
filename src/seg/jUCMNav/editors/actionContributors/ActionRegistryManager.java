@@ -21,8 +21,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.internal.KeyBindingService;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -70,6 +68,7 @@ import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
 import seg.jUCMNav.actions.kpi.AddIndicatorGroupAction;
 import seg.jUCMNav.actions.kpi.EditIndicatorGroupsAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
+import seg.jUCMNav.actions.palette.SelectPaletteEntryAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
@@ -220,6 +219,19 @@ public class ActionRegistryManager
 		addAction(action);
 		action.setAccelerator(SWT.CTRL | 'A');
 		keyBindingService.registerAction(action);
+
+		for (int letter = (int) 'a'; letter < (int) 'z'; letter++)
+		{
+			action = new SelectPaletteEntryAction(editor, (char) letter);
+			addAction(action);
+		}
+
+		char letter = '>';
+		action = new SelectPaletteEntryAction(editor, (char) letter);
+		addAction(action);
+		letter = ' ';
+		action = new SelectPaletteEntryAction(editor, (char) letter);
+		addAction(action);
 
 		// Notice the following are calls to addEditPartAction().
 		// They need to know the current selection to work.
