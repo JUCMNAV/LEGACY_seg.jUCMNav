@@ -15,6 +15,7 @@ import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildComma
 import seg.jUCMNav.model.commands.concerns.AssignConcernDiagramCommand;
 import seg.jUCMNav.model.commands.delete.DeleteBindingsCommand;
 import seg.jUCMNav.model.commands.delete.DeleteDemandCommand;
+import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioPathNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteVariableCommand;
@@ -75,6 +76,20 @@ public class CleanRelationshipsCommand extends CompoundCommand {
             URNlink link = (URNlink) it.next();
             add(new DeleteURNlinkCommand(link));
         }
+        
+        // bug 553: get rid of scenario start/end point 
+        for (Iterator it = map.getNodes().iterator(); it.hasNext();)
+		{
+			PathNode pn = (PathNode) it.next();
+			if (pn instanceof StartPoint)
+			{
+				add(new DeletePathCommand((StartPoint) pn, null));
+			}
+			else if (pn instanceof EndPoint)
+			{
+				add(new DeletePathCommand((EndPoint) pn, null));
+			}
+		}
     }
 
     /**
