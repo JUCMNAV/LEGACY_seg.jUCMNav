@@ -14,7 +14,7 @@
             contributorClass="seg.jUCMNav.editors.actionContributors.UCMActionBarContributor"
             default="true"
             extensions="jucm"
-            icon="icons/ucm16.gif"
+            icon="icons/urn16.gif"
             id="seg.jUCMNav.MainEditor"
             name="jUCMNav"/>
    </extension>
