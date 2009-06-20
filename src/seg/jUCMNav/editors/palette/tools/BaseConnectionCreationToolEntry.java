@@ -15,7 +15,7 @@ public class BaseConnectionCreationToolEntry extends ConnectionCreationToolEntry
 	
 	public Tool createTool()
 	{
-		return new BaseConnectionCreationTool();
+		return new BaseConnectionCreationTool(factory);
 	}
 
 }
