@@ -3,10 +3,12 @@ package seg.jUCMNav.actions.scenarios;
 import java.util.Vector;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.scenarios.SyntaxChecker;
 
@@ -48,6 +50,12 @@ public class VerifySyntaxActionDelegate implements IEditorActionDelegate {
     	if (editor!=null) {
     		Vector errors = SyntaxChecker.verifySyntax(editor.getModel());
     		SyntaxChecker.refreshProblemsView(errors);
+    		String header =  Messages.getString("VerifySyntaxActionDelegate.SyntaxVerification"); //$NON-NLS-1$
+    		if (errors.size()==0)
+    			MessageDialog.openInformation(editor.getSite().getShell(), header, Messages.getString("VerifySyntaxActionDelegate.NoErrors")); //$NON-NLS-1$
+    		else
+    			MessageDialog.openError(editor.getSite().getShell(), header, errors.size() + Messages.getString("VerifySyntaxActionDelegate.ErrorsFound")); //$NON-NLS-1$
+    			
     	}
 
     }

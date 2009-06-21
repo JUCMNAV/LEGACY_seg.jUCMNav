@@ -1,21 +1,23 @@
 package seg.jUCMNav.actions.staticSemantic;
 
+import java.util.Iterator;
 import java.util.Vector;
-
-import seg.jUCMNav.rulemanagement.RuleManagementCheckingMessage;
-import seg.jUCMNav.staticSemantic.*;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.rulemanagement.RuleManagementCheckingMessage;
+import seg.jUCMNav.staticSemantic.StaticSemanticChecker;
 import urncore.URNmodelElement;
 
 /**
@@ -30,6 +32,7 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
     public void setActiveEditor(IAction action, IEditorPart targetEditor) {
         editor = (UCMNavMultiPageEditor) targetEditor;
 	}
+    protected UCMNavMultiPageEditor getEditor() { return editor; }
 
     /**
      * Check all selected rules by class StaticSemanticChecker and then report the result in the problem view.
@@ -37,10 +40,28 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
      * @see StaticSemanticChecker
      */
     public void run(IAction action) {
-    	if (editor!=null) {
+    	if (getEditor()!=null) {
     		Vector problems = new Vector();
-    		StaticSemanticChecker.getInstance().check(editor.getModel(),problems);
+    		StaticSemanticChecker.getInstance().check(getEditor().getModel(),problems);
     		refreshProblemView(problems);
+    		
+    		String header =  Messages.getString("VerifyStaticSemanticDelegate.StaticSemanticCheck"); //$NON-NLS-1$
+    		boolean hasError=false;
+    		for (Iterator iterator = problems.iterator(); iterator.hasNext();)
+			{
+				RuleManagementCheckingMessage m = (RuleManagementCheckingMessage) iterator.next();
+				if (m.getSeverity()==IMarker.SEVERITY_ERROR) { hasError=true; break; }
+			}
+    		
+    		String message = Messages.getString("VerifyStaticSemanticDelegate.NoErrors"); //$NON-NLS-1$
+    		if (problems.size()>0)
+    			message = ((RuleManagementCheckingMessage)problems.get(0)).getMessage(); // first is the info message. 
+    		
+    		message += Messages.getString("VerifyStaticSemanticDelegate.HasErrors"); //$NON-NLS-1$
+    		if (!hasError)
+    			MessageDialog.openInformation(getEditor().getSite().getShell(), header, message );
+    		else
+    			MessageDialog.openError(getEditor().getSite().getShell(), header, message);    		
     	}
     }
 
@@ -50,13 +71,13 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
 
     /**
      * 
-     * @param problems  A list of problems which contain check results information. The content of the vector must be type of StaticCheckingMsg.
+     * @param problems  A list of problems which contain check results information. The content of the vector must be type of RuleManagementCheckingMessage.
      * @see RuleManagementCheckingMessage
      */
-    private void refreshProblemView(Vector problems)
+    protected void refreshProblemView(Vector problems)
     {
-        if (editor != null) {
-            IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
+        if (getEditor() != null) {
+            IFile resource = ((FileEditorInput) getEditor().getEditorInput()).getFile();
             try {
 
                 IMarker[] existingMarkers = resource.findMarkers(IMarker.PROBLEM, true, 3);

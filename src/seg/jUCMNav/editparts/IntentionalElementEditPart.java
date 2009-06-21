@@ -299,7 +299,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 ((IntentionalElementPropertySource)getPropertySource()).setEvaluationStrategyView(false);
                 if (elem.getFromLinks().size() + elem.getToLinks().size()>0)
                 {
-                    evaluationLabel.setText("");
+                    evaluationLabel.setText(""); //$NON-NLS-1$
                 	evaluationLabel.setIcon(JUCMNavPlugin.getImage( "icons/urnlink.gif")); //$NON-NLS-1$
                     Point position = getNodeFigure().getLocation();
 	                position.y = position.y -16;
@@ -342,7 +342,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                
 	                int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
 
-	                String text = (evaluation.getStrategies() != null ? "(*)" : "");
+	                String text = (evaluation.getStrategies() != null ? "(*)" : ""); //$NON-NLS-1$ //$NON-NLS-2$
 	                
 	                if(evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE) {
 		                String evalStr = String.valueOf(evaluation.getEvaluation());
@@ -423,11 +423,11 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         	String name = getNode().getDef().getName();
 
         	// Handle importance annotation
-        	String importance = "";
+        	String importance = ""; //$NON-NLS-1$
             int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();           
             if(evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE) {
             	if (getNode().getDef().getImportanceQuantitative()>0) {
-            		importance = "  (" + String.valueOf(getNode().getDef().getImportanceQuantitative()) + ")"; //$NON-NLS-1$  $NON-NLS-2$
+            		importance = "  (" + String.valueOf(getNode().getDef().getImportanceQuantitative()) + ")"; //$NON-NLS-1$ //$NON-NLS-2$  $NON-NLS-2$
             	}
             } 
             else if(evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE)

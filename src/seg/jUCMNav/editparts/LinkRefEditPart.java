@@ -302,7 +302,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
             	
                 if (GeneralPreferencePage.getGrlTextVisible()) {
 	                if(/*evalType == IGRLStrategyAlgorithm.EVAL_MIXED ||*/ evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE) {
-	                	contributionLabel.setText(""+contrib.getQuantitativeContribution());
+	                	contributionLabel.setText(""+contrib.getQuantitativeContribution()); //$NON-NLS-1$
 	                } else {
 	                	contributionLabel.setText(type);
 	                }

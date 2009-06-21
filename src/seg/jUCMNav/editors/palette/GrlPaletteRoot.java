@@ -66,7 +66,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
                 JUCMNavPlugin.getImageDescriptor("icons/Decomposition16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Decomposition24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);
-        keyboardMapping.put("d", entry);
+        keyboardMapping.put("d", entry); //$NON-NLS-1$
 
         // Add a contribution
         entry = new BaseConnectionCreationToolEntry(
@@ -74,7 +74,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
                 JUCMNavPlugin.getImageDescriptor("icons/Contribution16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Softgoal24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);
-        keyboardMapping.put("c", entry);
+        keyboardMapping.put("c", entry); //$NON-NLS-1$
 
         // Add a dependency
         entry = new BaseConnectionCreationToolEntry(
@@ -82,7 +82,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
                 JUCMNavPlugin.getImageDescriptor("icons/Dependency16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Dependency24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);
-        keyboardMapping.put("p", entry);
+        keyboardMapping.put("p", entry); //$NON-NLS-1$
 
         // Add belief link
         entry = new BaseConnectionCreationToolEntry(
@@ -90,7 +90,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
                 JUCMNavPlugin.getImageDescriptor("icons/BeliefLink16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/BeliefLink24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);
-        keyboardMapping.put("l", entry);
+        keyboardMapping.put("l", entry); //$NON-NLS-1$
 
         add(linksDrawer);
 
@@ -103,7 +103,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
         componentsDrawer.add(entry);
 
         add(componentsDrawer);
-        keyboardMapping.put("a", entry);        
+        keyboardMapping.put("a", entry);         //$NON-NLS-1$
 
         PaletteDrawer elementsDrawer = new PaletteDrawer(Messages.getString("GrlPaletteRoot.elements")); //$NON-NLS-1$
 
@@ -112,35 +112,35 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
                         IntentionalElementType.SOFTGOAL), JUCMNavPlugin.getImageDescriptor("icons/Softgoal16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Softgoal24.gif")); //$NON-NLS-1$
         elementsDrawer.add(entry);
-        keyboardMapping.put("s", entry);
+        keyboardMapping.put("s", entry); //$NON-NLS-1$
         
         entry = new URNElementCreationEntry(
                 Messages.getString("GrlPaletteRoot.goal"), Messages.getString("GrlPaletteRoot.createGoal"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
                         IntentionalElementType.GOAL), JUCMNavPlugin.getImageDescriptor("icons/Goal16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Goal24.gif")); //$NON-NLS-1$
         elementsDrawer.add(entry);
-        keyboardMapping.put("g", entry);
+        keyboardMapping.put("g", entry); //$NON-NLS-1$
         
         entry = new URNElementCreationEntry(
                 Messages.getString("GrlPaletteRoot.task"), Messages.getString("GrlPaletteRoot.createTask"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
                         IntentionalElementType.TASK), JUCMNavPlugin.getImageDescriptor("icons/Task16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Task24.gif")); //$NON-NLS-1$
         elementsDrawer.add(entry);
-        keyboardMapping.put("t", entry);
+        keyboardMapping.put("t", entry); //$NON-NLS-1$
         
         entry = new URNElementCreationEntry(
                 Messages.getString("GrlPaletteRoot.resource"), Messages.getString("GrlPaletteRoot.createResource"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
                         IntentionalElementType.RESSOURCE), JUCMNavPlugin.getImageDescriptor("icons/Resource16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Resource24.gif")); //$NON-NLS-1$
         elementsDrawer.add(entry);
-        keyboardMapping.put("r", entry);
+        keyboardMapping.put("r", entry); //$NON-NLS-1$
         
         entry = new URNElementCreationEntry(
                 Messages.getString("GrlPaletteRoot.belief"), Messages.getString("GrlPaletteRoot.createBelief"), Belief.class, new ModelCreationFactory(getURNspec(), Belief.class), //$NON-NLS-1$ //$NON-NLS-2$
                 JUCMNavPlugin.getImageDescriptor("icons/Belief16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Belief24.gif")); //$NON-NLS-1$
         elementsDrawer.add(entry);
-        keyboardMapping.put("b", entry);
+        keyboardMapping.put("b", entry); //$NON-NLS-1$
 
         add(elementsDrawer);
 
@@ -153,7 +153,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
                         IntentionalElementType.INDICATOR), JUCMNavPlugin.getImageDescriptor("icons/Indicator16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Indicator24.gif")); //$NON-NLS-1$
         kpiModelDrawer.add(entry);
-        keyboardMapping.put("i", entry);
+        keyboardMapping.put("i", entry); //$NON-NLS-1$
 
         // Add Dimension
         entry = new URNElementCreationEntry(Messages.getString("GrlPaletteRoot.dimension"), Messages.getString("GrlPaletteRoot.createDimension"), //$NON-NLS-1$ //$NON-NLS-2$
@@ -161,7 +161,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
                         .getImageDescriptor("icons/Dimension16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Dimension24.gif")); //$NON-NLS-1$
         kpiModelDrawer.add(entry);
-        keyboardMapping.put("j", entry);
+        keyboardMapping.put("j", entry); //$NON-NLS-1$
 
         // Add KPIModelLink
         entry = new BaseConnectionCreationToolEntry(
@@ -169,7 +169,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
                 JUCMNavPlugin.getImageDescriptor("icons/KPIModelLink16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/KPIModelLink24.gif")); //$NON-NLS-1$
         kpiModelDrawer.add(entry);
-        keyboardMapping.put("k", entry);
+        keyboardMapping.put("k", entry); //$NON-NLS-1$
 
         add(kpiModelDrawer);
 

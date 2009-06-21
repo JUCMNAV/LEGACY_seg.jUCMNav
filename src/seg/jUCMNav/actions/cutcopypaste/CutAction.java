@@ -5,6 +5,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.DeleteAction;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.model.commands.cutcopypaste.CopyCommand;
@@ -16,7 +17,7 @@ public class CutAction extends DeleteAction
 	{
 		super(part);
 		setId(ActionFactory.CUT.getId());
-		setText("Cut");
+		setText(Messages.getString("CutAction.Cut")); //$NON-NLS-1$
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
 		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
 		setDisabledImageDescriptor(sharedImages.getImageDescriptor(

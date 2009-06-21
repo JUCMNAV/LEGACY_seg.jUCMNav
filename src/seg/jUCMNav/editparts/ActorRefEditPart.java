@@ -87,7 +87,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         evaluationLabel.setSize(58, 16);
         evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor16.gif")); //$NON-NLS-1$
         evaluationLabel.setIcon(evaluationImg);
-        evaluationLabel.setText("");
+        evaluationLabel.setText(""); //$NON-NLS-1$
         evaluationLabel.setVisible(true);
         try {
             ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
@@ -192,7 +192,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
 
             }
         	evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor16.gif")); //$NON-NLS-1$
-            evaluationLabel.setText("");
+            evaluationLabel.setText(""); //$NON-NLS-1$
             
 
             if (((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {

@@ -29,7 +29,7 @@ public class BaseCreationTool extends CreationTool
     	
     	if (getDomain().getPaletteViewer().getPaletteRoot() instanceof UcmPaletteRoot) {
     		UcmPaletteRoot root = (UcmPaletteRoot)getDomain().getPaletteViewer().getPaletteRoot();
-    		ToolEntry entry = root.getAssociatedTool(("" + e.character).toLowerCase());
+    		ToolEntry entry = root.getAssociatedTool(("" + e.character).toLowerCase()); //$NON-NLS-1$
     		if (entry!=null) { 
     			getDomain().getPaletteViewer().setActiveTool(entry);
     			return true;

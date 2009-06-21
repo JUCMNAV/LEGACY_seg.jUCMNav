@@ -171,7 +171,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 			if (ucmspec != null) {
 				for (Iterator iter = ucmspec.getScenarioGroups().iterator(); iter.hasNext();) {
 					ScenarioGroup group = (ScenarioGroup) iter.next();
-						if (group.getName().compareToIgnoreCase("Init") != 0){
+						if (group.getName().compareToIgnoreCase("Init") != 0){ //$NON-NLS-1$
                         // This is not the special Init group
 						for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
 							ScenarioDef scen = (ScenarioDef) iterator.next();
