@@ -28,7 +28,7 @@ public class AddMapAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null;
+        return sel.getUrnspec() != null && (sel.getSelectionType() == SelectionHelper.MAP || sel.getSelectionType() == SelectionHelper.GRLGRAPH || sel.getSelectionType() == SelectionHelper.URNSPEC);
     }
 
     /**

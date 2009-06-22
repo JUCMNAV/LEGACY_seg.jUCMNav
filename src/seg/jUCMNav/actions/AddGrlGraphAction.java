@@ -21,13 +21,15 @@ public class AddGrlGraphAction extends URNSelectionAction {
         setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/grl16.gif")); //$NON-NLS-1$
     }
     
+
     /**
-     * We need to have a URNspec.
+     * If you have a URNspec or Graph selected.
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null;
+        return sel.getUrnspec() != null && (sel.getSelectionType() == SelectionHelper.MAP || sel.getSelectionType() == SelectionHelper.GRLGRAPH || sel.getSelectionType() == SelectionHelper.URNSPEC);
     }
+
     
     /**
      * @return a {@link CreateGrlGraphCommand}
