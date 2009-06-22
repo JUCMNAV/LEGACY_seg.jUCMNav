@@ -30,6 +30,7 @@ import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddBranchOnStubAction;
 import seg.jUCMNav.actions.AddConditionLabelAction;
+import seg.jUCMNav.actions.AddContainerRefAction;
 import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.AddEmptyPoint;
 import seg.jUCMNav.actions.AddGrlGraphAction;
@@ -37,8 +38,11 @@ import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
-import seg.jUCMNav.actions.AddResponsibility;
+import seg.jUCMNav.actions.AddResponsibilityAction;
+import seg.jUCMNav.actions.AddStartPointAction;
+import seg.jUCMNav.actions.AddStubAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
+import seg.jUCMNav.actions.AddWaitingPlaceAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
@@ -85,6 +89,7 @@ import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 import seg.jUCMNav.actions.scenarios.MoveAction;
 import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
 import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 
 /**
@@ -259,10 +264,30 @@ public class ActionRegistryManager
 		action.setText(Messages.getString("ActionRegistryManager.addEmptyPoint")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 
-		action = new AddResponsibility(editor);
+		action = new AddResponsibilityAction(editor);
 		action.setText(Messages.getString("ActionRegistryManager.addResponsibility")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 
+		action = new AddStubAction(editor, AddStubAction.ADDSTUB);
+		action.setText(Messages.getString("ActionRegistryManager.addStub")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+		
+		action = new AddStubAction(editor, AddStubAction.ADDDYNAMICSTUB);
+		action.setText(Messages.getString("ActionRegistryManager.addDynamicStub")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+		
+		action = new AddStubAction(editor, AddStubAction.ADDPOINTCUTSTUB);
+		action.setText(Messages.getString("ActionRegistryManager.addPointcutStub")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+		
+		action = new AddWaitingPlaceAction(editor, AddWaitingPlaceAction.ADDWP);
+		action.setText(Messages.getString("ActionRegistryManager.addWaitingPlace")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+
+		action = new AddWaitingPlaceAction(editor, AddWaitingPlaceAction.ADDTIMER);
+		action.setText(Messages.getString("ActionRegistryManager.addTimer")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+		
 		action = new AddConditionLabelAction(editor);
 		action.setText(Messages.getString("ActionRegistryManager.AddConditionLabel")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
@@ -295,6 +320,34 @@ public class ActionRegistryManager
 		action.setText(Messages.getString("ActionRegistryManager.addAndJoin")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 
+		action = new AddStartPointAction((UCMNavMultiPageEditor)editor);
+		action.setText(Messages.getString("ActionRegistryManager.AddStartPoint")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+		
+		action = new AddContainerRefAction((UCMNavMultiPageEditor)editor, AddContainerRefAction.ADDTEAM);
+		action.setText(Messages.getString("ActionRegistryManager.AddTeam")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+		
+		action = new AddContainerRefAction((UCMNavMultiPageEditor)editor, AddContainerRefAction.ADDOBJECT);
+		action.setText(Messages.getString("ActionRegistryManager.AddObject")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+
+		action = new AddContainerRefAction((UCMNavMultiPageEditor)editor, AddContainerRefAction.ADDPROCESS);
+		action.setText(Messages.getString("ActionRegistryManager.AddProcess")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+		
+		action = new AddContainerRefAction((UCMNavMultiPageEditor)editor, AddContainerRefAction.ADDAGENT);
+		action.setText(Messages.getString("ActionRegistryManager.AddAgent")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+
+		action = new AddContainerRefAction((UCMNavMultiPageEditor)editor, AddContainerRefAction.ADDACTOR);
+		action.setText(Messages.getString("ActionRegistryManager.AddActor")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+		
+		action = new AddContainerRefAction((UCMNavMultiPageEditor)editor, AddContainerRefAction.ADDOTHER);
+		action.setText(Messages.getString("ActionRegistryManager.AddOther")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+		
 		action = new AddBranchAction(editor);
 		action.setText(Messages.getString("ActionRegistryManager.addBranch")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);

@@ -15,14 +15,13 @@ import urn.URNspec;
  * 
  * @author Ali
  */
-public class AddResponsibility extends URNSelectionAction {
+public class AddResponsibilityAction extends URNSelectionAction {
     public static final String ADDRESPONSIBILITY= "seg.jUCMNav.AddResponsibility"; //$NON-NLS-1$
-    
 
     /**
      * @param part
      */
-    public AddResponsibility(IWorkbenchPart part) {
+    public AddResponsibilityAction(IWorkbenchPart part) {
         super(part);
         setId(ADDRESPONSIBILITY);
         setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Resp16.gif")); //$NON-NLS-1$
@@ -50,7 +49,7 @@ public class AddResponsibility extends URNSelectionAction {
      */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        PathNode newResponsibility = getNewResponsibility(sel.getUrnspec());
+        PathNode newResponsibility = getNewPathNode(sel.getUrnspec());
         Command comm;
         
         
@@ -76,9 +75,9 @@ public class AddResponsibility extends URNSelectionAction {
     
     /**
      * @param urn
-     * @return a Responsibility
+     * @return the PathNode to be inserted. 
      */
-    protected PathNode getNewResponsibility(URNspec urn) {
+    protected PathNode getNewPathNode(URNspec urn) {
         return (RespRef) ModelCreationFactory.getNewObject(urn, RespRef.class);
     }
 

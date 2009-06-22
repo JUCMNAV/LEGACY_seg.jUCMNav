@@ -33,6 +33,13 @@ public class SelectPaletteEntryAction extends Action
 	 */
 	public void run()
 	{
+		String tool = getId().substring(getId().length()-1);
+
+		selectTool(this.part, tool);
+	}
+
+	public static void selectTool(IWorkbenchPart part, String tool)
+	{
 		if (part instanceof UCMNavMultiPageEditor)
 		{
 			UCMNavMultiPageEditor nav = (UCMNavMultiPageEditor) part;
@@ -44,7 +51,7 @@ public class SelectPaletteEntryAction extends Action
 					PaletteRoot root =  viewer.getPaletteRoot();
 					if (root!=null && root instanceof UcmPaletteRoot )
 					{
-						viewer.setActiveTool(((UcmPaletteRoot)root).getAssociatedTool(getId().substring(getId().length()-1)));
+						viewer.setActiveTool(((UcmPaletteRoot)root).getAssociatedTool(tool));
 					}
 				}
 			}

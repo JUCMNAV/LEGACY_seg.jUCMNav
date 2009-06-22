@@ -6,15 +6,18 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddBranchOnStubAction;
 import seg.jUCMNav.actions.AddConditionLabelAction;
+import seg.jUCMNav.actions.AddContainerRefAction;
 import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.AddEmptyPoint;
 import seg.jUCMNav.actions.AddGrlGraphAction;
@@ -22,8 +25,11 @@ import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
-import seg.jUCMNav.actions.AddResponsibility;
+import seg.jUCMNav.actions.AddResponsibilityAction;
+import seg.jUCMNav.actions.AddStartPointAction;
+import seg.jUCMNav.actions.AddStubAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
+import seg.jUCMNav.actions.AddWaitingPlaceAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
@@ -35,9 +41,10 @@ import seg.jUCMNav.actions.DuplicateMapAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.ExportAction;
-import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.GenerateReportAction;
+import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
+import seg.jUCMNav.actions.SubmenuAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
@@ -61,12 +68,14 @@ import seg.jUCMNav.actions.scenarios.EditCodeAction;
 public class UrnContextMenuProvider extends ContextMenuProvider {
 
     private ActionRegistry actionRegistry;
+    protected static final String GROUP_UNCOMMON = "seg.jUCMNav.Uncommon";  //$NON-NLS-1$
 
     /**
      * Looks up a set of actions in the action registry. If they are enabled, adds them to the correct groups.
      */
     public void buildContextMenu(IMenuManager manager) {
         GEFActionConstants.addStandardActionGroups(manager);
+        manager.add(new Separator(GROUP_UNCOMMON));
 
         IAction action;
 
@@ -101,24 +110,8 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(DeleteEvaluationAction.DELETEEVALUATION);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
-
-        action = getActionRegistry().getAction(CutPathAction.CUTPATH);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
+     
         action = getActionRegistry().getAction(AddLabelAction.ADDLABEL);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        action = getActionRegistry().getAction(AddDirectionArrow.ADDDIRECTIONARROW);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        action = getActionRegistry().getAction(AddEmptyPoint.ADDEMPTYPOINT);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        action = getActionRegistry().getAction(AddResponsibility.ADDRESPONSIBILITY);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
@@ -138,49 +131,51 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        action = getActionRegistry().getAction(AddOrForkAction.ADDORFORK);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        IAction[] actions = new IAction[13];
+        actions[0] = getActionRegistry().getAction(AddOrForkAction.ADDORFORK);
+        actions[1] = getActionRegistry().getAction(AddAndForkAction.ADDANDFORK);
+        actions[2] = getActionRegistry().getAction(AddOrJoinAction.ADDORJOIN);
+        actions[3] = getActionRegistry().getAction(AddAndJoinAction.ADDANDJOIN);
+        actions[4] = getActionRegistry().getAction(AddBranchAction.ADDBRANCH);
+        actions[5] = getActionRegistry().getAction(AddTimeoutPathAction.ADDTIMEOUTPATH);
+        actions[6] = getActionRegistry().getAction(AddBranchOnStubAction.ADDBRANCH);
+        actions[7] = getActionRegistry().getAction(AddBranchOnStubAction.ADDBRANCH2);
+        actions[8] = getActionRegistry().getAction(DisconnectTimeoutPathAction.DISCONNECTTIMEOUTPATH);
+        actions[9] = getActionRegistry().getAction(CutPathAction.CUTPATH);
+        actions[10]= getActionRegistry().getAction(TransmogrifyOrForkOrJoinAction.TRANSMOGRIFYFORK);
+        actions[11] = getActionRegistry().getAction(TransmogrifyAndForkOrJoinAction.TRANSMOGRIFYJOIN);
+        actions[12] = getActionRegistry().getAction(AddStartPointAction.ADDSTART);
 
-        action = getActionRegistry().getAction(AddAndForkAction.ADDANDFORK);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        SubmenuAction submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.PathOperations"), Messages.getString("UrnContextMenuProvider.PathOperations"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount()>0)
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
-        action = getActionRegistry().getAction(AddOrJoinAction.ADDORJOIN);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        actions = new IAction[8];
+        actions[0] = getActionRegistry().getAction(AddResponsibilityAction.ADDRESPONSIBILITY);
+        actions[1] = getActionRegistry().getAction(AddDirectionArrow.ADDDIRECTIONARROW);
+        actions[2] = getActionRegistry().getAction(AddEmptyPoint.ADDEMPTYPOINT);
+        actions[3] = getActionRegistry().getAction(AddStubAction.ADDSTUB);
+        actions[4] = getActionRegistry().getAction(AddStubAction.ADDDYNAMICSTUB);
+        actions[5] = getActionRegistry().getAction(AddStubAction.ADDPOINTCUTSTUB);
+        actions[6] = getActionRegistry().getAction(AddWaitingPlaceAction.ADDWP);
+        actions[7] = getActionRegistry().getAction(AddWaitingPlaceAction.ADDTIMER);
+        
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.InsertNode"), Messages.getString("UrnContextMenuProvider.InsertNode"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount()>0)
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+        
+        actions = new IAction[6];
+        actions[0] = getActionRegistry().getAction(AddContainerRefAction.ADDTEAM);
+        actions[1] = getActionRegistry().getAction(AddContainerRefAction.ADDOBJECT);
+        actions[2] = getActionRegistry().getAction(AddContainerRefAction.ADDPROCESS);
+        actions[3] = getActionRegistry().getAction(AddContainerRefAction.ADDAGENT);
+        actions[4] = getActionRegistry().getAction(AddContainerRefAction.ADDACTOR);
+        actions[5] = getActionRegistry().getAction(AddContainerRefAction.ADDOTHER);
+        
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.InsertComponent"), Messages.getString("UrnContextMenuProvider.InsertComponent"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount()>0)
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);        
 
-        action = getActionRegistry().getAction(AddAndJoinAction.ADDANDJOIN);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        action = getActionRegistry().getAction(AddBranchAction.ADDBRANCH);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        action = getActionRegistry().getAction(AddTimeoutPathAction.ADDTIMEOUTPATH);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        action = getActionRegistry().getAction(AddBranchOnStubAction.ADDBRANCH);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        action = getActionRegistry().getAction(AddBranchOnStubAction.ADDBRANCH2);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        action = getActionRegistry().getAction(DisconnectTimeoutPathAction.DISCONNECTTIMEOUTPATH);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        action = getActionRegistry().getAction(TransmogrifyOrForkOrJoinAction.TRANSMOGRIFYFORK);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        action = getActionRegistry().getAction(TransmogrifyAndForkOrJoinAction.TRANSMOGRIFYJOIN);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())
@@ -216,31 +211,31 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
 
         action = getActionRegistry().getAction(ManageConcernsAction.MANAGECONCERNS);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(ImportAction.IMPORT);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(ExportAction.EXPORT);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(GenerateReportAction.GENERATEREPORT);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(EditStubPluginsAction.EDITSTUBPLUGINS);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(EditURNLinksAction.EDITURNLINKS);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(EditCodeAction.EDITCODEACTION);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(DuplicateMapAction.DUPLICATEMAP);
         if (action.isEnabled())
@@ -248,21 +243,21 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
 
         action = getActionRegistry().getAction(EditMetadataAction.EDITMETADATAACTION);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(EditIndicatorGroupsAction.EDITINDICATORGROUPSACTION);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         // _js_
         action = getActionRegistry().getAction(ManageDemandAction.MANAGEDEMANDACTION);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         // _js_
         action = getActionRegistry().getAction(ManageResourcesAction.MANAGERESOURCESACTION);
         if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+            manager.appendToGroup(GROUP_UNCOMMON, action);
 
         // only available when debugging jucmnav
         
