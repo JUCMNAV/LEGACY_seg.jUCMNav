@@ -6,8 +6,9 @@
 		<topic label="jUCMNav Online Help" href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine"/>
    </context>
    <context id="autolayout">
-      <description>You may find more information on this subject in our online help.</description>
+      <description>jUCMNav uses an external tool named Graphviz dot (downloadable from http://www.graphviz.org) for its auto-layout functionality.</description>
       <topic href="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Auto_layout" label="Auto-Layout"/>
+      <topic href="http://www.graphviz.org" label="Download Graphviz"/>
    </context>
    <context  id="newfile" >
 		<description>Choose the folder where the new *.jucm file should be created, enter its name, and select what diagrams you want created by default (UCM and/or GRL).</description>

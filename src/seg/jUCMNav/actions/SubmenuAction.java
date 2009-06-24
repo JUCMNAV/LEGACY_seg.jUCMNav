@@ -11,14 +11,42 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
+/**
+ * This action contains other actions and helps create another level of
+ * contextual menus.
+ * 
+ * @author jkealey
+ * 
+ */
 public class SubmenuAction extends Action implements SelectionListener
 {
+	// / Who to inform when this action is fired (meaning display the submenu)
 	private SelectionListener actionInstance;
+
+	// the list of actions that are contained within this action
 	private IAction[] actions;
+
+	// should we hide the disabled ones (if not, they will appear as grayed out)
 	private boolean hideDisabled;
-	
+
+	/***
+	 * Create a submenu.
+	 * 
+	 * @param subactions
+	 *            the actions that are contained within
+	 * @param text
+	 *            the container's textual label
+	 * @param toolTip
+	 *            the container's tooltip
+	 * @param descriptor
+	 *            the container's image descriptor
+	 * @param hideDisabledActions
+	 *            should we hide the disabled ones (if not, they will appear as
+	 *            grayed out)
+	 */
 	public SubmenuAction(IAction[] subactions, String text, String toolTip, ImageDescriptor descriptor, boolean hideDisabledActions)
 	{
+		// indicate that this is a secondary fly-out menu.
 		super("", IAction.AS_DROP_DOWN_MENU);
 
 		this.actionInstance = this;
@@ -28,26 +56,41 @@ public class SubmenuAction extends Action implements SelectionListener
 		setText(text);
 		setToolTipText(toolTip);
 		setImageDescriptor(descriptor);
-		
+
+		// the secondayr menu logic
 		setMenuCreator(new IMenuCreator()
 		{
 			public Menu getMenu(Control parent)
 			{
+				// this would be used outside of a menu. not useful for us.
 				return null;
 			}
 
 			public Menu getMenu(Menu parent)
 			{
+				// create a submenu
 				Menu menu = new Menu(parent);
+				// fill it with our actions
 				for (int i = 0; i < actions.length; i++)
 				{
-					if (actions[i]==null || !actions[i].isEnabled() && hideDisabled)
+					// skip the disabled ones if necessary (or null actions)
+					if (actions[i] == null || !actions[i].isEnabled() && hideDisabled)
 						continue;
+
+					// create the submenu item
 					MenuItem item = new MenuItem(menu, SWT.NONE);
+
+					// memorize the index
 					item.setData(new Integer(i));
+
+					// identify it
 					item.setText(actions[i].getText());
-					if (actions[i].getImageDescriptor()!=null)
+
+					// create its image
+					if (actions[i].getImageDescriptor() != null)
 						item.setImage(actions[i].getImageDescriptor().createImage());
+
+					// inform us when something is selected.
 					item.addSelectionListener(actionInstance);
 				}
 				return menu;
@@ -60,11 +103,17 @@ public class SubmenuAction extends Action implements SelectionListener
 
 	}
 
+	/**
+	 * Returns how many items are enabled in the flyout. Useful to hide the
+	 * submenu when none are enabled.
+	 * 
+	 * @return the number of currently enabled menu items.
+	 */
 	public int getActiveOperationCount()
 	{
-		int operationCount=0;
-		for (int i=0;i<actions.length;i++)
-			operationCount += actions[i]!=null && actions[i].isEnabled() ? 1 : 0; 
+		int operationCount = 0;
+		for (int i = 0; i < actions.length; i++)
+			operationCount += actions[i] != null && actions[i].isEnabled() ? 1 : 0;
 
 		return operationCount;
 	}
@@ -91,6 +140,7 @@ public class SubmenuAction extends Action implements SelectionListener
 	 */
 	public void widgetSelected(SelectionEvent e)
 	{
+		// get the index from the data and run that action.
 		actions[((Integer) (((MenuItem) (e.getSource())).getData())).intValue()].run();
 	}
 }
