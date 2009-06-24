@@ -39,7 +39,7 @@ public class PluginListDialog extends ListDialog {
      */
     public PluginListDialog(Shell parent, UCMNavMultiPageEditor editor) {
         super(parent);
-        setShellStyle(SWT.TOOL | SWT.BORDER);
+        setShellStyle(SWT.TOOL | SWT.BORDER | SWT.RESIZE);
         this.setContentProvider(new PluginContentProvider());
         this.setLabelProvider(new PluginLabelProvider());
         this.editor = editor;
