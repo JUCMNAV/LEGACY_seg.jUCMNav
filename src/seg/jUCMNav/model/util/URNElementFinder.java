@@ -370,7 +370,7 @@ public class URNElementFinder {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
         }
-        Collections.sort(v);
+        Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
     }
     
@@ -385,7 +385,7 @@ public class URNElementFinder {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
         }
-        Collections.sort(v);
+        Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
     }      
     
@@ -400,7 +400,7 @@ public class URNElementFinder {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
         }
-        Collections.sort(v);
+        Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
     }     
     /**
@@ -414,7 +414,7 @@ public class URNElementFinder {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
         }
-        Collections.sort(v);
+        Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
     } 
     
@@ -429,7 +429,7 @@ public class URNElementFinder {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
         }
-        Collections.sort(v);
+        Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
     }      
     
