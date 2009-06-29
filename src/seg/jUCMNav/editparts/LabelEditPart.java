@@ -4,7 +4,6 @@ import grl.ActorRef;
 import grl.GrlPackage;
 import grl.IntentionalElementRef;
 
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -30,6 +29,7 @@ import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelDirectEditPolicy;
 import seg.jUCMNav.editpolicies.element.LabelComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.LabelFeedbackEditPolicy;
+import seg.jUCMNav.editpolicies.layout.PathNodeXYLayoutEditPolicy;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.util.JUCMNavFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
@@ -157,6 +157,9 @@ public class LabelEditPart extends ModelElementEditPart {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
+		
+		// to support selecting the label even with palette tool open. 
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new PathNodeXYLayoutEditPolicy());
 	}
 
 	/**
@@ -292,6 +295,11 @@ public class LabelEditPart extends ModelElementEditPart {
 	 * 
 	 */
 	protected void performDirectEdit() {
+		openDirectEditor();
+	}
+
+	public void openDirectEditor()
+	{
 		if (manager == null) {
 			LabelFigure figure = (LabelFigure) getFigure();
 

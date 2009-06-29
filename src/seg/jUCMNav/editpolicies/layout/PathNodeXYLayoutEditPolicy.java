@@ -10,14 +10,18 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.actions.SelectionHelper;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.model.commands.create.AddBranchCommand;
 import seg.jUCMNav.model.commands.create.ConnectCommand;
 import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
+import seg.jUCMNav.model.commands.ui.EditLabelCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -28,6 +32,7 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import urncore.Label;
 
 /**
  * XYLayoutEditPolicy for PathNodes. Allows replacing empty points and direction arrows with other PathNodes when using the Palette. Furthermore, manages the
@@ -170,6 +175,9 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
                 return null;
         } else if (isForkOrJoin(getHost().getModel()) && (isForkOrJoin(request.getNewObject()) || isPathTool(request))) {
             return new AddBranchCommand((PathNode) getHost().getModel());
+        } else if (getHost().getModel() instanceof Label) {
+        	UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+        	return new EditLabelCommand(editor, (LabelEditPart) getHost());
         } else
             return null;
     }
