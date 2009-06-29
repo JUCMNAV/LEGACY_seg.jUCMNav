@@ -144,6 +144,11 @@ public class AndForkJoinFigure extends PathNodeFigure implements IRotateable {
             ((ChopboxAnchor) outgoingAnchor).ancestorMoved(this);
         }
     }
+    
+    public double getAngle()
+    {
+    	return this.angle;
+    }
 
     /**
      * Rebuilds the edges PointList and grows the figure so that we change the point count but keep the same space between all the points
