@@ -143,4 +143,14 @@ public class SubmenuAction extends Action implements SelectionListener
 		// get the index from the data and run that action.
 		actions[((Integer) (((MenuItem) (e.getSource())).getData())).intValue()].run();
 	}
+	
+	public IAction find(String id)
+	{
+		if (actions==null) return null;
+		for (int i=0;i<actions.length;i++) {
+			if (actions[i]!=null && actions[i].getId().equals(id))
+				return actions[i];
+		}
+		return null;
+	}
 }

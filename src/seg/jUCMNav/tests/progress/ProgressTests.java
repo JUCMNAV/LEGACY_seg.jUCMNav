@@ -56,6 +56,7 @@ import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.ExportAction;
+import seg.jUCMNav.actions.SubmenuAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
@@ -138,10 +139,25 @@ public class ProgressTests extends TestCase {
         } else
             getGraphicalViewer().deselectAll();
         ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu((getGraphicalViewer().getContextMenu()));
-        IContributionItem contrib = ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).find(id);
+        UrnContextMenuProvider context = (UrnContextMenuProvider) getGraphicalViewer().getContextMenu();
+        IContributionItem contrib = context.find(id);
         if (contrib instanceof ActionContributionItem) {
             return ((ActionContributionItem) contrib).getAction();
-        } else
+        } else {
+        	IContributionItem action = context.find(UrnContextMenuProvider.SUBMENU_INSERTNODE);
+        	IAction subaction=null;
+        	if (action!=null && action instanceof ActionContributionItem && ((ActionContributionItem)action).getAction() instanceof SubmenuAction)
+        	{
+        		subaction = ((SubmenuAction)((ActionContributionItem)action).getAction() ).find(id);
+        		if (subaction!=null) return subaction;
+        	}
+        	action = context.find(UrnContextMenuProvider.SUBMENU_PATHOPERATIONS);
+        	if (action!=null && action instanceof ActionContributionItem && ((ActionContributionItem)action).getAction() instanceof SubmenuAction)
+        	{
+        		subaction = ((SubmenuAction)((ActionContributionItem)action).getAction() ).find(id);
+        		if (subaction!=null) return subaction;
+        	}
+        }
             return null;
 
     }

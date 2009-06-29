@@ -67,7 +67,9 @@ import seg.jUCMNav.actions.scenarios.EditCodeAction;
  */
 public class UrnContextMenuProvider extends ContextMenuProvider {
 
-    private ActionRegistry actionRegistry;
+    public static final String SUBMENU_INSERTNODE = "seg.jUCMnav.InsertNodeSubMenu";
+    public static final String SUBMENU_PATHOPERATIONS = "seg.jUCMnav.PathOperationsSubMenu";
+	private ActionRegistry actionRegistry;
     protected static final String GROUP_UNCOMMON = "seg.jUCMNav.Uncommon";  //$NON-NLS-1$
 
     /**
@@ -147,6 +149,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[12] = getActionRegistry().getAction(AddStartPointAction.ADDSTART);
 
         SubmenuAction submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.PathOperations"), Messages.getString("UrnContextMenuProvider.PathOperations"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        submenu.setId(SUBMENU_PATHOPERATIONS);
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
@@ -161,6 +164,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[7] = getActionRegistry().getAction(AddWaitingPlaceAction.ADDTIMER);
         
         submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.InsertNode"), Messages.getString("UrnContextMenuProvider.InsertNode"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        submenu.setId(SUBMENU_INSERTNODE);
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
         
