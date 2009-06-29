@@ -248,7 +248,7 @@ public class AutoLayoutWizard extends Wizard {
 					 * cmd.add(resize); }
 					 */
 				}
-			} else if (line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\".+\", height=\".+\"];")) { //$NON-NLS-1$ //$NON-NLS-2$
+			} else if (line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\"?.+\"?, height=\"?.+\"?];")) { //$NON-NLS-1$ //$NON-NLS-2$
 				// ex: PathNode5 [pos="76,122", width="1.22", height="0.50"];
 				line = line.trim();
 				IURNNode pn = URNElementFinder.findNode(usecasemap, line.substring(AutoLayoutPreferences.PATHNODEPREFIX.length(), line.indexOf(" "))); //$NON-NLS-1$

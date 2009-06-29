@@ -29,6 +29,7 @@ import seg.jUCMNav.model.commands.create.CreateEnumerationTypeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteEnumerationTypeCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeEnumerationTypeCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.EnumerationType;
 import urn.URNspec;
 
@@ -322,6 +323,9 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 			stack.execute(cmd);
 			executedCommandCount++;
 		}
+		
+		// bug 654
+		ScenarioUtils.releaseEnvironment(this.urn);
 		
 	
 	}
