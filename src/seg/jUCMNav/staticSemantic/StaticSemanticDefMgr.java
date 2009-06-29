@@ -24,8 +24,8 @@ import seg.jUCMNav.rulemanagement.RuleManagementUtil;
  */
 public class StaticSemanticDefMgr extends RuleManagementDefinitionManager{
 	 
-	 private static String RULE_TYPE = "StaticSemantic" ;
-	 private static String DEFAULT_STATIC_SEMANTIC_RULE_FILE = "defaultRules.xml";
+	 private static String RULE_TYPE = "StaticSemantic" ; //$NON-NLS-1$
+	 private static String DEFAULT_STATIC_SEMANTIC_RULE_FILE = "defaultRules.xml"; //$NON-NLS-1$
 	 private static final String SHOW_DESCRIPTION = RULE_TYPE + "SHOW_DESCRIPTION"; //$NON-NLS-1$
 
 	 private boolean bShowDesc;

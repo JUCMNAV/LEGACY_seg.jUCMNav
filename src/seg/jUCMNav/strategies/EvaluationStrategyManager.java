@@ -155,11 +155,11 @@ public class EvaluationStrategyManager {
     public synchronized void setupEvaluationAlgorithm() {
         String algoChoice = StrategyEvaluationPreferences.getAlgorithm();
     	
-        if((StrategyEvaluationPreferences.MIXED_ALGORITHM+"").equals(algoChoice))
+        if((StrategyEvaluationPreferences.MIXED_ALGORITHM+"").equals(algoChoice)) //$NON-NLS-1$
         	algo = new MixedGRLStrategyAlgorithm();
-        else if((StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM+"").equals(algoChoice))
+        else if((StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM+"").equals(algoChoice)) //$NON-NLS-1$
         	algo = new QuantitativeGRLStrategyAlgorithm();
-        else if((StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM+"").equals(algoChoice))
+        else if((StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM+"").equals(algoChoice)) //$NON-NLS-1$
         	algo = new QualitativeGRLStrategyAlgorithm();
         else 
         	algo = new DefaultGRLStrategyAlgorithm();

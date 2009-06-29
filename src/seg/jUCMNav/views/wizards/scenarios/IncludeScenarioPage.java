@@ -60,7 +60,7 @@ public class IncludeScenarioPage extends WizardPage {
 	 * Creates the page.
 	 */
 	public void createControl(Composite parent) {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_includescenario");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_includescenario"); //$NON-NLS-1$
 		children = new Vector();
 		Composite container = new Composite(parent, SWT.NULL);
 

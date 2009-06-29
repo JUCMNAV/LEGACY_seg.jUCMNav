@@ -166,7 +166,7 @@ public class MetadataEditorPage extends WizardPage {
      */
     public void createControl(Composite parent) {
     	
-    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.metadata");
+    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.metadata"); //$NON-NLS-1$
 
         container = new Composite(parent, SWT.NULL);
         shell = container.getShell();

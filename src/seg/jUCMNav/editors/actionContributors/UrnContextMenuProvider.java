@@ -67,8 +67,8 @@ import seg.jUCMNav.actions.scenarios.EditCodeAction;
  */
 public class UrnContextMenuProvider extends ContextMenuProvider {
 
-    public static final String SUBMENU_INSERTNODE = "seg.jUCMnav.InsertNodeSubMenu";
-    public static final String SUBMENU_PATHOPERATIONS = "seg.jUCMnav.PathOperationsSubMenu";
+    public static final String SUBMENU_INSERTNODE = "seg.jUCMnav.InsertNodeSubMenu"; //$NON-NLS-1$
+    public static final String SUBMENU_PATHOPERATIONS = "seg.jUCMnav.PathOperationsSubMenu"; //$NON-NLS-1$
 	private ActionRegistry actionRegistry;
     protected static final String GROUP_UNCOMMON = "seg.jUCMNav.Uncommon";  //$NON-NLS-1$
 

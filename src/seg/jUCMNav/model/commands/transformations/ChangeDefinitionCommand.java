@@ -10,6 +10,7 @@ import grl.kpimodel.KPIInformationElementRef;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNElementFinder;
 import ucm.map.RespRef;
@@ -38,13 +39,13 @@ public class ChangeDefinitionCommand extends Command implements JUCMNavCommand {
     	this.lbl=lbl;
     	this.name = newName;
     	this.urn = urn;
-        setLabel("Replace definition");
+        setLabel(Messages.getString("ChangeDefinitionCommand.ReplaceDefinition")); //$NON-NLS-1$
     }
     public ChangeDefinitionCommand(URNspec urn, GRLNode node, String newName) {
     	this.elem = node;
     	this.name = newName;
     	this.urn = urn;
-        setLabel("Replace definition");
+        setLabel(Messages.getString("ChangeDefinitionCommand.ReplaceDefinition")); //$NON-NLS-1$
     }    
 
     /**

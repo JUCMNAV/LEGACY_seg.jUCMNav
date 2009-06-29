@@ -24,6 +24,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.figures.LabelElementFigure;
 import seg.jUCMNav.model.commands.transformations.ChangeDefinitionCommand;
@@ -199,7 +200,7 @@ public class ExtendedDirectEditManager extends DirectEditManager {
                     stack.execute(command);
                 else if (command instanceof ChangeLabelNameCommand || command instanceof ChangeGrlNodeNameCommand )
                 {
-                	boolean confirm = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Name already in use", "Another definition already exists with this name. Press OK if you wish to change this element's definition. Otherwise, press cancel to choose another name.");
+                	boolean confirm = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("ExtendedDirectEditManager.NameAlreadyInUse"), Messages.getString("ExtendedDirectEditManager.OtherDefinitionExists")); //$NON-NLS-1$ //$NON-NLS-2$
                 	if (confirm)
                 	{
                 		URNspec urn = ((URNRootEditPart) getEditPart().getRoot()).getMultiPageEditor().getModel();

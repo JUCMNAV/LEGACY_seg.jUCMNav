@@ -78,7 +78,7 @@ public class AddStartPointAction extends URNSelectionAction
 	        viewer.setSelection(sel);
         }
         
-        SelectPaletteEntryAction.selectTool(editor, " ");
+        SelectPaletteEntryAction.selectTool(editor, " "); //$NON-NLS-1$
         
     }
 }

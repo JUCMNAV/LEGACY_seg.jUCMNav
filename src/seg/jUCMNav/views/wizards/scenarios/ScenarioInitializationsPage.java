@@ -264,7 +264,7 @@ public class ScenarioInitializationsPage extends WizardPage {
 	 * Creates the page.
 	 */
 	public void createControl(Composite parent) {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_init");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_init"); //$NON-NLS-1$
 
 		Composite container = new Composite(parent, SWT.NULL);
 

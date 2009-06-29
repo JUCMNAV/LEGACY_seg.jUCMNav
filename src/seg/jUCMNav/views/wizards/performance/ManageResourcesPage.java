@@ -106,7 +106,7 @@ public class ManageResourcesPage extends WizardPage {
 	 */
 	public void createControl(Composite parent) {
 
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.manage_resources");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.manage_resources"); //$NON-NLS-1$
 		
 		container = new Composite(parent, SWT.NULL);
 		shell = container.getShell();

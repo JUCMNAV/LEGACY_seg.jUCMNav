@@ -54,7 +54,7 @@ public class AddVariableWizardPage extends WizardPage {
 	 * Creates the page.
 	 */
 	public void createControl(Composite parent) {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_addvariable");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_addvariable"); //$NON-NLS-1$
 		Composite container = new Composite(parent, SWT.NULL);
 
 		GridLayout layout = new GridLayout();

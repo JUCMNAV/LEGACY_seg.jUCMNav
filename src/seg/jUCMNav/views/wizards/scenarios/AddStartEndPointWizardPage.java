@@ -69,7 +69,7 @@ public class AddStartEndPointWizardPage extends WizardPage {
 	 * Creates the page.
 	 */
 	public void createControl(Composite parent) {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_addstartend");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_addstartend"); //$NON-NLS-1$
 		children = new Vector();
 		Composite container = new Composite(parent, SWT.NULL);
 
