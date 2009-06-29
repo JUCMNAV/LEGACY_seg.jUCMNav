@@ -332,7 +332,7 @@ public class URNElementFinder {
      *  
      * @param urn
      * @param name
-     * @return
+     * @return matching element
      */
     public static IntentionalElement findIntentionalElementByName(URNspec urn, String name) {
     	return (IntentionalElement) findByName(urn.getGrlspec().getIntElements(), name);
@@ -351,7 +351,7 @@ public class URNElementFinder {
      * Given a URN, find a KPI information element with the specified name.  
      * @param urn
      * @param name
-     * @return
+     * @return matching element
      */
     public static KPIInformationElement findKPIInformationElementByName(URNspec urn, String name) {
     	return (KPIInformationElement) findByName(urn.getGrlspec().getKpiInformationElements(), name);
@@ -362,7 +362,7 @@ public class URNElementFinder {
     /**
      * Returns a sorted list of all component names. 
      * @param urn
-     * @return
+     * @return  list of element names
      */
     public static Vector getComponentNames(URNspec urn) {
     	Vector v = new Vector();
@@ -377,7 +377,7 @@ public class URNElementFinder {
     /**
      * Returns a sorted list of all responsibility names. 
      * @param urn
-     * @return
+     * @return list of element names
      */
     public static Vector getResponsibilityNames(URNspec urn) {
     	Vector v = new Vector();
@@ -392,7 +392,7 @@ public class URNElementFinder {
     /**
      * Returns a sorted list of all actor element names. 
      * @param urn
-     * @return
+     * @return list of element names
      */
     public static Vector getActorNames(URNspec urn) {
     	Vector v = new Vector();
@@ -406,7 +406,7 @@ public class URNElementFinder {
     /**
      * Returns a sorted list of all intentional element names. 
      * @param urn
-     * @return
+     * @return list of element names
      */
     public static Vector getIntentionalElementNames(URNspec urn) {
     	Vector v = new Vector();
@@ -421,7 +421,7 @@ public class URNElementFinder {
     /**
      * Returns a sorted list of all KPI information element names. 
      * @param urn
-     * @return
+     * @return list of element names
      */
     public static Vector getKPIInformationElementNames(URNspec urn) {
     	Vector v = new Vector();
