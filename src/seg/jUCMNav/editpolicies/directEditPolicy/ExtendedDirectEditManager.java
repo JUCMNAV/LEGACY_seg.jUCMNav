@@ -1,5 +1,10 @@
 package seg.jUCMNav.editpolicies.directEditPolicy;
 
+import grl.ActorRef;
+import grl.GRLNode;
+import grl.IntentionalElementRef;
+import grl.kpimodel.KPIInformationElementRef;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.GraphicalEditPart;
@@ -7,6 +12,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
@@ -16,8 +22,18 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.figures.LabelElementFigure;
+import seg.jUCMNav.model.commands.transformations.ChangeDefinitionCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
+import ucm.map.RespRef;
+import urn.URNspec;
+import urncore.ComponentLabel;
+import urncore.Label;
+import urncore.NodeLabel;
 
 /**
  * 
@@ -70,6 +86,37 @@ public class ExtendedDirectEditManager extends DirectEditManager {
      */
     protected void initCellEditor() {
 
+    	if (getCellEditor() instanceof AutocompleteTextCellEditor)
+    	{
+    		URNspec urn = ((URNRootEditPart) getEditPart().getRoot()).getMultiPageEditor().getModel();
+    		if (getEditPart().getModel() instanceof Label) {
+	    		Label lbl = (Label)getEditPart().getModel();
+	    		if (lbl instanceof ComponentLabel)
+	    		{
+	    			if (((ComponentLabel)lbl).getContRef() instanceof ActorRef) 
+	    				((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new ActorProposalProvider(urn),null,null);
+	    			else
+	    				((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new ComponentProposalProvider(urn),null,null);
+	    		}
+	    		else if (lbl instanceof NodeLabel)
+	    		{
+	    			// only responsibilities. 
+	    			if (((NodeLabel) lbl).getNode() instanceof RespRef) {
+	    				((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new ResponsibilityProposalProvider(urn),null,null);
+	    			}
+	    		}  
+    		} else if (getEditPart().getModel() instanceof GRLNode)
+    		{
+    			GRLNode node = (GRLNode) getEditPart().getModel();
+    			 if (node instanceof IntentionalElementRef) {
+    				((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new IntentionalElementProposalProvider(urn),null,null);
+    			}
+    			else  if (node instanceof KPIInformationElementRef) {
+    				((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new KPIInformationElementProposalProvider(urn),null,null);
+    			}    			
+    		}
+    
+		}
         Text text = (Text) getCellEditor().getControl();
 
         //add the verifyListener to apply changes to the control size
@@ -150,6 +197,30 @@ public class ExtendedDirectEditManager extends DirectEditManager {
 
                 if (command != null && command.canExecute())
                     stack.execute(command);
+                else if (command instanceof ChangeLabelNameCommand || command instanceof ChangeGrlNodeNameCommand )
+                {
+                	boolean confirm = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Name already in use", "Another definition already exists with this name. Press OK if you wish to change this element's definition. Otherwise, press cancel to choose another name.");
+                	if (confirm)
+                	{
+                		URNspec urn = ((URNRootEditPart) getEditPart().getRoot()).getMultiPageEditor().getModel();
+                		ChangeDefinitionCommand cmd = null;
+                		
+                		if (command instanceof ChangeLabelNameCommand) {
+	                		ChangeLabelNameCommand rename = ((ChangeLabelNameCommand) command);
+	                		cmd = new ChangeDefinitionCommand(urn, rename.getRenamedLabel(), rename.getName() );
+                		}
+                		else if (command instanceof ChangeGrlNodeNameCommand)
+                		{
+                			ChangeGrlNodeNameCommand rename = ((ChangeGrlNodeNameCommand) command);
+	                		cmd = new ChangeDefinitionCommand(urn, rename.getElement(), rename.getName());
+                			
+                		}
+                		if (cmd!=null && cmd.canExecute())
+                			stack.execute(cmd);
+                		
+                	}
+                }
+             
             }
         } finally {
             bringDown();

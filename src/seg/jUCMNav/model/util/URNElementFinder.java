@@ -1,6 +1,11 @@
 package seg.jUCMNav.model.util;
 
+import grl.Actor;
+import grl.IntentionalElement;
+import grl.kpimodel.KPIInformationElement;
+
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -157,7 +162,7 @@ public class URNElementFinder {
     public static Responsibility findResponsibilityByName(URNspec urn, String name) {
         return (Responsibility) findByName(urn.getUrndef().getResponsibilities(), name);
     }
-
+    
     /**
      * Given a map, find the component reference having the passed id or return null.
      * 
@@ -321,4 +326,111 @@ public class URNElementFinder {
         }
         return null;
     }
+    
+    /**
+     * Given a URN, find an intentional element with the specified name.
+     *  
+     * @param urn
+     * @param name
+     * @return
+     */
+    public static IntentionalElement findIntentionalElementByName(URNspec urn, String name) {
+    	return (IntentionalElement) findByName(urn.getGrlspec().getIntElements(), name);
+    }
+    /**
+     * Given a URN spec, find the actor having the passed name or return null.
+     * 
+     * @param urn
+     * @param name
+     * @return matching actor element
+     */
+    public static Actor findActorByName(URNspec urn, String name) {
+        return (Actor) findByName(urn.getGrlspec().getActors(), name);
+    }
+    /**
+     * Given a URN, find a KPI information element with the specified name.  
+     * @param urn
+     * @param name
+     * @return
+     */
+    public static KPIInformationElement findKPIInformationElementByName(URNspec urn, String name) {
+    	return (KPIInformationElement) findByName(urn.getGrlspec().getKpiInformationElements(), name);
+    }   
+    
+    
+    
+    /**
+     * Returns a sorted list of all component names. 
+     * @param urn
+     * @return
+     */
+    public static Vector getComponentNames(URNspec urn) {
+    	Vector v = new Vector();
+        for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+            v.add(element.getName());
+        }
+        Collections.sort(v);
+        return v;
+    }
+    
+    /**
+     * Returns a sorted list of all responsibility names. 
+     * @param urn
+     * @return
+     */
+    public static Vector getResponsibilityNames(URNspec urn) {
+    	Vector v = new Vector();
+        for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+            v.add(element.getName());
+        }
+        Collections.sort(v);
+        return v;
+    }      
+    
+    /**
+     * Returns a sorted list of all actor element names. 
+     * @param urn
+     * @return
+     */
+    public static Vector getActorNames(URNspec urn) {
+    	Vector v = new Vector();
+        for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+            v.add(element.getName());
+        }
+        Collections.sort(v);
+        return v;
+    }     
+    /**
+     * Returns a sorted list of all intentional element names. 
+     * @param urn
+     * @return
+     */
+    public static Vector getIntentionalElementNames(URNspec urn) {
+    	Vector v = new Vector();
+        for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+            v.add(element.getName());
+        }
+        Collections.sort(v);
+        return v;
+    } 
+    
+    /**
+     * Returns a sorted list of all KPI information element names. 
+     * @param urn
+     * @return
+     */
+    public static Vector getKPIInformationElementNames(URNspec urn) {
+    	Vector v = new Vector();
+        for (Iterator iter = urn.getGrlspec().getKpiInformationElements().iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+            v.add(element.getName());
+        }
+        Collections.sort(v);
+        return v;
+    }      
+    
 }

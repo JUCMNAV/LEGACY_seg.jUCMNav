@@ -19,11 +19,11 @@ import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ICellEditorValidator;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.editpolicies.directEditPolicy.AutocompleteTextCellEditor;
 import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelDirectEditPolicy;
@@ -309,7 +309,7 @@ public class LabelEditPart extends ModelElementEditPart {
 				}
 			};
 
-			manager = new ExtendedDirectEditManager(this, TextCellEditor.class, new LabelCellEditorLocator(figure), figure, validator);
+			manager = new ExtendedDirectEditManager(this, AutocompleteTextCellEditor.class, new LabelCellEditorLocator(figure), figure, validator);
 		}
 		manager.show();
 	}

@@ -6,8 +6,8 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.ICellEditorValidator;
-import org.eclipse.jface.viewers.TextCellEditor;
 
+import seg.jUCMNav.editpolicies.directEditPolicy.AutocompleteTextCellEditor;
 import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
 import seg.jUCMNav.figures.GrlNodeFigure;
@@ -61,7 +61,7 @@ public abstract class GrlNodeEditPart extends ModelElementEditPart {
                 }
             };
 
-            manager = new ExtendedDirectEditManager(this, TextCellEditor.class, new LabelCellEditorLocator(figure), figure, validator);
+            manager = new ExtendedDirectEditManager(this, AutocompleteTextCellEditor.class, new LabelCellEditorLocator(figure), figure, validator);
         }
         manager.show();
     }

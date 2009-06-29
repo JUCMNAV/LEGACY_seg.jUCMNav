@@ -1062,4 +1062,5 @@ public class URNNamingHelper {
     public static String getGrlVariableName(String elementName) {
         return URNNamingHelper.cleanVariableName("_GRL_" + elementName); //$NON-NLS-1$
     }
+    
 }

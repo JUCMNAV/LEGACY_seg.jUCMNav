@@ -34,7 +34,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.directEditPolicy.GrlNodeDirectEditPolicy;
 import seg.jUCMNav.editpolicies.directEditPolicy.IntentionalElementNodeEditPolicy;
 import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
@@ -46,10 +45,8 @@ import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
-import urn.URNlink;
 import urncore.IURNConnection;
 import urncore.IURNNode;
-import urncore.Metadata;
 
 /**
  * EditPart for all IntentialElementRef.
