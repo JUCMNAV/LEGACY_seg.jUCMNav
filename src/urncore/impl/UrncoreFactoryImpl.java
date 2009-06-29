@@ -80,6 +80,7 @@ public class UrncoreFactoryImpl extends EFactoryImpl implements UrncoreFactory {
 			case UrncorePackage.METADATA: return createMetadata();
 			case UrncorePackage.CONCERN: return createConcern();
 			case UrncorePackage.CONNECTION_LABEL: return createConnectionLabel();
+			case UrncorePackage.COMMENT: return createComment();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -211,6 +212,16 @@ public class UrncoreFactoryImpl extends EFactoryImpl implements UrncoreFactory {
 	public ConnectionLabel createConnectionLabel() {
 		ConnectionLabelImpl connectionLabel = new ConnectionLabelImpl();
 		return connectionLabel;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Comment createComment() {
+		CommentImpl comment = new CommentImpl();
+		return comment;
 	}
 
 				/**

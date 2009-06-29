@@ -13,6 +13,7 @@ import grl.kpimodel.impl.KpimodelPackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -41,6 +42,7 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
+import ucm.map.WaitKind;
 import ucm.map.WaitingPlace;
 import ucm.performance.PerformancePackage;
 import ucm.performance.impl.PerformancePackageImpl;
@@ -204,6 +206,13 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * @generated
 	 */
 	private EClass componentBindingEClass = null;
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum waitKindEEnum = null;
 
 				/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -964,6 +973,15 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getWaitKind() {
+		return waitKindEEnum;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1084,6 +1102,9 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		createEReference(componentBindingEClass, COMPONENT_BINDING__BINDING);
 		createEReference(componentBindingEClass, COMPONENT_BINDING__PARENT_COMPONENT);
 		createEReference(componentBindingEClass, COMPONENT_BINDING__PLUGIN_COMPONENT);
+
+		// Create enums
+		waitKindEEnum = createEEnum(WAIT_KIND);
 	}
 
     /**
@@ -1170,7 +1191,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		initEReference(getNodeConnection_Condition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_NodeConnection(), "condition", null, 0, 1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(waitingPlaceEClass, WaitingPlace.class, "WaitingPlace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getWaitingPlace_WaitType(), ecorePackage.getEString(), "waitType", null, 0, 1, WaitingPlace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWaitingPlace_WaitType(), this.getWaitKind(), "waitType", null, 0, 1, WaitingPlace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stubEClass, Stub.class, "Stub", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStub_Dynamic(), ecorePackage.getEBoolean(), "dynamic", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1231,6 +1252,11 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		initEReference(getComponentBinding_Binding(), this.getPluginBinding(), this.getPluginBinding_Components(), "binding", null, 1, 1, ComponentBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponentBinding_ParentComponent(), this.getComponentRef(), this.getComponentRef_ParentBindings(), "parentComponent", null, 1, 1, ComponentBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponentBinding_PluginComponent(), this.getComponentRef(), this.getComponentRef_PluginBindings(), "pluginComponent", null, 1, 1, ComponentBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(waitKindEEnum, WaitKind.class, "WaitKind");
+		addEEnumLiteral(waitKindEEnum, WaitKind.TRANSIENT_LITERAL);
+		addEEnumLiteral(waitKindEEnum, WaitKind.PERSISTENT_LITERAL);
 	}
 
 } //MapPackageImpl

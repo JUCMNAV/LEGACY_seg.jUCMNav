@@ -1072,13 +1072,22 @@ public interface UrncorePackage extends EPackage {
 	int IURN_DIAGRAM__CONCERN = 4;
 
     /**
+	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IURN_DIAGRAM__COMMENTS = 5;
+
+				/**
 	 * The number of structural features of the '<em>IURN Diagram</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int IURN_DIAGRAM_FEATURE_COUNT = 5;
+    int IURN_DIAGRAM_FEATURE_COUNT = 6;
 
     /**
 	 * The meta object id for the '{@link urncore.IURNNode <em>IURN Node</em>}' class.
@@ -1574,6 +1583,88 @@ public interface UrncorePackage extends EPackage {
 	int CONNECTION_LABEL_FEATURE_COUNT = LABEL_FEATURE_COUNT + 1;
 
 				/**
+	 * The meta object id for the '{@link urncore.impl.CommentImpl <em>Comment</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see urncore.impl.CommentImpl
+	 * @see urncore.impl.UrncorePackageImpl#getComment()
+	 * @generated
+	 */
+	int COMMENT = 19;
+
+				/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__DESCRIPTION = 0;
+
+				/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__X = 1;
+
+				/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__Y = 2;
+
+				/**
+	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__WIDTH = 3;
+
+				/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__HEIGHT = 4;
+
+				/**
+	 * The feature id for the '<em><b>Fill Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__FILL_COLOR = 5;
+
+				/**
+	 * The feature id for the '<em><b>Diagram</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT__DIAGRAM = 6;
+
+				/**
+	 * The number of structural features of the '<em>Comment</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMENT_FEATURE_COUNT = 7;
+
+				/**
 	 * The meta object id for the '{@link urncore.ComponentKind <em>Component Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1581,7 +1672,7 @@ public interface UrncorePackage extends EPackage {
 	 * @see urncore.impl.UrncorePackageImpl#getComponentKind()
 	 * @generated
 	 */
-    int COMPONENT_KIND = 19;
+    int COMPONENT_KIND = 20;
 
     /**
 	 * Returns the meta object for class '{@link urncore.URNdefinition <em>UR Ndefinition</em>}'.
@@ -2156,6 +2247,17 @@ public interface UrncorePackage extends EPackage {
 	EReference getIURNDiagram_Concern();
 
     /**
+	 * Returns the meta object for the containment reference list '{@link urncore.IURNDiagram#getComments <em>Comments</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Comments</em>'.
+	 * @see urncore.IURNDiagram#getComments()
+	 * @see #getIURNDiagram()
+	 * @generated
+	 */
+	EReference getIURNDiagram_Comments();
+
+				/**
 	 * Returns the meta object for class '{@link urncore.URNmodelElement <em>UR Nmodel Element</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2654,6 +2756,93 @@ public interface UrncorePackage extends EPackage {
 	EReference getConnectionLabel_Connection();
 
 				/**
+	 * Returns the meta object for class '{@link urncore.Comment <em>Comment</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Comment</em>'.
+	 * @see urncore.Comment
+	 * @generated
+	 */
+	EClass getComment();
+
+				/**
+	 * Returns the meta object for the attribute '{@link urncore.Comment#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see urncore.Comment#getDescription()
+	 * @see #getComment()
+	 * @generated
+	 */
+	EAttribute getComment_Description();
+
+				/**
+	 * Returns the meta object for the attribute '{@link urncore.Comment#getX <em>X</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>X</em>'.
+	 * @see urncore.Comment#getX()
+	 * @see #getComment()
+	 * @generated
+	 */
+	EAttribute getComment_X();
+
+				/**
+	 * Returns the meta object for the attribute '{@link urncore.Comment#getY <em>Y</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Y</em>'.
+	 * @see urncore.Comment#getY()
+	 * @see #getComment()
+	 * @generated
+	 */
+	EAttribute getComment_Y();
+
+				/**
+	 * Returns the meta object for the attribute '{@link urncore.Comment#getWidth <em>Width</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Width</em>'.
+	 * @see urncore.Comment#getWidth()
+	 * @see #getComment()
+	 * @generated
+	 */
+	EAttribute getComment_Width();
+
+				/**
+	 * Returns the meta object for the attribute '{@link urncore.Comment#getHeight <em>Height</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Height</em>'.
+	 * @see urncore.Comment#getHeight()
+	 * @see #getComment()
+	 * @generated
+	 */
+	EAttribute getComment_Height();
+
+				/**
+	 * Returns the meta object for the attribute '{@link urncore.Comment#getFillColor <em>Fill Color</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Fill Color</em>'.
+	 * @see urncore.Comment#getFillColor()
+	 * @see #getComment()
+	 * @generated
+	 */
+	EAttribute getComment_FillColor();
+
+				/**
+	 * Returns the meta object for the container reference '{@link urncore.Comment#getDiagram <em>Diagram</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Diagram</em>'.
+	 * @see urncore.Comment#getDiagram()
+	 * @see #getComment()
+	 * @generated
+	 */
+	EReference getComment_Diagram();
+
+				/**
 	 * Returns the meta object for enum '{@link urncore.ComponentKind <em>Component Kind</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3132,6 +3321,14 @@ public interface UrncorePackage extends EPackage {
 		EReference IURN_DIAGRAM__CONCERN = eINSTANCE.getIURNDiagram_Concern();
 
         /**
+		 * The meta object literal for the '<em><b>Comments</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IURN_DIAGRAM__COMMENTS = eINSTANCE.getIURNDiagram_Comments();
+
+								/**
 		 * The meta object literal for the '{@link urncore.impl.URNmodelElementImpl <em>UR Nmodel Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3514,6 +3711,72 @@ public interface UrncorePackage extends EPackage {
 		 * @generated
 		 */
 		EReference CONNECTION_LABEL__CONNECTION = eINSTANCE.getConnectionLabel_Connection();
+
+								/**
+		 * The meta object literal for the '{@link urncore.impl.CommentImpl <em>Comment</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see urncore.impl.CommentImpl
+		 * @see urncore.impl.UrncorePackageImpl#getComment()
+		 * @generated
+		 */
+		EClass COMMENT = eINSTANCE.getComment();
+
+								/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMENT__DESCRIPTION = eINSTANCE.getComment_Description();
+
+								/**
+		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMENT__X = eINSTANCE.getComment_X();
+
+								/**
+		 * The meta object literal for the '<em><b>Y</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMENT__Y = eINSTANCE.getComment_Y();
+
+								/**
+		 * The meta object literal for the '<em><b>Width</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMENT__WIDTH = eINSTANCE.getComment_Width();
+
+								/**
+		 * The meta object literal for the '<em><b>Height</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMENT__HEIGHT = eINSTANCE.getComment_Height();
+
+								/**
+		 * The meta object literal for the '<em><b>Fill Color</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMENT__FILL_COLOR = eINSTANCE.getComment_FillColor();
+
+								/**
+		 * The meta object literal for the '<em><b>Diagram</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMMENT__DIAGRAM = eINSTANCE.getComment_Diagram();
 
 								/**
 		 * The meta object literal for the '{@link urncore.ComponentKind <em>Component Kind</em>}' enum.

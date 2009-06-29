@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/jUCMNav/src"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/seg.jUCMNav/src"
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Documents and Settings\damyot.damyotlap\My Documents\work\jucmnav\URN_19.mdl</foreignModel>
+  <foreignModel>C:\Documents and Settings\Daniel\My Documents\work\jucmnav\URN_20.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -100,6 +100,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//IURNDiagram/contRefs"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//IURNDiagram/connections"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//IURNDiagram/concern"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//IURNDiagram/comments"/>
     </genClasses>
     <genClasses ecoreClass="urncore.ecore#//URNmodelElement">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//URNmodelElement/fromLinks"/>
@@ -155,6 +156,15 @@
     <genClasses ecoreClass="urncore.ecore#//ConnectionLabel">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ConnectionLabel/connection"/>
     </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//Comment">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Comment/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Comment/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Comment/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Comment/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Comment/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Comment/fillColor"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Comment/diagram"/>
+    </genClasses>
   </genPackages>
   <genPackages prefix="Grl" ecorePackage="grl.ecore#/">
     <genEnums ecoreEnum="grl.ecore#//Criticality">
@@ -188,6 +198,7 @@
     <genEnums ecoreEnum="grl.ecore#//DecompositionType">
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//DecompositionType/And"/>
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//DecompositionType/Or"/>
+      <genEnumLiterals ecoreEnumLiteral="grl.ecore#//DecompositionType/Xor"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="grl.ecore#//QualitativeLabel">
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//QualitativeLabel/Denied"/>
@@ -418,6 +429,10 @@
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Map" basePackage="ucm" ecorePackage="ucm.ecore#//map">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="ucm.ecore#//map/WaitKind">
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/WaitKind/Transient"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/WaitKind/Persistent"/>
+      </genEnums>
       <genClasses ecoreClass="ucm.ecore#//map/AndJoin">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/AndJoin/orientation"/>
       </genClasses>

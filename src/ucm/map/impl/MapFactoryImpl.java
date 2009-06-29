@@ -7,6 +7,7 @@
 package ucm.map.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
@@ -104,6 +105,34 @@ public class MapFactoryImpl extends EFactoryImpl implements MapFactory {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case MapPackage.WAIT_KIND:
+				return createWaitKindFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case MapPackage.WAIT_KIND:
+				return convertWaitKindToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -301,6 +330,26 @@ public class MapFactoryImpl extends EFactoryImpl implements MapFactory {
 	public ComponentBinding createComponentBinding() {
 		ComponentBindingImpl componentBinding = new ComponentBindingImpl();
 		return componentBinding;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public WaitKind createWaitKindFromString(EDataType eDataType, String initialValue) {
+		WaitKind result = WaitKind.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertWaitKindToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 				/**

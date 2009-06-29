@@ -28,6 +28,7 @@ import ucm.scenario.ScenarioPackage;
 import ucm.scenario.impl.ScenarioPackageImpl;
 import urn.UrnPackage;
 import urn.impl.UrnPackageImpl;
+import urncore.Comment;
 import urncore.Component;
 import urncore.ComponentKind;
 import urncore.ComponentLabel;
@@ -190,6 +191,13 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 	 * @generated
 	 */
 	private EClass connectionLabelEClass = null;
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass commentEClass = null;
 
 				/**
 	 * <!-- begin-user-doc -->
@@ -768,6 +776,15 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 
     /**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIURNDiagram_Comments() {
+		return (EReference)iurnDiagramEClass.getEStructuralFeatures().get(5);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1182,6 +1199,78 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getComment() {
+		return commentEClass;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComment_Description() {
+		return (EAttribute)commentEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComment_X() {
+		return (EAttribute)commentEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComment_Y() {
+		return (EAttribute)commentEClass.getEStructuralFeatures().get(2);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComment_Width() {
+		return (EAttribute)commentEClass.getEStructuralFeatures().get(3);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComment_Height() {
+		return (EAttribute)commentEClass.getEStructuralFeatures().get(4);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComment_FillColor() {
+		return (EAttribute)commentEClass.getEStructuralFeatures().get(5);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComment_Diagram() {
+		return (EReference)commentEClass.getEStructuralFeatures().get(6);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1280,6 +1369,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		createEReference(iurnDiagramEClass, IURN_DIAGRAM__CONT_REFS);
 		createEReference(iurnDiagramEClass, IURN_DIAGRAM__CONNECTIONS);
 		createEReference(iurnDiagramEClass, IURN_DIAGRAM__CONCERN);
+		createEReference(iurnDiagramEClass, IURN_DIAGRAM__COMMENTS);
 
 		urNmodelElementEClass = createEClass(UR_NMODEL_ELEMENT);
 		createEReference(urNmodelElementEClass, UR_NMODEL_ELEMENT__FROM_LINKS);
@@ -1334,6 +1424,15 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 
 		connectionLabelEClass = createEClass(CONNECTION_LABEL);
 		createEReference(connectionLabelEClass, CONNECTION_LABEL__CONNECTION);
+
+		commentEClass = createEClass(COMMENT);
+		createEAttribute(commentEClass, COMMENT__DESCRIPTION);
+		createEAttribute(commentEClass, COMMENT__X);
+		createEAttribute(commentEClass, COMMENT__Y);
+		createEAttribute(commentEClass, COMMENT__WIDTH);
+		createEAttribute(commentEClass, COMMENT__HEIGHT);
+		createEAttribute(commentEClass, COMMENT__FILL_COLOR);
+		createEReference(commentEClass, COMMENT__DIAGRAM);
 
 		// Create enums
 		componentKindEEnum = createEEnum(COMPONENT_KIND);
@@ -1445,6 +1544,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		initEReference(getIURNDiagram_ContRefs(), this.getIURNContainerRef(), this.getIURNContainerRef_Diagram(), "contRefs", null, 0, -1, IURNDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIURNDiagram_Connections(), this.getIURNConnection(), this.getIURNConnection_Diagram(), "connections", null, 0, -1, IURNDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIURNDiagram_Concern(), this.getConcern(), this.getConcern_SpecDiagrams(), "concern", null, 0, 1, IURNDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIURNDiagram_Comments(), this.getComment(), this.getComment_Diagram(), "comments", null, 0, -1, IURNDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(urNmodelElementEClass, URNmodelElement.class, "URNmodelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getURNmodelElement_FromLinks(), theUrnPackage.getURNlink(), theUrnPackage.getURNlink_FromElem(), "fromLinks", null, 0, -1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1499,6 +1599,15 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 
 		initEClass(connectionLabelEClass, ConnectionLabel.class, "ConnectionLabel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getConnectionLabel_Connection(), this.getIURNConnection(), this.getIURNConnection_Label(), "connection", null, 1, 1, ConnectionLabel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(commentEClass, Comment.class, "Comment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getComment_Description(), ecorePackage.getEString(), "description", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComment_X(), ecorePackage.getEInt(), "x", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComment_Y(), ecorePackage.getEInt(), "y", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComment_Width(), ecorePackage.getEInt(), "width", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComment_Height(), ecorePackage.getEInt(), "height", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComment_FillColor(), ecorePackage.getEString(), "fillColor", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComment_Diagram(), this.getIURNDiagram(), this.getIURNDiagram_Comments(), "diagram", null, 0, 1, Comment.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(componentKindEEnum, ComponentKind.class, "ComponentKind");

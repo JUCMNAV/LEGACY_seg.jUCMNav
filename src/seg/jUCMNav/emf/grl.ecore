@@ -123,6 +123,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="DecompositionType">
     <eLiterals name="And"/>
     <eLiterals name="Or" value="1"/>
+    <eLiterals name="Xor" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Evaluation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"

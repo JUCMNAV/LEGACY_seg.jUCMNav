@@ -988,13 +988,22 @@ public interface GrlPackage extends EPackage {
 	int GRL_GRAPH__CONCERN = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
+	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GRL_GRAPH__COMMENTS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
+
+				/**
 	 * The number of structural features of the '<em>GRL Graph</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int GRL_GRAPH_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
+    int GRL_GRAPH_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
 
     /**
 	 * The meta object id for the '{@link grl.impl.ActorRefImpl <em>Actor Ref</em>}' class.

@@ -8,6 +8,7 @@ package ucm.map;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -1903,13 +1904,22 @@ public interface MapPackage extends EPackage {
 	int UC_MMAP__CONCERN = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
+	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UC_MMAP__COMMENTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
+
+				/**
 	 * The feature id for the '<em><b>Singleton</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MMAP__SINGLETON = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
+	int UC_MMAP__SINGLETON = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
 
 				/**
 	 * The feature id for the '<em><b>Parent Stub</b></em>' reference list.
@@ -1918,7 +1928,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UC_MMAP__PARENT_STUB = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
+    int UC_MMAP__PARENT_STUB = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
 
     /**
 	 * The number of structural features of the '<em>UC Mmap</em>' class.
@@ -1927,7 +1937,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UC_MMAP_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
+    int UC_MMAP_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
 
     /**
 	 * The meta object id for the '{@link ucm.map.impl.PluginBindingImpl <em>Plugin Binding</em>}' class.
@@ -2875,6 +2885,17 @@ public interface MapPackage extends EPackage {
 
 
 				/**
+	 * The meta object id for the '{@link ucm.map.WaitKind <em>Wait Kind</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ucm.map.WaitKind
+	 * @see ucm.map.impl.MapPackageImpl#getWaitKind()
+	 * @generated
+	 */
+	int WAIT_KIND = 21;
+
+
+				/**
 	 * Returns the meta object for class '{@link ucm.map.AndJoin <em>And Join</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3668,6 +3689,16 @@ public interface MapPackage extends EPackage {
 	EReference getComponentBinding_PluginComponent();
 
 				/**
+	 * Returns the meta object for enum '{@link ucm.map.WaitKind <em>Wait Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Wait Kind</em>'.
+	 * @see ucm.map.WaitKind
+	 * @generated
+	 */
+	EEnum getWaitKind();
+
+				/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4322,6 +4353,16 @@ public interface MapPackage extends EPackage {
 		 * @generated
 		 */
 		EReference COMPONENT_BINDING__PLUGIN_COMPONENT = eINSTANCE.getComponentBinding_PluginComponent();
+
+								/**
+		 * The meta object literal for the '{@link ucm.map.WaitKind <em>Wait Kind</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ucm.map.WaitKind
+		 * @see ucm.map.impl.MapPackageImpl#getWaitKind()
+		 * @generated
+		 */
+		EEnum WAIT_KIND = eINSTANCE.getWaitKind();
 
 	}
 

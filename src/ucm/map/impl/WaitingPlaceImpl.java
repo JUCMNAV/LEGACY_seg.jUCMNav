@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import ucm.map.MapPackage;
+import ucm.map.WaitKind;
 import ucm.map.WaitingPlace;
 
 /**
@@ -35,7 +36,7 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
 	 * @generated
 	 * @ordered
 	 */
-    protected static final String WAIT_TYPE_EDEFAULT = null;
+    protected static final WaitKind WAIT_TYPE_EDEFAULT = WaitKind.TRANSIENT_LITERAL;
 
     /**
 	 * The cached value of the '{@link #getWaitType() <em>Wait Type</em>}' attribute.
@@ -45,7 +46,7 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
 	 * @generated
 	 * @ordered
 	 */
-    protected String waitType = WAIT_TYPE_EDEFAULT;
+    protected WaitKind waitType = WAIT_TYPE_EDEFAULT;
 
     /**
 	 * <!-- begin-user-doc -->
@@ -70,23 +71,23 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public String getWaitType() {
+    public WaitKind getWaitType() {
 		return waitType;
 	}
 
     /**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setWaitType(String newWaitType) {
-		String oldWaitType = waitType;
-		waitType = newWaitType;
+	public void setWaitType(WaitKind newWaitType) {
+		WaitKind oldWaitType = waitType;
+		waitType = newWaitType == null ? WAIT_TYPE_EDEFAULT : newWaitType;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.WAITING_PLACE__WAIT_TYPE, oldWaitType, waitType));
 	}
 
-    /**
+				/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -107,7 +108,7 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case MapPackage.WAITING_PLACE__WAIT_TYPE:
-				setWaitType((String)newValue);
+				setWaitType((WaitKind)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -135,7 +136,7 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case MapPackage.WAITING_PLACE__WAIT_TYPE:
-				return WAIT_TYPE_EDEFAULT == null ? waitType != null : !WAIT_TYPE_EDEFAULT.equals(waitType);
+				return waitType != WAIT_TYPE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

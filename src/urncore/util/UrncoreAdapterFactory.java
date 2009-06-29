@@ -80,7 +80,7 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
 	}
 
     /**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -143,6 +143,9 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseConnectionLabel(ConnectionLabel object) {
 				return createConnectionLabelAdapter();
+			}
+			public Object caseComment(Comment object) {
+				return createCommentAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
@@ -425,6 +428,20 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConnectionLabelAdapter() {
+		return null;
+	}
+
+				/**
+	 * Creates a new adapter for an object of class '{@link urncore.Comment <em>Comment</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urncore.Comment
+	 * @generated
+	 */
+	public Adapter createCommentAdapter() {
 		return null;
 	}
 

@@ -133,12 +133,11 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setEvaluation(int newQuantitativeEvaluation) {
+    public void setEvaluation(int newEvaluation) {
 		int oldEvaluation = evaluation;
-		evaluation = newQuantitativeEvaluation;
+		evaluation = newEvaluation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__EVALUATION, oldEvaluation, evaluation));
-		
 	}
 
     /**

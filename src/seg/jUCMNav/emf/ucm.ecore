@@ -119,7 +119,7 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value=" A waiting place has one source hyperedge and one target  hyperedge, or two target hyperedges when there is a timeout  path. This is not a strict constraint as other hyperedges (e.g.,  connect) might be linked to it. The triggering-event-list gives  the set of events that restart the sequence of actions in a  path. The precondition-list must be satisfied in order for the  sequence to restart.ATTRIBUTE wait-type: user given typeATTRIBUTE logical-condition: expression which is evaluated at run timeATTRIBUTE timeout-variable: reference to a timer's timeout variable"/>
       </eAnnotations>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="waitType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="waitType" eType="#//map/WaitKind"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Stub" eSuperTypes="#//map/PathNode">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="dynamic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
@@ -221,6 +221,10 @@
           eType="#//map/ComponentRef" eOpposite="#//map/ComponentRef/parentBindings"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginComponent" lowerBound="1"
           eType="#//map/ComponentRef" eOpposite="#//map/ComponentRef/pluginBindings"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="WaitKind">
+      <eLiterals name="Transient"/>
+      <eLiterals name="Persistent" value="1"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="scenario" nsURI="http:///ucm/scenario.ecore" nsPrefix="ucm.scenario">

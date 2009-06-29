@@ -116,6 +116,8 @@
         eType="#//IURNConnection" containment="true" eOpposite="#//IURNConnection/diagram"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="concern" eType="#//Concern"
         eOpposite="#//Concern/specDiagrams"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comments" upperBound="-1"
+        eType="#//Comment" containment="true" eOpposite="#//Comment/diagram"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="URNmodelElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromLinks" upperBound="-1"
@@ -195,5 +197,15 @@
   <eClassifiers xsi:type="ecore:EClass" name="ConnectionLabel" eSuperTypes="#//Label">
     <eStructuralFeatures xsi:type="ecore:EReference" name="connection" lowerBound="1"
         eType="#//IURNConnection" transient="true" eOpposite="#//IURNConnection/label"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Comment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" eType="#//IURNDiagram"
+        transient="true" eOpposite="#//IURNDiagram/comments"/>
   </eClassifiers>
 </ecore:EPackage>

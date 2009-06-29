@@ -53,6 +53,21 @@ public final class DecompositionType extends AbstractEnumerator {
     public static final int OR = 1;
 
     /**
+	 * The '<em><b>Xor</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Xor</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #XOR_LITERAL
+	 * @model name="Xor"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int XOR = 2;
+
+				/**
 	 * The '<em><b>And</b></em>' literal object.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -73,6 +88,16 @@ public final class DecompositionType extends AbstractEnumerator {
     public static final DecompositionType OR_LITERAL = new DecompositionType(OR, "Or", "Or");
 
     /**
+	 * The '<em><b>Xor</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #XOR
+	 * @generated
+	 * @ordered
+	 */
+	public static final DecompositionType XOR_LITERAL = new DecompositionType(XOR, "Xor", "Xor");
+
+				/**
 	 * An array of all the '<em><b>Decomposition Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -82,6 +107,7 @@ public final class DecompositionType extends AbstractEnumerator {
         new DecompositionType[] {
 			AND_LITERAL,
 			OR_LITERAL,
+			XOR_LITERAL,
 		};
 
     /**
@@ -134,6 +160,7 @@ public final class DecompositionType extends AbstractEnumerator {
 		switch (value) {
 			case AND: return AND_LITERAL;
 			case OR: return OR_LITERAL;
+			case XOR: return XOR_LITERAL;
 		}
 		return null;
 	}

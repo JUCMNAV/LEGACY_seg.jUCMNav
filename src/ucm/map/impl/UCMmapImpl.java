@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import ucm.map.MapPackage;
 import ucm.map.PluginBinding;
 import ucm.map.UCMmap;
+import urncore.Comment;
 import urncore.Concern;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
@@ -43,6 +44,7 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.map.impl.UCMmapImpl#getContRefs <em>Cont Refs</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getConnections <em>Connections</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getConcern <em>Concern</em>}</li>
+ *   <li>{@link ucm.map.impl.UCMmapImpl#getComments <em>Comments</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#isSingleton <em>Singleton</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getParentStub <em>Parent Stub</em>}</li>
  * </ul>
@@ -92,6 +94,16 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	protected Concern concern;
 
     /**
+	 * The cached value of the '{@link #getComments() <em>Comments</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComments()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList comments;
+
+				/**
 	 * The default value of the '{@link #isSingleton() <em>Singleton</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -281,6 +293,18 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getComments() {
+		if (comments == null) {
+			comments = new EObjectContainmentWithInverseEList(Comment.class, this, MapPackage.UC_MMAP__COMMENTS, UrncorePackage.COMMENT__DIAGRAM);
+		}
+		return comments;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isSingleton() {
 		return singleton;
 	}
@@ -330,6 +354,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				if (concern != null)
 					msgs = ((InternalEObject)concern).eInverseRemove(this, UrncorePackage.CONCERN__SPEC_DIAGRAMS, Concern.class, msgs);
 				return basicSetConcern((Concern)otherEnd, msgs);
+			case MapPackage.UC_MMAP__COMMENTS:
+				return ((InternalEList)getComments()).basicAdd(otherEnd, msgs);
 			case MapPackage.UC_MMAP__PARENT_STUB:
 				return ((InternalEList)getParentStub()).basicAdd(otherEnd, msgs);
 		}
@@ -353,6 +379,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return ((InternalEList)getConnections()).basicRemove(otherEnd, msgs);
 			case MapPackage.UC_MMAP__CONCERN:
 				return basicSetConcern(null, msgs);
+			case MapPackage.UC_MMAP__COMMENTS:
+				return ((InternalEList)getComments()).basicRemove(otherEnd, msgs);
 			case MapPackage.UC_MMAP__PARENT_STUB:
 				return ((InternalEList)getParentStub()).basicRemove(otherEnd, msgs);
 		}
@@ -390,6 +418,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 			case MapPackage.UC_MMAP__CONCERN:
 				if (resolve) return getConcern();
 				return basicGetConcern();
+			case MapPackage.UC_MMAP__COMMENTS:
+				return getComments();
 			case MapPackage.UC_MMAP__SINGLETON:
 				return isSingleton() ? Boolean.TRUE : Boolean.FALSE;
 			case MapPackage.UC_MMAP__PARENT_STUB:
@@ -422,6 +452,10 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return;
 			case MapPackage.UC_MMAP__CONCERN:
 				setConcern((Concern)newValue);
+				return;
+			case MapPackage.UC_MMAP__COMMENTS:
+				getComments().clear();
+				getComments().addAll((Collection)newValue);
 				return;
 			case MapPackage.UC_MMAP__SINGLETON:
 				setSingleton(((Boolean)newValue).booleanValue());
@@ -456,6 +490,9 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 			case MapPackage.UC_MMAP__CONCERN:
 				setConcern((Concern)null);
 				return;
+			case MapPackage.UC_MMAP__COMMENTS:
+				getComments().clear();
+				return;
 			case MapPackage.UC_MMAP__SINGLETON:
 				setSingleton(SINGLETON_EDEFAULT);
 				return;
@@ -483,6 +520,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return connections != null && !connections.isEmpty();
 			case MapPackage.UC_MMAP__CONCERN:
 				return concern != null;
+			case MapPackage.UC_MMAP__COMMENTS:
+				return comments != null && !comments.isEmpty();
 			case MapPackage.UC_MMAP__SINGLETON:
 				return singleton != SINGLETON_EDEFAULT;
 			case MapPackage.UC_MMAP__PARENT_STUB:
@@ -504,6 +543,7 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				case MapPackage.UC_MMAP__CONT_REFS: return UrncorePackage.IURN_DIAGRAM__CONT_REFS;
 				case MapPackage.UC_MMAP__CONNECTIONS: return UrncorePackage.IURN_DIAGRAM__CONNECTIONS;
 				case MapPackage.UC_MMAP__CONCERN: return UrncorePackage.IURN_DIAGRAM__CONCERN;
+				case MapPackage.UC_MMAP__COMMENTS: return UrncorePackage.IURN_DIAGRAM__COMMENTS;
 				default: return -1;
 			}
 		}
@@ -523,6 +563,7 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				case UrncorePackage.IURN_DIAGRAM__CONT_REFS: return MapPackage.UC_MMAP__CONT_REFS;
 				case UrncorePackage.IURN_DIAGRAM__CONNECTIONS: return MapPackage.UC_MMAP__CONNECTIONS;
 				case UrncorePackage.IURN_DIAGRAM__CONCERN: return MapPackage.UC_MMAP__CONCERN;
+				case UrncorePackage.IURN_DIAGRAM__COMMENTS: return MapPackage.UC_MMAP__COMMENTS;
 				default: return -1;
 			}
 		}

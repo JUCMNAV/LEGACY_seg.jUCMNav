@@ -1542,6 +1542,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEEnum(decompositionTypeEEnum, DecompositionType.class, "DecompositionType");
 		addEEnumLiteral(decompositionTypeEEnum, DecompositionType.AND_LITERAL);
 		addEEnumLiteral(decompositionTypeEEnum, DecompositionType.OR_LITERAL);
+		addEEnumLiteral(decompositionTypeEEnum, DecompositionType.XOR_LITERAL);
 
 		initEEnum(qualitativeLabelEEnum, QualitativeLabel.class, "QualitativeLabel");
 		addEEnumLiteral(qualitativeLabelEEnum, QualitativeLabel.DENIED_LITERAL);

@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link urncore.IURNDiagram#getContRefs <em>Cont Refs</em>}</li>
  *   <li>{@link urncore.IURNDiagram#getConnections <em>Connections</em>}</li>
  *   <li>{@link urncore.IURNDiagram#getConcern <em>Concern</em>}</li>
+ *   <li>{@link urncore.IURNDiagram#getComments <em>Comments</em>}</li>
  * </ul>
  * </p>
  *
@@ -139,5 +140,23 @@ public interface IURNDiagram extends EObject {
 	 * @generated
 	 */
 	void setConcern(Concern value);
+
+				/**
+	 * Returns the value of the '<em><b>Comments</b></em>' containment reference list.
+	 * The list contents are of type {@link urncore.Comment}.
+	 * It is bidirectional and its opposite is '{@link urncore.Comment#getDiagram <em>Diagram</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Comments</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Comments</em>' containment reference list.
+	 * @see urncore.UrncorePackage#getIURNDiagram_Comments()
+	 * @see urncore.Comment#getDiagram
+	 * @model type="urncore.Comment" opposite="diagram" containment="true"
+	 * @generated
+	 */
+	EList getComments();
 
 } // SpecificationDiagram
