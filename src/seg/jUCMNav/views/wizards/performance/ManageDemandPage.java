@@ -92,7 +92,7 @@ public class ManageDemandPage extends WizardPage {
 	 * Creates the page.
 	 */
 	public void createControl(Composite parent) {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.managedemand");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.managedemand"); //$NON-NLS-1$
 		container = new Composite(parent, SWT.NULL);
 		shell = container.getShell();
 		GridLayout containerLayout = new GridLayout();

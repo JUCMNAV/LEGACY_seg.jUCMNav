@@ -36,7 +36,7 @@ public class MetricsRuleEditDialog extends RuleEditDialog {
 	
     
     protected String getQueryLabel(){
-    	return Messages.getString("MetricsRuleEditDialog.QueryExpression");
+    	return Messages.getString("MetricsRuleEditDialog.QueryExpression"); //$NON-NLS-1$
     }
     
     protected GridData getQueryGridData(){

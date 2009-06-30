@@ -61,7 +61,7 @@ public class NewUcmFileWizardPage extends WizardPage {
 	 */
 	public void createControl(Composite parent) {
 		
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.newfile");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.newfile"); //$NON-NLS-1$
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);

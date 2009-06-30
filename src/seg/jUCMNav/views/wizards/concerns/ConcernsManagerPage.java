@@ -265,7 +265,7 @@ public class ConcernsManagerPage extends WizardPage {
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createControl(Composite parent) {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.concerns");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.concerns"); //$NON-NLS-1$
 		Composite container = createWidgets(parent);
 		refreshControl(); // also adds listeners
 		setControl(container);

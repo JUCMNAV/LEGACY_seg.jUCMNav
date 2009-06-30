@@ -12,6 +12,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -59,18 +60,23 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.commands.change.ChangePluginBindingProbCommand;
 import seg.jUCMNav.model.commands.change.ChangePluginBindingTransCommand;
+import seg.jUCMNav.model.commands.create.AddComponentBindingCommand;
 import seg.jUCMNav.model.commands.create.AddInBindingCommand;
 import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
+import seg.jUCMNav.model.commands.delete.internal.DeleteComponentBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteInBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteOutBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeletePluginCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeDescriptionCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.ReplacePluginCommand;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
+import ucm.map.ComponentBinding;
+import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
 import ucm.map.MapPackage;
@@ -82,6 +88,8 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.Component;
+import urncore.ComponentKind;
 import urncore.Condition;
 import urncore.IURNDiagram;
 
@@ -131,10 +139,20 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	private TableColumn stubOutsColumn; // It's first column (so that we can
 	// make it as wide as the table)
 
+	private Table tabParentComps; // The table for making out bindings with maps
+	private TableColumn compParentColumn; // It's first column (so that we can
+	// make it as wide as the table)
+	private Table tabPluginComps; // The table for making out bindings with stubs
+	private TableColumn compPluginColumn; // It's first column (so that we can
+	// make it as wide as the table)
+
+	
 	// The button for doing in bindings.
 	private Button btInBind;
 	// The button for doing out bindings.
 	private Button btOutBind;
+	// The button for doing component bindings
+	private Button btCompBind;
 
 	// The editor from wich this dialog was opened.
 	private CommandStack cmdStack;
@@ -616,6 +634,95 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		mapOutsColumn.setWidth(50);
 		mapOutsColumn.setText(Messages.getString("StubBindingsDialog.outMap")); //$NON-NLS-1$
 
+		// start of component binding controls
+		stubComp = toolkit.createComposite(addPluginClient);
+		grid = new GridLayout();
+		grid.numColumns = 1;
+		stubComp.setLayout(grid);
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		stubComp.setLayoutData(g);
+
+		lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.ParentMap"));  //$NON-NLS-1$
+
+		tabParentComps = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
+		tabParentComps.setLinesVisible(true);
+		tabParentComps.setHeaderVisible(true);
+		tabParentComps.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				if (tabParentComps.getSelectionCount() >= 1 && tabPluginComps.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+					btCompBind.setEnabled(true);
+				else
+					btCompBind.setEnabled(false);
+			}
+		});
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		g.heightHint = 75;
+		tabParentComps.setLayoutData(g);
+		compParentColumn = new TableColumn(tabParentComps, SWT.NONE);
+		compParentColumn.setWidth(50);
+		compParentColumn.setText(Messages.getString("StubBindingsDialog.Components")); //$NON-NLS-1$
+
+		buttonComp = toolkit.createComposite(addPluginClient);
+		grid = new GridLayout();
+		grid.numColumns = 1;
+		grid.makeColumnsEqualWidth = true;
+		buttonComp.setLayout(grid);
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		buttonComp.setLayoutData(g);
+
+		btCompBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT); //$NON-NLS-1$
+		btCompBind.setEnabled(false);
+		g = new GridData();
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		g.horizontalAlignment = GridData.CENTER;
+		g.verticalAlignment = GridData.CENTER;
+		btCompBind.setLayoutData(g);
+		btCompBind.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				handleCompBindClick();
+			}
+		});
+
+		mapComp = toolkit.createComposite(addPluginClient);
+		grid = new GridLayout();
+		grid.numColumns = 1;
+		mapComp.setLayout(grid);
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		mapComp.setLayoutData(g);
+
+		lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.PluginMap")); //$NON-NLS-1$
+
+		tabPluginComps = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
+		tabPluginComps.setLinesVisible(true);
+		tabPluginComps.setHeaderVisible(true);
+		tabPluginComps.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				if (tabParentComps.getSelectionCount() >= 1 && tabPluginComps.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+					btCompBind.setEnabled(true);
+				else
+					btCompBind.setEnabled(false);
+			}
+		});
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		g.heightHint = 75;
+		tabPluginComps.setLayoutData(g);
+		compPluginColumn = new TableColumn(tabPluginComps, SWT.NONE);
+		compPluginColumn.setWidth(50);
+		compPluginColumn.setText(Messages.getString("StubBindingsDialog.Components")); //$NON-NLS-1$
+
+		
+		// start of condition controls
 		Composite compCondition = toolkit.createComposite(addPluginClient, SWT.BORDER);
 		grid = new GridLayout();
 		grid.numColumns = 3;
@@ -922,8 +1029,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			plug = ((InBinding)selectedItem).getBinding();
 		} else if (selectedItem instanceof OutBinding) {
 			plug = ((OutBinding)selectedItem).getBinding();
+		} else if (selectedItem instanceof ComponentBinding) {
+			plug = ((ComponentBinding)selectedItem).getBinding();
 		} else {
-			System.err.println("Unexpected Context:  What's the selected item?"); //$NON-NLS-1$
+			//System.err.println("Unexpected Context:  What's the selected item?"); //$NON-NLS-1$
 			plug = null;
 		}
 		return plug;
@@ -963,6 +1072,16 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			// Refresh the add bindings view with nothing since the plugin was
 			// deleted.
 			setSelectedPluginView(out.getBinding());
+		} else if (selectedItem instanceof ComponentBinding) {
+			ComponentBinding comp = (ComponentBinding) selectedItem;
+			DeleteComponentBindingCommand delete = new DeleteComponentBindingCommand(comp);
+			execute(delete);
+
+			btDelete.setEnabled(false);
+
+			// Refresh the add bindings view with nothing since the plugin was
+			// deleted.
+			setSelectedPluginView(comp.getBinding());			
 		} else {
 			System.err.println("Unexpected Context:  What's the selected item?"); //$NON-NLS-1$
 		}
@@ -1056,6 +1175,9 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				selectedItem = data;
 				// show the binding
 				setSelectedPluginView((PluginBinding) source.getParentItem().getParentItem().getData());
+			} else if (data instanceof ComponentBinding) {
+				selectedItem = data;
+				setSelectedPluginView(((ComponentBinding)data).getBinding());
 			} else {
 				setSelectedPluginView(null); // Erase the binding view
 				btDelete.setEnabled(false);
@@ -1064,6 +1186,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			btDelete.setEnabled(true);
 		} else {
 			if (source.getParentItem() != null) {
+				selectedItem = (PluginBinding) source.getParentItem().getData();
 				setSelectedPluginView((PluginBinding) source.getParentItem().getData());
 			}
 			btDelete.setEnabled(false);
@@ -1332,6 +1455,48 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			btInBind.setEnabled(false);
 		}
 	}
+	
+
+	/**
+	 * Handle the click on the button to create a new InBinding.
+	 */
+	protected void handleCompBindClick() {
+		// Both list have something selected. And the stub has to have at least
+		// one plugin.
+		if (tabParentComps.getSelectionCount() >= 1 && tabPluginComps.getSelectionCount() >= 1 && stub.getBindings().size() > 0) {
+			PluginBinding plug = null;
+			// Check that the selected Stub is not dynamic
+			if (!stub.isDynamic()) {
+				// Set the binding of the OutBinding to to first one in the list
+				// of the plugin.
+				plug = (PluginBinding) stub.getBindings().get(0);
+			} else {
+				plug = (PluginBinding) selectedPluginLabel.getData();
+			}
+			// Get the selected StartPoint and NodeConnection in the map and
+			// stub in table.
+			ComponentRef parent = (ComponentRef) parentCompList.get(tabParentComps.getSelectionIndex());
+			ComponentRef plugin = (ComponentRef) pluginCompList.get(tabPluginComps.getSelectionIndex());
+
+			if (plugin.getContDef() instanceof Component )
+			{
+				Component def = ((Component) plugin.getContDef());
+				if (!(def.isContext() && def.getKind().equals(ComponentKind.TEAM_LITERAL))) {
+					boolean answer = MessageDialog.openQuestion(getShell(), Messages.getString("StubBindingsDialog.InvalidPluginComponent"), Messages.getString("StubBindingsDialog.InvalidPluginComponentText")); //$NON-NLS-1$ //$NON-NLS-2$
+					if (!answer)
+						return;
+				}
+				
+			}
+			AddComponentBindingCommand in = new AddComponentBindingCommand(plug, parent, plugin);
+			execute(in);
+			setSelectedPluginView(plug);
+
+			btCompBind.setEnabled(false);
+		}
+	}	
+	
+	
 
 	/**
 	 * This method updates the width of columns of tables to make them as wide
@@ -1343,6 +1508,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		mapOutsColumn.setWidth(tabMapOuts.getSize().x - 2);
 		stubOutsColumn.setWidth(tabStubOuts.getSize().x - 2);
 		tabMapListColumn.setWidth(tabMapList.getSize().x - 2);
+		compParentColumn.setWidth(tabParentComps.getSize().x - 2);
+		compPluginColumn.setWidth(tabPluginComps.getSize().x - 2);
 	}
 
 	/**
@@ -1504,7 +1671,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			// Then add a label for InBindings under this item
 			subLabelItem = new TreeItem(item, SWT.NULL);
 			subLabelItem.setText(Messages.getString("StubBindingsDialog.inBindings")); //$NON-NLS-1$
-
+			image = (JUCMNavPlugin.getImage( "icons/inBinding16.gif")); //$NON-NLS-1$
+			images.add(image);
+			subLabelItem.setImage(image);
+			
 			// Loop through all the InBindings and add them under the InBinding
 			// label
 			List in = binding.getIn();
@@ -1523,7 +1693,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			// The add the label for OutBindings under the PluginBinding item
 			subLabelItem = new TreeItem(item, SWT.NULL);
 			subLabelItem.setText(Messages.getString("StubBindingsDialog.outBindings")); //$NON-NLS-1$
-
+			image = (JUCMNavPlugin.getImage( "icons/outBinding16.gif")); //$NON-NLS-1$
+			images.add(image);
+			subLabelItem.setImage(image);
+			
 			// Loop through all the OutBindings and add them under the
 			// OutBinding label
 			List out = binding.getOut();
@@ -1538,6 +1711,31 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			}
 			// We want everything expanded by default.
 			subLabelItem.setExpanded(true);
+			
+
+			// The add the label for Component Bindings under the PluginBinding item
+			subLabelItem = new TreeItem(item, SWT.NULL);
+			subLabelItem.setText(Messages.getString("StubBindingsDialog.ComponentBindings")); //$NON-NLS-1$
+			image = (JUCMNavPlugin.getImage( "icons/Component16.gif")); //$NON-NLS-1$
+			images.add(image);
+			subLabelItem.setImage(image);
+			
+			// Loop through all the  Component Bindings and add them under the
+			//  Component Bindings label
+			List comps = binding.getComponents();
+			for (Iterator j = comps.iterator(); j.hasNext();) {
+				ComponentBinding compBind = (ComponentBinding) j.next();
+				subItem = new TreeItem(subLabelItem, SWT.NULL);
+				subItem.setText(URNNamingHelper.getName(compBind.getParentComponent()) + " <-> " + URNNamingHelper.getName(compBind.getPluginComponent())); //$NON-NLS-1$ 
+				image = (JUCMNavPlugin.getImage( "icons/Component16.gif")); //$NON-NLS-1$
+				images.add(image);
+				subItem.setImage(image);
+				subItem.setData(compBind);
+			}
+			// We want everything expanded by default.
+			subLabelItem.setExpanded(true);			
+			
+			
 			item.setExpanded(true);
 		}
 		root.setExpanded(true);
@@ -1551,7 +1749,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	private ArrayList outStubList;
 	// The list of all the EndPoints of the binded map.
 	private ArrayList outMapList;
-
+	// The list of all the parent components of the binded map
+	private ArrayList parentCompList;
+	// The list of all the plug-in copmonents of the binded map
+	private ArrayList pluginCompList;
 	/**
 	 * Refresh the lists and tables for the ins/out of the Stub and Map of a
 	 * PluginBinding.
@@ -1565,12 +1766,16 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		tabStubIns.removeAll();
 		tabMapOuts.removeAll();
 		tabStubOuts.removeAll();
+		tabParentComps.removeAll();
+		tabPluginComps.removeAll();
 
 		// Clear the arrays
 		inStubList = new ArrayList();
 		inMapList = new ArrayList();
 		outStubList = new ArrayList();
 		outMapList = new ArrayList();
+		parentCompList = new ArrayList();
+		pluginCompList = new ArrayList();
 
 		// If the user selected a plugin
 		if (selectedPlugin != null) {
@@ -1587,10 +1792,12 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			Image end = (JUCMNavPlugin.getImage( "icons/End16.gif")); //$NON-NLS-1$
 			Image in = (JUCMNavPlugin.getImage( "icons/inBinding16.gif")); //$NON-NLS-1$
 			Image out = (JUCMNavPlugin.getImage( "icons/outBinding16.gif")); //$NON-NLS-1$
+			Image comp = (JUCMNavPlugin.getImage( "icons/Component16.gif")); //$NON-NLS-1$
 			images.add(in);
 			images.add(out);
 			images.add(start);
 			images.add(end);
+			images.add(comp);
 
 			// Get the list of all the incoming connections from outside to the
 			// stub to fill the 'in' list.
@@ -1646,6 +1853,25 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 					}
 				}
 			}
+			
+			list = ((UCMmap) stub.getDiagram()).getContRefs();
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				ComponentRef c = (ComponentRef) iterator.next();
+				parentCompList.add(c);
+				item = new TableItem(tabParentComps, SWT.NULL);
+				item.setText(URNNamingHelper.getName(c));
+				item.setImage(comp);
+			}
+			list = selectedPlugin.getPlugin().getContRefs();
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				ComponentRef c = (ComponentRef) iterator.next();
+				if (c.getPluginBindings().size()==0) {
+					pluginCompList.add(c);
+					item = new TableItem(tabPluginComps, SWT.NULL);
+					item.setText(URNNamingHelper.getName(c));
+					item.setImage(comp);
+				}
+			}			
 
 			refreshCondition();
 			refreshTransaction();

@@ -90,7 +90,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
      * Contains controls to set the export directory, export file type and selected maps.
      */
     public void createControl(Composite parent) {
-    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.export_mapselection");
+    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.export_mapselection"); //$NON-NLS-1$
         SelectionListener selList = new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent e) {
                 verifyPage();

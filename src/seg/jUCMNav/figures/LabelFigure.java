@@ -6,16 +6,15 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import seg.jUCMNav.figures.util.UrnMetadata;
-
 /**
  * Figure for UCM Labels; uses an EditableLabel.
  * 
- * @author Jordan, Jean-François Roy
+ * @author Jordan, Jean-François Roy, jkealey
  */
 public class LabelFigure extends Label implements LabelElementFigure {
-    public String additionalText = ""; //$NON-NLS-1$
-    
+    public String suffixText = ""; //$NON-NLS-1$
+    public String prefixText = ""; //$NON-NLS-1$
+    public String editableText = ""; //$NON-NLS-1$
     private boolean selected;
     
     public LabelFigure() {
@@ -33,7 +32,8 @@ public class LabelFigure extends Label implements LabelElementFigure {
      * Use this method instead of getText for LabelFigure
      */
     public String getEditableText() {
-    	return UrnMetadata.removeStereotypes(super.getText());
+    	//return UrnMetadata.removeStereotypes(super.getText());
+    	return editableText;
     }
     
     /**
@@ -53,14 +53,23 @@ public class LabelFigure extends Label implements LabelElementFigure {
         super.paintFigure(graphics);
     }
 
-    public void setAdditionalText(String text){
+    public void setSuffixText(String text){
         String previousText = getEditableText();
-        if (additionalText.equals(text)){
+        if (suffixText.equals(text)){
             return;
         }
-        additionalText = text;
+        suffixText = text;
         setEditableText(previousText);
     }
+    
+    public void setPrefixText(String text){
+        String previousText = getEditableText();
+        if (prefixText.equals(text)){
+            return;
+        }
+        prefixText = text;
+        setEditableText(previousText);
+    }    
     /**
      * Sets the selection state of this SimpleActivityLabel
      * 
@@ -76,11 +85,8 @@ public class LabelFigure extends Label implements LabelElementFigure {
      * @see seg.jUCMNav.figures.LabelElementFigure#setText(java.lang.String)
      */
     public void setEditableText(String newText) {
-        if (! additionalText.equals("")){ //$NON-NLS-1$
-            super.setText(newText + additionalText);
-        } else{
-            super.setText(newText);
-        }
+    	this.editableText = newText;
+         super.setText(prefixText + newText + suffixText);
     }
 
 }

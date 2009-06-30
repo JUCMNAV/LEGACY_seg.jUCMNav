@@ -90,7 +90,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
      * Contains controls to set the report directory, report file type and selected maps.
      */
     public void createControl(Composite parent) {
-    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.import_mapselection");
+    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.import_mapselection"); //$NON-NLS-1$
         SelectionListener selList = new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent e) {
                 verifyPage();

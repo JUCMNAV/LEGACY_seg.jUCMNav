@@ -74,7 +74,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
     }
 
     public void createControl(Composite parent) {
-    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.import_fileselection");
+    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.import_fileselection"); //$NON-NLS-1$
     	
         // create the composite to hold the widgets
         Composite composite = new Composite(parent, SWT.NONE);

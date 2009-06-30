@@ -174,7 +174,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     }
     
     protected String getQueryLabel(){
-    	return Messages.getString("RuleEditDialog.QueryExpression");
+    	return Messages.getString("RuleEditDialog.QueryExpression"); //$NON-NLS-1$
     }
     
     protected void createConstraintGUI(Composite c1){
@@ -247,7 +247,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
 
         if (rule == null)// create mode
         {
-            Rule r = defferManager.createRule(txtName.getText(), txtContext.getText(), txtQuery.getText(), txtCheck == null ? "" : txtCheck.getText(), false,
+            Rule r = defferManager.createRule(txtName.getText(), txtContext.getText(), txtQuery.getText(), txtCheck == null ? "" : txtCheck.getText(), false, //$NON-NLS-1$
                     txtDesc.getText());
             if (r == null) {
                 MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
@@ -282,7 +282,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
                     return;
                 }
             }
-            Rule r = defferManager.createRule("", txtContext.getText(), this.txtQuery.getText(), this.txtCheck == null ? "" :this.txtCheck.getText(), false, //$NON-NLS-1$
+            Rule r = defferManager.createRule("", txtContext.getText(), this.txtQuery.getText(), this.txtCheck == null ? "" :this.txtCheck.getText(), false, //$NON-NLS-1$ //$NON-NLS-2$
                     txtDesc.getText());
             for (int i = 0; i < table.getItems().length; ++i) {
                 TableItem item = table.getItems()[i];
@@ -300,7 +300,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             rule.setClassifier(txtContext.getText());
             rule.setDescription(txtDesc.getText());
             rule.setContext(txtQuery.getText());
-            rule.setQuery(txtCheck == null ? "" :txtCheck.getText());
+            rule.setQuery(txtCheck == null ? "" :txtCheck.getText()); //$NON-NLS-1$
             for (int i = 0; i < table.getItems().length; ++i) {
                 TableItem item = table.getItems()[i];
                 rule.addUtility(item.getText());

@@ -41,6 +41,7 @@ import ucm.UCMspec;
 import ucm.UcmFactory;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.ComponentBinding;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.DirectionArrow;
@@ -351,6 +352,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = ucmscenariofactory.createInitialization();
             } else if (targetClass.equals(Metadata.class)) {
                 result = urncorefactory.createMetadata();
+            } else if (targetClass.equals(ComponentBinding.class)) {
+                result = mapfactory.createComponentBinding();
             } else {
                 // complex creations
                 if (targetClass.equals(UCMmap.class)) {

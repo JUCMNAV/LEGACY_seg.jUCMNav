@@ -39,7 +39,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
      * Contains radio button to decide on the export type and a label explaning the alternatives.
      */
     public void createControl(Composite parent) {
-    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.export_typeselection");
+    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.export_typeselection"); //$NON-NLS-1$
         // create the composite to hold the widgets
         Composite composite = new Composite(parent, SWT.NONE);
 

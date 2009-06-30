@@ -23,6 +23,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.directEditPolicy.AutocompleteTextCellEditor;
 import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
@@ -38,6 +39,7 @@ import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.MapPackage;
 import ucm.map.RespRef;
+import urncore.Component;
 import urncore.ComponentLabel;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
@@ -342,15 +344,24 @@ public class LabelEditPart extends ModelElementEditPart {
 				if (modelElement instanceof IURNContainerRef) { // use definition
 					IURNContainer componentElement = ((IURNContainerRef) modelElement).getContDef();
 					if (componentElement != null)
-						labelFigure.setAdditionalText(UrnMetadata.getStereotypes(componentElement));
+						labelFigure.setSuffixText(UrnMetadata.getStereotypes(componentElement));
+					
+					if (modelElement instanceof ComponentRef)
+					{
+						if (((ComponentRef)modelElement).getContDef() instanceof Component) {
+							Component component = (Component) ((ComponentRef)modelElement).getContDef();
+							if (component.isContext())
+								labelFigure.setPrefixText(Messages.getString("LabelEditPart.parentprefix")); //$NON-NLS-1$
+						}
+						
+					}
 				} else if (modelElement instanceof RespRef) { // use definition
 					Responsibility responsibility = ((RespRef) modelElement).getRespDef();
 					if (responsibility != null)
-						labelFigure.setAdditionalText(UrnMetadata.getStereotypes(responsibility));
+						labelFigure.setSuffixText(UrnMetadata.getStereotypes(responsibility));
 				} else {
-					labelFigure.setAdditionalText(UrnMetadata.getStereotypes(modelElement));
+					labelFigure.setSuffixText(UrnMetadata.getStereotypes(modelElement));
 				}
-
 			}
 
 			//If the element has a URNlink associated, show the link symbol
