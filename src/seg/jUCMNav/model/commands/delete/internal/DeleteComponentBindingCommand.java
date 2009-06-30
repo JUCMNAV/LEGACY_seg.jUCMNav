@@ -24,7 +24,7 @@ public class DeleteComponentBindingCommand extends Command implements
 	private int index;
 
 	/**
-	 * @param out
+	 * @param binding
 	 *            the binding to be deleted.
 	 */
 	public DeleteComponentBindingCommand(ComponentBinding binding) {

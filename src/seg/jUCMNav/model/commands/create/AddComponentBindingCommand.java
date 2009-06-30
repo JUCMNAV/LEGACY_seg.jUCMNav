@@ -35,10 +35,10 @@ public class AddComponentBindingCommand extends Command implements JUCMNavComman
     /**
      * @param plugin
      *            the concerned plugin binding
-     * @param start
-     *            one of the plugin's start points
-     * @param entry
-     *            the stub's entry connection
+     * @param parent
+     *            the parent component
+     * @param child
+     *            the plug-in component
      */
     public AddComponentBindingCommand(PluginBinding plugin, ComponentRef parent, ComponentRef child) {
         super();
