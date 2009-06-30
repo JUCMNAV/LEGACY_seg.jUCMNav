@@ -1716,7 +1716,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			// The add the label for Component Bindings under the PluginBinding item
 			subLabelItem = new TreeItem(item, SWT.NULL);
 			subLabelItem.setText(Messages.getString("StubBindingsDialog.ComponentBindings")); //$NON-NLS-1$
-			image = (JUCMNavPlugin.getImage( "icons/Component16.gif")); //$NON-NLS-1$
+			image = (JUCMNavPlugin.getImage( "icons/componentBinding16.gif")); //$NON-NLS-1$
 			images.add(image);
 			subLabelItem.setImage(image);
 			
@@ -1727,7 +1727,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				ComponentBinding compBind = (ComponentBinding) j.next();
 				subItem = new TreeItem(subLabelItem, SWT.NULL);
 				subItem.setText(URNNamingHelper.getName(compBind.getParentComponent()) + " <-> " + URNNamingHelper.getName(compBind.getPluginComponent())); //$NON-NLS-1$ 
-				image = (JUCMNavPlugin.getImage( "icons/Component16.gif")); //$NON-NLS-1$
+				image = (JUCMNavPlugin.getImage( "icons/componentBinding16.gif")); //$NON-NLS-1$
 				images.add(image);
 				subItem.setImage(image);
 				subItem.setData(compBind);
@@ -1792,7 +1792,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			Image end = (JUCMNavPlugin.getImage( "icons/End16.gif")); //$NON-NLS-1$
 			Image in = (JUCMNavPlugin.getImage( "icons/inBinding16.gif")); //$NON-NLS-1$
 			Image out = (JUCMNavPlugin.getImage( "icons/outBinding16.gif")); //$NON-NLS-1$
-			Image comp = (JUCMNavPlugin.getImage( "icons/Component16.gif")); //$NON-NLS-1$
+			Image comp = (JUCMNavPlugin.getImage( "icons/componentBinding16.gif")); //$NON-NLS-1$
 			images.add(in);
 			images.add(out);
 			images.add(start);
