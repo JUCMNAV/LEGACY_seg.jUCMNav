@@ -352,6 +352,9 @@ public class LabelEditPart extends ModelElementEditPart {
 							Component component = (Component) ((ComponentRef)modelElement).getContDef();
 							if (component.isContext())
 								labelFigure.setPrefixText(Messages.getString("LabelEditPart.parentprefix")); //$NON-NLS-1$
+							else
+								labelFigure.setPrefixText("");//$NON-NLS-1$
+
 						}
 						
 					}
