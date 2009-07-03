@@ -18,7 +18,6 @@ public class TextAreaCellEditor extends TextCellEditor {
 	protected Control createControl(Composite parent) {
 		Control c = super.createControl(parent);
 		text.setSize(200,300);
-		
 		c.setSize(200,300);
 		return c;
 	}
