@@ -111,6 +111,7 @@ public class UrnMetadata {
 	 */
 	public static void setToolTip(URNmodelElement elem, IFigure fig)
 	{
+		if (elem == null || fig == null) return;
 		String toolTipText = "";   //$NON-NLS-1$
 		String metadataText = "";  //$NON-NLS-1$
 		boolean descOnly = false; // Indicates if only the description is in the text so far.
@@ -118,6 +119,7 @@ public class UrnMetadata {
 		if (elem instanceof RespRef){
 			elem = ((RespRef)elem).getRespDef();
 		}
+		if (elem==null) return;
 
 		if (elem.getDescription() != null) {
 			toolTipText = toolTipText + " " + elem.getDescription() + " "; //$NON-NLS-1$ $NON-NLS-2$  

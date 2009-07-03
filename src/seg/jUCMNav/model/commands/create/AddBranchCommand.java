@@ -17,6 +17,7 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
+import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.Condition;
 
@@ -45,7 +46,31 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
     // if true, relax pre/post condition checking.
     private boolean inCompoundCommand = false;
 
+    
     /**
+     * @param insertionNode
+     *            the fork/join/timer on which to add a branch
+     * @param inCompoundCommand
+     *            if true, relax pre/post condition checking.
+     * @param newCondition
+     * 			if not null, it will be the condition set to the new node connection.             
+     */
+    public AddBranchCommand(PathNode insertionNode, boolean inCompoundCommand, Condition newCondition) {
+        this.insertionNode = insertionNode;
+        this.inCompoundCommand = inCompoundCommand;
+        this.newCondition = newCondition;
+        setLabel(Messages.getString("AddBranchCommand.addBranch")); //$NON-NLS-1$
+    }
+    
+    public Condition getNewCondition() {
+		return newCondition;
+	}
+
+	public void setNewCondition(Condition newCondition) {
+		this.newCondition = newCondition;
+	}
+
+	/**
      * @param insertionNode
      *            the fork/join/timer on which to add a branch
      * @param inCompoundCommand
@@ -54,6 +79,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
     public AddBranchCommand(PathNode insertionNode, boolean inCompoundCommand) {
         this.insertionNode = insertionNode;
         this.inCompoundCommand = inCompoundCommand;
+        this.newCondition=null;
         setLabel(Messages.getString("AddBranchCommand.addBranch")); //$NON-NLS-1$
     }
 
@@ -63,6 +89,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      */
     public AddBranchCommand(PathNode insertionNode) {
         this.insertionNode = insertionNode;
+        this.newCondition=null;
         setLabel(Messages.getString("AddBranchCommand.addBranch")); //$NON-NLS-1$
     }
 
@@ -71,7 +98,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      */
     public boolean canExecute() {
         return (this.insertionNode instanceof OrFork || this.insertionNode instanceof OrJoin || this.insertionNode instanceof AndFork
-                || this.insertionNode instanceof AndJoin || (this.insertionNode instanceof Timer && this.insertionNode.getSucc().size() == 1))
+                || this.insertionNode instanceof AndJoin || (this.insertionNode instanceof Timer && ((inCompoundCommand && this.insertionNode.getSucc().size()==0) || this.insertionNode.getSucc().size() == 1)))
                 && (this.insertionNode.getDiagram() != null || inCompoundCommand);
     }
 
@@ -116,13 +143,15 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
 
         // branches following OrForks always have conditions.
 
-        if (insertionNode instanceof OrFork || insertionNode instanceof Timer) {
+        if (newCondition==null && (insertionNode instanceof OrFork || insertionNode instanceof WaitingPlace || insertionNode instanceof Timer)) {
             newCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
             // blocking path. 
             if (insertionNode instanceof Timer)
             	newCondition.setExpression("false"); //$NON-NLS-1$
-            newConn.setCondition(newCondition);
         }
+        
+        if (newCondition!=null)
+        	newConn.setCondition(newCondition);
 
         redo();
     }

@@ -2,6 +2,7 @@ package seg.jUCMNav.editpolicies.layout;
 
 import java.util.Vector;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -226,5 +227,12 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
      */
     private boolean isReplaceable(Object pn) {
         return (pn instanceof EmptyPoint || pn instanceof DirectionArrow);
+    }
+    
+    protected Point getLayoutOrigin() {
+    	if (getXYLayout()==null)
+    		return new Point(0,0);
+    	else
+    		return getXYLayout().getOrigin(getLayoutContainer());
     }
 }

@@ -8,10 +8,14 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.Connect;
 import ucm.map.NodeConnection;
+import ucm.map.OrFork;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.map.Timer;
 import ucm.map.UCMmap;
+import ucm.map.WaitingPlace;
 import urn.URNspec;
+import urncore.Condition;
 import urncore.Responsibility;
 
 /**
@@ -52,7 +56,36 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     private boolean bDefAlreadyExists;
 
     private Responsibility existingDef;
+    
+    private Condition outgoingCondition;
 
+    public Condition getOutgoingCondition() {
+		return outgoingCondition;
+	}
+	public void setOutgoingCondition(Condition outgoingCondition) {
+		this.outgoingCondition = outgoingCondition;
+	}
+	/**
+     * @param pg
+     *            the pathgraph containing the elements
+     * @param pn
+     *            the pathnode to add
+     * @param link
+     *            the nodeconnection to split
+     * @param x
+     *            insertion location
+     * @param y
+     *            insertion location
+     */
+    public SplitLinkCommand(UCMmap pg, PathNode pn, NodeConnection link, int x, int y) {
+        this.diagram = pg;
+        this.node = pn;
+        this.oldLink = link;
+        this.x = x;
+        this.y = y;
+        this.outgoingCondition=null;
+        setLabel(Messages.getString("SplitLinkCommand.insertNodeOnPath")); //$NON-NLS-1$
+    }
     /**
      * @param pg
      *            the pathgraph containing the elements
@@ -63,18 +96,20 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @param x
      *            insertion location
      * @param y
-     *            insetion location
+     *            insertion location
+     * @param outgoingCondition
+     * 			the condition on the outgoing node            
+     *            
      */
-    public SplitLinkCommand(UCMmap pg, PathNode pn, NodeConnection link, int x, int y) {
+    public SplitLinkCommand(UCMmap pg, PathNode pn, NodeConnection link, int x, int y, Condition outgoingCondition) {
         this.diagram = pg;
         this.node = pn;
         this.oldLink = link;
         this.x = x;
         this.y = y;
-
+        this.outgoingCondition=outgoingCondition;
         setLabel(Messages.getString("SplitLinkCommand.insertNodeOnPath")); //$NON-NLS-1$
     }
-
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
@@ -87,6 +122,16 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         }
         URNspec urn = diagram.getUrndefinition().getUrnspec();
         newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
+        
+        if (outgoingCondition==null && (node instanceof OrFork || node instanceof WaitingPlace || node instanceof Timer)) {
+        	outgoingCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
+            // blocking path. 
+            if (previousNode instanceof Timer)
+            	outgoingCondition.setExpression("false"); //$NON-NLS-1$
+        }
+        
+        if (outgoingCondition!=null)
+        	newLink.setCondition(outgoingCondition);        
 
         node.getSucc().add(0, newLink);
 

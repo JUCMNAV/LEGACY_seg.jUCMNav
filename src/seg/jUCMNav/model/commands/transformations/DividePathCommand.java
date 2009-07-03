@@ -1,10 +1,12 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddBranchCommand;
+import seg.jUCMNav.model.commands.create.AddBranchOnStubCommand;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.EmptyPoint;
@@ -14,8 +16,11 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
+import ucm.map.Timer;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.Condition;
 
 /**
  * This command can:
@@ -35,7 +40,7 @@ import urn.URNspec;
 public class DividePathCommand extends CompoundCommand {
 
     private PathNode newNode;
-
+    
     /**
      * add a new internally created fork/join on a node connection, attaching a passed branch
      * 
@@ -88,9 +93,17 @@ public class DividePathCommand extends CompoundCommand {
      *            its y coordinate
      */
     public DividePathCommand(PathNode newForkJoin, NodeConnection nc, int x, int y) {
+    	this.newNode = newForkJoin;
         add(new SplitLinkCommand((UCMmap) nc.getDiagram(), newForkJoin, nc, x, y));
-        add(new AddBranchCommand(newForkJoin, true));
+        
+        if (isNormalForkJoin(newForkJoin))
+        	add(new AddBranchCommand(newForkJoin, true));
     }
+
+	private boolean isNormalForkJoin(PathNode newForkJoin)
+	{
+		return !(newForkJoin instanceof Stub) && !(newForkJoin instanceof Timer);
+	}
 
     /**
      * add a new passed fork/join on a node connection, attaching an existing branch.
@@ -107,8 +120,10 @@ public class DividePathCommand extends CompoundCommand {
      *            the existing branch              
      */
     public DividePathCommand(PathNode newForkJoin, NodeConnection nc, int x, int y, PathNode startOrEnd) {
+    	this.newNode = newForkJoin;
         add(new SplitLinkCommand((UCMmap) nc.getDiagram(), newForkJoin, nc, x, y));
-        add(new AttachBranchCommand(startOrEnd, newForkJoin));
+        if (isNormalForkJoin(newForkJoin))
+        	add(new AttachBranchCommand(startOrEnd, newForkJoin));
     }
 
     /**
@@ -120,8 +135,10 @@ public class DividePathCommand extends CompoundCommand {
      *            the empty point / direction arrow to be replaced
      */
     public DividePathCommand(PathNode newForkJoin, PathNode ep) {
+    	this.newNode = newForkJoin;
         add(new ReplaceEmptyPointCommand(ep, newForkJoin));
-        add(new AddBranchCommand(newForkJoin, true));
+        if (isNormalForkJoin(newForkJoin))
+        	add(new AddBranchCommand(newForkJoin, true));
     }
 
     /**
@@ -135,8 +152,10 @@ public class DividePathCommand extends CompoundCommand {
      *            the existing branch
      */
     public DividePathCommand(PathNode newForkJoin, PathNode ep, PathNode startOrEnd) {
+    	this.newNode = newForkJoin;
         add(new ReplaceEmptyPointCommand(ep, newForkJoin));
-        add(new AttachBranchCommand(startOrEnd, newForkJoin));
+        if (isNormalForkJoin(newForkJoin))
+        	add(new AttachBranchCommand(startOrEnd, newForkJoin));
     }
 
     /**
@@ -184,10 +203,97 @@ public class DividePathCommand extends CompoundCommand {
      */
     private void replaceAndAddBranch(PathNode startOrEnd, PathNode empty, PathNode toInsert) {
         add(new ReplaceEmptyPointCommand(empty, toInsert));
-        add(new AttachBranchCommand(startOrEnd, toInsert));
+        if (isNormalForkJoin(toInsert))
+        	add(new AttachBranchCommand(startOrEnd, toInsert));
     }
 
     public PathNode getNewNode() {
         return newNode;
     }
+    
+    /**
+     * Will clone the branches of the old element to the new one.
+     *  
+     * @param cloneFromForkJoin
+     */
+    public void cloneBranchesFrom(PathNode cloneFromForkJoin, UCMmap diagram)
+    {
+    	if (newNode!=null) {
+	    	if (cloneFromForkJoin instanceof AndFork || cloneFromForkJoin instanceof OrFork || cloneFromForkJoin instanceof Stub || cloneFromForkJoin instanceof Timer)
+	    	{
+	    		for (int i=0;i<cloneFromForkJoin.getSucc().size();i++) {
+					NodeConnection nc = (NodeConnection) cloneFromForkJoin.getSucc().get(i);
+					if (newNode instanceof Stub)
+					{
+						if (i>0) add(new AddBranchOnStubCommand((Stub)newNode, false, diagram));
+					}
+					else
+						copyNodeConnection(i, nc);
+				}
+	    	}
+	    	
+	    	if (cloneFromForkJoin instanceof AndJoin || cloneFromForkJoin instanceof OrJoin || cloneFromForkJoin instanceof Stub)
+	    	{
+	    		for (int i=0;i<cloneFromForkJoin.getPred().size();i++) {
+					NodeConnection nc = (NodeConnection) cloneFromForkJoin.getPred().get(i);
+					if (newNode instanceof Stub)
+					{
+						if (i>0) add(new AddBranchOnStubCommand((Stub)newNode, true, diagram));
+					}
+					else					
+						copyNodeConnection(i, nc);
+				}
+	    	}
+    	}
+    }
+
+	private void copyNodeConnection(int i, NodeConnection nc) {
+
+		Condition cond = null;
+		if (nc.getCondition()!=null)
+			cond = (Condition) EcoreUtil.copy(nc.getCondition());
+		
+		
+		if (newNode instanceof Timer && i>0)
+		{
+			add(new AddBranchCommand(newNode, true, cond));
+			return;
+		}
+
+		if (i==0)
+		{
+			if (cond!=null) {
+				for (int j=0;j<getCommands().size();j++)
+				{
+					if (getCommands().get(j) instanceof SplitLinkCommand)
+					{
+						SplitLinkCommand command = (SplitLinkCommand) getCommands().get(j);
+						command.setOutgoingCondition(cond);
+					}
+					else if (getCommands().get(j) instanceof ReplaceEmptyPointCommand)
+					{
+						ReplaceEmptyPointCommand command = (ReplaceEmptyPointCommand) getCommands().get(j);
+						command.setOutgoingCondition(cond);
+					}
+					break;
+				}
+			}
+		}
+		else if (i==1) {
+			if (cond!=null) {
+				for (int j=0;j<getCommands().size();j++)
+				{
+					if (getCommands().get(j) instanceof AddBranchCommand)
+					{
+						AddBranchCommand command = (AddBranchCommand) getCommands().get(j);
+						command.setNewCondition(cond);
+						break;
+					}
+				}
+
+			}
+		}  else if (i>=2) { // not added by other inserts. 
+				add(new AddBranchCommand(newNode, true, cond));
+		}
+	}
 }
