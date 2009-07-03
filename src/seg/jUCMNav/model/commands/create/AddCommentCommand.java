@@ -23,9 +23,9 @@ public class AddCommentCommand extends Command implements JUCMNavCommand {
 
     /**
      * @param graph
-     *           graph where to add the belief 
-     * @param belief
-     *           belief to add
+     *           graph where to add the comment 
+     * @param comment
+     *           comment to add
      */
     public AddCommentCommand(IURNDiagram graph, Comment comment) {
         super();
@@ -61,7 +61,7 @@ public class AddCommentCommand extends Command implements JUCMNavCommand {
         assert comment != null : "pre comment"; //$NON-NLS-1$
         assert graph != null : "pre graph"; //$NON-NLS-1$
 
-        assert !graph.getComments().contains(comment) : "pre belief in graph"; //$NON-NLS-1$
+        assert !graph.getComments().contains(comment) : "pre comment in graph"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)

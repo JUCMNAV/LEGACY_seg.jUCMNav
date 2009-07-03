@@ -109,7 +109,7 @@ public class SetConstraintCommentCommand extends Command implements JUCMNavComma
     }
 
     /**
-     * @param commment
+     * @param comment
      *            The comment to set.
      */
     public void setComment(Comment comment) {
