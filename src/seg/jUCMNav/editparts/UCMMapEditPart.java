@@ -98,6 +98,15 @@ public class UCMMapEditPart extends URNDiagramEditPart {
         return list;
     }
     
+    private List getComments() {
+		List list = new ArrayList();
+		for (Iterator iterator = getDiagram().getComments().iterator(); iterator
+				.hasNext();) {
+			list.add(iterator.next());
+		}
+		return list;
+	}
+    
     /**
      * Returns the map children: ComponentRefs and PathNodes and PathNode Labels, ordered in such a way that they don't interfere with each other on
      * the board.
@@ -106,6 +115,7 @@ public class UCMMapEditPart extends URNDiagramEditPart {
      */
     protected List getModelChildren() {
         List list = getComponents();
+        list.addAll(getComments());
         list.addAll(getNodes());
         list.addAll(getLabels());
         list.addAll(getConditions());

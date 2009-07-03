@@ -75,6 +75,7 @@ public class GrlGraphEditPart extends URNDiagramEditPart {
      */
     protected List getModelChildren() {
         List list = getComponents();
+        list.addAll(getComments());
         list.addAll(getNodes());
         list.addAll(getLabels());
         return list;
@@ -92,6 +93,15 @@ public class GrlGraphEditPart extends URNDiagramEditPart {
 
         return list;
     }
+    
+    private List getComments() {
+		List list = new ArrayList();
+		for (Iterator iterator = getDiagram().getComments().iterator(); iterator
+				.hasNext();) {
+			list.add(iterator.next());
+		}
+		return list;
+	}
 
     /**
      * @return the IURNConnections

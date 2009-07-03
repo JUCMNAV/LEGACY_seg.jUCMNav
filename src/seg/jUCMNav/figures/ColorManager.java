@@ -20,12 +20,14 @@ public class ColorManager {
     public static final Color BLUE = new Color(null, 0, 102, 204);
     public static final Color LIGHTBLUE = new Color(null, 145, 185, 255);
     public static final Color LIGHTGRAY = new Color(null, 230, 230, 230);
+    public static final Color LIGHTYELLOW = new Color(null, 255, 255, 200);
     public static final Color GRAY = new Color(null, 200, 200, 200);
     public static final Color DARKGRAY = new Color(null, 150, 150, 150);
     public static final Color PURPLE = new Color(null, 150, 0, 150);
     public static final Color VERYDARKGRAY = new Color(null, 100, 100, 100);
     public static final Color RED = new Color(null, 255, 0, 0);
     public static final Color WHITE = new Color(null, 255, 255, 255);
+    public static final Color YELLOW = new Color(null, 255, 255, 0);
 
     public static Color LINE;
     public static Color SELECTED;
@@ -33,6 +35,7 @@ public class ColorManager {
     public static Color TRAVERSAL;
     public static Color POINTCUTBORDER;
     public static Color FILL = WHITE;
+    public static Color FILL_COMMENTS = LIGHTYELLOW;
     public static Color STUBLABEL;
     public static Color LINKREFLABEL;
     public static Color KPIMODELLINKREFLABEL;

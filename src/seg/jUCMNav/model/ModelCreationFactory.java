@@ -77,6 +77,7 @@ import ucm.scenario.Variable;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
+import urncore.Comment;
 import urncore.Component;
 import urncore.ComponentKind;
 import urncore.ComponentLabel;
@@ -112,6 +113,7 @@ public class ModelCreationFactory implements CreationFactory {
     private URNspec urn;
     public static final int DEFAULT_UCM_COMPONENT_HEIGHT = 100;
     public static final int DEFAULT_UCM_COMPONENT_WIDTH = 100;
+    
     public static final int DEFAULT_GRL_COMPONENT_HEIGHT = 200;
     public static final int DEFAULT_GRL_COMPONENT_WIDTH = 200;
     public static final String URNSPEC_VERSION = "0.919b"; //$NON-NLS-1$
@@ -278,6 +280,10 @@ public class ModelCreationFactory implements CreationFactory {
                 result = urncorefactory.createNodeLabel();
             } else if (targetClass.equals(ComponentLabel.class)) {
                 result = urncorefactory.createComponentLabel();
+            } else if (targetClass.equals(Comment.class)) {
+            	result = urncorefactory.createComment();
+            	((Comment)result).setWidth(DEFAULT_UCM_COMPONENT_WIDTH);
+            	((Comment)result).setHeight(DEFAULT_UCM_COMPONENT_HEIGHT);
             } else if (targetClass.equals(OrFork.class)) {
                 result = mapfactory.createOrFork();
             } else if (targetClass.equals(AndFork.class)) {

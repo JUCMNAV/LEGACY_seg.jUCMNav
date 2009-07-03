@@ -13,7 +13,6 @@ import grl.kpimodel.KPIModelLink;
 
 import java.util.HashMap;
 
-import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.SelectionToolEntry;
@@ -26,6 +25,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.palette.tools.BaseConnectionCreationToolEntry;
 import seg.jUCMNav.editors.palette.tools.URNElementCreationEntry;
 import seg.jUCMNav.model.ModelCreationFactory;
+import urncore.Comment;
 
 /**
  * This is the GRLEditor palette.
@@ -55,8 +55,13 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
         ToolEntry tool = new SelectionToolEntry();
         controls.add(tool);
         setDefaultEntry(tool);
-
-        ToolEntry entry;
+        
+        
+        ToolEntry entry = new URNElementCreationEntry(
+                "Comment", Messages.getString("GrlPaletteRoot.CreateAComment"), Comment.class, new ModelCreationFactory(getURNspec(), Comment.class), JUCMNavPlugin.getImageDescriptor( "icons/Comment16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        JUCMNavPlugin.class, "icons/Comment24.gif")); //$NON-NLS-1$
+        controls.add(entry);
+        keyboardMapping.put("q", entry); //$NON-NLS-1$
 
         PaletteDrawer linksDrawer = new PaletteDrawer(Messages.getString("GrlPaletteRoot.links")); //$NON-NLS-1$
 

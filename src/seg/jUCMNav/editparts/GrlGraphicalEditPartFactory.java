@@ -12,6 +12,7 @@ import grl.kpimodel.KPIModelLinkRef;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
+import urncore.Comment;
 import urncore.Label;
 
 /**
@@ -64,6 +65,9 @@ public class GrlGraphicalEditPartFactory implements EditPartFactory {
         }
         else if (model instanceof BeliefLink) {
             return new BeliefLinkEditPart((BeliefLink)model, graph);
+        }
+        else if (model instanceof Comment) {
+        	return new CommentEditPart((Comment)model);
         }
         else {  
             System.out.println("Unknown class in GrlGraphicalEditPartFactory.createEditPart();"); //$NON-NLS-1$

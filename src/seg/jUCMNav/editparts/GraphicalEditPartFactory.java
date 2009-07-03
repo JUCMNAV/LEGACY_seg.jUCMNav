@@ -11,6 +11,7 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
+import urncore.Comment;
 import urncore.Condition;
 import urncore.Label;
 
@@ -56,6 +57,8 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 			return new StubEditPart((Stub)model, root);
 		else if (model instanceof AndFork || model instanceof AndJoin)
 		    return new AndForkJoinEditPart((PathNode) model, root);
+		else if (model instanceof Comment)
+			return new CommentEditPart((Comment)model);
 		else if(model instanceof PathNode)
 		    // all other pathnodes share the same editpart. 
 			return new PathNodeEditPart((PathNode)model, root);

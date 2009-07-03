@@ -28,6 +28,7 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
+import urncore.Comment;
 import urncore.ComponentKind;
 
 /**
@@ -101,8 +102,13 @@ public class UcmPaletteRoot extends PaletteRoot {
                 Messages.getString("UcmPaletteRoot.pathTool"), Messages.getString("UcmPaletteRoot.pathTool"), getURNspec(), JUCMNavPlugin.getImageDescriptor( "icons/pathTool16.gif"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 JUCMNavPlugin.getImageDescriptor( "icons/pathTool24.gif")); //$NON-NLS-1$
         controls.add(entry);
-        
         keyboardMapping.put(" ", entry); //$NON-NLS-1$
+        
+        entry = new URNElementCreationEntry(
+                "Comment", Messages.getString("UcmPaletteRoot.CreateAComment"), Comment.class, new ModelCreationFactory(getURNspec(), Comment.class), JUCMNavPlugin.getImageDescriptor( "icons/Comment16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        JUCMNavPlugin.class, "icons/Comment24.gif")); //$NON-NLS-1$
+        controls.add(entry);
+        keyboardMapping.put("q", entry); //$NON-NLS-1$
 
         PaletteDrawer componentsDrawer = new PaletteDrawer(Messages.getString("UcmPaletteRoot.components")); //$NON-NLS-1$
 

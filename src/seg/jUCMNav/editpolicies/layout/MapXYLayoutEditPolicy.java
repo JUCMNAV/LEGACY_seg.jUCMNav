@@ -25,6 +25,7 @@ import ucm.map.EndPoint;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
+import urncore.Comment;
 import urncore.Condition;
 import urncore.Label;
 
@@ -67,6 +68,8 @@ public class MapXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
             createCommand = handleCreateOrExtendPath(request, constraint);
         } else if (newObjectType == ComponentRef.class) {
             createCommand = handleCreateComponentRef(request, constraint);
+        } else if (newObjectType == Comment.class) {
+        	createCommand = handleCreateComment(request, constraint);
         }
 
         return createCommand;
@@ -139,6 +142,8 @@ public class MapXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
             return handleMoveNodeConnectionCondition(child, constraint);
         } else if (child.getModel() instanceof Label) {
             return handleMoveLabel(child, constraint);
+        } else if (child.getModel() instanceof Comment) {
+        	return handleMoveResizeComment(child, constraint);
         } else {
             System.out.println(Messages.getString("MapAndPathGraphXYLayoutEditPolicy.unknownModelElement")); //$NON-NLS-1$
             return null;

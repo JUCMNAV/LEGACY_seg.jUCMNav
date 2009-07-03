@@ -49,6 +49,7 @@ import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
+import urncore.Comment;
 import urncore.Component;
 import urncore.ComponentLabel;
 import urncore.Concern;
@@ -117,7 +118,7 @@ public class SelectionHelper {
     public static final int RESPONSIBILITY = 121;
     public static final int CONDITION = 122;
     public static final int INITIALIZATION = 123;
-
+    
     // GRL constant
     public static final int GRLGRAPH = 200;
     public static final int ACTORREF = 201;
@@ -137,7 +138,8 @@ public class SelectionHelper {
 
     // Concerns
     public static final int CONCERN = 300;
-
+    public static final int COMMENT = 400; 
+    
     // internal variables; for quick reference.
     private AndFork andfork;
     private AndJoin andjoin;
@@ -161,6 +163,7 @@ public class SelectionHelper {
     private Timer timer;
     private URNspec urnspec;
     private WaitingPlace waitingplace;
+    private Comment comment;
 
     private ScenarioGroup scenariogroup;
     private ScenarioDef scenario;
@@ -286,6 +289,10 @@ public class SelectionHelper {
     public Initialization getInitialization() {
         return initialization;
     }
+    
+    public Comment getComment() {
+    	return comment;
+    }
 
     /**
      * Given an EditPart, set the appropriate internal variable.
@@ -356,6 +363,18 @@ public class SelectionHelper {
             }
         } else if (model instanceof NodeLabel)
             nodelabel = (NodeLabel) model;
+        else if (model instanceof Comment) {
+        	comment = (Comment) model;
+        	if (comment.getDiagram() instanceof UCMmap) {
+        		map = (UCMmap) comment.getDiagram();
+        		urnspec = map.getUrndefinition().getUrnspec();
+        	}
+        	else  
+        	{
+        		grlgraph = (GRLGraph) comment.getDiagram();
+        		urnspec = grlgraph.getUrndefinition().getUrnspec();
+        	}
+        }
         else if (model instanceof ComponentLabel)
             componentlabel = (ComponentLabel) model;
         else if (model instanceof ComponentRef)
@@ -602,6 +621,8 @@ public class SelectionHelper {
             selectionType = COMPONENTLABEL;
         else if (componentref != null)
             selectionType = COMPONENTREF;
+        else if (comment!=null)
+        	selectionType = COMMENT;
         else if (nodelabel != null)
             selectionType = NODELABEL;
         else if (orfork != null)

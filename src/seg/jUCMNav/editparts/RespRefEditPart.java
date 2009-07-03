@@ -23,6 +23,7 @@ public class RespRefEditPart extends PathNodeEditPart {
      */
     public RespRefEditPart(PathNode model, UCMmap diagram) {
         super(model, diagram);
+        
     }
 
 

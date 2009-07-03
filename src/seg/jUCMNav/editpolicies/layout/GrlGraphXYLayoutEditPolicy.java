@@ -26,6 +26,7 @@ import seg.jUCMNav.model.commands.create.AddKPIInformationElementRefCommand;
 import seg.jUCMNav.model.commands.create.CreateAllKPIModelLinkRefCommand;
 import seg.jUCMNav.model.commands.create.CreateAllLinkRefCommand;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import urncore.Comment;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.Label;
@@ -56,6 +57,8 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
             createCommand = handleCreateGrlNode(request, constraint);
         } else if (newObjectType == ActorRef.class) {
             createCommand = handleCreateActorRef(request, constraint);
+        } else if (newObjectType == Comment.class) {
+        	createCommand = handleCreateComment(request, constraint);
         }
         return createCommand;
     }
@@ -90,6 +93,8 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
             return handleMoveLabel(child, constraint);
         } else if (child.getModel() instanceof IURNContainerRef) {
             return handleMoveResizeContainerRef(child, constraint);
+        } else if (child.getModel() instanceof Comment) {
+        	return handleMoveResizeComment(child, constraint);
         } else {
             System.out.println("Unknown model element"); //$NON-NLS-1$
             return null;
@@ -192,7 +197,6 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
         GRLNode node = (GRLNode) child.getModel();
 
         return new SetConstraintCommand(node, rect.getLocation().x, rect.getLocation().y);
-
     }
-
+    
 }

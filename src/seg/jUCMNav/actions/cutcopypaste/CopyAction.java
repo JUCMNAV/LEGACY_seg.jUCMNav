@@ -33,8 +33,10 @@ public class CopyAction extends SelectionAction
 	{
 		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 		// Don't need to put this on the stack. 
-		CopyCommand cmd = new CopyCommand(sel.getUrnspec(), getSelectedObjects());
-		cmd.execute();
+		if (sel.getUrnspec()!=null) {
+			CopyCommand cmd = new CopyCommand(sel.getUrnspec(), getSelectedObjects());
+			cmd.execute();
+		}
 	}
 	
 

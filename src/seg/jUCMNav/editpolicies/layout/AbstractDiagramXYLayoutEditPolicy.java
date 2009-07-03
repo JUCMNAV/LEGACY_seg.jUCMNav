@@ -12,10 +12,14 @@ import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommentCommand;
+import seg.jUCMNav.model.commands.create.AddCommentCommand;
 import ucm.map.PathNode;
+import urncore.Comment;
 import urncore.ComponentLabel;
 import urncore.Condition;
 import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.Label;
 import urncore.NodeLabel;
@@ -126,5 +130,31 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
 
         return moveResize;
     }
+
+	protected Command handleCreateComment(CreateRequest request, Rectangle constraint) {
+	
+		Comment node = (Comment) request.getNewObject();
+		AddCommentCommand create = new AddCommentCommand((IURNDiagram) getHost().getModel(), node);
+	
+		SetConstraintCommentCommand move = new SetConstraintCommentCommand(node,
+				constraint.x, constraint.y, constraint.width, constraint.height);
+		
+		return create.chain(move);
+	}
+	/**
+	 * Handles moving an GRLNode.
+	 * 
+	 * @param child
+	 *            the IntentionalElementRefEditPart or BeliefEditPart
+	 * @param constraint
+	 *            where it should be moved and resize.
+	 * @return a SetConstraintIntentionalElementRefCommand
+	 */
+	protected Command handleMoveResizeComment(EditPart child, Object constraint) {
+	    Rectangle rect = (Rectangle) constraint;
+	    Comment node = (Comment) child.getModel();
+	
+	    return new SetConstraintCommentCommand(node, rect.getLocation().x, rect.getLocation().y, rect.width, rect.height);
+	}
     
 }

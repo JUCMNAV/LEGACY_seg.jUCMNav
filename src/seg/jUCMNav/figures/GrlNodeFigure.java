@@ -58,6 +58,9 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
     // is the figure in selected state
     protected boolean selected;
     
+    // automatically resize when changing text. 
+    protected boolean autoResize;
+    
     protected XYLayout xylayout;
     
     /**
@@ -65,6 +68,8 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
      */
     public GrlNodeFigure() {
         super();
+        autoResize=true;
+        
         xylayout = new XYLayout();
         this.setLayoutManager(xylayout);
         setLineWidth(3);
@@ -168,7 +173,12 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
      */
     public void setEditableText(String newText) {
         textFlow.setText(newText);
-        Dimension dimEditableLabel = flowPage.getPreferredSize().getCopy();
+      	resizeAccordingToText();
+    }
+
+	protected void resizeAccordingToText() {
+
+		Dimension dimEditableLabel = flowPage.getPreferredSize().getCopy();
         
         //Calculate the size of the label and of the figure
         //Max size available for the label
@@ -192,8 +202,16 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
         r.y = LABEL_PADDING_Y;
         r.width = width;
         r.height = height;
-        setConstraint(flowPage,r);
-        setSize(width + 2*LABEL_PADDING_X, height + 2*LABEL_PADDING_Y);
-
-    }    
+        
+        if (!autoResize)
+        {
+        	r.setSize(getSize().width - 2*LABEL_PADDING_X, getSize().height - 2*LABEL_PADDING_Y);
+        	setConstraint(flowPage,r);
+        }
+        else
+        {
+	    	setConstraint(flowPage,r);
+			setSize(r.width + 2*LABEL_PADDING_X, r.height + 2*LABEL_PADDING_Y);
+        }
+	}    
 }
