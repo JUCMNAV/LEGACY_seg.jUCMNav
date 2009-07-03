@@ -32,7 +32,11 @@ import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.AddWaitingPlaceAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
+import seg.jUCMNav.actions.ChangeColorAction;
+import seg.jUCMNav.actions.ChangeComponentTypeAction;
 import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
+import seg.jUCMNav.actions.ChangeStubTypeAction;
+import seg.jUCMNav.actions.ChangeWaitPlaceTypeAction;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.DisconnectAction;
@@ -133,7 +137,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        IAction[] actions = new IAction[13];
+        IAction[] actions = new IAction[18];
         actions[0] = getActionRegistry().getAction(AddOrForkAction.ADDORFORK);
         actions[1] = getActionRegistry().getAction(AddAndForkAction.ADDANDFORK);
         actions[2] = getActionRegistry().getAction(AddOrJoinAction.ADDORJOIN);
@@ -147,6 +151,11 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[10]= getActionRegistry().getAction(TransmogrifyOrForkOrJoinAction.TRANSMOGRIFYFORK);
         actions[11] = getActionRegistry().getAction(TransmogrifyAndForkOrJoinAction.TRANSMOGRIFYJOIN);
         actions[12] = getActionRegistry().getAction(AddStartPointAction.ADDSTART);
+        actions[13] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(0));
+        actions[14] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(1));
+        actions[15] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(2));
+        actions[16] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(0));
+        actions[17] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(1));
 
         SubmenuAction submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.PathOperations"), Messages.getString("UrnContextMenuProvider.PathOperations"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
         submenu.setId(SUBMENU_PATHOPERATIONS);
@@ -178,8 +187,23 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         
         submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.InsertComponent"), Messages.getString("UrnContextMenuProvider.InsertComponent"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
         if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);        
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+        
+        actions = new IAction[6];
+        for (int i=0;i<6;i++)
+        	actions[i] = getActionRegistry().getAction(ChangeComponentTypeAction.generateId(i));
+        
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.ChangeComponentType"), Messages.getString("UrnContextMenuProvider.ChangeComponentType"), actions[0].getImageDescriptor(), true);  //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount()>0)
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);         
+        
+        actions = new IAction[16];
+        for (int i=0;i<16;i++)
+        	actions[i] = getActionRegistry().getAction(ChangeColorAction.generateId(i));
 
+        submenu = new SubmenuAction(actions, "Change fill color", "Change fill color", actions[3].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount()>0)
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
 
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())

@@ -92,6 +92,7 @@ public class SubmenuAction extends Action implements SelectionListener
 
 					// inform us when something is selected.
 					item.addSelectionListener(actionInstance);
+
 				}
 				return menu;
 			}

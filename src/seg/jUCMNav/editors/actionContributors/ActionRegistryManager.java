@@ -45,7 +45,11 @@ import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.AddWaitingPlaceAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
+import seg.jUCMNav.actions.ChangeColorAction;
+import seg.jUCMNav.actions.ChangeComponentTypeAction;
 import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
+import seg.jUCMNav.actions.ChangeStubTypeAction;
+import seg.jUCMNav.actions.ChangeWaitPlaceTypeAction;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.DisconnectAction;
@@ -268,6 +272,24 @@ public class ActionRegistryManager
 		action.setText(Messages.getString("ActionRegistryManager.addResponsibility")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 
+		for (int i=0;i<3;i++) {
+			action = new ChangeStubTypeAction(editor,i);
+			// set text done in action. 
+			addEditPartAction((SelectionAction) action);
+		}
+
+		for (int i=0;i<2;i++)
+		{
+			action = new ChangeWaitPlaceTypeAction(editor,i);
+			// set text done in action. 
+			addEditPartAction((SelectionAction) action);
+		}
+		
+		for (int i=0;i<6;i++) {
+			action = new ChangeComponentTypeAction(editor, i);
+			// set text done in action. 
+			addEditPartAction((SelectionAction) action);
+		}
 		action = new AddStubAction(editor, AddStubAction.ADDSTUB);
 		action.setText(Messages.getString("ActionRegistryManager.addStub")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
@@ -416,6 +438,11 @@ public class ActionRegistryManager
 		action.setText(Messages.getString("ActionRegistryManager.import")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 
+		for (int i=0;i<16;i++) {
+			action = new ChangeColorAction(editor, i);
+			addEditPartAction((SelectionAction) action);
+		}
+		
 		action = new GenerateReportAction(editor);
 		action.setText(Messages.getString("ActionRegistryManager.report")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
@@ -537,6 +564,7 @@ public class ActionRegistryManager
 		action.setText(Messages.getString("ActionRegistryManager.editStubPlugins")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 
+		
 		// only available when debugging jucmnav
 
 		if (JUCMNavPlugin.isInDebug())
