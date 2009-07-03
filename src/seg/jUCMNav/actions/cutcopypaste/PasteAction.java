@@ -22,16 +22,20 @@ import seg.jUCMNav.model.util.Clipboard;
 import seg.jUCMNav.model.util.URNElementFinder;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
+import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import urn.URNspec;
+import urncore.Condition;
 import urncore.Responsibility;
 
 public class PasteAction extends URNSelectionAction
@@ -124,10 +128,17 @@ public class PasteAction extends URNSelectionAction
 				} 
 				else 
 				{
+					Condition cond= null;
+					if (oldPn.getSucc().size()>0)
+					{
+						NodeConnection nc = (NodeConnection)oldPn.getSucc().get(0);
+						cond = nc.getCondition();
+					}
+					
 					if (ep instanceof PathNode)
-						return new ReplaceEmptyPointCommand((PathNode) ep, newPathNode);
+						return new ReplaceEmptyPointCommand((PathNode) ep, newPathNode, cond );
 					else if (ep instanceof NodeConnection)
-			            return new SplitLinkCommand(sel.getMap(), newPathNode, sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y ) ;
+			            return new SplitLinkCommand(sel.getMap(), newPathNode, sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y, cond) ;
 				}
 			}
 
@@ -155,13 +166,13 @@ public class PasteAction extends URNSelectionAction
 
 				if (obj != null) // found it
 				{
-					if (obj instanceof PathNode)
+					if (IsPastablePathNode(obj))
 						return (PathNode) obj; // pn in current urn
 				}
 				else 				// was deleted since.
 				{
 					obj = URNElementFinder.find(oldurn, id);
-					if (obj instanceof PathNode)
+					if (IsPastablePathNode(obj))
 					{
 						PathNode oldPn =(PathNode) obj;
 						return oldPn; // pn from old urn
@@ -170,6 +181,11 @@ public class PasteAction extends URNSelectionAction
 			}
 		}
 		return null;
+	}
+	
+	protected boolean IsPastablePathNode(Object obj)
+	{
+		return obj instanceof PathNode && !(obj instanceof EndPoint) && !(obj instanceof StartPoint) && !(obj instanceof Connect);   
 	}
 	
 	/***
