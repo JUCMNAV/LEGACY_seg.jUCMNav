@@ -542,6 +542,8 @@ public class SelectionHelper {
                     else if (model instanceof IURNContainerRef && ((IURNContainerRef) model).getDiagram() != null
                             && ((IURNContainerRef) model).getDiagram().getUrndefinition() != null)
                         urnspec = ((IURNContainerRef) model).getDiagram().getUrndefinition().getUrnspec();
+                    else if (model instanceof Comment)
+                    	urnspec = ((Comment)model).getDiagram().getUrndefinition().getUrnspec();
 
                 }
                 if (urnspec != null)

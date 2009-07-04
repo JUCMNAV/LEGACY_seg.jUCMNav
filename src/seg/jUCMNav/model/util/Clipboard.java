@@ -150,7 +150,7 @@ public class Clipboard
 		if (contents != null && contents instanceof Object[])
 		{
 			Object[] arr = (Object[]) contents;
-			if (arr.length==3 && arr[2]!=null) {
+			if (arr.length==4 && arr[2]!=null) {
 				contentString = arr[2].toString();
 			}
 			else

@@ -115,10 +115,10 @@ public class UCMMapEditPart extends URNDiagramEditPart {
      */
     protected List getModelChildren() {
         List list = getComponents();
-        list.addAll(getComments());
         list.addAll(getNodes());
         list.addAll(getLabels());
         list.addAll(getConditions());
+        list.addAll(getComments());
         return list;
     }
     

@@ -11,8 +11,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.editparts.CommentEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
+import seg.jUCMNav.model.commands.create.AddCommentCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
 import seg.jUCMNav.model.commands.create.CreateEnumerationTypeCommand;
@@ -46,8 +48,11 @@ import ucm.map.UCMmap;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Variable;
 import urn.URNspec;
+import urncore.Comment;
 import urncore.Component;
 import urncore.Condition;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 
@@ -55,23 +60,30 @@ public class PasteCommand extends CompoundCommand
 {
 	protected EObject insertionPoint; 
 	protected Point nodeConnectionMiddle, cursorLocation; 
+	protected List sourceSelection;
 	protected List sourceIds;
 	protected URNspec sourceUrn; 
 
 	protected UCMmap targetMap;
+	protected IURNDiagram targetDiagram;
 	protected URNspec targetUrn;
 	
-	public PasteCommand(EObject insertionPoint, URNspec targetUrn, UCMmap targetMap, Point nodeConnectionMiddle, Point cursorLocation)
+	public PasteCommand(EObject insertionPoint, URNspec targetUrn, IURNDiagram targetMap, Point nodeConnectionMiddle, Point cursorLocation)
 	{
 		this.insertionPoint = insertionPoint;
 		this.targetUrn=targetUrn;
-		this.targetMap=targetMap;
+		
+		this.targetDiagram=targetMap;
+		if (targetDiagram instanceof UCMmap)
+			this.targetMap=(UCMmap)targetDiagram;
+		
 		this.nodeConnectionMiddle = nodeConnectionMiddle;
 		this.cursorLocation = cursorLocation;
 		
 		Clipboard clip = Clipboard.getInstance();
 		sourceIds = clip.getSelectedIds();
 		sourceUrn = clip.getOriginalURNspec();
+		sourceSelection = clip.getSelection();
 	}
 
 	public void build()
@@ -106,7 +118,7 @@ public class PasteCommand extends CompoundCommand
 				resetCloneId(newPathNode);
 			} 
 
-			if (newPathNode != null)
+			if (newPathNode != null && targetMap!=null)
 			{
 
 				setNewNodePosition(newPathNode);
@@ -142,28 +154,29 @@ public class PasteCommand extends CompoundCommand
 					}
 				}
 			}
-			else 
+			else if (targetDiagram!=null) 
 			{
 				Vector compRefList = getClonedComponentRefs();
 				if (compRefList != null)
 				{
 					for (Iterator iterator = compRefList.iterator(); iterator.hasNext();)
 					{
-						ComponentRef newCompRef = (ComponentRef) iterator.next();
-						add(new AddContainerRefCommand(targetMap, newCompRef));
+						IURNContainerRef newCompRef = (IURNContainerRef) iterator.next();
+						add(new AddContainerRefCommand(targetDiagram, newCompRef));
 				        add(new SetConstraintBoundContainerRefCompoundCommand(newCompRef, newCompRef.getX(), newCompRef.getY(), newCompRef.getWidth(), newCompRef.getHeight()));
 					}
 				}
 			}
+			
+			if (targetDiagram!=null) {
+				Vector commentList = getClonedComments();
+				for (Iterator iterator = commentList.iterator(); iterator.hasNext();)
+				{
+					Comment comment = (Comment) iterator.next();
+					add(new AddCommentCommand(targetDiagram, comment));
+				}
+			}
 		}		
-	}
-
-	private boolean isFromSameModel()
-	{
-		if (sourceUrn!=null && targetUrn!=null && sourceUrn.getCreated()!=null && targetUrn.getCreated()!=null && sourceUrn.getCreated().equals(targetUrn.getCreated()))
-			return true;//System.out.println("From same model.");
-		else
-			return false;//System.out.println("From different model.");
 	}
 
 	private void buildDividePath(PathNode oldPn, PathNode newPathNode)
@@ -209,11 +222,14 @@ public class PasteCommand extends CompoundCommand
 		if (found)
 		{
 			// we've selected something that is copiable. 
-			found = (getFirstResponsibility() != null || getFirstPathNode()!=null) && (insertionPoint instanceof NodeConnection || insertionPoint instanceof EmptyPoint || insertionPoint instanceof DirectionArrow);
+			found = (getFirstResponsibility() != null || getFirstPathNode()!=null) && (insertionPoint instanceof NodeConnection || insertionPoint instanceof EmptyPoint || insertionPoint instanceof DirectionArrow) && targetMap!=null;
 			if (found) return true;
 			
 			
-			found = getFirstComponent()!=null && insertionPoint instanceof UCMmap;
+			found = (getFirstComponent()!=null && insertionPoint instanceof UCMmap);
+			if (found) return true;
+			
+			found =  getFirstComment()!=null && insertionPoint instanceof IURNDiagram;
 			return found;
 		}
 		else
@@ -237,12 +253,48 @@ public class PasteCommand extends CompoundCommand
 		return getComponentList(-1, true);
 	}
 	
+	protected Vector getClonedComments()
+	{
+		return getCommentList(-1);
+	}
+	protected Vector getCommentList(int maxCount)
+	{
+		if (sourceIds != null && sourceUrn != null && targetUrn != null)
+		{
+			Vector results = new Vector();
+			Comment firstPlaced=null;
+			for (Iterator iterator = sourceSelection.iterator(); iterator.hasNext();)
+			{
+				Object object = (Object) iterator.next();
+				if (object instanceof CommentEditPart)
+				{
+					Comment oldComment = (Comment)((CommentEditPart)object).getModel();
+					Comment newComment = (Comment) EcoreUtil.copy(oldComment);
+					
+					setNewCommentConstraints(newComment, oldComment, firstPlaced);
+					
+					if (results.size()==0) // leave null for first added, then set it. 
+					{
+						firstPlaced=oldComment;
+					}
+					
+					results.add(newComment);
+				}
+				if (results.size()>=maxCount && maxCount>0)break;
+			}
+			return results;
+		}
+		return null;
+	}
+	
+	
 	/**
-	 * Special case for components. Builds a list of component refs that are ready to be inserted.
+	 * Builds a list of elements that are ready to be inserted on a UCMmap
 	 * 
 	 * @param maxCount the maximum number of answers. limit the number for faster checks. 
+	 * @param generateRefs if true, will return a new ComponentRef - otherwise returns the original Component 
 	 * 
-	 * @return a list of ComponentRefs
+	 * @return a list of ComponentRefs/Component
 	 */
 	protected Vector getComponentList(int maxCount, boolean generateRefs )
 	{
@@ -332,6 +384,15 @@ public class PasteCommand extends CompoundCommand
 			return null;
 		else 
 			return (Component) v.get(0);
+	}
+	
+	protected Comment getFirstComment()
+	{
+		Vector v=  getCommentList(1);
+		if (v==null || v.size()==0) 
+			return null;
+		else 
+			return (Comment) v.get(0);
 	}
 	
 	protected PathNode getFirstPathNode()
@@ -477,12 +538,13 @@ public class PasteCommand extends CompoundCommand
 		}
 		
 		
-		// chain it for the undo. 
-		add(cmd);
-		
 		// don't execute full command, just this portion. 
-		if (cmd.canExecute())
+		if (cmd.canExecute()) {
+			// chain it for the undo. 
+			add(cmd);
+			
 			cmd.execute();
+		}
 	}
 	private void resetCloneId(URNmodelElement clone) {
 		String name = clone.getName();
@@ -510,6 +572,29 @@ public class PasteCommand extends CompoundCommand
 		{
 			newCompRef.setWidth(oldCompRef.getWidth());
 			newCompRef.setHeight(oldCompRef.getHeight());
+		}
+	}
+
+	private void setNewCommentConstraints(Comment newComment, Comment oldComment, Comment offsetFrom)
+	{
+		if (cursorLocation!=null) 
+		{
+			int x=cursorLocation.x,y=cursorLocation.y;
+			
+			if (offsetFrom!=null)
+			{
+				x += oldComment.getX()-offsetFrom.getX();
+				y += oldComment.getY()-offsetFrom.getY();
+			}
+			
+			newComment.setX(x);
+			newComment.setY(y);
+		}
+		
+		if (oldComment!=null)
+		{
+			newComment.setWidth(oldComment.getWidth());
+			newComment.setHeight(oldComment.getHeight());
 		}
 	}
 	

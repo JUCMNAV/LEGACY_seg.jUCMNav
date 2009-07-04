@@ -17,6 +17,7 @@ import seg.jUCMNav.model.commands.cutcopypaste.PasteCommand;
 import ucm.map.NodeConnection;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.IURNDiagram;
 
 public class PasteAction extends URNSelectionAction
 {
@@ -37,7 +38,9 @@ public class PasteAction extends URNSelectionAction
 	{
 		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 		EObject ep = getSelectedInsertionPoint();
-		UCMmap targetMap = sel.getMap();
+		IURNDiagram targetMap = sel.getMap();
+		if (targetMap==null)
+			targetMap=sel.getGrlgraph();
 		URNspec targetUrn = sel.getUrnspec();
 		Point nodeConnectionMiddle = null;
 		if (ep instanceof NodeConnection) 
@@ -65,6 +68,9 @@ public class PasteAction extends URNSelectionAction
 				return sel.getDirectionarrow();
 			case SelectionHelper.NODECONNECTION:
 				return sel.getNodeconnection();
+			case SelectionHelper.GRLGRAPH:
+			case SelectionHelper.ACTORREF:
+				return sel.getGrlgraph();
 			case SelectionHelper.COMPONENTREF:
 			case SelectionHelper.MAP:
 				return sel.getMap();
