@@ -1,5 +1,7 @@
 package seg.jUCMNav.model.commands.cutcopypaste;
 
+import grl.ActorRef;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -51,6 +53,7 @@ import urn.URNspec;
 import urncore.Comment;
 import urncore.Component;
 import urncore.Condition;
+import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.Responsibility;
@@ -156,7 +159,7 @@ public class PasteCommand extends CompoundCommand
 			}
 			else if (targetDiagram!=null) 
 			{
-				Vector compRefList = getClonedComponentRefs();
+				Vector compRefList = getClonedContainerRefs();
 				if (compRefList != null)
 				{
 					for (Iterator iterator = compRefList.iterator(); iterator.hasNext();)
@@ -226,7 +229,7 @@ public class PasteCommand extends CompoundCommand
 			if (found) return true;
 			
 			
-			found = (getFirstComponent()!=null && insertionPoint instanceof UCMmap);
+			found = (getFirstContainer()!=null && insertionPoint instanceof IURNDiagram);
 			if (found) return true;
 			
 			found =  getFirstComment()!=null && insertionPoint instanceof IURNDiagram;
@@ -244,13 +247,13 @@ public class PasteCommand extends CompoundCommand
 	}
 	
 	/***
-	 * Special case for components. Builds a list of component refs that are ready to be inserted. 
+	 * Special case for containers. Builds a list of containers refs that are ready to be inserted. 
 	 * 
-	 * @return a list of ComponentRefs  
+	 * @return a list of containers refs  
 	 */
-	protected Vector getClonedComponentRefs()
+	protected Vector getClonedContainerRefs()
 	{
-		return getComponentList(-1, true);
+		return getContainerList(-1, true);
 	}
 	
 	protected Vector getClonedComments()
@@ -289,19 +292,19 @@ public class PasteCommand extends CompoundCommand
 	
 	
 	/**
-	 * Builds a list of elements that are ready to be inserted on a UCMmap
+	 * Builds a list of elements that are ready to be inserted on a diagram. 
 	 * 
 	 * @param maxCount the maximum number of answers. limit the number for faster checks. 
-	 * @param generateRefs if true, will return a new ComponentRef - otherwise returns the original Component 
+	 * @param generateRefs if true, will return a new ref - otherwise returns the original def 
 	 * 
-	 * @return a list of ComponentRefs/Component
+	 * @return a list of containers refs/containers
 	 */
-	protected Vector getComponentList(int maxCount, boolean generateRefs )
+	protected Vector getContainerList(int maxCount, boolean generateRefs )
 	{
 		if (sourceIds != null && sourceUrn != null && targetUrn != null)
 		{
 			Vector results = new Vector();
-			ComponentRef firstPlaced=null;
+			IURNContainerRef firstPlaced=null;
 
 			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
 			{
@@ -310,34 +313,48 @@ public class PasteCommand extends CompoundCommand
 				// search for the old id in the new model. 
 				Object obj = URNElementFinder.find(targetUrn, id); 
 
-				Component def = null;
-				ComponentRef ref = null;
+				IURNContainer def = null;
+				IURNContainerRef ref = null;
 				if (obj != null) // found it
 				{
-					if (obj instanceof ComponentRef) {
-						ref = (ComponentRef) obj;
-						def = (Component)ref.getContDef();
+					if (obj instanceof IURNContainerRef)
+					{
+						ref = (IURNContainerRef)obj;
+						def = ref.getContDef();
 					}
 					else
 						obj = null;
 				}
-				
+				// pasting on wrong map. 
+				if ((targetMap == null && obj instanceof ComponentRef) || (targetMap != null && obj instanceof ActorRef)) continue;
 
 				if (obj==null) 
 				{
 					// was deleted since.
 					obj = URNElementFinder.find(sourceUrn, id);
-					if (obj instanceof ComponentRef)
+					// pasting on wrong map. 
+					if ((targetMap == null && obj instanceof ComponentRef) || (targetMap != null && obj instanceof ActorRef)) continue;
+
+					if (obj instanceof IURNContainerRef)
 					{
-						ref = (ComponentRef) obj;
+						ref = (IURNContainerRef) obj;
 						
-						String oldDefinition = ((Component)ref.getContDef()).getId();
+						String oldDefinition = ((URNmodelElement)ref.getContDef()).getId();
 						// this one is faster... searching for the definition.
-						Component comp = URNElementFinder.findComponent(targetUrn, oldDefinition);
+						IURNContainer comp=null;
+						if (ref instanceof ComponentRef)
+							comp = URNElementFinder.findComponent(targetUrn, oldDefinition);
+						else if (ref instanceof ActorRef)
+							comp = URNElementFinder.findActor(targetUrn, oldDefinition);
+						
 						if (comp==null) {
-							comp = URNElementFinder.findComponent(sourceUrn, oldDefinition);
-							comp = (Component) EcoreUtil.copy(comp); // clone it because it is used to create a new element.
-							resetCloneId(comp);
+							if (ref instanceof ComponentRef)
+								comp = URNElementFinder.findComponent(sourceUrn, oldDefinition);
+							else if (ref instanceof ActorRef)
+								comp = URNElementFinder.findActor(sourceUrn, oldDefinition);
+
+							comp = (IURNContainer) EcoreUtil.copy(comp); // clone it because it is used to create a new element.
+							resetCloneId((URNmodelElement)comp);
 						}
 						def = comp;
 					}
@@ -347,23 +364,29 @@ public class PasteCommand extends CompoundCommand
 				{
 					if (generateRefs) 
 					{
-						ModelCreationFactory factory = new ModelCreationFactory(targetUrn, ComponentRef.class, def.getKind().getValue(), def);
-						ComponentRef newCompRef = (ComponentRef) factory.getNewObject();
-						setNewContainerConstraints(newCompRef, ref, firstPlaced);
-
-						if (results.size()==0) // leave null for first added, then set it. 
-						{
-							firstPlaced=ref;
-						}
+						ModelCreationFactory factory=null;
+						if (ref instanceof ComponentRef)
+							factory = new ModelCreationFactory(targetUrn, ComponentRef.class, ((Component)def).getKind().getValue(), def);
+						else if (ref instanceof ActorRef)
+							factory = new ModelCreationFactory(targetUrn, ActorRef.class, def);
 						
-						results.add(newCompRef);
+						if (factory!=null) 
+						{
+							IURNContainerRef newCompRef = (IURNContainerRef) factory.getNewObject();
+							setNewContainerConstraints(newCompRef, ref, firstPlaced);
+	
+							if (results.size()==0) // leave null for first added, then set it. 
+							{
+								firstPlaced=ref;
+							}
+							results.add(newCompRef);
+						}
 					} 
 					else 
 					{
 						results.add(def);
 					}
 				}
-				
 				if (results.size()>=maxCount && maxCount>0)break;
 			}
 			
@@ -377,13 +400,13 @@ public class PasteCommand extends CompoundCommand
 	 * 
 	 * @return the first ComponentRef in our list 
 	 */
-	protected Component getFirstComponent()
+	protected IURNContainer getFirstContainer()
 	{
-		Vector v=  getComponentList(1, false);
+		Vector v=  getContainerList(1, false);
 		if (v==null || v.size()==0) 
 			return null;
 		else 
-			return (Component) v.get(0);
+			return (IURNContainer) v.get(0);
 	}
 	
 	protected Comment getFirstComment()
@@ -552,7 +575,7 @@ public class PasteCommand extends CompoundCommand
 		clone.setName(name);
 	}
 
-	private void setNewContainerConstraints(ComponentRef newCompRef, ComponentRef oldCompRef, ComponentRef offsetFrom)
+	private void setNewContainerConstraints(IURNContainerRef newCompRef, IURNContainerRef oldCompRef, IURNContainerRef offsetFrom)
 	{
 		if (cursorLocation!=null) 
 		{

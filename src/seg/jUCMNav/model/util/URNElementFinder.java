@@ -1,7 +1,10 @@
 package seg.jUCMNav.model.util;
 
 import grl.Actor;
+import grl.ActorRef;
+import grl.GRLGraph;
 import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 import grl.kpimodel.KPIInformationElement;
 
 import java.util.Collection;
@@ -34,6 +37,24 @@ import urncore.URNmodelElement;
 public class URNElementFinder {
 
     /**
+     * Given a collection of UCMmodelElements, return the oen having the passed id or return null.
+     * 
+     * @param c
+     * @param id
+     * @return matching model elem
+     */
+    private static Object find(Collection c, String id) {
+
+        for (Iterator iter = c.iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+
+            if (element.getId().equals(id))
+                return element;
+        }
+        return null;
+    }
+
+    /**
      * Given an ID, find what element it belongs to. Currently only scans component elements, responsibilities, maps, pathnodes and componentrefs.
      * 
      * If not found, returns null.
@@ -53,6 +74,8 @@ public class URNElementFinder {
             return o;
         if ((o = findScenario(urn, id)) != null)
             return o;
+        if ((o = findActor(urn, id)) != null) // faster
+            return o;        
         if ((o = findGRLmodelElement(urn, id)) != null)
             return o;
 
@@ -64,7 +87,63 @@ public class URNElementFinder {
                     return o;
                 if ((o = findPathNode(map, id)) != null)
                     return o;
+            } else if (g instanceof GRLGraph) {
+            	GRLGraph graph = (GRLGraph) g;
+                if ((o = findActorRef(graph, id)) != null)
+                    return o;
+                if ((o = findIntentionalElementRef(graph, id)) != null)
+                    return o;
             }
+        }
+        return null;
+    }
+
+    /**
+     * Given a URN spec, find the actor element having the passed id or return null.
+     * 
+     * @param urn
+     * @param id
+     * @return matching actor element
+     */
+    public static Actor findActor(URNspec urn, String id) {
+        return (Actor) find(urn.getGrlspec().getActors(), id);
+    }
+
+    /**
+     * Given a URN spec, find the actor having the passed name or return null.
+     * 
+     * @param urn
+     * @param name
+     * @return matching actor element
+     */
+    public static Actor findActorByName(URNspec urn, String name) {
+        return (Actor) findByName(urn.getGrlspec().getActors(), name);
+    }
+    /**
+     * Given a graph, find the actor reference having the passed id or return null.
+     * 
+     * @param graph
+     * @param id
+     * @return matching ref
+     */
+    public static ActorRef findActorRef(GRLGraph graph, String id) {
+        return (ActorRef) find(graph.getContRefs(), id);
+    }
+
+    /**
+     * Given a collection of UCMmodelElements, return the oen having the passed name or return null.
+     * 
+     * @param c
+     * @param name
+     * @return matching model elem
+     */
+    private static Object findByName(Collection c, String name) {
+
+        for (Iterator iter = c.iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+
+            if (element.getName().equalsIgnoreCase(name))
+                return element;
         }
         return null;
     }
@@ -104,7 +183,62 @@ public class URNElementFinder {
     public static Component findComponent(URNspec urn, String id) {
         return (Component) find(urn.getUrndef().getComponents(), id);
     }
+    
+    /**
+     * Given a URN spec, find the component element having the passed name or return null.
+     * 
+     * @param urn
+     * @param name
+     * @return matching component element
+     */
+    public static Component findComponentByName(URNspec urn, String name) {
+        return (Component) findByName(urn.getUrndef().getComponents(), name);
+    }
+    
+    /**
+     * Given a map, find the component reference having the passed id or return null.
+     * 
+     * @param map
+     * @param id
+     * @return matching ref
+     */
+    public static ComponentRef findComponentRef(UCMmap map, String id) {
+        return (ComponentRef) find(map.getContRefs(), id);
+    }
 
+    /**
+     * Given a map, find the Connection connected to Nodes with the specified ids.
+     * 
+     * @param map
+     *            the map containing the connections.
+     * @param idSource
+     *            the source IURNNode
+     * @param idTarget
+     *            the target IURNNode
+     * @return matching connection
+     */
+    public static IURNConnection findConnection(IURNDiagram map, String idSource, String idTarget) {
+        for (Iterator iter = map.getConnections().iterator(); iter.hasNext();) {
+            IURNConnection nc = (IURNConnection) iter.next();
+
+            if (((URNmodelElement) nc.getSource()).getId().equals(idSource) && ((URNmodelElement) nc.getTarget()).getId().equals(idTarget)) {
+                return nc;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Given a map, find the container reference having the passed id or return null.
+     * 
+     * @param map
+     * @param id
+     * @return matching ref
+     */
+    public static IURNContainerRef findContainerRef(IURNDiagram map, String id) {
+        return (IURNContainerRef) find(map.getContRefs(), id);
+    }
+    
     /**
      * Given a URN spec, find the component element having the passed id or return null.
      * 
@@ -131,80 +265,35 @@ public class URNElementFinder {
     }
 
     /**
-     * Given a URN spec, find the component element having the passed name or return null.
-     * 
+     * Given a URN, find an intentional element with the specified name.
+     *  
      * @param urn
      * @param name
-     * @return matching component element
+     * @return matching element
      */
-    public static Component findComponentByName(URNspec urn, String name) {
-        return (Component) findByName(urn.getUrndef().getComponents(), name);
+    public static IntentionalElement findIntentionalElementByName(URNspec urn, String name) {
+    	return (IntentionalElement) findByName(urn.getGrlspec().getIntElements(), name);
     }
 
     /**
-     * Given a URN spec, find the responsibility having the passed id or return null.
+     * Given a graph, find the element having the passed id or return null.
      * 
-     * @param urn
+     * @param graph
      * @param id
-     * @return matching resp
+     * @return matching element
      */
-    public static Responsibility findResponsibility(URNspec urn, String id) {
-        return (Responsibility) find(urn.getUrndef().getResponsibilities(), id);
+    public static IntentionalElementRef findIntentionalElementRef(GRLGraph graph, String id) {
+        return (IntentionalElementRef) find(graph.getNodes(), id);
     }
 
     /**
-     * Given a URN spec, find the responsibility having the passed name or return null.
-     * 
+     * Given a URN, find a KPI information element with the specified name.  
      * @param urn
      * @param name
-     * @return matching resp
+     * @return matching element
      */
-    public static Responsibility findResponsibilityByName(URNspec urn, String name) {
-        return (Responsibility) findByName(urn.getUrndef().getResponsibilities(), name);
-    }
-    
-    /**
-     * Given a map, find the component reference having the passed id or return null.
-     * 
-     * @param map
-     * @param id
-     * @return matching ref
-     */
-    public static ComponentRef findComponentRef(UCMmap map, String id) {
-        return (ComponentRef) find(map.getContRefs(), id);
-    }
-
-    /**
-     * Given a map, find the container reference having the passed id or return null.
-     * 
-     * @param map
-     * @param id
-     * @return matching ref
-     */
-    public static IURNContainerRef findContainerRef(IURNDiagram map, String id) {
-        return (IURNContainerRef) find(map.getContRefs(), id);
-    }
-
-    /**
-     * Given a map, find the pathnode having the passed id or return null.
-     * 
-     * @param map
-     * @param id
-     * @return matching pathnode
-     */
-    public static PathNode findPathNode(UCMmap map, String id) {
-        return (PathNode) find(map.getNodes(), id);
-    }
-
-    /**
-     * Given a map, find the node having the passed id or return null.
-     * 
-     * @param map
-     * @param id
-     * @return matching node
-     */
-    public static IURNNode findNode(IURNDiagram map, String id) {
-        return (IURNNode) find(map.getNodes(), id);
+    public static KPIInformationElement findKPIInformationElementByName(URNspec urn, String name) {
+    	return (KPIInformationElement) findByName(urn.getGrlspec().getKpiInformationElements(), name);
     }
 
     /**
@@ -216,22 +305,6 @@ public class URNElementFinder {
      */
     public static IURNDiagram findMap(URNspec urn, String id) {
         return (IURNDiagram) find(urn.getUrndef().getSpecDiagrams(), id);
-    }
-
-    /**
-     * Given a URN spec, find the scenariodef having the passed id or return null.
-     * 
-     * @param urn
-     * @param id
-     * @return matching scenario def
-     */
-    public static ScenarioDef findScenario(URNspec urn, String id) {
-        Vector v = new Vector();
-        for (Iterator iter = urn.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
-            ScenarioGroup group = (ScenarioGroup) iter.next();
-            v.addAll(group.getScenarios());
-        }
-        return (ScenarioDef) find(v, id);
     }
 
     /**
@@ -248,39 +321,14 @@ public class URNElementFinder {
     }
 
     /**
-     * Given a collection of UCMmodelElements, return the oen having the passed id or return null.
+     * Given a map, find the node having the passed id or return null.
      * 
-     * @param c
+     * @param map
      * @param id
-     * @return matching model elem
+     * @return matching node
      */
-    private static Object find(Collection c, String id) {
-
-        for (Iterator iter = c.iterator(); iter.hasNext();) {
-            URNmodelElement element = (URNmodelElement) iter.next();
-
-            if (element.getId().equals(id))
-                return element;
-        }
-        return null;
-    }
-
-    /**
-     * Given a collection of UCMmodelElements, return the oen having the passed name or return null.
-     * 
-     * @param c
-     * @param name
-     * @return matching model elem
-     */
-    private static Object findByName(Collection c, String name) {
-
-        for (Iterator iter = c.iterator(); iter.hasNext();) {
-            URNmodelElement element = (URNmodelElement) iter.next();
-
-            if (element.getName().equalsIgnoreCase(name))
-                return element;
-        }
-        return null;
+    public static IURNNode findNode(IURNDiagram map, String id) {
+        return (IURNNode) find(map.getNodes(), id);
     }
 
     /**
@@ -306,88 +354,53 @@ public class URNElementFinder {
     }
 
     /**
-     * Given a map, find the Connection connected to Nodes with the specified ids.
+     * Given a map, find the pathnode having the passed id or return null.
      * 
      * @param map
-     *            the map containing the connections.
-     * @param idSource
-     *            the source IURNNode
-     * @param idTarget
-     *            the target IURNNode
-     * @return matching connection
+     * @param id
+     * @return matching pathnode
      */
-    public static IURNConnection findConnection(IURNDiagram map, String idSource, String idTarget) {
-        for (Iterator iter = map.getConnections().iterator(); iter.hasNext();) {
-            IURNConnection nc = (IURNConnection) iter.next();
-
-            if (((URNmodelElement) nc.getSource()).getId().equals(idSource) && ((URNmodelElement) nc.getTarget()).getId().equals(idTarget)) {
-                return nc;
-            }
-        }
-        return null;
+    public static PathNode findPathNode(UCMmap map, String id) {
+        return (PathNode) find(map.getNodes(), id);
     }
     
     /**
-     * Given a URN, find an intentional element with the specified name.
-     *  
+     * Given a URN spec, find the responsibility having the passed id or return null.
+     * 
      * @param urn
-     * @param name
-     * @return matching element
+     * @param id
+     * @return matching resp
      */
-    public static IntentionalElement findIntentionalElementByName(URNspec urn, String name) {
-    	return (IntentionalElement) findByName(urn.getGrlspec().getIntElements(), name);
+    public static Responsibility findResponsibility(URNspec urn, String id) {
+        return (Responsibility) find(urn.getUrndef().getResponsibilities(), id);
     }
     /**
-     * Given a URN spec, find the actor having the passed name or return null.
+     * Given a URN spec, find the responsibility having the passed name or return null.
      * 
      * @param urn
      * @param name
-     * @return matching actor element
+     * @return matching resp
      */
-    public static Actor findActorByName(URNspec urn, String name) {
-        return (Actor) findByName(urn.getGrlspec().getActors(), name);
+    public static Responsibility findResponsibilityByName(URNspec urn, String name) {
+        return (Responsibility) findByName(urn.getUrndef().getResponsibilities(), name);
     }
     /**
-     * Given a URN, find a KPI information element with the specified name.  
+     * Given a URN spec, find the scenariodef having the passed id or return null.
+     * 
      * @param urn
-     * @param name
-     * @return matching element
+     * @param id
+     * @return matching scenario def
      */
-    public static KPIInformationElement findKPIInformationElementByName(URNspec urn, String name) {
-    	return (KPIInformationElement) findByName(urn.getGrlspec().getKpiInformationElements(), name);
+    public static ScenarioDef findScenario(URNspec urn, String id) {
+        Vector v = new Vector();
+        for (Iterator iter = urn.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+            ScenarioGroup group = (ScenarioGroup) iter.next();
+            v.addAll(group.getScenarios());
+        }
+        return (ScenarioDef) find(v, id);
     }   
     
     
-    
-    /**
-     * Returns a sorted list of all component names. 
-     * @param urn
-     * @return  list of element names
-     */
-    public static Vector getComponentNames(URNspec urn) {
-    	Vector v = new Vector();
-        for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
-            URNmodelElement element = (URNmodelElement) iter.next();
-            v.add(element.getName());
-        }
-        Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
-        return v;
-    }
-    
-    /**
-     * Returns a sorted list of all responsibility names. 
-     * @param urn
-     * @return list of element names
-     */
-    public static Vector getResponsibilityNames(URNspec urn) {
-    	Vector v = new Vector();
-        for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
-            URNmodelElement element = (URNmodelElement) iter.next();
-            v.add(element.getName());
-        }
-        Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
-        return v;
-    }      
     
     /**
      * Returns a sorted list of all actor element names. 
@@ -402,7 +415,23 @@ public class URNElementFinder {
         }
         Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
-    }     
+    }
+    
+    /**
+     * Returns a sorted list of all component names. 
+     * @param urn
+     * @return  list of element names
+     */
+    public static Vector getComponentNames(URNspec urn) {
+    	Vector v = new Vector();
+        for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+            v.add(element.getName());
+        }
+        Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
+        return v;
+    }      
+    
     /**
      * Returns a sorted list of all intentional element names. 
      * @param urn
@@ -416,8 +445,7 @@ public class URNElementFinder {
         }
         Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
-    } 
-    
+    }     
     /**
      * Returns a sorted list of all KPI information element names. 
      * @param urn
@@ -426,6 +454,21 @@ public class URNElementFinder {
     public static Vector getKPIInformationElementNames(URNspec urn) {
     	Vector v = new Vector();
         for (Iterator iter = urn.getGrlspec().getKpiInformationElements().iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+            v.add(element.getName());
+        }
+        Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
+        return v;
+    } 
+    
+    /**
+     * Returns a sorted list of all responsibility names. 
+     * @param urn
+     * @return list of element names
+     */
+    public static Vector getResponsibilityNames(URNspec urn) {
+    	Vector v = new Vector();
+        for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
         }

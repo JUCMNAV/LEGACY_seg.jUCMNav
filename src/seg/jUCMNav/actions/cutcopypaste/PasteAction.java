@@ -15,7 +15,6 @@ import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.cutcopypaste.PasteCommand;
 import ucm.map.NodeConnection;
-import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.IURNDiagram;
 
