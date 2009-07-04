@@ -9,6 +9,7 @@ import ucm.map.PluginBinding;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.Condition;
 
 /**
  * Creates a new plugin binding between a stub and a map. Doesn't check to see if should be valid.
@@ -21,6 +22,7 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
     private UCMmap map;
     private PluginBinding plugin;
     private URNspec urnSpec;
+    private Condition condition;
 
     /**
      * @param stub
@@ -32,6 +34,20 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
         super();
         this.stub = stub;
         this.map = map;
+        setLabel(Messages.getString("AddPlugin.addPlugin")); //$NON-NLS-1$
+    }
+    
+    /**
+     * @param stub
+     *            the stub
+     * @param map
+     *            its new plugin
+     */
+    public AddPluginCommand(Stub stub, UCMmap map, Condition condition) {
+        super();
+        this.stub = stub;
+        this.map = map;
+        this.condition = condition;
         setLabel(Messages.getString("AddPlugin.addPlugin")); //$NON-NLS-1$
     }
 
@@ -54,6 +70,8 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
         urnSpec = map.getUrndefinition().getUrnspec();
 
         plugin = (PluginBinding) ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
+        if (condition!=null)
+        	plugin.setPrecondition(condition);
 
         redo();
     }

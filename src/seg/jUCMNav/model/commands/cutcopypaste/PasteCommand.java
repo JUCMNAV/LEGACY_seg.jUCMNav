@@ -13,6 +13,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
+import seg.jUCMNav.model.commands.create.AddPluginCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
@@ -30,6 +31,7 @@ import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -70,6 +72,7 @@ public class PasteCommand extends CompoundCommand
 			return; 
 		else
 		{
+			
 			Responsibility def = getFirstResponsibility();
 			PathNode oldPn = getFirstPathNode();
 			
@@ -87,6 +90,11 @@ public class PasteCommand extends CompoundCommand
 			else if (oldPn != null)
 			{
 				newPathNode = (PathNode) EcoreUtil.copy(oldPn);
+				if (newPathNode instanceof Stub)
+				{
+					Stub stub = (Stub) newPathNode;
+					stub.getBindings().clear();
+				}
 				resetCloneId(newPathNode);
 			} 
 
@@ -103,6 +111,28 @@ public class PasteCommand extends CompoundCommand
 				{
 					buildRegularSplice(oldPn, newPathNode);
 				}
+				
+				if (newPathNode instanceof Stub)
+				{
+					Stub newStub = (Stub) newPathNode;
+					Stub oldStub = (Stub) oldPn;
+					
+					for (int i=0;i<oldStub.getBindings().size();i++)
+					{
+						PluginBinding binding = (PluginBinding ) oldStub.getBindings().get(i);
+						UCMmap oldMap = binding.getPlugin();
+						UCMmap map = (UCMmap) URNElementFinder.findMap(targetUrn, oldMap.getId());
+						if (map==null)
+						{
+							map = (UCMmap) URNElementFinder.findMapByName(targetUrn, oldMap.getName());
+						}
+						if (map!=null && map!=targetMap) // don't allow plugin to self. 
+						{
+							Condition condition = (Condition) EcoreUtil.copy(binding.getPrecondition());
+							add(new AddPluginCommand(newStub, map, condition));
+						}
+					}
+				}
 			}
 			else 
 			{
@@ -118,6 +148,14 @@ public class PasteCommand extends CompoundCommand
 				}
 			}
 		}		
+	}
+
+	private boolean isFromSameModel()
+	{
+		if (sourceUrn!=null && targetUrn!=null && sourceUrn.getCreated()!=null && targetUrn.getCreated()!=null && sourceUrn.getCreated().equals(targetUrn.getCreated()))
+			return true;//System.out.println("From same model.");
+		else
+			return false;//System.out.println("From different model.");
 	}
 
 	private void buildDividePath(PathNode oldPn, PathNode newPathNode)
