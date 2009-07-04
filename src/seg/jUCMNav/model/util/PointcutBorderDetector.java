@@ -9,7 +9,6 @@ import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
-import urncore.IURNNode;
 import urncore.UCMmodelElement;
 
 /**

@@ -54,7 +54,9 @@ public class SyntaxChecker {
     private static void verifyCondition(URNspec urn, Vector errors, EObject location, String expr) {
         Object o = ScenarioUtils.parse(expr, ScenarioUtils.getEnvironment(urn), false);
         if (!(o instanceof SimpleNode)) {
-            errors.add(new TraversalWarning((String) o, location, IMarker.SEVERITY_ERROR));
+        	TraversalWarning warning = new TraversalWarning((String) o, location, IMarker.SEVERITY_ERROR);
+        	warning.setExpression(expr);
+            errors.add(warning);
         }
     }
 
@@ -131,6 +133,8 @@ public class SyntaxChecker {
                         errors.add(new TraversalWarning((String) o, (EObject) resp.getRespRefs().get(0), IMarker.SEVERITY_ERROR));
                     else
                         errors.add(new TraversalWarning((String) o, resp, IMarker.SEVERITY_ERROR));
+                    
+                    ((TraversalWarning)errors.get(errors.size()-1)).setExpression(resp.getExpression());
                 }
             }
         }
@@ -154,11 +158,8 @@ public class SyntaxChecker {
                     Condition cond = (Condition) it2.next();
                     verifyCondition(urn, errors, scenario, cond.getExpression());
                 }
-
             }
-
         }
-
     }
 
     /**

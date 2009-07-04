@@ -21,7 +21,7 @@ import urn.URNspec;
  */
 public class CreateVariableCommand extends Command implements JUCMNavCommand {
 
-    private URNspec urn;
+	private URNspec urn;
     private Variable var;
     private String type;
     private String name;
@@ -33,6 +33,12 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
     public CreateVariableCommand(URNspec urn, String type) {
         this.urn = urn;
         this.type = type;
+        setLabel(Messages.getString("CreateVariableCommand.CreateVariable")); //$NON-NLS-1$
+    }
+    
+    public CreateVariableCommand(URNspec urn, Variable var) {
+        this.urn=urn;
+    	setVar(var);
         setLabel(Messages.getString("CreateVariableCommand.CreateVariable")); //$NON-NLS-1$
     }
 
@@ -50,15 +56,18 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return urn != null && type != null && (type == ScenarioUtils.sTypeBoolean || type == ScenarioUtils.sTypeInteger || type == ScenarioUtils.sTypeEnumeration);
+        return urn != null && type != null && (ScenarioUtils.sTypeBoolean.equals(type)|| ScenarioUtils.sTypeInteger.equals(type) || ScenarioUtils.sTypeEnumeration.equals(type));
     }
     
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	var = (Variable) ModelCreationFactory.getNewObject(urn, Variable.class, 0, type);
+    	if (var==null) {
+    		var = (Variable) ModelCreationFactory.getNewObject(urn, Variable.class, 0, type);
+    	}
     	if (name!=null) var.setName(name);
+    	
         redo();
     }
 
@@ -108,4 +117,17 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
     public Variable getVar() {
         return var;
     }
+    
+
+    public void setVar(Variable var)
+	{
+		this.var = var;
+		if (var!=null)
+		{
+			this.name= var.getName();
+			this.type= var.getType();
+			this.enumerationType = var.getEnumerationType();
+		}
+	}
+
 }

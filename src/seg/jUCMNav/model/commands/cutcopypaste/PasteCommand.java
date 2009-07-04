@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.commands.cutcopypaste;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -14,12 +15,17 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
+import seg.jUCMNav.model.commands.create.CreateEnumerationTypeCommand;
+import seg.jUCMNav.model.commands.create.CreateVariableCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.util.Clipboard;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.scenarios.SyntaxChecker;
+import seg.jUCMNav.scenarios.model.TraversalWarning;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
@@ -37,6 +43,8 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
+import ucm.scenario.EnumerationType;
+import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Component;
 import urncore.Condition;
@@ -216,6 +224,7 @@ public class PasteCommand extends CompoundCommand
 	{
 		build();
 		super.execute();
+		postBuild();
 	}
 	
 	/***
@@ -406,6 +415,75 @@ public class PasteCommand extends CompoundCommand
 		return obj instanceof PathNode && !(obj instanceof EndPoint) && !(obj instanceof StartPoint) && !(obj instanceof Connect);   
 	}	
 	
+	protected void postBuild()
+	{
+		Vector errors = SyntaxChecker.verifySyntax(targetUrn);
+		Vector toBeAdded = new Vector(); // variables to create. 
+		for (Iterator iterator = errors.iterator(); iterator.hasNext();)
+		{
+			TraversalWarning warning = (TraversalWarning) iterator.next();
+			if (warning.getExpression()!=null)
+			{
+				for (int i=0;i<sourceUrn.getUcmspec().getVariables().size();i++)
+				{
+					Variable var = (Variable)sourceUrn.getUcmspec().getVariables().get(i);
+					if (warning.getExpression().toLowerCase().indexOf(var.getName().toLowerCase())>=0)
+					{
+						if (!toBeAdded.contains(var) && !URNNamingHelper.doesVariableNameExist(targetUrn, var.getName()) )
+							toBeAdded.add(var);
+					}
+				}
+			}
+		}
+		
+		CompoundCommand cmd = new CompoundCommand();
+		HashMap createdEnumerations = new HashMap();
+		for (int i=0;i<toBeAdded.size();i++)
+		{
+			Variable var = (Variable)toBeAdded.get(i);
+			Variable newVar = (Variable)EcoreUtil.copy(var);
+			resetCloneId(newVar);
+			CreateVariableCommand createVar=new CreateVariableCommand(targetUrn, newVar);
+
+			if (var.getType()!=null && var.getType().equals(ScenarioUtils.sTypeEnumeration))
+			{
+				
+				EnumerationType newType = null;
+				for (int j=0;j<targetUrn.getUcmspec().getEnumerationTypes().size();j++)
+				{
+					EnumerationType type = (EnumerationType)targetUrn.getUcmspec().getEnumerationTypes().get(j);
+					if (type.getName().equals(var.getEnumerationType().getName()))
+						newType = type;
+				}
+				// we need to create the enumeration type. 
+				if (newType==null)
+				{
+					if (createdEnumerations.containsKey(var.getEnumerationType().getName()))
+						newType = (EnumerationType) createdEnumerations.get(var.getEnumerationType().getName());
+					else 
+					{
+						newType = (EnumerationType) EcoreUtil.copy(var.getEnumerationType());
+						resetCloneId(newType);
+						CreateEnumerationTypeCommand createEnum = new CreateEnumerationTypeCommand(targetUrn);
+						createEnum.setEnumerationType(newType);
+						createdEnumerations.put(newType.getName(), newType);
+						cmd.add(createEnum);
+					}
+				}
+				createVar.setEnumerationType(newType);
+			}			
+			
+			cmd.add(createVar);
+		}
+		
+		
+		// chain it for the undo. 
+		add(cmd);
+		
+		// don't execute full command, just this portion. 
+		if (cmd.canExecute())
+			cmd.execute();
+	}
 	private void resetCloneId(URNmodelElement clone) {
 		String name = clone.getName();
 		URNNamingHelper.setElementNameAndID(targetUrn, clone);

@@ -24,7 +24,19 @@ public class CreateEnumerationTypeCommand extends Command implements JUCMNavComm
     private String values;
     private EnumerationType enumerationType;
     
-    /**
+    public void setEnumerationType(EnumerationType enumerationType)
+	{
+		this.enumerationType = enumerationType;
+		if (enumerationType!=null)
+		{
+			this.name = enumerationType.getName();
+			this.values = enumerationType.getValues();
+		}
+		else
+			this.values = Messages.getString("CreateEnumerationTypeCommand.DEFAULT"); //$NON-NLS-1$
+	}
+
+	/**
      * 
      */
     public CreateEnumerationTypeCommand(URNspec urn, String name, String values) {
@@ -56,9 +68,12 @@ public class CreateEnumerationTypeCommand extends Command implements JUCMNavComm
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	enumerationType = (EnumerationType) ModelCreationFactory.getNewObject(urn, EnumerationType.class);
+    	if (enumerationType==null) {
+	    	enumerationType = (EnumerationType) ModelCreationFactory.getNewObject(urn, EnumerationType.class);
+    	}
     	if (name!=null) enumerationType.setName(name);
     	enumerationType.setValues(values);
+	
         redo();
     }
 

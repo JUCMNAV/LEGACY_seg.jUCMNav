@@ -18,9 +18,20 @@ public class TraversalWarning {
 	private EObject location;
 	private String msg;
 	private int severity;
+	private String expression;
 	
 	
-    /**
+    public String getExpression()
+	{
+		return expression;
+	}
+
+	public void setExpression(String expression)
+	{
+		this.expression = expression;
+	}
+
+	/**
      * 
      * @param msg the warning message
      */
