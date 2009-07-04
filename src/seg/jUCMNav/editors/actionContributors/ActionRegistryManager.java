@@ -219,7 +219,7 @@ public class ActionRegistryManager
 		action.setAccelerator(SWT.CTRL | 'X');
 		keyBindingService.registerAction(action);
 
-		action = new PasteAction(editor);
+		action = new PasteAction((UCMNavMultiPageEditor)editor);
 		addEditPartAction((SelectionAction) action);
 		action.setAccelerator(SWT.CTRL | 'V');
 		keyBindingService.registerAction(action);

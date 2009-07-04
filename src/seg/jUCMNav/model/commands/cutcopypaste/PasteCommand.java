@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.cutcopypaste;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
@@ -10,13 +11,17 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
+import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.util.Clipboard;
 import seg.jUCMNav.model.util.URNElementFinder;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
@@ -31,22 +36,124 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.Component;
 import urncore.Condition;
 import urncore.Responsibility;
+import urncore.URNmodelElement;
 
 public class PasteCommand extends CompoundCommand
 {
 	protected EObject insertionPoint; 
-	protected UCMmap targetMap; 
+	protected Point nodeConnectionMiddle, cursorLocation; 
+	protected List sourceIds;
+	protected URNspec sourceUrn; 
+
+	protected UCMmap targetMap;
 	protected URNspec targetUrn;
-	protected Point nodeConnectionMiddle; 
 	
-	public PasteCommand(EObject insertionPoint, URNspec targetUrn, UCMmap targetMap, Point nodeConnectionMiddle)
+	public PasteCommand(EObject insertionPoint, URNspec targetUrn, UCMmap targetMap, Point nodeConnectionMiddle, Point cursorLocation)
 	{
 		this.insertionPoint = insertionPoint;
 		this.targetUrn=targetUrn;
 		this.targetMap=targetMap;
 		this.nodeConnectionMiddle = nodeConnectionMiddle;
+		this.cursorLocation = cursorLocation;
+		
+		Clipboard clip = Clipboard.getInstance();
+		sourceIds = clip.getSelectedIds();
+		sourceUrn = clip.getOriginalURNspec();
+	}
+
+	public void build()
+	{
+		if (insertionPoint==null)
+			return; 
+		else
+		{
+			Responsibility def = getFirstResponsibility();
+			PathNode oldPn = getFirstPathNode();
+			
+			
+			// this must only be executed when actually doing the initial
+			// insert. otherwise create bogus items that are not used
+			ModelCreationFactory factory;
+			PathNode newPathNode = null;
+			
+			if (def != null)
+			{
+				factory = new ModelCreationFactory(targetUrn, RespRef.class, def);
+				newPathNode = (RespRef) factory.getNewObject();
+			}
+			else if (oldPn != null)
+			{
+				newPathNode = (PathNode) EcoreUtil.copy(oldPn);
+				resetCloneId(newPathNode);
+			} 
+
+			if (newPathNode != null)
+			{
+
+				setNewNodePosition(newPathNode);
+
+				if (newPathNode instanceof AndFork || newPathNode instanceof OrFork || newPathNode instanceof AndJoin || newPathNode instanceof OrJoin || newPathNode instanceof Stub || newPathNode instanceof Timer)
+				{
+					buildDividePath(oldPn, newPathNode);
+				}
+				else
+				{
+					buildRegularSplice(oldPn, newPathNode);
+				}
+			}
+			else 
+			{
+				Vector compRefList = getClonedComponentRefs();
+				if (compRefList != null)
+				{
+					for (Iterator iterator = compRefList.iterator(); iterator.hasNext();)
+					{
+						ComponentRef newCompRef = (ComponentRef) iterator.next();
+						add(new AddContainerRefCommand(targetMap, newCompRef));
+				        add(new SetConstraintBoundContainerRefCompoundCommand(newCompRef, newCompRef.getX(), newCompRef.getY(), newCompRef.getWidth(), newCompRef.getHeight()));
+					}
+				}
+			}
+		}		
+	}
+
+	private void buildDividePath(PathNode oldPn, PathNode newPathNode)
+	{
+		DividePathCommand cmd = null;
+		if (insertionPoint instanceof EmptyPoint) {
+			cmd = new DividePathCommand(newPathNode, (EmptyPoint)insertionPoint);
+		}
+		else if (insertionPoint instanceof DirectionArrow)
+			cmd = new DividePathCommand(newPathNode, (DirectionArrow)insertionPoint);
+		else if (insertionPoint instanceof NodeConnection)
+			cmd = new DividePathCommand(newPathNode, (NodeConnection)insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y);
+		
+		if (cmd!=null && oldPn!=null)
+			cmd.cloneBranchesFrom(oldPn, targetMap);
+		if (cmd!=null)
+			add(cmd);
+	}
+
+	private void buildRegularSplice(PathNode oldPn, PathNode newPathNode)
+	{
+		Condition cond= null;
+		if (oldPn.getSucc().size()>0)
+		{
+			NodeConnection nc = (NodeConnection)oldPn.getSucc().get(0);
+			cond = nc.getCondition();
+		}
+		
+		Command cmd=null;
+		if (insertionPoint instanceof PathNode)
+			cmd = new ReplaceEmptyPointCommand((PathNode) insertionPoint, newPathNode, cond );
+		else if (insertionPoint instanceof NodeConnection)
+		    cmd = new SplitLinkCommand(targetMap, newPathNode, (NodeConnection)insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y, cond) ;
+		
+		if (cmd!=null)
+			add(cmd);
 	}
 
 	public boolean canExecute()
@@ -56,31 +163,135 @@ public class PasteCommand extends CompoundCommand
 		if (found)
 		{
 			// we've selected something that is copiable. 
-			found = getFirstResponsibility() != null || getFirstPathNode()!=null;
+			found = (getFirstResponsibility() != null || getFirstPathNode()!=null) && (insertionPoint instanceof NodeConnection || insertionPoint instanceof EmptyPoint || insertionPoint instanceof DirectionArrow);
+			if (found) return true;
+			
+			
+			found = getFirstComponent()!=null && insertionPoint instanceof UCMmap;
 			return found;
 		}
 		else
 			return false;
 	}
-	
+
 	public void execute()
 	{
 		build();
 		super.execute();
 	}
 	
+	/***
+	 * Special case for components. Builds a list of component refs that are ready to be inserted. 
+	 * 
+	 * @return a list of ComponentRefs  
+	 */
+	protected Vector getClonedComponentRefs()
+	{
+		return getComponentList(-1, true);
+	}
+	
+	/**
+	 * Special case for components. Builds a list of component refs that are ready to be inserted.
+	 * 
+	 * @param maxCount the maximum number of answers. limit the number for faster checks. 
+	 * 
+	 * @return a list of ComponentRefs
+	 */
+	protected Vector getComponentList(int maxCount, boolean generateRefs )
+	{
+		if (sourceIds != null && sourceUrn != null && targetUrn != null)
+		{
+			Vector results = new Vector();
+			ComponentRef firstPlaced=null;
+
+			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
+			{
+				String id = iterator.next().toString();
+
+				// search for the old id in the new model. 
+				Object obj = URNElementFinder.find(targetUrn, id); 
+
+				Component def = null;
+				ComponentRef ref = null;
+				if (obj != null) // found it
+				{
+					if (obj instanceof ComponentRef) {
+						ref = (ComponentRef) obj;
+						def = (Component)ref.getContDef();
+					}
+					else
+						obj = null;
+				}
+				
+
+				if (obj==null) 
+				{
+					// was deleted since.
+					obj = URNElementFinder.find(sourceUrn, id);
+					if (obj instanceof ComponentRef)
+					{
+						ref = (ComponentRef) obj;
+						
+						String oldDefinition = ((Component)ref.getContDef()).getId();
+						// this one is faster... searching for the definition.
+						Component comp = URNElementFinder.findComponent(targetUrn, oldDefinition);
+						if (comp==null) {
+							comp = URNElementFinder.findComponent(sourceUrn, oldDefinition);
+							comp = (Component) EcoreUtil.copy(comp); // clone it because it is used to create a new element.
+							resetCloneId(comp);
+						}
+						def = comp;
+					}
+				}
+				
+				if (def!=null)
+				{
+					if (generateRefs) 
+					{
+						ModelCreationFactory factory = new ModelCreationFactory(targetUrn, ComponentRef.class, def.getKind().getValue(), def);
+						ComponentRef newCompRef = (ComponentRef) factory.getNewObject();
+						setNewContainerConstraints(newCompRef, ref, firstPlaced);
+
+						if (results.size()==0) // leave null for first added, then set it. 
+						{
+							firstPlaced=ref;
+						}
+						
+						results.add(newCompRef);
+					} 
+					else 
+					{
+						results.add(def);
+					}
+				}
+				
+				if (results.size()>=maxCount && maxCount>0)break;
+			}
+			
+			return results;
+		}
+		return null;
+	}
+	
+	/***
+	 * Special case for components.
+	 * 
+	 * @return the first ComponentRef in our list 
+	 */
+	protected Component getFirstComponent()
+	{
+		Vector v=  getComponentList(1, false);
+		if (v==null || v.size()==0) 
+			return null;
+		else 
+			return (Component) v.get(0);
+	}
 	
 	protected PathNode getFirstPathNode()
 	{
-		Clipboard clip = Clipboard.getInstance();
-		List content = clip.getSelectedIds();
-		URNspec oldurn = clip.getOriginalURNspec();
-		//SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-		//URNspec urn = sel.getUrnspec();
-
-		if (content != null && oldurn != null && targetUrn != null)
+		if (sourceIds != null && sourceUrn != null && targetUrn != null)
 		{
-			for (Iterator iterator = content.iterator(); iterator.hasNext();)
+			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
 			{
 				String id = iterator.next().toString();
 
@@ -94,7 +305,7 @@ public class PasteCommand extends CompoundCommand
 				}
 				else 				// was deleted since.
 				{
-					obj = URNElementFinder.find(oldurn, id);
+					obj = URNElementFinder.find(sourceUrn, id);
 					if (IsPastablePathNode(obj))
 					{
 						PathNode oldPn =(PathNode) obj;
@@ -106,11 +317,6 @@ public class PasteCommand extends CompoundCommand
 		return null;
 	}
 	
-	protected boolean IsPastablePathNode(Object obj)
-	{
-		return obj instanceof PathNode && !(obj instanceof EndPoint) && !(obj instanceof StartPoint) && !(obj instanceof Connect);   
-	}
-	
 	/***
 	 * Special case for responsibilities.
 	 * 
@@ -118,14 +324,10 @@ public class PasteCommand extends CompoundCommand
 	 */
 	protected Responsibility getFirstResponsibility()
 	{
-		Clipboard clip = Clipboard.getInstance();
-		List content = clip.getSelectedIds();
-		URNspec oldurn = clip.getOriginalURNspec();
 
-
-		if (content != null && oldurn != null && targetUrn != null)
+		if (sourceIds != null && sourceUrn != null && targetUrn != null)
 		{
-			for (Iterator iterator = content.iterator(); iterator.hasNext();)
+			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
 			{
 				String id = iterator.next().toString();
 
@@ -136,102 +338,78 @@ public class PasteCommand extends CompoundCommand
 				{
 					if (obj instanceof RespRef)
 						return ((RespRef) obj).getRespDef();
+					else
+						obj=null;
 				}
 				
-				// was deleted since.
-				obj = URNElementFinder.find(oldurn, id);
-				if (obj instanceof RespRef)
+				if (obj==null) 
 				{
-					String oldDefinition = ((RespRef) obj).getRespDef().getId();
-					// this one is faster... searching for the definition.
-					Responsibility resp = URNElementFinder.findResponsibility(targetUrn, oldDefinition);
-					if (resp==null) {
-						resp = URNElementFinder.findResponsibility(oldurn, oldDefinition);
-						resp = (Responsibility) EcoreUtil.copy(resp); // clone it because it is used to create a new element. 
+					// was deleted since.
+					obj = URNElementFinder.find(sourceUrn, id);
+					if (obj instanceof RespRef)
+					{
+						String oldDefinition = ((RespRef) obj).getRespDef().getId();
+						// this one is faster... searching for the definition.
+						Responsibility resp = URNElementFinder.findResponsibility(targetUrn, oldDefinition);
+						if (resp==null) {
+							resp = URNElementFinder.findResponsibility(sourceUrn, oldDefinition);
+							resp = (Responsibility) EcoreUtil.copy(resp); // clone it because it is used to create a new element.
+							resetCloneId(resp);
+						}
+						return resp;
 					}
-					return resp;
 				}
 			}
 		}
 		return null;
 	}
-
-	
-
-	
-	public void build()
+	protected boolean IsPastablePathNode(Object obj)
 	{
-		if (insertionPoint==null)
-			return; 
-		else
-		{
-			Responsibility def = getFirstResponsibility();
-			PathNode oldPn = getFirstPathNode();
+		return obj instanceof PathNode && !(obj instanceof EndPoint) && !(obj instanceof StartPoint) && !(obj instanceof Connect);   
+	}	
+	
+	private void resetCloneId(URNmodelElement clone) {
+		String name = clone.getName();
+		URNNamingHelper.setElementNameAndID(targetUrn, clone);
+		clone.setName(name);
+	}
 
-			// this must only be executed when actually doing the initial insert. otherwise create bogus items that are not used
-			ModelCreationFactory factory;
-			PathNode newPathNode=null;
-			if (def!=null) {
-				factory = new ModelCreationFactory(targetUrn, RespRef.class, def);
-				newPathNode= (RespRef)factory.getNewObject();
-			} else
+	private void setNewContainerConstraints(ComponentRef newCompRef, ComponentRef oldCompRef, ComponentRef offsetFrom)
+	{
+		if (cursorLocation!=null) 
+		{
+			int x=cursorLocation.x,y=cursorLocation.y;
+			
+			if (offsetFrom!=null)
 			{
-				if (oldPn!=null)
-				{
-					newPathNode = (PathNode) EcoreUtil.copy(oldPn); 
-				}
+				x += oldCompRef.getX()-offsetFrom.getX();
+				y += oldCompRef.getY()-offsetFrom.getY();
 			}
 			
-			if (newPathNode!=null) {
-				
-				// ensures that created branches are at the right place. 
-				if (insertionPoint instanceof PathNode) {
-					newPathNode.setX(((PathNode) insertionPoint).getX());
-					newPathNode.setY(((PathNode) insertionPoint).getY());
-				} else if (insertionPoint instanceof NodeConnection)
-				{
-					newPathNode.setX(nodeConnectionMiddle.x);
-					newPathNode.setY(nodeConnectionMiddle.y);
-				}
-
-				if (newPathNode instanceof AndFork || newPathNode instanceof OrFork || newPathNode instanceof AndJoin || newPathNode instanceof OrJoin || newPathNode instanceof Stub || newPathNode instanceof Timer) 
-				{
-					DividePathCommand cmd = null;
-					if (insertionPoint instanceof EmptyPoint) {
-						cmd = new DividePathCommand(newPathNode, (EmptyPoint)insertionPoint);
-					}
-					else if (insertionPoint instanceof DirectionArrow)
-						cmd = new DividePathCommand(newPathNode, (DirectionArrow)insertionPoint);
-					else if (insertionPoint instanceof NodeConnection)
-						cmd = new DividePathCommand(newPathNode, (NodeConnection)insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y);
-					
-					if (cmd!=null && oldPn!=null)
-						cmd.cloneBranchesFrom(oldPn, targetMap);
-					if (cmd!=null)
-						add(cmd);
-				} 
-				else 
-				{
-					Condition cond= null;
-					if (oldPn.getSucc().size()>0)
-					{
-						NodeConnection nc = (NodeConnection)oldPn.getSucc().get(0);
-						cond = nc.getCondition();
-					}
-					
-					Command cmd=null;
-					if (insertionPoint instanceof PathNode)
-						cmd = new ReplaceEmptyPointCommand((PathNode) insertionPoint, newPathNode, cond );
-					else if (insertionPoint instanceof NodeConnection)
-			            cmd = new SplitLinkCommand(targetMap, newPathNode, (NodeConnection)insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y, cond) ;
-					
-					if (cmd!=null)
-						add(cmd);
-				}
-			}
-
-		}		
+			newCompRef.setX(x);
+			newCompRef.setY(y);
+		}
+		
+		if (oldCompRef!=null)
+		{
+			newCompRef.setWidth(oldCompRef.getWidth());
+			newCompRef.setHeight(oldCompRef.getHeight());
+		}
 	}
 	
+	private void setNewNodePosition(PathNode newPathNode)
+	{
+		// ensures that created branches are at the right place. 
+		if (insertionPoint instanceof PathNode) 
+		{
+			newPathNode.setX(((PathNode) insertionPoint).getX());
+			newPathNode.setY(((PathNode) insertionPoint).getY());
+		} 
+		else if (insertionPoint instanceof NodeConnection)
+		{
+			newPathNode.setX(nodeConnectionMiddle.x);
+			newPathNode.setY(nodeConnectionMiddle.y);
+		}
+	}
 
 }
