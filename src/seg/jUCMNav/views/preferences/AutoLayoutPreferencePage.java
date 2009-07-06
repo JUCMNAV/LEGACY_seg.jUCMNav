@@ -65,4 +65,9 @@ public class AutoLayoutPreferencePage extends FieldEditorPreferencePage implemen
 
     }
 
+    public boolean isValid()
+    {
+    	return true; // otherwise we get stuck in the preference pages. 
+    }
+
 }
