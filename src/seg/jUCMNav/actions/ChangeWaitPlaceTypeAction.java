@@ -6,7 +6,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.transformations.ChangeWaitPlaceTypeCommand;
+import ucm.map.NodeConnection;
 import ucm.map.WaitKind;
+import ucm.map.WaitingPlace;
 
 /**
  * Changes the waiting place type.
@@ -43,6 +45,15 @@ public class ChangeWaitPlaceTypeAction extends URNSelectionAction {
 	protected boolean calculateEnabled() {
 		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 		switch (sel.getSelectionType()) {
+		case SelectionHelper.CONNECT: 
+		{
+			if (sel.getConnect().getSucc().size()>0 && ((NodeConnection)sel.getConnect().getSucc().get(0)).getTarget() instanceof WaitingPlace)
+			{
+				WaitingPlace wp = (WaitingPlace)((NodeConnection)sel.getConnect().getSucc().get(0)).getTarget();
+				return !WAITINGPLACE_KINDS[waitPlaceType].equals(wp.getWaitType());
+			}
+			break;
+		}
 		case SelectionHelper.WAITINGPLACE:
 			if (WAITINGPLACE_KINDS[waitPlaceType].equals(sel.getWaitingPlace().getWaitType()))
 				return false;
@@ -67,7 +78,15 @@ public class ChangeWaitPlaceTypeAction extends URNSelectionAction {
 		Command comm;
 
 		switch (sel.getSelectionType()) {
-
+		case SelectionHelper.CONNECT: 
+		{
+			if (sel.getConnect().getSucc().size()>0 && ((NodeConnection)sel.getConnect().getSucc().get(0)).getTarget() instanceof WaitingPlace)
+			{
+				WaitingPlace wp = (WaitingPlace)((NodeConnection)sel.getConnect().getSucc().get(0)).getTarget();
+				comm = new ChangeWaitPlaceTypeCommand(wp, WAITINGPLACE_KINDS[waitPlaceType]);
+				return comm;
+			}
+		}
 		case SelectionHelper.WAITINGPLACE:
 			comm = new ChangeWaitPlaceTypeCommand(sel.getWaitingPlace(), WAITINGPLACE_KINDS[waitPlaceType]);
 			return comm;
