@@ -2,7 +2,13 @@ package seg.jUCMNav.model.commands.cutcopypaste;
 
 import grl.Actor;
 import grl.ActorRef;
+import grl.Belief;
 import grl.GRLGraph;
+import grl.GRLNode;
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
+import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPIInformationElementRef;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,8 +22,10 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.editparts.CommentEditPart;
+import seg.jUCMNav.editpolicies.layout.GrlGraphXYLayoutEditPolicy;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
+import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddCommentCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
@@ -67,11 +75,11 @@ import urn.URNspec;
 import urncore.Comment;
 import urncore.Component;
 import urncore.Condition;
+import urncore.GRLmodelElement;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.Responsibility;
-import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
 public class PasteCommand extends CompoundCommand
@@ -84,9 +92,15 @@ public class PasteCommand extends CompoundCommand
 
 	protected IURNDiagram targetDiagram;
 	protected UCMmap targetMap;
+	protected GRLGraph targetGraph;
 	protected URNspec targetUrn;
 	
 	protected boolean alreadyBuilt;
+	
+	
+	protected EObject firstPlaced;
+	protected int firstPlacedX;
+	protected int firstPlacedY;
 	
 	public PasteCommand(EObject insertionPoint, URNspec targetUrn, IURNDiagram targetMap, Point nodeConnectionMiddle, Point cursorLocation)
 	{
@@ -96,6 +110,8 @@ public class PasteCommand extends CompoundCommand
 		this.targetDiagram=targetMap;
 		if (targetDiagram instanceof UCMmap)
 			this.targetMap=(UCMmap)targetDiagram;
+		else if (targetDiagram instanceof GRLGraph)
+			this.targetGraph = (GRLGraph) targetDiagram;
 		
 		this.nodeConnectionMiddle = nodeConnectionMiddle;
 		this.cursorLocation = cursorLocation;
@@ -166,6 +182,10 @@ public class PasteCommand extends CompoundCommand
 				}
 			}
 			
+			if (targetGraph!=null && getFirstGRLNode()!=null)
+			{
+				buildGrlNodes();
+			}
 			
 			if (targetDiagram!=null) 
 			{
@@ -226,6 +246,27 @@ public class PasteCommand extends CompoundCommand
 		}
 		
 		alreadyBuilt=true;
+	}
+
+	private void buildGrlNodes()
+	{
+		Vector list = getClonedGrlNodeRefs();
+		
+		for (Iterator iterator = list.iterator(); iterator.hasNext();)
+		{
+			EObject obj = (EObject) iterator.next();
+			
+			if (obj instanceof IntentionalElementRef)
+			{
+				add(GrlGraphXYLayoutEditPolicy.buildCreateGrlNodeCommand(targetGraph, (IntentionalElementRef)obj));
+			} else if (obj instanceof Belief)
+			{
+				add(new AddBeliefCommand(targetGraph, (Belief)obj));
+			} else if (obj instanceof KPIInformationElementRef)
+			{
+				add(GrlGraphXYLayoutEditPolicy.buildCreateKPIInformationElementCommand(targetGraph, (KPIInformationElementRef)obj));
+			} 
+		}
 	}
 
 	private void buildActor(Actor oldActor)
@@ -429,7 +470,10 @@ public class PasteCommand extends CompoundCommand
 			
 			found =  insertionPoint instanceof IURNDiagram && getFirstComment()!=null;
 			if (found) return true;
-			
+
+			found =  insertionPoint instanceof GRLGraph && getFirstGRLNode()!=null;
+			if (found) return true;
+
 			found = insertionPoint instanceof ScenarioGroup && getFirstScenario()!=null;
 			if (found) return true;
 			
@@ -483,12 +527,17 @@ public class PasteCommand extends CompoundCommand
 	{
 		return getContainerList(-1, true);
 	}
+
+	protected Vector getClonedGrlNodeRefs()
+	{
+		return getGRLNodeList(-1, true);
+	}
+	
 	protected Vector getCommentList(int maxCount)
 	{
 		if (sourceIds != null && sourceUrn != null && targetUrn != null)
 		{
 			Vector results = new Vector();
-			Comment firstPlaced=null;
 			for (Iterator iterator = sourceSelection.iterator(); iterator.hasNext();)
 			{
 				Object object = (Object) iterator.next();
@@ -497,11 +546,13 @@ public class PasteCommand extends CompoundCommand
 					Comment oldComment = (Comment)((CommentEditPart)object).getModel();
 					Comment newComment = (Comment) EcoreUtil.copy(oldComment);
 					
-					setNewCommentConstraints(newComment, oldComment, firstPlaced);
+					setNewCommentConstraints(newComment, oldComment);
 					
-					if (results.size()==0) // leave null for first added, then set it. 
+					if (firstPlaced==null) // leave null for first added, then set it. 
 					{
 						firstPlaced=oldComment;
+						firstPlacedX=oldComment.getX();
+						firstPlacedY=oldComment.getY();
 					}
 					
 					results.add(newComment);
@@ -526,60 +577,38 @@ public class PasteCommand extends CompoundCommand
 		if (sourceIds != null && sourceUrn != null && targetUrn != null)
 		{
 			Vector results = new Vector();
-			IURNContainerRef firstPlaced=null;
 
 			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
 			{
 				String id = iterator.next().toString();
 
-				// search for the old id in the new model. 
-				Object obj = URNElementFinder.find(targetUrn, id); 
-
 				IURNContainer def = null;
 				IURNContainerRef ref = null;
-				if (obj != null) // found it
-				{
-					if (obj instanceof IURNContainerRef)
-					{
-						ref = (IURNContainerRef)obj;
-						def = ref.getContDef();
-					}
-					else
-						obj = null;
-				}
+				Object obj = URNElementFinder.find(sourceUrn, id);
 				// pasting on wrong map. 
 				if ((targetMap == null && obj instanceof ComponentRef) || (targetMap != null && obj instanceof ActorRef)) continue;
 
-				if (obj==null) 
+				if (obj instanceof IURNContainerRef)
 				{
-					// was deleted since.
-					obj = URNElementFinder.find(sourceUrn, id);
-					// pasting on wrong map. 
-					if ((targetMap == null && obj instanceof ComponentRef) || (targetMap != null && obj instanceof ActorRef)) continue;
+					ref = (IURNContainerRef) obj;
+					IURNContainer comp=null;
 
-					if (obj instanceof IURNContainerRef)
-					{
-						ref = (IURNContainerRef) obj;
-						
-						String oldDefinition = ((URNmodelElement)ref.getContDef()).getId();
-						// this one is faster... searching for the definition.
-						IURNContainer comp=null;
+					String oldDefinition = ((URNmodelElement)ref.getContDef()).getName();
+					if (ref instanceof ComponentRef)
+						comp = URNElementFinder.findComponentByName(targetUrn, oldDefinition);
+					else if (ref instanceof ActorRef)
+						comp = URNElementFinder.findActorByName(targetUrn, oldDefinition);
+					
+					if (comp==null) {
 						if (ref instanceof ComponentRef)
-							comp = URNElementFinder.findComponent(targetUrn, oldDefinition);
+							comp = URNElementFinder.findComponentByName(sourceUrn, oldDefinition);
 						else if (ref instanceof ActorRef)
-							comp = URNElementFinder.findActor(targetUrn, oldDefinition);
-						
-						if (comp==null) {
-							if (ref instanceof ComponentRef)
-								comp = URNElementFinder.findComponent(sourceUrn, oldDefinition);
-							else if (ref instanceof ActorRef)
-								comp = URNElementFinder.findActor(sourceUrn, oldDefinition);
+							comp = URNElementFinder.findActorByName(sourceUrn, oldDefinition);
 
-							comp = (IURNContainer) EcoreUtil.copy(comp); // clone it because it is used to create a new element.
-							resetCloneId((URNmodelElement)comp);
-						}
-						def = comp;
+						comp = (IURNContainer) EcoreUtil.copy(comp); // clone it because it is used to create a new element.
+						resetCloneId((URNmodelElement)comp);
 					}
+					def = comp;
 				}
 				
 				if (def!=null)
@@ -595,11 +624,13 @@ public class PasteCommand extends CompoundCommand
 						if (factory!=null) 
 						{
 							IURNContainerRef newCompRef = (IURNContainerRef) factory.getNewObject();
-							setNewContainerConstraints(newCompRef, ref, firstPlaced);
+							setNewContainerConstraints(newCompRef, ref);
 	
-							if (results.size()==0) // leave null for first added, then set it. 
+							if (firstPlaced==null) // leave null for first added, then set it. 
 							{
 								firstPlaced=ref;
+								firstPlacedX=ref.getX();
+								firstPlacedY=ref.getY();
 							}
 							results.add(newCompRef);
 						}
@@ -616,6 +647,129 @@ public class PasteCommand extends CompoundCommand
 		}
 		return null;
 	}
+	
+	
+	/**
+	 * Builds a list of elements that are ready to be inserted on a diagram. 
+	 * 
+	 * @param maxCount the maximum number of answers. limit the number for faster checks. 
+	 * @param generateRefs if true, will return a new ref - otherwise returns the original def 
+	 * 
+	 * @return a list of refs/defs
+	 */
+	protected Vector getGRLNodeList(int maxCount, boolean generateRefs )
+	{
+		if (sourceIds != null && sourceUrn != null && targetUrn != null)
+		{
+			Vector results = new Vector();
+
+			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
+			{
+				String id = iterator.next().toString();
+
+				GRLmodelElement def = null;
+				GRLNode ref = null;
+				Object obj = URNElementFinder.find(sourceUrn, id);
+				// pasting on wrong graph. 
+				if (targetGraph == null && obj instanceof GRLNode) continue;
+
+				if (obj instanceof IntentionalElementRef)
+				{
+					IntentionalElementRef intentionalElementRef = (IntentionalElementRef) obj;
+					IntentionalElement intentionalElement=null;
+
+					String oldDefinition = ((URNmodelElement)intentionalElementRef.getDef()).getName();
+
+					intentionalElement = URNElementFinder.findIntentionalElementByName(targetUrn, oldDefinition); 
+					
+					if (intentionalElement==null) {
+						intentionalElement = URNElementFinder.findIntentionalElementByName(sourceUrn, oldDefinition);
+
+						IntentionalElement oldElement = intentionalElement;
+						intentionalElement = (IntentionalElement) EcoreUtil.copy(intentionalElement); // clone it because it is used to create a new element.
+						resetCloneId(intentionalElement);
+					}
+					
+					def = intentionalElement;
+					ref = intentionalElementRef; 
+
+				} else if (obj instanceof Belief )
+				{
+					def = null;
+					ref = (Belief)obj;
+					if (generateRefs)
+					{
+						Belief newNode = (Belief) EcoreUtil.copy(ref);
+						setNewGRLConstraints(newNode, ref);
+
+						if (firstPlaced==null) // leave null for first added, then set it. 
+						{
+							firstPlaced=ref;
+							firstPlacedX=ref.getX();
+							firstPlacedY=ref.getY();
+						}
+						results.add(newNode);
+
+					}
+					else
+						results.add(ref);
+				} else if (obj instanceof KPIInformationElementRef )
+				{
+					KPIInformationElementRef informationElementRef = (KPIInformationElementRef) obj;
+					KPIInformationElement informationElement=null;
+
+					String oldDefinition = ((URNmodelElement)informationElementRef.getDef()).getName();
+
+					informationElement = URNElementFinder.findKPIInformationElementByName(targetUrn, oldDefinition); 
+					
+					if (informationElement==null) {
+						informationElement = URNElementFinder.findKPIInformationElementByName(sourceUrn, oldDefinition);
+
+						informationElement = (KPIInformationElement) EcoreUtil.copy(informationElement); // clone it because it is used to create a new element.
+						resetCloneId(informationElement);
+					}
+					
+					def = informationElement;
+					ref = informationElementRef; 
+				}
+				
+				if (def!=null)
+				{
+					if (generateRefs) 
+					{
+						ModelCreationFactory factory=null;
+						if (ref instanceof IntentionalElementRef)
+							factory = new ModelCreationFactory(targetUrn, IntentionalElementRef.class, ((IntentionalElement)def).getType().getValue(), def);
+						else if (ref instanceof KPIInformationElementRef)
+							factory = new ModelCreationFactory(targetUrn, KPIInformationElementRef.class, def);
+						
+						if (factory!=null) 
+						{
+							GRLNode newNode = (GRLNode) factory.getNewObject();
+							setNewGRLConstraints(newNode, ref);
+	
+							if (firstPlaced==null) // leave null for first added, then set it. 
+							{
+								firstPlaced=ref;
+								firstPlacedX=ref.getX();
+								firstPlacedY=ref.getY();
+							}
+							results.add(newNode);
+						}
+					} 
+					else 
+					{
+						results.add(def);
+					}
+				}
+				if (results.size()>=maxCount && maxCount>0)break;
+			}
+			
+			return results;
+		}
+		return null;
+	}
+	
 	protected Comment getFirstComment()
 	{
 		Vector v=  getCommentList(1);
@@ -639,6 +793,17 @@ public class PasteCommand extends CompoundCommand
 			return (IURNContainer) v.get(0);
 	}
 	
+
+	protected GRLmodelElement getFirstGRLNode()
+	{
+		Vector v=  getGRLNodeList(1, false);
+		if (v==null || v.size()==0) 
+			return null;
+		else 
+			return (GRLmodelElement) v.get(0);
+	}
+	
+	
 	protected PathNode getFirstPathNode()
 	{
 		if (sourceIds != null && sourceUrn != null && targetUrn != null)
@@ -646,23 +811,12 @@ public class PasteCommand extends CompoundCommand
 			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
 			{
 				String id = iterator.next().toString();
-
-				// search for the old id in the new model. 
-				Object obj = URNElementFinder.find(targetUrn, id); 
-
-				if (obj != null) // found it
+				
+				Object obj = URNElementFinder.find(sourceUrn, id);
+				if (IsPastablePathNode(obj))
 				{
-					if (IsPastablePathNode(obj))
-						return (PathNode) obj; // pn in current urn
-				}
-				else 				// was deleted since.
-				{
-					obj = URNElementFinder.find(sourceUrn, id);
-					if (IsPastablePathNode(obj))
-					{
-						PathNode oldPn =(PathNode) obj;
-						return oldPn; // pn from old urn
-					}
+					PathNode oldPn =(PathNode) obj;
+					return oldPn; // pn from old urn
 				}
 			}
 		}
@@ -683,33 +837,18 @@ public class PasteCommand extends CompoundCommand
 			{
 				String id = iterator.next().toString();
 
-				// search for the old id in the new model. 
-				Object obj = URNElementFinder.find(targetUrn, id); 
-
-				if (obj != null) // found it
+				Object obj= URNElementFinder.find(sourceUrn, id);
+				if (obj instanceof RespRef)
 				{
-					if (obj instanceof RespRef)
-						return ((RespRef) obj).getRespDef();
-					else
-						obj=null;
-				}
-				
-				if (obj==null) 
-				{
-					// was deleted since.
-					obj = URNElementFinder.find(sourceUrn, id);
-					if (obj instanceof RespRef)
-					{
-						String oldDefinition = ((RespRef) obj).getRespDef().getId();
-						// this one is faster... searching for the definition.
-						Responsibility resp = URNElementFinder.findResponsibility(targetUrn, oldDefinition);
-						if (resp==null) {
-							resp = URNElementFinder.findResponsibility(sourceUrn, oldDefinition);
-							resp = (Responsibility) EcoreUtil.copy(resp); // clone it because it is used to create a new element.
-							resetCloneId(resp);
-						}
-						return resp;
+					String oldDefinition = ((RespRef) obj).getRespDef().getName();
+					// this one is faster... searching for the definition.
+					Responsibility resp = URNElementFinder.findResponsibilityByName(targetUrn, oldDefinition);
+					if (resp==null) {
+						resp = URNElementFinder.findResponsibilityByName(sourceUrn, oldDefinition);
+						resp = (Responsibility) EcoreUtil.copy(resp); // clone it because it is used to create a new element.
+						resetCloneId(resp);
 					}
+					return resp;
 				}
 			}
 		}
@@ -767,6 +906,8 @@ public class PasteCommand extends CompoundCommand
 		return null;
 	}
 	
+
+	
 	protected Vector getScenarioList(int maxCount)
 	{
 		if (sourceIds != null && sourceUrn != null && targetUrn != null)
@@ -816,7 +957,7 @@ public class PasteCommand extends CompoundCommand
 		}
 		return null;
 	}
-	
+		
 	protected boolean IsPastablePathNode(Object obj)
 	{
 		return obj instanceof PathNode && !(obj instanceof EndPoint) && !(obj instanceof StartPoint) && !(obj instanceof Connect);   
@@ -898,16 +1039,16 @@ public class PasteCommand extends CompoundCommand
 		clone.setName(name);
 	}
 
-	private void setNewCommentConstraints(Comment newComment, Comment oldComment, Comment offsetFrom)
+	private void setNewCommentConstraints(Comment newComment, Comment oldComment)
 	{
 		if (cursorLocation!=null) 
 		{
 			int x=cursorLocation.x,y=cursorLocation.y;
 			
-			if (offsetFrom!=null)
+			if (firstPlaced!=null)
 			{
-				x += oldComment.getX()-offsetFrom.getX();
-				y += oldComment.getY()-offsetFrom.getY();
+				x += oldComment.getX()-firstPlacedX;
+				y += oldComment.getY()-firstPlacedY;
 			}
 			
 			newComment.setX(x);
@@ -920,17 +1061,18 @@ public class PasteCommand extends CompoundCommand
 			newComment.setHeight(oldComment.getHeight());
 		}
 	}
+	
 
-	private void setNewContainerConstraints(IURNContainerRef newCompRef, IURNContainerRef oldCompRef, IURNContainerRef offsetFrom)
+	private void setNewContainerConstraints(IURNContainerRef newCompRef, IURNContainerRef oldCompRef)
 	{
 		if (cursorLocation!=null) 
 		{
 			int x=cursorLocation.x,y=cursorLocation.y;
 			
-			if (offsetFrom!=null)
+			if (firstPlaced!=null)
 			{
-				x += oldCompRef.getX()-offsetFrom.getX();
-				y += oldCompRef.getY()-offsetFrom.getY();
+				x += oldCompRef.getX()-firstPlacedX;
+				y += oldCompRef.getY()-firstPlacedY;
 			}
 			
 			newCompRef.setX(x);
@@ -941,6 +1083,22 @@ public class PasteCommand extends CompoundCommand
 		{
 			newCompRef.setWidth(oldCompRef.getWidth());
 			newCompRef.setHeight(oldCompRef.getHeight());
+		}
+	}
+	private void setNewGRLConstraints(GRLNode newNode, GRLNode oldNode)
+	{
+		if (cursorLocation!=null) 
+		{
+			int x=cursorLocation.x,y=cursorLocation.y;
+			
+			if (firstPlaced!=null)
+			{
+				x += oldNode.getX()-firstPlacedX;
+				y += oldNode.getY()-firstPlacedY;
+			}
+			
+			newNode.setX(x);
+			newNode.setY(y);
 		}
 	}
 	

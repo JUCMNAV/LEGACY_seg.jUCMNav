@@ -28,6 +28,11 @@ import seg.jUCMNav.Messages;
  */
 public class CreateAllKPIModelLinkRefCommand extends CompoundCommand {
 
+	
+	protected GRLNode element;
+	protected GRLGraph graph;
+	
+	
     /**
      * @param element
      *            The KPIInformationElementRef
@@ -35,8 +40,11 @@ public class CreateAllKPIModelLinkRefCommand extends CompoundCommand {
     public CreateAllKPIModelLinkRefCommand(KPIInformationElementRef element) {
         setLabel(Messages.getString("CreateAllKPIModelLinkRefCommand.createAllKPIModelLinkRefs")); //$NON-NLS-1$
 
-        GRLGraph graph = (GRLGraph) element.getDiagram();
-        init(element, graph);
+        //GRLGraph graph = (GRLGraph) element.getDiagram();
+        //init(element, graph);
+        
+        this.element = element;
+        this.graph = (GRLGraph) element.getDiagram();
     }
 
     /**
@@ -46,8 +54,11 @@ public class CreateAllKPIModelLinkRefCommand extends CompoundCommand {
     public CreateAllKPIModelLinkRefCommand(IntentionalElementRef element) {
         setLabel(Messages.getString("CreateAllKPIModelLinkRefCommand.createAllKPIModelLinkRefs")); //$NON-NLS-1$
 
-        GRLGraph graph = (GRLGraph) element.getDiagram();
-        init(element, graph);
+//        GRLGraph graph = (GRLGraph) element.getDiagram();
+//        init(element, graph);
+        
+        this.element = element;
+        this.graph = (GRLGraph) element.getDiagram();
     }
 
     /**
@@ -59,7 +70,9 @@ public class CreateAllKPIModelLinkRefCommand extends CompoundCommand {
     public CreateAllKPIModelLinkRefCommand(GRLGraph graph, KPIInformationElementRef element) {
         setLabel(Messages.getString("CreateAllKPIModelLinkRefCommand.createAllKPIModelLinkRefs")); //$NON-NLS-1$
 
-        init(element, graph);
+        //init(element, graph);
+        this.element = element;
+        this.graph = graph;
     }
 
     /**
@@ -71,7 +84,27 @@ public class CreateAllKPIModelLinkRefCommand extends CompoundCommand {
     public CreateAllKPIModelLinkRefCommand(GRLGraph graph, IntentionalElementRef element) {
         setLabel(Messages.getString("CreateAllKPIModelLinkRefCommand.createAllKPIModelLinkRefs")); //$NON-NLS-1$
 
-        init(element, graph);
+        //init(element, graph);
+        this.element = element;
+        this.graph = graph;
+    }
+    
+    
+    public boolean canExecute()
+    {
+    	return true;
+    }
+    public boolean canUndo()
+    {
+    	return true;
+    }
+    public void execute()
+    {
+    	if (this.element instanceof KPIInformationElementRef)
+    		init((KPIInformationElementRef)this.element, this.graph);
+    	else if (this.element instanceof IntentionalElementRef)
+    		init((KPIInformationElementRef)this.element, this.graph);
+    	super.execute();
     }
 
     private void init(KPIInformationElementRef element, GRLGraph graph) {

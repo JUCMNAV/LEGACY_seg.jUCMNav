@@ -27,6 +27,10 @@ import seg.jUCMNav.Messages;
  */
 public class CreateAllLinkRefCommand extends CompoundCommand {
 
+	
+	protected IntentionalElementRef element;
+	protected GRLGraph graph;
+	
     /**
      * @param element
      *      The IntentionalElementReference
@@ -34,8 +38,10 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
     public CreateAllLinkRefCommand(IntentionalElementRef element) {
         setLabel(Messages.getString("CreateAllLinkRefCommand.createAllLinkRefs")); //$NON-NLS-1$
         
-        GRLGraph graph = (GRLGraph)element.getDiagram();
-        init(element, graph);
+        //GRLGraph graph = (GRLGraph)element.getDiagram();
+        //init(element, graph);
+        this.element = element;
+        this.graph = (GRLGraph)element.getDiagram();
     }
 
     /**
@@ -46,7 +52,23 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
     public CreateAllLinkRefCommand(GRLGraph graph, IntentionalElementRef element) {
         setLabel(Messages.getString("CreateAllLinkRefCommand.createAllLinkRefs")); //$NON-NLS-1$
         
-        init(element, graph);
+        //init(element, graph);
+        this.element = element;
+        this.graph = graph;
+    }
+    
+    public boolean canExecute()
+    {
+    	return true;
+    }
+    public boolean canUndo()
+    {
+    	return true;
+    }
+    public void execute()
+    {
+    	init(this.element, this.graph);
+    	super.execute();
     }
 	private void init(IntentionalElementRef element, GRLGraph graph) {
 		for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();){

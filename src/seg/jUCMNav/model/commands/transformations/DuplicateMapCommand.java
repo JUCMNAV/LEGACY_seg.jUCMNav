@@ -13,6 +13,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import ucm.map.ComponentBinding;
 import ucm.map.InBinding;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
@@ -140,6 +141,12 @@ public class DuplicateMapCommand extends Command implements JUCMNavCommand {
                             OutBinding destob = (OutBinding) destpb.getOut().get(k);
                             destob.setEndPoint(srcob.getEndPoint());
                         }
+                        for (int k = 0; k < srcpb.getComponents().size(); k++) {
+                        	ComponentBinding srccb = (ComponentBinding) srcpb.getComponents().get(k);
+                        	ComponentBinding destcb = (ComponentBinding) destpb.getComponents().get(k);
+                            destcb.setParentComponent(srccb.getParentComponent());
+                            destcb.setPluginComponent(srccb.getPluginComponent());
+                        }                        
                     }
 
                 }
@@ -353,8 +360,12 @@ public class DuplicateMapCommand extends Command implements JUCMNavCommand {
                             OutBinding destob = (OutBinding) destpb.getOut().get(k);
                             destob.setEndPoint(null);
                         }
+                        for (int k = 0; k < destpb.getComponents().size(); k++) {
+                        	ComponentBinding destcb = (ComponentBinding) destpb.getComponents().get(k);
+                            destcb.setParentComponent(null);
+                            destcb.setPluginComponent(null);
+                        }                          
                     }
-
                 }
             }
         } else {

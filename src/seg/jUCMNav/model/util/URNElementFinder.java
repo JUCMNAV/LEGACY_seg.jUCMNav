@@ -3,8 +3,8 @@ package seg.jUCMNav.model.util;
 import grl.Actor;
 import grl.ActorRef;
 import grl.GRLGraph;
+import grl.GRLNode;
 import grl.IntentionalElement;
-import grl.IntentionalElementRef;
 import grl.kpimodel.KPIInformationElement;
 
 import java.util.Collection;
@@ -94,7 +94,7 @@ public class URNElementFinder {
             	GRLGraph graph = (GRLGraph) g;
                 if ((o = findActorRef(graph, id)) != null)
                     return o;
-                if ((o = findIntentionalElementRef(graph, id)) != null)
+                if ((o = findGRLNode(graph, id)) != null)
                     return o;
             }
         }
@@ -285,8 +285,8 @@ public class URNElementFinder {
      * @param id
      * @return matching element
      */
-    public static IntentionalElementRef findIntentionalElementRef(GRLGraph graph, String id) {
-        return (IntentionalElementRef) find(graph.getNodes(), id);
+    public static GRLNode findGRLNode(GRLGraph graph, String id) {
+        return (GRLNode) find(graph.getNodes(), id);
     }
 
     /**
