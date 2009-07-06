@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.commands.cutcopypaste;
 
+import grl.Actor;
 import grl.ActorRef;
 
 import java.util.HashMap;
@@ -19,7 +20,9 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerR
 import seg.jUCMNav.model.commands.create.AddCommentCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
+import seg.jUCMNav.model.commands.create.CreateContainerCommand;
 import seg.jUCMNav.model.commands.create.CreateEnumerationTypeCommand;
+import seg.jUCMNav.model.commands.create.CreateResponsibilityCommand;
 import seg.jUCMNav.model.commands.create.CreateVariableCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
@@ -102,6 +105,8 @@ public class PasteCommand extends CompoundCommand
 			
 			// this must only be executed when actually doing the initial
 			// insert. otherwise create bogus items that are not used
+			
+			// only use the ModelCreationFactory for References. otherwise clone or lose metadata, urnlinks, etc. 
 			ModelCreationFactory factory;
 			PathNode newPathNode = null;
 			
@@ -179,6 +184,45 @@ public class PasteCommand extends CompoundCommand
 					add(new AddCommentCommand(targetDiagram, comment));
 				}
 			}
+			
+			if (targetUrn!=null)
+			{
+				Vector list = getSimpleList(-1);
+				for (Iterator iterator = list.iterator(); iterator.hasNext();)
+				{
+					EObject obj = (EObject) iterator.next();
+					if(obj instanceof Responsibility)
+					{
+						Responsibility oldResp=  (Responsibility)obj;
+						if (URNElementFinder.findResponsibilityByName(targetUrn, oldResp.getName())==null) 
+						{
+							Responsibility newResp = (Responsibility) EcoreUtil.copy(oldResp);
+							resetCloneId(newResp);
+							add(new CreateResponsibilityCommand(targetUrn,newResp));
+						}
+					} else if(obj instanceof Component)
+					{
+						Component oldComponent = (Component) obj;
+						if (URNElementFinder.findComponentByName(targetUrn, oldComponent.getName())==null)
+						{
+							Component newComponent = (Component) EcoreUtil.copy(oldComponent);
+							resetCloneId(newComponent);
+							add(new CreateContainerCommand(targetUrn,newComponent));
+						}
+					} else if(obj instanceof Actor)
+					{
+						Actor oldActor = (Actor) obj;
+						if (URNElementFinder.findActorByName(targetUrn, oldActor.getName())==null)
+						{
+							Actor newActor = (Actor) EcoreUtil.copy(oldActor);
+							resetCloneId(newActor);
+							add(new CreateContainerCommand(targetUrn,newActor));
+						}
+					}
+					else
+						System.out.println("TODO: Paste " + obj);
+				}
+			}
 		}		
 	}
 
@@ -225,14 +269,17 @@ public class PasteCommand extends CompoundCommand
 		if (found)
 		{
 			// we've selected something that is copiable. 
-			found = (getFirstResponsibility() != null || getFirstPathNode()!=null) && (insertionPoint instanceof NodeConnection || insertionPoint instanceof EmptyPoint || insertionPoint instanceof DirectionArrow) && targetMap!=null;
+			found = (insertionPoint instanceof NodeConnection || insertionPoint instanceof EmptyPoint || insertionPoint instanceof DirectionArrow) && targetMap!=null && (getFirstResponsibility() != null || getFirstPathNode()!=null);
 			if (found) return true;
 			
 			
-			found = (getFirstContainer()!=null && insertionPoint instanceof IURNDiagram);
+			found =  insertionPoint instanceof IURNDiagram && (getFirstContainer()!=null);
 			if (found) return true;
 			
-			found =  getFirstComment()!=null && insertionPoint instanceof IURNDiagram;
+			found =  insertionPoint instanceof IURNDiagram && getFirstComment()!=null;
+			if (found) return true;
+			
+			found = insertionPoint instanceof URNspec && getFirstSimple()!=null; 
 			return found;
 		}
 		else
@@ -290,7 +337,28 @@ public class PasteCommand extends CompoundCommand
 		return null;
 	}
 	
-	
+	protected Vector getSimpleList(int maxCount)
+	{
+		if (sourceIds != null && sourceUrn != null && targetUrn != null)
+		{
+			Vector results = new Vector();
+			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
+			{
+				String id = iterator.next().toString();
+
+				// search for the old id in the new model. 
+				Object obj = URNElementFinder.find(sourceUrn, id);
+				
+				if (obj instanceof IURNContainer || obj instanceof Responsibility)
+				{
+					results.add(obj);
+				}
+				if (results.size()>=maxCount && maxCount>0) break;
+			}
+			return results;
+		}
+		return null;
+	}
 	/**
 	 * Builds a list of elements that are ready to be inserted on a diagram. 
 	 * 
@@ -417,6 +485,16 @@ public class PasteCommand extends CompoundCommand
 		else 
 			return (Comment) v.get(0);
 	}
+	
+	protected EObject getFirstSimple()
+	{
+		Vector v=  getSimpleList(1);
+		if (v==null || v.size()==0) 
+			return null;
+		else 
+			return (EObject) v.get(0);
+	}
+	
 	
 	protected PathNode getFirstPathNode()
 	{

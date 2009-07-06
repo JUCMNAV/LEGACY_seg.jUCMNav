@@ -74,6 +74,8 @@ public class PasteAction extends URNSelectionAction
 			case SelectionHelper.MAP:
 				return sel.getMap();
 			}
+			
+			return sel.getUrnspec();
 		}
 
 		return null;

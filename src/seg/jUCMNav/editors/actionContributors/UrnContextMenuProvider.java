@@ -201,7 +201,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         for (int i=0;i<16;i++)
         	actions[i] = getActionRegistry().getAction(ChangeColorAction.generateId(i));
 
-        submenu = new SubmenuAction(actions, "Change fill color", "Change fill color", actions[3].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        submenu = new SubmenuAction(actions, "Change fill color", "Change fill color", actions[3].getImageDescriptor(), true); 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
 

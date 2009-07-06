@@ -525,7 +525,7 @@ public class SelectionHelper {
         }
 
         // just set the URNspec.
-        if (selection.size() > 2) {
+        if (selection.size() > 2 || urnspec==null) {
             for (Iterator iter = selection.iterator(); iter.hasNext();) {
                 Object element = iter.next();
                 if (element instanceof EditPart && ((EditPart) element).getModel() != null) {
@@ -544,7 +544,11 @@ public class SelectionHelper {
                         urnspec = ((IURNContainerRef) model).getDiagram().getUrndefinition().getUrnspec();
                     else if (model instanceof Comment)
                     	urnspec = ((Comment)model).getDiagram().getUrndefinition().getUrnspec();
-
+                    else if (model instanceof Responsibility)
+                    	urnspec = ((Responsibility)model).getUrndefinition().getUrnspec();
+                    else if (model instanceof Component)
+                    	urnspec = ((Component)model).getUrndefinition().getUrnspec();
+                    
                 }
                 if (urnspec != null)
                     break;
