@@ -25,6 +25,7 @@ import org.eclipse.gef.commands.UnexecutableCommand;
 
 import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
+import seg.jUCMNav.model.commands.cutcopypaste.PasteCommand;
 import seg.jUCMNav.model.commands.delete.DeleteGRLGraphCommand;
 import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
 import seg.jUCMNav.model.commands.transformations.DuplicateMapCommand;
@@ -118,69 +119,61 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * 
      * If the command adds or removes a new diagram, it executes the command in a special stack that will refresh the UI properly.   
      * 
-     * TODO: refactor to recurse on compound commands. Only the delete commands currently work in compound commands. all of the commands that add/remove a map should share a common interface. 
-     * 
      */
     public void execute(Command command) {
-        if (command instanceof CompoundCommand) {
-            boolean b = false;
-            for (Iterator iter = ((CompoundCommand) command).getCommands().iterator(); iter.hasNext();) {
-                Command internal = (Command) iter.next();
-
-                if (internal instanceof CompoundCommand) {
-                    if (internal instanceof DeleteGRLGraphCommand) {
-                        lastAffectedDiagram = ((DeleteGRLGraphCommand) internal).getDiagram();
-                        stkUrnSpec.execute(command);
-
-                        b = true;
-                    } else if (internal instanceof DeleteMapCommand) {
-                        lastAffectedDiagram = ((DeleteMapCommand) internal).getDiagram();
-                        stkUrnSpec.execute(command);
-
-                        b = true;
-                    } else{
-                        for (Iterator iterator = ((CompoundCommand) internal).getCommands().iterator(); iterator.hasNext();) {
-                            Command internal2 = (Command) iterator.next();
-                            if (internal2 instanceof DeleteMapCommand) {
-                                lastAffectedDiagram = ((DeleteMapCommand) internal2).getDiagram();
-                                stkUrnSpec.execute(internal2);
-    
-                                b = true;
-                            } 
-                            if (internal2 instanceof DeleteGRLGraphCommand) {
-                                lastAffectedDiagram = ((DeleteGRLGraphCommand) internal2).getDiagram();
-                                stkUrnSpec.execute(internal2);
-
-                                b = true;
-                            } 
-                        }
-                    }
-                }
-
-            }
-            if (b)
-                return;
-
-        } else if (command instanceof CreateMapCommand) {
-            lastAffectedDiagram = ((CreateMapCommand) command).getMap();
-            stkUrnSpec.execute(command);
-            return;
-        } else if (command instanceof CreateGrlGraphCommand){
-            lastAffectedDiagram = ((CreateGrlGraphCommand) command).getDiagram();
-            stkUrnSpec.execute(command);
-            return;
-        } else if (command instanceof DuplicateMapCommand) {
-            lastAffectedDiagram = ((DuplicateMapCommand) command).getNewDiagram();
-        	stkUrnSpec.execute(command);
-  
-            return;        	
-        }
+    	if (command instanceof PasteCommand)
+    	{
+			PasteCommand pasteCommand = (PasteCommand) command;
+			pasteCommand.build(); // typically built later during execution. 
+    	}
+    	
+    	
+    	boolean b = checkSimpleCommand(command);
+		if (b)return;
+		
 
         if (null != currentCommandStack) {
             flushURNspecStack();
             currentCommandStack.execute(command);
         }
     }
+
+	private boolean checkSimpleCommand(Command command)
+	{
+		if (command instanceof CreateMapCommand) {
+            lastAffectedDiagram = ((CreateMapCommand) command).getMap();
+            stkUrnSpec.execute(command);
+            return true;
+        } else if (command instanceof CreateGrlGraphCommand){
+            lastAffectedDiagram = ((CreateGrlGraphCommand) command).getDiagram();
+            stkUrnSpec.execute(command);
+            return true;
+        } else if (command instanceof DuplicateMapCommand) {
+            lastAffectedDiagram = ((DuplicateMapCommand) command).getNewDiagram();
+        	stkUrnSpec.execute(command);
+        	return true;        	
+        } else if (command instanceof DeleteGRLGraphCommand) {
+            lastAffectedDiagram = ((DeleteGRLGraphCommand) command).getDiagram();
+            stkUrnSpec.execute(command);
+            return true;
+        } else if (command instanceof DeleteMapCommand) {
+            lastAffectedDiagram = ((DeleteMapCommand) command).getDiagram();
+            stkUrnSpec.execute(command);
+            return true;
+        }  
+		
+        if (command instanceof CompoundCommand) {
+            for (Iterator iter = ((CompoundCommand) command).getCommands().iterator(); iter.hasNext();) {
+                Command internal = (Command) iter.next();
+                
+                // recurse
+                boolean  b = checkSimpleCommand(internal);
+                if (b) return true;
+            }
+        }
+		
+		return false;
+	}
 
     /*
      * (non-Javadoc)

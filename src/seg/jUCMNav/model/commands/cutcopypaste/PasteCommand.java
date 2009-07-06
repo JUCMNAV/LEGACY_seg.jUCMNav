@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.cutcopypaste;
 
 import grl.Actor;
 import grl.ActorRef;
+import grl.GRLGraph;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import seg.jUCMNav.model.commands.create.DuplicateCommand;
 import seg.jUCMNav.model.commands.create.IncludePathNodeInScenarioCommand;
 import seg.jUCMNav.model.commands.create.IncludeScenarioCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
+import seg.jUCMNav.model.commands.transformations.DuplicateMapCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.util.Clipboard;
@@ -69,6 +71,7 @@ import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.Responsibility;
+import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
 public class PasteCommand extends CompoundCommand
@@ -82,6 +85,8 @@ public class PasteCommand extends CompoundCommand
 	protected IURNDiagram targetDiagram;
 	protected UCMmap targetMap;
 	protected URNspec targetUrn;
+	
+	protected boolean alreadyBuilt;
 	
 	public PasteCommand(EObject insertionPoint, URNspec targetUrn, IURNDiagram targetMap, Point nodeConnectionMiddle, Point cursorLocation)
 	{
@@ -99,10 +104,13 @@ public class PasteCommand extends CompoundCommand
 		sourceIds = clip.getSelectedIds();
 		sourceUrn = clip.getOriginalURNspec();
 		sourceSelection = clip.getSelection();
+		alreadyBuilt=false;
 	}
 
 	public void build()
 	{
+		if (alreadyBuilt==true) return;
+		
 		if (insertionPoint==null)
 			return; 
 		else
@@ -184,7 +192,11 @@ public class PasteCommand extends CompoundCommand
 					{
 						Actor oldActor = (Actor) obj;
 						buildActor(oldActor);
-					} 
+					} else if (obj instanceof IURNDiagram)
+					{
+						IURNDiagram oldDiagram = (IURNDiagram) obj;
+						buildDiagram(oldDiagram);
+					}
 					else
 						System.out.println("TODO: Paste " + obj);
 				}
@@ -211,7 +223,9 @@ public class PasteCommand extends CompoundCommand
 					}				
 				}	
 			}
-		}		
+		}
+		
+		alreadyBuilt=true;
 	}
 
 	private void buildActor(Actor oldActor)
@@ -258,6 +272,20 @@ public class PasteCommand extends CompoundCommand
 		}
 	}
 
+	private void buildDiagram(IURNDiagram oldDiagram)
+	{
+		String oldName = ((URNmodelElement)oldDiagram).getName();
+		IURNDiagram toClone= URNElementFinder.findMapByName(targetUrn, oldName);
+		if (toClone instanceof UCMmap)
+		{
+			add(new DuplicateMapCommand((UCMmap)toClone));
+		}
+		else if (toClone instanceof GRLGraph)
+		{
+			add(new DuplicateMapCommand((GRLGraph)toClone));
+		}
+	}
+	
 	private void buildDividePath(PathNode oldPn, PathNode newPathNode)
 	{
 		DividePathCommand cmd = null;
@@ -728,7 +756,7 @@ public class PasteCommand extends CompoundCommand
 				// search for the old id in the old model. 
 				Object obj = URNElementFinder.find(sourceUrn, id);
 				
-				if (obj instanceof IURNContainer || obj instanceof Responsibility)
+				if (obj instanceof IURNContainer || obj instanceof Responsibility || obj instanceof IURNDiagram)
 				{
 					results.add(obj);
 				}

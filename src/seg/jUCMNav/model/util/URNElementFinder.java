@@ -313,7 +313,7 @@ public class URNElementFinder {
     /**
      * Given a URN spec, find the diagram having the passed name or return null.
      * 
-     * Note that diagram names are not constrained to be unique. Will return the first occurence.
+     * Note that diagram names are not constrained to be unique. Will return the first occurrence.
      * 
      * @param urn
      * @param name
