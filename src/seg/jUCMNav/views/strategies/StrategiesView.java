@@ -271,7 +271,12 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             bars.setGlobalActionHandler(id, multieditor.getActionRegistry().getAction(id));
             id = ActionFactory.DELETE.getId();
             bars.setGlobalActionHandler(id, multieditor.getActionRegistry().getAction(id));
-
+            id = ActionFactory.PASTE.getId();
+            bars.setGlobalActionHandler(id, multieditor.getActionRegistry().getAction(id));
+            id = ActionFactory.COPY.getId();
+            bars.setGlobalActionHandler(id, multieditor.getActionRegistry().getAction(id));        
+            id = ActionFactory.CUT.getId();
+            bars.setGlobalActionHandler(id, multieditor.getActionRegistry().getAction(id));   
            
             //Hook context menu
 

@@ -3,8 +3,10 @@ package seg.jUCMNav.model.util;
 import java.util.List;
 
 import org.eclipse.gef.dnd.SimpleObjectTransfer;
+import org.eclipse.swt.dnd.ImageTransfer;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.ImageData;
 
 import urn.URNspec;
 
@@ -141,12 +143,12 @@ public class Clipboard
 	 * @param contents
 	 *            the new contents
 	 */
-	public void setContents(Object contents)
+	public void setContents(Object contents, ImageData image)
 	{
 		org.eclipse.swt.dnd.Clipboard cb = new org.eclipse.swt.dnd.Clipboard(null);
 		String contentString = null;
 
-		// TODO: Improve it so that it supports a better textual representation.
+		// TODO: Improve it so that it supports a better textual representation, if we feel that is important. 
 		if (contents != null && contents instanceof Object[])
 		{
 			Object[] arr = (Object[]) contents;
@@ -156,7 +158,12 @@ public class Clipboard
 			else
 				contentString = contents.toString();
 		}
-		cb.setContents(new Object[] { contents, contentString }, new Transfer[] { TRANSFER, TextTransfer.getInstance() });
+		
+		// if have text in here, it has higher priority than image in ms word. 
+		if (image!=null)
+			cb.setContents(new Object[] { contents, image }, new Transfer[] { TRANSFER, ImageTransfer.getInstance() });
+		else
+			cb.setContents(new Object[] { contents, contentString }, new Transfer[] { TRANSFER, TextTransfer.getInstance() });
 		cb.dispose();
 	}
 

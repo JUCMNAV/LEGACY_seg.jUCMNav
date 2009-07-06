@@ -60,6 +60,15 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
 
         action = getActionRegistry().getAction(ActionFactory.REDO.getId());
         menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
+        
+        action = getActionRegistry().getAction(ActionFactory.CUT.getId());
+        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);      
+
+        action = getActionRegistry().getAction(ActionFactory.COPY.getId());
+        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);      
+
+        action = getActionRegistry().getAction(ActionFactory.PASTE.getId());
+        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);     
 
         action = getActionRegistry().getAction(ActionFactory.DELETE.getId());
         if (action.isEnabled())

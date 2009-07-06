@@ -232,6 +232,13 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         bars.setGlobalActionHandler(id, registry.getAction(id));
         id = ActionFactory.DELETE.getId();
         bars.setGlobalActionHandler(id, registry.getAction(id));
+        id = ActionFactory.PASTE.getId();
+        bars.setGlobalActionHandler(id, registry.getAction(id));
+        id = ActionFactory.COPY.getId();
+        bars.setGlobalActionHandler(id, registry.getAction(id));        
+        id = ActionFactory.CUT.getId();
+        bars.setGlobalActionHandler(id, registry.getAction(id));        
+        
     }
 
     /**

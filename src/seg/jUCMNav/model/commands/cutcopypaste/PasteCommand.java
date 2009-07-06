@@ -24,6 +24,10 @@ import seg.jUCMNav.model.commands.create.CreateContainerCommand;
 import seg.jUCMNav.model.commands.create.CreateEnumerationTypeCommand;
 import seg.jUCMNav.model.commands.create.CreateResponsibilityCommand;
 import seg.jUCMNav.model.commands.create.CreateVariableCommand;
+import seg.jUCMNav.model.commands.create.CreateVariableInitializationCommand;
+import seg.jUCMNav.model.commands.create.DuplicateCommand;
+import seg.jUCMNav.model.commands.create.IncludePathNodeInScenarioCommand;
+import seg.jUCMNav.model.commands.create.IncludeScenarioCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
@@ -51,6 +55,11 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.scenario.EnumerationType;
+import ucm.scenario.Initialization;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
+import ucm.scenario.ScenarioGroup;
+import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Comment;
@@ -66,12 +75,12 @@ public class PasteCommand extends CompoundCommand
 {
 	protected EObject insertionPoint; 
 	protected Point nodeConnectionMiddle, cursorLocation; 
-	protected List sourceSelection;
 	protected List sourceIds;
+	protected List sourceSelection;
 	protected URNspec sourceUrn; 
 
-	protected UCMmap targetMap;
 	protected IURNDiagram targetDiagram;
+	protected UCMmap targetMap;
 	protected URNspec targetUrn;
 	
 	public PasteCommand(EObject insertionPoint, URNspec targetUrn, IURNDiagram targetMap, Point nodeConnectionMiddle, Point cursorLocation)
@@ -145,44 +154,16 @@ public class PasteCommand extends CompoundCommand
 					Stub newStub = (Stub) newPathNode;
 					Stub oldStub = (Stub) oldPn;
 					
-					for (int i=0;i<oldStub.getBindings().size();i++)
-					{
-						PluginBinding binding = (PluginBinding ) oldStub.getBindings().get(i);
-						UCMmap oldMap = binding.getPlugin();
-						UCMmap map = (UCMmap) URNElementFinder.findMap(targetUrn, oldMap.getId());
-						if (map==null)
-						{
-							map = (UCMmap) URNElementFinder.findMapByName(targetUrn, oldMap.getName());
-						}
-						if (map!=null && map!=targetMap) // don't allow plugin to self. 
-						{
-							Condition condition = (Condition) EcoreUtil.copy(binding.getPrecondition());
-							add(new AddPluginCommand(newStub, map, condition));
-						}
-					}
-				}
-			}
-			else if (targetDiagram!=null) 
-			{
-				Vector compRefList = getClonedContainerRefs();
-				if (compRefList != null)
-				{
-					for (Iterator iterator = compRefList.iterator(); iterator.hasNext();)
-					{
-						IURNContainerRef newCompRef = (IURNContainerRef) iterator.next();
-						add(new AddContainerRefCommand(targetDiagram, newCompRef));
-				        add(new SetConstraintBoundContainerRefCompoundCommand(newCompRef, newCompRef.getX(), newCompRef.getY(), newCompRef.getWidth(), newCompRef.getHeight()));
-					}
+					copyStubPlugins(newStub, oldStub);
 				}
 			}
 			
-			if (targetDiagram!=null) {
-				Vector commentList = getClonedComments();
-				for (Iterator iterator = commentList.iterator(); iterator.hasNext();)
-				{
-					Comment comment = (Comment) iterator.next();
-					add(new AddCommentCommand(targetDiagram, comment));
-				}
+			
+			if (targetDiagram!=null) 
+			{
+				buildAllContainerRefs();
+				
+				buildAllComments();
 			}
 			
 			if (targetUrn!=null)
@@ -194,36 +175,87 @@ public class PasteCommand extends CompoundCommand
 					if(obj instanceof Responsibility)
 					{
 						Responsibility oldResp=  (Responsibility)obj;
-						if (URNElementFinder.findResponsibilityByName(targetUrn, oldResp.getName())==null) 
-						{
-							Responsibility newResp = (Responsibility) EcoreUtil.copy(oldResp);
-							resetCloneId(newResp);
-							add(new CreateResponsibilityCommand(targetUrn,newResp));
-						}
+						buildResponsibility(oldResp);
 					} else if(obj instanceof Component)
 					{
 						Component oldComponent = (Component) obj;
-						if (URNElementFinder.findComponentByName(targetUrn, oldComponent.getName())==null)
-						{
-							Component newComponent = (Component) EcoreUtil.copy(oldComponent);
-							resetCloneId(newComponent);
-							add(new CreateContainerCommand(targetUrn,newComponent));
-						}
+						buildComponent(oldComponent);
 					} else if(obj instanceof Actor)
 					{
 						Actor oldActor = (Actor) obj;
-						if (URNElementFinder.findActorByName(targetUrn, oldActor.getName())==null)
-						{
-							Actor newActor = (Actor) EcoreUtil.copy(oldActor);
-							resetCloneId(newActor);
-							add(new CreateContainerCommand(targetUrn,newActor));
-						}
-					}
+						buildActor(oldActor);
+					} 
 					else
 						System.out.println("TODO: Paste " + obj);
 				}
+				
+				list = getScenarioList(-1);
+				for (Iterator iterator = list.iterator(); iterator.hasNext();)
+				{
+					EObject obj = (EObject) iterator.next();
+					if(obj instanceof ScenarioDef && insertionPoint instanceof ScenarioGroup)
+					{
+						ScenarioDef oldScenario = (ScenarioDef) obj;
+						buildScenario(oldScenario, (ScenarioGroup) insertionPoint );
+					}				
+				}
+				
+				list = getScenarioGroupList(-1);
+				for (Iterator iterator = list.iterator(); iterator.hasNext();)
+				{
+					EObject obj = (EObject) iterator.next();
+					if(obj instanceof ScenarioGroup)
+					{
+						ScenarioGroup oldScenarioGroup = (ScenarioGroup) obj;
+						buildScenarioGroup(oldScenarioGroup);
+					}				
+				}	
 			}
 		}		
+	}
+
+	private void buildActor(Actor oldActor)
+	{
+		if (URNElementFinder.findActorByName(targetUrn, oldActor.getName())==null)
+		{
+			Actor newActor = (Actor) EcoreUtil.copy(oldActor);
+			resetCloneId(newActor);
+			add(new CreateContainerCommand(targetUrn,newActor));
+		}
+	}
+
+	private void buildAllComments()
+	{
+		Vector commentList = getClonedComments();
+		for (Iterator iterator = commentList.iterator(); iterator.hasNext();)
+		{
+			Comment comment = (Comment) iterator.next();
+			add(new AddCommentCommand(targetDiagram, comment));
+		}
+	}
+
+	private void buildAllContainerRefs()
+	{
+		Vector compRefList = getClonedContainerRefs();
+		if (compRefList != null)
+		{
+			for (Iterator iterator = compRefList.iterator(); iterator.hasNext();)
+			{
+				IURNContainerRef newCompRef = (IURNContainerRef) iterator.next();
+				add(new AddContainerRefCommand(targetDiagram, newCompRef));
+		        add(new SetConstraintBoundContainerRefCompoundCommand(newCompRef, newCompRef.getX(), newCompRef.getY(), newCompRef.getWidth(), newCompRef.getHeight()));
+			}
+		}
+	}
+
+	private void buildComponent(Component oldComponent)
+	{
+		if (URNElementFinder.findComponentByName(targetUrn, oldComponent.getName())==null)
+		{
+			Component newComponent = (Component) EcoreUtil.copy(oldComponent);
+			resetCloneId(newComponent);
+			add(new CreateContainerCommand(targetUrn,newComponent));
+		}
 	}
 
 	private void buildDividePath(PathNode oldPn, PathNode newPathNode)
@@ -262,6 +294,97 @@ public class PasteCommand extends CompoundCommand
 			add(cmd);
 	}
 
+	private void buildResponsibility(Responsibility oldResp)
+	{
+		if (URNElementFinder.findResponsibilityByName(targetUrn, oldResp.getName())==null) 
+		{
+			Responsibility newResp = (Responsibility) EcoreUtil.copy(oldResp);
+			resetCloneId(newResp);
+			add(new CreateResponsibilityCommand(targetUrn,newResp));
+		}
+	}
+
+	private void buildScenario(ScenarioDef oldScenario, ScenarioGroup targetGroup)
+	{
+		if (targetGroup!=null)
+		{
+			
+			// create a shallow copy to break references to stuff we don't know exists. 
+			ScenarioDef newScenario =(ScenarioDef) EcoreUtil.copy(oldScenario);
+			resetCloneId(newScenario);
+			newScenario.getStartPoints().clear();
+			newScenario.getEndPoints().clear();
+			
+			DuplicateCommand duplicateCommand = new DuplicateCommand(newScenario, targetGroup, targetUrn);
+			add(duplicateCommand);
+			
+			ScenarioDef duplicate = (ScenarioDef) duplicateCommand.getDuplicate();
+			for (int i=0;i<oldScenario.getInitializations().size();i++)
+			{
+				Initialization init = (Initialization) oldScenario.getInitializations().get(i);
+				Variable var = URNElementFinder.findVariable(targetUrn, init.getVariable().getId());
+				if (var!=null)
+				{
+					add(new CreateVariableInitializationCommand(var, duplicate, init.getValue() ));
+				}
+			}
+			for (int i=0;i<oldScenario.getStartPoints().size();i++)
+			{
+				ScenarioStartPoint start = (ScenarioStartPoint) oldScenario.getStartPoints().get(i);
+				Object pn = URNElementFinder.find(targetUrn, start.getStartPoint().getId());
+				if (pn!=null && pn instanceof StartPoint)
+				{
+					IncludePathNodeInScenarioCommand inc = new IncludePathNodeInScenarioCommand(duplicate, (PathNode) pn, targetUrn);
+					inc.setClone(start);
+					add(inc);
+				}
+			}
+			for (int i=0;i<oldScenario.getEndPoints().size();i++)
+			{
+				ScenarioEndPoint end = (ScenarioEndPoint) oldScenario.getEndPoints().get(i);
+				Object pn = URNElementFinder.find(targetUrn, end.getEndPoint().getId());
+				if (pn!=null && pn instanceof EndPoint)
+				{
+					IncludePathNodeInScenarioCommand inc = new IncludePathNodeInScenarioCommand(duplicate, (PathNode) pn, targetUrn);
+					inc.setClone(end);
+					add(inc);
+				}
+			}		
+			for (int i=0;i<oldScenario.getIncludedScenarios().size();i++)
+			{
+				ScenarioDef oldChild = (ScenarioDef) oldScenario.getIncludedScenarios().get(i);
+				ScenarioDef newChild = URNElementFinder.findScenario(targetUrn, oldChild.getId());
+				if (newChild!=null)
+				{
+					IncludeScenarioCommand inc = new IncludeScenarioCommand(duplicate, newChild,true);
+					add(inc);
+				}
+			}			
+		}
+	}
+
+	private void buildScenarioGroup(ScenarioGroup oldScenarioGroup)
+	{
+		if (insertionPoint instanceof URNspec) 
+		{
+			ScenarioGroup newScenarioGroup =(ScenarioGroup) EcoreUtil.copy(oldScenarioGroup);
+			resetCloneId(newScenarioGroup);
+			
+			newScenarioGroup.getScenarios().clear();
+			DuplicateCommand duplicateCommand = new DuplicateCommand(newScenarioGroup, targetUrn);
+			add(duplicateCommand);
+			
+			ScenarioGroup duplicate = (ScenarioGroup) duplicateCommand.getDuplicate();
+			
+			for (Iterator iterator = oldScenarioGroup.getScenarios().iterator(); iterator.hasNext();)
+			{
+				ScenarioDef oldScenario = (ScenarioDef) iterator.next();
+				buildScenario(oldScenario, duplicate);
+			}
+		}
+	}
+
+	
 	public boolean canExecute()
 	{
 		boolean found = insertionPoint != null;
@@ -279,6 +402,12 @@ public class PasteCommand extends CompoundCommand
 			found =  insertionPoint instanceof IURNDiagram && getFirstComment()!=null;
 			if (found) return true;
 			
+			found = insertionPoint instanceof ScenarioGroup && getFirstScenario()!=null;
+			if (found) return true;
+			
+			found = insertionPoint instanceof URNspec && getFirstScenarioGroup()!=null;
+			if (found) return true;
+			
 			found = insertionPoint instanceof URNspec && getFirstSimple()!=null; 
 			return found;
 		}
@@ -286,11 +415,35 @@ public class PasteCommand extends CompoundCommand
 			return false;
 	}
 
+	private void copyStubPlugins(Stub newStub, Stub oldStub)
+	{
+		for (int i=0;i<oldStub.getBindings().size();i++)
+		{
+			PluginBinding binding = (PluginBinding ) oldStub.getBindings().get(i);
+			UCMmap oldMap = binding.getPlugin();
+			UCMmap map = (UCMmap) URNElementFinder.findMap(targetUrn, oldMap.getId());
+			if (map==null)
+			{
+				map = (UCMmap) URNElementFinder.findMapByName(targetUrn, oldMap.getName());
+			}
+			if (map!=null && map!=targetMap) // don't allow plugin to self. 
+			{
+				Condition condition = (Condition) EcoreUtil.copy(binding.getPrecondition());
+				add(new AddPluginCommand(newStub, map, condition));
+			}
+		}
+	}
+
 	public void execute()
 	{
 		build();
 		super.execute();
 		postBuild();
+	}
+	
+	protected Vector getClonedComments()
+	{
+		return getCommentList(-1);
 	}
 	
 	/***
@@ -301,11 +454,6 @@ public class PasteCommand extends CompoundCommand
 	protected Vector getClonedContainerRefs()
 	{
 		return getContainerList(-1, true);
-	}
-	
-	protected Vector getClonedComments()
-	{
-		return getCommentList(-1);
 	}
 	protected Vector getCommentList(int maxCount)
 	{
@@ -337,28 +485,6 @@ public class PasteCommand extends CompoundCommand
 		return null;
 	}
 	
-	protected Vector getSimpleList(int maxCount)
-	{
-		if (sourceIds != null && sourceUrn != null && targetUrn != null)
-		{
-			Vector results = new Vector();
-			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
-			{
-				String id = iterator.next().toString();
-
-				// search for the old id in the new model. 
-				Object obj = URNElementFinder.find(sourceUrn, id);
-				
-				if (obj instanceof IURNContainer || obj instanceof Responsibility)
-				{
-					results.add(obj);
-				}
-				if (results.size()>=maxCount && maxCount>0) break;
-			}
-			return results;
-		}
-		return null;
-	}
 	/**
 	 * Builds a list of elements that are ready to be inserted on a diagram. 
 	 * 
@@ -462,6 +588,14 @@ public class PasteCommand extends CompoundCommand
 		}
 		return null;
 	}
+	protected Comment getFirstComment()
+	{
+		Vector v=  getCommentList(1);
+		if (v==null || v.size()==0) 
+			return null;
+		else 
+			return (Comment) v.get(0);
+	}
 	
 	/***
 	 * Special case for components.
@@ -476,25 +610,6 @@ public class PasteCommand extends CompoundCommand
 		else 
 			return (IURNContainer) v.get(0);
 	}
-	
-	protected Comment getFirstComment()
-	{
-		Vector v=  getCommentList(1);
-		if (v==null || v.size()==0) 
-			return null;
-		else 
-			return (Comment) v.get(0);
-	}
-	
-	protected EObject getFirstSimple()
-	{
-		Vector v=  getSimpleList(1);
-		if (v==null || v.size()==0) 
-			return null;
-		else 
-			return (EObject) v.get(0);
-	}
-	
 	
 	protected PathNode getFirstPathNode()
 	{
@@ -572,6 +687,108 @@ public class PasteCommand extends CompoundCommand
 		}
 		return null;
 	}
+	
+	
+	protected EObject getFirstSimple()
+	{
+		Vector v=  getSimpleList(1);
+		if (v==null || v.size()==0) 
+			return null;
+		else 
+			return (EObject) v.get(0);
+	}
+
+	protected EObject getFirstScenario()
+	{
+		Vector v=  getScenarioList(1);
+		if (v==null || v.size()==0) 
+			return null;
+		else 
+			return (EObject) v.get(0);
+	}
+	
+	protected EObject getFirstScenarioGroup()
+	{
+		Vector v=  getScenarioGroupList(1);
+		if (v==null || v.size()==0) 
+			return null;
+		else 
+			return (EObject) v.get(0);
+	}
+		
+	protected Vector getSimpleList(int maxCount)
+	{
+		if (sourceIds != null && sourceUrn != null && targetUrn != null)
+		{
+			Vector results = new Vector();
+			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
+			{
+				String id = iterator.next().toString();
+
+				// search for the old id in the old model. 
+				Object obj = URNElementFinder.find(sourceUrn, id);
+				
+				if (obj instanceof IURNContainer || obj instanceof Responsibility)
+				{
+					results.add(obj);
+				}
+				if (results.size()>=maxCount && maxCount>0) break;
+			}
+			return results;
+		}
+		return null;
+	}
+	
+	protected Vector getScenarioList(int maxCount)
+	{
+		if (sourceIds != null && sourceUrn != null && targetUrn != null)
+		{
+			Vector results = new Vector();
+			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
+			{
+				String id = iterator.next().toString();
+
+				// search for the old id in the old model. 
+				Object obj = URNElementFinder.find(sourceUrn, id);
+				
+				if ( obj instanceof ScenarioDef)
+				{
+					results.add(obj);
+				} else if (obj instanceof ScenarioGroup)
+				{
+					for (int i=0;i<((ScenarioGroup)obj).getScenarios().size();i++)
+						results.add(((ScenarioGroup)obj).getScenarios().get(i));
+				}
+				if (results.size()>=maxCount && maxCount>0) break;
+			}
+			return results;
+		}
+		return null;
+	}
+	
+	protected Vector getScenarioGroupList(int maxCount)
+	{
+		if (sourceIds != null && sourceUrn != null && targetUrn != null)
+		{
+			Vector results = new Vector();
+			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
+			{
+				String id = iterator.next().toString();
+
+				// search for the old id in the old model. 
+				Object obj = URNElementFinder.find(sourceUrn, id);
+				
+				if ( obj instanceof ScenarioGroup)
+				{
+					results.add(obj);
+				}
+				if (results.size()>=maxCount && maxCount>0) break;
+			}
+			return results;
+		}
+		return null;
+	}
+	
 	protected boolean IsPastablePathNode(Object obj)
 	{
 		return obj instanceof PathNode && !(obj instanceof EndPoint) && !(obj instanceof StartPoint) && !(obj instanceof Connect);   
@@ -653,29 +870,6 @@ public class PasteCommand extends CompoundCommand
 		clone.setName(name);
 	}
 
-	private void setNewContainerConstraints(IURNContainerRef newCompRef, IURNContainerRef oldCompRef, IURNContainerRef offsetFrom)
-	{
-		if (cursorLocation!=null) 
-		{
-			int x=cursorLocation.x,y=cursorLocation.y;
-			
-			if (offsetFrom!=null)
-			{
-				x += oldCompRef.getX()-offsetFrom.getX();
-				y += oldCompRef.getY()-offsetFrom.getY();
-			}
-			
-			newCompRef.setX(x);
-			newCompRef.setY(y);
-		}
-		
-		if (oldCompRef!=null)
-		{
-			newCompRef.setWidth(oldCompRef.getWidth());
-			newCompRef.setHeight(oldCompRef.getHeight());
-		}
-	}
-
 	private void setNewCommentConstraints(Comment newComment, Comment oldComment, Comment offsetFrom)
 	{
 		if (cursorLocation!=null) 
@@ -696,6 +890,29 @@ public class PasteCommand extends CompoundCommand
 		{
 			newComment.setWidth(oldComment.getWidth());
 			newComment.setHeight(oldComment.getHeight());
+		}
+	}
+
+	private void setNewContainerConstraints(IURNContainerRef newCompRef, IURNContainerRef oldCompRef, IURNContainerRef offsetFrom)
+	{
+		if (cursorLocation!=null) 
+		{
+			int x=cursorLocation.x,y=cursorLocation.y;
+			
+			if (offsetFrom!=null)
+			{
+				x += oldCompRef.getX()-offsetFrom.getX();
+				y += oldCompRef.getY()-offsetFrom.getY();
+			}
+			
+			newCompRef.setX(x);
+			newCompRef.setY(y);
+		}
+		
+		if (oldCompRef!=null)
+		{
+			newCompRef.setWidth(oldCompRef.getWidth());
+			newCompRef.setHeight(oldCompRef.getHeight());
 		}
 	}
 	

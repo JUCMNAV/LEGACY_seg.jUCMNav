@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.model.commands.create;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
@@ -30,6 +31,8 @@ public class IncludePathNodeInScenarioCommand extends Command implements JUCMNav
 	private ScenarioEndPoint endPoint;
 	private URNspec urn;
 	
+	private EObject clone;
+
 	/**
 	 * 
 	 */
@@ -53,15 +56,38 @@ public class IncludePathNodeInScenarioCommand extends Command implements JUCMNav
 		return  parent != null && child != null && (child instanceof StartPoint || child instanceof EndPoint) && urn!=null;
 	}
 
+	public EObject getClone()
+	{
+		return clone;
+	}
+	public void setClone(EObject clone)
+	{
+		this.clone = clone;
+	}
+	
 	/**
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		if (child instanceof StartPoint)
+		if (child instanceof StartPoint) {
 			startPoint = (ScenarioStartPoint) ModelCreationFactory.getNewObject(urn, ScenarioStartPoint.class);
-		else if (child instanceof EndPoint)
+			if (clone instanceof ScenarioStartPoint)
+			{
+				ScenarioStartPoint scenarioStartPoint = (ScenarioStartPoint) clone;
+				startPoint.setEnabled(scenarioStartPoint.isEnabled());
+			}
+		}
+		else if (child instanceof EndPoint) {
 			endPoint = (ScenarioEndPoint) ModelCreationFactory.getNewObject(urn, ScenarioEndPoint.class);
+			if (clone instanceof ScenarioEndPoint)
+			{
+				ScenarioEndPoint scenarioEndPoint = (ScenarioEndPoint) clone;
+				endPoint.setEnabled(scenarioEndPoint.isEnabled());
+				endPoint.setMandatory(scenarioEndPoint.isMandatory());
+			}
+		}
 
+		
 		redo();
 	}
 

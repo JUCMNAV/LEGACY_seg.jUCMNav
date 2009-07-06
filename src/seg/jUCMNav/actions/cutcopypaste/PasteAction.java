@@ -73,11 +73,14 @@ public class PasteAction extends URNSelectionAction
 			case SelectionHelper.COMPONENTREF:
 			case SelectionHelper.MAP:
 				return sel.getMap();
+			case SelectionHelper.SCENARIOGROUP:
+				return sel.getScenarioGroup();
 			}
-			
+
 			return sel.getUrnspec();
 		}
 
+		
 		return null;
 	}
 

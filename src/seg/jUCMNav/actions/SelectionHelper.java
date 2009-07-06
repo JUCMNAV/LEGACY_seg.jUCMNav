@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
+import seg.jUCMNav.editparts.treeEditparts.LabelTreeEditPart;
 import ucm.UCMspec;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -548,8 +549,21 @@ public class SelectionHelper {
                     	urnspec = ((Responsibility)model).getUrndefinition().getUrnspec();
                     else if (model instanceof Component)
                     	urnspec = ((Component)model).getUrndefinition().getUrnspec();
-                    
+                    else if (model instanceof ScenarioDef)
+                    	urnspec = ((ScenarioDef)model).getGroup().getUcmspec().getUrnspec();
+                    else if (model instanceof ScenarioGroup)
+                    	urnspec = ((ScenarioGroup)model).getUcmspec().getUrnspec();
+                    else if (model instanceof EvaluationStrategy)
+                    	urnspec = ((EvaluationStrategy)model).getGroup().getGrlspec().getUrnspec();
+                    else if (model instanceof StrategiesGroup)
+                    	urnspec = ((StrategiesGroup)model).getGrlspec().getUrnspec();                    
                 }
+                
+                if (urnspec==null && element instanceof LabelTreeEditPart)
+                {
+                	urnspec = ((LabelTreeEditPart)element).getURNSpec();
+                }
+                
                 if (urnspec != null)
                     break;
             }

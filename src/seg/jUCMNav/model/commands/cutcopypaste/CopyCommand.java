@@ -7,6 +7,7 @@ import java.util.Vector;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.swt.graphics.ImageData;
 
 import seg.jUCMNav.model.util.Clipboard;
 import urn.URNspec;
@@ -16,12 +17,13 @@ public class CopyCommand extends Command
 {
 	private List selection;
 	private URNspec urn;
+	private ImageData screenshot;
 
-	public CopyCommand(URNspec urn, List selection)
+	public CopyCommand(URNspec urn, List selection, ImageData screenshot)
 	{
 		this.selection = selection;
 		this.urn = urn;
-
+		this.screenshot = screenshot;
 	}
 
 	public void redo()
@@ -45,7 +47,7 @@ public class CopyCommand extends Command
 		}
 
 		// deep copy of the model plus the selected ids. 
-		c.setContents(new Object[] { EcoreUtil.copy(urn), selectedModelElements, selection});
+		c.setContents(new Object[] { EcoreUtil.copy(urn), selectedModelElements, selection}, screenshot);
 	}
 
 	public void execute()

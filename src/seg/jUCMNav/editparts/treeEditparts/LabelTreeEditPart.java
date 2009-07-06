@@ -31,7 +31,17 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
         this.root = root;
     }
 
-    /**
+    public URNspec getURNSpec()
+	{
+		return root;
+	}
+
+	public void setURNSpec(URNspec root)
+	{
+		this.root = root;
+	}
+
+	/**
      * Activate listeners
      */
     public void activate() {

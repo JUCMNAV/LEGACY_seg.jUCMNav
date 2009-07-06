@@ -1,5 +1,6 @@
 package seg.jUCMNav.actions.cutcopypaste;
 
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -29,8 +30,12 @@ public class CutAction extends DeleteAction
 	{
 		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 		// Don't need to put this on the stack. 
-		CopyCommand cmd = new CopyCommand(sel.getUrnspec(), getSelectedObjects());
-		cmd.execute();
+		if (sel.getUrnspec()!=null) {
+			ImageData screenshot = CopyAction.buildScreenshot(getWorkbenchPart());
+			
+			CopyCommand cmd = new CopyCommand(sel.getUrnspec(), getSelectedObjects(), screenshot);
+			cmd.execute();
+		}
 		
 		super.run();
 	}

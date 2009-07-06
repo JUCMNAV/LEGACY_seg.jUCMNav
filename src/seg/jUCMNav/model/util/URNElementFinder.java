@@ -18,6 +18,7 @@ import ucm.map.PathNode;
 import ucm.map.UCMmap;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
+import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Component;
 import urncore.GRLmodelElement;
@@ -73,6 +74,8 @@ public class URNElementFinder {
         if ((o = findMap(urn, id)) != null)
             return o;
         if ((o = findScenario(urn, id)) != null)
+            return o;
+        if ((o = findScenarioGroup(urn, id)) != null)
             return o;
         if ((o = findActor(urn, id)) != null) // faster
             return o;        
@@ -400,7 +403,37 @@ public class URNElementFinder {
         return (ScenarioDef) find(v, id);
     }   
     
+    /**
+     * Given a URN spec, find the scenario group having the passed id or return null.
+     * 
+     * @param urn
+     * @param id
+     * @return matching scenario group
+     */
+    public static ScenarioGroup findScenarioGroup(URNspec urn, String id) {
+    	return (ScenarioGroup)find(urn.getUcmspec().getScenarioGroups(), id);
+    }   
     
+    /**
+     * Given a URN spec, find the variable having the passed id or return null.
+     * 
+     * @param urn
+     * @param id
+     * @return matching var
+     */
+    public static Variable findVariable(URNspec urn, String id) {
+        return (Variable) find(urn.getUcmspec().getVariables(), id);
+    }
+    /**
+     * Given a URN spec, find the variable having the passed name or return null.
+     * 
+     * @param urn
+     * @param name
+     * @return matching var
+     */
+    public static Variable findVariableByName(URNspec urn, String name) {
+        return (Variable) findByName(urn.getUcmspec().getVariables(), name);
+    }
     
     /**
      * Returns a sorted list of all actor element names. 
