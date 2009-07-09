@@ -184,7 +184,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 Actor actor = (Actor) getActorRef().getContDef();
                 // Set the tool tip
                 UrnMetadata.setToolTip(actor, figure);
-                if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
+                if (getParent()!=null && !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                     ((ActorFigure) figure).setColors(actor.getLineColor(), actor.getFillColor(), actor.isFilled());
                 } else {
                     ((ActorFigure) figure).setColors("25,25,25", actor.getFillColor(), actor.isFilled()); //$NON-NLS-1$
@@ -195,7 +195,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
             evaluationLabel.setText(""); //$NON-NLS-1$
             
 
-            if (((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
+            if (getParent()!=null&&((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                 // Calculate the actor evaluation
                 String evaluation = calculateEvaluation();
                 if(evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
