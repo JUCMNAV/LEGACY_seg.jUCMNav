@@ -39,6 +39,7 @@ import seg.jUCMNav.actions.ChangeStubTypeAction;
 import seg.jUCMNav.actions.ChangeWaitPlaceTypeAction;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.DeleteUnreferencedDefinitionAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.DuplicateMapAction;
@@ -241,6 +242,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);
 
+        action = getActionRegistry().getAction(DeleteUnreferencedDefinitionAction.DELETEDEF);
+        if(action.isEnabled())
+        	manager.appendToGroup(GROUP_UNCOMMON, action);
+        
         action = getActionRegistry().getAction(ImportAction.IMPORT);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);

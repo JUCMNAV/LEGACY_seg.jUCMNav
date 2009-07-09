@@ -24,11 +24,8 @@ public class KPIInformationElementComponentEditPolicy extends ComponentEditPolic
         if (elem instanceof KPIInformationElement) {
 
             KPIInformationElement kpiInformationElem = (KPIInformationElement) elem;
-            if (kpiInformationElem.getRefs().size() == 0) {
-                DeleteKPIInformationElementCommand deleteCommand = new DeleteKPIInformationElementCommand(kpiInformationElem);
-                return deleteCommand;
-            } else
-                return null;
+            DeleteKPIInformationElementCommand deleteCommand = new DeleteKPIInformationElementCommand(kpiInformationElem);
+            return deleteCommand;
         }
 
         return null;

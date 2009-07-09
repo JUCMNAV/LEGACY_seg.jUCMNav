@@ -23,11 +23,8 @@ public class ActorComponentEditPolicy extends ComponentEditPolicy {
         if (comp instanceof Actor) {
 
             Actor elem = (Actor) comp;
-            if (elem.getContRefs().size() == 0) {
-                DeleteActorCommand deleteCommand = new DeleteActorCommand(elem);
-                return deleteCommand;
-            } else
-                return null;
+            DeleteActorCommand deleteCommand = new DeleteActorCommand(elem);
+            return deleteCommand;
         }
 
         return null;

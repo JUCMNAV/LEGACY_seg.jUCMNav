@@ -8,7 +8,7 @@ import java.util.Vector;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.DeleteNodeConnectionCommand;
-import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
+import seg.jUCMNav.model.commands.delete.internal.RemovePathNodeCommand;
 import seg.jUCMNav.model.commands.transformations.internal.SimplifyForkJoinCommand;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
@@ -298,7 +298,7 @@ public class SimplifyForksAndJoinsCommand extends CompoundCommand {
 //
 //			}
             
-            this.add(new DeletePathNodeCommand(andfork, null));
+            this.add(new RemovePathNodeCommand(andfork, null));
             add(new SimplifyForkJoinCommand(andfork, hmForkToNodeConnection));
 
 		}
@@ -348,7 +348,7 @@ public class SimplifyForksAndJoinsCommand extends CompoundCommand {
 //				}
 //
 //			}
-            this.add(new DeletePathNodeCommand(andjoin, null));
+            this.add(new RemovePathNodeCommand(andjoin, null));
             add(new SimplifyForkJoinCommand(andjoin, hmForkToNodeConnection));
 
 		}

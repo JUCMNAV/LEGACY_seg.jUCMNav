@@ -3,7 +3,7 @@ package seg.jUCMNav.model.commands.transformations;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
+import seg.jUCMNav.model.commands.delete.internal.RemovePathNodeCommand;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
@@ -78,7 +78,7 @@ public class ReplaceEmptyPointCommand extends CompoundCommand {
             int y = empty.getY();
             NodeConnection previous = (NodeConnection) empty.getPred().get(0);
             // I know we won't be using the editpartregistry to replace the empty point or direction arrow.
-            add(new DeletePathNodeCommand(empty, null));
+            add(new RemovePathNodeCommand(empty, null));
             add(new SplitLinkCommand((UCMmap)empty.getDiagram(), newNode, previous, x, y, outgoingCondition));
         }
     }

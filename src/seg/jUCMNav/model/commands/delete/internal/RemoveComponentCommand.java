@@ -31,7 +31,7 @@ public class RemoveComponentCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return getCompDef() != null && getCompDef().getContRefs().size() == 0;
+        return getCompDef() != null;
     }
 
     /**

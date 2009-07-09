@@ -72,6 +72,7 @@ import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import seg.jUCMNav.model.commands.transformations.AddBeliefToIntentionalElementRefCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeDecompositionTypeCommand;
 import seg.jUCMNav.model.util.ParentFinder;
+import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.ComponentRef;
 import ucm.map.UCMmap;
 import urn.URNlink;
@@ -147,6 +148,10 @@ public class JUCMNavGRLCommandTests extends TestCase {
         graph = ((CreateGrlGraphCommand)cmd).getDiagram();
         assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);   
+        
+        //Set the preferences for deleting the references to ALWAYS
+        DeletePreferences.getPreferenceStore().setValue(DeletePreferences.PREF_DELDEFINITION, DeletePreferences.PREF_ALWAYS);
+        DeletePreferences.getPreferenceStore().setValue(DeletePreferences.PREF_DELREFERENCE, DeletePreferences.PREF_ALWAYS);
         
     }
 
@@ -508,11 +513,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
         testContainerRefBindChildCommand();
         Actor actor = (Actor)actorref.getContDef();
 
-        Command cmd = new DeleteActorRefCommand(actorref);
-        assertTrue("Can't execute DeleteActorRefCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-        
-        cmd = new DeleteActorCommand(actor);
+        Command cmd = new DeleteActorCommand(actor);
         assertTrue("Can't execute DeleteActorCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);    
     }
@@ -559,12 +560,8 @@ public class JUCMNavGRLCommandTests extends TestCase {
         testCreateElementLinkCommand_Dependency();
         
         IntentionalElement element = ref.getDef();
-        //The node should be deleted before the definition
-        Command cmd = new DeleteGRLNodeCommand(ref);
-        assertTrue("Can't execute DeleteGRLNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);         
-        
-        cmd = new DeleteIntentionalElementCommand(element);
+
+        Command cmd = new DeleteIntentionalElementCommand(element);
         assertTrue("Can't execute DeleteIntentionalElementCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd); 
     }

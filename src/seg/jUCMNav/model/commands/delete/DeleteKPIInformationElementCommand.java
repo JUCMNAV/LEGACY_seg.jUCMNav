@@ -6,6 +6,7 @@ package seg.jUCMNav.model.commands.delete;
 import grl.EvaluationStrategy;
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPIInformationElementRef;
 import grl.kpimodel.KPIModelLink;
 
 import java.util.Iterator;
@@ -13,7 +14,10 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveKPIInformationElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
+import seg.jUCMNav.views.preferences.DeletePreferences;
 
 /**
  * Delete an KPIInformationElement (including all the KPIModelLink associate to it)
@@ -46,6 +50,16 @@ public class DeleteKPIInformationElementCommand extends CompoundCommand {
         return super.canExecute();
     }
 
+    /**
+     * Returns true even if no commands exist.
+     */
+    public boolean canUndo() {
+        if (getCommands().size() == 0)
+            return true;
+        else
+            return super.canUndo();
+    }
+    
     private void deleteKPIModelLink() {
         if (element.getKpiModelLinksSrc().size() > 0) {
             for (int i = 0; i < element.getKpiModelLinksSrc().size(); i++) {
@@ -83,9 +97,25 @@ public class DeleteKPIInformationElementCommand extends CompoundCommand {
      * 
      */
     private void build() {
-        deleteKPIInformationConfig();
-        // Delete all the KPIModelLink associate with the KPIInformationElement
-        deleteKPIModelLink();
-        add(new RemoveKPIInformationElementCommand(element));
+        //Verify if the definition can be delete.
+        if(element.getRefs().size() == 0 ||
+        		DeletePreferences.getDeleteReference(element))
+        {
+
+	    	deleteKPIInformationConfig();
+	        // Delete all the KPIModelLink associate with the KPIInformationElement
+	        deleteKPIModelLink();
+	        //Add during execute delete of all the references
+	    	for(Iterator it=element.getRefs().iterator(); it.hasNext(); )
+	    	{
+	    		KPIInformationElementRef reference = (KPIInformationElementRef)it.next();
+	            add(new PreDeleteUrnModelElementCommand(reference));
+	            add(new RemoveURNmodelElementCommand(reference));
+	    	}
+	    	
+	        add(new RemoveKPIInformationElementCommand(element));
+	        
+
+        }
     }
 }

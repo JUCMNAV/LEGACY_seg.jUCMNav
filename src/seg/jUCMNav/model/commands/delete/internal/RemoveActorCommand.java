@@ -38,7 +38,7 @@ public class RemoveActorCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return getActorDef() != null && getActorDef().getContRefs().size() == 0;
+        return getActorDef() != null;
     }
 
     /**
@@ -104,7 +104,7 @@ public class RemoveActorCommand extends Command implements JUCMNavCommand {
      * 
      * @see org.eclipse.gef.commands.Command#undo()
      */
-    public void undo() {
+	public void undo() {
         testPostConditions();
 
         // re-add actor

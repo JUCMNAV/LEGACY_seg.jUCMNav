@@ -58,6 +58,7 @@ import seg.jUCMNav.model.commands.transformations.TransmogrifyForkOrJoinCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.model.util.SafePathChecker;
+import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
@@ -133,8 +134,13 @@ public class JUCMNavCommandTests extends TestCase {
         cmd = new SetConstraintBoundContainerRefCompoundCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
         assertTrue("Can't execute SetConstraintBoundContainerRefCompoundCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-
+ 
         testBindings = true;
+        
+        //Set the preferences for deleting to ALWAYS
+        DeletePreferences.getPreferenceStore().setValue(DeletePreferences.PREF_DELDEFINITION, DeletePreferences.PREF_ALWAYS);
+        DeletePreferences.getPreferenceStore().setValue(DeletePreferences.PREF_DELREFERENCE, DeletePreferences.PREF_ALWAYS);
+        
     }
 
     public void initjucmnav() throws CoreException, PartInitException {
@@ -235,6 +241,7 @@ public class JUCMNavCommandTests extends TestCase {
         editor.closeEditor(false);
     }
 
+    
     /**
      * 
      *  
@@ -653,16 +660,8 @@ public class JUCMNavCommandTests extends TestCase {
     public void testDeleteComponentCommand() {
         testSetConstraintComponentRefCommand();
 
-        Command cmd = new DeleteComponentCommand((Component)compRef.getContDef());
-        assertTrue("Should not be able to execute DeleteComponentCommand.", !cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-
         Component compDef = (Component)compRef.getContDef();
-        cmd = new DeleteComponentRefCommand(compRef);
-        assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-
-        cmd = new DeleteComponentCommand(compDef);
+        Command cmd = new DeleteComponentCommand(compDef);
         assertTrue("Can't execute DeleteComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
@@ -673,7 +672,7 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testDeleteComponentRefCommand() {
-        testSetConstraintComponentRefCommand();
+    	testSetConstraintComponentRefCommand();
 
         Command cmd = new DeleteComponentRefCommand(compRef);
         assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
@@ -847,15 +846,6 @@ public class JUCMNavCommandTests extends TestCase {
         Responsibility resp = rr.getRespDef();
 
         Command cmd = new DeleteResponsibilityCommand(resp);
-        assertTrue("Must not be able to delete referenced responsibility.", !cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-
-        
-        cmd = new DeletePathNodeCommand(rr, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
-        assertTrue("Can't delete RespRef", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-
-        cmd = new DeleteResponsibilityCommand(resp);
         assertTrue("Can't execute DeleteResponsibilityCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 

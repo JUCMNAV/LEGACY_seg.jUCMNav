@@ -39,6 +39,14 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
     }
 
     /**
+     * 
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies() {
+        //installEditPolicy(EditPolicy.COMPONENT_ROLE, new ResponsibilityComponentEditPolicy());
+    }
+    
+    /**
      * Stops listening to both the URNspec and the UCMspec.
      * 
      * @see org.eclipse.gef.EditPart#deactivate()

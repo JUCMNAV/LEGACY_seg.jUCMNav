@@ -15,7 +15,6 @@ import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildComma
 import seg.jUCMNav.model.commands.concerns.AssignConcernDiagramCommand;
 import seg.jUCMNav.model.commands.delete.DeleteBindingsCommand;
 import seg.jUCMNav.model.commands.delete.DeleteDemandCommand;
-import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioPathNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteVariableCommand;

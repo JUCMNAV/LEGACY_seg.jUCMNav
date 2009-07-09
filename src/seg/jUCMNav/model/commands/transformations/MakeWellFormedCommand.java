@@ -13,7 +13,7 @@ import seg.jUCMNav.importexport.csm.ExportCSM;
 import seg.jUCMNav.importexport.csm.one2one.CsmExportWarning;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.DuplicateCommand;
-import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
+import seg.jUCMNav.model.commands.delete.internal.RemovePathNodeCommand;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
@@ -173,7 +173,7 @@ public class MakeWellFormedCommand extends CompoundCommand {
 							DuplicateCommand.copyMetadata(urn, da.getMetadata(), pn.getMetadata());
 
 							cs.execute(new SplitLinkCommand((UCMmap)andjoin.getDiagram(), da, (NodeConnection) andjoin.getSucc().get(0), andjoin.getX()+10, andjoin.getY()));
-							cs.execute(new DeletePathNodeCommand(pn, null));
+							cs.execute(new RemovePathNodeCommand(pn, null));
 
 							da.setContRef(ref);
 
@@ -290,7 +290,7 @@ public class MakeWellFormedCommand extends CompoundCommand {
 		IURNContainerRef compRef = andfork.getContRef();
 
 		// delete intermediate fork
-		DeletePathNodeCommand cmd = new DeletePathNodeCommand(andfork, null);
+		RemovePathNodeCommand cmd = new RemovePathNodeCommand(andfork, null);
 		cs.execute(cmd);
 
 		// merge first usedBranch with old fork input

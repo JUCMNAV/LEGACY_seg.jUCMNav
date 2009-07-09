@@ -53,6 +53,7 @@ import seg.jUCMNav.model.commands.delete.DeleteKPIModelLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
 import seg.jUCMNav.model.commands.kpi.AssignIndicatorGroupCommand;
 import seg.jUCMNav.model.util.ParentFinder;
+import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.IURNDiagram;
@@ -131,6 +132,10 @@ public class JUCMNavKPICommandTests extends TestCase {
         assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
+        //Set the preferences for deleting the references to ALWAYS
+        DeletePreferences.getPreferenceStore().setValue(DeletePreferences.PREF_DELDEFINITION, DeletePreferences.PREF_ALWAYS);
+        DeletePreferences.getPreferenceStore().setValue(DeletePreferences.PREF_DELREFERENCE, DeletePreferences.PREF_ALWAYS);
+        
     }
 
     protected void tearDown() throws Exception {

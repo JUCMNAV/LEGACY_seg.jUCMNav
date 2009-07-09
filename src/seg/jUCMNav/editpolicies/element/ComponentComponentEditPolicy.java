@@ -31,11 +31,8 @@ public class ComponentComponentEditPolicy extends ComponentEditPolicy {
             Component elem = (Component) comp;
             
             if (wrapper==null) {
-                if (elem.getContRefs().size() == 0) {
                     DeleteComponentCommand deleteCommand = new DeleteComponentCommand(elem);
                     return deleteCommand;
-                } else
-                    return null;
             } else {
                 RemoveResourceFromComponentCommand deleteCommand = new RemoveResourceFromComponentCommand(wrapper.getComp(), wrapper.getResx());
                 return deleteCommand;

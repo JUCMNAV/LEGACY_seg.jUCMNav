@@ -23,11 +23,8 @@ public class IntentionalElementComponentEditPolicy extends ComponentEditPolicy {
         if (elem instanceof IntentionalElement) {
 
             IntentionalElement intentional = (IntentionalElement) elem;
-            if (intentional.getRefs().size() == 0) {
-                DeleteIntentionalElementCommand deleteCommand = new DeleteIntentionalElementCommand(intentional);
-                return deleteCommand;
-            } else
-                return null;
+            DeleteIntentionalElementCommand deleteCommand = new DeleteIntentionalElementCommand(intentional);
+            return deleteCommand;
         }
 
         return null;

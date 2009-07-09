@@ -52,6 +52,7 @@ import seg.jUCMNav.actions.ChangeStubTypeAction;
 import seg.jUCMNav.actions.ChangeWaitPlaceTypeAction;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.DeleteUnreferencedDefinitionAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.DuplicateMapAction;
@@ -394,6 +395,10 @@ public class ActionRegistryManager
 		action.setText(Messages.getString("ActionRegistryManager.connectElements")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 
+		action = new DeleteUnreferencedDefinitionAction(editor);
+		action.setText("Delete Unreferenced Definitions");
+		addEditPartAction((SelectionAction)action);
+		
 		action = new DisconnectAction(editor);
 		action.setText(Messages.getString("ActionRegistryManager.disconnectElements")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);

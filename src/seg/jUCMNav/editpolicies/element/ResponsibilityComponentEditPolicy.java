@@ -24,13 +24,9 @@ public class ResponsibilityComponentEditPolicy extends ComponentEditPolicy {
         if (resp instanceof Responsibility) {
 
             Responsibility elem = (Responsibility) resp;
-            if (elem.getRespRefs().size() == 0) {
-                DeleteResponsibilityCommand deleteCommand = new DeleteResponsibilityCommand(elem);
-                return deleteCommand;
-            } else
-                return null;
+            DeleteResponsibilityCommand deleteCommand = new DeleteResponsibilityCommand(elem);
+            return deleteCommand;
         }
-
         return null;
     }
 }

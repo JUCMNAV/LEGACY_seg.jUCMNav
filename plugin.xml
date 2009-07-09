@@ -290,6 +290,12 @@
          id="seg.jUCMNav.views.preferences.metrics.MetricsPreferencePage"
          name="%MetricsPreference">
    </page>
+   <page
+         category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+         class="seg.jUCMNav.views.preferences.DefinitionReferencePreferencePage"
+         id="seg.jUCMNav.views.preferences.DefinitionReferencePreferencePage"
+         name="Reference/Definition Preferences">
+   </page>
       </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">

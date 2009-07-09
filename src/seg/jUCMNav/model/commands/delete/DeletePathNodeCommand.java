@@ -1,116 +1,85 @@
+/**
+ * 
+ */
 package seg.jUCMNav.model.commands.delete;
+
+import java.util.Map;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.delete.internal.DeletePathCommand;
-import seg.jUCMNav.model.commands.delete.internal.PostPathManipulationCommand;
-import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
-import seg.jUCMNav.model.commands.delete.internal.PrePathManipulationCommand;
-import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
-import seg.jUCMNav.model.commands.transformations.CutPathCommand;
-import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
-import ucm.map.EmptyPoint;
-import ucm.map.EndPoint;
-import ucm.map.NodeConnection;
+import seg.jUCMNav.model.commands.delete.internal.RemovePathNodeCommand;
+import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.PathNode;
-import ucm.map.StartPoint;
-import ucm.map.UCMmap;
+import ucm.map.RespRef;
 
 /**
- * Deletes a PathNode from the model. Uses many commands from the internal package because some deletions are very complex and impact multiple other UCM
- * elements.
+ * This command is only be called from the edit part. 
  * 
- * @author jkealey
+ * If the path node is a responsibility, and there is no more references,
+ * depending of the preferences, it might also delete the definition.
  * 
+ * @author jfroy
+ *
  */
 public class DeletePathNodeCommand extends CompoundCommand {
 
-    private PathNode pn;
-    private java.util.Map editpartregistry;
-
+	private PathNode pathNode;
+	private Map editPartRegistry;
+	
+	public DeletePathNodeCommand(PathNode pn, java.util.Map editpartregistry)
+	{
+		this.pathNode = pn;
+		this.editPartRegistry = editpartregistry;
+		setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode"));
+		
+	}
+	
     /**
-     * @param pn
-     *            The PathNode to be deleted.
-     * @param editpartregistry
-     *            The Edit Part Viewer's edit part registry. It is sufficient to pass a map containing only the mapping between NodeConnections and
-     *            NodeConnectionEditParts.
-     */
-    public DeletePathNodeCommand(PathNode pn, java.util.Map editpartregistry) {
-        this.pn = pn;
-        this.editpartregistry = editpartregistry;
-        setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode")); //$NON-NLS-1$
-    }
-
-    /**
-     * Builds a command to delete the passed element.
+     * Returns true even if no commands exist.
      * 
-     */
-    private void build() {
-        UCMmap map = (UCMmap)pn.getDiagram();
-
-        if (pn instanceof StartPoint) {
-            add(new DeletePathCommand((StartPoint) pn, editpartregistry));
-        } else if (pn instanceof EndPoint) {
-            add(new DeletePathCommand((EndPoint) pn, editpartregistry));
-        } else {
-            // when deleting a regular pathnode, assuming never has to be replaced by empty point
-            // stubs must not be replaced with empty points even if have 1in/1out because could cause illegal loops.
-            add(new PreDeleteUrnModelElementCommand(pn));
-            add(new PrePathManipulationCommand(pn, editpartregistry));
-            add(new RemoveURNmodelElementCommand(pn));
-            add(new PostPathManipulationCommand(pn));
-
-            if (pn.getSucc().size() == 1 && pn.getPred().size() == 1
-                    && ((NodeConnection) pn.getSucc().get(0)).getTarget() == ((NodeConnection) pn.getPred().get(0)).getSource()) {
-                // deleting last pathnode on a stub's loop.
-                NodeConnection link = (NodeConnection) pn.getPred().get(0);
-                PathNode target = (PathNode)((NodeConnection) pn.getSucc().get(0)).getTarget();
-
-                // because of the lack of a better CutPathCommand, have to enter a bunch of empty points.
-                EmptyPoint empty = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUrndefinition().getUrnspec(), EmptyPoint.class);
-                add(new SplitLinkCommand(map, empty, link, (target.getX() - pn.getX()) / 2 - 25 + pn.getX(), (target.getY() - pn.getY()) / 2 + pn.getY()));
-
-                EmptyPoint middle = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUrndefinition().getUrnspec(), EmptyPoint.class);
-                add(new SplitLinkCommand(map, middle, link, (target.getX() - pn.getX()) / 2 + pn.getX(), (target.getY() - pn.getY()) / 2 + pn.getY()));
-
-                empty = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUrndefinition().getUrnspec(), EmptyPoint.class);
-                add(new SplitLinkCommand(map, empty, link, (target.getX() - pn.getX()) / 2 + 25 + pn.getX(), (target.getY() - pn.getY()) / 2 + pn.getY()));
-                // should be able to break the link.
-                add(new CutPathCommand(map, middle));
-            }
-        }
-
-    }
-
-    /**
-     * Builds commands as late as possible
-     */
-    public void execute() {
-        if (pn.getDiagram() != null) {
-            build();
-            super.execute();
-        }
-    }
-
-    /**
-     * Execute even if no commands exist.
+     * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        if (getCommands().size() == 0)
+        if (getCommands().size() == 0) {
             return true;
-        else
-            return super.canExecute();
+        }
+        return super.canExecute();
     }
 
     /**
-     * Execute even if no commands exist.
+     * Returns true even if no commands exist.
      */
     public boolean canUndo() {
         if (getCommands().size() == 0)
             return true;
         else
-            return super.canUndo();
+            return super.canExecute();
     }
+    
+    /**
+     * Late building
+     */
+    public void execute() {
+    	build();
+        super.execute();
+    }
+
+    /**
+     * Builds a sequence of DeleteGRLNodeCommands
+     * 
+     */
+	private void build() {
+
+		add(new RemovePathNodeCommand(pathNode, editPartRegistry));
+		
+        //Verify if it is a responsibility and if the definition can be delete.
+        if(pathNode instanceof RespRef
+        		&& (((RespRef)pathNode).getRespDef().getRespRefs().size() == 0 ||
+        		DeletePreferences.getDeleteDefinition(pathNode)))
+        {
+        	add(new DeleteResponsibilityCommand(((RespRef)pathNode).getRespDef()));
+        } 
+
+	}
 }

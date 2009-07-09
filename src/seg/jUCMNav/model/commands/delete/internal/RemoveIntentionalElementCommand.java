@@ -46,7 +46,7 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return element != null && element.getRefs().size() == 0;
+        return element != null;
     }
 
     /**
@@ -84,7 +84,6 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
      */
     public void testPreConditions() {
         assert element != null && urn != null : "pre something is null"; //$NON-NLS-1$
-        assert element.getRefs().size() == 0 : "pre can't delete if still referenced."; //$NON-NLS-1$
         assert urn.getGrlspec().getIntElements().contains(element) : "pre element in model"; //$NON-NLS-1$
 
     }

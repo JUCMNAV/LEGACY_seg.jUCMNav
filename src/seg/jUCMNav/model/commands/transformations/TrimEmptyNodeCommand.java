@@ -6,7 +6,7 @@ import java.util.Vector;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
+import seg.jUCMNav.model.commands.delete.internal.RemovePathNodeCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.EmptyPoint;
 import ucm.map.PathNode;
@@ -78,7 +78,7 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
             // don't add if is connected to something.
             if (pn.getPred().size() == 1 && pn.getSucc().size() == 1) {
                 // I know we won't be using the editpartregistry to replace the empty point or direction arrow.
-                add(new DeletePathNodeCommand(pn, null));
+                add(new RemovePathNodeCommand(pn, null));
                 toRemove.add(pn);
             }
         }
