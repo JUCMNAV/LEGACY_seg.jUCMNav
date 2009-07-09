@@ -198,10 +198,12 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 	        file.getWorkspace().removeResourceChangeListener(getResourceTracker());
         }
 
-        // stop listening to all maps for name changes
-        for (int i = 0; i < model.getUrndef().getSpecDiagrams().size(); i++)
-            ((IURNDiagram) model.getUrndef().getSpecDiagrams().get(i)).eAdapters().remove(this);
-        
+        if (model != null) 
+        {
+	        // stop listening to all maps for name changes
+	        for (int i = 0; i < model.getUrndef().getSpecDiagrams().size(); i++)
+	            ((IURNDiagram) model.getUrndef().getSpecDiagrams().get(i)).eAdapters().remove(this);
+        }
         // clear memory cache 
         ScenarioUtils.releaseEnvironment(model);
 

@@ -370,9 +370,11 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue("Can't execute ContainerRefBindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
+        /* already bound by SetConstraintBoundContainerRefCompoundCommand(bindactor,
         cmd = new ContainerRefBindChildCommand(actorref, bindactor);
         assertTrue("Can't execute ContainerRefBindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
+        */
     }
     
     public void testContainerRefUnbindChildCommand(){
@@ -425,31 +427,34 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);  
         
+        /* already done by previous command. 
         cmd = new CreateElementLinkCommand(urnspec, ref3.getDef(), contrib);
         ((CreateElementLinkCommand)cmd).setTarget(ref1.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);  
+        cs.execute(cmd);
+        */  
 
         //Create 3 IntentionalElement in second diagram
         //Create 3 elements in the first graph     
-        IntentionalElementRef ref1Diag2 = (IntentionalElementRef)ModelCreationFactory.getNewObject(urnspec,IntentionalElementRef.class, IntentionalElementType.GOAL);
+        IntentionalElementRef ref1Diag2 = (IntentionalElementRef)ModelCreationFactory.getNewObject(urnspec,IntentionalElementRef.class, IntentionalElementType.GOAL, ref1.getDef());
         cmd = new AddIntentionalElementRefCommand(graph, ref1Diag2);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        IntentionalElementRef ref2Diag2 = (IntentionalElementRef)ModelCreationFactory.getNewObject(urnspec,IntentionalElementRef.class, IntentionalElementType.TASK);
+        IntentionalElementRef ref2Diag2 = (IntentionalElementRef)ModelCreationFactory.getNewObject(urnspec,IntentionalElementRef.class, IntentionalElementType.TASK, ref2.getDef());
         cmd = new AddIntentionalElementRefCommand(graph, ref2Diag2);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);   
-        IntentionalElementRef ref3Diag2 = (IntentionalElementRef)ModelCreationFactory.getNewObject(urnspec,IntentionalElementRef.class, IntentionalElementType.RESSOURCE);
+        IntentionalElementRef ref3Diag2 = (IntentionalElementRef)ModelCreationFactory.getNewObject(urnspec,IntentionalElementRef.class, IntentionalElementType.RESSOURCE, ref3.getDef());
         cmd = new AddIntentionalElementRefCommand(graph, ref3Diag2);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);      
         
+        /*
         //Set the element's definition to the same for both diagrams
         ref1Diag2.setDef(ref1.getDef());
         ref2Diag2.setDef(ref2.getDef());
         ref3Diag2.setDef(ref3.getDef());
-        
+        */
         //Execute the CreateAllLinkRef command
         cmd = new CreateAllLinkRefCommand(ref1Diag2);
         assertTrue("Can't execute CreateAllLinkRefCommand.", cmd.canExecute()); //$NON-NLS-1$

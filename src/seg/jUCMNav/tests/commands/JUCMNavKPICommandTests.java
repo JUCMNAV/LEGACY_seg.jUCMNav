@@ -261,26 +261,29 @@ public class JUCMNavKPICommandTests extends TestCase {
 
         // Create 3 elements in the second graph
         IntentionalElementRef ref1Diag2 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
-                IntentionalElementType.TASK);
+                IntentionalElementType.TASK, ref1.getDef());
         cmd = new AddIntentionalElementRefCommand(graph, ref1Diag2);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         IntentionalElementRef ref2Diag2 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
-                IntentionalElementType.INDICATOR);
+                IntentionalElementType.INDICATOR, ref2.getDef());
         cmd = new AddIntentionalElementRefCommand(graph, ref2Diag2);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        KPIInformationElementRef ref3Diag2 = (KPIInformationElementRef) ModelCreationFactory.getNewObject(urnspec, KPIInformationElementRef.class);
+        KPIInformationElementRef ref3Diag2 = (KPIInformationElementRef) ModelCreationFactory.getNewObject(urnspec, KPIInformationElementRef.class, 0, ref3.getDef());
         cmd = new AddKPIInformationElementRefCommand(graph, ref3Diag2);
         assertTrue("Can't execute AddKPIInformationElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
+        
+        /*
 
         // Set the element's definition to the same for both diagrams
         ref1Diag2.setDef(ref1.getDef());
         ref2Diag2.setDef(ref2.getDef());
         ref3Diag2.setDef(ref3.getDef());
+        */
 
         // Execute the CreateAllLinkRef command
         cmd = new CreateAllLinkRefCommand(ref2Diag2);
