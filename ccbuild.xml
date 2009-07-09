@@ -25,20 +25,6 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 
 	<!-- jucmnav classpath, _should_ be fairly cross-platform -->
 	<patternset id="jucmnav.classpath">
-		<include name="org.apache.lucene*/*.jar" />
-		<include name="org.junit*/*.jar" />
-		<include name="org.eclipse.core*/*.jar" />
-		<include name="org.eclipse.draw*/*.jar" />
-		<include name="org.eclipse.equinox*/*.jar" />
-		<include name="org.eclipse.emf*/*.jar" />
-		<include name="org.eclipse.gef*/*.jar" />
-		<include name="org.eclipse.help*/*.jar" />
-		<include name="org.eclipse.jface*/*.jar" />
-		<include name="org.eclipse.osgi*/*.jar" />
-		<include name="org.eclipse.swt*/*.jar" />
-		<include name="org.eclipse.ui*/*.jar" />
-		<include name="org.eclipse.update*/*.jar" />
-
 		<include name="org.apache.lucene*.jar" />
 		<include name="org.junit*.jar" />
 		<include name="org.eclipse.core*.jar" />
@@ -214,6 +200,7 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 	</target>
 
 	<target name="build.docs" depends="init">
+		<!-- TODO: renable javadoc when command line is not too long. 
 		<javadoc packagenames="seg.jUCMNav.*"
 		           sourcepath="src"
 		           excludepackagenames="seg.jUCMNav.Tests.*"
@@ -236,6 +223,7 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 					<patternset refid="jucmnav.lib.classpath" />
 				</fileset>
 			</classpath>
+			-->
 	</javadoc>
 		<available property="jUCMNavsrc.zip" file="${build.result.folder}/jUCMNavsrc.zip"/>
 		<antcall target="jUCMNavdocs.zip"/>
