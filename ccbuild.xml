@@ -223,10 +223,11 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 					<patternset refid="jucmnav.lib.classpath" />
 				</fileset>
 			</classpath>
-			-->
+			
 	</javadoc>
 		<available property="jUCMNavsrc.zip" file="${build.result.folder}/jUCMNavsrc.zip"/>
 		<antcall target="jUCMNavdocs.zip"/>
+		-->
 	</target>
 
 	<target name="jUCMNavdocs.zip" depends="init">
