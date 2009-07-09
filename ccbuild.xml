@@ -26,7 +26,7 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 	<!-- jucmnav classpath, _should_ be fairly cross-platform -->
 	<patternset id="jucmnav.classpath">
 		<include name="org.apache.lucene*.jar" />
-		<include name="org.junit*.jar" />
+		<include name="org.junit*/*.jar" />
 		<include name="org.eclipse.core*.jar" />
 		<include name="org.eclipse.draw*.jar" />
 		<include name="org.eclipse.emf*.jar" />
