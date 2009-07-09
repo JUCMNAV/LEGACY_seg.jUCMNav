@@ -242,6 +242,18 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     
+    public void testAssertionsEnabled()
+    {
+    	try
+    	{
+    	  assert false;
+    	  fail("Assertions must be enabled via JVM flag -ea or -enableassertions");
+    	}
+    	catch (AssertionError exception)
+    	{
+    	  // Ignore
+    	}    
+    }
     /**
      * 
      *  

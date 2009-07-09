@@ -31,6 +31,7 @@
     </ant>
 -->
     <ant target="ui-test" antfile="${library-file}" dir="${eclipse-home}">
+      <property name="extraVMargs" value=" -ea"/>
       <property name="data-dir" value="${location1}"/>
       <property name="plugin-name" value="${plugin-name}"/>
       <property name="classname" value="seg.jUCMNav.tests.TestAllTestSuite"/>
