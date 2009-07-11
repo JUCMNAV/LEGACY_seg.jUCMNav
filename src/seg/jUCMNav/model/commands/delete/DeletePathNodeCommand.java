@@ -75,7 +75,7 @@ public class DeletePathNodeCommand extends CompoundCommand {
 		
         //Verify if it is a responsibility and if the definition can be delete.
         if(pathNode instanceof RespRef
-        		&& (((RespRef)pathNode).getRespDef().getRespRefs().size() == 0 ||
+        		&& (((RespRef)pathNode).getRespDef().getRespRefs().size() <= 1 &&
         		DeletePreferences.getDeleteDefinition(pathNode)))
         {
         	add(new DeleteResponsibilityCommand(((RespRef)pathNode).getRespDef()));

@@ -9,6 +9,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Shell;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import urncore.URNmodelElement;
 
 /**
@@ -59,7 +60,7 @@ public class DeletePreferences {
     	} else
     	{
     		//Must prompt the user if he wants to delete the definition
-    		MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(new Shell(), "Delete Definition", "There is no more reference associated with this element.\n\nDo you want to delete the definition?", "Remember my decision", false, null, "DELETE_PREFERENCE");
+    		MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(new Shell(), "Delete " + URNNamingHelper.getName(element) + " Definition", "There is no more reference associated with element " + URNNamingHelper.getName(element) + ".\n\nDo you want to delete the definition?", "Remember my decision", false, null, "DELETE_PREFERENCE");
     		if(dialog.getReturnCode() == IDialogConstants.YES_ID)
     		{
 	    		if(dialog.getToggleState())
@@ -96,7 +97,7 @@ public class DeletePreferences {
     	} else
     	{
     		//Must prompt the user if he wants to delete the definition
-    		MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(new Shell(), "Delete " + element.getName() + " Definition and References", element.getName() + " is associated with references.\n\nDo you want to delete the definition and references?", "Remember my decision", false, null, "DELETE_REFPREFERENCE");
+    		MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(new Shell(), "Delete " + URNNamingHelper.getName(element) + " Definition and References", URNNamingHelper.getName(element) + " is associated with references.\n\nDo you want to delete the definition and references?", "Remember my decision", false, null, "DELETE_REFPREFERENCE");
     		if(dialog.getReturnCode() == IDialogConstants.YES_ID)
     		{
 	    		if(dialog.getToggleState())
