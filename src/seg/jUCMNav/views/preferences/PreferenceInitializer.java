@@ -19,16 +19,16 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
      */
     public void initializeDefaultPreferences() {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_STUBLABELCOLOR, ColorManager.PURPLE.getRGB());
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_CONDITIONLABELCOLOR, ColorManager.VERYDARKGRAY.getRGB());
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_LINKREFLABELCOLOR, ColorManager.DARKGRAY.getRGB());
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_KPIMODELLINKREFLABELCOLOR, ColorManager.DARKGRAY.getRGB());
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_FILLCOLOR, ColorManager.WHITE.getRGB());
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_LINECOLOR, ColorManager.BLACK.getRGB());
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_SELECTEDCOLOR, ColorManager.BLUE.getRGB());
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_HOVERCOLOR, ColorManager.LIGHTGRAY.getRGB());
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_TRAVERSALCOLOR, ColorManager.RED.getRGB());
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_POINTCUTBORDERCOLOR, ColorManager.DARKGRAY.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_STUBLABELCOLOR, ColorManager.PURPLE.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_CONDITIONLABELCOLOR, ColorManager.VERYDARKGRAY.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_LINKREFLABELCOLOR, ColorManager.DARKGRAY.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_KPIMODELLINKREFLABELCOLOR, ColorManager.DARKGRAY.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_FILLCOLOR, ColorManager.WHITE.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_LINECOLOR, ColorManager.BLACK.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_SELECTEDCOLOR, ColorManager.BLUE.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_HOVERCOLOR, ColorManager.LIGHTGRAY.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_TRAVERSALCOLOR, ColorManager.RED.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_POINTCUTBORDERCOLOR, ColorManager.DARKGRAY.getRGB());
         
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_AUTHOR, System.getProperty("user.name")); //$NON-NLS-1$
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_STRICTCODEEDITOR, true);
@@ -37,6 +37,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_GRLAUTOADDLINKS, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_NEWGRL, false);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_NEWUCM, true);
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(OutlinePreferences.PREF_SHOWEMPTYPOINT, true);
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(OutlinePreferences.PREF_SHOWNODENUMBER, true);
+        
         
         // done elsewhere
         AutoLayoutPreferences.createPreferences();

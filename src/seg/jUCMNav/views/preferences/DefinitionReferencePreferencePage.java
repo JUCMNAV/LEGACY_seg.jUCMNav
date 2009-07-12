@@ -42,7 +42,7 @@ public class DefinitionReferencePreferencePage extends FieldEditorPreferencePage
 		RadioGroupFieldEditor deleteDefinition= new RadioGroupFieldEditor(DeletePreferences.PREF_DELDEFINITION, "Delete definition when deleting the last reference", 3, values, getFieldEditorParent());
 		addField(deleteDefinition);
 
-		RadioGroupFieldEditor deleteReference= new RadioGroupFieldEditor(DeletePreferences.PREF_DELREFERENCE, "Delete definition with references", 3, values, getFieldEditorParent());
+		RadioGroupFieldEditor deleteReference= new RadioGroupFieldEditor(DeletePreferences.PREF_DELREFERENCE, "Allow to delete referenced definitions", 3, values, getFieldEditorParent());
 		addField(deleteReference);
 		
     }

@@ -43,6 +43,7 @@ import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editparts.concernsTreeEditparts.ConcernsTreeEditPartFactory;
 import seg.jUCMNav.editparts.treeEditparts.TreeEditPartFactory;
 import seg.jUCMNav.views.dnd.UrnTemplateTransferDragSourceListener;
+import seg.jUCMNav.views.preferences.OutlinePreferences;
 
 /**
  * Creates an outline pagebook for both UCMNavMultiPageEditor and UcmEditor. Supports three views: 
@@ -65,6 +66,9 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
     private Control concerns;
     private PageBook pageBook;
     private IAction showOutlineAction, showOverviewAction, showConcernsAction;
+    //Preference action
+    private IAction showEmptyPointAction, showNodeNumberAction;
+    
     private Thumbnail thumbnail;
 
     /**
@@ -123,6 +127,36 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         showOverviewAction.setToolTipText(Messages.getString("UrnOutlinePage.GraphicalOverview")); //$NON-NLS-1$
         showOverviewAction.setText(Messages.getString("UrnOutlinePage.GraphicalOverview")); //$NON-NLS-1$
         tbm.add(showOverviewAction);
+        
+        tbm.add(new Separator());
+        
+        //Preferences action
+        showEmptyPointAction = new Action() {
+        	public void run() {
+        		OutlinePreferences.setShowEmptyPoint(showEmptyPointAction.isChecked());
+        		getViewer().setContents(getViewer().getContents());
+        	}
+        };
+        
+        showEmptyPointAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Node16.gif")); //$NON-NLS-1$
+        showEmptyPointAction.setToolTipText("Show Empty Points"); 
+        showEmptyPointAction.setText("Show Empty Points");
+        showEmptyPointAction.setChecked(OutlinePreferences.getShowEmptyPoint());
+        tbm.add(showEmptyPointAction); 
+ 
+        showNodeNumberAction = new Action() {
+        	public void run() {
+        		OutlinePreferences.setShowNodeNumber(showNodeNumberAction.isChecked());
+        		//To refresh the viewer
+        		getViewer().setContents(getViewer().getContents());
+        	}
+        };
+        
+        showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/condition.gif")); //$NON-NLS-1$
+        showNodeNumberAction.setToolTipText("Show Element Ids"); 
+        showNodeNumberAction.setText("Show Element Ids");
+        showNodeNumberAction.setChecked(OutlinePreferences.getShowNodeNumber());
+        tbm.add(showNodeNumberAction); 
         
         IMenuManager mm = getSite().getActionBars().getMenuManager();
         mm.add(showOutlineAction);
@@ -342,6 +376,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
     public void setContents(Object contents) {
         getViewer().setContents(contents);
         getConcernsViewer().setContents(contents);
+       
     }
 
     /**
@@ -355,6 +390,9 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             showOutlineAction.setChecked(true);
             showOverviewAction.setChecked(false);
             showConcernsAction.setChecked(false);
+            
+            showEmptyPointAction.setEnabled(true);
+            showNodeNumberAction.setEnabled(true);
             pageBook.showPage(outline);
             if (thumbnail != null)
                 thumbnail.setVisible(false);
@@ -364,6 +402,8 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             showOutlineAction.setChecked(false);
             showOverviewAction.setChecked(true);
             showConcernsAction.setChecked(false);
+            showEmptyPointAction.setEnabled(false);
+            showNodeNumberAction.setEnabled(false);
             pageBook.showPage(overview);
             if (thumbnail != null && multieditor.getCurrentPage()!=null)
                 thumbnail.setVisible(true);
@@ -374,6 +414,8 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             showOutlineAction.setChecked(false);
             showOverviewAction.setChecked(false);
             showConcernsAction.setChecked(true);
+            showEmptyPointAction.setEnabled(false);
+            showNodeNumberAction.setEnabled(false);
             pageBook.showPage(concerns);
             if (thumbnail != null)
                 thumbnail.setVisible(false);

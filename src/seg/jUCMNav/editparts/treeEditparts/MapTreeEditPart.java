@@ -12,7 +12,10 @@ import org.eclipse.swt.graphics.Image;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.MapComponentEditPolicy;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.views.preferences.OutlinePreferences;
 import ucm.map.Connect;
+import ucm.map.DirectionArrow;
+import ucm.map.EmptyPoint;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
 
@@ -52,7 +55,8 @@ public class MapTreeEditPart extends UrnModelElementTreeEditPart {
         Vector v = new Vector();
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
-            if (!(element instanceof Connect))
+            //Do not add the Empty point if the preference is not selected.
+            if (!(element instanceof Connect) && elementShouldBeChildren(element))
                 v.add(element);
         }
         list.addAll(v);
@@ -61,6 +65,21 @@ public class MapTreeEditPart extends UrnModelElementTreeEditPart {
         return list;
     }
 
+    /*
+     * Verify if the path node should be added to the children of the map.
+     */
+    private boolean elementShouldBeChildren(PathNode element)
+    {
+    	if( (element instanceof EmptyPoint || element instanceof DirectionArrow)
+    			&& !OutlinePreferences.getShowEmptyPoint())
+    	{
+    		return false;
+    	} else
+    	{
+    		return true;
+    	}
+    }
+    
     /**
      * @return the map being represented.
      */

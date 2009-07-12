@@ -5,7 +5,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.preferences.ColorManagementPreferencePage;
 
 /**
  * This is a helper class that manages instances of the {@link Color} class. We're only creating one instance of each color, to prevent using up useless
@@ -52,7 +52,7 @@ public class ColorManager {
         // LINE.dispose();
         // LINE=null;
         // }
-        RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_LINECOLOR);
+        RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_LINECOLOR);
         LINE = new Color(null, rgb.red, rgb.green, rgb.blue);
 
         // if (SELECTED!=null)
@@ -60,7 +60,7 @@ public class ColorManager {
         // SELECTED.dispose();
         // SELECTED=null;
         // }
-        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_SELECTEDCOLOR);
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_SELECTEDCOLOR);
         SELECTED = new Color(null, rgb.red, rgb.green, rgb.blue);
 
         // if (HOVER!=null)
@@ -68,7 +68,7 @@ public class ColorManager {
         // HOVER.dispose();
         // HOVER=null;
         // }
-        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_HOVERCOLOR);
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_HOVERCOLOR);
         HOVER = new Color(null, rgb.red, rgb.green, rgb.blue);
 
         // if (TRAVERSAL!=null)
@@ -76,10 +76,10 @@ public class ColorManager {
         // TRAVERSAL.dispose();
         // TRAVERSAL=null;
         // }
-        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_TRAVERSALCOLOR);
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_TRAVERSALCOLOR);
         TRAVERSAL = new Color(null, rgb.red, rgb.green, rgb.blue);
 
-        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_POINTCUTBORDERCOLOR);
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_POINTCUTBORDERCOLOR);
         POINTCUTBORDER = new Color(null, rgb.red, rgb.green, rgb.blue);
         
         // if (FILL!=null)
@@ -87,7 +87,7 @@ public class ColorManager {
         // FILL.dispose();
         // FILL=null;
         // }
-        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_FILLCOLOR);
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_FILLCOLOR);
         FILL = new Color(null, rgb.red, rgb.green, rgb.blue);
 
         // if (LINKREFLABEL!=null)
@@ -95,7 +95,7 @@ public class ColorManager {
         // LINKREFLABEL.dispose();
         // LINKREFLABEL=null;
         // }
-        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_LINKREFLABELCOLOR);
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_LINKREFLABELCOLOR);
         LINKREFLABEL = new Color(null, rgb.red, rgb.green, rgb.blue);
         
         // if (KPIMODELLINKREFLABEL!=null)
@@ -103,7 +103,7 @@ public class ColorManager {
         // KPIMODELLINKREFLABEL.dispose();
         // KPIMODELLINKREFLABEL=null;
         // }
-        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_KPIMODELLINKREFLABELCOLOR);
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_KPIMODELLINKREFLABELCOLOR);
         KPIMODELLINKREFLABEL = new Color(null, rgb.red, rgb.green, rgb.blue);
         
         // if (STUBLABEL!=null)
@@ -111,7 +111,7 @@ public class ColorManager {
         // STUBLABEL.dispose();
         // STUBLABEL=null;
         // }
-        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_STUBLABELCOLOR);
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_STUBLABELCOLOR);
         STUBLABEL = new Color(null, rgb.red, rgb.green, rgb.blue);
 
         // if (CONDITIONLABEL!=null)
@@ -119,7 +119,7 @@ public class ColorManager {
         // CONDITIONLABEL.dispose();
         // CONDITIONLABEL=null;
         // }
-        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_CONDITIONLABELCOLOR);
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_CONDITIONLABELCOLOR);
         CONDITIONLABEL = new Color(null, rgb.red, rgb.green, rgb.blue);
 
     }
