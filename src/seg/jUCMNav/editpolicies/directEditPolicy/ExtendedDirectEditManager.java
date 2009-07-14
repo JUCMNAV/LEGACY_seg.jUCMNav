@@ -30,6 +30,7 @@ import seg.jUCMNav.figures.LabelElementFigure;
 import seg.jUCMNav.model.commands.transformations.ChangeDefinitionCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
+import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.RespRef;
 import urn.URNspec;
 import urncore.ComponentLabel;
@@ -200,26 +201,25 @@ public class ExtendedDirectEditManager extends DirectEditManager {
                     stack.execute(command);
                 else if (command instanceof ChangeLabelNameCommand || command instanceof ChangeGrlNodeNameCommand )
                 {
-                	boolean confirm = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("ExtendedDirectEditManager.NameAlreadyInUse"), Messages.getString("ExtendedDirectEditManager.OtherDefinitionExists")); //$NON-NLS-1$ //$NON-NLS-2$
-                	if (confirm)
-                	{
+                	//boolean confirm = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("ExtendedDirectEditManager.NameAlreadyInUse"), Messages.getString("ExtendedDirectEditManager.OtherDefinitionExists")); //$NON-NLS-1$ //$NON-NLS-2$
+                	boolean confirm = false; 
                 		URNspec urn = ((URNRootEditPart) getEditPart().getRoot()).getMultiPageEditor().getModel();
                 		ChangeDefinitionCommand cmd = null;
                 		
                 		if (command instanceof ChangeLabelNameCommand) {
 	                		ChangeLabelNameCommand rename = ((ChangeLabelNameCommand) command);
 	                		cmd = new ChangeDefinitionCommand(urn, rename.getRenamedLabel(), rename.getName() );
+	                		confirm = DeletePreferences.getRenameReference(rename.getName());
                 		}
                 		else if (command instanceof ChangeGrlNodeNameCommand)
                 		{
                 			ChangeGrlNodeNameCommand rename = ((ChangeGrlNodeNameCommand) command);
 	                		cmd = new ChangeDefinitionCommand(urn, rename.getElement(), rename.getName());
-                			
+	                		confirm = DeletePreferences.getRenameReference(rename.getName());
                 		}
-                		if (cmd!=null && cmd.canExecute())
+                		if (cmd!=null && cmd.canExecute() && confirm)
                 			stack.execute(cmd);
                 		
-                	}
                 }
              
             }

@@ -45,6 +45,9 @@ public class DefinitionReferencePreferencePage extends FieldEditorPreferencePage
 		RadioGroupFieldEditor deleteReference= new RadioGroupFieldEditor(DeletePreferences.PREF_DELREFERENCE, "Allow to delete referenced definitions", 3, values, getFieldEditorParent());
 		addField(deleteReference);
 		
+		RadioGroupFieldEditor renameReference= new RadioGroupFieldEditor(DeletePreferences.PREF_RENAMEREFERENCE, "When renaming a reference to an existing name, automatically switch definitions?", 3, values, getFieldEditorParent());
+		addField(renameReference);
+		
     }
 
     public void init(IWorkbench workbench) {
