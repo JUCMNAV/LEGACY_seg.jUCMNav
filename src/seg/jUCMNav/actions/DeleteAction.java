@@ -36,8 +36,14 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
         Command cmd = createDeleteSmallPaths();
         if (cmd == null || !cmd.canExecute())
             execute(createDeleteCommand(getSelectedObjects()));
-        else
-            execute(createDeleteCommand(getSelectedObjects()).chain(cmd));
+        else 
+        {
+        	Command c = createDeleteCommand(getSelectedObjects());
+        	if (c==null || !c.canExecute())
+        		execute(cmd);
+        	else
+        		execute(c.chain(cmd));
+        }
     }
 
     /**

@@ -163,13 +163,22 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
         }  
 		
         if (command instanceof CompoundCommand) {
+        	boolean b=false;
             for (Iterator iter = ((CompoundCommand) command).getCommands().iterator(); iter.hasNext();) {
                 Command internal = (Command) iter.next();
                 
-                // recurse
-                boolean  b = checkSimpleCommand(internal);
-                if (b) return true;
+//                if (b)
+//                {
+//                	stkUrnSpec.execute(internal);
+//                }
+//                else {
+                	// recurse
+                	boolean b2 = checkSimpleCommand(internal);
+                	if (b2) b=true;
+//                }
             }
+            if (b) return true;
+                   
         }
 		
 		return false;
