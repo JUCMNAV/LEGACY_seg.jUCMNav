@@ -138,9 +138,9 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         	}
         };
         
-        showEmptyPointAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Node16.gif")); //$NON-NLS-1$
-        showEmptyPointAction.setToolTipText("Show Empty Points"); 
-        showEmptyPointAction.setText("Show Empty Points");
+        showEmptyPointAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Node16.gif")); //$NON-NLS-1$
+        showEmptyPointAction.setToolTipText(Messages.getString("UrnOutlinePage.ShowEmptyPointsArrows")); //$NON-NLS-1$
+        showEmptyPointAction.setText(Messages.getString("UrnOutlinePage.ShowEmptyPointsArrows")); //$NON-NLS-1$
         showEmptyPointAction.setChecked(OutlinePreferences.getShowEmptyPoint());
         tbm.add(showEmptyPointAction); 
  
@@ -152,9 +152,9 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         	}
         };
         
-        showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/condition.gif")); //$NON-NLS-1$
-        showNodeNumberAction.setToolTipText("Show Element Ids"); 
-        showNodeNumberAction.setText("Show Element Ids");
+        showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/identifiers.gif")); //$NON-NLS-1$
+        showNodeNumberAction.setToolTipText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
+        showNodeNumberAction.setText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
         showNodeNumberAction.setChecked(OutlinePreferences.getShowNodeNumber());
         tbm.add(showNodeNumberAction); 
         
