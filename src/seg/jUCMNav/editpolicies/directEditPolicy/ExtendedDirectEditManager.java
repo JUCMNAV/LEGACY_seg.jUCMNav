@@ -12,7 +12,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
@@ -22,9 +21,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 
-import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.figures.LabelElementFigure;
 import seg.jUCMNav.model.commands.transformations.ChangeDefinitionCommand;
