@@ -7,9 +7,13 @@ import java.util.Iterator;
 
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.LayeredPane;
+import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.gef.AutoexposeHelper;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.ExposeHelper;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.editparts.ViewportAutoexposeHelper;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.figures.router.UCMConnectionRouter;
@@ -56,6 +60,12 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
         scenarioView = ScenarioUtils.getActiveScenario(editor.getModel())!=null;
     }
 
+    public Object getAdapter(Class adapter) { 
+    	if (adapter == AutoexposeHelper.class || adapter == ExposeHelper.class)
+			return new ViewportAutoexposeHelper(this, new Insets(50,50,50,50));
+		return super.getAdapter(adapter);
+	} 
+    
     /**
      * @return number of current mode
      */

@@ -2,10 +2,14 @@ package seg.jUCMNav.editpolicies.layout;
 
 import java.util.List;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -14,6 +18,8 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.ConditionEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
+import seg.jUCMNav.editparts.URNRootEditPart;
+import seg.jUCMNav.model.commands.NoOpCommand;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
@@ -23,6 +29,7 @@ import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import urncore.Comment;
@@ -70,9 +77,44 @@ public class MapXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
             createCommand = handleCreateComponentRef(request, constraint);
         } else if (newObjectType == Comment.class) {
         	createCommand = handleCreateComment(request, constraint);
+        } else if (newObjectType == RespRef.class) {
+        	
+        	GraphicalEditPart owner = ((URNRootEditPart) getHost().getRoot());
+            Viewport port = findViewport(owner);
+            
+            Rectangle rect = Rectangle.SINGLETON;
+            port.getClientArea(rect);
+            //port.translateToParent(rect);
+            //port.translateToAbsolute(rect);
+            
+            Point where = new Point(constraint.x, constraint.y);
+        	if (!rect.contains(where)
+        	  || rect.crop(new Insets(50,50,50,50)).contains(where)) 
+        	{
+            	return null;
+        	}
+
+        	// having a NoOpCommand (which does nothing) allows the AutoexposeHelper scrolling to occur 
+        	createCommand = new NoOpCommand();
         }
 
         return createCommand;
+    }
+    
+    protected Viewport findViewport(GraphicalEditPart part) {
+    	IFigure figure = null;
+    	Viewport port = null;
+    	do {
+    		if (figure == null)
+    			figure = part.getContentPane();
+    		else
+    			figure = figure.getParent();
+    		if (figure instanceof Viewport) {
+    			port = (Viewport) figure;
+    			break;
+    		}
+    	} while (figure != part.getFigure() && figure != null);
+    	return port;
     }
 
     /**
