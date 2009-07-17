@@ -7,6 +7,7 @@
 package grl.impl;
 
 import grl.Actor;
+import grl.CollapsedActorRef;
 import grl.GRLspec;
 import grl.GrlPackage;
 
@@ -41,6 +42,7 @@ import urncore.impl.GRLmodelElementImpl;
  *   <li>{@link grl.impl.ActorImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getIncludedActors <em>Included Actors</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getIncludingActor <em>Including Actor</em>}</li>
+ *   <li>{@link grl.impl.ActorImpl#getCollapsedRefs <em>Collapsed Refs</em>}</li>
  * </ul>
  * </p>
  *
@@ -136,6 +138,16 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 	 * @ordered
 	 */
 	protected Actor includingActor;
+
+				/**
+	 * The cached value of the '{@link #getCollapsedRefs() <em>Collapsed Refs</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCollapsedRefs()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList collapsedRefs;
 
 				/**
 	 * <!-- begin-user-doc -->
@@ -348,6 +360,18 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getCollapsedRefs() {
+		if (collapsedRefs == null) {
+			collapsedRefs = new EObjectWithInverseResolvingEList(CollapsedActorRef.class, this, GrlPackage.ACTOR__COLLAPSED_REFS, GrlPackage.COLLAPSED_ACTOR_REF__ACTOR);
+		}
+		return collapsedRefs;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case GrlPackage.ACTOR__CONT_REFS:
@@ -362,6 +386,8 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 				if (includingActor != null)
 					msgs = ((InternalEObject)includingActor).eInverseRemove(this, GrlPackage.ACTOR__INCLUDED_ACTORS, Actor.class, msgs);
 				return basicSetIncludingActor((Actor)otherEnd, msgs);
+			case GrlPackage.ACTOR__COLLAPSED_REFS:
+				return ((InternalEList)getCollapsedRefs()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -381,6 +407,8 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 				return ((InternalEList)getIncludedActors()).basicRemove(otherEnd, msgs);
 			case GrlPackage.ACTOR__INCLUDING_ACTOR:
 				return basicSetIncludingActor(null, msgs);
+			case GrlPackage.ACTOR__COLLAPSED_REFS:
+				return ((InternalEList)getCollapsedRefs()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -420,6 +448,8 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 			case GrlPackage.ACTOR__INCLUDING_ACTOR:
 				if (resolve) return getIncludingActor();
 				return basicGetIncludingActor();
+			case GrlPackage.ACTOR__COLLAPSED_REFS:
+				return getCollapsedRefs();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -454,6 +484,10 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 			case GrlPackage.ACTOR__INCLUDING_ACTOR:
 				setIncludingActor((Actor)newValue);
 				return;
+			case GrlPackage.ACTOR__COLLAPSED_REFS:
+				getCollapsedRefs().clear();
+				getCollapsedRefs().addAll((Collection)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -486,6 +520,9 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 			case GrlPackage.ACTOR__INCLUDING_ACTOR:
 				setIncludingActor((Actor)null);
 				return;
+			case GrlPackage.ACTOR__COLLAPSED_REFS:
+				getCollapsedRefs().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -511,6 +548,8 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 				return includedActors != null && !includedActors.isEmpty();
 			case GrlPackage.ACTOR__INCLUDING_ACTOR:
 				return includingActor != null;
+			case GrlPackage.ACTOR__COLLAPSED_REFS:
+				return collapsedRefs != null && !collapsedRefs.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

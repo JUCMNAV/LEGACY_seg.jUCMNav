@@ -870,13 +870,22 @@ public interface GrlPackage extends EPackage {
 	int ACTOR__INCLUDING_ACTOR = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 6;
 
 				/**
+	 * The feature id for the '<em><b>Collapsed Refs</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__COLLAPSED_REFS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 7;
+
+				/**
 	 * The number of structural features of the '<em>Actor</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int ACTOR_FEATURE_COUNT = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 7;
+    int ACTOR_FEATURE_COUNT = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 8;
 
     /**
 	 * The meta object id for the '{@link grl.impl.GRLGraphImpl <em>GRL Graph</em>}' class.
@@ -2624,13 +2633,22 @@ public interface GrlPackage extends EPackage {
 	int COLLAPSED_ACTOR_REF__LABEL = GRL_NODE__LABEL;
 
 				/**
+	 * The feature id for the '<em><b>Actor</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLAPSED_ACTOR_REF__ACTOR = GRL_NODE_FEATURE_COUNT + 0;
+
+				/**
 	 * The number of structural features of the '<em>Collapsed Actor Ref</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLLAPSED_ACTOR_REF_FEATURE_COUNT = GRL_NODE_FEATURE_COUNT + 0;
+	int COLLAPSED_ACTOR_REF_FEATURE_COUNT = GRL_NODE_FEATURE_COUNT + 1;
 
 				/**
 	 * The meta object id for the '{@link grl.Criticality <em>Criticality</em>}' enum.
@@ -3008,6 +3026,17 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getActor_IncludingActor();
+
+				/**
+	 * Returns the meta object for the reference list '{@link grl.Actor#getCollapsedRefs <em>Collapsed Refs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Collapsed Refs</em>'.
+	 * @see grl.Actor#getCollapsedRefs()
+	 * @see #getActor()
+	 * @generated
+	 */
+	EReference getActor_CollapsedRefs();
 
 				/**
 	 * Returns the meta object for class '{@link grl.GRLGraph <em>GRL Graph</em>}'.
@@ -3618,6 +3647,17 @@ public interface GrlPackage extends EPackage {
 	EClass getCollapsedActorRef();
 
 				/**
+	 * Returns the meta object for the reference '{@link grl.CollapsedActorRef#getActor <em>Actor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Actor</em>'.
+	 * @see grl.CollapsedActorRef#getActor()
+	 * @see #getCollapsedActorRef()
+	 * @generated
+	 */
+	EReference getCollapsedActorRef_Actor();
+
+				/**
 	 * Returns the meta object for enum '{@link grl.Criticality <em>Criticality</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3940,6 +3980,14 @@ public interface GrlPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ACTOR__INCLUDING_ACTOR = eINSTANCE.getActor_IncludingActor();
+
+								/**
+		 * The meta object literal for the '<em><b>Collapsed Refs</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ACTOR__COLLAPSED_REFS = eINSTANCE.getActor_CollapsedRefs();
 
 								/**
 		 * The meta object literal for the '{@link grl.impl.GRLGraphImpl <em>GRL Graph</em>}' class.
@@ -4434,6 +4482,14 @@ public interface GrlPackage extends EPackage {
 		 * @generated
 		 */
 		EClass COLLAPSED_ACTOR_REF = eINSTANCE.getCollapsedActorRef();
+
+								/**
+		 * The meta object literal for the '<em><b>Actor</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COLLAPSED_ACTOR_REF__ACTOR = eINSTANCE.getCollapsedActorRef_Actor();
 
 								/**
 		 * The meta object literal for the '{@link grl.Criticality <em>Criticality</em>}' enum.

@@ -625,6 +625,15 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getActor_CollapsedRefs() {
+		return (EReference)actorEClass.getEStructuralFeatures().get(3);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1138,6 +1147,15 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCollapsedActorRef_Actor() {
+		return (EReference)collapsedActorRefEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1258,6 +1276,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		createEReference(actorEClass, ACTOR__GRLSPEC);
 		createEReference(actorEClass, ACTOR__INCLUDED_ACTORS);
 		createEReference(actorEClass, ACTOR__INCLUDING_ACTOR);
+		createEReference(actorEClass, ACTOR__COLLAPSED_REFS);
 
 		grlGraphEClass = createEClass(GRL_GRAPH);
 
@@ -1334,6 +1353,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		createEReference(grlLinkableElementEClass, GRL_LINKABLE_ELEMENT__LINKS_SRC);
 
 		collapsedActorRefEClass = createEClass(COLLAPSED_ACTOR_REF);
+		createEReference(collapsedActorRefEClass, COLLAPSED_ACTOR_REF__ACTOR);
 
 		// Create enums
 		criticalityEEnum = createEEnum(CRITICALITY);
@@ -1433,6 +1453,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEReference(getActor_Grlspec(), this.getGRLspec(), this.getGRLspec_Actors(), "grlspec", null, 1, 1, Actor.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_IncludedActors(), this.getActor(), this.getActor_IncludingActor(), "includedActors", null, 0, -1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_IncludingActor(), this.getActor(), this.getActor_IncludedActors(), "includingActor", null, 0, 1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getActor_CollapsedRefs(), this.getCollapsedActorRef(), this.getCollapsedActorRef_Actor(), "collapsedRefs", null, 0, -1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(grlGraphEClass, GRLGraph.class, "GRLGraph", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1509,6 +1530,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEReference(getGRLLinkableElement_LinksSrc(), this.getElementLink(), this.getElementLink_Src(), "linksSrc", null, 0, -1, GRLLinkableElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(collapsedActorRefEClass, CollapsedActorRef.class, "CollapsedActorRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCollapsedActorRef_Actor(), this.getActor(), this.getActor_CollapsedRefs(), "actor", null, 1, 1, CollapsedActorRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(criticalityEEnum, Criticality.class, "Criticality");

@@ -21,6 +21,7 @@ import urncore.IURNContainer;
  *   <li>{@link grl.Actor#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.Actor#getIncludedActors <em>Included Actors</em>}</li>
  *   <li>{@link grl.Actor#getIncludingActor <em>Including Actor</em>}</li>
+ *   <li>{@link grl.Actor#getCollapsedRefs <em>Collapsed Refs</em>}</li>
  * </ul>
  * </p>
  *
@@ -102,5 +103,23 @@ public interface Actor extends GRLLinkableElement, IURNContainer {
 	 * @generated
 	 */
 	void setIncludingActor(Actor value);
+
+				/**
+	 * Returns the value of the '<em><b>Collapsed Refs</b></em>' reference list.
+	 * The list contents are of type {@link grl.CollapsedActorRef}.
+	 * It is bidirectional and its opposite is '{@link grl.CollapsedActorRef#getActor <em>Actor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Collapsed Refs</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Collapsed Refs</em>' reference list.
+	 * @see grl.GrlPackage#getActor_CollapsedRefs()
+	 * @see grl.CollapsedActorRef#getActor
+	 * @model type="grl.CollapsedActorRef" opposite="actor"
+	 * @generated
+	 */
+	EList getCollapsedRefs();
 
 } // Actor

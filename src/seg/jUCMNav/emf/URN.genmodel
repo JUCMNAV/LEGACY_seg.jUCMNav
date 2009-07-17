@@ -246,6 +246,7 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//Actor/grlspec"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//Actor/includedActors"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//Actor/includingActor"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//Actor/collapsedRefs"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//GRLGraph"/>
     <genClasses ecoreClass="grl.ecore#//ActorRef"/>
@@ -315,7 +316,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//GRLLinkableElement/linksDest"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//GRLLinkableElement/linksSrc"/>
     </genClasses>
-    <genClasses ecoreClass="grl.ecore#//CollapsedActorRef"/>
+    <genClasses ecoreClass="grl.ecore#//CollapsedActorRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//CollapsedActorRef/actor"/>
+    </genClasses>
     <nestedGenPackages prefix="Kpimodel" basePackage="grl" disposableProviderFactory="true"
         ecorePackage="grl.ecore#//kpimodel">
       <genClasses ecoreClass="grl.ecore#//kpimodel/IndicatorGroup">

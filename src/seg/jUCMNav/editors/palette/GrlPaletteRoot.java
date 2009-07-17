@@ -77,7 +77,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
         entry = new BaseConnectionCreationToolEntry(
                 Messages.getString("GrlPaletteRoot.contribution"), Messages.getString("GrlPaletteRoot.createContribution"), new ModelCreationFactory(getURNspec(), Contribution.class), //$NON-NLS-1$ //$NON-NLS-2$
                 JUCMNavPlugin.getImageDescriptor("icons/Contribution16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
-                        JUCMNavPlugin.class, "icons/Softgoal24.gif")); //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Contribution24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);
         keyboardMapping.put("c", entry); //$NON-NLS-1$
 

@@ -152,7 +152,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         	}
         };
         
-        showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/identifiers.gif")); //$NON-NLS-1$
+        showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/identifiers.png")); //$NON-NLS-1$
         showNodeNumberAction.setToolTipText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
         showNodeNumberAction.setText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
         showNodeNumberAction.setChecked(OutlinePreferences.getShowNodeNumber());

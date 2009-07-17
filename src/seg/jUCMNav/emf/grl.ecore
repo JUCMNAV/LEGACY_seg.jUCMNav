@@ -55,6 +55,8 @@
         eType="#//Actor" eOpposite="#//Actor/includingActor"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="includingActor" eType="#//Actor"
         eOpposite="#//Actor/includedActors"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collapsedRefs" upperBound="-1"
+        eType="#//CollapsedActorRef" eOpposite="#//CollapsedActorRef/actor"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Criticality">
     <eLiterals name="High"/>
@@ -208,7 +210,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="linksSrc" upperBound="-1"
         eType="#//ElementLink" eOpposite="#//ElementLink/src"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CollapsedActorRef" eSuperTypes="#//GRLNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CollapsedActorRef" eSuperTypes="#//GRLNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actor" lowerBound="1" eType="#//Actor"
+        eOpposite="#//Actor/collapsedRefs"/>
+  </eClassifiers>
   <eSubpackages name="kpimodel" nsURI="http:///grl/kpimodel.ecore" nsPrefix="grl.kpimodel">
     <eClassifiers xsi:type="ecore:EClass" name="IndicatorGroup" eSuperTypes="urncore.ecore#//GRLmodelElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
