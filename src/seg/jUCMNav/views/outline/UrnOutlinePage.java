@@ -42,8 +42,9 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editparts.concernsTreeEditparts.ConcernsTreeEditPartFactory;
 import seg.jUCMNav.editparts.treeEditparts.TreeEditPartFactory;
+import seg.jUCMNav.views.JUCMNavRefreshableView;
 import seg.jUCMNav.views.dnd.UrnTemplateTransferDragSourceListener;
-import seg.jUCMNav.views.preferences.OutlinePreferences;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 
 /**
  * Creates an outline pagebook for both UCMNavMultiPageEditor and UcmEditor. Supports three views: 
@@ -52,7 +53,7 @@ import seg.jUCMNav.views.preferences.OutlinePreferences;
  *    graphical overview
  * @author jkealey, etremblay, gunterm
  */
-public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IPageChangeListener {
+public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IPageChangeListener, JUCMNavRefreshableView {
     static final int ID_OUTLINE = 0;
     static final int ID_OVERVIEW = 1;
     static final int ID_CONCERNS = 2;
@@ -130,32 +131,32 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         
         tbm.add(new Separator());
         
+        //Set this view as a listener of the display preferences
+        DisplayPreferences.getInstance().registerListener(this);
+        
         //Preferences action
         showEmptyPointAction = new Action() {
         	public void run() {
-        		OutlinePreferences.setShowEmptyPoint(showEmptyPointAction.isChecked());
-        		getViewer().setContents(getViewer().getContents());
+        		DisplayPreferences.getInstance().setShowEmptyPoint(showEmptyPointAction.isChecked());
         	}
         };
         
         showEmptyPointAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Node16.gif")); //$NON-NLS-1$
         showEmptyPointAction.setToolTipText(Messages.getString("UrnOutlinePage.ShowEmptyPointsArrows")); //$NON-NLS-1$
         showEmptyPointAction.setText(Messages.getString("UrnOutlinePage.ShowEmptyPointsArrows")); //$NON-NLS-1$
-        showEmptyPointAction.setChecked(OutlinePreferences.getShowEmptyPoint());
+        showEmptyPointAction.setChecked(DisplayPreferences.getInstance().getShowEmptyPoint());
         tbm.add(showEmptyPointAction); 
  
         showNodeNumberAction = new Action() {
         	public void run() {
-        		OutlinePreferences.setShowNodeNumber(showNodeNumberAction.isChecked());
-        		//To refresh the viewer
-        		getViewer().setContents(getViewer().getContents());
+        		DisplayPreferences.getInstance().setShowNodeNumber(showNodeNumberAction.isChecked());
         	}
         };
         
         showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/identifiers.png")); //$NON-NLS-1$
         showNodeNumberAction.setToolTipText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
         showNodeNumberAction.setText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
-        showNodeNumberAction.setChecked(OutlinePreferences.getShowNodeNumber());
+        showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
         tbm.add(showNodeNumberAction); 
         
         IMenuManager mm = getSite().getActionBars().getMenuManager();
@@ -415,7 +416,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             showOverviewAction.setChecked(false);
             showConcernsAction.setChecked(true);
             showEmptyPointAction.setEnabled(false);
-            showNodeNumberAction.setEnabled(false);
+            showNodeNumberAction.setEnabled(true);
             pageBook.showPage(concerns);
             if (thumbnail != null)
                 thumbnail.setVisible(false);
@@ -447,4 +448,12 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
     private EditPartViewer getConcernsViewer() {
     	return concernsViewer;
     }
+
+	public void refreshView() {
+		//To refresh the viewer
+		getViewer().setContents(getViewer().getContents());
+		concernsViewer.setContents(concernsViewer.getContents());
+		showEmptyPointAction.setChecked(DisplayPreferences.getInstance().getShowEmptyPoint());
+		showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
+	}
 }

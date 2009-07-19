@@ -11,9 +11,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.property.URNElementPropertySource;
 import seg.jUCMNav.views.property.VariablePropertySource;
 import ucm.scenario.Variable;
+import urncore.URNmodelElement;
 
 /**
  * TreeEditPart for all UrnModelElements. Baseclass for most other TreeEditParts.
@@ -123,7 +126,15 @@ public class KPIUrnModelElementTreeEditPart extends AbstractTreeEditPart impleme
      * @see seg.jUCMNav.model.util.EObjectClassNameComparator
      */
     protected String getText() {
-        return EObjectClassNameComparator.getSortableElementName((EObject) getModel());
+        //Set the text depending on the outline preferences
+    	if(DisplayPreferences.getInstance().getShowNodeNumber())
+    	{
+    		//This class return the ID between () at the element name
+    		return EObjectClassNameComparator.getSortableElementName((EObject) getModel());
+    	} else
+    	{
+    		return URNNamingHelper.getName((URNmodelElement)getModel());
+    	}
     }
 
     /**

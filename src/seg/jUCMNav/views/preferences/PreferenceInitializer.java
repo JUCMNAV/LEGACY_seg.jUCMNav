@@ -37,8 +37,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_GRLAUTOADDLINKS, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_NEWGRL, false);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_NEWUCM, true);
-        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(OutlinePreferences.PREF_SHOWEMPTYPOINT, true);
-        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(OutlinePreferences.PREF_SHOWNODENUMBER, true);
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(DisplayPreferences.PREF_SHOWEMPTYPOINT, true);
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(DisplayPreferences.PREF_SHOWNODENUMBER, true);
         
         
         // done elsewhere

@@ -12,7 +12,7 @@ import org.eclipse.swt.graphics.Image;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.MapComponentEditPolicy;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
-import seg.jUCMNav.views.preferences.OutlinePreferences;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
@@ -71,7 +71,7 @@ public class MapTreeEditPart extends UrnModelElementTreeEditPart {
     private boolean elementShouldBeChildren(PathNode element)
     {
     	if( (element instanceof EmptyPoint || element instanceof DirectionArrow)
-    			&& !OutlinePreferences.getShowEmptyPoint())
+    			&& !DisplayPreferences.getInstance().getShowEmptyPoint())
     	{
     		return false;
     	} else

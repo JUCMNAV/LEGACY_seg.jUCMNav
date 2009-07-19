@@ -19,6 +19,8 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.kpiTreeEditparts.KPIRootEditPart;
 import seg.jUCMNav.editparts.kpiViewEditparts.KPIViewEditPartFactory;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.JUCMNavRefreshableView;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 
 /**
  * 
@@ -27,7 +29,7 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
  * @author pchen
  * 
  */
-public class KPIView extends ViewPart implements IPartListener2, ISelectionChangedListener, ISelectionListener {
+public class KPIView extends ViewPart implements IPartListener2, ISelectionChangedListener, ISelectionListener, JUCMNavRefreshableView {
     private ScrollingGraphicalViewer viewer;
     private ScalableFreeformRootEditPart root;
 
@@ -45,6 +47,9 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
         // Set root editpart
         root = new ScalableFreeformRootEditPart();
         viewer.setRootEditPart(root);
+        
+        //Register the view
+        DisplayPreferences.getInstance().registerListener(this);
     }
 
     /**
@@ -211,5 +216,10 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
         viewer.setEditPartFactory(new KPIViewEditPartFactory());
         EvaluationStrategyManager.getInstance().setKPIViewer(viewer);
     }
+
+	public void refreshView() {
+		viewer.setContents(viewer.getContents());
+		
+	}
 
 }

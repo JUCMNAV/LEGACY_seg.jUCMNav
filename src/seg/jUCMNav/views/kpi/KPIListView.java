@@ -17,6 +17,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -39,6 +40,8 @@ import seg.jUCMNav.editparts.kpiTreeEditparts.KPITreeEditPartFactory;
 import seg.jUCMNav.kpi.KPIValueResources;
 import seg.jUCMNav.kpi.ws.KPIValueWSResources;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.JUCMNavRefreshableView;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 
 /**
  * 
@@ -47,7 +50,7 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
  * @author pchen
  * 
  */
-public class KPIListView extends ViewPart implements IPartListener2, ISelectionChangedListener {
+public class KPIListView extends ViewPart implements IPartListener2, ISelectionChangedListener, JUCMNavRefreshableView {
     private TreeViewer viewer;
 
     private UCMNavMultiPageEditor multieditor;
@@ -55,6 +58,7 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
     private IndicatorTreeEditPart currentSelection;
 
     private IAction retrieveKPIValues;
+    private IAction showNodeNumberAction;
 
     /**
      * The constructor.
@@ -128,8 +132,24 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
         retrieveKPIValues.setToolTipText(Messages.getString("KPIListView.Retrieve")); //$NON-NLS-1$
         retrieveKPIValues.setText(Messages.getString("KPIListView.Retrieve")); //$NON-NLS-1$
 
+        DisplayPreferences.getInstance().registerListener(this);
+        
+        //Add the showNodeNumber action.
+        showNodeNumberAction = new Action() {
+        	public void run() {
+        		DisplayPreferences.getInstance().setShowNodeNumber(showNodeNumberAction.isChecked());
+        	}
+        };
+        
+        showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/identifiers.png")); //$NON-NLS-1$
+        showNodeNumberAction.setToolTipText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
+        showNodeNumberAction.setText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
+        showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
+
         IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();
         tbm.add(retrieveKPIValues);
+        tbm.add(new Separator());
+        tbm.add(showNodeNumberAction);
 
         IMenuManager manager = getViewSite().getActionBars().getMenuManager();
         manager.add(retrieveKPIValues);
@@ -334,4 +354,9 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
             return super.getAdapter(adapter);
         }
     }
+
+	public void refreshView() {
+		viewer.setContents(viewer.getContents());
+		showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
+	}
 }

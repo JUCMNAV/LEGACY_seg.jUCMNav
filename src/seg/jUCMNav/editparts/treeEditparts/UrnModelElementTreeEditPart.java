@@ -12,7 +12,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
-import seg.jUCMNav.views.preferences.OutlinePreferences;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.property.URNElementPropertySource;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
@@ -97,7 +97,7 @@ public class UrnModelElementTreeEditPart extends AbstractTreeEditPart implements
      */
     protected String getText() {
         //Set the text depending on the outline preferences
-    	if(OutlinePreferences.getShowNodeNumber())
+    	if(DisplayPreferences.getInstance().getShowNodeNumber())
     	{
     		//This class return the ID between () at the element name
     		return EObjectClassNameComparator.getSortableElementName((EObject) getModel());

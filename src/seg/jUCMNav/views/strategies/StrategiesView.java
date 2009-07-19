@@ -37,6 +37,8 @@ import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyRootEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyTreeEditPartFactory;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.JUCMNavRefreshableView;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.UCMspec;
 import ucm.scenario.ScenarioDef;
@@ -49,7 +51,7 @@ import ucm.scenario.ScenarioGroup;
  * @author Jean-François Roy, jkealey
  *
  */
-public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener{
+public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener, JUCMNavRefreshableView{
 	private TreeViewer viewer;
 
     static final int ID_DESIGN = 0;
@@ -61,7 +63,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 	private ScenarioDef currentScenario;
     private ScenarioDefTreeEditPart currentScenarioSelection;
     
-    private IAction showDesignView, showStrategiesView, refreshTreeView; 
+    private IAction showDesignView, showStrategiesView, refreshTreeView, showId; 
     
     private int currentView;
 	/**
@@ -124,12 +126,27 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         refreshTreeView.setToolTipText(Messages.getString("StrategiesView.Refresh")); //$NON-NLS-1$
         refreshTreeView.setText(Messages.getString("StrategiesView.Refresh"));  //$NON-NLS-1$
 
+        //Register the view to DisplayPreferences
+        DisplayPreferences.getInstance().registerListener(this);
+        showId = new Action() {
+        	public void run()
+        	{
+        		DisplayPreferences.getInstance().setShowNodeNumber(showId.isChecked());
+        	}
+        };
+        showId.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/identifiers.png")); //$NON-NLS-1$
+        showId.setToolTipText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
+        showId.setText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
+        showId.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
+
         
         IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();
         tbm.add(showStrategiesView);
         tbm.add(showDesignView);
         tbm.add(refreshTreeView);
-
+        tbm.add(new Separator());
+        tbm.add(showId);
+        
         IMenuManager manager= getViewSite().getActionBars().getMenuManager();
         manager.add(refreshTreeView);
         manager.add(new Separator());
@@ -488,5 +505,14 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 		}
 		else
 			return super.getAdapter(adapter);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see seg.jUCMNav.views.JUCMNavRefreshableView#refreshView()
+	 */
+	public void refreshView() {
+		viewer.setContents(viewer.getContents());
+		showId.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
 	}
 }
