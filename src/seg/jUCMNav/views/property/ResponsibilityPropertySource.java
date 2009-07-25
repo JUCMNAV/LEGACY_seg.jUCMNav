@@ -109,7 +109,7 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
      * @param propertyid
      */
     private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (((RespRef) getEditableValue()).getDiagram().getUrndefinition()==null)
+        if (((RespRef) getEditableValue()).getDiagram() == null || ((RespRef) getEditableValue()).getDiagram().getUrndefinition()==null)
             return;
         URNspec urn = ((RespRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
         Vector list = new Vector(urn.getUrndef().getResponsibilities());

@@ -153,7 +153,7 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
         else if (type == IContentOutlinePage.class)
             return getOutlinePage();
         else if (type == org.eclipse.ui.views.properties.IPropertySheetPage.class) {
-            PropertySheetPage page = new PropertySheetPage();
+        	PropertySheetPage page = new PropertySheetPage();
             page.setRootEntry(new UndoablePropertySheetEntry(getParent().getDelegatingCommandStack()));
             return page;
         }

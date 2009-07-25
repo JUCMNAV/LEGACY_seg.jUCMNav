@@ -22,10 +22,12 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
@@ -265,6 +267,21 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
         this.editor = editor;
         editor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
         editor.addPageChangeListener(this);
+        
+        // register them. other ways failed to add undo/redo, only added delete.  
+        IActionBars bars = getViewSite().getActionBars();
+        String id = ActionFactory.UNDO.getId();
+        bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));
+        id = ActionFactory.REDO.getId();
+        bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));
+        id = ActionFactory.DELETE.getId();
+        bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));
+        id = ActionFactory.PASTE.getId();
+        bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));
+        id = ActionFactory.COPY.getId();
+        bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));        
+        id = ActionFactory.CUT.getId();
+        bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));  
     }
 
     private void setInput(IURNDiagram input) {
@@ -395,7 +412,7 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 
     public Object getAdapter(Class adapter) {
         if (adapter == org.eclipse.ui.views.properties.IPropertySheetPage.class) {
-            page = new PropertySheetPage();
+        	page = new PropertySheetPage();
 
             page.setPropertySourceProvider(editor);
             // page.setRootEntry(new UndoablePropertySheetEntry(editor.getDelegatingCommandStack()));

@@ -10,7 +10,6 @@ import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.gef.AutoexposeHelper;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.ExposeHelper;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ViewportAutoexposeHelper;
@@ -61,7 +60,7 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
     }
 
     public Object getAdapter(Class adapter) { 
-    	if (adapter == AutoexposeHelper.class || adapter == ExposeHelper.class)
+    	if (adapter == AutoexposeHelper.class /*|| adapter == ExposeHelper.class*/)
 			return new ViewportAutoexposeHelper(this, new Insets(50,50,50,50));
 		return super.getAdapter(adapter);
 	} 
