@@ -95,6 +95,7 @@ public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
+    	if (widget==null)return;
         if (getComp().getContRefs().size() == 0 && wrapper==null)
             ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
         else

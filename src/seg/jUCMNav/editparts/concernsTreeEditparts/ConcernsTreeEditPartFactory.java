@@ -21,7 +21,7 @@ public class ConcernsTreeEditPartFactory extends TreeEditPartFactory {
      * @param urn is the urnspec to display in the concern outline
      */
     public ConcernsTreeEditPartFactory(URNspec urn) {
-        super(urn);
+        super(urn, false);
     }
 
     /**

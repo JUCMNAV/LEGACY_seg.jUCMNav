@@ -3,9 +3,8 @@ package seg.jUCMNav.editparts.treeEditparts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gef.editparts.AbstractTreeEditPart;
-
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import urn.URNspec;
 
 /**
  * This class is simply here because the root of our tree (URNspec) doesn't appear in the outline.
@@ -13,7 +12,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
  * @author jkealey
  *  
  */
-public class OutlineRootEditPart extends AbstractTreeEditPart {
+public class OutlineRootEditPart extends UrnAbstractTreeEditPart {
 
     public OutlineRootEditPart(UCMNavMultiPageEditor editor) {
         super(editor);
@@ -27,5 +26,10 @@ public class OutlineRootEditPart extends AbstractTreeEditPart {
         l.add(((UCMNavMultiPageEditor) getModel()).getModel());
         return l;
     }
-
+    
+    public URNspec getURNSpec()
+    {
+    	return (URNspec) getModelChildren().get(0);
+    }
+    
 }

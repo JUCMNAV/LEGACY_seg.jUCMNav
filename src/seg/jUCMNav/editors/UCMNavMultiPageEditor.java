@@ -18,7 +18,6 @@ import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
-import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -53,6 +52,7 @@ import seg.jUCMNav.views.OpenEditorQuickFix;
 import seg.jUCMNav.views.QuickFixer;
 import seg.jUCMNav.views.UCMPerspectiveFactory;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
+import seg.jUCMNav.views.outline.UrnTreeViewer;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
 import urn.URNspec;
@@ -297,7 +297,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         else if (adapter == CommandStack.class)
             return getDelegatingCommandStack();
         else if (getPageCount() == 0 && adapter == IContentOutlinePage.class)
-            return new UrnOutlinePage(this, new TreeViewer());
+            return new UrnOutlinePage(this, new UrnTreeViewer(this));
 
         // delegate to open editor if possible
         if (getPageCount() > 0) {

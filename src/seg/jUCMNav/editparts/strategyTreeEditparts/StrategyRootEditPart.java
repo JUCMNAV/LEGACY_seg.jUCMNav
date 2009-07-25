@@ -9,6 +9,7 @@ import org.eclipse.gef.TreeEditPart;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editparts.treeEditparts.UrnAbstractTreeEditPart;
 import ucm.UCMspec;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
@@ -21,7 +22,7 @@ import ucm.scenario.ScenarioGroup;
  * @author jfroy, jkealey
  *  
  */
-public class StrategyRootEditPart extends AbstractTreeEditPart {
+public class StrategyRootEditPart extends UrnAbstractTreeEditPart  {
 
     /**
      * 

@@ -14,6 +14,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
+import seg.jUCMNav.views.outline.UrnTreeViewer;
 import ucm.map.EndPoint;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
@@ -34,7 +35,12 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
         Object parent = getHost().getParent().getModel();
         Object node = getHost().getModel();
         java.util.Map registry;
-        if (getHost().getViewer() instanceof TreeViewer) {
+
+        if (getHost().getViewer() instanceof UrnTreeViewer) {
+            // we need an editpart registry with NodeConnectionEditParts
+            registry = ((UrnTreeViewer)getHost().getViewer()).getEditor().getCurrentPage().getGraphicalViewer().getEditPartRegistry();
+        } 
+        else if (getHost().getViewer() instanceof TreeViewer) {
             // we need an editpart registry with NodeConnectionEditParts
             registry = ((UCMNavMultiPageEditor) ((OutlineRootEditPart) getHost().getViewer().getRootEditPart().getChildren().get(0)).getModel())
                     .getCurrentPage().getGraphicalViewer().getEditPartRegistry();

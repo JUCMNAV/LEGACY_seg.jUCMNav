@@ -16,6 +16,7 @@ import org.eclipse.swt.dnd.DragSourceEvent;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
+import seg.jUCMNav.views.outline.UrnTreeViewer;
 import ucm.map.RespRef;
 import urn.URNspec;
 import urncore.IURNContainer;
@@ -67,7 +68,11 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
 
     public void dragFinished(DragSourceEvent event) {
         // ModelCreationFactory creates useless refs that are not added when dragged here.
-        URNspec urn = ((UCMNavMultiPageEditor) ((OutlineRootEditPart) getViewer().getRootEditPart().getChildren().get(0)).getModel()).getModel();
+        URNspec urn;
+    	if (getViewer() instanceof UrnTreeViewer) {
+            urn = ((UrnTreeViewer)getViewer()).getEditor().getModel();
+        }  else
+        	urn = ((UCMNavMultiPageEditor) ((OutlineRootEditPart) getViewer().getRootEditPart().getChildren().get(0)).getModel()).getModel();
         cleanUnusedRespRefs(urn);
         cleanUnusedContRefs(urn);
         cleanUnusedIntElemntRef(urn);

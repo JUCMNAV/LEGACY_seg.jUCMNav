@@ -31,20 +31,22 @@ import urncore.Responsibility;
 /**
  * The EditPartFactory associated with the outline treeview.
  * 
- * @author TremblaE, gunterm, pchen
+ * @author jkealey, TremblaE, gunterm, pchen
  * 
  */
 public class TreeEditPartFactory implements EditPartFactory {
 
     // the urn spec being edited.
     protected URNspec urn;
-
+    protected boolean onlyDefinitions;
     /**
      * @param urn
      *            the urnspec to display
+     * @param onlyDefinitions do we show only the grl/ucm definitions?            
      */
-    public TreeEditPartFactory(URNspec urn) {
+    public TreeEditPartFactory(URNspec urn, boolean onlyDefinitions) {
         this.urn = urn;
+        this.onlyDefinitions = onlyDefinitions;
     }
 
     /**
@@ -54,7 +56,7 @@ public class TreeEditPartFactory implements EditPartFactory {
         if (model instanceof UCMNavMultiPageEditor)
             return new OutlineRootEditPart((UCMNavMultiPageEditor) model);
         else if (model instanceof URNspec)
-            return new URNspecTreeEditPart((URNspec) model);
+            return new URNspecTreeEditPart((URNspec) model, onlyDefinitions);
         else if (model instanceof UCMmap)
             return new MapTreeEditPart((UCMmap) model);
         else if (model instanceof ComponentRef)

@@ -71,6 +71,7 @@ public class KPIInformationElementTreeEditPart extends UrnModelElementTreeEditPa
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
+    	if (widget==null)return;
         if (getElement().getRefs().size() == 0)
             ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
         else

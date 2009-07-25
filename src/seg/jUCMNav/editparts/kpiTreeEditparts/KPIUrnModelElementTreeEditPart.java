@@ -10,6 +10,7 @@ import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.editparts.treeEditparts.UrnAbstractTreeEditPart;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
@@ -25,7 +26,7 @@ import urncore.URNmodelElement;
  * 
  * @author pchen
  */
-public class KPIUrnModelElementTreeEditPart extends AbstractTreeEditPart implements Adapter {
+public class KPIUrnModelElementTreeEditPart extends UrnAbstractTreeEditPart  implements Adapter {
     // The property source associated with this model element.
     protected IPropertySource propertySource = null;
 

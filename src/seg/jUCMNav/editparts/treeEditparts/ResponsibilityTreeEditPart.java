@@ -55,6 +55,7 @@ public class ResponsibilityTreeEditPart extends UrnModelElementTreeEditPart {
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
+    	if (widget==null)return;
         if (getResponsibility().getRespRefs().size() == 0)
             ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
         else

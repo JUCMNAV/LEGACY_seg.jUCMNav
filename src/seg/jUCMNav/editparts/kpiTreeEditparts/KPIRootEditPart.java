@@ -8,6 +8,7 @@ import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editparts.treeEditparts.UrnAbstractTreeEditPart;
 
 /**
  * This class is the root of editpart
@@ -15,7 +16,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
  * @author pchen
  * 
  */
-public class KPIRootEditPart extends AbstractTreeEditPart {
+public class KPIRootEditPart extends UrnAbstractTreeEditPart  {
     public KPIRootEditPart(UCMNavMultiPageEditor editor) {
         super(editor);
     }

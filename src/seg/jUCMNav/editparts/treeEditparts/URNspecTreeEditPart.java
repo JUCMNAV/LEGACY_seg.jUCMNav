@@ -16,12 +16,15 @@ import urn.URNspec;
  */
 public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
 
+	protected boolean onlyDefinitions;
     /**
      * @param model
      *            the URNspec being edited.
+     * @param onlyDefinitions do we show only UCM/GRL definitions            
      */
-    public URNspecTreeEditPart(URNspec model) {
+    public URNspecTreeEditPart(URNspec model, boolean onlyDefinitions) {
         super(model);
+        this.onlyDefinitions = onlyDefinitions;
     }
 
     /**
@@ -74,13 +77,15 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        list.addAll(getURNspec().getUrndef().getSpecDiagrams());
+        if (!onlyDefinitions)
+        	list.addAll(getURNspec().getUrndef().getSpecDiagrams());
         //We want to keep the spec diagram in the order of the tabs
         //Collections.sort(list, new EObjectClassNameComparator());
         //Instead of having all type of definition in the main category, we divided defs in grl and ucm
         list.add(Messages.getString("URNspecTreeEditPart.ucmDefs")); //$NON-NLS-1$
         list.add(Messages.getString("URNspecTreeEditPart.grlDefs")); //$NON-NLS-1$
-        list.add(Messages.getString("URNspecTreeEditPart.concerns")); //$NON-NLS-1$
+        if (!onlyDefinitions)
+        	list.add(Messages.getString("URNspecTreeEditPart.concerns")); //$NON-NLS-1$
         
         return list;
 

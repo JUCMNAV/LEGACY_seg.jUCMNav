@@ -6,7 +6,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.gef.TreeEditPart;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -26,7 +26,7 @@ import urncore.URNmodelElement;
  * 
  * @author TremblaE, gunterm
  */
-public class UrnModelElementTreeEditPart extends AbstractTreeEditPart implements Adapter {
+public class UrnModelElementTreeEditPart extends UrnAbstractTreeEditPart implements Adapter {
 
     // The property source associated with this model element.
     protected IPropertySource propertySource = null;
@@ -205,4 +205,15 @@ public class UrnModelElementTreeEditPart extends AbstractTreeEditPart implements
     			return ((UrnModelElementTreeEditPart) getParent()).isAncestor(ancestor);
     	}
     }
+    
+    protected void removeChildVisual(EditPart childEditPart) {
+    	TreeEditPart treeEditPart = (TreeEditPart)childEditPart;
+    	if (treeEditPart.getWidget()!=null) {
+	    	treeEditPart.getWidget().dispose();
+	    	treeEditPart.setWidget(null);
+    	}
+    }
+    
+
+
 }
