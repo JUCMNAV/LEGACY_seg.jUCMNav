@@ -176,6 +176,48 @@ public class URNElementFinder {
         return null;
     }
 
+    public static Collection findAllByNamePattern(URNspec urn, String name) 
+    {
+    	Vector elements = new Vector();
+    	elements.addAll(urn.getUrndef().getComponents());
+    	elements.addAll(urn.getUrndef().getResponsibilities());
+    	elements.addAll(urn.getUcmspec().getVariables());
+    	elements.addAll(urn.getUcmspec().getResources());
+    	elements.addAll(urn.getUcmspec().getScenarioGroups());
+    	for (Iterator iterator = urn.getUcmspec().getScenarioGroups().iterator(); iterator.hasNext();)
+		{
+			ScenarioGroup sg = (ScenarioGroup) iterator.next();
+			elements.addAll(sg.getScenarios());
+		}
+    	elements.addAll(urn.getUcmspec().getEnumerationTypes());
+    	
+    	elements.addAll(urn.getGrlspec().getActors());
+    	elements.addAll(urn.getGrlspec().getIntElements());
+    	elements.addAll(urn.getGrlspec().getKpiInformationElements());
+    	elements.addAll(urn.getUrndef().getSpecDiagrams());
+    	
+     	for (Iterator iterator = urn.getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();)
+		{
+			IURNDiagram d = (IURNDiagram) iterator.next();
+			if (d instanceof UCMmap)
+				elements.addAll(((UCMmap)d).getNodes());
+			else
+				elements.addAll(((GRLGraph)d).getNodes());
+		}
+     	
+     	Vector filteredElements = new Vector();
+     	for (Iterator iterator = elements.iterator(); iterator.hasNext();)
+		{
+			URNmodelElement model = (URNmodelElement) iterator.next();
+			// todo: enhance to support patterns, etc. 
+			if (URNNamingHelper.getName(model).toLowerCase().indexOf(name.toLowerCase())>=0) {
+				filteredElements.add(model);
+			}
+		}
+     	return filteredElements;
+
+    }
+    
     /**
      * Given a URN spec, find the component element having the passed id or return null.
      * 

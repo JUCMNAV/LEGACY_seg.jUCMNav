@@ -411,5 +411,31 @@
             file="help_contexts.xml">
       </contexts>
    </extension>
+   <extension
+         id="seg.jUCMNav.UrnSearchResultPage"
+         name="URN Search Result Page"
+         point="org.eclipse.search.searchResultViewPages">
+		 <viewPage
+		  id="org.eclipse.search.text.FileSearchResultPage"
+		  searchResultClass="seg.jUCMNav.views.search.UrnSearchResult"
+		  class="seg.jUCMNav.views.search.UrnTextSearchViewPage">
+		 </viewPage>         
+   </extension>
+   <extension
+         id="seg.jUCMNav.UrnSearchPage"
+         name="URN Search Page"
+         point="org.eclipse.search.searchPages">
+		 <page id="org.eclipse.jdt.ui.JavaSearchPage"
+				icon="icons/urn16.gif"
+				label="URN Search"
+				sizeHint="460,160"
+				extensions="jucm:1000"
+				showScopeSection="false"
+				canSearchEnclosingProjects="true"
+				enabled="true"
+				tabPosition="0"
+				class="seg.jUCMNav.views.search.UrnSearchPage">
+			</page>         
+   </extension>
 
 </plugin>
