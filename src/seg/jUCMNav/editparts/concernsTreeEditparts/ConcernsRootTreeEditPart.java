@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 import urncore.Concern;
 
 /**
@@ -42,7 +42,7 @@ public class ConcernsRootTreeEditPart extends OutlineRootEditPart implements Ada
             Concern element = (Concern) iter.next();
             list.add(element);
         }
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         list.add(Messages.getString("ConcernsLabelTreeEditPart.DiagramsWithoutConcerns")); //$NON-NLS-1$
         return list;
     }

@@ -10,7 +10,7 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 
 /**
  * This class is the GRLspec edit part for the KPI view.
@@ -66,7 +66,7 @@ public class GRLspecKPITreeEditPart extends KPIUrnModelElementTreeEditPart {
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         list.addAll(getGRLspec().getIndicatorGroup());
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 

@@ -18,6 +18,16 @@ public class URNmodelElementIDComparator implements Comparator, Serializable {
      */
     private static final long serialVersionUID = 1L;
 
+    private boolean descending=true;
+    public URNmodelElementIDComparator()
+	{
+		
+	}
+    public URNmodelElementIDComparator(boolean descending)
+    {
+    	this.descending=descending;
+    }
+    
     /**
      * Sorts items by ascending ID. 
 
@@ -26,17 +36,24 @@ public class URNmodelElementIDComparator implements Comparator, Serializable {
      */
     public int compare(Object arg0, Object arg1) {
 
+    	int res=0;
+    	
         try {
         	if (arg0 instanceof URNmodelElement && arg1 instanceof URNmodelElement) {
         		
         		URNmodelElement element1 = (URNmodelElement) arg1;
 				URNmodelElement element0 = (URNmodelElement) arg0;
 				
-				return Integer.parseInt(element1.getId())-Integer.parseInt(element0.getId());
+				res = Integer.parseInt(element1.getId())-Integer.parseInt(element0.getId());
         	}
+        	else if (arg0 instanceof URNmodelElement)
+        		res = -1;
+        	else if (arg1 instanceof URNmodelElement)
+        		res = 1;
         	else
-        		return 0;
-        
+        		res = 0;
+
+        	return descending ? res : -res;
 
         } catch (Exception ex) {
             return 0;

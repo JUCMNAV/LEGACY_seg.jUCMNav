@@ -284,6 +284,11 @@
             class="seg.jUCMNav.views.preferences.staticSemantic.StaticSemanticPreferencePage"
             id="seg.jUCMNav.views.preferences.StaticSemanticPreferencesPage"
             name="%StaticSemanticPreferences"/>
+	  <page
+            category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            class="seg.jUCMNav.views.preferences.DisplayPreferencesPage"
+            id="seg.jUCMNav.views.preferences.DisplayPreferencesPage"
+            name="Outline Preferences"/>            
    <page
          category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
          class="seg.jUCMNav.views.preferences.metrics.MetricsPreferencePage"

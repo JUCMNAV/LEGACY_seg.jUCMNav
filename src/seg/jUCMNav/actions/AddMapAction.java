@@ -5,6 +5,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 
 /**
  * Adds a new blank use case map in the current editor.
@@ -39,7 +40,10 @@ public class AddMapAction extends URNSelectionAction {
 
         CreateMapCommand create = new CreateMapCommand(sel.getUrnspec());
 
+        if (create.canExecute())
+        {
+       		DisplayPreferences.getInstance().setShowUCMS(true);
+        }
         return create;
     }
-
 }

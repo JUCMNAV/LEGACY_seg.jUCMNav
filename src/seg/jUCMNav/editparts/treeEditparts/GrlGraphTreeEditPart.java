@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.GRLGraphComponentEditPolicy;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 
 
 /**
@@ -56,7 +56,7 @@ public class GrlGraphTreeEditPart extends UrnModelElementTreeEditPart {
         }
         list.addAll(v);
 
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 

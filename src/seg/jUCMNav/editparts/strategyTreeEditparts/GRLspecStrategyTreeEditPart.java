@@ -11,7 +11,7 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 
 /**
  * This class is one of the top level edit parts for the stategies view. 
@@ -68,7 +68,7 @@ public class GRLspecStrategyTreeEditPart extends StrategyUrnModelElementTreeEdit
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         list.addAll(getGRLspec().getGroups());
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 

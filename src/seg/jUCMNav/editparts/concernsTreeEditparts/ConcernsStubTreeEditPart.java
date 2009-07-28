@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import seg.jUCMNav.editparts.treeEditparts.StubTreeEditPart;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 import ucm.map.PluginBinding;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
@@ -36,7 +36,7 @@ public class ConcernsStubTreeEditPart extends StubTreeEditPart {
             if (map != null)
             	list.add(map);
         }
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 

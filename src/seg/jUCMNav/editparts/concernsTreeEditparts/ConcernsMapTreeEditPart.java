@@ -10,7 +10,7 @@ import org.eclipse.swt.graphics.Image;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editparts.treeEditparts.MapTreeEditPart;
 import seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 import ucm.map.PathNode;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
@@ -45,7 +45,7 @@ public class ConcernsMapTreeEditPart extends MapTreeEditPart {
                 if (element instanceof Stub)
                 	list.add(element);
             }
-            Collections.sort(list, new EObjectClassNameComparator());
+            Collections.sort(list, new DelegatingElementComparator());
         }
         return list;
     }

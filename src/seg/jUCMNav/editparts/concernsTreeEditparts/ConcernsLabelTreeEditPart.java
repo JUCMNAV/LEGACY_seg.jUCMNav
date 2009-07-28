@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Image;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.treeEditparts.LabelTreeEditPart;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.Concern;
@@ -79,8 +79,8 @@ public class ConcernsLabelTreeEditPart extends LabelTreeEditPart {
 					listGrl.add(diagram);
 			}
 		}
-        Collections.sort(list, new EObjectClassNameComparator());
-        Collections.sort(listGrl, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
+        Collections.sort(listGrl, new DelegatingElementComparator());
 		// add this group to ensure that all UCMs are shown in the tree
 		list.add(Messages.getString("ConcernsLabelTreeEditPart.RecursiveMaps")); //$NON-NLS-1$
 		list.addAll(listGrl);

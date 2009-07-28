@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import seg.jUCMNav.editparts.treeEditparts.ConcernTreeEditPart;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 import ucm.map.UCMmap;
 import urncore.Concern;
 import urncore.IURNDiagram;
@@ -40,8 +40,8 @@ public class ConcernsConcernTreeEditPart extends ConcernTreeEditPart {
             if (element instanceof GRLGraph)
             	listGrl.add(element);
         }
-        Collections.sort(list, new EObjectClassNameComparator());
-        Collections.sort(listGrl, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
+        Collections.sort(listGrl, new DelegatingElementComparator());
         list.addAll(listGrl);
         return list;
     }

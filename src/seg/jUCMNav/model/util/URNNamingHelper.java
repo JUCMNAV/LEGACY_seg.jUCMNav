@@ -919,7 +919,9 @@ public class URNNamingHelper {
         } else if (elem instanceof KPIInformationElementRef) {
             KPIInformationElementRef ref = (KPIInformationElementRef) elem;
             return getName(ref.getDef());
-        } else
+        } else if (elem==null) 
+        	return "";
+        else
             return elem.getName();
     }
 

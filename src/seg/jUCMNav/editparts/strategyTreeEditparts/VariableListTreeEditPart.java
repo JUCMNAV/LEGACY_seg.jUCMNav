@@ -8,7 +8,7 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 import ucm.UCMspec;
 
 /**
@@ -74,7 +74,7 @@ public class VariableListTreeEditPart extends StrategyUrnModelElementTreeEditPar
             list.addAll(getUCMspec().getEnumerationTypes());
         else
             list.addAll(getUCMspec().getVariables());
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 

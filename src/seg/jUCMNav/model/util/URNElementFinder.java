@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
 
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -210,13 +211,35 @@ public class URNElementFinder {
 		{
 			URNmodelElement model = (URNmodelElement) iterator.next();
 			// todo: enhance to support patterns, etc. 
-			if (URNNamingHelper.getName(model).toLowerCase().indexOf(name.toLowerCase())>=0) {
+			if (doesElementMatchPattern(name, model)) {
 				filteredElements.add(model);
 			}
 		}
      	return filteredElements;
 
     }
+
+	public static boolean doesElementMatchPattern(String name, URNmodelElement model)
+	{
+		if (model instanceof IURNDiagram) // if has child that matches, it matches. 
+		{
+			IURNDiagram mmap = (IURNDiagram) model;
+			for (Iterator iterator = mmap.getNodes().iterator(); iterator.hasNext();)
+			{
+				URNmodelElement pn = (URNmodelElement) iterator.next();
+				if (doesElementMatchPattern(name, pn) && !DisplayPreferences.getInstance().isElementFiltered(pn, false)) 
+					return true;
+			}
+			for (Iterator iterator = mmap.getContRefs().iterator(); iterator.hasNext();)
+			{
+				URNmodelElement pn = (URNmodelElement) iterator.next();
+				if (doesElementMatchPattern(name, pn) &&  !DisplayPreferences.getInstance().isElementFiltered(pn, false)) 
+					return true;
+			}			
+		}
+		
+		return URNNamingHelper.getName(model).toLowerCase().indexOf(name.toLowerCase())>=0;
+	}
     
     /**
      * Given a URN spec, find the component element having the passed id or return null.

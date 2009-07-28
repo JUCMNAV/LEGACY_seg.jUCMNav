@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.IndicatorGroupComponentEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 
 /**
  * TreeEditPart for Indicator Group
@@ -56,7 +56,7 @@ public class IndicatorGroupTreeEditPart extends KPIUrnModelElementTreeEditPart {
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         list.addAll(getIndicatorGroup().getIndicators());
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 

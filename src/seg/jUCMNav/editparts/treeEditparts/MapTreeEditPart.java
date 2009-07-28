@@ -11,11 +11,9 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.MapComponentEditPolicy;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.map.Connect;
-import ucm.map.DirectionArrow;
-import ucm.map.EmptyPoint;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
 
@@ -61,7 +59,7 @@ public class MapTreeEditPart extends UrnModelElementTreeEditPart {
         }
         list.addAll(v);
 
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 
@@ -70,14 +68,7 @@ public class MapTreeEditPart extends UrnModelElementTreeEditPart {
      */
     private boolean elementShouldBeChildren(PathNode element)
     {
-    	if( (element instanceof EmptyPoint || element instanceof DirectionArrow)
-    			&& !DisplayPreferences.getInstance().getShowEmptyPoint())
-    	{
-    		return false;
-    	} else
-    	{
-    		return true;
-    	}
+    	return !DisplayPreferences.getInstance().isElementFiltered(element);
     }
     
     /**

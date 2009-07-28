@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.StrategiesGroupComponentEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 import ucm.scenario.ScenarioGroup;
 
 /**
@@ -63,7 +63,7 @@ public class ScenarioGroupTreeEditPart extends StrategyUrnModelElementTreeEditPa
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         list.addAll(getScenarioGroup().getScenarios());
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
     

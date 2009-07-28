@@ -37,8 +37,12 @@ public class URNmodelElementNameComparator implements Comparator, Serializable {
                 String name0 = element0.getName();
                 if (name0==null) name0=""; //$NON-NLS-1$
 
-                return name0.compareTo(name1);
+                return name0.compareToIgnoreCase(name1);
         	}
+           	else if (arg0 instanceof URNmodelElement)
+        		return -1;
+        	else if (arg1 instanceof URNmodelElement)
+        		return 1;
         	else
         		return 0;
         

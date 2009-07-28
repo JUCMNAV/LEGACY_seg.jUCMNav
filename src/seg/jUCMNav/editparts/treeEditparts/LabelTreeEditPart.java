@@ -2,8 +2,10 @@ package seg.jUCMNav.editparts.treeEditparts;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.graphics.Image;
@@ -11,8 +13,10 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import urn.URNspec;
+import urncore.URNmodelElement;
 
 /**
  * Editpart for textual strings used in the outline such as "Components", "Responsibilities", and "Concerns"
@@ -97,15 +101,15 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         if (getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) //$NON-NLS-1$
-            list.addAll(root.getUrndef().getComponents());
+        	addAllIfMatch(list, root.getUrndef().getComponents());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
-            list.addAll(root.getUrndef().getResponsibilities());
+        	addAllIfMatch(list, root.getUrndef().getResponsibilities());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$
-            list.addAll(root.getGrlspec().getIntElements());
+        	addAllIfMatch(list, root.getGrlspec().getIntElements());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.kpiInformationElementDefs"))) //$NON-NLS-1$
-            list.addAll(root.getGrlspec().getKpiInformationElements());
+        	addAllIfMatch(list, root.getGrlspec().getKpiInformationElements());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))) //$NON-NLS-1$
-            list.addAll(root.getGrlspec().getActors());
+        	addAllIfMatch(list, root.getGrlspec().getActors());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))) { //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.components")); //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.responsibilities")); //$NON-NLS-1$
@@ -125,14 +129,23 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
 
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.resources"))) //$NON-NLS-1$
         {
-            list.addAll(root.getUrndef().getUrnspec().getUcmspec().getResources());
+        	addAllIfMatch(list, root.getUrndef().getUrnspec().getUcmspec().getResources());
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.concerns"))) //$NON-NLS-1$
-            list.addAll(root.getUrndef().getConcerns());
+        	addAllIfMatch(list, root.getUrndef().getConcerns());
 
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 
+    protected void addAllIfMatch(ArrayList list, EList elements)
+    {
+    	for (Iterator iterator = elements.iterator(); iterator.hasNext();)
+		{
+			URNmodelElement object = (URNmodelElement) iterator.next();
+			if (!DisplayPreferences.getInstance().isElementFiltered(object))
+				list.add(object);
+		}
+    }
     /**
      * Their label is their model string.
      * 

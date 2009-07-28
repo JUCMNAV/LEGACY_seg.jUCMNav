@@ -8,7 +8,7 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 import ucm.UCMspec;
 
 /**
@@ -66,7 +66,7 @@ public class UCMspecScenarioTreeEditPart extends StrategyUrnModelElementTreeEdit
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         list.addAll(getUCMspec().getScenarioGroups());
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 

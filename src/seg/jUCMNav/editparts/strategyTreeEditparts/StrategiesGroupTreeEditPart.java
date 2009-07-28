@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.StrategiesGroupComponentEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 
 /**
  * TreeEditPart for Strategies Group
@@ -64,7 +64,7 @@ public class StrategiesGroupTreeEditPart extends StrategyUrnModelElementTreeEdit
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         list.addAll(getStrategiesGroup().getStrategies());
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
     

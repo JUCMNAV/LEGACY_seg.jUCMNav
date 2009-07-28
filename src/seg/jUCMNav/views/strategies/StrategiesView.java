@@ -12,6 +12,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -22,6 +23,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.part.ViewPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -63,7 +65,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 	private ScenarioDef currentScenario;
     private ScenarioDefTreeEditPart currentScenarioSelection;
     
-    private IAction showDesignView, showStrategiesView, refreshTreeView, showId; 
+    private IAction showDesignView, showStrategiesView, refreshTreeView, showId, enableGlobalFilter; 
     
     private int currentView;
 	/**
@@ -128,6 +130,26 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 
         //Register the view to DisplayPreferences
         DisplayPreferences.getInstance().registerListener(this);
+        
+      //Preferences action
+        enableGlobalFilter = new Action() {
+        	public void run() {
+        		DisplayPreferences.getInstance().setGlobalFilterEnabled(enableGlobalFilter.isChecked());
+        		if (enableGlobalFilter.isChecked())
+        		{
+        			PreferenceDialog pref = PreferencesUtil.createPreferenceDialogOn(getSite().getShell(), "seg.jUCMNav.views.preferences.DisplayPreferencesPage", new String[] { "seg.jUCMNav.views.preferences.DisplayPreferencesPage" }, null);
+        			if (pref!=null)
+        					pref.open();
+        		}
+        	}
+        };
+        
+        enableGlobalFilter.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Filter16.gif")); //$NON-NLS-1$
+        enableGlobalFilter.setToolTipText("Filters certain elements out of the outline."); 
+        enableGlobalFilter.setText("Filter outline"); 
+        enableGlobalFilter.setChecked(DisplayPreferences.getInstance().isGlobalFilterEnabled());
+        
+        
         showId = new Action() {
         	public void run()
         	{
@@ -145,7 +167,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         tbm.add(showDesignView);
         tbm.add(refreshTreeView);
         tbm.add(new Separator());
-        tbm.add(showId);
+        tbm.add(enableGlobalFilter);
+        //tbm.add(showId);
         
         IMenuManager manager= getViewSite().getActionBars().getMenuManager();
         manager.add(refreshTreeView);
@@ -307,16 +330,21 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             multieditor.getSelectionSynchronizer().addViewer(viewer);
             viewer.setContents(multieditor);
                         
-            Tree tree = (Tree) viewer.getControl();
-            if (tree.getTopItem() != null) { //fix for crash on linux!
-                Object[] items = tree.getTopItem().getItems();
-                for (int i = 0; i < items.length; i++) {
-                    ((TreeItem) items[i]).setExpanded(true);
-                }
-                tree.getTopItem().setExpanded(true);
-            }
+            expandTree();
         } 
     }
+
+	private void expandTree()
+	{
+		Tree tree = (Tree) viewer.getControl();
+		if (tree.getTopItem() != null) { //fix for crash on linux!
+		    Object[] items = tree.getTopItem().getItems();
+		    for (int i = 0; i < items.length; i++) {
+		        ((TreeItem) items[i]).setExpanded(true);
+		    }
+		    tree.getTopItem().setExpanded(true);
+		}
+	}
     
     /**
      * Passing the focus request to the viewer's control.
@@ -514,5 +542,6 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 	public void refreshView() {
 		viewer.setContents(viewer.getContents());
 		showId.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
+		expandTree();
 	}
 }

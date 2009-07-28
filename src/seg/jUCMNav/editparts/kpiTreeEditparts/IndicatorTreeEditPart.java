@@ -16,7 +16,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.IntentionalElementComponentEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.IndicatorPropertySource;
 
@@ -96,7 +96,7 @@ public class IndicatorTreeEditPart extends KPIUrnModelElementTreeEditPart {
         // The list of IntentionalElementRef of Indicator is not showed now
         // list.addAll(getIndicator().getRefs());
 
-        Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 

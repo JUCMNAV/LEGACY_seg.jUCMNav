@@ -1,13 +1,18 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.util.DelegatingElementComparator;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import urn.URNspec;
+import urncore.URNmodelElement;
 
 /**
  * The TreeEditPart associated with URNspec.
@@ -76,15 +81,27 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
      * @return the sorted list of maps and the component and responsibility definition labels
      */
     protected List getModelChildren() {
+    	boolean globalFilter = DisplayPreferences.getInstance().isGlobalFilterEnabled();
         ArrayList list = new ArrayList();
         if (!onlyDefinitions)
-        	list.addAll(getURNspec().getUrndef().getSpecDiagrams());
+        {
+        	for (Iterator iterator = getURNspec().getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();)
+			{
+        		URNmodelElement object = (URNmodelElement) iterator.next();
+        		if (!DisplayPreferences.getInstance().isElementFiltered(object))
+        			list.add(object);
+			} 
+        }
         //We want to keep the spec diagram in the order of the tabs
-        //Collections.sort(list, new EObjectClassNameComparator());
+        Collections.sort(list, new DelegatingElementComparator());
+        
         //Instead of having all type of definition in the main category, we divided defs in grl and ucm
-        list.add(Messages.getString("URNspecTreeEditPart.ucmDefs")); //$NON-NLS-1$
-        list.add(Messages.getString("URNspecTreeEditPart.grlDefs")); //$NON-NLS-1$
-        if (!onlyDefinitions)
+        
+        if (!globalFilter || DisplayPreferences.getInstance().getShowUCMS())
+        	list.add(Messages.getString("URNspecTreeEditPart.ucmDefs")); //$NON-NLS-1$
+        if (!globalFilter ||  DisplayPreferences.getInstance().getShowGRLS())
+        	list.add(Messages.getString("URNspecTreeEditPart.grlDefs")); //$NON-NLS-1$
+        if (!globalFilter || (!onlyDefinitions &&  DisplayPreferences.getInstance().getShowConcerns()))
         	list.add(Messages.getString("URNspecTreeEditPart.concerns")); //$NON-NLS-1$
         
         return list;

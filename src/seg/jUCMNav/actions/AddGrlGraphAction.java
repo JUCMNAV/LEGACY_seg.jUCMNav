@@ -5,6 +5,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 
 /**
  * Adds a GRL graph to the current URNspec. 
@@ -39,6 +40,10 @@ public class AddGrlGraphAction extends URNSelectionAction {
 
         CreateGrlGraphCommand create = new CreateGrlGraphCommand(sel.getUrnspec());
 
+        if (create.canExecute())
+        {
+       		DisplayPreferences.getInstance().setShowGRLS(true);
+        }
         return create;
     }
 }

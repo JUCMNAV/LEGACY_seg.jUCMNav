@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.TreeEditPart;
-import org.eclipse.gef.editparts.AbstractTreeEditPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.treeEditparts.UrnAbstractTreeEditPart;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.UCMspec;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
@@ -37,10 +37,18 @@ public class StrategyRootEditPart extends UrnAbstractTreeEditPart  {
      */
     protected List getModelChildren() {
         ArrayList l = new ArrayList();
-        l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec());
-        l.add(((UCMNavMultiPageEditor) getModel()).getModel().getGrlspec());
-        l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec().getEnumerationTypes());
-        l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec().getVariables());
+        
+        if (!DisplayPreferences.getInstance().isGlobalFilterEnabled() || DisplayPreferences.getInstance().getShowUCMS())
+        	l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec());
+        
+        if (!DisplayPreferences.getInstance().isGlobalFilterEnabled() || DisplayPreferences.getInstance().getShowGRLS())
+        	l.add(((UCMNavMultiPageEditor) getModel()).getModel().getGrlspec());
+        
+        if (!DisplayPreferences.getInstance().isGlobalFilterEnabled() || DisplayPreferences.getInstance().getShowUCMS())
+        {
+	        l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec().getEnumerationTypes());
+	        l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec().getVariables());
+        }
         return l;
     }
 
