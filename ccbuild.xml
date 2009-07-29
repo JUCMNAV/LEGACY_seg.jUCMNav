@@ -44,7 +44,8 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		<include name="log4j*.jar"/>			
 		<include name="saaj.jar"/>			
 		<include name="wsdl4j*.jar"/>			
-		<include name="org.eclipse.ocl*.jar"/>			
+		<include name="org.eclipse.ocl*.jar"/>
+		<include name="org.eclipse.search_*.jar"/>
 	</patternset>
 	<patternset id="jucmnav.lib.classpath">
 		<include name="lib/*.jar" />
