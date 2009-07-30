@@ -80,6 +80,7 @@ import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
+import seg.jUCMNav.views.preferences.DeletePreferences;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 import seg.jUCMNav.views.property.EObjectPropertySource;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
@@ -361,6 +362,10 @@ public class ProgressTests extends TestCase {
         cmd = new SetConstraintBoundContainerRefCompoundCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
         assertTrue("Can't execute SetConstraintContainerRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
+        
+        //Set the preferences for deleting the references to ALWAYS
+        DeletePreferences.getPreferenceStore().setValue(DeletePreferences.PREF_DELDEFINITION, DeletePreferences.PREF_ALWAYS);
+        DeletePreferences.getPreferenceStore().setValue(DeletePreferences.PREF_DELREFERENCE, DeletePreferences.PREF_ALWAYS);
     }
 
     /*

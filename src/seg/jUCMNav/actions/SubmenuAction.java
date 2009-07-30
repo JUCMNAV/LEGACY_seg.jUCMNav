@@ -11,6 +11,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
+import seg.jUCMNav.JUCMNavPlugin;
+
 /**
  * This action contains other actions and helps create another level of
  * contextual menus.
@@ -57,17 +59,23 @@ public class SubmenuAction extends Action implements SelectionListener
 		setToolTipText(toolTip);
 		setImageDescriptor(descriptor);
 
-		// the secondayr menu logic
+		// the secondary menu logic
 		setMenuCreator(new IMenuCreator()
 		{
+			private Menu fCreatedMenu;
+			
 			public Menu getMenu(Control parent)
 			{
 				// this would be used outside of a menu. not useful for us.
 				return null;
 			}
+			
+			public Menu getCreatedMenu() { return fCreatedMenu; }
 
 			public Menu getMenu(Menu parent)
 			{
+				if (getCreatedMenu()!=null)getCreatedMenu().dispose();
+				
 				// create a submenu
 				Menu menu = new Menu(parent);
 				// fill it with our actions
@@ -88,7 +96,7 @@ public class SubmenuAction extends Action implements SelectionListener
 
 					// create its image
 					if (actions[i].getImageDescriptor() != null)
-						item.setImage(actions[i].getImageDescriptor().createImage());
+						item.setImage(JUCMNavPlugin.getImage(actions[i].getImageDescriptor()));
 
 					// inform us when something is selected.
 					item.addSelectionListener(actionInstance);
@@ -99,6 +107,7 @@ public class SubmenuAction extends Action implements SelectionListener
 
 			public void dispose()
 			{
+				if (getCreatedMenu()!=null)getCreatedMenu().dispose();
 			}
 		});
 

@@ -94,14 +94,20 @@ public class JUCMNavPlugin extends AbstractUIPlugin {
     	
     	if (!imgFactory.containsKey(path)) {
     		imgFactory.put(path, ImageDescriptor.createFromFile(JUCMNavPlugin.class, path).createImage());
-    		
-    		
     	}
     	
     	return ((Image) imgFactory.get(path));
     }
     
-    
+    public static Image getImage(ImageDescriptor descriptor)
+    {
+    	if (imgFactory==null) imgFactory = new HashMap();
+    	if (!imgFactory.containsKey(descriptor)) {
+    		imgFactory.put(descriptor, descriptor.createImage());
+    	}
+    	
+    	return ((Image) imgFactory.get(descriptor));
+    }
     public static boolean isInDebug() {
         return (GeneralPreferencePage.getAuthor()!=null && "debug".equalsIgnoreCase(GeneralPreferencePage.getAuthor())); //$NON-NLS-1$
     }
