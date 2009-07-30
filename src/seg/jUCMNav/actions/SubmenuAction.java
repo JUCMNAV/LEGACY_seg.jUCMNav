@@ -71,6 +71,7 @@ public class SubmenuAction extends Action implements SelectionListener
 			}
 			
 			public Menu getCreatedMenu() { return fCreatedMenu; }
+			public void setCreatedMenu(Menu createdMenu) { fCreatedMenu = createdMenu; }
 
 			public Menu getMenu(Menu parent)
 			{
@@ -102,6 +103,8 @@ public class SubmenuAction extends Action implements SelectionListener
 					item.addSelectionListener(actionInstance);
 
 				}
+				setCreatedMenu(menu);
+				
 				return menu;
 			}
 
