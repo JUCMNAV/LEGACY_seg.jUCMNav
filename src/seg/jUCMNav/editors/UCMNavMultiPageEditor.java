@@ -21,7 +21,6 @@ import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.search.ui.text.ISearchEditorAccess;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -299,8 +298,6 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             return getDelegatingCommandStack();
         else if (getPageCount() == 0 && adapter == IContentOutlinePage.class)
             return new UrnOutlinePage(this, new UrnTreeViewer(this));
-        else if (adapter == ISearchEditorAccess.class)
-        	return new UrnSearchEditorAccess();
 
         // delegate to open editor if possible
         if (getPageCount() > 0) {
