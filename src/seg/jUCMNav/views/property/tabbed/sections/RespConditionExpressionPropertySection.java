@@ -17,6 +17,7 @@ public class RespConditionExpressionPropertySection extends
 		gridData.heightHint = 75;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalAlignment = GridData.FILL;
+		gridData.horizontalIndent=2;
 		gridData.verticalAlignment = GridData.CENTER;
 		
 		result.setLayoutData(gridData);

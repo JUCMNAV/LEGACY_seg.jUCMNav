@@ -52,7 +52,7 @@ public class GEFTabbedPropertySheetPage extends TabbedPropertySheetPage {
 			standardLabelWidth = width + indent;
 		}
 		else
-			standardLabelWidth = width;
+			standardLabelWidth = Math.max(width+indent, standardLabelWidth);
 		
 		gc.dispose();
 		

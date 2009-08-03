@@ -36,6 +36,7 @@ public class EnumerationValuesPropertySection extends
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = GridData.CENTER;
+		gridData.horizontalIndent=2;
 		
 		result.setLayoutData(gridData);
 		
@@ -43,7 +44,11 @@ public class EnumerationValuesPropertySection extends
 	}
 
 	protected String getText() {
-		return ((EnumerationType)eObject).getValues();
+		String values = ((EnumerationType)eObject).getValues();
+		
+		if (values!=null)
+			values = values.replace(",", System.getProperty("line.separator", "\n"));
+		return values;
 	}
 
 	protected void openDialog() {

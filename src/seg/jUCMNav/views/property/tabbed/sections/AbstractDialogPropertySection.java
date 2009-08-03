@@ -54,6 +54,7 @@ public abstract class AbstractDialogPropertySection extends AbstractGEFPropertyS
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = GridData.CENTER;
+		gridData.horizontalIndent=2;
 		
 		result.setLayoutData(gridData);
 		
