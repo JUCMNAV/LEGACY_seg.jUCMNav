@@ -77,6 +77,8 @@ public class MetadataEditorPage extends WizardPage {
     private int lastSortColumn = -1;
     
     private boolean inProperties = false;
+    
+    private Vector changedListener = new Vector();
 
     private SelectionListener metadataTableSelectionListener = new SelectionAdapter() {
         public void widgetDefaultSelected(SelectionEvent e) {
@@ -624,43 +626,46 @@ public class MetadataEditorPage extends WizardPage {
     private void setupMetadata(Object obj) {
         // Remove related listeners on metadataTable in here
 
-        if (obj != null && obj instanceof URNmodelElement) {
-            urnelem = (URNmodelElement) obj;
-
-            // put urnelem into metadata table
-            metadataTable.removeAll();
-
-            Metadata[] metadataArray;
-            if (metadataMap.get(urnelem) != null) {
-                metadataArray = (Metadata[]) metadataMap.get(urnelem);
-            } else {
-                EList metadataList = urnelem.getMetadata();
-                metadataArray = (Metadata[]) metadataList.toArray(new Metadata[0]);
-            }
-
-            String[][] tableInfo = new String[metadataArray.length][metadataTable.getColumnCount()];
-            int rowIndex = 0;
-            for (int i = 0; i < metadataArray.length; i++) {
-                String[] line = decodeLine(metadataArray[i]);
-                if (line != null) {
-                    tableInfo[rowIndex++] = line;
-                }
-            }
-
-            if (rowIndex != metadataArray.length) {
-                String[][] result = new String[rowIndex][metadataTable.getColumnCount()];
-                System.arraycopy(tableInfo, 0, result, 0, rowIndex);
-                tableInfo = result;
-            }
-
-            Arrays.sort(tableInfo, new RowComparator(0));
-
-            for (int i = 0; i < tableInfo.length; i++) {
-                TableItem item = new TableItem(metadataTable, SWT.NONE);
-                item.setText(tableInfo[i]);
-            }
-        } else {
-            metadataTable.removeAll();
+    	if(!metadataTable.isDisposed())
+        {
+	        if (obj != null && obj instanceof URNmodelElement) {
+	            urnelem = (URNmodelElement) obj;
+	
+	            // put urnelem into metadata table
+	            metadataTable.removeAll();
+	
+	            Metadata[] metadataArray;
+	            if (metadataMap.get(urnelem) != null) {
+	                metadataArray = (Metadata[]) metadataMap.get(urnelem);
+	            } else {
+	                EList metadataList = urnelem.getMetadata();
+	                metadataArray = (Metadata[]) metadataList.toArray(new Metadata[0]);
+	            }
+	
+	            String[][] tableInfo = new String[metadataArray.length][metadataTable.getColumnCount()];
+	            int rowIndex = 0;
+	            for (int i = 0; i < metadataArray.length; i++) {
+	                String[] line = decodeLine(metadataArray[i]);
+	                if (line != null) {
+	                    tableInfo[rowIndex++] = line;
+	                }
+	            }
+	
+	            if (rowIndex != metadataArray.length) {
+	                String[][] result = new String[rowIndex][metadataTable.getColumnCount()];
+	                System.arraycopy(tableInfo, 0, result, 0, rowIndex);
+	                tableInfo = result;
+	            }
+	
+	            Arrays.sort(tableInfo, new RowComparator(0));
+	
+	            for (int i = 0; i < tableInfo.length; i++) {
+	                TableItem item = new TableItem(metadataTable, SWT.NONE);
+	                item.setText(tableInfo[i]);
+	            }
+	        } else {
+	            metadataTable.removeAll();
+	        }
         }
 
         // Restore listeners on metadataTable in here
@@ -715,6 +720,15 @@ public class MetadataEditorPage extends WizardPage {
     private void metadataChanged() {
         Metadata[] metadataFromTable = getMetadataFromTable();
         metadataMap.put(urnelem, metadataFromTable);
+        
+        notifyChanged();
+    }
+    
+    protected void notifyChanged()
+    {
+    	Iterator i = changedListener.iterator();
+    	while(i.hasNext())
+    		((IMetadataListener)i.next()).metadataChanged();
     }
 
     /**
@@ -773,6 +787,11 @@ public class MetadataEditorPage extends WizardPage {
 
 	public void setInProperties(boolean inProperties) {
 		this.inProperties = inProperties;
+	}
+	
+	public void addMetadataListener(IMetadataListener o)
+	{
+		changedListener.add(o);
 	}
 
 }
