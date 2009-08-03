@@ -356,7 +356,7 @@ public class MetadataEditorPage extends WizardPage {
         setTitle(Messages.getString("MetadataEditorPage.title")); //$NON-NLS-1$
 
         setControl(container);
-        metadataTable.forceFocus();
+//        metadataTable.forceFocus();
 	}
 
     /**

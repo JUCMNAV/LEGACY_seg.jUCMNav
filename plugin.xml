@@ -478,8 +478,9 @@
 	               class="seg.jUCMNav.views.property.tabbed.sections.NamePropertySection"
 	               id="mview.NamePropertySection"
 	               tab="mview.StandardTab">
-	               <input
-		                  type="urncore.URNmodelElement">
+	               <input type="urncore.URNmodelElement">
+		            </input>
+	               <input type="urn.URNspec">
 		            </input>
 	        </propertySection>
          	<propertySection
@@ -489,11 +490,8 @@
 	               tab="mview.StandardTab">
 	               <input type="urncore.URNmodelElement">
 		            </input>
-	        </propertySection>
-         	<propertySection
-	               class="seg.jUCMNav.views.property.tabbed.sections.CommentDescriptionPropertySection"
-	               id="mview.CommentDescriptionSection"
-	               tab="mview.StandardTab">
+	               <input type="urn.URNspec">
+		            </input>
 	               <input type="urncore.Comment">
 		            </input>
 	        </propertySection>
