@@ -23,5 +23,8 @@ public class RespConditionExpressionPropertySection extends
 		
 		return result;
 	}
-	
+
+	public String getLabelText() {
+		return "Code:";
+	}
 }

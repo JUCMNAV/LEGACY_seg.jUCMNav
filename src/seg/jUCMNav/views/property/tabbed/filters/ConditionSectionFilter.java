@@ -6,6 +6,8 @@ import org.eclipse.jface.viewers.IFilter;
 import seg.jUCMNav.views.property.tabbed.mapper.ConditionDataResolver;
 import seg.jUCMNav.views.property.tabbed.mapper.IPropertyDataResolver;
 import seg.jUCMNav.views.property.tabbed.mapper.UrnPropertyResolver;
+import ucm.map.EndPoint;
+import ucm.map.StartPoint;
 import urncore.Responsibility;
 
 public class ConditionSectionFilter implements IFilter {
@@ -15,6 +17,9 @@ public class ConditionSectionFilter implements IFilter {
 	public boolean select(Object arg0) {		
 		if(arg0 instanceof EditPart)
 			arg0 = ((EditPart)arg0).getModel();
+		
+		if((arg0 instanceof StartPoint) || (arg0 instanceof EndPoint))
+			return false;
 		
 		arg0 = urnResolver.getData(arg0);
 		

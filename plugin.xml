@@ -529,6 +529,24 @@
 		            </input>
 	        </propertySection>
 			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.PreConditionPropertySection"
+	               id="mview.PreConditionSection"
+	               afterSection="mview.DescriptionSection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="ucm.map.StartPoint">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.PostConditionPropertySection"
+	               id="mview.PostConditionSection"
+	               afterSection="mview.DescriptionSection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="ucm.map.EndPoint">
+		            </input>
+	        </propertySection>
+			<propertySection
 	               class="seg.jUCMNav.views.property.tabbed.sections.RespConditionExpressionPropertySection"
 	               id="mview.RespConditionExpressionPropertySection"
 	               afterSection="mview.DescriptionSection"
