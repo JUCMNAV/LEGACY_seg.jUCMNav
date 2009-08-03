@@ -185,5 +185,5 @@ public abstract class AbstractTextPropertySection
 	 * 
 	 * @return the label for the text field.
 	 */
-	protected abstract String getLabelText();
+	public abstract String getLabelText();
 }

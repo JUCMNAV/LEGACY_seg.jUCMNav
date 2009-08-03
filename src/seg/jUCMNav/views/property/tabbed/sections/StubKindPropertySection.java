@@ -65,7 +65,7 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
 		lastSelection = index;
 	}
 
-	protected String getLabelText() {
+	public String getLabelText() {
 		return "Stub Kind:";
 	}
 	

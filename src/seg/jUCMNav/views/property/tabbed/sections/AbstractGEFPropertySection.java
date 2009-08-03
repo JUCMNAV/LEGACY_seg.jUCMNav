@@ -21,7 +21,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
@@ -68,17 +67,7 @@ public abstract class AbstractGEFPropertySection
 	 * @return the standard label width.
 	 */
 	protected int getStandardLabelWidth(Composite parent, String[] labels) {
-		int standardLabelWidth = STANDARD_LABEL_WIDTH;
-		GC gc = new GC(parent);
-		int indent = gc.textExtent("XXX").x; //$NON-NLS-1$
-		for (int i = 0; i < labels.length; i++) {
-			int width = gc.textExtent(labels[i]).x;
-			if (width + indent > standardLabelWidth) {
-				standardLabelWidth = width + indent;
-			}
-		}
-		gc.dispose();
-		return standardLabelWidth;
+		return propertySheetPage.getLabelWidth(this, parent, labels);
 	}
 
 	/**
@@ -142,6 +131,8 @@ public abstract class AbstractGEFPropertySection
 			}
 		}
 	}
+	
+	public abstract String getLabelText();
 	
 	protected Object getDataForSection(Object obj)
 	{

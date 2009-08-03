@@ -143,11 +143,4 @@ public abstract class AbstractEnumerationPropertySection
 	 * @return the new value of the feature.
 	 */
 	protected abstract Object getFeatureValue(int index);
-
-	/**
-	 * Get the label for the combo field for the section.
-	 * 
-	 * @return the label for the text field.
-	 */
-	protected abstract String getLabelText();
 }

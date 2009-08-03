@@ -10,6 +10,4 @@ public class ConditionDescriptionPropertySection extends
 	protected EAttribute getFeature() {
 		return UrncorePackage.eINSTANCE.getCondition_Description();
 	}
-
-
 }

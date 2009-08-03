@@ -11,7 +11,7 @@ public class DescriptionPropertySection extends
 		return UrncorePackage.eINSTANCE.getURNmodelElement_Description();
 	}
 
-	protected String getLabelText() {
+	public String getLabelText() {
 		return "Description: ";
 	}
 }

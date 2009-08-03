@@ -32,7 +32,7 @@ public class ComponentKindPropertySection extends AbstractEnumerationPropertySec
 		return ComponentKind.VALUES.get(index);
 	}
 
-	protected String getLabelText() {
+	public String getLabelText() {
 		return "Component Kind:";
 	}
 

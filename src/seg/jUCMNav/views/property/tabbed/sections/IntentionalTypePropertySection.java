@@ -34,7 +34,7 @@ public class IntentionalTypePropertySection extends
 		return IntentionalElementType.VALUES.get(index);
 	}
 
-	protected String getLabelText() {
+	public String getLabelText() {
 		return "Type:";
 	}
 

@@ -10,7 +10,7 @@ public class NamePropertySection extends AbstractStringPropertySection {
 		return UrncorePackage.eINSTANCE.getURNmodelElement_Name();
 	}
 
-	protected String getLabelText() {
+	public String getLabelText() {
 		return "Name:"; 
 	}
 }

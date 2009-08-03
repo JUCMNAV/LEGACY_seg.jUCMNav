@@ -73,4 +73,8 @@ public class MetadataPropertySection extends AbstractWizardPropertySection {
 		((MetadataEditorPage)page).setData(resolver.adjustSelection(null, eObject), currentObj);
 		((MetadataEditorPage)page).updateUI();
 	}
+
+	public String getLabelText() {
+		return "";
+	}
 }

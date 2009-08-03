@@ -47,8 +47,6 @@ public abstract class AbstractChoicePropertySection extends AbstractGEFPropertyS
 		combo.setLayoutData(data);
 	}
 	
-	protected abstract String getLabelText();
-	
 	protected abstract void itemSelected(int index);
 	
 	protected abstract String[] getList();

@@ -14,7 +14,7 @@ public class ConditionLabelPropertySection extends AbstractStringPropertySection
 		return UrncorePackage.eINSTANCE.getCondition_Label();
 	}
 
-	protected String getLabelText() {
+	public String getLabelText() {
 		return "Condition Label:"; 
 	}
 

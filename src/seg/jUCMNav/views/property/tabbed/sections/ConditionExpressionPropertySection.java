@@ -36,11 +36,12 @@ public class ConditionExpressionPropertySection extends AbstractGEFPropertySecti
 
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
+		gridLayout.horizontalSpacing = 0;
 		
 		parentComposite.setLayout(gridLayout);
 	
 		CLabel nameLabel = getWidgetFactory().createCLabel(parentComposite,
-			getLabelText());
+			getLabelText(), SWT.WRAP | SWT.MULTI);
 		
 		GridData gridData = new GridData();
 		gridData.widthHint = getStandardLabelWidth(parentComposite, new String[] { getLabelText() });
@@ -110,7 +111,7 @@ public class ConditionExpressionPropertySection extends AbstractGEFPropertySecti
 		return result;
 	}
 
-	protected String getLabelText() {
+	public String getLabelText() {
 		return "Condition:";
 	}
 }

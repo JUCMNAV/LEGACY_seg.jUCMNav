@@ -12,7 +12,7 @@ public class RepetitionPropertySection extends AbstractStringPropertySection {
 		return MapPackage.eINSTANCE.getRespRef_RepetitionCount();
 	}
 
-	protected String getLabelText() {
+	public String getLabelText() {
 		return "Repetition Count:";
 	}
 

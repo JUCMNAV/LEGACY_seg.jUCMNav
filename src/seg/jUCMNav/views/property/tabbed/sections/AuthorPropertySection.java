@@ -10,7 +10,7 @@ public class AuthorPropertySection extends AbstractStringPropertySection {
 		return UrnPackage.eINSTANCE.getURNspec_Author();
 	}
 
-	protected String getLabelText() {
+	public String getLabelText() {
 		return "Author:";
 	}
 
