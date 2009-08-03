@@ -54,6 +54,8 @@ public abstract class AbstractGEFPropertySection
 	protected List eObjectList;
 	
     private Notifier target;
+    
+    protected ISelection selection;
 
 	/**
 	 * Get the standard label width when labels for sections line up on the left
@@ -94,6 +96,9 @@ public abstract class AbstractGEFPropertySection
 	 */
 	public void setInput(IWorkbenchPart part, ISelection selection) {
 		super.setInput(part, selection);
+		
+		this.selection = selection;
+		
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
 		}
