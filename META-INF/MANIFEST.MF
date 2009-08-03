@@ -131,6 +131,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ocl.ecore,
  org.eclipse.help,
  org.eclipse.search,
- org.eclipse.jface.text
+ org.eclipse.ui.views.properties.tabbed;bundle-version="3.4.2",
+ org.eclipse.jface.text;bundle-version="3.4.2"
 Eclipse-LazyStart: true
 

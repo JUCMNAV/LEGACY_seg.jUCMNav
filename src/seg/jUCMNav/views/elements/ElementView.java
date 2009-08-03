@@ -412,13 +412,23 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 
     public Object getAdapter(Class adapter) {
         if (adapter == org.eclipse.ui.views.properties.IPropertySheetPage.class) {
+        	//if (editor!=null)
+        		//return editor.getAdapter(adapter);
+        	
+        	// doesn't seem to work. 
+        	/*
+        	if (editor!=null) {
+        		page = new GEFTabbedPropertySheetPage(editor);
+        		return page;
+        	} 
+        	*/
         	page = new PropertySheetPage();
-
             page.setPropertySourceProvider(editor);
-            // page.setRootEntry(new UndoablePropertySheetEntry(editor.getDelegatingCommandStack()));
+             //page.setRootEntry(new UndoablePropertySheetEntry(editor.getDelegatingCommandStack()));
             return page;
 
-        } else
-            return super.getAdapter(adapter);
+        } 
+        
+        return super.getAdapter(adapter);
     }
 }

@@ -27,13 +27,13 @@ import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.parts.TreeViewer;
-import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
@@ -48,7 +48,7 @@ import urncore.IURNDiagram;
  * @author Jean-François Roy, jkealey
  *TODO Remove extends to GraphicalEditorWithFlyoutPalette and copy code in this class
  */
-public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
+public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette implements ITabbedPropertySheetPageContributor {
 
     /** the parent containing the action registry */
     protected UCMNavMultiPageEditor parent;
@@ -153,9 +153,9 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
         else if (type == IContentOutlinePage.class)
             return getOutlinePage();
         else if (type == org.eclipse.ui.views.properties.IPropertySheetPage.class) {
-        	PropertySheetPage page = new PropertySheetPage();
-            page.setRootEntry(new UndoablePropertySheetEntry(getParent().getDelegatingCommandStack()));
-            return page;
+        	return new TabbedPropertySheetPage(this);
+            //page.setRootEntry(new UndoablePropertySheetEntry(getParent().getDelegatingCommandStack()));
+           // return page;
         }
 
         return super.getAdapter(type);
@@ -351,4 +351,8 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
             }
         };
     }
+
+	public String getContributorId() {
+		return getSite().getId();
+	}
 }

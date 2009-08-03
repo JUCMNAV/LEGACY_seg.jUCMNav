@@ -19,6 +19,7 @@
             name="jUCMNav"/>
    </extension>
    <extension
+   
          point="org.eclipse.ui.editorActions">
       <editorContribution
             targetID="seg.jUCMNav.MainEditor"
@@ -417,6 +418,33 @@
       </contexts>
    </extension>
    <extension
+         id="seg.jUCMNav.propertyContributor"
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+         <propertyContributor contributorId="seg.jUCMNav.MainEditor"
+         	typeMapper="seg.jUCMNav.views.property.tabbed.mapper.EditPartTypeMapper">
+	         <propertyCategory category="jUCMNav"/>
+	      </propertyContributor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+         <propertyTabs contributorId="seg.jUCMNav.MainEditor">
+         	<propertyTab
+	            category="jUCMNav"
+	               id="mview.StandardTab"
+	            label="Standard"/>
+	         <propertyTab
+	         	afterTab="mview.StandardTab"
+	            category="jUCMNav"
+	               id="mview.MetaDataTab"
+	            label="Metadata"/>
+	         <propertyTab
+	         	afterTab="mview.MetaDataTab"
+	            category="jUCMNav"
+	               id="mview.AdvancedTab"
+	            label="Advanced"/>
+	      </propertyTabs>
+   </extension>
+   <extension
          id="seg.jUCMNav.UrnSearchResultPage"
          name="URN Search Result Page"
          point="org.eclipse.search.searchResultViewPages">
@@ -443,4 +471,125 @@
 			</page>         
    </extension>
 
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+         <propertySections contributorId="seg.jUCMNav.MainEditor">
+         	<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.NamePropertySection"
+	               id="mview.NamePropertySection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="urncore.URNmodelElement">
+		            </input>
+	        </propertySection>
+         	<propertySection
+         			afterSection="mview.NamePropertySection"
+	               class="seg.jUCMNav.views.property.tabbed.sections.DescriptionPropertySection"
+	               id="mview.DescriptionSection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="urncore.URNmodelElement">
+		            </input>
+	        </propertySection>
+         	<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.ConditionLabelPropertySection"
+	               id="mview.ConditionLabelPropertySection"
+	               tab="mview.StandardTab"
+	               filter="seg.jUCMNav.views.property.tabbed.filters.ConditionSectionFilter"
+	               afterSection="mview.CodeExpressionSection">
+	               <input
+		                  type="urncore.URNmodelElement">
+		            </input>
+	        </propertySection>
+         	<propertySection
+         			afterSection="mview.ConditionLabelPropertySection"
+	               class="seg.jUCMNav.views.property.tabbed.sections.ConditionDescriptionPropertySection"
+	               id="mview.ConditionDescriptionSection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="urncore.Condition">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.MetadataPropertySection"
+	               id="mview.MetaDataPropertySection"
+	               tab="mview.MetaDataTab">
+	               <input
+		                  type="urncore.URNmodelElement">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.ConditionExpressionPropertySection"
+	               id="mview.CodeExpressionSection"
+	               afterSection="mview.DescriptionSection"
+	               tab="mview.StandardTab"
+	               filter="seg.jUCMNav.views.property.tabbed.filters.ConditionSectionFilter">
+	               <input
+		                  type="urncore.URNmodelElement">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.RespConditionExpressionPropertySection"
+	               id="mview.RespConditionExpressionPropertySection"
+	               afterSection="mview.DescriptionSection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="ucm.map.RespRef">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.RepetitionPropertySection"
+	               id="mview.RepetitionCountSection"
+	               afterSection="mview.CodeExpressionSection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="ucm.map.RespRef">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.AuthorPropertySection"
+	               id="mview.AuthorSection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="urn.URNspec">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.StubKindPropertySection"
+	               id="mview.StubKindPropertySection"
+	               afterSection="mview.DescriptionSection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="ucm.map.Stub">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.ComponentKindPropertySection"
+	               id="mview.ComponentKindPropertySection"
+	               afterSection="mview.DescriptionSection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="ucm.map.ComponentRef">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.IntentionalTypePropertySection"
+	               id="mview.IntentionalTypePropertySection"
+	               afterSection="mview.DescriptionSection"
+	               tab="mview.StandardTab">
+	               <input
+		                  type="grl.IntentionalElementRef">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.AdvancedPropertySection"
+	               afterSection="mview.StandardSection"
+	               id="mview.AdvancedSection"
+	               tab="mview.AdvancedTab">
+	               <input
+		                  type="org.eclipse.emf.ecore.EObject">
+		            </input>
+	         </propertySection>
+         </propertySections>
+   </extension>
 </plugin>

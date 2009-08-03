@@ -39,6 +39,7 @@ import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.actionContributors.ActionRegistryManager;
@@ -53,6 +54,7 @@ import seg.jUCMNav.views.QuickFixer;
 import seg.jUCMNav.views.UCMPerspectiveFactory;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
 import seg.jUCMNav.views.outline.UrnTreeViewer;
+import seg.jUCMNav.views.property.tabbed.GEFTabbedPropertySheetPage;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
 import urn.URNspec;
@@ -78,7 +80,7 @@ import urncore.URNmodelElement;
  * @author jkealey
  *  
  */
-public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter, INavigationLocationProvider, IGotoMarker, IPropertySourceProvider {
+public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter, INavigationLocationProvider, IGotoMarker, IPropertySourceProvider, ITabbedPropertySheetPageContributor {
     /** the actionregistry shared between all editors */
     private ActionRegistry actionRegistry;
 
@@ -301,9 +303,17 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         // delegate to open editor if possible
         if (getPageCount() > 0) {
-            return getActiveEditor().getAdapter(adapter);
+        	if (adapter == org.eclipse.ui.views.properties.IPropertySheetPage.class)
+            	return new GEFTabbedPropertySheetPage(this);
+        	else
+        		return getActiveEditor().getAdapter(adapter);
         } else
             return super.getAdapter(adapter);
+    }
+    
+    public IEditorPart getActiveEditor()
+    {
+    	return super.getActiveEditor();
     }
 
     /**
@@ -792,5 +802,9 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 				return (IPropertySource) part.getAdapter(IPropertySource.class);
 		}
 		return null;
+	}
+
+	public String getContributorId() {
+		return getSite().getId();
 	}
 }

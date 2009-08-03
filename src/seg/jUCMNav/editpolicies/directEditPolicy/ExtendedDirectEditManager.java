@@ -12,6 +12,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
@@ -21,13 +22,14 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.figures.LabelElementFigure;
 import seg.jUCMNav.model.commands.transformations.ChangeDefinitionCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
-import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.RespRef;
 import urn.URNspec;
 import urncore.ComponentLabel;
@@ -198,25 +200,26 @@ public class ExtendedDirectEditManager extends DirectEditManager {
                     stack.execute(command);
                 else if (command instanceof ChangeLabelNameCommand || command instanceof ChangeGrlNodeNameCommand )
                 {
-                	//boolean confirm = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("ExtendedDirectEditManager.NameAlreadyInUse"), Messages.getString("ExtendedDirectEditManager.OtherDefinitionExists")); //$NON-NLS-1$ //$NON-NLS-2$
-                	boolean confirm = false; 
+                	boolean confirm = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("ExtendedDirectEditManager.NameAlreadyInUse"), Messages.getString("ExtendedDirectEditManager.OtherDefinitionExists")); //$NON-NLS-1$ //$NON-NLS-2$
+                	if (confirm)
+                	{
                 		URNspec urn = ((URNRootEditPart) getEditPart().getRoot()).getMultiPageEditor().getModel();
                 		ChangeDefinitionCommand cmd = null;
                 		
                 		if (command instanceof ChangeLabelNameCommand) {
 	                		ChangeLabelNameCommand rename = ((ChangeLabelNameCommand) command);
 	                		cmd = new ChangeDefinitionCommand(urn, rename.getRenamedLabel(), rename.getName() );
-	                		confirm = DeletePreferences.getRenameReference(rename.getName());
                 		}
                 		else if (command instanceof ChangeGrlNodeNameCommand)
                 		{
                 			ChangeGrlNodeNameCommand rename = ((ChangeGrlNodeNameCommand) command);
 	                		cmd = new ChangeDefinitionCommand(urn, rename.getElement(), rename.getName());
-	                		confirm = DeletePreferences.getRenameReference(rename.getName());
+                			
                 		}
-                		if (cmd!=null && cmd.canExecute() && confirm)
+                		if (cmd!=null && cmd.canExecute())
                 			stack.execute(cmd);
                 		
+                	}
                 }
              
             }
