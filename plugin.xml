@@ -554,6 +554,9 @@
 	               <input
 		                  type="ucm.map.RespRef">
 		            </input>
+		            <input
+		                  type="urncore.Responsibility">
+		            </input>
 	        </propertySection>
 			<propertySection
 	               class="seg.jUCMNav.views.property.tabbed.sections.RepetitionPropertySection"
