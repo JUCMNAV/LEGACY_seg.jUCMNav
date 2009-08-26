@@ -46,7 +46,6 @@ import seg.jUCMNav.model.commands.create.CreateKPIModelLinkCommand;
 import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
 import seg.jUCMNav.model.commands.create.CreateStrategyCommand;
 import seg.jUCMNav.model.commands.delete.DeleteAllKPIModelLinkRefCommand;
-import seg.jUCMNav.model.commands.delete.DeleteGRLNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteIndicatorGroupCommand;
 import seg.jUCMNav.model.commands.delete.DeleteKPIInformationElementCommand;
 import seg.jUCMNav.model.commands.delete.DeleteKPIModelLinkCommand;
@@ -337,12 +336,7 @@ public class JUCMNavKPICommandTests extends TestCase {
     public void testDeleteKPIInformationElementCommand() {
         testCreateKPIModelLinkCommand();
 
-        // The node should be deleted before the definition
-        Command cmd = new DeleteGRLNodeCommand(kpiInfoElemRef);
-        assertTrue("Can't execute DeleteGRLNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-
-        cmd = new DeleteKPIInformationElementCommand(kpiInfoElem);
+        Command cmd = new DeleteKPIInformationElementCommand(kpiInfoElem);
         assertTrue("Can't execute DeleteIntentionalElementCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
