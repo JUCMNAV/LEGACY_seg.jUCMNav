@@ -66,15 +66,21 @@ public abstract class AbstractDialogPropertySection extends AbstractGEFPropertyS
 		
 		resolve(eObject);
 		
-		if(!text.isDisposed())
-			text.setText(getText());
+		if(text != null)
+		{
+			if(!text.isDisposed())
+				text.setText(getText());
+		}
 	}
 
 	public void refresh() {
 		super.refresh();
 
-		if(!text.isDisposed())
-			text.setText(getText());
+		if(text != null)
+		{
+			if(!text.isDisposed())
+				text.setText(getText());
+		}
 	}
 	
 	protected abstract void openDialog();
