@@ -38,15 +38,14 @@ public class DeleteGRLNodeCommand extends CompoundCommand {
      */
     public void execute()
     {
+    	IntentionalElementRef intElement = (IntentionalElementRef)ref;
+    	
         //Verify if this reference is the only one
-        if(DeletePreferences.getDeleteDefinition(ref) && ref instanceof IntentionalElementRef)
+        if(intElement.getDef().getRefs().size() == 1 &&
+        		DeletePreferences.getDeleteDefinition(ref) && ref instanceof IntentionalElementRef)
         {
-        	IntentionalElementRef intElement = (IntentionalElementRef)ref;
-        	if(intElement.getDef().getRefs().size() == 1)
-        	{
-        		//Add a command to delete the intentional element before execution
-        		add(new DeleteIntentionalElementCommand(intElement.getDef()));
-        	}
+    		//Add a command to delete the intentional element before execution
+    		add(new DeleteIntentionalElementCommand(intElement.getDef()));
         }
         super.execute();
 
