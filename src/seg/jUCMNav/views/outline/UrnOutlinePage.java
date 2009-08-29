@@ -174,7 +174,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         	}
         };
         
-        enableGlobalFilter.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Filter16.gif")); //$NON-NLS-1$
+        enableGlobalFilter.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/filter16.gif")); //$NON-NLS-1$
         enableGlobalFilter.setToolTipText("Filters certain elements out of the outline."); 
         enableGlobalFilter.setText("Filter outline"); 
         enableGlobalFilter.setChecked(DisplayPreferences.getInstance().isGlobalFilterEnabled());

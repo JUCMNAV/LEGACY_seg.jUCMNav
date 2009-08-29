@@ -42,26 +42,27 @@ public class DisplayPreferencesPage  extends FieldEditorPreferencePage implement
 
         BooleanFieldEditor bef = null;
         
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWNODENUMBER, "Show node id numbers in outline.", getFieldEditorParent());
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWNODENUMBER, "Show node id numbers in outline. For instance: name (1234)", getFieldEditorParent());
         addField(bef);
 
         
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWGRLS, "Show GRL related elements in outline.", getFieldEditorParent());
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWGRLS, "Show GRL-related elements in outline.", getFieldEditorParent());
         addField(bef);
         
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWCONCERNS, "Show concerns in outline.", getFieldEditorParent());
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWUCMS, "Show UCM-related elements in outline.", getFieldEditorParent());
+        addField(bef);
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWEMPTY, "Show UCM empty points and direction arrows in outline.", getFieldEditorParent());
+        addField(bef);
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWFORKJOIN, "Show UCM forks and joins in outline.", getFieldEditorParent());
+        addField(bef);
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWSTARTEND, "Show UCM start and end points in outline.", getFieldEditorParent());
+        addField(bef);
+        
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWCONCERNS, "Show URN concerns in outline.", getFieldEditorParent());
         addField(bef);
 
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWUCMS, "Show UCM related elements in outline.", getFieldEditorParent());
-        addField(bef);
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWEMPTY, "Show empty points and direction arrows in outline.", getFieldEditorParent());
-        addField(bef);
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWFORKJOIN, "Show forks and joins in outline.", getFieldEditorParent());
-        addField(bef);
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWSTARTEND, "Show start and empty points in outline.", getFieldEditorParent());
-        addField(bef);
         
-        String[][] values = { { "Default", DisplayPreferences.SORT_DEFAULT }, 
+        String[][] values = { { "Default (group by type, sort by name)", DisplayPreferences.SORT_DEFAULT }, 
                 { "Identifier", DisplayPreferences.SORT_ID},
                 { "Name", DisplayPreferences.SORT_NAME},
         }; 
