@@ -504,7 +504,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(conn);
 		if (nc != null)
 		{
-			nc.refreshVisuals();
+			// seems to cause infinite loops with connection router.  
+			//nc.refreshVisuals();
+			
 			for (Iterator iter = nc.getFigure().getChildren().iterator(); iter.hasNext();)
 			{
 				IFigure fig = (IFigure) iter.next();
