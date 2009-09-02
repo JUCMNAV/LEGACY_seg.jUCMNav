@@ -136,7 +136,7 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
 						if (child != null) {
 							for (Iterator iterator = ((UCMmap) map.getModel()).getConnections().iterator(); iterator.hasNext();) {
 								NodeConnection nc = (NodeConnection) iterator.next();
-								child.refreshNodeConnection(nc);
+								child.refreshNodeConnection(nc, true);
 							}
 						}
 					}

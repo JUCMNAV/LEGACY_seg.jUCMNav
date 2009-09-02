@@ -496,16 +496,18 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 	 * 
 	 * @param conn
 	 *            the node connection
+	 * @param force force a refresh that might cause infinite loops            
 	 * @return true if we could refresh (edit part and figure exist)
 	 */
-	public boolean refreshNodeConnection(NodeConnection conn)
+	public boolean refreshNodeConnection(NodeConnection conn, boolean force)
 	{
 
 		NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(conn);
 		if (nc != null)
 		{
-			// seems to cause infinite loops with connection router.  
-			//nc.refreshVisuals();
+			// seems to cause infinite loops with connection router.
+			if (force)
+				nc.refreshVisuals();
 			
 			for (Iterator iter = nc.getFigure().getChildren().iterator(); iter.hasNext();)
 			{
@@ -525,7 +527,19 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		return false;
 
 	}
-
+	/**
+	 * Refresh this node SplineConnection's children (its decorations). Calling
+	 * the locator's relocate() moves these decorations.
+	 * 
+	 * @param conn
+	 *            the node connection
+	 * @return true if we could refresh (edit part and figure exist)
+	 */
+	public boolean refreshNodeConnection(NodeConnection conn)
+	{
+		return refreshNodeConnection(conn, false);
+	}
+	
 	/**
 	 * Call if this path node editpart must be rotated to be perpendicular to
 	 * its first incoming connection. (EndPoint, AndJoin, RespRef, ..)

@@ -181,11 +181,11 @@ public class StubEditPart extends PathNodeEditPart {
         if (nodeFigure instanceof StubFigure && !needsMove(nodeFigure)) {
             for (Iterator iter = ((Stub) getModel()).getSucc().iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
-                b = refreshNodeConnection(nc) || b;
+                b = refreshNodeConnection(nc,true) || b;
             }
             for (Iterator iter = ((Stub) getModel()).getPred().iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
-                b = refreshNodeConnection(nc) || b;
+                b = refreshNodeConnection(nc,true) || b;
             }
         }
         return b;
