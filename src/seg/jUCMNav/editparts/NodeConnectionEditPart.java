@@ -362,7 +362,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         else
         	getFigure().setToolTip(null);
 		
-		//super.refreshVisuals();
+		super.refreshVisuals();
 	}
 
 	/**
