@@ -183,6 +183,7 @@ public class StubEditPart extends PathNodeEditPart {
                 NodeConnection nc = (NodeConnection) iter.next();
                 b = refreshNodeConnection(nc,false) || b;
             }
+
             for (Iterator iter = ((Stub) getModel()).getPred().iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
                 b = refreshNodeConnection(nc,false) || b;

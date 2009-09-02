@@ -75,6 +75,8 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
         pg = (UCMmap)start.getDiagram();
         startParent = (ComponentRef)start.getContRef();
         endParent = (ComponentRef)end.getContRef();
+        
+        if (startParent==null || endParent==null || pg==null) { aborted=true; return; }
 
         redo();
     }

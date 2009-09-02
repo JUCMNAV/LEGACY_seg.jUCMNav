@@ -537,7 +537,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 	 */
 	public boolean refreshNodeConnection(NodeConnection conn)
 	{
-		return refreshNodeConnection(conn, false);
+		return refreshNodeConnection(conn, true);
 	}
 	
 	/**

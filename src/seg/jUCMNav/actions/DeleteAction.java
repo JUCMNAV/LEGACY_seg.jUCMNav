@@ -34,10 +34,14 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
     public void run() {
         URNspec urn = ((UCMNavMultiPageEditor) getWorkbenchPart()).getModel();
         Command cmd = createDeleteSmallPaths();
-        if (cmd == null || !cmd.canExecute())
-            execute(createDeleteCommand(getSelectedObjects()));
-        else
-            execute(createDeleteCommand(getSelectedObjects()).chain(cmd));
+        
+        if (getSelectedObjects().size()>0) 
+        {
+	        if (cmd == null || !cmd.canExecute())
+	            execute(createDeleteCommand(getSelectedObjects()));
+	        else
+	            execute(createDeleteCommand(getSelectedObjects()).chain(cmd));
+        }
     }
 
     /**
