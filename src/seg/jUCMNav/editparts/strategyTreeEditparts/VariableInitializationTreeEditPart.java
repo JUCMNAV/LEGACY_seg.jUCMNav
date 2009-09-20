@@ -69,11 +69,11 @@ public class VariableInitializationTreeEditPart extends StrategyUrnModelElementT
     protected Image getImage() {
 		if (super.getImage() == null) {
 			if (ScenarioUtils.sTypeBoolean.equals(getVariable().getType())) {
-				setImage(JUCMNavPlugin.getImage( "icons/Node16.gif")); //$NON-NLS-1$
+				setImage(JUCMNavPlugin.getImage( "icons/Boolean16.gif")); //$NON-NLS-1$
 			} else if (ScenarioUtils.sTypeInteger.equals(getVariable().getType())) {
-				setImage(JUCMNavPlugin.getImage( "icons/GoalTag16.gif")); //$NON-NLS-1$
+				setImage(JUCMNavPlugin.getImage( "icons/Integer16.gif")); //$NON-NLS-1$
 			} else {
-				setImage(JUCMNavPlugin.getImage( "icons/ISR16.gif")); //$NON-NLS-1$
+				setImage(JUCMNavPlugin.getImage( "icons/Enumeration16.gif")); //$NON-NLS-1$
 			}
 		}
 		return super.getImage();

@@ -50,13 +50,13 @@ public class AddVariableAction extends URNSelectionAction {
 
         if (ScenarioUtils.sTypeBoolean.equals(type)) {
             setId(ADDBOOLVARIABLE);
-            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")); //$NON-NLS-1$
+            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Boolean16.gif")); //$NON-NLS-1$
         } else if (ScenarioUtils.sTypeInteger.equals(type)) {
             setId(ADDINTVARIABLE);
-            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/GoalTag16.gif")); //$NON-NLS-1$
+            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Integer16.gif")); //$NON-NLS-1$
         } else if (ScenarioUtils.sTypeEnumeration.equals(type)) {
             setId(ADDENUMERATIONVARIABLE);
-            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ISR16.gif")); //$NON-NLS-1$
+            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Enumeration16.gif")); //$NON-NLS-1$
             wizard = true;
         } else {
             wizard = true;

@@ -62,7 +62,7 @@ public class EnumerationTypeTreeEditPart extends StrategyUrnModelElementTreeEdit
      */
     protected Image getImage() {
 		if (super.getImage() == null) {
-			setImage(JUCMNavPlugin.getImage( "icons/ISR16.gif")); //$NON-NLS-1$
+			setImage(JUCMNavPlugin.getImage( "icons/Enumeration16.gif")); //$NON-NLS-1$
 		}
 		return super.getImage();
     }
