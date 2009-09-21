@@ -29,7 +29,7 @@
                label="%autoLayout"
                class="seg.jUCMNav.actions.AutoLayoutActionDelegate"
                tooltip="%autoLayout"
-               icon="icons/Node16.gif"
+               icon="icons/autolayout.gif"
                style="push"
                menubarPath="seg.jUCMNav/ext"
                id="seg.jUCMNav.AutoLayout"
@@ -61,7 +61,7 @@
          <action
                actionID="seg.jUCMNav.actions.scenarios.VerifySyntaxActionDelegate"
                class="seg.jUCMNav.actions.scenarios.VerifySyntaxActionDelegate"
-               icon="icons/condition.gif"
+               icon="icons/syntax.gif"
                id="seg.jUCMNav.actions.scenarios.VerifySyntaxActionDelegate"
                label="%VerifyPseudoCodeSyntax"
                menubarPath="seg.jUCMnav/ext"
@@ -70,7 +70,7 @@
 		 <action
                actionID="seg.jUCMNav.actions.staticSemantic.VerifyStaticSemanticDelegate"
                class="seg.jUCMNav.actions.staticSemantic.VerifyStaticSemanticDelegate"
-               icon="icons/condition.gif"
+               icon="icons/ocl.gif"
                id="seg.jUCMNav.actions.staticAnalysis.VerifyStaticSemanticDelegate"
                label="%VerifyStaticSemantics"
                menubarPath="seg.jUCMnav/ext"
@@ -79,12 +79,12 @@
    <action
          actionID="seg.jUCMNav.actions.matrics.CalculateMatricsActionDelegate"
          class="seg.jUCMNav.actions.metrics.CalculateMetricsActionDelegate"
-         icon="icons/condition.gif"
+         icon="icons/metrics.gif"
          id="seg.jUCMNav.actions.matrics.CalculateMatricsActionDelegate"
-         label="Calculate Metrics"
+         label="%CalculateMetrics"
          menubarPath="seg.jUCMnav/ext"
          style="push"
-         tooltip="Calculate metrics">
+         tooltip="%CalculateMetrics">
    </action>
                
       </editorContribution>
