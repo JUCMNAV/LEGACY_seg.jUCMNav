@@ -76,7 +76,7 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
         startParent = (ComponentRef)start.getContRef();
         endParent = (ComponentRef)end.getContRef();
         
-        if (startParent==null || endParent==null || pg==null) { aborted=true; return; }
+        if (pg==null) { aborted=true; return; }
 
         redo();
     }
