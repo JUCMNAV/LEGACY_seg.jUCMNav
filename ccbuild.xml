@@ -341,8 +341,12 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		<!-- jkealey: create icons directory, bug 238 -->
 		<mkdir dir="${temp.folder}/seg.jUCMNav_${jucmnav.version}/icons"/>
 		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/icons">
+		    <fileset dir="icons"/>
+		</copy>
+		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/icons">
 		    <fileset dir="src/seg/jUCMNav/icons"/>
 		</copy>
+					
 		
 		<!-- damyot: create lib directory, May 2, 2008 -->
 		<mkdir dir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/lib"/>
