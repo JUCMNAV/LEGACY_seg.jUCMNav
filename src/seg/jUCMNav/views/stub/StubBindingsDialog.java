@@ -1251,7 +1251,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	 * @see org.eclipse.jface.window.Window#getInitialSize()
 	 */
 	protected Point getInitialSize() {
-		return new Point(900, 600);
+		return new Point(900, 775);
 	}
 
 	/**
@@ -1792,7 +1792,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			Image end = (JUCMNavPlugin.getImage( "icons/End16.gif")); //$NON-NLS-1$
 			Image in = (JUCMNavPlugin.getImage( "icons/inBinding16.gif")); //$NON-NLS-1$
 			Image out = (JUCMNavPlugin.getImage( "icons/outBinding16.gif")); //$NON-NLS-1$
-			Image comp = (JUCMNavPlugin.getImage( "icons/componentBinding16.gif")); //$NON-NLS-1$
+			Image comp = (JUCMNavPlugin.getImage( "icons/Component16.gif")); //$NON-NLS-1$
 			images.add(in);
 			images.add(out);
 			images.add(start);
