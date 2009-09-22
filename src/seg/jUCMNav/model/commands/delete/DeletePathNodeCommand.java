@@ -54,7 +54,7 @@ public class DeletePathNodeCommand extends CompoundCommand {
         if (getCommands().size() == 0)
             return true;
         else
-            return super.canExecute();
+            return super.canUndo();
     }
     
     /**
