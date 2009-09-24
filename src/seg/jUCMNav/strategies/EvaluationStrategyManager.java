@@ -62,11 +62,11 @@ public class EvaluationStrategyManager {
         return instance;
     }
 
-    private HashMap evaluations; // HashMap to keep link between intentionalElement and the evaluation for a particular strategy
+    private HashMap evaluations  = new HashMap(); // HashMap to keep link between intentionalElement and the evaluation for a particular strategy
     private EvaluationStrategy strategy;
     private IGRLStrategyAlgorithm algo;
 
-    private HashMap kpiInformationConfigs;
+    private HashMap kpiInformationConfigs  = new HashMap();
 
     /**
      * 
