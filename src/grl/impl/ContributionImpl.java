@@ -38,7 +38,7 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
 	 * @generated
 	 * @ordered
 	 */
-    protected static final ContributionType CONTRIBUTION_EDEFAULT = ContributionType.UNKNOWN_LITERAL;
+    protected static final ContributionType CONTRIBUTION_EDEFAULT = ContributionType.MAKE_LITERAL;
 
     /**
 	 * The cached value of the '{@link #getContribution() <em>Contribution</em>}' attribute.
@@ -58,7 +58,7 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int QUANTITATIVE_CONTRIBUTION_EDEFAULT = 0;
+	protected static final int QUANTITATIVE_CONTRIBUTION_EDEFAULT = 25;
 
 				/**
 	 * The cached value of the '{@link #getQuantitativeContribution() <em>Quantitative Contribution</em>}' attribute.
