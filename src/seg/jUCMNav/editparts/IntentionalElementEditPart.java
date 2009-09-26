@@ -293,6 +293,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             //Set the line color and fill color. Option only available in design view
             if (getParent()==null || !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
                 ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
+             	float[] dash = {(float)1000000}; // No dash...
+            	((IntentionalElementFigure) figure).setLineDash(dash);
                 ((IntentionalElementPropertySource)getPropertySource()).setEvaluationStrategyView(false);
                 if (elem.getFromLinks().size() + elem.getToLinks().size()>0)
                 {
@@ -319,7 +321,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 if (evaluation!=null) {
 	                if (StrategyEvaluationPreferences.getFillElements())
 	                {
-	                    String color;
+	                    String color, lineColor;
 	                    if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE){
 	                        color = "255,255,127"; //$NON-NLS-1$
 	                    } else if(evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT) {
@@ -334,7 +336,21 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                            color = partial + ",255,96"; //$NON-NLS-1$
 	                        }
 	                    }
-	                    ((IntentionalElementFigure) figure).setColors("0,0,0", color, true); //$NON-NLS-1$
+	                    
+                    	float[] dash = {(float)1000000}; // No dash
+                    	lineColor = "0,0,0"; //$NON-NLS-1$
+                    	if (evaluation.getStrategies() != null)
+	                    {
+	                    	dash[0] = (float)1;
+	                    	if (!evaluation.getIntElement().getLinksDest().isEmpty())
+	                    	{
+	                    		// This initial evaluation potentially overrides computed ones
+	                    		// Highlight in a different color, dark red. 
+	                        	 lineColor = "160,0,0"; //$NON-NLS-1$
+	                    	}
+	                    }
+                    	((IntentionalElementFigure) figure).setLineDash(dash);
+	                    ((IntentionalElementFigure) figure).setColors(lineColor, color, true); 
 	                }  
 	                
 	                int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
