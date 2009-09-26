@@ -150,7 +150,7 @@ public class DuplicateCommand extends CompoundCommand {
             CreateScenarioCommand cmd = new CreateScenarioCommand(this.urn, this.group, true);
             ScenarioDef newScenario = cmd.getScenario();
             duplicate=newScenario;
-            newScenario.setName(this.scenario.getName());
+            newScenario.setName(this.scenario.getName()+"-Dup"); //$NON-NLS-1$
             newScenario.setDescription(this.scenario.getDescription());
 
             EList newMetadata = newScenario.getMetadata();
@@ -187,7 +187,7 @@ public class DuplicateCommand extends CompoundCommand {
         } else if (this.child == null && this.scenario == null && this.group != null) {
             ScenarioGroup newGroup = (ScenarioGroup) ModelCreationFactory.getNewObject(urn, ScenarioGroup.class);
             duplicate=newGroup;
-            newGroup.setName(this.group.getName());
+            newGroup.setName(this.group.getName()+"-Dup"); //$NON-NLS-1$
             newGroup.setDescription(this.group.getDescription());
 
             EList newMetadata = newGroup.getMetadata();
@@ -207,7 +207,7 @@ public class DuplicateCommand extends CompoundCommand {
             CreateStrategyCommand cmd = new CreateStrategyCommand(urn, group2);
             EvaluationStrategy newStrategy = cmd.getStrategy();
             duplicate=newStrategy;
-            newStrategy.setName(this.strategy.getName());
+            newStrategy.setName(this.strategy.getName()+"-Dup"); //$NON-NLS-1$
             newStrategy.setDescription(this.strategy.getDescription());
             newStrategy.setAuthor(this.strategy.getAuthor());
 
@@ -222,14 +222,16 @@ public class DuplicateCommand extends CompoundCommand {
                 newEval.setEvaluation(eval.getEvaluation());
 
                 KPIEvalValueSet kpiEvalValueSet = eval.getKpiEvalValueSet();
-                KPIEvalValueSet newKPIEvalValueSet = (KPIEvalValueSet) ModelCreationFactory.getNewObject(urn, KPIEvalValueSet.class);
-                newKPIEvalValueSet.setEvaluationValue(kpiEvalValueSet.getEvaluationValue());
-                newKPIEvalValueSet.setTargetValue(kpiEvalValueSet.getTargetValue());
-                newKPIEvalValueSet.setThresholdValue(kpiEvalValueSet.getThresholdValue());
-                newKPIEvalValueSet.setWorstValue(kpiEvalValueSet.getWorstValue());
-                newKPIEvalValueSet.setUnit(kpiEvalValueSet.getUnit());
-
-                newEval.setKpiEvalValueSet(newKPIEvalValueSet);
+                if (kpiEvalValueSet != null) // Duplicate only if a KPIEvalValueSet exists
+                {
+                    KPIEvalValueSet newKPIEvalValueSet = (KPIEvalValueSet) ModelCreationFactory.getNewObject(urn, KPIEvalValueSet.class);
+                	newKPIEvalValueSet.setEvaluationValue(kpiEvalValueSet.getEvaluationValue());
+                	newKPIEvalValueSet.setTargetValue(kpiEvalValueSet.getTargetValue());
+                	newKPIEvalValueSet.setThresholdValue(kpiEvalValueSet.getThresholdValue());
+                	newKPIEvalValueSet.setWorstValue(kpiEvalValueSet.getWorstValue());
+                	newKPIEvalValueSet.setUnit(kpiEvalValueSet.getUnit());
+                    newEval.setKpiEvalValueSet(newKPIEvalValueSet);
+                }
                 add(new AddEvaluationCommand(newEval, eval.getIntElement(), newStrategy));
             }
             for (Iterator iter = strategy.getKpiInfoConfig().iterator(); iter.hasNext();) {
@@ -243,7 +245,7 @@ public class DuplicateCommand extends CompoundCommand {
         } else if (this.group2 != null) {
             StrategiesGroup newGroup = (StrategiesGroup) ModelCreationFactory.getNewObject(urn, StrategiesGroup.class);
             duplicate=newGroup;
-            newGroup.setName(group2.getName());
+            newGroup.setName(group2.getName()+"-Dup"); //$NON-NLS-1$
             newGroup.setDescription(group2.getDescription());
 
             EList newMetadata = newGroup.getMetadata();
