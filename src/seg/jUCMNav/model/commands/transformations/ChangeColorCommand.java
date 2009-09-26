@@ -1,5 +1,7 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import grl.IntentionalElementRef;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
@@ -11,7 +13,7 @@ import urncore.IURNContainerRef;
 /**
  * Changes an element's color   
  * 
- * @author jkealey
+ * @author jkealey, damyot
  */
 public class ChangeColorCommand extends Command implements JUCMNavCommand {
     private EObject element;
@@ -37,7 +39,14 @@ public class ChangeColorCommand extends Command implements JUCMNavCommand {
 				isFilled=containerRef.getContDef().isFilled();
 			}
 		}
-    	else if (element instanceof Comment) {
+    	else if (element instanceof IntentionalElementRef) {
+    		IntentionalElementRef ieRef = (IntentionalElementRef) element;
+			if (ieRef.getDef()!=null) {
+				oldColor = ieRef.getDef().getFillColor();
+				isFilled=ieRef.getDef().isFilled();
+			}
+		}
+      	else if (element instanceof Comment) {
     		Comment c = (Comment) element;
     		oldColor = c.getFillColor();
 		}
@@ -60,7 +69,14 @@ public class ChangeColorCommand extends Command implements JUCMNavCommand {
 				containerRef.getContDef().setFilled(newColor!=null);
 			}
 		}
-    	else if (element instanceof Comment) {
+    	else if (element instanceof IntentionalElementRef) {
+    		IntentionalElementRef ieRef = (IntentionalElementRef) element;
+			if (ieRef.getDef()!=null) {
+				ieRef.getDef().setFillColor(newColor);
+				ieRef.getDef().setFilled(newColor!=null);
+			}
+		}
+     	else if (element instanceof Comment) {
     		Comment c = (Comment) element;
     		c.setFillColor(newColor);
 		}
@@ -99,6 +115,13 @@ public class ChangeColorCommand extends Command implements JUCMNavCommand {
 			if (containerRef.getContDef()!=null) {
 				containerRef.getContDef().setFillColor(oldColor);
 				containerRef.getContDef().setFilled(isFilled);
+			}
+		}
+    	else if (element instanceof IntentionalElementRef) {
+    		IntentionalElementRef ieRef = (IntentionalElementRef) element;
+			if (ieRef.getDef()!=null) {
+				ieRef.getDef().setFillColor(oldColor);
+				ieRef.getDef().setFilled(isFilled);
 			}
 		}
     	else if (element instanceof Comment) {

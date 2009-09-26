@@ -21,7 +21,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_STUBLABELCOLOR, ColorManager.PURPLE.getRGB());
         PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_CONDITIONLABELCOLOR, ColorManager.VERYDARKGRAY.getRGB());
-        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_LINKREFLABELCOLOR, ColorManager.DARKGRAY.getRGB());
+        PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_LINKREFLABELCOLOR, ColorManager.BLACK.getRGB());
         PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_KPIMODELLINKREFLABELCOLOR, ColorManager.DARKGRAY.getRGB());
         PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_FILLCOLOR, ColorManager.WHITE.getRGB());
         PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_LINECOLOR, ColorManager.BLACK.getRGB());

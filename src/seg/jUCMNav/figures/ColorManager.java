@@ -22,9 +22,9 @@ public class ColorManager {
     public static final Color LIGHTGRAY = new Color(null, 230, 230, 230);
     public static final Color LIGHTYELLOW = new Color(null, 255, 255, 200);
     public static final Color GRAY = new Color(null, 200, 200, 200);
-    public static final Color DARKGRAY = new Color(null, 150, 150, 150);
+    public static final Color DARKGRAY = new Color(null, 96, 96, 96);
     public static final Color PURPLE = new Color(null, 150, 0, 150);
-    public static final Color VERYDARKGRAY = new Color(null, 100, 100, 100);
+    public static final Color VERYDARKGRAY = new Color(null, 48, 48, 48);
     public static final Color RED = new Color(null, 255, 0, 0);
     public static final Color WHITE = new Color(null, 255, 255, 255);
     public static final Color YELLOW = new Color(null, 255, 255, 0);

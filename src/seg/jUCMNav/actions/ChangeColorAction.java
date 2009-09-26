@@ -16,16 +16,16 @@ public class ChangeColorAction extends URNSelectionAction {
 	public static final String CHANGECOLOR = "seg.jUCMNav.CHANGECOLOR"; //$NON-NLS-1$
 
 	public static final String[] COLOR_CHART = new String[] {
-			"0,0,0", "0,0,191", "0,191,0", "0,191,191", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			"191,0,0", "191,0,191", "191,191,0", "191,191,191", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			"64,64,64", "64,64,255", "64,255,64", "64,255,255", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			"255,64,64", "255,64,255", "255,255,64", "255,255,255" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		"191,191,191", "160,160,255", "160,255,160", "160,255,255", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		"255,160,160", "255,160,255", "255,255,160", "255,255,255", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		"0,0,0", "96,96,191", "96,191,96", "96,191,191", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		"191,96,96", "191,96,191", "191,191,96", "160,160,160"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	
 	public static final String[] COLOR_NAMES = new String[] {
-			Messages.getString("ChangeColorAction.black"), Messages.getString("ChangeColorAction.blue"), Messages.getString("ChangeColorAction.green"), Messages.getString("ChangeColorAction.cyan"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			Messages.getString("ChangeColorAction.red"), Messages.getString("ChangeColorAction.purple"), Messages.getString("ChangeColorAction.yellow"), Messages.getString("ChangeColorAction.lightgray"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-					Messages.getString("ChangeColorAction.gray"), Messages.getString("ChangeColorAction.lightblue"), Messages.getString("ChangeColorAction.lightgreen"), Messages.getString("ChangeColorAction.lightcyan"),  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-					Messages.getString("ChangeColorAction.lightred"), Messages.getString("ChangeColorAction.lightpurple"), Messages.getString("ChangeColorAction.lightyellow"), Messages.getString("ChangeColorAction.white")}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		Messages.getString("ChangeColorAction.lightgray"), Messages.getString("ChangeColorAction.lightblue"), Messages.getString("ChangeColorAction.lightgreen"), Messages.getString("ChangeColorAction.lightcyan"),  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		Messages.getString("ChangeColorAction.lightred"), Messages.getString("ChangeColorAction.lightpurple"), Messages.getString("ChangeColorAction.lightyellow"), Messages.getString("ChangeColorAction.white"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		Messages.getString("ChangeColorAction.black"), Messages.getString("ChangeColorAction.blue"), Messages.getString("ChangeColorAction.green"), Messages.getString("ChangeColorAction.cyan"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		Messages.getString("ChangeColorAction.red"), Messages.getString("ChangeColorAction.purple"), Messages.getString("ChangeColorAction.yellow"), Messages.getString("ChangeColorAction.gray")}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	
 	protected int colorId;
 	
@@ -47,7 +47,7 @@ public class ChangeColorAction extends URNSelectionAction {
 		return CHANGECOLOR + colorId;
 	}
 	/**
-	 * True if we've selected an empty point or a node connection.
+	 * True if we've selected a comment or a reference to a component/actor/intentionalElement.
 	 */
 	protected boolean calculateEnabled() {
 		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
@@ -55,6 +55,7 @@ public class ChangeColorAction extends URNSelectionAction {
 		case SelectionHelper.COMMENT:
 		case SelectionHelper.COMPONENTREF:
 		case SelectionHelper.ACTORREF:
+		case SelectionHelper.INTENTIONALELEMENTREF:
 			return true;
 
 		}
@@ -79,6 +80,9 @@ public class ChangeColorAction extends URNSelectionAction {
         	return comm;
         case SelectionHelper.ACTORREF:
         	comm = new ChangeColorCommand(sel.getActorref(), COLOR_CHART[colorId]);
+            return comm;
+        case SelectionHelper.INTENTIONALELEMENTREF:
+        	comm = new ChangeColorCommand(sel.getIntentionalelementref(), COLOR_CHART[colorId]);
             return comm;
         default:
             return null;
