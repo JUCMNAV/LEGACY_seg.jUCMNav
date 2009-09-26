@@ -164,6 +164,11 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
      */
     protected Command getCreateCommand(CreateRequest request) {
+    	// allows empty points to be replaced by direction arrows
+    	if ( (getHost().getModel() instanceof EmptyPoint) && ( request.getNewObject() instanceof DirectionArrow ) )
+    	{
+    		return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
+    	}
         // can replace with new object?
         if (isReplaceable(getHost().getModel()) && !(isPathTool(request) || isReplaceable(request.getNewObject()))) {
             // because we don't want forks/joins without only 1 in/out
