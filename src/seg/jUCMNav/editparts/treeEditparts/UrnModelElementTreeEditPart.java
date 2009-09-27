@@ -83,7 +83,7 @@ public class UrnModelElementTreeEditPart extends UrnAbstractTreeEditPart impleme
             refreshVisuals();
 
             // refresh parent to reorder children if name changes.
-            if (notification.getFeature() instanceof EAttributeImpl && ((EAttributeImpl) notification.getFeature()).getName().equals("name")) { //$NON-NLS-1$
+            if (notification.getFeature() instanceof EAttributeImpl && ((EAttributeImpl) notification.getFeature()).getName().equals("name") && getParent()!=null) { //$NON-NLS-1$
                 getParent().refresh();
             }
 
