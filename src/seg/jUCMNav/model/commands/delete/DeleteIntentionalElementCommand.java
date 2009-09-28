@@ -97,7 +97,7 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
             EvaluationStrategy strategy = (EvaluationStrategy) it.next();
             for (Iterator itEval = strategy.getEvaluations().iterator(); itEval.hasNext();) {
                 Evaluation eval = (Evaluation) itEval.next();
-                if (eval.getIntElement().equals(element)) {
+                if (eval.getIntElement()!= null && eval.getIntElement().equals(element)) {
                     add(new DeleteEvaluationCommand(eval));
                 }
             }
