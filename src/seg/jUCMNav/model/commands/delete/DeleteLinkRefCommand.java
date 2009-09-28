@@ -57,8 +57,9 @@ public class DeleteLinkRefCommand extends CompoundCommand {
      * 
      */
     private void build() {
-        for (int i=0; i<linkref.getBendpoints().size(); i++){
-            LinkRefBendpoint bendpoint = (LinkRefBendpoint) linkref.getBendpoints().get(i);
+    	int size = linkref.getBendpoints().size();
+        for (int i=0; i<size; i++){
+            LinkRefBendpoint bendpoint = (LinkRefBendpoint) linkref.getBendpoints().get(size-1-i);
             add(new DeleteLinkRefBendpointCommand(bendpoint));
         }
         
