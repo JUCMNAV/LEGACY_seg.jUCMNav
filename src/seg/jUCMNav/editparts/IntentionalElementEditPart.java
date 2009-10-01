@@ -30,7 +30,9 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.LineAttributes;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -293,8 +295,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             //Set the line color and fill color. Option only available in design view
             if (getParent()==null || !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
                 ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
-             	float[] dash = {(float)1000000}; // No dash...
-            	((IntentionalElementFigure) figure).setLineDash(dash);
+             	((IntentionalElementFigure) figure).setLineAttributes(new LineAttributes(3, SWT.CAP_FLAT, SWT.JOIN_MITER, SWT.LINE_SOLID, null, 0, 3));
                 ((IntentionalElementPropertySource)getPropertySource()).setEvaluationStrategyView(false);
                 if (elem.getFromLinks().size() + elem.getToLinks().size()>0)
                 {
@@ -337,11 +338,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                        }
 	                    }
 	                    
-                    	float[] dash = {(float)1000000}; // No dash
+                    	float[] dash = {(float)1}; // Small dash
                     	lineColor = "0,0,0"; //$NON-NLS-1$
                     	if (evaluation.getStrategies() != null)
 	                    {
-	                    	dash[0] = (float)1;
 	                    	if (!evaluation.getIntElement().getLinksDest().isEmpty())
 	                    	{
 	                    		// This initial evaluation potentially overrides computed ones
@@ -349,7 +349,11 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                        	 lineColor = "160,0,0"; //$NON-NLS-1$
 	                    	}
 	                    }
-                    	((IntentionalElementFigure) figure).setLineDash(dash);
+                    	else
+                    	{
+                    		dash = null; // No dash
+                    	}
+                    	((IntentionalElementFigure) figure).setLineAttributes(new LineAttributes(3, SWT.CAP_FLAT, SWT.JOIN_MITER, SWT.LINE_SOLID, dash, 0, 3));
 	                    ((IntentionalElementFigure) figure).setColors(lineColor, color, true); 
 	                }  
 	                
