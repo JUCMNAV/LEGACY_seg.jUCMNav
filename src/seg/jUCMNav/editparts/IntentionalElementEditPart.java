@@ -338,7 +338,6 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                        }
 	                    }
 	                    
-                    	float[] dash = {(float)1}; // Small dash
                     	lineColor = "0,0,0"; //$NON-NLS-1$
                     	if (evaluation.getStrategies() != null)
 	                    {
@@ -347,13 +346,13 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                    		// This initial evaluation potentially overrides computed ones
 	                    		// Highlight in a different color, dark red. 
 	                        	 lineColor = "160,0,0"; //$NON-NLS-1$
-	                    	}
+	                    	}	                    
+	                    	((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DASH);	                    
 	                    }
                     	else
                     	{
-                    		dash = null; // No dash
+	                    	((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_SOLID);
                     	}
-                    	((IntentionalElementFigure) figure).setLineAttributes(new LineAttributes(3, SWT.CAP_FLAT, SWT.JOIN_MITER, SWT.LINE_SOLID, dash, 0, 3));
 	                    ((IntentionalElementFigure) figure).setColors(lineColor, color, true); 
 	                }  
 	                
