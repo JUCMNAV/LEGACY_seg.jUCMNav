@@ -106,14 +106,14 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		
 
 
-		<condition property="jucmnav.version" value="3.2.${buildtime}">
+		<condition property="jucmnav.version" value="4.0.0">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>
 		</condition>
 
 
-<!--		 <property name="jucmnav.version" value="3.2.1" /> -->
+<!--		 <property name="jucmnav.version" value="4.0.0" /> -->
 		<echo>Building version: ${jucmnav.version}</echo>
 		
 	</target>
@@ -130,15 +130,15 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 	
 	<target name="build.fullzip.exactversion">
 		<antcall target="init">
-			<param name="jucmnav.version" value="3.2.1"/>
+			<param name="jucmnav.version" value="4.0.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="clean">
-			<param name="jucmnav.version" value="3.2.1"/>
+			<param name="jucmnav.version" value="4.0.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="zip.plugin">
-			<param name="jucmnav.version" value="3.2.1"/>
+			<param name="jucmnav.version" value="4.0.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 	</target>
