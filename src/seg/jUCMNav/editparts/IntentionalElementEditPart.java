@@ -32,7 +32,6 @@ import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.LineAttributes;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -295,7 +294,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             //Set the line color and fill color. Option only available in design view
             if (getParent()==null || !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
                 ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
-             	((IntentionalElementFigure) figure).setLineAttributes(new LineAttributes(3, SWT.CAP_FLAT, SWT.JOIN_MITER, SWT.LINE_SOLID, null, 0, 3));
+                ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_SOLID);
                 ((IntentionalElementPropertySource)getPropertySource()).setEvaluationStrategyView(false);
                 if (elem.getFromLinks().size() + elem.getToLinks().size()>0)
                 {
