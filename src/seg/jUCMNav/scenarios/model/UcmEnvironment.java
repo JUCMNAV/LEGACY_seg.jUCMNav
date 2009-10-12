@@ -499,8 +499,16 @@ public class UcmEnvironment implements Adapter, Cloneable {
                         if (!doesEnumerationExist(var.getEnumerationType().getId()))
                             this.registerEnumeration(var.getEnumerationType().getId(), var.getEnumerationType().getValues().split(",")); //$NON-NLS-1$
 
-                        if (oldValuations.containsKey(name))
-                            this.registerEnumerationInstance(var.getEnumerationType().getId(), name, oldValuations.get(name).toString());
+                        if (oldValuations.containsKey(name)) 
+                        {
+                        	try {
+                        		this.registerEnumerationInstance(var.getEnumerationType().getId(), name, oldValuations.get(name).toString());
+                        	} catch (IllegalArgumentException ex)
+                        	{
+                        		// bug 698
+                        		this.registerEnumerationInstance(var.getEnumerationType().getId(), name);
+                        	}
+                        }
                         else
                             this.registerEnumerationInstance(var.getEnumerationType().getId(), name);
                     }
