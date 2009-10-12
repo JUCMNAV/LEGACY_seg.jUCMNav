@@ -16,6 +16,7 @@ import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.ScalableFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -109,7 +110,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         evaluationLabel.setVisible(false);
 
-        evaluationLabel.setSize(50,16);
+        evaluationLabel.setSize(60,16);
         
 
         try {
