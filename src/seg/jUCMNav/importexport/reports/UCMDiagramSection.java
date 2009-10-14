@@ -345,16 +345,15 @@ public class UCMDiagramSection extends PDFReportDiagram {
 	private void insertStub(Document document, Stub node) {
 		try {
 			// name and description
-			String stubType = new String();
+			String stubType;
 
 			if (node.isDynamic()) {
 				stubType = "Dynamic Stub - ";
-				ReportUtils.writeLineWithSeparator(document, stubType + node.getName(), ": ", node.getDescription(), descriptionFont, true);
-
 			} else {
 				stubType = "Static Stub - ";
-				ReportUtils.writeLineWithSeparator(document, stubType + node.getName(), ": ", node.getDescription(), descriptionFont, true);
 			}
+			ReportUtils.writeLineWithSeparator(document, stubType + node.getName(), ": ", node.getDescription(), descriptionFont, true);
+			
 			// Plugin Bindings
 			for (Iterator bindings = node.getBindings().iterator(); bindings.hasNext();) {
 

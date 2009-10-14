@@ -17,15 +17,23 @@ import org.eclipse.emf.common.util.EList;
 
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.importexport.ExportImageGIF;
+import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.map.EndPoint;
+import ucm.map.InBinding;
+import ucm.map.NodeConnection;
+import ucm.map.OrFork;
+import ucm.map.OutBinding;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 import ucm.map.UCMmap;
 import ucm.map.impl.PluginBindingImpl;
 import ucm.map.impl.RespRefImpl;
 import ucm.map.impl.StubImpl;
 import urn.URNspec;
+import urncore.Condition;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
 
@@ -33,6 +41,7 @@ import urncore.IURNNode;
  * Export an HTML suite from a URNspec.
  *  
  * @author pchen
+ * @author amiga
  *
  */
 public class ExportURNHTML implements IURNExport {
@@ -338,8 +347,8 @@ public class ExportURNHTML implements IURNExport {
 				int top = 20;
 				int left = 30;
 
-				sb.append("<div align=\"left\" style=\"top:" + top + "px; left:" + left + "px;\">" + diagramName.substring(diagramName.lastIndexOf("-") + 1) +  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-						"<br/><img src=\"img/" + diagramName + ".gif\" border=\"0\" style=\"top:" + top + "px; left:0px;\" usemap=\"#tooltips\" />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				sb.append("<div align=\"left\" style=\"top:" + top + "px; left:" + left + "px;\"><font size=\"+2\">" + diagramName.substring(diagramName.lastIndexOf("-") + 1) +  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"</font><font size=\"+1\"><i>" + MapType( diagram ) + "</i></font><br/><img src=\"img/" + diagramName + ".gif\" border=\"0\" style=\"top:" + top + "px; left:0px;\" usemap=\"#tooltips\" />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				sb.append("<script language=\"JavaScript\">\n"); //$NON-NLS-1$
 				sb.append("<!--\n"); //$NON-NLS-1$
 
@@ -431,25 +440,13 @@ public class ExportURNHTML implements IURNExport {
 				// System.out.println("No nodes existing.");
 			}
 
-			// Describe table for responsibility references     
-			if (hasNodeType(diagram.getNodes(), RespRefImpl.class)) {
-				sb.append("</div>\n<div>\n<h2>Responsibilities</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-				sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Pseudo-code</tr>\n");
-				for (Iterator iter1 = diagram.getNodes().iterator(); iter1.hasNext();) {
-					IURNNode specNode = (IURNNode) iter1.next();
-					if (specNode instanceof RespRef) {
-						RespRef respRef = (RespRef) specNode;
-						sb.append("<tr><td>" + respRef.getRespDef().getName()
-								+ "</td><td><i>"
-								+ notNull(respRef.getRespDef().getDescription())
-								+ "</i>&nbsp;</td><td>"
-                                + notNull(respRef.getRespDef().getExpression()).replace("\r\n", "<br/>")
-                                + "&nbsp;</td></tr>\n");
-					}
-				}
-				sb.append("</tbody></table></br>\n");
-			}
-
+			OutputDescription( diagram, sb );
+			OutputResponsibilityReferences( diagram, sb );
+			OutputStartPointPreconditions( diagram, sb );
+			OutputEndPointPostconditions( diagram, sb );
+			OutputOrForkGuards( diagram, sb );
+			OutputStubBindings( diagram, sb );
+			
 			// Add tool tips with an image map     
 			if (diagram.getNodes().size() > 0) {
 				int height = 10;
@@ -505,6 +502,7 @@ public class ExportURNHTML implements IURNExport {
 			bos = new BufferedOutputStream(fos);
 
 			bos.write(sb.toString().getBytes(), 0, sb.length());
+			sb = null; // help garbage collector
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (Exception e1) {
@@ -528,6 +526,248 @@ public class ExportURNHTML implements IURNExport {
 
 	}
 
+	private void OutputResponsibilityReferences( IURNDiagram diagram, StringBuffer sb )
+	{
+		// Describe table for responsibility references     
+		if ( !hasNodeType(diagram.getNodes(), RespRefImpl.class))
+			return;
+			
+		sb.append("</div>\n<div>\n<h2>Responsibilities</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Pseudo-code</tr>\n");
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			IURNNode specNode = (IURNNode) iter.next();
+			if (specNode instanceof RespRef) {
+				RespRef respRef = (RespRef) specNode;
+				sb.append("<tr><td>" + respRef.getRespDef().getName()
+						+ "</td><td><i>"
+						+ notNull(respRef.getRespDef().getDescription())
+						+ "</i>&nbsp;</td><td>"
+						+ notNull(respRef.getRespDef().getExpression()).replace("\r\n", "<br/>")
+						+ "&nbsp;</td></tr>\n");
+			}
+		}
+		sb.append("</tbody></table></br>\n");
+	}
+	
+	private void OutputStartPointPreconditions( IURNDiagram diagram, StringBuffer sb )
+	{
+		boolean hasPreconditions = false;
+		StartPoint sp;
+		
+		// determine if any start points have preconditions
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			IURNNode specNode = (IURNNode) iter.next();
+			if (specNode instanceof StartPoint ) {
+				sp = (StartPoint) specNode;
+				if ( ReportUtils.notEmpty( sp.getPrecondition().getLabel() )) {
+					hasPreconditions = true;
+					break;
+				}
+			}
+		}
+		
+		if ( !hasPreconditions )
+			return;
+		
+		sb.append("</div>\n<div>\n<h2>Start Points</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<tr><td><b>Name</b></td><td><b>Precondition</b></td></tr>\n");
+		
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			IURNNode specNode = (IURNNode) iter.next();
+			if (specNode instanceof StartPoint ) {
+				sp = (StartPoint) specNode;
+				if ( ReportUtils.notEmpty( sp.getPrecondition().getLabel() )) {
+					sb.append("<tr><td>" + sp.getName()
+							+ "</td><td><i>"
+							+ sp.getPrecondition().getLabel()
+							+ "</i>&nbsp;</td></tr>\n" );
+				}
+			}
+		}		
+		
+		sb.append("</tbody></table></br>\n");		
+	}
+	
+	private void OutputEndPointPostconditions( IURNDiagram diagram, StringBuffer sb )
+	{
+		boolean hasPostconditions = false;
+		EndPoint ep;
+		
+		// determine if any end points have postconditions
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			IURNNode specNode = (IURNNode) iter.next();
+			if (specNode instanceof EndPoint ) {
+				ep = (EndPoint) specNode;
+				if ( ReportUtils.notEmpty( ep.getPostcondition().getLabel() )) {
+					hasPostconditions = true;
+					break;
+				}
+			}
+		}
+		
+		if ( !hasPostconditions )
+			return;
+		
+		sb.append("</div>\n<div>\n<h2>End Points</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<tr><td><b>Name</b></td><td><b>Postcondition</b></td></tr>\n");
+		
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			IURNNode specNode = (IURNNode) iter.next();
+			if (specNode instanceof EndPoint ) {
+				ep = (EndPoint) specNode;
+				if ( ReportUtils.notEmpty( ep.getPostcondition().getLabel() )) {
+					sb.append("<tr><td>" + ep.getName()
+							+ "</td><td><i>"
+							+ ep.getPostcondition().getLabel()
+							+ "</i>&nbsp;</td></tr>\n" );
+				}
+			}
+		}		
+		
+		sb.append("</tbody></table></br>\n");		
+	}
+	
+	private void OutputOrForkGuards( IURNDiagram diagram, StringBuffer sb )
+	{
+ 		boolean hasConditions = false;
+		boolean firstCondition = true;
+		
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			IURNNode specNode = (IURNNode) iter.next();
+			if (specNode instanceof OrFork ) {
+				firstCondition = true;
+				for (Iterator iter1 = specNode.getSucc().iterator(); iter1.hasNext();) {   
+					Condition orCondition = ((NodeConnection) iter1.next()).getCondition();
+					
+					if (orCondition != null) {
+						if(ReportUtils.notEmpty( orCondition.getLabel() ) ) {
+							if ( !hasConditions ) {
+								hasConditions = true;
+								sb.append("</div>\n<div>\n<h2>Or Fork Description</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+							}
+							if ( firstCondition ) {
+								sb.append("<tr><td>" + orCondition.getLabel() + "<br/>" );
+								firstCondition = false;
+							} else
+								sb.append( orCondition.getLabel() + "<br/>" );
+						}
+					}
+				}
+			}
+		}
+		
+        if ( hasConditions )
+    		sb.append("</tbody></table></br>\n");
+	}
+
+	private void OutputStubBindings( IURNDiagram diagram, StringBuffer sb )
+	{
+		boolean hasBindings = false;
+		String stub_type;
+		StringBuffer inputBuffer, outputBuffer;
+		
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			IURNNode specNode = (IURNNode) iter.next();
+			if (specNode instanceof Stub ) {
+				Stub stub = (Stub) specNode;
+				
+				if ( stub.getBindings().isEmpty() )
+					continue;
+				
+				if ( !hasBindings ) { // output heading for stubs only one time
+					sb.append("</div>\n<div>\n<h2>Stubs</h2>\n");
+					hasBindings = true;
+				}
+
+				if ( stub.isDynamic() )
+					stub_type = "Dynamic Stub - ";
+				else
+					stub_type = "Static Stub - ";
+				
+				sb.append( "<h3>" + stub_type + stub.getName() + "</h3><hr/>" );
+				
+
+				for (Iterator bindings = stub.getBindings().iterator(); bindings.hasNext();) {
+
+					PluginBinding binding = (PluginBinding) bindings.next();
+
+					sb.append("<h4><center>" +  "Plugin Map - " + binding.getPlugin().getName() + "</center></h4>\n" );
+					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n" );
+
+					inputBuffer = new StringBuffer();
+					outputBuffer = new StringBuffer();
+					
+					for (Iterator ins = binding.getIn().iterator(); ins.hasNext();) {
+						InBinding inBinding = (InBinding) ins.next();
+
+						int stubEntryIndex = 0;
+						if (stub.getSucc().indexOf(inBinding.getStubEntry()) == -1) {
+							stubEntryIndex = 1;
+						} else {
+							stubEntryIndex = stub.getSucc().indexOf(inBinding.getStubEntry()) + 1;
+						}
+
+						inputBuffer.append( "IN " + stubEntryIndex + " <-> " + inBinding.getStartPoint().getName()+ "<br/>" );
+					
+					}
+					
+					for (Iterator outs = binding.getOut().iterator(); outs.hasNext();) {
+						OutBinding outBinding = (OutBinding) outs.next();
+
+						int stubExitIndex = 0;
+						stubExitIndex = stub.getSucc().indexOf(outBinding.getStubExit()) + 1;
+						
+						outputBuffer.append( "OUT " + stubExitIndex + " <-> " + outBinding.getEndPoint().getName()+ "<br/>" );
+
+					}
+					
+					sb.append( "<tr><td>Input Bindings</td><td><i>" + inputBuffer + "</td><td>Output Bindings</td><td>" + outputBuffer + "</td></tr>" );
+					sb.append( "</tbody></table></br>\n" );	// end of input / output bindings table		
+
+					sb.append( "<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n" );
+					
+					sb.append( "<tr><td><table style=\"text-align: left; width: 15%;\" border=\"1\" cellpadding=\"1\" cellspacing=\"2\">\n<tbody>\n" );
+					sb.append( "<tr><center><i><b>Precondition</b></i></center></tr>\n" );
+					sb.append( "</tbody></table>" );
+					
+					sb.append( "<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n" );
+					
+					if ( ReportUtils.notEmpty( binding.getPrecondition().getLabel() ) ) {
+						sb.append( "<tr><td>Label: </td><td><i>" + binding.getPrecondition().getLabel() + "</i></td></tr>" );
+					}
+					
+					if ( ReportUtils.notEmpty( binding.getPrecondition().getExpression() ) ) {
+						sb.append( "<tr><td>Expression: </td><td><i>" + binding.getPrecondition().getExpression() + "</i></td></tr>" );
+					}
+					
+					if ( ReportUtils.notEmpty( binding.getPrecondition().getDescription() ) ) {
+						sb.append( "<tr><td>Description: </td><td><i>" + binding.getPrecondition().getDescription() + "</i></td></tr>" );
+					}
+					
+					sb.append( "<tr><td>Transaction: </td><td><i>" + binding.isTransaction() + "</i></td></tr>" );
+					sb.append( "<tr><td>Probability: </td><td><i>" + binding.getProbability() + "</i></td></tr>" );
+					sb.append("</tbody></table></td>\n</tbody></table></br>\n");					
+				}
+			}
+		}
+			
+		inputBuffer = null;
+		outputBuffer = null;
+	}
+
+
+	private void OutputDescription( IURNDiagram diagram, StringBuffer sb )
+	{
+		if ( diagram instanceof UCMmap ) {
+			if ( ReportUtils.notEmpty( ((UCMmap) diagram).getDescription() ) )
+			{
+				sb.append("</div>\n<div>\n<h2>Map Description</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+				sb.append("<tr><td>" + ((UCMmap) diagram).getDescription() + "<br/>" );
+				sb.append("</tbody></table></br>\n");
+			}
+		}
+	}
+
 	/**
 	 * Determines if the list of URN nodes for a diagram contains a node of type 
 	 * Note: often, these are the implementation types (e.g., RespRefImpl instead of RespRef).
@@ -539,8 +779,8 @@ public class ExportURNHTML implements IURNExport {
 	{
 		boolean found = false;
 		Class currentNodeType;
-		for (Iterator iter1 = urnNodes.iterator(); iter1.hasNext();) {
-			currentNodeType = iter1.next().getClass();
+		for (Iterator iter = urnNodes.iterator(); iter.hasNext();) {
+			currentNodeType = iter.next().getClass();
 			if (currentNodeType == nodeType) {
 				found = true;
 				break;
@@ -561,6 +801,14 @@ public class ExportURNHTML implements IURNExport {
 		else
 			return s;
 	}
+	
+	private String MapType( IURNDiagram diagram ){
+		if ( ((UCMmap) diagram).getParentStub().size() == 0 )
+			return " - Root Map";
+		else
+			return " - Plugin Map";
+	}
+
 }
 
 
