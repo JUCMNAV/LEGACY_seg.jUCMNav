@@ -3,9 +3,11 @@ package seg.jUCMNav.importexport.reports;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.emf.common.util.EList;
+
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
-import seg.jUCMNav.views.preferences.UCMReportPreferences;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
 import ucm.map.NodeConnection;
@@ -19,6 +21,7 @@ import ucm.map.impl.OrForkImpl;
 import urncore.Condition;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
+import urncore.Metadata;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -92,11 +95,11 @@ public class UCMDiagramSection extends PDFReportDiagram {
 			boolean firstStub = true;
 
 			// variable needed to decide if we print or not this node type in report
-			boolean showRespRefNode = UCMReportPreferences.getUCMSHOWRESPONSIBILITY();
-			boolean showStubNode = UCMReportPreferences.getUCMSHOWSTUB();
-			boolean showOrForkImplNode = UCMReportPreferences.getUCMSHOWORFORK();
-			boolean showStartPointNode = UCMReportPreferences.getUCMSHOWSTARTPOINT();
-			boolean showEndPointNode = UCMReportPreferences.getUCMSHOWENDPOINT();
+			boolean showRespRefNode = ReportGeneratorPreferences.getUCMSHOWRESPONSIBILITY();
+			boolean showStubNode = ReportGeneratorPreferences.getUCMSHOWSTUB();
+			boolean showOrForkImplNode = ReportGeneratorPreferences.getUCMSHOWORFORK();
+			boolean showStartPointNode = ReportGeneratorPreferences.getUCMSHOWSTARTPOINT();
+			boolean showEndPointNode = ReportGeneratorPreferences.getUCMSHOWENDPOINT();
 
 			boolean sectionAlreadyChecked = false; // to see if we already checked, to print or not this section type
 
@@ -152,11 +155,28 @@ public class UCMDiagramSection extends PDFReportDiagram {
 
 			}
 			// print sections
-			if (stubSection.size() > 0) {
+			if ( respRefSection.size() > 0)
+			{
+				for (int i4 = 1; i4 <= respRefSection.size(); i4++) {
+
+					if (firstResp == true) {
+						insertUCMDiagramSectionHeader( document, tableParams, "Responsibilities" );
+						firstResp = false;
+					}
+
+					Integer hashKey = new Integer(i4);
+					RespRef resp = (RespRef) respRefSection.get(hashKey);
+					insertResponsibility( document, resp );
+					document.add(Chunk.NEWLINE);
+				}				
+			}
+			
+			if (stubSection.size() > 0)
+			{
 				for (int i4 = 1; i4 <= stubSection.size(); i4++) {
 
 					if (firstStub == true) {
-						insertStubHeader(document);
+						insertUCMDiagramSectionHeader( document, tableParams, "Stubs" );
 						firstStub = false;
 					}
 
@@ -164,15 +184,14 @@ public class UCMDiagramSection extends PDFReportDiagram {
 					Stub stub = (Stub) stubSection.get(hashKey);
 					insertStub(document, stub);
 					document.add(Chunk.NEWLINE);
-
 				}
 			}
 
-			if (orForkImplSection.size() > 0) {
-
+			if (orForkImplSection.size() > 0)
+			{
 				for (int i4 = 1; i4 <= orForkImplSection.size(); i4++) {
 					if (firstOrFork == true) {
-						insertOrForkHeader(document);
+						insertUCMDiagramSectionHeader( document, tableParams, "Or Fork Description" );
 						firstOrFork = false;
 					}
 
@@ -183,10 +202,11 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				}
 			}
 
-			if (startPointSection.size() > 0) {
+			if (startPointSection.size() > 0)
+			{
 				for (int i4 = 1; i4 <= startPointSection.size(); i4++) {
 					if (firstStartPoint == true) {
-						insertStartPoinHeader(document);
+						insertUCMDiagramSectionHeader( document, tableParams, "Start Point " );
 						firstStartPoint = false;
 					}
 
@@ -197,10 +217,11 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				}
 			}
 
-			if (endPointSection.size() > 0) {
+			if (endPointSection.size() > 0)
+			{
 				for (int i4 = 1; i4 <= endPointSection.size(); i4++) {
 					if (firstEndPoint == true) {
-						insertEndPoinHeader(document);
+						insertUCMDiagramSectionHeader( document, tableParams, "End Points" );
 						firstEndPoint = false;
 					}
 
@@ -215,36 +236,6 @@ public class UCMDiagramSection extends PDFReportDiagram {
 		}
 
 	}
-
-	private void insertOrForkHeader(Document document) {
-
-		String description = "Or Fork Description";
-		insertUCMDiagramSectionHeader(document, tableParams, description);
-	}
-
-	private void insertRespHeader(Document document) {
-		String description = "Responsibilities";
-		insertUCMDiagramSectionHeader(document, tableParams, description);
-	}
-
-	private void insertStartPoinHeader(Document document) {
-		String description = "Start Point ";
-		insertUCMDiagramSectionHeader(document, tableParams, description);
-
-	}
-
-	private void insertEndPoinHeader(Document document) {
-		String description = "End Point";
-		insertUCMDiagramSectionHeader(document, tableParams, description);
-
-	}
-
-	private void insertStubHeader(Document document) {
-		String description = "Stub";
-		insertUCMDiagramSectionHeader(document, tableParams, description);
-
-	}
-
 
 	private void insertOrForkProbability(Document document, PathNode node) {
 		try {
@@ -277,47 +268,87 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				document.add(Chunk.NEWLINE);
 			}
 
+			insertMetadata( document, node.getMetadata() );
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void insertResponsibility(Document document, RespRef node) {
+	private void insertResponsibility(Document document, RespRef resp)
+	{
 		try {
-
-			ReportUtils.writeLineWithSeparator(document, node.getRespDef().getName(), ": ", node.getRespDef().getDescription(), descriptionFont, true);
-			String expression = node.getRespDef().getExpression();
-			if (expression != null) {
-				ReportUtils.writeLineWithSeparator(document, "Expression", ": ", expression, descriptionFont, true);
+			ReportUtils.writeLineWithSeparator( document, resp.getRespDef().getName(), ": ", resp.getRespDef().getDescription(), descriptionFont, true );
+			String expression = resp.getRespDef().getExpression();
+			if ( ReportUtils.notEmpty( expression ) ) {
+				String [] expression_lines = expression.split( "\n" );
+				if ( expression_lines.length == 1 ) {
+					ReportUtils.writeLineWithSeparator( document, "     Expression", ": ", expression_lines[0], descriptionFont, false );
+				} else {
+					ReportUtils.writeLineWithSeparator( document, "     Expression\n", null, null, descriptionFont, false );
+	            for ( int i = 0; i < expression_lines.length; i++ )
+	            	ReportUtils.writeLineWithSeparator( document, "          " + expression_lines[i], null, null, descriptionFont, false );
+				}
+				document.add(Chunk.NEWLINE);
 			}
 
-			document.add(Chunk.NEWLINE);
-
+			insertMetadata( document, resp.getRespDef().getMetadata() );
+			//if ( !resp.getRespDef().getMetadata().isEmpty() )
+				//document.add(Chunk.NEWLINE);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void insertStartPoint(Document document, StartPoint node) {
+	private void insertStartPoint(Document document, StartPoint start)
+	{
 		try {
-
-			ReportUtils.writeLineWithSeparator(document, node.getName(), ": ", node.getDescription(), descriptionFont, true);
-
+			ReportUtils.writeLineWithSeparator(document, start.getName(), ": ", start.getDescription(), descriptionFont, true);
+			if ( ReportUtils.notEmpty( start.getPrecondition().getLabel() )) {
+				ReportUtils.writeLineWithSeparator( document, "     Precondition", ":  \"", start.getPrecondition().getLabel() + "\"", headerFont, true );
+			}
+			insertMetadata( document, start.getMetadata() );
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void insertEndPoint(Document document, EndPoint node) {
+	private void insertEndPoint(Document document, EndPoint end)
+	{
 		try {
-
-			ReportUtils.writeLineWithSeparator(document, node.getName(), ": ", node.getDescription(), descriptionFont, true);
+			ReportUtils.writeLineWithSeparator(document, end.getName(), ": ", end.getDescription(), descriptionFont, true);
+			if ( ReportUtils.notEmpty( end.getPostcondition().getLabel() )) {
+				ReportUtils.writeLineWithSeparator( document, "     Postcondition", ":  \"", end.getPostcondition().getLabel() + "\"", headerFont, true );
+			}
+			insertMetadata( document, end.getMetadata() );
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	private void insertMetadata( Document document, EList metadata )
+	{
+		Metadata mdata;
+		
+		if ( metadata.isEmpty() )
+			return;
+		
+		if( metadata.size() == 1) {
+			mdata = (Metadata) metadata.get(0);
+			ReportUtils.writeLineWithSeparator( document, "     Metadata:  \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", headerFont, true );			
+		} else
+		{
+			ReportUtils.writeLineWithSeparator( document, "     Metadata\n", null, null, headerFont, false );					
+
+			for ( Iterator iter = metadata.iterator(); iter.hasNext(); ) {
+				mdata = (Metadata) iter.next();
+				ReportUtils.writeLineWithSeparator( document, "          \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"\n", headerFont, false );
+			}
+		}
+	}
 
 	private void insertSuccessorDescription(Document document, PathNode node) {
 		try {
@@ -342,47 +373,49 @@ public class UCMDiagramSection extends PDFReportDiagram {
 	}
 
 
-	private void insertStub(Document document, Stub node) {
+	private void insertStub( Document document, Stub stub ) {
 		try {
 			// name and description
 			String stubType;
 
-			if (node.isDynamic()) {
+			if (stub.isDynamic()) {
 				stubType = "Dynamic Stub - ";
 			} else {
 				stubType = "Static Stub - ";
 			}
-			ReportUtils.writeLineWithSeparator(document, stubType + node.getName(), ": ", node.getDescription(), descriptionFont, true);
-			
-			// Plugin Bindings
-			for (Iterator bindings = node.getBindings().iterator(); bindings.hasNext();) {
+			ReportUtils.writeLineWithSeparator(document, stubType + stub.getName(), ": ", stub.getDescription(), descriptionFont, true);
 
-				PluginBinding element = (PluginBinding) bindings.next();
+			insertMetadata( document, stub.getMetadata() );
+
+			// Plugin Bindings
+			for (Iterator bindings = stub.getBindings().iterator(); bindings.hasNext();) {
+
+				PluginBinding binding = (PluginBinding) bindings.next();
 
 				// Plugin map
 				Paragraph pluginMapPar = new Paragraph();
 				pluginMapPar.setIndentationLeft(10);
 				document.add(Chunk.NEWLINE);
-				Chunk pluginMap1 = new Chunk("Plugin Map - " + element.getPlugin().getName(), pluginMapTitleFont);
+				Chunk pluginMap1 = new Chunk("Plugin Map - " + binding.getPlugin().getName(), pluginMapTitleFont);
 				pluginMapPar.add(pluginMap1);
 				document.add(pluginMapPar);
 
 				// Static Stub input bindings
-				if (element.getIn().iterator().hasNext()) {
+				if (binding.getIn().iterator().hasNext()) {
 					Paragraph par = new Paragraph();
 					par.setIndentationLeft(20);
 					par.add(new Chunk("Input Bindings:", bindingsHeaderFont));
 					document.add(par);
 				}
 
-				for (Iterator ins = element.getIn().iterator(); ins.hasNext();) {
+				for (Iterator ins = binding.getIn().iterator(); ins.hasNext();) {
 					InBinding inBinding = (InBinding) ins.next();
 
 					int stubEntryIndex = 0;
-					if (node.getSucc().indexOf(inBinding.getStubEntry()) == -1) {
+					if (stub.getSucc().indexOf(inBinding.getStubEntry()) == -1) {
 						stubEntryIndex = 1;
 					} else {
-						stubEntryIndex = node.getSucc().indexOf(inBinding.getStubEntry()) + 1;
+						stubEntryIndex = stub.getSucc().indexOf(inBinding.getStubEntry()) + 1;
 					}
 					Paragraph par = new Paragraph();
 					par.setIndentationLeft(30);
@@ -392,18 +425,18 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				}
 
 				// Static Stub output bindings
-				if (element.getOut().iterator().hasNext()) {
+				if (binding.getOut().iterator().hasNext()) {
 					Paragraph par = new Paragraph();
 					par.setIndentationLeft(20);
 					par.add(new Chunk("Output Bindings:", bindingsHeaderFont));
 					document.add(par);
 
 				}
-				for (Iterator outs = element.getOut().iterator(); outs.hasNext();) {
+				for (Iterator outs = binding.getOut().iterator(); outs.hasNext();) {
 					OutBinding outBinding = (OutBinding) outs.next();
 
 					int stubExitIndex = 0;
-					stubExitIndex = node.getSucc().indexOf(outBinding.getStubExit()) + 1;
+					stubExitIndex = stub.getSucc().indexOf(outBinding.getStubExit()) + 1;
 
 					Paragraph par = new Paragraph();
 					par.setIndentationLeft(30);
@@ -418,26 +451,26 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				addlInfo.add(new Chunk("Precondition:", bindingsHeaderFont));
 				addlInfo.add(Chunk.NEWLINE);
 
-				if (ReportUtils.notEmpty(element.getPrecondition().getLabel())) {
-					Chunk details = new Chunk("   Label: " + element.getPrecondition().getLabel(), pluginMapTitleFont);
+				if (ReportUtils.notEmpty(binding.getPrecondition().getLabel())) {
+					Chunk details = new Chunk("   Label: " + binding.getPrecondition().getLabel(), pluginMapTitleFont);
 					addlInfo.add(details);
 					addlInfo.add(Chunk.NEWLINE);
 				}
-				if (ReportUtils.notEmpty(element.getPrecondition().getExpression())) {
-					Chunk details = new Chunk("   Expression: " + element.getPrecondition().getExpression(), pluginMapTitleFont);
+				if (ReportUtils.notEmpty(binding.getPrecondition().getExpression())) {
+					Chunk details = new Chunk("   Expression: " + binding.getPrecondition().getExpression(), pluginMapTitleFont);
 					addlInfo.add(details);
 					addlInfo.add(Chunk.NEWLINE);
 				}
-				if (ReportUtils.notEmpty(element.getPrecondition().getDescription())) {
-					Chunk details = new Chunk("   Description: " + element.getPrecondition().getDescription(), pluginMapTitleFont);
+				if (ReportUtils.notEmpty(binding.getPrecondition().getDescription())) {
+					Chunk details = new Chunk("   Description: " + binding.getPrecondition().getDescription(), pluginMapTitleFont);
 					addlInfo.add(details);
 					addlInfo.add(Chunk.NEWLINE);
 				}
-				Chunk details = new Chunk("Transaction: " + element.isTransaction(), pluginMapTitleFont);
+				Chunk details = new Chunk("Transaction: " + binding.isTransaction(), pluginMapTitleFont);
 				addlInfo.add(details);
 				addlInfo.add(Chunk.NEWLINE);
 
-				details = new Chunk("Probability: " + element.getProbability() + "", pluginMapTitleFont);
+				details = new Chunk("Probability: " + binding.getProbability() + "", pluginMapTitleFont);
 				addlInfo.add(details);
 
 				document.add(addlInfo);

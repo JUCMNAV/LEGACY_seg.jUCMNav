@@ -36,6 +36,7 @@ import urn.URNspec;
 import urncore.Condition;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
+import urncore.Metadata;
 
 /**
  * Export an HTML suite from a URNspec.
@@ -442,8 +443,8 @@ public class ExportURNHTML implements IURNExport {
 
 			OutputDescription( diagram, sb );
 			OutputResponsibilityReferences( diagram, sb );
-			OutputStartPointPreconditions( diagram, sb );
-			OutputEndPointPostconditions( diagram, sb );
+			OutputStartPointData( diagram, sb );
+			OutputEndPointData( diagram, sb );
 			OutputOrForkGuards( diagram, sb );
 			OutputStubBindings( diagram, sb );
 			
@@ -533,7 +534,8 @@ public class ExportURNHTML implements IURNExport {
 			return;
 			
 		sb.append("</div>\n<div>\n<h2>Responsibilities</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Pseudo-code</tr>\n");
+		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Pseudo-code</b></td><td><b>Metadata</b></td></tr>\n");
+		
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			IURNNode specNode = (IURNNode) iter.next();
 			if (specNode instanceof RespRef) {
@@ -542,84 +544,105 @@ public class ExportURNHTML implements IURNExport {
 						+ "</td><td><i>"
 						+ notNull(respRef.getRespDef().getDescription())
 						+ "</i>&nbsp;</td><td>"
-						+ notNull(respRef.getRespDef().getExpression()).replace("\r\n", "<br/>")
-						+ "&nbsp;</td></tr>\n");
+						+ notNull(respRef.getRespDef().getExpression()).replace("\r\n", "<br/>") + "&nbsp;</td>\n" );
+						InsertMetadata( respRef.getRespDef().getMetadata(), sb );
+						sb.append( "</tr>\n" );
 			}
 		}
 		sb.append("</tbody></table></br>\n");
 	}
-	
-	private void OutputStartPointPreconditions( IURNDiagram diagram, StringBuffer sb )
+
+	private void InsertMetadata( EList metadata, StringBuffer sb )
 	{
-		boolean hasPreconditions = false;
+		if ( metadata.isEmpty() ) {
+			sb.append( "<td/>" );
+		} else {
+			sb.append( "<td><i>" );
+			for ( Iterator iter=metadata.iterator(); iter.hasNext(); ) {
+				Metadata mdata = (Metadata) iter.next();
+				sb.append("\"" + mdata.getName() + "\" = \"" + mdata.getValue() + "\"&nbsp;" );
+				if ( iter.hasNext() )
+					sb.append( "<br/>" );
+			}
+		sb.append( "</i>&nbsp;</td>\n" );
+		}
+	}
+
+
+	private void OutputStartPointData( IURNDiagram diagram, StringBuffer sb )
+	{
+		boolean hasData = false;
 		StartPoint sp;
 		
-		// determine if any start points have preconditions
-		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+		// determine if any start points have preconditions or metadata
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			IURNNode specNode = (IURNNode) iter.next();
 			if (specNode instanceof StartPoint ) {
 				sp = (StartPoint) specNode;
-				if ( ReportUtils.notEmpty( sp.getPrecondition().getLabel() )) {
-					hasPreconditions = true;
-					break;
+				if ( ReportUtils.notEmpty( sp.getPrecondition().getLabel() ) || !sp.getMetadata().isEmpty() ) {
+					hasData = true;
 				}
 			}
 		}
 		
-		if ( !hasPreconditions )
+		if ( !hasData )
 			return;
 		
 		sb.append("</div>\n<div>\n<h2>Start Points</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Precondition</b></td></tr>\n");
+		sb.append("<tr><td><b>Name</b></td><td><b>Precondition</b></td><td><b>Metadata</b></td></tr>\n");
 		
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			IURNNode specNode = (IURNNode) iter.next();
 			if (specNode instanceof StartPoint ) {
 				sp = (StartPoint) specNode;
-				if ( ReportUtils.notEmpty( sp.getPrecondition().getLabel() )) {
+				if ( ReportUtils.notEmpty( sp.getPrecondition().getLabel() ) || !sp.getMetadata().isEmpty() ) {
 					sb.append("<tr><td>" + sp.getName()
 							+ "</td><td><i>"
 							+ sp.getPrecondition().getLabel()
-							+ "</i>&nbsp;</td></tr>\n" );
+							+ "</i>&nbsp;</td>\n" );
+							InsertMetadata( sp.getMetadata(), sb );
+							sb.append( "</tr>\n" );
 				}
 			}
 		}		
 		
+		
 		sb.append("</tbody></table></br>\n");		
 	}
 	
-	private void OutputEndPointPostconditions( IURNDiagram diagram, StringBuffer sb )
+	private void OutputEndPointData( IURNDiagram diagram, StringBuffer sb )
 	{
-		boolean hasPostconditions = false;
+		boolean hasData = false;
 		EndPoint ep;
 		
-		// determine if any end points have postconditions
-		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+		// determine if any end points have postconditions or metadata
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			IURNNode specNode = (IURNNode) iter.next();
 			if (specNode instanceof EndPoint ) {
 				ep = (EndPoint) specNode;
-				if ( ReportUtils.notEmpty( ep.getPostcondition().getLabel() )) {
-					hasPostconditions = true;
-					break;
+				if ( ReportUtils.notEmpty( ep.getPostcondition().getLabel() ) || !ep.getMetadata().isEmpty() ) {
+					hasData = true;
 				}
 			}
 		}
 		
-		if ( !hasPostconditions )
+		if ( !hasData )
 			return;
 		
 		sb.append("</div>\n<div>\n<h2>End Points</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Postcondition</b></td></tr>\n");
+		sb.append("<tr><td><b>Name</b></td><td><b>Postcondition</b></td><td><b>Metadata</b></td></tr>\n");
 		
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			IURNNode specNode = (IURNNode) iter.next();
 			if (specNode instanceof EndPoint ) {
 				ep = (EndPoint) specNode;
-				if ( ReportUtils.notEmpty( ep.getPostcondition().getLabel() )) {
+				if ( ReportUtils.notEmpty( ep.getPostcondition().getLabel() ) || !ep.getMetadata().isEmpty() ) {
 					sb.append("<tr><td>" + ep.getName()
 							+ "</td><td><i>"
 							+ ep.getPostcondition().getLabel()
-							+ "</i>&nbsp;</td></tr>\n" );
+							+ "</i>&nbsp;</td>" );
+					InsertMetadata( ep.getMetadata(), sb );
+					sb.append( "</tr>\n" );
 				}
 			}
 		}		
@@ -629,37 +652,84 @@ public class ExportURNHTML implements IURNExport {
 	
 	private void OutputOrForkGuards( IURNDiagram diagram, StringBuffer sb )
 	{
- 		boolean hasConditions = false;
+ 		boolean hasData = false;
 		boolean firstCondition = true;
 		
+		// determine if any or forks have either guard conditions or metadata
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			IURNNode specNode = (IURNNode) iter.next();
-			if (specNode instanceof OrFork ) {
-				firstCondition = true;
-				for (Iterator iter1 = specNode.getSucc().iterator(); iter1.hasNext();) {   
-					Condition orCondition = ((NodeConnection) iter1.next()).getCondition();
-					
-					if (orCondition != null) {
-						if(ReportUtils.notEmpty( orCondition.getLabel() ) ) {
-							if ( !hasConditions ) {
-								hasConditions = true;
-								sb.append("</div>\n<div>\n<h2>Or Fork Description</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-							}
-							if ( firstCondition ) {
-								sb.append("<tr><td>" + orCondition.getLabel() + "<br/>" );
-								firstCondition = false;
-							} else
-								sb.append( orCondition.getLabel() + "<br/>" );
-						}
-					}
+			if ( specNode instanceof OrFork ) {
+				OrFork of = (OrFork) specNode;
+				if( hasOrForkData( of )) {
+					hasData = true;
+					break;					
 				}
 			}
 		}
 		
-        if ( hasConditions )
-    		sb.append("</tbody></table></br>\n");
+		if ( !hasData )
+			return;
+		
+		sb.append("</div>\n<div>\n<h2>Or Fork Description</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<tr><td><b>Guard Conditions</b></td><td><b>Metadata</b></td></tr>\n");
+		
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			IURNNode specNode = (IURNNode) iter.next();
+			if ( specNode instanceof OrFork ) {
+				OrFork orFork = (OrFork) specNode;
+				
+				if ( !hasOrForkData( orFork ) )
+					continue;
+				
+				firstCondition = true;
+				
+				sb.append( "<tr>" );
+				
+				for (Iterator iter1 = orFork.getSucc().iterator(); iter1.hasNext();) {
+					NodeConnection nc = (NodeConnection) iter1.next();
+					Condition orCondition = nc.getCondition();
+					
+					if ( orCondition != null ) {
+						if(ReportUtils.notEmpty( orCondition.getLabel() ) ) {
+							if ( firstCondition ) {
+								sb.append("<td>" );
+								firstCondition = false;
+							} else
+								sb.append( "<br/>" );
+							}
+						sb.append("[" + orCondition.getLabel() + "] ==> " + notNull( orCondition.getExpression() ) + "(" + nc.getProbability() + ")" );							
+					}
+				}
+				
+				if ( firstCondition ) { // if no conditions were found insert empty column
+					sb.append( "<td/>" );					
+				} else { // terminate column
+					sb.append( "</td>" );
+				}
+				
+				InsertMetadata( orFork.getMetadata(), sb );
+				sb.append( "</tr>\n" );
+			}
+		}
+		
+		sb.append("</tbody></table></br>\n");
 	}
 
+	private boolean hasOrForkData( OrFork orFork)
+	{
+		if ( !orFork.getMetadata().isEmpty() ) {
+			return true;
+		}
+		for (Iterator iter1 = orFork.getSucc().iterator(); iter1.hasNext();) {   
+			Condition orCondition = ((NodeConnection) iter1.next()).getCondition();
+			if ( orCondition != null ) {
+				return true;						
+			}
+		}			
+
+		return false; // default
+	}
+	
 	private void OutputStubBindings( IURNDiagram diagram, StringBuffer sb )
 	{
 		boolean hasBindings = false;
@@ -684,14 +754,17 @@ public class ExportURNHTML implements IURNExport {
 				else
 					stub_type = "Static Stub - ";
 				
-				sb.append( "<h3>" + stub_type + stub.getName() + "</h3><hr/>" );
+				
+				sb.append( "<h3>" + stub_type + stub.getName() + "</h3><hr/>\n" );
 				
 
 				for (Iterator bindings = stub.getBindings().iterator(); bindings.hasNext();) {
 
 					PluginBinding binding = (PluginBinding) bindings.next();
+					
+					String pluginDiagramName = ExportWizard.getDiagramName( binding.getPlugin() );
 
-					sb.append("<h4><center>" +  "Plugin Map - " + binding.getPlugin().getName() + "</center></h4>\n" );
+					sb.append("<h4><center><a href=\"" + pluginDiagramName + ".html\">" +  "Plugin Map - " + binding.getPlugin().getName() + "</a></center></h4>\n" );
 					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n" );
 
 					inputBuffer = new StringBuffer();
@@ -721,7 +794,7 @@ public class ExportURNHTML implements IURNExport {
 
 					}
 					
-					sb.append( "<tr><td>Input Bindings</td><td><i>" + inputBuffer + "</td><td>Output Bindings</td><td>" + outputBuffer + "</td></tr>" );
+					sb.append( "<tr><td><b>Input Bindings</b></td><td><i>" + inputBuffer + "</td><td><b>Output Bindings</b></td><td>" + outputBuffer + "</td></tr>" );
 					sb.append( "</tbody></table></br>\n" );	// end of input / output bindings table		
 
 					sb.append( "<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n" );
@@ -748,6 +821,14 @@ public class ExportURNHTML implements IURNExport {
 					sb.append( "<tr><td>Probability: </td><td><i>" + binding.getProbability() + "</i></td></tr>" );
 					sb.append("</tbody></table></td>\n</tbody></table></br>\n");					
 				}
+		
+				if ( !stub.getMetadata().isEmpty() )
+				{	
+					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+					sb.append("<tr><td><b>Metadata</b></td>\n");
+					InsertMetadata( stub.getMetadata(), sb );
+					sb.append( "</tr></tbody></table></br>\n" );
+				}
 			}
 		}
 			
@@ -761,9 +842,8 @@ public class ExportURNHTML implements IURNExport {
 		if ( diagram instanceof UCMmap ) {
 			if ( ReportUtils.notEmpty( ((UCMmap) diagram).getDescription() ) )
 			{
-				sb.append("</div>\n<div>\n<h2>Map Description</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-				sb.append("<tr><td>" + ((UCMmap) diagram).getDescription() + "<br/>" );
-				sb.append("</tbody></table></br>\n");
+				sb.append("</div>\n<div>\n<h2>Map Description</h2>\n");
+				sb.append( "&nbsp;&nbsp;&nbsp;" + ((UCMmap) diagram).getDescription() );
 			}
 		}
 	}
@@ -803,10 +883,13 @@ public class ExportURNHTML implements IURNExport {
 	}
 	
 	private String MapType( IURNDiagram diagram ){
+		if ( diagram instanceof UCMmap ) {
 		if ( ((UCMmap) diagram).getParentStub().size() == 0 )
-			return " - Root Map";
+			return " - UCM Root Map";
 		else
-			return " - Plugin Map";
+			return " - UCM Plugin Map";
+		} else
+			return " - GRL Graph";
 	}
 
 }

@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.preferences;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -10,7 +11,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
-
 /**
  * Preference page for scenario export
  * 
@@ -56,7 +56,37 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         ColorFieldEditor reportColor = new ColorFieldEditor(ReportGeneratorPreferences.PREF_REPORTCOLOR, Messages.getString("ReportGeneratorPreferencePage.PDFBackgroundColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(reportColor);
         
-    
+      // need to add separator line or label
+        
+        BooleanFieldEditor showUCMDesc = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWDESC, Messages.getString("ReportGeneratorPreferencePage.descOrder"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(showUCMDesc);
+
+        BooleanFieldEditor showUCMResponsibility = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWRESPONSIBILITY, Messages.getString("ReportGeneratorPreferencePage.respOrder"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(showUCMResponsibility);
+
+        BooleanFieldEditor showUCMStub = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWSTUB, Messages.getString("ReportGeneratorPreferencePage.stubOrder"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(showUCMStub);
+
+        BooleanFieldEditor showUCMOrFork = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWORFORK, Messages.getString("ReportGeneratorPreferencePage.orFork"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(showUCMOrFork);
+
+        BooleanFieldEditor ShowUCMAndFork = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWANDFORK, Messages.getString("ReportGeneratorPreferencePage.andFork"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(ShowUCMAndFork);
+
+        BooleanFieldEditor ShowUCMStartPoint = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWSTARTPOINT, Messages.getString("ReportGeneratorPreferencePage.startPoint"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(ShowUCMStartPoint);
+
+        BooleanFieldEditor ShowUCMEndPoint = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWENDPOINT, Messages.getString("ReportGeneratorPreferencePage.endPoint"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(ShowUCMEndPoint);
+
+
         
     }
 

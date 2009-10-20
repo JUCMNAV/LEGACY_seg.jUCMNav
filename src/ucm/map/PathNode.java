@@ -6,8 +6,6 @@
  */
 package ucm.map;
 
-import org.eclipse.emf.common.util.EList;
-
 import urncore.IURNNode;
 import urncore.UCMmodelElement;
 
