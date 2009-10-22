@@ -57,6 +57,10 @@ public class Report extends URNReport {
     protected URNdefinition urndef;
 
     private String filename;
+    
+    public Report(){
+    	
+    }
 
     
     public int getType() {

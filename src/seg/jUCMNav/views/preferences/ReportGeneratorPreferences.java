@@ -22,13 +22,13 @@ public class ReportGeneratorPreferences {
     public final static String PREF_REPORTCOLOR="seg.jUCMNav.ReportPreference.Color";//$NON-NLS-1$
     public final static String PREF_REPORTWIDTH = "seg.jUCMNav.ReportPreference.Width"; //$NON-NLS-1$
     
-    public final static boolean DEFAULTUCMSHOWDESC = true; //$NON-NLS-1$
-    public final static boolean DEFAULTUCMSHOWRESPONSIBILITY = true; //$NON-NLS-1$
-    public final static boolean DEFAULTUCMSHOWSTUB = true; //$NON-NLS-1$
-    public final static boolean DEFAULTUCMSHOWORFORK = true; //$NON-NLS-1$
-    public final static boolean DEFAULTUCMSHOWANDFORK = true; //$NON-NLS-1$
-    public final static boolean DEFAULTUCMSHOWSTARTPOINT = true; //$NON-NLS-1$
-    public final static boolean DEFAULTUCMSHOWENDPOINT = true; //$NON-NLS-1$
+    public final static boolean DEFAULTUCMSHOWDESC = true;
+    public final static boolean DEFAULTUCMSHOWRESPONSIBILITY = true;
+    public final static boolean DEFAULTUCMSHOWSTUB = true;
+    public final static boolean DEFAULTUCMSHOWORFORK = true;
+    public final static boolean DEFAULTUCMSHOWANDFORK = true;
+    public final static boolean DEFAULTUCMSHOWSTARTPOINT = true;
+    public final static boolean DEFAULTUCMSHOWENDPOINT = true;
 
 
     public final static String PREF_UCMSHOWDESC = "seg.jUCMNav.UCMReportPreference.UCMSHOWDESC"; //$NON-NLS-1$

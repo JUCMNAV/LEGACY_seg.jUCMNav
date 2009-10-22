@@ -7,7 +7,6 @@
 package grl.impl;
 
 import grl.DecompositionType;
-import grl.ElementLink;
 import grl.GRLspec;
 import grl.GrlPackage;
 import grl.ImportanceType;
@@ -15,7 +14,6 @@ import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 
-import grl.Priority;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -27,8 +25,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import urncore.impl.GRLmodelElementImpl;
 
 /**
  * <!-- begin-user-doc -->

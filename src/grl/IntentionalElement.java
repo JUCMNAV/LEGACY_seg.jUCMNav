@@ -8,8 +8,6 @@ package grl;
 
 import org.eclipse.emf.common.util.EList;
 
-import urncore.GRLmodelElement;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Intentional Element</b></em>'.

@@ -74,6 +74,9 @@ public class RTFReportDiagram extends PDFReport {
 				if (diagram instanceof UCMmap) {
 					UCMDiagramSection ucmSection = new UCMDiagramSection();
 					ucmSection.createUCMDiagramDescription(document, element, diagram);
+				} else {
+					GRLDiagramSection grlSection = new GRLDiagramSection();
+					grlSection.createGRLDiagramDescription( document, element, diagram );
 				}
 
 				// empty line

@@ -33,7 +33,9 @@ import com.lowagie.text.Table;
  * @author dessure
  * 
  */
-public class PDFReportDiagram extends PDFReport {
+public class PDFReportDiagram extends PDFReport
+{
+	protected int[] tableParams = { 1, 2, 0, 100 };
 
 	public PDFReportDiagram() {
 
@@ -72,7 +74,10 @@ public class PDFReportDiagram extends PDFReport {
 
 				if (diagram instanceof UCMmap) {
 					UCMDiagramSection ucmSection = new UCMDiagramSection();
-					ucmSection.createUCMDiagramDescription(document, element, diagram);
+					ucmSection.createUCMDiagramDescription( document, element, diagram );
+				} else {
+					GRLDiagramSection grlSection = new GRLDiagramSection();
+					grlSection.createGRLDiagramDescription( document, element, diagram );
 				}
 
 				// empty line
@@ -240,4 +245,26 @@ public class PDFReportDiagram extends PDFReport {
 		}
 	}
 
+	protected void insertDiagramSectionHeader( Document document, int[] tableParams, String description ) {
+		try {
+
+			Table table = ReportUtils.createTable(tableParams[0], tableParams[1], tableParams[2], tableParams[3]);
+
+			Chunk chunk = new Chunk(description, descriptionBoldFont);
+			Cell descriptionCell = new Cell(chunk);
+			descriptionCell.setColspan(1);
+			descriptionCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			descriptionCell.setBorderWidthBottom(1.5f);
+
+			table.addCell(descriptionCell);
+
+			document.add(table);
+		} catch (Exception e) {
+			jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+			e.printStackTrace();
+
+		}
+	}
+
+	
 }

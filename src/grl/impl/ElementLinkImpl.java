@@ -10,7 +10,6 @@ import grl.ElementLink;
 import grl.GRLLinkableElement;
 import grl.GRLspec;
 import grl.GrlPackage;
-import grl.IntentionalElement;
 import grl.LinkRef;
 
 import java.util.Collection;

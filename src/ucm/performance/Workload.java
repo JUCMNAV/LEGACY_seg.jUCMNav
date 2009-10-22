@@ -6,8 +6,6 @@
  */
 package ucm.performance;
 
-import org.eclipse.emf.common.util.EList;
-
 import ucm.map.StartPoint;
 import urncore.UCMmodelElement;
 

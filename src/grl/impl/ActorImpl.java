@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.UrncorePackage;
-import urncore.impl.GRLmodelElementImpl;
 
 /**
  * <!-- begin-user-doc -->

@@ -6,7 +6,6 @@ import java.util.Iterator;
 import org.eclipse.emf.common.util.EList;
 
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
-import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
@@ -25,12 +24,9 @@ import urncore.Metadata;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
-import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
-import com.lowagie.text.Element;
 import com.lowagie.text.Paragraph;
-import com.lowagie.text.Table;
 
 /**
  * implements the creation the the UCM elements description for each
@@ -40,8 +36,6 @@ import com.lowagie.text.Table;
  * 
  */
 public class UCMDiagramSection extends PDFReportDiagram {
-
-	int[] tableParams = { 1, 2, 0, 100 };
 
 	public UCMDiagramSection() {
 
@@ -57,27 +51,6 @@ public class UCMDiagramSection extends PDFReportDiagram {
 	 * @param description
 	 *            the description of the ucm diagram
 	 */
-	private void insertUCMDiagramSectionHeader(Document document, int[] tableParams, String description) {
-		try {
-
-			Table table = ReportUtils.createTable(tableParams[0], tableParams[1], tableParams[2], tableParams[3]);
-
-			Chunk chunk = new Chunk(description, descriptionBoldFont);
-			Cell descriptionCell = new Cell(chunk);
-			descriptionCell.setColspan(1);
-			descriptionCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			descriptionCell.setBorderWidthBottom(1.5f);
-
-			table.addCell(descriptionCell);
-
-			document.add(table);
-		} catch (Exception e) {
-			jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
-			e.printStackTrace();
-
-		}
-	}
-
 
 	public void createUCMDiagramDescription(Document document, URNmodelElement element, IURNDiagram diagram) {
 
@@ -160,7 +133,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				for (int i4 = 1; i4 <= respRefSection.size(); i4++) {
 
 					if (firstResp == true) {
-						insertUCMDiagramSectionHeader( document, tableParams, "Responsibilities" );
+						insertDiagramSectionHeader( document, tableParams, "Responsibilities" );
 						firstResp = false;
 					}
 
@@ -176,7 +149,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				for (int i4 = 1; i4 <= stubSection.size(); i4++) {
 
 					if (firstStub == true) {
-						insertUCMDiagramSectionHeader( document, tableParams, "Stubs" );
+						insertDiagramSectionHeader( document, tableParams, "Stubs" );
 						firstStub = false;
 					}
 
@@ -191,7 +164,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 			{
 				for (int i4 = 1; i4 <= orForkImplSection.size(); i4++) {
 					if (firstOrFork == true) {
-						insertUCMDiagramSectionHeader( document, tableParams, "Or Fork Description" );
+						insertDiagramSectionHeader( document, tableParams, "Or Fork Description" );
 						firstOrFork = false;
 					}
 
@@ -206,7 +179,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 			{
 				for (int i4 = 1; i4 <= startPointSection.size(); i4++) {
 					if (firstStartPoint == true) {
-						insertUCMDiagramSectionHeader( document, tableParams, "Start Point " );
+						insertDiagramSectionHeader( document, tableParams, "Start Point " );
 						firstStartPoint = false;
 					}
 
@@ -221,7 +194,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 			{
 				for (int i4 = 1; i4 <= endPointSection.size(); i4++) {
 					if (firstEndPoint == true) {
-						insertUCMDiagramSectionHeader( document, tableParams, "End Points" );
+						insertDiagramSectionHeader( document, tableParams, "End Points" );
 						firstEndPoint = false;
 					}
 
@@ -305,8 +278,9 @@ public class UCMDiagramSection extends PDFReportDiagram {
 	{
 		try {
 			ReportUtils.writeLineWithSeparator(document, start.getName(), ": ", start.getDescription(), descriptionFont, true);
-			if ( ReportUtils.notEmpty( start.getPrecondition().getLabel() )) {
-				ReportUtils.writeLineWithSeparator( document, "     Precondition", ":  \"", start.getPrecondition().getLabel() + "\"", headerFont, true );
+			Condition pc = start.getPrecondition();
+			if ( ReportUtils.notEmpty( pc.getLabel() )) {
+				ReportUtils.writeLineWithSeparator( document, "     Precondition [" + pc.getLabel(), "] ==> ", notNull( pc.getExpression() ), descriptionFont, true );
 			}
 			insertMetadata( document, start.getMetadata() );
 			
@@ -319,8 +293,9 @@ public class UCMDiagramSection extends PDFReportDiagram {
 	{
 		try {
 			ReportUtils.writeLineWithSeparator(document, end.getName(), ": ", end.getDescription(), descriptionFont, true);
-			if ( ReportUtils.notEmpty( end.getPostcondition().getLabel() )) {
-				ReportUtils.writeLineWithSeparator( document, "     Postcondition", ":  \"", end.getPostcondition().getLabel() + "\"", headerFont, true );
+			Condition pc = end.getPostcondition();
+			if ( ReportUtils.notEmpty( pc.getLabel() )) {
+				ReportUtils.writeLineWithSeparator( document, "     Postcondition [" + pc.getLabel(), "]  ==> ",  notNull( pc.getExpression() ), descriptionFont, true );
 			}
 			insertMetadata( document, end.getMetadata() );
 
@@ -338,14 +313,14 @@ public class UCMDiagramSection extends PDFReportDiagram {
 		
 		if( metadata.size() == 1) {
 			mdata = (Metadata) metadata.get(0);
-			ReportUtils.writeLineWithSeparator( document, "     Metadata:  \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", headerFont, true );			
+			ReportUtils.writeLineWithSeparator( document, "     Metadata:  \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true );			
 		} else
 		{
-			ReportUtils.writeLineWithSeparator( document, "     Metadata\n", null, null, headerFont, false );					
+			ReportUtils.writeLineWithSeparator( document, "     Metadata\n", null, null, descriptionFont, false );					
 
 			for ( Iterator iter = metadata.iterator(); iter.hasNext(); ) {
 				mdata = (Metadata) iter.next();
-				ReportUtils.writeLineWithSeparator( document, "          \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"\n", headerFont, false );
+				ReportUtils.writeLineWithSeparator( document, "          \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"\n", descriptionFont, false );
 			}
 		}
 	}
@@ -479,5 +454,12 @@ public class UCMDiagramSection extends PDFReportDiagram {
 			e.printStackTrace();
 		}
 	}
-
+	
+	private String notNull (String s)
+	{
+		if (s == null)
+			return "";
+		else
+			return s;
+	}
 }

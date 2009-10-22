@@ -7,7 +7,6 @@
 package grl;
 
 import org.eclipse.emf.common.util.EList;
-import urncore.GRLmodelElement;
 import urncore.IURNContainer;
 
 /**
