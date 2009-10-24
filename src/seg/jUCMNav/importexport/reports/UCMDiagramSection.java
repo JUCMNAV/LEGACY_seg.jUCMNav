@@ -3,24 +3,21 @@ package seg.jUCMNav.importexport.reports;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.eclipse.emf.common.util.EList;
-
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
 import ucm.map.NodeConnection;
+import ucm.map.OrFork;
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
-import ucm.map.impl.OrForkImpl;
 import urncore.Condition;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
-import urncore.Metadata;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -58,7 +55,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 			// sections array contains a list of UCM Types we can report on
 			// the order in the array will be the order in which they appear
 			// in the report.
-			String[] sections = { "RespRef", "Stub", "OrForkImpl", "StartPoint", "EndPoint" };
+			String[] sections = { "RespRef", "Stub", "OrFork", "StartPoint", "EndPoint" };
 
 			// variables used to skip headers for multiple items
 			boolean firstOrFork = true;
@@ -70,7 +67,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 			// variable needed to decide if we print or not this node type in report
 			boolean showRespRefNode = ReportGeneratorPreferences.getUCMSHOWRESPONSIBILITY();
 			boolean showStubNode = ReportGeneratorPreferences.getUCMSHOWSTUB();
-			boolean showOrForkImplNode = ReportGeneratorPreferences.getUCMSHOWORFORK();
+			boolean showOrForkNode = ReportGeneratorPreferences.getUCMSHOWORFORK();
 			boolean showStartPointNode = ReportGeneratorPreferences.getUCMSHOWSTARTPOINT();
 			boolean showEndPointNode = ReportGeneratorPreferences.getUCMSHOWENDPOINT();
 
@@ -87,7 +84,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 			HashMap diagramNodes = new HashMap(); // all of the nodes contained in the diagram
 			HashMap sectionsMap = new HashMap(); // list of sections (sectionNo, sectionType)
 			HashMap respRefSection = new HashMap(); // list of nodes for RespRef
-			HashMap orForkImplSection = new HashMap(); // list of nodes for OrFork type
+			HashMap orForkSection = new HashMap(); // list of nodes for OrFork type
 			HashMap stubSection = new HashMap(); // list of nodes for Stub type
 			HashMap startPointSection = new HashMap(); // list of nodes for StartPoint type
 			HashMap endPointSection = new HashMap(); // list of nodes for EndPoint type
@@ -112,18 +109,22 @@ public class UCMDiagramSection extends PDFReportDiagram {
 					Integer hashKey = new Integer(stubNo);
 					stubSection.put(hashKey, currentNode);
 					stubNo++;
-				} else if (showOrForkImplNode && currentNode instanceof OrForkImpl) {
+				} else if (showOrForkNode && currentNode instanceof OrFork) {
 					Integer hashKey = new Integer(orForkImplNo);
-					orForkImplSection.put(hashKey, currentNode);
+					orForkSection.put(hashKey, currentNode);
 					orForkImplNo++;
 				} else if (showStartPointNode && currentNode instanceof StartPoint) {
-					Integer hashKey = new Integer(startPointNo);
-					startPointSection.put(hashKey, currentNode);
-					startPointNo++;
+					if ( hasStartPointData( (StartPoint) currentNode)) {
+						Integer hashKey = new Integer(startPointNo);
+						startPointSection.put(hashKey, currentNode);
+						startPointNo++;
+					}
 				} else if (showEndPointNode && currentNode instanceof EndPoint) {
-					Integer hashKey = new Integer(endPointNo);
-					endPointSection.put(hashKey, currentNode);
-					endPointNo++;
+					if ( hasEndPointData( (EndPoint) currentNode)) {
+						Integer hashKey = new Integer(endPointNo);
+						endPointSection.put(hashKey, currentNode);
+						endPointNo++;
+					}
 				}
 
 			}
@@ -160,16 +161,16 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				}
 			}
 
-			if (orForkImplSection.size() > 0)
+			if (orForkSection.size() > 0)
 			{
-				for (int i4 = 1; i4 <= orForkImplSection.size(); i4++) {
+				for (int i4 = 1; i4 <= orForkSection.size(); i4++) {
 					if (firstOrFork == true) {
 						insertDiagramSectionHeader( document, tableParams, "Or Fork Description" );
 						firstOrFork = false;
 					}
 
 					Integer hashKey = new Integer(i4);
-					OrForkImpl orFork = (OrForkImpl) orForkImplSection.get(hashKey);
+					OrFork orFork = (OrFork) orForkSection.get(hashKey);
 					insertOrForkProbability(document, orFork);
 					document.add(Chunk.NEWLINE);
 				}
@@ -210,10 +211,10 @@ public class UCMDiagramSection extends PDFReportDiagram {
 
 	}
 
-	private void insertOrForkProbability(Document document, PathNode node) {
+	private void insertOrForkProbability( Document document, OrFork orFork ) {
 		try {
 
-			for (Iterator iter = node.getSucc().iterator(); iter.hasNext();) {   
+			for (Iterator iter = orFork.getSucc().iterator(); iter.hasNext();) {   
 				//<BM> <2008-02-21> NodeConnection class - 'probability' attribute
 				NodeConnection element = (NodeConnection) iter.next();
 
@@ -241,14 +242,14 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				document.add(Chunk.NEWLINE);
 			}
 
-			insertMetadata( document, node.getMetadata() );
+			insertMetadata( document, orFork.getMetadata() );
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void insertResponsibility(Document document, RespRef resp)
+	private void insertResponsibility( Document document, RespRef resp )
 	{
 		try {
 			ReportUtils.writeLineWithSeparator( document, resp.getRespDef().getName(), ": ", resp.getRespDef().getDescription(), descriptionFont, true );
@@ -274,7 +275,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 		}
 	}
 
-	private void insertStartPoint(Document document, StartPoint start)
+	private void insertStartPoint( Document document, StartPoint start )
 	{
 		try {
 			ReportUtils.writeLineWithSeparator(document, start.getName(), ": ", start.getDescription(), descriptionFont, true);
@@ -289,7 +290,15 @@ public class UCMDiagramSection extends PDFReportDiagram {
 		}
 	}
 
-	private void insertEndPoint(Document document, EndPoint end)
+	private boolean hasStartPointData( StartPoint start )
+	{
+		if( ReportUtils.notEmpty( start.getDescription() ) || ReportUtils.notEmpty( start.getPrecondition().getLabel() ) || !start.getMetadata().isEmpty() ){
+			return true;
+		} else
+			return false;
+	}
+	
+	private void insertEndPoint( Document document, EndPoint end )
 	{
 		try {
 			ReportUtils.writeLineWithSeparator(document, end.getName(), ": ", end.getDescription(), descriptionFont, true);
@@ -304,27 +313,14 @@ public class UCMDiagramSection extends PDFReportDiagram {
 		}
 	}
 
-	private void insertMetadata( Document document, EList metadata )
+	private boolean hasEndPointData( EndPoint end )
 	{
-		Metadata mdata;
-		
-		if ( metadata.isEmpty() )
-			return;
-		
-		if( metadata.size() == 1) {
-			mdata = (Metadata) metadata.get(0);
-			ReportUtils.writeLineWithSeparator( document, "     Metadata:  \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true );			
+		if( ReportUtils.notEmpty( end.getDescription() ) || ReportUtils.notEmpty( end.getPostcondition().getLabel() ) || !end.getMetadata().isEmpty() ){
+			return true;
 		} else
-		{
-			ReportUtils.writeLineWithSeparator( document, "     Metadata\n", null, null, descriptionFont, false );					
-
-			for ( Iterator iter = metadata.iterator(); iter.hasNext(); ) {
-				mdata = (Metadata) iter.next();
-				ReportUtils.writeLineWithSeparator( document, "          \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"\n", descriptionFont, false );
-			}
-		}
+			return false;
 	}
-
+	
 	private void insertSuccessorDescription(Document document, PathNode node) {
 		try {
 			int i = 1;
@@ -453,13 +449,5 @@ public class UCMDiagramSection extends PDFReportDiagram {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private String notNull (String s)
-	{
-		if (s == null)
-			return "";
-		else
-			return s;
-	}
+	}	
 }

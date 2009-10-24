@@ -1,5 +1,9 @@
 package seg.jUCMNav.importexport.reports;
 
+import grl.Belief;
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
+
 import java.util.Iterator;
 
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
@@ -18,36 +22,78 @@ public class GRLDiagramSection extends PDFReportDiagram {
 		
 		//System.out.println( "In GRLDiagram Section name: \"" + element.getName() + "\" #nodes: " + diagram.getNodes().size() + "\n" );
 		
-		outputDescriptions( document, diagram );
-		
-		try {
-		
-		
+		try {		
+			outputGRLIntentionalElements( document, diagram );
+			outputGRLBeliefs( document, diagram );
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void outputDescriptions( Document document, IURNDiagram diagram )
+	private void outputGRLBeliefs( Document document, IURNDiagram diagram )
 	{
-		boolean hasDescriptions = false;
+		boolean hasData = false;
 		
-		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasDescriptions;) {
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
-			if( ReportUtils.notEmpty( currentElement.getDescription() ) )
-				hasDescriptions = true;
+			if ( currentElement instanceof Belief )
+				hasData = hasGRLBeliefData( (Belief) currentElement );
 		}
 		
-		if ( !hasDescriptions )
+		if ( !hasData )
 			return;
 		
-		insertDiagramSectionHeader( document, tableParams, "GRL Elements" );
+		insertDiagramSectionHeader( document, tableParams, "Beliefs" );
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
-			if( ReportUtils.notEmpty( currentElement.getDescription() ) ) {
-				ReportUtils.writeLineWithSeparator( document, currentElement.getName(), ": ", currentElement.getDescription(), descriptionFont, true );
+			if ( currentElement instanceof Belief ) {
+				Belief currentBelief = (Belief) currentElement;
+				if ( hasGRLBeliefData( currentBelief ) ) {
+					ReportUtils.writeLineWithSeparator( document, currentBelief.getName(), ": ", notNull( currentBelief.getDescription() ), descriptionFont, true );
+					insertMetadata( document, currentBelief.getMetadata() );
+				}
 			}
 		}
 	}
+	
+	private boolean hasGRLBeliefData( Belief belief )
+	{
+		return( ReportUtils.notEmpty( belief.getDescription() ) || !belief.getMetadata().isEmpty() );
+	}
+
+	private void outputGRLIntentionalElements( Document document, IURNDiagram diagram )
+	{
+		boolean hasData = false;
+		
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
+			URNmodelElement currentElement = (URNmodelElement) iter.next();
+			if ( currentElement instanceof IntentionalElementRef ) {
+				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
+				hasData = hasGRLIntentionalElementData( ie );
+			}
+		}
+		
+		if ( !hasData )
+			return;
+		
+		insertDiagramSectionHeader( document, tableParams, "Intentional Elements" );
+
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			URNmodelElement currentElement = (URNmodelElement) iter.next();
+			if ( currentElement instanceof IntentionalElementRef ) {
+				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
+				if ( hasGRLIntentionalElementData( ie ) ) {
+					ReportUtils.writeLineWithSeparator( document, ie.getName(), ": ", notNull( ie.getDescription() ), descriptionFont, true );
+					insertMetadata( document, ie.getMetadata() );
+				}
+			}
+		}
+	}
+	
+	private boolean hasGRLIntentionalElementData( IntentionalElement ie )
+	{
+		return( ReportUtils.notEmpty( ie.getDescription() ) || !ie.getMetadata().isEmpty() );
+	}
+
 }

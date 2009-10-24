@@ -1,6 +1,9 @@
 package seg.jUCMNav.importexport.html;
 
+import grl.Belief;
 import grl.GRLGraph;
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -451,7 +454,8 @@ public class ExportURNHTML implements IURNExport {
 				OutputOrForkGuards( diagram, sb );
 				OutputStubBindings( diagram, sb );
 			} else {
-				OutputGRLElements( diagram, sb );
+				OutputGRLIntentionalElements( diagram, sb );
+				OutputGRLBeliefs( diagram, sb );
 			}
 			
 			// Add tool tips with an image map     
@@ -584,12 +588,8 @@ public class ExportURNHTML implements IURNExport {
 		// determine if any start points have preconditions or metadata
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			IURNNode specNode = (IURNNode) iter.next();
-			if (specNode instanceof StartPoint ) {
-				sp = (StartPoint) specNode;
-				if ( ReportUtils.notEmpty( sp.getPrecondition().getLabel() ) || !sp.getMetadata().isEmpty() ) {
-					hasData = true;
-				}
-			}
+			if (specNode instanceof StartPoint )
+				hasData = hasStartPointData( (StartPoint) specNode );
 		}
 		
 		if ( !hasData )
@@ -616,6 +616,11 @@ public class ExportURNHTML implements IURNExport {
 		sb.append("</tbody></table></br>\n");		
 	}
 	
+	private boolean hasStartPointData( StartPoint sp )
+	{
+		return( ReportUtils.notEmpty( sp.getPrecondition().getLabel() ) || !sp.getMetadata().isEmpty() );
+	}
+	
 	private void OutputEndPointData( IURNDiagram diagram, StringBuffer sb )
 	{
 		boolean hasData = false;
@@ -624,12 +629,8 @@ public class ExportURNHTML implements IURNExport {
 		// determine if any end points have postconditions or metadata
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			IURNNode specNode = (IURNNode) iter.next();
-			if (specNode instanceof EndPoint ) {
-				ep = (EndPoint) specNode;
-				if ( ReportUtils.notEmpty( ep.getPostcondition().getLabel() ) || !ep.getMetadata().isEmpty() ) {
-					hasData = true;
-				}
-			}
+			if (specNode instanceof EndPoint )
+				hasData = hasEndPointData( (EndPoint) specNode );
 		}
 		
 		if ( !hasData )
@@ -642,7 +643,7 @@ public class ExportURNHTML implements IURNExport {
 			IURNNode specNode = (IURNNode) iter.next();
 			if (specNode instanceof EndPoint ) {
 				ep = (EndPoint) specNode;
-				if ( ReportUtils.notEmpty( ep.getPostcondition().getLabel() ) || !ep.getMetadata().isEmpty() ) {
+				if ( hasEndPointData( ep ) ) {
 					sb.append("<tr><td>" + ep.getName()
 							+ "</td><td>[" + ep.getPostcondition().getLabel() + "] ==> " 
 							+ notNull( ep.getPostcondition().getExpression() ) + "&nbsp;</td>" );
@@ -653,6 +654,11 @@ public class ExportURNHTML implements IURNExport {
 		}		
 		
 		sb.append("</tbody></table></br>\n");		
+	}
+	
+	private boolean hasEndPointData( EndPoint ep )
+	{
+		return( ReportUtils.notEmpty( ep.getPostcondition().getLabel() ) || !ep.getMetadata().isEmpty() );
 	}
 	
 	private void OutputOrForkGuards( IURNDiagram diagram, StringBuffer sb )
@@ -853,33 +859,87 @@ public class ExportURNHTML implements IURNExport {
 		}
 	}
 
-	private void OutputGRLElements( IURNDiagram diagram, StringBuffer sb )
+	private void OutputGRLBeliefs( IURNDiagram diagram, StringBuffer sb )
 	{
-		boolean hasDescriptions = false;
+		boolean hasData = false;
 		
-		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasDescriptions;) {
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
-			if( ReportUtils.notEmpty( currentElement.getDescription() ) )
-				hasDescriptions = true;
+			if ( currentElement instanceof Belief )
+				hasData = hasGRLBeliefData( (Belief) currentElement );
 		}
 		
-		if ( !hasDescriptions )
+		if ( !hasData )
 			return;
 		
-		sb.append("<h2>GRL Elements</h2>\n");
+		sb.append("<h2>Beliefs</h2>\n");
 		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td></tr>\n");
+		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Metadata</b></td></tr>\n");
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
-			if( ReportUtils.notEmpty( currentElement.getDescription() ) ) {
-				sb.append( "<tr><td>" + currentElement.getName() + "</td><td>" + currentElement.getDescription() + "</td></tr>" );
+
+			System.out.println( "GRL Name: " + currentElement.getName() + " metadata size: " + currentElement.getMetadata().size() + "\n" );
+			
+			if ( currentElement instanceof Belief ) {
+				Belief currentBelief = (Belief) currentElement;
+				if ( hasGRLBeliefData( currentBelief ) ) {
+					sb.append( "<tr><td>" + currentBelief.getName() + "</td><td>" + notNull( currentBelief.getDescription() ) + "</td>" );
+					InsertMetadata( currentBelief.getMetadata(), sb );
+					sb.append( "</tr>\n" );
+				}
 			}
 		}
 		
 		sb.append("</tbody></table></br>\n");
 	}
 	
+	private boolean hasGRLBeliefData( Belief belief )
+	{
+		return( ReportUtils.notEmpty( belief.getDescription() ) || !belief.getMetadata().isEmpty() );
+	}
+	
+	private void OutputGRLIntentionalElements( IURNDiagram diagram, StringBuffer sb )
+	{
+		boolean hasData = false;
+		
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
+			URNmodelElement currentElement = (URNmodelElement) iter.next();
+			if ( currentElement instanceof IntentionalElementRef ) {
+				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
+				hasData = hasGRLIntentionalElementData( ie );
+			}
+		}
+		
+		if ( !hasData )
+			return;
+		
+		sb.append("<h2>Intentional Elements</h2>\n");
+		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Metadata</b></td></tr>\n");
+
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			URNmodelElement currentElement = (URNmodelElement) iter.next();
+
+			if ( currentElement instanceof IntentionalElementRef ) {
+				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
+
+				if ( hasGRLIntentionalElementData( ie ) ) {				
+					sb.append( "<tr><td>" + ie.getName() + "</td><td>" + notNull( ie.getDescription() ) + "</td>" );
+					InsertMetadata( ie.getMetadata(), sb );
+					sb.append( "</tr>\n" );
+				}
+			}
+		}
+		
+		sb.append("</tbody></table></br>\n");
+	}
+	
+	private boolean hasGRLIntentionalElementData( IntentionalElement ie )
+	{
+		return( ReportUtils.notEmpty( ie.getDescription() ) || !ie.getMetadata().isEmpty() );
+	}
+
 	/**
 	 * Determines if the list of URN nodes for a diagram contains a node of type 
 	 * Note: often, these are the implementation types (e.g., RespRefImpl instead of RespRef).

@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -16,6 +17,7 @@ import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import ucm.map.UCMmap;
 import urncore.IURNDiagram;
+import urncore.Metadata;
 import urncore.URNdefinition;
 import urncore.URNmodelElement;
 
@@ -266,5 +268,32 @@ public class PDFReportDiagram extends PDFReport
 		}
 	}
 
-	
+	protected void insertMetadata( Document document, EList metadata )
+	{
+		Metadata mdata;
+		
+		if ( metadata.isEmpty() )
+			return;
+		
+		if( metadata.size() == 1) {
+			mdata = (Metadata) metadata.get(0);
+			ReportUtils.writeLineWithSeparator( document, "     Metadata:  \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true );			
+		} else
+		{
+			ReportUtils.writeLineWithSeparator( document, "     Metadata\n", null, null, descriptionFont, false );					
+
+			for ( Iterator iter = metadata.iterator(); iter.hasNext(); ) {
+				mdata = (Metadata) iter.next();
+				ReportUtils.writeLineWithSeparator( document, "          \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"\n", descriptionFont, false );
+			}
+		}
+	}
+
+	protected String notNull (String s)
+	{
+		if (s == null)
+			return "";
+		else
+			return s;
+	}
 }
