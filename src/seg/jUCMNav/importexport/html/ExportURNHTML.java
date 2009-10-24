@@ -35,6 +35,7 @@ import ucm.map.UCMmap;
 import ucm.map.impl.PluginBindingImpl;
 import ucm.map.impl.RespRefImpl;
 import ucm.map.impl.StubImpl;
+import urn.URNlink;
 import urn.URNspec;
 import urncore.Condition;
 import urncore.IURNDiagram;
@@ -456,6 +457,7 @@ public class ExportURNHTML implements IURNExport {
 			} else {
 				OutputGRLIntentionalElements( diagram, sb );
 				OutputGRLBeliefs( diagram, sb );
+				OutputGRL_URNlinks( diagram, sb );
 			}
 			
 			// Add tool tips with an image map     
@@ -878,8 +880,6 @@ public class ExportURNHTML implements IURNExport {
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
-
-			System.out.println( "GRL Name: " + currentElement.getName() + " metadata size: " + currentElement.getMetadata().size() + "\n" );
 			
 			if ( currentElement instanceof Belief ) {
 				Belief currentBelief = (Belief) currentElement;
@@ -940,6 +940,49 @@ public class ExportURNHTML implements IURNExport {
 		return( ReportUtils.notEmpty( ie.getDescription() ) || !ie.getMetadata().isEmpty() );
 	}
 
+	private void OutputGRL_URNlinks( IURNDiagram diagram, StringBuffer sb )
+	{
+		boolean hasData = false;
+		
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
+			URNmodelElement currentElement = (URNmodelElement) iter.next();
+			if ( currentElement instanceof IntentionalElementRef ) {
+				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
+				if ( !ie.getFromLinks().isEmpty() )
+					hasData = true;
+			}
+		}
+		
+		if ( !hasData )
+			return;
+		
+		sb.append("<h2>URN Links</h2>\n");
+		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<tr><td><b>Name</b></td><td><b>Link Type</b></td><td><b>(UCM element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
+		
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			URNmodelElement currentElement = (URNmodelElement) iter.next();
+			if ( currentElement instanceof IntentionalElementRef ) {
+				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
+				if ( !ie.getFromLinks().isEmpty() ) {
+					
+					for (Iterator iter1 = ie.getFromLinks().iterator(); iter1.hasNext();) {
+
+						URNlink link = (URNlink) iter1.next();
+						String elementType = link.getToElem().getClass().getName();
+						elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
+						
+						sb.append( "<tr><td>" + ie.getName() + "</td><td>" + notNull( link.getType() ) + "</td><td>(" 
+								+  elementType + ")" + link.getToElem().getName() + "</td>" );
+						InsertMetadata( link.getMetadata(), sb );
+						sb.append( "</tr>\n" );
+					}
+				}
+			}
+		}
+		sb.append("</tbody></table></br>\n");
+	}
+	
 	/**
 	 * Determines if the list of URN nodes for a diagram contains a node of type 
 	 * Note: often, these are the implementation types (e.g., RespRefImpl instead of RespRef).
