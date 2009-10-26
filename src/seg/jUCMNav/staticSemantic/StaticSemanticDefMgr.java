@@ -80,10 +80,10 @@ public class StaticSemanticDefMgr extends RuleManagementDefinitionManager{
         g.addRule(rules);
         dg.add(g);
         
-        dg.add(new RuleGroup("Performance Scenario"));       //$NON-NLS-1$
+        dg.add(new RuleGroup("Performance Scenario")); //$NON-NLS-1$
         dg.add(new RuleGroup("Aspect")); //$NON-NLS-1$
         dg.add(new RuleGroup("Performance")); //$NON-NLS-1$
-        dg.add( new RuleGroup("Scenario Aspect")); //$NON-NLS-1$
+        dg.add(new RuleGroup("Scenario Aspect")); //$NON-NLS-1$
         return dg;
     }
     

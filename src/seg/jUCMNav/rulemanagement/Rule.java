@@ -20,12 +20,12 @@ import urn.UrnPackage;
  * This class represents a static checking rule. The rule contains 7 properties:
  * <ul>
  *  <li><b>The rule name</b>
- *  <li><b>The rule classifer</b>, which is a package name followed by the class name in the form of: packagename::classname,for example, urncore::Responsibility.
+ *  <li><b>The rule classifier</b>, which is a package name followed by the class name in the form of: packagename::classname,for example, urncore::Responsibility.
  *  <li><b>The OCL context expression</b>, which is an OCL query expression under the context of URNspec and must return a sequence of objects which have a type specified in the <b>rule classifier</b>. Notice, allInstance() cannot be used.
  *  <li><b>The OCL invariant expression</b>, which is under the context of the rule classifier and allInstance() cannot be used.
- *  <li><b>The rule description</b>, which gives a breif explanation about the rule.
- *  <li><b>The rule enabled/diabled indicator</b>, which is true if enabled, otherwsie false.
- *  <li><b>The rule utility difinitions</b>. A utility is an addtional operation used in <b>the rule invariant expression</b> and the format is as same as that in defining an addtional operation in an OCL document. The utility is defined under the context of the <b>rule classifier</b>.
+ *  <li><b>The rule description</b>, which gives a brief explanation about the rule.
+ *  <li><b>The rule enabled/disabled indicator</b>, which is true if enabled, otherwise false.
+ *  <li><b>The rule utility definitions</b>. A utility is an additional operation used in <b>the rule invariant expression</b> and the format is as same as that in defining an additional operation in an OCL document. The utility is defined under the context of the <b>rule classifier</b>.
  * </ul>
  * 
  * @author Byrne Yan
@@ -41,7 +41,7 @@ public class Rule {
 	 */
 	private String context;
 	/**
-	 * The rule classifer
+	 * The rule classifier
 	 */
 	private String classifier;
 	/**
@@ -57,7 +57,7 @@ public class Rule {
 	 */
 	private List utilities;
 	/**
-	 * The rule enabled/diabled indicator
+	 * The rule enabled/disabled indicator
 	 */
 	private boolean    enabled;
 	/**
@@ -82,7 +82,7 @@ public class Rule {
 	/**
 	 * Construct a rule with properties except utilities. 
 	 * @param name         The rule name
-	 * @param classifier   The ruel classifer
+	 * @param classifier   The rule classifier
 	 * @param context      The rule context expression	 
 	 * @param query	       The rule invariant expression
 	 * @param enabled      This enabled/disabled indicator
@@ -129,14 +129,14 @@ public class Rule {
 	}
 	
 	/**
-	 * Retruns the rule name
+	 * Returns the rule name
 	 */
 	public String getName()
 	{
 		return name;
 	}
 	/**
-	 * Returns a list of names, which are seperated from <b>the rule classifier</b> by delimiter '::'.
+	 * Returns a list of names, which are separated from <b>the rule classifier</b> by delimiter '::'.
 	 */
 	public List getClassifierAsList()
 	{
@@ -188,13 +188,13 @@ public class Rule {
         this.context = context;
     }
     /**
-     * Set the rule classifer
+     * Set the rule classifier
      */
     public void setClassifier(String classifier) {
         this.classifier = classifier;
     }
     /**
-     * Set the invariannt expression
+     * Set the invariant expression
      */
     public void setQuery(String query) {
         this.query = query;
@@ -208,7 +208,10 @@ public class Rule {
     }	
     
     /**
-     * Check if the rule classifer, context expression, invariant expression and utilitties are valid or not under the stanadard utilties library which is defined in the file "library.ocl". If any invalidation is found, the corresponding error messages are saved and then can be obtained by the method getErrors().
+     * Check if the rule classifier, context expression, invariant expression and utilities are valid 
+     * or not under the standard utility library which is defined in the file "library.ocl". If any 
+     * invalidation is found, the corresponding error messages are saved and then can be obtained 
+     * by the method getErrors().
      * @return true if all elements are valid, otherwise false
      * @see #getErrors()
      */
@@ -258,7 +261,7 @@ public class Rule {
             errors+="Query constraint error:" + e1.getMessage(); //$NON-NLS-1$
             return false;
         }
-        //verify incariant constraint
+        //verify invariant constraint
         try {
             helper.setContext(e);
 /*            Constraint invariant = helper.createInvariant(this.getQuery());
@@ -276,7 +279,7 @@ public class Rule {
     }
     
     /**
-     * Returns errrors found during checking rule validation.
+     * Returns errors found during checking rule validation.
      * @return a string of error message
      * @see #isValid()
      */

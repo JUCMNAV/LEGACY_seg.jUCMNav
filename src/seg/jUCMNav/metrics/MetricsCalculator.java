@@ -42,16 +42,16 @@ public class MetricsCalculator {
 		int nTotal = 0;
 		FileInputStream in = null;
 		try{
+			OCL ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
+			OCLInput lib = new OCLInput(RuleManagementDefinitionManager.class.getResourceAsStream("library.ocl")); //$NON-NLS-1$
+            ocl.parse(lib);
+            OCLHelper helper = ocl.createOCLHelper();
 			List rules = MetricsDefinitionManager.instance().getRules();
 			for(int i=0; i<rules.size();i++){
 				Rule r = (Rule)rules.get(i);
 				if(r.isEnabled()){
 					nTotal++;
 					try{
-						OCL ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
-						OCLInput lib = new OCLInput(RuleManagementDefinitionManager.class.getResourceAsStream("library.ocl")); //$NON-NLS-1$
-	                    ocl.parse(lib);
-	                    OCLHelper helper = ocl.createOCLHelper();
 	                    List name = r.getClassifierAsList();
 	                    EClassifier e = (EClassifier) ocl.getEnvironment().lookupClassifier(name);
                         if (e == null) {

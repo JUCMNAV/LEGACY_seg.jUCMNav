@@ -34,7 +34,7 @@ import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
 
 
 /**
- * This dialog provides the GUI of creating 1 new static checking rule or editing an existing rule. In this dialog, users can change the rule name, rule classifier, contxt expression,invariant expression and rule description. Furthermore, a user can open a utility editor from this dialog to create or edit a utility.
+ * This dialog provides the GUI of creating 1 new static checking rule or editing an existing rule. In this dialog, users can change the rule name, rule classifier, context expression,invariant expression and rule description. Furthermore, a user can open a utility editor from this dialog to create or edit a utility.
  *  
  * @author Byrne Yan
  *

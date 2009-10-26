@@ -19,12 +19,11 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.rulemanagement.Rule;
 import seg.jUCMNav.rulemanagement.RuleManagementCheckingMessage;
 import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
-import seg.jUCMNav.rulemanagement.RuleManagementUtil;
 import urn.URNspec;
 import urn.UrnPackage;
 
 /**
- * This class encapuslates the rule checking action.
+ * This class encapsulates the rule checking action.
  * 
  * @author Byrne Yan
  *
@@ -63,21 +62,21 @@ public class StaticSemanticChecker {
         int nViolated = 0;
         FileInputStream in = null;
         try {
+            // OCL<?, EClassifier, EOperation, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
+            OCL ocl;
+
+            ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
+            // OCLInput lib = new OCLInput(this.getClass().getResourceAsStream("library.ocl")); //$NON-NLS-1$
+            OCLInput lib = new OCLInput(RuleManagementDefinitionManager.class.getResourceAsStream("library.ocl")); //$NON-NLS-1$
+            ocl.parse(lib);
+            // OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
+            OCLHelper helper = ocl.createOCLHelper();
             List rules = StaticSemanticDefMgr.instance().getRules();
             for (int i=0;i<rules.size();++i) {
                 Rule r = (Rule) rules.get(i);
                 if (r.isEnabled()) {
                     nTotal++;
                     try {
-//                        OCL<?, EClassifier, EOperation, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
-                        OCL ocl;
-
-                        ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
-                       // OCLInput lib = new OCLInput(this.getClass().getResourceAsStream("library.ocl")); //$NON-NLS-1$
-                        OCLInput lib = new OCLInput(RuleManagementDefinitionManager.class.getResourceAsStream("library.ocl")); //$NON-NLS-1$
-                        ocl.parse(lib);
-//                        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
-                        OCLHelper helper = ocl.createOCLHelper();
                         List name = r.getClassifierAsList();
                         EClassifier e = (EClassifier) ocl.getEnvironment().lookupClassifier(name);
                         if (e == null) {
