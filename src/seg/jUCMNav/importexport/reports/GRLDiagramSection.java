@@ -7,6 +7,7 @@ import grl.IntentionalElementRef;
 import java.util.Iterator;
 
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
@@ -18,13 +19,12 @@ public class GRLDiagramSection extends PDFReportDiagram {
 		
 	}
 
-	public void createGRLDiagramDescription( Document document, URNmodelElement element, IURNDiagram diagram ) {
-		
-		//System.out.println( "In GRLDiagram Section name: \"" + element.getName() + "\" #nodes: " + diagram.getNodes().size() + "\n" );
-		
+	public void createGRLDiagramDescription( Document document, URNmodelElement element, IURNDiagram diagram )
+	{	
 		try {		
 			outputGRLIntentionalElements( document, diagram );
 			outputGRLBeliefs( document, diagram );
+			outputGRL_URNLinks( document, diagram );
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -33,6 +33,9 @@ public class GRLDiagramSection extends PDFReportDiagram {
 	private void outputGRLBeliefs( Document document, IURNDiagram diagram )
 	{
 		boolean hasData = false;
+		
+		if ( !ReportGeneratorPreferences.getGRLShowBeliefs() )
+			return;
 		
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
@@ -66,6 +69,9 @@ public class GRLDiagramSection extends PDFReportDiagram {
 	{
 		boolean hasData = false;
 		
+		if ( !ReportGeneratorPreferences.getGRLShowIntentionalElements() )
+			return;
+
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
 			if ( currentElement instanceof IntentionalElementRef ) {
@@ -96,4 +102,12 @@ public class GRLDiagramSection extends PDFReportDiagram {
 		return( ReportUtils.notEmpty( ie.getDescription() ) || !ie.getMetadata().isEmpty() );
 	}
 
+	private void outputGRL_URNLinks( Document document, IURNDiagram diagram )
+	{
+		if ( !ReportGeneratorPreferences.getGRLShowURNLinks() )
+			return;
+
+		
+	}
+	
 }

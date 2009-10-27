@@ -38,56 +38,66 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
     protected void createFieldEditors() {
         // Initialize all field editors.
         
-        StringFieldEditor width = new StringFieldEditor(ReportGeneratorPreferences.PREF_REPORTWIDTH, Messages.getString("ReportGeneratorPreferencePage.width"), //$NON-NLS-1$
+        StringFieldEditor width = new StringFieldEditor(ReportGeneratorPreferences.PREF_REPORT_WIDTH, Messages.getString("ReportGeneratorPreferencePage.width"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(width);
 
-        StringFieldEditor height = new StringFieldEditor(ReportGeneratorPreferences.PREF_REPORTHEIGHT, Messages.getString("ReportGeneratorPreferencePage.height"), //$NON-NLS-1$
+        StringFieldEditor height = new StringFieldEditor(ReportGeneratorPreferences.PREF_REPORT_HEIGHT, Messages.getString("ReportGeneratorPreferencePage.height"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(height);
 
         String[][] values = { { Messages.getString("ReportGeneratorPreferencePage.topdown"), "TB" }, //$NON-NLS-1$ //$NON-NLS-2$
                 { Messages.getString("ReportGeneratorPreferencePage.leftright"), "LR" } }; //$NON-NLS-1$ //$NON-NLS-2$
         
-        RadioGroupFieldEditor orientation = new RadioGroupFieldEditor(ReportGeneratorPreferences.PREF_REPORTORIENTATION, Messages
+        RadioGroupFieldEditor orientation = new RadioGroupFieldEditor(ReportGeneratorPreferences.PREF_REPORT_ORIENTATION, Messages
                 .getString("ReportGeneratorPreferencePage.orientation"), 1, values, getFieldEditorParent()); //$NON-NLS-1$
         addField(orientation);
 
-        ColorFieldEditor reportColor = new ColorFieldEditor(ReportGeneratorPreferences.PREF_REPORTCOLOR, Messages.getString("ReportGeneratorPreferencePage.PDFBackgroundColor"), getFieldEditorParent()); //$NON-NLS-1$
+        ColorFieldEditor reportColor = new ColorFieldEditor(ReportGeneratorPreferences.PREF_REPORT_COLOR, Messages.getString("ReportGeneratorPreferencePage.PDFBackgroundColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(reportColor);
         
       // need to add separator line or label
         
-        BooleanFieldEditor showUCMDesc = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWDESC, Messages.getString("ReportGeneratorPreferencePage.descOrder"), //$NON-NLS-1$
+        BooleanFieldEditor showUCMDesc = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_DESC, Messages.getString("ReportGeneratorPreferencePage.descOrder"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(showUCMDesc);
 
-        BooleanFieldEditor showUCMResponsibility = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWRESPONSIBILITY, Messages.getString("ReportGeneratorPreferencePage.respOrder"), //$NON-NLS-1$
+        BooleanFieldEditor showUCMResponsibility = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_RESPONSIBILITY, Messages.getString("ReportGeneratorPreferencePage.respOrder"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(showUCMResponsibility);
 
-        BooleanFieldEditor showUCMStub = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWSTUB, Messages.getString("ReportGeneratorPreferencePage.stubOrder"), //$NON-NLS-1$
+        BooleanFieldEditor showUCMStub = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_STUB, Messages.getString("ReportGeneratorPreferencePage.stubOrder"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(showUCMStub);
 
-        BooleanFieldEditor showUCMOrFork = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWORFORK, Messages.getString("ReportGeneratorPreferencePage.orFork"), //$NON-NLS-1$
+        BooleanFieldEditor showUCMOrFork = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_OR_FORK, Messages.getString("ReportGeneratorPreferencePage.orFork"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(showUCMOrFork);
 
-        BooleanFieldEditor ShowUCMAndFork = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWANDFORK, Messages.getString("ReportGeneratorPreferencePage.andFork"), //$NON-NLS-1$
-                getFieldEditorParent());
-        addField(ShowUCMAndFork);
+        // disabled as And Forks currently don't appear in any reports
+        //BooleanFieldEditor ShowUCMAndFork = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_AND_FORK, Messages.getString("ReportGeneratorPreferencePage.andFork"), //$NON-NLS-1$
+          //      getFieldEditorParent());
+        //addField(ShowUCMAndFork);
 
-        BooleanFieldEditor ShowUCMStartPoint = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWSTARTPOINT, Messages.getString("ReportGeneratorPreferencePage.startPoint"), //$NON-NLS-1$
+        BooleanFieldEditor ShowUCMStartPoint = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_START_POINT, Messages.getString("ReportGeneratorPreferencePage.startPoint"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(ShowUCMStartPoint);
 
-        BooleanFieldEditor ShowUCMEndPoint = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCMSHOWENDPOINT, Messages.getString("ReportGeneratorPreferencePage.endPoint"), //$NON-NLS-1$
+        BooleanFieldEditor ShowUCMEndPoint = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_END_POINT, Messages.getString("ReportGeneratorPreferencePage.endPoint"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(ShowUCMEndPoint);
 
+        BooleanFieldEditor ShowGRLIntentionalElements = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_INTENTIONAL_ELEMENTS, Messages.getString("ReportGeneratorPreferencePage.intentionalElements"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(ShowGRLIntentionalElements);
 
-        
+        BooleanFieldEditor ShowGRLBeliefs = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_BELIEFS, Messages.getString("ReportGeneratorPreferencePage.beliefs"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(ShowGRLBeliefs);
+
+        BooleanFieldEditor ShowGRL_URNLinks = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_URN_LINKS, Messages.getString("ReportGeneratorPreferencePage.urnLinks"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(ShowGRL_URNLinks);
     }
 
     public void init(IWorkbench workbench) {

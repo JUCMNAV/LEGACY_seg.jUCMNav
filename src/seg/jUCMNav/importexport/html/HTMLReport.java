@@ -18,9 +18,10 @@ import java.util.Iterator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
 
-import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.importexport.ExportImageGIF;
+import seg.jUCMNav.importexport.reports.URNReport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
@@ -51,7 +52,7 @@ import urncore.URNmodelElement;
  * @author amiga
  *
  */
-public class ExportURNHTML implements IURNExport {
+public class HTMLReport extends URNReport {
 	public static final String PAGES_LOCATION = "pages" + File.separator; //$NON-NLS-1$
 	public static final String IMAGES_LOCATION = PAGES_LOCATION + "img" + File.separator;  //$NON-NLS-1$
 
@@ -243,7 +244,7 @@ public class ExportURNHTML implements IURNExport {
 	 * @throws IOException 
 	 */
 	protected static void copy(String srcPath, String dstPath) throws IOException {
-		Class location = ExportURNHTML.class;
+		Class location = HTMLReport.class;
 
 		InputStream in = location.getResourceAsStream(srcPath);
 		OutputStream out = new FileOutputStream(new File(dstPath));
@@ -542,7 +543,11 @@ public class ExportURNHTML implements IURNExport {
 
 	private void OutputResponsibilityReferences( IURNDiagram diagram, StringBuffer sb )
 	{
-		// Describe table for responsibility references     
+		// Describe table for responsibility references
+		
+		if ( !ReportGeneratorPreferences.getUCMSHOWRESPONSIBILITY() )
+			return;
+		
 		if ( !hasNodeType(diagram.getNodes(), RespRefImpl.class))
 			return;
 			
@@ -587,6 +592,9 @@ public class ExportURNHTML implements IURNExport {
 		boolean hasData = false;
 		StartPoint sp;
 		
+		if ( !ReportGeneratorPreferences.getUCMSHOWSTARTPOINT() )
+			return;
+
 		// determine if any start points have preconditions or metadata
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			IURNNode specNode = (IURNNode) iter.next();
@@ -628,6 +636,9 @@ public class ExportURNHTML implements IURNExport {
 		boolean hasData = false;
 		EndPoint ep;
 		
+		if ( !ReportGeneratorPreferences.getUCMSHOWENDPOINT() )
+			return;
+		
 		// determine if any end points have postconditions or metadata
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			IURNNode specNode = (IURNNode) iter.next();
@@ -667,6 +678,9 @@ public class ExportURNHTML implements IURNExport {
 	{
  		boolean hasData = false;
 		boolean firstCondition = true;
+		
+		if ( !ReportGeneratorPreferences.getUCMSHOWORFORK() )
+			return;
 		
 		// determine if any or forks have either guard conditions or metadata
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
@@ -748,6 +762,9 @@ public class ExportURNHTML implements IURNExport {
 		boolean hasBindings = false;
 		String stub_type;
 		StringBuffer inputBuffer, outputBuffer;
+		
+		if ( !ReportGeneratorPreferences.getUCMSHOWSTUB() )
+			return;
 		
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			IURNNode specNode = (IURNNode) iter.next();
@@ -852,6 +869,9 @@ public class ExportURNHTML implements IURNExport {
 
 	private void OutputDescription( IURNDiagram diagram, StringBuffer sb )
 	{
+		if ( !ReportGeneratorPreferences.getUCMSHOWDESC() )
+			return;
+		
 		if ( diagram instanceof UCMmap ) {
 			if ( ReportUtils.notEmpty( ((UCMmap) diagram).getDescription() ) )
 			{
@@ -864,6 +884,9 @@ public class ExportURNHTML implements IURNExport {
 	private void OutputGRLBeliefs( IURNDiagram diagram, StringBuffer sb )
 	{
 		boolean hasData = false;
+		
+		if ( !ReportGeneratorPreferences.getGRLShowBeliefs() )
+			return;
 		
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
@@ -902,7 +925,10 @@ public class ExportURNHTML implements IURNExport {
 	private void OutputGRLIntentionalElements( IURNDiagram diagram, StringBuffer sb )
 	{
 		boolean hasData = false;
-		
+
+		if ( !ReportGeneratorPreferences.getGRLShowIntentionalElements() )
+			return;
+
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
 			if ( currentElement instanceof IntentionalElementRef ) {
@@ -944,6 +970,9 @@ public class ExportURNHTML implements IURNExport {
 	{
 		boolean hasData = false;
 		
+		if ( !ReportGeneratorPreferences.getGRLShowURNLinks() )
+			return;
+
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
 			if ( currentElement instanceof IntentionalElementRef ) {
@@ -1025,6 +1054,11 @@ public class ExportURNHTML implements IURNExport {
 			return " - UCM Plugin Map";
 		} else
 			return " - GRL Graph";
+	}
+
+	public int getType() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

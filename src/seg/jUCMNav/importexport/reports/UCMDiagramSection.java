@@ -70,6 +70,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 			boolean showOrForkNode = ReportGeneratorPreferences.getUCMSHOWORFORK();
 			boolean showStartPointNode = ReportGeneratorPreferences.getUCMSHOWSTARTPOINT();
 			boolean showEndPointNode = ReportGeneratorPreferences.getUCMSHOWENDPOINT();
+			boolean showDiagramDescription = ReportGeneratorPreferences.getUCMSHOWDESC();
 
 			boolean sectionAlreadyChecked = false; // to see if we already checked, to print or not this section type
 
@@ -90,7 +91,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 			HashMap endPointSection = new HashMap(); // list of nodes for EndPoint type
 
 			// Map Description title, underlined
-			if (element.getDescription() != null) {
+			if (showDiagramDescription && element.getDescription() != null) {
 				insertDiagramDescription(document, element);
 			}
 

@@ -35,7 +35,7 @@ public abstract class URNReport implements IURNReport {
 		// not used.
 	}
 
-	public void export(IURNDiagram diagram, String path) throws InvocationTargetException {
+	private void export(IURNDiagram diagram, String path) throws InvocationTargetException {
 		// not used.
 	}
 

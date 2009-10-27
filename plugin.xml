@@ -332,12 +332,6 @@
             name="%ExportCSM"
             useStream="false"/>
       <exporter
-            class="seg.jUCMNav.importexport.html.ExportURNHTML"
-            extension="html"
-            id="seg.jUCMNav.ExportURN_HTML"
-            name="%ExportHTML"
-            useStream="false"/>
-      <exporter
             class="seg.jUCMNav.importexport.ExportGRLCatalog"
             extension="grl"
             id="seg.jUCMNav.ExportGRLCatalog"
@@ -365,6 +359,12 @@
             extension="rtf"
             id="seg.jUCMNav.RTFReport"
             name="%RTFReport"
+            useStream="false"/>
+      <exporter
+            class="seg.jUCMNav.importexport.html.HTMLReport"
+            extension="html"
+            id="seg.jUCMNav.HTMLReport"
+            name="%HTMLReport"
             useStream="false"/>
     </extension>
    <extension
