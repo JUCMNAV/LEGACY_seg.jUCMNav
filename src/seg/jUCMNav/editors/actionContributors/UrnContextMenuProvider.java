@@ -49,6 +49,8 @@ import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.actions.GenerateReportAction;
 import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
+import seg.jUCMNav.actions.SetNumericalImportanceAction;
+import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.SubmenuAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
@@ -203,6 +205,27 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         	actions[i] = getActionRegistry().getAction(ChangeColorAction.generateId(i));
 
         submenu = new SubmenuAction(actions, "Change fill color", "Change fill color", actions[3].getImageDescriptor(), true); 
+        if (submenu.getActiveOperationCount()>0)
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
+
+        actions = new IAction[6];
+        for ( int i=0; i<6; i++ )
+        	actions[i] = getActionRegistry().getAction(SetNumericalImportanceAction.generateId(i));
+        submenu = new SubmenuAction(actions, "Set Numerical Importance", "Set Numerical Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
+        if (submenu.getActiveOperationCount()>0)
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
+ 
+        //actions = new IAction[10];
+        //for ( int i=0; i<10; i++ )
+        	//actions[i] = getActionRegistry().getAction(SetNumericalImportanceAction.generateId(i));
+        //submenu = new SubmenuAction(actions, "Set Numerical Importance", "Set Numerical Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
+        //if (submenu.getActiveOperationCount()>0)
+        	//manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
+        
+        actions = new IAction[4];
+        for ( int i=0; i<4; i++ )
+        	actions[i] = getActionRegistry().getAction(SetQualitativeImportanceAction.generateId(i));
+        submenu = new SubmenuAction(actions, "Set Qualitative Importance", "Set Qualitative Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
 
