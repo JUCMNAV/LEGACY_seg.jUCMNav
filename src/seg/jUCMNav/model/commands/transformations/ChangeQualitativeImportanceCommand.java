@@ -7,6 +7,11 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
+/**
+*
+* @author Andrew Miga
+*/
+
 public class ChangeQualitativeImportanceCommand   extends Command implements JUCMNavCommand
 {
 	private IntentionalElementRef intElemRef;

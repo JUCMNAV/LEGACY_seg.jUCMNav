@@ -8,6 +8,11 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.transformations.ChangeQualitativeImportanceCommand;
 
+/**
+*
+* @author Andrew Miga
+*/
+
 public class SetQualitativeImportanceAction extends URNSelectionAction
 {
     public static final String SET_QUALITATIVE_IMPORTANCE = "seg.jUCMNav.SET_QUALITATIVE_IMPORTANCE"; //$NON-NLS-1$

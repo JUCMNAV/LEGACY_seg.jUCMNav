@@ -50,7 +50,7 @@ import ucm.scenario.ScenarioGroup;
  * 
  * The strategy/scenario design/execution view. 
  * 
- * @author Jean-François Roy, jkealey
+ * @author Jean-Franï¿½ois Roy, jkealey
  *
  */
 public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener, JUCMNavRefreshableView{
@@ -430,8 +430,9 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
      * @param id
      *            parameter indicating which view to display, passed when an appropriate button is pressed in the workbench
      */
-    protected void showPage(int id) {
-        if (id == ID_DESIGN) {
+    protected void showPage(int id)
+    {
+    	if (id == ID_DESIGN) {
             showDesignView.setChecked(true);
             showStrategiesView.setChecked(false);
             

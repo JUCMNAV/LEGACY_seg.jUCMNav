@@ -63,7 +63,9 @@ import seg.jUCMNav.actions.GenerateReportAction;
 import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
+import seg.jUCMNav.actions.SetNumericalEvaluationAction;
 import seg.jUCMNav.actions.SetNumericalImportanceAction;
+import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
@@ -429,13 +431,23 @@ public class ActionRegistryManager
 		action.setText(Messages.getString("ActionRegistryManager.changeDecompositionType")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 		
-		for ( int i=0; i<6; i++ ){
+		for ( int i = 0; i < 6; i++ ){
 			action = new SetNumericalImportanceAction(editor, i);
 			addEditPartAction((SelectionAction) action);
 		}
 		
-		for ( int i=0; i<4; i++ ){
+		for ( int i = 0; i < 4; i++ ){
 			action = new SetQualitativeImportanceAction(editor, i);
+			addEditPartAction((SelectionAction) action);
+		}
+		
+		for ( int i = 0; i < 10; i++ ){
+			action = new SetNumericalEvaluationAction(editor, i);
+			addEditPartAction((SelectionAction) action);
+		}
+		
+		for ( int i = 0; i < 7; i++ ){
+			action = new SetQualitativeEvaluationAction(editor, i);
 			addEditPartAction((SelectionAction) action);
 		}
 		

@@ -49,7 +49,9 @@ import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.actions.GenerateReportAction;
 import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
+import seg.jUCMNav.actions.SetNumericalEvaluationAction;
 import seg.jUCMNav.actions.SetNumericalImportanceAction;
+import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.SubmenuAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
@@ -209,25 +211,32 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
 
         actions = new IAction[6];
-        for ( int i=0; i<6; i++ )
-        	actions[i] = getActionRegistry().getAction(SetNumericalImportanceAction.generateId(i));
+        for ( int i = 0; i < 6; i++ )
+        	actions[i] = getActionRegistry().getAction( SetNumericalImportanceAction.generateId(i) );
         submenu = new SubmenuAction(actions, "Set Numerical Importance", "Set Numerical Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
  
-        //actions = new IAction[10];
-        //for ( int i=0; i<10; i++ )
-        	//actions[i] = getActionRegistry().getAction(SetNumericalImportanceAction.generateId(i));
-        //submenu = new SubmenuAction(actions, "Set Numerical Importance", "Set Numerical Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
-        //if (submenu.getActiveOperationCount()>0)
-        	//manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
-        
         actions = new IAction[4];
-        for ( int i=0; i<4; i++ )
-        	actions[i] = getActionRegistry().getAction(SetQualitativeImportanceAction.generateId(i));
+        for ( int i = 0; i < 4; i++ )
+        	actions[i] = getActionRegistry().getAction( SetQualitativeImportanceAction.generateId(i) );
         submenu = new SubmenuAction(actions, "Set Qualitative Importance", "Set Qualitative Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
+
+        actions = new IAction[10];
+        for ( int i = 0; i < 10; i++ )
+        	actions[i] = getActionRegistry().getAction( SetNumericalEvaluationAction.generateId(i) );
+        submenu = new SubmenuAction(actions, "Set Numerical Evaluation", "Set Numerical Evaluation", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
+        if (submenu.getActiveOperationCount()>0)
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
+        
+        actions = new IAction[7];
+        for ( int i = 0; i < 7; i++ )
+        	actions[i] = getActionRegistry().getAction( SetQualitativeEvaluationAction.generateId(i) );
+        submenu = new SubmenuAction(actions, "Set Qualitative Evaluation", "Set Qualitative Evaluation", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
+        if (submenu.getActiveOperationCount()>0)
+        	manager.appendToGroup( GEFActionConstants.GROUP_REST, submenu );   
 
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())

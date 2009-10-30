@@ -13,6 +13,11 @@ import urncore.URNmodelElement;
 
 import com.lowagie.text.Document;
 
+/**
+*
+* @author Andrew Miga
+*/
+
 public class GRLDiagramSection extends PDFReportDiagram {
 	
 	public GRLDiagramSection() {

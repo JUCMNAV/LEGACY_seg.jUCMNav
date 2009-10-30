@@ -8,6 +8,11 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.widgets.Shell;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
+/**
+ *
+ * @author Andrew Miga
+ */
+
 public class ChangeNumericalImportanceCommand  extends Command implements JUCMNavCommand
 {
 	private IntentionalElementRef intElemRef;
@@ -60,7 +65,7 @@ public class ChangeNumericalImportanceCommand  extends Command implements JUCMNa
 
 	private void enterImportance()
 	{	
-		String user_data = JOptionPane.showInputDialog( null, "Enter Numerical Importance. Currently: " + oldValue );
+		String user_data = JOptionPane.showInputDialog( null, "Enter the Numerical Importance. Currently: (" + oldValue + ")" );
 		
 		if (user_data == null) {
 			cancelled = true;

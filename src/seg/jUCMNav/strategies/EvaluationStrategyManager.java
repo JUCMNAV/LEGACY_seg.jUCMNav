@@ -34,7 +34,7 @@ import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
  * This class is a singleton responsible to manage the current strategy. It does the evaluation calculation for IntentionalElement, create the Evaluation and
  * return the value of the evaluation given an IntentionalElement for the current strategy.
  * 
- * @author Jean-François Roy, pchen, sghanava
+ * @author Jean-Franï¿½ois Roy, pchen, sghanava
  * 
  */
 public class EvaluationStrategyManager {
@@ -43,23 +43,23 @@ public class EvaluationStrategyManager {
     private ScrollingGraphicalViewer kpiViewer;
     private TreeViewer kpiListViewer;
 
-    private static EvaluationStrategyManager instance;
+    private static EvaluationStrategyManager soleInstance = null;
     private boolean canRefresh;
 
     public static synchronized EvaluationStrategyManager getInstance() {
-        if (instance == null) {
-            instance = new EvaluationStrategyManager();
+        if (soleInstance == null) {
+            soleInstance = new EvaluationStrategyManager();
         }
-        instance.canRefresh = true;
-        return instance;
+        soleInstance.canRefresh = true;
+        return soleInstance;
     }
 
     public static synchronized EvaluationStrategyManager getInstance(boolean canRefresh) {
-        if (instance == null) {
-            instance = new EvaluationStrategyManager();
+        if (soleInstance == null) {
+            soleInstance = new EvaluationStrategyManager();
         }
-        instance.canRefresh = canRefresh;
-        return instance;
+        soleInstance.canRefresh = canRefresh;
+        return soleInstance;
     }
 
     private HashMap evaluations  = new HashMap(); // HashMap to keep link between intentionalElement and the evaluation for a particular strategy

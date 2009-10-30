@@ -16,7 +16,6 @@ import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.ScalableFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -54,7 +53,7 @@ import urncore.IURNNode;
  * EditPart for all IntentialElementRef.
  * It listen for changes in the references and the definitions
  * 
- * @author Jean-François Roy, sghanava
+ * @author Jean-Franï¿½ois Roy, sghanava
  *
  */
 public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeEditPart{
