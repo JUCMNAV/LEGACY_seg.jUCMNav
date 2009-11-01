@@ -69,6 +69,11 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
                 ((ExportWizard) getWizard()).refreshPages();
             }
         });
+        
+        Label lblUCMInformation = new Label(composite, SWT.NONE);
+        iUCMCount = UCMExportExtensionPointHelper.getExportLabels().length;
+        String ucm = getUcmExportStrings();
+        lblUCMInformation.setText(Messages.getString("ExportWizardTypeSelectionPage.ExportUCMTo") + ucm + "\n"); //$NON-NLS-3$ //$NON-NLS-3$
 
         radios[1] = new Button(composite, SWT.RADIO);
         radios[1].setSelection(ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN);
@@ -89,14 +94,9 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
         });
 
         Label lblInformation = new Label(composite, SWT.NONE);
-
-        iUCMCount = UCMExportExtensionPointHelper.getExportLabels().length;
         iURNCount = URNExportExtensionPointHelper.getExportLabels().length;
-
-        String ucm = getUcmExportStrings();
         String urn = getUrnExportStrings();
-
-        lblInformation.setText(Messages.getString("ExportWizardTypeSelectionPage.ExportUCMTo") + ucm + Messages.getString("ExportWizardTypeSelectionPage.ExportURNTo") + urn + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        lblInformation.setText(Messages.getString("ExportWizardTypeSelectionPage.ExportURNTo") + urn + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ 
 
 
         // page can only be complete if we have a type to export to at the next step.
