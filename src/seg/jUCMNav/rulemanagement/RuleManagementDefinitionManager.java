@@ -30,7 +30,6 @@ import seg.jUCMNav.Messages;
  */
 public abstract class RuleManagementDefinitionManager {
 	private static final String RULE_NAME = "RuleName"; //$NON-NLS-1$
-    
     private static final String RULE_SCHEMA = "ruleschema.xsd"; //$NON-NLS-1$
     private static final String SELECTED_SUFFIX = "Selected"; //$NON-NLS-1$
     private static final String RULE_NUMBER = "RuleNumber"; //$NON-NLS-1$
@@ -49,22 +48,15 @@ public abstract class RuleManagementDefinitionManager {
 
     protected List rules;
     protected List groups;
-    
-    
-    
+        
     public abstract List getDefaultDefinitions();
-    
-    protected abstract RuleManagementDefinitionManager  getDefferManagerInstance();      
-    
+    protected abstract RuleManagementDefinitionManager  getDefferManagerInstance();          
     protected abstract String getRuleType();
     public abstract boolean isShowDesc() ;
     public abstract void setShowDesc(boolean bChecked);
     protected abstract void loadShowDescriptonPreference();
     protected abstract void saveShowDescriptonPreference();
     
-    
-   
-
     /**
      * Saves all rules in memory into the preference store
      */
@@ -88,7 +80,6 @@ public abstract class RuleManagementDefinitionManager {
                 }        	
             }
         }
-
     }
 
     /**
@@ -153,9 +144,6 @@ public abstract class RuleManagementDefinitionManager {
      */
     protected abstract List getDefaultGroups() ;
 
- 
- 
-
     /**
      * Put a bunch of rules into the system rules
      * @param rulesIn a bunch of rules which are going to be put into the system rules
@@ -165,9 +153,9 @@ public abstract class RuleManagementDefinitionManager {
         {
             Rule r = (Rule) rulesIn.get(i);
             addRule(r );
-        }
-        
+        }       
     }
+    
     /**
      * Imports rules from a specified XML file
      * @param rulesFile the path of the XML file that contains rule definitions
@@ -215,10 +203,7 @@ public abstract class RuleManagementDefinitionManager {
         }
         return rules;
     }
-
-
-    
-    
+   
     /**
      * Test if an InputStream contains valid rules
      * @param rulesIS an InputStream
@@ -267,7 +252,6 @@ public abstract class RuleManagementDefinitionManager {
         }
         return false;
     }
-
    
     /**
      * Returns all system rules
@@ -275,6 +259,7 @@ public abstract class RuleManagementDefinitionManager {
     public List getRules() {
         return rules;
     }
+
     /**
      * Save all settings into the preference store
      */
@@ -284,6 +269,7 @@ public abstract class RuleManagementDefinitionManager {
         saveGroups();
         saveOthers();
     }
+
     /**
      * Load all setting from the preference store
      */
@@ -293,18 +279,21 @@ public abstract class RuleManagementDefinitionManager {
         loadGroups();
         loadOthers();
     }
+
     /**
      * Load the setting of switch of showing description in the problem view.
      */
     private void loadOthers(){    	
     	loadShowDescriptonPreference();        
     }
+
     /**
      * Save the setting of switch of showing description in the problem view into the preference store
      */
     private void saveOthers(){
     	saveShowDescriptonPreference();
     }
+
     /**
      * Save all group information into the preference store
      */
@@ -358,8 +347,7 @@ public abstract class RuleManagementDefinitionManager {
         }
 
     }
-    
-    
+       
     /**
      * Creates a new rule instance with 6 property values. If a rule with the same name exists, return null
      */

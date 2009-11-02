@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.views.preferences.rulemanagement;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -26,15 +23,11 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.rulemanagement.Rule;
 import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
 
-
 /**
- * @author Byrne
- * 
- */
-
-
-/**
- * This dialog provides the GUI of creating 1 new static checking rule or editing an existing rule. In this dialog, users can change the rule name, rule classifier, context expression,invariant expression and rule description. Furthermore, a user can open a utility editor from this dialog to create or edit a utility.
+ * This dialog provides the GUI of creating 1 new static checking rule or editing an 
+ * existing rule. In this dialog, users can change the rule name, rule classifier, 
+ * context expression,invariant expression and rule description. Furthermore, a user 
+ * can open a utility editor from this dialog to create or edit a utility.
  *  
  * @author Byrne Yan
  *
@@ -188,8 +181,6 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
          gdText.heightHint = 80;
          txtCheck.setLayoutData(gdText); 
          txtCheck.setSize(600, SWT.DEFAULT);
-        
-        
     }
 
     /**
@@ -327,7 +318,6 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
                 performDeleteUtility(table.getSelectionIndex());
             }
         }
-
     }
 
     /**
@@ -337,7 +327,6 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     private void performDeleteUtility(int idx) {
         table.remove(idx);
         table.select(idx);
-
     }
 
     /**

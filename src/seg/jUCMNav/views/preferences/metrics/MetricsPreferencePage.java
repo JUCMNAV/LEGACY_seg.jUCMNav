@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.views.preferences.metrics;
 
 import seg.jUCMNav.metrics.MetricsDefinitionManager;
@@ -9,11 +6,7 @@ import seg.jUCMNav.views.preferences.rulemanagement.RuleEditDialog;
 import seg.jUCMNav.views.preferences.rulemanagement.RuleManagementPreferencePage;
 
 /**
- * 
- * 
- * 
  * @author Anisur Rahman
- *
  */
 public class MetricsPreferencePage extends RuleManagementPreferencePage  {
 	

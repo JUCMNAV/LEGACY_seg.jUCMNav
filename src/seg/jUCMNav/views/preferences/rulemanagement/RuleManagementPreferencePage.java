@@ -58,6 +58,9 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 	private static final int TBL_COLUMN_CLASSIFIER = 2;
 	private static final int TBL_COLUMN_CONSTRAINT = 4;
 	private static final int TBL_COLUMN_UTILITY = 6;
+	
+	private static boolean alreadyClicked = false;
+	private static TreeItem currentTreeItem = null;
 
 	/**
 	 * The tree represents rule groups and rules in the corresponding group
@@ -113,6 +116,18 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 						}
 						checkSameRules(null, rules, checked);
 						checkGroups();
+					}
+				}
+				else {
+					// Fake double-click on rule/group item to edit it.
+					if (alreadyClicked && (currentTreeItem == (TreeItem) event.item)) { 
+							alreadyClicked = false;
+							currentTreeItem = null;
+							performEdit();
+					}
+					else {
+						currentTreeItem = (TreeItem) event.item;
+						alreadyClicked = true;
 					}
 				}
 			}

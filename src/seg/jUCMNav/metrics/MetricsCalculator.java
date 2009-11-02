@@ -105,24 +105,7 @@ public class MetricsCalculator {
                             message.setInfo();
                             result.add(message);
                            
-                            Query constraintEval = ocl.createQuery(invariant);
-
-                          //  List violatedObjs = constraintEval.reject(objects);
-/*                            
-                            for (int k=0;k< violatedObjs.size();++k) {
-                                EObject o = (EObject) violatedObjs.get(k);
-                               // res = false;
-                                String s = ""; //$NON-NLS-1$
-                                if(StaticSemanticDefMgr.instance().isShowDesc()){
-                                    s = r.getDescription()+" ("+r.getName()+")"; //$NON-NLS-1$ //$NON-NLS-2$
-                                }else
-                                {
-                                    s = r.getName();
-                                }
-                                result.add(new RuleManagementCheckingMessage(s, o));
-                            }
-                            if (violatedObjs.size()>0) nViolated++;
- */                           
+                            Query constraintEval = ocl.createQuery(invariant);                    
                         }
 						
 					}catch(//Parser

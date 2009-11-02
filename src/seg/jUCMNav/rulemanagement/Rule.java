@@ -65,12 +65,12 @@ public class Rule {
 	 */
 	private String errors;
 	/**
-	 * Construct a rule with the rule name and the rule is disabled and all other fileds are empty.
+	 * Construct a rule with the rule name and the rule is disabled and all other fields are empty.
 	 * @param name The rule name
 	 */
 	public Rule(String name)
 	{
-        this.context = ""; //$NON-NLS-1$
+        this.context = "urn::URNspec"; //$NON-NLS-1$
         this.classifier = ""; //$NON-NLS-1$
         this.query = ""; //$NON-NLS-1$
         this.name = name;

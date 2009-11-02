@@ -20,7 +20,7 @@ import seg.jUCMNav.rulemanagement.RuleManagementUtil;
 public class MetricsDefinitionManager extends RuleManagementDefinitionManager {
 
 	private static String RULE_TYPE = "Metrics" ;
-	private static String DEFAULT_MATRICS_RULE_FILE = "defaultMetricsRules.xml";
+	private static String DEFAULT_MATRICS_RULE_FILE = "defaultMetricsRules.xml"; //$NON-NLS-1$
 	private static final String SHOW_DESCRIPTION = RULE_TYPE + "SHOW_DESCRIPTION"; //$NON-NLS-1$
 
 	private boolean bShowDesc;
@@ -44,7 +44,7 @@ public class MetricsDefinitionManager extends RuleManagementDefinitionManager {
 		return instance_;
 	}
 
-	protected RuleManagementDefinitionManager  getDefferManagerInstance(){
+	protected RuleManagementDefinitionManager getDefferManagerInstance(){
 		return instance();
 	}
 

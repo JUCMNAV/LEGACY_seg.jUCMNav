@@ -379,13 +379,94 @@ def: getAllConditions():Sequence(urncore::Condition) =
 
 endpackage
 
+--------------------------------------------------------------
+-- METADATA Helper functions
+--------------------------------------------------------------
+package urncore
+context URNmodelElement
+
+def: getMetadatasForName(mdname:String):Sequence(Metadata) =
+        -- Returns the metadata objects whose names match mdname
+		self.metadata 
+			-> select(md:Metadata | md.name = mdname)
+			-> asSequence()
+
+def: hasMetadata(mdname:String):Boolean =
+        -- NOTE: If there are >0 metadata with the same name, then returns true 
+		self.getMetadatasForName(mdname) -> size() > 0
+
+def: hasUniqueMetadata(mdname:String):Boolean =
+        -- NOTE: If there are <>1 metadata with the same name, then returns false 
+		self.getMetadatasForName(mdname) -> size() = 1
+
+def: getMetadata(mdname:String):String =
+		if (self.hasUniqueMetadata(mdname))
+		then 
+			self.getMetadatasForName(mdname) -> first().value
+		else
+			''
+		endif
+
+--------------------------------------------------------------
+-- URN LINKS Helper functions
+--------------------------------------------------------------
+def: getLinksToForType(type:String):Sequence(URNmodelElement) =
+        -- Returns the URN model elements to which elem links (with specified type)
+		self.fromLinks 
+			-> select(link:urn::URNlink | link.type = type).toElem
+			-> asSequence() 
+
+def: getLinksFromForType(type:String):Sequence(URNmodelElement) =
+        -- Returns the URN model elements from which elem links (with specified type)
+		self.toLinks 
+			-> select(link:urn::URNlink | link.type = type).fromElem
+			-> asSequence()
+
+endpackage
+
+--------------------------------------------------------------
+-- GRL LinkRef Helper functions
+--------------------------------------------------------------
+package grl
+context LinkRef
+
+def: srcIsActor():Boolean =
+		self.link.src.oclIsTypeOf(Actor)
+
+def: destIsActor():Boolean =
+		self.link.dest.oclIsTypeOf(Actor)
+
+endpackage
+
+--------------------------------------------------------------
+-- GRL Dependency Helper Functions
+--------------------------------------------------------------
+
+package grl
+context GRLLinkableElement
+
+def: dependees():Sequence(grl::GRLLinkableElement) =
+     -- The IEs/Actors that this IE depends on
+		self.linksSrc
+			-> select(link|link.oclIsTypeOf(grl::Dependency)).dest
+			-> asSequence()
+		
+def: dependers():Sequence(grl::GRLLinkableElement) =
+		-- The IEs that depend on this IE
+		self.linksDest
+			-> select(link|link.oclIsTypeOf(grl::Dependency)).src
+			-> asSequence()
+
+endpackage
+
+
 --------------------------------------------------------------------------------------
 -- For features in software product lines
-
--- In a strategy, feature A requires feature B
+--------------------------------------------------------------------------------------
 package grl
 context EvaluationStrategy
 
+-- In a strategy, feature A requires feature B
 def: featureRequires(nameA:String, nameB:String):Boolean=
 
 	let 
@@ -407,3 +488,4 @@ def: featureConflictsWith(nameA:String, nameB:String):Boolean=
 	in
 		(i100 -> includes(a)) implies (i_not0 -> excludes(b))
 endpackage
+

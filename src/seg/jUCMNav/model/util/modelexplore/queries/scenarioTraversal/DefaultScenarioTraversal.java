@@ -476,7 +476,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 	}
 
 	/**
-	 * Proccesses a start point
+	 * Processes a start point
 	 * 
 	 * @param env the environment
 	 * @param start the start point to process
@@ -594,7 +594,8 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 	 */
 	protected void processWaitingPlaceAndTimer(UcmEnvironment env, WaitingPlace pn) throws TraversalException {
 		// only one out.
-		NodeConnection nc = (NodeConnection) pn.getSucc().get(0);
+		NodeConnection nc = (NodeConnection) pn.getSucc().get(0); // WP/Timer successor, normal path
+		
 		try {
 			Object result = ScenarioUtils.evaluate(nc.getCondition(), env);
 			// not using default behaviour. want to make sure we are blocked
@@ -607,10 +608,10 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 				_traversalData.visitNodeConnection(nc);
 			} else {
 				
-				if (pn instanceof Timer &&  pn.getSucc().size()==2) {
+				if (pn instanceof Timer &&  pn.getSucc().size()==2) { // Is this a timer and is there a timeout path?
 					
 					//TODO: Semantic Variation. What do we do if both conditions are true at the same time?
-					nc =  (NodeConnection) pn.getSucc().get(1);
+					nc =  (NodeConnection) pn.getSucc().get(1); // timeout path; differs from Z.151 as jUCMNav does not have a separate timeout link
 					result = ScenarioUtils.evaluate(nc.getCondition(), env);
 
 					// not using default behaviour. want to make sure we are blocked

@@ -14,24 +14,15 @@ public class MetricsRuleEditDialog extends RuleEditDialog {
 	public MetricsRuleEditDialog(IShellProvider parentShell,
 			RuleManagementDefinitionManager defferManager) {
 		super(parentShell, defferManager);
-		// TODO Auto-generated constructor stub
 	}
 
 	public MetricsRuleEditDialog(Shell parentShell,
 			RuleManagementDefinitionManager defferManager) {
 		super(parentShell, defferManager);
-		// TODO Auto-generated constructor stub
 	}
 
 
 	protected void createConstraintGUI(Composite c1){
-		/*
-		Label lblCheck = new Label(c1, SWT.LEFT);
-		lblCheck.setText(Messages.getString("RuleEditDialog.ConstraintExpression")); //$NON-NLS-1$
-		txtCheck = new Text(c1, SWT.MULTI | SWT.BORDER);
-		txtCheck.setLayoutData(new GridData(GridData.FILL_BOTH));
-		txtCheck.setSize(600, 600);
-		*/
 	}
 	
     

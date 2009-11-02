@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.views.preferences.staticSemantic;
 
 import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
@@ -40,11 +37,6 @@ public class StaticSemanticPreferencePage extends RuleManagementPreferencePage {
 	//@Override
 	protected void performShowDescriptionChanged() {
 		StaticSemanticDefMgr.instance().setShowDesc(btnShowDescription.getSelection());
-		
-		
 	}
-	
-
-
 	
 }
