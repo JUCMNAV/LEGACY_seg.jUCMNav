@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.preferences.rulemanagement;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -379,10 +380,46 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 	private void performExport() {
 
 		TreeItem[] items = tree.getSelection();
+		String fileName = null;
+		
 		if (items.length > 0) {
-			FileDialog dlg = new FileDialog(getControl().getShell(), SWT.SAVE);
-			String file = dlg.open();
-			if (file != null) {
+		    boolean done = false;
+
+		    FileDialog dlg = new FileDialog(getControl().getShell(), SWT.SAVE);
+		    dlg.setText(Messages.getString("RuleManagementPreferencePage.ExportRulesMetricsAs")); //$NON-NLS-1$
+		    dlg.setFilterExtensions(new String[] { "*.xml" }); //$NON-NLS-1$
+
+
+		    while (!done) {
+		      // Open the File Dialog
+		      fileName = dlg.open();
+		      if (fileName == null) {
+		        // User has cancelled, so quit and return
+		        done = true;
+		      } else {
+		        // User has selected a file; see if it already exists
+		        File file = new File(fileName);
+		        if (file.exists()) {
+		          // The file already exists; asks for confirmation
+		          MessageBox mb = new MessageBox(dlg.getParent(), SWT.ICON_WARNING
+		              | SWT.YES | SWT.NO);
+		          mb.setText("Attention!"); //$NON-NLS-1$
+		          mb.setMessage(fileName + " " + Messages.getString("RuleManagementPreferencePage.AlreadyExists")); //$NON-NLS-1$
+
+		          // If they click Yes, we're done and we drop out. If
+		          // they click No, we redisplay the File Dialog
+		          done = mb.open() == SWT.YES;
+		          if (!done) {
+		        	  fileName = null;
+		          }
+		        } else {
+		          // File does not exist, so drop out
+		          done = true;
+		        }
+		      }
+		    }
+		    
+			if (fileName != null) {
 				List rules = new ArrayList();
 
 				for (int i = 0; i < items.length; ++i) {
@@ -391,7 +428,7 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 						rules.add(data);
 					}
 				}
-				RuleManagementUtil.exportRules(rules, file);
+				RuleManagementUtil.exportRules(rules, fileName);
 			}
 		}
 

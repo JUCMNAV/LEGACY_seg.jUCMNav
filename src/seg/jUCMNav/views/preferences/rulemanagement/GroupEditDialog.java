@@ -211,6 +211,7 @@ public class GroupEditDialog extends Dialog {
         {
             group.addRule((Rule) items[i].getData());
         }
+       	group.setName(txtName.getText()); // Update the group name
         super.okPressed();
     }
 
