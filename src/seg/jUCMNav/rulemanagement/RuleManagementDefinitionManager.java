@@ -159,7 +159,7 @@ public abstract class RuleManagementDefinitionManager {
     /**
      * Imports rules from a specified XML file
      * @param rulesFile the path of the XML file that contains rule definitions
-     * @param parent a Shell, which is used as parent when a messgae box is showed.
+     * @param parent a Shell, which is used as parent when a message box is showed.
      * @return a list of rules
      * @throws FileNotFoundException
      */

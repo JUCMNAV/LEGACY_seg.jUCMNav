@@ -440,6 +440,9 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 	private void performImport() {
 
 		FileDialog dlg = new FileDialog(getControl().getShell(), SWT.OPEN);
+	    dlg.setText(Messages.getString("RuleManagementPreferencePage.ImportRulesMetricsAs")); //$NON-NLS-1$
+	    dlg.setFilterExtensions(new String[] { "*.xml" }); //$NON-NLS-1$
+
 		String file = dlg.open();
 		if (file != null) {
 			// save modification before import new rules
