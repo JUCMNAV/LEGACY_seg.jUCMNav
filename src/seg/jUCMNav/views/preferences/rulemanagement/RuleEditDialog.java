@@ -106,11 +106,17 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         txtName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtName.setSize(200, SWT.DEFAULT);
 
-        Label lblContext = new Label(c1, SWT.LEFT);
+		Label lblContext = new Label(c1, SWT.LEFT);
         lblContext.setText(Messages.getString("RuleEditDialog.Context")); //$NON-NLS-1$
         txtContext = new Text(c1, SWT.MULTI | SWT.BORDER);
         txtContext.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        txtContext.setSize(200, SWT.DEFAULT);
+        txtContext.setSize(200, SWT.DEFAULT);		
+        // Metrics cannot edit this field
+        if (this.getClass().getName().endsWith("MetricsRuleEditDialog")) //$NON-NLS-1$
+        {
+            txtContext.setText("urn::URNspec");       
+            txtContext.setEnabled(false);
+        }
 
         Label lblQuery = new Label(c1, SWT.LEFT);
         lblQuery.setText(getQueryLabel()); //$NON-NLS-1$
@@ -129,6 +135,15 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         txtDesc.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtDesc.setSize(600, SWT.DEFAULT);
 
+        btnWarningOnly = new Button(c1, SWT.CHECK);
+        btnWarningOnly.setText(Messages.getString("RuleEditDialog.ReportAsWarning")); //$NON-NLS-1$ 
+        btnWarningOnly.addSelectionListener(this);      
+        // Metrics do not need this checkbox...
+        if (this.getClass().getName().endsWith("MetricsRuleEditDialog")) //$NON-NLS-1$
+        {
+        	btnWarningOnly.setVisible(false);        	
+        }
+        
         Label lblUtilities = new Label(c1, SWT.LEFT);
         lblDesc.setText(Messages.getString("RuleEditDialog.Description")); //$NON-NLS-1$
 
@@ -141,10 +156,6 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
 
         table.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL));
 
-        btnWarningOnly = new Button(c1, SWT.CHECK);
-        btnWarningOnly.setText("Report as Warning instead of Error");
-        btnWarningOnly.addSelectionListener(this);
-        
         Composite c = new Composite(c1, SWT.NULL);
         GridLayout layout = new GridLayout();
         layout.numColumns = 3;
@@ -166,7 +177,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         init();
         return composite;
     }
-    
+
     protected GridData getQueryGridData(){
     	 GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
          gd.heightHint = 50;

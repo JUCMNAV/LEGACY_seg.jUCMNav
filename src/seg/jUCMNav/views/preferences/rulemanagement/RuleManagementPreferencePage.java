@@ -176,8 +176,6 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 		btnExport.setText(BUTTON_EXPORT);
 		btnExport.addSelectionListener(this);
 		
-		
-
 		initializeValues();
 		return null;
 	}

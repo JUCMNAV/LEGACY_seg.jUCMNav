@@ -21,11 +21,10 @@ public class MetricsRuleEditDialog extends RuleEditDialog {
 		super(parentShell, defferManager);
 	}
 
-
+    // Override. Remove this part.
 	protected void createConstraintGUI(Composite c1){
 	}
-	
-    
+
     protected String getQueryLabel(){
     	return Messages.getString("MetricsRuleEditDialog.QueryExpression"); //$NON-NLS-1$
     }
