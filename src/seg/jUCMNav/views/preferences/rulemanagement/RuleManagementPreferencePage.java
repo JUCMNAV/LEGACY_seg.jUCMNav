@@ -29,11 +29,13 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.rulemanagement.Rule;
 import seg.jUCMNav.rulemanagement.RuleGroup;
 import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
 import seg.jUCMNav.rulemanagement.RuleManagementUtil;
+import seg.jUCMNav.views.preferences.metrics.MetricsPreferencePage;
 
  /**
   * This is the abstract class for Rule Management.
@@ -303,10 +305,6 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 			} else if (btn.getText().compareTo(BUTTON_EXPORT) == 0) {
 				performExport();
 			}			
-			//else if (btn.getText().compareToIgnoreCase(APPDATA_CHECKBOX) == 0){
-			//	performSaveDescriptionPreference();
-			//}
-			
 		}
 	}
 	
@@ -593,6 +591,8 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 		for (int i = 0; i < groups.size(); ++i) {
 			RuleGroup g = (RuleGroup) groups.get(i);
 			TreeItem item = new TreeItem(tree, SWT.NONE);
+	        if (item.getImage() == null)
+	        	item.setImage(JUCMNavPlugin.getImage("icons/folder16.gif")); //$NON-NLS-1$
 			populateGroupNode(item, g);
 		}
 		checkGroups();
@@ -614,6 +614,22 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 			subItem.setText(new String[] { r.getName(), r.getClassifier(), r.getContext(), r.getQuery(), r.getDescription() });
 			subItem.setData(r);
 			subItem.setChecked(r.isEnabled());
+			// Set the right icon in the tree subitem
+			if (this instanceof MetricsPreferencePage) // Cheats a bit by looking at subclass...
+			{
+		        if (subItem.getImage() == null)
+		        	subItem.setImage(JUCMNavPlugin.getImage("icons/info16.gif")); //$NON-NLS-1$
+			}
+			else if (r.getWarningOnly())
+			{
+		        if (subItem.getImage() == null)
+		        	subItem.setImage(JUCMNavPlugin.getImage("icons/warning16.gif")); //$NON-NLS-1$
+			}
+			else
+			{
+		        if (subItem.getImage() == null)
+		        	subItem.setImage(JUCMNavPlugin.getImage("icons/error16.gif")); //$NON-NLS-1$
+			}
 		}
 	}
 

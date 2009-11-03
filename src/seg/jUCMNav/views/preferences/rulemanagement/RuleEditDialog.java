@@ -61,6 +61,12 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
      * The rule description
      */
     private Text txtDesc;
+    
+    
+    /**
+     * The level error indicator. True means Warning instead of Error.
+     */
+    private Button btnWarningOnly;
 
     private Button btnNew;
     private Button btnEdit;
@@ -109,8 +115,6 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         Label lblQuery = new Label(c1, SWT.LEFT);
         lblQuery.setText(getQueryLabel()); //$NON-NLS-1$
         txtQuery = new Text(c1, SWT.MULTI | SWT.BORDER);
-       // txtQuery.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
-       // txtQuery.setSize(600, SWT.DEFAULT);
         
         GridData gd = getQueryGridData();
         txtQuery.setLayoutData(gd); 
@@ -137,6 +141,10 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
 
         table.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL));
 
+        btnWarningOnly = new Button(c1, SWT.CHECK);
+        btnWarningOnly.setText("Report as Warning instead of Error");
+        btnWarningOnly.addSelectionListener(this);
+        
         Composite c = new Composite(c1, SWT.NULL);
         GridLayout layout = new GridLayout();
         layout.numColumns = 3;
@@ -154,7 +162,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         btnDelete = new Button(c, SWT.PUSH);
         btnDelete.setText(BUTTON_DEFINE_A_DELETE_UTILITY);
         btnDelete.addSelectionListener(this);
-
+ 
         init();
         return composite;
     }
@@ -172,15 +180,13 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
     
     protected void createConstraintGUI(Composite c1){
     	Label lblCheck = new Label(c1, SWT.LEFT);
-        lblCheck.setText(Messages.getString("RuleEditDialog.ConstraintExpression")); //$NON-NLS-1$
-        txtCheck = new Text(c1, SWT.MULTI | SWT.BORDER);
-       // txtCheck.setLayoutData(new GridData(GridData.FILL_BOTH));
-        
-     
-         GridData gdText = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
-         gdText.heightHint = 80;
-         txtCheck.setLayoutData(gdText); 
-         txtCheck.setSize(600, SWT.DEFAULT);
+    	lblCheck.setText(Messages.getString("RuleEditDialog.ConstraintExpression")); //$NON-NLS-1$
+    	txtCheck = new Text(c1, SWT.MULTI | SWT.BORDER);
+
+    	GridData gdText = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+    	gdText.heightHint = 80;
+    	txtCheck.setLayoutData(gdText); 
+    	txtCheck.setSize(600, SWT.DEFAULT);
     }
 
     /**
@@ -196,6 +202,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             	txtCheck.setText(rule.getQuery());
             }
             txtDesc.setText(rule.getDescription());
+            btnWarningOnly.setSelection(rule.getWarningOnly());
             for (int i = 0; i < rule.getUtilities().size(); ++i) {
                 String s = (String) rule.getUtilities().get(i);
                 appendUtility(s);
@@ -239,7 +246,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         if (rule == null)// create mode
         {
             Rule r = defferManager.createRule(txtName.getText(), txtContext.getText(), txtQuery.getText(), txtCheck == null ? "" : txtCheck.getText(), false, //$NON-NLS-1$
-                    txtDesc.getText());
+            		 btnWarningOnly.getSelection(), txtDesc.getText());
             if (r == null) {
                 MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
                 msg.setMessage(Messages.getString("RuleEditDialog.RuleNameDuplicates")); //$NON-NLS-1$
@@ -274,13 +281,12 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
                 }
             }
             Rule r = defferManager.createRule("", txtContext.getText(), this.txtQuery.getText(), this.txtCheck == null ? "" :this.txtCheck.getText(), false, //$NON-NLS-1$ //$NON-NLS-2$
-                    txtDesc.getText());
+            		btnWarningOnly.getSelection(), txtDesc.getText());
             for (int i = 0; i < table.getItems().length; ++i) {
                 TableItem item = table.getItems()[i];
                 r.addUtility(item.getText());
             }
-            if (!r.isValid()) {
-              
+            if (!r.isValid()) {            
                     MessageBox msg = new MessageBox(this.getShell(), SWT.ICON_ERROR);
                     msg.setMessage(r.getErrors());
                     msg.setText(Messages.getString("RuleEditDialog.InvalidRuleDefinition")); //$NON-NLS-1$
@@ -291,6 +297,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             rule.setClassifier(txtContext.getText());
             rule.setDescription(txtDesc.getText());
             rule.setContext(txtQuery.getText());
+            rule.setWarningOnly(btnWarningOnly.getSelection()); 
             rule.setQuery(txtCheck == null ? "" :txtCheck.getText()); //$NON-NLS-1$
             for (int i = 0; i < table.getItems().length; ++i) {
                 TableItem item = table.getItems()[i];

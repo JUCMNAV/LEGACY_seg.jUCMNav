@@ -98,6 +98,10 @@ public class RuleManagementUtil {
             utilities.appendChild(utility);
         }
         root.appendChild(utilities);
+        // WarningOnly
+        Element warningOnly = doc.createElement("WarningOnly"); //$NON-NLS-1$
+        warningOnly.setTextContent(r.getWarningOnly()?"true":"false"); //$NON-NLS-1$ //$NON-NLS-2$
+        root.appendChild(warningOnly);
         return root;
     }
     
@@ -143,7 +147,10 @@ public class RuleManagementUtil {
                             r.setContext(value);
                         } else if (nodeName.compareTo("Constraint") == 0) { //$NON-NLS-1$
                             r.setQuery(value);
+                        } else if (nodeName.compareTo("WarningOnly") == 0) { //$NON-NLS-1$
+                            r.setWarningOnly(value.equalsIgnoreCase("true")); //$NON-NLS-1$
                         }
+
                     }
                     node = node.getNextSibling();
                 }

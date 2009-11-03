@@ -26,6 +26,7 @@ import urn.UrnPackage;
  *  <li><b>The rule description</b>, which gives a brief explanation about the rule.
  *  <li><b>The rule enabled/disabled indicator</b>, which is true if enabled, otherwise false.
  *  <li><b>The rule utility definitions</b>. A utility is an additional operation used in <b>the rule invariant expression</b> and the format is as same as that in defining an additional operation in an OCL document. The utility is defined under the context of the <b>rule classifier</b>.
+ *  <li><b>The rule error level</b>, which indicates whether this should be an Error (false) or a Warning (true) 
  * </ul>
  * 
  * @author Byrne Yan
@@ -59,7 +60,11 @@ public class Rule {
 	/**
 	 * The rule enabled/disabled indicator
 	 */
-	private boolean    enabled;
+	private boolean enabled;
+	/**
+	 * Indicates if the rule should generate an error or a warning
+	 */
+	private boolean warningOnly=false;
 	/**
 	 * Holds error messages found when checking the validation of the rule.
 	 */
@@ -75,6 +80,7 @@ public class Rule {
         this.query = ""; //$NON-NLS-1$
         this.name = name;
         this.enabled = false;
+        this.warningOnly = false;
         this.description = ""; //$NON-NLS-1$
         this.errors = ""; //$NON-NLS-1$
         this.utilities = new ArrayList() ;
@@ -88,13 +94,36 @@ public class Rule {
 	 * @param enabled      This enabled/disabled indicator
 	 * @param description  The rule description
 	 */
-	public Rule(String name,String classifier,String context, String query,boolean enabled, String description)
+	public Rule(String name,String classifier,String context, String query, boolean enabled, String description)
 	{
 		this.context = context;
 		this.classifier = classifier;
 		this.query = query;
 		this.name = name;
 		this.enabled = enabled;
+		this.description = description;
+		this.errors = ""; //$NON-NLS-1$
+		this.utilities = new ArrayList() ;
+	}
+
+	/**
+	 * Construct a rule with properties except utilities. 
+	 * @param name         The rule name
+	 * @param classifier   The rule classifier
+	 * @param context      The rule context expression	 
+	 * @param query	       The rule invariant expression
+	 * @param enabled      The enabled/disabled indicator
+	 * @param warningOnly  The error/warning indicator
+	 * @param description  The rule description
+	 */
+	public Rule(String name,String classifier,String context, String query, boolean enabled, boolean warningOnly, String description)
+	{
+		this.context = context;
+		this.classifier = classifier;
+		this.query = query;
+		this.name = name;
+		this.enabled = enabled;
+		this.warningOnly = warningOnly;
 		this.description = description;
 		this.errors = ""; //$NON-NLS-1$
 		this.utilities = new ArrayList() ;
@@ -193,6 +222,7 @@ public class Rule {
     public void setClassifier(String classifier) {
         this.classifier = classifier;
     }
+
     /**
      * Set the invariant expression
      */
@@ -200,6 +230,20 @@ public class Rule {
         this.query = query;
     }
     
+    /**
+     * Get the error/warning level
+     */
+	public boolean getWarningOnly() {
+		return warningOnly;
+	}
+
+    /**
+     * Set the error/warning level
+     */
+    public void setWarningOnly(boolean warningOnly) {
+        this.warningOnly = warningOnly;
+    }
+
     /**
      * Returns a list of definitions of utilities.
      */
@@ -292,4 +336,5 @@ public class Rule {
     public void clearUtilities() {
         utilities.clear();        
     }
+    
 }

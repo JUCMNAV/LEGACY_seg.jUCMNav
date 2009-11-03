@@ -20,6 +20,7 @@ elementFormDefault="qualified">
           			</xs:sequence>
           		</xs:complexType>
           	</xs:element>
+          	<xs:element name="WarningOnly" type="xs:string" maxOccurs="1" minOccurs="0"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>

@@ -203,7 +203,7 @@ public class GroupEditDialog extends Dialog {
         }
         if(group==null)//create mode
         {
-            group = defferManager.creatRuelGroup(txtName.getText());                    
+            group = defferManager.createRuleGroup(txtName.getText());                    
         }
         group.removeAll();
         TableItem[] items = members.getItems();

@@ -91,20 +91,20 @@ public class StaticSemanticChecker {
                                 helper.defineOperation(op);
                             }
                             helper.setContext(UrnPackage.Literals.UR_NSPEC);
-/*                            OCLExpression<EClassifier> query = helper.createQuery(r.getContext());
+/*                          OCLExpression<EClassifier> query = helper.createQuery(r.getContext());
                             Query<EClassifier, EClass, EObject> queryEval = ocl.createQuery(query);
 */
                             OCLExpression query = helper.createQuery(r.getContext()+"->asSequence()"); //$NON-NLS-1$
                             Query queryEval = ocl.createQuery(query);
 
-//                            @SuppressWarnings("unchecked")
+//                          @SuppressWarnings("unchecked")
                             List objects = (List) queryEval.evaluate(urn);
 
                             helper.setContext(e);
 
                             Constraint invariant = (Constraint) helper.createInvariant(r.getQuery());
 
-//                            Query<EClassifier, EClass, EObject> constraintEval = ocl.createQuery(invariant);
+//                          Query<EClassifier, EClass, EObject> constraintEval = ocl.createQuery(invariant);
                             Query constraintEval = ocl.createQuery(invariant);
 
                             List violatedObjs = constraintEval.reject(objects);
@@ -118,7 +118,7 @@ public class StaticSemanticChecker {
                                 {
                                     s = r.getName();
                                 }
-                                problems.add(new RuleManagementCheckingMessage(s, o));
+                                problems.add(new RuleManagementCheckingMessage(s, o, r.getWarningOnly()));
                             }
                             if (violatedObjs.size()>0) nViolated++;
                         }

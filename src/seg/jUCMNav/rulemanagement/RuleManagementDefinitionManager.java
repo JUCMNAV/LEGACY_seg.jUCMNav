@@ -25,7 +25,7 @@ import seg.jUCMNav.Messages;
 
 /**
  * 
- * @author Anisur Rahman
+ * @author Bo Yan, Anisur Rahman, Daniel Amyot
  *
  */
 public abstract class RuleManagementDefinitionManager {
@@ -35,6 +35,7 @@ public abstract class RuleManagementDefinitionManager {
     private static final String RULE_NUMBER = "RuleNumber"; //$NON-NLS-1$
     private static final String DESCCRIPTION_SUFFIX = "_Desccription"; //$NON-NLS-1$
     private static final String CONSTRAINT_SUFFIX = "_Constraint"; //$NON-NLS-1$
+    private static final String WARNING_SUFFIX = "_Warning"; //$NON-NLS-1$
     private static final String CONTEXT_SUFFIX = "_Context"; //$NON-NLS-1$
     private static final String CLASSIFIER_SUFFIX = "_Classifier"; //$NON-NLS-1$
     private static final String NAME_SUFFIX = "_Name"; //$NON-NLS-1$
@@ -73,6 +74,7 @@ public abstract class RuleManagementDefinitionManager {
                 store.setValue(name + CONTEXT_SUFFIX, r.getContext());
                 store.setValue(name + CONSTRAINT_SUFFIX, r.getQuery());
                 store.setValue(name + DESCCRIPTION_SUFFIX, r.getDescription());
+                store.setValue(name + WARNING_SUFFIX, r.getWarningOnly());
                 int nUtilities = r.getUtilities().size();
                 store.setValue(name + UTILITIES_NUMBER, nUtilities);
                 for (int j = 0; j < nUtilities; ++j) {
@@ -102,6 +104,7 @@ public abstract class RuleManagementDefinitionManager {
                         store.getString(name + CONTEXT_SUFFIX),
                         store.getString(name + CONSTRAINT_SUFFIX),
                         store.getBoolean(name + SELECTED_SUFFIX),
+                        store.getBoolean(name + WARNING_SUFFIX),
                         store.getString(name + DESCCRIPTION_SUFFIX)
                     );
             int nUtilities = store.getInt(name + UTILITIES_NUMBER);
@@ -122,7 +125,7 @@ public abstract class RuleManagementDefinitionManager {
     /**
      * Lookup a rule with the rule name.
      * @param ruleName  the rule name
-     * @return the rule found, if no rule is found, a null is retruned.
+     * @return the rule found, if no rule is found, a null is returned.
      */
     public  Rule lookupRule(String ruleName) {
         Rule r = null;
@@ -349,13 +352,13 @@ public abstract class RuleManagementDefinitionManager {
     }
        
     /**
-     * Creates a new rule instance with 6 property values. If a rule with the same name exists, return null
+     * Creates a new rule instance with 7 property values. If a rule with the same name exists, return null
      */
-    public Rule createRule(String name,String classifier,String context, String query,boolean enabled, String description)
+    public Rule createRule(String name, String classifier, String context, String query, boolean enabled, boolean warningOnly, String description)
     {
         Rule r = lookupRule(name);
         if(r==null)
-            return new Rule(name,classifier,context, query,enabled, description);
+            return new Rule(name, classifier, context, query, enabled, warningOnly, description);
         return null;
     }
     
@@ -373,7 +376,7 @@ public abstract class RuleManagementDefinitionManager {
     /**
      * Creates a rule group instance with a group name. If a group with the same name exists, return null.
      */
-    public RuleGroup creatRuelGroup(String groupName)
+    public RuleGroup createRuleGroup(String groupName)
     {
         RuleGroup g = lookupGroup(groupName);
         if(g==null)
