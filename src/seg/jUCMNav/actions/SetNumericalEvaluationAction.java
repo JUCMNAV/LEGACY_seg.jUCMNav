@@ -5,7 +5,6 @@ import grl.IntentionalElementRef;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
@@ -19,12 +18,11 @@ public class SetNumericalEvaluationAction extends URNSelectionAction
     public static final String SET_NUMERICAL_EVALUATION = "seg.jUCMNav.SET_NUMERICAL_EVALUATION"; //$NON-NLS-1$
     private IntentionalElementRef selection;
     private int id;
-    private String[] values = { "+100", "+75", "+50", "+25", "0", "-25", "-50", "-75", "-100", "Other.." };
+    private String[] values = { "+100", "+75", "+50", "+25", "0", "-25", "-50", "-75", "-100", "Other..." };
 
 	public SetNumericalEvaluationAction(IWorkbenchPart part, int id ) {
 		super(part);
         setId( SET_NUMERICAL_EVALUATION + id );
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif")); //$NON-NLS-1$
         setText( values[id] );
         this.id = id;
 	}

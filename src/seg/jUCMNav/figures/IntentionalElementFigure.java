@@ -1,5 +1,7 @@
 package seg.jUCMNav.figures;
 
+import java.awt.event.KeyListener;
+
 import grl.IntentionalElementType;
 
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -20,13 +22,14 @@ import seg.jUCMNav.figures.anchors.DecompositionAnchor;
  * - Task = Triangular Rectangle
  * - Indicator = Triangular Rectangle with two lines
  * 
- * @author Jean-François Roy, pchen
+ * @author Jean-Franï¿½ois Roy, pchen
  *
  */
 public class IntentionalElementFigure extends GrlNodeFigure {
 
     // the IntentionalElementType
     private int type;
+    //org.eclipse.draw2d.KeyListener keyListener;
     
     private DecompositionAnchor decompositionTarget;
     
@@ -38,6 +41,9 @@ public class IntentionalElementFigure extends GrlNodeFigure {
         super();
         setType(IntentionalElementType.SOFTGOAL);
         decompositionTarget = new DecompositionAnchor(this, DecompositionAnchor.TYPE_TARGET);
+        
+       // keyListener = new org.eclipse.draw2d.KeyListener();
+        //this.addKeyListener( keyListener );
     }
     
     public ConnectionAnchor getDecompositionTarget(){

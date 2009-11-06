@@ -1,12 +1,14 @@
 package seg.jUCMNav.model.commands.transformations;
 
-import javax.swing.JOptionPane;
-
+import grl.Evaluation;
 import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.widgets.Shell;
+
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
 
 /**
  *
@@ -18,66 +20,70 @@ public class ChangeNumericalImportanceCommand  extends Command implements JUCMNa
 	private IntentionalElementRef intElemRef;
 	private int id, oldValue, newValue;
 	private static int[] values = { 100, 75, 50, 25, 0 };
-    private Shell shell;
-    private static final String[] columnNames = { "Enter the Numerical Importance" };
     private boolean cancelled = false;
 
-	public ChangeNumericalImportanceCommand( IntentionalElementRef intElemRef, int id ) {
+	public ChangeNumericalImportanceCommand( IntentionalElementRef intElemRef, int id )
+	{
 		this.intElemRef = intElemRef;
 		this.id = id;
+
 		oldValue = intElemRef.getDef().getImportanceQuantitative();
+		
 		if ( id < 5 )
 			newValue = values[id];
-		else
-			enterImportance();
+		else {
+    		Integer enteredValue = enterImportance();
+    		if ( enteredValue == null )
+    			cancelled = true;
+    		else
+    			newValue = enteredValue.intValue();
+		}
 	}
 	
-	public void execute() {
+	public void execute()
+	{
 		if ( cancelled )
 			cancelled = false;
 		else
 			redo();
 	}
 
-	public void redo() {
+	public void redo()
+	{
 		testPreConditions();
 
-		intElemRef.getDef().setImportanceQuantitative( newValue );
+		EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance( intElemRef.getDef(), newValue );
 
 		testPostConditions();
 	}
 
-	public void testPostConditions() {
+	public void testPostConditions()
+	{
 		assert intElemRef != null : "post no element!"; //$NON-NLS-1$
 	}
 
-	public void testPreConditions() {
+	public void testPreConditions()
+	{
 		assert intElemRef != null : "pre no element!"; //$NON-NLS-1$
 	}
 
-	public void undo() {
+	public void undo()
+	{
 		testPostConditions();
 
-		intElemRef.getDef().setImportanceQuantitative( oldValue );
+		EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance( intElemRef.getDef(), oldValue );
 
 		testPreConditions();
 	}
 
-	private void enterImportance()
+	private Integer enterImportance()
 	{	
-		String user_data = JOptionPane.showInputDialog( null, "Enter the Numerical Importance. Currently: (" + oldValue + ")" );
-		
-		if (user_data == null) {
-			cancelled = true;
-			return;
-		}
-		
-		try {
-			newValue = Integer.parseInt( user_data );
-		} catch ( NumberFormatException nfe ) {
-			JOptionPane.showMessageDialog( null, "Please enter an integer", "Error", JOptionPane.PLAIN_MESSAGE );
-			cancelled = true;
-		}
+	    String currentValue;
+		Shell shell = new Shell();
+	    IntegerInputRangeDialog dialog = new IntegerInputRangeDialog(shell);
+	    
+	    currentValue = ( oldValue == Evaluation.EVALUATION_UNDEFINED ) ? "" : Integer.toString( oldValue );
+	
+	    return ( dialog.open( "Enter Numerical Importance   (range: [0, 100])", "Enter the new Numerical Importance: ", currentValue, 0, 100 ) );		
 	}
-
 }

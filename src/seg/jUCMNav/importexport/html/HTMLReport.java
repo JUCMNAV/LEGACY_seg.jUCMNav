@@ -1,5 +1,7 @@
 package seg.jUCMNav.importexport.html;
 
+import grl.Actor;
+import grl.ActorRef;
 import grl.Belief;
 import grl.GRLGraph;
 import grl.IntentionalElement;
@@ -23,6 +25,7 @@ import seg.jUCMNav.importexport.reports.URNReport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
+import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
 import ucm.map.NodeConnection;
@@ -38,6 +41,7 @@ import ucm.map.impl.RespRefImpl;
 import ucm.map.impl.StubImpl;
 import urn.URNlink;
 import urn.URNspec;
+import urncore.Component;
 import urncore.Condition;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
@@ -65,14 +69,17 @@ public class HTMLReport extends URNReport {
 	 * Export an HTML suite from this URNspec.  
 	 * 
 	 */
-	public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
+	public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException
+	{
 		FileOutputStream imgFos = null;
-
+		IFigure pane;
+		
 		for (int i=0;i<urn.getUrndef().getSpecDiagrams().size();i++) {
 			IURNDiagram diagram = (IURNDiagram) urn.getUrndef().getSpecDiagrams().get(i);
+			
+			boolean isLast = ( i == urn.getUrndef().getSpecDiagrams().size()-1 );
 			// get the high level IFigure to be saved.
-			IFigure pane = (IFigure) mapDiagrams.get(diagram);
-			boolean isLast = (i == urn.getUrndef().getSpecDiagrams().size()-1);
+			pane = (IFigure) mapDiagrams.get(diagram);
 			String diagramName = ExportWizard.getDiagramName(diagram);
 			String imgPath = createImgPath(filename, diagramName);
 
@@ -267,7 +274,8 @@ public class HTMLReport extends URNReport {
 	 * @param htmlPath the root target directory
 	 * @return the path of exported html file
 	 */
-	private String createImgPath(String htmlPath, String diagramName) {
+	private String createImgPath(String htmlPath, String diagramName)
+	{
 		String imgFilePath = ""; //$NON-NLS-1$
 		String imgDirectoryPath = ""; //$NON-NLS-1$
 
@@ -289,7 +297,8 @@ public class HTMLReport extends URNReport {
 	 * @param fullPath
 	 * @return the directory path
 	 */
-	private String getPath(String fullPath) {
+	private String getPath(String fullPath)
+	{
 		String directoryPath = ""; //$NON-NLS-1$
 
 		int indexOfLastSlash = fullPath.lastIndexOf(File.separator);
@@ -305,7 +314,8 @@ public class HTMLReport extends URNReport {
 	 * @param diagram
 	 * @param directory
 	 */
-	private void export(IURNDiagram diagram, String directory) throws InvocationTargetException {
+	private void export(IURNDiagram diagram, String directory) throws InvocationTargetException
+	{
 		HTMLMenuItem menuItem = new HTMLMenuItem();
 		BufferedOutputStream bos = null;
 		FileOutputStream fos = null;
@@ -449,16 +459,19 @@ public class HTMLReport extends URNReport {
 			}
 
 			if ( diagram instanceof UCMmap ) {
-				OutputDescription( diagram, sb );
+				OutputMapInfo( diagram, sb );
+				OutputComponentURNlinks( diagram, sb );
 				OutputResponsibilityReferences( diagram, sb );
 				OutputStartPointData( diagram, sb );
 				OutputEndPointData( diagram, sb );
 				OutputOrForkGuards( diagram, sb );
 				OutputStubBindings( diagram, sb );
-			} else {
+			} else { // GRLGraph
+				OutputGRLDiagramInfo( diagram, sb );
+				OutputActorURNlinks( diagram, sb );
 				OutputGRLIntentionalElements( diagram, sb );
 				OutputGRLBeliefs( diagram, sb );
-				OutputGRL_URNlinks( diagram, sb );
+				OutputIntentionalElementURNlinks( diagram, sb );
 			}
 			
 			// Add tool tips with an image map     
@@ -552,7 +565,7 @@ public class HTMLReport extends URNReport {
 			return;
 			
 		sb.append("</div>\n<div>\n<h2>Responsibilities</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Pseudo-code</b></td><td><b>Metadata</b></td></tr>\n");
+		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Pseudo-code</b></td><td><b>Metadata</b></td><td><b>URN Links</b></td></tr>\n");
 		
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			IURNNode specNode = (IURNNode) iter.next();
@@ -563,14 +576,15 @@ public class HTMLReport extends URNReport {
 						+ notNull(responsibility.getDescription())
 						+ "&nbsp;</td><td>"
 						+ notNull(responsibility.getExpression()).replace("\r\n", "<br/>") + "&nbsp;</td>\n" );
-						InsertMetadata( responsibility.getMetadata(), sb );
+						InsertMetadataInTable( responsibility.getMetadata(), sb );
+						InsertURNLinks( responsibility.getToLinks(), sb );
 						sb.append( "</tr>\n" );
 			}
 		}
 		sb.append("</tbody></table></br>\n");
 	}
 
-	private void InsertMetadata( EList metadata, StringBuffer sb )
+	private void InsertMetadataInTable( EList metadata, StringBuffer sb )
 	{
 		if ( metadata.isEmpty() ) {
 			sb.append( "<td/>" );
@@ -582,11 +596,29 @@ public class HTMLReport extends URNReport {
 				if ( iter.hasNext() )
 					sb.append( "<br/>" );
 			}
-		sb.append( "&nbsp;</td>\n" );
+			sb.append( "&nbsp;</td>\n" );
 		}
 	}
 
-
+	private void InsertURNLinks( EList urnLinks, StringBuffer sb )
+	{
+		if ( urnLinks.isEmpty() ) {
+			sb.append( "<td/>" );
+		} else {
+			sb.append( "<td>" );
+			for ( Iterator iter = urnLinks.iterator(); iter.hasNext(); ) {
+				URNlink link = (URNlink) iter.next();
+				if ( link.getFromElem() instanceof IntentionalElement ) {
+					IntentionalElement ie = (IntentionalElement) link.getFromElem();
+					sb.append( ie.getName() + " (" + ie.getType().getName() + ")" );
+				}
+				if ( iter.hasNext() )
+					sb.append( "<br/>" );
+			}
+			sb.append( "&nbsp;</td>\n" );
+		}		
+	}
+	
 	private void OutputStartPointData( IURNDiagram diagram, StringBuffer sb )
 	{
 		boolean hasData = false;
@@ -616,7 +648,7 @@ public class HTMLReport extends URNReport {
 					sb.append("<tr><td>" + sp.getName()
 							+ "</td><td>[" + sp.getPrecondition().getLabel() + "] ==> " 
 							+ notNull( sp.getPrecondition().getExpression() ) + "&nbsp;</td>\n" );
-							InsertMetadata( sp.getMetadata(), sb );
+							InsertMetadataInTable( sp.getMetadata(), sb );
 							sb.append( "</tr>\n" );
 				}
 			}
@@ -660,7 +692,7 @@ public class HTMLReport extends URNReport {
 					sb.append("<tr><td>" + ep.getName()
 							+ "</td><td>[" + ep.getPostcondition().getLabel() + "] ==> " 
 							+ notNull( ep.getPostcondition().getExpression() ) + "&nbsp;</td>" );
-					InsertMetadata( ep.getMetadata(), sb );
+					InsertMetadataInTable( ep.getMetadata(), sb );
 					sb.append( "</tr>\n" );
 				}
 			}
@@ -734,7 +766,7 @@ public class HTMLReport extends URNReport {
 					sb.append( "</td>" );
 				}
 				
-				InsertMetadata( orFork.getMetadata(), sb );
+				InsertMetadataInTable( orFork.getMetadata(), sb );
 				sb.append( "</tr>\n" );
 			}
 		}
@@ -856,7 +888,7 @@ public class HTMLReport extends URNReport {
 				{	
 					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
 					sb.append("<tr><td><b>Metadata</b></td>\n");
-					InsertMetadata( stub.getMetadata(), sb );
+					InsertMetadataInTable( stub.getMetadata(), sb );
 					sb.append( "</tr></tbody></table></br>\n" );
 				}
 			}
@@ -867,20 +899,58 @@ public class HTMLReport extends URNReport {
 	}
 
 
-	private void OutputDescription( IURNDiagram diagram, StringBuffer sb )
+	private void OutputMapInfo( IURNDiagram diagram, StringBuffer sb )
 	{
 		if ( !ReportGeneratorPreferences.getUCMSHOWDESC() )
 			return;
 		
-		if ( diagram instanceof UCMmap ) {
-			if ( ReportUtils.notEmpty( ((UCMmap) diagram).getDescription() ) )
-			{
-				sb.append("</div>\n<div>\n<h2>Map Description</h2>\n");
-				sb.append( "&nbsp;&nbsp;&nbsp;" + ((UCMmap) diagram).getDescription() );
-			}
+		if ( ReportUtils.notEmpty( ((UCMmap) diagram).getDescription() ) )
+		{
+			sb.append("</div>\n<div>\n<h2>Map Description</h2>\n");
+			sb.append( "&nbsp;&nbsp;&nbsp;" + ((UCMmap) diagram).getDescription() );
 		}
+			
+		EList urnLinks = ((UCMmap) diagram).getToLinks(); 
+		if ( !urnLinks.isEmpty() ){
+				
+			sb.append("</div>\n<div>\n<h2>URN Links</h2>\n");				
+				
+			for ( Iterator iter = urnLinks.iterator(); iter.hasNext(); ) {
+				URNlink link = (URNlink) iter.next();
+				if ( link.getFromElem() instanceof IntentionalElement ) {
+					IntentionalElement ie = (IntentionalElement) link.getFromElem();
+					sb.append( "&nbsp;&nbsp;&nbsp;" + ie.getName() + " (" + ie.getType().getName() + ")<br/>" );
+				}
+			}				
+		}
+			
+		InsertMetadata( ((UCMmap) diagram).getMetadata(), sb );
 	}
 
+	private void OutputGRLDiagramInfo( IURNDiagram diagram, StringBuffer sb )
+	{
+		if ( ReportUtils.notEmpty( ((GRLGraph) diagram).getDescription() ) )
+		{
+			sb.append("</div>\n<div>\n<h2>Diagram Description</h2>\n");
+			sb.append( "&nbsp;&nbsp;&nbsp;" + ((GRLGraph) diagram).getDescription() );
+		}
+		
+		InsertMetadata( ((GRLGraph) diagram).getMetadata(), sb );
+	}
+	
+	private void InsertMetadata( EList metadata, StringBuffer sb )
+	{
+		if ( metadata.isEmpty() )
+			return;
+			
+		sb.append("</div>\n<div>\n<h2>Metadata</h2>\n");				
+				
+		for ( Iterator iter=metadata.iterator(); iter.hasNext(); ) {
+			Metadata mdata = (Metadata) iter.next();
+			sb.append("&nbsp;&nbsp;&nbsp;\"" + mdata.getName() + "\" = \"" + mdata.getValue() + "\"<br/>" );
+		}					
+	}
+	
 	private void OutputGRLBeliefs( IURNDiagram diagram, StringBuffer sb )
 	{
 		boolean hasData = false;
@@ -908,7 +978,7 @@ public class HTMLReport extends URNReport {
 				Belief currentBelief = (Belief) currentElement;
 				if ( hasGRLBeliefData( currentBelief ) ) {
 					sb.append( "<tr><td>" + currentBelief.getName() + "</td><td>" + notNull( currentBelief.getDescription() ) + "</td>" );
-					InsertMetadata( currentBelief.getMetadata(), sb );
+					InsertMetadataInTable( currentBelief.getMetadata(), sb );
 					sb.append( "</tr>\n" );
 				}
 			}
@@ -952,7 +1022,7 @@ public class HTMLReport extends URNReport {
 
 				if ( hasGRLIntentionalElementData( ie ) ) {				
 					sb.append( "<tr><td>" + ie.getName() + "</td><td>" + notNull( ie.getDescription() ) + "</td>" );
-					InsertMetadata( ie.getMetadata(), sb );
+					InsertMetadataInTable( ie.getMetadata(), sb );
 					sb.append( "</tr>\n" );
 				}
 			}
@@ -966,18 +1036,18 @@ public class HTMLReport extends URNReport {
 		return( ReportUtils.notEmpty( ie.getDescription() ) || !ie.getMetadata().isEmpty() );
 	}
 
-	private void OutputGRL_URNlinks( IURNDiagram diagram, StringBuffer sb )
+	private void OutputIntentionalElementURNlinks( IURNDiagram diagram, StringBuffer sb )
 	{
 		boolean hasData = false;
 		
-		if ( !ReportGeneratorPreferences.getGRLShowURNLinks() )
+		if ( !ReportGeneratorPreferences.getShowURNLinks() )
 			return;
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
 			if ( currentElement instanceof IntentionalElementRef ) {
 				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
-				if ( !ie.getFromLinks().isEmpty() )
+				if ( !ie.getFromLinks().isEmpty() || !ie.getToLinks().isEmpty() )
 					hasData = true;
 			}
 		}
@@ -985,30 +1055,165 @@ public class HTMLReport extends URNReport {
 		if ( !hasData )
 			return;
 		
-		sb.append("<h2>URN Links</h2>\n");
+		sb.append("<h2>Intentional Element URN Links</h2>\n");
 		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Link Type</b></td><td><b>(UCM element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
+		sb.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i>direction</i> <b>UCM element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
 		
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
 			if ( currentElement instanceof IntentionalElementRef ) {
 				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
-				if ( !ie.getFromLinks().isEmpty() ) {
 					
-					for (Iterator iter1 = ie.getFromLinks().iterator(); iter1.hasNext();) {
-
-						URNlink link = (URNlink) iter1.next();
-						String elementType = link.getToElem().getClass().getName();
-						elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
-						
-						sb.append( "<tr><td>" + ie.getName() + "</td><td>" + notNull( link.getType() ) + "</td><td>(" 
-								+  elementType + ")" + link.getToElem().getName() + "</td>" );
-						InsertMetadata( link.getMetadata(), sb );
-						sb.append( "</tr>\n" );
-					}
+				for (Iterator iter1 = ie.getFromLinks().iterator(); iter1.hasNext();) {
+	
+					URNlink link = (URNlink) iter1.next();
+					String elementType = link.getToElem().getClass().getName();
+					elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
+							
+					sb.append( "<tr><td>" + ie.getName() + "<i>(from)</i></td><td>" + notNull( link.getType() ) + "</td><td>(" 
+							+  "<i> to </i>" + elementType + ") " + link.getToElem().getName() + "</td>" );
+					InsertMetadataInTable( link.getMetadata(), sb );
+					sb.append( "</tr>\n" );
 				}
+				
+				for (Iterator iter1 = ie.getToLinks().iterator(); iter1.hasNext();) {
+					
+					URNlink link = (URNlink) iter1.next();
+					String elementType = link.getFromElem().getClass().getName();
+					elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
+							
+					sb.append( "<tr><td>" + ie.getName() + "<i>(to)</i></td><td>" + notNull( link.getType() ) + "</td><td>(" 
+							+  "<i> from </i>" + elementType + ") " + link.getFromElem().getName() + "</td>" );
+					InsertMetadataInTable( link.getMetadata(), sb );
+					sb.append( "</tr>\n" );
+				}				
+				
 			}
 		}
+		sb.append("</tbody></table></br>\n");
+	}
+	
+	private void OutputActorURNlinks( IURNDiagram diagram, StringBuffer sb )
+	{
+		ActorRef currentActorRef;
+		Actor currentActor;
+		boolean hasURNlinks = false;
+		
+		if ( !ReportGeneratorPreferences.getShowURNLinks() )
+			return;
+
+		if ( !diagram.getContRefs().isEmpty() ) {
+			System.out.println( "cont refs class: " + diagram.getContRefs().get(0).getClass() );
+			System.out.println( "cont refs def class: " + ((ActorRef) (diagram.getContRefs().get(0))).getContDef().getClass() );
+			System.out.flush();
+		}
+		
+		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext() && !hasURNlinks;) {
+			currentActorRef = (ActorRef) iter.next();
+			currentActor = (Actor) currentActorRef.getContDef();
+			if ( !currentActor.getFromLinks().isEmpty() || !currentActor.getToLinks().isEmpty() )
+				hasURNlinks = true;
+		}
+		
+		if ( !hasURNlinks )
+			return;
+
+		sb.append("<h2>Actor URN Links</h2>\n");
+		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i>direction</i> <b>UCM element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
+	
+		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext();)
+		{
+			currentActorRef = (ActorRef) iter.next();
+			currentActor = (Actor) currentActorRef.getContDef();
+
+			for (Iterator iter1 = currentActor.getFromLinks().iterator(); iter1.hasNext();) {
+
+				URNlink link = (URNlink) iter1.next();
+				String elementType = link.getToElem().getClass().getName();
+				elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
+				
+				sb.append( "<tr><td>" + currentActor.getName() + "<i>(from)</i></td><td>" + notNull( link.getType() ) + "</td><td>(" 
+						+  "<i> to </i>" + elementType + ") " + link.getToElem().getName() + "</td>" );
+				InsertMetadataInTable( link.getMetadata(), sb );
+				sb.append( "</tr>\n" );
+			}
+			
+			for (Iterator iter1 = currentActor.getToLinks().iterator(); iter1.hasNext();) {
+				
+				URNlink link = (URNlink) iter1.next();
+				String elementType = link.getFromElem().getClass().getName();
+				elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
+					
+				sb.append( "<tr><td>" + currentActor.getName() + "<i>(to)</i></td><td>" + notNull( link.getType() ) + "</td><td>(" 
+						+  "<i> from </i>" + elementType + ") " + link.getFromElem().getName() + "</td>" );
+				InsertMetadataInTable( link.getMetadata(), sb );
+				sb.append( "</tr>\n" );
+			}
+		}
+
+		sb.append("</tbody></table></br>\n");
+	}
+	
+	private void OutputComponentURNlinks( IURNDiagram diagram, StringBuffer sb )
+	{
+		ComponentRef currentComponentRef;
+		Component currentComponent;
+		boolean hasURNlinks = false;
+		
+		if ( !ReportGeneratorPreferences.getShowURNLinks() )
+			return;
+
+		if ( !diagram.getContRefs().isEmpty() ) {
+			System.out.println( "cont refs class: " + diagram.getContRefs().get(0).getClass() );
+			System.out.println( "cont refs def class: " + ((ComponentRef) (diagram.getContRefs().get(0))).getContDef().getClass() );
+			System.out.flush();
+		}
+		
+		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext() && !hasURNlinks;) {
+			currentComponentRef = (ComponentRef) iter.next();
+			currentComponent = (Component) currentComponentRef.getContDef();
+			if ( !currentComponent.getFromLinks().isEmpty() || !currentComponent.getToLinks().isEmpty() )
+				hasURNlinks = true;
+		}
+		
+		if ( !hasURNlinks )
+			return;
+
+		sb.append("<h2>Component URN Links</h2>\n");
+		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i>direction</i> <b>UCM element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
+	
+		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext();)
+		{
+			currentComponentRef = (ComponentRef) iter.next();
+			currentComponent = (Component) currentComponentRef.getContDef();
+
+			for (Iterator iter1 = currentComponent.getFromLinks().iterator(); iter1.hasNext();) {
+
+				URNlink link = (URNlink) iter1.next();
+				String elementType = link.getToElem().getClass().getName();
+				elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
+				
+				sb.append( "<tr><td>" + currentComponent.getName() + "<i>(From)</i></td><td>" + notNull( link.getType() ) + "</td><td>(" 
+						+  "<i> to </i>" + elementType + ") " + link.getToElem().getName() + "</td>" );
+				InsertMetadataInTable( link.getMetadata(), sb );
+				sb.append( "</tr>\n" );
+			}
+			
+			for (Iterator iter1 = currentComponent.getToLinks().iterator(); iter1.hasNext();) {
+				
+				URNlink link = (URNlink) iter1.next();
+				String elementType = link.getFromElem().getClass().getName();
+				elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
+					
+				sb.append( "<tr><td>" + currentComponent.getName() + "<i>(To)</i></td><td>" + notNull( link.getType() ) + "</td><td>(" 
+						+  "<i> from </i>" + elementType + ") " + link.getFromElem().getName() + "</td>" );
+				InsertMetadataInTable( link.getMetadata(), sb );
+				sb.append( "</tr>\n" );
+			}
+		}
+
 		sb.append("</tbody></table></br>\n");
 	}
 	

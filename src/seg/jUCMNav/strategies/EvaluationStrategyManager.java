@@ -132,7 +132,7 @@ public class EvaluationStrategyManager {
         } else if (temp != null) {
             return temp.getEvaluation();
         } else
-            return 0;
+            return Evaluation.EVALUATION_UNDEFINED;
 
     }
     
@@ -216,10 +216,12 @@ public class EvaluationStrategyManager {
         return strategy;
     }
 
-    public synchronized void setEvaluationForElement(IntentionalElement element, Evaluation eval) {
-        if (strategy != null && eval != null) {
-            evaluations.remove(element);
-            evaluations.put(element, eval);
+    public synchronized void setEvaluationForElement( IntentionalElement element, Evaluation eval )
+    {
+        if (strategy != null ) {
+            evaluations.remove( element );
+        	if ( eval != null)
+        		evaluations.put( element, eval );
             calculateEvaluation();
         }
 
@@ -476,7 +478,7 @@ public class EvaluationStrategyManager {
 			eval.setEvaluation(IGRLStrategyAlgorithm.WSATISFICED);
 		else if(QualitativeLabel.WEAKLY_DENIED_LITERAL.getName().equals(type) && (evaluation >= IGRLStrategyAlgorithm.NONE || evaluation == IGRLStrategyAlgorithm.DENIED))
 			eval.setEvaluation(IGRLStrategyAlgorithm.WDENIED);
-		else if(QualitativeLabel.DENIED_LITERAL.getName().equals(type) && evaluation > IGRLStrategyAlgorithm.DENIED)
+		else if(QualitativeLabel.DENIED_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.DENIED)
 			eval.setEvaluation(IGRLStrategyAlgorithm.DENIED);
 		else if(QualitativeLabel.NONE_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.NONE)
 			eval.setEvaluation(IGRLStrategyAlgorithm.NONE);

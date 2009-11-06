@@ -37,6 +37,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
+import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
+import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.palette.SelectPaletteEntryAction;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
@@ -45,7 +47,7 @@ import urncore.IURNDiagram;
 /**
  * This is an abstract class for any urn editor used in UCMNavMultiPageEditor
  * 
- * @author Jean-François Roy, jkealey
+ * @author Jean-Franï¿½ois Roy, jkealey
  *TODO Remove extends to GraphicalEditorWithFlyoutPalette and copy code in this class
  */
 public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette implements ITabbedPropertySheetPageContributor {
@@ -61,6 +63,9 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
    
     // our outline page.
     private UrnOutlinePage outline;
+    
+	public static final String keybindingExcludes = "hnxz";
+
 
     /** Create a new UrnEditor instance. */
     public UrnEditor(UCMNavMultiPageEditor parent) {
@@ -164,7 +169,10 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     /**
      * Returns the KeyHandler with common bindings for both the Outline and Graphical Views. For example, delete is a common action.
      */
-    KeyHandler getCommonKeyHandler() {
+    KeyHandler getCommonKeyHandler()
+    {
+    	char character;
+    	
         if (sharedKeyHandler == null) {
             sharedKeyHandler = new KeyHandler();
 
@@ -178,18 +186,31 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
             sharedKeyHandler.put(KeyStroke.getReleased(SWT.ESC, SWT.ESC, 0), getActionRegistry()
                     .getAction(SelectDefaultPaletteToolAction.SETDEFAULTPALETTETOOL));
             
-            for (int letter = (int)'a'; letter<(int)'z'; letter++) {
-            	sharedKeyHandler.put(KeyStroke.getReleased((char)letter,(char)letter,0), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
-            	sharedKeyHandler.put(KeyStroke.getReleased((char)(letter-32),(char)letter,SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
+            for (int letter = (int)'a'; letter<=(int)'z'; letter++) {
+   			 	if ( keybindingExcludes.indexOf( (char)letter ) != -1 ) // reserve some keys for other uses
+   			 		continue;
+   			 	
+   			 	sharedKeyHandler.put(KeyStroke.getReleased( (char)letter, (char)letter, 0), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
+            	sharedKeyHandler.put(KeyStroke.getReleased( (char)(letter-32), (char)letter,SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
             	
             	// doesn't seem to work - not important. (caps)  
-            	sharedKeyHandler.put(KeyStroke.getReleased((char)(letter-32),(char)letter,SWT.CAPS_LOCK), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
+            	sharedKeyHandler.put(KeyStroke.getReleased( (char)(letter-32), (char)letter, SWT.CAPS_LOCK), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
             }
             
-            char letter = '>'; 
-            sharedKeyHandler.put(KeyStroke.getReleased(letter,'.',SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId(letter)));
-            letter = ' ';
-            sharedKeyHandler.put(KeyStroke.getReleased(letter,letter,0), getActionRegistry().getAction(SelectPaletteEntryAction.getId(letter)));
+            character = '>'; 
+            sharedKeyHandler.put(KeyStroke.getReleased(character,'.',SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
+            character = ' ';
+            sharedKeyHandler.put(KeyStroke.getReleased(character,character,0), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
+            
+            character = 'h';  // increase Evaluation with key binding
+            sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeEvaluationAction.getId( "Increase" ) ) );
+            character = 'n';  // decrease Evaluation with key binding
+            sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeEvaluationAction.getId( "Decrease" ) ) );
+            
+            character = 'x';  // increase Importance with key binding
+            sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeImportanceAction.getId( "Increase" ) ) );
+            character = 'z';  // decrease Importance with key binding
+            sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeImportanceAction.getId( "Decrease" ) ) );
 
         }
         return sharedKeyHandler;

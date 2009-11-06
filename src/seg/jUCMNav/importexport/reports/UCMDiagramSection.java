@@ -1,10 +1,15 @@
 package seg.jUCMNav.importexport.reports;
 
+import grl.IntentionalElement;
+
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.emf.common.util.EList;
+
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
+import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
 import ucm.map.NodeConnection;
@@ -15,9 +20,13 @@ import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
+import urn.URNlink;
+import urncore.Component;
 import urncore.Condition;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
+import urncore.Responsibility;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -95,6 +104,10 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				insertDiagramDescription(document, element);
 			}
 
+			insertDiagramMetadata( document, element );
+			insertMapURNlinks( document, diagram );
+			outputComponentURNlinks( document, diagram );
+			
 			// sections contains the list of node types to report on
 
 			// get all nodes for this type from the diagramNodes
@@ -212,6 +225,83 @@ public class UCMDiagramSection extends PDFReportDiagram {
 
 	}
 
+	private void insertMapURNlinks( Document document, IURNDiagram diagram )
+	{
+		if ( !(diagram instanceof UCMmap) )
+			return;
+		
+		EList urnLinks = ((UCMmap) diagram).getToLinks();
+		
+		if ( urnLinks.isEmpty() )
+			return;
+
+		insertDiagramSectionHeader( document, tableParams, "Map URN Links" );
+		
+		for ( Iterator iter = urnLinks.iterator(); iter.hasNext(); ) {
+			URNlink link = (URNlink) iter.next();
+			if ( link.getFromElem() instanceof IntentionalElement ) {
+				IntentionalElement ie = (IntentionalElement) link.getFromElem();
+				ReportUtils.writeLineWithSeparator( document, ie.getName() + " (" + ie.getType().getName() + ")", null, null, descriptionFont, false );
+			}
+		}
+	}
+	
+	private void outputComponentURNlinks( Document document, IURNDiagram diagram )
+	{
+		ComponentRef currentComponentRef;
+		Component currentComponent;
+		boolean hasURNlinks = false;
+		
+		if ( !ReportGeneratorPreferences.getShowURNLinks() )
+			return;
+
+		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext() && !hasURNlinks;) {
+			currentComponentRef = (ComponentRef) iter.next();
+			currentComponent = (Component) currentComponentRef.getContDef();
+			if ( !currentComponent.getFromLinks().isEmpty() || !currentComponent.getToLinks().isEmpty() )
+				hasURNlinks = true;
+		}
+		
+		if ( !hasURNlinks )
+			return;
+
+		insertDiagramSectionHeader( document, tableParams, "Component URN Links" );
+	
+		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext();)
+		{
+			currentComponentRef = (ComponentRef) iter.next();
+			currentComponent = (Component) currentComponentRef.getContDef();
+
+			for (Iterator iter1 = currentComponent.getFromLinks().iterator(); iter1.hasNext();) {
+
+				URNlink link = (URNlink) iter1.next();
+				String elementType = link.getToElem().getClass().getName();
+				elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
+				
+				ReportUtils.writeLineWithSeparator( document, currentComponent.getName(), " ==> (", elementType + ") " + link.getToElem().getName(), descriptionFont, true );
+				if ( ReportUtils.notEmpty( link.getType() ) )
+					ReportUtils.writeLineWithSeparator( document, "     Link Type", ": ", link.getType(), descriptionFont, true );
+
+				
+				insertMetadata( document, link.getMetadata() );
+			}
+			
+			for (Iterator iter1 = currentComponent.getToLinks().iterator(); iter1.hasNext();) {
+				
+				URNlink link = (URNlink) iter1.next();
+				String elementType = link.getFromElem().getClass().getName();
+				elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
+					
+				ReportUtils.writeLineWithSeparator( document, currentComponent.getName(), " <== (", elementType + ") " + link.getFromElem().getName(), descriptionFont, true );
+				if ( ReportUtils.notEmpty( link.getType() ) )
+					ReportUtils.writeLineWithSeparator( document, "     Link Type", ": ", link.getType(), descriptionFont, true );
+
+				insertMetadata( document, link.getMetadata() );
+			}
+		}
+	}
+
+	
 	private void insertOrForkProbability( Document document, OrFork orFork ) {
 		try {
 
@@ -250,11 +340,13 @@ public class UCMDiagramSection extends PDFReportDiagram {
 		}
 	}
 
-	private void insertResponsibility( Document document, RespRef resp )
+	private void insertResponsibility( Document document, RespRef respRef )
 	{
+		Responsibility responsibility = respRef.getRespDef();
+		
 		try {
-			ReportUtils.writeLineWithSeparator( document, resp.getRespDef().getName(), ": ", resp.getRespDef().getDescription(), descriptionFont, true );
-			String expression = resp.getRespDef().getExpression();
+			ReportUtils.writeLineWithSeparator( document, respRef.getRespDef().getName(), ": ", respRef.getRespDef().getDescription(), descriptionFont, true );
+			String expression = respRef.getRespDef().getExpression();
 			if ( ReportUtils.notEmpty( expression ) ) {
 				String [] expression_lines = expression.split( "\n" );
 				if ( expression_lines.length == 1 ) {
@@ -267,9 +359,19 @@ public class UCMDiagramSection extends PDFReportDiagram {
 				document.add(Chunk.NEWLINE);
 			}
 
-			insertMetadata( document, resp.getRespDef().getMetadata() );
-			//if ( !resp.getRespDef().getMetadata().isEmpty() )
-				//document.add(Chunk.NEWLINE);
+			insertMetadata( document, respRef.getRespDef().getMetadata() );
+
+			if ( !responsibility.getToLinks().isEmpty() ){
+				
+				for (Iterator iter1 = responsibility.getToLinks().iterator(); iter1.hasNext();) {
+
+					URNlink link = (URNlink) iter1.next();
+					if ( link.getFromElem() instanceof IntentionalElement ) {
+						IntentionalElement ie = (IntentionalElement) link.getFromElem();
+						ReportUtils.writeLineWithSeparator( document, "     URN Link", ": ", ie.getName() + "(" + ie.getType().getName() + ")", descriptionFont, false );
+					}
+				}
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

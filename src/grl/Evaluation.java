@@ -169,5 +169,7 @@ public interface Evaluation extends EObject {
 	 * @generated
 	 */
     void setKpiEvalValueSet(KPIEvalValueSet value);
-
+    
+    public final static int EVALUATION_UNDEFINED = -9999;
+    
 } // Evaluation

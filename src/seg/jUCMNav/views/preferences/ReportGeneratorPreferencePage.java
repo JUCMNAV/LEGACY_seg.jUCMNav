@@ -87,6 +87,10 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
                 getFieldEditorParent());
         addField(ShowUCMEndPoint);
 
+        BooleanFieldEditor ShowURNLinks = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_SHOW_URN_LINKS, Messages.getString("ReportGeneratorPreferencePage.urnLinks"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(ShowURNLinks);
+
         BooleanFieldEditor ShowGRLIntentionalElements = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_INTENTIONAL_ELEMENTS, Messages.getString("ReportGeneratorPreferencePage.intentionalElements"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(ShowGRLIntentionalElements);
@@ -94,10 +98,6 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         BooleanFieldEditor ShowGRLBeliefs = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_BELIEFS, Messages.getString("ReportGeneratorPreferencePage.beliefs"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(ShowGRLBeliefs);
-
-        BooleanFieldEditor ShowGRL_URNLinks = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_URN_LINKS, Messages.getString("ReportGeneratorPreferencePage.urnLinks"), //$NON-NLS-1$
-                getFieldEditorParent());
-        addField(ShowGRL_URNLinks);
     }
 
     public void init(IWorkbench workbench) {

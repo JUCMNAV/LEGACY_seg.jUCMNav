@@ -1,12 +1,13 @@
 package seg.jUCMNav.model.commands.transformations;
 
-import javax.swing.JOptionPane;
-
+import grl.Evaluation;
 import grl.IntentionalElementRef;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.swt.widgets.Shell;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
 
 /**
 *
@@ -33,19 +34,26 @@ public class ChangeNumericalEvaluationCommand   extends Command implements JUCMN
         	oldEval = esm.getEvaluation( intElemRef.getDef() );
         	if ( id < 9 )
         		newEval = values[ id ];
-        	else
-        		enterEvaluation();
+        	else {
+        		Integer enteredValue = enterEvaluation();
+        		if ( enteredValue == null )
+        			cancelled = true;
+        		else
+        			newEval = enteredValue.intValue();
+        	}
         }
 	}
 	
-	public void execute() {
+	public void execute()
+	{
 		if( cancelled )
 			cancelled = false;
 		else
 			redo();
 	}
 
-	public void redo() {
+	public void redo()
+	{
 		testPreConditions();
 
 		esm.setIntentionalElementEvaluation( intElemRef.getDef(), newEval );
@@ -54,38 +62,37 @@ public class ChangeNumericalEvaluationCommand   extends Command implements JUCMN
 	}
 
 	
-	public void testPostConditions() {
+	public void testPostConditions()
+	{
 		assert intElemRef != null : "post no element!"; //$NON-NLS-1$
 	}
 
-	public void testPreConditions() {
+	public void testPreConditions()
+	{
 		assert intElemRef != null : "pre no element!"; //$NON-NLS-1$
 	}
 
-	public void undo() {
+	public void undo()
+	{
 		testPostConditions();
 
-		esm.setIntentionalElementEvaluation( intElemRef.getDef(), oldEval );
+		if ( oldEval == Evaluation.EVALUATION_UNDEFINED )
+			esm.setEvaluationForElement( intElemRef.getDef(), null );
+		else
+			esm.setIntentionalElementEvaluation( intElemRef.getDef(), oldEval );
 
 		testPreConditions();
 	}
 
-	private void enterEvaluation()
+	private Integer enterEvaluation()
 	{	
-		String user_data = JOptionPane.showInputDialog( null, "Enter the Numerical Evaluation. Currently: (" + oldEval + ")" );
-		
-		if (user_data == null) {
-			cancelled = true;
-			return;
-		}
-		
-		try {
-			newEval = Integer.parseInt( user_data );
-		} catch ( NumberFormatException nfe ) {
-			JOptionPane.showMessageDialog( null, "Please enter an integer", "Error", JOptionPane.PLAIN_MESSAGE );
-			cancelled = true;
-		}
+	    String currentEval;
+		Shell shell = new Shell();
+	    IntegerInputRangeDialog dialog = new IntegerInputRangeDialog(shell);
+	    
+	    currentEval = ( oldEval == Evaluation.EVALUATION_UNDEFINED ) ? "" : Integer.toString( oldEval );
+	
+	    return ( dialog.open( "Enter Numerical Evaluation   (range: [-100,+100])", "Enter the new Numerical Evaluation: ", currentEval, -100, 100 ) );
 	}
-
 }
 

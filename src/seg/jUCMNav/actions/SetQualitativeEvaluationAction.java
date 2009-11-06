@@ -1,6 +1,7 @@
 package seg.jUCMNav.actions;
 
 import grl.IntentionalElementRef;
+import grl.QualitativeLabel;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
@@ -19,40 +20,84 @@ public class SetQualitativeEvaluationAction extends URNSelectionAction
     public static final String SET_QUALITATIVE_EVALUATION = "seg.jUCMNav.SET_QUALITATIVE_EVALUATION"; //$NON-NLS-1$
     private IntentionalElementRef selection;
     private int id;
-    private String[] values = { "Satisfied", "Weakly Satisfied", "None", "Weakly Denied", "Denied", "Conflict", "Unknown" };
+    private static String[] values = { "Satisfied", "Weakly Satisfied", "None", "Weakly Denied", "Denied", "Conflict", "Unknown", "Increase    (h)", "Decrease   (n)" };
 
 	public SetQualitativeEvaluationAction(IWorkbenchPart part, int id ) {
 		super(part);
         setId( SET_QUALITATIVE_EVALUATION + id );
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif")); //$NON-NLS-1$
-        setText( values[id] );
         this.id = id;
+
+        if ( id == 0)
+        	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/satisficed.gif")); //$NON-NLS-1$
+        else if ( id == 1 )
+           	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/wsatisficed.gif")); //$NON-NLS-1$
+        else if ( id == 2 )
+           	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/none.gif")); //$NON-NLS-1$
+        else if ( id == 3 )
+           	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/wdenied.gif")); //$NON-NLS-1$
+        else if ( id == 4 )
+           	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/denied.gif")); //$NON-NLS-1$
+        else if ( id == 5 )
+           	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/conflict.gif")); //$NON-NLS-1$
+        else if ( id == 6 )
+           	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/undecided.gif")); //$NON-NLS-1$
+        else if ( id == 7 )
+           	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/move_up.gif")); //$NON-NLS-1$
+        else if ( id == 8 )
+           	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/move_down.gif")); //$NON-NLS-1$
+
+        setText( values[id] );
 	}
 
-    protected Command getCommand() {
+    protected Command getCommand()
+    {
         return new ChangeQualitativeEvaluationCommand( selection, id );
     }
 
     /**
-     * We need to have an intentional element reference selected.
+     * We need to have an intentional element reference selected. For increase and decrease operations verify if possible
      */
     protected boolean calculateEnabled()
     {
-    	if ( EvaluationStrategyManager.getInstance().getEvaluationStrategy() == null )
+    	EvaluationStrategyManager esm = EvaluationStrategyManager.getInstance();
+    	
+    	if ( esm.getEvaluationStrategy() == null )
     		return false;
     	
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.INTENTIONALELEMENTREF:
             selection = sel.getIntentionalelementref();
+            QualitativeLabel oldQeval = esm.getEvaluationObject( selection.getDef() ).getQualitativeEvaluation();
+            
+            if ( id < 7 )
+            	return true;
+            else if ( id == 7 ) { // increase operation, verify if possible
+            	if ( oldQeval == QualitativeLabel.SATISFIED_LITERAL )
+            		return false;  // can't increase from SATISFIED
+            } else if ( id == 8 ) { // decrease operation, verify if possible
+            	if ( oldQeval == QualitativeLabel.UNKNOWN_LITERAL )
+            		return false; // can't decrease from UNKNOWN
+            }
+            
             return true;
         default:
             return false;
         }
     }
 
-	public static String generateId( int id ) {
+	public static String generateId( int id )
+	{
 		return SET_QUALITATIVE_EVALUATION + id;
+	}
+	
+	public static String getId( String operation )
+	{	
+		for ( int index = 0; index < values.length; index++ ){
+			if( values[index].contains( operation ) )
+				return SET_QUALITATIVE_EVALUATION + index;
+		}
+		return null;
 	}
 	
 }

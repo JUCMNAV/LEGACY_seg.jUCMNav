@@ -223,7 +223,8 @@ public class PDFReportDiagram extends PDFReport
 	 * @param element
 	 *            the element illustrated by this diagram
 	 */
-	public void insertDiagramDescription(Document document, URNmodelElement element) {
+	public void insertDiagramDescription(Document document, URNmodelElement element)
+	{
 		try {
 
 			Table table = ReportUtils.createTable(1, 2, 0, 100);
@@ -247,7 +248,22 @@ public class PDFReportDiagram extends PDFReport
 		}
 	}
 
-	protected void insertDiagramSectionHeader( Document document, int[] tableParams, String description ) {
+	public void insertDiagramMetadata(Document document, URNmodelElement element)
+	{
+		if ( element.getMetadata().isEmpty() )
+			return;
+			
+		insertDiagramSectionHeader( document, tableParams, "Metadata" );
+		
+		for ( Iterator iter = element.getMetadata().iterator(); iter.hasNext(); ) {
+			Metadata mdata = (Metadata) iter.next();
+			ReportUtils.writeLineWithSeparator( document, "\"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true );			
+		}							
+	}
+
+	
+	protected void insertDiagramSectionHeader( Document document, int[] tableParams, String description )
+	{
 		try {
 
 			Table table = ReportUtils.createTable(tableParams[0], tableParams[1], tableParams[2], tableParams[3]);

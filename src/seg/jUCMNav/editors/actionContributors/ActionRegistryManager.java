@@ -21,6 +21,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.commands.ActionHandler;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.IHandlerService;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -99,6 +102,7 @@ import seg.jUCMNav.actions.scenarios.MoveAction;
 import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
 import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 
 /**
@@ -234,8 +238,11 @@ public class ActionRegistryManager
 		action.setAccelerator(SWT.CTRL | 'A');
 		keyBindingService.registerAction(action);
 
-		for (int letter = (int) 'a'; letter < (int) 'z'; letter++)
+		for (int letter = (int) 'a'; letter <= (int) 'z'; letter++)
 		{
+			if ( UrnEditor.keybindingExcludes.indexOf( (char)letter ) != -1 ) // reserve some keys for other uses
+				continue;
+
 			action = new SelectPaletteEntryAction(editor, (char) letter);
 			addAction(action);
 		}
@@ -432,22 +439,22 @@ public class ActionRegistryManager
 		addEditPartAction((SelectionAction) action);
 		
 		for ( int i = 0; i < 6; i++ ){
-			action = new SetNumericalImportanceAction(editor, i);
+			action = new SetNumericalImportanceAction( editor, i );
 			addEditPartAction((SelectionAction) action);
 		}
 		
-		for ( int i = 0; i < 4; i++ ){
-			action = new SetQualitativeImportanceAction(editor, i);
+		for ( int i = 0; i < 6; i++ ){
+			action = new SetQualitativeImportanceAction( editor, i );
 			addEditPartAction((SelectionAction) action);
 		}
 		
 		for ( int i = 0; i < 10; i++ ){
-			action = new SetNumericalEvaluationAction(editor, i);
+			action = new SetNumericalEvaluationAction( editor, i );
 			addEditPartAction((SelectionAction) action);
 		}
 		
-		for ( int i = 0; i < 7; i++ ){
-			action = new SetQualitativeEvaluationAction(editor, i);
+		for ( int i = 0; i < 9; i++ ){
+			action = new SetQualitativeEvaluationAction( editor, i );
 			addEditPartAction((SelectionAction) action);
 		}
 		

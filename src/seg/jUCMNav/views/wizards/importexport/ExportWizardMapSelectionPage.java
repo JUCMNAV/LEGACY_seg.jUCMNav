@@ -39,7 +39,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
     // to be filled with alternatives from the extension points
     private Combo cboImageType;
 
-    // after finish has been set, this array indicates the indexes in lstMaps which are selected.
+    // after finish has been set, this array indicates the indexes in listMaps which are selected.
     // required because of threading issues in finish
     private int[] iMapSelectionIndices;
 
@@ -47,12 +47,12 @@ public class ExportWizardMapSelectionPage extends WizardPage {
     private int iTypeSelectionIndex;
 
     // list of maps (if ExportPreferenceHelper.UCM) or list of URNspecs (if ExportPreferenceHelper.URN)
-    private List lstMaps;
+    private List listMaps;
 
     // given a map, return its UCMNavMultiPageEditor
     private HashMap mapsToEditor;
 
-    // if ExportPreferenceHelper.UCM, list of maps to export. to be filtered by selection in lstMaps
+    // if ExportPreferenceHelper.UCM, list of maps to export. to be filtered by selection in listMaps
     // otherwise, you can infer the list of URN to export from the maps and keeping only the first occurence of each URNSpec
     private Vector mapsToExport;
 
@@ -191,15 +191,15 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         data.horizontalAlignment = GridData.FILL;
         lblMaps.setLayoutData(data);
 
-        lstMaps = new List(composite, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-        lstMaps.addSelectionListener(selList);
+        listMaps = new List(composite, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+        listMaps.addSelectionListener(selList);
         cboImageType.addSelectionListener(selList);
 
         data = new GridData();
         data.heightHint = 200;
         data.horizontalSpan = 4;
         data.horizontalAlignment = GridData.FILL;
-        lstMaps.setLayoutData(data);
+        listMaps.setLayoutData(data);
 
         setControl(composite);
 
@@ -208,12 +208,12 @@ public class ExportWizardMapSelectionPage extends WizardPage {
     }
 
     /**
-     * Refresh lstMaps to list all Maps (if ExportPreferenceHelper.UCM) or all URNspecs otherwise
+     * Refresh listMaps to list all Maps (if ExportPreferenceHelper.UCM) or all URNspecs otherwise
      * 
      */
     private void fillSelectionList() {
 
-        lstMaps.setItems(new String[] {});
+        listMaps.setItems(new String[] {});
         Vector v = new Vector();
         Vector selected = ((ExportWizard) getWizard()).getSelectedDiagrams();
         Vector vIndices = new Vector();
@@ -226,10 +226,13 @@ public class ExportWizardMapSelectionPage extends WizardPage {
                 if (selected.indexOf(diagram)>=0) {
                     vIndices.add(new Integer(i));
                 }
-                lstMaps.add(ExportWizard.getDiagramName(diagram));
-            }
+ 
+                String diagramName = ExportWizard.getDiagramName( diagram );
+                String filteredName = diagramName.substring( 0, diagramName.indexOf( "-Map" )+1 ) + diagramName.substring( diagramName.lastIndexOf( '-' )+1, diagramName.length() );
+                listMaps.add( filteredName );
+           }
             else if (!v.contains(diagram.getUrndefinition().getUrnspec())) {
-                lstMaps.add(ExportWizard.getFilePrefix(diagram));
+                listMaps.add(ExportWizard.getFilePrefix(diagram));
                 v.add(diagram.getUrndefinition().getUrnspec());
             }
             i++;
@@ -241,9 +244,9 @@ public class ExportWizardMapSelectionPage extends WizardPage {
             indices[i]=((Integer)vIndices.get(i)).intValue();
 
         if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM && vIndices.size()>0) {
-            lstMaps.select(indices);
+            listMaps.select(indices);
         } else
-            lstMaps.selectAll();
+            listMaps.selectAll();
     }
 
     /**
@@ -271,13 +274,13 @@ public class ExportWizardMapSelectionPage extends WizardPage {
     void refresh() {
         if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM){
             lblMaps.setVisible(true);
-            lstMaps.setVisible(true);
+            listMaps.setVisible(true);
             fillSelectionList();
             lblFilenamePrefix.setVisible(false);
             txtFilenamePrefix.setVisible(false);
         } else{
             lblMaps.setVisible(false);
-            lstMaps.setVisible(false);
+            listMaps.setVisible(false);
             lblFilenamePrefix.setVisible(true);
             txtFilenamePrefix.setVisible(true);
             //Vector selected = ((ExportWizard) getWizard()).getSelectedDiagrams();
@@ -320,7 +323,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         sExportPath = txtExportPath.getText();
         sFilename = txtFilenamePrefix.getText();
         iTypeSelectionIndex = cboImageType.getSelectionIndex();
-        iMapSelectionIndices = lstMaps.getSelectionIndices();
+        iMapSelectionIndices = listMaps.getSelectionIndices();
     }
 
     /**
@@ -380,7 +383,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         }
 
         setPageComplete(getErrorMessage() == null && 
-                (lstMaps.getSelectionCount() > 0 || ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN)
+                (listMaps.getSelectionCount() > 0 || ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN)
                 && cboImageType.getSelectionIndex() >= 0);
     }
 

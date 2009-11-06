@@ -31,8 +31,24 @@ public class ChangeQualitativeEvaluationCommand   extends Command implements JUC
         if ( esm.getEvaluationStrategy() == null ){
         	cancelled = true;
         } else {
-        	oldQeval = esm.getEvaluationObject( intElemRef.getDef() ).getQualitativeEvaluation();
-        	newQeval = values[ id ];
+    		oldQeval = esm.getEvaluationObject( intElemRef.getDef() ).getQualitativeEvaluation();
+
+    		if ( id < 7 ) { // input from sub-menu
+        		newQeval = values[ id ];
+        	} else if ( id == 7 ) { // input from key '+', increase evaluation if possible
+        		
+        		if ( oldQeval == QualitativeLabel.SATISFIED_LITERAL )
+        			cancelled = true; // can't increase from SATISFIED
+        		else
+        			newQeval = values[index( oldQeval )-1];
+        		
+        	} else if ( id == 8 ) { // input from key '-', decrease evaluation if possible
+
+        		if ( oldQeval == QualitativeLabel.UNKNOWN_LITERAL )
+        			cancelled = true; // can't decrease from UNKNOWN
+        		else
+        			newQeval = values[index( oldQeval )+1];
+        	}
         }
 
 	}
@@ -69,5 +85,13 @@ public class ChangeQualitativeEvaluationCommand   extends Command implements JUC
 		testPreConditions();
 	}
 
+	private int index( QualitativeLabel ql ){
+		for( int i = 0; i < values.length; i++ ) {
+			if( ql == values[i] )
+				return i;
+		}
+		return -1;
+	}
+	
 }
 

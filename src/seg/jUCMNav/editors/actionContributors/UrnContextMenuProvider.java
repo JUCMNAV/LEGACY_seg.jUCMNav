@@ -210,6 +210,8 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
 
+        manager.add(new Separator(GROUP_UNCOMMON));  
+        
         actions = new IAction[6];
         for ( int i = 0; i < 6; i++ )
         	actions[i] = getActionRegistry().getAction( SetNumericalImportanceAction.generateId(i) );
@@ -217,8 +219,8 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
  
-        actions = new IAction[4];
-        for ( int i = 0; i < 4; i++ )
+        actions = new IAction[6];
+        for ( int i = 0; i < 6; i++ )
         	actions[i] = getActionRegistry().getAction( SetQualitativeImportanceAction.generateId(i) );
         submenu = new SubmenuAction(actions, "Set Qualitative Importance", "Set Qualitative Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
         if (submenu.getActiveOperationCount()>0)
@@ -231,13 +233,13 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
         
-        actions = new IAction[7];
-        for ( int i = 0; i < 7; i++ )
+        actions = new IAction[9];
+        for ( int i = 0; i < 9; i++ )
         	actions[i] = getActionRegistry().getAction( SetQualitativeEvaluationAction.generateId(i) );
         submenu = new SubmenuAction(actions, "Set Qualitative Evaluation", "Set Qualitative Evaluation", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
         if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup( GEFActionConstants.GROUP_REST, submenu );   
-
+        	manager.appendToGroup( GEFActionConstants.GROUP_REST, submenu );
+                
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);

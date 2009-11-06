@@ -42,7 +42,7 @@ public class ReportGeneratorPreferences {
     public final static String PREF_UCM_SHOW_END_POINT = "seg.jUCMNav.UCMReportPreference.EndPoint"; //$NON-NLS-1$
     public final static String PREF_GRL_SHOW_INTENTIONAL_ELEMENTS = "seg.jUCMNav.UCMReportPreference.IntentionalElements"; //$NON-NLS-1$
     public final static String PREF_GRL_SHOW_BELIEFS = "seg.jUCMNav.UCMReportPreference.Beliefs"; //$NON-NLS-1$
-    public final static String PREF_GRL_SHOW_URN_LINKS = "seg.jUCMNav.UCMReportPreference.URNLinks"; //$NON-NLS-1$
+    public final static String PREF_SHOW_URN_LINKS = "seg.jUCMNav.UCMReportPreference.URNLinks"; //$NON-NLS-1$
 
 
     /**
@@ -72,7 +72,7 @@ public class ReportGeneratorPreferences {
         getPreferenceStore().setDefault( ReportGeneratorPreferences.PREF_UCM_SHOW_END_POINT, ReportGeneratorPreferences.DEFAULT_UCM_SHOW_END_POINT );
         getPreferenceStore().setDefault( ReportGeneratorPreferences.PREF_GRL_SHOW_INTENTIONAL_ELEMENTS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_INTENTIONAL_ELEMENTS );
         getPreferenceStore().setDefault( ReportGeneratorPreferences.PREF_GRL_SHOW_BELIEFS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_BELIEFS );
-        getPreferenceStore().setDefault( ReportGeneratorPreferences.PREF_GRL_SHOW_URN_LINKS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_URN_LINKS );
+        getPreferenceStore().setDefault( ReportGeneratorPreferences.PREF_SHOW_URN_LINKS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_URN_LINKS );
     }
 
     /**
@@ -226,8 +226,8 @@ public class ReportGeneratorPreferences {
         return getPreferenceStore().getBoolean( PREF_GRL_SHOW_BELIEFS );
     }
     
-    public static boolean getGRLShowURNLinks() {
-        return getPreferenceStore().getBoolean( PREF_GRL_SHOW_URN_LINKS );
+    public static boolean getShowURNLinks() {
+        return getPreferenceStore().getBoolean( PREF_SHOW_URN_LINKS );
     }
     
     /**
