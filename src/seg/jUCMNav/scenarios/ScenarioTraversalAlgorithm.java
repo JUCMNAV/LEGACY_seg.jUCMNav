@@ -370,7 +370,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
                     
 
                     Evaluation original = EvaluationStrategyManager.getInstance().getEvaluationObject(element);
-                    if (original.getEvaluation() != i.intValue()) {
+                    if (original==null || original.getEvaluation() != i.intValue()) {
                         // never changes source model - just UI changes. 
                         Evaluation ev = (Evaluation) ModelCreationFactory.getNewObject(env.getUrn(), Evaluation.class);
                         ev.setEvaluation(i.intValue());

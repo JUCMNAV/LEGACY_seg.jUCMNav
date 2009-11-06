@@ -28,6 +28,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.change.SetCommand;
+import seg.jUCMNav.views.property.StackHelper;
 import seg.jUCMNav.views.property.tabbed.TextChangeHelper;
 
 /**
@@ -90,26 +91,23 @@ public abstract class AbstractTextPropertySection
 		String newText = text.getText();
 		boolean equals = isEqual(newText);
 		if (!equals) {
-			UCMNavMultiPageEditor multiPage = (UCMNavMultiPageEditor) getPart().getSite().getWorkbenchWindow().getActivePage().getActiveEditor();
-			
-			//UrnEditor editor = (UrnEditor)multiPage.getActiveEditor();
-			CommandStack stack = multiPage.getDelegatingCommandStack();
-			
-			
-			Object value = getFeatureValue(newText);
-			if (eObjectList.size() == 1) {
-				/* apply the property change to single selected object */
-				stack.execute(
-					new SetCommand(eObject, getFeature(),
-						value));
-			} else {
-				CompoundCommand compoundCommand = new CompoundCommand();
-				/* apply the property change to all selected elements */
-				for (Iterator i = eObjectList.iterator(); i.hasNext();) {
-					EObject nextObject = (EObject) i.next();
-					compoundCommand.add(new SetCommand(nextObject, getFeature(), value));
+			CommandStack stack = StackHelper.getDelegatingStack(getPart());
+			if (stack!=null) {
+				Object value = getFeatureValue(newText);
+				if (eObjectList.size() == 1) {
+					/* apply the property change to single selected object */
+					stack.execute(
+						new SetCommand(eObject, getFeature(),
+							value));
+				} else {
+					CompoundCommand compoundCommand = new CompoundCommand();
+					/* apply the property change to all selected elements */
+					for (Iterator i = eObjectList.iterator(); i.hasNext();) {
+						EObject nextObject = (EObject) i.next();
+						compoundCommand.add(new SetCommand(nextObject, getFeature(), value));
+					}
+					stack.execute(compoundCommand);
 				}
-				stack.execute(compoundCommand);
 			}
 		}
 	}

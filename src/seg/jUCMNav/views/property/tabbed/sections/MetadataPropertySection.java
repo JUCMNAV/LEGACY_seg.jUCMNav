@@ -15,6 +15,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.commands.metadata.ChangeMetadataCommand;
 import seg.jUCMNav.views.property.MetadataRefResolver;
+import seg.jUCMNav.views.property.StackHelper;
 import seg.jUCMNav.views.wizards.metadata.IMetadataListener;
 import seg.jUCMNav.views.wizards.metadata.MetadataEditorPage;
 import urncore.Metadata;
@@ -35,17 +36,18 @@ public class MetadataPropertySection extends AbstractWizardPropertySection {
 				final HashMap metadataMap = ((MetadataEditorPage)page).getAllMetadata();
 				if(metadataMap.keySet().size() > 0)
 				{
-					CommandStack cs = propertySheetPage.getEditor().getCommandStack();
-
-			        CompoundCommand cmd = new CompoundCommand();
-			        for (Iterator iter = metadataMap.entrySet().iterator(); iter.hasNext();) {
-			            Map.Entry entry = (Map.Entry) iter.next();
-			            cmd.add(new ChangeMetadataCommand((EObject) entry.getKey(), (Metadata[]) entry.getValue()));
-			        }
-
-			        if (cmd.canExecute()) {
-			            cs.execute(cmd);
-			        }
+					CommandStack cs = StackHelper.getStack(propertySheetPage);
+					if (cs!=null) {
+				        CompoundCommand cmd = new CompoundCommand();
+				        for (Iterator iter = metadataMap.entrySet().iterator(); iter.hasNext();) {
+				            Map.Entry entry = (Map.Entry) iter.next();
+				            cmd.add(new ChangeMetadataCommand((EObject) entry.getKey(), (Metadata[]) entry.getValue()));
+				        }
+	
+				        if (cmd.canExecute()) {
+				            cs.execute(cmd);
+				        }
+					}
 				}
 			}
 		});

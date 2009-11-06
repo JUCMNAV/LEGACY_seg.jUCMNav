@@ -1,9 +1,11 @@
 package seg.jUCMNav.views.property.tabbed.sections;
 
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
+import seg.jUCMNav.views.property.StackHelper;
 import seg.jUCMNav.views.property.tabbed.GEFTabbedPropertySheetPage;
 
 public class AdvancedPropertySection extends org.eclipse.ui.views.properties.tabbed.AdvancedPropertySection {
@@ -16,9 +18,12 @@ public class AdvancedPropertySection extends org.eclipse.ui.views.properties.tab
 		
 		tabbed = (GEFTabbedPropertySheetPage)atabbedPropertySheetPage;
 		
-		UndoablePropertySheetEntry root = new UndoablePropertySheetEntry(tabbed.getEditor().getParent().getDelegatingCommandStack());
+		CommandStack stack = StackHelper.getDelegatingStack(tabbed);
 		
-		page.setRootEntry(root);
+		if (stack!=null) {
+			UndoablePropertySheetEntry root = new UndoablePropertySheetEntry(stack);
+			page.setRootEntry(root);
+		}
 	}
 	
 }

@@ -24,6 +24,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import seg.jUCMNav.model.commands.change.SetCommand;
+import seg.jUCMNav.views.property.StackHelper;
 
 /**
  * An abstract implementation of a section with a enumeration field using a
@@ -82,8 +83,9 @@ public abstract class AbstractEnumerationPropertySection
 		int index = combo.getSelectionIndex();
 		boolean equals = isEqual(index);
 		if (!equals) {
-			CommandStack cs = propertySheetPage.getEditor().getCommandStack();
 			
+			CommandStack cs = StackHelper.getStack(propertySheetPage);
+			if (cs==null)return;
 	        SetCommand s = new SetCommand(eObject, getFeature(), getFeatureValue(index));
 
 	        if (s.canExecute())

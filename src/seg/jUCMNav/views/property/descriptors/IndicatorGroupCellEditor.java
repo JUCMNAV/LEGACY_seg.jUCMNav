@@ -12,6 +12,7 @@ import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.views.property.StackHelper;
 import seg.jUCMNav.views.wizards.kpi.IndicatorGroupDialog;
 
 /**
@@ -57,8 +58,7 @@ public class IndicatorGroupCellEditor extends DialogCellEditor {
     protected Object openDialogBox(Control cellEditorWindow) {
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
-        IndicatorGroupDialog indDialog = new IndicatorGroupDialog(((UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                .getActiveEditor()).getDelegatingCommandStack(), indicator);
+        IndicatorGroupDialog indDialog = new IndicatorGroupDialog(StackHelper.getDelegatingStack(), indicator);
 
         return null;
     }
