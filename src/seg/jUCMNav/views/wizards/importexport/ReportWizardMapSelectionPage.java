@@ -220,6 +220,8 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         Vector v = new Vector();
         Vector selected = ((ReportWizard) getWizard()).getSelectedDiagrams();
         Vector vIndices = new Vector();
+        String filteredName, diagramName;
+        
         int i=0;
         for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
             IURNDiagram diagram = (IURNDiagram) iter.next();
@@ -230,8 +232,11 @@ public class ReportWizardMapSelectionPage extends WizardPage {
                 vIndices.add(new Integer(i));
             }
             
-            String diagramName = ReportWizard.getDiagramName( diagram );
-            String filteredName = diagramName.substring( 0, diagramName.indexOf( "-Map" )+1 ) + diagramName.substring( diagramName.lastIndexOf( '-' )+1, diagramName.length() );
+            diagramName = ReportWizard.getDiagramName( diagram );
+            if ( diagramName.contains( "-Map") )
+            	filteredName = diagramName.substring( 0, diagramName.indexOf( "-Map" )+1 ) + diagramName.substring( diagramName.lastIndexOf( '-' )+1, diagramName.length() );
+            else
+            	filteredName = diagramName.substring( 0, diagramName.indexOf( "-GRLGraph" )+1 ) + diagramName.substring( diagramName.lastIndexOf( '-' )+1, diagramName.length() );
             listMaps.add( filteredName );
 
             i++;
