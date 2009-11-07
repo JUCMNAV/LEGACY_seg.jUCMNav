@@ -28,7 +28,11 @@ public class AddGrlGraphAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && (sel.getSelectionType() == SelectionHelper.MAP || sel.getSelectionType() == SelectionHelper.GRLGRAPH || sel.getSelectionType() == SelectionHelper.URNSPEC);
+    	int type=sel.getSelectionType();
+        
+        return sel.getUrnspec() != null && ( type == SelectionHelper.MAP || type == SelectionHelper.GRLGRAPH || 
+        		                            (type == SelectionHelper.URNSPEC) && (sel.getSelection().size() == 1) );
+
     }
 
     
@@ -42,8 +46,8 @@ public class AddGrlGraphAction extends URNSelectionAction {
 
         if (create.canExecute())
         {
-       		DisplayPreferences.getInstance().setShowGRLS(true);
+        	DisplayPreferences.getInstance().setShowGRLS(true);
         }
-        return create;
+        return create;        
     }
 }

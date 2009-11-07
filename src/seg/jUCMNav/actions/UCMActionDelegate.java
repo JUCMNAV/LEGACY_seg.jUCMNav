@@ -33,7 +33,7 @@ public class UCMActionDelegate implements IEditorActionDelegate {
     }
 
     /**
-     * Run the action that we are given inthe current editor. 
+     * Run the action that we are given in the current editor. 
      * 
      * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
      */

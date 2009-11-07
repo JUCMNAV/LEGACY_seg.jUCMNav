@@ -218,7 +218,7 @@ public class DisplayPreferences  {
      */
     public void setShowGRLS(boolean value) {
         getPreferenceStore().setValue(PREF_OUTLINE_SHOWGRLS, value);
-        refreshViews();
+//      refreshViews();
     }
     
     /**
@@ -236,7 +236,7 @@ public class DisplayPreferences  {
 	 */
     public void setShowUCMS(boolean value) {
         getPreferenceStore().setValue(PREF_OUTLINE_SHOWUCMS, value);
-        refreshViews();
+//      refreshViews();
     }
  
     
