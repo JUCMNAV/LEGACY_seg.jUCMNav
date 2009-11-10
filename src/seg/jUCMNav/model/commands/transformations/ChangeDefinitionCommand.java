@@ -52,7 +52,10 @@ public class ChangeDefinitionCommand extends Command implements JUCMNavCommand {
      * @return whether we can apply changes
      */
     public boolean canExecute() {
-    	return  (this.elem!=null || lbl!=null) && name!=null && urn!=null;
+    	if ((this.elem!=null || lbl!=null) && name!=null && urn!=null)
+    		return (name.compareTo("")!=0); //$NON-NLS-1$
+    	else
+    		return false;
     }
 
     /**

@@ -41,7 +41,11 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand {
     public AddContainerRefCommand(IURNDiagram m, IURNContainerRef cr) {
         this.diagram = m;
         this.compRef = cr;
-        setLabel(Messages.getString("AddContainerRefCommand.createComp")); //$NON-NLS-1$
+        if (compRef instanceof UCMmodelElement) {
+        	setLabel(Messages.getString("AddContainerRefCommand.createComp")); //$NON-NLS-1$
+        } else {
+        	setLabel(Messages.getString("AddContainerRefCommand.createActor")); //$NON-NLS-1$        
+        }
     }
 
     /**
