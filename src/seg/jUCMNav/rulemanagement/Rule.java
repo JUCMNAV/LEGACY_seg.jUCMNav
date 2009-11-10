@@ -56,7 +56,7 @@ public class Rule {
 	/**
 	 * The rule utilities
 	 */
-	private List utilities;
+	private List utilities = new ArrayList();
 	/**
 	 * The rule enabled/disabled indicator
 	 */
@@ -85,27 +85,6 @@ public class Rule {
         this.errors = ""; //$NON-NLS-1$
         this.utilities = new ArrayList() ;
         }
-	/**
-	 * Construct a rule with properties except utilities. 
-	 * @param name         The rule name
-	 * @param classifier   The rule classifier
-	 * @param context      The rule context expression	 
-	 * @param query	       The rule invariant expression
-	 * @param enabled      This enabled/disabled indicator
-	 * @param description  The rule description
-	 */
-	public Rule(String name,String classifier,String context, String query, boolean enabled, String description)
-	{
-		this.context = context;
-		this.classifier = classifier;
-		this.query = query;
-		this.name = name;
-		this.enabled = enabled;
-		this.description = description;
-		this.errors = ""; //$NON-NLS-1$
-		this.utilities = new ArrayList() ;
-	}
-
 	/**
 	 * Construct a rule with properties except utilities. 
 	 * @param name         The rule name
@@ -282,7 +261,7 @@ public class Rule {
             return false;
         }        
         //verify utilities
-        for(int i =0; i<this.getUtilities().size();++i)
+        for(int i =0; i<this.getUtilities().size();i++)
         {
             String op =(String) this.getUtilities().get(i); 
             try {

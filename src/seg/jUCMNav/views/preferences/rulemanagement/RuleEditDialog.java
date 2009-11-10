@@ -266,7 +266,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
                 return;
             }
 
-            for (int i = 0; i < table.getItems().length; ++i) {
+            for (int i = 0; i < table.getItems().length; i++) {
                 TableItem item = table.getItems()[i];
                 r.addUtility(item.getText());
             }
@@ -293,7 +293,8 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             }
             Rule r = defferManager.createRule("", txtContext.getText(), this.txtQuery.getText(), this.txtCheck == null ? "" :this.txtCheck.getText(), false, //$NON-NLS-1$ //$NON-NLS-2$
             		btnWarningOnly.getSelection(), txtDesc.getText());
-            for (int i = 0; i < table.getItems().length; ++i) {
+            
+            for (int i = 0; i < table.getItems().length; i++) {
                 TableItem item = table.getItems()[i];
                 r.addUtility(item.getText());
             }
@@ -310,7 +311,8 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
             rule.setContext(txtQuery.getText());
             rule.setWarningOnly(btnWarningOnly.getSelection()); 
             rule.setQuery(txtCheck == null ? "" :txtCheck.getText()); //$NON-NLS-1$
-            for (int i = 0; i < table.getItems().length; ++i) {
+            rule.clearUtilities();
+            for (int i = 0; i < table.getItems().length; i++) {
                 TableItem item = table.getItems()[i];
                 rule.addUtility(item.getText());
             }
@@ -344,7 +346,10 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
      */
     private void performDeleteUtility(int idx) {
         table.remove(idx);
-        table.select(idx);
+        if (idx < table.getItemCount())
+        	table.select(idx);
+        else
+        	table.select(idx-1);
     }
 
     /**

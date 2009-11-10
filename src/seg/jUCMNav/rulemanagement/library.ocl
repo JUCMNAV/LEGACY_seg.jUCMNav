@@ -436,13 +436,10 @@ def: srcIsActor():Boolean =
 def: destIsActor():Boolean =
 		self.link.dest.oclIsTypeOf(Actor)
 
-endpackage
-
 --------------------------------------------------------------
 -- GRL Dependency Helper Functions
 --------------------------------------------------------------
 
-package grl
 context GRLLinkableElement
 
 def: dependees():Sequence(grl::GRLLinkableElement) =
@@ -457,13 +454,46 @@ def: dependers():Sequence(grl::GRLLinkableElement) =
 			-> select(link|link.oclIsTypeOf(grl::Dependency)).src
 			-> asSequence()
 
-endpackage
+--------------------------------------------------------------
+-- GRL Actor Hierarchy Helper Functions
+--------------------------------------------------------------
 
+context ActorRef
+
+def: getAncestorSet(current:Set(Actor)):Set(Actor) =
+		-- Invoked by getAncestors, to enable recursive construction of ancestors
+		let oneStep:Set(Actor) = current
+			->collect(a|a.contRefs)
+			->select(a|a.oclIsTypeOf(ActorRef))
+			->collect(a|a.oclAsType(ActorRef))->asSet()
+			->collect(ar|ar.parent)->asSet()
+			->select(a|a.oclIsTypeOf(ActorRef))
+			->collect(a|a.oclAsType(ActorRef))->asSet()
+			->collect(ar|ar.contDef)
+			->select(a|a.oclIsTypeOf(Actor))
+			->collect(a|a.oclAsType(Actor))->asSet()
+		in
+			if ( current->includesAll(oneStep) )  
+			then current
+			else getAncestorSet(current->union(oneStep))
+			endif
+
+def: getAncestors():Set(Actor) =
+		if self.parent->notEmpty()
+		then getAncestorSet(
+			if self.parent->notEmpty()
+			then
+				self.parent.contDef->collect(o|o.oclAsType(Actor))->asSet()
+			else
+				Set{}
+			endif )
+		else Set{}
+		endif
+		
 
 --------------------------------------------------------------------------------------
--- For features in software product lines
+-- For features in Software Product Lines
 --------------------------------------------------------------------------------------
-package grl
 context EvaluationStrategy
 
 -- In a strategy, feature A requires feature B
@@ -489,3 +519,42 @@ def: featureConflictsWith(nameA:String, nameB:String):Boolean=
 		(i100 -> includes(a)) implies (i_not0 -> excludes(b))
 endpackage
 
+
+--------------------------------------------------------------
+-- UCM Component Hierarchy Helper Functions
+--------------------------------------------------------------
+
+package ucm::map
+context ComponentRef
+
+def: getAncestorSet(current:Set(urncore::Component)):Set(urncore::Component) =
+		-- Invoked by getAncestors, to enable recursive construction of ancestors
+		let oneStep:Set(urncore::Component) = current
+			->collect(c|c.contRefs)
+			->select(c|c.oclIsTypeOf(ComponentRef))
+			->collect(c|c.oclAsType(ComponentRef))->asSet()
+			->collect(cr|cr.parent)->asSet()
+			->select(c|c.oclIsTypeOf(ComponentRef))
+			->collect(c|c.oclAsType(ComponentRef))->asSet()
+			->collect(cr|cr.contDef)
+			->select(c|c.oclIsTypeOf(urncore::Component))
+			->collect(c|c.oclAsType(urncore::Component))->asSet()
+		in
+			if ( current->includesAll(oneStep) )  
+			then current
+			else getAncestorSet(current->union(oneStep))
+			endif
+
+def: getAncestors():Set(urncore::Component) =
+		if self.parent->notEmpty()
+		then getAncestorSet(
+			if self.parent->notEmpty()
+			then
+				self.parent.contDef->collect(o|o.oclAsType(urncore::Component))->asSet()
+			else
+				Set{}
+			endif )
+		else Set{}
+		endif
+		
+endpackage
