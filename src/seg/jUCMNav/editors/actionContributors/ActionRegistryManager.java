@@ -438,22 +438,22 @@ public class ActionRegistryManager
 		action.setText(Messages.getString("ActionRegistryManager.changeDecompositionType")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 		
-		for ( int i = 0; i < 6; i++ ){
+		for ( int i = 0; i <= 7; i++ ){
 			action = new SetNumericalImportanceAction( editor, i );
 			addEditPartAction((SelectionAction) action);
 		}
 		
-		for ( int i = 0; i < 6; i++ ){
+		for ( int i = 0; i <= 5; i++ ){
 			action = new SetQualitativeImportanceAction( editor, i );
 			addEditPartAction((SelectionAction) action);
 		}
 		
-		for ( int i = 0; i < 10; i++ ){
+		for ( int i = 0; i <= 11; i++ ){
 			action = new SetNumericalEvaluationAction( editor, i );
 			addEditPartAction((SelectionAction) action);
 		}
 		
-		for ( int i = 0; i < 9; i++ ){
+		for ( int i = 0; i <= 8; i++ ){
 			action = new SetQualitativeEvaluationAction( editor, i );
 			addEditPartAction((SelectionAction) action);
 		}

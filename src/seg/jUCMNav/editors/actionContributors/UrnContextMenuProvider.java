@@ -212,29 +212,29 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
 
         manager.add(new Separator(GROUP_UNCOMMON));  
         
-        actions = new IAction[6];
-        for ( int i = 0; i < 6; i++ )
+        actions = new IAction[8];
+        for ( int i = 0; i <= 7; i++ )
         	actions[i] = getActionRegistry().getAction( SetNumericalImportanceAction.generateId(i) );
         submenu = new SubmenuAction(actions, "Set Numerical Importance", "Set Numerical Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
  
         actions = new IAction[6];
-        for ( int i = 0; i < 6; i++ )
+        for ( int i = 0; i <= 5; i++ )
         	actions[i] = getActionRegistry().getAction( SetQualitativeImportanceAction.generateId(i) );
         submenu = new SubmenuAction(actions, "Set Qualitative Importance", "Set Qualitative Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
 
-        actions = new IAction[10];
-        for ( int i = 0; i < 10; i++ )
+        actions = new IAction[12];
+        for ( int i = 0; i <= 11; i++ )
         	actions[i] = getActionRegistry().getAction( SetNumericalEvaluationAction.generateId(i) );
         submenu = new SubmenuAction(actions, "Set Numerical Evaluation", "Set Numerical Evaluation", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
         
         actions = new IAction[9];
-        for ( int i = 0; i < 9; i++ )
+        for ( int i = 0; i <= 8; i++ )
         	actions[i] = getActionRegistry().getAction( SetQualitativeEvaluationAction.generateId(i) );
         submenu = new SubmenuAction(actions, "Set Qualitative Evaluation", "Set Qualitative Evaluation", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
         if (submenu.getActiveOperationCount()>0)

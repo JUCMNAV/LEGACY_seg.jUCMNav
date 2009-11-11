@@ -1,5 +1,8 @@
 package seg.jUCMNav.actions;
 
+import java.util.Iterator;
+import java.util.Vector;
+
 import grl.ImportanceType;
 import grl.IntentionalElementRef;
 
@@ -7,6 +10,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeQualitativeImportanceCommand;
 
 /**
@@ -17,7 +21,7 @@ import seg.jUCMNav.model.commands.transformations.ChangeQualitativeImportanceCom
 public class SetQualitativeImportanceAction extends URNSelectionAction
 {
     public static final String SET_QUALITATIVE_IMPORTANCE = "seg.jUCMNav.SET_QUALITATIVE_IMPORTANCE"; //$NON-NLS-1$
-    private IntentionalElementRef selection;
+    private Vector intElementRefs;
     private int id;
     private static String[] values = { "(H)igh", "(M)edium", "(L)ow", "None", "Increase    (x)", "Decrease   (z)" };
 
@@ -36,7 +40,7 @@ public class SetQualitativeImportanceAction extends URNSelectionAction
 
     protected Command getCommand()
     {
-        return new ChangeQualitativeImportanceCommand( selection, id );
+        return new ChangeQualitativeImportanceCommand( intElementRefs, id );
     }
 
     /**
@@ -44,35 +48,37 @@ public class SetQualitativeImportanceAction extends URNSelectionAction
      */
     protected boolean calculateEnabled()
     {
-        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        switch (sel.getSelectionType()) {
-        case SelectionHelper.INTENTIONALELEMENTREF:
-            selection = sel.getIntentionalelementref();
+    	for ( Iterator iter = getSelectedObjects().iterator(); iter.hasNext(); )
+    	{
+    		Object obj = iter.next();
+    		if ( !(obj instanceof IntentionalElementEditPart) )
+    			return false;    		
+    		
+            if ( id < 4 )  // operation is not increase or decrease, skip further tests
+            	continue;
             
-            if ( id < 4 )
-            	return true;
-            else if ( id == 4 ) { // increase operation, verify if possible
-            	if ( selection.getDef().getImportance() == ImportanceType.HIGH_LITERAL )
+    		IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) obj).getModel());
+            
+            if ( id == 4 ) { // increase operation, verify if possible
+            	if ( ier.getDef().getImportance() == ImportanceType.HIGH_LITERAL )
             		return false; // can't increase from HIGH
             } else if ( id == 5 ) { // decrease operation, verify if possible
-            	if ( selection.getDef().getImportance() == ImportanceType.NONE_LITERAL )
+            	if ( ier.getDef().getImportance() == ImportanceType.NONE_LITERAL )
             		return false; // can't decrease from NONE
             }
-            
-            return true;
-        default:
-            return false;
-        }
+    	}
+
+    	intElementRefs = new Vector(); // all tests passed, create list
+    	
+    	for ( Iterator iter = getSelectedObjects().iterator(); iter.hasNext(); )
+    	{
+    		IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) iter.next()).getModel());    		
+            intElementRefs.add( ier );    	
+    	}   	
+    	
+    	return true;
     }
 
-	public void run()
-	{
-    	System.out.println( "SetQualitativeImportance run method called. id: " +id );
-
-		super.run();
-
-	}
-	
 	public static String generateId(int id)
 	{
 		return SET_QUALITATIVE_IMPORTANCE + id;

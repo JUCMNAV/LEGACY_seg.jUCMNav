@@ -41,7 +41,8 @@ import urncore.IURNDiagram;
  * @author pchen
  * 
  */
-public class HTMLMenuParser {
+public class HTMLMenuParser
+{
     private static HTMLMenuParser parser = null;
 
     private String xmlFullPath = ""; //$NON-NLS-1$
@@ -93,7 +94,8 @@ public class HTMLMenuParser {
      * Parse XML menu file
      * 
      */
-    public void parseMenu() {
+    public void parseMenu()
+    {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             // factory.setValidating(false);
@@ -133,7 +135,8 @@ public class HTMLMenuParser {
      * 
      * @param htmlMenuItem
      */
-    public void addMenu(HTMLMenuItem htmlMenuItem) {
+    public void addMenu( HTMLMenuItem htmlMenuItem )
+    {
         if (xmlDocument == null) {
             parseMenu();
         }
@@ -154,28 +157,28 @@ public class HTMLMenuParser {
         }
 
         if (branch != null) {
-            if (htmlMenuItem.getType().equals(HTMLMenuItem.TYPE_GRL)) {
-                Element leaf = xmlDocument.createElement(LEAF);
+            if (htmlMenuItem.getType().equals( HTMLMenuItem.TYPE_GRL) ) {
+                Element leaf = xmlDocument.createElement( LEAF );
 
-                Element leafText = xmlDocument.createElement(LEAF_TEXT);
-                leafText.setTextContent(htmlMenuItem.getLeafText());
+                Element leafText = xmlDocument.createElement( LEAF_TEXT );
+                leafText.setTextContent( htmlMenuItem.getLeafText() );
 
-                Element link = xmlDocument.createElement(LINK);
-                link.setTextContent(htmlMenuItem.getLink());
+                Element link = xmlDocument.createElement( LINK );
+                link.setTextContent( htmlMenuItem.getLink() );
 
-                Element baseX = xmlDocument.createElement(BASE_X);
-                baseX.setTextContent(String.valueOf(htmlMenuItem.getBaseX()));
+                Element baseX = xmlDocument.createElement( BASE_X ) ;
+                baseX.setTextContent( String.valueOf( htmlMenuItem.getBaseX() ) );
 
-                Element baseY = xmlDocument.createElement(BASE_Y);
-                baseY.setTextContent(String.valueOf(htmlMenuItem.getBaseY()));
+                Element baseY = xmlDocument.createElement( BASE_Y );
+                baseY.setTextContent(String.valueOf( htmlMenuItem.getBaseY() ) );
 
-                leaf.appendChild(leafText);
-                leaf.appendChild(link);
-                leaf.appendChild(baseX);
-                leaf.appendChild(baseY);
-                branch.appendChild(leaf);
-            } else if (htmlMenuItem.getType().equals(HTMLMenuItem.TYPE_UCM)) {
-                addUCMMenu(htmlMenuItem, branch);
+                leaf.appendChild( leafText );
+                leaf.appendChild( link );
+                leaf.appendChild( baseX );
+                leaf.appendChild( baseY );
+                branch.appendChild( leaf );
+            } else if ( htmlMenuItem.getType().equals( HTMLMenuItem.TYPE_UCM ) ) {
+                addUCMMenu( htmlMenuItem, branch );
             }
         }
     }
@@ -392,6 +395,7 @@ public class HTMLMenuParser {
     /**
      * Organize menus 
      * - Add 'No Maps' item if there is no map under UCM or/and GRL
+     * - Add 'No MSC Scenarios' item if scenario output is selected and there is no MSC scenario
      * 
      */
     private void organizeMenus() {
@@ -409,10 +413,12 @@ public class HTMLMenuParser {
                 
                 String emptyText = ""; //$NON-NLS-1$
                 String bid = branch.getAttribute(BRANCH_ID);
-                if (bid.equals(HTMLMenuItem.TYPE_UCM)) {
+                if ( bid.equals( HTMLMenuItem.TYPE_UCM ) ) {
                     emptyText = Messages.getString("HTMLMenuParser.NoUCMs"); //$NON-NLS-1$
-                } else if (bid.equals(HTMLMenuItem.TYPE_GRL)) {
+                } else if ( bid.equals( HTMLMenuItem.TYPE_GRL ) ) {
                     emptyText = Messages.getString("HTMLMenuParser.NoGRLs"); //$NON-NLS-1$
+                } else if ( bid.equals( HTMLMenuItem.TYPE_MSC ) ) {
+                	emptyText = Messages.getString("HTMLMenuParser.NoMSCs"); //$NON-NLS-1$
                 }
                 
                 if (branch.getElementsByTagName(LEAF).getLength() <= 0 && 

@@ -1,6 +1,9 @@
 package seg.jUCMNav.model.commands.transformations;
 
-import grl.Evaluation;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
 import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
@@ -17,28 +20,63 @@ import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
 
 public class ChangeNumericalImportanceCommand  extends Command implements JUCMNavCommand
 {
-	private IntentionalElementRef intElemRef;
-	private int id, oldValue, newValue;
 	private static int[] values = { 100, 75, 50, 25, 0 };
     private boolean cancelled = false;
 
-	public ChangeNumericalImportanceCommand( IntentionalElementRef intElemRef, int id )
+	private class IElementState
 	{
-		this.intElemRef = intElemRef;
-		this.id = id;
-
-		oldValue = intElemRef.getDef().getImportanceQuantitative();
-		
-		if ( id < 5 )
-			newValue = values[id];
-		else {
-    		Integer enteredValue = enterImportance();
-    		if ( enteredValue == null )
-    			cancelled = true;
-    		else
-    			newValue = enteredValue.intValue();
-		}
+		IntentionalElementRef intElemRef;
+		int oldValue, newValue;
 	}
+	
+	Vector intElementStates;
+
+	public ChangeNumericalImportanceCommand( List intElemRefs, int id )
+	{
+		int enteredImportance = 0;
+
+		if ( id == 5 ) { // enter value through dialog
+    	    String currentValue = ( intElemRefs.size() > 1 ) ? "" : Integer.toString( ((IntentionalElementRef) (intElemRefs.get(0))).getDef().getImportanceQuantitative() );
+    		Integer enteredValue = enterImportance( currentValue );
+    		if ( enteredValue == null ) {
+    			cancelled = true;
+    			return;
+    		}
+    		else
+    			enteredImportance = enteredValue.intValue();        		
+    	}
+    	
+		intElementStates = new Vector();
+		
+		for ( Iterator iter = intElemRefs.iterator(); iter.hasNext(); ) {
+			
+			IntentionalElementRef currentIERef = (IntentionalElementRef) iter.next();
+			IElementState ies = new IElementState();
+			
+			ies.intElemRef = currentIERef;
+			ies.oldValue = currentIERef.getDef().getImportanceQuantitative();
+			intElementStates.add( ies );
+
+			if ( id <= 4 ) { // input from sub-menu +100 -> 0
+				ies.newValue = values[ id ];
+			} else if ( id == 5 ){ // new value entered through dialog
+				ies.newValue = enteredImportance;
+			} else if ( id == 6 ) { // increase evaluation if possible
+    		
+				if ( ies.oldValue == 100 )
+					cancelled = true; // can't increase from 100
+				else
+					ies.newValue = ies.oldValue + 1;
+    		
+			} else if ( id == 7 ) { // decrease evaluation if possible
+
+				if ( ies.oldValue == 0 )
+					cancelled = true; // can't decrease from 0
+				else
+					ies.newValue = ies.oldValue - 1;
+			}
+		}
+    }
 	
 	public void execute()
 	{
@@ -52,38 +90,47 @@ public class ChangeNumericalImportanceCommand  extends Command implements JUCMNa
 	{
 		testPreConditions();
 
-		EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance( intElemRef.getDef(), newValue );
-
+		for ( Iterator iter = intElementStates.iterator(); iter.hasNext(); ) {
+			IElementState ies = (IElementState) iter.next();
+			EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance( ies.intElemRef.getDef(), ies.newValue );
+		}
+		
 		testPostConditions();
 	}
 
 	public void testPostConditions()
 	{
-		assert intElemRef != null : "post no element!"; //$NON-NLS-1$
+		for ( Iterator iter = intElementStates.iterator(); iter.hasNext(); ) {
+			IElementState ies = (IElementState) iter.next();
+			assert ies.intElemRef != null : "post no element!"; //$NON-NLS-1$
+		}
 	}
 
 	public void testPreConditions()
 	{
-		assert intElemRef != null : "pre no element!"; //$NON-NLS-1$
+		for ( Iterator iter = intElementStates.iterator(); iter.hasNext(); ) {
+			IElementState ies = (IElementState) iter.next();
+			assert ies.intElemRef != null : "pre no element!"; //$NON-NLS-1$
+		}
 	}
 
 	public void undo()
 	{
 		testPostConditions();
 
-		EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance( intElemRef.getDef(), oldValue );
-
+		for ( Iterator iter = intElementStates.iterator(); iter.hasNext(); ) {
+			IElementState ies = (IElementState) iter.next();
+			EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance( ies.intElemRef.getDef(), ies.oldValue );
+		}
+		
 		testPreConditions();
 	}
 
-	private Integer enterImportance()
+	private Integer enterImportance( String currentValue )
 	{	
-	    String currentValue;
 		Shell shell = new Shell();
 	    IntegerInputRangeDialog dialog = new IntegerInputRangeDialog(shell);
-	    
-	    currentValue = ( oldValue == Evaluation.EVALUATION_UNDEFINED ) ? "" : Integer.toString( oldValue );
-	
+	    	
 	    return ( dialog.open( "Enter Numerical Importance   (range: [0, 100])", "Enter the new Numerical Importance: ", currentValue, 0, 100 ) );		
 	}
 }

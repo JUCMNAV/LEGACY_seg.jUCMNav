@@ -1,5 +1,8 @@
 package seg.jUCMNav.actions;
 
+import java.util.Iterator;
+import java.util.Vector;
+
 import grl.IntentionalElementRef;
 import grl.QualitativeLabel;
 
@@ -7,6 +10,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeQualitativeEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
@@ -18,7 +22,7 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
 public class SetQualitativeEvaluationAction extends URNSelectionAction
 {
     public static final String SET_QUALITATIVE_EVALUATION = "seg.jUCMNav.SET_QUALITATIVE_EVALUATION"; //$NON-NLS-1$
-    private IntentionalElementRef selection;
+    private Vector intElementRefs;
     private int id;
     private static String[] values = { "Satisfied", "Weakly Satisfied", "None", "Weakly Denied", "Denied", "Conflict", "Unknown", "Increase    (h)", "Decrease   (n)" };
 
@@ -51,7 +55,7 @@ public class SetQualitativeEvaluationAction extends URNSelectionAction
 
     protected Command getCommand()
     {
-        return new ChangeQualitativeEvaluationCommand( selection, id );
+        return new ChangeQualitativeEvaluationCommand( intElementRefs, id );
     }
 
     /**
@@ -61,29 +65,39 @@ public class SetQualitativeEvaluationAction extends URNSelectionAction
     {
     	EvaluationStrategyManager esm = EvaluationStrategyManager.getInstance();
     	
-    	if ( esm.getEvaluationStrategy() == null )
+    	if ( esm.getEvaluationStrategy() == null ) // cannot set an evaluation for a strategy if none is defined
     		return false;
-    	
-        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        switch (sel.getSelectionType()) {
-        case SelectionHelper.INTENTIONALELEMENTREF:
-            selection = sel.getIntentionalelementref();
-            QualitativeLabel oldQeval = esm.getEvaluationObject( selection.getDef() ).getQualitativeEvaluation();
+    	   	
+    	for ( Iterator iter = getSelectedObjects().iterator(); iter.hasNext(); )
+    	{
+    		Object obj = iter.next();
+    		if ( !(obj instanceof IntentionalElementEditPart) )
+    			return false;
+    		
+            if ( id < 7 ) // operation is not increase or decrease, skip further tests
+            	continue;
             
-            if ( id < 7 )
-            	return true;
-            else if ( id == 7 ) { // increase operation, verify if possible
+    		IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) obj).getModel());
+            QualitativeLabel oldQeval = esm.getEvaluationObject( ier.getDef() ).getQualitativeEvaluation();
+            
+            if ( id == 7 ) { // increase operation, verify if possible
             	if ( oldQeval == QualitativeLabel.SATISFIED_LITERAL )
-            		return false;  // can't increase from SATISFIED
+            		return false; // can't increase from SATISFIED
             } else if ( id == 8 ) { // decrease operation, verify if possible
             	if ( oldQeval == QualitativeLabel.UNKNOWN_LITERAL )
             		return false; // can't decrease from UNKNOWN
             }
-            
-            return true;
-        default:
-            return false;
-        }
+    	}
+    	    
+    	intElementRefs = new Vector(); // all tests passed, create list
+    	
+    	for ( Iterator iter = getSelectedObjects().iterator(); iter.hasNext(); )
+    	{
+    		IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) iter.next()).getModel());    		
+            intElementRefs.add( ier );    	
+    	}   	
+    	
+    	return true;
     }
 
 	public static String generateId( int id )

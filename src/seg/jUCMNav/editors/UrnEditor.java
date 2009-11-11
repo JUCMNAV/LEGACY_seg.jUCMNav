@@ -37,6 +37,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
+import seg.jUCMNav.actions.SetNumericalEvaluationAction;
+import seg.jUCMNav.actions.SetNumericalImportanceAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.palette.SelectPaletteEntryAction;
@@ -198,19 +200,29 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
             }
             
             character = '>'; 
-            sharedKeyHandler.put(KeyStroke.getReleased(character,'.',SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
+            sharedKeyHandler.put(KeyStroke.getReleased(character, '.', SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
             character = ' ';
-            sharedKeyHandler.put(KeyStroke.getReleased(character,character,0), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
+            sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
             
-            character = 'h';  // increase Evaluation with key binding
+            character = 'h';  // increase Qualitative Evaluation with key binding
             sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeEvaluationAction.getId( "Increase" ) ) );
-            character = 'n';  // decrease Evaluation with key binding
+            character = 'n';  // decrease Qualitative Evaluation with key binding
             sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeEvaluationAction.getId( "Decrease" ) ) );
             
-            character = 'x';  // increase Importance with key binding
+            int letter = (int)'h'; // increase Numerical Evaluation with key binding
+            sharedKeyHandler.put( KeyStroke.getReleased( (char)(letter-32), (char)letter, SWT.SHIFT ), getActionRegistry().getAction( SetNumericalEvaluationAction.getId( "Increase" ) ) );
+            letter = (int)'n'; // decrease Numerical Evaluation with key binding
+            sharedKeyHandler.put( KeyStroke.getReleased( (char)(letter-32), (char)letter, SWT.SHIFT ), getActionRegistry().getAction( SetNumericalEvaluationAction.getId( "Decrease" ) ) );
+            
+            character = 'x';  // increase Qualitative Importance with key binding
             sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeImportanceAction.getId( "Increase" ) ) );
-            character = 'z';  // decrease Importance with key binding
+            character = 'z';  // decrease Qualitative Importance with key binding
             sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeImportanceAction.getId( "Decrease" ) ) );
+
+            letter = (int)'x';  // increase Numerical Importance with key binding
+            sharedKeyHandler.put( KeyStroke.getReleased( (char)(letter-32), (char)letter, SWT.SHIFT ), getActionRegistry().getAction( SetNumericalImportanceAction.getId( "Increase" ) ) );
+            letter = (int)'z';  // decrease Numerical Importance with key binding
+            sharedKeyHandler.put( KeyStroke.getReleased( (char)(letter-32), (char)letter, SWT.SHIFT ), getActionRegistry().getAction( SetNumericalImportanceAction.getId( "Decrease" ) ) );
 
         }
         return sharedKeyHandler;

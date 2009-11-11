@@ -1,6 +1,9 @@
 package seg.jUCMNav.model.commands.transformations;
 
-import grl.Evaluation;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
 import grl.IntentionalElementRef;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.widgets.Shell;
@@ -16,31 +19,69 @@ import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
 
 public class ChangeNumericalEvaluationCommand   extends Command implements JUCMNavCommand
 {
-	private IntentionalElementRef intElemRef;
 	private boolean cancelled = false;
-	private int oldEval, newEval;
 	EvaluationStrategyManager esm;
 	
 	private int[] values = { 100, 75, 50, 25, 0, -25, -50, -75, -100 };
 	
-	public ChangeNumericalEvaluationCommand( IntentionalElementRef intElemRef, int id )
+	private class IElementState
 	{
-		this.intElemRef = intElemRef;
+		IntentionalElementRef intElemRef;
+		int oldEval, newEval;
+	}
+	
+	Vector intElementStates;
+
+	public ChangeNumericalEvaluationCommand( List intElemRefs, int id )
+	{
+		int enteredEval = 0;
 		esm = EvaluationStrategyManager.getInstance();
 		
         if ( esm.getEvaluationStrategy() == null ){
         	cancelled = true;
         } else {
-        	oldEval = esm.getEvaluation( intElemRef.getDef() );
-        	if ( id < 9 )
-        		newEval = values[ id ];
-        	else {
-        		Integer enteredValue = enterEvaluation();
-        		if ( enteredValue == null )
+        	
+        	if ( id == 9 ) { // enter value through dialog
+        	    String currentEval = ( intElemRefs.size() > 1 ) ? "" : Integer.toString( esm.getEvaluation( ((IntentionalElementRef) (intElemRefs.get(0))).getDef() ) );
+        		Integer enteredValue = enterEvaluation( currentEval );
+        		if ( enteredValue == null ) {
         			cancelled = true;
+        			return;
+        		}
         		else
-        			newEval = enteredValue.intValue();
+        			enteredEval = enteredValue.intValue();        		
         	}
+        	
+    		intElementStates = new Vector();
+    		
+    		for ( Iterator iter = intElemRefs.iterator(); iter.hasNext(); ) {
+    			
+    			IntentionalElementRef currentIERef = (IntentionalElementRef) iter.next();
+    			IElementState ies = new IElementState();
+    			
+    			ies.intElemRef = currentIERef;
+    			ies.oldEval = esm.getEvaluation( currentIERef.getDef() );
+    			intElementStates.add( ies );
+
+    			if ( id <= 8 ) { // input from sub-menu +100 -> -100
+    				ies.newEval = values[ id ];
+    			} else if ( id == 9 ){ // new value entered through dialog
+    				ies.newEval = enteredEval;
+    			} else if ( id == 10 ) { // increase evaluation if possible
+        		
+    				if ( ies.oldEval == 100 )
+    					cancelled = true; // can't increase from 100
+    				else
+    					ies.newEval = ies.oldEval + 1;
+        		
+    			} else if ( id == 11 ) { // decrease evaluation if possible
+
+    				if ( ies.oldEval == -100 )
+    					cancelled = true; // can't decrease from -100
+    				else
+    					ies.newEval = ies.oldEval - 1;
+    			}
+    		}
         }
 	}
 	
@@ -56,42 +97,51 @@ public class ChangeNumericalEvaluationCommand   extends Command implements JUCMN
 	{
 		testPreConditions();
 
-		esm.setIntentionalElementEvaluation( intElemRef.getDef(), newEval );
-
+		for ( Iterator iter = intElementStates.iterator(); iter.hasNext(); ) {
+			IElementState ies = (IElementState) iter.next();
+			esm.setIntentionalElementEvaluation( ies.intElemRef.getDef(), ies.newEval );
+		}
+		
 		testPostConditions();
 	}
 
 	
 	public void testPostConditions()
 	{
-		assert intElemRef != null : "post no element!"; //$NON-NLS-1$
+		for ( Iterator iter = intElementStates.iterator(); iter.hasNext(); ) {
+			IElementState ies = (IElementState) iter.next();
+			assert ies.intElemRef != null : "post no element!"; //$NON-NLS-1$
+		}
 	}
 
 	public void testPreConditions()
 	{
-		assert intElemRef != null : "pre no element!"; //$NON-NLS-1$
+		for ( Iterator iter = intElementStates.iterator(); iter.hasNext(); ) {
+			IElementState ies = (IElementState) iter.next();
+			assert ies.intElemRef != null : "pre no element!"; //$NON-NLS-1$
+		}
 	}
 
 	public void undo()
 	{
 		testPostConditions();
 
-		if ( oldEval == Evaluation.EVALUATION_UNDEFINED )
-			esm.setEvaluationForElement( intElemRef.getDef(), null );
-		else
-			esm.setIntentionalElementEvaluation( intElemRef.getDef(), oldEval );
+//		if ( oldEval == Evaluation.EVALUATION_UNDEFINED )
+//			esm.setEvaluationForElement( intElemRef.getDef(), null );
+		
+		for ( Iterator iter = intElementStates.iterator(); iter.hasNext(); ) {
+			IElementState ies = (IElementState) iter.next();
+			esm.setIntentionalElementEvaluation( ies.intElemRef.getDef(), ies.oldEval );
+		}
 
 		testPreConditions();
 	}
 
-	private Integer enterEvaluation()
+	private Integer enterEvaluation( String currentEval )
 	{	
-	    String currentEval;
 		Shell shell = new Shell();
-	    IntegerInputRangeDialog dialog = new IntegerInputRangeDialog(shell);
-	    
-	    currentEval = ( oldEval == Evaluation.EVALUATION_UNDEFINED ) ? "" : Integer.toString( oldEval );
-	
+	    IntegerInputRangeDialog dialog = new IntegerInputRangeDialog( shell );
+	    	
 	    return ( dialog.open( "Enter Numerical Evaluation   (range: [-100,+100])", "Enter the new Numerical Evaluation: ", currentEval, -100, 100 ) );
 	}
 }

@@ -21,6 +21,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
 
 import seg.jUCMNav.importexport.ExportImageGIF;
+import seg.jUCMNav.importexport.msc.ExportMSC;
 import seg.jUCMNav.importexport.reports.URNReport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
@@ -74,7 +75,7 @@ public class HTMLReport extends URNReport {
 		FileOutputStream imgFos = null;
 		IFigure pane;
 		
-		for (int i=0;i<urn.getUrndef().getSpecDiagrams().size();i++) {
+		for ( int i = 0; i < urn.getUrndef().getSpecDiagrams().size(); i++ ) {
 			IURNDiagram diagram = (IURNDiagram) urn.getUrndef().getSpecDiagrams().get(i);
 			
 			boolean isLast = ( i == urn.getUrndef().getSpecDiagrams().size()-1 );
@@ -99,25 +100,26 @@ public class HTMLReport extends URNReport {
 
 			htmlMenuItem.setDiagramName(diagramName);
 			if (diagram instanceof GRLGraph) {
-				htmlMenuItem.setType(HTMLMenuItem.TYPE_GRL);
+				htmlMenuItem.setType( HTMLMenuItem.TYPE_GRL );
 			} else {
-				htmlMenuItem.setType(HTMLMenuItem.TYPE_UCM);
+				htmlMenuItem.setType( HTMLMenuItem.TYPE_UCM );
 			}
-			htmlMenuItem.setLeafText(diagramName.substring(diagramName.lastIndexOf("-") + 1)); //$NON-NLS-1$
-			htmlMenuItem.setLink(diagramName + ".html"); //$NON-NLS-1$
-			htmlMenuItem.setBaseX(-pane.getBounds().x);
-			htmlMenuItem.setBaseY(-pane.getBounds().y);
-			htmlMenuItem.setDiagram(diagram);
+			htmlMenuItem.setLeafText( diagramName.substring( diagramName.lastIndexOf("-") + 1 ) ); //$NON-NLS-1$
+			htmlMenuItem.setLink( diagramName + ".html" ); //$NON-NLS-1$
+			htmlMenuItem.setBaseX( -pane.getBounds().x );
+			htmlMenuItem.setBaseY( -pane.getBounds().y );
+			htmlMenuItem.setDiagram( diagram );
 
 			// export the html or this diagram
-			export(diagram, htmlPath);
+			export( diagram, htmlPath );
 
 			// create the XML menu content
-			HTMLMenuParser htmlMenuParser = HTMLMenuParser.getParser(htmlPath);
-			htmlMenuParser.addMenu(htmlMenuItem);
+			HTMLMenuParser htmlMenuParser = HTMLMenuParser.getParser( htmlPath );
+			htmlMenuParser.addMenu( htmlMenuItem );
 
 			// write the content of menu to XML file
 			if (isLast) {
+				exportMSCScenarios( urn, mapDiagrams, filename );
 				htmlMenuParser.writeToFile();
 				htmlMenuParser.resetDocument();
 			}
@@ -125,6 +127,19 @@ public class HTMLReport extends URNReport {
 	}
 
 
+	private void exportMSCScenarios( URNspec urn, HashMap mapDiagrams, String filename ) throws InvocationTargetException
+	{
+		ExportMSC mscExporter = new ExportMSC();
+		
+		if ( !mscExporter.scenarioDefExists(urn) )
+			return;
+		
+		filename = filename.substring( 0, filename.length()-"html".length() ) + "jucmscenarios"; //$NON-NLS-1$ //$NON-NLS-2$
+		
+		mscExporter.export( urn, mapDiagrams, filename );
+		
+	}
+	
 	/**
 	 * Create index html pages used in exporting UCM/GRL maps to html pages.
 	 * 
@@ -460,18 +475,18 @@ public class HTMLReport extends URNReport {
 
 			if ( diagram instanceof UCMmap ) {
 				OutputMapInfo( diagram, sb );
-				OutputComponentURNlinks( diagram, sb );
 				OutputResponsibilityReferences( diagram, sb );
 				OutputStartPointData( diagram, sb );
 				OutputEndPointData( diagram, sb );
 				OutputOrForkGuards( diagram, sb );
 				OutputStubBindings( diagram, sb );
+				OutputComponentURNlinks( diagram, sb );
 			} else { // GRLGraph
 				OutputGRLDiagramInfo( diagram, sb );
-				OutputActorURNlinks( diagram, sb );
 				OutputGRLIntentionalElements( diagram, sb );
 				OutputGRLBeliefs( diagram, sb );
 				OutputIntentionalElementURNlinks( diagram, sb );
+				OutputActorURNlinks( diagram, sb );
 			}
 			
 			// Add tool tips with an image map     
@@ -587,7 +602,7 @@ public class HTMLReport extends URNReport {
 	private void InsertMetadataInTable( EList metadata, StringBuffer sb )
 	{
 		if ( metadata.isEmpty() ) {
-			sb.append( "<td/>" );
+			sb.append( "<td></td>" );
 		} else {
 			sb.append( "<td>" );
 			for ( Iterator iter=metadata.iterator(); iter.hasNext(); ) {
@@ -603,7 +618,7 @@ public class HTMLReport extends URNReport {
 	private void InsertURNLinks( EList urnLinks, StringBuffer sb )
 	{
 		if ( urnLinks.isEmpty() ) {
-			sb.append( "<td/>" );
+			sb.append( "<td></td>" );
 		} else {
 			sb.append( "<td>" );
 			for ( Iterator iter = urnLinks.iterator(); iter.hasNext(); ) {
@@ -761,7 +776,7 @@ public class HTMLReport extends URNReport {
 				}
 				
 				if ( firstCondition ) { // if no conditions were found insert empty column
-					sb.append( "<td/>" );					
+					sb.append( "<td></td>" );					
 				} else { // terminate column
 					sb.append( "</td>" );
 				}
@@ -1057,7 +1072,7 @@ public class HTMLReport extends URNReport {
 		
 		sb.append("<h2>Intentional Element URN Links</h2>\n");
 		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i>direction</i> <b>UCM element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
+		sb.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i> direction </i> <b>element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
 		
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
@@ -1102,12 +1117,6 @@ public class HTMLReport extends URNReport {
 		if ( !ReportGeneratorPreferences.getShowURNLinks() )
 			return;
 
-		if ( !diagram.getContRefs().isEmpty() ) {
-			System.out.println( "cont refs class: " + diagram.getContRefs().get(0).getClass() );
-			System.out.println( "cont refs def class: " + ((ActorRef) (diagram.getContRefs().get(0))).getContDef().getClass() );
-			System.out.flush();
-		}
-		
 		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext() && !hasURNlinks;) {
 			currentActorRef = (ActorRef) iter.next();
 			currentActor = (Actor) currentActorRef.getContDef();
@@ -1120,7 +1129,7 @@ public class HTMLReport extends URNReport {
 
 		sb.append("<h2>Actor URN Links</h2>\n");
 		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i>direction</i> <b>UCM element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
+		sb.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i>direction</i> <b>element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
 	
 		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext();)
 		{
@@ -1134,7 +1143,7 @@ public class HTMLReport extends URNReport {
 				elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
 				
 				sb.append( "<tr><td>" + currentActor.getName() + "<i>(from)</i></td><td>" + notNull( link.getType() ) + "</td><td>(" 
-						+  "<i> to </i>" + elementType + ") " + link.getToElem().getName() + "</td>" );
+						+  "<i> to </i>" + elementType + " ) " + link.getToElem().getName() + "</td>" );
 				InsertMetadataInTable( link.getMetadata(), sb );
 				sb.append( "</tr>\n" );
 			}
@@ -1164,12 +1173,6 @@ public class HTMLReport extends URNReport {
 		if ( !ReportGeneratorPreferences.getShowURNLinks() )
 			return;
 
-		if ( !diagram.getContRefs().isEmpty() ) {
-			System.out.println( "cont refs class: " + diagram.getContRefs().get(0).getClass() );
-			System.out.println( "cont refs def class: " + ((ComponentRef) (diagram.getContRefs().get(0))).getContDef().getClass() );
-			System.out.flush();
-		}
-		
 		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext() && !hasURNlinks;) {
 			currentComponentRef = (ComponentRef) iter.next();
 			currentComponent = (Component) currentComponentRef.getContDef();
@@ -1182,7 +1185,7 @@ public class HTMLReport extends URNReport {
 
 		sb.append("<h2>Component URN Links</h2>\n");
 		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i>direction</i> <b>UCM element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
+		sb.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i> direction </i> <b>element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
 	
 		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext();)
 		{
@@ -1196,7 +1199,7 @@ public class HTMLReport extends URNReport {
 				elementType = elementType.substring( elementType.lastIndexOf('.')+1, elementType.length()-4 );
 				
 				sb.append( "<tr><td>" + currentComponent.getName() + "<i>(From)</i></td><td>" + notNull( link.getType() ) + "</td><td>(" 
-						+  "<i> to </i>" + elementType + ") " + link.getToElem().getName() + "</td>" );
+						+  "<i> to </i>" + elementType + " ) " + link.getToElem().getName() + "</td>" );
 				InsertMetadataInTable( link.getMetadata(), sb );
 				sb.append( "</tr>\n" );
 			}

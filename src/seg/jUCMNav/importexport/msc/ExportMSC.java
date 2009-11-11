@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -37,30 +36,21 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 	protected String oldFilename;
 	protected String newFilename;
 	
-	public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
+	public void export( URNspec urn, HashMap mapDiagrams, FileOutputStream fos ) throws InvocationTargetException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
+	public void export( URNspec urn, HashMap mapDiagrams, String filename ) throws InvocationTargetException {
 
 		// filename always ends with jucmscenarios
 		if (!ScenarioExportPreferences.getExportType().equalsIgnoreCase("0")) //$NON-NLS-1$
 			filename = filename.substring(0, filename.length()-"jucmscenarios".length()) + "jucm"; //$NON-NLS-1$ //$NON-NLS-2$
 		
-		Collection c = mapDiagrams.values();
-		
-		if (c.size()==0)
+		if ( mapDiagrams.values().size() == 0 )
 			return;
-		
-		boolean scenarioDefFound = false; // Is there at least one scenario definition?
-        for (Iterator groups = urn.getUcmspec().getScenarioGroups().iterator(); groups.hasNext() && !scenarioDefFound;) {
-        	if ( ((ScenarioGroup) groups.next()).getScenarios().size() > 0) {
-        		scenarioDefFound = true; 
-        	}
-        }
-        
-        if (!scenarioDefFound) { // No scenario definition. Avoid Invalid thread access exception.
+		        
+        if ( !scenarioDefExists( urn ) ) { // No scenario definition. Avoid Invalid thread access exception.
 			jUCMNavErrorDialog warningMessage = new jUCMNavErrorDialog(Messages.getString("ExportMSC.NoScenarioDefined")); //$NON-NLS-1$
         	return;
         }
@@ -84,7 +74,19 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 		}
 	}
 
-	public void postHook(IWorkbenchPage page) {
+	public boolean scenarioDefExists( URNspec urn )
+	{
+		 // Is there at least one scenario definition?
+        for (Iterator groups = urn.getUcmspec().getScenarioGroups().iterator(); groups.hasNext();) {
+        	if ( ((ScenarioGroup) groups.next()).getScenarios().size() > 0) {
+        		return true; 
+        	}
+        }
+		return false;
+	}
+	
+	public void postHook( IWorkbenchPage page )
+	{
 		try {
 			URI newFile = (new File(this.newFilename)).toURI().normalize();
 			URI workspaceFile = ResourcesPlugin.getWorkspace().getRoot().getLocationURI().normalize();
@@ -109,9 +111,9 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 		
 	}
 
-	public void preHook(UCMNavMultiPageEditor editor) {
-		this.oldFilename = ((FileEditorInput)editor.getEditorInput()).getFile().getName();
-		
+	public void preHook( UCMNavMultiPageEditor editor )
+	{
+		this.oldFilename = ((FileEditorInput)editor.getEditorInput()).getFile().getName();	
 	}
 
 }

@@ -10,6 +10,8 @@ package seg.jUCMNav.views.wizards;
 
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -52,44 +54,59 @@ public class IntegerInputRangeDialog extends Dialog
 	  	IntegerInputRangeDialog.highRange = highRange;
 	  
 	  	Shell parent = getParent();
-	  	final Shell shell =
-	  		new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
-	  	shell.setText( title );
+	  	final Shell shell = new Shell( parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL | SWT.CENTER );
 	  	
+	  	shell.setText( title );
 	  	shell.setLayout(new GridLayout(2, true));
 
 	  	Label label = new Label(shell, SWT.NULL);
 	  	label.setText( prompt );
 
-	  	final Text text = new Text(shell, SWT.SINGLE | SWT.BORDER);
+	  	final Text text = new Text( shell, SWT.SINGLE | SWT.BORDER );
 
-	  	final Button buttonOK = new Button(shell, SWT.PUSH);
+	  	final Button buttonOK = new Button( shell, SWT.PUSH );
 	  	buttonOK.setText("Ok");
-	  	buttonOK.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-	  	Button buttonCancel = new Button(shell, SWT.PUSH);
-	  	buttonCancel.setText("Cancel");
+	  	buttonOK.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+	  	Button buttonCancel = new Button( shell, SWT.PUSH );
+	  	buttonCancel.setText( "Cancel" );
 
 	  	text.addListener(SWT.Modify, new Listener() {
-	  		public void handleEvent(Event event) {
+	  		
+	  		public void handleEvent( Event event ) {
+	  			
 	  			try {
 	  				value = new Integer( text.getText().trim() );
           
-	  				if ( value.intValue() >= IntegerInputRangeDialog.lowRange && value.intValue() <= IntegerInputRangeDialog.highRange )
+	  				if ( value.intValue() >= IntegerInputRangeDialog.lowRange && value.intValue() <= IntegerInputRangeDialog.highRange ) {
 	  					buttonOK.setEnabled(true);
-	  				else
+	  				} else
 	  					buttonOK.setEnabled(false);
 	  			} catch (Exception e) {
 	  				buttonOK.setEnabled(false);
 	  			}
 	  		}
-	  	});
+	  	} );
 
-	  	buttonOK.addListener(SWT.Selection, new Listener() {
+	  	text.addKeyListener( new KeyListener() {
+
+			public void keyPressed(KeyEvent ke) {
+				// TODO Auto-generated method stub
+			}
+
+			public void keyReleased( KeyEvent ke ) {
+				if ( ke.character == SWT.CR ) {
+					if ( buttonOK.isEnabled() )
+						shell.dispose();
+				}
+			}
+	  	} );
+	  	
+	  	buttonOK.addListener( SWT.Selection, new Listener() {
 	  		public void handleEvent(Event event) {
 	  			shell.dispose();
 	  		}
-	  	});
-
+	  	} );
+	  	
 	  	buttonCancel.addListener(SWT.Selection, new Listener() {
 	  		public void handleEvent(Event event) {
 	  			value = null;
@@ -106,7 +123,6 @@ public class IntegerInputRangeDialog extends Dialog
 
 	  	text.setText( initialValue + "       " ); // add extra spaces so text entry is not too narrow
 	  	
-	  	System.out.println ( text.getBounds() );
 	  	shell.pack();
 	  	shell.open();
 
@@ -119,11 +135,5 @@ public class IntegerInputRangeDialog extends Dialog
 	  	return value;
   	}
 
- // public static void main(String[] args) {
- //   Shell shell = new Shell();
- //   IntegerInputRangeDialog dialog = new IntegerInputRangeDialog(shell);
- //   int iv = 23;
- //   System.out.println( dialog.open( "Enter Numerical Evaluation", "Enter the new Numerical Evaluation [-100,100]: ", Integer.toString( iv ), -100, 100 ) );
- // }
-}
+ }
 
