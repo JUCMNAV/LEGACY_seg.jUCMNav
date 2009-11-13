@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>GRLcontributionNoUnknown</Name>
+		<Description>There should not be unknown contributions in GRL models</Description>
+		<Classification>grl::Contribution</Classification>
+		<Query>getAllContributions()</Query>
+		<Constraint>self.contribution&lt;&gt;grl::ContributionType::Unknown</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLcontributionRange</Name>
+		<Description>GRL quantitative contribution must be between -100 and	100</Description>
+		<Classification>grl::Contribution</Classification>
+		<Query>getAllContributions()</Query>
+		<Constraint>quantitativeContribution &gt;= -100 and quantitativeContribution &lt;= 100</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLimportanceRange</Name>
+		<Description>GRL quantitative importance must be between 0 and 100</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>importanceQuantitative &gt;= 0 and importanceQuantitative &lt;= 100</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLevaluationRange</Name>
+		<Description>GRL strategy evaluation must be between -102 and 100</Description>
+		<Classification>grl::Evaluation</Classification>
+		<Query>getAllEvaluations()</Query>
+		<Constraint>evaluation &gt;= -102 and evaluation &lt;= 100</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMnodeConnectionProbabilityRange</Name>
+		<Description>UCM node connection must have a probability between 0 and 1.0</Description>
+		<Classification>ucm::map::NodeConnection</Classification>
+		<Query>getAllNodeConnections()</Query>
+		<Constraint>probability &gt;= 0.0 and probability &lt;= 1.0</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMnodeConnectionDefProbability</Name>
+		<Description>UCM node connections not following OrFork or Timer should have a probability of 1.0</Description>
+		<Classification>ucm::map::NodeConnection</Classification>
+		<Query>getAllNodeConnections()</Query>
+		<Constraint>not(source.oclIsTypeOf(ucm::map::Timer) or source.oclIsTypeOf(ucm::map::OrFork))
+	implies probability = 1.0</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMpluginMapDefProbability</Name>
+		<Description>UCM plugin bindings of this stub must all have a probability between 0 and 1.0</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>self.bindings -&gt; select(b|b.probability &lt; 0.0 or b.probability &gt; 1.0) -&gt; isEmpty()</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+</Rules>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>NbOfGRLgraphs</Name>
+		<Description>#GRL graphs</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllGRLGraphs() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfActors</Name>
+		<Description>#GRL actors</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllActors() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfActorRefs</Name>
+		<Description>#GRL actor references</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllActorRefs() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>	
+	<Rule>
+		<Name>NbOfGoals</Name>
+		<Description>#GRL goals</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllGoals() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfResources</Name>
+		<Description>#GRL resources</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllResources() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfSoftgoals</Name>
+		<Description>#GRL softgoals</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllSoftgoals() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfTasks</Name>
+		<Description>#GRL tasks</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllTasks() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfIndicators</Name>
+		<Description>#GRL indicators</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllIndicators() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfIntentionalElements</Name>
+		<Description>#GRL intentional elements (no indicators)</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllIntentionalElements() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfIEreferences</Name>
+		<Description>#GRL intentional element references (no indicator)</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllIntentionalElementRefs() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfIntentionalLinks</Name>
+		<Description>#GRL intentional links</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllElementLinks() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfIntentionalLinkRefs</Name>
+		<Description>#GRL intentional link references</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllLinkRefs() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>	
+	<Rule>
+		<Name>NbOfVisualGRLelements</Name>
+		<Description>#GRL visual elements</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllGRLGraphs() -&gt; collect(m|m.getNbVisualElements()) -&gt; sum()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>AvgVisualGRLelements</Name>
+		<Description>Average #GRL visual elements per graph</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>let numGraphs:Integer = getAllGRLGraphs() -&gt; size() in&#13;
+	if numGraphs &gt; 0&#13;
+	then ( getAllGRLGraphs() -&gt; collect(m|m.getNbVisualElements()) -&gt; sum() )&#13;
+	      / numGraphs&#13;
+	else 'Cannot evaluate... no GRL graph!'&#13;
+	endif</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>MaxVisualGRLelements</Name>
+		<Description>Maximum #GRL visual elements per graph</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>let numGraphs:Integer = getAllGRLGraphs() -&gt; size() in&#13;
+	if numGraphs &gt; 0&#13;
+	then getAllGRLGraphs()&#13;
+		-&gt; collect(m|m.getNbVisualElements())&#13;
+		-&gt; iterate(elem; acc : Integer = 0 | acc.max(elem) )&#13;
+	else 'Cannot evaluate... GRL graph!'&#13;
+	endif</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>	
+	
+</Rules>
+

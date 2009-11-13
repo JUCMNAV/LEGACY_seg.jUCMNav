@@ -1,6 +1,5 @@
 package seg.jUCMNav.metrics;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.rulemanagement.RuleGroup;
 import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
-import seg.jUCMNav.rulemanagement.RuleManagementUtil;
 
 
 /**
@@ -19,8 +17,7 @@ import seg.jUCMNav.rulemanagement.RuleManagementUtil;
  */
 public class MetricsDefinitionManager extends RuleManagementDefinitionManager {
 
-	private static String RULE_TYPE = "Metrics" ;
-	private static String DEFAULT_MATRICS_RULE_FILE = "defaultMetricsRules.xml"; //$NON-NLS-1$
+	private static String RULE_TYPE = "Metrics" ; //$NON-NLS-1$
 	private static final String SHOW_DESCRIPTION = RULE_TYPE + "SHOW_DESCRIPTION"; //$NON-NLS-1$
 
 	private boolean bShowDesc;
@@ -49,35 +46,35 @@ public class MetricsDefinitionManager extends RuleManagementDefinitionManager {
 	}
 
 	protected String getRuleType() {
-
 		return RULE_TYPE;
 	}
 
+    /**
+     * Returns a list of default groups populated with default metrics from files.
+     */
+    protected List getDefaultGroups() {
+        List defaultGroups = new ArrayList();
+        
+        // Special "All" group, always first
+        RuleGroup all = new RuleGroup("All"); //$NON-NLS-1$
+        defaultGroups.add(all);
 
-	/**
-	 * Load default rule definitions from the file "defaultMatricsRules.xml".
-	 * @return a list of rules
-	 */
+        // Add new default groups here!
+        defaultGroups.add(createDefaultGroup("SizeUCM", "SizeUCM.xml", all, MetricsDefinitionManager.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("SizeGRL", "SizeGRL.xml", all, MetricsDefinitionManager.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("Aspects", "AspectMetrics.xml", all, MetricsDefinitionManager.class)); //$NON-NLS-1$ //$NON-NLS-2$
+
+        return defaultGroups;
+    }
+
+    /** 
+     * @deprecated
+     */
 	public List getDefaultDefinitions() {
-		InputStream rulesDefaultIS = MetricsDefinitionManager.class.getResourceAsStream(DEFAULT_MATRICS_RULE_FILE ); //$NON-NLS-1$
-
-		return RuleManagementUtil.readRules(rulesDefaultIS);
+    	return new ArrayList();
 	}
 
 	/**
-	 * Returns a list of default groups.
-	 */
-	protected List getDefaultGroups() {
-		List dg = new ArrayList();
-		RuleGroup g = new RuleGroup("All"); //$NON-NLS-1$
-		g.addRule(rules);
-		dg.add(g);
-
-		//TODO: add more default groups
-		return dg;
-	}
-	
-	 /**
      * Check if the switch of showing description in the problem view is on or off.
      * @return true if it is on, otherwise off.
      */

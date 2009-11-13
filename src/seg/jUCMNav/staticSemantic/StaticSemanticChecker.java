@@ -91,20 +91,15 @@ public class StaticSemanticChecker {
                                 helper.defineOperation(op);
                             }
                             helper.setContext(UrnPackage.Literals.UR_NSPEC);
-/*                          OCLExpression<EClassifier> query = helper.createQuery(r.getContext());
-                            Query<EClassifier, EClass, EObject> queryEval = ocl.createQuery(query);
-*/
                             OCLExpression query = helper.createQuery(r.getContext()+"->asSequence()"); //$NON-NLS-1$
                             Query queryEval = ocl.createQuery(query);
 
-//                          @SuppressWarnings("unchecked")
                             List objects = (List) queryEval.evaluate(urn);
 
                             helper.setContext(e);
 
                             Constraint invariant = (Constraint) helper.createInvariant(r.getQuery());
 
-//                          Query<EClassifier, EClass, EObject> constraintEval = ocl.createQuery(invariant);
                             Query constraintEval = ocl.createQuery(invariant);
 
                             List violatedObjs = constraintEval.reject(objects);
@@ -116,7 +111,7 @@ public class StaticSemanticChecker {
                                     s = r.getDescription()+" ("+r.getName()+")"; //$NON-NLS-1$ //$NON-NLS-2$
                                 }else
                                 {
-                                    s = r.getName();
+                                    s = r.getDescription();
                                 }
                                 problems.add(new RuleManagementCheckingMessage(s, o, r.getWarningOnly()));
                             }
@@ -133,6 +128,7 @@ public class StaticSemanticChecker {
         } catch (Exception e) {
             problems.add(new RuleManagementCheckingMessage(e.getLocalizedMessage()));
         }
+        
         //A summary information message is added
         String sumMsg = String.valueOf(nTotal) + Messages.getString("StaticSemanticChecker.RulesChecked")+ nViolated + Messages.getString("StaticSemanticChecker.Violated"); //$NON-NLS-1$ //$NON-NLS-2$
         RuleManagementCheckingMessage summary = new RuleManagementCheckingMessage(sumMsg);

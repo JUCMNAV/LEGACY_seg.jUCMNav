@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>GRLnoOverlappingActors</Name>
+		<Description>GRL actor boundary must not overlap with the boundary of another actor</Description>
+		<Classification>grl::ActorRef</Classification>
+		<Query>getAllActorRefs()</Query>
+		<Constraint>self.diagram.contRefs&#13;
+	-&gt; forAll( c | (c &lt;&gt; self) implies not(c.isOverlapping(self)) )</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>GRLnoOverlappingIEonActor</Name>
+		<Description>GRL intentional element must not overlap with the boundary of an actor</Description>
+		<Classification>grl::IntentionalElementRef</Classification>
+		<Query>getAllIntentionalElementRefs()</Query>
+		<Constraint>self.diagram.contRefs&#13;
+	-&gt; forAll( a | not(self.ieIsOverlapping(a)) )</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>GRLnoOverlappingIEonIE</Name>
+		<Description>GRL intentional element must not overlap with another intentional element</Description>
+		<Classification>grl::IntentionalElementRef</Classification>
+		<Query>getAllIntentionalElementRefs()</Query>
+		<Constraint>self.diagram.nodes&#13;
+	-&gt; forAll( ie | (ie &lt;&gt; self) implies not(self.ieIsOverlappingIE(ie)) )</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>GRLintentionElemInsideButUnbound</Name>
+		<Description>GRL intentional element is visually contained by actor but is not bound to it</Description>
+		<Classification>grl::IntentionalElementRef</Classification>
+		<Query>getAllIntentionalElementRefs()</Query>
+		<Constraint>self.diagram.contRefs&#13;
+	-&gt; forAll(a | (ieIsInside(a) and noIntermediate(a)) implies self.contRef=a)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>UCMnoOverlappingComponents</Name>
+		<Description>UCM component boundary must not overlap with the boundary of another component</Description>
+		<Classification>ucm::map::ComponentRef</Classification>
+		<Query>getAllComponentRefs()</Query>
+		<Constraint>self.diagram.contRefs&#13;
+	-&gt; forAll( c | (c &lt;&gt; self) implies not(c.isOverlapping(self)) )</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>UCMcomponentInsideButUnbound</Name>
+		<Description>UCM component is visually contained by another component but is not bound to it</Description>
+		<Classification>ucm::map::ComponentRef</Classification>
+		<Query>getAllComponentRefs()</Query>
+		<Constraint>self.diagram.contRefs&#13;
+	-&gt; forAll( c | (c &lt;&gt; self)&#13;
+		implies&#13;
+		( (isInside(c) and noIntermediate(c)) implies self.parent=c) )</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>UCMpathNodeInsideButUnbound</Name>
+		<Description>UCM path node is visually contained by a component but is not bound to it</Description>
+		<Classification>ucm::map::PathNode</Classification>
+		<Query>getAllPathNodes()</Query>
+		<Constraint>self.diagram.contRefs&#13;
+	-&gt; forAll( c, ci | (isInside(c) and noIntermediate(c))implies self.contRef=c)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+</Rules>

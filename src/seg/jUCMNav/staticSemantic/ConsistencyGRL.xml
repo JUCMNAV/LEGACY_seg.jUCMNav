@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>GRLcontributionConsistency</Name>
+		<Description>The qualitative and quantitative values of a GRL contribution/correlation must be consistent.</Description>
+		<Classification>grl::Contribution</Classification>
+		<Query>getAllContributions()</Query>
+		<Constraint>let&#13;
+   q: ContributionType = self.contribution,&#13;
+   n:Integer=self.quantitativeContribution&#13;
+in	&#13;
+   if n=0 then q=ContributionType::Unknown&#13;
+   else &#13;
+      if n=100 then q=ContributionType::Make&#13;
+      else &#13;
+         if n=-100 then q=ContributionType::Break&#13;
+         else &#13;
+            if (n&gt;0 and n&lt;50) then q=ContributionType::Help&#13;
+            else&#13;
+               if (n&gt;=50 and n&lt;100) then q=ContributionType::SomePositive&#13;
+               else &#13;
+                  if (n&lt;0 and n&gt;-50) then q=ContributionType::Hurt&#13;
+                  else&#13;
+                     if (n&lt;=-50 and n&gt;-100) then q=ContributionType::SomeNegative&#13;
+                     else true &#13;
+                     endif&#13;
+                 endif&#13;
+               endif&#13;
+            endif&#13;
+        endif&#13;
+      endif&#13;
+   endif</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLstrategyEvaluationConsistency</Name>
+		<Description>The qualitative and quantitative values of a GRL strategy evaluation should be consistent.</Description>
+		<Classification>grl::Evaluation</Classification>
+		<Query>getAllEvaluations()</Query>
+	<Constraint>let&#13;
+   q:QualitativeLabel = qualitativeEvaluation,&#13;
+   n:Integer = self.evaluation&#13;
+in   &#13;
+   if n=0 then q=QualitativeLabel::None&#13;
+   else&#13;
+      if n=100 then q=QualitativeLabel::Satisfied&#13;
+      else&#13;
+         if n=-100 then q=QualitativeLabel::Denied&#13;
+         else&#13;
+            if (n&gt;0 and n&lt;100) then q=QualitativeLabel::WeaklySatisfied&#13;
+            else&#13;
+               if (n&gt;-100 and n&lt;0) then q=QualitativeLabel::WeaklyDenied&#13;
+               else&#13;
+                  if (n=-101) then q=QualitativeLabel::Conflict&#13;
+                  else&#13;
+                     if (n=-102) then q=QualitativeLabel::Unknown&#13;
+                     else true&#13;
+                     endif&#13;
+                 endif&#13;
+               endif&#13;
+            endif&#13;
+        endif&#13;
+      endif&#13;
+   endif</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLindicatorThresholdConsistency</Name>
+		<Description>Indicator threshold value must be between the target and worst values.</Description>
+		<Classification>grl:Evaluation</Classification>
+		<Query>getAllEvaluations()</Query>
+		<Constraint>kpiEvalValueSet-&gt;size()&gt;0 implies&#13;
+    ( (kpiEvalValueSet.thresholdValue &lt;= kpiEvalValueSet.targetValue and kpiEvalValueSet.thresholdValue &gt;= kpiEvalValueSet.worstValue)&#13;
+      or&#13;
+      (kpiEvalValueSet.thresholdValue &gt;= kpiEvalValueSet.targetValue and kpiEvalValueSet.thresholdValue &lt;= kpiEvalValueSet.worstValue) )</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLindicatorIndicatorTooGood</Name>
+		<Description>Evaluation value of indicator better than target value.</Description>
+		<Classification>grl:Evaluation</Classification>
+		<Query>getAllEvaluations()</Query>
+		<Constraint>kpiEvalValueSet-&gt;size()&gt;0 implies&#13;
+    ( (kpiEvalValueSet.evaluationValue &gt;= kpiEvalValueSet.targetValue and kpiEvalValueSet.targetValue &lt;= kpiEvalValueSet.worstValue)&#13;
+      or&#13;
+      (kpiEvalValueSet.evaluationValue &lt;= kpiEvalValueSet.targetValue and kpiEvalValueSet.targetValue &gt;= kpiEvalValueSet.worstValue) )</Constraint>
+		<Utilities/>
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLindicatorIndicatorTooBad</Name>
+		<Description>Evaluation value of indicator worse than worst value.</Description>
+		<Classification>grl:Evaluation</Classification>
+		<Query>getAllEvaluations()</Query>
+		<Constraint>kpiEvalValueSet-&gt;size()&gt;0 implies&#13;
+    ( (kpiEvalValueSet.evaluationValue &gt;= kpiEvalValueSet.worstValue and kpiEvalValueSet.targetValue &gt;= kpiEvalValueSet.worstValue)&#13;
+      or&#13;
+      (kpiEvalValueSet.evaluationValue &lt;= kpiEvalValueSet.worstValue and kpiEvalValueSet.targetValue &lt;= kpiEvalValueSet.worstValue) )</Constraint>
+		<Utilities/>
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLactorNoCycle</Name>
+		<Description>GRL actor must not be part of a containment cycle</Description>
+		<Classification>grl::ActorRef</Classification>
+		<Query>getAllActorRefs()</Query>
+		<Constraint>not(self.getAncestors() -&gt; exists(act| act = self.contDef.oclAsType(Actor)))</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLintentionalElementInManyActors</Name>
+		<Description>GRL intentional element must not be bound to more than one actor</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.refs&#13;
+	-&gt; iterate(ref; act:Set(grl::Actor)=Set{} |&#13;
+				if (ref.contRef &lt;&gt; null)&#13;
+				then act-&gt;union(ref.contRef.contDef.oclAsType(grl::Actor)-&gt;asSet())&#13;
+				else act&#13;
+				endif&#13;
+	 	) -&gt; asSet() -&gt; size() &lt;= 1</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLactorWithNoImportantIE</Name>
+		<Description>GRL actor contains no intentional element with a non-zero importance</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+		<Constraint>self.contRefs.nodes&#13;
+	-&gt; select(n | n.oclIsTypeOf(grl::IntentionalElementRef))&#13;
+	-&gt; collect(ie | ie.oclAsType(grl::IntentionalElementRef))&#13;
+	-&gt; select(ie | ie.getDef().importanceQuantitative > 0)&#13;
+	-&gt; notEmpty()</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+</Rules>

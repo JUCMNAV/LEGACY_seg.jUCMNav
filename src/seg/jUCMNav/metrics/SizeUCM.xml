@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>NbOfComponents</Name>
+		<Description>#UCM components</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllComponents() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfResponsibilities</Name>
+		<Description>#UCM responsibilities</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllResponsibilities() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfComponentRefs</Name>
+		<Description>#UCM component references</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllComponentRefs() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfResponsibilityRefs</Name>
+		<Description>#UCM responsibility references</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllRespRefs() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfStubs</Name>
+		<Description>#UCM stubs</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllStubs() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfPathNodes</Name>
+		<Description>#UCM path nodes</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllPathNodes() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfMaps</Name>
+		<Description>#UCM maps</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllUCMmaps() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>AvgResponsibilitiesPerComponent</Name>
+		<Description>Average #UCM responsibilities per component</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>let comp:Integer=self.urndef.components-&gt;size() in &#13;
+	if comp &gt; 0&#13;
+	then getAllResponsibilities() -&gt; size() / comp&#13;
+	else 'Cannot evaluate... no component!'&#13;
+	endif</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>AvgRespRefPerCompRef</Name>
+		<Description>Average #UCM responsibility references per component reference</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>let numCF:Integer = getAllComponentRefs() -&gt; size() in&#13;
+	if numCF &gt; 0&#13;
+	then getAllRespRefs() -&gt; size() / numCF&#13;
+	else 'Cannot evaluate... no component reference!'&#13;
+	endif</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>MaxPathNodePerCompRef</Name>
+		<Description>Maximum #UCM path nodes per component reference</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>let numCF:Integer = getAllComponentRefs() -&gt; size() in&#13;
+	if numCF &gt; 0&#13;
+	then getAllComponentRefs()&#13;
+		-&gt; collect(rr|rr.nodes-&gt;size())&#13;
+		-&gt; iterate(elem; acc : Integer = 0 | acc.max(elem) )&#13;
+	else 'Cannot evaluate... no component reference!'&#13;
+	endif</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NbOfVisualUCMelements</Name>
+		<Description>#UCM visual elements</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllUCMmaps() -&gt; collect(m|m.getNbVisualElements()) -&gt; sum()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>AvgVisualUCMelements</Name>
+		<Description>Average #UCM visual elements per map</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>let numMaps:Integer = getAllUCMmaps() -&gt; size() in&#13;
+	if numMaps &gt; 0&#13;
+	then ( getAllUCMmaps() -&gt; collect(m|m.getNbVisualElements()) -&gt; sum() )&#13;
+	      / numMaps&#13;
+	else 'Cannot evaluate... no map!'&#13;
+	endif</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>MaxVisualUCMelements</Name>
+		<Description>Maximum #UCM visual elements per map</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>let numMaps:Integer = getAllUCMmaps() -&gt; size() in&#13;
+	if numMaps &gt; 0&#13;
+	then getAllUCMmaps()&#13;
+		-&gt; collect(m|m.getNbVisualElements())&#13;
+		-&gt; iterate(elem; acc : Integer = 0 | acc.max(elem) )&#13;
+	else 'Cannot evaluate... no map!'&#13;
+	endif</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>	
+</Rules>
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>NbOfConcerns</Name>
+		<Description>#Aspect concerns</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>getAllConcerns() -&gt; size()</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+</Rules>
+

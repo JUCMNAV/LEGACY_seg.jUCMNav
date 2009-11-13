@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>SoftgoalAsContributionDestination</Name>
+		<Description>The destination of a Contribution must be a Softgoal</Description>
+		<Classification>grl::Contribution</Classification>
+		<Query>getAllContributions()</Query>
+		<Constraint>self.dest.oclIsTypeOf(grl::IntentionalElement) &#13;
+and&#13;
+(self.dest.oclAsType(grl::IntentionalElement)).type=IntentionalElementType::Softgoal</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>DecompositionLinkForbidenDestinations</Name>
+		<Description>Decomposition links must not have softgoals, resources or beliefs as a destination.</Description>
+		<Classification>grl::Decomposition</Classification>
+		<Query>getAllDecompositions()</Query>
+		<Constraint>let &#13;
+   dt:IntentionalElementType = src.oclAsType(IntentionalElement).type &#13;
+in &#13;
+   (dt=IntentionalElementType::Goal or dt=IntentionalElementType::Task)</Constraint>
+   		<Utilities/>
+   		<WarningOnly>false</WarningOnly>
+   	</Rule>
+	<Rule>
+		<Name>DecompositionLinkForbidenSources</Name>
+		<Description>Decomposition links must not have beliefs as a source. Note: Beliefs are not yet IEs in jUCMNav.</Description>
+		<Classification>grl::Decomposition</Classification>
+		<Query>getAllDecompositions()</Query>
+		<Constraint>true</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>ISAbetweenSimilarActors</Name>
+		<Description>ISA (generalization) must be between two actors of the same type</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+   		<Constraint>self.getLinksToForType('ISA')&#13;
+	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor) &#13;
+				   and &#13;
+				   (a.getMetadata('ST_iStar') = self.getMetadata('ST_iStar') )&#13;
+	    )&#13;</Constraint>
+	    <Utilities/>
+	    <WarningOnly>false</WarningOnly>
+	    </Rule>
+	<Rule>
+		<Name>CoversFromPositionToRole</Name>
+		<Description>A Covers association must be from a Position to a Role</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+		<Constraint>self.getLinksToForType('Covers')&#13;
+	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor) and &#13;
+				   self.getMetadata('ST_iStar') = 'Position'  and&#13;
+				   a.getMetadata('ST_iStar') = 'Role'&#13;
+	    )</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>PlaysFromAgentToRole</Name>
+		<Description>A Plays association must be from an Agent to a Role.</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+		<Constraint>self.getLinksToForType('Plays')&#13;
+	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor) and &#13;
+				   self.getMetadata('ST_iStar') = 'Agent'  and&#13;
+				   a.getMetadata('ST_iStar') = 'Role'&#13;
+	    )</Constraint>
+		<Utilities/>
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>OccupiesFromagentToPosition</Name>
+		<Description>An Occupies association must be from an Agent to a Position</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+		<Constraint>self.getLinksToForType('Occupies')&#13;
+	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor) and &#13;
+				   self.getMetadata('ST_iStar') = 'Agent'  and&#13;
+				   a.getMetadata('ST_iStar') = 'Position'&#13;
+	    )</Constraint>
+	    <Utilities/>
+	    <WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>INSbetweenAgents</Name>
+		<Description>An INS association must only be used between Agents</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+		<Constraint>self.getLinksToForType('Occupies')&#13;
+	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor) and &#13;
+				   self.getMetadata('ST_iStar') = 'Agent'  and&#13;
+				   a.getMetadata('ST_iStar') = 'Agent'&#13;
+	    )</Constraint>
+	    <Utilities/>
+	    <WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NoDependencyInsideActor</Name>
+		<Description>Dependency links must never completely be inside of an actor boundary</Description>
+		<Classification>grl::LinkRef</Classification>
+		<Query>getAllDependencies().refs -&gt; asSequence()</Query>
+		<Constraint>if srcIsActor() then (&#13;
+	if destIsActor() then&#13;
+		source.oclAsType(grl::CollapsedActorRef).actor &lt;&gt; target.oclAsType(grl::CollapsedActorRef).actor&#13;
+	else&#13;
+		source.oclAsType(grl::CollapsedActorRef).actor &lt;&gt; target.contRef.oclAsType(grl::ActorRef).contDef.oclAsType(grl::Actor)&#13;
+	endif )&#13;
+else (&#13;
+	if destIsActor() then&#13;
+		source.contRef.oclAsType(grl::ActorRef).contDef.oclAsType(grl::Actor) &lt;&gt; target.oclAsType(grl::CollapsedActorRef).actor&#13;
+	else&#13;
+		source.contRef.oclAsType(grl::ActorRef).contDef.oclAsType(grl::Actor) &lt;&gt; target.contRef.oclAsType(grl::ActorRef).contDef.oclAsType(grl::Actor)&#13;
+	endif )&#13;
+endif</Constraint>
+		<Utilities/>
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>DependencyInSDwithoutDependum</Name>
+		<Description>Dependency links in an SD model must always have a dependum</Description>
+		<Classification>grl::GRLGraph</Classification>
+		<Query>getAllGRLGraphs()</Query>
+		<Constraint>self.getMetadata('ST_iStar') = 'SD' &#13;
+implies&#13;
+self.urndefinition.urnspec.getAllDependencies().refs&#13;
+	-&gt; select (d|d.diagram=self)&#13;
+	-&gt; forAll (d|not(d.srcIsActor() and d.destIsActor()) )</Constraint>
+		<Utilities/>
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>SDmodelsRestrictedLinks</Name>
+		<Description>SD models must not have links other than dependency and actor association links</Description>
+		<Classification>grl::GRLGraph</Classification>
+		<Query>getAllGRLGraphs()</Query>
+		<Constraint>self.getMetadata('ST_iStar') = 'SD' &#13;
+implies&#13;
+self.connections &#13;
+	-&gt; select(r|r.oclIsTypeOf(grl::LinkRef))&#13;
+	-&gt; collect(r|r.oclAsType(grl::LinkRef))&#13;
+	-&gt; forAll(r|r.link.oclIsTypeOf(grl::Dependency))</Constraint>
+		<Utilities/>
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NoBeliefAsLinkDestination</Name>
+		<Description>Beliefs should not be the destination of element links</Description>
+		<Classification>grl::Belief</Classification>
+		<Query>getAllBeliefs()</Query>
+		<Constraint>true&#13;
+-- jUCMNav does not implement Beliefs as intentional elements.</Constraint>
+		<Utilities/>
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>TasksAsDestOfAndLinks</Name>
+		<Description>AND decomposition links should only have tasks as destinations</Description>
+		<Classification>grl::Decomposition</Classification>
+		<Query>getAllDecompositions()</Query>
+		<Constraint>(self.src.oclIsTypeOf(grl::IntentionalElement) and self.dest.oclIsTypeOf(grl::IntentionalElement))&#13;
+implies &#13;
+(&#13;
+   (self.dest.oclAsType(grl::IntentionalElement)).decompositionType=DecompositionType::And&#13;
+   implies&#13;
+   (self.src.oclAsType(grl::IntentionalElement)).type=IntentionalElementType::Task&#13;
+)</Constraint>
+		<Utilities/>
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>MeansEndMustHaveGoalDest</Name>
+		<Description>OR/IOR decomposition (means-end) links should only have goals as destinations</Description>
+		<Classification>grl::Decomposition</Classification>
+		<Query>getAllDecompositions()</Query>
+		<Constraint>(self.src.oclIsTypeOf(grl::IntentionalElement) and self.dest.oclIsTypeOf(grl::IntentionalElement))&#13;
+implies &#13;
+(&#13;
+   (self.dest.oclAsType(grl::IntentionalElement)).decompositionType&lt;&gt;DecompositionType::And&#13;
+   implies&#13;
+   (self.src.oclAsType(grl::IntentionalElement)).type=IntentionalElementType::Goal&#13;
+)</Constraint>
+		<Utilities/>
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>IsPartOfBetweenSimilarActors</Name>
+		<Description>Is Part Of association should be between two actors of the same type</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+		<Constraint>self.getLinksToForType('Is Part Of')&#13;
+	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor) &#13;
+				   and &#13;
+				   (a.getMetadata('ST_iStar') = self.getMetadata('ST_iStar') )&#13;
+	    )</Constraint>
+		<Utilities/>
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>AllGRLdiagramsSRorSD</Name>
+		<Description>All GRL diagrams should be tagged as SD or SR diagrams.</Description>
+		<Classification>grl::GRLGraph</Classification>
+		<Query>getAllGRLGraphs()</Query>
+		<Constraint>self.hasUniqueMetadata('ST_iStar')&#13;
+and&#13;
+(self.getMetadata('ST_iStar')='SD' or self.getMetadata('ST_iStar')='SR')</Constraint>
+		<Utilities/>
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>SRdependencyAlwaysHasDependums</Name>
+		<Description>Dependency links in an SR model should always have a dependum</Description>
+		<Classification>grl::Dependency</Classification>
+		<Query>getAllDependencies()</Query>
+		<Constraint>self.refs&#13;
+	-&gt; select(r|r.diagram.oclAsType(urncore::URNmodelElement).getMetadata('ST_iStar') = 'SR')&#13;
+	-&gt; forAll(dr |&#13;
+		(&#13;
+			dr.link.src.dependers()-&gt;size() = 0&#13;
+			implies&#13;
+			dr.link.dest.dependees()-&gt;size() &gt; 0&#13;
+		)&#13;
+	)&#13;
+&#13;
+-- need to implement GetDependum</Constraint>
+		<Utilities/>
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>OnlyDependenciesCrossing</Name>
+		<Description>The only links that cross actor boundaries should be dependency links</Description>
+		<Classification>grl::LinkRef</Classification>
+		<Query>getAllLinkRefs()</Query>
+		<Constraint>not(link.oclIsTypeOf(grl::Dependency)) implies&#13;
+&#13;
+if srcIsActor() then (&#13;
+	if destIsActor() then&#13;
+		source = target&#13;
+	else&#13;
+		source = target.contRef&#13;
+	endif )&#13;
+else (&#13;
+	if destIsActor() then&#13;
+		source.contRef = target&#13;
+	else&#13;
+		source.contRef = target.contRef&#13;
+	endif )&#13;
+endif</Constraint>
+		<Utilities/>
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+</Rules>

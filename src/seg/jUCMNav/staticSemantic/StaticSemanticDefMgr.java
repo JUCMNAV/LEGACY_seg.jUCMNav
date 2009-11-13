@@ -1,6 +1,5 @@
 package seg.jUCMNav.staticSemantic;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.rulemanagement.RuleGroup;
 import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
-import seg.jUCMNav.rulemanagement.RuleManagementUtil;
 /**
  * This class is the control center of all rule defining features:
  * <ul>
@@ -25,11 +23,9 @@ import seg.jUCMNav.rulemanagement.RuleManagementUtil;
 public class StaticSemanticDefMgr extends RuleManagementDefinitionManager{
 	 
 	 private static String RULE_TYPE = "StaticSemantic" ; //$NON-NLS-1$
-	 private static String DEFAULT_STATIC_SEMANTIC_RULE_FILE = "defaultRules.xml"; //$NON-NLS-1$
 	 private static final String SHOW_DESCRIPTION = RULE_TYPE + "SHOW_DESCRIPTION"; //$NON-NLS-1$
 
 	 private boolean bShowDesc;
-	
 	 private static StaticSemanticDefMgr instance_ = null;
 	 
 	/**
@@ -54,38 +50,38 @@ public class StaticSemanticDefMgr extends RuleManagementDefinitionManager{
     	return instance();
     }
     
-    protected String getRuleType() {
-		
+    protected String getRuleType() {		
 		return RULE_TYPE;
 	}
-	
     
     /**
-     * Load default rule definitions from the file "defaultRules.xml".
-     * @return a list of rules
-     */
-    public List getDefaultDefinitions() {
-        InputStream rulesDefaultIS = StaticSemanticDefMgr.class.getResourceAsStream(DEFAULT_STATIC_SEMANTIC_RULE_FILE); //$NON-NLS-1$
-
-        return RuleManagementUtil.readRules(rulesDefaultIS);
-    }
-
-	
-	 /**
-     * Returns a list of default groups.
+     * Returns a list of default groups populated with default rules from files.
      */
     protected List getDefaultGroups() {
-        List dg = new ArrayList();
-        RuleGroup g = new RuleGroup("All"); //$NON-NLS-1$
-        g.addRule(rules);
-        dg.add(g);
+        List defaultGroups = new ArrayList();
         
-        dg.add(new RuleGroup("Aspect")); //$NON-NLS-1$
-        dg.add(new RuleGroup("Consistency")); //$NON-NLS-1$
-        dg.add(new RuleGroup("Performance")); //$NON-NLS-1$
-        dg.add(new RuleGroup("Standard URN (Z.151)")); //$NON-NLS-1$
-        dg.add(new RuleGroup("Style")); //$NON-NLS-1$
-        return dg;
+        // Special "All" group, always first
+        RuleGroup all = new RuleGroup("All"); //$NON-NLS-1$
+        defaultGroups.add(all);
+
+        // Add new default groups here!
+        defaultGroups.add(createDefaultGroup("GRL Consistency Completeness", "ConsistencyGRL.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("UCM Consistency Completeness", "ConsistencyUCM.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("URN Features for SPL", "FeaturesSPL.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("URN iStar Profile", "iStarProfile.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("URN Layout and Overlaps", "Layout.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("URN Styles for Names and Descriptions", "StyleNamesDescriptions.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("URN Unused Elements", "UnusedElements.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("URN Value Ranges", "Ranges.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        return defaultGroups;
+    }
+
+    /** 
+     * @deprecated
+     */
+    public List getDefaultDefinitions()
+    {
+    	return new ArrayList();
     }
     
     /**

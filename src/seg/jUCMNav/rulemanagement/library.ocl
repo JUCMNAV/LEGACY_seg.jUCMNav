@@ -109,7 +109,7 @@ def: getAllDependencies():Sequence(grl::Dependency) =
 
 def: getAllLinkRefs():Sequence(grl::LinkRef) =
 		self.urndef.specDiagrams->select(d|d.oclIsTypeOf(grl::GRLGraph)).connections
-			-> select(r|r.oclIsTypeOf(grl::LinkRef))
+			-> select(r|r.oclIsKindOf(grl::LinkRef))
 			-> collect(r|r.oclAsType(grl::LinkRef))
 			-> asSequence() 
 
@@ -197,7 +197,7 @@ def: getAllRespRefs():Sequence(ucm::map::RespRef) =
 -- Other Path nodes
 def: getAllPathNodes():Sequence(ucm::map::PathNode) =
 		self.urndef.specDiagrams->select(d|d.oclIsTypeOf(ucm::map::UCMmap)).nodes
-			-> select(r|r.oclIsTypeOf(ucm::map::PathNode))
+			-> select(r|r.oclIsKindOf(ucm::map::PathNode))
 			-> collect(r|r.oclAsType(ucm::map::PathNode))
 			-> asSequence()
 
@@ -224,6 +224,13 @@ def: getAllTimers():Sequence(ucm::map::Timer) =
 			-> select(r|r.oclIsTypeOf(ucm::map::Timer))
 			-> collect(r|r.oclAsType(ucm::map::Timer))
 			-> asSequence()
+
+def: getAllWaitingPlacesWithTimers():Sequence(ucm::map::WaitingPlace) =
+		self.urndef.specDiagrams->select(d|d.oclIsTypeOf(ucm::map::UCMmap)).nodes
+			-> select(r|r.oclIsKindOf(ucm::map::WaitingPlace))
+			-> collect(r|r.oclAsType(ucm::map::WaitingPlace))
+			-> asSequence()
+
 
 def: getAllEmptyPoints():Sequence(ucm::map::EmptyPoint) =
 		self.urndef.specDiagrams->select(d|d.oclIsTypeOf(ucm::map::UCMmap)).nodes
@@ -380,7 +387,7 @@ def: getAllConditions():Sequence(urncore::Condition) =
 endpackage
 
 --------------------------------------------------------------
--- METADATA Helper functions
+-- URN Metadata Helper functions
 --------------------------------------------------------------
 package urncore
 context URNmodelElement
@@ -408,7 +415,7 @@ def: getMetadata(mdname:String):String =
 		endif
 
 --------------------------------------------------------------
--- URN LINKS Helper functions
+-- URN Links Helper functions
 --------------------------------------------------------------
 def: getLinksToForType(type:String):Sequence(URNmodelElement) =
         -- Returns the URN model elements to which elem links (with specified type)
@@ -420,6 +427,25 @@ def: getLinksFromForType(type:String):Sequence(URNmodelElement) =
         -- Returns the URN model elements from which elem links (with specified type)
 		self.toLinks 
 			-> select(link:urn::URNlink | link.type = type).fromElem
+			-> asSequence()
+
+--------------------------------------------------------------
+-- URN Concerns Helper functions
+--------------------------------------------------------------
+context Concern
+
+def: getGRLGraphsForConcern():Sequence(grl::GRLGraph) =
+        -- Returns the GRL graphs related to a concern
+		self.specDiagrams 
+			-> select(r|r.oclIsTypeOf(grl::GRLGraph))
+			-> collect(r|r.oclAsType(grl::GRLGraph))
+			-> asSequence()
+
+def: getUCMmapsForConcern():Sequence(ucm::map::UCMmap) =
+        -- Returns the GRL graphs related to a concern
+		self.specDiagrams 
+			-> select(r|r.oclIsTypeOf(ucm::map::UCMmap))
+			-> collect(r|r.oclAsType(ucm::map::UCMmap))
 			-> asSequence()
 
 endpackage
@@ -439,7 +465,6 @@ def: destIsActor():Boolean =
 --------------------------------------------------------------
 -- GRL Dependency Helper Functions
 --------------------------------------------------------------
-
 context GRLLinkableElement
 
 def: dependees():Sequence(grl::GRLLinkableElement) =
@@ -454,6 +479,20 @@ def: dependers():Sequence(grl::GRLLinkableElement) =
 			-> select(link|link.oclIsTypeOf(grl::Dependency)).src
 			-> asSequence()
 
+--------------------------------------------------------------
+-- GRL IE Def from Ref Helper Function
+--------------------------------------------------------------
+context IntentionalElementRef
+
+-- This is a hack to access an IE definition from an IE reference
+-- because the corresponding association role name (def) is an
+-- OCL keyword...! 
+
+def: getDef():grl::IntentionalElement =
+		self.diagram.urndefinition.urnspec.getAllIntentionalElements()
+		-> select(ie | ie.refs -> includes(self))
+		-> first()
+		
 --------------------------------------------------------------
 -- GRL Actor Hierarchy Helper Functions
 --------------------------------------------------------------
@@ -480,16 +519,20 @@ def: getAncestorSet(current:Set(Actor)):Set(Actor) =
 
 def: getAncestors():Set(Actor) =
 		if self.parent->notEmpty()
-		then getAncestorSet(
-			if self.parent->notEmpty()
-			then
-				self.parent.contDef->collect(o|o.oclAsType(Actor))->asSet()
-			else
-				Set{}
-			endif )
+		then getAncestorSet( self.parent.contDef->collect(o|o.oclAsType(Actor))->asSet() )
 		else Set{}
 		endif
 		
+--------------------------------------------------------------
+-- GRL Visual Elements Helper Functions
+--------------------------------------------------------------
+context GRLGraph
+
+def: getNbVisualElements():Integer =
+		-- does not include bendpoints...
+		  self.contRefs -> size()
+		+ self.connections -> size()
+		+ self.nodes -> size()
 
 --------------------------------------------------------------------------------------
 -- For features in Software Product Lines
@@ -542,19 +585,134 @@ def: getAncestorSet(current:Set(urncore::Component)):Set(urncore::Component) =
 		in
 			if ( current->includesAll(oneStep) )  
 			then current
-			else getAncestorSet(current->union(oneStep))
+			else getAncestorSet( current->union(oneStep) )
 			endif
 
 def: getAncestors():Set(urncore::Component) =
 		if self.parent->notEmpty()
-		then getAncestorSet(
-			if self.parent->notEmpty()
-			then
-				self.parent.contDef->collect(o|o.oclAsType(urncore::Component))->asSet()
-			else
-				Set{}
-			endif )
+		then getAncestorSet(self.parent.contDef->collect(o|o.oclAsType(urncore::Component))->asSet())
 		else Set{}
 		endif
-		
+
+--------------------------------------------------------------
+-- UCM Visual Elements Helper Functions
+--------------------------------------------------------------
+context UCMmap
+
+def: getNbVisualElements():Integer =
+		-- includes empty points and direction arrows...
+		  self.contRefs -> size()
+		+ self.connections -> size()
+		+ self.nodes -> size()
+
+--------------------------------------------------------------
+-- UCM Stubs and Submaps Helper Functions
+--------------------------------------------------------------
+context Stub
+def: getPluginsForStub():Sequence(ucm::map::UCMmap) =
+		self.bindings.plugin -> asSequence()
+
+context UCMmap
+def: getStubsForMap():Sequence(ucm::map::Stub) =
+		self.nodes
+			-> select(r|r.oclIsTypeOf(ucm::map::Stub))
+			-> collect(r|r.oclAsType(ucm::map::Stub))
+			-> asSequence()
+
+def: getSubmapsNoRec():Sequence(ucm::map::UCMmap) =
+		-- get direct submaps of a map
+		self.getStubsForMap() -> iterate(s; p:Sequence(ucm::map::UCMmap)=Sequence{} |
+									p->union(s.getPluginsForStub()) )
+
+def: getSubmapSet(current:Set(ucm::map::UCMmap)):Set(ucm::map::UCMmap) =
+		-- Invoked by getAllSubmaps, to enable recursive construction of submaps
+		let oneStep:Set(ucm::map::UCMmap) = current
+			->iterate(map; ps:Set(ucm::map::UCMmap)=Set{} |
+						ps->union(map.getSubmapsNoRec()->asSet()) )
+		in
+			if ( current->includesAll(oneStep) )  
+			then current
+			else getSubmapSet( current->union(oneStep) )
+			endif
+
+def: getAllSubmaps():Set(ucm::map::UCMmap) =
+		-- get submaps of a map recursively
+		let submaps:Set(ucm::map::UCMmap) = self.getSubmapsNoRec()->asSet() in
+			if submaps->notEmpty()
+			then self.getSubmapSet(submaps)
+			else submaps
+			endif
+			
+endpackage
+
+--------------------------------------------------------------
+-- URN Element Layout functions
+--------------------------------------------------------------
+package urncore
+context IURNContainerRef
+-- For components and actors
+
+def: isOutside(c:IURNContainerRef):Boolean =
+		(x>c.x+c.width) or
+		(y>c.y+c.height) or
+		(x+width<c.x) or
+		(y+height<c.y)
+
+def: isInside(c:IURNContainerRef):Boolean =
+		(x>=c.x) and
+		(y>=c.y) and
+		(x+width<=c.x+c.width) and
+		(y+height<=c.y+c.height)
+
+def: isOverlapping(c:IURNContainerRef):Boolean =
+		not(self.isOutside(c) or self.isInside(c) or c.isInside(self))
+
+def: noIntermediate(co:IURNContainerRef):Boolean =
+		diagram.contRefs
+			-> select(ci| ci<>co and ci<>self and self.isInside(ci) and ci.isInside(co))
+			-> isEmpty()
+
+context IURNNode
+-- For intentional elements and path nodes
+
+def: isInside(c:IURNContainerRef):Boolean =
+		(x>=c.x) and
+		(x<=c.x+c.width) and
+		(y>=c.y) and
+		(y<=c.y+c.height)
+
+def: noIntermediate(co:IURNContainerRef):Boolean =
+		diagram.contRefs
+			-> select(ci| ci<>co and self.isInside(ci) and ci.isInside(co))
+			-> isEmpty()
+
+--These functions for GRL IEs are approximative, based on default IE sizes.
+def: ieIsOutside(c:IURNContainerRef):Boolean =
+		(x>c.x+c.width) or
+		(y>c.y+c.height) or
+		(x+115<c.x) or
+		(y+50<c.y)
+
+def: ieIsInside(c:IURNContainerRef):Boolean =
+		(x>=c.x) and
+		(y>=c.y) and
+		(x+115<=c.x+c.width) and
+		(y+50<=c.y+c.height)
+
+def: ieIsOverlapping(c:IURNContainerRef):Boolean =
+		not(self.ieIsOutside(c) or self.ieIsInside(c))
+
+def: ieNoIntermediate(co:IURNContainerRef):Boolean =
+		diagram.contRefs
+			-> select(ci| ci<>co and self.ieIsInside(ci) and ci.isInside(co))
+			-> isEmpty()
+			
+def: ieIsOverlappingIE(ie:IURNNode):Boolean =
+		not(
+			(x>ie.x+115) or
+			(y>ie.y+50) or
+			(x+115<ie.x) or
+			(y+50<ie.y)
+		)
+			
 endpackage

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>ArequiresB</Name>
+		<Description>Feature A requires Feature B</Description>
+		<Classification>grl:EvaluationStrategy</Classification>
+		<Query>getAllEvaluationStrategies()</Query>
+		<Constraint>featureRequires('&lt;&lt;A&gt;&gt;', '&lt;&lt;B&gt;&gt;')</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>AconfictsWithB</Name>
+		<Description>Feature A conflicts with Feature B</Description>
+		<Classification>grl:EvaluationStrategy</Classification>
+		<Query>getAllEvaluationStrategies()</Query>
+		<Constraint>featureConflictsWith('&lt;&lt;A&gt;&gt;','&lt;&lt;B&gt;&gt;')</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+</Rules>

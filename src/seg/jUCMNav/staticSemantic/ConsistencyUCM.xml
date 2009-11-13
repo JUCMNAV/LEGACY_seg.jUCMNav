@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>UCMcomponentNoCycle</Name>
+		<Description>UCM component must not be part of a containment cycle</Description>
+		<Classification>ucm::map::ComponentRef</Classification>
+		<Query>getAllComponentRefs()</Query>
+		<Constraint>not(self.getAncestors() -&gt; exists(act| act = self.contDef.oclAsType(urncore::Component)))</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMpluginNoOutBinding</Name>
+		<Description>UCM plugin bindings of this stub must all have out-bindings</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>self.bindings -&gt; select(b|b.out -&gt; isEmpty()) -&gt; isEmpty()</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMpluginNoInBinding</Name>
+		<Description>UCM plugin bindings of this stub must all have in-bindings</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>pred.oclAsType(ucm::map::NodeConnection).inBindings.binding -&gt; asSet() = bindings -&gt; asSet()</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMsyncStubIsDyn</Name>
+		<Description>UCM synchronizing stub must be dynamic</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>synchronization implies dynamic</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMblockingStubIsSync</Name>
+		<Description>UCM blocking stub must be synchronizing</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>blocking implies synchronization</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMstaticStubTooManyPlugins</Name>
+		<Description>UCM static stub must not have more than one plug-in</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>not(dynamic) implies (bindings-&gt;size() &lt;= 1)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMstaticStubPreconditions</Name>
+		<Description>UCM static stub must have a true precondition for its plugin binding</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>not(dynamic) implies (bindings-&gt;first().precondition.expression='true')</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMstaticStubReplication</Name>
+		<Description>UCM static stub must have replicationFactor=1 for its plugin binding</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>not(dynamic) implies (bindings-&gt;first().replicationFactor=1)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMstubSingletonWithReplication</Name>
+		<Description>UCM stub containing a singleton map must have replicationFactor=1 for its plugin binding</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>bindings -&gt; forAll(b|b.plugin.singleton implies b.replicationFactor=1)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMcomponentBindingContext</Name>
+		<Description>UCM component target of a binding must be of kind Team</Description>
+		<Classification>ucm::map::ComponentRef</Classification>
+		<Query>getAllComponentRefs()</Query>
+		<Constraint>self.pluginBindings -&gt; notEmpty()&#13;
+implies&#13;
+self.contDef.oclAsType(urncore::Component).kind=urncore::ComponentKind::Team</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>UCMprocessWithObjectAncestor</Name>
+		<Description>UCM process component should not have an object component ancestor</Description>
+		<Classification>ucm::map::ComponentRef</Classification>
+		<Query>getAllComponentRefs()</Query>
+		<Constraint>self.contDef.oclAsType(urncore::Component).kind=urncore::ComponentKind::Process&#13;
+implies&#13;
+self.getAncestors() -&gt; select(c|c.kind=urncore::ComponentKind::Object) -&gt; isEmpty()</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>UCMresponsibilityInManyComponents</Name>
+		<Description>UCM responsibility must not be bound to more than one component</Description>
+		<Classification>urncore::Responsibility</Classification>
+		<Query>getAllResponsibilities()</Query>
+		<Constraint>self.respRefs&#13;
+	-&gt; iterate(ref; comp:Set(urncore::Component)=Set{} |&#13;
+				if (ref.contRef &lt;&gt; null)&#13;
+				then comp-&gt;union(ref.contRef.contDef.oclAsType(urncore::Component)-&gt;asSet())&#13;
+				else comp&#13;
+				endif&#13;
+	 	) -&gt; asSet() -&gt; size() &lt;= 1</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>UCMsubCompInManyComponents</Name>
+		<Description>UCM component must not be bound to more than one component</Description>
+		<Classification>urncore::Component</Classification>
+		<Query>getAllComponents()</Query>
+		<Constraint>self.contRefs&#13;
+	-&gt; iterate(ref; comp:Set(urncore::Component)=Set{} |&#13;
+				if (ref.parent &lt;&gt; null)&#13;
+				then comp-&gt;union(ref.parent.contDef.oclAsType(urncore::Component)-&gt;asSet())&#13;
+				else comp&#13;
+				endif&#13;
+	 	) -&gt; asSet() -&gt; size() &lt;= 1</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>UCMconnectBindings</Name>
+		<Description>UCM wait/timer/end/empty points in a connect must be bound to the same component reference</Description>
+		<Classification>ucm::map::WaitingPlace</Classification>
+		<Query>getAllWaitingPlacesWithTimers()</Query>
+		<Constraint>self.pred.source
+	-&gt; forAll(n | n.oclIsTypeOf(ucm::map::Connect) 
+				implies
+				( n.contRef=self.contRef and self.contRef=n.pred.source-&gt;first().contRef ) )</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+</Rules>

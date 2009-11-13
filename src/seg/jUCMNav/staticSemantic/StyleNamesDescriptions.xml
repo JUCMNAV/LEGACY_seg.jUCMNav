@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>GRLactorDescNotEmpty</Name>
+		<Description>GRL actor definition should have a non-empty description</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()&#13; </Query>
+		<Constraint>self.description.size()&gt;0</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLintentionalElemDescNotEmpty</Name>
+		<Description>GRL intentional element definition should have a non-empty description</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElementsWithIndicators()&#13; </Query>
+		<Constraint>self.description.size()&gt;0</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLgraphDescNotEmpty</Name>
+		<Description>GRL diagram should have a non-empty description</Description>
+		<Classification>grl::GRLGraph</Classification>
+		<Query>getAllGRLGraphs()</Query>
+		<Constraint>self.description.size()&gt;0</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLgraphNameNotDefault</Name>
+		<Description>GRL graph name should be changed from default</Description>
+		<Classification>grl::GRLGraph</Classification>
+		<Query>getAllGRLGraphs()</Query>
+		<Constraint>self.name&lt;&gt;'GRLGraph'</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMcomponentDescNotEmpty</Name>
+		<Description>UCM component definition should have a non-empty description</Description>
+		<Classification>urncore::Component</Classification>
+		<Query>getAllComponents()&#13; </Query>
+		<Constraint>self.description.size()&gt;0</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMresponsibilityDescNotEmpty</Name>
+		<Description>UCM responsibility definition should have a non-empty description</Description>
+		<Classification>urncore::Responsibility</Classification>
+		<Query>getAllResponsibilities()</Query>
+		<Constraint>self.description.size()&gt;0</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMmapDescNotEmpty</Name>
+		<Description>UCM diagram should have a non-empty description</Description>
+		<Classification>ucm::map::UCMmap</Classification>
+		<Query>getAllUCMmaps()</Query>
+		<Constraint>self.description.size()&gt;0</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>UCMmapNameNotDefault</Name>
+		<Description>UCM map name should be changed from default</Description>
+		<Classification>ucm::map::UCMmap</Classification>
+		<Query>getAllUCMmaps()</Query>
+		<Constraint>self.name&lt;&gt;'UCMmap'</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+</Rules>
+

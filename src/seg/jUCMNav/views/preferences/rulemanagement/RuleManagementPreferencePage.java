@@ -333,13 +333,21 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 				RuleGroup g = (RuleGroup) data;
 				if (g.getRules().size() == 0 && g.getName().compareTo("All") != 0) {  //$NON-NLS-1$
 					getDefinitionManager().removeGroup(g);
+					updateTree();
 				}
+				else{
+					MessageBox msg = new MessageBox(getControl().getShell(), SWT.ICON_WARNING);
+					msg.setText(Messages.getString("RuleManagementPreferencePage.0")); //$NON-NLS-1$
+					msg.setMessage(Messages.getString("RuleManagementPreferencePage.NonEmpty")); //$NON-NLS-1$
+					msg.open();					
+				}
+					
 			} else if (data instanceof Rule) {
 				Rule r = (Rule) data;
 				getDefinitionManager().removeRule(r);
+				updateGroupNode(items[i].getParentItem());
 			}
 		}
-		updateTree();
 	}
 
 	/**
@@ -397,8 +405,7 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 		        File file = new File(fileName);
 		        if (file.exists()) {
 		          // The file already exists; asks for confirmation
-		          MessageBox mb = new MessageBox(dlg.getParent(), SWT.ICON_WARNING
-		              | SWT.YES | SWT.NO);
+		          MessageBox mb = new MessageBox(dlg.getParent(), SWT.ICON_WARNING | SWT.YES | SWT.NO);
 		          mb.setText("Attention!"); //$NON-NLS-1$
 		          mb.setMessage(fileName + " " + Messages.getString("RuleManagementPreferencePage.AlreadyExists")); //$NON-NLS-1$
 
@@ -473,12 +480,12 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 		Object o = item.getData();
 		if (o instanceof Rule) {
 			editRule((Rule) o);
+			updateGroupNode(item.getParentItem());			
 		} else if (o instanceof RuleGroup) {
 			editRuleGroup((RuleGroup) o);
 			updateGroupNode(item);
 			checkGroups();
 		}
-
 	}
 
 	/**
@@ -495,7 +502,6 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 		populateGroupNode(item, group);
 		// Restore check states
 		restoreCheckState(item, checkInfo);
-
 	}
 
 	/**
@@ -546,7 +552,6 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 	private void updateTree() {
 		tree.removeAll();
 		populateTree();
-
 	}
 
 	/**

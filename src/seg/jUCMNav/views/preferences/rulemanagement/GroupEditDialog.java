@@ -81,11 +81,11 @@ public class GroupEditDialog extends Dialog {
         GridLayout leftLayout = new GridLayout();
         leftLayout.numColumns = 1;
         top.setLayout(leftLayout);
-        top.setLayoutData(new GridData(GridData.FILL_BOTH ));
+        top.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         Composite middle = new Composite(control,SWT.NONE);
         GridLayout middleLayout = new GridLayout();
-        middleLayout.numColumns = 4;
+        middleLayout.numColumns = 2;
         middle.setLayout(middleLayout);
         middle.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
@@ -109,7 +109,7 @@ public class GroupEditDialog extends Dialog {
         if(group!=null)
             txtName.setText(group.getName());
        
-        members = new Table(top,SWT.MULTI|SWT.FULL_SELECTION|SWT.BORDER);
+        members = new Table(top,SWT.MULTI|SWT.FULL_SELECTION|SWT.BORDER|SWT.H_SCROLL|SWT.V_SCROLL);
         members.setHeaderVisible(true);
         String[] titles = { Messages.getString("GroupEditDialog.Name"), Messages.getString("GroupEditDialog.Description"), Messages.getString("GroupEditDialog.Context"), Messages.getString("GroupEditDialog.QueryExpression"), Messages.getString("GroupEditDialog.ConstraintExpression") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
         int[] widths = { 150, 50, 50, 50, 50 };
@@ -118,9 +118,8 @@ public class GroupEditDialog extends Dialog {
             column.setText(titles[i]);
             column.setWidth(widths[i]);
         }
-        members.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
-                | GridData.VERTICAL_ALIGN_FILL | GridData.GRAB_VERTICAL
-                |GridData.VERTICAL_ALIGN_BEGINNING));
+        members.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL
+                | GridData.GRAB_VERTICAL| GridData.VERTICAL_ALIGN_BEGINNING));
         
         //Middle panel
         
@@ -133,16 +132,14 @@ public class GroupEditDialog extends Dialog {
         //Bottom panel
         Label lblNonMembers  = new Label(bottom,SWT.None);
         lblNonMembers.setText(Messages.getString("GroupEditDialog.OtherRules")); //$NON-NLS-1$
-        nonMembers = new Table(bottom,SWT.MULTI|SWT.FULL_SELECTION|SWT.BORDER);
+        nonMembers = new Table(bottom,SWT.MULTI|SWT.FULL_SELECTION|SWT.BORDER|SWT.H_SCROLL|SWT.V_SCROLL);
         nonMembers.setHeaderVisible(true);
         for (int i = 0; i < titles.length; i++) {
             TableColumn column = new TableColumn(nonMembers, SWT.LEFT);
             column.setText(titles[i]);
             column.setWidth(widths[i]);
         }
-        nonMembers.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL 
-                | GridData.VERTICAL_ALIGN_FILL | GridData.GRAB_VERTICAL
-                |GridData.VERTICAL_ALIGN_BEGINNING));
+        nonMembers.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
        
         if(group!=null){
             List rules = group.getRules();
@@ -272,7 +269,8 @@ public class GroupEditDialog extends Dialog {
         {
             appendRule(members,(Rule) itmes[i].getData());
         }
-        nonMembers.remove(nonMembers.getSelectionIndices());        
+        nonMembers.remove(nonMembers.getSelectionIndices());     
+        this.getContents().redraw();
     }
 
     /**

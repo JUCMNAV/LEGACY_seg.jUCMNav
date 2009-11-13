@@ -143,10 +143,25 @@ public abstract class RuleManagementDefinitionManager {
     }
 
     /**
-     * Returns a list of default groups.
+     * Returns a list of default groups. Different for metrics and constraints.
      */
     protected abstract List getDefaultGroups() ;
 
+    /**
+     * Returns a group filled with rules from a file.
+     */
+    protected RuleGroup createDefaultGroup(String name, String srcFile, RuleGroup all, Class directory)
+    {
+        InputStream rulesIS = directory.getResourceAsStream(srcFile);
+        List rules = RuleManagementUtil.readRules(rulesIS);
+        RuleGroup newGroup = new RuleGroup(name);
+        
+        all.addRule(rules); // Add the rules to the special "All" group 
+        newGroup.addRule(rules); // Also add the rules to the new group
+        
+        return newGroup;
+    }
+    
     /**
      * Put a bunch of rules into the system rules
      * @param rulesIn a bunch of rules which are going to be put into the system rules
@@ -321,34 +336,32 @@ public abstract class RuleManagementDefinitionManager {
      * Load all group information from the preference store
      */
     private void loadGroups() {
-        IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
-        store.setDefault(GROUP_NUMBER + getRuleType(), -1);
-        int count = store.getInt(GROUP_NUMBER + getRuleType());
-        if (count == -1) {
-            groups = getDefaultGroups();
+    	IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
+    	store.setDefault(GROUP_NUMBER + getRuleType(), -1);
+    	int count = store.getInt(GROUP_NUMBER + getRuleType());
+    	if (count == -1) {
+    		groups = getDefaultGroups();
 
-        } else {
+    	} else {
+    		groups = new ArrayList();
+    		RuleGroup g = new RuleGroup("All"); //$NON-NLS-1$
+    		g.addRule(rules);
+    		groups.add(g);
 
-            groups = new ArrayList();
-            RuleGroup g = new RuleGroup("All"); //$NON-NLS-1$
-            g.addRule(rules);
-            groups.add(g);
-            
-            for (int i = 0; i < count; ++i) {
-                String groupName = GROUP_PREFIX  + getRuleType()+ i;
-                g = new RuleGroup(store.getString(groupName + NAME_SUFFIX));
-                int nGroup = store.getInt(groupName + MEMBER_NUMBER);
-                for(int j = 0; j < nGroup; ++j) {
-                    String ruleName = store.getString(groupName + RULE_NAME + j);
-                    Rule r = lookupRule(ruleName);
-                    if (r != null) {
-                        g.addRule(r);
-                    }                   
-                }
-                groups.add(g);
-            }
-        }
-
+    		for (int i = 0; i < count; ++i) {
+    			String groupName = GROUP_PREFIX  + getRuleType()+ i;
+    			g = new RuleGroup(store.getString(groupName + NAME_SUFFIX));
+    			int nGroup = store.getInt(groupName + MEMBER_NUMBER);
+    			for(int j = 0; j < nGroup; ++j) {
+    				String ruleName = store.getString(groupName + RULE_NAME + j);
+    				Rule r = lookupRule(ruleName);
+    				if (r != null) {
+    					g.addRule(r);
+    				}                   
+    			}
+    			groups.add(g);
+    		}
+    	}
     }
        
     /**
@@ -391,10 +404,10 @@ public abstract class RuleManagementDefinitionManager {
     public RuleGroup lookupGroup(String groupName) {
         RuleGroup g = null;
         for (int i = 0; i < groups.size(); ++i) {
-            RuleGroup gg = (RuleGroup) groups.get(i);
-            if (gg.getName().compareTo(groupName) == 0)
+            RuleGroup rg = (RuleGroup) groups.get(i);
+            if (rg.getName().compareTo(groupName) == 0)
             {
-                g = gg;
+                g = rg;
                 break;
             }
         }
@@ -452,8 +465,8 @@ public abstract class RuleManagementDefinitionManager {
      * Reset all setting into default values.
      */
     public void loadDefault() {
-        rules = getDefaultDefinitions();
         groups = getDefaultGroups();
+        rules = ((RuleGroup) groups.get(0)).getRules(); // From the All group, which is first
         setShowDesc(true);
     }
 
