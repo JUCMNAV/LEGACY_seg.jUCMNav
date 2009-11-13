@@ -87,9 +87,9 @@ public class AddEvaluationCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
-        //testPostConditions();
-        //strategy.getEvaluations().remove(evaluation);
-        //evaluation.setIntElement(null);
-        //testPreConditions();
+        testPostConditions();
+        strategy.getEvaluations().remove(evaluation);
+        evaluation.setIntElement(null);
+        testPreConditions();
     }
 }
