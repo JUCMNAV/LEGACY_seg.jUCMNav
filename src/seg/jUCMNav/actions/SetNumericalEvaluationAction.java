@@ -38,8 +38,8 @@ public class SetNumericalEvaluationAction extends URNSelectionAction
 	}
 
     protected Command getCommand()
-    {
-        return new ChangeNumericalEvaluationCommand( intElementRefs, id );
+    {	
+        return new ChangeNumericalEvaluationCommand( intElementRefs, id, getCommandStack() );
     }
 
     /**

@@ -119,7 +119,7 @@ public class HTMLReport extends URNReport {
 
 			// write the content of menu to XML file
 			if (isLast) {
-				exportMSCScenarios( urn, mapDiagrams, filename );
+				//exportMSCScenarios( urn, mapDiagrams, filename );
 				htmlMenuParser.writeToFile();
 				htmlMenuParser.resetDocument();
 			}
@@ -127,18 +127,18 @@ public class HTMLReport extends URNReport {
 	}
 
 
-	private void exportMSCScenarios( URNspec urn, HashMap mapDiagrams, String filename ) throws InvocationTargetException
-	{
-		ExportMSC mscExporter = new ExportMSC();
+	//private void exportMSCScenarios( URNspec urn, HashMap mapDiagrams, String filename ) throws InvocationTargetException
+	//{
+	//	ExportMSC mscExporter = new ExportMSC();
 		
-		if ( !mscExporter.scenarioDefExists(urn) )
-			return;
+	//	if ( !mscExporter.scenarioDefExists(urn) )
+	//		return;
 		
-		filename = filename.substring( 0, filename.length()-"html".length() ) + "jucmscenarios"; //$NON-NLS-1$ //$NON-NLS-2$
+	//	filename = filename.substring( 0, filename.length()-"html".length() ) + "jucmscenarios"; //$NON-NLS-1$ //$NON-NLS-2$
 		
-		mscExporter.export( urn, mapDiagrams, filename );
+	//	mscExporter.export( urn, mapDiagrams, filename );
 		
-	}
+	//}
 	
 	/**
 	 * Create index html pages used in exporting UCM/GRL maps to html pages.

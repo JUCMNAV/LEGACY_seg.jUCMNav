@@ -20,11 +20,14 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
 {
 	private boolean cancelled = false;
 	
+	public final static int INCREASE = ImportanceType.VALUES.size();
+	public final static int DECREASE = ImportanceType.VALUES.size() + 1;
+	
 	private class IElementState
 	{
 		IntentionalElementRef intElemRef;
 		ImportanceType oldType, newType;
-		int oldValue;	
+		int oldValue;
 	}
 	
 	Vector intElementStates;
@@ -43,9 +46,9 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
 			ies.oldValue = currentIERef.getDef().getImportanceQuantitative(); // store old numerical value for undo operations
 			intElementStates.add( ies );
 		
-			if ( id < 4 ) { // input from sub-menu
+			if ( id < INCREASE ) { // input from sub-menu High --> None
 				ies.newType = ImportanceType.get( id );
-			} else if ( id == 4 ) { // increase importance if possible
+			} else if ( id == INCREASE ) { // increase importance if possible
     		
 				if ( ies.oldType == ImportanceType.HIGH_LITERAL )
 					cancelled = true; // can't increase from HIGH
@@ -53,7 +56,7 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
 					int index = ImportanceType.VALUES.indexOf( ies.oldType);    			
 					ies.newType = ImportanceType.get( index-1 );
 				}    		
-			} else if ( id == 5 ) { // decrease importance if possible
+			} else if ( id == DECREASE ) { // decrease importance if possible
 
 				if ( ies.oldType == ImportanceType.NONE_LITERAL )
 					cancelled = true; // can't decrease from NONE

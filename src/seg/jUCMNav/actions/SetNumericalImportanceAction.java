@@ -38,7 +38,7 @@ public class SetNumericalImportanceAction extends URNSelectionAction
 
     protected Command getCommand()
     {
-        return new ChangeNumericalImportanceCommand( intElementRefs, id );
+        return new ChangeNumericalImportanceCommand( intElementRefs, id, getCommandStack() );
     }
 
     /**
