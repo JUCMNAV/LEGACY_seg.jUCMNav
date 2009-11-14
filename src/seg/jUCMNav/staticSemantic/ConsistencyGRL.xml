@@ -35,7 +35,7 @@ in	&#13;
 	</Rule>
 	<Rule>
 		<Name>GRLstrategyEvaluationConsistency</Name>
-		<Description>The qualitative and quantitative values of a GRL strategy evaluation should be consistent.</Description>
+		<Description>The qualitative and quantitative values of a GRL strategy evaluation must be consistent.</Description>
 		<Classification>grl::Evaluation</Classification>
 		<Query>getAllEvaluations()</Query>
 	<Constraint>let&#13;
@@ -88,7 +88,7 @@ in   &#13;
       or&#13;
       (kpiEvalValueSet.evaluationValue &lt;= kpiEvalValueSet.targetValue and kpiEvalValueSet.targetValue &gt;= kpiEvalValueSet.worstValue) )</Constraint>
 		<Utilities/>
-		<WarningOnly>false</WarningOnly>
+		<WarningOnly>true</WarningOnly>
 	</Rule>
 	<Rule>
 		<Name>GRLindicatorIndicatorTooBad</Name>
@@ -100,7 +100,7 @@ in   &#13;
       or&#13;
       (kpiEvalValueSet.evaluationValue &lt;= kpiEvalValueSet.worstValue and kpiEvalValueSet.targetValue &lt;= kpiEvalValueSet.worstValue) )</Constraint>
 		<Utilities/>
-		<WarningOnly>false</WarningOnly>
+		<WarningOnly>true</WarningOnly>
 	</Rule>
 	<Rule>
 		<Name>GRLactorNoCycle</Name>

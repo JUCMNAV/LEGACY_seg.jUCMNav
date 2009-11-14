@@ -1,5 +1,5 @@
 -- OCL Utility Function Library for Rules and Metrics
--- damyot, October 2009
+-- damyot, November 2009
 
 ----------------------------------------------------------------------------
 -- Utility functions/queries to implement allInstances() and simplify the  
@@ -442,7 +442,7 @@ def: getGRLGraphsForConcern():Sequence(grl::GRLGraph) =
 			-> asSequence()
 
 def: getUCMmapsForConcern():Sequence(ucm::map::UCMmap) =
-        -- Returns the GRL graphs related to a concern
+        -- Returns the UCM maps related to a concern
 		self.specDiagrams 
 			-> select(r|r.oclIsTypeOf(ucm::map::UCMmap))
 			-> collect(r|r.oclAsType(ucm::map::UCMmap))
@@ -672,9 +672,9 @@ def: noIntermediate(co:IURNContainerRef):Boolean =
 			-> select(ci| ci<>co and ci<>self and self.isInside(ci) and ci.isInside(co))
 			-> isEmpty()
 
+
 context IURNNode
 -- For intentional elements and path nodes
-
 def: isInside(c:IURNContainerRef):Boolean =
 		(x>=c.x) and
 		(x<=c.x+c.width) and

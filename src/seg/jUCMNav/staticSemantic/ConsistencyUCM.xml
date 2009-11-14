@@ -82,7 +82,7 @@
 		<WarningOnly>false</WarningOnly>
 	</Rule>
 	<Rule>
-		<Name>UCMcomponentBindingContext</Name>
+		<Name>UCMcomponentBindingContextIsTeam</Name>
 		<Description>UCM component target of a binding must be of kind Team</Description>
 		<Classification>ucm::map::ComponentRef</Classification>
 		<Query>getAllComponentRefs()</Query>
@@ -105,7 +105,7 @@ self.getAncestors() -&gt; select(c|c.kind=urncore::ComponentKind::Object) -&gt; 
 	</Rule>
 	<Rule>
 		<Name>UCMresponsibilityInManyComponents</Name>
-		<Description>UCM responsibility must not be bound to more than one component</Description>
+		<Description>UCM responsibility should not be bound to more than one component</Description>
 		<Classification>urncore::Responsibility</Classification>
 		<Query>getAllResponsibilities()</Query>
 		<Constraint>self.respRefs&#13;
@@ -116,11 +116,11 @@ self.getAncestors() -&gt; select(c|c.kind=urncore::ComponentKind::Object) -&gt; 
 				endif&#13;
 	 	) -&gt; asSet() -&gt; size() &lt;= 1</Constraint>
 		<Utilities />
-		<WarningOnly>false</WarningOnly> 
+		<WarningOnly>true</WarningOnly> 
 	</Rule>
 	<Rule>
 		<Name>UCMsubCompInManyComponents</Name>
-		<Description>UCM component must not be bound to more than one component</Description>
+		<Description>UCM component should not be bound to more than one component</Description>
 		<Classification>urncore::Component</Classification>
 		<Query>getAllComponents()</Query>
 		<Constraint>self.contRefs&#13;
@@ -131,7 +131,7 @@ self.getAncestors() -&gt; select(c|c.kind=urncore::ComponentKind::Object) -&gt; 
 				endif&#13;
 	 	) -&gt; asSet() -&gt; size() &lt;= 1</Constraint>
 		<Utilities />
-		<WarningOnly>false</WarningOnly> 
+		<WarningOnly>true</WarningOnly> 
 	</Rule>
 	<Rule>
 		<Name>UCMconnectBindings</Name>

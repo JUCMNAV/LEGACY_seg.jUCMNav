@@ -41,6 +41,15 @@
 		<WarningOnly>false</WarningOnly> 
 	</Rule>
 	<Rule>
+		<Name>TooManyGRLelementsInGraph</Name>
+		<Description>Too many #GRL visual elements in graph...</Description>
+		<Classification>grl::GRLGraph</Classification>
+		<Query>getAllGRLGraphs()</Query>
+		<Constraint>self.getNbVisualElements() &lt; 80</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>		
+	<Rule>
 		<Name>UCMnoOverlappingComponents</Name>
 		<Description>UCM component boundary must not overlap with the boundary of another component</Description>
 		<Classification>ucm::map::ComponentRef</Classification>
@@ -72,4 +81,13 @@
 		<Utilities />
 		<WarningOnly>false</WarningOnly> 
 	</Rule>
+	<Rule>
+		<Name>TooManyUCMelementsInMao</Name>
+		<Description>Too many #UCM visual elements in map...</Description>
+		<Classification>ucm::map::UCMmap</Classification>
+		<Query>getAllUCMmaps()</Query>
+		<Constraint>self.getNbVisualElements() &lt; 100</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>		
 </Rules>
