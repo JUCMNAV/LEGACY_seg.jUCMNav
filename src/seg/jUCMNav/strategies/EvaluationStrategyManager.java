@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 
@@ -400,13 +401,20 @@ public class EvaluationStrategyManager {
             }
             // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
             AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
-            if (cmd.canExecute()) {
-                cmd.execute();
-            }
+            execute(cmd);
 
             calculateEvaluation();
         }
     }
+
+	private void execute(Command cmd) {
+		if (cmd.canExecute()) {
+			if (multieditor==null /* won't be able to undo */ )
+				cmd.execute();
+			else
+				multieditor.getDelegatingCommandStack().execute(cmd);
+		}
+	}
     
     /**
      * Synchronize the qualitative evaluation to the quantitative evaluation
@@ -456,10 +464,8 @@ public class EvaluationStrategyManager {
         }
         // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
         AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
-        if (cmd.canExecute()) {
-            cmd.execute();
-        }
-
+        execute(cmd);
+        
         calculateEvaluation();    	
     }
     
@@ -498,9 +504,7 @@ public class EvaluationStrategyManager {
             }
             // If it is a new KPIInformationConfig enter by the user, link it with the strategy and KPIInformationElement
             AddKPIInformationConfigCommand cmd = new AddKPIInformationConfigCommand(config, element, strategy);
-            if (cmd.canExecute()) {
-                cmd.execute();
-            }
+            execute(cmd);
 
             // In this version, KPI Information Element is not involved in the evalution
             // calculateEvaluation();
@@ -516,10 +520,8 @@ public class EvaluationStrategyManager {
             }
             // If it is a new KPIInformationConfig enter by the user, link it with the strategy and KPIInformationElement
             AddKPIInformationConfigCommand cmd = new AddKPIInformationConfigCommand(config, element, strategy);
-            if (cmd.canExecute()) {
-                cmd.execute();
-            }
-
+            execute(cmd);
+            
             // In this version, KPI Information Element is not involved in the evalution
             // calculateEvaluation();
         }
@@ -541,9 +543,7 @@ public class EvaluationStrategyManager {
 
         // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
         AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
-        if (cmd.canExecute()) {
-            cmd.execute();
-        }
+        execute(cmd);
 
         calculateIndicatorEvalLevel(eval);
         calculateEvaluation();
@@ -561,9 +561,7 @@ public class EvaluationStrategyManager {
 
         // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
         AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
-        if (cmd.canExecute()) {
-            cmd.execute();
-        }
+        execute(cmd);
 
         calculateIndicatorEvalLevel(eval);
         calculateEvaluation();

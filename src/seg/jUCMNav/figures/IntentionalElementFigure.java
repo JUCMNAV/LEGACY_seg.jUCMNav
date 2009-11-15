@@ -1,7 +1,5 @@
 package seg.jUCMNav.figures;
 
-import java.awt.event.KeyListener;
-
 import grl.IntentionalElementType;
 
 import org.eclipse.draw2d.ConnectionAnchor;
