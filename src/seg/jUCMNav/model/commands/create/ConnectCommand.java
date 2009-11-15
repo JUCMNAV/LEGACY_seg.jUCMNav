@@ -16,6 +16,7 @@ import ucm.map.StartPoint;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
+import urncore.IURNContainerRef;
 
 /**
  * Creates a synchronous connection (EndPoint with StartPoint/WaitingPlace/Timer) or asynchronous connection (EmptyPoint with StartPoint/WaitingPlace/Timer)
@@ -106,7 +107,9 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         left.setX(right.getX());
         left.setY(right.getY());
 
-        left.setContRef(ParentFinder.getPossibleParent(left));
+        IURNContainerRef parent = ParentFinder.getPossibleParent(left);
+        left.setContRef(parent);
+        connect.setContRef(parent);
 
         testPostConditions();
     }
@@ -128,6 +131,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         left.setY(oldLeftY);
 
         left.setContRef(oldLeftParent);
+        connect.setContRef(null);
 
         testPreConditions();
     }
