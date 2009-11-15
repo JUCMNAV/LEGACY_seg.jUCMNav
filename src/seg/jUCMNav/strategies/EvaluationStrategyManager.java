@@ -409,10 +409,15 @@ public class EvaluationStrategyManager {
 
 	private void execute(Command cmd) {
 		if (cmd.canExecute()) {
-			if (multieditor==null /* won't be able to undo */ )
+			// bug 717 original code 
+			cmd.execute();
+			
+			/* proposed enh - partial solution only. see comments in bug. 
+			if (multieditor==null )// won't be able to undo  
 				cmd.execute();
 			else
 				multieditor.getDelegatingCommandStack().execute(cmd);
+				*/
 		}
 	}
     

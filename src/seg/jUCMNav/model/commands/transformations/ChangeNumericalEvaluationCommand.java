@@ -38,7 +38,7 @@ public class ChangeNumericalEvaluationCommand extends Command implements JUCMNav
 		int oldEval, newEval;
 	}
 	
-	Vector intElementStates;
+	Vector intElementStates = new Vector();
 
 	public ChangeNumericalEvaluationCommand( List intElemRefs, int id, CommandStack stack )
 	{

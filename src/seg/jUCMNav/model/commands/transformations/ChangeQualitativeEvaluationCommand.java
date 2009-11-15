@@ -36,7 +36,7 @@ public class ChangeQualitativeEvaluationCommand extends Command implements JUCMN
 		int oldEval;
 	}
 	
-	Vector intElementStates;
+	Vector intElementStates = new Vector();
 
 	public ChangeQualitativeEvaluationCommand( List intElemRefs, int id )
 	{

@@ -38,7 +38,7 @@ public class ChangeNumericalImportanceCommand extends Command implements JUCMNav
 		int oldValue, newValue;
 	}
 	
-	Vector intElementStates;
+	Vector intElementStates = new Vector();
 
 	public ChangeNumericalImportanceCommand( List intElemRefs, int id, CommandStack stack )
 	{

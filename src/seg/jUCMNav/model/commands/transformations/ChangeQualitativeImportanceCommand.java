@@ -30,7 +30,7 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
 		int oldValue;
 	}
 	
-	Vector intElementStates;
+	Vector intElementStates = new Vector();
 	
 	public ChangeQualitativeImportanceCommand( List intElemRefs, int id )
 	{
