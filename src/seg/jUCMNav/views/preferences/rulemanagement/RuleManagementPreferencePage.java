@@ -53,6 +53,12 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 	private static final String BUTTON_DELETE = Messages.getString("RuleManagementPreferencePage.Delete"); //$NON-NLS-1$
 	private static final String BUTTON_EXPORT = Messages.getString("RuleManagementPreferencePage.Export"); //$NON-NLS-1$
 	private static final String BUTTON_IMPORT = Messages.getString("RuleManagementPreferencePage.Import"); //$NON-NLS-1$
+	private static final String BUTTON_EDIT_THE_SELECTED_RULE_TIP = Messages.getString("RuleManagementPreferencePage.EditTip"); //$NON-NLS-1$
+	private static final String BUTTON_DEFINE_A_NEW_RULE_TIP = Messages.getString("RuleManagementPreferencePage.NewRuleTip"); //$NON-NLS-1$
+	private static final String BUTTON_DEFINE_A_NEW_GROUP_TIP = Messages.getString("RuleManagementPreferencePage.NewGroupTip"); //$NON-NLS-1$
+	private static final String BUTTON_DELETE_TIP = Messages.getString("RuleManagementPreferencePage.DeleteTip"); //$NON-NLS-1$
+	private static final String BUTTON_EXPORT_TIP = Messages.getString("RuleManagementPreferencePage.ExportTip"); //$NON-NLS-1$
+	private static final String BUTTON_IMPORT_TIP = Messages.getString("RuleManagementPreferencePage.ImportTip"); //$NON-NLS-1$
 
 	private static final int BTN_COLUMN_CHECK = 0;
 	private static final int TBL_COLUMN_NAME = 1;
@@ -154,26 +160,32 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 
 		btnNewRule = new Button(c, SWT.PUSH);
 		btnNewRule.setText(BUTTON_DEFINE_A_NEW_RULE);
+		btnNewRule.setToolTipText(BUTTON_DEFINE_A_NEW_RULE_TIP);
 		btnNewRule.addSelectionListener(this);
 
 		btnNewGroup = new Button(c, SWT.PUSH);
 		btnNewGroup.setText(BUTTON_DEFINE_A_NEW_GROUP);
+		btnNewGroup.setToolTipText(BUTTON_DEFINE_A_NEW_GROUP_TIP);
 		btnNewGroup.addSelectionListener(this);
 
 		btnEdit = new Button(c, SWT.PUSH);
 		btnEdit.setText(BUTTON_EDIT_THE_SELECTED_RULE);
+		btnEdit.setToolTipText(BUTTON_EDIT_THE_SELECTED_RULE_TIP);
 		btnEdit.addSelectionListener(this);
 
 		btnDelete = new Button(c, SWT.PUSH);
 		btnDelete.setText(BUTTON_DELETE);
+		btnDelete.setToolTipText(BUTTON_DELETE_TIP);
 		btnDelete.addSelectionListener(this);
 
 		btnImport = new Button(c, SWT.PUSH);
 		btnImport.setText(BUTTON_IMPORT);
+		btnImport.setToolTipText(BUTTON_IMPORT_TIP);
 		btnImport.addSelectionListener(this);
 
 		btnExport = new Button(c, SWT.PUSH);
 		btnExport.setText(BUTTON_EXPORT);
+		btnExport.setToolTipText(BUTTON_EXPORT_TIP);
 		btnExport.addSelectionListener(this);
 		
 		initializeValues();
@@ -333,7 +345,6 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 				RuleGroup g = (RuleGroup) data;
 				if (g.getRules().size() == 0 && g.getName().compareTo("All") != 0) {  //$NON-NLS-1$
 					getDefinitionManager().removeGroup(g);
-					updateTree();
 				}
 				else{
 					MessageBox msg = new MessageBox(getControl().getShell(), SWT.ICON_WARNING);
@@ -345,9 +356,9 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 			} else if (data instanceof Rule) {
 				Rule r = (Rule) data;
 				getDefinitionManager().removeRule(r);
-				updateGroupNode(items[i].getParentItem());
 			}
 		}
+		updateTree(); // Can't be done inside one group; may affect multiple groups.
 	}
 
 	/**
