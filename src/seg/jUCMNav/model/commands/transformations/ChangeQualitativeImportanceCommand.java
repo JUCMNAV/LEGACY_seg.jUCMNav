@@ -18,8 +18,6 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
 public class ChangeQualitativeImportanceCommand extends Command implements JUCMNavCommand
 {
-	private boolean cancelled = false;
-	
 	public final static int INCREASE = ImportanceType.VALUES.size();
 	public final static int DECREASE = ImportanceType.VALUES.size() + 1;
 	
@@ -48,32 +46,19 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
 		
 			if ( id < INCREASE ) { // input from sub-menu High --> None
 				ies.newType = ImportanceType.get( id );
-			} else if ( id == INCREASE ) { // increase importance if possible
-    		
-				if ( ies.oldType == ImportanceType.HIGH_LITERAL )
-					cancelled = true; // can't increase from HIGH
-				else {
-					int index = ImportanceType.VALUES.indexOf( ies.oldType);    			
-					ies.newType = ImportanceType.get( index-1 );
-				}    		
+			} else if ( id == INCREASE ) { // increase importance
+				int index = ImportanceType.VALUES.indexOf( ies.oldType);    			
+				ies.newType = ImportanceType.get( index-1 );    		
 			} else if ( id == DECREASE ) { // decrease importance if possible
-
-				if ( ies.oldType == ImportanceType.NONE_LITERAL )
-					cancelled = true; // can't decrease from NONE
-				else {
-					int index = ImportanceType.VALUES.indexOf( ies.oldType);
-					ies.newType = ImportanceType.get( index+1 );
-				}
+				int index = ImportanceType.VALUES.indexOf( ies.oldType);
+				ies.newType = ImportanceType.get( index+1 );
 			}		
 		}
 	}
 	
 	public void execute()
 	{
-		if( cancelled )
-			cancelled = false;
-		else
-			redo();
+		redo();
 	}
 
 	public void redo()

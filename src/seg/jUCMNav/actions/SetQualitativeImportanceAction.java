@@ -54,15 +54,15 @@ public class SetQualitativeImportanceAction extends URNSelectionAction
     		if ( !(obj instanceof IntentionalElementEditPart) )
     			return false;    		
     		
-            if ( id < 4 )  // operation is not increase or decrease, skip further tests
+            if ( id < ChangeQualitativeImportanceCommand.INCREASE )  // operation is not increase or decrease, skip further tests
             	continue;
             
     		IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) obj).getModel());
             
-            if ( id == 4 ) { // increase operation, verify if possible
+            if ( id == ChangeQualitativeImportanceCommand.INCREASE ) { // increase operation, verify if possible
             	if ( ier.getDef().getImportance() == ImportanceType.HIGH_LITERAL )
             		return false; // can't increase from HIGH
-            } else if ( id == 5 ) { // decrease operation, verify if possible
+            } else if ( id == ChangeQualitativeImportanceCommand.DECREASE ) { // decrease operation, verify if possible
             	if ( ier.getDef().getImportance() == ImportanceType.NONE_LITERAL )
             		return false; // can't decrease from NONE
             }

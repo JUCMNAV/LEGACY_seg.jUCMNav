@@ -5,13 +5,15 @@ import java.util.Vector;
 
 import grl.IntentionalElementRef;
 
-import org.eclipse.gef.commands.Command;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
 
 /**
 *
@@ -30,17 +32,12 @@ public class SetNumericalEvaluationAction extends URNSelectionAction
 		super(part);
         setId( SET_NUMERICAL_EVALUATION + id );
         setText( values[id] );
-        if ( id == 10 )
+        if ( id == ChangeNumericalEvaluationCommand.INCREASE )
            	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/move_up.gif")); //$NON-NLS-1$
-        else if ( id == 11 )
+        else if ( id == ChangeNumericalEvaluationCommand.DECREASE )
            	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/move_down.gif")); //$NON-NLS-1$
         this.id = id;
 	}
-
-    protected Command getCommand()
-    {	
-        return new ChangeNumericalEvaluationCommand( intElementRefs, id, getCommandStack() );
-    }
 
     /**
      * We need to have an intentional element reference selected.
@@ -56,17 +53,17 @@ public class SetNumericalEvaluationAction extends URNSelectionAction
     		if ( !(obj instanceof IntentionalElementEditPart) )
     			return false;
     		
-            if ( id < 10 ) // operation is not increase or decrease, skip further tests
+            if ( id < ChangeNumericalEvaluationCommand.INCREASE ) // operation is not increase or decrease, skip further tests
             	continue;
             
     		IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) obj).getModel());
             int oldEval = EvaluationStrategyManager.getInstance().getEvaluation( ier.getDef() );
             
-            if ( id == 10 ) { // increase operation, verify if possible
+            if ( id == ChangeNumericalEvaluationCommand.INCREASE ) { // increase operation, verify if possible
             	if ( oldEval == 100 )
             		return false; // can't increase from 100
-            } else if ( id == 11 ) { // decrease operation, verify if possible
-            	if ( oldEval == -100 )
+            } else if ( id == ChangeNumericalEvaluationCommand.DECREASE ) { // decrease operation, verify if possible
+            	if ( oldEval <= -100 )
             		return false; // can't decrease from -100
             }
     	}
@@ -82,6 +79,30 @@ public class SetNumericalEvaluationAction extends URNSelectionAction
     	return true;
     }
 
+    public void run()
+    {
+    	if ( id < ChangeNumericalEvaluationCommand.USER_ENTRY || id >= ChangeNumericalEvaluationCommand.INCREASE )
+    		execute( new ChangeNumericalEvaluationCommand( intElementRefs, id, 0, getCommandStack() ) );
+    	else if ( id == ChangeNumericalEvaluationCommand.USER_ENTRY )
+    	{
+    		String currentEval = ( intElementRefs.size() > 1 ) ? "" : 
+    			Integer.toString( EvaluationStrategyManager.getInstance().getEvaluation( ((IntentionalElementRef) (intElementRefs.get(0))).getDef() ) );
+    		Integer userEntry = enterEvaluation( currentEval );
+    		if ( userEntry != null ) {
+       			int enteredValue = userEntry.intValue();        		
+       			execute( new ChangeNumericalEvaluationCommand( intElementRefs, id, enteredValue, getCommandStack() ) );
+    		}
+    	} 
+    }
+
+    private Integer enterEvaluation( String currentEval )
+	{	
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+	    IntegerInputRangeDialog dialog = new IntegerInputRangeDialog( shell );
+	    	
+	    return ( dialog.open( "Enter Numerical Evaluation   (range: [-100,+100])", "Enter the new Numerical Evaluation: ", currentEval, -100, 100 ) );
+	}
+	
 	public static String generateId( int id )
 	{
 		return SET_NUMERICAL_EVALUATION + id;

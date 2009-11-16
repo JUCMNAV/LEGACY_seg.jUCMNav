@@ -19,7 +19,6 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
 public class ChangeQualitativeEvaluationCommand extends Command implements JUCMNavCommand
 {
-	private boolean cancelled = false;
 	private boolean removed = false;
 	EvaluationStrategyManager esm;
 	
@@ -42,48 +41,28 @@ public class ChangeQualitativeEvaluationCommand extends Command implements JUCMN
 	{
 		esm = EvaluationStrategyManager.getInstance();
 		
-        if ( esm.getEvaluationStrategy() == null ){
-        	cancelled = true;
-        } else {
-        	
-    		intElementStates = new Vector();
-    		
-    		for ( Iterator iter = intElemRefs.iterator(); iter.hasNext(); ) {
+		for ( Iterator iter = intElemRefs.iterator(); iter.hasNext(); ) {
     			
-    			IntentionalElementRef currentIERef = (IntentionalElementRef) iter.next();
-    			IElementState ies = new IElementState();
+			IntentionalElementRef currentIERef = (IntentionalElementRef) iter.next();
+			IElementState ies = new IElementState();
     			
-    			ies.intElemRef = currentIERef;
-    			ies.oldQeval = esm.getEvaluationObject( currentIERef.getDef() ).getQualitativeEvaluation();
-    			ies.oldEval = esm.getEvaluation( currentIERef.getDef() ); // store old numerical value for undo operations
-    			intElementStates.add( ies );
+			ies.intElemRef = currentIERef;
+			ies.oldQeval = esm.getEvaluationObject( currentIERef.getDef() ).getQualitativeEvaluation();
+			ies.oldEval = esm.getEvaluation( currentIERef.getDef() ); // store old numerical value for undo operations
+			intElementStates.add( ies );
 
-    			if ( id < INCREASE ) { // input from sub-menu
-    				ies.newQeval = values[ id ];
-    			} else if ( id == INCREASE ) { // increase evaluation if possible
-        		
-    				if ( ies.oldQeval == QualitativeLabel.SATISFIED_LITERAL )
-    					cancelled = true; // can't increase from SATISFIED
-    				else
-    					ies.newQeval = values[index( ies.oldQeval )-1];
-        		
-    			} else if ( id == DECREASE ) { // decrease evaluation if possible
-
-    				if ( ies.oldQeval == QualitativeLabel.UNKNOWN_LITERAL )
-    					cancelled = true; // can't decrease from UNKNOWN
-    				else
-    					ies.newQeval = values[index( ies.oldQeval )+1];
-    			}
-    		}
-        }
+			if ( id < INCREASE ) // input from sub-menu
+				ies.newQeval = values[ id ];
+			else if ( id == INCREASE ) // increase evaluation if possible
+				ies.newQeval = values[ index( ies.oldQeval ) - 1 ];		
+			else if ( id == DECREASE ) // decrease evaluation if possible
+				ies.newQeval = values[ index( ies.oldQeval ) + 1 ];
+		}
 	}
 	
 	public void execute()
 	{
-		if( cancelled )
-			cancelled = false;
-		else
-			redo();
+		redo();
 	}
 
 	public void redo()

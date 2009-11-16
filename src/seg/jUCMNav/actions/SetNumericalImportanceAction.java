@@ -5,12 +5,14 @@ import java.util.Vector;
 
 import grl.IntentionalElementRef;
 
-import org.eclipse.gef.commands.Command;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalImportanceCommand;
+import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
 
 /**
 *
@@ -24,22 +26,18 @@ public class SetNumericalImportanceAction extends URNSelectionAction
     private int id;
     private static String[] values = { "100", "75", "50", "25", "0", "Other...", "Increase    (Shift+X)", "Decrease   (Shift+Z)" };
 
-	public SetNumericalImportanceAction( IWorkbenchPart part, int id ) {
+	public SetNumericalImportanceAction( IWorkbenchPart part, int id )
+	{
 		super(part);
         setId( SET_NUMERICAL_IMPORTANCE + id );
         setText( values[id] );
-        if ( id == 6 )
+        if ( id == ChangeNumericalImportanceCommand.INCREASE )
            	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/move_up.gif")); //$NON-NLS-1$
-        else if ( id == 7 )
+        else if ( id == ChangeNumericalImportanceCommand.DECREASE )
            	setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/move_down.gif")); //$NON-NLS-1$
 
         this.id = id;
 	}
-
-    protected Command getCommand()
-    {
-        return new ChangeNumericalImportanceCommand( intElementRefs, id, getCommandStack() );
-    }
 
     /**
      * We need to have only intentional element references selected. For increase/decrease other tests are necessary.
@@ -52,16 +50,16 @@ public class SetNumericalImportanceAction extends URNSelectionAction
     		if ( !(obj instanceof IntentionalElementEditPart) )
     			return false;
     		
-            if ( id <= 5 ) // operation is not increase or decrease, skip further tests
+            if ( id <= ChangeNumericalImportanceCommand.USER_ENTRY ) // operation is not increase or decrease, skip further tests
             	continue;
             
     		IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) obj).getModel());
             int oldEval = ier.getDef().getImportanceQuantitative();
             
-            if ( id == 6 ) { // increase operation, verify if possible
+            if ( id == ChangeNumericalImportanceCommand.INCREASE ) { // increase operation, verify if possible
             	if ( oldEval == 100 )
             		return false; // can't increase from 100
-            } else if ( id == 7 ) { // decrease operation, verify if possible
+            } else if ( id == ChangeNumericalImportanceCommand.DECREASE ) { // decrease operation, verify if possible
             	if ( oldEval == 0 )
             		return false; // can't decrease from 0
             }
@@ -78,7 +76,31 @@ public class SetNumericalImportanceAction extends URNSelectionAction
     	return true;
     }
 
-	public static String generateId(int id)
+    public void run()
+    {
+    	if ( id < ChangeNumericalImportanceCommand.USER_ENTRY || id >= ChangeNumericalImportanceCommand.INCREASE )
+    		execute( new ChangeNumericalImportanceCommand( intElementRefs, id, 0, getCommandStack() ) );
+    	else if ( id == ChangeNumericalImportanceCommand.USER_ENTRY )
+    	{
+    	    String currentValue = ( intElementRefs.size() > 1 ) ? "" :
+    	    	Integer.toString( ((IntentionalElementRef) (intElementRefs.get(0))).getDef().getImportanceQuantitative() );
+    		Integer userEntry = enterImportance( currentValue );
+    		if ( userEntry != null ) {
+    			int enteredImportance = userEntry.intValue();
+        		execute( new ChangeNumericalImportanceCommand( intElementRefs, id, enteredImportance, getCommandStack() ) );    			
+    		}
+    	}
+    }
+    
+    private Integer enterImportance( String currentValue )
+	{	
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+	    IntegerInputRangeDialog dialog = new IntegerInputRangeDialog( shell );
+	    	
+	    return ( dialog.open( "Enter Numerical Importance   (range: [0, 100])", "Enter the new Numerical Importance: ", currentValue, 0, 100 ) );		
+	}
+	
+	public static String generateId( int id )
 	{
 		return SET_NUMERICAL_IMPORTANCE + id;
 	}

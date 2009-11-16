@@ -74,16 +74,16 @@ public class SetQualitativeEvaluationAction extends URNSelectionAction
     		if ( !(obj instanceof IntentionalElementEditPart) )
     			return false;
     		
-            if ( id < 7 ) // operation is not increase or decrease, skip further tests
+            if ( id < ChangeQualitativeEvaluationCommand.INCREASE ) // operation is not increase or decrease, skip further tests
             	continue;
             
     		IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) obj).getModel());
             QualitativeLabel oldQeval = esm.getEvaluationObject( ier.getDef() ).getQualitativeEvaluation();
             
-            if ( id == 7 ) { // increase operation, verify if possible
+            if ( id == ChangeQualitativeEvaluationCommand.INCREASE ) { // increase operation, verify if possible
             	if ( oldQeval == QualitativeLabel.SATISFIED_LITERAL )
             		return false; // can't increase from SATISFIED
-            } else if ( id == 8 ) { // decrease operation, verify if possible
+            } else if ( id == ChangeQualitativeEvaluationCommand.DECREASE ) { // decrease operation, verify if possible
             	if ( oldQeval == QualitativeLabel.UNKNOWN_LITERAL )
             		return false; // can't decrease from UNKNOWN
             }
