@@ -206,6 +206,14 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         if (partRef.getPart(false) == this || partRef.getPart(false) instanceof UCMNavMultiPageEditor) {
             setEditor(partRef);
         }
+        else
+        {
+        	// bug 709 - if we are no longer selecting a UCM editor, flush the current selection. 
+        	if (!(partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor)) {
+		        multieditor=null;
+		        viewer.setContents(null);
+        	}
+        }
     }
 
     /*
@@ -282,8 +290,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
     }
     
     private void setEditor(IWorkbenchPartReference partRef) {
-        if (partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
-            setEditor((UCMNavMultiPageEditor) partRef.getPage().getActiveEditor());
+        if (partRef.getPart(false) instanceof UCMNavMultiPageEditor) {
+             setEditor((UCMNavMultiPageEditor)partRef.getPart(false));
         }
     }
     
