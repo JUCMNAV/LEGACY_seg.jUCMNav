@@ -82,7 +82,7 @@
 		<WarningOnly>false</WarningOnly> 
 	</Rule>
 	<Rule>
-		<Name>TooManyUCMelementsInMao</Name>
+		<Name>TooManyUCMelementsInMap</Name>
 		<Description>Too many #UCM visual elements in map...</Description>
 		<Classification>ucm::map::UCMmap</Classification>
 		<Query>getAllUCMmaps()</Query>

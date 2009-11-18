@@ -60,14 +60,6 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 	private static final String BUTTON_EXPORT_TIP = Messages.getString("RuleManagementPreferencePage.ExportTip"); //$NON-NLS-1$
 	private static final String BUTTON_IMPORT_TIP = Messages.getString("RuleManagementPreferencePage.ImportTip"); //$NON-NLS-1$
 
-	private static final int BTN_COLUMN_CHECK = 0;
-	private static final int TBL_COLUMN_NAME = 1;
-	private static final int TBL_COLUMN_DESCRIPTION = 5;
-	private static final int TBL_COLUMN_CONTEXT = 3;
-	private static final int TBL_COLUMN_CLASSIFIER = 2;
-	private static final int TBL_COLUMN_CONSTRAINT = 4;
-	private static final int TBL_COLUMN_UTILITY = 6;
-	
 	private static boolean alreadyClicked = false;
 	private static TreeItem currentTreeItem = null;
 
@@ -142,8 +134,8 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 			}
 		});
 
-		String[] titles = { Messages.getString("RuleManagementPreferencePage.Name"), Messages.getString("RuleManagementPreferencePage.Context"), Messages.getString("RuleManagementPreferencePage.QueryExpression"), Messages.getString("RuleManagementPreferencePage.ConstraintExpression"), Messages.getString("RuleManagementPreferencePage.Description"), Messages.getString("RuleManagementPreferencePage.Utilities") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-		int[] widths = { 150, 50, 50, 50, 50, 50 };
+		String[] titles = { Messages.getString("RuleManagementPreferencePage.Name"), Messages.getString("RuleManagementPreferencePage.Context"), Messages.getString("RuleManagementPreferencePage.Description")}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+		int[] widths = { 150, 50, 200 };
 		for (int i = 0; i < titles.length; i++) {
 			TreeColumn column = new TreeColumn(tree, SWT.LEFT);
 			column.setText(titles[i]);
@@ -618,14 +610,14 @@ public abstract class RuleManagementPreferencePage  extends PreferencePage imple
 	 * @param g the specified rule group object
 	 */
 	private void populateGroupNode(TreeItem item, RuleGroup g) {
-		item.setText(new String[] { g.getName(), "", "", "", "" });  //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$  //$NON-NLS-4$
+		item.setText(new String[] { g.getName(), "", "" });  //$NON-NLS-1$  //$NON-NLS-2$
 		item.setData(g);
 		item.setExpanded(true);
 		List rules = g.getRules();
 		for (int j = 0; j < rules.size(); j++) {
 			Rule r = (Rule) rules.get(j);
 			TreeItem subItem = new TreeItem(item, SWT.NONE);
-			subItem.setText(new String[] { r.getName(), r.getClassifier(), r.getContext(), r.getQuery(), r.getDescription() });
+			subItem.setText(new String[] { r.getName(), r.getClassifier(), r.getDescription() });
 			subItem.setData(r);
 			subItem.setChecked(r.isEnabled());
 			// Set the right icon in the tree subitem
