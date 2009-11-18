@@ -210,7 +210,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         {
         	// bug 709 - if we are no longer selecting a UCM editor, flush the current selection. 
         	if (!(partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor)) {
-		        multieditor=null;
+		        //multieditor=null;
 		        viewer.setContents(null);
         	}
         }
