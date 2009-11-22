@@ -29,16 +29,28 @@ import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
 import seg.jUCMNav.model.commands.create.AddKPIInformationConfigCommand;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
+import urn.URNspec;
+import urncore.Metadata;
 
 /**
  * This class is a singleton responsible to manage the current strategy. It does the evaluation calculation for IntentionalElement, create the Evaluation and
  * return the value of the evaluation given an IntentionalElement for the current strategy.
  * 
- * @author Jean-Franï¿½ois Roy, pchen, sghanava
+ * @author Jean-François Roy, pchen, sghanava
  * 
  */
 public class EvaluationStrategyManager {
+
+    /**
+     * Metadata name used to store run-time GRL numerical evaluations
+     */
+    public static final String METADATA_NUMEVAL = "_numEval";
+    /**
+     * Metadata name used to store run-time GRL qualitative evaluations
+     */
+    public static final String METADATA_QUALEVAL = "_qualEval";
 
     private UCMNavMultiPageEditor multieditor;
     private ScrollingGraphicalViewer kpiViewer;
@@ -92,7 +104,7 @@ public class EvaluationStrategyManager {
             int val = algo.getEvaluation(element);
             eval.setEvaluation(val);
             syncIntentionalElementQualitativeEvaluation(eval, val);
-            
+            setEvaluationMetadata(element, eval);
         }
 
         // Refresh all the diagrams if canRefresh set to true
@@ -120,11 +132,13 @@ public class EvaluationStrategyManager {
         }
     }
 
-    public synchronized int getActorEvaluation(Actor actor) {
-        return algo.getActorEvaluation(actor);
+	public synchronized int getActorEvaluation(Actor actor) {
+		int actorEval = algo.getActorEvaluation(actor);
+		setEvaluationMetadata(actor, actorEval);
+        return actorEval;
     }
 
-    public synchronized int getEvaluation(IntentionalElement elem) {
+	public synchronized int getEvaluation(IntentionalElement elem) {
         Evaluation temp = (Evaluation) evaluations.get(elem);
         if (temp == null && strategy != null && strategy.getGrlspec() != null && strategy.getGrlspec().getUrnspec() != null) {
             temp = (Evaluation) ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
@@ -359,6 +373,7 @@ public class EvaluationStrategyManager {
         if (value != element.getImportance()) {
             element.setImportance(value);
             syncIntentionalElementQualitativeImportance(element);
+            
         }
         //do we have a command for this?
         calculateEvaluation();      
@@ -398,8 +413,9 @@ public class EvaluationStrategyManager {
             if (value != eval.getEvaluation()) {
                 eval.setEvaluation(value);
                 syncIntentionalElementQualitativeEvaluation(eval, value);
+                setEvaluationMetadata(element, eval);
             }
-            // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
+            // If it is a new Evaluation entered by the user, link it with the strategy and intentionalElement
             AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
             execute(cmd);
 
@@ -454,6 +470,7 @@ public class EvaluationStrategyManager {
             return QualitativeLabel.UNKNOWN_LITERAL;    
         return null;
     }
+    
     /**
      * Sets the qualitative evaluation
      * @param element the element to which to apply the new value 
@@ -466,6 +483,7 @@ public class EvaluationStrategyManager {
         if (value != eval.getQualitativeEvaluation()) {
             eval.setQualitativeEvaluation(value);
             syncIntentionalElementEvaluation(eval);
+            setEvaluationMetadata(element, eval);
         }
         // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
         AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
@@ -500,6 +518,10 @@ public class EvaluationStrategyManager {
     	
     }
     
+    /*
+     * KPI management methods.
+     */
+    
     public synchronized void setLevelOfDimension(KPIInformationElement element, String value) {
         if (value != null) {
             KPIInformationConfig config = (KPIInformationConfig) kpiInformationConfigs.get(element);
@@ -511,7 +533,7 @@ public class EvaluationStrategyManager {
             AddKPIInformationConfigCommand cmd = new AddKPIInformationConfigCommand(config, element, strategy);
             execute(cmd);
 
-            // In this version, KPI Information Element is not involved in the evalution
+            // In this version, KPI Information Element is not involved in the evaluation
             // calculateEvaluation();
         }
     }
@@ -527,7 +549,7 @@ public class EvaluationStrategyManager {
             AddKPIInformationConfigCommand cmd = new AddKPIInformationConfigCommand(config, element, strategy);
             execute(cmd);
             
-            // In this version, KPI Information Element is not involved in the evalution
+            // In this version, KPI Information Element is not involved in the evaluation
             // calculateEvaluation();
         }
     }
@@ -611,7 +633,7 @@ public class EvaluationStrategyManager {
             }
         }
 
-        eval.setEvaluation((int) evalLevel);
+        eval.setEvaluation((int) evalLevel); 
     }
 
     public synchronized void setMultieditor(UCMNavMultiPageEditor multieditor) {
@@ -625,4 +647,59 @@ public class EvaluationStrategyManager {
     public void setKPIListViewer(TreeViewer viewer) {
         this.kpiListViewer = viewer;
     }
+    
+    
+    // Uses metadata attached to intentional elements and actors to store run-time evaluations.
+    // Enables OCL constraints to reason about satisfaction levels for a strategy.
+    
+    /**
+     * Sets _numEval and _qualEval metadata for the intentional element
+     * 
+     */
+    private void setEvaluationMetadata(IntentionalElement element, Evaluation eval) {
+    	Metadata metaNumerical = MetadataHelper.getMetaDataObj(element, METADATA_NUMEVAL);
+    	Metadata metaQuantitative;
+    	String numEvalAsString = Integer.toString(eval.getEvaluation()); 
+    	String qualEvalAsString = eval.getQualitativeEvaluation().toString();
+    	if (metaNumerical != null)
+    	{
+    		// Run-time metadata already exist for this element
+    		metaNumerical.setValue(numEvalAsString);
+    		metaQuantitative = MetadataHelper.getMetaDataObj(element, METADATA_QUALEVAL);
+    		metaQuantitative.setValue(qualEvalAsString);	
+    	}
+    	else
+    	{
+    		// Add new run-time metadata for this element
+        	URNspec urnSpec = element.getGrlspec().getUrnspec();
+    		MetadataHelper.addMetaData(urnSpec, element, METADATA_NUMEVAL, numEvalAsString);
+    		MetadataHelper.addMetaData(urnSpec, element, METADATA_QUALEVAL, qualEvalAsString);
+    	}
+    }
+
+    /**
+     * Sets _numEval and _qualEval metadata for the actor
+     * 
+     */
+    private void setEvaluationMetadata(Actor actor, int actorEval) {
+    	Metadata metaNumerical = MetadataHelper.getMetaDataObj(actor, METADATA_NUMEVAL);
+    	Metadata metaQuantitative;
+    	String numEvalAsString = Integer.toString(actorEval); 
+    	String qualEvalAsString = getQualitativeEvaluationForQuantitativeValue(actorEval).toString();
+    	if (metaNumerical != null)
+    	{
+    		// Run-time metadata already exist for this element
+    		metaNumerical.setValue(numEvalAsString);
+    		metaQuantitative = MetadataHelper.getMetaDataObj(actor, METADATA_QUALEVAL);
+    		metaQuantitative.setValue(qualEvalAsString);	
+    	}
+    	else
+    	{
+    		// Add new run-time metadata for this element
+        	URNspec urnSpec = actor.getGrlspec().getUrnspec();
+    		MetadataHelper.addMetaData(urnSpec, actor, METADATA_NUMEVAL, numEvalAsString);
+    		MetadataHelper.addMetaData(urnSpec, actor, METADATA_QUALEVAL, qualEvalAsString);
+    	}
+    }
+    
 }

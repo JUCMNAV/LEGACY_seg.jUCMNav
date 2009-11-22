@@ -1,6 +1,8 @@
 package seg.jUCMNav.views.strategies;
 
+import grl.Actor;
 import grl.EvaluationStrategy;
+import grl.IntentionalElement;
 
 import java.util.Iterator;
 
@@ -37,6 +39,7 @@ import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioDefTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioGroupTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyRootEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyTreeEditPartFactory;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.JUCMNavRefreshableView;
@@ -50,7 +53,7 @@ import ucm.scenario.ScenarioGroup;
  * 
  * The strategy/scenario design/execution view. 
  * 
- * @author Jean-Franï¿½ois Roy, jkealey
+ * @author Jean-François Roy, jkealey
  *
  */
 public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener, JUCMNavRefreshableView{
@@ -58,7 +61,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 
     static final int ID_DESIGN = 0;
     static final int ID_STRATEGY = 1;
-
+    
 	private UCMNavMultiPageEditor multieditor;
 	private EvaluationStrategy currentStrategy;
     private EvaluationStategyTreeEditPart currentSelection;
@@ -465,6 +468,23 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);         
                 }
+            }          
+            
+            if (multieditor.getModel() != null)
+            {
+                // Remove run-time evaluation metadata attached to actors
+                for (Iterator iter = multieditor.getModel().getGrlspec().getActors().iterator(); iter.hasNext();) {
+                    Actor actor = (Actor) iter.next();
+                    MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_NUMEVAL);
+                    MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_QUALEVAL);                
+                }
+                // Remove run-time evaluation metadata attached to intentional elements
+                for (Iterator iter = multieditor.getModel().getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+                    IntentionalElement actor = (IntentionalElement) iter.next();
+                    MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_NUMEVAL);
+                    MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_QUALEVAL);                
+                }
+
             }
             
 // this is weird, windows move  
