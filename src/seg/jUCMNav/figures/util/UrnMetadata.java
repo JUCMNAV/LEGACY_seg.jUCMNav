@@ -8,6 +8,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.emf.ecore.EObject;
 
+import seg.jUCMNav.model.util.MetadataHelper;
 import ucm.map.RespRef;
 import urn.URNlink;
 import urncore.Component;
@@ -21,9 +22,13 @@ import urncore.URNmodelElement;
  */
 public class UrnMetadata {
 
-	// prefix used in metadata names to identify stereotypes 
+	/**
+	 * 	Prefix used in metadata names to identify stereotypes 
+	 */
 	public static final String STEREOTYPE_PREFIX = "ST";
-	// Metadata indicator added to text labels
+	/**
+	 *  Metadata indicator added to text labels
+	 */
 	public static final String METADATA_PRESENCE = " ¶";
 
 
@@ -68,7 +73,7 @@ public class UrnMetadata {
 				// name = name.substring(STEREOTYPE_PREFIX.length()); 
 				stereotypes = stereotypes + " «" + metadata.getValue() + "»";  //$NON-NLS-1$  //$NON-NLS-2$
 			}
-			else
+			else if (!MetadataHelper.isRuntimeMetadata(name)) 
 				otherMetadataTypes = true;
 		}
 
@@ -111,6 +116,8 @@ public class UrnMetadata {
 	 */
 	public static void setToolTip(URNmodelElement elem, IFigure fig)
 	{
+		URNmodelElement elemOrig = elem;
+		
 		if (elem == null || fig == null) return;
 		String toolTipText = "";   //$NON-NLS-1$
 		String metadataText = "";  //$NON-NLS-1$
@@ -135,6 +142,17 @@ public class UrnMetadata {
 			}
 		}
 
+		//Consider run-time metadata for resp. references
+		if (elemOrig instanceof RespRef){
+			it=elemOrig.getMetadata().iterator();
+			while (it.hasNext()){
+				Metadata metadata = (Metadata) it.next();
+				if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
+					metadataText = metadataText + "\n    " + metadata.getName() + "=" +  metadata.getValue() + " ";  //$NON-NLS-1$  $NON-NLS-2$ $NON-NLS-3$
+				}
+			}
+		}
+		
 		if (!metadataText.equals("")) {   //$NON-NLS-1$
 			if (descOnly) {
 				toolTipText = toolTipText + "\n\n";    //$NON-NLS-1$

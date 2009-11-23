@@ -1,8 +1,6 @@
 package seg.jUCMNav.views.strategies;
 
-import grl.Actor;
 import grl.EvaluationStrategy;
-import grl.IntentionalElement;
 
 import java.util.Iterator;
 
@@ -469,40 +467,18 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);         
                 }
             }          
-            
-            if (multieditor.getModel() != null)
-            {
-                // Remove run-time evaluation metadata attached to actors
-                for (Iterator iter = multieditor.getModel().getGrlspec().getActors().iterator(); iter.hasNext();) {
-                    Actor actor = (Actor) iter.next();
-                    MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_NUMEVAL);
-                    MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_QUALEVAL);                
-                }
-                // Remove run-time evaluation metadata attached to intentional elements
-                for (Iterator iter = multieditor.getModel().getGrlspec().getIntElements().iterator(); iter.hasNext();) {
-                    IntentionalElement actor = (IntentionalElement) iter.next();
-                    MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_NUMEVAL);
-                    MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_QUALEVAL);                
-                }
 
-            }
+            // Removes the metadata for GRL evaluations and UCM executions
+            if(multieditor != null)
+            	MetadataHelper.cleanRunTimeMetadata(multieditor.getModel());
             
-// this is weird, windows move  
-//			try {
-//				PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID,
-//						PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-//
-//			} catch (PartInitException e) {
-//			} catch (WorkbenchException e) {
-//			}
-        } else if (id == ID_STRATEGY) {
+    	} else if (id == ID_STRATEGY) {
             showDesignView.setChecked(false);
             showStrategiesView.setChecked(true);
             
             if (currentSelection != null){
                 currentSelection.setSelected(true);
             }
-            
             if (currentScenarioSelection != null){
             	currentScenarioSelection.setSelected(true);
             }              
@@ -531,34 +507,17 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);         
                 }
-            }
-            
-//            this is weird, windows move             
-//			try {
-//				PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactoryExecution.JUCMNAV_PERSPECTIVE_ID,
-//						PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-//
-//			} catch (PartInitException e) {
-//			} catch (WorkbenchException e) {
-//			}            
+            }            
         }
     }
     
 	public Object getAdapter(Class adapter) {
 		if (adapter == org.eclipse.ui.views.properties.IPropertySheetPage.class) 
 		{
-			//PropertySheetPage page = new PropertySheetPage();
-            
-            //page.setPropertySourceProvider(multieditor);
-            ////page.setRootEntry(new UndoablePropertySheetEntry(multieditor.getDelegatingCommandStack()));
-            //return page;
-			
 			if (multieditor!=null)
 				return multieditor.getAdapter(org.eclipse.ui.views.properties.IPropertySheetPage.class);
 			else
 				return super.getAdapter(adapter);
-					
-
 		}
 		else
 			return super.getAdapter(adapter);
@@ -573,4 +532,6 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 		showId.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
 		expandTree();
 	}
+	
+	
 }

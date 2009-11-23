@@ -48,6 +48,7 @@ import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.TimerFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.PointcutBorderDetector;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.stub.PluginListDialog;
@@ -71,6 +72,7 @@ import ucm.map.StartPoint;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
+import urncore.Metadata;
 
 /**
  * EditPart associated with PathNodes. All model elements that extend PathNode
@@ -81,6 +83,11 @@ import ucm.map.WaitingPlace;
  */
 public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPart
 {
+
+    /**
+     * Metadata name used to store run-time UCM path node hit count
+     */
+	public static final String METADATA_HITS = "_hits";
 
 	// the pathgraph contain our node.
 	private UCMmap diagram;
@@ -644,7 +651,20 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		nodeFigure.setTraversed(scenariosActive);
 		// Set tool tip or hit count.
 		if (ScenarioUtils.getActiveScenario(node) != null)
-			nodeFigure.setToolTip(new Label(Messages.getString("PathNodeEditPart.Hits") + ScenarioUtils.getTraversalHitCount(node))); //$NON-NLS-1$
+			{
+				String hits = Integer.toString(ScenarioUtils.getTraversalHitCount(node));
+				//nodeFigure.setToolTip(new Label(Messages.getString("PathNodeEditPart.Hits") + hits)); //$NON-NLS-1$
+		    	Metadata metaHitCount = MetadataHelper.getMetaDataObj(node, METADATA_HITS);
+		    	if (metaHitCount != null)
+		    	{
+		    		metaHitCount.setValue(hits);
+		    	}
+		    	else
+		    	{	
+		    		MetadataHelper.addMetaData(diagram.getUrndefinition().getUrnspec(), node, METADATA_HITS, hits);
+		    	}
+		    	UrnMetadata.setToolTip(node, nodeFigure);
+			}
 		else
 			UrnMetadata.setToolTip(node, nodeFigure);
 

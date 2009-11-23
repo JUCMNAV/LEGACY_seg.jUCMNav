@@ -142,5 +142,23 @@
 		<Utilities />
 		<WarningOnly>false</WarningOnly>
 	</Rule>	
+	<Rule>
+		<Name>CoverageOfUCMelements</Name>
+		<Description>Coverage % of UCM visual elements</Description>
+		<Classification>urn::URNspec</Classification>
+		<Query>let&#13;
+	pn:Sequence(ucm::map::PathNode)=getAllPathNodes(),&#13;
+	numpn:Integer=pn-&gt;size() - getAllConnects()-&gt;size()&#13;
+in&#13;
+	if (numpn &gt; 0)&#13;
+	then&#13;
+		pn-&gt; select(elem | elem.getMetadata('_hits') &lt;&gt; '' and elem.getMetadata('_hits').toInteger() &gt; 0)&#13;
+		-&gt; size() * 100 / numpn&#13;
+	else 'Cannot evaluate... no path node!'&#13;
+	endif</Query>
+		<Constraint />
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>	
 </Rules>
 

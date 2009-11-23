@@ -108,6 +108,14 @@ in
 		<Utilities />
 		<WarningOnly>false</WarningOnly>
 	</Rule>
-
+	<Rule>
+		<Name>UCMscenarioCoverage</Name>
+		<Description>UCM path node not covered by the scenario(s) executed</Description>
+		<Classification>ucm::map::PathNode</Classification>
+		<Query>getAllPathNodes()</Query>
+		<Constraint>getMetadata('_hits') &lt;&gt; '' implies getMetadata('_hits').toInteger() &gt; 0</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
 </Rules>
 

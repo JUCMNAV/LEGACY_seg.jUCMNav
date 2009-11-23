@@ -50,7 +50,7 @@ public class TraversalResult {
     }
 
     /**
-     * We re-queued an element. Forget the last incrementaiton.
+     * We re-queued an element. Forget the last increment.
      * 
      */
     public void decrementHitCount() {

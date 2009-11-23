@@ -654,50 +654,68 @@ public class EvaluationStrategyManager {
     
     /**
      * Sets _numEval and _qualEval metadata for the intentional element
-     * 
      */
     private void setEvaluationMetadata(IntentionalElement element, Evaluation eval) {
-    	Metadata metaNumerical = MetadataHelper.getMetaDataObj(element, METADATA_NUMEVAL);
-    	Metadata metaQuantitative;
     	String numEvalAsString = Integer.toString(eval.getEvaluation()); 
     	String qualEvalAsString = eval.getQualitativeEvaluation().toString();
+
+    	Metadata metaNumerical = MetadataHelper.getMetaDataObj(element, METADATA_NUMEVAL);
     	if (metaNumerical != null)
     	{
     		// Run-time metadata already exist for this element
     		metaNumerical.setValue(numEvalAsString);
-    		metaQuantitative = MetadataHelper.getMetaDataObj(element, METADATA_QUALEVAL);
-    		metaQuantitative.setValue(qualEvalAsString);	
     	}
     	else
     	{
     		// Add new run-time metadata for this element
         	URNspec urnSpec = element.getGrlspec().getUrnspec();
     		MetadataHelper.addMetaData(urnSpec, element, METADATA_NUMEVAL, numEvalAsString);
+    	}
+
+		Metadata metaQuantitative = MetadataHelper.getMetaDataObj(element, METADATA_QUALEVAL);
+    	if (metaQuantitative != null)
+    	{
+    		// Run-time metadata already exist for this element
+    		metaQuantitative.setValue(qualEvalAsString);	
+    	}
+    	else
+    	{
+    		// Add new run-time metadata for this element
+        	URNspec urnSpec = element.getGrlspec().getUrnspec();
     		MetadataHelper.addMetaData(urnSpec, element, METADATA_QUALEVAL, qualEvalAsString);
     	}
     }
 
     /**
      * Sets _numEval and _qualEval metadata for the actor
-     * 
      */
     private void setEvaluationMetadata(Actor actor, int actorEval) {
-    	Metadata metaNumerical = MetadataHelper.getMetaDataObj(actor, METADATA_NUMEVAL);
-    	Metadata metaQuantitative;
     	String numEvalAsString = Integer.toString(actorEval); 
     	String qualEvalAsString = getQualitativeEvaluationForQuantitativeValue(actorEval).toString();
+    	
+    	Metadata metaNumerical = MetadataHelper.getMetaDataObj(actor, METADATA_NUMEVAL);
     	if (metaNumerical != null)
     	{
-    		// Run-time metadata already exist for this element
+    		// Run-time metadata already exists for this element
     		metaNumerical.setValue(numEvalAsString);
-    		metaQuantitative = MetadataHelper.getMetaDataObj(actor, METADATA_QUALEVAL);
-    		metaQuantitative.setValue(qualEvalAsString);	
     	}
     	else
     	{
     		// Add new run-time metadata for this element
         	URNspec urnSpec = actor.getGrlspec().getUrnspec();
     		MetadataHelper.addMetaData(urnSpec, actor, METADATA_NUMEVAL, numEvalAsString);
+    	}
+
+    	Metadata metaQuantitative = MetadataHelper.getMetaDataObj(actor, METADATA_QUALEVAL);
+    	if (metaQuantitative != null)
+    	{
+    		// Run-time metadata already exists for this element
+    		metaQuantitative.setValue(qualEvalAsString);	
+    	}
+    	else
+    	{
+    		// Add new run-time metadata for this element
+        	URNspec urnSpec = actor.getGrlspec().getUrnspec();
     		MetadataHelper.addMetaData(urnSpec, actor, METADATA_QUALEVAL, qualEvalAsString);
     	}
     }

@@ -127,6 +127,7 @@ public class MultiPageFileManager {
                 sDate = df.format(new Date());
                 editor.getModel().setModified(sDate);
                 setVersions();
+                // MetadataHelper.cleanRunTimeMetadata(getEditor().getModel());  *** does not work here. Refresh/adds metadata while deleting --> infinite loop!
                 save(file, monitor);
                 getEditor().getMultiPageCommandStackListener().markSaveLocations();
             }
@@ -180,6 +181,7 @@ public class MultiPageFileManager {
             editor.getModel().setModified(sDate);
 
             setVersions();
+            // MetadataHelper.cleanRunTimeMetadata(getEditor().getModel());  *** does not work here. Refresh/adds metadata while deleting --> infinite loop!
 
             // save the new file
             modelManager.save(path);
