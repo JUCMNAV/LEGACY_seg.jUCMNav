@@ -3,6 +3,7 @@ package seg.jUCMNav.figures;
 import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 
 import ucm.map.NodeConnection;
 
@@ -25,6 +26,7 @@ public class SplineConnection extends PolylineConnection {
      */
     public SplineConnection(NodeConnection link) {
         super();
+        setAntialias(SWT.ON); // recommended by @pushmatrix :)
         this.link = link;
     }
 
