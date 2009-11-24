@@ -213,6 +213,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         	if (!(partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor)) {
 		        //multieditor=null;
 		        viewer.setContents(null);
+        		setEditor((UCMNavMultiPageEditor)null);
+
         	}
         }
     }
