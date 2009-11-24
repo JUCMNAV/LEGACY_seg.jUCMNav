@@ -4,6 +4,7 @@ import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -23,6 +24,7 @@ public class StartPointFigure extends PathNodeFigure {
         ellipse = new Ellipse();
         ellipse.setBounds(new Rectangle(DEFAULT_WIDTH / 6, DEFAULT_HEIGHT / 6, DEFAULT_WIDTH * 2 / 3, DEFAULT_HEIGHT * 2 / 3));
         ellipse.setBackgroundColor(ColorManager.LINE);
+        ellipse.setAntialias(SWT.ON);
         add(ellipse);
     }
 

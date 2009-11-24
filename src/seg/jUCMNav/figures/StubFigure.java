@@ -60,6 +60,7 @@ public class StubFigure extends PathNodeFigure {
         mainFigure.setPoints(edges);
         mainFigure.setBackgroundColor(ColorManager.FILL);
         mainFigure.setFill(true);
+        mainFigure.setAntialias(SWT.ON);
         add(mainFigure);
         // create the text inside the main figure
         flowPage = new FlowPage();

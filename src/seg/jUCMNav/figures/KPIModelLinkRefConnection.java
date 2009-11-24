@@ -29,7 +29,7 @@ public class KPIModelLinkRefConnection extends PolylineConnection {
     private RotatableDecoration middleDec;
 
     /**
-     * Contructor. Set the default type to kpiModelLink
+     * Constructor. Set the default type to kpiModelLink
      */
     public KPIModelLinkRefConnection() {
         super();

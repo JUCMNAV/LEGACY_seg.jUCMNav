@@ -69,6 +69,7 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
     public GrlNodeFigure() {
         super();
         autoResize=true;
+        setAntialias(SWT.ON);
         
         xylayout = new XYLayout();
         this.setLayoutManager(xylayout);

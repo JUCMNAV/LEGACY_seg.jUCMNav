@@ -5,6 +5,7 @@ import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 
 /**
  * This figure represent an empty point in the model.
@@ -24,6 +25,7 @@ public class EmptyPointFigure extends PathNodeFigure {
     protected void createFigure() {
         ellipse = new Ellipse();
         ellipse.setBounds(new Rectangle(preferredSize.width / 4, preferredSize.height / 4, DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2));
+        ellipse.setAntialias(SWT.ON);
         add(ellipse);
     }
 

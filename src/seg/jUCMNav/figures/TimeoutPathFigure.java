@@ -4,6 +4,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.SWT;
 
 /**
  * Figure for a TimeoutPath. Is intented to be placed on a SplineConnection.
@@ -40,7 +41,8 @@ public class TimeoutPathFigure extends Figure {
         poly.addPoint(new Point(-WIDTH / 2, HEIGHT / 2));
         poly.addPoint(new Point(WIDTH / 2, -HEIGHT / 2));
         poly.addPoint(new Point(WIDTH / 2, -DELTA));
-
+        poly.setAntialias(SWT.ON);
+        
         add(poly);
     }
 

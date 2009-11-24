@@ -7,6 +7,7 @@ import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 
 /**
  * This figure is used to draw the circle associate with the connection in a decomposition
@@ -35,6 +36,7 @@ public class DecompositionFigure extends Shape {
     public DecompositionFigure() {
         super();
         setLineWidth(1);
+        setAntialias(SWT.ON);
         
         initAnchor();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);

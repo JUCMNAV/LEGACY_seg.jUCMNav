@@ -5,6 +5,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Transform;
+import org.eclipse.swt.SWT;
 
 /**
  * Figure for AndForks and AndJoins. Core is like an end point but maintains a list of points to which connection anchors should be associated.
@@ -57,6 +58,8 @@ public class AndForkJoinFigure extends PathNodeFigure implements IRotateable {
 
         mainFigure.setLineWidth(6);
         mainFigure.setPoints(edges);
+        mainFigure.setAntialias(SWT.ON);
+
         add(mainFigure);
     }
 

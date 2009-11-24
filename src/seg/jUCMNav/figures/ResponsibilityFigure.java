@@ -4,6 +4,7 @@ import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Transform;
+import org.eclipse.swt.SWT;
 
 /**
  * This figure represent a responsibility
@@ -40,9 +41,11 @@ public class ResponsibilityFigure extends PathNodeFigure implements IRotateable 
 
         edge1.setLineWidth(3);
         edge1.setPoints(enpoints1);
+        edge1.setAntialias(SWT.ON);
 
         edge2.setLineWidth(3);
         edge2.setPoints(enpoints2);
+        edge2.setAntialias(SWT.ON);
 
         add(edge1);
         add(edge2);

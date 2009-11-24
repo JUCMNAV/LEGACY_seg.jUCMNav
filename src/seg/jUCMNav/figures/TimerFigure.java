@@ -6,6 +6,7 @@ import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 
 /**
  * This figure represent a timer in the model.
@@ -36,12 +37,15 @@ public class TimerFigure extends PathNodeFigure {
         ellipse = new Ellipse();
         // we're making it larger than the empty point.
         ellipse.setBounds(new Rectangle(preferredSize.width / 8, preferredSize.height / 8, DEFAULT_WIDTH * 3 / 4, DEFAULT_HEIGHT * 3 / 4));
+        ellipse.setAntialias(SWT.ON);
         poly = new Polyline();
         poly.addPoint(new Point(DEFAULT_WIDTH / 2, preferredSize.height / 8));
         poly.addPoint(new Point(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2));
         poly.addPoint(new Point(preferredSize.width * 7 / 8, DEFAULT_HEIGHT / 2));
+        poly.setAntialias(SWT.ON);
         ellipse.add(poly);
         ellipse.setLineWidth(2);
+        ellipse.setAntialias(SWT.ON);
         poly.setLineWidth(2);
 
         add(ellipse);

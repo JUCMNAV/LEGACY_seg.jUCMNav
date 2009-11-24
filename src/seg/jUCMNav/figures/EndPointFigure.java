@@ -5,6 +5,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Transform;
+import org.eclipse.swt.SWT;
 
 /**
  * This figure represent and EndPoint
@@ -36,6 +37,7 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
 
         mainFigure.setLineWidth(5);
         mainFigure.setPoints(edges);
+        mainFigure.setAntialias(SWT.ON);
         add(mainFigure);
     }
 

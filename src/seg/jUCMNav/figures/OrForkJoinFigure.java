@@ -3,6 +3,7 @@ package seg.jUCMNav.figures;
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 
 /**
  * Represents an OR-Fork and an OR-Join in the model. No visuals; only the container.
@@ -21,6 +22,7 @@ public class OrForkJoinFigure extends PathNodeFigure {
     protected void createFigure() {
         ellipse = new Ellipse();
         ellipse.setBounds(new Rectangle(preferredSize.width / 4, preferredSize.height / 4, 0, 0)); // Size: 0 (invisible)
+        ellipse.setAntialias(SWT.ON);
         add(ellipse);
     }
 
