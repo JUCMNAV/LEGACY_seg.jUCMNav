@@ -301,18 +301,26 @@ public class ReportUtils {
 		cropRectangleY = top;
 		cropRectangleWidth = right - left + 1;
 		cropRectangleHeight = bottom - top + 1;
+		
+		ImageData croppedImage;
+		if (cropRectangleWidth < 0 || cropRectangleHeight < 0)
+		{
+			// Empty image?
+			croppedImage = new ImageData(1, 1, image.depth, image.palette);
+		}
+		else
+		{
+			croppedImage = new ImageData(cropRectangleWidth, cropRectangleHeight, image.depth, image.palette);
 
-		ImageData croppedImage = new ImageData(cropRectangleWidth, cropRectangleHeight, image.depth, image.palette);
-
-		for (int x = cropRectangleX; x < cropRectangleWidth + cropRectangleX; x++) {
-			for (int y = cropRectangleY; y < cropRectangleHeight + cropRectangleY; y++) {
-				int pixelValue = image.getPixel(x, y);
-				int newX = x - left;
-				int newY = y - top;
-				croppedImage.setPixel(newX, newY, pixelValue);
+			for (int x = cropRectangleX; x < cropRectangleWidth + cropRectangleX; x++) {
+				for (int y = cropRectangleY; y < cropRectangleHeight + cropRectangleY; y++) {
+					int pixelValue = image.getPixel(x, y);
+					int newX = x - left;
+					int newY = y - top;
+					croppedImage.setPixel(newX, newY, pixelValue);
+				}
 			}
 		}
-
 		return croppedImage;
 	}
 
