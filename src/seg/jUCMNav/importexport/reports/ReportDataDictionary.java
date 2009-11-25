@@ -47,25 +47,27 @@ public class ReportDataDictionary extends Report {
     public void createReportDataDictionary(Document document, UCMspec ucmspec, GRLspec grlspec) {
 
         try {
-            // document scenario Groups
-            if (!ucmspec.getScenarioGroups().isEmpty()) {
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-                writeScenarioGroups(document, ucmspec);
-            }
+        	// UCMspec report documentation
+        	if (ucmspec != null) {
+        		// document scenario Groups
+        		if (!ucmspec.getScenarioGroups().isEmpty()) {
+        			document.add(Chunk.NEWLINE);
+        			document.add(Chunk.NEWLINE);
+        			writeScenarioGroups(document, ucmspec);
+        		}
 
-            // document variables contained in ucmspec
-            if (!ucmspec.getVariables().isEmpty()) {
-                document.add(Chunk.NEWLINE);
-                writeVariables(document, ucmspec);
-            }
+        		// document variables contained in ucmspec
+        		if (!ucmspec.getVariables().isEmpty()) {
+        			document.add(Chunk.NEWLINE);
+        			writeVariables(document, ucmspec);
+        		}
 
-            // document enumeration types and their content
-            if (!ucmspec.getEnumerationTypes().isEmpty()) {
-                document.add(Chunk.NEWLINE);
-                writeEnumerationTypes(document, ucmspec);
-            }
-
+        		// document enumeration types and their content
+        		if (!ucmspec.getEnumerationTypes().isEmpty()) {
+        			document.add(Chunk.NEWLINE);
+        			writeEnumerationTypes(document, ucmspec);
+        		}
+        	}
             // GRLspec report documentation
             if (grlspec != null) {
 
@@ -82,22 +84,8 @@ public class ReportDataDictionary extends Report {
                     writeActors(document, grlspec);
                 }
 
-                // generate report documentation for URN definition
-                // if (urndef != null) {
-
-                // responsibilities
-                // if (!urndef.getResponsibilities().isEmpty()) {
-                // document.add(Chunk.NEWLINE);
-                // writeResponsibilities(document, urndef);
             }
 
-            // components
-            // if (!urndef.getComponents().isEmpty()) {
-            // document.add(Chunk.NEWLINE);
-            // writeComponents(document, urndef);
-            // }
-            // }
-            // }
         } catch (Exception e) {
             jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
             e.printStackTrace();

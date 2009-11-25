@@ -6,6 +6,7 @@ import java.util.HashMap;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import urn.URNspec;
 
+import grl.EvaluationStrategy;
 import grl.GRLspec;
 
 import java.io.FileOutputStream;
@@ -108,16 +109,14 @@ public class Report extends URNReport {
             ReportHeader reportHeader = new ReportHeader();
             reportHeader.createReportHeader(document, filename);
 
-            if (ucmspec != null) {
+            // new DataDictionary object for elements reporting
+            ReportDataDictionary dataDictionary = new ReportDataDictionary();
+            dataDictionary.createReportDataDictionary(document, ucmspec, grlspec);
 
-                // new DataDictionary object for elements reporting
-                ReportDataDictionary dataDictionary = new ReportDataDictionary();
-                dataDictionary.createReportDataDictionary(document, ucmspec, grlspec);
-
+            if (hasStrategies(grlspec)) {
                 // Strategies and their evaluations
                 ReportStrategies reportStrategies = new ReportStrategies();
                 reportStrategies.createReportStrategies(document, ucmspec, grlspec, urndef, pagesize);
-
             }
 
         } catch (Exception e) {
@@ -129,6 +128,26 @@ public class Report extends URNReport {
     }
 
     /**
+     * Indicates whether the GRL spec has any non-empty strategy.
+     * @param grlspec
+     * @return true if there is at least one strategy with initializations
+     */
+    public boolean hasStrategies(GRLspec grlspec) {
+    	boolean result = false;
+    	
+    	if (grlspec != null)
+    		if (grlspec.getStrategies().size() > 0)
+    			for (int i = 0; i<grlspec.getStrategies().size(); i++)
+    			{
+    				EvaluationStrategy s = (EvaluationStrategy) grlspec.getStrategies().get(i);
+    				if (s.getEvaluations().size() > 0)
+    					return true;
+    			}
+    	return result;
+	}
+
+
+	/**
      * not used
      * 
      */

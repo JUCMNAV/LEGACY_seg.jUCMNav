@@ -663,26 +663,26 @@ public class EvaluationStrategyManager {
     	if (metaNumerical != null)
     	{
     		// Run-time metadata already exist for this element
-    		metaNumerical.setValue(numEvalAsString);
+    		//metaNumerical.setValue(numEvalAsString);
     	}
     	else
     	{
     		// Add new run-time metadata for this element
         	URNspec urnSpec = element.getGrlspec().getUrnspec();
-    		MetadataHelper.addMetaData(urnSpec, element, METADATA_NUMEVAL, numEvalAsString);
+    		// MetadataHelper.addMetaData(urnSpec, element, METADATA_NUMEVAL, numEvalAsString);
     	}
 
 		Metadata metaQuantitative = MetadataHelper.getMetaDataObj(element, METADATA_QUALEVAL);
     	if (metaQuantitative != null)
     	{
     		// Run-time metadata already exist for this element
-    		metaQuantitative.setValue(qualEvalAsString);	
+    		//metaQuantitative.setValue(qualEvalAsString);	
     	}
     	else
     	{
     		// Add new run-time metadata for this element
         	URNspec urnSpec = element.getGrlspec().getUrnspec();
-    		MetadataHelper.addMetaData(urnSpec, element, METADATA_QUALEVAL, qualEvalAsString);
+    		//MetadataHelper.addMetaData(urnSpec, element, METADATA_QUALEVAL, qualEvalAsString);
     	}
     }
 

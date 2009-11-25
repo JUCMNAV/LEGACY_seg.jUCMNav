@@ -55,6 +55,7 @@ public class ReportStrategies extends ReportDataDictionary {
             if (!grlspec.getStrategies().isEmpty()) {
                 document.add(Chunk.NEWLINE);
                 writeStrategies(document, grlspec, pagesize);
+                EvaluationStrategyManager.getInstance(false).setStrategy(null); // Avoid NPE when adding IEs after reporting
             }
         } catch (Exception e) {
             jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
