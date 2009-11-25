@@ -56,7 +56,6 @@ public class DecompositionFigure extends Shape {
     protected void fillShape(Graphics graphics) {
        Rectangle r = getBounds().getCopy();
        graphics.drawOval(r);
-       //graphics.drawArc(r,0,100);
     }
 
     /* (non-Javadoc)

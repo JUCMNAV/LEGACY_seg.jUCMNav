@@ -3,6 +3,7 @@ package seg.jUCMNav.figures;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 
 /**
  * Figure that represent a belief in GRL
@@ -34,6 +35,7 @@ public class BeliefFigure extends GrlNodeFigure {
         super();
         setLineWidth(2);
         setLineStyle(Graphics.LINE_SOLID);
+        setAntialias(SWT.ON);
     }
 
     /* (non-Javadoc)

@@ -33,7 +33,6 @@ public class LinkRefConnection extends PolylineConnection {
     private int type;
     private PolylineDecoration contribution;
     private PolylineDecoration line;
-    //private DependencyFigure depend;
     private PolygonDecoration depend;
     
     private RotatableDecoration middleDec;
@@ -57,7 +56,7 @@ public class LinkRefConnection extends PolylineConnection {
         DEPENDENCY_FIG.addPoint(10, 5);
         DEPENDENCY_FIG.addPoint(5, 4);
         DEPENDENCY_FIG.addPoint(1, 2);
-        DEPENDENCY_FIG.addPoint(0,0);
+        DEPENDENCY_FIG.addPoint(0, 0);
         
         LINE.addPoint(-1,1);
         LINE.addPoint(-1,-1);
@@ -69,6 +68,8 @@ public class LinkRefConnection extends PolylineConnection {
     public LinkRefConnection() {
         super();
         setLineWidth(3);
+        setAntialias(SWT.ON);
+        
         contribution = new PolylineDecoration();
         contribution.setTemplate(PolylineDecoration.TRIANGLE_TIP);
         contribution.setLineWidth(3);

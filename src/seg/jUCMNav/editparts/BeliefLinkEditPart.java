@@ -121,6 +121,7 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
         
         connection.setLineWidth(2);
         connection.setLineStyle(SWT.LINE_DASH);
+        connection.setAntialias(SWT.ON);
         return connection;
     }
     
