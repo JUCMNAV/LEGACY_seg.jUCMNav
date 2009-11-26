@@ -71,8 +71,7 @@ public class ChangeHyperlinkAction extends URNSelectionAction
 	    		hyperlink.getValue() ); //$NON-NLS-1$ 
 	    
 
-	    if (url != null && !url.isEmpty())
-	    {
+	    if (url != null && url.length()>0) {
 	    	comm = new ChangeHyperlinkCommand(urnspec, element, url);
 	    	return comm;
 	    }
