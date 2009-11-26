@@ -2,6 +2,7 @@ package seg.jUCMNav.actions.hyperlinks;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
@@ -44,7 +45,12 @@ public class NavigateHyperlinkAction extends SelectionAction
 	 * Also uses definitions when references are selected.
 	 */
 	protected boolean calculateEnabled() {
-		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+    	List objects = getSelectedObjects();
+    	
+    	if (objects.size()!=1)
+    		return false;
+    		
+		SelectionHelper sel = new SelectionHelper(objects);
 		urnspec = sel.getUrnspec();
         element = HyperlinkUtils.findURNmodelElement(sel);
 

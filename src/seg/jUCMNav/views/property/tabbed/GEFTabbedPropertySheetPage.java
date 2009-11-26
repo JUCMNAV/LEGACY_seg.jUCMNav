@@ -57,7 +57,6 @@ public class GEFTabbedPropertySheetPage extends TabbedPropertySheetPage {
 		gc.dispose();
 		
 		return standardLabelWidth;
-//		return standardLabelWidth;
 	}
 
 	/**
@@ -87,7 +86,7 @@ public class GEFTabbedPropertySheetPage extends TabbedPropertySheetPage {
 				AbstractGEFPropertySection current = (AbstractGEFPropertySection)sections[i];
 				
 				if(!maxLabelWidth.containsKey(tabDescriptor.getId()))
-					maxLabelWidth.put(tabDescriptor.getId(), "");
+					maxLabelWidth.put(tabDescriptor.getId(), ""); //$NON-NLS-1$
 				
 				sectionToTab.put(current, tabDescriptor.getId());
 				

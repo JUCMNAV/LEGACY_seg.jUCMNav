@@ -33,6 +33,7 @@ import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.LinkRefConnection;
+import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
@@ -310,11 +311,6 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
                 	contributionLabel.setText(""); //$NON-NLS-1$
                 }
                 
-//                if (img != null) {
-//                    img.dispose();
-//                    img = null;
-//                }
-                
                 //Set the icon            
                 if (type.equals("Make")){ //$NON-NLS-1$
                     img = (JUCMNavPlugin.getImage( "icons/Make.gif")); //$NON-NLS-1$
@@ -340,6 +336,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
             //Dependency depend = (Dependency)getLinkRef().getLink();
             getLinkRefFigure().setType(LinkRefConnection.TYPE_DEPENDENCY);
         }
-        
+        UrnMetadata.setToolTip(getLinkRef().getLink(), figure);
+
     }
 }

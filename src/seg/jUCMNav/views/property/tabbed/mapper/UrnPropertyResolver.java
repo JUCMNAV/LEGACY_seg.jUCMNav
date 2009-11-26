@@ -1,6 +1,7 @@
 package seg.jUCMNav.views.property.tabbed.mapper;
 
 import grl.IntentionalElementRef;
+import grl.LinkRef;
 import grl.kpimodel.KPIInformationElementRef;
 import ucm.map.RespRef;
 import urncore.Condition;
@@ -21,6 +22,8 @@ public class UrnPropertyResolver implements IPropertyDataResolver {
 			obj = ((KPIInformationElementRef)obj).getDef();
 		else if (obj instanceof IURNContainerRef)
 			obj = ((IURNContainerRef)obj).getContDef();
+		else if (obj instanceof LinkRef)
+			obj = ((LinkRef)obj).getLink();
 		
 		return obj;
 	}

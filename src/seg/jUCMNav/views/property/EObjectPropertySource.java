@@ -53,7 +53,7 @@ public class EObjectPropertySource implements IPropertySource2 {
     protected MapPackage ucmPackage;
 
     /**
-     * Contruct an EObjectPropertySource from an EObject.
+     * Construct an EObjectPropertySource from an EObject.
      * 
      * @param obj
      */
@@ -99,8 +99,8 @@ public class EObjectPropertySource implements IPropertySource2 {
     }
 
     /**
-     * This method is called by getPropertyDescriptors() to get a list of additionnal properties to add to this descriptor. Subclass can overwrite this method
-     * to add more properties to the property descritor.
+     * This method is called by getPropertyDescriptors() to get a list of additional properties to add to this descriptor. Subclass can overwrite this method
+     * to add more properties to the property descriptor.
      */
     protected Vector addSpecificProperties() {
         return new Vector();

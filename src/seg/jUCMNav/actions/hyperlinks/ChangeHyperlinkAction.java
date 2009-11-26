@@ -1,5 +1,7 @@
 package seg.jUCMNav.actions.hyperlinks;
 
+import java.util.List;
+
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
@@ -42,7 +44,12 @@ public class ChangeHyperlinkAction extends URNSelectionAction
      * Also uses definitions when references are selected.
      */
     protected boolean calculateEnabled() {
-		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+    	List objects = getSelectedObjects();
+    	
+    	if (objects.size()!=1)
+    		return false;
+    		
+		SelectionHelper sel = new SelectionHelper(objects);
 		urnspec = sel.getUrnspec();
         element = HyperlinkUtils.findURNmodelElement(sel);
         

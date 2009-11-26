@@ -74,6 +74,6 @@ public class MetadataPropertySection extends AbstractWizardPropertySection {
 	}
 
 	public String getLabelText() {
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 }

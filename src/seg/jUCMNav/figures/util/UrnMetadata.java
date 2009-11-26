@@ -25,11 +25,11 @@ public class UrnMetadata {
 	/**
 	 * 	Prefix used in metadata names to identify stereotypes 
 	 */
-	public static final String STEREOTYPE_PREFIX = "ST";
+	public static final String STEREOTYPE_PREFIX = "ST"; //$NON-NLS-1$
 	/**
 	 *  Metadata indicator added to text labels
 	 */
-	public static final String METADATA_PRESENCE = " ¶";
+	public static final String METADATA_PRESENCE = " ¶"; //$NON-NLS-1$
 
 
 	/**
@@ -58,7 +58,7 @@ public class UrnMetadata {
 	public static String getStereotypes(EObject object) {
 
 		URNmodelElement elem = (URNmodelElement)object;
-		String stereotypes = ""; // List of stereotypes
+		String stereotypes = ""; //$NON-NLS-1$ // List of stereotypes
 		boolean otherMetadataTypes = false; // Indicates whether there are metadata elements that are not stereotypes 
 		Iterator it = elem.getMetadata().iterator();
 
@@ -78,7 +78,7 @@ public class UrnMetadata {
 		}
 
 		if (otherMetadataTypes)
-			stereotypes = stereotypes + METADATA_PRESENCE;  //$NON-NLS-1$
+			stereotypes = stereotypes + METADATA_PRESENCE; 
 		return stereotypes;
 	}
 
@@ -101,7 +101,7 @@ public class UrnMetadata {
 			else
 			{
 				// Removes ¶ at the end of the name
-				sub = name.indexOf(METADATA_PRESENCE); //$NON-NLS-1$
+				sub = name.indexOf(METADATA_PRESENCE);
 				if (sub>-1)
 					name = name.substring(0,sub);
 			}
@@ -138,7 +138,7 @@ public class UrnMetadata {
 		while (it.hasNext()){
 			Metadata metadata = (Metadata) it.next();
 			if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
-				metadataText = metadataText + "\n    " + metadata.getName() + "=" +  metadata.getValue() + " ";  //$NON-NLS-1$  $NON-NLS-2$ $NON-NLS-3$
+				metadataText = metadataText + "\n    " + metadata.getName() + "=" +  metadata.getValue() + " ";  //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
 			}
 		}
 
@@ -148,7 +148,7 @@ public class UrnMetadata {
 			while (it.hasNext()){
 				Metadata metadata = (Metadata) it.next();
 				if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
-					metadataText = metadataText + "\n    " + metadata.getName() + "=" +  metadata.getValue() + " ";  //$NON-NLS-1$  $NON-NLS-2$ $NON-NLS-3$
+					metadataText = metadataText + "\n    " + metadata.getName() + "=" +  metadata.getValue() + " ";  //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
 				}
 			}
 		}
@@ -184,9 +184,9 @@ public class UrnMetadata {
 					} 
 					else {
 						classname = link.getToElem().getClass().toString();
-						classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4);
+						classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4); //$NON-NLS-1$
 					}
-					toolTipText = toolTipText + "\n   " + link.getType() + " to " + link.getToElem().getName() + " (" + classname + ") ";    //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
+					toolTipText = toolTipText + "\n   " + link.getType() + " to " + link.getToElem().getName() + " (" + classname + ") ";    //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
 				}
 			}
 			it=elem.getToLinks().iterator();
@@ -201,9 +201,9 @@ public class UrnMetadata {
 				} 
 				else {
 					classname = link.getFromElem().getClass().toString();
-					classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4);
+					classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4); //$NON-NLS-1$
 				}
-				toolTipText = toolTipText + "\n   " + link.getType() + " from " + link.getFromElem().getName()+ " (" + classname + ") ";    //$NON-NLS-1$  $NON-NLS-2$ $NON-NLS-3$
+				toolTipText = toolTipText + "\n   " + link.getType() + " from " + link.getFromElem().getName()+ " (" + classname + ") ";    //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
 			}
 		}
 

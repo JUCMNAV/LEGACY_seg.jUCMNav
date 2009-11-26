@@ -6,6 +6,7 @@ import org.eclipse.ui.views.properties.tabbed.AbstractTypeMapper;
 
 import seg.jUCMNav.editparts.ConditionEditPart;
 import seg.jUCMNav.editparts.LabelEditPart;
+import seg.jUCMNav.editparts.LinkRefEditPart;
 
 /**
  * This class maps EditParts to their model object so that the
@@ -26,6 +27,11 @@ public class EditPartTypeMapper extends AbstractTypeMapper
 				return mapType(labelEditPart.getModelObj());
 			if (labelEditPart.getModelObj().eContainer()!=null)
 				return labelEditPart.getModelObj().eContainer().getClass();
+		}
+		if (object instanceof LinkRefEditPart)
+		{
+			LinkRefEditPart linkRefEditPart = (LinkRefEditPart) object;
+			return linkRefEditPart.getLinkRef().getLink().getClass();
 		}
 		else if (object instanceof EditPart)
 		{
