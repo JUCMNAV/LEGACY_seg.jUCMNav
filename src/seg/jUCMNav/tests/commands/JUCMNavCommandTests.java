@@ -50,6 +50,7 @@ import seg.jUCMNav.model.commands.delete.internal.DeleteStartNCEndCommand;
 import seg.jUCMNav.model.commands.metadata.ChangeHyperlinkCommand;
 import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
+import seg.jUCMNav.model.commands.transformations.CutAnyPathCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
@@ -1174,6 +1175,56 @@ public class JUCMNavCommandTests extends TestCase {
 
         assertTrue("Can't locate a fork in the map", newFork != null); //$NON-NLS-1$
         assertTrue("Transmogrification of Fork failed!", newFork instanceof OrFork); //$NON-NLS-1$
+    }
+    
+    /**
+     * Test the CutAnyPathCommand command on a NodeConnection.
+     * 
+     * Should begin like this:
+     * 
+     * EmptyPoint1---------EmptyPoint2
+     * 
+     * Should finish like this:
+     * 
+     * ------EndPoint     StartPoint------
+     */
+    public void testCutAnyPathCommandNodeConnection() {
+    	testExtendPathCommand();
+    	NodeConnection nc = (NodeConnection) end.getPred().get(0);
+    	
+        Command cmd = new CutAnyPathCommand(map, nc, 85, 56);
+        assertTrue("Can't execute CutAnyPathCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        assertTrue("The old node connection target should now be an EndPoint", nc.getTarget() instanceof EndPoint);
+        assertTrue("The EndPoint precedent node should now be a StartPoint", ((NodeConnection)end.getPred().get(0)).getSource() instanceof StartPoint);
+        
+        testExtendPathCommand();
+    }
+    
+    /**
+     * Test the CutAnyPathCommand command on an EmptyPoint.
+     * 
+     * Should begin like this:
+     * 
+     * ---------EmptyPoint1---------
+     * 
+     * Should finish like this:
+     * 
+     * ------EndPoint     StartPoint------
+     */
+    public void testCutAnyPathCommandEmptyPoint() {
+        testExtendPathCommand();
+
+        NodeConnection nc = (NodeConnection) end.getPred().get(0);
+        EmptyPoint ep = (EmptyPoint)nc.getSource();
+        CutAnyPathCommand cmd = new CutAnyPathCommand(map, ep, 85, 86);
+        
+        assertTrue("Can't execute CutAnyPathCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        assertTrue("The node connection target should now be an EndPoint", nc.getTarget() instanceof EndPoint);
+        assertTrue("The EndPoint precedent node should now be a StartPoint", ((NodeConnection)end.getPred().get(0)).getSource() instanceof StartPoint);
     }
 
     /**

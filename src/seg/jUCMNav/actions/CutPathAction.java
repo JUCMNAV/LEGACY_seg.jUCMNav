@@ -3,12 +3,11 @@ package seg.jUCMNav.actions;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.model.commands.transformations.CutAnyPathCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 
 /**
@@ -25,7 +24,6 @@ public class CutPathAction extends URNSelectionAction {
 
     public static final String CUTPATH = "seg.jUCMNav.CutPath"; //$NON-NLS-1$
 
-    Request request;
 
     /**
      * @param part
@@ -33,7 +31,6 @@ public class CutPathAction extends URNSelectionAction {
     public CutPathAction(IWorkbenchPart part) {
         super(part);
         setId(CUTPATH);
-        request = new Request(CUTPATH_REQUEST);
         setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/cut_edit.gif")); //$NON-NLS-1$
     }
 
@@ -50,7 +47,7 @@ public class CutPathAction extends URNSelectionAction {
                 return false;
             EditPart part = (EditPart) o;
 
-            return CutPathCommand.canExecute(part.getModel());
+            return CutAnyPathCommand.canExecute(part.getModel());
 
         }
         return true;
@@ -60,13 +57,16 @@ public class CutPathAction extends URNSelectionAction {
      * Asks the selected edit parts to return their commands via a request. Cut Path is one of the only actions that follows this model. 
      */
     protected Command getCommand() {
-        List editparts = getSelectedObjects();
-        CompoundCommand cc = new CompoundCommand();
-        for (int i = 0; i < editparts.size(); i++) {
-            EditPart part = (EditPart) editparts.get(i);
-            cc.add(part.getCommand(request));
-        }
-        return cc;
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+    	
+        if(sel.getSelectionType() == SelectionHelper.NODECONNECTION)
+        	return new CutAnyPathCommand(sel.getMap(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y);
+        else if(sel.getSelectionType() == SelectionHelper.EMPTYPOINT)
+        	return new CutAnyPathCommand(sel.getMap(), sel.getEmptypoint(), sel.getEmptypoint().getX(), sel.getEmptypoint().getY());
+        else if(sel.getSelectionType() == SelectionHelper.DIRECTIONARROW)
+        	return new CutAnyPathCommand(sel.getMap(), sel.getDirectionarrow(), sel.getDirectionarrow().getX(), sel.getDirectionarrow().getY());
+        	
+        return null;
     }
 
 }

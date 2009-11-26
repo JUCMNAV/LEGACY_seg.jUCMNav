@@ -58,6 +58,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     private Responsibility existingDef;
     
     private Condition outgoingCondition;
+    
+    private URNspec urn;
 
     public Condition getOutgoingCondition() {
 		return outgoingCondition;
@@ -84,6 +86,23 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         this.x = x;
         this.y = y;
         this.outgoingCondition=null;
+
+        this.urn = diagram.getUrndefinition().getUrnspec();
+        
+        setLabel(Messages.getString("SplitLinkCommand.insertNodeOnPath")); //$NON-NLS-1$
+    }
+    
+    public SplitLinkCommand(UCMmap pg, PathNode pn, NodeConnection link, NodeConnection newLink, int x, int y) {
+        this.diagram = pg;
+        this.node = pn;
+        this.oldLink = link;
+        this.x = x;
+        this.y = y;
+        this.outgoingCondition=null;
+
+        this.urn = diagram.getUrndefinition().getUrnspec();
+        this.newLink = newLink;
+        
         setLabel(Messages.getString("SplitLinkCommand.insertNodeOnPath")); //$NON-NLS-1$
     }
     /**
@@ -120,8 +139,9 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
             aborted = true;
             return;
         }
-        URNspec urn = diagram.getUrndefinition().getUrnspec();
-        newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
+        
+        if(newLink == null)
+        	newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
         
         if (outgoingCondition==null && (node instanceof OrFork || node instanceof WaitingPlace || node instanceof Timer)) {
         	outgoingCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
@@ -364,4 +384,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         assert node.getPred().size() == 1 && node.getSucc().size() == 1 : "post node 1 in 1 out"; //$NON-NLS-1$
 
     }
+	public NodeConnection getNewLink() {
+		return newLink;
+	}
 }
