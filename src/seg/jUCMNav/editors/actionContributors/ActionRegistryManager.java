@@ -21,9 +21,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.commands.ActionHandler;
-import org.eclipse.ui.commands.ICommandService;
-import org.eclipse.ui.handlers.IHandlerService;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -81,6 +78,10 @@ import seg.jUCMNav.actions.cutcopypaste.PasteAction;
 import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
+import seg.jUCMNav.actions.hyperlinks.AddHyperlinkAction;
+import seg.jUCMNav.actions.hyperlinks.ChangeHyperlinkAction;
+import seg.jUCMNav.actions.hyperlinks.DeleteHyperlinkAction;
+import seg.jUCMNav.actions.hyperlinks.NavigateHyperlinkAction;
 import seg.jUCMNav.actions.kpi.AddIndicatorGroupAction;
 import seg.jUCMNav.actions.kpi.EditIndicatorGroupsAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
@@ -593,6 +594,22 @@ public class ActionRegistryManager
 
 		action = new ManageResourcesAction(editor);
 		action.setText(Messages.getString("ActionRegistryManager.ManageResourcesAction")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+
+		action = new AddHyperlinkAction(editor);
+		action.setText(Messages.getString("ActionRegistryManager.AddHyperlinkAction")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+
+		action = new NavigateHyperlinkAction(editor);
+		action.setText(Messages.getString("ActionRegistryManager.NavigateHyperlinkAction")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+
+		action = new ChangeHyperlinkAction(editor);
+		action.setText(Messages.getString("ActionRegistryManager.ChangeHyperlinkAction")); //$NON-NLS-1$
+		addEditPartAction((SelectionAction) action);
+
+		action = new DeleteHyperlinkAction(editor);
+		action.setText(Messages.getString("ActionRegistryManager.DeleteHyperlinkAction")); //$NON-NLS-1$
 		addEditPartAction((SelectionAction) action);
 
 		// keep at bottom

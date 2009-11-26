@@ -10,6 +10,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeQualitativeEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -24,7 +25,10 @@ public class SetQualitativeEvaluationAction extends URNSelectionAction
     public static final String SET_QUALITATIVE_EVALUATION = "seg.jUCMNav.SET_QUALITATIVE_EVALUATION"; //$NON-NLS-1$
     private Vector intElementRefs;
     private int id;
-    private static String[] values = { "Satisfied", "Weakly Satisfied", "None", "Weakly Denied", "Denied", "Conflict", "Unknown", "Increase    (h)", "Decrease   (n)" };
+    private static String[] values = { "Satisfied", "Weakly Satisfied", "None", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    	"Weakly Denied", "Denied", "Conflict", "Unknown", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+    	Messages.getString("SetEvaluation.Increase") + "   (h)", //$NON-NLS-1$ //$NON-NLS-2$ 
+    	Messages.getString("SetEvaluation.Decrease") + "   (n)" }; //$NON-NLS-1$ //$NON-NLS-2$ 
 
 	public SetQualitativeEvaluationAction(IWorkbenchPart part, int id ) {
 		super(part);

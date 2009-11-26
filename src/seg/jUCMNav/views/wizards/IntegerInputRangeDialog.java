@@ -23,6 +23,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import seg.jUCMNav.Messages;
+
 public class IntegerInputRangeDialog extends Dialog
 {
   Integer value;
@@ -65,10 +67,10 @@ public class IntegerInputRangeDialog extends Dialog
 	  	final Text text = new Text( shell, SWT.SINGLE | SWT.BORDER );
 
 	  	final Button buttonOK = new Button( shell, SWT.PUSH );
-	  	buttonOK.setText("Ok");
+	  	buttonOK.setText("Ok"); //$NON-NLS-1$
 	  	buttonOK.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 	  	Button buttonCancel = new Button( shell, SWT.PUSH );
-	  	buttonCancel.setText( "Cancel" );
+	  	buttonCancel.setText( Messages.getString("IntegerInputRangeDialog.Cancel") ); //$NON-NLS-1$
 
 	  	text.addListener(SWT.Modify, new Listener() {
 	  		
@@ -121,10 +123,12 @@ public class IntegerInputRangeDialog extends Dialog
 	  		}
 	  	});
 
-	  	text.setText( initialValue + "       " ); // add extra spaces so text entry is not too narrow
+	  	// Add extra spaces so text entry is not too narrow
+	  	text.setText( initialValue + "       " ); //$NON-NLS-1$ 
 	  	
 	  	shell.pack();
 	  	shell.open();
+		shell.setDefaultButton(buttonOK);
 
 	  	Display display = parent.getDisplay();
 	  	while (!shell.isDisposed()) {

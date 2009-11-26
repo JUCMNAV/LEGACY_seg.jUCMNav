@@ -242,8 +242,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         }
         showPage(ID_DESIGN);
         currentStrategy = null;
-        currentSelection = null;
-        
+        currentSelection = null;        
     }
 
     /*
@@ -457,12 +456,14 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             currentView = ID_DESIGN;
             if (currentStrategy != null){
                 EvaluationStrategyManager.getInstance().setStrategy(null);
-                for (int i=0; i< multieditor.getPageCount(); i++){
-                    UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(false);         
+                
+                if(multieditor != null)
+                	for (int i=0; i< multieditor.getPageCount(); i++){
+                		UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                		((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(false);         
                 }
             }
-            if (currentScenario != null){
+            if (currentScenario != null && multieditor != null){
             	ScenarioUtils.clearActiveScenario(multieditor.getModel());
                 for (int i=0; i< multieditor.getPageCount(); i++){
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);

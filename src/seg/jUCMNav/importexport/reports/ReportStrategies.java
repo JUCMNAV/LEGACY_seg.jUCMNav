@@ -99,7 +99,7 @@ public class ReportStrategies extends ReportDataDictionary {
     }
 
     /**
-     * creates the data dictionary section in the report
+     * creates the strategy evaluation table in the report
      * 
      * @param document
      *            the document in which the report is created
@@ -190,7 +190,7 @@ public class ReportStrategies extends ReportDataDictionary {
                             emptyCell2.setColspan(intElementColumnWidth);
                             table.addCell(emptyCell2);
 
-                            // Second line - strategy number header. This number represent a srategy as documented in the legend. One number per column/strategy.
+                            // Second line - strategy number header. This number represents a strategy as documented in the legend. One number per column/strategy.
                             for (int column = lastCellAdded; (column <= (maxStratPerPage * pageNo) && column <= nbOfStrategies); column++) {
                                 Cell strategyNo = new Cell(column + "");
                                 strategyNo.setBorderColor(new java.awt.Color(0, 0, 0));

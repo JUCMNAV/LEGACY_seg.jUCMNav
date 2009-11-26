@@ -10,6 +10,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -25,7 +26,12 @@ public class SetNumericalEvaluationAction extends URNSelectionAction
     public static final String SET_NUMERICAL_EVALUATION = "seg.jUCMNav.SET_NUMERICAL_EVALUATION"; //$NON-NLS-1$
     private Vector intElementRefs;
     private int id;
-    private static String[] values = { "+100", "+75", "+50", "+25", "0", "-25", "-50", "-75", "-100", "Other...", "Increase    (Shift+H)", "Decrease   (Shift+N)" };
+    private static String[] values = { "+100", "+75", "+50", "+25", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+    	"0", "-25", "-50", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+    	"-75", "-100", //$NON-NLS-1$ //$NON-NLS-2$  
+    	Messages.getString("SetEvaluation.Other"), //$NON-NLS-1$ 
+    	Messages.getString("SetEvaluation.Increase") + "   (Shift+H)", //$NON-NLS-1$ //$NON-NLS-2$ 
+    	Messages.getString("SetEvaluation.Decrease") + "   (Shift+N)" }; //$NON-NLS-1$ //$NON-NLS-2$ 
 
 	public SetNumericalEvaluationAction(IWorkbenchPart part, int id )
 	{
@@ -85,7 +91,7 @@ public class SetNumericalEvaluationAction extends URNSelectionAction
     		execute( new ChangeNumericalEvaluationCommand( intElementRefs, id, 0, getCommandStack() ) );
     	else if ( id == ChangeNumericalEvaluationCommand.USER_ENTRY )
     	{
-    		String currentEval = ( intElementRefs.size() > 1 ) ? "" : 
+    		String currentEval = ( intElementRefs.size() > 1 ) ? "" : //$NON-NLS-1$ 
     			Integer.toString( EvaluationStrategyManager.getInstance().getEvaluation( ((IntentionalElementRef) (intElementRefs.get(0))).getDef() ) );
     		Integer userEntry = enterEvaluation( currentEval );
     		if ( userEntry != null ) {
@@ -100,7 +106,9 @@ public class SetNumericalEvaluationAction extends URNSelectionAction
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	    IntegerInputRangeDialog dialog = new IntegerInputRangeDialog( shell );
 	    	
-	    return ( dialog.open( "Enter Numerical Evaluation   (range: [-100,+100])", "Enter the new Numerical Evaluation: ", currentEval, -100, 100 ) );
+	    return ( dialog.open( Messages.getString("SetEvaluation.WindowEval"), //$NON-NLS-1$
+	    		Messages.getString("SetEvaluation.TextEval"), //$NON-NLS-1$ 
+	    		currentEval, -100, 100 ) );		
 	}
 	
 	public static String generateId( int id )

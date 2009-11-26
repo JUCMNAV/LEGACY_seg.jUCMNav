@@ -10,6 +10,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalImportanceCommand;
 import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
@@ -24,7 +25,11 @@ public class SetNumericalImportanceAction extends URNSelectionAction
     public static final String SET_NUMERICAL_IMPORTANCE = "seg.jUCMNav.SET_NUMERICAL_IMPORTANCE"; //$NON-NLS-1$
     private Vector intElementRefs;
     private int id;
-    private static String[] values = { "100", "75", "50", "25", "0", "Other...", "Increase    (Shift+X)", "Decrease   (Shift+Z)" };
+    private static String[] values = { "100", "75", "50",  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    	"25", "0", //$NON-NLS-1$ //$NON-NLS-2$
+    	Messages.getString("SetEvaluation.Other"), //$NON-NLS-1$ 
+    	Messages.getString("SetEvaluation.Increase") + "   (Shift+X)", //$NON-NLS-1$ //$NON-NLS-2$ 
+    	Messages.getString("SetEvaluation.Decrease") + "   (Shift+Z)" }; //$NON-NLS-1$ //$NON-NLS-2$ 
 
 	public SetNumericalImportanceAction( IWorkbenchPart part, int id )
 	{
@@ -82,7 +87,7 @@ public class SetNumericalImportanceAction extends URNSelectionAction
     		execute( new ChangeNumericalImportanceCommand( intElementRefs, id, 0, getCommandStack() ) );
     	else if ( id == ChangeNumericalImportanceCommand.USER_ENTRY )
     	{
-    	    String currentValue = ( intElementRefs.size() > 1 ) ? "" :
+    	    String currentValue = ( intElementRefs.size() > 1 ) ? "" : //$NON-NLS-1$
     	    	Integer.toString( ((IntentionalElementRef) (intElementRefs.get(0))).getDef().getImportanceQuantitative() );
     		Integer userEntry = enterImportance( currentValue );
     		if ( userEntry != null ) {
@@ -97,7 +102,9 @@ public class SetNumericalImportanceAction extends URNSelectionAction
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	    IntegerInputRangeDialog dialog = new IntegerInputRangeDialog( shell );
 	    	
-	    return ( dialog.open( "Enter Numerical Importance   (range: [0, 100])", "Enter the new Numerical Importance: ", currentValue, 0, 100 ) );		
+	    return ( dialog.open( Messages.getString("SetEvaluation.WindowImportance"), //$NON-NLS-1$
+	    		Messages.getString("SetEvaluation.TextImportance"), //$NON-NLS-1$ 
+	    		currentValue, 0, 100 ) );		
 	}
 	
 	public static String generateId( int id )

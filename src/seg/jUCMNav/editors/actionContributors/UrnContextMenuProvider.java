@@ -62,6 +62,10 @@ import seg.jUCMNav.actions.concerns.ManageConcernsAction;
 import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
+import seg.jUCMNav.actions.hyperlinks.AddHyperlinkAction;
+import seg.jUCMNav.actions.hyperlinks.ChangeHyperlinkAction;
+import seg.jUCMNav.actions.hyperlinks.DeleteHyperlinkAction;
+import seg.jUCMNav.actions.hyperlinks.NavigateHyperlinkAction;
 import seg.jUCMNav.actions.kpi.EditIndicatorGroupsAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
@@ -206,7 +210,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         for (int i=0;i<16;i++)
         	actions[i] = getActionRegistry().getAction(ChangeColorAction.generateId(i));
 
-        submenu = new SubmenuAction(actions, "Change fill color", "Change fill color", actions[3].getImageDescriptor(), true); 
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.ChangeFillColor"), Messages.getString("UrnContextMenuProvider.ChangeFillColor"), actions[3].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
 
@@ -215,28 +219,28 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions = new IAction[8];
         for ( int i = 0; i <= 7; i++ )
         	actions[i] = getActionRegistry().getAction( SetNumericalImportanceAction.generateId(i) );
-        submenu = new SubmenuAction(actions, "Set Numerical Importance", "Set Numerical Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.SetNumericalImportance"), Messages.getString("UrnContextMenuProvider.SetNumericalImportance"), JUCMNavPlugin.getImageDescriptor("icons/StrategyNumImp16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
  
         actions = new IAction[6];
         for ( int i = 0; i <= 5; i++ )
         	actions[i] = getActionRegistry().getAction( SetQualitativeImportanceAction.generateId(i) );
-        submenu = new SubmenuAction(actions, "Set Qualitative Importance", "Set Qualitative Importance", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.SetQualitativeImportance"), Messages.getString("UrnContextMenuProvider.SetQualitativeImportance"), JUCMNavPlugin.getImageDescriptor("icons/StrategyQualImp16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
 
         actions = new IAction[12];
         for ( int i = 0; i <= 11; i++ )
         	actions[i] = getActionRegistry().getAction( SetNumericalEvaluationAction.generateId(i) );
-        submenu = new SubmenuAction(actions, "Set Numerical Evaluation", "Set Numerical Evaluation", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.SetNumericalEvaluation"), Messages.getString("UrnContextMenuProvider.SetNumericalEvaluation"), JUCMNavPlugin.getImageDescriptor("icons/StrategyNumEval16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
         
         actions = new IAction[9];
         for ( int i = 0; i <= 8; i++ )
         	actions[i] = getActionRegistry().getAction( SetQualitativeEvaluationAction.generateId(i) );
-        submenu = new SubmenuAction(actions, "Set Qualitative Evaluation", "Set Qualitative Evaluation", JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif"), true); 
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.SetQualitativeEvaluation"), Messages.getString("UrnContextMenuProvider.SetQualitativeEvaluation"), JUCMNavPlugin.getImageDescriptor("icons/StrategyQualEval16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
         if (submenu.getActiveOperationCount()>0)
         	manager.appendToGroup( GEFActionConstants.GROUP_REST, submenu );
                 
@@ -263,7 +267,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ChangeDecompositionTypeAction.CHANGEDECOMPOSITIONTYPE);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
+        
         action = getActionRegistry().getAction(AddMapAction.ADDMAP);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -272,6 +276,16 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        actions = new IAction[4];
+        actions[0] = getActionRegistry().getAction(AddHyperlinkAction.ADDHYPERLINK);
+        actions[1] = getActionRegistry().getAction(NavigateHyperlinkAction.NAVIGATEHYPERLINK);
+        actions[2] = getActionRegistry().getAction(ChangeHyperlinkAction.CHANGEHYPERLINK);
+        actions[3] = getActionRegistry().getAction(DeleteHyperlinkAction.DELETEHYPERLINK);
+        
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.Hyperlink"), Messages.getString("UrnContextMenuProvider.Hyperlink"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount()>0)
+        	manager.appendToGroup(GROUP_UNCOMMON, submenu);
+        
         action = getActionRegistry().getAction(ManageConcernsAction.MANAGECONCERNS);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);

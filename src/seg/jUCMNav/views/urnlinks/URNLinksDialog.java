@@ -1,7 +1,6 @@
 package seg.jUCMNav.views.urnlinks;
 
 import grl.Actor;
-import grl.ActorRef;
 import grl.IntentionalElement;
 
 import java.util.Iterator;

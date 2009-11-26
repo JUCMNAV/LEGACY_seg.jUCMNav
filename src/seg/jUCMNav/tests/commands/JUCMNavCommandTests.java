@@ -20,6 +20,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
+import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
@@ -46,6 +47,7 @@ import seg.jUCMNav.model.commands.delete.DeleteResponsibilityCommand;
 import seg.jUCMNav.model.commands.delete.DisconnectCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeletePathCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteStartNCEndCommand;
+import seg.jUCMNav.model.commands.metadata.ChangeHyperlinkCommand;
 import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
@@ -56,6 +58,7 @@ import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.TransmogrifyForkOrJoinCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.model.util.SafePathChecker;
 import seg.jUCMNav.views.preferences.DeletePreferences;
@@ -290,7 +293,7 @@ public class JUCMNavCommandTests extends TestCase {
      */
     public void testAddComponentRefCommand() {
 
-        // This command should not be called directly by anything else that testSetConstraintComponentRefCommand.
+        // This command should not be called directly by anything else than testSetConstraintComponentRefCommand.
 
         Command cmd = new AddContainerRefCommand(map, compRef);
         assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
@@ -1196,5 +1199,49 @@ public class JUCMNavCommandTests extends TestCase {
             }
         }
     }
+    
+    /**
+     * 
+     *  
+     */
+    public void testChangeHyperlinkCommand() {
+        testCreatePathCommand();
+
+        String url = "http://www.google.com"; //$NON-NLS-1$
+        String url2 = "http://www.UseCaseMaps.org"; //$NON-NLS-1$
+        assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK) == null);
+        
+        // Add URL
+        Command cmd = new ChangeHyperlinkCommand(urnspec, start, url);
+        assertTrue("Can't execute ChangeHyperlinkCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK).equals(url));
+        cs.undo();
+        assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK) == null);
+        cs.redo();
+        assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK).equals(url));
+
+        // Modify URL
+        cmd = new ChangeHyperlinkCommand(urnspec, start, url2);
+        assertTrue("Can't execute ChangeHyperlinkCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK).equals(url2));
+        cs.undo();
+        assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK).equals(url));
+        cs.redo();
+        assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK).equals(url2));
+        
+        // Delete URL
+        cmd = new ChangeHyperlinkCommand(urnspec, start, null);
+        assertTrue("Can't execute ChangeHyperlinkCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK) == null);
+        cs.undo();
+        assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK).equals(url2));
+        cs.redo();
+        assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK) == null);
+        
+    }
+
 
 }

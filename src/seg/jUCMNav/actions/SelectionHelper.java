@@ -80,6 +80,7 @@ public class SelectionHelper {
     public static final int ANDJOIN = 14;
     public static final int COMPONENTLABEL = 10;
     public static final int COMPONENTREF = 11;
+    public static final int COMPONENT = 125;
     public static final int CONNECT = 18;
     public static final int DIRECTIONARROW = 19;
     public static final int EMPTYPOINT = 1;
@@ -145,6 +146,7 @@ public class SelectionHelper {
     private AndFork andfork;
     private AndJoin andjoin;
     private ComponentLabel componentlabel;
+    private Component component;
     private ComponentRef componentref;
     private Connect connect;
     private DirectionArrow directionarrow;
@@ -207,6 +209,9 @@ public class SelectionHelper {
         return andjoin;
     }
 
+    public Component getComponent() {
+        return component;
+    }
     public ComponentLabel getComponentlabel() {
         return componentlabel;
     }
@@ -376,6 +381,8 @@ public class SelectionHelper {
         		urnspec = grlgraph.getUrndefinition().getUrnspec();
         	}
         }
+        else if (model instanceof Component)
+            component = (Component) model;
         else if (model instanceof ComponentLabel)
             componentlabel = (ComponentLabel) model;
         else if (model instanceof ComponentRef)

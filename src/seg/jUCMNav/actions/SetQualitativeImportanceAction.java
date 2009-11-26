@@ -10,6 +10,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeQualitativeImportanceCommand;
 
@@ -23,7 +24,9 @@ public class SetQualitativeImportanceAction extends URNSelectionAction
     public static final String SET_QUALITATIVE_IMPORTANCE = "seg.jUCMNav.SET_QUALITATIVE_IMPORTANCE"; //$NON-NLS-1$
     private Vector intElementRefs;
     private int id;
-    private static String[] values = { "(H)igh", "(M)edium", "(L)ow", "None", "Increase    (x)", "Decrease   (z)" };
+    private static String[] values = { "(H)igh", "(M)edium", "(L)ow", "None", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+    	Messages.getString("SetEvaluation.Increase") + "   (x)", //$NON-NLS-1$ //$NON-NLS-2$ 
+    	Messages.getString("SetEvaluation.Decrease") + "   (z)" }; //$NON-NLS-1$ //$NON-NLS-2$ 
 
 	public SetQualitativeImportanceAction(IWorkbenchPart part, int id )
 	{
