@@ -107,7 +107,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
     protected IPropertySource propertySource = null;
 
     private Image img;
-    private Label decompLabel, contributionLabel;
+    private Label decompLabel, contributionLabel, stereotypeLabel;
     
     /**
      * The Edit Part for LinkRefs
@@ -176,7 +176,17 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
         contributionLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         connection.add(contributionLabel,contribce);
         contributionLabel.setVisible(false);
-        
+
+        //Create the stereotype label
+        ConnectionEndpointLocator stereotypece = new ConnectionEndpointLocator(connection,false);
+        stereotypece.setUDistance(20);
+        stereotypece.setVDistance(10);
+
+        stereotypeLabel = new Label();
+        stereotypeLabel.setForegroundColor(ColorManager.LINKREFLABEL);
+        connection.add(stereotypeLabel,stereotypece);
+        stereotypeLabel.setVisible(false);
+
         return connection;
     }
     
@@ -296,7 +306,19 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
             } else {
                 getLinkRefFigure().setType(LinkRefConnection.TYPE_CONTRIBUTION);
             }
-            
+
+            //Set the stereotype Label
+            String stereotypeInfo = UrnMetadata.getStereotypes(contrib);
+            if (stereotypeLabel.getText() != stereotypeInfo){
+            	stereotypeLabel.setText(stereotypeInfo);
+            	if (stereotypeInfo.equals("")) {
+            		stereotypeLabel.setVisible(false);
+            	}
+            	else {
+            		stereotypeLabel.setVisible(true);
+            	}
+            }
+
             //Set the contribution Label
             String type = contrib.getContribution().getName();
             if (!type.equals("Unknown")){ //$NON-NLS-1$
