@@ -5,12 +5,19 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.views.property.ResponsibilityPropertySource;
 import seg.jUCMNav.views.property.URNElementPropertySource;
 import ucm.map.RespRef;
+import urncore.IURNConnection;
+import urncore.IURNContainerRef;
+import urncore.IURNNode;
+import urncore.Label;
 
 /**
  * This is a top level EditPart that defines the behaviour that needs to be adhered to in order to function properly.
@@ -112,5 +119,28 @@ public abstract class ModelElementEditPart extends AbstractGraphicalEditPart imp
      */
     public void setTarget(Notifier newTarget) {
         target = newTarget;
+    }
+
+    public void performRequest(Request req) {
+        if(req.getType() == RequestConstants.REQ_DIRECT_EDIT)
+        {
+            if(getModel() instanceof IURNNode || getModel() instanceof IURNConnection || getModel() instanceof IURNContainerRef) {
+                Label label = null;
+                if(getModel() instanceof IURNNode)
+                    label = ((IURNNode)getModel()).getLabel();
+                else if(getModel() instanceof IURNConnection)
+                    label = ((IURNConnection)getModel()).getLabel();
+                else if(getModel() instanceof IURNContainerRef)
+                    label = ((IURNContainerRef)getModel()).getLabel();
+                
+                if(label != null) {
+                    EditPart editpart = (EditPart)getViewer().getEditPartRegistry().get(label);
+                    if(editpart != null)
+                        editpart.performRequest(req);
+                }
+            }
+        }
+        
+        super.performRequest(req);
     }
 }

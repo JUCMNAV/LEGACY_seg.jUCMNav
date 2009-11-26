@@ -1,5 +1,9 @@
 package seg.jUCMNav.editors.palette.tools;
 
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.CreationTool;
@@ -16,7 +20,8 @@ import seg.jUCMNav.editors.palette.UcmPaletteRoot;
  */
 public class BaseCreationTool extends CreationTool
 {
-	
+    protected Request directEditRequest = new Request(RequestConstants.REQ_DIRECT_EDIT);
+    
 	public BaseCreationTool() { }
 	
     public BaseCreationTool(CreationFactory factory) {
@@ -37,6 +42,19 @@ public class BaseCreationTool extends CreationTool
     	}
     	return false;
     }
-    
 
+    protected void performCreation(int button) {
+        super.performCreation(button);
+        
+        EditPartViewer viewer = getCurrentViewer();
+        final Object model = getCreateRequest().getNewObject();
+        if (model == null || viewer == null)
+            return;
+        
+        Object editpart = viewer.getEditPartRegistry().get(model);
+        if (editpart instanceof EditPart) {
+            EditPart part = (EditPart)editpart;
+            part.performRequest(directEditRequest);
+        }
+    }
 }

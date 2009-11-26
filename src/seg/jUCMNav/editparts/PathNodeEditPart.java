@@ -399,7 +399,6 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 						((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
 						GraphicalViewer viewer = ((UcmEditor) ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().getCurrentPage()).getGraphicalViewer();
 						viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
-
 					}
 				}
 				else if (activeBindings.size() > 1)
@@ -428,10 +427,10 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 					WizardDialog dialog = new WizardDialog(shell, wizard);
 					dialog.open();
 				}
-
 			}
-
 		}
+
+        super.performRequest(req);
 	}
 
 	/**

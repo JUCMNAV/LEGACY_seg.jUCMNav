@@ -6,7 +6,6 @@ import java.util.Vector;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -112,8 +111,9 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
         if (target != editpart) {
             target = editpart;
             setState();
-            if (target != null)
+            if (target != null) {
                 setTargetRequest(createTargetRequest());
+            }
         }
         super.setTargetEditPart(editpart);
     }
@@ -234,7 +234,7 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
      */
     private void setSelectionState(IStructuredSelection selecteds) {
         List list = selecteds.toList();
-
+        
         if (list.size() == 1) {
             selected = (EditPart) (list.get(0));
 
@@ -242,6 +242,9 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
 
             // Regenerate the request depending on the state
             createTargetRequest();
+            
+            if(selected.getModel() instanceof EndPoint)
+                selected.performRequest(directEditRequest);
         }
     }
 
@@ -281,28 +284,39 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
     /**
      * Add the newly created object to the viewer's selected objects. Select the right object depending on the state.
      */
-    private void selectAddedObject() {
+    private Object selectAddedObject() {
         final Object model = getCreateRequest().getNewObject();
         if (model == null)
-            return;
+            return null;
         if (model instanceof StartPoint) {
             StartPoint start = (StartPoint) model;
             // in case creation was cancelled.
             if (start.getSucc().size() == 0)
-                return;
+                return null;
             if (state == NOSELECT) {
                 PathNode node = (PathNode) ((NodeConnection) start.getSucc().get(0)).getTarget();
                 PathNode end = (PathNode) ((NodeConnection) node.getSucc().get(0)).getTarget();
-                if (end instanceof EndPoint)
+                if (end instanceof EndPoint) {
                     selectModelElement(end);
-            } else
+                    performDirectEdit(end);
+                    return end;
+                }
+            } else {
                 selectModelElement(start);
+                return start;
+            }
         } else if (model instanceof EmptyPoint) {
             PathNode pn = findEndPoint((PathNode) model);
-            if (pn != null)
+            if (pn != null) {
                 selectModelElement(pn);
-        } else
+                return pn;
+            }
+        } else {
             selectModelElement(model);
+            return model;
+        }
+        
+        return null;
     }
 
     /**
@@ -336,5 +350,13 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
             viewer.flush();
             viewer.select((EditPart) editpart);
         }
+    }
+    
+    protected void performDirectEdit(Object model) {
+        EditPartViewer viewer = getCurrentViewer();
+        Object editpart = viewer.getEditPartRegistry().get(model);
+        
+        if(editpart instanceof EditPart)
+            ((EditPart) editpart).performRequest(directEditRequest);
     }
 }

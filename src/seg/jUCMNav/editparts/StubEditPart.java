@@ -136,6 +136,7 @@ public class StubEditPart extends PathNodeEditPart {
                 d.open(stub);
             }
         }
+        super.performRequest(req);
     }
 
     /**

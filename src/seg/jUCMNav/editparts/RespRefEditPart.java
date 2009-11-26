@@ -26,8 +26,6 @@ public class RespRefEditPart extends PathNodeEditPart {
         
     }
 
-
-
     /**
      * What should be done when the stub is double clicked.
      * 
@@ -43,7 +41,7 @@ public class RespRefEditPart extends PathNodeEditPart {
             WizardDialog dialog = new WizardDialog(shell, wizard);
             dialog.open();
         }
+        
+        super.performRequest(req);
     }
-  
-
 }
