@@ -1,9 +1,16 @@
 package seg.jUCMNav.actions;
 
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
+
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.model.util.ICreateElementCommand;
 
 /**
  * Superclass for our selection actions to remove redundant code.
@@ -12,7 +19,9 @@ import org.eclipse.ui.IWorkbenchPart;
  *  
  */
 public abstract class URNSelectionAction extends SelectionAction {
-
+    
+    protected static Request directEditRequest = new Request(RequestConstants.REQ_DIRECT_EDIT);
+    
     /**
      * 
      * @param part The editor 
@@ -44,7 +53,22 @@ public abstract class URNSelectionAction extends SelectionAction {
      * @see org.eclipse.jface.action.IAction#run()
      */
     public void run() {
-        execute(getCommand());
+        Command cmd = getCommand();
+        
+        execute(cmd);
+        
+        autoDirectEdit(cmd);
     }
-
+    
+    protected void autoDirectEdit(Command cmd) {
+        if(cmd instanceof ICreateElementCommand)
+        {
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor)this.getWorkbenchPart().getSite().getPage().getActiveEditor();
+            EditPartViewer viewer = editor.getCurrentPage().getGraphicalViewer();
+            Object part = (EditPart)viewer.getEditPartRegistry().get(((ICreateElementCommand) cmd).getNewModelElement());
+            
+            if(part instanceof EditPart)
+                ((EditPart) part).performRequest(directEditRequest);
+        }
+    }
 }

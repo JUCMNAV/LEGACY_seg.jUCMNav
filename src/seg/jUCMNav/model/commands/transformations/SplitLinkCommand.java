@@ -5,6 +5,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.ICreateElementCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.Connect;
 import ucm.map.NodeConnection;
@@ -23,7 +24,7 @@ import urncore.Responsibility;
  * 
  * @author Etienne Tremblay
  */
-public class SplitLinkCommand extends Command implements JUCMNavCommand {
+public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreateElementCommand {
 
     // indicates whether or not the command is to be aborted because it is in a compound command
 
@@ -387,4 +388,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
 	public NodeConnection getNewLink() {
 		return newLink;
 	}
+    public Object getNewModelElement() {
+        return node;
+    }
 }

@@ -4,6 +4,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemovePathNodeCommand;
+import seg.jUCMNav.model.util.ICreateElementCommand;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
@@ -17,7 +18,7 @@ import urncore.Condition;
  * @author jkealey
  * 
  */
-public class ReplaceEmptyPointCommand extends CompoundCommand {
+public class ReplaceEmptyPointCommand extends CompoundCommand implements ICreateElementCommand {
 
     private PathNode empty;
     private PathNode newNode;
@@ -81,5 +82,9 @@ public class ReplaceEmptyPointCommand extends CompoundCommand {
             add(new RemovePathNodeCommand(empty, null));
             add(new SplitLinkCommand((UCMmap)empty.getDiagram(), newNode, previous, x, y, outgoingCondition));
         }
+    }
+
+    public Object getNewModelElement() {
+        return newNode;
     }
 }

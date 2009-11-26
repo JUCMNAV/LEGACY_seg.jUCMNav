@@ -242,9 +242,6 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
 
             // Regenerate the request depending on the state
             createTargetRequest();
-            
-            if(selected.getModel() instanceof EndPoint)
-                selected.performRequest(directEditRequest);
         }
     }
 

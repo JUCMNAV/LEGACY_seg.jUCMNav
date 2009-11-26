@@ -5,6 +5,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.ICreateElementCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
@@ -21,7 +22,7 @@ import urncore.UCMmodelElement;
  * 
  * @author Jordan, jkealey
  */
-public class CreateLabelCommand extends Command implements JUCMNavCommand {
+public class CreateLabelCommand extends Command implements JUCMNavCommand, ICreateElementCommand {
     private static final String CreateCommand_Label = "CreateLabelCommand"; //$NON-NLS-1$
     private Label label;
     private UCMmodelElement modelElement;
@@ -165,5 +166,9 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand {
      */
     public void setDeltaY(int deltaY) {
         this.deltaY = deltaY;
+    }
+
+    public Object getNewModelElement() {
+        return label;
     }
 }

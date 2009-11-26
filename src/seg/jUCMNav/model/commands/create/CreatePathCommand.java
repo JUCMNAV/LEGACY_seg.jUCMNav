@@ -5,6 +5,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.ICreateElementCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
@@ -19,7 +20,7 @@ import urn.URNspec;
  * 
  * @author Etienne Tremblay, jkealey
  */
-public class CreatePathCommand extends Command implements JUCMNavCommand {
+public class CreatePathCommand extends Command implements JUCMNavCommand, ICreateElementCommand {
 
     // where to insert the new path
     private UCMmap diagram;
@@ -289,6 +290,10 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         link2.setSource(node);
         link2.setTarget(end);
     	
+    }
+
+    public Object getNewModelElement() {
+        return end;
     }
    
 }

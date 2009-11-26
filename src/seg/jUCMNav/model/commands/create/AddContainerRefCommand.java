@@ -4,6 +4,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.ICreateElementCommand;
 import urn.URNspec;
 import urncore.GRLmodelElement;
 import urncore.IURNContainer;
@@ -19,7 +20,7 @@ import urncore.UCMmodelElement;
  * @author jkealey
  * 
  */
-public class AddContainerRefCommand extends Command implements JUCMNavCommand {
+public class AddContainerRefCommand extends Command implements JUCMNavCommand, ICreateElementCommand {
 
     // the component reference
     private IURNContainerRef compRef;
@@ -173,6 +174,10 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand {
             compRef.setContDef(null);
 
         testPreConditions();
+    }
+
+    public Object getNewModelElement() {
+        return compRef;
     }
 
 }

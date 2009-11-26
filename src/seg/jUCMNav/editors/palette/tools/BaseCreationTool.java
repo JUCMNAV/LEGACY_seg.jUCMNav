@@ -20,7 +20,7 @@ import seg.jUCMNav.editors.palette.UcmPaletteRoot;
  */
 public class BaseCreationTool extends CreationTool
 {
-    protected Request directEditRequest = new Request(RequestConstants.REQ_DIRECT_EDIT);
+    protected static Request directEditRequest = new Request(RequestConstants.REQ_DIRECT_EDIT);
     
 	public BaseCreationTool() { }
 	
