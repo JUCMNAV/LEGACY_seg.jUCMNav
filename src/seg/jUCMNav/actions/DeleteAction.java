@@ -1,12 +1,19 @@
 package seg.jUCMNav.actions;
 
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.model.commands.delete.DeleteUselessStartNCEndCommand;
 import ucm.map.UCMmap;
+import ucm.scenario.ScenarioDef;
 import urn.URNspec;
 
 /**
@@ -36,16 +43,36 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
         Command cmd = createDeleteSmallPaths();
         if (getSelectedObjects().size()>0) 
         {
-	        if (cmd == null || !cmd.canExecute())
-	            execute(createDeleteCommand(getSelectedObjects()));
-	        else
-	            execute(createDeleteCommand(getSelectedObjects()).chain(cmd));
+            boolean result = true;
+            if(containsScenario(getSelectedObjects())) {
+                result = MessageDialog.openConfirm(getWorkbenchPart().getSite().getShell(), Messages.getString("DeleteAction_0"), Messages.getString("DeleteAction_1")); //$NON-NLS-1$ //$NON-NLS-2$
+            }
+            
+            if(result) {
+    	        if (cmd == null || !cmd.canExecute())
+    	            execute(createDeleteCommand(getSelectedObjects()));
+    	        else
+    	            execute(createDeleteCommand(getSelectedObjects()).chain(cmd));
+            }
         }
         else
         {
         	if (cmd != null && cmd.canExecute())
         		execute(cmd);
         }
+    }
+    
+    private boolean containsScenario(List selected) {
+        for (Iterator i = selected.iterator(); i.hasNext();) {
+            Object part = (Object) i.next();
+            if(part instanceof EditPart) {
+                if(((EditPart) part).getModel() instanceof ScenarioDef) {
+                    return ((ScenarioDef)((EditPart) part).getModel()).getParentScenarios().size() > 0;
+                }
+            }
+        }
+        
+        return false;
     }
 
     /**
