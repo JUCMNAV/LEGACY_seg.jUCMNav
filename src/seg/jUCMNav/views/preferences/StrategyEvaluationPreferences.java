@@ -19,9 +19,10 @@ public class StrategyEvaluationPreferences {
     public final static int QUALITATIVE_ALGORITHM = 1;
     public final static int MIXED_ALGORITHM = 2;
     public final static int ROY_2006_GRL_ALGORITHM = 3;
+    public final static int FORMULA_BASED_ALGORITHM = 4;
     
     public final static int DEFAULT_GRL_ALGORITHM = 0; //this should always be 0
-    public final static int NUM_ALGORITHMS = 4;
+    public final static int NUM_ALGORITHMS = 5;
     
 
     public static final String PREF_ALGORITHM = "PREF_ALGORITHM"; //$NON-NLS-1$    

@@ -28,6 +28,7 @@ public interface IGRLStrategyAlgorithm {
     public final static int EVAL_QUALITATIVE = 1;
     public final static int EVAL_QUANTITATIVE = 2;
     public final static int EVAL_MIXED = 3;
+    public final static int EVAL_FORMULA = 4;
     
     /**
      * Define the strategy to calculate the evaluation. Note that EvaluationStrategy are associated only to

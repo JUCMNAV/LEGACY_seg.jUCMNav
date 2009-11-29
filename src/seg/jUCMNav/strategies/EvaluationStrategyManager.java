@@ -175,7 +175,9 @@ public class EvaluationStrategyManager {
         else if((StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM+"").equals(algoChoice)) //$NON-NLS-1$
         	algo = new QuantitativeGRLStrategyAlgorithm();
         else if((StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM+"").equals(algoChoice)) //$NON-NLS-1$
-        	algo = new QualitativeGRLStrategyAlgorithm();
+        	algo = new QualitativeGRLStrategyAlgorithm();        
+        else if((StrategyEvaluationPreferences.FORMULA_BASED_ALGORITHM+"").equals(algoChoice)) //$NON-NLS-1$
+        	algo = new FormulaBasedGRLStrategyAlgorithm();
         else 
         	algo = new DefaultGRLStrategyAlgorithm();
     	

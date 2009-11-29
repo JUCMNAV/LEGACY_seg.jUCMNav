@@ -7,6 +7,7 @@ import grl.GrlPackage;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
+import grl.kpimodel.Indicator;
 
 import java.util.Iterator;
 import java.util.List;
@@ -60,7 +61,9 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 
     
     private Label evaluationLabel;
-    
+
+    private Label kpiEvaluationValueLabel;
+
     private Image evaluationImg;
     
     /**
@@ -111,13 +114,19 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 
         evaluationLabel.setSize(60,16);
         
+        kpiEvaluationValueLabel = new Label();
+        kpiEvaluationValueLabel.setForegroundColor(ColorManager.BLUE);
+        kpiEvaluationValueLabel.setVisible(false);
+        kpiEvaluationValueLabel.setSize(70, 16);
 
         try {
         	((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).add(evaluationLabel);
+            ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).add(kpiEvaluationValueLabel);        	
         } catch (Exception ex) {
         	System.out.println("problem with scaling grl evaluation label"); //$NON-NLS-1$
         	// bug 435: old code.. hoping new code is more robust
         	((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
+            ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(kpiEvaluationValueLabel);        	
         }
         return fig;
     }
@@ -305,11 +314,19 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                position.x = position.x -8;
 	                evaluationLabel.setLocation(position);
                     evaluationLabel.setVisible(true);
+
+                    kpiEvaluationValueLabel.setText("");//$NON-NLS-1$
+                    Point kpiEvalPosition = getNodeFigure().getLocation();
+                    kpiEvalPosition.y = kpiEvalPosition.y - 28;
+                    kpiEvalPosition.x = kpiEvalPosition.x - 8;
+                    kpiEvaluationValueLabel.setLocation(kpiEvalPosition);
+                    kpiEvaluationValueLabel.setVisible(false);
                 }
                 else
                 {
                 	evaluationLabel.setIcon(null);
                     evaluationLabel.setVisible(false);
+                    kpiEvaluationValueLabel.setVisible(false);
                 }
                 
             } else { 
@@ -359,7 +376,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 
 	                String text = (evaluation.getStrategies() != null ? "(*)" : ""); //$NON-NLS-1$ //$NON-NLS-2$
 	                
-	                if(evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE) {
+	                if(evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA) {
 		                String evalStr = String.valueOf(evaluation.getEvaluation());
 		                text = evalStr + text; //$NON-NLS-1$		                
 	                } 
@@ -374,6 +391,22 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                
 	                evaluationLabel.setLocation(position);
 	                evaluationLabel.setVisible(true);
+	                
+                    if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA) {
+                        String kpiText = "";//$NON-NLS-1$                       
+                        if ((getNode()).getDef() != null && ((getNode()).getDef() instanceof Indicator)) {
+                        	if (null != evaluation.getKpiEvalValueSet()) {                            	
+	                            kpiText = Double.toString(evaluation.getKpiEvalValueSet().getEvaluationValue());
+	                            kpiText = kpiText + evaluation.getKpiEvalValueSet().getUnit(); //$NON-NLS-1$
+	                            kpiEvaluationValueLabel.setText(kpiText);
+	                            Point kpiEvalPosition = getNodeFigure().getLocation();
+	                            kpiEvalPosition.y = kpiEvalPosition.y - 28;                        
+	
+	                            kpiEvaluationValueLabel.setLocation(kpiEvalPosition);
+	                            kpiEvaluationValueLabel.setVisible(true);
+                            }
+                        }                        
+                    }	                
 	                
 	                if(evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
 		                //Set the label icon
