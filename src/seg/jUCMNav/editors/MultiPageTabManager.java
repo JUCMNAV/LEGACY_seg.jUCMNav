@@ -9,6 +9,15 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.DropTargetListener;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
@@ -35,7 +44,7 @@ import urncore.URNmodelElement;
  * Manages tab creation/addition/removal for the editor. Originally included in the UCMNavMultiPageEditor, this code was factored out.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class MultiPageTabManager {
 
@@ -102,25 +111,25 @@ public class MultiPageTabManager {
 
     /**
      * Called when the editor is opened or when a save as is performed.
+     * 
      * @see org.eclipse.ui.part.MultiPageEditorPart#createPages()
      */
     protected void createPages() {
 
         for (int i = 0; i < getDiagrams().size(); i++) {
             IURNDiagram g = getDiagram(i);
-            if (g instanceof UCMmap){
+            if (g instanceof UCMmap) {
                 UcmEditor u = new UcmEditor(getEditor());
                 u.setModel(getDiagram(i));
                 addPage(u, editor.getEditorInput());
                 editor.getMultiPageCommandStackListener().addCommandStack(u.getCommandStack());
-                setPageText(getPageCount() - 1, ((UCMmap)getDiagram(i)).getName());
-            }
-            else if (g instanceof GRLGraph){
+                setPageText(getPageCount() - 1, ((UCMmap) getDiagram(i)).getName());
+            } else if (g instanceof GRLGraph) {
                 GrlEditor grl = new GrlEditor(getEditor());
                 grl.setModel(getDiagram(i));
                 addPage(grl, editor.getEditorInput());
                 editor.getMultiPageCommandStackListener().addCommandStack(grl.getCommandStack());
-                setPageText(getPageCount() - 1, ((GRLGraph)getDiagram(i)).getName());
+                setPageText(getPageCount() - 1, ((GRLGraph) getDiagram(i)).getName());
             }
         }
     }
@@ -138,10 +147,9 @@ public class MultiPageTabManager {
             // update delegating command stack
             editor.getDelegatingCommandStack().setCurrentCommandStack(getCurrentPage().getCommandStack());
 
-
             IWorkbenchPage page = this.editor.getSite().getPage();
             page.getNavigationHistory().markLocation(this.editor);
-            
+
             firePageChanged();
         }
     }
@@ -198,14 +206,11 @@ public class MultiPageTabManager {
      */
     protected void pageChange(int newPageIndex) {
         ModelElementEditPart e;
-        if (editor.getCurrentPage().getModel() instanceof UCMmap){            
+        if (editor.getCurrentPage().getModel() instanceof UCMmap) {
             // we want the outline to know that we've selected another map.
-            e = (URNDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(
-                    ((UcmEditor)editor.getCurrentPage()).getModel());
-        }
-        else {
-            e = (URNDiagramEditPart)editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(
-                    ((GrlEditor)editor.getCurrentPage()).getModel());
+            e = (URNDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(((UcmEditor) editor.getCurrentPage()).getModel());
+        } else {
+            e = (URNDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(((GrlEditor) editor.getCurrentPage()).getModel());
         }
         // I don't know why we flush() but etremblay did it in his code
         editor.getCurrentPage().getGraphicalViewer().flush();
@@ -265,7 +270,7 @@ public class MultiPageTabManager {
         if (getActivePage() == -1)
             setActivePage(0);
     }
-    
+
     public void setupDragDropPage() {
         final CTabFolder folder = (CTabFolder) editor.getContainer();
         final Display display = folder.getDisplay();
@@ -307,22 +312,39 @@ public class MultiPageTabManager {
                 case SWT.MouseUp: {
                     if (!drag)
                         return;
-                    refreshPageNames();
+                    handleMouseMove(p);
+
                     CTabItem item = folder.getItem(p);
+
                     if (item != null) {
                         // Determine if the user is trying to insert it before or after
                         // the pointed tab.
                         Rectangle rect = item.getBounds();
                         boolean after = p.x > rect.x + rect.width / 2;
                         int index = folder.indexOf(item);
-                        index = after ? index : index - 1;
-                        index = Math.max(0, index);
-                        
+
                         int from = folder.indexOf(dragItem);
                         int to = index;
-                        
+                        if (from < to && !after)
+                            index--;
+                        else if (from > to && after)
+                            index++;
+                        // index = after ? index : index - 1;
+                        index = Math.min(Math.max(0, index), folder.getItemCount() - 1);
+
+                        to = index;
+
                         ed.getDelegatingCommandStack().execute(new ChangeUCMDiagramOrder(getModel().getUrndef(), from, to));
                     }
+                    // If item is null, then if the mouse is pointing inside folder, but after the last
+                    // tab item, then insert the item to the last position.
+                    else if (isAtTheEnd(p)) {
+                        int from = folder.indexOf(dragItem);
+                        int to = folder.getItemCount() - 1;
+
+                        ed.getDelegatingCommandStack().execute(new ChangeUCMDiagramOrder(getModel().getUrndef(), from, to));
+                    }
+                    refreshPageNames();
                     drag = false;
                     exitDrag = false;
                     dragItem = null;
@@ -331,23 +353,42 @@ public class MultiPageTabManager {
                 case SWT.MouseMove: {
                     if (!drag)
                         return;
-                    CTabItem item = folder.getItem(p);
-                    if (item == null) {
-                        refreshPageNames();
-                        return;
-                    }
-                    Rectangle rect = item.getBounds();
-                    boolean after = p.x > rect.x + rect.width / 2;
-                    
+                    handleMouseMove(p);
+                }
+                }
+            }
+
+            void handleMouseMove(Point p) {
+                CTabItem item = folder.getItem(p);
+                if (item == null) {
                     refreshPageNames();
-                    if(after)
-                        item.setText(item.getText().replace("-->", "") + "-->");
-                    else
-                        item.setText("<--" + item.getText().replace("<--", ""));
                     
-                    break;
+                    if(isAtTheEnd(p))
+                        item = folder.getItem(folder.getItemCount() - 1);
+                    else
+                        return;
                 }
+                Rectangle rect = item.getBounds();
+                boolean after = p.x > rect.x + rect.width / 2;
+
+                refreshPageNames();
+                if (item != dragItem) {
+                    if (after)
+                        item.setText(item.getText().replace("-->", "").replace("<--", "") + "-->");
+                    else
+                        item.setText("<--" + item.getText().replace("-->", "").replace("<--", ""));
                 }
+            }
+
+            boolean isAtTheEnd(Point p) {
+                CTabItem item = folder.getItem(p);
+                int maxHeight = folder.getItem(0).getBounds().height;
+                int relativeY = p.y - folder.getItem(0).getBounds().y;
+                int relativeX = p.x - folder.getBounds().x;
+
+                CTabItem lastItem = folder.getItem(folder.getItemCount() - 1);
+
+                return relativeY >= 0 && relativeY <= maxHeight && p.x > (lastItem.getBounds().x + lastItem.getBounds().width);
             }
         };
 

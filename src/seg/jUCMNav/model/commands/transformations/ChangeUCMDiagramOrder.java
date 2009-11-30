@@ -52,4 +52,8 @@ public class ChangeUCMDiagramOrder extends Command implements JUCMNavCommand {
         assert def.getSpecDiagrams().indexOf(toDiag) == from;
         assert def.getSpecDiagrams().indexOf(fromDiag) == to;
     }
+
+    public boolean canExecute() {
+        return from != to && from >= 0 && to >= 0 && from < def.getSpecDiagrams().size() && to < def.getSpecDiagrams().size();
+    }
 }
