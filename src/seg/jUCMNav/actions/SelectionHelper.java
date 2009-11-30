@@ -630,10 +630,10 @@ public class SelectionHelper {
 			selectionType = ANDJOIN;
 		else if (map != null)
 			selectionType = MAP;
+        else if (intentionalelementref != null)
+            selectionType = INTENTIONALELEMENTREF;
 		else if (intentionalelement != null)
 			selectionType = INTENTIONALELEMENT;
-		else if (intentionalelementref != null)
-			selectionType = INTENTIONALELEMENTREF;
 		else if (kpiInformationElement != null)
 			selectionType = KPIINFORMATIONELEMENT;
 		else if (kpiInformationElementRef != null)
