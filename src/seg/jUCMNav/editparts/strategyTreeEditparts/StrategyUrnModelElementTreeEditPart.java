@@ -4,10 +4,12 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
+import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.views.property.URNElementPropertySource;

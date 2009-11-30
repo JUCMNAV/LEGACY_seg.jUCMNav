@@ -6,6 +6,14 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.util.ListenerList;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionListener;
@@ -17,6 +25,7 @@ import seg.jUCMNav.editparts.ModelElementEditPart;
 import seg.jUCMNav.editparts.URNDiagramEditPart;
 import seg.jUCMNav.editparts.treeEditparts.URNspecTreeEditPart;
 import seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart;
+import seg.jUCMNav.model.commands.transformations.ChangeUCMDiagramOrder;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.IURNDiagram;
@@ -226,7 +235,6 @@ public class MultiPageTabManager {
     protected void refreshPageNames() {
         for (int i = 0; i < editor.getModel().getUrndef().getSpecDiagrams().size(); i++)
             editor.setPageText(i, ((URNmodelElement) editor.getModel().getUrndef().getSpecDiagrams().get(i)).getName());
-
     }
 
     /** Delegates to UCMNavMultiPageEditor */
@@ -256,5 +264,97 @@ public class MultiPageTabManager {
         // set the active page (page 0 by default), unless it has already been done
         if (getActivePage() == -1)
             setActivePage(0);
+    }
+    
+    public void setupDragDropPage() {
+        final CTabFolder folder = (CTabFolder) editor.getContainer();
+        final Display display = folder.getDisplay();
+        final UCMNavMultiPageEditor ed = editor;
+
+        Listener listener = new Listener() {
+            boolean drag = false;
+            boolean exitDrag = false;
+            CTabItem dragItem;
+
+            public void handleEvent(Event e) {
+                Point p = new Point(e.x, e.y);
+                if (e.type == SWT.DragDetect) {
+                    p = folder.toControl(display.getCursorLocation()); // see bug 43251
+                }
+                switch (e.type) {
+                case SWT.DragDetect: {
+                    CTabItem item = folder.getItem(p);
+                    if (item == null)
+                        return;
+                    drag = true;
+                    exitDrag = false;
+                    dragItem = item;
+                    break;
+                }
+                case SWT.MouseEnter:
+                    if (exitDrag) {
+                        exitDrag = false;
+                        drag = e.button != 0;
+                    }
+                    break;
+                case SWT.MouseExit:
+                    if (drag) {
+                        refreshPageNames();
+                        exitDrag = true;
+                        drag = false;
+                    }
+                    break;
+                case SWT.MouseUp: {
+                    if (!drag)
+                        return;
+                    refreshPageNames();
+                    CTabItem item = folder.getItem(p);
+                    if (item != null) {
+                        // Determine if the user is trying to insert it before or after
+                        // the pointed tab.
+                        Rectangle rect = item.getBounds();
+                        boolean after = p.x > rect.x + rect.width / 2;
+                        int index = folder.indexOf(item);
+                        index = after ? index : index - 1;
+                        index = Math.max(0, index);
+                        
+                        int from = folder.indexOf(dragItem);
+                        int to = index;
+                        
+                        ed.getDelegatingCommandStack().execute(new ChangeUCMDiagramOrder(getModel().getUrndef(), from, to));
+                    }
+                    drag = false;
+                    exitDrag = false;
+                    dragItem = null;
+                    break;
+                }
+                case SWT.MouseMove: {
+                    if (!drag)
+                        return;
+                    CTabItem item = folder.getItem(p);
+                    if (item == null) {
+                        refreshPageNames();
+                        return;
+                    }
+                    Rectangle rect = item.getBounds();
+                    boolean after = p.x > rect.x + rect.width / 2;
+                    
+                    refreshPageNames();
+                    if(after)
+                        item.setText(item.getText().replace("-->", "") + "-->");
+                    else
+                        item.setText("<--" + item.getText().replace("<--", ""));
+                    
+                    break;
+                }
+                }
+            }
+        };
+
+        folder.addListener(SWT.DragDetect, listener);
+        folder.addListener(SWT.MouseUp, listener);
+        folder.addListener(SWT.MouseMove, listener);
+        folder.addListener(SWT.MouseExit, listener);
+        folder.addListener(SWT.MouseEnter, listener);
     }
 }

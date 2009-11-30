@@ -26,7 +26,6 @@ public class DeleteScenarioCommand extends CompoundCommand {
 
     public DeleteScenarioCommand(ScenarioDef scenario) {
         setLabel(Messages.getString("DeleteScenarioCommand.DeleteScenario"));   //$NON-NLS-1$
-        
 
         for (Iterator iter = scenario.getIncludedScenarios().iterator(); iter.hasNext();) {
 			ScenarioDef child = (ScenarioDef) iter.next();
@@ -63,9 +62,5 @@ public class DeleteScenarioCommand extends CompoundCommand {
 		}
         
         add(new RemoveScenarioCommand(scenario));
-        
-        
     }
-
-
 }

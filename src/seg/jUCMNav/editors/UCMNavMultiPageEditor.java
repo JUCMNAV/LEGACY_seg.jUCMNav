@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.RootEditPart;
@@ -21,6 +22,7 @@ import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -202,6 +204,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         if (model != null) 
         {
+            model.getUrndef().eAdapters().remove(this);
 	        // stop listening to all maps for name changes
 	        for (int i = 0; i < model.getUrndef().getSpecDiagrams().size(); i++)
 	            ((IURNDiagram) model.getUrndef().getSpecDiagrams().get(i)).eAdapters().remove(this);
@@ -416,6 +419,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         return multiPageTabManager;
     }
+    
+    public Composite getContainer() {
+        return super.getContainer();
+    }
 
     /**
      * Overridden to allow delegation to MultiPageTabManager
@@ -589,6 +596,27 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             if ((featureIdUcm ==  MapPackage.UC_MMAP__NAME) || (featureIdGrl == GrlPackage.GRL_GRAPH__NAME)){
                 getMultiPageTabManager().refreshPageNames();
             } 
+            break;
+        case Notification.MOVE:
+            if(notification.getFeature() instanceof EReferenceImpl && ((EReferenceImpl)notification.getFeature()).getName() == "specDiagrams") {
+                
+                // A user drag&drop a tab from the multipage editor to change its order.
+                int from = ((Integer)notification.getOldValue()).intValue();
+                int to =  notification.getPosition();
+                
+                IEditorPart fromPart = getEditor(from);
+                
+                removePage(from);
+                
+                try {
+                    addPage(to, fromPart, fromPart.getEditorInput());
+                } catch (PartInitException e1) {
+                    e1.printStackTrace();
+                }
+                getMultiPageTabManager().refreshPageNames();
+                setActivePage(to);
+            }
+            break;
         }
     }
 
@@ -665,6 +693,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         // remove old listeners
         if (this.model != null) {
+            this.model.getUrndef().eAdapters().remove(this);
             for (int i = 0; i < this.model.getUrndef().getSpecDiagrams().size(); i++){
                 ((IURNDiagram) this.model.getUrndef().getSpecDiagrams().get(i)).eAdapters().remove(this);
             }
@@ -672,6 +701,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         this.model = model;
 
+        model.getUrndef().eAdapters().add(this);
         // we must register ourselves to be able to change the tabs when the names change.
         for (int i = 0; model != null && i < model.getUrndef().getSpecDiagrams().size(); i++){
             ((IURNDiagram) model.getUrndef().getSpecDiagrams().get(i)).eAdapters().add(this);
@@ -807,4 +837,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 	public String getContributorId() {
 		return getSite().getId();
 	}
+
+    protected void initializePageSwitching() {
+        super.initializePageSwitching();
+        
+        getMultiPageTabManager().setupDragDropPage();
+    }
 }
