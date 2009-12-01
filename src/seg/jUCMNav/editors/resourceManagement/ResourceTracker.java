@@ -20,6 +20,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import urn.URNspec;
 
 /**
  * This class listens to changes to the file system in the workspace, and makes changes accordingly. 1) An open, saved file gets deleted -> close the editor 2)
@@ -42,6 +43,7 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
      */
     public void resourceChanged(IResourceChangeEvent event) {
         IResourceDelta delta = event.getDelta();
+        
         try {
             if (delta != null)
                 delta.accept(this);
@@ -80,7 +82,8 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
                     public void run()
                     {
                         //editor.doSave(null);
-                        editor.setInput(new FileEditorInput(newFile));
+                        URNspec spec = editor.getModel();
+                        editor.setInput(newFile, spec);
                     }
                 });
             }

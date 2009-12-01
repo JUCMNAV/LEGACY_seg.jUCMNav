@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IEditorDescriptor;
@@ -264,5 +265,9 @@ public class MultiPageFileManager {
             progressMonitor.done();
         }
 
+    }
+
+    public void resetFile(IFile file, URNspec spec) {
+        modelManager.createURNspec(file.getFullPath().toFile(), spec);
     }
 }

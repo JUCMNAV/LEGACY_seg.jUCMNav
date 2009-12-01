@@ -684,6 +684,19 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             setPartName(file.getName());
         }
     }
+    
+    public void setInput(IFile newFile, URNspec spec) {
+        setInput(new FileEditorInput(newFile));
+        try {
+            getFileManager().create(newFile);
+        } catch (CoreException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        getFileManager().resetFile(newFile, spec);
+        setModel(spec);
+        recreatePages();
+    }
 
     /**
      * @param model
