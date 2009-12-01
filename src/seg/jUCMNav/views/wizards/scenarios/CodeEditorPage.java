@@ -502,7 +502,7 @@ public class CodeEditorPage extends WizardPage {
                 }
                 else
                 {
-                    updateStatus("You may only use else when other conditions exist.");
+                    updateStatus(Messages.getString("CodeEditorPage.YouMayOnlyUseElseWhenOtherConditionsExist")); //$NON-NLS-1$
                 }
                     
             } else {

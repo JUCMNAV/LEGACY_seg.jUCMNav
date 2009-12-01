@@ -142,7 +142,7 @@ public class ScenarioUtils {
             Vector conditions = new Vector();
             for (Iterator iterator = stub.getBindings().iterator(); iterator.hasNext();) {
                 PluginBinding binding = (PluginBinding) iterator.next();
-                if (isEmptyCondition(binding.getPrecondition()) && !isElseCondition(binding.getPrecondition().getExpression())) {
+                if (!isEmptyCondition(binding.getPrecondition()) && !isElseCondition(binding.getPrecondition().getExpression())) {
                     conditions.add(binding.getPrecondition().getExpression());
                 }
             }
@@ -167,18 +167,23 @@ public class ScenarioUtils {
         }*/
         
         // assuming else is true when its the only thing there. 
-        if (result==null) result = "true";  
+        if (result==null) result = "true";   //$NON-NLS-1$
         return result;
     }
 
+    /**
+     * Concatenates the other conditions and negates them.  
+     * @param conditions
+     * @return
+     */
     private static String concatenateConditions(Vector conditions) {
         String result = null;
         for (Iterator iterator = conditions.iterator(); iterator.hasNext();) {
             String c  = (String) iterator.next();
             if (result==null)
-                result = "!("+c+")";
+                result = "!("+c+")"; //$NON-NLS-1$ //$NON-NLS-2$
             else
-                result += " && !(" + c + ") ";
+                result += " && !(" + c + ") "; //$NON-NLS-1$ //$NON-NLS-2$
            }
         return result;
     }
@@ -192,7 +197,7 @@ public class ScenarioUtils {
 	public static boolean isElseCondition(String expression)
 	{
 	    if (expression==null)return false;
-	    return IS_ELSE_CONDITION_ALLOWED && "else".equalsIgnoreCase(expression.trim()); 
+	    return IS_ELSE_CONDITION_ALLOWED && "else".equalsIgnoreCase(expression.trim());  //$NON-NLS-1$
 	}
     /**
      * Evaluate this responsibility in an environment. Can throw an {@link IllegalArgumentException}.  
