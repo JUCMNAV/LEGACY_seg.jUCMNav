@@ -36,6 +36,7 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
+import ucm.scenario.ScenarioDef;
 import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Condition;
@@ -492,16 +493,26 @@ public class CodeEditorPage extends WizardPage {
 			
 			if (o instanceof SimpleNode) {
 				code.put(defaultSelected, getCode());
-				updateStatus(null);
-			}
-			else {
-				if (!GeneralPreferencePage.getStrictCodeEditor())
-				{
-					code.put(defaultSelected, getCode());
-				}
-				updateStatus((String) o);
-			}
-		}
+                updateStatus(null);
+            } else if (ScenarioUtils.IS_ELSE_CONDITION_ALLOWED && !isResponsibility() && ScenarioUtils.isElseCondition(getCode()) && !(cond.eContainer() instanceof ScenarioDef)) {
+                // bug 497: we will allow else in conditions.
+                if (allPossibilities.size()>1) { 
+                    code.put(defaultSelected, getCode());
+                    updateStatus(null);
+                }
+                else
+                {
+                    updateStatus("You may only use else when other conditions exist.");
+                }
+                    
+            } else {
+
+                if (!GeneralPreferencePage.getStrictCodeEditor()) {
+                    code.put(defaultSelected, getCode());
+                }
+                updateStatus((String) o);
+            }
+        }
 
 	}
 

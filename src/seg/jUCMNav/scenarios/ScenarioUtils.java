@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
@@ -23,7 +24,11 @@ import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParser;
 import seg.jUCMNav.scenarios.parser.jUCMNavTypeChecker;
 import ucm.UCMspec;
+import ucm.map.NodeConnection;
+import ucm.map.OrFork;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.Stub;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
@@ -50,6 +55,8 @@ public class ScenarioUtils {
 	public static final String sTypeEnumeration = "enumeration"; //$NON-NLS-1$
 	public static final String sTypeInteger = "integer"; //$NON-NLS-1$
 
+	public static boolean IS_ELSE_CONDITION_ALLOWED=true;
+	
 	private static HashMap traversals = new HashMap();
 
     /**
@@ -95,10 +102,98 @@ public class ScenarioUtils {
 		if (isEmptyCondition(cond)) {
 			return Boolean.TRUE;
 		}
-		else
-			return evaluate(cond.getExpression(), env, false);
+		else {
+		    String toEvaluate = cond.getExpression();
+	        if (isElseCondition(toEvaluate)) {
+	            toEvaluate = replaceElseFromCondition(cond);
+	        }
+	        
+			return evaluate(toEvaluate, env, false);
+		}
 	}
+
+
+	/**
+	 * Assuming cond is "else", look at the Condition's parent to figure out what "else" means in this context.
+	 *  
+	 * @param cond
+	 * @return
+	 */
+    private static String replaceElseFromCondition(Condition cond) {
+        String result = null; 
+        if (cond.eContainer() instanceof NodeConnection)
+        {
+            NodeConnection nodeConnection = (NodeConnection) cond.eContainer();
+            if (nodeConnection.getSource() instanceof OrFork)
+            {
+                OrFork orFork = (OrFork) nodeConnection.getSource();
+                Vector conditions = new Vector();
+                for (Iterator iterator = orFork.getSucc().iterator(); iterator.hasNext();) {
+                    NodeConnection nc = (NodeConnection) iterator.next();
+                    if (!isEmptyCondition(nc.getCondition()) && !isElseCondition(nc.getCondition().getExpression())){
+                        conditions.add(nc.getCondition().getExpression());
+                    }
+                }
+                result = concatenateConditions(conditions);
+            }
+        } else if (cond.eContainer() instanceof PluginBinding && cond.eContainer().eContainer() instanceof Stub)
+        {
+            Stub stub = (Stub) cond.eContainer().eContainer();
+            Vector conditions = new Vector();
+            for (Iterator iterator = stub.getBindings().iterator(); iterator.hasNext();) {
+                PluginBinding binding = (PluginBinding) iterator.next();
+                if (isEmptyCondition(binding.getPrecondition()) && !isElseCondition(binding.getPrecondition().getExpression())) {
+                    conditions.add(binding.getPrecondition().getExpression());
+                }
+            }
+            result = concatenateConditions(conditions);
+        } /* added here just in case, but it makes no sense to enable this since all must be true. 
+        else if (cond.eContainer() instanceof ScenarioDef)
+        {
+            ScenarioDef def = (ScenarioDef) cond.eContainer();
+            EList list = null;
+            if (def.getPreconditions().contains(cond))
+                list = def.getPreconditions();
+            else
+                list = def.getPostconditions();
+            Vector conditions = new Vector();
+            for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+                Condition c = (Condition) iterator.next();
+                if (!isEmptyCondition(c) && !isElseCondition(c.getExpression()))
+                {
+                    conditions.add(c.getExpression());
+                }
+            }
+        }*/
+        
+        // assuming else is true when its the only thing there. 
+        if (result==null) result = "true";  
+        return result;
+    }
+
+    private static String concatenateConditions(Vector conditions) {
+        String result = null;
+        for (Iterator iterator = conditions.iterator(); iterator.hasNext();) {
+            String c  = (String) iterator.next();
+            if (result==null)
+                result = "!("+c+")";
+            else
+                result += " && !(" + c + ") ";
+           }
+        return result;
+    }
 	
+	/**
+	 * Is this text an "else" to be used in conditions. 
+	 * 
+	 * @param expression
+	 * @return true if this is else and else is enabled in jucmnav.
+	 */
+	public static boolean isElseCondition(String expression)
+	{
+	    if (expression==null)return false;
+	    return IS_ELSE_CONDITION_ALLOWED && "else".equalsIgnoreCase(expression.trim()); 
+	}
     /**
      * Evaluate this responsibility in an environment. Can throw an {@link IllegalArgumentException}.  
      * 

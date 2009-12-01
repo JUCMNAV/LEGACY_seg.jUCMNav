@@ -328,7 +328,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 
 				Object res = null;
 				try {
-					res = ScenarioUtils.evaluate(cond.getExpression(), env, false);
+					res = ScenarioUtils.evaluate(cond, env);
 					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(res), false);
 
 					if (res instanceof Boolean) {
@@ -399,7 +399,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 
 				Object res = null;
 				try {
-					res = ScenarioUtils.evaluate(cond.getExpression(), env, false);
+					res = ScenarioUtils.evaluate(cond, env);
 					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(res), true);
 					if (res instanceof Boolean) {
 						if (Boolean.FALSE.equals(res)) {
