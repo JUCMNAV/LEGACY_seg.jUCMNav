@@ -413,6 +413,17 @@ def: getMetadata(mdname:String):String =
 		else
 			''
 		endif
+		
+-- For accessing evaluation values
+def: getNumEval():Integer =
+		let e:String = self.getMetadata('_numEval') in  
+			if (e <> '')
+			then e.toInteger()
+			else -1000  -- Error code.
+			endif
+
+def: getQualEval():String =
+		self.getMetadata('_qualEval')
 
 --------------------------------------------------------------
 -- URN Links Helper functions
@@ -523,6 +534,29 @@ def: getAncestors():Set(Actor) =
 		else Set{}
 		endif
 		
+--------------------------------------------------------------
+-- GRL Legal Profile Helper Functions
+--------------------------------------------------------------
+context Actor
+
+def: isInLegalDiagram():Boolean =
+	-- Checks whether the actor is present in a legal diagram
+	self.contRefs.diagram
+		-> select(d|d.oclIsTypeOf(grl::GRLGraph))
+		-> collect(d|d.oclAsType(grl::GRLGraph))
+		-> select(d|d.getMetadata('ST_Legal')='Legal')
+		-> size() > 0
+
+context IntentionalElement
+
+def: isInLegalDiagram():Boolean =
+	-- Checks whether the IE is present in a legal diagram
+	self.refs.diagram
+		-> select(d|d.oclIsTypeOf(grl::GRLGraph))
+		-> collect(d|d.oclAsType(grl::GRLGraph))
+		-> select(d|d.getMetadata('ST_Legal')='Legal')
+		-> size() > 0
+
 --------------------------------------------------------------
 -- GRL Visual Elements Helper Functions
 --------------------------------------------------------------

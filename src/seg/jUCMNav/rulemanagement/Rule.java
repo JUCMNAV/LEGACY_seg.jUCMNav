@@ -248,7 +248,7 @@ public class Rule {
         try {
             ocl.parse(lib);
         } catch (ParserException e2) {
-            errors+= "Library error:" + e2.getMessage(); //$NON-NLS-1$
+            errors+= "Library error: " + e2.getMessage(); //$NON-NLS-1$
             return false;
         }
 //        OCLHelper<EClassifier, EOperation, ?, Constraint> helper = ocl.createOCLHelper();
@@ -268,7 +268,7 @@ public class Rule {
                 helper.setContext(e);
                 helper.defineOperation(op);
             } catch (ParserException e1) {
-                errors+= "Utilities #"+ (i+1)+" error:" + e1.getMessage(); //$NON-NLS-1$ //$NON-NLS-2$
+                errors+= "Utilities #"+ (i+1)+" error: " + e1.getMessage(); //$NON-NLS-1$ //$NON-NLS-2$
                 return false;
             }           
         }
@@ -281,7 +281,7 @@ public class Rule {
 //            Query<EClassifier, EClass, EObject> queryEval = ocl.createQuery(query);
             Query queryEval = ocl.createQuery(query);
         } catch (ParserException e1) {
-            errors+="Query constraint error:" + e1.getMessage(); //$NON-NLS-1$
+            errors+="Query constraint error: " + e1.getMessage(); //$NON-NLS-1$
             return false;
         }
         //verify invariant constraint
@@ -294,7 +294,7 @@ public class Rule {
             Query constraintEval = ocl.createQuery(invariant);
             
         } catch (ParserException e1) {
-            errors+= "Invariant contraint error:" + e1.getMessage(); //$NON-NLS-1$
+            errors+= "Invariant constraint error: " + e1.getMessage(); //$NON-NLS-1$
             return false;
         }
   

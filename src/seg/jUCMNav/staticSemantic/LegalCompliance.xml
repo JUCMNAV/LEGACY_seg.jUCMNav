@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>StereotypeInLegalModelOnly</Name>
+		<Description>Legal: The "Permission", "Obligation", "No", and "Consequence" stereotypes must be referenced in at least one "Legal" diagram</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>let s:String = self.getMetadata('ST_Legal') in&#13;
+	(s='Obligation' or s='Permission' or s='No' or s='Consequence')&#13;
+	implies&#13;
+	self.isInLegalDiagram()</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>LegalStereotypesNotForActors</Name>
+		<Description>Legal: The "Permission", "Obligation", "No", and "Consequence" stereotypes are for intentional elements only</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+		<Constraint>let s:String = self.getMetadata('ST_Legal') in&#13;
+	(s&lt;&gt;'Obligation' and s&lt;&gt;'Permission' and s&lt;&gt;'No' and s&lt;&gt;'Consequence')</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>ObligationNotDecomposableByNo</Name>
+		<Description>Legal: An "Obligation" intentional element must not be And-decomposed by a "No" element</Description>
+		<Classification>grl::Decomposition</Classification>
+		<Query>getAllDecompositions()</Query>
+		<Constraint>let ieSrc:grl::IntentionalElement=dest.oclAsType(IntentionalElement),&#13;
+	ieDest:grl::IntentionalElement=src.oclAsType(IntentionalElement),&#13;
+	s:String = ieSrc.getMetadata('ST_Legal')&#13;
+in&#13;
+	(s='Obligation' and ieSrc.decompositionType=grl::DecompositionType::And)&#13;
+	implies&#13;
+	ieDest.getMetadata('ST_Legal') &lt;&gt; 'No'</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>ObligationPermissionDecomposableByAndOnly</Name>
+		<Description>Legal: An "Obligation" or "Permission" intentional element must be And-decomposed</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>let st:String = getMetadata('ST_Legal') in
+	(st = 'Obligation' or st = 'Permission') implies self.decompositionType=DecompositionType::And</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>TracesLinksBetweenActors</Name>
+		<Description>Legal: A "traces" URN link must be between two actors or two intentional elements</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+   		<Constraint>self.getLinksToForType('traces')&#13;
+	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor))</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>TracesLinksBetweenIEs</Name>
+		<Description>Legal: A "traces" URN link must be between two actors or two intentional elements</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+   		<Constraint>self.getLinksToForType('traces')&#13;
+	-&gt; forAll (ie | ie.oclIsTypeOf(grl::IntentionalElement))</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NonComplianceOnTracesIEs</Name>
+		<Description>Legal: The source of the "traces" URN link does not comply with its destination</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.getLinksToForType('traces')&#13;
+	-&gt; forAll (ie | ie.oclIsTypeOf(grl::IntentionalElement)&#13;
+		implies&#13;
+		self.getNumEval() &lt;= ie.getNumEval()&#13;
+	)</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>NonComplianceOnTracesActors</Name>
+		<Description>Legal: The source of the "traces" URN link does not comply with its destination</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+		<Constraint>self.getLinksToForType('traces')&#13;
+	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor)&#13;
+		implies&#13;
+		self.getNumEval() &lt;= a.getNumEval()&#13;
+	)</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>TracesLinksFromOrgToLegalActors</Name>
+		<Description>Legal: Traces URN links must go from the organization model to the legal model</Description>
+		<Classification>grl::Actor</Classification>
+		<Query>getAllActors()</Query>
+		<Constraint>self.getLinksToForType('traces')&#13;
+	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor)&#13;
+		implies&#13;
+		not(self.isInLegalDiagram()) and a.oclAsType(grl::Actor).isInLegalDiagram()&#13;
+	)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>TracesLinksFromOrgToLegalIEs</Name>
+		<Description>Legal: Traces URN links must go from the organization model to the legal model</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.getLinksToForType('traces')&#13;
+	-&gt; forAll (a | a.oclIsTypeOf(grl::IntentionalElement)&#13;
+		implies&#13;
+		not(self.isInLegalDiagram()) and a.oclAsType(grl::IntentionalElement).isInLegalDiagram()&#13;
+	)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>ConsequenceContribFromLegalToOrg</Name>
+		<Description>Legal: Only GRL contributions from "Consequence" IEs can go from the legal model to the organization model</Description>
+		<Classification>grl::Contribution</Classification>
+		<Query>getAllContributions()</Query>
+		<Constraint>let srcIE:grl::IntentionalElement = src.oclAsType(grl::IntentionalElement) in&#13;
+	(srcIE.isInLegalDiagram() and srcIE.getMetadata('ST_Legal') &lt;&gt; 'Consequence')&#13;
+	implies&#13;
+	dest.oclAsType(grl::IntentionalElement).isInLegalDiagram()</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>ConsequenceContribPositive</Name>
+		<Description>Legal: GRL contributions from "Consequence" IEs must be positive</Description>
+		<Classification>grl::Contribution</Classification>
+		<Query>getAllContributions()</Query>
+		<Constraint>src.oclAsType(grl::IntentionalElement).getMetadata('ST_Legal') = 'Consequence'&#13;
+	implies&#13;
+	self.quantitativeContribution &gt;= 0</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>ConsequenceUnused</Name>
+		<Description>Legal: "Consequence" intentional element has no contribution to the organization model</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.getMetadata('ST_Legal') = 'Consequence'&#13;
+	implies&#13;
+		self.linksSrc&#13;
+		-&gt; select (link | link.oclIsTypeOf(grl::Contribution))&#13;
+		-&gt; collect (link | link.oclAsType(grl::Contribution))&#13;
+		-&gt; select (c | c.dest.oclIsTypeOf(grl::IntentionalElement)&#13;
+			and not(c.dest.oclAsType(grl::IntentionalElement).isInLegalDiagram()) &#13;
+		)-&gt; size() &gt; 0</Constraint>		
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>ConsequenceWithMinus100Contrib</Name>
+		<Description>Legal: "Consequence" IEs must have a -100 contribution from DefaultNonComp</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.getMetadata('ST_Legal') = 'Consequence'&#13;
+	implies&#13;
+		self.linksDest&#13;
+		-&gt; select (link | link.oclIsTypeOf(grl::Contribution))&#13;
+		-&gt; collect (link | link.oclAsType(grl::Contribution))&#13;
+		-&gt; one (c | c.quantitativeContribution = -100&#13;
+			and c.src.oclIsTypeOf(grl::IntentionalElement)&#13;
+			and c.src.oclAsType(grl::IntentionalElement).name = 'DefaultNonComp'&#13;
+		)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>ConsequenceDependOnDefaultMaxEval</Name>
+		<Description>Legal: "Consequence" IEs must have a dependency to DefaultMaxEval</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.getMetadata('ST_Legal') = 'Consequence'&#13;
+	implies&#13;
+		self.linksDest&#13;
+		-&gt; select (link | link.oclIsTypeOf(grl::Dependency))&#13;
+		-&gt; collect (link | link.oclAsType(grl::Dependency))&#13;
+		-&gt; one (d | d.src.oclIsTypeOf(grl::IntentionalElement)&#13;
+			and d.src.oclAsType(grl::IntentionalElement).name = 'DefaultMaxEval'&#13;
+		)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>DefaultNonCompSetTo100</Name>
+		<Description>Legal: DefaultNonComp must be a resource evaluated to 100 in the Legal model </Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.name = 'DefaultNonComp' implies&#13;
+	type=IntentionalElementType::Ressource and isInLegalDiagram() and&#13;
+		(getNumEval() = 100 or getNumEval() = -1000)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>DefaultMaxEvalSetToZero</Name>
+		<Description>Legal: DefaultMaxEval must be a resource evaluated to 0 in the Legal model </Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.name = 'DefaultMaxEval' implies&#13;
+	type=IntentionalElementType::Ressource and isInLegalDiagram() and&#13;
+		(getNumEval() = 0 or getNumEval() = -1000)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>ObligationFullySatisfied</Name>
+		<Description>Legal: Non-compliance: an "Obligation" must be evaluated to 100</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.getMetadata('ST_Legal') = 'Obligation' implies&#13;
+	(getNumEval() = 100 or getNumEval() = -1000)</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>PermissionFullySatisfied</Name>
+		<Description>Legal: Non-compliance: a "Permission" with non-"No" children must be evaluated to 100</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.getMetadata('ST_Legal') = 'Permission' implies&#13;
+	( (self.linksDest&#13;
+		-&gt; select (link | link.oclIsTypeOf(grl::Decomposition))&#13;
+		-&gt; collect (link | link.oclAsType(grl::Decomposition))&#13;
+		-&gt; exists (d | d.src.oclIsTypeOf(grl::IntentionalElement)&#13;
+			and d.src.oclAsType(grl::IntentionalElement).getMetadata('ST_Legal') &lt;&gt; 'No')&#13;
+	) implies&#13;
+			(self.getNumEval() = 100 or self.getNumEval() = -1000) )</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>LegalIEinitialized</Name>
+		<Description>Legal: A strategy should not initialize intentional elements from a Legal model</Description>
+		<Classification>grl::EvaluationStrategy</Classification>
+		<Query>getAllEvaluationStrategies()</Query>
+		<Constraint>self.evaluations.intElement&#13;
+	-&gt; forAll( ie | not(ie.isInLegalDiagram() and ie.name &lt;&gt; 'DefaultNonComp') )</Constraint>		
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+</Rules>

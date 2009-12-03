@@ -70,6 +70,7 @@ public class StaticSemanticDefMgr extends RuleManagementDefinitionManager{
         defaultGroups.add(createDefaultGroup("URN Features for SPL", "FeaturesSPL.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
         defaultGroups.add(createDefaultGroup("URN iStar Profile", "iStarProfile.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
         defaultGroups.add(createDefaultGroup("URN Layout and Overlaps", "Layout.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("URN Legal Compliance Profile", "LegalCompliance.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
         defaultGroups.add(createDefaultGroup("URN Styles for Names and Descriptions", "StyleNamesDescriptions.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
         defaultGroups.add(createDefaultGroup("URN Unused Elements", "UnusedElements.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
         defaultGroups.add(createDefaultGroup("URN Value Ranges", "Ranges.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
