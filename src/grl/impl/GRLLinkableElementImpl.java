@@ -40,161 +40,161 @@ import urncore.impl.GRLmodelElementImpl;
  */
 public abstract class GRLLinkableElementImpl extends GRLmodelElementImpl implements GRLLinkableElement {
 	/**
-	 * The cached value of the '{@link #getLinksDest() <em>Links Dest</em>}' reference list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getLinksDest() <em>Links Dest</em>}' reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLinksDest()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getLinksDest()
+     * @generated
+     * @ordered
+     */
 	protected EList linksDest;
 
 	/**
-	 * The cached value of the '{@link #getLinksSrc() <em>Links Src</em>}' reference list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getLinksSrc() <em>Links Src</em>}' reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLinksSrc()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getLinksSrc()
+     * @generated
+     * @ordered
+     */
 	protected EList linksSrc;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected GRLLinkableElementImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected EClass eStaticClass() {
-		return GrlPackage.Literals.GRL_LINKABLE_ELEMENT;
-	}
+        return GrlPackage.Literals.GRL_LINKABLE_ELEMENT;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList getLinksDest() {
-		if (linksDest == null) {
-			linksDest = new EObjectWithInverseResolvingEList(ElementLink.class, this, GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST, GrlPackage.ELEMENT_LINK__DEST);
-		}
-		return linksDest;
-	}
+        if (linksDest == null) {
+            linksDest = new EObjectWithInverseResolvingEList(ElementLink.class, this, GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST, GrlPackage.ELEMENT_LINK__DEST);
+        }
+        return linksDest;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList getLinksSrc() {
-		if (linksSrc == null) {
-			linksSrc = new EObjectWithInverseResolvingEList(ElementLink.class, this, GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC, GrlPackage.ELEMENT_LINK__SRC);
-		}
-		return linksSrc;
-	}
+        if (linksSrc == null) {
+            linksSrc = new EObjectWithInverseResolvingEList(ElementLink.class, this, GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC, GrlPackage.ELEMENT_LINK__SRC);
+        }
+        return linksSrc;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
-				return ((InternalEList)getLinksDest()).basicAdd(otherEnd, msgs);
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
-				return ((InternalEList)getLinksSrc()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
+                return ((InternalEList)getLinksDest()).basicAdd(otherEnd, msgs);
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
+                return ((InternalEList)getLinksSrc()).basicAdd(otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
-				return ((InternalEList)getLinksDest()).basicRemove(otherEnd, msgs);
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
-				return ((InternalEList)getLinksSrc()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
+                return ((InternalEList)getLinksDest()).basicRemove(otherEnd, msgs);
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
+                return ((InternalEList)getLinksSrc()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
-				return getLinksDest();
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
-				return getLinksSrc();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
+                return getLinksDest();
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
+                return getLinksSrc();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
-				getLinksDest().clear();
-				getLinksDest().addAll((Collection)newValue);
-				return;
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
-				getLinksSrc().clear();
-				getLinksSrc().addAll((Collection)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
+                getLinksDest().clear();
+                getLinksDest().addAll((Collection)newValue);
+                return;
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
+                getLinksSrc().clear();
+                getLinksSrc().addAll((Collection)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
-				getLinksDest().clear();
-				return;
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
-				getLinksSrc().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
+                getLinksDest().clear();
+                return;
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
+                getLinksSrc().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
-				return linksDest != null && !linksDest.isEmpty();
-			case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
-				return linksSrc != null && !linksSrc.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_DEST:
+                return linksDest != null && !linksDest.isEmpty();
+            case GrlPackage.GRL_LINKABLE_ELEMENT__LINKS_SRC:
+                return linksSrc != null && !linksSrc.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //GRLLinkableElementImpl

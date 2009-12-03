@@ -78,18 +78,22 @@
     <eClassifiers xsi:type="ecore:EClass" name="OutBinding">
       <eStructuralFeatures xsi:type="ecore:EReference" name="binding" lowerBound="1"
           eType="#//map/PluginBinding" transient="true" eOpposite="#//map/PluginBinding/out"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="endPoint" lowerBound="1"
-          eType="#//map/EndPoint" eOpposite="#//map/EndPoint/outBindings"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="endPoint" eType="#//map/EndPoint"
+          eOpposite="#//map/EndPoint/outBindings"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="stubExit" lowerBound="1"
           eType="#//map/NodeConnection" eOpposite="#//map/NodeConnection/outBindings"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pointcutEntry" eType="#//map/NodeConnection"
+          eOpposite="#//map/NodeConnection/outBindingsPlugin"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="InBinding">
       <eStructuralFeatures xsi:type="ecore:EReference" name="binding" lowerBound="1"
           eType="#//map/PluginBinding" transient="true" eOpposite="#//map/PluginBinding/in"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="startPoint" lowerBound="1"
-          eType="#//map/StartPoint" eOpposite="#//map/StartPoint/inBindings"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="startPoint" eType="#//map/StartPoint"
+          eOpposite="#//map/StartPoint/inBindings"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="stubEntry" lowerBound="1"
           eType="#//map/NodeConnection" eOpposite="#//map/NodeConnection/inBindings"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pointcutExit" eType="#//map/NodeConnection"
+          eOpposite="#//map/NodeConnection/inBindingsPlugin"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="RespRef" eSuperTypes="#//map/PathNode">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="repetitionCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
@@ -97,6 +101,10 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="hostDemand" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="respDef" lowerBound="1"
           eType="ecore:EClass urncore.ecore#//Responsibility" eOpposite="urncore.ecore#//Responsibility/respRefs"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parentBindings" upperBound="-1"
+          eType="#//map/ResponsibilityBinding" eOpposite="#//map/ResponsibilityBinding/parentResp"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBindings" upperBound="-1"
+          eType="#//map/ResponsibilityBinding" eOpposite="#//map/ResponsibilityBinding/pluginResp"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OrJoin" eSuperTypes="#//map/PathNode">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -108,12 +116,17 @@
     <eClassifiers xsi:type="ecore:EClass" name="NodeConnection" eSuperTypes="urncore.ecore#//IURNConnection">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="probability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
           defaultValueLiteral="1.0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="threshold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="inBindings" upperBound="-1"
           eType="#//map/InBinding" eOpposite="#//map/InBinding/stubEntry"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="outBindings" upperBound="-1"
           eType="#//map/OutBinding" eOpposite="#//map/OutBinding/stubExit"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="ecore:EClass urncore.ecore#//Condition"
           containment="true" eOpposite="urncore.ecore#//Condition/nodeConnection"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outBindingsPlugin" upperBound="-1"
+          eType="#//map/OutBinding" eOpposite="#//map/OutBinding/pointcutEntry"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inBindingsPlugin" upperBound="-1"
+          eType="#//map/InBinding" eOpposite="#//map/InBinding/pointcutExit"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="WaitingPlace" eSuperTypes="#//map/PathNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -134,6 +147,10 @@
           defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="blocking" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="aopointcut" eType="#//map/PointcutKind"
+          defaultValueLiteral="None"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="aspect" eType="#//map/AspectKind"
+          defaultValueLiteral="None"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
           eType="#//map/PluginBinding" containment="true" eOpposite="#//map/PluginBinding/stub"/>
     </eClassifiers>
@@ -142,6 +159,8 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="An end-point (or end bar, or result) has usually one  source hyperedge (and possibly a target hyperedge to a connect  for linking to starts or waiting places). The  resulting-event-list gives the set of events that occur once the  sequence of actions in a path are completed. The  postcondition-list must be satisfied once the sequence is  completed. "/>
       </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="local" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="outBindings" upperBound="-1"
           eType="#//map/OutBinding" eOpposite="#//map/OutBinding/endPoint"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="postcondition" eType="ecore:EClass urncore.ecore#//Condition"
@@ -155,6 +174,8 @@
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="workload" eType="#//performance/Workload"
           containment="true" eOpposite="#//performance/Workload/startPoint"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="local" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="inBindings" upperBound="-1"
           eType="#//map/InBinding" eOpposite="#//map/InBinding/startPoint"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="precondition" eType="ecore:EClass urncore.ecore#//Condition"
@@ -191,6 +212,8 @@
           containment="true" eOpposite="urncore.ecore#//Condition/pluginBinding"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
           eType="#//map/ComponentBinding" containment="true" eOpposite="#//map/ComponentBinding/binding"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="responsibilities" upperBound="-1"
+          eType="#//map/ResponsibilityBinding" containment="true" eOpposite="#//map/ResponsibilityBinding/binding"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ComponentRef" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//IURNContainerRef">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -225,6 +248,40 @@
     <eClassifiers xsi:type="ecore:EEnum" name="WaitKind">
       <eLiterals name="Transient"/>
       <eLiterals name="Persistent" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="AspectKind">
+      <eLiterals name="None"/>
+      <eLiterals name="Regular" value="1"/>
+      <eLiterals name="Entrance" value="2"/>
+      <eLiterals name="Exit" value="3"/>
+      <eLiterals name="Conditional" value="4"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="PointcutKind">
+      <eLiterals name="None"/>
+      <eLiterals name="Regular" value="1"/>
+      <eLiterals name="Replacement" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Anything" eSuperTypes="#//map/PathNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FailureStartPoint" eSuperTypes="#//map/PathNode">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//map/FailureKind"
+          defaultValueLiteral="Failure"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="ecore:EClass urncore.ecore#//Condition"
+          containment="true" eOpposite="urncore.ecore#//Condition/failureStartPoint"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="FailureKind">
+      <eLiterals name="Failure"/>
+      <eLiterals name="Abort" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FailurePoint" eSuperTypes="#//map/PathNode">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResponsibilityBinding">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="binding" lowerBound="1"
+          eType="#//map/PluginBinding" transient="true" eOpposite="#//map/PluginBinding/responsibilities"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parentResp" lowerBound="1"
+          eType="#//map/RespRef" eOpposite="#//map/RespRef/parentBindings"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pluginResp" lowerBound="1"
+          eType="#//map/RespRef" eOpposite="#//map/RespRef/pluginBindings"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="scenario" nsURI="http:///ucm/scenario.ecore" nsPrefix="ucm.scenario">

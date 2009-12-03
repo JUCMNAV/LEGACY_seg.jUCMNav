@@ -18,38 +18,38 @@ import org.eclipse.emf.ecore.EFactory;
  */
 public interface UrnFactory extends EFactory {
     /**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
+     * The singleton instance of the factory.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     UrnFactory eINSTANCE = urn.impl.UrnFactoryImpl.init();
 
     /**
-	 * Returns a new object of class '<em>UR Nspec</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns a new object of class '<em>UR Nspec</em>'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @return a new object of class '<em>UR Nspec</em>'.
-	 * @generated
-	 */
+     * @return a new object of class '<em>UR Nspec</em>'.
+     * @generated
+     */
     URNspec createURNspec();
 
     /**
-	 * Returns a new object of class '<em>UR Nlink</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns a new object of class '<em>UR Nlink</em>'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @return a new object of class '<em>UR Nlink</em>'.
-	 * @generated
-	 */
+     * @return a new object of class '<em>UR Nlink</em>'.
+     * @generated
+     */
     URNlink createURNlink();
 
     /**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
+     * Returns the package supported by this factory.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
+     * @return the package supported by this factory.
+     * @generated
+     */
     UrnPackage getUrnPackage();
 
 } //UrnFactory

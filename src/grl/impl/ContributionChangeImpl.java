@@ -41,335 +41,335 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  */
 public class ContributionChangeImpl extends EObjectImpl implements ContributionChange {
 	/**
-	 * The default value of the '{@link #getNewContribution() <em>New Contribution</em>}' attribute.
-	 * <!-- begin-user-doc -->
+     * The default value of the '{@link #getNewContribution() <em>New Contribution</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNewContribution()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getNewContribution()
+     * @generated
+     * @ordered
+     */
 	protected static final ContributionType NEW_CONTRIBUTION_EDEFAULT = ContributionType.UNKNOWN_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getNewContribution() <em>New Contribution</em>}' attribute.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getNewContribution() <em>New Contribution</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNewContribution()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getNewContribution()
+     * @generated
+     * @ordered
+     */
 	protected ContributionType newContribution = NEW_CONTRIBUTION_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getNewQuantitativeContribution() <em>New Quantitative Contribution</em>}' attribute.
-	 * <!-- begin-user-doc -->
+     * The default value of the '{@link #getNewQuantitativeContribution() <em>New Quantitative Contribution</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNewQuantitativeContribution()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getNewQuantitativeContribution()
+     * @generated
+     * @ordered
+     */
 	protected static final int NEW_QUANTITATIVE_CONTRIBUTION_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getNewQuantitativeContribution() <em>New Quantitative Contribution</em>}' attribute.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getNewQuantitativeContribution() <em>New Quantitative Contribution</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNewQuantitativeContribution()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getNewQuantitativeContribution()
+     * @generated
+     * @ordered
+     */
 	protected int newQuantitativeContribution = NEW_QUANTITATIVE_CONTRIBUTION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getContribution() <em>Contribution</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getContribution() <em>Contribution</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getContribution()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getContribution()
+     * @generated
+     * @ordered
+     */
 	protected Contribution contribution;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected ContributionChangeImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected EClass eStaticClass() {
-		return GrlPackage.Literals.CONTRIBUTION_CHANGE;
-	}
+        return GrlPackage.Literals.CONTRIBUTION_CHANGE;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ContributionType getNewContribution() {
-		return newContribution;
-	}
+        return newContribution;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setNewContribution(ContributionType newNewContribution) {
-		ContributionType oldNewContribution = newContribution;
-		newContribution = newNewContribution == null ? NEW_CONTRIBUTION_EDEFAULT : newNewContribution;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CHANGE__NEW_CONTRIBUTION, oldNewContribution, newContribution));
-	}
+        ContributionType oldNewContribution = newContribution;
+        newContribution = newNewContribution == null ? NEW_CONTRIBUTION_EDEFAULT : newNewContribution;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CHANGE__NEW_CONTRIBUTION, oldNewContribution, newContribution));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public int getNewQuantitativeContribution() {
-		return newQuantitativeContribution;
-	}
+        return newQuantitativeContribution;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setNewQuantitativeContribution(int newNewQuantitativeContribution) {
-		int oldNewQuantitativeContribution = newQuantitativeContribution;
-		newQuantitativeContribution = newNewQuantitativeContribution;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CHANGE__NEW_QUANTITATIVE_CONTRIBUTION, oldNewQuantitativeContribution, newQuantitativeContribution));
-	}
+        int oldNewQuantitativeContribution = newQuantitativeContribution;
+        newQuantitativeContribution = newNewQuantitativeContribution;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CHANGE__NEW_QUANTITATIVE_CONTRIBUTION, oldNewQuantitativeContribution, newQuantitativeContribution));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ContributionContext getContext() {
-		if (eContainerFeatureID != GrlPackage.CONTRIBUTION_CHANGE__CONTEXT) return null;
-		return (ContributionContext)eContainer();
-	}
+        if (eContainerFeatureID() != GrlPackage.CONTRIBUTION_CHANGE__CONTEXT) return null;
+        return (ContributionContext)eContainer();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain basicSetContext(ContributionContext newContext, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newContext, GrlPackage.CONTRIBUTION_CHANGE__CONTEXT, msgs);
-		return msgs;
-	}
+        msgs = eBasicSetContainer((InternalEObject)newContext, GrlPackage.CONTRIBUTION_CHANGE__CONTEXT, msgs);
+        return msgs;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setContext(ContributionContext newContext) {
-		if (newContext != eInternalContainer() || (eContainerFeatureID != GrlPackage.CONTRIBUTION_CHANGE__CONTEXT && newContext != null)) {
-			if (EcoreUtil.isAncestor(this, newContext))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newContext != null)
-				msgs = ((InternalEObject)newContext).eInverseAdd(this, GrlPackage.CONTRIBUTION_CONTEXT__CHANGES, ContributionContext.class, msgs);
-			msgs = basicSetContext(newContext, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CHANGE__CONTEXT, newContext, newContext));
-	}
+        if (newContext != eInternalContainer() || (eContainerFeatureID() != GrlPackage.CONTRIBUTION_CHANGE__CONTEXT && newContext != null)) {
+            if (EcoreUtil.isAncestor(this, newContext))
+                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+            NotificationChain msgs = null;
+            if (eInternalContainer() != null)
+                msgs = eBasicRemoveFromContainer(msgs);
+            if (newContext != null)
+                msgs = ((InternalEObject)newContext).eInverseAdd(this, GrlPackage.CONTRIBUTION_CONTEXT__CHANGES, ContributionContext.class, msgs);
+            msgs = basicSetContext(newContext, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CHANGE__CONTEXT, newContext, newContext));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Contribution getContribution() {
-		if (contribution != null && contribution.eIsProxy()) {
-			InternalEObject oldContribution = (InternalEObject)contribution;
-			contribution = (Contribution)eResolveProxy(oldContribution);
-			if (contribution != oldContribution) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION, oldContribution, contribution));
-			}
-		}
-		return contribution;
-	}
+        if (contribution != null && contribution.eIsProxy()) {
+            InternalEObject oldContribution = (InternalEObject)contribution;
+            contribution = (Contribution)eResolveProxy(oldContribution);
+            if (contribution != oldContribution) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION, oldContribution, contribution));
+            }
+        }
+        return contribution;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Contribution basicGetContribution() {
-		return contribution;
-	}
+        return contribution;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setContribution(Contribution newContribution) {
-		Contribution oldContribution = contribution;
-		contribution = newContribution;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION, oldContribution, contribution));
-	}
+        Contribution oldContribution = contribution;
+        contribution = newContribution;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION, oldContribution, contribution));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetContext((ContributionContext)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetContext((ContributionContext)otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
-				return basicSetContext(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
+                return basicSetContext(null, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
-				return eInternalContainer().eInverseRemove(this, GrlPackage.CONTRIBUTION_CONTEXT__CHANGES, ContributionContext.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
+        switch (eContainerFeatureID()) {
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
+                return eInternalContainer().eInverseRemove(this, GrlPackage.CONTRIBUTION_CONTEXT__CHANGES, ContributionContext.class, msgs);
+        }
+        return super.eBasicRemoveFromContainerFeature(msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CHANGE__NEW_CONTRIBUTION:
-				return getNewContribution();
-			case GrlPackage.CONTRIBUTION_CHANGE__NEW_QUANTITATIVE_CONTRIBUTION:
-				return new Integer(getNewQuantitativeContribution());
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
-				return getContext();
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION:
-				if (resolve) return getContribution();
-				return basicGetContribution();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CHANGE__NEW_CONTRIBUTION:
+                return getNewContribution();
+            case GrlPackage.CONTRIBUTION_CHANGE__NEW_QUANTITATIVE_CONTRIBUTION:
+                return new Integer(getNewQuantitativeContribution());
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
+                return getContext();
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION:
+                if (resolve) return getContribution();
+                return basicGetContribution();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CHANGE__NEW_CONTRIBUTION:
-				setNewContribution((ContributionType)newValue);
-				return;
-			case GrlPackage.CONTRIBUTION_CHANGE__NEW_QUANTITATIVE_CONTRIBUTION:
-				setNewQuantitativeContribution(((Integer)newValue).intValue());
-				return;
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
-				setContext((ContributionContext)newValue);
-				return;
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION:
-				setContribution((Contribution)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CHANGE__NEW_CONTRIBUTION:
+                setNewContribution((ContributionType)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION_CHANGE__NEW_QUANTITATIVE_CONTRIBUTION:
+                setNewQuantitativeContribution(((Integer)newValue).intValue());
+                return;
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
+                setContext((ContributionContext)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION:
+                setContribution((Contribution)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CHANGE__NEW_CONTRIBUTION:
-				setNewContribution(NEW_CONTRIBUTION_EDEFAULT);
-				return;
-			case GrlPackage.CONTRIBUTION_CHANGE__NEW_QUANTITATIVE_CONTRIBUTION:
-				setNewQuantitativeContribution(NEW_QUANTITATIVE_CONTRIBUTION_EDEFAULT);
-				return;
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
-				setContext((ContributionContext)null);
-				return;
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION:
-				setContribution((Contribution)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CHANGE__NEW_CONTRIBUTION:
+                setNewContribution(NEW_CONTRIBUTION_EDEFAULT);
+                return;
+            case GrlPackage.CONTRIBUTION_CHANGE__NEW_QUANTITATIVE_CONTRIBUTION:
+                setNewQuantitativeContribution(NEW_QUANTITATIVE_CONTRIBUTION_EDEFAULT);
+                return;
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
+                setContext((ContributionContext)null);
+                return;
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION:
+                setContribution((Contribution)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CHANGE__NEW_CONTRIBUTION:
-				return newContribution != NEW_CONTRIBUTION_EDEFAULT;
-			case GrlPackage.CONTRIBUTION_CHANGE__NEW_QUANTITATIVE_CONTRIBUTION:
-				return newQuantitativeContribution != NEW_QUANTITATIVE_CONTRIBUTION_EDEFAULT;
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
-				return getContext() != null;
-			case GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION:
-				return contribution != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CHANGE__NEW_CONTRIBUTION:
+                return newContribution != NEW_CONTRIBUTION_EDEFAULT;
+            case GrlPackage.CONTRIBUTION_CHANGE__NEW_QUANTITATIVE_CONTRIBUTION:
+                return newQuantitativeContribution != NEW_QUANTITATIVE_CONTRIBUTION_EDEFAULT;
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTEXT:
+                return getContext() != null;
+            case GrlPackage.CONTRIBUTION_CHANGE__CONTRIBUTION:
+                return contribution != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (newContribution: ");
-		result.append(newContribution);
-		result.append(", newQuantitativeContribution: ");
-		result.append(newQuantitativeContribution);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (newContribution: ");
+        result.append(newContribution);
+        result.append(", newQuantitativeContribution: ");
+        result.append(newQuantitativeContribution);
+        result.append(')');
+        return result.toString();
+    }
 
 } //ContributionChangeImpl

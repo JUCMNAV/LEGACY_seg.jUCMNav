@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Documents and Settings\Daniel\My Documents\work\jucmnav\URN_20.mdl</foreignModel>
+  <foreignModel>C:\Documents and Settings\Daniel\My Documents\work\jucmnav\URN_21.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -50,6 +50,7 @@
     <genClasses ecoreClass="urncore.ecore#//Responsibility">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Responsibility/empty"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Responsibility/expression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Responsibility/context"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/urndefinition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/demands"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/respRefs"/>
@@ -91,6 +92,7 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/pluginBinding"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/nodeConnection"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/concern"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/failureStartPoint"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/scenarioDefPre"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/scenarioDefPost"/>
     </genClasses>
@@ -436,6 +438,22 @@
         <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/WaitKind/Transient"/>
         <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/WaitKind/Persistent"/>
       </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="ucm.ecore#//map/AspectKind">
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/AspectKind/None"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/AspectKind/Regular"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/AspectKind/Entrance"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/AspectKind/Exit"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/AspectKind/Conditional"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="ucm.ecore#//map/PointcutKind">
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/PointcutKind/None"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/PointcutKind/Regular"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/PointcutKind/Replacement"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="ucm.ecore#//map/FailureKind">
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/FailureKind/Failure"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/FailureKind/Abort"/>
+      </genEnums>
       <genClasses ecoreClass="ucm.ecore#//map/AndJoin">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/AndJoin/orientation"/>
       </genClasses>
@@ -443,16 +461,24 @@
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/OutBinding/binding"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/OutBinding/endPoint"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/OutBinding/stubExit"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/OutBinding/pointcutEntry"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/InBinding">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/InBinding/binding"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/InBinding/startPoint"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/InBinding/stubEntry"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/InBinding/pointcutExit"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/RespRef">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/RespRef/repetitionCount"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/RespRef/hostDemand"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/RespRef/respDef"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/RespRef/parentBindings"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/RespRef/pluginBindings"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/OrJoin">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/OrJoin/orientation"/>
@@ -463,9 +489,14 @@
       <genClasses ecoreClass="ucm.ecore#//map/Connect"/>
       <genClasses ecoreClass="ucm.ecore#//map/NodeConnection">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/NodeConnection/probability"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/NodeConnection/threshold"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/NodeConnection/inBindings"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/NodeConnection/outBindings"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/NodeConnection/condition"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/NodeConnection/outBindingsPlugin"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/NodeConnection/inBindingsPlugin"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/WaitingPlace">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/WaitingPlace/waitType"/>
@@ -477,10 +508,13 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/Stub/pointcut"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/Stub/synchronization"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/Stub/blocking"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/Stub/aopointcut"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/Stub/aspect"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/Stub/bindings"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/PathNode"/>
       <genClasses ecoreClass="ucm.ecore#//map/EndPoint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/EndPoint/local"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/EndPoint/outBindings"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/EndPoint/postcondition"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -488,6 +522,7 @@
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/StartPoint">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/workload"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/StartPoint/local"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/inBindings"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/precondition"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -508,6 +543,7 @@
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/PluginBinding/plugin"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/PluginBinding/precondition"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/PluginBinding/components"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/PluginBinding/responsibilities"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/ComponentRef">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/ComponentRef/role"/>
@@ -532,6 +568,21 @@
             ecoreFeature="ecore:EReference ucm.ecore#//map/ComponentBinding/parentComponent"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference ucm.ecore#//map/ComponentBinding/pluginComponent"/>
+      </genClasses>
+      <genClasses ecoreClass="ucm.ecore#//map/Anything"/>
+      <genClasses ecoreClass="ucm.ecore#//map/FailureStartPoint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/FailureStartPoint/kind"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/FailureStartPoint/condition"/>
+      </genClasses>
+      <genClasses ecoreClass="ucm.ecore#//map/FailurePoint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/FailurePoint/expression"/>
+      </genClasses>
+      <genClasses ecoreClass="ucm.ecore#//map/ResponsibilityBinding">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/ResponsibilityBinding/binding"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/ResponsibilityBinding/parentResp"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/ResponsibilityBinding/pluginResp"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Scenario" basePackage="ucm" ecorePackage="ucm.ecore#//scenario">

@@ -48,231 +48,231 @@ import urncore.impl.GRLmodelElementImpl;
  */
 public class ContributionContextImpl extends GRLmodelElementImpl implements ContributionContext {
 	/**
-	 * The cached value of the '{@link #getGroups() <em>Groups</em>}' reference list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getGroups() <em>Groups</em>}' reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getGroups()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getGroups()
+     * @generated
+     * @ordered
+     */
 	protected EList groups;
 
 	/**
-	 * The cached value of the '{@link #getChanges() <em>Changes</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getChanges() <em>Changes</em>}' containment reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getChanges()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getChanges()
+     * @generated
+     * @ordered
+     */
 	protected EList changes;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected ContributionContextImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected EClass eStaticClass() {
-		return GrlPackage.Literals.CONTRIBUTION_CONTEXT;
-	}
+        return GrlPackage.Literals.CONTRIBUTION_CONTEXT;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public GRLspec getGrlspec() {
-		if (eContainerFeatureID != GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC) return null;
-		return (GRLspec)eContainer();
-	}
+        if (eContainerFeatureID() != GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC) return null;
+        return (GRLspec)eContainer();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain basicSetGrlspec(GRLspec newGrlspec, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newGrlspec, GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC, msgs);
-		return msgs;
-	}
+        msgs = eBasicSetContainer((InternalEObject)newGrlspec, GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC, msgs);
+        return msgs;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setGrlspec(GRLspec newGrlspec) {
-		if (newGrlspec != eInternalContainer() || (eContainerFeatureID != GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC && newGrlspec != null)) {
-			if (EcoreUtil.isAncestor(this, newGrlspec))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newGrlspec != null)
-				msgs = ((InternalEObject)newGrlspec).eInverseAdd(this, GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS, GRLspec.class, msgs);
-			msgs = basicSetGrlspec(newGrlspec, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC, newGrlspec, newGrlspec));
-	}
+        if (newGrlspec != eInternalContainer() || (eContainerFeatureID() != GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC && newGrlspec != null)) {
+            if (EcoreUtil.isAncestor(this, newGrlspec))
+                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+            NotificationChain msgs = null;
+            if (eInternalContainer() != null)
+                msgs = eBasicRemoveFromContainer(msgs);
+            if (newGrlspec != null)
+                msgs = ((InternalEObject)newGrlspec).eInverseAdd(this, GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS, GRLspec.class, msgs);
+            msgs = basicSetGrlspec(newGrlspec, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC, newGrlspec, newGrlspec));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList getGroups() {
-		if (groups == null) {
-			groups = new EObjectWithInverseResolvingEList.ManyInverse(ContributionContextGroup.class, this, GrlPackage.CONTRIBUTION_CONTEXT__GROUPS, GrlPackage.CONTRIBUTION_CONTEXT_GROUP__CONTRIBS);
-		}
-		return groups;
-	}
+        if (groups == null) {
+            groups = new EObjectWithInverseResolvingEList.ManyInverse(ContributionContextGroup.class, this, GrlPackage.CONTRIBUTION_CONTEXT__GROUPS, GrlPackage.CONTRIBUTION_CONTEXT_GROUP__CONTRIBS);
+        }
+        return groups;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList getChanges() {
-		if (changes == null) {
-			changes = new EObjectContainmentWithInverseEList(ContributionChange.class, this, GrlPackage.CONTRIBUTION_CONTEXT__CHANGES, GrlPackage.CONTRIBUTION_CHANGE__CONTEXT);
-		}
-		return changes;
-	}
+        if (changes == null) {
+            changes = new EObjectContainmentWithInverseEList(ContributionChange.class, this, GrlPackage.CONTRIBUTION_CONTEXT__CHANGES, GrlPackage.CONTRIBUTION_CHANGE__CONTEXT);
+        }
+        return changes;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetGrlspec((GRLspec)otherEnd, msgs);
-			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
-				return ((InternalEList)getGroups()).basicAdd(otherEnd, msgs);
-			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
-				return ((InternalEList)getChanges()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetGrlspec((GRLspec)otherEnd, msgs);
+            case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+                return ((InternalEList)getGroups()).basicAdd(otherEnd, msgs);
+            case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+                return ((InternalEList)getChanges()).basicAdd(otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
-				return basicSetGrlspec(null, msgs);
-			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
-				return ((InternalEList)getGroups()).basicRemove(otherEnd, msgs);
-			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
-				return ((InternalEList)getChanges()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+                return basicSetGrlspec(null, msgs);
+            case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+                return ((InternalEList)getGroups()).basicRemove(otherEnd, msgs);
+            case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+                return ((InternalEList)getChanges()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
-			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
-				return eInternalContainer().eInverseRemove(this, GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS, GRLspec.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
+        switch (eContainerFeatureID()) {
+            case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+                return eInternalContainer().eInverseRemove(this, GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS, GRLspec.class, msgs);
+        }
+        return super.eBasicRemoveFromContainerFeature(msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
-				return getGrlspec();
-			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
-				return getGroups();
-			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
-				return getChanges();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+                return getGrlspec();
+            case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+                return getGroups();
+            case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+                return getChanges();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
-				setGrlspec((GRLspec)newValue);
-				return;
-			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
-				getGroups().clear();
-				getGroups().addAll((Collection)newValue);
-				return;
-			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
-				getChanges().clear();
-				getChanges().addAll((Collection)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+                setGrlspec((GRLspec)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+                getGroups().clear();
+                getGroups().addAll((Collection)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+                getChanges().clear();
+                getChanges().addAll((Collection)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
-				setGrlspec((GRLspec)null);
-				return;
-			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
-				getGroups().clear();
-				return;
-			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
-				getChanges().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+                setGrlspec((GRLspec)null);
+                return;
+            case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+                getGroups().clear();
+                return;
+            case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+                getChanges().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
-				return getGrlspec() != null;
-			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
-				return groups != null && !groups.isEmpty();
-			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
-				return changes != null && !changes.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+                return getGrlspec() != null;
+            case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+                return groups != null && !groups.isEmpty();
+            case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+                return changes != null && !changes.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //ContributionContextImpl

@@ -39,194 +39,194 @@ import urncore.UrncorePackage;
  */
 public class ComponentTypeImpl extends UCMmodelElementImpl implements ComponentType {
     /**
-	 * The cached value of the '{@link #getInstances() <em>Instances</em>}' reference list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getInstances() <em>Instances</em>}' reference list.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getInstances()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getInstances()
+     * @generated
+     * @ordered
+     */
     protected EList instances;
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected ComponentTypeImpl() {
-		super();
-	}
+        super();
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return UrncorePackage.Literals.COMPONENT_TYPE;
-	}
+        return UrncorePackage.Literals.COMPONENT_TYPE;
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public EList getInstances() {
-		if (instances == null) {
-			instances = new EObjectWithInverseResolvingEList(Component.class, this, UrncorePackage.COMPONENT_TYPE__INSTANCES, UrncorePackage.COMPONENT__TYPE);
-		}
-		return instances;
-	}
+        if (instances == null) {
+            instances = new EObjectWithInverseResolvingEList(Component.class, this, UrncorePackage.COMPONENT_TYPE__INSTANCES, UrncorePackage.COMPONENT__TYPE);
+        }
+        return instances;
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public URNdefinition getUrndefinition() {
-		if (eContainerFeatureID != UrncorePackage.COMPONENT_TYPE__URNDEFINITION) return null;
-		return (URNdefinition)eContainer();
-	}
+        if (eContainerFeatureID() != UrncorePackage.COMPONENT_TYPE__URNDEFINITION) return null;
+        return (URNdefinition)eContainer();
+    }
 
 				/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain basicSetUrndefinition(URNdefinition newUrndefinition, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newUrndefinition, UrncorePackage.COMPONENT_TYPE__URNDEFINITION, msgs);
-		return msgs;
-	}
+        msgs = eBasicSetContainer((InternalEObject)newUrndefinition, UrncorePackage.COMPONENT_TYPE__URNDEFINITION, msgs);
+        return msgs;
+    }
 
 				/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setUrndefinition(URNdefinition newUrndefinition) {
-		if (newUrndefinition != eInternalContainer() || (eContainerFeatureID != UrncorePackage.COMPONENT_TYPE__URNDEFINITION && newUrndefinition != null)) {
-			if (EcoreUtil.isAncestor(this, newUrndefinition))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newUrndefinition != null)
-				msgs = ((InternalEObject)newUrndefinition).eInverseAdd(this, UrncorePackage.UR_NDEFINITION__COMPONENT_TYPES, URNdefinition.class, msgs);
-			msgs = basicSetUrndefinition(newUrndefinition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_TYPE__URNDEFINITION, newUrndefinition, newUrndefinition));
-	}
+        if (newUrndefinition != eInternalContainer() || (eContainerFeatureID() != UrncorePackage.COMPONENT_TYPE__URNDEFINITION && newUrndefinition != null)) {
+            if (EcoreUtil.isAncestor(this, newUrndefinition))
+                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+            NotificationChain msgs = null;
+            if (eInternalContainer() != null)
+                msgs = eBasicRemoveFromContainer(msgs);
+            if (newUrndefinition != null)
+                msgs = ((InternalEObject)newUrndefinition).eInverseAdd(this, UrncorePackage.UR_NDEFINITION__COMPONENT_TYPES, URNdefinition.class, msgs);
+            msgs = basicSetUrndefinition(newUrndefinition, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_TYPE__URNDEFINITION, newUrndefinition, newUrndefinition));
+    }
 
 				/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-				return ((InternalEList)getInstances()).basicAdd(otherEnd, msgs);
-			case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetUrndefinition((URNdefinition)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+                return ((InternalEList)getInstances()).basicAdd(otherEnd, msgs);
+            case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetUrndefinition((URNdefinition)otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-				return ((InternalEList)getInstances()).basicRemove(otherEnd, msgs);
-			case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
-				return basicSetUrndefinition(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+                return ((InternalEList)getInstances()).basicRemove(otherEnd, msgs);
+            case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
+                return basicSetUrndefinition(null, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
-			case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
-				return eInternalContainer().eInverseRemove(this, UrncorePackage.UR_NDEFINITION__COMPONENT_TYPES, URNdefinition.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
+        switch (eContainerFeatureID()) {
+            case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
+                return eInternalContainer().eInverseRemove(this, UrncorePackage.UR_NDEFINITION__COMPONENT_TYPES, URNdefinition.class, msgs);
+        }
+        return super.eBasicRemoveFromContainerFeature(msgs);
+    }
 
 				/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-				return getInstances();
-			case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
-				return getUrndefinition();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+                return getInstances();
+            case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
+                return getUrndefinition();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-				getInstances().clear();
-				getInstances().addAll((Collection)newValue);
-				return;
-			case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
-				setUrndefinition((URNdefinition)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+                getInstances().clear();
+                getInstances().addAll((Collection)newValue);
+                return;
+            case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
+                setUrndefinition((URNdefinition)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-				getInstances().clear();
-				return;
-			case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
-				setUrndefinition((URNdefinition)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+                getInstances().clear();
+                return;
+            case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
+                setUrndefinition((URNdefinition)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-				return instances != null && !instances.isEmpty();
-			case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
-				return getUrndefinition() != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+                return instances != null && !instances.isEmpty();
+            case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
+                return getUrndefinition() != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //ComponentTypeImpl

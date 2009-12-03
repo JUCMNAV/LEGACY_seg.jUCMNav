@@ -30,95 +30,95 @@ import urncore.IURNContainer;
  */
 public interface Actor extends GRLLinkableElement, IURNContainer {
     /**
-	 * Returns the value of the '<em><b>Grlspec</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link grl.GRLspec#getActors <em>Actors</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Grlspec</b></em>' container reference.
+     * It is bidirectional and its opposite is '{@link grl.GRLspec#getActors <em>Actors</em>}'.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Grlspec</em>' container reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @return the value of the '<em>Grlspec</em>' container reference.
-	 * @see #setGrlspec(GRLspec)
-	 * @see grl.GrlPackage#getActor_Grlspec()
-	 * @see grl.GRLspec#getActors
-	 * @model opposite="actors" required="true"
-	 * @generated
-	 */
+     * @return the value of the '<em>Grlspec</em>' container reference.
+     * @see #setGrlspec(GRLspec)
+     * @see grl.GrlPackage#getActor_Grlspec()
+     * @see grl.GRLspec#getActors
+     * @model opposite="actors" required="true"
+     * @generated
+     */
     GRLspec getGrlspec();
 
     /**
-	 * Sets the value of the '{@link grl.Actor#getGrlspec <em>Grlspec</em>}' container reference.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link grl.Actor#getGrlspec <em>Grlspec</em>}' container reference.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Grlspec</em>' container reference.
-	 * @see #getGrlspec()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Grlspec</em>' container reference.
+     * @see #getGrlspec()
+     * @generated
+     */
     void setGrlspec(GRLspec value);
 
 				/**
-	 * Returns the value of the '<em><b>Included Actors</b></em>' reference list.
-	 * The list contents are of type {@link grl.Actor}.
-	 * It is bidirectional and its opposite is '{@link grl.Actor#getIncludingActor <em>Including Actor</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Included Actors</b></em>' reference list.
+     * The list contents are of type {@link grl.Actor}.
+     * It is bidirectional and its opposite is '{@link grl.Actor#getIncludingActor <em>Including Actor</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Included Actors</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Included Actors</em>' reference list.
-	 * @see grl.GrlPackage#getActor_IncludedActors()
-	 * @see grl.Actor#getIncludingActor
-	 * @model type="grl.Actor" opposite="includingActor"
-	 * @generated
-	 */
+     * @return the value of the '<em>Included Actors</em>' reference list.
+     * @see grl.GrlPackage#getActor_IncludedActors()
+     * @see grl.Actor#getIncludingActor
+     * @model type="grl.Actor" opposite="includingActor"
+     * @generated
+     */
 	EList getIncludedActors();
 
 				/**
-	 * Returns the value of the '<em><b>Including Actor</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link grl.Actor#getIncludedActors <em>Included Actors</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Including Actor</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link grl.Actor#getIncludedActors <em>Included Actors</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Including Actor</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Including Actor</em>' reference.
-	 * @see #setIncludingActor(Actor)
-	 * @see grl.GrlPackage#getActor_IncludingActor()
-	 * @see grl.Actor#getIncludedActors
-	 * @model opposite="includedActors"
-	 * @generated
-	 */
+     * @return the value of the '<em>Including Actor</em>' reference.
+     * @see #setIncludingActor(Actor)
+     * @see grl.GrlPackage#getActor_IncludingActor()
+     * @see grl.Actor#getIncludedActors
+     * @model opposite="includedActors"
+     * @generated
+     */
 	Actor getIncludingActor();
 
 				/**
-	 * Sets the value of the '{@link grl.Actor#getIncludingActor <em>Including Actor</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link grl.Actor#getIncludingActor <em>Including Actor</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Including Actor</em>' reference.
-	 * @see #getIncludingActor()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Including Actor</em>' reference.
+     * @see #getIncludingActor()
+     * @generated
+     */
 	void setIncludingActor(Actor value);
 
 				/**
-	 * Returns the value of the '<em><b>Collapsed Refs</b></em>' reference list.
-	 * The list contents are of type {@link grl.CollapsedActorRef}.
-	 * It is bidirectional and its opposite is '{@link grl.CollapsedActorRef#getActor <em>Actor</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Collapsed Refs</b></em>' reference list.
+     * The list contents are of type {@link grl.CollapsedActorRef}.
+     * It is bidirectional and its opposite is '{@link grl.CollapsedActorRef#getActor <em>Actor</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Collapsed Refs</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Collapsed Refs</em>' reference list.
-	 * @see grl.GrlPackage#getActor_CollapsedRefs()
-	 * @see grl.CollapsedActorRef#getActor
-	 * @model type="grl.CollapsedActorRef" opposite="actor"
-	 * @generated
-	 */
+     * @return the value of the '<em>Collapsed Refs</em>' reference list.
+     * @see grl.GrlPackage#getActor_CollapsedRefs()
+     * @see grl.CollapsedActorRef#getActor
+     * @model type="grl.CollapsedActorRef" opposite="actor"
+     * @generated
+     */
 	EList getCollapsedRefs();
 
 } // Actor

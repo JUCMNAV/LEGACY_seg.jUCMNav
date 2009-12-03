@@ -25,29 +25,29 @@ package grl;
  */
 public interface Belief extends GRLNode {
     /**
-	 * Returns the value of the '<em><b>Author</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Author</b></em>' attribute.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Author</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @return the value of the '<em>Author</em>' attribute.
-	 * @see #setAuthor(String)
-	 * @see grl.GrlPackage#getBelief_Author()
-	 * @model
-	 * @generated
-	 */
+     * @return the value of the '<em>Author</em>' attribute.
+     * @see #setAuthor(String)
+     * @see grl.GrlPackage#getBelief_Author()
+     * @model
+     * @generated
+     */
     String getAuthor();
 
     /**
-	 * Sets the value of the '{@link grl.Belief#getAuthor <em>Author</em>}' attribute.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link grl.Belief#getAuthor <em>Author</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Author</em>' attribute.
-	 * @see #getAuthor()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Author</em>' attribute.
+     * @see #getAuthor()
+     * @generated
+     */
     void setAuthor(String value);
 
 } // Belief

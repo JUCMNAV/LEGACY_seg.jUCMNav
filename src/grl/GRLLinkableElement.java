@@ -29,39 +29,39 @@ import urncore.GRLmodelElement;
  */
 public interface GRLLinkableElement extends GRLmodelElement {
 	/**
-	 * Returns the value of the '<em><b>Links Dest</b></em>' reference list.
-	 * The list contents are of type {@link grl.ElementLink}.
-	 * It is bidirectional and its opposite is '{@link grl.ElementLink#getDest <em>Dest</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Links Dest</b></em>' reference list.
+     * The list contents are of type {@link grl.ElementLink}.
+     * It is bidirectional and its opposite is '{@link grl.ElementLink#getDest <em>Dest</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Links Dest</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Links Dest</em>' reference list.
-	 * @see grl.GrlPackage#getGRLLinkableElement_LinksDest()
-	 * @see grl.ElementLink#getDest
-	 * @model type="grl.ElementLink" opposite="dest"
-	 * @generated
-	 */
+     * @return the value of the '<em>Links Dest</em>' reference list.
+     * @see grl.GrlPackage#getGRLLinkableElement_LinksDest()
+     * @see grl.ElementLink#getDest
+     * @model type="grl.ElementLink" opposite="dest"
+     * @generated
+     */
 	EList getLinksDest();
 
 	/**
-	 * Returns the value of the '<em><b>Links Src</b></em>' reference list.
-	 * The list contents are of type {@link grl.ElementLink}.
-	 * It is bidirectional and its opposite is '{@link grl.ElementLink#getSrc <em>Src</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Links Src</b></em>' reference list.
+     * The list contents are of type {@link grl.ElementLink}.
+     * It is bidirectional and its opposite is '{@link grl.ElementLink#getSrc <em>Src</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Links Src</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Links Src</em>' reference list.
-	 * @see grl.GrlPackage#getGRLLinkableElement_LinksSrc()
-	 * @see grl.ElementLink#getSrc
-	 * @model type="grl.ElementLink" opposite="src"
-	 * @generated
-	 */
+     * @return the value of the '<em>Links Src</em>' reference list.
+     * @see grl.GrlPackage#getGRLLinkableElement_LinksSrc()
+     * @see grl.ElementLink#getSrc
+     * @model type="grl.ElementLink" opposite="src"
+     * @generated
+     */
 	EList getLinksSrc();
 
 } // GRLLinkableElement

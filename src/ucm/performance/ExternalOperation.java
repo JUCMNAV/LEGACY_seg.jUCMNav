@@ -27,21 +27,21 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface ExternalOperation extends ActiveResource {
     /**
-	 * Returns the value of the '<em><b>Demands</b></em>' reference list.
-	 * The list contents are of type {@link ucm.performance.Demand}.
-	 * It is bidirectional and its opposite is '{@link ucm.performance.Demand#getResource <em>Resource</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Demands</b></em>' reference list.
+     * The list contents are of type {@link ucm.performance.Demand}.
+     * It is bidirectional and its opposite is '{@link ucm.performance.Demand#getResource <em>Resource</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Demands</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Demands</em>' reference list.
-	 * @see ucm.performance.PerformancePackage#getExternalOperation_Demands()
-	 * @see ucm.performance.Demand#getResource
-	 * @model type="ucm.performance.Demand" opposite="resource"
-	 * @generated
-	 */
+     * @return the value of the '<em>Demands</em>' reference list.
+     * @see ucm.performance.PerformancePackage#getExternalOperation_Demands()
+     * @see ucm.performance.Demand#getResource
+     * @model type="ucm.performance.Demand" opposite="resource"
+     * @generated
+     */
 	EList getDemands();
 
 } // ExternalOperation

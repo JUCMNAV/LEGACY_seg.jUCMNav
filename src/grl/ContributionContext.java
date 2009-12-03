@@ -30,67 +30,67 @@ import urncore.GRLmodelElement;
  */
 public interface ContributionContext extends GRLmodelElement {
 	/**
-	 * Returns the value of the '<em><b>Grlspec</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link grl.GRLspec#getContributionContexts <em>Contribution Contexts</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Grlspec</b></em>' container reference.
+     * It is bidirectional and its opposite is '{@link grl.GRLspec#getContributionContexts <em>Contribution Contexts</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Grlspec</em>' container reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Grlspec</em>' container reference.
-	 * @see #setGrlspec(GRLspec)
-	 * @see grl.GrlPackage#getContributionContext_Grlspec()
-	 * @see grl.GRLspec#getContributionContexts
-	 * @model opposite="contributionContexts" required="true"
-	 * @generated
-	 */
+     * @return the value of the '<em>Grlspec</em>' container reference.
+     * @see #setGrlspec(GRLspec)
+     * @see grl.GrlPackage#getContributionContext_Grlspec()
+     * @see grl.GRLspec#getContributionContexts
+     * @model opposite="contributionContexts" required="true"
+     * @generated
+     */
 	GRLspec getGrlspec();
 
 	/**
-	 * Sets the value of the '{@link grl.ContributionContext#getGrlspec <em>Grlspec</em>}' container reference.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link grl.ContributionContext#getGrlspec <em>Grlspec</em>}' container reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Grlspec</em>' container reference.
-	 * @see #getGrlspec()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Grlspec</em>' container reference.
+     * @see #getGrlspec()
+     * @generated
+     */
 	void setGrlspec(GRLspec value);
 
 	/**
-	 * Returns the value of the '<em><b>Groups</b></em>' reference list.
-	 * The list contents are of type {@link grl.ContributionContextGroup}.
-	 * It is bidirectional and its opposite is '{@link grl.ContributionContextGroup#getContribs <em>Contribs</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Groups</b></em>' reference list.
+     * The list contents are of type {@link grl.ContributionContextGroup}.
+     * It is bidirectional and its opposite is '{@link grl.ContributionContextGroup#getContribs <em>Contribs</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Groups</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Groups</em>' reference list.
-	 * @see grl.GrlPackage#getContributionContext_Groups()
-	 * @see grl.ContributionContextGroup#getContribs
-	 * @model type="grl.ContributionContextGroup" opposite="contribs"
-	 * @generated
-	 */
+     * @return the value of the '<em>Groups</em>' reference list.
+     * @see grl.GrlPackage#getContributionContext_Groups()
+     * @see grl.ContributionContextGroup#getContribs
+     * @model type="grl.ContributionContextGroup" opposite="contribs"
+     * @generated
+     */
 	EList getGroups();
 
 	/**
-	 * Returns the value of the '<em><b>Changes</b></em>' containment reference list.
-	 * The list contents are of type {@link grl.ContributionChange}.
-	 * It is bidirectional and its opposite is '{@link grl.ContributionChange#getContext <em>Context</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Changes</b></em>' containment reference list.
+     * The list contents are of type {@link grl.ContributionChange}.
+     * It is bidirectional and its opposite is '{@link grl.ContributionChange#getContext <em>Context</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Changes</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Changes</em>' containment reference list.
-	 * @see grl.GrlPackage#getContributionContext_Changes()
-	 * @see grl.ContributionChange#getContext
-	 * @model type="grl.ContributionChange" opposite="context" containment="true"
-	 * @generated
-	 */
+     * @return the value of the '<em>Changes</em>' containment reference list.
+     * @see grl.GrlPackage#getContributionContext_Changes()
+     * @see grl.ContributionChange#getContext
+     * @model type="grl.ContributionChange" opposite="context" containment="true"
+     * @generated
+     */
 	EList getChanges();
 
 } // ContributionContext

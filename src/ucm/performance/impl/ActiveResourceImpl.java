@@ -28,131 +28,131 @@ import ucm.performance.PerformancePackage;
  */
 public abstract class ActiveResourceImpl extends GeneralResourceImpl implements ActiveResource {
     /**
-	 * The default value of the '{@link #getOpTime() <em>Op Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
+     * The default value of the '{@link #getOpTime() <em>Op Time</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getOpTime()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getOpTime()
+     * @generated
+     * @ordered
+     */
     protected static final String OP_TIME_EDEFAULT = null;
 
     /**
-	 * The cached value of the '{@link #getOpTime() <em>Op Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getOpTime() <em>Op Time</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getOpTime()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getOpTime()
+     * @generated
+     * @ordered
+     */
     protected String opTime = OP_TIME_EDEFAULT;
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected ActiveResourceImpl() {
-		super();
-	}
+        super();
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return PerformancePackage.Literals.ACTIVE_RESOURCE;
-	}
+        return PerformancePackage.Literals.ACTIVE_RESOURCE;
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String getOpTime() {
-		return opTime;
-	}
+        return opTime;
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setOpTime(String newOpTime) {
-		String oldOpTime = opTime;
-		opTime = newOpTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.ACTIVE_RESOURCE__OP_TIME, oldOpTime, opTime));
-	}
+        String oldOpTime = opTime;
+        opTime = newOpTime;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.ACTIVE_RESOURCE__OP_TIME, oldOpTime, opTime));
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				return getOpTime();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
+                return getOpTime();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				setOpTime((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
+                setOpTime((String)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				setOpTime(OP_TIME_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
+                setOpTime(OP_TIME_EDEFAULT);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				return OP_TIME_EDEFAULT == null ? opTime != null : !OP_TIME_EDEFAULT.equals(opTime);
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
+                return OP_TIME_EDEFAULT == null ? opTime != null : !OP_TIME_EDEFAULT.equals(opTime);
+        }
+        return super.eIsSet(featureID);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (opTime: ");
-		result.append(opTime);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (opTime: ");
+        result.append(opTime);
+        result.append(')');
+        return result.toString();
+    }
 
 } //ActiveResourceImpl

@@ -22,21 +22,21 @@ import ucm.map.MapPackage;
  */
 public class ConnectImpl extends PathNodeImpl implements Connect {
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected ConnectImpl() {
-		super();
-	}
+        super();
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return MapPackage.Literals.CONNECT;
-	}
+        return MapPackage.Literals.CONNECT;
+    }
 
 } //ConnectImpl

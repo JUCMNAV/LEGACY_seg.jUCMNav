@@ -89,9 +89,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Contribution" eSuperTypes="#//ElementLink">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="contribution" eType="#//ContributionType"
-        defaultValueLiteral="Unknown"/>
+        defaultValueLiteral="Help"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantitativeContribution"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="25"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="correlation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>

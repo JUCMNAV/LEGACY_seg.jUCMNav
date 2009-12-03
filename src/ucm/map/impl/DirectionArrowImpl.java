@@ -22,21 +22,21 @@ import ucm.map.MapPackage;
  */
 public class DirectionArrowImpl extends PathNodeImpl implements DirectionArrow {
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected DirectionArrowImpl() {
-		super();
-	}
+        super();
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return MapPackage.Literals.DIRECTION_ARROW;
-	}
+        return MapPackage.Literals.DIRECTION_ARROW;
+    }
 
 } //DirectionArrowImpl
