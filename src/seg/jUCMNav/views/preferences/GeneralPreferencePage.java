@@ -56,7 +56,9 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         BooleanFieldEditor strict_codeeditor = new BooleanFieldEditor(PREF_STRICTCODEEDITOR,
                 Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(strict_codeeditor);
-
+        
+        BooleanFieldEditor advanced_jucmnav = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCM, "Use jUCMNav Advanced Features", getFieldEditorParent());
+        addField(advanced_jucmnav);
     }
 
     /**

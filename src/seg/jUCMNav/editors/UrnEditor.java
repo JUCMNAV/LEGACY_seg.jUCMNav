@@ -280,7 +280,7 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     /* (non-Javadoc)
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPaletteRoot()
      */
-    protected abstract PaletteRoot getPaletteRoot();
+    public abstract PaletteRoot getPaletteRoot();
 
     /**
      * Returns this editor's container.
