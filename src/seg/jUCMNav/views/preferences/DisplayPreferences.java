@@ -18,13 +18,14 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.actions.concerns.ManageConcernsAction;
 import seg.jUCMNav.editors.GrlEditor;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editors.palette.GrlPaletteRoot;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.views.JUCMNavRefreshableView;
@@ -63,6 +64,8 @@ public class DisplayPreferences {
     public static final String SORT_DEFAULT = "SORTDEF"; //$NON-NLS-1$
     public static final String SORT_ID = "SORTID"; //$NON-NLS-1$
     public static final String SORT_NAME = "SORTNAME"; //$NON-NLS-1$
+    
+    public Vector advancedActions = new Vector();
 
     /**
      * Sets the default values in the preference store.
@@ -101,6 +104,8 @@ public class DisplayPreferences {
     private DisplayPreferences() {
         listenerViews = new ArrayList();
         setGlobalFilterEnabled(false);
+        
+        advancedActions.add(ManageConcernsAction.MANAGECONCERNS);
 
         // Listen to preference for changes
         JUCMNavPlugin.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
@@ -116,15 +121,30 @@ public class DisplayPreferences {
                         showView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
 
                         addKpi(page);
+                        refreshOutline(page);
                     } else {
                         hideView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
                         hideView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
 
                         removeKpi(page);
+                        refreshOutline(page);
                     }
                 }
             }
         });
+    }
+    
+    private void refreshOutline(IWorkbenchPage page) {
+        Vector ref = getEditors(page, "seg.jUCMNav.MainEditor"); //$NON-NLS-1$
+
+        if(ref.size() > 0) {
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) ref.get(0);
+
+            if (editor != null) {
+                if(editor.getPageCount() > 0)
+                    ((UrnEditor)editor.getEditor(0)).getOutlinePage().refreshView();
+            }
+        }
     }
 
     /**

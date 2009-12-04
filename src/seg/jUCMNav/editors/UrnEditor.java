@@ -401,7 +401,7 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     /**
      * @return the outline associated with this editor
      */
-    private UrnOutlinePage getOutlinePage() {
+    public UrnOutlinePage getOutlinePage() {
         if (outline == null)
             outline = new UrnOutlinePage(getParent(), new TreeViewer());
         return outline;

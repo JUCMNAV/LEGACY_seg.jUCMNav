@@ -8,6 +8,7 @@ import org.eclipse.ui.PlatformUI;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.wizards.concerns.ConcernsManager;
 import urn.URNspec;
 import urncore.URNmodelElement;
@@ -40,6 +41,9 @@ public class ManageConcernsAction extends URNSelectionAction {
      * @see seg.jUCMNav.actions.URNSelectionAction#calculateEnabled()
      */
     protected boolean calculateEnabled() {
+        if(!DisplayPreferences.getInstance().isAdvancedControlEnabled())
+            return false;
+        
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         element = sel.getURNmodelElement();
         switch (sel.getSelectionType()) {
@@ -66,4 +70,5 @@ public class ManageConcernsAction extends URNSelectionAction {
         dialog.open();
     }
 
+    
 }

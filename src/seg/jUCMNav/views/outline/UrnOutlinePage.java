@@ -127,6 +127,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 showPage(ID_DEFINITIONS);
             }
         };
+        showDefinitionsAction.setId("Definitions");
         showDefinitionsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/definitionsOutline16.gif")); //$NON-NLS-1$
         showDefinitionsAction.setToolTipText("Definitions");
         showDefinitionsAction.setText("Definitions");
@@ -138,10 +139,12 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 showPage(ID_CONCERNS);
             }
         };
+        showConcernsAction.setId("UrnOutlinePage.ConcernOutline");
         showConcernsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/concernsOutline16.gif")); //$NON-NLS-1$
         showConcernsAction.setToolTipText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
         showConcernsAction.setText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
-        tbm.add(showConcernsAction);
+        if(DisplayPreferences.getInstance().isAdvancedControlEnabled())
+            tbm.add(showConcernsAction);
 
         showOverviewAction = new Action() {
             public void run() {
@@ -196,7 +199,8 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         IMenuManager mm = getSite().getActionBars().getMenuManager();
         mm.add(showOutlineAction);
         mm.add(showDefinitionsAction);
-        mm.add(showConcernsAction);
+        if(DisplayPreferences.getInstance().isAdvancedControlEnabled())
+            mm.add(showConcernsAction);
         mm.add(showOverviewAction);
 
         showPage(ID_OUTLINE);
@@ -612,5 +616,18 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         enableGlobalFilter.setChecked(DisplayPreferences.getInstance().isGlobalFilterEnabled());
         showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
 
+        IMenuManager mm = getSite().getActionBars().getMenuManager();
+        IToolBarManager tbm = getSite().getActionBars().getToolBarManager();
+        if(DisplayPreferences.getInstance().isAdvancedControlEnabled()) {
+            mm.insertAfter(showDefinitionsAction.getId(), showConcernsAction);
+            tbm.insertAfter(showDefinitionsAction.getId(), showConcernsAction);
+        }
+        else {
+            mm.remove(showConcernsAction.getId());
+            tbm.remove(showConcernsAction.getId());
+        }
+        
+        tbm.update(false);
+        mm.update();
     }
 }

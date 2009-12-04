@@ -60,7 +60,8 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
      */
     public void dispose() {
         getSite().getPage().removePartListener(this);
-        getSite().getPage().removePostSelectionListener(this);
+        getSite().getPage().removeSelectionListener(this);
+        //getSite().getPage().removePostSelectionListener(this);
         DisplayPreferences.getInstance().unregisterListener(this);
 
         if (viewer != null) {

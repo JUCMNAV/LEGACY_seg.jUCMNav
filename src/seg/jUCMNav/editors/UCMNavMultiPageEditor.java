@@ -309,7 +309,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * 
      * @return the action registry manager
      */
-    protected ActionRegistryManager getActionRegistryManager() {
+    public ActionRegistryManager getActionRegistryManager() {
         if (actionRegistryManager == null) {
             actionRegistryManager = new ActionRegistryManager(getActionRegistry());
         }

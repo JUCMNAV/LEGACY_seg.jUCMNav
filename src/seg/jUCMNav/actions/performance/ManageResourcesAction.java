@@ -9,6 +9,7 @@ import org.eclipse.ui.PlatformUI;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.wizards.performance.ManageResources;
 import ucm.map.ComponentRef;
 import ucm.map.RespRef;
@@ -44,6 +45,9 @@ public class ManageResourcesAction extends URNSelectionAction {
      * True if we've selected something with resource.
      */
     protected boolean calculateEnabled() {
+        if(!DisplayPreferences.getInstance().isAdvancedControlEnabled())
+            return false;
+        
         boolean enable = false;
 
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
