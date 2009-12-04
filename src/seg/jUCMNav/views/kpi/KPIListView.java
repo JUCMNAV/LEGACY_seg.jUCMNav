@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.ContextMenuProvider;
-import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -33,6 +33,7 @@ import org.eclipse.ui.part.ViewPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UrnEditDomain;
 import seg.jUCMNav.editors.actionContributors.KPIListViewContextMenuProvider;
 import seg.jUCMNav.editparts.kpiTreeEditparts.IndicatorTreeEditPart;
 import seg.jUCMNav.editparts.kpiTreeEditparts.KPIRootEditPart;
@@ -73,7 +74,7 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
         viewer = new TreeViewer();
         viewer.addSelectionChangedListener(this);
 
-        viewer.setEditDomain(new DefaultEditDomain(null));
+        viewer.setEditDomain(new UrnEditDomain(null));
 
         getSite().getPage().addPartListener(this);
 
@@ -165,10 +166,35 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
             // unhook outline viewer
             // multieditor.getSelectionSynchronizer().removeViewer(viewer);
         }
+        
+        Object p = viewer.getRootEditPart();
+        if (p instanceof AbstractTreeEditPart) {
+            ((AbstractTreeEditPart) p).setModel(null);
+        }
+        
+        if (viewer.getContextMenu()!=null) { 
+            viewer.getContextMenu().dispose();
+            viewer.setContextMenu(null);
+        }
+        
+        if (viewer.getEditDomain() instanceof UrnEditDomain)
+        {
+            UrnEditDomain domain = (UrnEditDomain) viewer.getEditDomain();
+            domain.dispose();
+        }
+        
+        DisplayPreferences.getInstance().unregisterListener(this);
         getSite().getPage().removePartListener(this);
 
         // dispose
         super.dispose();
+        
+        viewer=null;
+        multieditor=null;
+        currentIndicator=null;
+        currentSelection=null;
+        retrieveKPIValues=null;
+        showNodeNumberAction=null;
     }
 
     /**
@@ -290,7 +316,11 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
 
             multieditor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
 
-            viewer.setEditDomain(new DefaultEditDomain(multieditor));
+            if (viewer.getEditDomain() instanceof UrnEditDomain)
+            {
+                ((UrnEditDomain)viewer.getEditDomain()).dispose();
+            }
+            viewer.setEditDomain(new UrnEditDomain(multieditor));
             viewer.setEditPartFactory(new KPITreeEditPartFactory(multieditor.getModel()));
 
             // register them. other ways failed to add undo/redo, only added delete.

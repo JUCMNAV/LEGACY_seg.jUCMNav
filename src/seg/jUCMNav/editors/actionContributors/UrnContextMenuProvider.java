@@ -385,4 +385,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
     private void setActionRegistry(ActionRegistry registry) {
         actionRegistry = registry;
     }
+    
+    public void dispose()
+    {
+        setActionRegistry(null);
+        super.dispose();
+    }
 }

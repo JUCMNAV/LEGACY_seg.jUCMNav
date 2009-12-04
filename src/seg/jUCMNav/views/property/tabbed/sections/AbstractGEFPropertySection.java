@@ -82,16 +82,7 @@ public abstract class AbstractGEFPropertySection
 			TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		super.createControls(parent, aTabbedPropertySheetPage);
 		this.propertySheetPage = (GEFTabbedPropertySheetPage) aTabbedPropertySheetPage;
-		
-		CommandStackListener commandStackListener = new CommandStackListener() {
-			public void commandStackChanged(EventObject e) {
-				refresh();
-			}
-		};
-		
-		CommandStack stack = StackHelper.getStack(propertySheetPage);
-		if (stack!=null)
-			stack.addCommandStackListener(commandStackListener);
+		this.propertySheetPage.addSectionToRefresh(this);
 	}
 
 	/**

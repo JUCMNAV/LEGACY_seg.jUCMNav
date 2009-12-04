@@ -21,6 +21,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.services.IDisposable;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -113,7 +114,7 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
  * @author jkealey, gunterm, pchen
  * 
  */
-public class ActionRegistryManager
+public class ActionRegistryManager implements IDisposable
 {
 
 	/** the action registry that is managed */
@@ -725,4 +726,9 @@ public class ActionRegistryManager
 		updateActions(stackActionIDs);
 	}
 
+	public void dispose()
+	{
+	    getActionRegistry().dispose();
+	    actionRegistry=null;
+	}
 }

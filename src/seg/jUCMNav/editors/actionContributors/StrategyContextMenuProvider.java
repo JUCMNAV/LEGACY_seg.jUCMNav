@@ -181,4 +181,11 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
     private void setActionRegistry(ActionRegistry registry) {
         actionRegistry = registry;
     }
+    
+    public void dispose()
+    {
+        setViewer(null);
+        setActionRegistry(null);
+        super.dispose();
+    }
 }

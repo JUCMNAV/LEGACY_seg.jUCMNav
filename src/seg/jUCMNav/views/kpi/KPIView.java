@@ -1,7 +1,7 @@
 package seg.jUCMNav.views.kpi;
 
-import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -16,6 +16,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.part.ViewPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UrnEditDomain;
 import seg.jUCMNav.editparts.kpiTreeEditparts.KPIRootEditPart;
 import seg.jUCMNav.editparts.kpiViewEditparts.KPIViewEditPartFactory;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -36,7 +37,7 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
     public void createPartControl(Composite parent) {
         // Create the viewer
         viewer = new ScrollingGraphicalViewer();
-        viewer.setEditDomain(new DefaultEditDomain(null));
+        viewer.setEditDomain(new UrnEditDomain(null));
         viewer.createControl(parent);
 
         // viewer.addSelectionChangedListener(this);
@@ -60,9 +61,25 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
     public void dispose() {
         getSite().getPage().removePartListener(this);
         getSite().getPage().removePostSelectionListener(this);
+        DisplayPreferences.getInstance().unregisterListener(this);
 
+        if (viewer!=null) {
+            Object p = viewer.getRootEditPart();
+            if (p instanceof AbstractTreeEditPart) {
+                ((AbstractTreeEditPart) p).setModel(null);
+            }
+
+            if (viewer.getEditDomain() instanceof UrnEditDomain) {
+                UrnEditDomain domain = (UrnEditDomain) viewer.getEditDomain();
+                domain.dispose();
+            }
+        }
+        
         // dispose
         super.dispose();
+        
+        viewer=null;
+        root=null;
     }
 
     /**
@@ -219,7 +236,7 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
      * @param editor
      */
     private void setEditor(UCMNavMultiPageEditor editor) {
-        viewer.setEditDomain(new DefaultEditDomain(null));
+        viewer.setEditDomain(new UrnEditDomain(null));
         viewer.setEditPartFactory(new KPIViewEditPartFactory());
         EvaluationStrategyManager.getInstance().setKPIViewer(viewer);
     }

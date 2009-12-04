@@ -238,6 +238,8 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * is updated.
      */
     public void notifyChanged(Notification notification) {
+        if (getPathgraph()==null)return;
+
         int type = notification.getEventType();
         EObject notifier = (EObject) notification.getNotifier();
 
@@ -440,5 +442,26 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      */
     public void setTarget(Notifier newTarget) {
         target = newTarget;
+    }
+    
+    public void dispose()
+    {
+        if (pathgraph.eAdapters().contains(this))
+            pathgraph.eAdapters().remove(this);
+        for (Iterator iter = pathgraph.getConnections().iterator(); iter.hasNext();) {
+            NodeConnection element = (NodeConnection) iter.next();
+            if (element.eAdapters().contains(this))
+                element.eAdapters().remove(this);
+        }
+        for (Iterator iter = pathgraph.getNodes().iterator(); iter.hasNext();) {
+            EObject element = (EObject) iter.next();
+            if (element.eAdapters().contains(this))
+                element.eAdapters().remove(this);
+        }
+        
+        connections=null;
+        editpartregistry=null;
+        pathgraph=null;
+        target=null;
     }
 }

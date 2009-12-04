@@ -29,7 +29,7 @@ public class DeletionPathFinder extends ConnectionSplineFinder {
      * 
      * @return returns the query response using the _splinePath.
      */
-    protected QueryResponse getResponse() {
+    protected QueryResponse getResponse(Vector _splinePath) {
         // Return a response containing the visited node list
         RSpline r = new RSpline();
         r.setConnections(_splinePath);

@@ -91,7 +91,8 @@ public class ConditionEditPart extends LabelEditPart {
         LabelFigure tableFigure = (LabelFigure) getFigure();
         tableFigure.setVisible(true);
         // remove surrounding []
-        tableFigure.setEditableText(tableFigure.getEditableText().substring(1, tableFigure.getEditableText().length() - 1));
+        if (tableFigure.getEditableText().startsWith("[") && tableFigure.getEditableText().length()>2)
+            tableFigure.setEditableText(tableFigure.getEditableText().substring(1, tableFigure.getEditableText().length() - 1));
 
         refreshVisuals();
     }

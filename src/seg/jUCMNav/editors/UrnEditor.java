@@ -1,36 +1,39 @@
 package seg.jUCMNav.editors;
 
+import java.util.ArrayList;
 import java.util.EventObject;
-import java.util.List;
+import java.util.Iterator;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.Disposable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
-import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
+import org.eclipse.gef.editparts.SimpleRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.palette.PaletteTemplateEntry;
-import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.parts.TreeViewer;
+import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.internal.PartSite;
+import org.eclipse.ui.internal.PopupMenuExtender;
+import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
@@ -42,15 +45,21 @@ import seg.jUCMNav.actions.SetNumericalImportanceAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.palette.SelectPaletteEntryAction;
-import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
+import seg.jUCMNav.editors.palette.UrnDropTargetListener;
+import seg.jUCMNav.editors.palette.UrnPaletteViewerProvider;
+import seg.jUCMNav.editparts.GraphicalEditPartFactory;
+import seg.jUCMNav.editparts.UCMMapEditPart;
+import seg.jUCMNav.editparts.URNRootEditPart;
+import seg.jUCMNav.views.dnd.UrnTemplateTransferDropTargetListener;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
 import urncore.IURNDiagram;
 
 /**
  * This is an abstract class for any urn editor used in UCMNavMultiPageEditor
  * 
- * @author Jean-Fran�ois Roy, jkealey
- *TODO Remove extends to GraphicalEditorWithFlyoutPalette and copy code in this class
+ * @author Jean-Francois Roy, jkealey
+ * TODO Remove extends to GraphicalEditorWithFlyoutPalette and copy code in this class
  */
 public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette implements ITabbedPropertySheetPageContributor {
 
@@ -66,13 +75,21 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     // our outline page.
     private UrnOutlinePage outline;
     
+    protected URNRootEditPart root =null;
+
+    /** The palette root used to display the palette. */
+    protected PaletteRoot paletteRoot;
+    
 	public static final String keybindingExcludes = "hnxz";
 
-
+	protected UrnDropTargetListener dropListener;
+	protected UrnTemplateTransferDropTargetListener urnDropListener;
+	protected ArrayList menuExtenders;
+	
     /** Create a new UrnEditor instance. */
     public UrnEditor(UCMNavMultiPageEditor parent) {
         this.parent = parent;
-        setEditDomain(new DefaultEditDomain(this));
+        setEditDomain(new UrnEditDomain(this));
     }
 
     /**
@@ -109,7 +126,128 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     public void dispose() {
     	// for some reason not in framework.
     	getSelectionSynchronizer().removeViewer(getGraphicalViewer());
-    	super.dispose();
+    	getCommandStack().removeCommandStackListener(this);
+
+    	disposePalette();
+        
+        ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
+        if (viewer != null) {
+            Object p = viewer.getRootEditPart();
+            if (p instanceof URNRootEditPart) {
+                for (Iterator iterator = ((URNRootEditPart) p).getChildren().iterator(); iterator.hasNext();) {
+                    EditPart type = (EditPart) iterator.next();
+                    if (type instanceof UCMMapEditPart)
+                    {
+                        UCMMapEditPart part = (UCMMapEditPart) type;
+                        part.dispose();
+                    }
+                    
+                }
+
+                ((URNRootEditPart) p).setModel(null);
+                ((URNRootEditPart) p).getChildren().clear();
+                ((URNRootEditPart) p).refreshChildren();
+                ((URNRootEditPart) p).setMultiPageEditor(null);
+                ((URNRootEditPart) p).setContents(null);
+            }
+
+            if (getGraphicalViewer().getContextMenu() != null) {
+                getGraphicalViewer().getContextMenu().dispose();
+                getGraphicalViewer().setContextMenu(null);
+            }
+            if (getGraphicalViewer().getEditDomain() instanceof UrnEditDomain) {
+                UrnEditDomain domain = (UrnEditDomain) getGraphicalViewer().getEditDomain();
+                domain.dispose();
+            }
+
+            if (getGraphicalViewer().getEditPartFactory() instanceof GraphicalEditPartFactory) {
+                GraphicalEditPartFactory f = (GraphicalEditPartFactory) getGraphicalViewer().getEditPartFactory();
+                f.setRoot(null);
+            }
+            getGraphicalViewer().setEditPartFactory(null);
+            getGraphicalViewer().getEditPartRegistry().clear();
+            
+            getEditDomain().removeViewer(getGraphicalViewer());
+            
+        }
+        
+        //setGraphicalViewer(null);
+        
+        if (root!=null) root.setModel(null);
+        root=null;
+
+    
+        outline=null;
+        sharedKeyHandler=null;
+        dropListener=null;
+        urnDropListener=null;
+        
+        for (Iterator i = menuExtenders.iterator(); i.hasNext();) {
+            Object o = (Object) i.next();
+            if (o instanceof PopupMenuExtender)
+            {
+                PopupMenuExtender menu = (PopupMenuExtender) menuExtenders.get(0);
+                menu.getManager().dispose();
+                menu.dispose();
+            }
+        }
+
+        
+        /*
+        try {
+            if (getEditDomain().getCommandStack()==null)
+            {
+                setEditDomain(new UrnEditDomain(this));
+                
+                disposePalette();
+            }
+                
+            super.dispose();
+        } catch (NullPointerException ex)
+        {
+            
+        }
+        */
+        parent=null;
+        
+        if (getSite() instanceof MultiPageEditorSite) {
+            MultiPageEditorSite site = (MultiPageEditorSite) getSite();
+            site.dispose();
+        }
+        viewer.setRootEditPart(new SimpleRootEditPart());
+
+        setGraphicalViewer(new ScrollingGraphicalViewer());
+
+        
+    }
+
+    private void disposePalette() {
+        if (getEditDomain().getPaletteViewer()!=null)
+        {
+
+            if (getPaletteViewerProvider() instanceof UrnPaletteViewerProvider) {
+                UrnPaletteViewerProvider p = (UrnPaletteViewerProvider) getPaletteViewerProvider();
+                p.unconfigurePaletteViewer(getEditDomain().getPaletteViewer());
+
+            }
+            getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
+
+            getEditDomain().getPaletteViewer().getEditPartRegistry().clear();
+            getEditDomain().getPaletteViewer().setKeyHandler(null);
+            getEditDomain().getPaletteViewer().setControl(null);
+            getEditDomain().getPaletteViewer().setPaletteRoot(null);
+
+            //getEditDomain().setPaletteViewer(new PaletteViewer());
+        }
+
+        getGraphicalViewer().setKeyHandler(null);
+        getEditorSite().setSelectionProvider(null);
+        
+        if (paletteRoot instanceof Disposable) { 
+            ((Disposable)paletteRoot).dispose();
+        }
+        
+        paletteRoot=null;
     }
 
     /**
@@ -317,6 +455,24 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     public boolean isSaveAsAllowed() {
         return true;
     }
+    
+    protected void registerContextMenuProvider(ScrollingGraphicalViewer viewer) {
+        ContextMenuProvider provider = new UrnContextMenuProvider(viewer, getActionRegistry());
+        viewer.setContextMenu(provider);
+
+
+        // Bug 381: 3.1: remove extra items from contextual menus
+        // getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer); //$NON-NLS-1$
+         menuExtenders = new ArrayList(1);
+        PartSite.registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer, true, //$NON-NLS-1$
+                this, menuExtenders);
+        // bug 531
+        if (menuExtenders.get(0) != null) {
+            provider.removeMenuListener((IMenuListener) menuExtenders.get(0));
+
+        }
+    }
+    
 
     /**
      * Redo's the command at the top of the parent's redo stack.
@@ -340,30 +496,7 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
      */
     protected PaletteViewerProvider createPaletteViewerProvider() {
-        return new PaletteViewerProvider(getEditDomain()) {
-            protected void configurePaletteViewer(PaletteViewer viewer) {
-                super.configurePaletteViewer(viewer);
-                // create a drag source listener for this palette viewer
-                // together with an appropriate transfer drop target listener, this will enable
-                // model element creation by dragging a CombinatedTemplateCreationEntries
-                // from the palette into the editor
-                // @see ShapesEditor#createTransferDropTargetListener()
-                viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer) {
-                    protected Object getTemplate() {
-                        List selection = getViewer().getSelectedEditParts();
-                        if (selection.size() == 1) {
-                            EditPart editpart = (EditPart)getViewer().getSelectedEditParts().get(0);
-                            Object model = editpart.getModel(); 
-                            if (model instanceof PaletteTemplateEntry)
-                                return ((PaletteTemplateEntry)model).getTemplate();
-                            if (model instanceof CombinedTemplateCreationEntry)
-                                return ((CombinedTemplateCreationEntry)model).getToolProperty(CreationTool.PROPERTY_CREATION_FACTORY);
-                        }
-                        return null;
-                    };
-                });
-            }
-        };
+        return new UrnPaletteViewerProvider(getEditDomain());
     }
 
     /**
@@ -372,17 +505,16 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
      * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
      */
-    protected TransferDropTargetListener createTransferDropTargetListener() {
-        return new TemplateTransferDropTargetListener(getGraphicalViewer()) {
-            protected CreationFactory getFactory(Object template) {
-                setEnablementDeterminedByCommand(true);
-                 
-                if (template instanceof CreationFactory)
-                    return (CreationFactory) template;
-                else
-                    return new ModelCreationFactory(getModel().getUrndefinition().getUrnspec(), (Class) template);
-            }
-        };
+    protected TransferDropTargetListener getTransferDropTargetListener() {
+        if (dropListener==null)
+            dropListener = new UrnDropTargetListener(getGraphicalViewer(), getModel().getUrndefinition().getUrnspec());
+        return dropListener;
+    }
+    
+    protected UrnTemplateTransferDropTargetListener getUrnTransferDropTargetListener() {
+        if (urnDropListener==null)
+            urnDropListener = new UrnTemplateTransferDropTargetListener(this);
+        return urnDropListener;
     }
 
 	public String getContributorId() {

@@ -21,8 +21,6 @@ import ucm.map.PathNode;
  */
 public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQueryProcessorChain {
 
-    protected Vector _splinePath;
-
     public ConnectionSplineFinder() {
         this._answerQueryTypes = new String[] { QueryObject.FINDSPLINE };
     }
@@ -31,14 +29,14 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
      * @see seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor#runImpl(seg.jUCMNav.model.util.modelexplore.QueryRequest)
      */
     public QueryResponse runImpl(QueryRequest q) {
-        _splinePath = new Vector();
+        Vector _splinePath = new Vector();
 
         if (((QFindSpline) q).getStartNodeConnection() != null) {
             // call recursive function processNode with the start node
-            processNodeConnection(((QFindSpline) q).getStartNodeConnection());
+            processNodeConnection(_splinePath, ((QFindSpline) q).getStartNodeConnection());
         }
 
-        return getResponse();
+        return getResponse(_splinePath);
     }
 
     /**
@@ -46,7 +44,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
      * 
      * @return A response containing the visited node list.
      */
-    protected QueryResponse getResponse() {
+    protected QueryResponse getResponse(Vector _splinePath) {
         // Return a response containing the visited node list
         RSpline r = new RSpline();
         r.setConnections(_splinePath);
@@ -62,7 +60,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
      * @param n
      *            the node connection to start with
      */
-    protected void processNodeConnection(NodeConnection n) {
+    protected void processNodeConnection(Vector _splinePath, NodeConnection n) {
         //        System.out.println("starts with: " + n.getSource());
         //        System.out.println("ends with: " + n.getTarget());
 

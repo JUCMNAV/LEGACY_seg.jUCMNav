@@ -3,7 +3,6 @@ package seg.jUCMNav.editors;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.commands.CommandStack;
@@ -12,14 +11,10 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.ui.internal.PartSite;
 
-import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.editparts.UCMConnectionOnBottomRootEditPart;
-import seg.jUCMNav.views.dnd.UrnTemplateTransferDropTargetListener;
 import ucm.map.UCMmap;
 import urncore.IURNDiagram;
 
@@ -32,9 +27,6 @@ public class UcmEditor extends UrnEditor {
 
     /** one editor per map. */
     private UCMmap mapModel;
-
-    /** The palette root used to display the palette. */
-    private PaletteRoot paletteRoot;
 
     /** Create a new UcmEditor instance. This is called by the Workspace. */
     public UcmEditor(UCMNavMultiPageEditor parent) {
@@ -54,7 +46,7 @@ public class UcmEditor extends UrnEditor {
         super.configureGraphicalViewer();
 
         ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
-        UCMConnectionOnBottomRootEditPart root = new UCMConnectionOnBottomRootEditPart(getParent());
+        root = new UCMConnectionOnBottomRootEditPart(getParent());
 
         // zoom management is delegated to us from our parent.
         List zoomLevels = new ArrayList(3);
@@ -65,17 +57,8 @@ public class UcmEditor extends UrnEditor {
 
         viewer.setRootEditPart(root);
 
-        ContextMenuProvider provider = new UrnContextMenuProvider(viewer, getActionRegistry());
-        viewer.setContextMenu(provider);
-
-        // Bug 381: 3.1: remove extra items from contextual menus
-        // getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer); //$NON-NLS-1$
-        ArrayList menuExtenders = new ArrayList(1);
-        PartSite.registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer, true, //$NON-NLS-1$
-                this, menuExtenders);
-        if (menuExtenders.get(0) != null)
-            provider.removeMenuListener((IMenuListener) menuExtenders.get(0));
-
+        registerContextMenuProvider(viewer);
+        
         viewer.setEditPartFactory(new GraphicalEditPartFactory((UCMmap) getModel()));
         KeyHandler handler = new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler());
         viewer.setKeyHandler(handler);
@@ -130,9 +113,8 @@ public class UcmEditor extends UrnEditor {
         GraphicalViewer graphicalViewer = getGraphicalViewer();
         graphicalViewer.setContents(getModel()); // set the contents of this editor
         // listen for dropped parts
-        graphicalViewer.addDropTargetListener(createTransferDropTargetListener());
-
-        graphicalViewer.addDropTargetListener(new UrnTemplateTransferDropTargetListener(this));
+        graphicalViewer.addDropTargetListener(getTransferDropTargetListener());
+        graphicalViewer.addDropTargetListener(getUrnTransferDropTargetListener());
 
     }
 
@@ -143,6 +125,19 @@ public class UcmEditor extends UrnEditor {
      */
     public void setModel(IURNDiagram m) {
         mapModel = (UCMmap) m;
+    }
+    
+    public void dispose()
+    {
+        
+        if (getGraphicalViewer()!=null) 
+        {
+            getGraphicalViewer().removeDropTargetListener(getTransferDropTargetListener());
+            getGraphicalViewer().removeDropTargetListener(getUrnTransferDropTargetListener());
+            
+        }
+        mapModel=null;
+        super.dispose();
     }
 
 }

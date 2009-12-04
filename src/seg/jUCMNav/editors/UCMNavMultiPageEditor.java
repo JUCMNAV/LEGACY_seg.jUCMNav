@@ -83,6 +83,20 @@ import urncore.URNmodelElement;
  *  
  */
 public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter, INavigationLocationProvider, IGotoMarker, IPropertySourceProvider, ITabbedPropertySheetPageContributor {
+    private final class ActionRegistrySelectionListener implements ISelectionListener {
+        protected ActionRegistryManager manager;
+        
+        public ActionRegistrySelectionListener(ActionRegistryManager manager)
+        {
+            this.manager=manager;
+        }
+
+        public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+            if (manager!=null)
+                manager.updateEditPartActions();
+        }
+    }
+
     /** the actionregistry shared between all editors */
     private ActionRegistry actionRegistry;
 
@@ -114,11 +128,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     private ResourceTracker resourceTracker;
 
     /** the selection listener */
-    private ISelectionListener selectionListener = new ISelectionListener() {
-        public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-            getActionRegistryManager().updateEditPartActions();
-        }
-    };
+    private ISelectionListener selectionListener;
 
     /** the selection synchronizer for the edit part viewer */
     private SelectionSynchronizer synchronizer;
@@ -168,7 +178,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * @param listener The listener to add
      */
     public void addPageChangeListener(IPageChangeListener listener) {
-    	multiPageTabManager.addPageChangeListener(listener);
+        getMultiPageTabManager().addPageChangeListener(listener);
     }
     
     /**
@@ -177,7 +187,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * @param listener The listener to remove
      */
     public void removePageChangeListener(IPageChangeListener listener) {
-    	multiPageTabManager.removePageChangeListener(listener);
+        getMultiPageTabManager().removePageChangeListener(listener);
     }
 
     /**
@@ -186,13 +196,18 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * @see org.eclipse.ui.part.MultiPageEditorPart#dispose()
      */
     public void dispose() {
+        getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(getSelectionListener());
+        getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(getMultiPageTabManager().getSelectionListener());
+        
         // remove delegating CommandStackListener
         getDelegatingCommandStack().removeCommandStackListener(getMultiPageCommandStackListener());
 
+        getDelegatingCommandStack().setCurrentCommandStack(null);
         // dispose multi page command stack listener
         getMultiPageCommandStackListener().dispose();
 
         // dispose the ActionRegistry (will dispose all actions)
+        getActionRegistryManager().dispose();
         getActionRegistry().dispose();
 
         // dispose the ResourceChangeListener
@@ -212,7 +227,6 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         // clear memory cache 
         ScenarioUtils.releaseEnvironment(model);
 
-        
         if (file!=null) {
 	        
 	        // clear markers
@@ -226,9 +240,31 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 			} catch (CoreException ex) {
 			}
         }
-		
+        
+
+        
+        // bug 531.
+        getSite().setSelectionProvider(null);
+        actionRegistry=null;
+        actionRegistryManager=null;
+        delegatingCommandStack=null;
+        if (getDelegatingZoomManager()!=null) getDelegatingZoomManager().setEditor(null);
+        delegatingZoomManager=null;
+        fileManager=null;
+        model=null;
+        multiPageCommandStackListener=null;
+        if (getMultiPageTabManager()!=null) getMultiPageTabManager().setEditor(null);
+        multiPageTabManager=null;
+        resourceTracker=null;
+        selectionListener=null;
+        target=null;
+        deactivateSite(true, false);
         // important: always call super implementation of dispose
         super.dispose();
+        
+        //System.out.println(getSelectionSynchronizer());
+        synchronizer=null;
+
     }
 
     /**
@@ -302,7 +338,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         else if (adapter == CommandStack.class)
             return getDelegatingCommandStack();
         else if (getPageCount() == 0 && adapter == IContentOutlinePage.class)
-            return new UrnOutlinePage(this, new UrnTreeViewer(this));
+            return new UrnOutlinePage(this, new UrnTreeViewer());
 
         // delegate to open editor if possible
         if (getPageCount() > 0) {
@@ -451,6 +487,8 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * @return the <code>ISelectionListener</code>
      */
     protected ISelectionListener getSelectionListener() {
+        if (selectionListener==null)
+            selectionListener = new ActionRegistrySelectionListener(getActionRegistryManager());
         return selectionListener;
     }
 

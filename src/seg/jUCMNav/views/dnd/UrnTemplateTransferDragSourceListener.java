@@ -13,6 +13,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
@@ -69,14 +70,21 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
     public void dragFinished(DragSourceEvent event) {
         // ModelCreationFactory creates useless refs that are not added when dragged here.
         URNspec urn;
+        
+        UCMNavMultiPageEditor editor =null;
     	if (getViewer() instanceof UrnTreeViewer) {
-            urn = ((UrnTreeViewer)getViewer()).getEditor().getModel();
+            editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor(); 
+                // ((UrnTreeViewer)getViewer()).getContents().getModel() you can get parent urn from this 
         }  else
-        	urn = ((UCMNavMultiPageEditor) ((OutlineRootEditPart) getViewer().getRootEditPart().getChildren().get(0)).getModel()).getModel();
-        cleanUnusedRespRefs(urn);
-        cleanUnusedContRefs(urn);
-        cleanUnusedIntElemntRef(urn);
-        cleanUnusedKPIInformationElemntRef(urn);
+            editor = ((UCMNavMultiPageEditor) ((OutlineRootEditPart) getViewer().getRootEditPart().getChildren().get(0)).getModel());
+        
+    	if (editor!=null) {
+            urn = editor.getModel();
+            cleanUnusedRespRefs(urn);
+            cleanUnusedContRefs(urn);
+            cleanUnusedIntElemntRef(urn);
+            cleanUnusedKPIInformationElemntRef(urn);
+    	}
     }
 
     private void cleanUnusedRespRefs(URNspec urn) {

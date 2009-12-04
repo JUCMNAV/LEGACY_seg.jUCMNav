@@ -2,10 +2,17 @@ package seg.jUCMNav.views.outline;
 
 import org.eclipse.gef.ui.parts.TreeViewer;
 
-import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-
-public class UrnTreeViewer extends TreeViewer
+public class UrnTreeViewer extends TreeViewer 
 {
+
+    public UrnTreeViewer()
+    {
+        
+    }
+
+    // bug 531: causes mucho memory leaks
+
+    /*
 	protected UCMNavMultiPageEditor editor;
 	public UrnTreeViewer(UCMNavMultiPageEditor editor)
 	{
@@ -17,7 +24,8 @@ public class UrnTreeViewer extends TreeViewer
 	}
 	public void setEditor(UCMNavMultiPageEditor editor)
 	{
-		this.editor = editor;
+	    this.editor = editor;
 	}
-
+	
+     */
 }

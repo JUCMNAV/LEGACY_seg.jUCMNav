@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -22,6 +23,7 @@ import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
@@ -186,6 +188,8 @@ public class JUCMNavCommandTests extends TestCase {
     public void tearDown() throws Exception {
         super.tearDown();
 
+        
+        
         /**
          * Note: I once had JUnit telling me that I had exceptions thrown in tearDown() when in fact they were from notifications made during the actual tests.
          * 
@@ -242,7 +246,36 @@ public class JUCMNavCommandTests extends TestCase {
 			e.printStackTrace();
 		}
 
+
+		((ScrollingGraphicalViewer)((UrnEditor)editor.getActiveEditor()).getGraphicalViewer()).flush();
         editor.closeEditor(false);
+
+        editor=null;
+        componentRefWithLabel=null;
+        compRef=null;
+        cs.dispose();
+        cs=null;
+        end=null;
+        resp=null;
+        connect=null;
+        map=null;
+        pathNodeWithLabel=null;
+        start=null;
+        stub=null;
+        plugin=null;
+        fork=null;
+        wait=null;
+        testfile=null;
+        urnspec=null;
+        
+        System.out.println("Memory: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/1024 + "kb");
+        
+
+        /*System.out.println("sleeping");
+        Thread.sleep(10000);
+        System.out.println("next");
+        */
+        
     }
 
     

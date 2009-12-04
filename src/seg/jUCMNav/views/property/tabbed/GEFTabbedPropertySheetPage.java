@@ -1,7 +1,12 @@
 package seg.jUCMNav.views.property.tabbed;
 
+import java.util.EventObject;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
 
+import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Composite;
@@ -13,11 +18,12 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
+import seg.jUCMNav.views.property.StackHelper;
 import seg.jUCMNav.views.property.tabbed.mapper.IPropertyDataResolver;
 import seg.jUCMNav.views.property.tabbed.mapper.UrnPropertyResolver;
 import seg.jUCMNav.views.property.tabbed.sections.AbstractGEFPropertySection;
 
-public class GEFTabbedPropertySheetPage extends TabbedPropertySheetPage {
+public class GEFTabbedPropertySheetPage extends TabbedPropertySheetPage implements CommandStackListener {
 
 	protected UCMNavMultiPageEditor editor;
 	protected IPropertyDataResolver dataResolver;
@@ -25,6 +31,7 @@ public class GEFTabbedPropertySheetPage extends TabbedPropertySheetPage {
 	
 	protected HashMap maxLabelWidth = new HashMap();
 	protected HashMap sectionToTab = new HashMap();
+	protected Vector sectionsToRefresh = new Vector(); 
 	
 	public GEFTabbedPropertySheetPage(
 			UCMNavMultiPageEditor tabbedPropertySheetPageContributor) {
@@ -104,5 +111,46 @@ public class GEFTabbedPropertySheetPage extends TabbedPropertySheetPage {
 		sectionToTab.clear();
 		
 		super.updateTabs(descriptors);
+	}
+	
+	public void commandStackChanged(EventObject e) {
+	    for (Iterator iterator = sectionsToRefresh.iterator(); iterator.hasNext();) {
+            AbstractGEFPropertySection type = (AbstractGEFPropertySection) iterator.next();
+            type.refresh();
+        }
+    }
+	
+	public void addSectionToRefresh(AbstractGEFPropertySection section)
+	{
+	    sectionsToRefresh.add(section);
+	    
+	    if (sectionsToRefresh.size()==1)
+	    {   
+	        CommandStack stack = StackHelper.getStack(this);
+	        if (stack!=null)
+	            stack.addCommandStackListener(this);
+	        
+	    }
+	}
+	
+	public void dispose()
+	{
+	    
+	    CommandStack stack = StackHelper.getStack(this);
+        if (stack!=null)
+            stack.removeCommandStackListener(this);
+        
+	    editor=null;
+	    dataResolver=null;
+	    selection=null;
+	    maxLabelWidth=null;
+	    sectionToTab=null;
+	    tabListContentProvider=null;
+
+	 
+        
+        sectionsToRefresh=null;
+        
+	    super.dispose();
 	}
 }

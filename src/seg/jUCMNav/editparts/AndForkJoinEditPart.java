@@ -39,10 +39,24 @@ public class AndForkJoinEditPart extends PathNodeEditPart implements AnchorListe
     public AndForkJoinEditPart(PathNode model, UCMmap diagram) {
         super(model, diagram);
         extraAnchors = new HashMap();
-        getNodeFigure().getSourceConnectionAnchor().addAnchorListener(this);
-        getNodeFigure().getTargetConnectionAnchor().addAnchorListener(this);
     }
 
+    public void activate()
+    {
+        getNodeFigure().getSourceConnectionAnchor().addAnchorListener(this);
+        getNodeFigure().getTargetConnectionAnchor().addAnchorListener(this);
+        
+        super.activate();
+    }
+    
+    public void deactivate()
+    {
+        getNodeFigure().getSourceConnectionAnchor().removeAnchorListener(this);
+        getNodeFigure().getTargetConnectionAnchor().removeAnchorListener(this);
+        
+        super.deactivate();
+    }
+    
     /**
      * Refreshes all outgoing or incoming connections if the super classes's anchors are moved.
      */

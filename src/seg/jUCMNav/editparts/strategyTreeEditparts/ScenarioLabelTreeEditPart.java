@@ -58,7 +58,7 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
      */
     public void deactivate() {
         if (isActive()) {
-            (root).eAdapters().add(this);
+            (root).eAdapters().remove(this);
         }
         List c = getChildren();
         for (int i = 0; i < c.size(); i++) {

@@ -8,6 +8,7 @@ import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
@@ -36,14 +37,10 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
         Object node = getHost().getModel();
         java.util.Map registry;
 
-        if (getHost().getViewer() instanceof UrnTreeViewer) {
+        if (getHost().getViewer() instanceof TreeViewer) {
             // we need an editpart registry with NodeConnectionEditParts
-            registry = ((UrnTreeViewer)getHost().getViewer()).getEditor().getCurrentPage().getGraphicalViewer().getEditPartRegistry();
-        } 
-        else if (getHost().getViewer() instanceof TreeViewer) {
-            // we need an editpart registry with NodeConnectionEditParts
-            registry = ((UCMNavMultiPageEditor) ((OutlineRootEditPart) getHost().getViewer().getRootEditPart().getChildren().get(0)).getModel())
-                    .getCurrentPage().getGraphicalViewer().getEditPartRegistry();
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            registry = editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry();
         } else
             registry = getHost().getViewer().getEditPartRegistry();
 

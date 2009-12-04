@@ -335,6 +335,10 @@ public class DisplayPreferences {
         return globalFilterEnabled;
     }
 
+    public void unregisterListener(JUCMNavRefreshableView view) {
+        listenerViews.remove(view);
+    }
+
     public void refreshViews() {
         for (Iterator it = listenerViews.iterator(); it.hasNext();) {
             JUCMNavRefreshableView currentView = (JUCMNavRefreshableView) it.next();

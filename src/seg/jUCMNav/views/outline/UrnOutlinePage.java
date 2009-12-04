@@ -8,7 +8,6 @@ import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.parts.ScrollableThumbnail;
 import org.eclipse.draw2d.parts.Thumbnail;
 import org.eclipse.gef.ContextMenuProvider;
-import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
@@ -40,6 +39,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.IPageChangeListener;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UrnEditDomain;
 import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editparts.concernsTreeEditparts.ConcernsTreeEditPartFactory;
 import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
@@ -93,10 +93,10 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         super(viewer);
         this.multieditor = editor;
         // also initializes the second outline (the concern outline)
-        this.concernsViewer = new UrnTreeViewer(editor);
+        this.concernsViewer = new UrnTreeViewer();
         this.concernsPage = new ContentOutlinePage(concernsViewer);
         
-        this.definitionsViewer = new UrnTreeViewer(editor);
+        this.definitionsViewer = new UrnTreeViewer();
         this.definitionPage = new ContentOutlinePage(definitionsViewer);
         
     }
@@ -211,7 +211,12 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
 	 * @param treeEditPartFactory is the factory for the outline 
 	 */
 	private void configureOutlineViewerDetails(EditPartViewer viewer, TreeEditPartFactory treeEditPartFactory) {
-		viewer.setEditDomain(new DefaultEditDomain(multieditor));
+        if (viewer.getEditDomain() instanceof UrnEditDomain)
+        {
+            ((UrnEditDomain)viewer.getEditDomain()).dispose();
+        }
+
+		viewer.setEditDomain(new UrnEditDomain(multieditor));
         viewer.setEditPartFactory(treeEditPartFactory);
 
         // configure & add context menu to viewer
@@ -256,12 +261,87 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
      * @see org.eclipse.ui.part.IPage#dispose()
      */
     public void dispose() {
+        
+        EditPartViewer[] viewers = getViewers();
+
+        // doing this one twice just in case.
+        if (multieditor!=null && multieditor.getSelectionSynchronizer()!=null)
+            multieditor.getSelectionSynchronizer().removeViewer(getViewer());
+        
+        for (int i = 0; i < viewers.length; i++) {
+            if (viewers[i] != null) {
+                if (viewers[i].getContextMenu() != null)
+                {
+                    viewers[i].getContextMenu().dispose();
+                    viewers[i].setContextMenu(null);
+                }
+                if (viewers[i].getEditDomain() instanceof UrnEditDomain)
+                {
+                    UrnEditDomain domain = (UrnEditDomain) viewers[i].getEditDomain();
+                    domain.dispose();
+                }
+                
+                viewers[i].setEditPartFactory(null);
+            }
+            if (multieditor!=null && multieditor.getSelectionSynchronizer()!=null)
+                multieditor.getSelectionSynchronizer().removeViewer(viewers[i]);
+        }
+
+
         unhookOutlineViewer();
         if (thumbnail != null) {
             thumbnail.deactivate();
             thumbnail = null;
         }
+        
+        multieditor.removePageChangeListener(this);        
+        DisplayPreferences.getInstance().unregisterListener(this);
+        
         super.dispose();
+        
+        for (int i = 0; i < viewers.length; i++) {
+            EditPartViewer editPartViewer = viewers[i];
+            if (editPartViewer!=null) {
+                if (editPartViewer.getRootEditPart() !=null)
+                {
+                    if (editPartViewer.getRootEditPart().getContents()!=null) {
+                        editPartViewer.getRootEditPart().getContents().setModel(null);
+                        editPartViewer.getRootEditPart().setContents(null);
+                    }
+                    editPartViewer.getRootEditPart().setModel(null);
+                }
+                
+                editPartViewer.getEditPartRegistry().clear();
+            }
+        }
+        // bug 531
+        multieditor=null;
+        disposeListener=null;
+        outline=null;
+        overview=null;
+        concernsPage=null;
+        definitionPage=null;
+        concernsViewer=null;
+        concerns=null;
+        definitions=null;
+        pageBook=null;
+        showOutlineAction=null;
+        showOverviewAction=null;
+        showConcernsAction=null;
+        enableGlobalFilter=null;
+        showNodeNumberAction=null;
+        thumbnail=null;
+        definitionsViewer=null;
+        
+        
+    }
+
+    public EditPartViewer[] getViewers() {
+        EditPartViewer[] viewers = new EditPartViewer[3];
+        viewers[0]=getViewer();
+        viewers[1]=definitionsViewer;
+        viewers[2]=concernsViewer;
+        return viewers;
     }
 
     /**
@@ -493,13 +573,15 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
      * Removes selection synchronization, removes listeners. Usually called when outline page is being closed.
      */
     protected void unhookOutlineViewer() {
-        multieditor.getSelectionSynchronizer().removeViewer(getViewer());
-        multieditor.getSelectionSynchronizer().removeViewer(getConcernsViewer());
-        multieditor.getSelectionSynchronizer().removeViewer(getDefinitionsViewer());
-        if (disposeListener != null && multieditor.getCurrentPage() != null
-                && ((FigureCanvas) multieditor.getCurrentPage().getGraphicalViewer().getControl()) != null
-                && !((FigureCanvas) multieditor.getCurrentPage().getGraphicalViewer().getControl()).isDisposed())
-            ((FigureCanvas) multieditor.getCurrentPage().getGraphicalViewer().getControl()).removeDisposeListener(disposeListener);
+        if (multieditor!=null) {
+            multieditor.getSelectionSynchronizer().removeViewer(getViewer());
+            multieditor.getSelectionSynchronizer().removeViewer(getConcernsViewer());
+            multieditor.getSelectionSynchronizer().removeViewer(getDefinitionsViewer());
+            if (disposeListener != null && multieditor.getCurrentPage() != null
+                    && ((FigureCanvas) multieditor.getCurrentPage().getGraphicalViewer().getControl()) != null
+                    && !((FigureCanvas) multieditor.getCurrentPage().getGraphicalViewer().getControl()).isDisposed())
+                ((FigureCanvas) multieditor.getCurrentPage().getGraphicalViewer().getControl()).removeDisposeListener(disposeListener);
+        }
     }
 
     /**

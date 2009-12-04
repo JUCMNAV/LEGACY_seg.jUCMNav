@@ -180,6 +180,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		if (isActive() && getNode() instanceof RespRef && ((RespRef) getNode()).getRespDef() != null)
 			((RespRef) getNode()).getRespDef().eAdapters().remove(this);
 		super.deactivate();
+		
+		refreshChildren();
 
 	}
 
@@ -312,7 +314,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 	 */
 	public void notifyChanged(Notification notification)
 	{
-		int featureId = notification.getFeatureID(UcmPackage.class);
+	    if (getParent()==null)return;
+	    int featureId = notification.getFeatureID(UcmPackage.class);
 		switch (featureId)
 		{
 		case MapPackage.PATH_NODE__PRED:
@@ -449,51 +452,52 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 
 		for (int ncindex = 0; ncindex < pn.getSucc().size(); ncindex++)
 		{
-			NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(pn.getSucc().get(ncindex));
-			if (nc != null)
-			{
-
-				SplineConnection sp = (SplineConnection) nc.getFigure();
-				// sometimes causes infinite loops
-				// sp.layout();
-				if (sp != null)
-				{
-					PointList list = sp.getPoints();
-					if (list != null && sp.getPoints().size() > 0)
-					{
-
-						Ray r = new Ray();
-
-						if (list.size() > 2)
-						{
-							int i = 1;
-							// try a further point if both points are identical
-							while (i < list.size() && r.length() == 0)
-							{
-								r = new Ray(list.getFirstPoint(), list.getPoint(i));
-								i++;
-							}
-
-						}
-						else
-						{
-							r = new Ray(list.getFirstPoint(), list.getMidpoint());
-						}
-
-						double angle = Math.atan2(r.y, r.x);
-
-						angle = angle - Math.PI;
-						angleSum += angle;
-						//((IRotateable) nodeFigure).rotate(angle - Math.PI);
-					}
-				}
-			}
+		    if (getParent()!=null && getViewer()!=null) {
+    			NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(pn.getSucc().get(ncindex));
+    			if (nc != null)
+    			{
+    
+    				SplineConnection sp = (SplineConnection) nc.getFigure();
+    				// sometimes causes infinite loops
+    				// sp.layout();
+    				if (sp != null)
+    				{
+    					PointList list = sp.getPoints();
+    					if (list != null && sp.getPoints().size() > 0)
+    					{
+    
+    						Ray r = new Ray();
+    
+    						if (list.size() > 2)
+    						{
+    							int i = 1;
+    							// try a further point if both points are identical
+    							while (i < list.size() && r.length() == 0)
+    							{
+    								r = new Ray(list.getFirstPoint(), list.getPoint(i));
+    								i++;
+    							}
+    
+    						}
+    						else
+    						{
+    							r = new Ray(list.getFirstPoint(), list.getMidpoint());
+    						}
+    
+    						double angle = Math.atan2(r.y, r.x);
+    
+    						angle = angle - Math.PI;
+    						angleSum += angle;
+    						//((IRotateable) nodeFigure).rotate(angle - Math.PI);
+    					}
+    				}
+    			}
+    		}
+    		if (pn.getSucc().size() != 0)
+    		{
+    			((IRotateable) nodeFigure).rotate(angleSum / pn.getSucc().size());
+    		}
 		}
-		if (pn.getSucc().size() != 0)
-		{
-			((IRotateable) nodeFigure).rotate(angleSum / pn.getSucc().size());
-		}
-
 	}
 
 	/**

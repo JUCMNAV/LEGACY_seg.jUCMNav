@@ -75,11 +75,15 @@ public class ExtendedDirectEditManager extends DirectEditManager {
      * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
      */
     protected void bringDown() {
+        try {
         Font disposeFont = figureFont;
         figureFont = null;
         super.bringDown();
         if (disposeFont != null)
             disposeFont.dispose();
+        } catch (IllegalArgumentException ex){
+            figureFont=null;
+        }
     }
 
     /**

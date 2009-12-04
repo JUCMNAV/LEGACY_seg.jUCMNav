@@ -43,6 +43,8 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
     private ListenerList zoomListeners = new ListenerList(3);
 
     private UCMNavMultiPageEditor editor;
+
+
     /**
      * Creates a new DelegatingZoomManager instance.
      */
@@ -50,7 +52,7 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
     {
         super((ScalableFigure) null, (Viewport) null);
     	
-        this.editor=editor;
+        setEditor(editor);
 
     	
         List zoomLevels = new ArrayList(3);
@@ -61,6 +63,14 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
        
     }
 
+    public UCMNavMultiPageEditor getEditor() {
+        return editor;
+    }
+
+    public void setEditor(UCMNavMultiPageEditor editor) {
+        this.editor = editor;
+    }
+    
     /* (non-Javadoc)
      * @see org.eclipse.gef.editparts.ZoomListener#zoomChanged(double)
      */
@@ -73,10 +83,11 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
         }
         
         // TODO: refresh all if global
-        if (editor.getCurrentPage()!=null)
+        if (getEditor()!=null && getEditor().getCurrentPage()!=null)
         {
         	// force a refresh
-        	((URNRootEditPart)editor.getCurrentPage().getGraphicalViewer().getRootEditPart()).setMode(((URNRootEditPart)editor.getCurrentPage().getGraphicalViewer().getRootEditPart()).getMode());
+        	URNRootEditPart rootEditPart = (URNRootEditPart)getEditor().getCurrentPage().getGraphicalViewer().getRootEditPart();
+            rootEditPart.setMode(rootEditPart.getMode());
         }
         
         

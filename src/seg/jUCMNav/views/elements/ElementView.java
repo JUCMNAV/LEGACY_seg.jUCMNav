@@ -202,6 +202,9 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
             viewer.setInput(new ArrayList());
             if (partRef.getPart(false) == this) {
                 getSite().getPage().addPartListener(this);
+                getViewSite().getActionBars().clearGlobalActionHandlers();
+                getViewSite().getActionBars().updateActionBars();
+
                 viewer.removeSelectionChangedListener(this);
             }
         }
@@ -216,6 +219,9 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
     public void partDeactivated(IWorkbenchPartReference partRef) {
         // if (partRef.getPart(false) instanceof UCMNavMultiPageEditor)
         // setInput(null);
+        getViewSite().getActionBars().clearGlobalActionHandlers();
+        getViewSite().getActionBars().updateActionBars();
+
 
     }
 
@@ -268,6 +274,9 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
      * @param editor
      */
     private void setEditor(UCMNavMultiPageEditor editor) {
+        getViewSite().getActionBars().clearGlobalActionHandlers();
+        getViewSite().getActionBars().updateActionBars();
+
         if (this.editor != null) {
             this.editor.removePageChangeListener(this);
         }

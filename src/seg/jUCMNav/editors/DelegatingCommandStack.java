@@ -356,7 +356,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
         currentCommandStack = stack;
 
         // watch new command stack
-        currentCommandStack.addCommandStackListener(this);
+        if (currentCommandStack!=null)
+            currentCommandStack.addCommandStackListener(this);
 
         // the command stack changed
         notifyListeners();

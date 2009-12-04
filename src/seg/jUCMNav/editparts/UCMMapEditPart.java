@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
@@ -209,6 +210,39 @@ public class UCMMapEditPart extends URNDiagramEditPart {
         cLayer.setConnectionRouter(new UCMConnectionRouter(getViewer().getEditPartRegistry(), (UCMmap)getDiagram()));
 
         super.registerVisuals();
+    }
+    
+    protected void unregisterVisuals() {
+        
+        //disconnectRouter();
+
+        super.unregisterVisuals();
+    }
+
+    public void dispose()
+    {
+        for (Iterator iterator = getChildren().iterator(); iterator.hasNext();) {
+            EditPart part = (EditPart) iterator.next();
+            part.removeNotify();
+        }
+        removeEditPolicy(EditPolicy.LAYOUT_ROLE);
+        removeEditPolicy(EditPolicy.COMPONENT_ROLE);
+        removeNotify();
+        disconnectRouter();
+    }
+    
+    public void disconnectRouter() {
+        ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+        if (cLayer!=null)
+        {
+            if (cLayer.getConnectionRouter() instanceof UCMConnectionRouter)
+            {
+                UCMConnectionRouter router = (UCMConnectionRouter) cLayer.getConnectionRouter();
+                router.dispose();
+                
+            }
+            cLayer.setConnectionRouter(null);
+        }
     }
 
 }

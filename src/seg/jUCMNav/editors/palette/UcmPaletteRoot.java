@@ -1,8 +1,12 @@
 package seg.jUCMNav.editors.palette;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
 
+import org.eclipse.gef.Disposable;
 import org.eclipse.gef.palette.PaletteDrawer;
+import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.SelectionToolEntry;
@@ -36,7 +40,7 @@ import urncore.ComponentKind;
  * 
  * @author Etienne Tremblay, gunterm
  */
-public class UcmPaletteRoot extends PaletteRoot {
+public class UcmPaletteRoot extends PaletteRoot implements Disposable {
 
     /** Default palette size. */
     protected static final int DEFAULT_PALETTE_SIZE = 125;
@@ -57,7 +61,7 @@ public class UcmPaletteRoot extends PaletteRoot {
     protected UCMNavMultiPageEditor parent;
 
     /** Map from string to ToolEntry for hotkeys. */ 
-    protected HashMap keyboardMapping; 
+    protected HashMap keyboardMapping;
     /**
      * Creates a new UcmPaletteRoot instance. To be called by the palette or anything else that might not be recreated when a save-as is done.
      */
@@ -296,4 +300,31 @@ public class UcmPaletteRoot extends PaletteRoot {
         return parent.getModel();
     }
 
+    
+    public void dispose()
+    {
+        for (Iterator iterator = getChildren().iterator(); iterator.hasNext();) {
+            PaletteEntry elem = (PaletteEntry) iterator.next();
+            if (elem instanceof PaletteDrawer)
+            {
+                PaletteDrawer drawer = (PaletteDrawer) elem;
+                Vector v2 = new Vector();
+                v2.addAll(drawer.getChildren());
+                
+                for (Iterator iterator2 = v2.iterator(); iterator2.hasNext();) {
+                    PaletteEntry elem2 = (PaletteEntry) iterator2.next();
+                    if (elem2 instanceof URNElementCreationEntry)
+                    {
+                        URNElementCreationEntry entry = (URNElementCreationEntry) elem2;
+                        entry.setFactory(null);
+                    }
+                    elem2.setParent(null);
+                }
+            }
+        }
+        setChildren(new Vector());
+        parent=null;
+        keyboardMapping.clear();
+        keyboardMapping=null;
+    }
 }

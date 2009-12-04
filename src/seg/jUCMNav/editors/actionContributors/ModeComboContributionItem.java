@@ -1,8 +1,8 @@
 package seg.jUCMNav.editors.actionContributors;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.jface.action.ContributionItem;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
@@ -20,6 +20,7 @@ import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
@@ -44,10 +45,10 @@ public class ModeComboContributionItem extends ContributionItem {
 	private static boolean local = false;
 
 	// when local to editor
-	private URNRootEditPart part;
+	//private URNRootEditPart part;
 
 	// when global to all editors
-	private UCMNavMultiPageEditor editor;
+	//private UCMNavMultiPageEditor editor;
 
 	/**
 	 * Constructor for ComboToolItem.
@@ -66,11 +67,7 @@ public class ModeComboContributionItem extends ContributionItem {
 		partService.addSelectionListener(new ISelectionListener() {
 			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 				if (part instanceof UCMNavMultiPageEditor && ((UCMNavMultiPageEditor) part).getActivePage() >= 0) {
-					ModeComboContributionItem.this.part = (URNRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage().getGraphicalViewer()
-							.getRootEditPart());
-					ModeComboContributionItem.this.editor = ModeComboContributionItem.this.part.getMultiPageEditor();
-
-					refresh(true);
+					refresh(true, (UCMNavMultiPageEditor) part);
 				}
 			}
 		});
@@ -78,10 +75,7 @@ public class ModeComboContributionItem extends ContributionItem {
 		partService.addPartListener(partListener = new IPartListener() {
 			public void partActivated(IWorkbenchPart part) {
 				if (part instanceof UCMNavMultiPageEditor && ((UCMNavMultiPageEditor) part).getActivePage() >= 0) {
-					ModeComboContributionItem.this.part = (URNRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage().getGraphicalViewer()
-							.getRootEditPart());
-					ModeComboContributionItem.this.editor = ModeComboContributionItem.this.part.getMultiPageEditor();
-					refresh(true);
+				    refresh(true, (UCMNavMultiPageEditor) part);
 				}
 			}
 
@@ -98,6 +92,23 @@ public class ModeComboContributionItem extends ContributionItem {
 			}
 		});
 	}
+	
+	void refresh(boolean repopulateCombo)
+	{
+	    UCMNavMultiPageEditor editor = getActiveEditor();
+	    refresh(repopulateCombo,editor);
+	}
+
+    private UCMNavMultiPageEditor getActiveEditor() {
+        UCMNavMultiPageEditor editor=null;
+	    if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && 
+	            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() !=null  && 
+	            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor)
+	    {
+	         editor = (UCMNavMultiPageEditor)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() ;
+	    }
+        return editor;
+    }
 
 	/**
 	 * Refreshes the combo box.
@@ -105,19 +116,19 @@ public class ModeComboContributionItem extends ContributionItem {
 	 * @param repopulateCombo
 	 *            should the combo box be rebuild from scratch
 	 */
-	void refresh(boolean repopulateCombo) {
+	void refresh(boolean repopulateCombo, UCMNavMultiPageEditor editor) {
 		if (combo == null || combo.isDisposed())
 			return;
 		// $TODO GTK workaround
 		try {
-			if (part == null) {
+			if (getRootEditpart(editor) == null) {
 				combo.setEnabled(false);
 				combo.setText(""); //$NON-NLS-1$
 			} else {
 				if (repopulateCombo) {
 					combo.setItems(initStrings);
 				}
-				int index = part.getMode();
+				int index =  getRootEditpart(editor).getMode();
 				if (index >= 0 && index <= combo.getItemCount())
 					combo.select(index);
 				else
@@ -128,6 +139,13 @@ public class ModeComboContributionItem extends ContributionItem {
 			if (!SWT.getPlatform().equals("gtk")) //$NON-NLS-1$
 				throw exception;
 		}
+	}
+	
+	public URNRootEditPart getRootEditpart(UCMNavMultiPageEditor editor)
+	{
+	    if (editor==null)return null;
+	    return (URNRootEditPart) editor.getCurrentPage().getGraphicalViewer()
+                .getRootEditPart();
 	}
 
 	/**
@@ -179,7 +197,7 @@ public class ModeComboContributionItem extends ContributionItem {
 		// Initialize width of combo
 		combo.setItems(initStrings);
 		toolitem.setWidth(computeWidth(combo));
-		refresh(true);
+		refresh(true, null);
 		return combo;
 	}
 
@@ -190,7 +208,6 @@ public class ModeComboContributionItem extends ContributionItem {
 		if (partListener == null)
 			return;
 		service.removePartListener(partListener);
-		part = null;
 		combo = null;
 		partListener = null;
 	}
@@ -250,7 +267,7 @@ public class ModeComboContributionItem extends ContributionItem {
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(SelectionEvent)
 	 */
 	private void handleWidgetSelected(SelectionEvent event) {
-		refreshEditor();
+		refreshEditor(getActiveEditor());
 
 		/*
 		 * There are several cases where invoking setZoomAsText (above) will not
@@ -268,7 +285,8 @@ public class ModeComboContributionItem extends ContributionItem {
 	/**
 	 * Refreshes the editor given the current state of the combo box.
 	 */
-	public void refreshEditor() {
+	public void refreshEditor(UCMNavMultiPageEditor editor) {
+	    URNRootEditPart part = getRootEditpart(editor);	    
 		// TODO: GTK Workaround (fixed in 3.0) - see SWT bug #44345
 		if (part != null)
 			if (combo.getSelectionIndex() >= 0) {

@@ -86,6 +86,10 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
         return multiPageEditor;
     }
     
+    public void setMultiPageEditor(UCMNavMultiPageEditor multiPageEditor) {
+        this.multiPageEditor = multiPageEditor;
+    }
+
     public abstract void setMode(int mode);
 
 
@@ -102,7 +106,7 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
         for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
             URNDiagramEditPart element = (URNDiagramEditPart) iter.next();
             if (element instanceof GrlGraphEditPart) {
-            element.refreshVisuals();
+                element.refreshVisuals();
             }
 
         }

@@ -19,15 +19,19 @@ import urncore.URNmodelElement;
 public class MultiPageEditorLocation extends NavigationLocation {
 
 	private String currentGraphID;
-	private UCMNavMultiPageEditor editor;
+	private String text;
+	
+	//private UCMNavMultiPageEditor editor;
 
 	/**
 	 * @param editorPart
 	 */
 	protected MultiPageEditorLocation(IEditorPart editorPart) {
 		super(editorPart);
-		this.editor = (UCMNavMultiPageEditor) editorPart;
-		update();
+		UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) editorPart;
+		this.text = editor!=null ? editor.getTitle() : "";
+
+		update(editor);
 	}
 
 	/**
@@ -43,13 +47,14 @@ public class MultiPageEditorLocation extends NavigationLocation {
 	 * @return the UCMNavMultiPageEditor that is associated with this location.
 	 */
 	public UCMNavMultiPageEditor getEditor() {
-		return editor;
+		return (UCMNavMultiPageEditor) getEditorPart();
 	}
 
 	public String getText() {
-		if (editor == null)
-			return ""; //$NON-NLS-1$
-		return editor.getTitle();
+		//if (getEditorPart() == null)
+		//	return ""; //$NON-NLS-1$
+		//return getEditorPart().getTitle();
+	    return text;
 	}
 
 	/**
@@ -69,8 +74,8 @@ public class MultiPageEditorLocation extends NavigationLocation {
 	 */
 	public void restoreLocation() {
 
-		for (int i = 0; i < editor.getModel().getUrndef().getSpecDiagrams().size(); i++) {
-			URNmodelElement graph = (URNmodelElement) editor.getModel().getUrndef().getSpecDiagrams().get(i);
+		for (int i = 0; i < getEditor().getModel().getUrndef().getSpecDiagrams().size(); i++) {
+			URNmodelElement graph = (URNmodelElement) getEditor().getModel().getUrndef().getSpecDiagrams().get(i);
 			if (graph.getId().equals(currentGraphID)) {
 				((UCMNavMultiPageEditor) getEditorPart()).setActivePage(i);
 				break;
@@ -106,21 +111,18 @@ public class MultiPageEditorLocation extends NavigationLocation {
 		currentGraphID = currentPage;
 	}
 
-	/**
-	 * @param editor
-	 *            the editor in which the page is opened.
-	 */
-	public void setEditor(UCMNavMultiPageEditor editor) {
-		this.editor = editor;
-	}
 
 	/**
 	 * update this location by querying the active page
 	 */
-	public void update() {
-		if (editor.getCurrentPage() != null)
+	public void update(UCMNavMultiPageEditor editor) {
+		if (editor!=null && editor.getCurrentPage() != null)
 			currentGraphID = ((URNmodelElement) editor.getCurrentPage().getModel()).getId();
 		else
 			currentGraphID = null;
 	}
+
+    public void update() {
+        update(getEditor());
+    }
 }

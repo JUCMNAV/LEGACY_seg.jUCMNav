@@ -142,7 +142,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         // if this line is removed, the XYLayoutManager used by the parent container
         // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
         // and will not draw it correctly.
-        if (getParent() != null)
+        if (getParent() != null && getViewer()!= null && getLayer(URNRootEditPart.COMPONENT_LAYER)!=null  )
             (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
 }

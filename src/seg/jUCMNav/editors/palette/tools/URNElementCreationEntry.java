@@ -13,14 +13,21 @@ import org.eclipse.jface.resource.ImageDescriptor;
 public class URNElementCreationEntry extends CombinedTemplateCreationEntry {
     public URNElementCreationEntry(String label, String shortDesc, Object template, CreationFactory factory, ImageDescriptor iconSmall,
             ImageDescriptor iconLarge) {
-        super(label, shortDesc, template, factory, iconSmall, iconLarge);
+        super(label, shortDesc, template, /*factory*/ null, iconSmall, iconLarge);
+        myFactory=factory;
     }
 
-
+    protected CreationFactory myFactory = null;
+    
     /**
      * @return a UCMElementCreationTool
      */
     public Tool createTool() {
-        return new URNElementCreationTool(factory);
+        return new URNElementCreationTool(myFactory);
+    }
+    
+    public void setFactory(CreationFactory factory)
+    {
+        this.myFactory=factory;
     }
 }

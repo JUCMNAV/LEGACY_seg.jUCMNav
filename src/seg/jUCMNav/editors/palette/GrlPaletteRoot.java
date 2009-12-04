@@ -45,6 +45,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
         super(parent);
     }
 
+    
     /**
      * Builds the palette entries.
      */

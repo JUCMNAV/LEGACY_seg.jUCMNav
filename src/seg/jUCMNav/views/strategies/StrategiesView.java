@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -29,6 +30,7 @@ import org.eclipse.ui.part.ViewPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UrnEditDomain;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider;
 import seg.jUCMNav.editparts.URNRootEditPart;
@@ -81,12 +83,11 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 	 */
 	public void createPartControl(Composite parent) {
         viewer = new TreeViewer();
-        viewer.addSelectionChangedListener(this);
         
         //viewer.setContents(null);
         //viewer.setEditPartFactory(new StrategyTreeEditPartFactory(null));
         
-        viewer.setEditDomain(new DefaultEditDomain(null));
+        viewer.setEditDomain(new UrnEditDomain(null));
         
         getSite().getPage().addPartListener(this);
         
@@ -187,14 +188,74 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
      * @see org.eclipse.ui.part.IPage#dispose()
      */
     public void dispose() {
-        if (multieditor != null){
-            // unhook outline viewer
-            multieditor.getSelectionSynchronizer().removeViewer(viewer);
-        }
+        
+        unregisterElements();
+
+
         getSite().getPage().removePartListener(this);
+        DisplayPreferences.getInstance().unregisterListener(this);
         
         // dispose
         super.dispose();
+    }
+
+    private void unregisterElements() {
+        IActionBars bars = getViewSite().getActionBars();
+        String id = ActionFactory.UNDO.getId();
+        bars.setGlobalActionHandler(id, null);
+        id = ActionFactory.REDO.getId();
+        bars.setGlobalActionHandler(id, null);
+        id = ActionFactory.DELETE.getId();
+        bars.setGlobalActionHandler(id, null);
+        id = ActionFactory.PASTE.getId();
+        bars.setGlobalActionHandler(id, null);
+        id = ActionFactory.COPY.getId();
+        bars.setGlobalActionHandler(id, null);        
+        id = ActionFactory.CUT.getId();
+        bars.setGlobalActionHandler(id, null); 
+        
+        bars.clearGlobalActionHandlers();
+        
+        bars.updateActionBars();
+        
+        if (viewer!=null)
+        {
+            if (multieditor!=null && multieditor.getSelectionSynchronizer()!=null)
+                multieditor.getSelectionSynchronizer().removeViewer(viewer);
+
+            RootEditPart p = viewer.getRootEditPart();
+            p.setModel(null);
+            p.removeNotify();
+            p.getChildren().clear();
+            if (viewer.getContents()!=null) {
+                viewer.getContents().setModel(null);
+                viewer.setContents(null);
+            }
+            if (viewer.getControl()!=null)
+                viewer.getControl().setData(null);
+            
+            if (viewer.getContextMenu() != null) {
+                viewer.getContextMenu().dispose();
+                // exceptions
+                //viewer.setContextMenu(null);
+            }
+
+            if (viewer.getEditDomain() instanceof UrnEditDomain) {
+                UrnEditDomain domain = (UrnEditDomain) viewer.getEditDomain();
+                domain.dispose();
+                viewer.setEditDomain(new DefaultEditDomain(null));
+            }
+            viewer.removeSelectionChangedListener(this);
+            viewer.setEditPartFactory(null);
+            viewer.getEditPartRegistry().clear();
+            
+        }      
+        
+        if (multieditor!=null && multieditor.getCurrentPage()!=null)
+        {
+           multieditor.getCurrentPage().getGraphicalViewer().removeSelectionChangedListener(this);
+           
+        }
     }
     
     
@@ -212,7 +273,10 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         	// bug 709 - if we are no longer selecting a UCM editor, flush the current selection. 
         	if (!(partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor)) {
 		        //multieditor=null;
-		        viewer.setContents(null);
+        	    if (viewer.getContents()!=null) {
+            	    viewer.getContents().setModel(null);
+    		        viewer.setContents(null);
+        	    }
         		setEditor((UCMNavMultiPageEditor)null);
 
         	}
@@ -238,7 +302,10 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
      */
     public void partClosed(IWorkbenchPartReference partRef) {
         if (partRef.getPart(false) instanceof UCMNavMultiPageEditor && partRef.getPage().getActiveEditor() == null) {
-            viewer.setContents(null);
+            if (viewer.getContents()!=null) {
+                viewer.getContents().setModel(null);
+                viewer.setContents(null);
+            }
         }
         showPage(ID_DESIGN);
         currentStrategy = null;
@@ -301,16 +368,27 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
      * @param editor
      */
     private void setEditor(UCMNavMultiPageEditor editor) {
+
         if (multieditor != editor){
+            unregisterElements();
+            
             multieditor = editor;
             EvaluationStrategyManager.getInstance().setMultieditor(editor);
+
+            unregisterElements();
+            
             if (multieditor==null)return;
             //getActionRegistryManager().createActions(this, multieditor, getSite().getKeyBindingService());
             
             if (multieditor.getCurrentPage() != null)
             	multieditor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
             
-            viewer.setEditDomain(new DefaultEditDomain(multieditor));
+            if (viewer.getEditDomain() instanceof UrnEditDomain)
+            {
+                ((UrnEditDomain)viewer.getEditDomain()).dispose();
+            }
+            
+            viewer.setEditDomain(new UrnEditDomain(multieditor));
             viewer.setEditPartFactory(new StrategyTreeEditPartFactory(multieditor.getModel()));
     
             // register them. other ways failed to add undo/redo, only added delete.  
@@ -336,6 +414,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
  
 
             // hook viewer
+            viewer.addSelectionChangedListener(this);
             editor.getSelectionSynchronizer().removeViewer(viewer);
             multieditor.getSelectionSynchronizer().addViewer(viewer);
             viewer.setContents(multieditor);

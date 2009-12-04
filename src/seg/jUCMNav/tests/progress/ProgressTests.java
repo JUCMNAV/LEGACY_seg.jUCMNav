@@ -139,8 +139,8 @@ public class ProgressTests extends TestCase {
             }
         } else
             getGraphicalViewer().deselectAll();
-        ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu((getGraphicalViewer().getContextMenu()));
         UrnContextMenuProvider context = (UrnContextMenuProvider) getGraphicalViewer().getContextMenu();
+        context.buildContextMenu(context);
         IContributionItem contrib = context.find(id);
         if (contrib instanceof ActionContributionItem) {
             return ((ActionContributionItem) contrib).getAction();

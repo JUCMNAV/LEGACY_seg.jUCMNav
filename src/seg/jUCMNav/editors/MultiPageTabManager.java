@@ -398,4 +398,8 @@ public class MultiPageTabManager {
         folder.addListener(SWT.MouseExit, listener);
         folder.addListener(SWT.MouseEnter, listener);
     }
+
+    public void setEditor(UCMNavMultiPageEditor editor) {
+        this.editor = editor;
+    }
 }

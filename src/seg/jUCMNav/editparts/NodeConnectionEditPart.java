@@ -132,7 +132,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 		setModel(link);
 		this.diagram = diagram;
 
-		adapter = new NodeConnectionAdapter((Notifier) getModel());
+		
 	}
 
 	/**
@@ -141,8 +141,10 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 	 * @see org.eclipse.gef.EditPart#activate()
 	 */
 	public void activate() {
-		if (!isActive())
+		if (!isActive()) {
+		    adapter = new NodeConnectionAdapter((Notifier) getModel());
 			((EObject) getModel()).eAdapters().add(adapter);
+		}
 		super.activate();
 	}
 
@@ -241,8 +243,10 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 	 * @see org.eclipse.gef.EditPart#deactivate()
 	 */
 	public void deactivate() {
-		if (isActive())
+		if (isActive()) {
 			((EObject) getModel()).eAdapters().remove(adapter);
+			adapter=null;
+		}
 		super.deactivate();
 
 		// jkealey: removed during cleanup; i think the figure tree will remove
@@ -256,6 +260,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 		// ((SplineConnection) getFigure()).remove(startLabel);
 		// startLabel = null;
 		// }
+		
+		refreshChildren();
 
 	}
 
