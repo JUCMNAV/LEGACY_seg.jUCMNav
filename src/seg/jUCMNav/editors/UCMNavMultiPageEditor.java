@@ -59,6 +59,7 @@ import seg.jUCMNav.views.outline.UrnTreeViewer;
 import seg.jUCMNav.views.property.tabbed.GEFTabbedPropertySheetPage;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
+import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
@@ -639,12 +640,20 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
                 int from = ((Integer) notification.getOldValue()).intValue();
                 int to = notification.getPosition();
 
+                
                 IEditorPart fromPart = getEditor(from);
 
+                UrnEditor u = null;
+                if (fromPart instanceof UcmEditor) {
+                    u = new UcmEditor(this);
+                } else { 
+                    u = new GrlEditor(this);
+                }
+                u.setModel((IURNDiagram) getModel().getUrndef().getSpecDiagrams().get(to));
                 removePage(from);
 
                 try {
-                    addPage(to, fromPart, fromPart.getEditorInput());
+                    addPage(to, u, this.getEditorInput());
                 } catch (PartInitException e1) {
                     e1.printStackTrace();
                 }

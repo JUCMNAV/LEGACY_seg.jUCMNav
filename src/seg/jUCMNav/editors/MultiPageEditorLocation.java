@@ -114,7 +114,7 @@ public class MultiPageEditorLocation extends NavigationLocation {
      * update this location by querying the active page
      */
     public void update(UCMNavMultiPageEditor editor) {
-        if (editor != null && editor.getCurrentPage() != null)
+        if (editor != null && editor.getCurrentPage() != null && editor.getCurrentPage().getModel() !=null)
             currentGraphID = ((URNmodelElement) editor.getCurrentPage().getModel()).getId();
         else
             currentGraphID = null;
