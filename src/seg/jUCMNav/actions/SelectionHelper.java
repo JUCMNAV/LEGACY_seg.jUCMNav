@@ -605,6 +605,8 @@ public class SelectionHelper {
             selectionType = COMPONENTLABEL;
         else if (componentref != null)
             selectionType = COMPONENTREF;
+        else if (component != null)
+            selectionType = COMPONENT;
         else if (comment != null)
             selectionType = COMMENT;
         else if (nodelabel != null)
