@@ -24,7 +24,7 @@ import seg.jUCMNav.views.elements.ElementListItem;
  * A composite which is a list of CompositeListItems.
  * 
  * @author Etienne Tremblay
- *  
+ * 
  */
 public class CompositeListControl extends Composite implements ISelectionProvider, ISelectionListener {
 
@@ -53,7 +53,7 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 
     /**
      * init code
-     *  
+     * 
      */
     private void initialize() {
         this.addMouseListener(new MouseAdapter() {
@@ -72,7 +72,7 @@ public class CompositeListControl extends Composite implements ISelectionProvide
         scrollComp.setBackground(org.eclipse.swt.widgets.Display.getDefault().getSystemColor(org.eclipse.swt.SWT.COLOR_WHITE));
 
         scrollComp.setContent(this);
-        //		this.layout();
+        // this.layout();
 
         scrollComp.setAlwaysShowScrollBars(true);
         scrollComp.setExpandHorizontal(true);
@@ -105,7 +105,7 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 
     /**
      * clears the list
-     *  
+     * 
      */
     public void removeAll() {
         for (Iterator i = items.iterator(); i.hasNext();) {
@@ -185,7 +185,7 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 
     /**
      * Notifies listeners.
-     *  
+     * 
      */
     protected void fireSelected() {
 
@@ -200,10 +200,10 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 
     /**
      * @see seg.jUCMNav.views.compositeList.ISelectionListener#selectionChanged(java.lang.Object)
-     *  
+     * 
      */
     public void selectionChanged(Object selected) {
         setSelection(new StructuredSelection(selected));
         fireSelected();
     }
-} //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

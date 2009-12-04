@@ -44,7 +44,7 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
     public PreDeleteUrnModelElementCommand(Variable var) {
         add(new CleanRelationshipsCommand(var));
     }
-    
+
     /**
      * 
      * @param et
@@ -53,6 +53,7 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
     public PreDeleteUrnModelElementCommand(EnumerationType et) {
         add(new CleanRelationshipsCommand(et));
     }
+
     /**
      * 
      * @param init
@@ -60,7 +61,8 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
      */
     public PreDeleteUrnModelElementCommand(Initialization init) {
         add(new CleanRelationshipsCommand(init));
-    }    
+    }
+
     /**
      * 
      * @param pt
@@ -69,8 +71,7 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
     public PreDeleteUrnModelElementCommand(ScenarioStartPoint pt) {
         add(new CleanRelationshipsCommand(pt));
     }
-    
-    
+
     /**
      * 
      * @param pt
@@ -78,8 +79,8 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
      */
     public PreDeleteUrnModelElementCommand(ScenarioEndPoint pt) {
         add(new CleanRelationshipsCommand(pt));
-    }    
-    
+    }
+
     /**
      * 
      * @param nc
@@ -95,7 +96,7 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
      *            the PathNode to be deleted.
      */
     public PreDeleteUrnModelElementCommand(PathNode pn) {
- 
+
         DisconnectCommand cmd = new DisconnectCommand(pn);
         if (cmd.canExecute())
             add(cmd);
@@ -112,35 +113,35 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
 
         add(new CleanRelationshipsCommand(cr));
     }
-    
+
     /**
      * 
      * @param ar
      *            the ActorRef to be deleted.
      */
     public PreDeleteUrnModelElementCommand(ActorRef ar) {
-    
+
         add(new CleanRelationshipsCommand(ar));
     }
-    
+
     /**
      * @param ref
      *            the GRLNode to be deleted.
      */
     public PreDeleteUrnModelElementCommand(GRLNode ref) {
-   
+
         add(new CleanRelationshipsCommand(ref));
         add(new DisconnectGRLNodeCommand(ref));
 
     }
-    
+
     /**
      * 
      * @param resx
      *            the GeneralResource to be deleted.
      */
     public PreDeleteUrnModelElementCommand(GeneralResource resx) {
-    
+
         add(new CleanRelationshipsCommand(resx));
     }
 }

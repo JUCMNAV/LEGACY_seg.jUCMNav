@@ -33,7 +33,7 @@ public class IndicatorGroupPropertyDescriptor extends PropertyDescriptor {
             }
         });
     }
-    
+
     /**
      * Property descriptor for a indicator group.
      * 

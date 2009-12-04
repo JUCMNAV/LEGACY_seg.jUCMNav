@@ -17,11 +17,11 @@ import urncore.Component;
 public class ComponentComponentEditPolicy extends ComponentEditPolicy {
 
     ComponentTreeWrapper wrapper;
-    
+
     public ComponentComponentEditPolicy(ComponentTreeWrapper wrapper) {
-        this.wrapper=wrapper;    
+        this.wrapper = wrapper;
     }
-    
+
     /**
      * Return a DeleteComponentCommand or a RemoveResourceFromComponenCommand
      */
@@ -29,10 +29,10 @@ public class ComponentComponentEditPolicy extends ComponentEditPolicy {
         Object comp = getHost().getModel();
         if (comp instanceof Component) {
             Component elem = (Component) comp;
-            
-            if (wrapper==null) {
-                    DeleteComponentCommand deleteCommand = new DeleteComponentCommand(elem);
-                    return deleteCommand;
+
+            if (wrapper == null) {
+                DeleteComponentCommand deleteCommand = new DeleteComponentCommand(elem);
+                return deleteCommand;
             } else {
                 RemoveResourceFromComponentCommand deleteCommand = new RemoveResourceFromComponentCommand(wrapper.getComp(), wrapper.getResx());
                 return deleteCommand;

@@ -8,8 +8,7 @@ import urncore.IURNDiagram;
  * @author pchen
  * 
  */
-public class HTMLMenuItem
-{
+public class HTMLMenuItem {
     public static final String TYPE_UCM = "UCM"; //$NON-NLS-1$
     public static final String TYPE_GRL = "GRL"; //$NON-NLS-1$
     public static final String TYPE_MSC = "MSC"; //$NON-NLS-1$
@@ -22,9 +21,8 @@ public class HTMLMenuItem
     private static int baseY = 0;
 
     private IURNDiagram diagram = null;
-    
-    public void reset()
-    {
+
+    public void reset() {
         diagramName = ""; //$NON-NLS-1$
         type = ""; //$NON-NLS-1$
         leafText = ""; //$NON-NLS-1$
@@ -128,7 +126,8 @@ public class HTMLMenuItem
     }
 
     /**
-     * @param _diagramName the diagramName to set
+     * @param _diagramName
+     *            the diagramName to set
      */
     public void setDiagramName(String _diagramName) {
         diagramName = _diagramName;

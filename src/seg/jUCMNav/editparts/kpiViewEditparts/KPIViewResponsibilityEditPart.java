@@ -59,7 +59,7 @@ public class KPIViewResponsibilityEditPart extends AbstractKPIViewEditPart {
         ElementLink[] elementLinks = (ElementLink[]) model.getLinksDest().toArray(new ElementLink[0]);
         if (elementLinks != null) {
             for (int i = 0; i < elementLinks.length; i++) {
-            	// TODO: Make sure this GRLLinkableElement is an IntentionalElement
+                // TODO: Make sure this GRLLinkableElement is an IntentionalElement
                 IntentionalElement intElem = (IntentionalElement) elementLinks[i].getSrc();
                 if (intElem instanceof Indicator) {
                     indicatorMap.put(((Indicator) intElem).getId(), (Indicator) intElem);

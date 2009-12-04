@@ -65,7 +65,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
     // the textbox containing sExportPath
     private Text txtExportPath;
     private Label lblMaps;
-    
+
     // component for the filename
     private Label lblFilenamePrefix;
     private Text txtFilenamePrefix;
@@ -90,7 +90,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
      * Contains controls to set the export directory, export file type and selected maps.
      */
     public void createControl(Composite parent) {
-    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.export_mapselection"); //$NON-NLS-1$
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.export_mapselection"); //$NON-NLS-1$
         SelectionListener selList = new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent e) {
                 verifyPage();
@@ -163,15 +163,15 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         cboImageType.setLayoutData(data);
 
         lblFilenamePrefix = new Label(composite, SWT.NONE);
-        lblFilenamePrefix.setText(Messages.getString("ExportWizardMapSelectionPage.filenamePrefix"));  //$NON-NLS-1$
+        lblFilenamePrefix.setText(Messages.getString("ExportWizardMapSelectionPage.filenamePrefix")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 1;
         data.horizontalAlignment = GridData.FILL;
         lblFilenamePrefix.setLayoutData(data);
-        
+
         txtFilenamePrefix = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
         txtFilenamePrefix.setText(""); //$NON-NLS-1$
-        //txtFilenamePrefix.setText(ExportPreferenceHelper.getPath());
+        // txtFilenamePrefix.setText(ExportPreferenceHelper.getPath());
 
         data = new GridData();
         data.horizontalAlignment = GridData.FILL;
@@ -183,7 +183,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
                 verifyPage();
             }
         });
-        
+
         lblMaps = new Label(composite, SWT.NONE);
         lblMaps.setText(Messages.getString("ExportImageWizardPage.mapsToBeExported")); //$NON-NLS-1$
         data = new GridData();
@@ -217,7 +217,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         Vector v = new Vector();
         Vector selected = ((ExportWizard) getWizard()).getSelectedDiagrams();
         Vector vIndices = new Vector();
-        int i=0;
+        int i = 0;
         String filteredName, diagramName;
 
         for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
@@ -225,19 +225,20 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 
             if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
                 // peek to see if this is one of the maps that should be selected by default
-                if (selected.indexOf(diagram)>=0) {
+                if (selected.indexOf(diagram) >= 0) {
                     vIndices.add(new Integer(i));
                 }
- 
-                diagramName = ReportWizard.getDiagramName( diagram );
-                if ( diagramName.contains( "-Map") )
-                	filteredName = diagramName.substring( 0, diagramName.indexOf( "-Map" )+1 ) + diagramName.substring( diagramName.lastIndexOf( '-' )+1, diagramName.length() );
-                else
-                	filteredName = diagramName.substring( 0, diagramName.indexOf( "-GRLGraph" )+1 ) + diagramName.substring( diagramName.lastIndexOf( '-' )+1, diagramName.length() );
 
-                listMaps.add( filteredName );
-           }
-            else if (!v.contains(diagram.getUrndefinition().getUrnspec())) {
+                diagramName = ReportWizard.getDiagramName(diagram);
+                if (diagramName.contains("-Map"))
+                    filteredName = diagramName.substring(0, diagramName.indexOf("-Map") + 1)
+                            + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
+                else
+                    filteredName = diagramName.substring(0, diagramName.indexOf("-GRLGraph") + 1)
+                            + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
+
+                listMaps.add(filteredName);
+            } else if (!v.contains(diagram.getUrndefinition().getUrnspec())) {
                 listMaps.add(ExportWizard.getFilePrefix(diagram));
                 v.add(diagram.getUrndefinition().getUrnspec());
             }
@@ -246,10 +247,10 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 
         // build the int array from the vector of Integers
         int[] indices = new int[vIndices.size()];
-        for (i=0;i<vIndices.size();i++)
-            indices[i]=((Integer)vIndices.get(i)).intValue();
+        for (i = 0; i < vIndices.size(); i++)
+            indices[i] = ((Integer) vIndices.get(i)).intValue();
 
-        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM && vIndices.size()>0) {
+        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM && vIndices.size() > 0) {
             listMaps.select(indices);
         } else
             listMaps.selectAll();
@@ -278,26 +279,27 @@ public class ExportWizardMapSelectionPage extends WizardPage {
      * 
      */
     void refresh() {
-        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM){
+        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
             lblMaps.setVisible(true);
             listMaps.setVisible(true);
             fillSelectionList();
             lblFilenamePrefix.setVisible(false);
             txtFilenamePrefix.setVisible(false);
-        } else{
+        } else {
             lblMaps.setVisible(false);
             listMaps.setVisible(false);
             lblFilenamePrefix.setVisible(true);
             txtFilenamePrefix.setVisible(true);
-            //Vector selected = ((ExportWizard) getWizard()).getSelectedDiagrams();
-            //Used any of the selected diagrams because we just need the file prefix
-            if (mapsToExport.size()>0){
-                txtFilenamePrefix.setText(ExportWizard.getFilePrefix((IURNDiagram)mapsToExport.get(0)));
+            // Vector selected = ((ExportWizard) getWizard()).getSelectedDiagrams();
+            // Used any of the selected diagrams because we just need the file prefix
+            if (mapsToExport.size() > 0) {
+                txtFilenamePrefix.setText(ExportWizard.getFilePrefix((IURNDiagram) mapsToExport.get(0)));
             }
         }
         fillTypeDropDown();
 
     }
+
     /**
      * Updates passed Vector and preference store with the selection properties
      * 
@@ -312,9 +314,9 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 
         ExportPreferenceHelper.setPath(sExportPath);
         ExportPreferenceHelper.setImageType(iTypeSelectionIndex);
-        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM){
+        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
             updateMapsToExport();
-        } else{
+        } else {
             ExportPreferenceHelper.setFilenamePrefix(sFilename);
         }
 
@@ -383,13 +385,11 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 
         if (mapsToExport.size() == 0 && ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
             setErrorMessage(Messages.getString("ExportImageWizardPage.noMapsSelected")); //$NON-NLS-1$
-        } else if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN && 
-                txtFilenamePrefix.getText() == ""){ //txtFilenamePrefix is used only in export URN //$NON-NLS-1$
+        } else if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN && txtFilenamePrefix.getText() == "") { //txtFilenamePrefix is used only in export URN //$NON-NLS-1$
             setErrorMessage(Messages.getString("ExportWizardMapSelectionPage.invalidFilename")); //$NON-NLS-1$
         }
 
-        setPageComplete(getErrorMessage() == null && 
-                (listMaps.getSelectionCount() > 0 || ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN)
+        setPageComplete(getErrorMessage() == null && (listMaps.getSelectionCount() > 0 || ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN)
                 && cboImageType.getSelectionIndex() >= 0);
     }
 

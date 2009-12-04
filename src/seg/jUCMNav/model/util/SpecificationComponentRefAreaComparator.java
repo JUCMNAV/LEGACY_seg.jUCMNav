@@ -9,7 +9,7 @@ import urncore.IURNContainerRef;
  * Compares the area of SpecificationComponentRefs to know which one to put in back.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class SpecificationComponentRefAreaComparator implements Comparator, Serializable {
 

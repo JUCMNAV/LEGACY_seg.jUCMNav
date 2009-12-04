@@ -47,7 +47,7 @@ public class ResourceAttribs {
     /**
      * 
      * @param qty
-     * 		number of resources
+     *            number of resources
      */
     public void setRUnits(String qty) {
         rUnits = qty;

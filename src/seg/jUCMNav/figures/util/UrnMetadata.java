@@ -22,196 +22,181 @@ import urncore.URNmodelElement;
  */
 public class UrnMetadata {
 
-	/**
-	 * 	Prefix used in metadata names to identify stereotypes 
-	 */
-	public static final String STEREOTYPE_PREFIX = "ST"; //$NON-NLS-1$
-	/**
-	 *  Metadata indicator added to text labels
-	 */
-	public static final String METADATA_PRESENCE = " ¶"; //$NON-NLS-1$
+    /**
+     * Prefix used in metadata names to identify stereotypes
+     */
+    public static final String STEREOTYPE_PREFIX = "ST"; //$NON-NLS-1$
+    /**
+     * Metadata indicator added to text labels
+     */
+    public static final String METADATA_PRESENCE = " ¶"; //$NON-NLS-1$
 
+    /**
+     * Checks whether a metadata of the URN element has a specific value for the given name.
+     */
+    public static boolean checkPresence(EObject object, String mname, String mvalue) {
 
-	/**
-	 * Checks whether a metadata of the URN element has a specific value for the given name.
-	 */
-	public static boolean checkPresence(EObject object, String mname, String mvalue) {
+        URNmodelElement elem = (URNmodelElement) object;
+        Iterator it = elem.getMetadata().iterator();
+        boolean result = false;
 
-		URNmodelElement elem = (URNmodelElement)object;
-		Iterator it = elem.getMetadata().iterator();
-		boolean result = false;
+        while (it.hasNext() && !result) {
+            Metadata metadata = (Metadata) it.next();
+            result = (metadata.getName() == mname && metadata.getValue() == mvalue);
+        }
 
-		while (it.hasNext() && !result)
-		{
-			Metadata metadata = (Metadata) it.next();
-			result = (metadata.getName()==mname && metadata.getValue()==mvalue);
-		}
+        return result;
+    }
 
-		return result;
-	}
+    /**
+     * Checks whether there are metadata associated with the element Adds those that are stereotypes, and indicates the presence of others.
+     */
+    public static String getStereotypes(EObject object) {
 
+        URNmodelElement elem = (URNmodelElement) object;
+        String stereotypes = ""; //$NON-NLS-1$ // List of stereotypes
+        boolean otherMetadataTypes = false; // Indicates whether there are metadata elements that are not stereotypes
+        Iterator it = elem.getMetadata().iterator();
 
-	/**
-	 * Checks whether there are metadata associated with the element
-	 * Adds those that are stereotypes, and indicates the presence of others.
-	 */
-	public static String getStereotypes(EObject object) {
+        while (it.hasNext()) {
+            Metadata metadata = (Metadata) it.next();
+            String name = metadata.getName();
 
-		URNmodelElement elem = (URNmodelElement)object;
-		String stereotypes = ""; //$NON-NLS-1$ // List of stereotypes
-		boolean otherMetadataTypes = false; // Indicates whether there are metadata elements that are not stereotypes 
-		Iterator it = elem.getMetadata().iterator();
+            if (name.toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
+                // Could be added to extract the kind of stereotype, but takes too much real estate.
+                // name = name.substring(STEREOTYPE_PREFIX.length());
+                stereotypes = stereotypes + " «" + metadata.getValue() + "»"; //$NON-NLS-1$  //$NON-NLS-2$
+            } else if (!MetadataHelper.isRuntimeMetadata(name))
+                otherMetadataTypes = true;
+        }
 
-		while (it.hasNext())
-		{
-			Metadata metadata = (Metadata) it.next();
-			String name = metadata.getName();
+        if (otherMetadataTypes)
+            stereotypes = stereotypes + METADATA_PRESENCE;
+        return stereotypes;
+    }
 
-			if (name.toUpperCase().startsWith(STEREOTYPE_PREFIX))
-			{
-				// Could be added to extract the kind of stereotype, but takes too much real estate.
-				// name = name.substring(STEREOTYPE_PREFIX.length()); 
-				stereotypes = stereotypes + " «" + metadata.getValue() + "»";  //$NON-NLS-1$  //$NON-NLS-2$
-			}
-			else if (!MetadataHelper.isRuntimeMetadata(name)) 
-				otherMetadataTypes = true;
-		}
+    /**
+     * Removes stereotype names and metadata indicators from a string.
+     */
+    public static String removeStereotypes(String text) {
+        String name = text;
 
-		if (otherMetadataTypes)
-			stereotypes = stereotypes + METADATA_PRESENCE; 
-		return stereotypes;
-	}
+        // Removes importance
+        int sub = name.indexOf("  ("); //$NON-NLS-1$
+        if (sub > -1)
+            name = name.substring(0, sub);
+        else {
+            // Removes stereotypes at the end of the name
+            sub = name.indexOf(" «"); //$NON-NLS-1$
+            if (sub > -1)
+                name = name.substring(0, sub);
+            else {
+                // Removes ¶ at the end of the name
+                sub = name.indexOf(METADATA_PRESENCE);
+                if (sub > -1)
+                    name = name.substring(0, sub);
+            }
+        }
+        return name;
+    }
 
-	/**
-	 * Removes stereotype names and metadata indicators from a string.
-	 */
-	public static String removeStereotypes(String text) {
-		String name = text;
+    /**
+     * Set the figure tool tip with the description, metadata (other than stereotypes), and links of the URN model element.
+     */
+    public static void setToolTip(URNmodelElement elem, IFigure fig) {
+        URNmodelElement elemOrig = elem;
 
-		// Removes importance
-		int sub = name.indexOf("  ("); //$NON-NLS-1$
-		if (sub>-1)
-			name = name.substring(0,sub);
-		else
-		{
-			// Removes stereotypes at the end of the name
-			sub = name.indexOf(" «"); //$NON-NLS-1$
-			if (sub>-1)
-				name = name.substring(0,sub);
-			else
-			{
-				// Removes ¶ at the end of the name
-				sub = name.indexOf(METADATA_PRESENCE);
-				if (sub>-1)
-					name = name.substring(0,sub);
-			}
-		}
-		return name;
-	}
+        if (elem == null || fig == null)
+            return;
+        String toolTipText = ""; //$NON-NLS-1$
+        String metadataText = ""; //$NON-NLS-1$
+        boolean descOnly = false; // Indicates if only the description is in the text so far.
 
+        if (elem instanceof RespRef) {
+            elem = ((RespRef) elem).getRespDef();
+        }
+        if (elem == null)
+            return;
 
-	/**
-	 * Set the figure tool tip with the description, metadata (other than stereotypes), 
-	 * and links of the URN model element.
-	 */
-	public static void setToolTip(URNmodelElement elem, IFigure fig)
-	{
-		URNmodelElement elemOrig = elem;
-		
-		if (elem == null || fig == null) return;
-		String toolTipText = "";   //$NON-NLS-1$
-		String metadataText = "";  //$NON-NLS-1$
-		boolean descOnly = false; // Indicates if only the description is in the text so far.
+        if (elem.getDescription() != null) {
+            toolTipText = toolTipText + " " + elem.getDescription() + " "; //$NON-NLS-1$ $NON-NLS-2$  
+            descOnly = true;
+        }
 
-		if (elem instanceof RespRef){
-			elem = ((RespRef)elem).getRespDef();
-		}
-		if (elem==null) return;
+        // Consider only non-stereotype metadata.
+        Iterator it = elem.getMetadata().iterator();
+        while (it.hasNext()) {
+            Metadata metadata = (Metadata) it.next();
+            if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
+                metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
+            }
+        }
 
-		if (elem.getDescription() != null) {
-			toolTipText = toolTipText + " " + elem.getDescription() + " "; //$NON-NLS-1$ $NON-NLS-2$  
-			descOnly = true;
-		}
+        // Consider run-time metadata for resp. references
+        if (elemOrig instanceof RespRef) {
+            it = elemOrig.getMetadata().iterator();
+            while (it.hasNext()) {
+                Metadata metadata = (Metadata) it.next();
+                if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
+                    metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
+                }
+            }
+        }
 
-		// Consider only non-stereotype metadata.
-		Iterator it=elem.getMetadata().iterator();
-		while (it.hasNext()){
-			Metadata metadata = (Metadata) it.next();
-			if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
-				metadataText = metadataText + "\n    " + metadata.getName() + "=" +  metadata.getValue() + " ";  //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
-			}
-		}
+        if (!metadataText.equals("")) { //$NON-NLS-1$
+            if (descOnly) {
+                toolTipText = toolTipText + "\n\n"; //$NON-NLS-1$
+            }
+            toolTipText = toolTipText + " METADATA: " + metadataText; //$NON-NLS-1$
+            descOnly = false;
+        }
 
-		//Consider run-time metadata for resp. references
-		if (elemOrig instanceof RespRef){
-			it=elemOrig.getMetadata().iterator();
-			while (it.hasNext()){
-				Metadata metadata = (Metadata) it.next();
-				if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
-					metadataText = metadataText + "\n    " + metadata.getName() + "=" +  metadata.getValue() + " ";  //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
-				}
-			}
-		}
-		
-		if (!metadataText.equals("")) {   //$NON-NLS-1$
-			if (descOnly) {
-				toolTipText = toolTipText + "\n\n";    //$NON-NLS-1$
-			}
-			toolTipText = toolTipText + " METADATA: " + metadataText;    //$NON-NLS-1$
-			descOnly = false;
-		}
+        if (elem.getFromLinks().size() + elem.getToLinks().size() > 0) {
+            if (!toolTipText.equals("")) { //$NON-NLS-1$
+                toolTipText = toolTipText.concat("\n"); //$NON-NLS-1$
+            }
+            if (descOnly) { //$NON-NLS-1$
+                toolTipText = toolTipText.concat("\n"); //$NON-NLS-1$
+            }
+            descOnly = false;
+            toolTipText = toolTipText + " URN LINKS: "; //$NON-NLS-1$
 
-		if (elem.getFromLinks().size() + elem.getToLinks().size() >0) {
-			if (!toolTipText.equals("")) {   //$NON-NLS-1$
-				toolTipText = toolTipText.concat("\n");    //$NON-NLS-1$
-			}
-			if (descOnly) {   //$NON-NLS-1$
-				toolTipText = toolTipText.concat("\n");    //$NON-NLS-1$
-			}
-			descOnly = false;			
-			toolTipText = toolTipText + " URN LINKS: ";    //$NON-NLS-1$
+            it = elem.getFromLinks().iterator();
+            while (it.hasNext()) {
+                String classname;
+                URNlink link = (URNlink) it.next();
+                if (link.getToElem() != null) { // Needed for link creation with partial refresh...
+                    if (link.getToElem() instanceof IntentionalElement) {
+                        classname = ((IntentionalElement) link.getToElem()).getType().getName();
+                    } else if (link.getToElem() instanceof Component) {
+                        classname = ((Component) link.getToElem()).getKind().getName();
+                    } else {
+                        classname = link.getToElem().getClass().toString();
+                        classname = classname.substring(classname.lastIndexOf(".") + 1, classname.length() - 4); //$NON-NLS-1$
+                    }
+                    toolTipText = toolTipText + "\n   " + link.getType() + " to " + link.getToElem().getName() + " (" + classname + ") "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
+                }
+            }
+            it = elem.getToLinks().iterator();
+            while (it.hasNext()) {
+                String classname;
+                URNlink link = (URNlink) it.next();
+                if (link.getFromElem() instanceof IntentionalElement) {
+                    classname = ((IntentionalElement) link.getFromElem()).getType().getName();
+                } else if (link.getFromElem() instanceof Component) {
+                    classname = ((Component) link.getToElem()).getKind().getName();
+                } else {
+                    classname = link.getFromElem().getClass().toString();
+                    classname = classname.substring(classname.lastIndexOf(".") + 1, classname.length() - 4); //$NON-NLS-1$
+                }
+                toolTipText = toolTipText + "\n   " + link.getType() + " from " + link.getFromElem().getName() + " (" + classname + ") "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
+            }
+        }
 
-			it=elem.getFromLinks().iterator();
-			while (it.hasNext()){
-				String classname;
-				URNlink link = (URNlink) it.next();	
-				if (link.getToElem()!=null) { // Needed for link creation with partial refresh...
-					if (link.getToElem() instanceof IntentionalElement) {
-						classname = ((IntentionalElement)link.getToElem()).getType().getName();
-					} 
-					else if (link.getToElem() instanceof Component) {
-						classname = ((Component)link.getToElem()).getKind().getName();
-					} 
-					else {
-						classname = link.getToElem().getClass().toString();
-						classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4); //$NON-NLS-1$
-					}
-					toolTipText = toolTipText + "\n   " + link.getType() + " to " + link.getToElem().getName() + " (" + classname + ") ";    //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
-				}
-			}
-			it=elem.getToLinks().iterator();
-			while (it.hasNext()){
-				String classname;
-				URNlink link = (URNlink) it.next();
-				if (link.getFromElem() instanceof IntentionalElement) {
-					classname = ((IntentionalElement)link.getFromElem()).getType().getName();
-				} 
-				else if (link.getFromElem() instanceof Component) {
-					classname = ((Component)link.getToElem()).getKind().getName();
-				} 
-				else {
-					classname = link.getFromElem().getClass().toString();
-					classname = classname.substring(classname.lastIndexOf(".")+1, classname.length()-4); //$NON-NLS-1$
-				}
-				toolTipText = toolTipText + "\n   " + link.getType() + " from " + link.getFromElem().getName()+ " (" + classname + ") ";    //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
-			}
-		}
-
-		if (toolTipText.equals("")) {   //$NON-NLS-1$
-			fig.setToolTip(null);
-		}
-		else {
-			fig.setToolTip(new Label (toolTipText));
-		}
-	}
+        if (toolTipText.equals("")) { //$NON-NLS-1$
+            fig.setToolTip(null);
+        } else {
+            fig.setToolTip(new Label(toolTipText));
+        }
+    }
 }

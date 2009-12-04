@@ -101,8 +101,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPEP, launch SP, reach EP. Pre/post conditions true. 
-     *
+     * Given SPEP, launch SP, reach EP. Pre/post conditions true.
+     * 
      */
     public void testSimple1() {
         tester.testCreatePathCommand();
@@ -115,7 +115,7 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPEP with a few empty points in middle, launch SP, reach EP. Pre/post conditions true. 
+     * Given SPEP with a few empty points in middle, launch SP, reach EP. Pre/post conditions true.
      * 
      */
     public void testSimple2() {
@@ -127,10 +127,9 @@ public class ScenarioTraversalTests extends TestCase {
         addScenarioNode(tester.end);
     }
 
-    
     /**
-     * Given SPREP, launch SP, reach EP. R sets boolean condition to false, verified in post condition. 
-     *
+     * Given SPREP, launch SP, reach EP. R sets boolean condition to false, verified in post condition.
+     * 
      */
     public void testSimple3() {
 
@@ -150,7 +149,7 @@ public class ScenarioTraversalTests extends TestCase {
 
     /**
      * Given SPREP, launch SP, reach EP. R sets integer condition to a certain non-zero value, verified in post condition
-     *
+     * 
      */
     public void testSimple4() {
 
@@ -170,7 +169,7 @@ public class ScenarioTraversalTests extends TestCase {
 
     /**
      * Given SPREP, launch SP, reach EP. R increments integer. R has repetition count. Total count verified in post condition
-     *
+     * 
      */
     public void testSimple5() {
 
@@ -190,7 +189,7 @@ public class ScenarioTraversalTests extends TestCase {
 
     /**
      * Given SPREP, launch SP, reach EP. R sets enum condition to a certain value, verified in post condition
-     *
+     * 
      */
     public void testSimple6() {
 
@@ -214,8 +213,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPOFEP, launch SP, reach appropriate EP given varying boolean condition. (two tests). 
-     *
+     * Given SPOFEP, launch SP, reach appropriate EP given varying boolean condition. (two tests).
+     * 
      */
     public void testFork1() {
         tester.testForkPathsCommand();
@@ -246,8 +245,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPOFEP, launch SP, reach appropriate EP given varying integer condition. (two tests). 
-     *
+     * Given SPOFEP, launch SP, reach appropriate EP given varying integer condition. (two tests).
+     * 
      */
     public void testFork2() {
         tester.testForkPathsCommand();
@@ -278,8 +277,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPOFEP, launch SP, reach appropriate EP given varying enumeration condition. (two tests). 
-     *
+     * Given SPOFEP, launch SP, reach appropriate EP given varying enumeration condition. (two tests).
+     * 
      */
     public void testFork3() {
         tester.testForkPathsCommand();
@@ -315,8 +314,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPAF(EP|EP), launch SP, reach both EP. 
-     *
+     * Given SPAF(EP|EP), launch SP, reach both EP.
+     * 
      */
     public void testFork4() {
         tester.testExtendPathCommand();
@@ -335,8 +334,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given (SP|SP)AJEP, launch both SP, reach EP. 
-     *
+     * Given (SP|SP)AJEP, launch both SP, reach EP.
+     * 
      */
     public void testJoin1() {
         tester.testExtendPathCommand();
@@ -355,7 +354,7 @@ public class ScenarioTraversalTests extends TestCase {
 
     /**
      * Given (SP|SP)OJEP, launch both sp, reach EP twice.
-     *
+     * 
      */
     public void testJoin2() {
         tester.testJoinPathsCommand();
@@ -372,8 +371,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPEPCSPEP, launch first sp, reach both EP. 
-     *
+     * Given SPEPCSPEP, launch first sp, reach both EP.
+     * 
      */
     public void testSynchConnect1() {
         tester.testConnectCommand();
@@ -388,8 +387,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given (SPEPC|SP)WPEP where WP is blocked, verify both EP are reached if SPEP is fired after SP. 
-     *
+     * Given (SPEPC|SP)WPEP where WP is blocked, verify both EP are reached if SPEP is fired after SP.
+     * 
      */
     public void testSynchConnect2() {
 
@@ -410,8 +409,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given (SPEPC|SP)TEP where T is blocked, verify both EP are reached if SPEP is fired after SP. 
-     *
+     * Given (SPEPC|SP)TEP where T is blocked, verify both EP are reached if SPEP is fired after SP.
+     * 
      */
     public void testSynchConnect3() {
         tester.testReplaceEmptyPointCommand2();
@@ -431,8 +430,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given (SPC|SP)EMPTY EP (asynch connect), verify that EP is fired even if you launch only SPC. Verify that if you launch both, the EP is reached twice. 
-     *
+     * Given (SPC|SP)EMPTY EP (asynch connect), verify that EP is fired even if you launch only SPC. Verify that if you launch both, the EP is reached twice.
+     * 
      */
     public void testAsynchConnect1() {
         testSimple2();
@@ -448,7 +447,7 @@ public class ScenarioTraversalTests extends TestCase {
 
     /**
      * Given SPWPEP, where WP is released on arrival by condition, EP is reached
-     *
+     * 
      */
     public void testWp1() {
         tester.testReplaceEmptyPointCommand();
@@ -461,8 +460,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPTEP, where T is released on arrival by condition, EP is reached. 
-     *
+     * Given SPTEP, where T is released on arrival by condition, EP is reached.
+     * 
      */
     public void testWp2() {
         tester.testReplaceEmptyPointCommand2();
@@ -478,7 +477,7 @@ public class ScenarioTraversalTests extends TestCase {
 
     /**
      * Given SPTEP, where T timeout path is released on arrival by condition, EP is reached
-     *
+     * 
      */
     public void testWp3() {
         tester.testReplaceEmptyPointCommand2();
@@ -497,8 +496,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPREP and SPWPEP, where R sets a condition that unblocks waiting place, verify both EP fired regardless of start order. 
-     *
+     * Given SPREP and SPWPEP, where R sets a condition that unblocks waiting place, verify both EP fired regardless of start order.
+     * 
      */
     public void testWp4() {
 
@@ -523,8 +522,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPREP and SPTEP, where R sets a condition that unblocks timer (no timeout path), verify both EP fired regardless of start order. 
-     *
+     * Given SPREP and SPTEP, where R sets a condition that unblocks timer (no timeout path), verify both EP fired regardless of start order.
+     * 
      */
     public void testWp5() {
 
@@ -550,8 +549,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPREP and SPTEP, where R sets a condition that unblocks timeout path, verify 2/3 EP fired regardless of start order. 
-     *
+     * Given SPREP and SPTEP, where R sets a condition that unblocks timeout path, verify 2/3 EP fired regardless of start order.
+     * 
      */
     public void testWp6() {
 
@@ -588,7 +587,7 @@ public class ScenarioTraversalTests extends TestCase {
 
     /**
      * Given SPSTEP where ST bound to SPEP, fire top SP, verify both EP reached
-     *
+     * 
      */
     public void testStub1() {
         tester.testAddInBindingCommand();
@@ -613,8 +612,8 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given SPSTEP where ST bound to SPEP, fire bottom SP, verify only bottom EP reached. 
-     *
+     * Given SPSTEP where ST bound to SPEP, fire bottom SP, verify only bottom EP reached.
+     * 
      */
     public void testStub2() {
         tester.testAddInBindingCommand();
@@ -649,8 +648,9 @@ public class ScenarioTraversalTests extends TestCase {
     }
 
     /**
-     * Given (SP|SP)STEP, where ST bound to (SP|SP)AJEP, verify that both EP reached. (don't verify if top level is fired only once, see specific implementation) 
-     *
+     * Given (SP|SP)STEP, where ST bound to (SP|SP)AJEP, verify that both EP reached. (don't verify if top level is fired only once, see specific
+     * implementation)
+     * 
      */
     public void testStub3() {
         testStub1();
@@ -688,7 +688,7 @@ public class ScenarioTraversalTests extends TestCase {
 
     /**
      * Given SPSTEP where ST bound to two different maps with SPEP, given varying boolean condition, verify the appropriate two EP are reached
-     *
+     * 
      */
     public void testStub4() {
         testStub1();
@@ -696,7 +696,7 @@ public class ScenarioTraversalTests extends TestCase {
         PluginBinding oldpb = tester.plugin;
 
         tester.stub.setDynamic(true);
-        
+
         Command cmd = new CreateMapCommand(urnspec);
         assertTrue("Can't execute CreateMapCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -711,51 +711,48 @@ public class ScenarioTraversalTests extends TestCase {
         cmd = new AddPluginCommand(tester.stub, tester.map);
         assertTrue("Can't execute AddPluginCommand with Stub and Map.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        
+
         tester.plugin = (PluginBinding) tester.stub.getBindings().get(1);
 
-        cmd = new AddInBindingCommand(tester.plugin, tester.start, ((InBinding)oldpb.getIn().get(0)).getStubEntry());
+        cmd = new AddInBindingCommand(tester.plugin, tester.start, ((InBinding) oldpb.getIn().get(0)).getStubEntry());
         assertTrue("Can't execute AddInBindingCommand with Plugin, StartPoint and entry NodeConnection.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        cmd = new AddOutBindingCommand(tester.plugin, tester.end, ((OutBinding)oldpb.getOut().get(0)).getStubExit());
+        cmd = new AddOutBindingCommand(tester.plugin, tester.end, ((OutBinding) oldpb.getOut().get(0)).getStubExit());
         assertTrue("Can't execute AddOutBindingCommand with Plugin, EndPoint and exit NodeConnection.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        
+
         oldpb.setPrecondition(getCondition("true")); //$NON-NLS-1$
         tester.plugin.setPrecondition(getCondition("false")); //$NON-NLS-1$
-        
-        
+
         // should have same behaviour as testStub1
         runscenario();
-        
+
         Vector toDelete = new Vector();
         for (Iterator iter = scenario.getStartPoints().iterator(); iter.hasNext();) {
             ScenarioStartPoint ssp = (ScenarioStartPoint) iter.next();
-            if (ssp.getStartPoint().getDiagram() == urnspec.getUrndef().getSpecDiagrams().get(1) )
+            if (ssp.getStartPoint().getDiagram() == urnspec.getUrndef().getSpecDiagrams().get(1))
                 toDelete.add(ssp);
         }
         for (Iterator iter = scenario.getEndPoints().iterator(); iter.hasNext();) {
             ScenarioEndPoint ssp = (ScenarioEndPoint) iter.next();
-            if (ssp.getEndPoint().getDiagram() == urnspec.getUrndef().getSpecDiagrams().get(1) )
+            if (ssp.getEndPoint().getDiagram() == urnspec.getUrndef().getSpecDiagrams().get(1))
                 toDelete.add(ssp);
         }
-       
-        // delete expectations 
+
+        // delete expectations
         for (Iterator iter = toDelete.iterator(); iter.hasNext();) {
             EObject o = (EObject) iter.next();
             if (o instanceof ScenarioStartPoint) {
-                cmd = new DeleteScenarioPathNodeCommand((ScenarioStartPoint)o);
-            }
-            else
-                cmd = new DeleteScenarioPathNodeCommand((ScenarioEndPoint)o);
+                cmd = new DeleteScenarioPathNodeCommand((ScenarioStartPoint) o);
+            } else
+                cmd = new DeleteScenarioPathNodeCommand((ScenarioEndPoint) o);
         }
-        
-        addScenarioNode(((InBinding)tester.plugin.getIn().get(0)).getStartPoint());
-        addScenarioNode(((OutBinding)tester.plugin.getOut().get(0)).getEndPoint());
-        
-    }
 
+        addScenarioNode(((InBinding) tester.plugin.getIn().get(0)).getStartPoint());
+        addScenarioNode(((OutBinding) tester.plugin.getOut().get(0)).getEndPoint());
+
+    }
 
     protected Variable addBoolean(String name) {
         CreateVariableCommand cmd = new CreateVariableCommand(urnspec, ScenarioUtils.sTypeBoolean, name);

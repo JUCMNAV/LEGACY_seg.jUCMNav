@@ -63,9 +63,8 @@ import urn.URNspec;
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
-
 /**
- * This class is the central location for our editor. Its main responsibilities are as follows. 
+ * This class is the central location for our editor. Its main responsibilities are as follows.
  * 
  * 1) The editor associated with .jucm files. See seg.jUCMNav.editors.resourceManagement.MultiPageFileManager.
  * 
@@ -80,19 +79,19 @@ import urncore.URNmodelElement;
  * 3.3) For zoom management (delegated to children) see DelegatingZoomManager
  * 
  * @author jkealey
- *  
+ * 
  */
-public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter, INavigationLocationProvider, IGotoMarker, IPropertySourceProvider, ITabbedPropertySheetPageContributor {
+public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter, INavigationLocationProvider, IGotoMarker, IPropertySourceProvider,
+        ITabbedPropertySheetPageContributor {
     private final class ActionRegistrySelectionListener implements ISelectionListener {
         protected ActionRegistryManager manager;
-        
-        public ActionRegistrySelectionListener(ActionRegistryManager manager)
-        {
-            this.manager=manager;
+
+        public ActionRegistrySelectionListener(ActionRegistryManager manager) {
+            this.manager = manager;
         }
 
         public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-            if (manager!=null)
+            if (manager != null)
                 manager.updateEditPartActions();
         }
     }
@@ -171,20 +170,22 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         getMultiPageTabManager().currentPageChanged();
 
     }
-    
+
     /**
      * The listener will get notifications when the current page is changed.
      * 
-     * @param listener The listener to add
+     * @param listener
+     *            The listener to add
      */
     public void addPageChangeListener(IPageChangeListener listener) {
         getMultiPageTabManager().addPageChangeListener(listener);
     }
-    
+
     /**
      * Remove a page change listener.
      * 
-     * @param listener The listener to remove
+     * @param listener
+     *            The listener to remove
      */
     public void removePageChangeListener(IPageChangeListener listener) {
         getMultiPageTabManager().removePageChangeListener(listener);
@@ -198,7 +199,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     public void dispose() {
         getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(getSelectionListener());
         getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(getMultiPageTabManager().getSelectionListener());
-        
+
         // remove delegating CommandStackListener
         getDelegatingCommandStack().removeCommandStackListener(getMultiPageCommandStackListener());
 
@@ -213,57 +214,56 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         // dispose the ResourceChangeListener
         IFile file = null;
         if (getEditorInput() instanceof FileEditorInput) {
-	        file = ((FileEditorInput) getEditorInput()).getFile();
-	        file.getWorkspace().removeResourceChangeListener(getResourceTracker());
+            file = ((FileEditorInput) getEditorInput()).getFile();
+            file.getWorkspace().removeResourceChangeListener(getResourceTracker());
         }
 
-        if (model != null) 
-        {
+        if (model != null) {
             model.getUrndef().eAdapters().remove(this);
-	        // stop listening to all maps for name changes
-	        for (int i = 0; i < model.getUrndef().getSpecDiagrams().size(); i++)
-	            ((IURNDiagram) model.getUrndef().getSpecDiagrams().get(i)).eAdapters().remove(this);
+            // stop listening to all maps for name changes
+            for (int i = 0; i < model.getUrndef().getSpecDiagrams().size(); i++)
+                ((IURNDiagram) model.getUrndef().getSpecDiagrams().get(i)).eAdapters().remove(this);
         }
-        // clear memory cache 
+        // clear memory cache
         ScenarioUtils.releaseEnvironment(model);
 
-        if (file!=null) {
-	        
-	        // clear markers
-			try {
-	
-				IMarker[] existingMarkers = file.findMarkers(IMarker.PROBLEM, true, 3);
-				for (int i = 0; i < existingMarkers.length; i++) {
-					IMarker marker = existingMarkers[i];
-					marker.delete();
-				}
-			} catch (CoreException ex) {
-			}
-        }
-        
+        if (file != null) {
 
-        
+            // clear markers
+            try {
+
+                IMarker[] existingMarkers = file.findMarkers(IMarker.PROBLEM, true, 3);
+                for (int i = 0; i < existingMarkers.length; i++) {
+                    IMarker marker = existingMarkers[i];
+                    marker.delete();
+                }
+            } catch (CoreException ex) {
+            }
+        }
+
         // bug 531.
         getSite().setSelectionProvider(null);
-        actionRegistry=null;
-        actionRegistryManager=null;
-        delegatingCommandStack=null;
-        if (getDelegatingZoomManager()!=null) getDelegatingZoomManager().setEditor(null);
-        delegatingZoomManager=null;
-        fileManager=null;
-        model=null;
-        multiPageCommandStackListener=null;
-        if (getMultiPageTabManager()!=null) getMultiPageTabManager().setEditor(null);
-        multiPageTabManager=null;
-        resourceTracker=null;
-        selectionListener=null;
-        target=null;
+        actionRegistry = null;
+        actionRegistryManager = null;
+        delegatingCommandStack = null;
+        if (getDelegatingZoomManager() != null)
+            getDelegatingZoomManager().setEditor(null);
+        delegatingZoomManager = null;
+        fileManager = null;
+        model = null;
+        multiPageCommandStackListener = null;
+        if (getMultiPageTabManager() != null)
+            getMultiPageTabManager().setEditor(null);
+        multiPageTabManager = null;
+        resourceTracker = null;
+        selectionListener = null;
+        target = null;
         deactivateSite(true, false);
         // important: always call super implementation of dispose
         super.dispose();
-        
-        //System.out.println(getSelectionSynchronizer());
-        synchronizer=null;
+
+        // System.out.println(getSelectionSynchronizer());
+        synchronizer = null;
 
     }
 
@@ -292,7 +292,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     /**
      * Returns the action registry of this editor.
      * 
-     * Public to give the outline access. 
+     * Public to give the outline access.
      * 
      * @return the action registry
      */
@@ -328,7 +328,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * To note: If we don't have any maps in the file (actually, opened tabs), we will show a default outline page.
      * 
      * If we don't have an adapter defined here and there are opened tabs, we will delegate to the active editor instead of our superclass.
-     *  
+     * 
      */
     public Object getAdapter(Class adapter) {
         if (adapter == ActionRegistry.class)
@@ -342,17 +342,16 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         // delegate to open editor if possible
         if (getPageCount() > 0) {
-        	if (adapter == org.eclipse.ui.views.properties.IPropertySheetPage.class)
-            	return new GEFTabbedPropertySheetPage(this);
-        	else
-        		return getActiveEditor().getAdapter(adapter);
+            if (adapter == org.eclipse.ui.views.properties.IPropertySheetPage.class)
+                return new GEFTabbedPropertySheetPage(this);
+            else
+                return getActiveEditor().getAdapter(adapter);
         } else
             return super.getAdapter(adapter);
     }
-    
-    public IEditorPart getActiveEditor()
-    {
-    	return super.getActiveEditor();
+
+    public IEditorPart getActiveEditor() {
+        return super.getActiveEditor();
     }
 
     /**
@@ -403,8 +402,8 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * Changed visibility to simplify coding.
      */
     public IEditorPart getEditor(int pageIndex) {
-    	if (getPageCount() == 0)
-    		return null;
+        if (getPageCount() == 0)
+            return null;
         return super.getEditor(pageIndex);
     }
 
@@ -437,7 +436,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         if (null == multiPageCommandStackListener) {
             multiPageCommandStackListener = new MultiPageCommandStackListener(this);
             // already there
-            //multiPageCommandStackListener.addCommandStack(getDelegatingCommandStack());
+            // multiPageCommandStackListener.addCommandStack(getDelegatingCommandStack());
         }
         return multiPageCommandStackListener;
     }
@@ -455,7 +454,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         return multiPageTabManager;
     }
-    
+
     public Composite getContainer() {
         return super.getContainer();
     }
@@ -487,7 +486,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * @return the <code>ISelectionListener</code>
      */
     protected ISelectionListener getSelectionListener() {
-        if (selectionListener==null)
+        if (selectionListener == null)
             selectionListener = new ActionRegistrySelectionListener(getActionRegistryManager());
         return selectionListener;
     }
@@ -495,7 +494,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     /**
      * Returns the selection syncronizer object. The synchronizer can be used to sync the selection of 2 or more EditPartViewers.
      * 
-     * Public to give the outline access. 
+     * Public to give the outline access.
      * 
      * @return the syncrhonizer
      */
@@ -537,31 +536,28 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * @see org.eclipse.ui.IEditorPart#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
      */
     public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-        //		 read URNspec from input
+        // read URNspec from input
         try {
-        	
+
             // doing this here (even though done in super.init() because we want the following invocation to be able to popup an error message should anything
             // fail.
             setSite(site);
-            
+
             // we expect IFileEditorInput here,
             // ClassCassException is catched to force PartInitException
-        	
-        	if (!(input instanceof IFileEditorInput))
-        	{
-        		// File -> Open gives us a JavaFileEditorInput
-        		// we don't want to open it because our scenario warnings are associated to the IFile...  
-        		MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("UCMNavMultiPageEditor.Error"), Messages.getString("UCMNavMultiPageEditor.CannotUseFileOpen")); //$NON-NLS-1$ //$NON-NLS-2$
-        		this.closeEditor(false);
-        		return;
-        		
-        	} else {
-        		IFile file = ((IFileEditorInput) input).getFile();
-        		setModel(getFileManager().create(file));
-        	}
 
+            if (!(input instanceof IFileEditorInput)) {
+                // File -> Open gives us a JavaFileEditorInput
+                // we don't want to open it because our scenario warnings are associated to the IFile...
+                MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                        Messages.getString("UCMNavMultiPageEditor.Error"), Messages.getString("UCMNavMultiPageEditor.CannotUseFileOpen")); //$NON-NLS-1$ //$NON-NLS-2$
+                this.closeEditor(false);
+                return;
 
-            
+            } else {
+                IFile file = ((IFileEditorInput) input).getFile();
+                setModel(getFileManager().create(file));
+            }
 
             // validate URNspec
             if (null == getModel())
@@ -572,7 +568,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         } catch (ClassCastException e) {
             throw new PartInitException(Messages.getString("UCMNavMultiPageEditor.inputNotValidURN"), e); //$NON-NLS-1$
         }
-        
+
         // URNspec is ok
         super.init(site, input);
 
@@ -583,20 +579,19 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(getSelectionListener());
         getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(getMultiPageTabManager().getSelectionListener());
 
-        //  Creates actions and registers them to the ActionRegistry. Because the action registry is shared, we must created them here.
+        // Creates actions and registers them to the ActionRegistry. Because the action registry is shared, we must created them here.
         // delegated to the registry manager.
         getActionRegistryManager().createActions(this, getSite().getKeyBindingService(), getDelegatingZoomManager());
 
-		try {
-			//IDE.openEditor(page, file, true);
-			PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID,
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+        try {
+            // IDE.openEditor(page, file, true);
+            PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 
-		} catch (PartInitException e) {
+        } catch (PartInitException e) {
             // ignore
-		} catch (WorkbenchException e) {
+        } catch (WorkbenchException e) {
             // ignore
-		}
+        }
     }
 
     /**
@@ -621,7 +616,9 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         return true;
     }
 
-    /**TODO Modify this method to refresh name related to GRLGraph name
+    /**
+     * TODO Modify this method to refresh name related to GRLGraph name
+     * 
      * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
@@ -631,21 +628,21 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         case Notification.SET:
             int featureIdUcm = notification.getFeatureID(UcmPackage.class);
             int featureIdGrl = notification.getFeatureID(GrlPackage.class);
-            if ((featureIdUcm ==  MapPackage.UC_MMAP__NAME) || (featureIdGrl == GrlPackage.GRL_GRAPH__NAME)){
+            if ((featureIdUcm == MapPackage.UC_MMAP__NAME) || (featureIdGrl == GrlPackage.GRL_GRAPH__NAME)) {
                 getMultiPageTabManager().refreshPageNames();
-            } 
+            }
             break;
         case Notification.MOVE:
-            if(notification.getFeature() instanceof EReferenceImpl && ((EReferenceImpl)notification.getFeature()).getName() == "specDiagrams") {
-                
+            if (notification.getFeature() instanceof EReferenceImpl && ((EReferenceImpl) notification.getFeature()).getName() == "specDiagrams") {
+
                 // A user drag&drop a tab from the multipage editor to change its order.
-                int from = ((Integer)notification.getOldValue()).intValue();
-                int to =  notification.getPosition();
-                
+                int from = ((Integer) notification.getOldValue()).intValue();
+                int to = notification.getPosition();
+
                 IEditorPart fromPart = getEditor(from);
-                
+
                 removePage(from);
-                
+
                 try {
                     addPage(to, fromPart, fromPart.getEditorInput());
                 } catch (PartInitException e1) {
@@ -703,7 +700,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             firePropertyChange(IEditorPart.PROP_DIRTY);
         }
     }
-    
+
     /**
      * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
      */
@@ -717,12 +714,12 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         if (getEditorInput() != null) {
             IFile file = ((FileEditorInput) getEditorInput()).getFile();
-            //Set the listener to listen only for changes in the workspace
-            file.getWorkspace().addResourceChangeListener(getResourceTracker()); //, IResourceChangeEvent.POST_CHANGE);
+            // Set the listener to listen only for changes in the workspace
+            file.getWorkspace().addResourceChangeListener(getResourceTracker()); // , IResourceChangeEvent.POST_CHANGE);
             setPartName(file.getName());
         }
     }
-    
+
     public void setInput(IFile newFile, URNspec spec) {
         setInput(new FileEditorInput(newFile));
         try {
@@ -745,7 +742,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         // remove old listeners
         if (this.model != null) {
             this.model.getUrndef().eAdapters().remove(this);
-            for (int i = 0; i < this.model.getUrndef().getSpecDiagrams().size(); i++){
+            for (int i = 0; i < this.model.getUrndef().getSpecDiagrams().size(); i++) {
                 ((IURNDiagram) this.model.getUrndef().getSpecDiagrams().get(i)).eAdapters().remove(this);
             }
         }
@@ -754,9 +751,9 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         model.getUrndef().eAdapters().add(this);
         // we must register ourselves to be able to change the tabs when the names change.
-        for (int i = 0; model != null && i < model.getUrndef().getSpecDiagrams().size(); i++){
+        for (int i = 0; model != null && i < model.getUrndef().getSpecDiagrams().size(); i++) {
             ((IURNDiagram) model.getUrndef().getSpecDiagrams().get(i)).eAdapters().add(this);
-        }    
+        }
     }
 
     /**
@@ -813,85 +810,80 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     }
 
     /**
-     * If the marker has an EObject attribute, the value is its {@link URNmodelElement} ID. We try to find it in the {@link URNspec} and select it in the UI. 
+     * If the marker has an EObject attribute, the value is its {@link URNmodelElement} ID. We try to find it in the {@link URNspec} and select it in the UI.
      * 
-     * Otherwise, we look at its resolutions and if a code editor must be opened to fix it (via a {@link OpenEditorQuickFix}), we open the code editor. 
+     * Otherwise, we look at its resolutions and if a code editor must be opened to fix it (via a {@link OpenEditorQuickFix}), we open the code editor.
      */
-	public void gotoMarker(IMarker marker) {
-		try {
-			if (!marker.exists())
-				return;
-			Object o = marker.getAttribute("EObject"); //$NON-NLS-1$
-			if (o!=null) {
-				
-				UrnOutlinePage outline;
-				if (getPageCount()==0)
-					outline = (UrnOutlinePage) getAdapter(IContentOutlinePage.class);
-				else
-					outline = (UrnOutlinePage) getEditor(0).getAdapter(IContentOutlinePage.class);
-				
-				Object element = URNElementFinder.find(getModel(), o.toString());
-				if (element!=null) {
+    public void gotoMarker(IMarker marker) {
+        try {
+            if (!marker.exists())
+                return;
+            Object o = marker.getAttribute("EObject"); //$NON-NLS-1$
+            if (o != null) {
 
-					EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(element);
+                UrnOutlinePage outline;
+                if (getPageCount() == 0)
+                    outline = (UrnOutlinePage) getAdapter(IContentOutlinePage.class);
+                else
+                    outline = (UrnOutlinePage) getEditor(0).getAdapter(IContentOutlinePage.class);
 
-						if (part != null) {
-							getMultiPageTabManager().getSelectionListener().selectionChanged(this, new StructuredSelection(part));
-							outline.getViewer().select(part);
-							// part.setSelected(EditPart.SELECTED_PRIMARY);
-							//return; // work is done. 
-						}
-				}
-				
-				
-				
-				// if found nothing, see if we have a quick fix.
-				
-				QuickFixer fixer = new QuickFixer();
-				IMarkerResolution [] resolutions = fixer.getResolutions(marker);
-				
-				if (resolutions.length>0)
-				{
-					// we don't want to automatically run any other quick fix than this one. 
-					if (resolutions[0] instanceof OpenEditorQuickFix) {
-						resolutions[0].run(marker);
-					}
-				}
-				
-			}
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
+                Object element = URNElementFinder.find(getModel(), o.toString());
+                if (element != null) {
 
-		
-		
-	}
+                    EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(element);
+
+                    if (part != null) {
+                        getMultiPageTabManager().getSelectionListener().selectionChanged(this, new StructuredSelection(part));
+                        outline.getViewer().select(part);
+                        // part.setSelected(EditPart.SELECTED_PRIMARY);
+                        // return; // work is done.
+                    }
+                }
+
+                // if found nothing, see if we have a quick fix.
+
+                QuickFixer fixer = new QuickFixer();
+                IMarkerResolution[] resolutions = fixer.getResolutions(marker);
+
+                if (resolutions.length > 0) {
+                    // we don't want to automatically run any other quick fix than this one.
+                    if (resolutions[0] instanceof OpenEditorQuickFix) {
+                        resolutions[0].run(marker);
+                    }
+                }
+
+            }
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     /**
-     * Return's the outline's property source.  
+     * Return's the outline's property source.
      */
-	public IPropertySource getPropertySource(Object object) {
-		UrnOutlinePage outline;
-		if (getPageCount()==0)
-			outline = (UrnOutlinePage) getAdapter(IContentOutlinePage.class);
-		else
-			outline = (UrnOutlinePage) getEditor(0).getAdapter(IContentOutlinePage.class);
-		
-		if (outline!=null) {
-			EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(object);
-			if (part!=null)
-				return (IPropertySource) part.getAdapter(IPropertySource.class);
-		}
-		return null;
-	}
+    public IPropertySource getPropertySource(Object object) {
+        UrnOutlinePage outline;
+        if (getPageCount() == 0)
+            outline = (UrnOutlinePage) getAdapter(IContentOutlinePage.class);
+        else
+            outline = (UrnOutlinePage) getEditor(0).getAdapter(IContentOutlinePage.class);
 
-	public String getContributorId() {
-		return getSite().getId();
-	}
+        if (outline != null) {
+            EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(object);
+            if (part != null)
+                return (IPropertySource) part.getAdapter(IPropertySource.class);
+        }
+        return null;
+    }
+
+    public String getContributorId() {
+        return getSite().getId();
+    }
 
     protected void initializePageSwitching() {
         super.initializePageSwitching();
-        
+
         getMultiPageTabManager().setupDragDropPage();
     }
 }

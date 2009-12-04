@@ -21,11 +21,13 @@ import urncore.URNmodelElement;
  */
 public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
 
-	protected boolean onlyDefinitions;
+    protected boolean onlyDefinitions;
+
     /**
      * @param model
      *            the URNspec being edited.
-     * @param onlyDefinitions do we show only UCM/GRL definitions            
+     * @param onlyDefinitions
+     *            do we show only UCM/GRL definitions
      */
     public URNspecTreeEditPart(URNspec model, boolean onlyDefinitions) {
         super(model);
@@ -51,9 +53,9 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
-        //installEditPolicy(EditPolicy.COMPONENT_ROLE, new ResponsibilityComponentEditPolicy());
+        // installEditPolicy(EditPolicy.COMPONENT_ROLE, new ResponsibilityComponentEditPolicy());
     }
-    
+
     /**
      * Stops listening to both the URNspec and the UCMspec.
      * 
@@ -73,7 +75,7 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage( "icons/icon16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/icon16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 
@@ -81,29 +83,27 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
      * @return the sorted list of maps and the component and responsibility definition labels
      */
     protected List getModelChildren() {
-    	boolean globalFilter = DisplayPreferences.getInstance().isGlobalFilterEnabled();
+        boolean globalFilter = DisplayPreferences.getInstance().isGlobalFilterEnabled();
         ArrayList list = new ArrayList();
-        if (!onlyDefinitions)
-        {
-        	for (Iterator iterator = getURNspec().getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();)
-			{
-        		URNmodelElement object = (URNmodelElement) iterator.next();
-        		if (!DisplayPreferences.getInstance().isElementFiltered(object))
-        			list.add(object);
-			} 
+        if (!onlyDefinitions) {
+            for (Iterator iterator = getURNspec().getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();) {
+                URNmodelElement object = (URNmodelElement) iterator.next();
+                if (!DisplayPreferences.getInstance().isElementFiltered(object))
+                    list.add(object);
+            }
         }
-        //We want to keep the spec diagram in the order of the tabs
+        // We want to keep the spec diagram in the order of the tabs
         Collections.sort(list, new DelegatingElementComparator());
-        
-        //Instead of having all type of definition in the main category, we divided defs in grl and ucm
-        
+
+        // Instead of having all type of definition in the main category, we divided defs in grl and ucm
+
         if (!globalFilter || DisplayPreferences.getInstance().getShowUCMS())
-        	list.add(Messages.getString("URNspecTreeEditPart.ucmDefs")); //$NON-NLS-1$
-        if (!globalFilter ||  DisplayPreferences.getInstance().getShowGRLS())
-        	list.add(Messages.getString("URNspecTreeEditPart.grlDefs")); //$NON-NLS-1$
-        if (!globalFilter || (!onlyDefinitions &&  DisplayPreferences.getInstance().getShowConcerns()))
-        	list.add(Messages.getString("URNspecTreeEditPart.concerns")); //$NON-NLS-1$
-        
+            list.add(Messages.getString("URNspecTreeEditPart.ucmDefs")); //$NON-NLS-1$
+        if (!globalFilter || DisplayPreferences.getInstance().getShowGRLS())
+            list.add(Messages.getString("URNspecTreeEditPart.grlDefs")); //$NON-NLS-1$
+        if (!globalFilter || (!onlyDefinitions && DisplayPreferences.getInstance().getShowConcerns()))
+            list.add(Messages.getString("URNspecTreeEditPart.concerns")); //$NON-NLS-1$
+
         return list;
 
     }

@@ -16,7 +16,7 @@ import urncore.IURNNode;
  * Package access because we don't want external classes using it directly. Use SetConstraintCommand instead.
  * 
  * @author Etienne Tremblay, jkealey
- *  
+ * 
  */
 public class MoveNodeCommand extends Command implements JUCMNavCommand {
     private IURNNode node;
@@ -109,7 +109,7 @@ public class MoveNodeCommand extends Command implements JUCMNavCommand {
      */
     private void setParents() {
         oldParent = node.getContRef();
-        if (node.getDiagram() != null ) {
+        if (node.getDiagram() != null) {
             newParent = ParentFinder.findParent(node.getDiagram(), newX, newY);
         }
     }
@@ -135,8 +135,8 @@ public class MoveNodeCommand extends Command implements JUCMNavCommand {
         assert node.getX() == oldX && node.getY() == oldY : "pre node position"; //$NON-NLS-1$
 
         // this is not true because in our compound command the parent might already have been moved.
-        //        if (oldParent!=null)
-        //            assert (new Rectangle(oldParent.getX(), oldParent.getY(), oldParent.getWidth(), oldParent.getHeight())).contains(new
+        // if (oldParent!=null)
+        // assert (new Rectangle(oldParent.getX(), oldParent.getY(), oldParent.getWidth(), oldParent.getHeight())).contains(new
         // Point(node.getX(), node.getY()))
         // : "pre node in parent.";
     }

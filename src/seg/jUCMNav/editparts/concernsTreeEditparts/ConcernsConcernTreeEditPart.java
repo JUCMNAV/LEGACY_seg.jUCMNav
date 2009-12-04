@@ -14,13 +14,15 @@ import urncore.Concern;
 import urncore.IURNDiagram;
 
 /**
- * TreeEditPart for a Concern in the Concern Outline 
+ * TreeEditPart for a Concern in the Concern Outline
+ * 
  * @author gunterm
  */
 public class ConcernsConcernTreeEditPart extends ConcernTreeEditPart {
 
     /**
-     * @param model represents a concern
+     * @param model
+     *            represents a concern
      */
     public ConcernsConcernTreeEditPart(Concern model) {
         super(model);
@@ -38,14 +40,14 @@ public class ConcernsConcernTreeEditPart extends ConcernTreeEditPart {
             if (element instanceof UCMmap)
                 list.add(element);
             if (element instanceof GRLGraph)
-            	listGrl.add(element);
+                listGrl.add(element);
         }
         Collections.sort(list, new DelegatingElementComparator());
         Collections.sort(listGrl, new DelegatingElementComparator());
         list.addAll(listGrl);
         return list;
     }
-    
+
     /**
      * @return the concern being represented
      */

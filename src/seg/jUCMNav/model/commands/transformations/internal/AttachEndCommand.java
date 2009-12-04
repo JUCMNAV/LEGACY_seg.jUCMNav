@@ -83,9 +83,9 @@ public class AttachEndCommand extends Command implements JUCMNavCommand {
         oldX = oldEndPoint.getX();
         oldY = oldEndPoint.getY();
 
-        pg = (UCMmap)oldEndPoint.getDiagram();
+        pg = (UCMmap) oldEndPoint.getDiagram();
         ncOldEnd = (NodeConnection) oldEndPoint.getPred().get(0);
-        oldParent = (ComponentRef)oldEndPoint.getContRef();
+        oldParent = (ComponentRef) oldEndPoint.getContRef();
 
         redo();
     }

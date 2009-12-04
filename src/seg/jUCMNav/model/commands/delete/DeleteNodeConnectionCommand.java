@@ -31,13 +31,12 @@ import ucm.map.UCMmap;
  */
 public class DeleteNodeConnectionCommand extends CompoundCommand {
 
-
     public DeleteNodeConnectionCommand(NodeConnection nc, Map editpartregistry) {
-        PathNode source = (PathNode)nc.getSource();
-        PathNode target = (PathNode)nc.getTarget();
-        
+        PathNode source = (PathNode) nc.getSource();
+        PathNode target = (PathNode) nc.getTarget();
+
         setLabel(Messages.getString("DeleteNodeConnectionCommand.deleteNodeConnection")); //$NON-NLS-1$
-        
+
         if (source instanceof Stub || source instanceof OrFork || source instanceof AndFork || (source instanceof Timer && source.getSucc().indexOf(nc) == 1)) {
             Vector in = new Vector();
             Vector out = new Vector();
@@ -46,7 +45,7 @@ public class DeleteNodeConnectionCommand extends CompoundCommand {
             DoesDisconnectImplyDelete verification = new DoesDisconnectImplyDelete(source, in, out);
             add(new DeleteBranchesCommand(source, verification, editpartregistry));
             if (target instanceof EndPoint) {
-            	add(new PreDeleteUrnModelElementCommand(target));
+                add(new PreDeleteUrnModelElementCommand(target));
                 add(new DeleteStartNCEndCommand((EndPoint) target));
             }
 
@@ -59,14 +58,14 @@ public class DeleteNodeConnectionCommand extends CompoundCommand {
             add(new DeleteBranchesCommand(target, verification, editpartregistry));
 
             if (source instanceof StartPoint) {
-            	add(new PreDeleteUrnModelElementCommand(source));
+                add(new PreDeleteUrnModelElementCommand(source));
                 add(new DeleteStartNCEndCommand((StartPoint) source));
             }
 
         }
 
         if (getCommands().size() == 0) {
-            Command cmd = new CutPathCommand((UCMmap)nc.getDiagram(), nc);
+            Command cmd = new CutPathCommand((UCMmap) nc.getDiagram(), nc);
             if (cmd.canExecute()) {
                 add(cmd);
             }

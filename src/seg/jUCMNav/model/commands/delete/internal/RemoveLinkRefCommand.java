@@ -16,7 +16,7 @@ import urncore.IURNNode;
  * Delete a LinkRef in a GRLGraph
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class RemoveLinkRefCommand extends Command implements JUCMNavCommand {
 
@@ -32,7 +32,7 @@ public class RemoveLinkRefCommand extends Command implements JUCMNavCommand {
         this.linkref = linkref;
         setLabel("RemoveLinkRefCommand"); ////$NON-NLS-1$
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
@@ -47,10 +47,10 @@ public class RemoveLinkRefCommand extends Command implements JUCMNavCommand {
     /**
      * @param link
      */
-    public void setElementLink(ElementLink link){
+    public void setElementLink(ElementLink link) {
         this.link = link;
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -62,29 +62,33 @@ public class RemoveLinkRefCommand extends Command implements JUCMNavCommand {
         linkref.setTarget(null);
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert linkref != null: "Pre linkref is null"; //$NON-NLS-1$
-        assert link != null: "Pre link is null"; //$NON-NLS-1$
+        assert linkref != null : "Pre linkref is null"; //$NON-NLS-1$
+        assert link != null : "Pre link is null"; //$NON-NLS-1$
         assert graph != null : "Pre graph is null"; //$NON-NLS-1$
-        assert source != null && target != null: "Pre source-target is null"; //$NON-NLS-1$
-        
+        assert source != null && target != null : "Pre source-target is null"; //$NON-NLS-1$
+
         assert link.getRefs().contains(linkref) : "Pre linkref-link"; //$NON-NLS-1$
         assert graph.getConnections().contains(linkref) : "Pre graph-linkref"; //$NON-NLS-1$
         assert source.getSucc().contains(linkref) && target.getPred().contains(linkref) : "Pre IntentionalElementRef"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert linkref != null && link != null: "Post link is null"; //$NON-NLS-1$
+        assert linkref != null && link != null : "Post link is null"; //$NON-NLS-1$
         assert graph != null : "Post graph is null"; //$NON-NLS-1$
-        assert source != null && target != null: "Post source-target is null"; //$NON-NLS-1$
-        
+        assert source != null && target != null : "Post source-target is null"; //$NON-NLS-1$
+
         assert !link.getRefs().contains(linkref) : "Post linkref-link"; //$NON-NLS-1$
         assert !graph.getConnections().contains(linkref) : "Post graph-linkref"; //$NON-NLS-1$
         assert !source.getSucc().contains(linkref) && !target.getPred().contains(linkref) : "Post IntentionalElementRef"; //$NON-NLS-1$

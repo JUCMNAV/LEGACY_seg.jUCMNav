@@ -53,10 +53,10 @@ public class StartPointFinder extends AbstractQueryProcessor implements IQueryPr
     }
 
     /**
-     * Query to find all reachable start points. 
+     * Query to find all reachable start points.
      * 
      * @author jkealey
-     *
+     * 
      */
     public static class QFindReachableStartPoints extends QueryRequest {
         // Finds reachable start points from a PathNode
@@ -86,9 +86,10 @@ public class StartPointFinder extends AbstractQueryProcessor implements IQueryPr
     }
 
     /**
-     * Response indicating which end points were reached. 
+     * Response indicating which end points were reached.
+     * 
      * @author jkealey
-     *
+     * 
      */
     public static class RReachableStartPoints extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */

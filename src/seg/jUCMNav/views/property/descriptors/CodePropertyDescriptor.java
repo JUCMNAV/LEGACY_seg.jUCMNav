@@ -16,23 +16,25 @@ import urncore.Responsibility;
  * @see seg.jUCMNav.views.property.descriptors.CodeCellEditor
  */
 public class CodePropertyDescriptor extends PropertyDescriptor {
-	
-	// one of these is passed. 
+
+    // one of these is passed.
     private Responsibility resp;
     private Condition cond;
 
     /**
-     * Property descriptor for a responsibility. 
+     * Property descriptor for a responsibility.
      * 
-     * @param id the PropertyID
-     * @param resp the responsibility
+     * @param id
+     *            the PropertyID
+     * @param resp
+     *            the responsibility
      */
     public CodePropertyDescriptor(Object id, Responsibility resp) {
         super(id, Messages.getString("CodePropertyDescriptor.code")); //$NON-NLS-1$
         this.resp = resp;
         setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
-                return Messages.getString("CodePropertyDescriptor.ClickToEdit");  //$NON-NLS-1$
+                return Messages.getString("CodePropertyDescriptor.ClickToEdit"); //$NON-NLS-1$
             }
         });
     }
@@ -40,28 +42,30 @@ public class CodePropertyDescriptor extends PropertyDescriptor {
     /**
      * Property descriptor for a condition
      * 
-     * @param id the PropertyID
-     * @param condition the condition
+     * @param id
+     *            the PropertyID
+     * @param condition
+     *            the condition
      */
     public CodePropertyDescriptor(Object id, Condition condition) {
         super(id, Messages.getString("CodePropertyDescriptor.expression")); //$NON-NLS-1$
         this.cond = condition;
         setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
-                return Messages.getString("CodePropertyDescriptor.ClickToEdit");  //$NON-NLS-1$
+                return Messages.getString("CodePropertyDescriptor.ClickToEdit"); //$NON-NLS-1$
             }
         });
     }
-    
+
     /**
-     * Creates the cell editor. 
+     * Creates the cell editor.
      */
     public CellEditor createPropertyEditor(Composite parent) {
-    	CodeCellEditor editor = new CodeCellEditor(parent);
-    	if (resp!=null)
-    		editor.setResponsibility(resp);
-    	else
-    		editor.setCondition(cond);
+        CodeCellEditor editor = new CodeCellEditor(parent);
+        if (resp != null)
+            editor.setResponsibility(resp);
+        else
+            editor.setCondition(cond);
         return editor;
     }
 }

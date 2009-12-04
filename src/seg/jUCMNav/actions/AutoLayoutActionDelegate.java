@@ -16,7 +16,7 @@ import urncore.IURNDiagram;
  * Opens the AutoLayout Wizard.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class AutoLayoutActionDelegate implements IEditorActionDelegate {
 
@@ -24,7 +24,7 @@ public class AutoLayoutActionDelegate implements IEditorActionDelegate {
 
     /**
      * 
-     * Sets the {@link UCMNavMultiPageEditor}. 
+     * Sets the {@link UCMNavMultiPageEditor}.
      * 
      */
     public void setActiveEditor(IAction action, IEditorPart targetEditor) {
@@ -42,22 +42,19 @@ public class AutoLayoutActionDelegate implements IEditorActionDelegate {
     }
 
     /**
-     *  Launches the {@link AutoLayoutWizard}
+     * Launches the {@link AutoLayoutWizard}
      */
     public void run(IAction action) {
         if (editor.getCurrentPage() != null) {
-            if (editor.getCurrentPage() instanceof UrnEditor)
-            {
+            if (editor.getCurrentPage() instanceof UrnEditor) {
                 IURNDiagram map = ((editor.getCurrentPage()).getModel());
-    
+
                 AutoLayoutWizard wizard = new AutoLayoutWizard(editor.getCurrentPage(), map);
-    
+
                 WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
-    
+
                 dialog.open();
-            }
-            else
-            {
+            } else {
                 System.out.println(Messages.getString("AutoLayoutActionDelegate.AutolayoutNotAvailable")); //$NON-NLS-1$
             }
         }

@@ -1,6 +1,5 @@
 package seg.jUCMNav.importexport.csm;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -75,19 +74,19 @@ import urncore.URNmodelElement;
 
 /**
  * Performs the sequence of operations to convert a URN specification into a CSM.
- *
+ * 
  * @see seg.jUCMNav.importexport.csm.duplicate
  * @see seg.jUCMNav.importexport.csm.implicit
  * @see seg.jUCMNav.importexport.csm.one2one
- *
+ * 
  */
 public class ExportCSM implements IURNExport {
 
     private FileOutputStream fos = null;
     private List processedComponents = new ArrayList();
     private List processedResources = new ArrayList();
-    private int dummy_id = 5000; // TODO:  wave limitation
-    private int emptyPoint_id = 9000; // TODO:  wave limitation
+    private int dummy_id = 5000; // TODO: wave limitation
+    private int emptyPoint_id = 9000; // TODO: wave limitation
     Vector problems = new Vector(); // List of warnings and errors for the Problems view
 
     // Converts object through polymorphism (dynamic binding)
@@ -97,11 +96,12 @@ public class ExportCSM implements IURNExport {
 
     /**
      * Handles IURNExport and invokes the other export method by converting the filename to a FileOutputStream.
+     * 
      * @see ExportCSM#export(URNspec, HashMap, FileOutputStream)
      */
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
-    	try {
-        	fos = new FileOutputStream(filename);
+        try {
+            fos = new FileOutputStream(filename);
 
             export(urn, mapDiagrams, fos);
 
@@ -112,7 +112,7 @@ public class ExportCSM implements IURNExport {
             if (fos != null) {
                 try {
                     fos.close();
-                    validateXml(filename);              
+                    validateXml(filename);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -120,9 +120,8 @@ public class ExportCSM implements IURNExport {
         }
     }
 
-   /**
-     * Main control loop that provides the CSM header, translates each UCM map into a CSM scenario
-     * (with components and resources), then outputs the CSM footer.
+    /**
+     * Main control loop that provides the CSM header, translates each UCM map into a CSM scenario (with components and resources), then outputs the CSM footer.
      */
     public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
 
@@ -132,13 +131,13 @@ public class ExportCSM implements IURNExport {
         // prepare CSM header and footer
         String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"; //$NON-NLS-1$
         String CSM_header = "<CSM:CSMType " //$NON-NLS-1$
-            + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " //$NON-NLS-1$
-            + "xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" " //$NON-NLS-1$
-            + "name=\"" + urn.getName() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
-            + "description=\"" + ( (urn.getDescription() == null) ? "" : urn.getDescription()) + "\" " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            + "author=\"" + urn.getAuthor() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
-            + "created=\"" + convertUcmDateToCsmDate(urn.getCreated()) + "\" " //$NON-NLS-1$ //$NON-NLS-2$
-            + "version=\"" + urn.getSpecVersion() + "\">"; //$NON-NLS-1$ //$NON-NLS-2$
+                + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " //$NON-NLS-1$
+                + "xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" " //$NON-NLS-1$
+                + "name=\"" + urn.getName() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
+                + "description=\"" + ((urn.getDescription() == null) ? "" : urn.getDescription()) + "\" " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                + "author=\"" + urn.getAuthor() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
+                + "created=\"" + convertUcmDateToCsmDate(urn.getCreated()) + "\" " //$NON-NLS-1$ //$NON-NLS-2$
+                + "version=\"" + urn.getSpecVersion() + "\">"; //$NON-NLS-1$ //$NON-NLS-2$
         String CSM_footer = "</CSM:CSMType>"; //$NON-NLS-1$
 
         // output header
@@ -153,7 +152,7 @@ public class ExportCSM implements IURNExport {
                 exportMap(map, ps, null, problems);
             }
         }
-        
+
         // output footer
         ps.println(CSM_footer);
         ps.flush();
@@ -162,48 +161,53 @@ public class ExportCSM implements IURNExport {
     /**
      * Converts the UCM (String) timestamp into a (CSM) xsd:dateTime compliant format.
      * 
-     * @param dateString to be converted into a xsd:dateTime compliant format
+     * @param dateString
+     *            to be converted into a xsd:dateTime compliant format
      * @return the xsd:dateTime equivalent to dateString
      */
     private String convertUcmDateToCsmDate(String dateString) {
-	SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss aa zzz", Locale.US); //$NON-NLS-1$
-	Date date = Calendar.getInstance(Locale.US).getTime(); // as fallback in case things go wrong
-	try {
-	    date = sdf.parse(dateString);
-	} catch (ParseException p) {
-		problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + p.getMessage(), IMarker.SEVERITY_WARNING)); //$NON-NLS-1$
-	}
-	Calendar cal = Calendar.getInstance();
-	cal.setTime(date);
-	String csmYear = String.valueOf(cal.get(Calendar.YEAR));
-	String month = String.valueOf(cal.get(Calendar.MONTH)+1); // Months start at 0 in the Calendar class...
-	String csmMonth = ("0" + month).substring(month.length() - 1); //$NON-NLS-1$
-	String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
-	String csmDay = ("0" + day).substring(day.length() - 1); //$NON-NLS-1$
-	String hour = String.valueOf(cal.get(Calendar.HOUR_OF_DAY));
-	String csmHour = ("0" + hour).substring(hour.length() - 1); //$NON-NLS-1$
-	String min = String.valueOf(cal.get(Calendar.MINUTE));
-	String csmMin = ("0" + min).substring(min.length() - 1); //$NON-NLS-1$
-	String sec = String.valueOf(cal.get(Calendar.SECOND));
-	String csmSec = ("0" + sec).substring(sec.length() - 1); //$NON-NLS-1$
-	return csmYear + "-" + csmMonth + "-" + csmDay + "T" + csmHour + ":" + csmMin + ":" + csmSec; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss aa zzz", Locale.US); //$NON-NLS-1$
+        Date date = Calendar.getInstance(Locale.US).getTime(); // as fallback in case things go wrong
+        try {
+            date = sdf.parse(dateString);
+        } catch (ParseException p) {
+            problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + p.getMessage(), IMarker.SEVERITY_WARNING)); //$NON-NLS-1$
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        String csmYear = String.valueOf(cal.get(Calendar.YEAR));
+        String month = String.valueOf(cal.get(Calendar.MONTH) + 1); // Months start at 0 in the Calendar class...
+        String csmMonth = ("0" + month).substring(month.length() - 1); //$NON-NLS-1$
+        String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+        String csmDay = ("0" + day).substring(day.length() - 1); //$NON-NLS-1$
+        String hour = String.valueOf(cal.get(Calendar.HOUR_OF_DAY));
+        String csmHour = ("0" + hour).substring(hour.length() - 1); //$NON-NLS-1$
+        String min = String.valueOf(cal.get(Calendar.MINUTE));
+        String csmMin = ("0" + min).substring(min.length() - 1); //$NON-NLS-1$
+        String sec = String.valueOf(cal.get(Calendar.SECOND));
+        String csmSec = ("0" + sec).substring(sec.length() - 1); //$NON-NLS-1$
+        return csmYear + "-" + csmMonth + "-" + csmDay + "T" + csmHour + ":" + csmMin + ":" + csmSec; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
     }
 
     /**
      * Exports a UCM map into a CSM scenario, along with the necessary Components and Resources.
      * 
-     * @param ucmMap UCM map to export
-     * @param ps print stream
-     * @param pluginBinding CURRENTLY UNUSED
-     * @param warnings to advertise exportation problems
+     * @param ucmMap
+     *            UCM map to export
+     * @param ps
+     *            print stream
+     * @param pluginBinding
+     *            CURRENTLY UNUSED
+     * @param warnings
+     *            to advertise exportation problems
      */
     private void exportMap(UCMmap ucmMap, PrintStream ps, PluginBinding pluginBinding, Vector warnings) {
         String probability;
         String transaction;
         String name_extension;
 
-        // map name will also be plugin binding specific (if given) 
+        // map name will also be plugin binding specific (if given)
         // and contains probability and transaction
         if (pluginBinding != null) {
             name_extension = "_h" + pluginBinding.getStub().getId(); //$NON-NLS-1$
@@ -269,7 +273,7 @@ public class ExportCSM implements IURNExport {
             ComponentRef compRef = (ComponentRef) iter3.next();
             // produce components only once (to avoid CSM2LQN to crash)
             if (!processedComponents.contains(((Component) compRef.getContDef()).getId())) {
-        	processedComponents.add(((Component) compRef.getContDef()).getId());
+                processedComponents.add(((Component) compRef.getContDef()).getId());
                 // generate CSM representation
                 ComponentRefConverter obj = new ComponentRefConverter(compRef);
                 doComponentRefConvert(obj, ps);
@@ -281,16 +285,16 @@ public class ExportCSM implements IURNExport {
             GeneralResource genRes = (GeneralResource) res.next();
             // but ouput each resource only once
             if (!processedResources.contains(genRes.getId())) {
-        	processedResources.add(genRes.getId());
+                processedResources.add(genRes.getId());
                 if (genRes instanceof ExternalOperation) {
                     ExternalOperationConverter externalOpnCvtr = new ExternalOperationConverter((ExternalOperation) genRes);
-                    externalOpnCvtr.Convert(ps, /* source */null, /* target */ null, warnings);
+                    externalOpnCvtr.Convert(ps, /* source */null, /* target */null, warnings);
                 } else if (genRes instanceof ProcessingResource) {
                     ProcessingResourceConverter processingResCvtr = new ProcessingResourceConverter((ProcessingResource) genRes);
-                    processingResCvtr.Convert(ps, /* source */null, /* target */ null, warnings);
+                    processingResCvtr.Convert(ps, /* source */null, /* target */null, warnings);
                 } else if (genRes instanceof PassiveResource) {
                     PassiveResourceConverter passiveResCvtr = new PassiveResourceConverter((PassiveResource) genRes);
-                    passiveResCvtr.Convert(ps, /* source */null, /* target */ null, warnings);
+                    passiveResCvtr.Convert(ps, /* source */null, /* target */null, warnings);
                 }
             }
         }
@@ -299,15 +303,11 @@ public class ExportCSM implements IURNExport {
     }
 
     /**
-     * To convey to CSM scenario to capability of selecting among one of the multiple submaps used by dynamic stubs
-     * (e.g. probabilistic execution), an
-     * intermediate scenario is used.  This intermediate scenario expands each submap possibility into a
-     * CSM branch.
-     * <BR>
-     * <EM>WARNING/TODO</EM>:  stubs (and submaps) with multiple input or multiple output are currently processed in
-     * a much simplified manner.  At the present time, this is considered to be satisfactory since CSM does
-     * not support more complex refinements than single input, single output ones.
-     *  
+     * To convey to CSM scenario to capability of selecting among one of the multiple submaps used by dynamic stubs (e.g. probabilistic execution), an
+     * intermediate scenario is used. This intermediate scenario expands each submap possibility into a CSM branch. <BR>
+     * <EM>WARNING/TODO</EM>: stubs (and submaps) with multiple input or multiple output are currently processed in a much simplified manner. At the present
+     * time, this is considered to be satisfactory since CSM does not support more complex refinements than single input, single output ones.
+     * 
      * @param dupMaplist
      * @param ucmMap
      * @param ps
@@ -344,7 +344,7 @@ public class ExportCSM implements IURNExport {
                         String startId = fake_stubId + "_start_" + j; //$NON-NLS-1$
                         String start = "<Start id=\"" + startId + "\" " + "target=\"" + startId + "_ds1\" />"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                         String ds1 = "<Step id=\"" + startId + "_ds1\" " + "name=\"dummy1\" " + "predecessor=\"" + startId + "\" " + "successor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                        + fake_stubId + "_branch\" />"; //$NON-NLS-1$
+                                + fake_stubId + "_branch\" />"; //$NON-NLS-1$
 
                         ps.println(twoTab + start);
                         ps.println(twoTab + ds1);
@@ -375,7 +375,7 @@ public class ExportCSM implements IURNExport {
                         PluginBinding binding = (PluginBinding) iter.next();
                         PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
                         String step = "<Step id=\"" + fake_stubId + "_step_" + j + "\" " + "name=\"" + binding.getPlugin().getName() + "\" " + "predecessor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                        + fake_stubId + "_branch\" " + "successor=\"" + targetId + "\" " + "probability=\"" + binding.getProbability() + "\" " + ">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                                + fake_stubId + "_branch\" " + "successor=\"" + targetId + "\" " + "probability=\"" + binding.getProbability() + "\" " + ">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
                         ps.println(twoTab + step);
 
                         // produce Bindings relative to sub-map
@@ -405,9 +405,9 @@ public class ExportCSM implements IURNExport {
                 if (stub.getBindings().size() != 0) {
                     for (int k = 0; k < ((PluginBinding) stub.getBindings().get(0)).getOut().size(); k++) {
                         String merge = "<Merge id=\"" + fake_stubId + "_merge_" + k + "\" " + "source=\"" + steps + "\" " + "target=\"" + fake_stubId + "_ds2_" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-                        + k + "\" />"; //$NON-NLS-1$
+                                + k + "\" />"; //$NON-NLS-1$
                         String ds2 = "<Step id=\"" + fake_stubId + "_ds2_" + k + "\" " + "name=\"dummy2\" " + "predecessor=\"" + fake_stubId + "_merge_" + k //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                        + "\" " + "successor=\"" + fake_stubId + "_end_" + k + "\" />"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                                + "\" " + "successor=\"" + fake_stubId + "_end_" + k + "\" />"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                         String end = "<End id=\"" + fake_stubId + "_end_" + k + "\" " + "source=\"" + fake_stubId + "_ds2_" + k + "\" />"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
                         ps.println(twoTab + merge);
                         ps.println(twoTab + ds2);
@@ -424,8 +424,7 @@ public class ExportCSM implements IURNExport {
     }
 
     /**
-     * Sorting of CSMDupNodeList is totally optionnal, yet greatly appreciated by humans attempting to comprehend the
-     * XML generated document.
+     * Sorting of CSMDupNodeList is totally optionnal, yet greatly appreciated by humans attempting to comprehend the XML generated document.
      * 
      * @param connList
      *            used to visit the nodes
@@ -482,8 +481,7 @@ public class ExportCSM implements IURNExport {
     }
 
     /**
-     * Sorting of CSMDupConnectionList is totally optionnal, yet greatly appreciated by humans attempting to comprehend the
-     * XML generated document.
+     * Sorting of CSMDupConnectionList is totally optionnal, yet greatly appreciated by humans attempting to comprehend the XML generated document.
      * 
      * @param connList
      */
@@ -535,8 +533,8 @@ public class ExportCSM implements IURNExport {
     }
 
     /**
-     * Once the essence of the UCM map has been converted, the duplicate map is revisited and
-     * ResourceAcquisition and ResourceRelease nodes are added as required.
+     * Once the essence of the UCM map has been converted, the duplicate map is revisited and ResourceAcquisition and ResourceRelease nodes are added as
+     * required.
      */
     private void transform(CSMDupNodeList list, CSMDupConnectionList conn_list, PrintStream ps, Vector warnings) {
         ResourceAcquisition ra = new ResourceAcquisition(ps);
@@ -567,16 +565,16 @@ public class ExportCSM implements IURNExport {
         // object attributes
         if (predecessor.startsWith("G") && successor.startsWith("G")) { //$NON-NLS-1$ //$NON-NLS-2$
             dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\"" + successor //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-            + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
+                    + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
         } else if (predecessor.startsWith("G") && !successor.startsWith("!G")) { //$NON-NLS-1$ //$NON-NLS-2$
             dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\"h" + successor //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-            + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
+                    + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
         } else if (!predecessor.startsWith("!G") && successor.startsWith("G")) { //$NON-NLS-1$ //$NON-NLS-2$
             dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"h" + predecessor + "\" " + "successor=\"" + successor //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-            + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
+                    + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
             dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"h" + predecessor + "\" " + "successor=\"h" + successor //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-            + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
+                    + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // output to file
@@ -585,7 +583,7 @@ public class ExportCSM implements IURNExport {
     }
 
     /**
-     * Output each node of the duplicate map.  Keep an opened eye for anomalies (w.r.t. CSM expectations).
+     * Output each node of the duplicate map. Keep an opened eye for anomalies (w.r.t. CSM expectations).
      */
     private void saveXML(UCMmap map, PrintStream ps, CSMDupNodeList dupMaplist, CSMDupConnectionList dupMapConnlist, Vector warnings) {
 
@@ -654,7 +652,7 @@ public class ExportCSM implements IURNExport {
                     // convert the array into a comma-separated list
                     String target_noBracket = targetsList.toString().substring(1, (targetsList.toString().length() - 1));
                     // remove the commas
-                    String target_noComma =  target_noBracket.replaceAll(",", ""); //$NON-NLS-1$ //$NON-NLS-2$
+                    String target_noComma = target_noBracket.replaceAll(",", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
                     String epoint_attributes = "            <Fork id=\"h" + curr_node.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
                     String epoint_source = "source=\"" + sourcesList.get(0) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
@@ -699,7 +697,8 @@ public class ExportCSM implements IURNExport {
         } // for
         if (startPoints > 1) {
             // The current CSM viewer release does not handle multi-START well so a courtesy warning is issued
-            warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.TooMany") + startPoints + Messages.getString("ExportCSM.StartPointsInMap") + map.getName(), map)); //$NON-NLS-1$ //$NON-NLS-2$
+            warnings.add(new CsmExportWarning(
+                    Messages.getString("ExportCSM.TooMany") + startPoints + Messages.getString("ExportCSM.StartPointsInMap") + map.getName(), map)); //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
 
@@ -768,8 +767,7 @@ public class ExportCSM implements IURNExport {
                         // convert that EmptyPoint into AndFork
                         // if necessary, insert a DummyStep after previous node
                         if ((source.isPathNode() && ((source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB)))
-                                || (source.getType() == CSMDupNode.RR) || (source.getType() == CSMDupNode.RA) || (source.getType() == CSMDupNode.CSMSTEP)) 
-                        { 
+                                || (source.getType() == CSMDupNode.RR) || (source.getType() == CSMDupNode.RA) || (source.getType() == CSMDupNode.CSMSTEP)) {
                             // no need for extra DummyStep. Do nothing!
                         } else {
                             // do insert a DummyStep after previous node
@@ -790,7 +788,7 @@ public class ExportCSM implements IURNExport {
                             if ((nod.isPathNode() && ((nod.getType() == CSMDupNode.RESPREF) || (nod.getType() == CSMDupNode.STUB)))
                                     || (nod.getType() == CSMDupNode.RR) || (nod.getType() == CSMDupNode.RA) || (nod.getType() == CSMDupNode.CONNECT) // CONNECT
                                     // will turn into a DummyStep
-                                    || (nod.getType() == CSMDupNode.CSMSTEP)) { 
+                                    || (nod.getType() == CSMDupNode.CSMSTEP)) {
                                 // OK as is. Do nothing!
                             } else {
                                 insertDummyStep(node_list, conn_list, con, target, nod);
@@ -798,7 +796,7 @@ public class ExportCSM implements IURNExport {
                                 work_to_do = true; // we need to start over after adding connections
                             }
                         }
-                        node_list.retype(target, CSMDupNode.ANDFORK); 
+                        node_list.retype(target, CSMDupNode.ANDFORK);
                         // wait last to retype() regular EmptyPoint. Is the test necessary?
                     } else if (conn_list.existsConnectionForSource(target)) {
                         CSMDupConnection next_conn = conn_list.getConnectionForSource(target);
@@ -819,7 +817,7 @@ public class ExportCSM implements IURNExport {
                                 // keep empty point as is (i.e. output as DummySequence)
                                 node_list.retype(target, CSMDupNode.CSMDUMMY);
                                 // next node ought to be a connection
-                            } else { 
+                            } else {
                                 // convert EmptyPoint to a DummySequence followed by a DummyStep
                                 if (next_target.getType() != CSMDupNode.CSMDUMMY) {
                                     insertDummyStep(node_list, conn_list, next_conn, target, next_target);
@@ -902,7 +900,7 @@ public class ExportCSM implements IURNExport {
                         || (source.getType() == CSMDupNode.WAIT) || (source.getType() == CSMDupNode.END))
                         && ((target.getType() == CSMDupNode.START) || (target.getType() == CSMDupNode.ARROW) || (target.getType() == CSMDupNode.ANDFORK)
                                 || (target.getType() == CSMDupNode.ANDJOIN) || (target.getType() == CSMDupNode.ORFORK)
-                                || (target.getType() == CSMDupNode.ORJOIN) || (target.getType() == CSMDupNode.WAIT) || (target.getType() == CSMDupNode.END))) { 
+                                || (target.getType() == CSMDupNode.ORJOIN) || (target.getType() == CSMDupNode.WAIT) || (target.getType() == CSMDupNode.END))) {
                     // create dummy node
                     insertDummyStep(node_list, conn_list, curr_conn, source, target);
                     conn_list_size++;
@@ -947,8 +945,7 @@ public class ExportCSM implements IURNExport {
      *            a vector of {@link CsmExportWarning}s to be pushed to the problems view.
      */
     public static void refreshProblemsView(Vector warnings) {
-    	
-    	 
+
         IWorkbenchWindow[] wbw = PlatformUI.getWorkbench().getWorkbenchWindows();
         UCMNavMultiPageEditor editor = null;
 
@@ -970,9 +967,9 @@ public class ExportCSM implements IURNExport {
                     marker.delete();
                 }
             } catch (CoreException ex) {
-            	warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + ex.getMessage(), IMarker.SEVERITY_ERROR));  //$NON-NLS-1$
+                warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + ex.getMessage(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
             }
-        
+
             if (warnings.size() > 0) {
 
                 for (Iterator iter = warnings.iterator(); iter.hasNext();) {
@@ -992,91 +989,90 @@ public class ExportCSM implements IURNExport {
 
                         resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1); //$NON-NLS-1$
                     } catch (CoreException ex) {
-                    	warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + ex.getMessage(), IMarker.SEVERITY_ERROR));  //$NON-NLS-1$
+                        warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + ex.getMessage(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
                     }
 
                 }
             }
         }
     }
-    
-	/**
-	 * validateXml verifies if the generated XML document conforms to the CSM schema.
-	 * Note that tools that use those XML documents do not accept a strictly correct
-	 * syntax, hence the generated XML document is first "corrected" (in memory)
-	 * before being validated. The CSM schema (CSM.xsd) is included in jUCMNav.
-	 * 
-	 * author: jack, damyot
-	 * 
-	 * @param xmlInputFilePathName
-	 * 		the CSM XML generated filename (String, including full path)
-	 */
-	private void validateXml(String xmlInputFilePathName) {
 
-		// Generate a parser that will load an XML document into a DOM tree
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		documentBuilderFactory.setNamespaceAware(true);
-		DocumentBuilder documentParser = null;
-		try {
-			documentParser = documentBuilderFactory.newDocumentBuilder();
-		} catch (ParserConfigurationException e1) {
-			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR));  //$NON-NLS-1$
-		}
+    /**
+     * validateXml verifies if the generated XML document conforms to the CSM schema. Note that tools that use those XML documents do not accept a strictly
+     * correct syntax, hence the generated XML document is first "corrected" (in memory) before being validated. The CSM schema (CSM.xsd) is included in
+     * jUCMNav.
+     * 
+     * author: jack, damyot
+     * 
+     * @param xmlInputFilePathName
+     *            the CSM XML generated filename (String, including full path)
+     */
+    private void validateXml(String xmlInputFilePathName) {
 
-		// Command to "fix" the CSM XML by replacing CSM:CSMType with CSM
-		// Then parses into "document" for validation 
-		Document document = null;
-		try {
-			// Transform file into a String
-			FileInputStream CSMfile = new FileInputStream (xmlInputFilePathName);
-			byte[] filebytes = new byte[CSMfile.available ()];
-			CSMfile.read(filebytes);
-			CSMfile.close ();
-			String CSMdocInMemory = new String (filebytes);
+        // Generate a parser that will load an XML document into a DOM tree
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        documentBuilderFactory.setNamespaceAware(true);
+        DocumentBuilder documentParser = null;
+        try {
+            documentParser = documentBuilderFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e1) {
+            problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
+        }
 
-			// Remove violating :CSMType required by CSM Viewer
-			// parse requires an InputStream (or a URI String)
-			ByteArrayInputStream FixedCSMdoc = new ByteArrayInputStream(CSMdocInMemory.replaceAll("CSM:CSMType", "CSM").getBytes()); //$NON-NLS-1$ //$NON-NLS-2$
+        // Command to "fix" the CSM XML by replacing CSM:CSMType with CSM
+        // Then parses into "document" for validation
+        Document document = null;
+        try {
+            // Transform file into a String
+            FileInputStream CSMfile = new FileInputStream(xmlInputFilePathName);
+            byte[] filebytes = new byte[CSMfile.available()];
+            CSMfile.read(filebytes);
+            CSMfile.close();
+            String CSMdocInMemory = new String(filebytes);
 
-			// Parse the XML file into document
-			document = documentParser.parse(FixedCSMdoc);
+            // Remove violating :CSMType required by CSM Viewer
+            // parse requires an InputStream (or a URI String)
+            ByteArrayInputStream FixedCSMdoc = new ByteArrayInputStream(CSMdocInMemory.replaceAll("CSM:CSMType", "CSM").getBytes()); //$NON-NLS-1$ //$NON-NLS-2$
 
-		} catch (SAXException e1) {
-			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
-		} catch (IOException e2) {
-			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e2.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
-		}
+            // Parse the XML file into document
+            document = documentParser.parse(FixedCSMdoc);
 
-		// Create a SchemaFactory for WXS schemas
-		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        } catch (SAXException e1) {
+            problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
+        } catch (IOException e2) {
+            problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e2.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
+        }
 
-		// Schema is packaged with jUCMNav's ExportCSM plugin
-		InputStream csmSchemaIS = getClass().getResourceAsStream("CSM.xsd"); //$NON-NLS-1$
-		// Load a WXS schema, represented by a Schema instance
-		Source csmSchemaSource = new StreamSource(csmSchemaIS);
-		Schema csmSchema = null;
-		try {
-			csmSchema = factory.newSchema(csmSchemaSource);
-		} catch (SAXException e1) {
-			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR));  //$NON-NLS-1$
-		}
+        // Create a SchemaFactory for WXS schemas
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-		// Create a Validator instance, which can be used to validate an instance document
-		Validator csmValidator = csmSchema.newValidator();
+        // Schema is packaged with jUCMNav's ExportCSM plugin
+        InputStream csmSchemaIS = getClass().getResourceAsStream("CSM.xsd"); //$NON-NLS-1$
+        // Load a WXS schema, represented by a Schema instance
+        Source csmSchemaSource = new StreamSource(csmSchemaIS);
+        Schema csmSchema = null;
+        try {
+            csmSchema = factory.newSchema(csmSchemaSource);
+        } catch (SAXException e1) {
+            problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
+        }
 
-		// Validate the DOM tree
-		try {
-			try {
-				csmValidator.validate(new DOMSource(document));
-		        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.CSMexportCompleted"), IMarker.SEVERITY_INFO)); //$NON-NLS-1$
-			} catch (IOException e) {
-		        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
-			}
-		} catch (SAXException e) {
-			// instance document is invalid!
-	        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
-		}
+        // Create a Validator instance, which can be used to validate an instance document
+        Validator csmValidator = csmSchema.newValidator();
+
+        // Validate the DOM tree
+        try {
+            try {
+                csmValidator.validate(new DOMSource(document));
+                problems.add(new CsmExportWarning(Messages.getString("ExportCSM.CSMexportCompleted"), IMarker.SEVERITY_INFO)); //$NON-NLS-1$
+            } catch (IOException e) {
+                problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
+            }
+        } catch (SAXException e) {
+            // instance document is invalid!
+            problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
+        }
         // Reports to Problems view
         refreshProblemsView(problems);
-	}
+    }
 }

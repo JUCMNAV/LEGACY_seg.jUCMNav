@@ -14,7 +14,7 @@ import urncore.URNmodelElement;
  * @author pchen
  */
 public class EObjectComparator implements Comparator, Serializable {
-    
+
     /**
      * 
      */
@@ -38,16 +38,16 @@ public class EObjectComparator implements Comparator, Serializable {
      */
     public int compare(Object obj1, Object obj2) {
         int ret = 0;
-        
+
         EObject eobj1 = (EObject) obj1;
         EObject eobj2 = (EObject) obj2;
         String name1 = ""; //$NON-NLS-1$
         String name2 = ""; //$NON-NLS-1$
-        
+
         if (eobj1 instanceof URNmodelElement && eobj2 instanceof URNmodelElement) {
             name1 = URNNamingHelper.getName((URNmodelElement) eobj1) + " (" + ((URNmodelElement) eobj1).getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
             name2 = URNNamingHelper.getName((URNmodelElement) eobj2) + " (" + ((URNmodelElement) eobj2).getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-            
+
             ret = name1.compareTo(name2);
         } else if (eobj1 instanceof URNmodelElement) {
             ret = 1;
@@ -56,8 +56,7 @@ public class EObjectComparator implements Comparator, Serializable {
         } else {
             ret = 0;
         }
-        
+
         return ret;
     }
 }
-

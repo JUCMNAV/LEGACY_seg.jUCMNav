@@ -34,7 +34,7 @@ public class RemovePathNodeCommand extends CompoundCommand {
     public RemovePathNodeCommand(PathNode pn, java.util.Map editpartregistry) {
         this.pn = pn;
         this.editpartregistry = editpartregistry;
-        setLabel("Remove PathNode"); 
+        setLabel("Remove PathNode");
     }
 
     /**
@@ -42,7 +42,7 @@ public class RemovePathNodeCommand extends CompoundCommand {
      * 
      */
     private void build() {
-        UCMmap map = (UCMmap)pn.getDiagram();
+        UCMmap map = (UCMmap) pn.getDiagram();
 
         if (pn instanceof StartPoint) {
             add(new DeletePathCommand((StartPoint) pn, editpartregistry));
@@ -60,7 +60,7 @@ public class RemovePathNodeCommand extends CompoundCommand {
                     && ((NodeConnection) pn.getSucc().get(0)).getTarget() == ((NodeConnection) pn.getPred().get(0)).getSource()) {
                 // deleting last pathnode on a stub's loop.
                 NodeConnection link = (NodeConnection) pn.getPred().get(0);
-                PathNode target = (PathNode)((NodeConnection) pn.getSucc().get(0)).getTarget();
+                PathNode target = (PathNode) ((NodeConnection) pn.getSucc().get(0)).getTarget();
 
                 // because of the lack of a better CutPathCommand, have to enter a bunch of empty points.
                 EmptyPoint empty = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUrndefinition().getUrnspec(), EmptyPoint.class);

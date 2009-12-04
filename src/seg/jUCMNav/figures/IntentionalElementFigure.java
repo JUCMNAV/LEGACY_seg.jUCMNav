@@ -10,58 +10,52 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 import seg.jUCMNav.figures.anchors.DecompositionAnchor;
 
-
-
 /**
- * Rectangle figure that represent intentional elements:
- * - Softgoal = Cloud
- * - Goal = Ellipse
- * - Resource = Rectangle
- * - Task = Triangular Rectangle
- * - Indicator = Triangular Rectangle with two lines
+ * Rectangle figure that represent intentional elements: - Softgoal = Cloud - Goal = Ellipse - Resource = Rectangle - Task = Triangular Rectangle - Indicator =
+ * Triangular Rectangle with two lines
  * 
  * @author Jean-Fran�ois Roy, pchen
- *
+ * 
  */
 public class IntentionalElementFigure extends GrlNodeFigure {
 
     // the IntentionalElementType
     private int type;
-    //org.eclipse.draw2d.KeyListener keyListener;
-    
+    // org.eclipse.draw2d.KeyListener keyListener;
+
     private DecompositionAnchor decompositionTarget;
-    
+
     /**
      * Default figure is a Softgoal.
-     *  
+     * 
      */
     public IntentionalElementFigure() {
         super();
         setType(IntentionalElementType.SOFTGOAL);
         decompositionTarget = new DecompositionAnchor(this, DecompositionAnchor.TYPE_TARGET);
-        
-       // keyListener = new org.eclipse.draw2d.KeyListener();
-        //this.addKeyListener( keyListener );
+
+        // keyListener = new org.eclipse.draw2d.KeyListener();
+        // this.addKeyListener( keyListener );
     }
-    
-    public ConnectionAnchor getDecompositionTarget(){
+
+    public ConnectionAnchor getDecompositionTarget() {
         return decompositionTarget;
     }
-    
+
     protected void outlineShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
         PointList points = null;
         switch (type) {
         case IntentionalElementType.SOFTGOAL:
             setupBounds(r);
-            //Draw the half circle at the left
-            graphics.drawArc(r.getTopRight().x - r.width*2/5, r.getTop().y, r.width*2/5, r.height,266, 185);
-            //Draw the half circle at the right
-            graphics.drawArc(r.getTopLeft().x, r.getTop().y, r.width*2/5, r.height,90, 180);
-            //Draw the two half circle in the middle of the figure
-            graphics.drawArc(r.getTopLeft().x + r.width*1/5, r.getTop().y - r.height*1/16, r.width*3/5, r.height*2/16, 180, 185);
-            //Draw the two half circle in the middle of the figure
-            graphics.drawArc(r.getBottomLeft().x + r.width*1/5, r.getBottom().y - r.height*1/16, r.width*3/5, r.height*2/16, 0, 185);
+            // Draw the half circle at the left
+            graphics.drawArc(r.getTopRight().x - r.width * 2 / 5, r.getTop().y, r.width * 2 / 5, r.height, 266, 185);
+            // Draw the half circle at the right
+            graphics.drawArc(r.getTopLeft().x, r.getTop().y, r.width * 2 / 5, r.height, 90, 180);
+            // Draw the two half circle in the middle of the figure
+            graphics.drawArc(r.getTopLeft().x + r.width * 1 / 5, r.getTop().y - r.height * 1 / 16, r.width * 3 / 5, r.height * 2 / 16, 180, 185);
+            // Draw the two half circle in the middle of the figure
+            graphics.drawArc(r.getBottomLeft().x + r.width * 1 / 5, r.getBottom().y - r.height * 1 / 16, r.width * 3 / 5, r.height * 2 / 16, 0, 185);
             break;
         case IntentionalElementType.GOAL:
             setupBounds(r);
@@ -69,7 +63,7 @@ public class IntentionalElementFigure extends GrlNodeFigure {
             break;
         case IntentionalElementType.TASK:
             points = new PointList();
-            fillTaskPoints(r, points);         
+            fillTaskPoints(r, points);
             graphics.drawPolygon(points);
             break;
         case IntentionalElementType.RESSOURCE:
@@ -80,7 +74,7 @@ public class IntentionalElementFigure extends GrlNodeFigure {
             points = new PointList();
             fillIndicatorPoints(r, points);
             graphics.drawPolygon(points);
-            int w1 = r.width/10;
+            int w1 = r.width / 10;
             int h1 = r.height / 2;
             int h2 = h1 * 4 / 5;
             int w2 = (h2 * w1) / h1;
@@ -107,41 +101,41 @@ public class IntentionalElementFigure extends GrlNodeFigure {
     private void fillTaskPoints(Rectangle r, PointList points) {
         setupBounds(r);
 
-        points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
+        points.addPoint(r.getTopRight().x - r.width / 10, r.getTopRight().y);
         points.addPoint(r.getTopRight().x, r.getCenter().y);
-        points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
-        points.addPoint(r.getBottomLeft().x + r.width/10, r.getBottomLeft().y);
+        points.addPoint(r.getBottomRight().x - r.width / 10, r.getBottomRight().y);
+        points.addPoint(r.getBottomLeft().x + r.width / 10, r.getBottomLeft().y);
         points.addPoint(r.getTopLeft().x, r.getCenter().y);
-        points.addPoint(r.getTopLeft().x + r.width/10, r.getTopLeft().y);
+        points.addPoint(r.getTopLeft().x + r.width / 10, r.getTopLeft().y);
     }
-    
+
     private void fillIndicatorPoints(Rectangle r, PointList points) {
         setupBounds(r);
 
-        points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
+        points.addPoint(r.getTopRight().x - r.width / 10, r.getTopRight().y);
         points.addPoint(r.getTopRight().x, r.getCenter().y);
-        points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
-        points.addPoint(r.getBottomLeft().x + r.width/10, r.getBottomLeft().y);
+        points.addPoint(r.getBottomRight().x - r.width / 10, r.getBottomRight().y);
+        points.addPoint(r.getBottomLeft().x + r.width / 10, r.getBottomLeft().y);
         points.addPoint(r.getTopLeft().x, r.getCenter().y);
-        points.addPoint(r.getTopLeft().x + r.width/10, r.getTopLeft().y);
+        points.addPoint(r.getTopLeft().x + r.width / 10, r.getTopLeft().y);
     }
 
-    protected void fillShape(Graphics graphics){
+    protected void fillShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
         PointList points = new PointList();
         switch (type) {
         case IntentionalElementType.SOFTGOAL:
             setupBounds(r);
-            //Fill the half circle at the left
-            graphics.fillArc(r.getTopRight().x - r.width*2/5, r.getTop().y, r.width*2/5, r.height,266, 185);
-            //Fill the half circle at the right
-            graphics.fillArc(r.getTopLeft().x, r.getTop().y, r.width*2/5, r.height,90, 180);
-            //Fill the rectangle in the middle of the figure
-            graphics.fillRectangle(r.getTopLeft().x + r.width*1/6, r.getTop().y, r.width * 7/10, r.height);
-            //Fill the two half circle in the middle of the figure
-            graphics.fillArc(r.getTopLeft().x + r.width*1/5, r.getTop().y - r.height*1/16, r.width*3/5, r.height*2/16, 180, 185);
-            //Fill the two half circle in the middle of the figure
-            graphics.fillArc(r.getBottomLeft().x + r.width*1/5, r.getBottom().y - r.height*1/16, r.width*3/5, r.height*2/16, 0, 185);
+            // Fill the half circle at the left
+            graphics.fillArc(r.getTopRight().x - r.width * 2 / 5, r.getTop().y, r.width * 2 / 5, r.height, 266, 185);
+            // Fill the half circle at the right
+            graphics.fillArc(r.getTopLeft().x, r.getTop().y, r.width * 2 / 5, r.height, 90, 180);
+            // Fill the rectangle in the middle of the figure
+            graphics.fillRectangle(r.getTopLeft().x + r.width * 1 / 6, r.getTop().y, r.width * 7 / 10, r.height);
+            // Fill the two half circle in the middle of the figure
+            graphics.fillArc(r.getTopLeft().x + r.width * 1 / 5, r.getTop().y - r.height * 1 / 16, r.width * 3 / 5, r.height * 2 / 16, 180, 185);
+            // Fill the two half circle in the middle of the figure
+            graphics.fillArc(r.getBottomLeft().x + r.width * 1 / 5, r.getBottom().y - r.height * 1 / 16, r.width * 3 / 5, r.height * 2 / 16, 0, 185);
             break;
         case IntentionalElementType.GOAL:
             setupBounds(r);
@@ -165,8 +159,8 @@ public class IntentionalElementFigure extends GrlNodeFigure {
 
         }
     }
-    
-    public int getType(){
+
+    public int getType() {
         return type;
     }
 
@@ -180,5 +174,5 @@ public class IntentionalElementFigure extends GrlNodeFigure {
             this.type = type;
         }
     }
-    
+
 }

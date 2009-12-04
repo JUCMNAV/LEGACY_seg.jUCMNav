@@ -81,7 +81,7 @@ public class ColorManager {
 
         rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_POINTCUTBORDERCOLOR);
         POINTCUTBORDER = new Color(null, rgb.red, rgb.green, rgb.blue);
-        
+
         // if (FILL!=null)
         // {
         // FILL.dispose();
@@ -97,7 +97,7 @@ public class ColorManager {
         // }
         rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_LINKREFLABELCOLOR);
         LINKREFLABEL = new Color(null, rgb.red, rgb.green, rgb.blue);
-        
+
         // if (KPIMODELLINKREFLABEL!=null)
         // {
         // KPIMODELLINKREFLABEL.dispose();
@@ -105,7 +105,7 @@ public class ColorManager {
         // }
         rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_KPIMODELLINKREFLABELCOLOR);
         KPIMODELLINKREFLABEL = new Color(null, rgb.red, rgb.green, rgb.blue);
-        
+
         // if (STUBLABEL!=null)
         // {
         // STUBLABEL.dispose();

@@ -66,14 +66,12 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         case SelectionHelper.ENDPOINT_NODECONNECTION:
             if (!SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getNodeconnection()))
                 break;
-            return new DividePathCommand(sel.getEndpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                    .getNodeconnectionMiddle().y, true);
+            return new DividePathCommand(sel.getEndpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y, true);
         case SelectionHelper.STARTPOINT_NODECONNECTION:
             if (!SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getNodeconnection()))
                 break;
 
-            return new DividePathCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                    .getNodeconnectionMiddle().y, true);
+            return new DividePathCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y, true);
         }
 
         if (child instanceof PathNodeEditPart) {
@@ -162,7 +160,7 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
      * @return The PathGraph this NodeConnection is associated with.
      */
     private UCMmap getPathGraph() {
-        return (UCMmap)((NodeConnectionEditPart) getHost()).getMap();
+        return (UCMmap) ((NodeConnectionEditPart) getHost()).getMap();
     }
 
     /**

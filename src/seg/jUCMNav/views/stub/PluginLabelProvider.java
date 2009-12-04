@@ -17,7 +17,7 @@ import ucm.map.UCMmap;
  */
 public class PluginLabelProvider implements ILabelProvider {
 
-    Image icon = (JUCMNavPlugin.getImage( "icons/ucm16.gif")); //$NON-NLS-1$
+    Image icon = (JUCMNavPlugin.getImage("icons/ucm16.gif")); //$NON-NLS-1$
 
     /**
      *  
@@ -41,12 +41,15 @@ public class PluginLabelProvider implements ILabelProvider {
      * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
      */
     public String getText(Object element) {
-    	if (element instanceof PluginBinding)
-    		return ((PluginBinding) element).getPlugin().getName();
-    	else if (element instanceof OutBinding)
-    		return ((UCMmap)((OutBinding) element).getBinding().getStub().getDiagram()).getName() + ": " + ((OutBinding) element).getBinding().getStub().getName(); //$NON-NLS-1$
-    	else // inbinding
-    		return ((UCMmap)((InBinding) element).getBinding().getStub().getDiagram()).getName()+ ": " + ((InBinding) element).getBinding().getStub().getName(); //$NON-NLS-1$
+        if (element instanceof PluginBinding)
+            return ((PluginBinding) element).getPlugin().getName();
+        else if (element instanceof OutBinding)
+            return ((UCMmap) ((OutBinding) element).getBinding().getStub().getDiagram()).getName()
+                    + ": " + ((OutBinding) element).getBinding().getStub().getName(); //$NON-NLS-1$
+        else
+            // inbinding
+            return ((UCMmap) ((InBinding) element).getBinding().getStub().getDiagram()).getName()
+                    + ": " + ((InBinding) element).getBinding().getStub().getName(); //$NON-NLS-1$
 
     }
 
@@ -56,7 +59,7 @@ public class PluginLabelProvider implements ILabelProvider {
      * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
      */
     public void dispose() {
-        //icon.dispose();
+        // icon.dispose();
     }
 
     public boolean isLabelProperty(Object element, String property) {

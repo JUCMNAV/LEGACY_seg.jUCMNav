@@ -45,7 +45,6 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
         super(parent);
     }
 
-    
     /**
      * Builds the palette entries.
      */
@@ -158,7 +157,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
     }
 
     /**
-     * Add KPI entries to the palette 
+     * Add KPI entries to the palette
      */
     public void addKpi() {
         if (!contains(Messages.getString("GrlPaletteRoot.kpiModel"))) {
@@ -193,13 +192,13 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
             add(kpiModelDrawer);
         }
     }
-    
+
     /**
      * Remove KPI entries from the palette if there's already one present
      */
     public void removeKpi() {
         PaletteEntry kpi = getEntry(Messages.getString("GrlPaletteRoot.kpiModel"));
-        if(kpi != null)
+        if (kpi != null)
             remove(kpi);
     }
 
@@ -212,7 +211,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
     protected boolean contains(String name) {
         return getEntry(name) != null;
     }
-    
+
     /**
      * Find a palette entry from a label name
      * 

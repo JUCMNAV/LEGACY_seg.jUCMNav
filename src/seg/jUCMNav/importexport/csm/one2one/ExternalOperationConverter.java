@@ -32,7 +32,7 @@ public class ExternalOperationConverter implements AbstractConverter {
             description = "description=\"" + externalOpn.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else
             description = ""; //$NON-NLS-1$
-        
+
         if (externalOpn.getMultiplicity() != null) {
             multiplicity = "multiplicity=\"" + externalOpn.getMultiplicity() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {

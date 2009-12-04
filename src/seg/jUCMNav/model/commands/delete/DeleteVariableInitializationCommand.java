@@ -14,20 +14,18 @@ import ucm.scenario.Initialization;
  * Command to delete a Variable Initialization
  * 
  * @author jkealey
- *
+ * 
  */
 public class DeleteVariableInitializationCommand extends CompoundCommand {
 
     /**
      * @param init
-     *          the Initialization to delete
+     *            the Initialization to delete
      */
     public DeleteVariableInitializationCommand(Initialization init) {
         setLabel(Messages.getString("DeleteVariableInitializationCommand.DeleteVariableInitialization")); //$NON-NLS-1$
         add(new PreDeleteUrnModelElementCommand(init));
         add(new RemoveURNmodelElementCommand(init));
     }
-
-
 
 }

@@ -13,23 +13,24 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
  * Delete a Bendpoint from a LinkRef
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class DeleteLinkRefBendpointCommand extends Command implements JUCMNavCommand {
 
     LinkRefBendpoint oldBendpoint;
     LinkRef link;
-    
 
     /**
      * Constructor
+     * 
      * @param oldBendpoint
      */
     public DeleteLinkRefBendpointCommand(LinkRefBendpoint oldBendpoint) {
         this.oldBendpoint = oldBendpoint;
         link = oldBendpoint.getLinkref();
-        
+
         setLabel(Messages.getString("DeleteLinkRefBendpointCommand.DeleteLinkRefBendpoint")); //$NON-NLS-1$
     }
 
@@ -39,7 +40,7 @@ public class DeleteLinkRefBendpointCommand extends Command implements JUCMNavCom
     public void execute() {
         redo();
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -48,8 +49,10 @@ public class DeleteLinkRefBendpointCommand extends Command implements JUCMNavCom
         oldBendpoint.setLinkref(null);
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -59,7 +62,9 @@ public class DeleteLinkRefBendpointCommand extends Command implements JUCMNavCom
         assert oldBendpoint.getLinkref() == link : "Pre linkref"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

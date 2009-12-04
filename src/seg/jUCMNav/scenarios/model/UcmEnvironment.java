@@ -95,8 +95,8 @@ public class UcmEnvironment implements Adapter, Cloneable {
     /**
      * Throws an {@link IllegalArgumentException} if it already exists.
      * 
-     * @param root 
-     *            the variable 
+     * @param root
+     *            the variable
      */
     public void checkVariableDoesNotExist(SimpleNode root) {
         checkVariableDoesNotExist(root.getText());
@@ -105,8 +105,8 @@ public class UcmEnvironment implements Adapter, Cloneable {
     /**
      * Throws an {@link IllegalArgumentException} if it already exists.
      * 
-     * @param var 
-     *            the variable 
+     * @param var
+     *            the variable
      */
     public void checkVariableDoesNotExist(String var) {
         var = var.toLowerCase();
@@ -118,19 +118,18 @@ public class UcmEnvironment implements Adapter, Cloneable {
     /**
      * Throws an {@link IllegalArgumentException} if it doesn't already exists.
      * 
-     * @param root 
-     *            the variable 
+     * @param root
+     *            the variable
      */
     public jUCMNavType checkVariableExists(SimpleNode root) {
         return checkVariableExists(root.getText());
     }
 
-    
     /**
      * Throws an {@link IllegalArgumentException} if it doesn't already exists.
      * 
-     * @param var 
-     *            the variable 
+     * @param var
+     *            the variable
      */
     public jUCMNavType checkVariableExists(String var) {
         var = var.toLowerCase();
@@ -161,10 +160,11 @@ public class UcmEnvironment implements Adapter, Cloneable {
     /**
      * Throws an {@link IllegalArgumentException} if it already exists.
      * 
-     * @param enumName 
+     * @param enumName
      *            the enumeration
-     * @param value the proposed enumeration value
-     *             
+     * @param value
+     *            the proposed enumeration value
+     * 
      */
     public void checkEnumerationValueExists(String enumName, String value) {
         enumName = enumName.toLowerCase();
@@ -183,15 +183,15 @@ public class UcmEnvironment implements Adapter, Cloneable {
     }
 
     /**
-     * Clear all valuations. 
-     *
+     * Clear all valuations.
+     * 
      */
     public void clearValuations() {
         valuations.clear();
     }
 
     /**
-     * Clone the environment. Does not register listeners. 
+     * Clone the environment. Does not register listeners.
      */
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -200,15 +200,20 @@ public class UcmEnvironment implements Adapter, Cloneable {
     /**
      * Register a new boolean with the name var
      * 
-     * @param var the boolean's name. 
+     * @param var
+     *            the boolean's name.
      */
     public void registerBoolean(String var) {
         registerBoolean(var, false);
     }
+
     /**
-     * Register a new boolean with the name var and default valuation b. 
-     * @param var the boolean's name. 
-     * @param b the default value
+     * Register a new boolean with the name var and default valuation b.
+     * 
+     * @param var
+     *            the boolean's name.
+     * @param b
+     *            the default value
      */
     public void registerBoolean(String var, boolean b) {
         var = var.toLowerCase();
@@ -218,10 +223,12 @@ public class UcmEnvironment implements Adapter, Cloneable {
     }
 
     /**
-     * Register a new enumeration with a certain name and certain values. 
+     * Register a new enumeration with a certain name and certain values.
      * 
-     * @param enumName the enumeration name
-     * @param values its possible values. 
+     * @param enumName
+     *            the enumeration name
+     * @param values
+     *            its possible values.
      */
     public void registerEnumeration(String enumName, String[] values) {
         enumName = enumName.toLowerCase();
@@ -247,8 +254,10 @@ public class UcmEnvironment implements Adapter, Cloneable {
     /**
      * Retrieve a particular enumeration value
      * 
-     * @param enumName the enumeration name. 
-     * @param index the index of the enumeration value
+     * @param enumName
+     *            the enumeration name.
+     * @param index
+     *            the index of the enumeration value
      * @return the enumeration value
      */
     public String getEnumerationValue(String enumName, int index) {
@@ -259,9 +268,12 @@ public class UcmEnvironment implements Adapter, Cloneable {
     }
 
     /**
-     * Register a variable that is an instance of a particular enumeration. 
-     * @param enumName the enumeration type
-     * @param var the variable name. 
+     * Register a variable that is an instance of a particular enumeration.
+     * 
+     * @param enumName
+     *            the enumeration type
+     * @param var
+     *            the variable name.
      */
     public void registerEnumerationInstance(String enumName, String var) {
         enumName = enumName.toLowerCase();
@@ -270,10 +282,14 @@ public class UcmEnvironment implements Adapter, Cloneable {
     }
 
     /**
-     * Register a variable that is an instance of a particular enumeration. 
-     * @param enumName the enumeration type
-     * @param var the variable name.
-     * @param value the default value.  
+     * Register a variable that is an instance of a particular enumeration.
+     * 
+     * @param enumName
+     *            the enumeration type
+     * @param var
+     *            the variable name.
+     * @param value
+     *            the default value.
      */
     public void registerEnumerationInstance(String enumName, String var, String value) {
         enumName = enumName.toLowerCase();
@@ -289,7 +305,9 @@ public class UcmEnvironment implements Adapter, Cloneable {
 
     /**
      * Registers a new integer
-     * @param var the variable name. 
+     * 
+     * @param var
+     *            the variable name.
      */
     public void registerInteger(String var) {
         registerInteger(var, 0);
@@ -297,8 +315,11 @@ public class UcmEnvironment implements Adapter, Cloneable {
 
     /**
      * Registers a new integer
-     * @param var the variable name
-     * @param i the default value
+     * 
+     * @param var
+     *            the variable name
+     * @param i
+     *            the default value
      */
     public void registerInteger(String var, int i) {
         var = var.toLowerCase();
@@ -308,9 +329,11 @@ public class UcmEnvironment implements Adapter, Cloneable {
     }
 
     /**
-     * Returns the value of a variable in the environment. 
-     * @param var the variable name
-     * @return its valuation. 
+     * Returns the value of a variable in the environment.
+     * 
+     * @param var
+     *            the variable name
+     * @return its valuation.
      */
     public Object getValue(String var) {
         String lower = var.toLowerCase();
@@ -330,8 +353,11 @@ public class UcmEnvironment implements Adapter, Cloneable {
 
     /**
      * Sets the value of a variable in the environment
-     * @param var the variable name
-     * @param o the valuation
+     * 
+     * @param var
+     *            the variable name
+     * @param o
+     *            the valuation
      */
     public void setValue(String var, Object o) {
         var = var.toLowerCase();
@@ -339,20 +365,21 @@ public class UcmEnvironment implements Adapter, Cloneable {
     }
 
     /*
-     * Needed to list to the UCMspec  
+     * Needed to list to the UCMspec
      */
     public Notifier getTarget() {
         return urn;
     }
+
     /*
-     * Needed to list to the UCMspec  
+     * Needed to list to the UCMspec
      */
     public boolean isAdapterForType(Object arg0) {
         return arg0 instanceof URNspec;
     }
 
     /**
-     * Notification when the UCMspec changes (new/deleted variable/enumeration)  
+     * Notification when the UCMspec changes (new/deleted variable/enumeration)
      */
     public void notifyChanged(Notification notification) {
 
@@ -373,10 +400,9 @@ public class UcmEnvironment implements Adapter, Cloneable {
             if (featureId == GrlPackage.GR_LSPEC__INT_ELEMENTS) {
                 registerUCMspec(((GRLspec) notification.getNotifier()).getUrnspec().getUcmspec());
             }
-            
-        }
-        else if (notification.getNotifier() instanceof Variable) {
-        
+
+        } else if (notification.getNotifier() instanceof Variable) {
+
             int featureId = notification.getFeatureID(Variable.class);
 
             if (featureId == ScenarioPackage.VARIABLE__NAME) {
@@ -395,8 +421,7 @@ public class UcmEnvironment implements Adapter, Cloneable {
                 // assuming we can't change type.
             }
             // refresh();
-        }
-        else if (notification.getNotifier() instanceof IntentionalElement) {
+        } else if (notification.getNotifier() instanceof IntentionalElement) {
             int featureId = notification.getFeatureID(IntentionalElement.class);
             if (featureId == GrlPackage.INTENTIONAL_ELEMENT__NAME) {
                 String name = URNNamingHelper.getGrlVariableName(notification.getOldValue().toString().toLowerCase()).toLowerCase();
@@ -406,23 +431,25 @@ public class UcmEnvironment implements Adapter, Cloneable {
                     declarations.remove(name);
                     declarations.put(newName, o);
                 } else {
-                    registerInteger(URNNamingHelper.getGrlVariableName((IntentionalElement)notification.getNotifier()));
+                    registerInteger(URNNamingHelper.getGrlVariableName((IntentionalElement) notification.getNotifier()));
                 }
             }
         }
 
     }
+
     /*
-     * Needed to list to the UCMspec  
+     * Needed to list to the UCMspec
      */
     public void setTarget(Notifier arg0) {
         refresh();
     }
 
     /**
-     * Register yourself as a listener to this ucmspec. Unregisters any previous ucmspec 
+     * Register yourself as a listener to this ucmspec. Unregisters any previous ucmspec
      * 
-     * @param ucmspec the ucmspec. 
+     * @param ucmspec
+     *            the ucmspec.
      */
     private void registerUCMspec(UCMspec ucmspec) {
         if (this.urn != null && ucmspec.getUrnspec() != this.urn) {
@@ -433,11 +460,11 @@ public class UcmEnvironment implements Adapter, Cloneable {
                 Variable var = (Variable) iter.next();
                 var.eAdapters().remove(this);
             }
-            
+
             for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
                 IntentionalElement var = (IntentionalElement) iter.next();
                 var.eAdapters().remove(this);
-            }            
+            }
 
         }
 
@@ -456,18 +483,18 @@ public class UcmEnvironment implements Adapter, Cloneable {
                 if (!var.eAdapters().contains(this))
                     var.eAdapters().add(this);
             }
-            
+
             for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
                 IntentionalElement var = (IntentionalElement) iter.next();
                 if (!var.eAdapters().contains(this))
                     var.eAdapters().add(this);
-            }              
+            }
         }
     }
 
     /**
-     * Gets rid of all stored data and reloads them from the associated URNspec 
-     *
+     * Gets rid of all stored data and reloads them from the associated URNspec
+     * 
      */
     private void refresh() {
         if (this.urn == null) {
@@ -499,32 +526,29 @@ public class UcmEnvironment implements Adapter, Cloneable {
                         if (!doesEnumerationExist(var.getEnumerationType().getId()))
                             this.registerEnumeration(var.getEnumerationType().getId(), var.getEnumerationType().getValues().split(",")); //$NON-NLS-1$
 
-                        if (oldValuations.containsKey(name)) 
-                        {
-                        	try {
-                        		this.registerEnumerationInstance(var.getEnumerationType().getId(), name, oldValuations.get(name).toString());
-                        	} catch (IllegalArgumentException ex)
-                        	{
-                        		// bug 698
-                        		this.registerEnumerationInstance(var.getEnumerationType().getId(), name);
-                        	}
-                        }
-                        else
+                        if (oldValuations.containsKey(name)) {
+                            try {
+                                this.registerEnumerationInstance(var.getEnumerationType().getId(), name, oldValuations.get(name).toString());
+                            } catch (IllegalArgumentException ex) {
+                                // bug 698
+                                this.registerEnumerationInstance(var.getEnumerationType().getId(), name);
+                            }
+                        } else
                             this.registerEnumerationInstance(var.getEnumerationType().getId(), name);
                     }
 
                 }
 
             }
-            
+
             if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
                 Vector v2 = URNNamingHelper.getGrlVariableNames(urn);
                 for (Iterator iter = v2.iterator(); iter.hasNext();) {
                     String element = (String) iter.next();
                     try {
                         this.registerInteger(element);
-                    } catch(IllegalArgumentException ex) {
-                        // ignore naming conflicts. the UCM elements have precedence.  
+                    } catch (IllegalArgumentException ex) {
+                        // ignore naming conflicts. the UCM elements have precedence.
                     }
                 }
             }

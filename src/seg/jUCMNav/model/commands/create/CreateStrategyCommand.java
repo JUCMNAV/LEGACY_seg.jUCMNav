@@ -14,23 +14,24 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
 /**
- * Creates a new strategy. 
+ * Creates a new strategy.
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class CreateStrategyCommand extends Command implements JUCMNavCommand {
 
     private URNspec urn;
     private StrategiesGroup group;
     private EvaluationStrategy strategy;
-    
+
     /**
      * 
      */
     public CreateStrategyCommand(URNspec urn, StrategiesGroup group) {
         this.urn = urn;
         this.group = group;
-        strategy = (EvaluationStrategy)ModelCreationFactory.getNewObject(urn, EvaluationStrategy.class);
+        strategy = (EvaluationStrategy) ModelCreationFactory.getNewObject(urn, EvaluationStrategy.class);
         setLabel(Messages.getString("CreateStrategyCommand.createStrategy")); //$NON-NLS-1$
     }
 
@@ -42,15 +43,16 @@ public class CreateStrategyCommand extends Command implements JUCMNavCommand {
     }
 
     public EvaluationStrategy getStrategy() {
-		return strategy;
-	}
+        return strategy;
+    }
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
         redo();
     }
-    
+
     /**
      * 
      * @see org.eclipse.gef.commands.Command#redo()
@@ -61,8 +63,10 @@ public class CreateStrategyCommand extends Command implements JUCMNavCommand {
         group.getStrategies().add(strategy);
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -70,7 +74,9 @@ public class CreateStrategyCommand extends Command implements JUCMNavCommand {
         assert !group.getStrategies().contains(strategy) : "pre strategy not in model"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

@@ -6,7 +6,7 @@ package seg.jUCMNav.views.wizards;
  * You enter numbers and you can get the sum, mean and standard deviation.
  * 
  * @author oclift
- *  
+ * 
  */
 public class StatCalc {
     private int n = 0;

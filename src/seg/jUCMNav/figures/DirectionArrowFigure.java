@@ -10,7 +10,6 @@ import org.eclipse.swt.SWT;
  */
 public class DirectionArrowFigure extends ResponsibilityFigure implements IRotateable {
 
-
     /**
      * Create arrow taking half the horizontal and vertical space.
      * 
@@ -41,5 +40,4 @@ public class DirectionArrowFigure extends ResponsibilityFigure implements IRotat
         add(edge2);
     }
 
-  
 }

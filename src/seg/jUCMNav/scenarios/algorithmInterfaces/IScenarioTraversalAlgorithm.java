@@ -45,19 +45,17 @@ public interface IScenarioTraversalAlgorithm {
     public abstract void init(UcmEnvironment env, UCMspec ucmspec);
 
     /**
-     * Adds a list of {@link ITraversalListener} to the current internal listener list.  
+     * Adds a list of {@link ITraversalListener} to the current internal listener list.
      * 
-     * @param newListeners the new listeners 
+     * @param newListeners
+     *            the new listeners
      */
     public abstract void addListeners(Vector newListeners);
-
-    
 
     /**
      * Erase any traversal results we may have obtained.
      */
     public void clearTraversalResults();
-
 
     /**
      * Returns the traversal result for a certain element.
@@ -67,8 +65,7 @@ public interface IScenarioTraversalAlgorithm {
      * @return the traversal result or null if it does not exist.
      */
     public TraversalResult getTraversalResults(EObject obj);
-    
-    
+
     /**
      * Execute the scenario in its environment. - Perform initializations - Verify preconditions - Execute the traversal algorithm - Verify postconditions -
      * Temporary: Show warnings. Caller should build warnings using {@link #getWarnings()}

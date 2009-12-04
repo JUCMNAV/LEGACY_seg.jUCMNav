@@ -57,23 +57,23 @@ public class ImportWizard extends Wizard implements IImportWizard {
 
     protected boolean success = false;
 
-    protected boolean hasBeenOpened=false;
-    
+    protected boolean hasBeenOpened = false;
+
     /**
      * Editor open by the wizard.
      */
     protected UCMNavMultiPageEditor openedEditor;
-    
+
     /**
      * URNspec coming from the selection
      */
     private URNspec urn;
-    
+
     /**
      * Vector that contains diagram ids to use autolayout
      */
     private Vector autolayoutDiagrams;
-    
+
     /**
      * Initialize preferences.
      */
@@ -85,18 +85,18 @@ public class ImportWizard extends Wizard implements IImportWizard {
      * Add both pages
      */
     public void addPages() {
-        addPage(new ImportWizardFileSelectionPage(PAGE0,selection));
+        addPage(new ImportWizardFileSelectionPage(PAGE0, selection));
     }
 
     /**
      * Closes the editor opened during the wizard's work.
      */
     private void closedOpenedEditor() {
-        if (openedEditor != null && hasBeenOpened){
-            openedEditor.closeEditor(true);   
+        if (openedEditor != null && hasBeenOpened) {
+            openedEditor.closeEditor(true);
         }
     }
-    
+
     /**
      * Saves all images and closes opened editors.
      */
@@ -104,10 +104,10 @@ public class ImportWizard extends Wizard implements IImportWizard {
         boolean b = ((ImportWizardFileSelectionPage) getPage(PAGE0)).finish();
 
         if (b) {
-            //If we need didn't import in the current file, set the path
-            if (urn == null || ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_NEWFILE){
+            // If we need didn't import in the current file, set the path
+            if (urn == null || ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_NEWFILE) {
                 ImportPreferenceHelper.setSavePath(ImportPreferenceHelper.getPath());
-            } 
+            }
             // given the import type, get the exporter id
             int importtype = ImportPreferenceHelper.getType();
             String id = URNImportExtensionPointHelper.getExporterFromLabelIndex(importtype);
@@ -122,9 +122,8 @@ public class ImportWizard extends Wizard implements IImportWizard {
                 FileInputStream fis;
                 try {
                     fis = new FileInputStream(new File(path));
-                    //If import type is URN, import the file in this urn
-                    if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN 
-                            && urn != null){
+                    // If import type is URN, import the file in this urn
+                    if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN && urn != null) {
                         newurn = importer.importURN(fis, urn, autolayoutDiagrams);
                     } else {
                         newurn = importer.importURN(fis, autolayoutDiagrams);
@@ -136,15 +135,14 @@ public class ImportWizard extends Wizard implements IImportWizard {
                 }
 
             } else {
-                if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN
-                        && urn != null){
+                if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN && urn != null) {
                     newurn = importer.importURN(path, urn, autolayoutDiagrams);
                 } else {
                     newurn = importer.importURN(path, autolayoutDiagrams);
                 }
             }
 
-            //newurn = importer.importURN(ImportPreferenceHelper.getPath());
+            // newurn = importer.importURN(ImportPreferenceHelper.getPath());
         }
         return b;
     }
@@ -162,36 +160,36 @@ public class ImportWizard extends Wizard implements IImportWizard {
      */
     public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
         this.page = workbench.getActiveWorkbenchWindow().getActivePage();
-        this.hasBeenOpened=false;
-        //ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_NEWFILE);
+        this.hasBeenOpened = false;
+        // ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_NEWFILE);
         ImportPreferenceHelper.setSavePath(ImportPreferenceHelper.getPath());
         // editor = (UCMNavMultiPageEditor) page.getActiveEditor();
         setWindowTitle(Messages.getString("ImportWizard.ImportFile")); //$NON-NLS-1$
-        
-        //Set the import type
+
+        // Set the import type
         // given the import type, get the exporter id
         int importtype = ImportPreferenceHelper.getType();
         String id = URNImportExtensionPointHelper.getExporterFromLabelIndex(importtype);
 
-        if (URNImportExtensionPointHelper.isImportInSelectedFile(id)){
+        if (URNImportExtensionPointHelper.isImportInSelectedFile(id)) {
             ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_URN);
         } else {
             ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_NEWFILE);
         }
-        
-        //Opened the selected editor and get the urnspec if option choose in plugin.xml
-        if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN){
+
+        // Opened the selected editor and get the urnspec if option choose in plugin.xml
+        if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN) {
             // filter ifile resources
             this.selection = currentSelection;
             List selectedResources = IDE.computeSelectedResources(currentSelection);
             if (!selectedResources.isEmpty()) {
                 this.selection = new StructuredSelection(selectedResources);
             }
-            
+
             IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
             for (Iterator iter = this.selection.iterator(); iter.hasNext();) {
                 Object obj = iter.next();
-    
+
                 // if is an IFile, open the editor and extract the URNspec
                 if (obj instanceof IFile) {
                     IFile element = (IFile) obj;
@@ -203,18 +201,18 @@ public class ImportWizard extends Wizard implements IImportWizard {
                         // if editor isn't opened, open it.
                         if (openedEditor == null) {
                             openedEditor = (UCMNavMultiPageEditor) page.openEditor(input, desc.getId(), false);
-                            this.hasBeenOpened=true;
+                            this.hasBeenOpened = true;
                         }
                         urn = openedEditor.getModel();
                         ImportPreferenceHelper.setSavePath(((FileEditorInput) openedEditor.getEditorInput()).getPath().toOSString());
-                        //ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_URN);
+                        // ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_URN);
                     } catch (ClassCastException e) {
                         // if default editor isn't UCMNavMultiPageEditor
                         e.printStackTrace();
                     } catch (PartInitException e) {
                         e.printStackTrace();
                     }
-                }else {
+                } else {
                     // is a Diagram or URNSpec; extract diagram from those.
                     IEditorPart editorpart = workbench.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
                     if (editorpart instanceof UCMNavMultiPageEditor) {
@@ -222,20 +220,20 @@ public class ImportWizard extends Wizard implements IImportWizard {
                         if (obj instanceof IURNDiagram) {
                             IURNDiagram diagram = (IURNDiagram) obj;
                             urn = diagram.getUrndefinition().getUrnspec();
-                            openedEditor = (UCMNavMultiPageEditor)editorpart;
+                            openedEditor = (UCMNavMultiPageEditor) editorpart;
                             ImportPreferenceHelper.setSavePath(((FileEditorInput) openedEditor.getEditorInput()).getPath().toOSString());
-                            //ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_URN);
+                            // ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_URN);
                         } else if (obj instanceof URNspec) {
-                            urn = (URNspec)obj;
-                            openedEditor = (UCMNavMultiPageEditor)editorpart;
+                            urn = (URNspec) obj;
+                            openedEditor = (UCMNavMultiPageEditor) editorpart;
                             ImportPreferenceHelper.setSavePath(((FileEditorInput) openedEditor.getEditorInput()).getPath().toOSString());
-                            //ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_URN);
+                            // ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_URN);
                         }
                     }
                 }
             }
-        } else 
-        	this.selection =currentSelection;
+        } else
+            this.selection = currentSelection;
     }
 
     /**
@@ -267,26 +265,24 @@ public class ImportWizard extends Wizard implements IImportWizard {
             ((ImportWizardFileSelectionPage) getPage(PAGE0)).preFinish();
             getContainer().run(true, false, op);
 
-            //Close the editor
+            // Close the editor
             closedOpenedEditor();
             jUCMNavLoader loader = new jUCMNavLoader(page, getShell());
-            if ((success) && urn != null && ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN){
-                if(ImportPreferenceHelper.getAutoLayout()){
-                    loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, true,
-                            true, autolayoutDiagrams);
-                } else{
-                    loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, true,
-                        true);
+            if ((success) && urn != null && ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN) {
+                if (ImportPreferenceHelper.getAutoLayout()) {
+                    loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, true, true, autolayoutDiagrams);
+                } else {
+                    loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, true, true);
                 }
             } else if ((success)) {
-                if (ImportPreferenceHelper.getAutoLayout()){
+                if (ImportPreferenceHelper.getAutoLayout()) {
                     loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, true,
-                            ((ImportWizardFileSelectionPage) getPage(PAGE0)).overwrite,autolayoutDiagrams);
-                } else{
+                            ((ImportWizardFileSelectionPage) getPage(PAGE0)).overwrite, autolayoutDiagrams);
+                } else {
                     loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, true,
-                        ((ImportWizardFileSelectionPage) getPage(PAGE0)).overwrite);
+                            ((ImportWizardFileSelectionPage) getPage(PAGE0)).overwrite);
                 }
-            } 
+            }
 
         } catch (InterruptedException e) {
             return false;

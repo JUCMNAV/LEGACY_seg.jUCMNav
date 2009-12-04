@@ -3,7 +3,7 @@ package seg.jUCMNav.importexport;
 import org.eclipse.swt.SWT;
 
 /**
- * Exports as JPEG file. For Eclipse 3.3 and above. 
+ * Exports as JPEG file. For Eclipse 3.3 and above.
  * 
  * @author damyot
  * 

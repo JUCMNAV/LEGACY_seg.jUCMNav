@@ -67,27 +67,24 @@ public class TimerFigure extends PathNodeFigure {
     protected boolean useLocalCoordinates() {
         return true;
     }
-    
-    
-	protected void setColors() {
-		if (selected) {
-    		ellipse.setForegroundColor(ColorManager.LINE);
-    		setColor(ColorManager.SELECTED);
-    	}
-    	else if (traversed) {
-    		ellipse.setForegroundColor(ColorManager.TRAVERSAL);
+
+    protected void setColors() {
+        if (selected) {
+            ellipse.setForegroundColor(ColorManager.LINE);
+            setColor(ColorManager.SELECTED);
+        } else if (traversed) {
+            ellipse.setForegroundColor(ColorManager.TRAVERSAL);
             if (hover)
                 setColor(ColorManager.HOVER);
             else
-                setColor(ColorManager.FILL);        		
-    	}
-        else {
-        	ellipse.setForegroundColor(ColorManager.LINE);
+                setColor(ColorManager.FILL);
+        } else {
+            ellipse.setForegroundColor(ColorManager.LINE);
             if (hover)
                 setColor(ColorManager.HOVER);
             else
-                setColor(ColorManager.FILL);    		
+                setColor(ColorManager.FILL);
         }
-	}
-	
+    }
+
 }

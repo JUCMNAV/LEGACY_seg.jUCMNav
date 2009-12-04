@@ -37,9 +37,10 @@ public class StartPointFigure extends PathNodeFigure {
     }
 
     public void setColor(Color bg) {
-    	super.setColor(bg);
-    	ellipse.setBackgroundColor(bg);
+        super.setColor(bg);
+        ellipse.setBackgroundColor(bg);
     }
+
     /**
      * Makes it larger on hover.
      */
@@ -55,29 +56,27 @@ public class StartPointFigure extends PathNodeFigure {
             ellipse.setSize(DEFAULT_WIDTH * 2 / 3, DEFAULT_HEIGHT * 2 / 3);
         }
     }
-    
-	/**
-	 * the color of a start point depends on whether it is selected, traversed, or the border of a pointcut expression
-	 * @see seg.jUCMNav.figures.PathNodeFigure#setColors()
-	 */
-	protected void setColors() {
-		if (selected) {
-    		setForegroundColor(ColorManager.LINE);
-    		setColor(ColorManager.SELECTED);
-    	}
-    	else if (traversed) {
-    		setForegroundColor(ColorManager.TRAVERSAL);
+
+    /**
+     * the color of a start point depends on whether it is selected, traversed, or the border of a pointcut expression
+     * 
+     * @see seg.jUCMNav.figures.PathNodeFigure#setColors()
+     */
+    protected void setColors() {
+        if (selected) {
+            setForegroundColor(ColorManager.LINE);
+            setColor(ColorManager.SELECTED);
+        } else if (traversed) {
+            setForegroundColor(ColorManager.TRAVERSAL);
             setColor(ColorManager.TRAVERSAL);
-    	}
-        else if (isPointcutBorder) {
-    		setForegroundColor(ColorManager.POINTCUTBORDER);
+        } else if (isPointcutBorder) {
+            setForegroundColor(ColorManager.POINTCUTBORDER);
             setColor(ColorManager.POINTCUTBORDER);
-    	}
-        else {
-    		setForegroundColor(ColorManager.LINE);
+        } else {
+            setForegroundColor(ColorManager.LINE);
             setColor(ColorManager.LINE);
         }
-	}
+    }
 
     /**
      * We need local coordinates when resizing

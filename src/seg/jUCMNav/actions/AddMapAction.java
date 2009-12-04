@@ -21,7 +21,7 @@ public class AddMapAction extends URNSelectionAction {
     public AddMapAction(IWorkbenchPart part) {
         super(part);
         setId(ADDMAP);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/ucm16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/ucm16.gif")); //$NON-NLS-1$
     }
 
     /**
@@ -29,10 +29,10 @@ public class AddMapAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-    	int type=sel.getSelectionType();
-        
-        return sel.getUrnspec() != null && ( type == SelectionHelper.MAP || type == SelectionHelper.GRLGRAPH || 
-        		                            (type == SelectionHelper.URNSPEC) && (sel.getSelection().size() == 1) );
+        int type = sel.getSelectionType();
+
+        return sel.getUrnspec() != null
+                && (type == SelectionHelper.MAP || type == SelectionHelper.GRLGRAPH || (type == SelectionHelper.URNSPEC) && (sel.getSelection().size() == 1));
 
     }
 
@@ -44,9 +44,8 @@ public class AddMapAction extends URNSelectionAction {
 
         CreateMapCommand create = new CreateMapCommand(sel.getUrnspec());
 
-        if (create.canExecute())
-        {
-       		DisplayPreferences.getInstance().setShowUCMS(true);
+        if (create.canExecute()) {
+            DisplayPreferences.getInstance().setShowUCMS(true);
         }
         return create;
     }

@@ -20,29 +20,29 @@ import ucm.scenario.ScenarioGroup;
  */
 public class StrategiesGroupComponentEditPolicy extends ComponentEditPolicy {
 
-	/**
-	 * Return a DeleteStrategiesGroupCommand
-	 */
-	protected Command getDeleteCommand(GroupRequest request) {
-		Object obj = getHost().getModel();
-		if (obj instanceof StrategiesGroup) {
+    /**
+     * Return a DeleteStrategiesGroupCommand
+     */
+    protected Command getDeleteCommand(GroupRequest request) {
+        Object obj = getHost().getModel();
+        if (obj instanceof StrategiesGroup) {
 
-			StrategiesGroup group = (StrategiesGroup) obj;
-			if (group.getStrategies().size() == 0) {
-				DeleteStrategiesGroupCommand deleteCommand = new DeleteStrategiesGroupCommand(group);
-				return deleteCommand;
-			} else
-				return null;
-		} else if (obj instanceof ScenarioGroup) {
+            StrategiesGroup group = (StrategiesGroup) obj;
+            if (group.getStrategies().size() == 0) {
+                DeleteStrategiesGroupCommand deleteCommand = new DeleteStrategiesGroupCommand(group);
+                return deleteCommand;
+            } else
+                return null;
+        } else if (obj instanceof ScenarioGroup) {
 
-			ScenarioGroup group = (ScenarioGroup) obj;
-			if (group.getScenarios().size() == 0) {
-				DeleteStrategiesGroupCommand deleteCommand = new DeleteStrategiesGroupCommand(group);
-				return deleteCommand;
-			} else
-				return null;
-		}
+            ScenarioGroup group = (ScenarioGroup) obj;
+            if (group.getScenarios().size() == 0) {
+                DeleteStrategiesGroupCommand deleteCommand = new DeleteStrategiesGroupCommand(group);
+                return deleteCommand;
+            } else
+                return null;
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

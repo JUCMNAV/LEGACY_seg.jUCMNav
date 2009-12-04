@@ -26,7 +26,7 @@ public class AddOrJoinAction extends URNSelectionAction {
     public AddOrJoinAction(IWorkbenchPart part) {
         super(part);
         setId(ADDORJOIN);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrJoin16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/OrJoin16.gif")); //$NON-NLS-1$
     }
 
     /**

@@ -18,15 +18,17 @@ import urncore.Concern;
 
 /**
  * RootTreeEditPart for the root in the Concern Outline
+ * 
  * @author gunterm
  */
 public class ConcernsRootTreeEditPart extends OutlineRootEditPart implements Adapter {
 
     // required for Adapter
     private Notifier target;
-    
+
     /**
-     * @param editor represents the editor
+     * @param editor
+     *            represents the editor
      */
     public ConcernsRootTreeEditPart(UCMNavMultiPageEditor editor) {
         super(editor);
@@ -46,9 +48,10 @@ public class ConcernsRootTreeEditPart extends OutlineRootEditPart implements Ada
         list.add(Messages.getString("ConcernsLabelTreeEditPart.DiagramsWithoutConcerns")); //$NON-NLS-1$
         return list;
     }
-    
+
     /**
      * Listens to the URNdefinition
+     * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#activate()
      */
     public void activate() {
@@ -59,17 +62,19 @@ public class ConcernsRootTreeEditPart extends OutlineRootEditPart implements Ada
 
     /**
      * Stops listening to the URNdefinition
+     * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#deactivate()
      */
     public void deactivate() {
         if (isActive())
-        	((UCMNavMultiPageEditor) getModel()).getModel().getUrndef().eAdapters().remove(this);
+            ((UCMNavMultiPageEditor) getModel()).getModel().getUrndef().eAdapters().remove(this);
         super.deactivate();
     }
 
     /**
-     * When the concerns of the URNdefinition change, refresh the children of this ConcernsRootTreeEditPart. 
-     * There is no need to refresh the visuals of this ConcernsRootTreeEditPart since it is not displayed.  
+     * When the concerns of the URNdefinition change, refresh the children of this ConcernsRootTreeEditPart. There is no need to refresh the visuals of this
+     * ConcernsRootTreeEditPart since it is not displayed.
+     * 
      * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
@@ -79,7 +84,7 @@ public class ConcernsRootTreeEditPart extends OutlineRootEditPart implements Ada
                 refreshChildren();
         }
     }
-    
+
     /**
      * @see org.eclipse.emf.common.notify.Adapter#getTarget()
      */
@@ -100,5 +105,5 @@ public class ConcernsRootTreeEditPart extends OutlineRootEditPart implements Ada
     public boolean isAdapterForType(Object type) {
         return type.equals(getModel().getClass());
     }
-    
+
 }

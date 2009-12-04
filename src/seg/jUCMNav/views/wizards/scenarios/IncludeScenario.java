@@ -21,83 +21,81 @@ import seg.jUCMNav.model.commands.create.IncludeScenarioCommand;
 import ucm.scenario.ScenarioDef;
 
 /**
- * Wizard for including a scenario into another.   
+ * Wizard for including a scenario into another.
  * 
  * @author jkealey
  */
 public class IncludeScenario extends Wizard {
-	private IncludeScenarioPage page;
-	private ISelection selection;
-    
+    private IncludeScenarioPage page;
+    private ISelection selection;
+
     /**
      * The workbench page in which we are working
      */
     protected IWorkbenchPage workbenchPage;
-    
 
-    /** 
+    /**
      * Creates the editor
      */
-	public IncludeScenario() {
-		super();
-		setNeedsProgressMonitor(true);
-		this.setWindowTitle(Messages.getString("IncludeScenario.IncludeScenario"));   //$NON-NLS-1$
-		
-	}
+    public IncludeScenario() {
+        super();
+        setNeedsProgressMonitor(true);
+        this.setWindowTitle(Messages.getString("IncludeScenario.IncludeScenario")); //$NON-NLS-1$
 
-	/**
-	 * Adding the page to the wizard.
-	 */
-	public void addPages() {
-		page = new IncludeScenarioPage(selection);
-		addPage(page);
-	}
+    }
 
-	/**
-	 * This method is called when 'Finish' button is pressed in the wizard. We
-	 * will create an operation and run it using wizard as execution context.
-	 */
-	public boolean performFinish() {
-		final ScenarioDef parent = page.getParentScenario();
-		final Vector children = page.getChildScenarios();
-		
+    /**
+     * Adding the page to the wizard.
+     */
+    public void addPages() {
+        page = new IncludeScenarioPage(selection);
+        addPage(page);
+    }
 
-		CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
+    /**
+     * This method is called when 'Finish' button is pressed in the wizard. We will create an operation and run it using wizard as execution context.
+     */
+    public boolean performFinish() {
+        final ScenarioDef parent = page.getParentScenario();
+        final Vector children = page.getChildScenarios();
 
-		CompoundCommand cmd = new CompoundCommand();
-		for (Iterator iter = children.iterator(); iter.hasNext();) {
-			ScenarioDef child = (ScenarioDef) iter.next();
-			IncludeScenarioCommand command = new IncludeScenarioCommand(parent, child);
-			if (command.canExecute())
-				cmd.add(command);
+        CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 
-			
-		}
-		// use a command to be undoable.
-		if (cmd.canExecute())
-			cs.execute(cmd);
-		
-		return true;
-	}
+        CompoundCommand cmd = new CompoundCommand();
+        for (Iterator iter = children.iterator(); iter.hasNext();) {
+            ScenarioDef child = (ScenarioDef) iter.next();
+            IncludeScenarioCommand command = new IncludeScenarioCommand(parent, child);
+            if (command.canExecute())
+                cmd.add(command);
 
-	/** 
-	 * Throws an error using the message.  
-	 * @param message the error message. 
-	 * @throws CoreException the generated exception. 
-	 */
-	private void throwCoreException(String message) throws CoreException {
-		IStatus status = new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null); //$NON-NLS-1$
-		throw new CoreException(status);
-	}
+        }
+        // use a command to be undoable.
+        if (cmd.canExecute())
+            cs.execute(cmd);
 
-	/**
-	 * We will accept the selection in the workbench to see if we can initialize
-	 * from it.
-	 * 
-	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
-	 */
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		this.selection = selection;
+        return true;
+    }
+
+    /**
+     * Throws an error using the message.
+     * 
+     * @param message
+     *            the error message.
+     * @throws CoreException
+     *             the generated exception.
+     */
+    private void throwCoreException(String message) throws CoreException {
+        IStatus status = new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null); //$NON-NLS-1$
+        throw new CoreException(status);
+    }
+
+    /**
+     * We will accept the selection in the workbench to see if we can initialize from it.
+     * 
+     * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
+     */
+    public void init(IWorkbench workbench, IStructuredSelection selection) {
+        this.selection = selection;
         this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
-	}
+    }
 }

@@ -26,7 +26,7 @@ import urncore.URNmodelElement;
  * 
  * @author pchen
  */
-public class KPIUrnModelElementTreeEditPart extends UrnAbstractTreeEditPart  implements Adapter {
+public class KPIUrnModelElementTreeEditPart extends UrnAbstractTreeEditPart implements Adapter {
     // The property source associated with this model element.
     protected IPropertySource propertySource = null;
 
@@ -127,15 +127,13 @@ public class KPIUrnModelElementTreeEditPart extends UrnAbstractTreeEditPart  imp
      * @see seg.jUCMNav.model.util.EObjectClassNameComparator
      */
     protected String getText() {
-        //Set the text depending on the outline preferences
-    	if(DisplayPreferences.getInstance().getShowNodeNumber())
-    	{
-    		//This class return the ID between () at the element name
-    		return EObjectClassNameComparator.getSortableElementName((EObject) getModel());
-    	} else
-    	{
-    		return URNNamingHelper.getName((URNmodelElement)getModel());
-    	}
+        // Set the text depending on the outline preferences
+        if (DisplayPreferences.getInstance().getShowNodeNumber()) {
+            // This class return the ID between () at the element name
+            return EObjectClassNameComparator.getSortableElementName((EObject) getModel());
+        } else {
+            return URNNamingHelper.getName((URNmodelElement) getModel());
+        }
     }
 
     /**

@@ -32,19 +32,20 @@ public class StubFigure extends PathNodeFigure {
 
     // the lozenge.
     private Polygon mainFigure;
-   // the letter(s) indicating the stub type, displayed inside the stub
+    // the letter(s) indicating the stub type, displayed inside the stub
     private TextFlow stubTypeText;
     private FlowPage flowPage;
-    
+
     /**
-    * Creates the stub's figure. 
+     * Creates the stub's figure.
      */
     public StubFigure() {
         super();
     }
 
     /**
-     * Is a lozenge, dotted if dynamic, straight line otherwise. There may be text inside of the figure. 
+     * Is a lozenge, dotted if dynamic, straight line otherwise. There may be text inside of the figure.
+     * 
      * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
      */
     protected void createFigure() {
@@ -71,7 +72,7 @@ public class StubFigure extends PathNodeFigure {
         stubTypeText.setText(""); //$NON-NLS-1$
         flowPage.add(stubTypeText);
         // TODO CONCERNS: depends on font size!
-        flowPage.setBounds(new Rectangle(DEFAULT_WIDTH/2-5, DEFAULT_HEIGHT/2-12, 20,20));
+        flowPage.setBounds(new Rectangle(DEFAULT_WIDTH / 2 - 5, DEFAULT_HEIGHT / 2 - 12, 20, 20));
         add(flowPage);
     }
 
@@ -94,14 +95,17 @@ public class StubFigure extends PathNodeFigure {
 
     /**
      * Updates the appearance of a stub depending on its type (dynamic/static, pointcut)
-     * @param dynamic indicates whether the stub is dynamic (true) or static (false)
-     * @param pointcut indicates whether the stub is a pointcut stub (true) or not (false)
+     * 
+     * @param dynamic
+     *            indicates whether the stub is dynamic (true) or static (false)
+     * @param pointcut
+     *            indicates whether the stub is a pointcut stub (true) or not (false)
      */
     public void setStubType(boolean dynamic, boolean pointcut) {
         if (pointcut)
-        	stubTypeText.setText(Messages.getString("StubFigure.pointcutStubText")); //$NON-NLS-1$
+            stubTypeText.setText(Messages.getString("StubFigure.pointcutStubText")); //$NON-NLS-1$
         else
-        	stubTypeText.setText(""); //$NON-NLS-1$
+            stubTypeText.setText(""); //$NON-NLS-1$
         if (dynamic == true) {
             // Line width to 2 only works under platform 3.0.2 or above: https://bugs.eclipse.org/bugs/show_bug.cgi?id=4853
             // Previously set to 1.
@@ -112,32 +116,30 @@ public class StubFigure extends PathNodeFigure {
             mainFigure.setLineStyle(SWT.LINE_SOLID);
         }
     }
-    
+
     /**
      * We need to use local coordinates for our edge manipulation.
      */
     protected boolean useLocalCoordinates() {
         return true;
     }
-    
-	protected void setColors() {
-		if (selected) {
-    		mainFigure.setForegroundColor(ColorManager.LINE);
-    		setColor(ColorManager.SELECTED);
-    	}
-    	else if (traversed) {
-    		mainFigure.setForegroundColor(ColorManager.TRAVERSAL);
+
+    protected void setColors() {
+        if (selected) {
+            mainFigure.setForegroundColor(ColorManager.LINE);
+            setColor(ColorManager.SELECTED);
+        } else if (traversed) {
+            mainFigure.setForegroundColor(ColorManager.TRAVERSAL);
             if (hover)
                 setColor(ColorManager.HOVER);
             else
-                setColor(ColorManager.FILL);  	
-    	}
-        else {
-    		mainFigure.setForegroundColor(ColorManager.LINE);
+                setColor(ColorManager.FILL);
+        } else {
+            mainFigure.setForegroundColor(ColorManager.LINE);
             if (hover)
                 setColor(ColorManager.HOVER);
             else
-                setColor(ColorManager.FILL);    		
+                setColor(ColorManager.FILL);
         }
-	}    
+    }
 }

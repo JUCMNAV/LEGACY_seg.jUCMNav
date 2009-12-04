@@ -1,6 +1,5 @@
 package seg.jUCMNav.figures;
 
-
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Figure;
@@ -45,22 +44,20 @@ public class EmptyPointFigure extends PathNodeFigure {
         incomingAnchor = new EllipseAnchor(ellipse);
         outgoingAnchor = new EllipseAnchor(ellipse);
     }
-    
-	protected void setColors() {
-		if (selected) {
-    		setForegroundColor(ColorManager.LINE);
-    		setColor(ColorManager.SELECTED);
-    	}
-    	else if (traversed) {
-    		setForegroundColor(ColorManager.TRAVERSAL);
-    		setColor(ColorManager.FILL);  
-    	}
-        else {
-    		setForegroundColor(ColorManager.LINE);
+
+    protected void setColors() {
+        if (selected) {
+            setForegroundColor(ColorManager.LINE);
+            setColor(ColorManager.SELECTED);
+        } else if (traversed) {
+            setForegroundColor(ColorManager.TRAVERSAL);
+            setColor(ColorManager.FILL);
+        } else {
+            setForegroundColor(ColorManager.LINE);
             if (hover)
                 setColor(ColorManager.HOVER);
             else
-                setColor(ColorManager.FILL);    		
+                setColor(ColorManager.FILL);
         }
-	}
+    }
 }

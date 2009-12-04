@@ -26,7 +26,7 @@ public class DisconnectTimeoutPathAction extends URNSelectionAction {
     public DisconnectTimeoutPathAction(IWorkbenchPart part) {
         super(part);
         setId(DISCONNECTTIMEOUTPATH);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Timer16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Timer16.gif")); //$NON-NLS-1$
     }
 
     /**
@@ -42,7 +42,7 @@ public class DisconnectTimeoutPathAction extends URNSelectionAction {
     }
 
     /**
-     * Returns a command to disconnect the timeout path. 
+     * Returns a command to disconnect the timeout path.
      * 
      */
     protected Command getCommand() {

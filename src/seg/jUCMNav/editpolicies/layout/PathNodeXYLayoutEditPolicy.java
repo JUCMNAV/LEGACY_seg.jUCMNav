@@ -164,26 +164,25 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
      */
     protected Command getCreateCommand(CreateRequest request) {
-    	// allows empty points to be replaced by direction arrows
-    	if ( (getHost().getModel() instanceof EmptyPoint) && ( request.getNewObject() instanceof DirectionArrow ) )
-    	{
-    		return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
-    	}
+        // allows empty points to be replaced by direction arrows
+        if ((getHost().getModel() instanceof EmptyPoint) && (request.getNewObject() instanceof DirectionArrow)) {
+            return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
+        }
         // can replace with new object?
         if (isReplaceable(getHost().getModel()) && !(isPathTool(request) || isReplaceable(request.getNewObject()))) {
             // because we don't want forks/joins without only 1 in/out
             if (request.getNewObject() instanceof AndFork || request.getNewObject() instanceof OrFork || request.getNewObject() instanceof AndJoin
                     || request.getNewObject() instanceof OrJoin)
-                return new DividePathCommand((PathNode) request.getNewObject(), (PathNode) getHost().getModel());   
-            else if(request.getNewObject() instanceof PathNode)
+                return new DividePathCommand((PathNode) request.getNewObject(), (PathNode) getHost().getModel());
+            else if (request.getNewObject() instanceof PathNode)
                 return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
             else
                 return null;
         } else if (isForkOrJoin(getHost().getModel()) && (isForkOrJoin(request.getNewObject()) || isPathTool(request))) {
             return new AddBranchCommand((PathNode) getHost().getModel());
         } else if (getHost().getModel() instanceof Label) {
-        	UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-        	return new EditLabelCommand(editor, (LabelEditPart) getHost());
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            return new EditLabelCommand(editor, (LabelEditPart) getHost());
         } else
             return null;
     }
@@ -233,11 +232,11 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
     private boolean isReplaceable(Object pn) {
         return (pn instanceof EmptyPoint || pn instanceof DirectionArrow);
     }
-    
+
     protected Point getLayoutOrigin() {
-    	if (getXYLayout()==null)
-    		return new Point(0,0);
-    	else
-    		return getXYLayout().getOrigin(getLayoutContainer());
+        if (getXYLayout() == null)
+            return new Point(0, 0);
+        else
+            return getXYLayout().getOrigin(getLayoutContainer());
     }
 }

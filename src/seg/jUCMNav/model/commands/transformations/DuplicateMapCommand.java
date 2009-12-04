@@ -142,11 +142,11 @@ public class DuplicateMapCommand extends Command implements JUCMNavCommand {
                             destob.setEndPoint(srcob.getEndPoint());
                         }
                         for (int k = 0; k < srcpb.getComponents().size(); k++) {
-                        	ComponentBinding srccb = (ComponentBinding) srcpb.getComponents().get(k);
-                        	ComponentBinding destcb = (ComponentBinding) destpb.getComponents().get(k);
+                            ComponentBinding srccb = (ComponentBinding) srcpb.getComponents().get(k);
+                            ComponentBinding destcb = (ComponentBinding) destpb.getComponents().get(k);
                             destcb.setParentComponent(srccb.getParentComponent());
                             destcb.setPluginComponent(srccb.getPluginComponent());
-                        }                        
+                        }
                     }
 
                 }
@@ -186,7 +186,7 @@ public class DuplicateMapCommand extends Command implements JUCMNavCommand {
 
                     destref.setLink(srcref.getLink());
                 }
-                
+
                 if (src instanceof KPIModelLinkRef && dest instanceof KPIModelLinkRef) {
                     KPIModelLinkRef srcref = (KPIModelLinkRef) src;
                     KPIModelLinkRef destref = (KPIModelLinkRef) dest;
@@ -361,10 +361,10 @@ public class DuplicateMapCommand extends Command implements JUCMNavCommand {
                             destob.setEndPoint(null);
                         }
                         for (int k = 0; k < destpb.getComponents().size(); k++) {
-                        	ComponentBinding destcb = (ComponentBinding) destpb.getComponents().get(k);
+                            ComponentBinding destcb = (ComponentBinding) destpb.getComponents().get(k);
                             destcb.setParentComponent(null);
                             destcb.setPluginComponent(null);
-                        }                          
+                        }
                     }
                 }
             }

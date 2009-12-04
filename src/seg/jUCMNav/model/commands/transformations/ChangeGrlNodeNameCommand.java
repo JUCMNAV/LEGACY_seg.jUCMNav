@@ -35,8 +35,10 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
         setLabel(Messages.getString("ChangeGrlNodeNameCommand.changeGrlNodeName")); //$NON-NLS-1$
     }
 
-    public GRLNode getElement() { return elem; }
-    
+    public GRLNode getElement() {
+        return elem;
+    }
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
@@ -82,8 +84,10 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
         this.name = string;
     }
 
-    public String getName() { return this.name; }
-    
+    public String getName() {
+        return this.name;
+    }
+
     /**
      * Sets the old Column name
      * 
@@ -94,8 +98,10 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
         oldName = string;
     }
 
-    public String getOldName() { return this.oldName; }
-    
+    public String getOldName() {
+        return this.oldName;
+    }
+
     /*
      * (non-Javadoc)
      * 

@@ -8,21 +8,24 @@ import urncore.Concern;
 import urncore.IURNDiagram;
 
 /**
- * Command to assign a concern to a diagram or to remove a concern from a diagram 
+ * Command to assign a concern to a diagram or to remove a concern from a diagram
+ * 
  * @author gunterm
  */
 public class AssignConcernDiagramCommand extends Command implements JUCMNavCommand {
 
-	// the diagram to which to assign the concern 
-    private IURNDiagram diagram;	
+    // the diagram to which to assign the concern
+    private IURNDiagram diagram;
     // the concern to assign (can be null in which case the existing concern is removed)
     private Concern concern;
     // undo information
     private Concern oldConcern;
 
     /**
-     * @param diagram to which a concern is assigned
-     * @param concern to assign (can be null in which case the existing concern is removed)
+     * @param diagram
+     *            to which a concern is assigned
+     * @param concern
+     *            to assign (can be null in which case the existing concern is removed)
      */
     public AssignConcernDiagramCommand(IURNDiagram diagram, Concern concern) {
         this.diagram = diagram;
@@ -32,6 +35,7 @@ public class AssignConcernDiagramCommand extends Command implements JUCMNavComma
 
     /**
      * checks all conditions of testPreConditions that can be checked before execute()
+     * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
@@ -56,7 +60,7 @@ public class AssignConcernDiagramCommand extends Command implements JUCMNavComma
         diagram.setConcern(concern);
         testPostConditions();
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
@@ -83,11 +87,11 @@ public class AssignConcernDiagramCommand extends Command implements JUCMNavComma
         assert diagram.getConcern() == oldConcern : "pre concern is original"; //$NON-NLS-1$
     }
 
-	/**
-	 * @return true if condition is met, false otherwise
-	 */
-	private boolean testConditionNotNull() {
-		return diagram != null;
-	}
+    /**
+     * @return true if condition is met, false otherwise
+     */
+    private boolean testConditionNotNull() {
+        return diagram != null;
+    }
 
 }

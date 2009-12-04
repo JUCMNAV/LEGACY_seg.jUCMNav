@@ -30,28 +30,29 @@ public class ComponentFeedbackEditPolicy extends GraphicalEditPolicy {
      * Return to smaller line widths.
      */
     public void eraseTargetFeedback(Request request) {
-        if (getFigure() instanceof ComponentRefFigure){
+        if (getFigure() instanceof ComponentRefFigure) {
             ComponentRefFigure fig = (ComponentRefFigure) getFigure();
-            if (fig.getKind() == ComponentKind.AGENT){
+            if (fig.getKind() == ComponentKind.AGENT) {
                 fig.setLineWidth(6);
-            }else{
+            } else {
                 fig.setLineWidth(3);
             }
-        } else { //If it is a GRL Component (actors)
+        } else { // If it is a GRL Component (actors)
             getFigure().setLineWidth(3);
         }
     }
+
     /**
      * Put larger line widths,.
      */
     public void showTargetFeedback(Request request) {
-        if (getFigure() instanceof ComponentRefFigure){
-            ComponentRefFigure fig = (ComponentRefFigure) getFigure();    
+        if (getFigure() instanceof ComponentRefFigure) {
+            ComponentRefFigure fig = (ComponentRefFigure) getFigure();
             if (fig.getKind() == ComponentKind.AGENT)
                 fig.setLineWidth(9);
             else
                 fig.setLineWidth(6);
-        } else { //If it is a GRL Component (actors)
+        } else { // If it is a GRL Component (actors)
             getFigure().setLineWidth(6);
         }
     }

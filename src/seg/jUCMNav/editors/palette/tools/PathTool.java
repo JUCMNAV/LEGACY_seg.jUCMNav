@@ -28,10 +28,13 @@ import urn.URNspec;
  * viewer selection and the target editpart the tool is currently pointing at. <br>
  * <br>
  * 
- * This tool should: <br>- Extend the path when an EndPoint is selected. <br>- Extend the path backward when a StartPoint is selected. <br>- Create an
- * OR-FORK when an EmptyPoint is selected. <br>- Join two paths when an EmptyPoint is selected and that the user click on an empty point of an other path. <br>-
- * Create an EmptyPoint when the user click on a NodeConnection and select the EndPoint of the path. <br>- When a user clicks a PathNode, the tool should
- * select it. <br>
+ * This tool should: <br>
+ * - Extend the path when an EndPoint is selected. <br>
+ * - Extend the path backward when a StartPoint is selected. <br>
+ * - Create an OR-FORK when an EmptyPoint is selected. <br>
+ * - Join two paths when an EmptyPoint is selected and that the user click on an empty point of an other path. <br>
+ * - Create an EmptyPoint when the user click on a NodeConnection and select the EndPoint of the path. <br>
+ * - When a user clicks a PathNode, the tool should select it. <br>
  * <br>
  * 
  * @author Etienne Tremblay
@@ -74,7 +77,6 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
      */
     private EditPart target;
 
-
     /**
      * <code>selected</code>: The selected editpart in the editpart viewer.
      */
@@ -97,7 +99,6 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
         super();
         this.urn = urn;
     }
-
 
     /**
      * This method is called each time we need to change the target editpart of the tool. This method updates the state of the tool and recreate the target
@@ -133,16 +134,16 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
                 getCurrentViewer().select(getTargetEditPart());
             else
                 getCurrentViewer().deselectAll();
-            
+
             if (getTargetEditPart() != null && !(getTargetEditPart().getModel() instanceof StartPoint) && !(getTargetEditPart().getModel() instanceof EndPoint)) {
                 setUnloadWhenFinished(true);
                 getDomain().getPaletteViewer().setActiveTool(null);
             } else if (getTargetEditPart() != null) {
-                StructuredSelection sel =  new StructuredSelection(getTargetEditPart());
+                StructuredSelection sel = new StructuredSelection(getTargetEditPart());
                 setSelectionState(sel);
                 return super.handleButtonUp(button);
             }
-            
+
             return true;
         }
     }
@@ -234,7 +235,7 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
      */
     private void setSelectionState(IStructuredSelection selecteds) {
         List list = selecteds.toList();
-        
+
         if (list.size() == 1) {
             selected = (EditPart) (list.get(0));
 
@@ -312,7 +313,7 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
             selectModelElement(model);
             return model;
         }
-        
+
         return null;
     }
 
@@ -348,12 +349,12 @@ public class PathTool extends BaseCreationTool implements ISelectionChangedListe
             viewer.select((EditPart) editpart);
         }
     }
-    
+
     protected void performDirectEdit(Object model) {
         EditPartViewer viewer = getCurrentViewer();
         Object editpart = viewer.getEditPartRegistry().get(model);
-        
-        if(editpart instanceof EditPart)
+
+        if (editpart instanceof EditPart)
             ((EditPart) editpart).performRequest(directEditRequest);
     }
 }

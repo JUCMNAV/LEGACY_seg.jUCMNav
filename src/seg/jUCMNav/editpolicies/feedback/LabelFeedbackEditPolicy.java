@@ -90,7 +90,7 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
 
         if (getHost().getViewer() != null) {
             EditPart referencedEp = (EditPart) getHost().getViewer().getEditPartRegistry().get(getReference());
-            if (referencedEp!=null)
+            if (referencedEp != null)
                 referencedEp.eraseTargetFeedback(request);
         }
     }
@@ -116,9 +116,9 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
             Rectangle rect = null;
             if (getReference() instanceof IURNContainerRef) {
                 IURNContainerRef cr = (IURNContainerRef) getReference();
-                //If it is an actor reference, the feedback should be in the middle top of the element
-                if (cr instanceof ActorRef){
-                    pt2 = new Point(cr.getX()+(cr.getWidth()/2), cr.getY());
+                // If it is an actor reference, the feedback should be in the middle top of the element
+                if (cr instanceof ActorRef) {
+                    pt2 = new Point(cr.getX() + (cr.getWidth() / 2), cr.getY());
                 } else {
                     pt2 = new Point(cr.getX(), cr.getY());
                 }
@@ -127,9 +127,9 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
                 try {
                     // we're looking for the first child so that we don't point to the external bounding box; we want the real figure.
                     // TODO: adjust when there are no children.
-                    if (getHost().getViewer().getEditPartRegistry().get(pn) instanceof PathNodeEditPart){
+                    if (getHost().getViewer().getEditPartRegistry().get(pn) instanceof PathNodeEditPart) {
                         rect = ((IFigure) ((PathNodeEditPart) getHost().getViewer().getEditPartRegistry().get(pn)).getNodeFigure().getChildren().get(0))
-                            .getBounds();
+                                .getBounds();
                     }
                 } catch (Exception ex) {
                     rect = null;
@@ -146,8 +146,9 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
 
             }
 
-            if (pt2==null) return;
-            
+            if (pt2 == null)
+                return;
+
             // calculate the differences.
             int diffx = pt.x - pt2.x;
             int diffy = pt.y - pt2.y;
@@ -190,7 +191,7 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
 
             if (getHost().getViewer() != null) {
                 EditPart referencedEp = (EditPart) getHost().getViewer().getEditPartRegistry().get(getReference());
-                if (referencedEp!=null)
+                if (referencedEp != null)
                     referencedEp.showTargetFeedback(request);
             }
 

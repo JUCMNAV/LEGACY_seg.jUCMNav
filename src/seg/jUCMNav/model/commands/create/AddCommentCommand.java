@@ -10,22 +10,22 @@ import urncore.IURNDiagram;
 /**
  * 
  * Adds a comment to a diagram
+ * 
  * @author jkealey
- *
+ * 
  */
 public class AddCommentCommand extends Command implements JUCMNavCommand {
 
     private Comment comment;
-    
-    //Graph where the element has been added.
-    private IURNDiagram graph;
 
+    // Graph where the element has been added.
+    private IURNDiagram graph;
 
     /**
      * @param graph
-     *           graph where to add the comment 
+     *            graph where to add the comment
      * @param comment
-     *           comment to add
+     *            comment to add
      */
     public AddCommentCommand(IURNDiagram graph, Comment comment) {
         super();
@@ -48,13 +48,15 @@ public class AddCommentCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-  
+
         graph.getComments().add(comment);
-        
+
         testPostConditions();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -64,7 +66,9 @@ public class AddCommentCommand extends Command implements JUCMNavCommand {
         assert !graph.getComments().contains(comment) : "pre comment in graph"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -80,7 +84,7 @@ public class AddCommentCommand extends Command implements JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
-        
+
         graph.getComments().remove(comment);
 
         testPreConditions();

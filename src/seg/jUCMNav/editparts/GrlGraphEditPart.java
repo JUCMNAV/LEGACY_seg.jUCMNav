@@ -17,25 +17,26 @@ import seg.jUCMNav.editpolicies.layout.GrlGraphXYLayoutEditPolicy;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 
-
 /**
  * The edit part for the GRL Graph
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class GrlGraphEditPart extends URNDiagramEditPart {
 
     /**
      * 
-     * @param graph the GRL graph
+     * @param graph
+     *            the GRL graph
      */
-    public GrlGraphEditPart(GRLGraph graph){
+    public GrlGraphEditPart(GRLGraph graph) {
         super(graph);
     }
 
-    /** 
+    /**
      * Create edit policies
+     * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
@@ -67,7 +68,7 @@ public class GrlGraphEditPart extends URNDiagramEditPart {
 
         return list;
     }
-    
+
     /**
      * Returns the GrlGraph's children: IntentionalElementRefs
      * 
@@ -93,15 +94,14 @@ public class GrlGraphEditPart extends URNDiagramEditPart {
 
         return list;
     }
-    
+
     private List getComments() {
-		List list = new ArrayList();
-		for (Iterator iterator = getDiagram().getComments().iterator(); iterator
-				.hasNext();) {
-			list.add(iterator.next());
-		}
-		return list;
-	}
+        List list = new ArrayList();
+        for (Iterator iterator = getDiagram().getComments().iterator(); iterator.hasNext();) {
+            list.add(iterator.next());
+        }
+        return list;
+    }
 
     /**
      * @return the IURNConnections
@@ -116,17 +116,17 @@ public class GrlGraphEditPart extends URNDiagramEditPart {
         return list;
     }
 
-    /** 
-     * Refresh its children when something changes. 
+    /**
+     * Refresh its children when something changes.
+     * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
         refreshChildren();
 
-
     }
-    
-    /** 
+
+    /**
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()

@@ -58,8 +58,7 @@ import urncore.IURNDiagram;
 /**
  * This is an abstract class for any urn editor used in UCMNavMultiPageEditor
  * 
- * @author Jean-Francois Roy, jkealey
- * TODO Remove extends to GraphicalEditorWithFlyoutPalette and copy code in this class
+ * @author Jean-Francois Roy, jkealey TODO Remove extends to GraphicalEditorWithFlyoutPalette and copy code in this class
  */
 public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette implements ITabbedPropertySheetPageContributor {
 
@@ -71,21 +70,21 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
 
     /** KeyHandler with common bindings for both the Outline View and the Editor. */
     private KeyHandler sharedKeyHandler;
-   
+
     // our outline page.
     private UrnOutlinePage outline;
-    
-    protected URNRootEditPart root =null;
+
+    protected URNRootEditPart root = null;
 
     /** The palette root used to display the palette. */
     protected PaletteRoot paletteRoot;
-    
-	public static final String keybindingExcludes = "hnxz";
 
-	protected UrnDropTargetListener dropListener;
-	protected UrnTemplateTransferDropTargetListener urnDropListener;
-	protected ArrayList menuExtenders;
-	
+    public static final String keybindingExcludes = "hnxz";
+
+    protected UrnDropTargetListener dropListener;
+    protected UrnTemplateTransferDropTargetListener urnDropListener;
+    protected ArrayList menuExtenders;
+
     /** Create a new UrnEditor instance. */
     public UrnEditor(UCMNavMultiPageEditor parent) {
         this.parent = parent;
@@ -114,34 +113,34 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
      * Now done in multipage.
      * 
      * DO NOT DELETE: SEE SUPERCLASS
+     * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
      */
     protected void createActions() {
         // now done in MultiPage
     }
-    
-    /**
-	* Disposes the editor. 
-	*/
-    public void dispose() {
-    	// for some reason not in framework.
-    	getSelectionSynchronizer().removeViewer(getGraphicalViewer());
-    	getCommandStack().removeCommandStackListener(this);
 
-    	disposePalette();
-        
+    /**
+     * Disposes the editor.
+     */
+    public void dispose() {
+        // for some reason not in framework.
+        getSelectionSynchronizer().removeViewer(getGraphicalViewer());
+        getCommandStack().removeCommandStackListener(this);
+
+        disposePalette();
+
         ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
         if (viewer != null) {
             Object p = viewer.getRootEditPart();
             if (p instanceof URNRootEditPart) {
                 for (Iterator iterator = ((URNRootEditPart) p).getChildren().iterator(); iterator.hasNext();) {
                     EditPart type = (EditPart) iterator.next();
-                    if (type instanceof UCMMapEditPart)
-                    {
+                    if (type instanceof UCMMapEditPart) {
                         UCMMapEditPart part = (UCMMapEditPart) type;
                         part.dispose();
                     }
-                    
+
                 }
 
                 ((URNRootEditPart) p).setModel(null);
@@ -166,50 +165,42 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
             }
             getGraphicalViewer().setEditPartFactory(null);
             getGraphicalViewer().getEditPartRegistry().clear();
-            
-            getEditDomain().removeViewer(getGraphicalViewer());
-            
-        }
-        
-        //setGraphicalViewer(null);
-        
-        if (root!=null) root.setModel(null);
-        root=null;
 
-    
-        outline=null;
-        sharedKeyHandler=null;
-        dropListener=null;
-        urnDropListener=null;
-        
+            getEditDomain().removeViewer(getGraphicalViewer());
+
+        }
+
+        // setGraphicalViewer(null);
+
+        if (root != null)
+            root.setModel(null);
+        root = null;
+
+        outline = null;
+        sharedKeyHandler = null;
+        dropListener = null;
+        urnDropListener = null;
+
         for (Iterator i = menuExtenders.iterator(); i.hasNext();) {
             Object o = (Object) i.next();
-            if (o instanceof PopupMenuExtender)
-            {
+            if (o instanceof PopupMenuExtender) {
                 PopupMenuExtender menu = (PopupMenuExtender) menuExtenders.get(0);
                 menu.getManager().dispose();
                 menu.dispose();
             }
         }
 
-        
         /*
-        try {
-            if (getEditDomain().getCommandStack()==null)
-            {
-                setEditDomain(new UrnEditDomain(this));
-                
-                disposePalette();
-            }
-                
-            super.dispose();
-        } catch (NullPointerException ex)
-        {
-            
-        }
-        */
-        parent=null;
-        
+         * try { if (getEditDomain().getCommandStack()==null) { setEditDomain(new UrnEditDomain(this));
+         * 
+         * disposePalette(); }
+         * 
+         * super.dispose(); } catch (NullPointerException ex) {
+         * 
+         * }
+         */
+        parent = null;
+
         if (getSite() instanceof MultiPageEditorSite) {
             MultiPageEditorSite site = (MultiPageEditorSite) getSite();
             site.dispose();
@@ -218,12 +209,10 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
 
         setGraphicalViewer(new ScrollingGraphicalViewer());
 
-        
     }
 
     private void disposePalette() {
-        if (getEditDomain().getPaletteViewer()!=null)
-        {
+        if (getEditDomain().getPaletteViewer() != null) {
 
             if (getPaletteViewerProvider() instanceof UrnPaletteViewerProvider) {
                 UrnPaletteViewerProvider p = (UrnPaletteViewerProvider) getPaletteViewerProvider();
@@ -237,17 +226,17 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
             getEditDomain().getPaletteViewer().setControl(null);
             getEditDomain().getPaletteViewer().setPaletteRoot(null);
 
-            //getEditDomain().setPaletteViewer(new PaletteViewer());
+            // getEditDomain().setPaletteViewer(new PaletteViewer());
         }
 
         getGraphicalViewer().setKeyHandler(null);
         getEditorSite().setSelectionProvider(null);
-        
-        if (paletteRoot instanceof Disposable) { 
-            ((Disposable)paletteRoot).dispose();
+
+        if (paletteRoot instanceof Disposable) {
+            ((Disposable) paletteRoot).dispose();
         }
-        
-        paletteRoot=null;
+
+        paletteRoot = null;
     }
 
     /**
@@ -276,7 +265,7 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     public void execute(Command cmd) {
         parent.getDelegatingCommandStack().execute(cmd);
     }
-    
+
     /**
      * Returns a reference to the multi page action registry.
      */
@@ -298,9 +287,9 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
         else if (type == IContentOutlinePage.class)
             return getOutlinePage();
         else if (type == org.eclipse.ui.views.properties.IPropertySheetPage.class) {
-        	return new TabbedPropertySheetPage(this);
-            //page.setRootEntry(new UndoablePropertySheetEntry(getParent().getDelegatingCommandStack()));
-           // return page;
+            return new TabbedPropertySheetPage(this);
+            // page.setRootEntry(new UndoablePropertySheetEntry(getParent().getDelegatingCommandStack()));
+            // return page;
         }
 
         return super.getAdapter(type);
@@ -309,10 +298,9 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     /**
      * Returns the KeyHandler with common bindings for both the Outline and Graphical Views. For example, delete is a common action.
      */
-    KeyHandler getCommonKeyHandler()
-    {
-    	char character;
-    	
+    KeyHandler getCommonKeyHandler() {
+        char character;
+
         if (sharedKeyHandler == null) {
             sharedKeyHandler = new KeyHandler();
 
@@ -325,52 +313,63 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
 
             sharedKeyHandler.put(KeyStroke.getReleased(SWT.ESC, SWT.ESC, 0), getActionRegistry()
                     .getAction(SelectDefaultPaletteToolAction.SETDEFAULTPALETTETOOL));
-            
-            for (int letter = (int)'a'; letter<=(int)'z'; letter++) {
-   			 	if ( keybindingExcludes.indexOf( (char)letter ) != -1 ) // reserve some keys for other uses
-   			 		continue;
-   			 	
-   			 	sharedKeyHandler.put(KeyStroke.getReleased( (char)letter, (char)letter, 0), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
-            	sharedKeyHandler.put(KeyStroke.getReleased( (char)(letter-32), (char)letter,SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
-            	
-            	// doesn't seem to work - not important. (caps)  
-            	sharedKeyHandler.put(KeyStroke.getReleased( (char)(letter-32), (char)letter, SWT.CAPS_LOCK), getActionRegistry().getAction(SelectPaletteEntryAction.getId((char)letter)));
+
+            for (int letter = (int) 'a'; letter <= (int) 'z'; letter++) {
+                if (keybindingExcludes.indexOf((char) letter) != -1) // reserve some keys for other uses
+                    continue;
+
+                sharedKeyHandler.put(KeyStroke.getReleased((char) letter, (char) letter, 0), getActionRegistry().getAction(
+                        SelectPaletteEntryAction.getId((char) letter)));
+                sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
+                        SelectPaletteEntryAction.getId((char) letter)));
+
+                // doesn't seem to work - not important. (caps)
+                sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.CAPS_LOCK), getActionRegistry().getAction(
+                        SelectPaletteEntryAction.getId((char) letter)));
             }
-            
-            character = '>'; 
+
+            character = '>';
             sharedKeyHandler.put(KeyStroke.getReleased(character, '.', SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
             character = ' ';
             sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
-            
-            character = 'h';  // increase Qualitative Evaluation with key binding
-            sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeEvaluationAction.getId( "Increase" ) ) );
-            character = 'n';  // decrease Qualitative Evaluation with key binding
-            sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeEvaluationAction.getId( "Decrease" ) ) );
-            
-            int letter = (int)'h'; // increase Numerical Evaluation with key binding
-            sharedKeyHandler.put( KeyStroke.getReleased( (char)(letter-32), (char)letter, SWT.SHIFT ), getActionRegistry().getAction( SetNumericalEvaluationAction.getId( "Increase" ) ) );
-            letter = (int)'n'; // decrease Numerical Evaluation with key binding
-            sharedKeyHandler.put( KeyStroke.getReleased( (char)(letter-32), (char)letter, SWT.SHIFT ), getActionRegistry().getAction( SetNumericalEvaluationAction.getId( "Decrease" ) ) );
-            
-            character = 'x';  // increase Qualitative Importance with key binding
-            sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeImportanceAction.getId( "Increase" ) ) );
-            character = 'z';  // decrease Qualitative Importance with key binding
-            sharedKeyHandler.put( KeyStroke.getReleased( character, character, 0 ), getActionRegistry().getAction( SetQualitativeImportanceAction.getId( "Decrease" ) ) );
 
-            letter = (int)'x';  // increase Numerical Importance with key binding
-            sharedKeyHandler.put( KeyStroke.getReleased( (char)(letter-32), (char)letter, SWT.SHIFT ), getActionRegistry().getAction( SetNumericalImportanceAction.getId( "Increase" ) ) );
-            letter = (int)'z';  // decrease Numerical Importance with key binding
-            sharedKeyHandler.put( KeyStroke.getReleased( (char)(letter-32), (char)letter, SWT.SHIFT ), getActionRegistry().getAction( SetNumericalImportanceAction.getId( "Decrease" ) ) );
+            character = 'h'; // increase Qualitative Evaluation with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
+                    .getAction(SetQualitativeEvaluationAction.getId("Increase")));
+            character = 'n'; // decrease Qualitative Evaluation with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
+                    .getAction(SetQualitativeEvaluationAction.getId("Decrease")));
+
+            int letter = (int) 'h'; // increase Numerical Evaluation with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
+                    SetNumericalEvaluationAction.getId("Increase")));
+            letter = (int) 'n'; // decrease Numerical Evaluation with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
+                    SetNumericalEvaluationAction.getId("Decrease")));
+
+            character = 'x'; // increase Qualitative Importance with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
+                    .getAction(SetQualitativeImportanceAction.getId("Increase")));
+            character = 'z'; // decrease Qualitative Importance with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
+                    .getAction(SetQualitativeImportanceAction.getId("Decrease")));
+
+            letter = (int) 'x'; // increase Numerical Importance with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
+                    SetNumericalImportanceAction.getId("Increase")));
+            letter = (int) 'z'; // decrease Numerical Importance with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
+                    SetNumericalImportanceAction.getId("Decrease")));
 
         }
         return sharedKeyHandler;
     }
-    
+
     /**
      * Overridden to change to public visibility.
      */
     public abstract CommandStack getCommandStack();
-    
+
     /**
      * Overriden to allow external access.
      * 
@@ -407,15 +406,19 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
             outline = new UrnOutlinePage(getParent(), new TreeViewer());
         return outline;
     }
-    
+
     public abstract void setModel(IURNDiagram m);
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPalettePreferences()
      */
-    protected abstract FlyoutPreferences getPalettePreferences(); 
+    protected abstract FlyoutPreferences getPalettePreferences();
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPaletteRoot()
      */
     public abstract PaletteRoot getPaletteRoot();
@@ -446,7 +449,7 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     public boolean isDirty() {
         return getCommandStack().isDirty();
     }
-    
+
     /**
      * Save is always allowed, even though it won't happen here.
      * 
@@ -455,15 +458,14 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     public boolean isSaveAsAllowed() {
         return true;
     }
-    
+
     protected void registerContextMenuProvider(ScrollingGraphicalViewer viewer) {
         ContextMenuProvider provider = new UrnContextMenuProvider(viewer, getActionRegistry());
         viewer.setContextMenu(provider);
 
-
         // Bug 381: 3.1: remove extra items from contextual menus
         // getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer); //$NON-NLS-1$
-         menuExtenders = new ArrayList(1);
+        menuExtenders = new ArrayList(1);
         PartSite.registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer, true, //$NON-NLS-1$
                 this, menuExtenders);
         // bug 531
@@ -472,7 +474,6 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
 
         }
     }
-    
 
     /**
      * Redo's the command at the top of the parent's redo stack.
@@ -506,18 +507,18 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
      */
     protected TransferDropTargetListener getTransferDropTargetListener() {
-        if (dropListener==null)
+        if (dropListener == null)
             dropListener = new UrnDropTargetListener(getGraphicalViewer(), getModel().getUrndefinition().getUrnspec());
         return dropListener;
     }
-    
+
     protected UrnTemplateTransferDropTargetListener getUrnTransferDropTargetListener() {
-        if (urnDropListener==null)
+        if (urnDropListener == null)
             urnDropListener = new UrnTemplateTransferDropTargetListener(this);
         return urnDropListener;
     }
 
-	public String getContributorId() {
-		return getSite().getId();
-	}
+    public String getContributorId() {
+        return getSite().getId();
+    }
 }

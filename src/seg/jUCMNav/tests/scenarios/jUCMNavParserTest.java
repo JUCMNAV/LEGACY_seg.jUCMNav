@@ -133,7 +133,6 @@ public class jUCMNavParserTest extends TestCase {
     /*
      * 
      * START OF BOOLEAN ONLY TESTS
-     * 
      */
     public void testBoolean() {
         result = true;
@@ -299,13 +298,11 @@ public class jUCMNavParserTest extends TestCase {
     /*
      * 
      * END OF BOOLEAN ONLY TESTS
-     * 
      */
 
     /*
      * 
      * START OF INVALID SYNTAX TESTS
-     * 
      */
 
     public void testInvalidSyntax1() {
@@ -351,13 +348,11 @@ public class jUCMNavParserTest extends TestCase {
     /*
      * 
      * END OF INVALID SYNTAX TESTS
-     * 
      */
 
     /*
      * 
      * START OF INTEGER ONLY TESTS
-     * 
      */
 
     public void testRelationalExpression1() {
@@ -489,13 +484,11 @@ public class jUCMNavParserTest extends TestCase {
     /*
      * 
      * END OF INTEGER ONLY TESTS
-     * 
      */
 
     /*
      * 
      * START OF ENUMERATION ONLY TESTS
-     * 
      */
 
     public void testEnum1() {
@@ -542,13 +535,11 @@ public class jUCMNavParserTest extends TestCase {
     /*
      * 
      * END OF ENUMERATION ONLY TESTS
-     * 
      */
 
     /*
      * 
      * START OF MIXED TESTS
-     * 
      */
 
     public void testComplex1() {
@@ -579,13 +570,11 @@ public class jUCMNavParserTest extends TestCase {
     /*
      * 
      * END OF MIXED TESTS
-     * 
      */
 
     /*
      * 
      * START OF TYPE CHECKING TESTS
-     * 
      */
     public void testInvalidRelationalExpression1() {
         shouldFail = true;
@@ -685,13 +674,11 @@ public class jUCMNavParserTest extends TestCase {
     /*
      * 
      * END OF TYPE CHECKING TESTS
-     * 
      */
 
     /*
      * 
      * START OF RESPONSIBILITY TESTS
-     * 
      */
     public void testAssignment1() {
         parseResponsibility("x:=true;"); //$NON-NLS-1$
@@ -766,14 +753,14 @@ public class jUCMNavParserTest extends TestCase {
     public void testIfStatement2() {
         parseResponsibility("if (iJason==3) x=y; else iJason=i;"); //$NON-NLS-1$
         assertEquals(env.getValue("iJason"), new Integer(3)); //$NON-NLS-1$
-        
+
     }
 
     public void testIfStatement3() {
         parseResponsibility("if (iJason==3) { x=y; } else {iJason=i;}"); //$NON-NLS-1$
         parseResponsibility("if (iJason==3) {\n x=y; \n} else {\n iJason=i;\n}"); //$NON-NLS-1$
         assertEquals(env.getValue("iJason"), new Integer(3)); //$NON-NLS-1$
-        
+
     }
 
     public void testIfStatement4() {
@@ -788,7 +775,7 @@ public class jUCMNavParserTest extends TestCase {
         parseResponsibility("if (x) { i=iJason;iJason=iKealey;iKealey=i; }"); //$NON-NLS-1$
         assertEquals(env.getValue("iJason"), new Integer(2)); //$NON-NLS-1$
         assertEquals(env.getValue("iKealey"), new Integer(-3)); //$NON-NLS-1$
-        assertEquals(env.getValue("i"), new Integer(3));         //$NON-NLS-1$
+        assertEquals(env.getValue("i"), new Integer(3)); //$NON-NLS-1$
     }
 
     public void testIfStatement6() {
@@ -796,7 +783,7 @@ public class jUCMNavParserTest extends TestCase {
         assertEquals(env.getValue("iJason"), new Integer(-3)); //$NON-NLS-1$
         assertEquals(env.getValue("iKealey"), new Integer(2)); //$NON-NLS-1$
         assertEquals(env.getValue("i"), new Integer(2)); //$NON-NLS-1$
-        assertEquals(env.getValue("x"), Boolean.FALSE);   //$NON-NLS-1$
+        assertEquals(env.getValue("x"), Boolean.FALSE); //$NON-NLS-1$
     }
 
     public void testInvalidIfStatement1() {
@@ -825,11 +812,11 @@ public class jUCMNavParserTest extends TestCase {
 
     public void testSequence1() {
         parseResponsibility("i=1;j=2;k=3; { iJason=i+j*k; }"); //$NON-NLS-1$
-        assertEquals(env.getValue("i"), new Integer(1));   //$NON-NLS-1$
+        assertEquals(env.getValue("i"), new Integer(1)); //$NON-NLS-1$
         assertEquals(env.getValue("j"), new Integer(2)); //$NON-NLS-1$
         assertEquals(env.getValue("k"), new Integer(3)); //$NON-NLS-1$
         assertEquals(env.getValue("iJason"), new Integer(7)); //$NON-NLS-1$
-        
+
     }
 
     public void testComplexResponsibility1() {
@@ -840,7 +827,6 @@ public class jUCMNavParserTest extends TestCase {
     /*
      * 
      * END OF RESPONSIBILITY TESTS
-     * 
      */
 
 }

@@ -6,12 +6,12 @@ import urn.UrnPackage;
 
 public class AuthorPropertySection extends AbstractStringPropertySection {
 
-	protected EAttribute getFeature() {
-		return UrnPackage.eINSTANCE.getURNspec_Author();
-	}
+    protected EAttribute getFeature() {
+        return UrnPackage.eINSTANCE.getURNspec_Author();
+    }
 
-	public String getLabelText() {
-		return "Author:";
-	}
+    public String getLabelText() {
+        return "Author:";
+    }
 
 }

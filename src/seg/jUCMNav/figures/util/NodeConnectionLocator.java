@@ -18,7 +18,7 @@ import seg.jUCMNav.figures.TimeoutPathFigure;
  * locator is moved.
  * 
  * @author jkealey, pchen
- *  
+ * 
  */
 public class NodeConnectionLocator extends ConnectionLocator {
     /**
@@ -40,7 +40,7 @@ public class NodeConnectionLocator extends ConnectionLocator {
             Dimension prefSize = target.getPreferredSize();
             Point center = getReferencePoint();
             target.translateToRelative(center);
-            
+
             TimeoutPathFigure fig = (TimeoutPathFigure) target;
 
             Polyline child = (Polyline) fig.getChildren().get(0);
@@ -50,34 +50,33 @@ public class NodeConnectionLocator extends ConnectionLocator {
             // force refresh bounds
             child.setPoints(child.getPoints());
             target.setBounds(getNewBounds(prefSize, center));
-        } else if (target instanceof PolygonDecoration && getConnection() instanceof LinkRefConnection){ 
+        } else if (target instanceof PolygonDecoration && getConnection() instanceof LinkRefConnection) {
             PointList points = getConnection().getPoints();
-            
-            PolygonDecoration depend = (PolygonDecoration)target;
-            int index = points.size()/2;
-            
-            PointList center = new PointList();
-            center.addPoint(points.getPoint(index-1));
-            center.addPoint(points.getPoint(index));
-            //Set the decoration to the middle point
-            depend.setLocation(center.getMidpoint());
-            depend.setReferencePoint(points.getPoint(index));
-            
-        } else if (target instanceof PolygonDecoration && getConnection() instanceof KPIModelLinkRefConnection){ 
-            PointList points = getConnection().getPoints();
-            
-            PolygonDecoration depend = (PolygonDecoration)target;
-            int index = points.size()/2;
-            
-            PointList center = new PointList();
-            center.addPoint(points.getPoint(index-1));
-            center.addPoint(points.getPoint(index));
-            //Set the decoration to the middle point
-            depend.setLocation(center.getMidpoint());
-            depend.setReferencePoint(points.getPoint(index));
-            
-        }
 
+            PolygonDecoration depend = (PolygonDecoration) target;
+            int index = points.size() / 2;
+
+            PointList center = new PointList();
+            center.addPoint(points.getPoint(index - 1));
+            center.addPoint(points.getPoint(index));
+            // Set the decoration to the middle point
+            depend.setLocation(center.getMidpoint());
+            depend.setReferencePoint(points.getPoint(index));
+
+        } else if (target instanceof PolygonDecoration && getConnection() instanceof KPIModelLinkRefConnection) {
+            PointList points = getConnection().getPoints();
+
+            PolygonDecoration depend = (PolygonDecoration) target;
+            int index = points.size() / 2;
+
+            PointList center = new PointList();
+            center.addPoint(points.getPoint(index - 1));
+            center.addPoint(points.getPoint(index));
+            // Set the decoration to the middle point
+            depend.setLocation(center.getMidpoint());
+            depend.setReferencePoint(points.getPoint(index));
+
+        }
 
     }
 

@@ -10,8 +10,9 @@ import seg.jUCMNav.model.commands.delete.DeleteActorCommand;
 
 /**
  * ComponentEditPolicy for actor definition. Policy return the delete command
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class ActorComponentEditPolicy extends ComponentEditPolicy {
 

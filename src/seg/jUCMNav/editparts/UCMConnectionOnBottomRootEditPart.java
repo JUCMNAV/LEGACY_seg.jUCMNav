@@ -17,10 +17,11 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
  */
 public class UCMConnectionOnBottomRootEditPart extends URNRootEditPart {
 
-	/**
-	 * 
-	 * @param editor the multi page editor
-	 */
+    /**
+     * 
+     * @param editor
+     *            the multi page editor
+     */
     public UCMConnectionOnBottomRootEditPart(UCMNavMultiPageEditor editor) {
         super(editor);
     }
@@ -41,13 +42,12 @@ public class UCMConnectionOnBottomRootEditPart extends URNRootEditPart {
     }
 
     /**
-     * @param mode the new mode to be used; refreshes the editor. 
-     * 0: normal show everything mode
+     * @param mode
+     *            the new mode to be used; refreshes the editor. 0: normal show everything mode
      * 
-     * 1: print mode 1: remove empty points
+     *            1: print mode 1: remove empty points
      * 
-     * 2: print mode 2: remove empty points + stub labels
-
+     *            2: print mode 2: remove empty points + stub labels
      */
     public void setMode(int mode) {
         this.mode = mode;

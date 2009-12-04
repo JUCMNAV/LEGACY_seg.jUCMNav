@@ -20,7 +20,7 @@ import urncore.IURNNode;
  * not been created when the label is created.
  * 
  * @author Jordan
- *  
+ * 
  */
 public class JUCMNavFigure {
     public static Dimension getDimension(Object modelElement) {
@@ -37,11 +37,9 @@ public class JUCMNavFigure {
             return AndForkJoinFigure.getDefaultDimension().getCopy().scale(((PathNode) modelElement).getSucc().size());
         } else if (modelElement instanceof PathNode) {
             return PathNodeFigure.getDefaultDimension();
-        } else if ((modelElement instanceof IURNNode) && (modelElement instanceof GRLmodelElement)){
+        } else if ((modelElement instanceof IURNNode) && (modelElement instanceof GRLmodelElement)) {
             return GrlNodeFigure.getDefaultDimension();
         }
-            
-           
 
         System.out.println("Unknown dimension in JUCMNavFigure.getDimension() for " + modelElement); //$NON-NLS-1$
 

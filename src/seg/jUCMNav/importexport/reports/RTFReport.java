@@ -15,8 +15,8 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.rtf.RtfWriter2;
 
 /**
- * Exports as a RTF Report. Implements the export functionality called by the ReportGenerator Wizard. 
- * It extends the Report class containing all generic code for all report types.
+ * Exports as a RTF Report. Implements the export functionality called by the ReportGenerator Wizard. It extends the Report class containing all generic code
+ * for all report types.
  * 
  * This class contains code specific to RTF generation (headers, footers, ...)
  * 
@@ -35,7 +35,7 @@ public class RTFReport extends Report {
      * @param filename
      *            the report filename
      */
-    
+
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
 
         // Create a report document with page size from preferences, 72 points per inch

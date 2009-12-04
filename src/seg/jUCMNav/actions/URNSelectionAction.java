@@ -16,15 +16,16 @@ import seg.jUCMNav.model.util.ICreateElementCommand;
  * Superclass for our selection actions to remove redundant code.
  * 
  * @author jkealey
- *  
+ * 
  */
 public abstract class URNSelectionAction extends SelectionAction {
-    
+
     protected static Request directEditRequest = new Request(RequestConstants.REQ_DIRECT_EDIT);
-    
+
     /**
      * 
-     * @param part The editor 
+     * @param part
+     *            The editor
      */
     public URNSelectionAction(IWorkbenchPart part) {
         super(part);
@@ -35,7 +36,7 @@ public abstract class URNSelectionAction extends SelectionAction {
      */
     protected boolean calculateEnabled() {
         Command command = getCommand();
-        return command!=null && command.canExecute();
+        return command != null && command.canExecute();
     }
 
     /**
@@ -54,20 +55,19 @@ public abstract class URNSelectionAction extends SelectionAction {
      */
     public void run() {
         Command cmd = getCommand();
-        
+
         execute(cmd);
-        
+
         autoDirectEdit(cmd);
     }
-    
+
     protected void autoDirectEdit(Command cmd) {
-        if(cmd instanceof ICreateElementCommand)
-        {
-            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor)this.getWorkbenchPart().getSite().getPage().getActiveEditor();
+        if (cmd instanceof ICreateElementCommand) {
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) this.getWorkbenchPart().getSite().getPage().getActiveEditor();
             EditPartViewer viewer = editor.getCurrentPage().getGraphicalViewer();
-            Object part = (EditPart)viewer.getEditPartRegistry().get(((ICreateElementCommand) cmd).getNewModelElement());
-            
-            if(part instanceof EditPart)
+            Object part = (EditPart) viewer.getEditPartRegistry().get(((ICreateElementCommand) cmd).getNewModelElement());
+
+            if (part instanceof EditPart)
                 ((EditPart) part).performRequest(directEditRequest);
         }
     }

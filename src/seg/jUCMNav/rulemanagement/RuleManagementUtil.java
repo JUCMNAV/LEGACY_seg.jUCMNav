@@ -26,14 +26,17 @@ import org.xml.sax.SAXException;
 /**
  * 
  * @author Anisur Rahman
- *
+ * 
  */
 public class RuleManagementUtil {
-	
-	/**
-     * Exports rules into an XML file on the specified path.  
-     * @param rules the rules to export
-     * @param path  the location where the rules XML file exists.
+
+    /**
+     * Exports rules into an XML file on the specified path.
+     * 
+     * @param rules
+     *            the rules to export
+     * @param path
+     *            the location where the rules XML file exists.
      */
     public static void exportRules(List rules, String path) {
         try {
@@ -60,11 +63,14 @@ public class RuleManagementUtil {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Create an XML element based on a static checking rule
-     * @param doc  an XML Document
-     * @param r a static checking rule
+     * 
+     * @param doc
+     *            an XML Document
+     * @param r
+     *            a static checking rule
      * @return an XML element
      */
     private static Element buildRuleNode(Document doc, Rule r) {
@@ -100,15 +106,16 @@ public class RuleManagementUtil {
         root.appendChild(utilities);
         // WarningOnly
         Element warningOnly = doc.createElement("WarningOnly"); //$NON-NLS-1$
-        warningOnly.setTextContent(r.getWarningOnly()?"true":"false"); //$NON-NLS-1$ //$NON-NLS-2$
+        warningOnly.setTextContent(r.getWarningOnly() ? "true" : "false"); //$NON-NLS-1$ //$NON-NLS-2$
         root.appendChild(warningOnly);
         return root;
     }
-    
 
     /**
      * Reads rules from an InputStream.
-     * @param rulesIS   an InputStream which contains rule information
+     * 
+     * @param rulesIS
+     *            an InputStream which contains rule information
      * @return a list of rules
      */
     public static List readRules(InputStream rulesIS) {
@@ -130,7 +137,7 @@ public class RuleManagementUtil {
                         Node u = node.getFirstChild();
                         while (u != null) {
                             if (u.getNodeName().compareTo("Utility") == 0) { //$NON-NLS-1$
-                               r.addUtility(u.getTextContent());
+                                r.addUtility(u.getTextContent());
                             }
                             u = u.getNextSibling();
                         }
@@ -156,7 +163,7 @@ public class RuleManagementUtil {
                 }
                 rules.add(r);
             }
-            
+
         } catch (ParserConfigurationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -170,5 +177,5 @@ public class RuleManagementUtil {
 
         return rules;
     }
-   
+
 }

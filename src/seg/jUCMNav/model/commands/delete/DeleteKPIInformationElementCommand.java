@@ -59,7 +59,7 @@ public class DeleteKPIInformationElementCommand extends CompoundCommand {
         else
             return super.canUndo();
     }
-    
+
     private void deleteKPIModelLink() {
         if (element.getKpiModelLinksSrc().size() > 0) {
             for (int i = 0; i < element.getKpiModelLinksSrc().size(); i++) {
@@ -97,24 +97,20 @@ public class DeleteKPIInformationElementCommand extends CompoundCommand {
      * 
      */
     private void build() {
-        //Verify if the definition can be delete.
-        if(element.getRefs().size() == 0 ||
-        		DeletePreferences.getDeleteReference(element))
-        {
+        // Verify if the definition can be delete.
+        if (element.getRefs().size() == 0 || DeletePreferences.getDeleteReference(element)) {
 
-	    	deleteKPIInformationConfig();
-	        // Delete all the KPIModelLink associate with the KPIInformationElement
-	        deleteKPIModelLink();
-	        //Add during execute delete of all the references
-	    	for(Iterator it=element.getRefs().iterator(); it.hasNext(); )
-	    	{
-	    		KPIInformationElementRef reference = (KPIInformationElementRef)it.next();
-	            add(new PreDeleteUrnModelElementCommand(reference));
-	            add(new RemoveURNmodelElementCommand(reference));
-	    	}
-	    	
-	        add(new RemoveKPIInformationElementCommand(element));
-	        
+            deleteKPIInformationConfig();
+            // Delete all the KPIModelLink associate with the KPIInformationElement
+            deleteKPIModelLink();
+            // Add during execute delete of all the references
+            for (Iterator it = element.getRefs().iterator(); it.hasNext();) {
+                KPIInformationElementRef reference = (KPIInformationElementRef) it.next();
+                add(new PreDeleteUrnModelElementCommand(reference));
+                add(new RemoveURNmodelElementCommand(reference));
+            }
+
+            add(new RemoveKPIInformationElementCommand(element));
 
         }
     }

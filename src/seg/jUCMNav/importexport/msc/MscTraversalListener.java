@@ -89,723 +89,713 @@ import urncore.URNmodelElement;
  */
 public class MscTraversalListener implements ITraversalListener {
 
-	protected CommandStack cs;
-	protected ScenarioDef currentDestScenario;
-	protected UCMmap currentMap;
-	protected ScenarioDef currentSrcScenario;
+    protected CommandStack cs;
+    protected ScenarioDef currentDestScenario;
+    protected UCMmap currentMap;
+    protected ScenarioDef currentSrcScenario;
 
-	protected HashMap htComponentRefs;
-	protected HashMap htComponents;
-	protected HashMap htResponsibilities;
-	protected HashMap htScenarioToMap;
+    protected HashMap htComponentRefs;
+    protected HashMap htComponents;
+    protected HashMap htResponsibilities;
+    protected HashMap htScenarioToMap;
 
-	protected HashMap htThreadEnd;
+    protected HashMap htThreadEnd;
 
-	protected HashMap htThreadStart;
-	protected TraversalVisit lastUnblocked;
+    protected HashMap htThreadStart;
+    protected TraversalVisit lastUnblocked;
 
-	protected URNspec urnspec;
-	
-	protected String filename;
-	protected String whenToSave;
+    protected URNspec urnspec;
+
+    protected String filename;
+    protected String whenToSave;
 
     /**
-     * Create a new traversal listener. Will set the stage for the listener. Creates a new blank URNspec. 
+     * Create a new traversal listener. Will set the stage for the listener. Creates a new blank URNspec.
      * 
-     * @param originalFilename the original filename
-     * @param newFilename the new filename
-     * @param whenToSave "0" is the final ucmscenarios model instance, "1" means before making it well-formed, "2" means after making it well-formed.  
+     * @param originalFilename
+     *            the original filename
+     * @param newFilename
+     *            the new filename
+     * @param whenToSave
+     *            "0" is the final ucmscenarios model instance, "1" means before making it well-formed, "2" means after making it well-formed.
      */
-	public MscTraversalListener(String originalFilename, String newFilename, String whenToSave) {
-		this.filename = newFilename;
-		this.whenToSave = whenToSave;
-		
-		htScenarioToMap = new HashMap();
-		urnspec = ModelCreationFactory.getNewURNspec(true, false);
-		
-		// TODO: find a better way to store this information, e.g., use URNspec metadata. 
-		urnspec.setAuthor(originalFilename);
+    public MscTraversalListener(String originalFilename, String newFilename, String whenToSave) {
+        this.filename = newFilename;
+        this.whenToSave = whenToSave;
 
-		cs = new CommandStack();
+        htScenarioToMap = new HashMap();
+        urnspec = ModelCreationFactory.getNewURNspec(true, false);
 
-		// get rid of default scenario/scenariogroup
-		Command cmd = new DeleteScenarioCommand((ScenarioDef) ((ScenarioGroup) urnspec.getUcmspec().getScenarioGroups().get(0)).getScenarios().get(0));
-		cs.execute(cmd);
-		cmd = new DeleteStrategiesGroupCommand((ScenarioGroup) urnspec.getUcmspec().getScenarioGroups().get(0));
-		cs.execute(cmd);
-		cmd = new DeleteStrategyCommand((EvaluationStrategy) urnspec.getGrlspec().getStrategies().get(0));
-		cs.execute(cmd);
-		cmd = new DeleteStrategiesGroupCommand((StrategiesGroup) urnspec.getGrlspec().getGroups().get(0));
-		cs.execute(cmd);
-	}
+        // TODO: find a better way to store this information, e.g., use URNspec metadata.
+        urnspec.setAuthor(originalFilename);
 
-	private IURNContainerRef addCompRefIfAbsent(IURNContainer def) {
-		IURNContainerRef comp = (IURNContainerRef) htComponentRefs.get(def);
-		if (comp == null && def != null) {
-			// create a new reference
-			comp = (IURNContainerRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class, ((Component) def).getKind().getValue(), htComponents
-					.get(def));
-			// outside for autolayout
-			comp.setX(-1000 + currentMap.getContRefs().size()*101);
-			comp.setY(-1000);
-			AddContainerRefCommand cmd = new AddContainerRefCommand(currentMap, comp);
-			cs.execute(cmd);
+        cs = new CommandStack();
 
-			htComponentRefs.put(def, comp);
-		}
-		return comp;
-	}
+        // get rid of default scenario/scenariogroup
+        Command cmd = new DeleteScenarioCommand((ScenarioDef) ((ScenarioGroup) urnspec.getUcmspec().getScenarioGroups().get(0)).getScenarios().get(0));
+        cs.execute(cmd);
+        cmd = new DeleteStrategiesGroupCommand((ScenarioGroup) urnspec.getUcmspec().getScenarioGroups().get(0));
+        cs.execute(cmd);
+        cmd = new DeleteStrategyCommand((EvaluationStrategy) urnspec.getGrlspec().getStrategies().get(0));
+        cs.execute(cmd);
+        cmd = new DeleteStrategiesGroupCommand((StrategiesGroup) urnspec.getGrlspec().getGroups().get(0));
+        cs.execute(cmd);
+    }
 
+    private IURNContainerRef addCompRefIfAbsent(IURNContainer def) {
+        IURNContainerRef comp = (IURNContainerRef) htComponentRefs.get(def);
+        if (comp == null && def != null) {
+            // create a new reference
+            comp = (IURNContainerRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class, ((Component) def).getKind().getValue(), htComponents
+                    .get(def));
+            // outside for autolayout
+            comp.setX(-1000 + currentMap.getContRefs().size() * 101);
+            comp.setY(-1000);
+            AddContainerRefCommand cmd = new AddContainerRefCommand(currentMap, comp);
+            cs.execute(cmd);
 
+            htComponentRefs.put(def, comp);
+        }
+        return comp;
+    }
 
-	protected void cleanupComponentRefs() {
-		cs.execute(new TrimEmptyNodeCommand(currentMap));
+    protected void cleanupComponentRefs() {
+        cs.execute(new TrimEmptyNodeCommand(currentMap));
 
-		for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
-			PathNode pn = (PathNode) iter.next();
-			if (pn instanceof AndFork) {
-				pn.setContRef(((NodeConnection) pn.getPred().get(0)).getSource().getContRef());
-			} else if (pn instanceof AndJoin) {
-				pn.setContRef(((NodeConnection) pn.getSucc().get(0)).getTarget().getContRef());
-			}
-		}
+        for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
+            PathNode pn = (PathNode) iter.next();
+            if (pn instanceof AndFork) {
+                pn.setContRef(((NodeConnection) pn.getPred().get(0)).getSource().getContRef());
+            } else if (pn instanceof AndJoin) {
+                pn.setContRef(((NodeConnection) pn.getSucc().get(0)).getTarget().getContRef());
+            }
+        }
 
-		Vector toDelete = new Vector();
-		for (Iterator iter = currentMap.getContRefs().iterator(); iter.hasNext();) {
-			ComponentRef container = (ComponentRef) iter.next();
-			if (container.getChildren().size() == 0 && container.getNodes().size() == 0) {
-				toDelete.add(container);
-			}
-		}
-		for (Iterator iter = toDelete.iterator(); iter.hasNext();) {
-			ComponentRef container = (ComponentRef) iter.next();
-			cs.execute(new DeleteComponentRefCommand(container));
-		}
-	}
+        Vector toDelete = new Vector();
+        for (Iterator iter = currentMap.getContRefs().iterator(); iter.hasNext();) {
+            ComponentRef container = (ComponentRef) iter.next();
+            if (container.getChildren().size() == 0 && container.getNodes().size() == 0) {
+                toDelete.add(container);
+            }
+        }
+        for (Iterator iter = toDelete.iterator(); iter.hasNext();) {
+            ComponentRef container = (ComponentRef) iter.next();
+            cs.execute(new DeleteComponentRefCommand(container));
+        }
+    }
 
-	private void cleanupScenarioGroups() {
-		CompoundCommand compound = new CompoundCommand();
-		for (Iterator iter = urnspec.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
-			ScenarioGroup g = (ScenarioGroup) iter.next();
+    private void cleanupScenarioGroups() {
+        CompoundCommand compound = new CompoundCommand();
+        for (Iterator iter = urnspec.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+            ScenarioGroup g = (ScenarioGroup) iter.next();
 
-			// if is in use, won't delete.
-			DeleteStrategiesGroupCommand cmd = new DeleteStrategiesGroupCommand(g);
-			if (cmd.canExecute())
-				compound.add(cmd);
-		}
-		cs.execute(compound);
-	}
+            // if is in use, won't delete.
+            DeleteStrategiesGroupCommand cmd = new DeleteStrategiesGroupCommand(g);
+            if (cmd.canExecute())
+                compound.add(cmd);
+        }
+        cs.execute(compound);
+    }
 
-	private void cleanupScenarios() {
-		Vector startPoints = new Vector();
-		for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
-			PathNode pn = (PathNode) iter.next();
-			if (pn instanceof StartPoint) {
-				startPoints.add(pn);
-			} else if (pn instanceof EndPoint) {
-				ScenarioEndPoint sep = (ScenarioEndPoint) ModelCreationFactory.getNewObject(urnspec, ScenarioEndPoint.class);
-				sep.setEndPoint((EndPoint) pn);
-				sep.setScenarioDef(currentDestScenario);
-				sep.setEnabled(true);
-			}
+    private void cleanupScenarios() {
+        Vector startPoints = new Vector();
+        for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
+            PathNode pn = (PathNode) iter.next();
+            if (pn instanceof StartPoint) {
+                startPoints.add(pn);
+            } else if (pn instanceof EndPoint) {
+                ScenarioEndPoint sep = (ScenarioEndPoint) ModelCreationFactory.getNewObject(urnspec, ScenarioEndPoint.class);
+                sep.setEndPoint((EndPoint) pn);
+                sep.setScenarioDef(currentDestScenario);
+                sep.setEnabled(true);
+            }
 
-		}
-		Collections.sort(startPoints, new URNmodelElementIDComparator());
+        }
+        Collections.sort(startPoints, new URNmodelElementIDComparator());
 
-		for (Iterator iter = startPoints.iterator(); iter.hasNext();) {
-			StartPoint pn = (StartPoint) iter.next();
-			ScenarioStartPoint ssp = (ScenarioStartPoint) ModelCreationFactory.getNewObject(urnspec, ScenarioStartPoint.class);
-			ssp.setStartPoint(pn);
-			ssp.setScenarioDef(currentDestScenario);
-			ssp.setEnabled(true);
-		}
+        for (Iterator iter = startPoints.iterator(); iter.hasNext();) {
+            StartPoint pn = (StartPoint) iter.next();
+            ScenarioStartPoint ssp = (ScenarioStartPoint) ModelCreationFactory.getNewObject(urnspec, ScenarioStartPoint.class);
+            ssp.setStartPoint(pn);
+            ssp.setScenarioDef(currentDestScenario);
+            ssp.setEnabled(true);
+        }
 
-	
-	}
+    }
 
-	protected void cloneComponents(ScenarioDef scenario) {
-		htComponents = new HashMap();
+    protected void cloneComponents(ScenarioDef scenario) {
+        htComponents = new HashMap();
 
-		for (Iterator iter = scenario.getGroup().getUcmspec().getUrnspec().getUrndef().getComponents().iterator(); iter.hasNext();) {
-			Component c = (Component) iter.next();
-			Component clone = (Component) EcoreUtil.copy(c);
-			clone.setUrndefinition(urnspec.getUrndef());
-			resetCloneId(clone);
+        for (Iterator iter = scenario.getGroup().getUcmspec().getUrnspec().getUrndef().getComponents().iterator(); iter.hasNext();) {
+            Component c = (Component) iter.next();
+            Component clone = (Component) EcoreUtil.copy(c);
+            clone.setUrndefinition(urnspec.getUrndef());
+            resetCloneId(clone);
 
-			htComponents.put(c, clone);
-		}
-	}
+            htComponents.put(c, clone);
+        }
+    }
 
-	protected void cloneResponsibilities(ScenarioDef scenario) {
-		htResponsibilities = new HashMap();
+    protected void cloneResponsibilities(ScenarioDef scenario) {
+        htResponsibilities = new HashMap();
 
-		for (Iterator iter = scenario.getGroup().getUcmspec().getUrnspec().getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
-			Responsibility r = (Responsibility) iter.next();
-			Responsibility clone = (Responsibility) EcoreUtil.copy(r);
-			clone.setUrndefinition(urnspec.getUrndef());
+        for (Iterator iter = scenario.getGroup().getUcmspec().getUrnspec().getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
+            Responsibility r = (Responsibility) iter.next();
+            Responsibility clone = (Responsibility) EcoreUtil.copy(r);
+            clone.setUrndefinition(urnspec.getUrndef());
 
-			resetCloneId(clone);
+            resetCloneId(clone);
 
-			htResponsibilities.put(r, clone);
-		}
+            htResponsibilities.put(r, clone);
+        }
 
-		// Responsibility condition = (Responsibility) ModelCreationFactory.getNewObject(urnspec, Responsibility.class);
-		// condition.setName("Condition");
-		// condition.setUrndefinition(urnspec.getUrndef());
-		// htResponsibilities.put("Condition", condition);
-	}
+        // Responsibility condition = (Responsibility) ModelCreationFactory.getNewObject(urnspec, Responsibility.class);
+        // condition.setName("Condition");
+        // condition.setUrndefinition(urnspec.getUrndef());
+        // htResponsibilities.put("Condition", condition);
+    }
 
-	protected void cloneScenario(ScenarioDef src) {
-		int index = src.getGroup().getUcmspec().getScenarioGroups().indexOf(src.getGroup());
+    protected void cloneScenario(ScenarioDef src) {
+        int index = src.getGroup().getUcmspec().getScenarioGroups().indexOf(src.getGroup());
 
-		ScenarioDef dest = (ScenarioDef) EcoreUtil.copy(src);
-		resetCloneId(dest);
-		dest.setGroup((ScenarioGroup) urnspec.getUcmspec().getScenarioGroups().get(index));
+        ScenarioDef dest = (ScenarioDef) EcoreUtil.copy(src);
+        resetCloneId(dest);
+        dest.setGroup((ScenarioGroup) urnspec.getUcmspec().getScenarioGroups().get(index));
 
-		dest.getStartPoints().clear();
-		dest.getEndPoints().clear();
-		dest.getInitializations().clear();
-		dest.getIncludedScenarios().clear();
-		dest.getPreconditions().clear();
-		dest.getPostconditions().clear();
+        dest.getStartPoints().clear();
+        dest.getEndPoints().clear();
+        dest.getInitializations().clear();
+        dest.getIncludedScenarios().clear();
+        dest.getPreconditions().clear();
+        dest.getPostconditions().clear();
 
-		for (Iterator iter = ScenarioUtils.getDefinedInitializations(src).iterator(); iter.hasNext();) {
-			Initialization srcinit = (Initialization) iter.next();
-			Initialization destinit = (Initialization) EcoreUtil.copy(srcinit);
-			index = srcinit.getVariable().getUcmspec().getVariables().indexOf(srcinit.getVariable());
-			destinit.setVariable((Variable) urnspec.getUcmspec().getVariables().get(index));
-			destinit.setScenarioDef(dest);
-		}
+        for (Iterator iter = ScenarioUtils.getDefinedInitializations(src).iterator(); iter.hasNext();) {
+            Initialization srcinit = (Initialization) iter.next();
+            Initialization destinit = (Initialization) EcoreUtil.copy(srcinit);
+            index = srcinit.getVariable().getUcmspec().getVariables().indexOf(srcinit.getVariable());
+            destinit.setVariable((Variable) urnspec.getUcmspec().getVariables().get(index));
+            destinit.setScenarioDef(dest);
+        }
 
-		currentDestScenario = dest;
-	}
+        currentDestScenario = dest;
+    }
 
-	protected void cloneScenarioDataModel(ScenarioDef scenario) {
+    protected void cloneScenarioDataModel(ScenarioDef scenario) {
 
-		for (Iterator iter = scenario.getGroup().getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
-			ScenarioGroup c = (ScenarioGroup) iter.next();
-			ScenarioGroup clone = (ScenarioGroup) EcoreUtil.copy(c);
-			clone.setUcmspec(urnspec.getUcmspec());
-			clone.getScenarios().clear();
-			resetCloneId(clone);
-		}
+        for (Iterator iter = scenario.getGroup().getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+            ScenarioGroup c = (ScenarioGroup) iter.next();
+            ScenarioGroup clone = (ScenarioGroup) EcoreUtil.copy(c);
+            clone.setUcmspec(urnspec.getUcmspec());
+            clone.getScenarios().clear();
+            resetCloneId(clone);
+        }
 
-		for (Iterator iter = scenario.getGroup().getUcmspec().getEnumerationTypes().iterator(); iter.hasNext();) {
-			EnumerationType c = (EnumerationType) iter.next();
-			EnumerationType clone = (EnumerationType) EcoreUtil.copy(c);
-			clone.setUcmspec(urnspec.getUcmspec());
-			resetCloneId(clone);
-		}
-		for (Iterator iter = scenario.getGroup().getUcmspec().getVariables().iterator(); iter.hasNext();) {
-			Variable c = (Variable) iter.next();
-			Variable clone = (Variable) EcoreUtil.copy(c);
-			clone.setUcmspec(urnspec.getUcmspec());
-			resetCloneId(clone);
-		}
-		for (int i = 0; i < scenario.getGroup().getUcmspec().getVariables().size(); i++) {
-			Variable src = (Variable) scenario.getGroup().getUcmspec().getVariables().get(i);
-			Variable dest = (Variable) urnspec.getUcmspec().getVariables().get(i);
+        for (Iterator iter = scenario.getGroup().getUcmspec().getEnumerationTypes().iterator(); iter.hasNext();) {
+            EnumerationType c = (EnumerationType) iter.next();
+            EnumerationType clone = (EnumerationType) EcoreUtil.copy(c);
+            clone.setUcmspec(urnspec.getUcmspec());
+            resetCloneId(clone);
+        }
+        for (Iterator iter = scenario.getGroup().getUcmspec().getVariables().iterator(); iter.hasNext();) {
+            Variable c = (Variable) iter.next();
+            Variable clone = (Variable) EcoreUtil.copy(c);
+            clone.setUcmspec(urnspec.getUcmspec());
+            resetCloneId(clone);
+        }
+        for (int i = 0; i < scenario.getGroup().getUcmspec().getVariables().size(); i++) {
+            Variable src = (Variable) scenario.getGroup().getUcmspec().getVariables().get(i);
+            Variable dest = (Variable) urnspec.getUcmspec().getVariables().get(i);
 
-			EnumerationType srctype = src.getEnumerationType();
-			if (srctype != null) {
-				int index = srctype.getUcmspec().getEnumerationTypes().indexOf(srctype);
-				dest.setEnumerationType((EnumerationType) dest.getUcmspec().getEnumerationTypes().get(index));
-			}
-		}
-	}
+            EnumerationType srctype = src.getEnumerationType();
+            if (srctype != null) {
+                int index = srctype.getUcmspec().getEnumerationTypes().indexOf(srctype);
+                dest.setEnumerationType((EnumerationType) dest.getUcmspec().getEnumerationTypes().get(index));
+            }
+        }
+    }
 
-	public void codeExecuted(TraversalVisit visit, String code) {
-		// is null in scenario initializations
-		// if (visit == null)
-		// System.out.println("Executed code: " + code);
-		// else
-		// System.out.println("Executed code: " + code + " in thread " + visit.getThreadID());
+    public void codeExecuted(TraversalVisit visit, String code) {
+        // is null in scenario initializations
+        // if (visit == null)
+        // System.out.println("Executed code: " + code);
+        // else
+        // System.out.println("Executed code: " + code + " in thread " + visit.getThreadID());
 
-	}
+    }
 
-	public void conditionEvaluated(TraversalVisit visit, Condition original_condition, boolean result, boolean isPreCondition) {
-		String condition = original_condition == null || original_condition.getExpression() == null ? Boolean.toString(result) : original_condition
-				.getExpression();
+    public void conditionEvaluated(TraversalVisit visit, Condition original_condition, boolean result, boolean isPreCondition) {
+        String condition = original_condition == null || original_condition.getExpression() == null ? Boolean.toString(result) : original_condition
+                .getExpression();
 
-		Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
-		cond.setExpression(condition);
+        Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
+        cond.setExpression(condition);
 
-		// is null in scenario pre/post conditions
-		if (visit == null) {
-			// System.out.println("Condition (" + condition + ") evaluated to " + result);
+        // is null in scenario pre/post conditions
+        if (visit == null) {
+            // System.out.println("Condition (" + condition + ") evaluated to " + result);
 
-			if (currentMap.getNodes().size() == 0)
-				currentDestScenario.getPreconditions().add(cond);
-			else
-				currentDestScenario.getPostconditions().add(cond);
-		} else {
-			// System.out.println("Condition (" + condition + ") evaluated to " + result + " in thread " + visit.getThreadID());
+            if (currentMap.getNodes().size() == 0)
+                currentDestScenario.getPreconditions().add(cond);
+            else
+                currentDestScenario.getPostconditions().add(cond);
+        } else {
+            // System.out.println("Condition (" + condition + ") evaluated to " + result + " in thread " + visit.getThreadID());
 
-			// don't show tautologies or ignored conditions (paths that were not taken)
-			if (!ScenarioUtils.isEmptyCondition(condition) && result) {
-				WaitingPlace wait = createWaitingPlace(visit);
-                if(isPreCondition)
+            // don't show tautologies or ignored conditions (paths that were not taken)
+            if (!ScenarioUtils.isEmptyCondition(condition) && result) {
+                WaitingPlace wait = createWaitingPlace(visit);
+                if (isPreCondition)
                     MetadataHelper.addMetaData(urnspec, wait, "isPreCondition", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-				if (original_condition != null && original_condition.getLabel() != null && original_condition.getLabel().length() > 0)
-					wait.setName(original_condition.getLabel());
-				else if (visit.getVisitedElement() instanceof Stub) {
+                if (original_condition != null && original_condition.getLabel() != null && original_condition.getLabel().length() > 0)
+                    wait.setName(original_condition.getLabel());
+                else if (visit.getVisitedElement() instanceof Stub) {
                     wait.setName((visit.getVisitedElement()).getName()); // just in case we can't find the plugin name
-                    for (Iterator iter = ((Stub)visit.getVisitedElement()).getBindings().iterator(); iter.hasNext();) {
+                    for (Iterator iter = ((Stub) visit.getVisitedElement()).getBindings().iterator(); iter.hasNext();) {
                         PluginBinding binding = (PluginBinding) iter.next();
-                        if (binding.getPrecondition() == original_condition && binding.getPlugin()!=null)
-                        {
+                        if (binding.getPrecondition() == original_condition && binding.getPlugin() != null) {
                             wait.setName(binding.getPlugin().getName());
                         }
                     }
 
-                }
-                else
-					wait.setName((visit.getVisitedElement()).getName());
+                } else
+                    wait.setName((visit.getVisitedElement()).getName());
 
-				wait.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-				NodeConnection nc = (NodeConnection) wait.getSucc().get(0);
-				nc.setCondition(cond);
+                wait.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+                NodeConnection nc = (NodeConnection) wait.getSucc().get(0);
+                nc.setCondition(cond);
 
-				// RespRef respref = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
-				// respref.setLabel(null);
-				//				
-				// addMetaData(respref.getRespDef(), "condition", condition);
-				// addMetaData(respref.getRespDef(), "value", Boolean.valueOf(result).toString());
-				//					
-				// extendPathAndInsert(visit, respref, true);
+                // RespRef respref = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
+                // respref.setLabel(null);
+                //				
+                // addMetaData(respref.getRespDef(), "condition", condition);
+                // addMetaData(respref.getRespDef(), "value", Boolean.valueOf(result).toString());
+                //					
+                // extendPathAndInsert(visit, respref, true);
 
-			}
-		}
-	}
+            }
+        }
+    }
 
-	private DirectionArrow createDirectionArrow(TraversalVisit visit) {
-		DirectionArrow da = (DirectionArrow) ModelCreationFactory.getNewObject(urnspec, DirectionArrow.class);
+    private DirectionArrow createDirectionArrow(TraversalVisit visit) {
+        DirectionArrow da = (DirectionArrow) ModelCreationFactory.getNewObject(urnspec, DirectionArrow.class);
 
-		extendPathAndInsert(visit, da, true);
-		
-		
+        extendPathAndInsert(visit, da, true);
 
-		return da;
-	}
+        return da;
+    }
 
-	private RespRef createRespRef(TraversalVisit visit) {
-		Responsibility def = null;
-		if (visit.getVisitedElement() instanceof RespRef)
-			def = (Responsibility) htResponsibilities.get(((RespRef) visit.getVisitedElement()).getRespDef());
-		else {
-			def = (Responsibility) htResponsibilities.get(visit.getVisitedElement().getClass());
+    private RespRef createRespRef(TraversalVisit visit) {
+        Responsibility def = null;
+        if (visit.getVisitedElement() instanceof RespRef)
+            def = (Responsibility) htResponsibilities.get(((RespRef) visit.getVisitedElement()).getRespDef());
+        else {
+            def = (Responsibility) htResponsibilities.get(visit.getVisitedElement().getClass());
 
-			// we haven't seen an element of this type before. create a responsibility for it!
-			if (def == null) {
-				def = (Responsibility) ModelCreationFactory.getNewObject(urnspec, Responsibility.class);
-				def.setName(visit.getVisitedElement().getClass().getInterfaces()[0].getSimpleName());
-				def.setUrndefinition(urnspec.getUrndef());
-				htResponsibilities.put(visit.getVisitedElement().getClass(), def);
-			}
-		}
-		RespRef respref = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class, 0, def);
-		extendPathAndInsert(visit, respref, true);
+            // we haven't seen an element of this type before. create a responsibility for it!
+            if (def == null) {
+                def = (Responsibility) ModelCreationFactory.getNewObject(urnspec, Responsibility.class);
+                def.setName(visit.getVisitedElement().getClass().getInterfaces()[0].getSimpleName());
+                def.setUrndefinition(urnspec.getUrndef());
+                htResponsibilities.put(visit.getVisitedElement().getClass(), def);
+            }
+        }
+        RespRef respref = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class, 0, def);
+        extendPathAndInsert(visit, respref, true);
 
-		setComponentRef(respref, visit);
-		return respref;
-	}
+        setComponentRef(respref, visit);
+        return respref;
+    }
 
-	private Timer createTimer(TraversalVisit visit) {
-		Timer timer = (Timer) ModelCreationFactory.getNewObject(urnspec, Timer.class);
+    private Timer createTimer(TraversalVisit visit) {
+        Timer timer = (Timer) ModelCreationFactory.getNewObject(urnspec, Timer.class);
 
-		extendPathAndInsert(visit, timer, true);
+        extendPathAndInsert(visit, timer, true);
 
-		return timer;
-	}
-	private WaitingPlace createWaitingPlace(TraversalVisit visit) {
-		WaitingPlace wait = (WaitingPlace) ModelCreationFactory.getNewObject(urnspec, WaitingPlace.class);
+        return timer;
+    }
 
-		extendPathAndInsert(visit, wait, true);
+    private WaitingPlace createWaitingPlace(TraversalVisit visit) {
+        WaitingPlace wait = (WaitingPlace) ModelCreationFactory.getNewObject(urnspec, WaitingPlace.class);
 
-		return wait;
-	}
-	
-	public void drillDown(TraversalVisit visit, InBinding inb) {
-		DirectionArrow arrow = createDirectionArrow(visit);
-		
-        if (inb.getStartPoint().getContRef()==null)
+        extendPathAndInsert(visit, wait, true);
+
+        return wait;
+    }
+
+    public void drillDown(TraversalVisit visit, InBinding inb) {
+        DirectionArrow arrow = createDirectionArrow(visit);
+
+        if (inb.getStartPoint().getContRef() == null)
             arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
         else
             arrow.setContRef(addCompRefIfAbsent(inb.getStartPoint().getContRef().getContDef()));
-            
-		MetadataHelper.addMetaData(urnspec, arrow, "type", "Connect_Start"); //$NON-NLS-1$ //$NON-NLS-2$
-		arrow.setId(inb.getStartPoint().getId());
-		arrow.setName(inb.getStartPoint().getName());
-	}
 
-	public void drillUp(TraversalVisit visit, OutBinding outb) {
-		DirectionArrow arrow = createDirectionArrow(visit);
-		arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+        MetadataHelper.addMetaData(urnspec, arrow, "type", "Connect_Start"); //$NON-NLS-1$ //$NON-NLS-2$
+        arrow.setId(inb.getStartPoint().getId());
+        arrow.setName(inb.getStartPoint().getName());
+    }
+
+    public void drillUp(TraversalVisit visit, OutBinding outb) {
+        DirectionArrow arrow = createDirectionArrow(visit);
+        arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
         MetadataHelper.addMetaData(urnspec, arrow, "type", "Connect_End"); //$NON-NLS-1$ //$NON-NLS-2$
-		arrow.setId(outb.getEndPoint().getId());
-		arrow.setName(outb.getEndPoint().getName());
-		
-	}
+        arrow.setId(outb.getEndPoint().getId());
+        arrow.setName(outb.getEndPoint().getName());
 
-	protected PathNode extendPath(int threadID, boolean fromEnd) {
-		PathNode pn;
+    }
 
-		if (fromEnd) {
-			EndPoint end = (EndPoint) htThreadEnd.get(new Integer(threadID));
-			ExtendPathCommand cmd = new ExtendPathCommand(currentMap, end, end.getX() + 100, end.getY());
-			cs.execute(cmd);
-			return end;
-		} else {
-			StartPoint start = (StartPoint) htThreadStart.get(new Integer(threadID));
-			ExtendPathCommand cmd = new ExtendPathCommand(currentMap, start, start.getX() - 100, start.getY());
-			cs.execute(cmd);
-			return start;
-		}
-	}
+    protected PathNode extendPath(int threadID, boolean fromEnd) {
+        PathNode pn;
 
-	protected PathNode extendPath(TraversalVisit visit, boolean fromEnd) {
-		return extendPath(visit.getThreadID(), fromEnd);
-	}
+        if (fromEnd) {
+            EndPoint end = (EndPoint) htThreadEnd.get(new Integer(threadID));
+            ExtendPathCommand cmd = new ExtendPathCommand(currentMap, end, end.getX() + 100, end.getY());
+            cs.execute(cmd);
+            return end;
+        } else {
+            StartPoint start = (StartPoint) htThreadStart.get(new Integer(threadID));
+            ExtendPathCommand cmd = new ExtendPathCommand(currentMap, start, start.getX() - 100, start.getY());
+            cs.execute(cmd);
+            return start;
+        }
+    }
 
-	protected PathNode extendPathAndInsert(int threadID, PathNode pn, boolean fromEnd) {
-		PathNode extremity = extendPath(threadID, fromEnd);
-		EmptyPoint empty;
-		if (fromEnd)
-			empty = (EmptyPoint) ((NodeConnection) extremity.getPred().get(0)).getSource();
-		else
-			empty = (EmptyPoint) ((NodeConnection) extremity.getSucc().get(0)).getTarget();
+    protected PathNode extendPath(TraversalVisit visit, boolean fromEnd) {
+        return extendPath(visit.getThreadID(), fromEnd);
+    }
 
-		ReplaceEmptyPointCommand cmd2 = new ReplaceEmptyPointCommand(empty, pn);
-		cs.execute(cmd2);
+    protected PathNode extendPathAndInsert(int threadID, PathNode pn, boolean fromEnd) {
+        PathNode extremity = extendPath(threadID, fromEnd);
+        EmptyPoint empty;
+        if (fromEnd)
+            empty = (EmptyPoint) ((NodeConnection) extremity.getPred().get(0)).getSource();
+        else
+            empty = (EmptyPoint) ((NodeConnection) extremity.getSucc().get(0)).getTarget();
 
-		return extremity;
-	}
+        ReplaceEmptyPointCommand cmd2 = new ReplaceEmptyPointCommand(empty, pn);
+        cs.execute(cmd2);
 
-	protected PathNode extendPathAndInsert(TraversalVisit visit, PathNode pn, boolean fromEnd) {
-		return extendPathAndInsert(visit.getThreadID(), pn, fromEnd);
-	}
+        return extremity;
+    }
 
-	public void leftWaitingPlace(TraversalVisit visit, boolean becauseOfCondition) {
-		
-		// not used
-	}
+    protected PathNode extendPathAndInsert(TraversalVisit visit, PathNode pn, boolean fromEnd) {
+        return extendPathAndInsert(visit.getThreadID(), pn, fromEnd);
+    }
 
-	public void newThreadStarted(TraversalVisit visit) {
-		// System.out.println("Started thread " + visit.getThreadID() + " at: " + visit.getVisitedElement());
+    public void leftWaitingPlace(TraversalVisit visit, boolean becauseOfCondition) {
 
-		CreatePathCommand cmd = new CreatePathCommand(currentMap, 0, visit.getThreadID() * 100);
-		cs.execute(cmd);
-		cmd.getStart().setName((visit.getVisitedElement()).getName());
-		setComponentRef(cmd.getStart(), visit);
+        // not used
+    }
 
-		htThreadStart.put(new Integer(visit.getThreadID()), cmd.getStart());
-		htThreadEnd.put(new Integer(visit.getThreadID()), cmd.getEnd());
-	}
+    public void newThreadStarted(TraversalVisit visit) {
+        // System.out.println("Started thread " + visit.getThreadID() + " at: " + visit.getVisitedElement());
 
-	public void pathNodeAborted(TraversalVisit visit) {
-		// System.out.println("Aborted node in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+        CreatePathCommand cmd = new CreatePathCommand(currentMap, 0, visit.getThreadID() * 100);
+        cs.execute(cmd);
+        cmd.getStart().setName((visit.getVisitedElement()).getName());
+        setComponentRef(cmd.getStart(), visit);
 
-	}
+        htThreadStart.put(new Integer(visit.getThreadID()), cmd.getStart());
+        htThreadEnd.put(new Integer(visit.getThreadID()), cmd.getEnd());
+    }
 
-	public void pathNodeAttempted(TraversalVisit visit) {
-		// System.out.println("Node is being attempted in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+    public void pathNodeAborted(TraversalVisit visit) {
+        // System.out.println("Aborted node in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
-		if (visit.getVisitedElement() instanceof WaitingPlace)
-		{
-			EndPoint end = (EndPoint) htThreadEnd.get(new Integer(visit.getThreadID()));
-			PathNode pn = (PathNode) ((NodeConnection)end.getPred().get(0)).getSource();
+    }
+
+    public void pathNodeAttempted(TraversalVisit visit) {
+        // System.out.println("Node is being attempted in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+
+        if (visit.getVisitedElement() instanceof WaitingPlace) {
+            EndPoint end = (EndPoint) htThreadEnd.get(new Integer(visit.getThreadID()));
+            PathNode pn = (PathNode) ((NodeConnection) end.getPred().get(0)).getSource();
             String data = MetadataHelper.getMetaData(pn, "type"); //$NON-NLS-1$
 
-			// avoid duplicates when re-queued. 
-			if (data==null || !(data.equals("Timer_Set") || data.equals("WP_Enter"))) //$NON-NLS-1$ //$NON-NLS-2$
-			{
-				DirectionArrow arrow = createDirectionArrow(visit);
-				arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+            // avoid duplicates when re-queued.
+            if (data == null || !(data.equals("Timer_Set") || data.equals("WP_Enter"))) //$NON-NLS-1$ //$NON-NLS-2$
+            {
+                DirectionArrow arrow = createDirectionArrow(visit);
+                arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
                 arrow.setName(visit.getVisitedElement().getName());
                 MetadataHelper.addMetaData(urnspec, arrow, "type", visit.getVisitedElement() instanceof Timer ? "Timer_Set" : "WP_Enter"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 MetadataHelper.addMetaData(urnspec, arrow, "name", visit.getVisitedElement().getName()); //$NON-NLS-1$
-			}
-		}
-	}
+            }
+        }
+    }
 
-	public void pathNodeBlocked(TraversalVisit visit) {
-		// System.out.println("Node could not continue and was blocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+    public void pathNodeBlocked(TraversalVisit visit) {
+        // System.out.println("Node could not continue and was blocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
-		// TODO: no, we want to add a waiting place if we block and continue because of condition instead of path.
-		// PathNode n = (PathNode) visit.getVisitedElement();
-		// if (n instanceof WaitingPlace) {
-		//			
-		// createWaitingPlace(visit);
-		// }
+        // TODO: no, we want to add a waiting place if we block and continue because of condition instead of path.
+        // PathNode n = (PathNode) visit.getVisitedElement();
+        // if (n instanceof WaitingPlace) {
+        //			
+        // createWaitingPlace(visit);
+        // }
 
-	}
+    }
 
-	public void pathNodeUnblocked(TraversalVisit visit) {
-		// System.out.println("Node was unblocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+    public void pathNodeUnblocked(TraversalVisit visit) {
+        // System.out.println("Node was unblocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
-		lastUnblocked = visit;
+        lastUnblocked = visit;
 
-	}
+    }
 
-	public void pathNodeVisited(TraversalVisit visit) {
-		// System.out.println("Node was traversed successfully in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+    public void pathNodeVisited(TraversalVisit visit) {
+        // System.out.println("Node was traversed successfully in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
-		PathNode n = visit.getVisitedElement();
-		if (!(n instanceof EmptyPoint || n instanceof DirectionArrow || n instanceof OrJoin || n instanceof OrFork || n instanceof Connect
-				|| n instanceof StartPoint || n instanceof EndPoint || n instanceof Stub || n instanceof AndFork || n instanceof AndJoin || n instanceof WaitingPlace)) {
+        PathNode n = visit.getVisitedElement();
+        if (!(n instanceof EmptyPoint || n instanceof DirectionArrow || n instanceof OrJoin || n instanceof OrFork || n instanceof Connect
+                || n instanceof StartPoint || n instanceof EndPoint || n instanceof Stub || n instanceof AndFork || n instanceof AndJoin || n instanceof WaitingPlace)) {
 
-			createRespRef(visit);
-		}
-		
-		if (n instanceof WaitingPlace) {
-			EndPoint end = (EndPoint) htThreadEnd.get(new Integer(visit.getThreadID()));
-			PathNode pn = (PathNode) ((NodeConnection)end.getPred().get(0)).getSource();
+            createRespRef(visit);
+        }
 
-			// avoid duplicates when re-queued. 
-			if (!(pn instanceof Timer))
-			{
-				DirectionArrow arrow = createDirectionArrow(visit);
+        if (n instanceof WaitingPlace) {
+            EndPoint end = (EndPoint) htThreadEnd.get(new Integer(visit.getThreadID()));
+            PathNode pn = (PathNode) ((NodeConnection) end.getPred().get(0)).getSource();
+
+            // avoid duplicates when re-queued.
+            if (!(pn instanceof Timer)) {
+                DirectionArrow arrow = createDirectionArrow(visit);
                 arrow.setName(n.getName());
-				arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-                MetadataHelper.addMetaData(urnspec, arrow, "type", n instanceof Timer? "Timer_Reset": "WP_Leave"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+                MetadataHelper.addMetaData(urnspec, arrow, "type", n instanceof Timer ? "Timer_Reset" : "WP_Leave"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 MetadataHelper.addMetaData(urnspec, arrow, "name", n.getName()); //$NON-NLS-1$
-			}
-		}
+            }
+        }
 
-		if (n instanceof EndPoint) {
-			PathNode pn = (PathNode) htThreadEnd.get(new Integer(visit.getThreadID()));
-			pn.setName(n.getName());
+        if (n instanceof EndPoint) {
+            PathNode pn = (PathNode) htThreadEnd.get(new Integer(visit.getThreadID()));
+            pn.setName(n.getName());
 
-			setComponentRef(pn, visit);
+            setComponentRef(pn, visit);
 
-		}
-		
-		if (n instanceof Connect)
-		{
-			DirectionArrow arrow = createDirectionArrow(visit);
-			arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+        }
+
+        if (n instanceof Connect) {
+            DirectionArrow arrow = createDirectionArrow(visit);
+            arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
             MetadataHelper.addMetaData(urnspec, arrow, "type", "Trigger_End"); //$NON-NLS-1$ //$NON-NLS-2$
-			arrow.setId(n.getId());
-			arrow.setName(((PathNode)((NodeConnection)n.getPred().get(0)).getSource()).getName());			
-		}
+            arrow.setId(n.getId());
+            arrow.setName(((PathNode) ((NodeConnection) n.getPred().get(0)).getSource()).getName());
+        }
 
-	}
+    }
 
-	private void resetCloneId(URNmodelElement clone) {
-		String name = clone.getName();
-		URNNamingHelper.setElementNameAndID(urnspec, clone);
-		clone.setName(name);
-	}
+    private void resetCloneId(URNmodelElement clone) {
+        String name = clone.getName();
+        URNNamingHelper.setElementNameAndID(urnspec, clone);
+        clone.setName(name);
+    }
 
-	private void saveModel() {
-		File path = new File(filename);
-		
-		if (whenToSave.equals("1")) { //$NON-NLS-1$
-			try {
-				UrnModelManager manager = new UrnModelManager();
-	
-	//			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
-	//					.getFullPath().removeLastSegments(1).append("__msctemp_" + currentSrcScenario.getName() + ".jucm");
-				
-				manager.createURNspec(path, urnspec);
-				manager.save(path);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return;
-		}
+    private void saveModel() {
+        File path = new File(filename);
 
-		cs.execute(new MakeWellFormedCommand(urnspec));
+        if (whenToSave.equals("1")) { //$NON-NLS-1$
+            try {
+                UrnModelManager manager = new UrnModelManager();
 
-		if (whenToSave.equals("2")) { //$NON-NLS-1$
-			try {
-				UrnModelManager manager = new UrnModelManager();
-	
-	//			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
-	//					.getFullPath().removeLastSegments(1).append("__msctemp2_" + currentSrcScenario.getName() + ".jucm");
-	
-				manager.createURNspec(path, urnspec);
-				manager.save(path);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return;
-		}
+                // IPath path = ((FileEditorInput)
+                // PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
+                // .getFullPath().removeLastSegments(1).append("__msctemp_" + currentSrcScenario.getName() + ".jucm");
 
-//		IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
-//				.getFullPath().removeLastSegments(1).append("__msctemp_" + currentSrcScenario.getName() + ".jucmscenarios");
+                manager.createURNspec(path, urnspec);
+                manager.save(path);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return;
+        }
 
-		//MscGenerator gen = new MscGenerator(urnspec);
-		
-		ScenarioGenerator gen = new ScenarioGenerator(urnspec);
-		gen.save(path);
+        cs.execute(new MakeWellFormedCommand(urnspec));
 
-	}
+        if (whenToSave.equals("2")) { //$NON-NLS-1$
+            try {
+                UrnModelManager manager = new UrnModelManager();
 
-	protected void setComponentRef(PathNode pn, TraversalVisit visit) {
-		if (visit.getParentComponentRef() != null) {
-			IURNContainerRef comp = addCompRefIfAbsent(visit.getParentComponentDef());
-			pn.setContRef(comp);
+                // IPath path = ((FileEditorInput)
+                // PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
+                // .getFullPath().removeLastSegments(1).append("__msctemp2_" + currentSrcScenario.getName() + ".jucm");
 
-			// bind parents.
-			for (int i = 1; i < visit.getParentComponentRefs().size(); i++) {
-				IURNContainer origparent = ((ComponentRef) visit.getParentComponentRefs().get(i)).getContDef();
-				IURNContainer origchild = ((ComponentRef) visit.getParentComponentRefs().get(i - 1)).getContDef();
-				IURNContainerRef parent = addCompRefIfAbsent(origparent);
-				IURNContainerRef child = addCompRefIfAbsent(origchild);
-				if (parent != child)
-					child.setParent(parent);
-			}
+                manager.createURNspec(path, urnspec);
+                manager.save(path);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return;
+        }
 
-		}
-	}
+        // IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
+        // .getFullPath().removeLastSegments(1).append("__msctemp_" + currentSrcScenario.getName() + ".jucmscenarios");
 
-	public void threadDied(int threadId) {
-		// System.out.println("Thread " + threadId + " died");
+        // MscGenerator gen = new MscGenerator(urnspec);
 
-	}
+        ScenarioGenerator gen = new ScenarioGenerator(urnspec);
+        gen.save(path);
 
-	public void threadsMerged(List oldThreadIDs, int newThreadID) {
-		// System.out.println("Threads " + ArrayAndListUtils.listToString(oldThreadIDs, ",") + " were merged into thread " + newThreadID);
+    }
 
-		AndJoin andjoin = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
-		StartPoint sp = (StartPoint) extendPathAndInsert(newThreadID, andjoin, false);
+    protected void setComponentRef(PathNode pn, TraversalVisit visit) {
+        if (visit.getParentComponentRef() != null) {
+            IURNContainerRef comp = addCompRefIfAbsent(visit.getParentComponentDef());
+            pn.setContRef(comp);
 
-		if (lastUnblocked != null) {
-			andjoin.setName(lastUnblocked.getVisitedElement().getName());
-			NodeLabel lbl = (NodeLabel) ModelCreationFactory.getNewObject(urnspec, NodeLabel.class);
-			lbl.setNode(andjoin);
-		}
-		for (int i = 0; i < oldThreadIDs.size(); i++) {
-			Integer threadID = (Integer) oldThreadIDs.get(i);
-			EndPoint ep = (EndPoint) htThreadEnd.get(threadID);
+            // bind parents.
+            for (int i = 1; i < visit.getParentComponentRefs().size(); i++) {
+                IURNContainer origparent = ((ComponentRef) visit.getParentComponentRefs().get(i)).getContDef();
+                IURNContainer origchild = ((ComponentRef) visit.getParentComponentRefs().get(i - 1)).getContDef();
+                IURNContainerRef parent = addCompRefIfAbsent(origparent);
+                IURNContainerRef child = addCompRefIfAbsent(origchild);
+                if (parent != child)
+                    child.setParent(parent);
+            }
 
-			Command cmd;
-			if (i == 0) {
-				// reuse existing path.
-				cmd = new MergeStartEndCommand(currentMap, sp, ep, sp.getX(), sp.getY());
-			} else {
-				cmd = new AttachBranchCommand(ep, andjoin);
-			}
-			cs.execute(cmd);
-		}
+        }
+    }
 
-		
-		htThreadStart.put(new Integer(newThreadID), andjoin);
+    public void threadDied(int threadId) {
+        // System.out.println("Thread " + threadId + " died");
 
-	}
-	
-	public void threadSplit(int oldThreadID, List newThreadIDs) {
-		// System.out.println("Thread " + oldThreadID + " was split into threads " + ArrayAndListUtils.listToString(newThreadIDs, ","));
+    }
 
-		AndFork andfork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
-		EndPoint ep = (EndPoint) extendPathAndInsert(oldThreadID, andfork, true);
+    public void threadsMerged(List oldThreadIDs, int newThreadID) {
+        // System.out.println("Threads " + ArrayAndListUtils.listToString(oldThreadIDs, ",") + " were merged into thread " + newThreadID);
 
-		for (int i = 0; i < newThreadIDs.size(); i++) {
-			Integer threadID = (Integer) newThreadIDs.get(i);
-			StartPoint sp = (StartPoint) htThreadStart.get(threadID);
+        AndJoin andjoin = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
+        StartPoint sp = (StartPoint) extendPathAndInsert(newThreadID, andjoin, false);
 
-			Command cmd;
-			if (i == 0) {
-				// reuse existing path.
-				cmd = new MergeStartEndCommand(currentMap, sp, ep, ep.getX(), ep.getY());
-			} else {
-				cmd = new AttachBranchCommand(sp, andfork);
-			}
-			cs.execute(cmd);
-		}
+        if (lastUnblocked != null) {
+            andjoin.setName(lastUnblocked.getVisitedElement().getName());
+            NodeLabel lbl = (NodeLabel) ModelCreationFactory.getNewObject(urnspec, NodeLabel.class);
+            lbl.setNode(andjoin);
+        }
+        for (int i = 0; i < oldThreadIDs.size(); i++) {
+            Integer threadID = (Integer) oldThreadIDs.get(i);
+            EndPoint ep = (EndPoint) htThreadEnd.get(threadID);
 
-		htThreadEnd.put(new Integer(oldThreadID), andfork);
+            Command cmd;
+            if (i == 0) {
+                // reuse existing path.
+                cmd = new MergeStartEndCommand(currentMap, sp, ep, sp.getX(), sp.getY());
+            } else {
+                cmd = new AttachBranchCommand(ep, andjoin);
+            }
+            cs.execute(cmd);
+        }
 
-	}
+        htThreadStart.put(new Integer(newThreadID), andjoin);
 
-	public void timerTimeout(TraversalVisit visit, boolean becauseOfCondition) {
-		// System.out.println("Timer timeout in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+    }
 
-		if (visit.getVisitedElement() instanceof Timer) {
-			Timer timer = createTimer(visit);
-			timer.setName(visit.getVisitedElement().getName() + Messages.getString("MscTraversalListener.SpaceTimeout")); //$NON-NLS-1$
-			setComponentRef(timer, visit);
-			
+    public void threadSplit(int oldThreadID, List newThreadIDs) {
+        // System.out.println("Thread " + oldThreadID + " was split into threads " + ArrayAndListUtils.listToString(newThreadIDs, ","));
+
+        AndFork andfork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
+        EndPoint ep = (EndPoint) extendPathAndInsert(oldThreadID, andfork, true);
+
+        for (int i = 0; i < newThreadIDs.size(); i++) {
+            Integer threadID = (Integer) newThreadIDs.get(i);
+            StartPoint sp = (StartPoint) htThreadStart.get(threadID);
+
+            Command cmd;
+            if (i == 0) {
+                // reuse existing path.
+                cmd = new MergeStartEndCommand(currentMap, sp, ep, ep.getX(), ep.getY());
+            } else {
+                cmd = new AttachBranchCommand(sp, andfork);
+            }
+            cs.execute(cmd);
+        }
+
+        htThreadEnd.put(new Integer(oldThreadID), andfork);
+
+    }
+
+    public void timerTimeout(TraversalVisit visit, boolean becauseOfCondition) {
+        // System.out.println("Timer timeout in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+
+        if (visit.getVisitedElement() instanceof Timer) {
+            Timer timer = createTimer(visit);
+            timer.setName(visit.getVisitedElement().getName() + Messages.getString("MscTraversalListener.SpaceTimeout")); //$NON-NLS-1$
+            setComponentRef(timer, visit);
+
             MetadataHelper.addMetaData(urnspec, timer, "ID", visit.getVisitedElement().getId()); //$NON-NLS-1$
             MetadataHelper.addMetaData(urnspec, timer, "Name", visit.getVisitedElement().getName()); //$NON-NLS-1$
-			Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
-			cond.setExpression("true"); //$NON-NLS-1$
-			((NodeConnection) timer.getSucc().get(0)).setCondition(cond);
-		}
+            Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
+            cond.setExpression("true"); //$NON-NLS-1$
+            ((NodeConnection) timer.getSucc().get(0)).setCondition(cond);
+        }
 
-	}
+    }
 
-	public void traversalEnded() {
-		cleanupScenarioGroups();
-		
+    public void traversalEnded() {
+        cleanupScenarioGroups();
 
-		// TODO: get rid of unused definitions.
+        // TODO: get rid of unused definitions.
 
+        saveModel();
+    }
 
-		saveModel();
-	}
+    public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
+        // System.out.println("Traversal ended: " + scenario.toString());
 
-	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
-		// System.out.println("Traversal ended: " + scenario.toString());
+        cleanupScenarios();
 
-		cleanupScenarios();
-
-		cleanupComponentRefs();
-	}
-
+        cleanupComponentRefs();
+    }
 
     /**
-     * We are about to start traversing scenario in the environment env. 
+     * We are about to start traversing scenario in the environment env.
      */
     public void traversalStarted(UcmEnvironment env, ScenarioDef scenario) {
-		// System.out.println("Traversal started: " + scenario.toString());
-		URNspec old = scenario.getGroup().getUcmspec().getUrnspec();
+        // System.out.println("Traversal started: " + scenario.toString());
+        URNspec old = scenario.getGroup().getUcmspec().getUrnspec();
 
-		
-		htThreadEnd = new HashMap();
-		htThreadStart = new HashMap();
-		htComponentRefs = new HashMap();
+        htThreadEnd = new HashMap();
+        htThreadStart = new HashMap();
+        htComponentRefs = new HashMap();
 
-		if (htResponsibilities == null) {
-			cloneResponsibilities(scenario);
-		}
+        if (htResponsibilities == null) {
+            cloneResponsibilities(scenario);
+        }
 
-		if (htComponents == null) {
-			cloneComponents(scenario);
-		}
+        if (htComponents == null) {
+            cloneComponents(scenario);
+        }
 
-		currentSrcScenario = scenario;
+        currentSrcScenario = scenario;
 
-		// first scenario
-		if (htScenarioToMap.size() == 0) {
-			UCMmap map =  (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(0);
-			htScenarioToMap.put(scenario, map);
-			map.setName(scenario.getName());
-			map.setDescription(scenario.getDescription());
-			
-			urnspec.setCreated(old.getCreated());
-			urnspec.setDescription(old.getDescription());
-			urnspec.setModified(old.getModified());
-			urnspec.setName(old.getName());
-			urnspec.setSpecVersion(old.getSpecVersion());
+        // first scenario
+        if (htScenarioToMap.size() == 0) {
+            UCMmap map = (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(0);
+            htScenarioToMap.put(scenario, map);
+            map.setName(scenario.getName());
+            map.setDescription(scenario.getDescription());
 
-			cloneScenarioDataModel(scenario);
+            urnspec.setCreated(old.getCreated());
+            urnspec.setDescription(old.getDescription());
+            urnspec.setModified(old.getModified());
+            urnspec.setName(old.getName());
+            urnspec.setSpecVersion(old.getSpecVersion());
 
-		} else if (!htScenarioToMap.containsKey(scenario)) { // new scenario
-			CreateMapCommand cmd = new CreateMapCommand(urnspec);
-			cs.execute(cmd);
-			cmd.getMap().setName(scenario.getName());
-			cmd.getMap().setDescription(scenario.getDescription());
-			htScenarioToMap.put(scenario, cmd.getMap());
-		}
+            cloneScenarioDataModel(scenario);
 
-		cloneScenario(scenario);
+        } else if (!htScenarioToMap.containsKey(scenario)) { // new scenario
+            CreateMapCommand cmd = new CreateMapCommand(urnspec);
+            cs.execute(cmd);
+            cmd.getMap().setName(scenario.getName());
+            cmd.getMap().setDescription(scenario.getDescription());
+            htScenarioToMap.put(scenario, cmd.getMap());
+        }
 
-		currentMap = (UCMmap) htScenarioToMap.get(scenario);
-	}
+        cloneScenario(scenario);
 
-	
+        currentMap = (UCMmap) htScenarioToMap.get(scenario);
+    }
+
 }

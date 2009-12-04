@@ -13,17 +13,17 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.scenarios.SyntaxChecker;
 
 /**
- * Verifies the syntax of all conditions and responsibilities in jUCMNav. 
+ * Verifies the syntax of all conditions and responsibilities in jUCMNav.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class VerifySyntaxActionDelegate implements IEditorActionDelegate {
 
     private UCMNavMultiPageEditor editor;
 
     /**
-     * Set the active editor to a new instance of a {@link seg.jUCMNav.editors.UCMNavMultiPageEditor}. 
+     * Set the active editor to a new instance of a {@link seg.jUCMNav.editors.UCMNavMultiPageEditor}.
      * 
      * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
      */
@@ -42,21 +42,21 @@ public class VerifySyntaxActionDelegate implements IEditorActionDelegate {
     }
 
     /**
-     * Runs {@link seg.jUCMNav.scenarios.SyntaxChecker#verifySyntax(urn.URNspec)} and updates the problem view. 
+     * Runs {@link seg.jUCMNav.scenarios.SyntaxChecker#verifySyntax(urn.URNspec)} and updates the problem view.
      * 
      * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
      */
     public void run(IAction action) {
-    	if (editor!=null) {
-    		Vector errors = SyntaxChecker.verifySyntax(editor.getModel());
-    		SyntaxChecker.refreshProblemsView(errors);
-    		String header =  Messages.getString("VerifySyntaxActionDelegate.SyntaxVerification"); //$NON-NLS-1$
-    		if (errors.size()==0)
-    			MessageDialog.openInformation(editor.getSite().getShell(), header, Messages.getString("VerifySyntaxActionDelegate.NoErrors")); //$NON-NLS-1$
-    		else
-    			MessageDialog.openError(editor.getSite().getShell(), header, errors.size() + Messages.getString("VerifySyntaxActionDelegate.ErrorsFound")); //$NON-NLS-1$
-    			
-    	}
+        if (editor != null) {
+            Vector errors = SyntaxChecker.verifySyntax(editor.getModel());
+            SyntaxChecker.refreshProblemsView(errors);
+            String header = Messages.getString("VerifySyntaxActionDelegate.SyntaxVerification"); //$NON-NLS-1$
+            if (errors.size() == 0)
+                MessageDialog.openInformation(editor.getSite().getShell(), header, Messages.getString("VerifySyntaxActionDelegate.NoErrors")); //$NON-NLS-1$
+            else
+                MessageDialog.openError(editor.getSite().getShell(), header, errors.size() + Messages.getString("VerifySyntaxActionDelegate.ErrorsFound")); //$NON-NLS-1$
+
+        }
 
     }
 

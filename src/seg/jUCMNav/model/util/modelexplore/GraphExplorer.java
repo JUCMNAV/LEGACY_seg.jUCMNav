@@ -18,7 +18,7 @@ import seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal.DefaultScen
  * If implementing a new query, add it at the end of the chain.
  * 
  * @author jpdaigle
- *  
+ * 
  */
 public class GraphExplorer {
     private static StartPointFinder _spFinder;
@@ -32,12 +32,11 @@ public class GraphExplorer {
     private static ConnectionSplineFinder _splineFinder;
 
     private static DeletionPathFinder _deletionPathFinder;
-    
+
     private static AbstractScenarioTraversal _defaultScenarioTraversal;
-    
+
     private static ResponsibilityFinder _responsibilityFinder;
 
-    
     static {
         // instantiate
         _spFinder = new StartPointFinder();
@@ -45,7 +44,7 @@ public class GraphExplorer {
         _rnFinder = new ReachableNodeFinder();
         _splineFinder = new ConnectionSplineFinder();
         _deletionPathFinder = new DeletionPathFinder();
-        
+
         // TODO: load from extension point preferences
         _defaultScenarioTraversal = new DefaultScenarioTraversal();
         _responsibilityFinder = new ResponsibilityFinder();
@@ -60,7 +59,6 @@ public class GraphExplorer {
         _defaultScenarioTraversal.addChain(_responsibilityFinder);
         _responsibilityFinder.addChain(null);
     }
-
 
     /**
      * Passes through the static chain of query processors and tries to execute the given request.

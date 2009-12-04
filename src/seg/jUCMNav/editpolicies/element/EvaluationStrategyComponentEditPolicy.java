@@ -14,11 +14,11 @@ import ucm.scenario.ScenarioDef;
 
 /**
  * ComponentEditPolicy for EvaluationStrategy/ScenarioDef. Return the delete command for a strategy
+ * 
  * @author Jean-François Roy, jkealey
- *
+ * 
  */
 public class EvaluationStrategyComponentEditPolicy extends ComponentEditPolicy {
-
 
     /**
      * Return a DeleteEvaluationStrategyCommand
@@ -31,20 +31,20 @@ public class EvaluationStrategyComponentEditPolicy extends ComponentEditPolicy {
             DeleteStrategyCommand deleteCommand = new DeleteStrategyCommand(strategy);
             return deleteCommand;
         } else if (obj instanceof ScenarioDef) {
-        	ScenarioDef scenario = (ScenarioDef) obj;
-        	if (getHost().getParent().getModel() instanceof String) {
-        		// included scenario. 
-        		ScenarioDef parent =  (ScenarioDef) getHost().getParent().getParent().getModel();
-        		if (getHost().getParent().getChildren().indexOf(getHost()) >= ((ScenarioLabelTreeEditPart)getHost().getParent()).getModelChildren().size()-((ScenarioDef) getHost().getParent().getParent().getModel()).getIncludedScenarios().size())
-        			return new DeleteIncludedScenarioCommand(parent, scenario);
-        		else
-        			return null;
-        	} else {
-	            DeleteScenarioCommand deleteCommand = new DeleteScenarioCommand(scenario);
-	            return deleteCommand;
-        	}
+            ScenarioDef scenario = (ScenarioDef) obj;
+            if (getHost().getParent().getModel() instanceof String) {
+                // included scenario.
+                ScenarioDef parent = (ScenarioDef) getHost().getParent().getParent().getModel();
+                if (getHost().getParent().getChildren().indexOf(getHost()) >= ((ScenarioLabelTreeEditPart) getHost().getParent()).getModelChildren().size()
+                        - ((ScenarioDef) getHost().getParent().getParent().getModel()).getIncludedScenarios().size())
+                    return new DeleteIncludedScenarioCommand(parent, scenario);
+                else
+                    return null;
+            } else {
+                DeleteScenarioCommand deleteCommand = new DeleteScenarioCommand(scenario);
+                return deleteCommand;
+            }
         }
-
 
         return null;
     }

@@ -1,6 +1,5 @@
 package seg.jUCMNav.importexport.csm.duplicate;
 
-
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -125,7 +124,7 @@ public class CSMDupNode {
      * @param resAttribs
      */
     public void setResourceToAcquire(CSMResource resAttribs) {
-	resourceToAcquire = resAttribs;
+        resourceToAcquire = resAttribs;
     }
 
     public CSMResource getResourceToAcquire() {
@@ -141,7 +140,7 @@ public class CSMDupNode {
     }
 
     public void setResourceToRelease(CSMResource resAttribs) {
-	resourceToRelease = resAttribs;
+        resourceToRelease = resAttribs;
     }
 
     public CSMResource getResourceToRelease() {
@@ -213,6 +212,7 @@ public class CSMDupNode {
 
     /**
      * Constructor
+     * 
      * @param node
      * @param warnings
      */
@@ -274,7 +274,6 @@ public class CSMDupNode {
         resourcesUpstream = usedResources;
     }
 
-
     /**
      * 
      * @return the type of node
@@ -292,6 +291,7 @@ public class CSMDupNode {
 
     /**
      * Set the nodeId
+     * 
      * @param nodeId
      */
     public void setID(String nodeId) {
@@ -299,13 +299,11 @@ public class CSMDupNode {
     }
 
     /**
-     * The new node is entirely defined by its ID; this is typically a node added to
-     * obtain a CSM-compliant structure or to add RA/RR nodes.
-     * <BR>
+     * The new node is entirely defined by its ID; this is typically a node added to obtain a CSM-compliant structure or to add RA/RR nodes. <BR>
      * TODO: wave limitations
      * 
-     * @param raORrrORseq 
-     * 				node ID, of an RA, RR, Dummy Sequence or Dummy Step
+     * @param raORrrORseq
+     *            node ID, of an RA, RR, Dummy Sequence or Dummy Step
      */
     public CSMDupNode(int raORrrORseq) {
         // RA,RR/Seq/Dummy Step to be inserted
@@ -406,7 +404,7 @@ public class CSMDupNode {
             WaitingPlaceConverter obj = new WaitingPlaceConverter((WaitingPlace) node);
             doConvert(obj, ps, source, target, warnings);
         } else {
-            // Reaching this part would indicate that some major processing is missing 
+            // Reaching this part would indicate that some major processing is missing
             warnings.add(new CsmExportWarning(Messages.getString("CSMDupNode.NoTypeNotImplemented") + node.getClass().getName(), node, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
         }
     }

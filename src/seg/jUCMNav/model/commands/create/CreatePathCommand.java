@@ -41,7 +41,7 @@ public class CreatePathCommand extends Command implements JUCMNavCommand, ICreat
 
     /**
      * Create a new path. Assume arguments will be passed later on.
-     *  
+     * 
      */
     public CreatePathCommand() {
         super();
@@ -90,8 +90,8 @@ public class CreatePathCommand extends Command implements JUCMNavCommand, ICreat
      */
     public void execute() {
 
-    	if (end==null)
-    		createElements();
+        if (end == null)
+            createElements();
         redo();
     }
 
@@ -259,13 +259,12 @@ public class CreatePathCommand extends Command implements JUCMNavCommand, ICreat
     public void setY(int y) {
         this.y = y;
     }
-    
+
     /**
-     * Creates the elements if they need to be referenced before executing the command. 
-     *
+     * Creates the elements if they need to be referenced before executing the command.
+     * 
      */
-    public void createElements()
-    {
+    public void createElements() {
         URNspec urn = diagram.getUrndefinition().getUrnspec();
         if (start == null)
             start = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
@@ -289,11 +288,11 @@ public class CreatePathCommand extends Command implements JUCMNavCommand, ICreat
         link2 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
         link2.setSource(node);
         link2.setTarget(end);
-    	
+
     }
 
     public Object getNewModelElement() {
         return end;
     }
-   
+
 }

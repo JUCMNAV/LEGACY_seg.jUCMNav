@@ -18,7 +18,7 @@ import seg.jUCMNav.Messages;
  * This class define all the modification we should make to the workbench when we are editing an UCM.
  * 
  * @author Etienne Tremblay
- *  
+ * 
  */
 public class UCMActionBarContributor extends ActionBarContributor {
     /**
@@ -31,10 +31,9 @@ public class UCMActionBarContributor extends ActionBarContributor {
         addRetargetAction(new RedoRetargetAction());
         addRetargetAction(new ZoomInRetargetAction());
         addRetargetAction(new ZoomOutRetargetAction());
-        addRetargetAction((RetargetAction)ActionFactory.COPY.create(getPage().getWorkbenchWindow()));
-        addRetargetAction((RetargetAction)ActionFactory.CUT.create(getPage().getWorkbenchWindow()));
-        addRetargetAction((RetargetAction)ActionFactory.PASTE.create(getPage().getWorkbenchWindow()));
-        
+        addRetargetAction((RetargetAction) ActionFactory.COPY.create(getPage().getWorkbenchWindow()));
+        addRetargetAction((RetargetAction) ActionFactory.CUT.create(getPage().getWorkbenchWindow()));
+        addRetargetAction((RetargetAction) ActionFactory.PASTE.create(getPage().getWorkbenchWindow()));
 
     }
 

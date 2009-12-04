@@ -16,7 +16,7 @@ public abstract class PathNodeFigure extends Figure {
     // default sizes
     protected static final int DEFAULT_HEIGHT = 24;
     protected static final int DEFAULT_WIDTH = 24;
-    
+
     /**
      * Override this method if you your figure is not of the default size. This method is invoked to know where to insert labels by default.
      * 
@@ -36,19 +36,18 @@ public abstract class PathNodeFigure extends Figure {
 
     // is the figure in selected state
     protected boolean selected;
-    
+
     // is the point traversed by a scenario.
     protected boolean traversed;
-    
+
     // is the path node the border of a pointcut expression
     protected boolean isPointcutBorder;
-    
-   
+
     protected XYLayout xylayout;
 
     /**
      * Creates the figure and initializes anchors.
-     *  
+     * 
      */
     public PathNodeFigure() {
         super();
@@ -150,44 +149,39 @@ public abstract class PathNodeFigure extends Figure {
 
         setColors();
     }
-    
-    public void setTraversed(boolean traversed)
-    {
-    	this.traversed = traversed;
-    	
-    	
-    	setColors();
-    		
-    
-    }
-    
-    /**
-     * sets the color scheme to use depending on whether the path node is used as a border 
-     * on a pointcut map or not (only selected subclasses of {@link PathNodeFigure} will 
-     * override setColors() so that isPointcutBorder is taken into account)
-     * @param isPointcutBorder is set to true if the path node is and false if the path node is not the border for a pointcut expression
-     */
-    public void setIsPointcutBorder(boolean isPointcutBorder)
-    {
-    	this.isPointcutBorder = isPointcutBorder;
-    	setColors();
+
+    public void setTraversed(boolean traversed) {
+        this.traversed = traversed;
+
+        setColors();
+
     }
 
-	protected void setColors() {
-		if (selected) {
-    		setForegroundColor(ColorManager.LINE);
-    		setColor(ColorManager.SELECTED);
-    	}
-    	else if (traversed) {
-    		setForegroundColor(ColorManager.TRAVERSAL);
+    /**
+     * sets the color scheme to use depending on whether the path node is used as a border on a pointcut map or not (only selected subclasses of
+     * {@link PathNodeFigure} will override setColors() so that isPointcutBorder is taken into account)
+     * 
+     * @param isPointcutBorder
+     *            is set to true if the path node is and false if the path node is not the border for a pointcut expression
+     */
+    public void setIsPointcutBorder(boolean isPointcutBorder) {
+        this.isPointcutBorder = isPointcutBorder;
+        setColors();
+    }
+
+    protected void setColors() {
+        if (selected) {
+            setForegroundColor(ColorManager.LINE);
+            setColor(ColorManager.SELECTED);
+        } else if (traversed) {
+            setForegroundColor(ColorManager.TRAVERSAL);
             setColor(ColorManager.TRAVERSAL);
-    	}
-        else {
-    		setForegroundColor(ColorManager.LINE);
+        } else {
+            setForegroundColor(ColorManager.LINE);
             if (hover)
                 setColor(ColorManager.HOVER);
             else
-                setColor(ColorManager.FILL);    		
+                setColor(ColorManager.FILL);
         }
-	}
+    }
 }

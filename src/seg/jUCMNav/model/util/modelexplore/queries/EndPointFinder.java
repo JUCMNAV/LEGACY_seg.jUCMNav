@@ -51,10 +51,10 @@ public class EndPointFinder extends AbstractQueryProcessor implements IQueryProc
     }
 
     /**
-     * Request to find the reachable end points. 
+     * Request to find the reachable end points.
      * 
      * @author jkealey
-     *
+     * 
      */
     public static class QFindReachableEndPoints extends QueryRequest {
         // Finds reachable start points from a PathNode
@@ -84,9 +84,10 @@ public class EndPointFinder extends AbstractQueryProcessor implements IQueryProc
     }
 
     /**
-     * Response that indicates which end points were reached. 
+     * Response that indicates which end points were reached.
+     * 
      * @author jkealey
-     *
+     * 
      */
     public static class RReachableEndPoints extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */

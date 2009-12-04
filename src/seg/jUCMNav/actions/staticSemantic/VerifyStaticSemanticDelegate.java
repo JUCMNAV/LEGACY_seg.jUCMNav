@@ -23,16 +23,18 @@ import urncore.URNmodelElement;
 /**
  * This is an action to the menu "Static Check".
  * 
- * @author Byrne Yan
- *e
+ * @author Byrne Yan e
  */
 public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
     private UCMNavMultiPageEditor editor;
 
     public void setActiveEditor(IAction action, IEditorPart targetEditor) {
         editor = (UCMNavMultiPageEditor) targetEditor;
-	}
-    protected UCMNavMultiPageEditor getEditor() { return editor; }
+    }
+
+    protected UCMNavMultiPageEditor getEditor() {
+        return editor;
+    }
 
     /**
      * Check all selected rules by class StaticSemanticChecker and then report the result in the problem view.
@@ -40,29 +42,31 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
      * @see StaticSemanticChecker
      */
     public void run(IAction action) {
-    	if (getEditor()!=null) {
-    		Vector problems = new Vector();
-    		StaticSemanticChecker.getInstance().check(getEditor().getModel(),problems);
-    		refreshProblemView(problems);
-    		
-    		String header =  Messages.getString("VerifyStaticSemanticDelegate.StaticSemanticCheck"); //$NON-NLS-1$
-    		boolean hasError=false;
-    		for (Iterator iterator = problems.iterator(); iterator.hasNext();)
-			{
-				RuleManagementCheckingMessage m = (RuleManagementCheckingMessage) iterator.next();
-				if (m.getSeverity()==IMarker.SEVERITY_ERROR) { hasError=true; break; }
-			}
-    		
-    		String message = Messages.getString("VerifyStaticSemanticDelegate.NoErrors"); //$NON-NLS-1$
-    		if (problems.size()>0)
-    			message = ((RuleManagementCheckingMessage)problems.get(0)).getMessage(); // first is the info message. 
-    		
-    		message += Messages.getString("VerifyStaticSemanticDelegate.HasErrors"); //$NON-NLS-1$
-    		if (!hasError)
-    			MessageDialog.openInformation(getEditor().getSite().getShell(), header, message );
-    		else
-    			MessageDialog.openError(getEditor().getSite().getShell(), header, message);    		
-    	}
+        if (getEditor() != null) {
+            Vector problems = new Vector();
+            StaticSemanticChecker.getInstance().check(getEditor().getModel(), problems);
+            refreshProblemView(problems);
+
+            String header = Messages.getString("VerifyStaticSemanticDelegate.StaticSemanticCheck"); //$NON-NLS-1$
+            boolean hasError = false;
+            for (Iterator iterator = problems.iterator(); iterator.hasNext();) {
+                RuleManagementCheckingMessage m = (RuleManagementCheckingMessage) iterator.next();
+                if (m.getSeverity() == IMarker.SEVERITY_ERROR) {
+                    hasError = true;
+                    break;
+                }
+            }
+
+            String message = Messages.getString("VerifyStaticSemanticDelegate.NoErrors"); //$NON-NLS-1$
+            if (problems.size() > 0)
+                message = ((RuleManagementCheckingMessage) problems.get(0)).getMessage(); // first is the info message.
+
+            message += Messages.getString("VerifyStaticSemanticDelegate.HasErrors"); //$NON-NLS-1$
+            if (!hasError)
+                MessageDialog.openInformation(getEditor().getSite().getShell(), header, message);
+            else
+                MessageDialog.openError(getEditor().getSite().getShell(), header, message);
+        }
     }
 
     public void selectionChanged(IAction action, ISelection selection) {
@@ -71,11 +75,11 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
 
     /**
      * 
-     * @param problems  A list of problems which contain check results information. The content of the vector must be type of RuleManagementCheckingMessage.
+     * @param problems
+     *            A list of problems which contain check results information. The content of the vector must be type of RuleManagementCheckingMessage.
      * @see RuleManagementCheckingMessage
      */
-    protected void refreshProblemView(Vector problems)
-    {
+    protected void refreshProblemView(Vector problems) {
         if (getEditor() != null) {
             IFile resource = ((FileEditorInput) getEditor().getEditorInput()).getFile();
             try {
@@ -86,13 +90,13 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
                     marker.delete();
                 }
             } catch (CoreException ex) {
-            	problems.add(new RuleManagementCheckingMessage(ex.getMessage()));  //$NON-NLS-1$
+                problems.add(new RuleManagementCheckingMessage(ex.getMessage())); //$NON-NLS-1$
             }
-        
+
             if (problems.size() > 0) {
 
-                for (int i=0;i< problems.size();++i) {
-                    RuleManagementCheckingMessage o =  (RuleManagementCheckingMessage)problems.get(i); 
+                for (int i = 0; i < problems.size(); ++i) {
+                    RuleManagementCheckingMessage o = (RuleManagementCheckingMessage) problems.get(i);
                     try {
                         IMarker marker = resource.createMarker(IMarker.PROBLEM);
                         marker.setAttribute(IMarker.SEVERITY, o.getSeverity());
@@ -106,11 +110,11 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
                         }
 
                     } catch (CoreException ex) {
-                    	problems.add(new RuleManagementCheckingMessage(ex.getMessage()));  //$NON-NLS-1$
+                        problems.add(new RuleManagementCheckingMessage(ex.getMessage())); //$NON-NLS-1$
                     }
 
                 }
-            } 
+            }
         }
     }
 }

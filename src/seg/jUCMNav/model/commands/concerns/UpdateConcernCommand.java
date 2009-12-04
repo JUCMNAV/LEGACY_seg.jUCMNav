@@ -8,11 +8,12 @@ import urncore.Concern;
 
 /**
  * This command changes the name and description of a concern
+ * 
  * @author gunterm
  */
 public class UpdateConcernCommand extends Command implements JUCMNavCommand {
-	
-	// the concern to be changed
+
+    // the concern to be changed
     private Concern concern;
     // the new info
     private String name;
@@ -22,9 +23,12 @@ public class UpdateConcernCommand extends Command implements JUCMNavCommand {
     private String oldDescription;
 
     /**
-     * @param concern to be changed
-     * @param name of the concern
-     * @param description of the concern
+     * @param concern
+     *            to be changed
+     * @param name
+     *            of the concern
+     * @param description
+     *            of the concern
      */
     public UpdateConcernCommand(Concern concern, String name, String description) {
         this.concern = concern;
@@ -35,6 +39,7 @@ public class UpdateConcernCommand extends Command implements JUCMNavCommand {
 
     /**
      * checks all conditions of testPreConditions that can be checked before execute()
+     * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
@@ -45,7 +50,7 @@ public class UpdateConcernCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	// remember for undo
+        // remember for undo
         oldName = concern.getName();
         oldDescription = concern.getDescription();
         redo();
@@ -60,7 +65,7 @@ public class UpdateConcernCommand extends Command implements JUCMNavCommand {
         concern.setDescription(description);
         testPostConditions();
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
@@ -70,7 +75,7 @@ public class UpdateConcernCommand extends Command implements JUCMNavCommand {
         concern.setDescription(oldDescription);
         testPreConditions();
     }
-    
+
     /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
@@ -87,11 +92,11 @@ public class UpdateConcernCommand extends Command implements JUCMNavCommand {
         assert concern.getName().equals(oldName) && concern.getDescription().equals(oldDescription) : "pre concern name/description are original"; //$NON-NLS-1$
     }
 
-	/**
-	 * @return true if condition is met, false otherwise
-	 */
-	private boolean testConditionNotNull() {
-		return concern != null && name != null && description != null;
-	}
+    /**
+     * @return true if condition is met, false otherwise
+     */
+    private boolean testConditionNotNull() {
+        return concern != null && name != null && description != null;
+    }
 
 }

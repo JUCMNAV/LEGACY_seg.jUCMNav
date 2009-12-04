@@ -14,56 +14,54 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 public abstract class AbstractChoicePropertySection extends AbstractGEFPropertySection {
-	
-	protected CCombo combo;
 
-	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
-		super.createControls(parent, tabbedPropertySheetPage);
-		
-		Composite parentComposite = getWidgetFactory().createFlatFormComposite(parent);
-		
-		combo = getWidgetFactory().createCCombo(parentComposite);
-		combo.setItems(getList());
-		
-		combo.addSelectionListener(new SelectionAdapter()
-		{
-			public void widgetSelected(SelectionEvent e) {
-				itemSelected(combo.getSelectionIndex());
-			}
-		});
+    protected CCombo combo;
 
-		CLabel nameLabel = getWidgetFactory().createCLabel(parentComposite, getLabelText());
-		FormData data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(combo, -ITabbedPropertyConstants.HSPACE);
-		data.top = new FormAttachment(combo, 0, SWT.CENTER);
-		nameLabel.setLayoutData(data);
-		
-		data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(parent,
-			new String[] {getLabelText()}));
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-		combo.setLayoutData(data);
-	}
-	
-	protected abstract void itemSelected(int index);
-	
-	protected abstract String[] getList();
+    public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+        super.createControls(parent, tabbedPropertySheetPage);
 
-	protected abstract void updateSelection();
+        Composite parentComposite = getWidgetFactory().createFlatFormComposite(parent);
 
-	public void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-		
-		if(!combo.isDisposed())
-			updateSelection();
-	}
+        combo = getWidgetFactory().createCCombo(parentComposite);
+        combo.setItems(getList());
 
-	public void refresh() {
-		super.refresh();
-		
-		if(!combo.isDisposed())
-			updateSelection();
-	}
+        combo.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                itemSelected(combo.getSelectionIndex());
+            }
+        });
+
+        CLabel nameLabel = getWidgetFactory().createCLabel(parentComposite, getLabelText());
+        FormData data = new FormData();
+        data.left = new FormAttachment(0, 0);
+        data.right = new FormAttachment(combo, -ITabbedPropertyConstants.HSPACE);
+        data.top = new FormAttachment(combo, 0, SWT.CENTER);
+        nameLabel.setLayoutData(data);
+
+        data = new FormData();
+        data.left = new FormAttachment(0, getStandardLabelWidth(parent, new String[] { getLabelText() }));
+        data.right = new FormAttachment(100, 0);
+        data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+        combo.setLayoutData(data);
+    }
+
+    protected abstract void itemSelected(int index);
+
+    protected abstract String[] getList();
+
+    protected abstract void updateSelection();
+
+    public void setInput(IWorkbenchPart part, ISelection selection) {
+        super.setInput(part, selection);
+
+        if (!combo.isDisposed())
+            updateSelection();
+    }
+
+    public void refresh() {
+        super.refresh();
+
+        if (!combo.isDisposed())
+            updateSelection();
+    }
 }

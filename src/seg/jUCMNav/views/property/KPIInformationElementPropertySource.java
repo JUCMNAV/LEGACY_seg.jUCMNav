@@ -130,7 +130,7 @@ public class KPIInformationElementPropertySource extends URNElementPropertySourc
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.views.EObjectPropertySource#addPropertyToDescriptor(java.util.Collection, org.eclipse.emf.ecore.EStructuralFeature,
-     *      org.eclipse.emf.ecore.EClass)
+     * org.eclipse.emf.ecore.EClass)
      */
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         EClassifier type = getFeatureType(attr);

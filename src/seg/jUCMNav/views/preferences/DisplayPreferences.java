@@ -195,6 +195,7 @@ public class DisplayPreferences {
 
     /**
      * Hide a specific view
+     * 
      * @param page
      * @param name
      */

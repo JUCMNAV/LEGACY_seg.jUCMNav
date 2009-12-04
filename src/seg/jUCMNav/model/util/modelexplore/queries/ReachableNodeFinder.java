@@ -18,16 +18,16 @@ import ucm.map.PathNode;
 /**
  * Query processor for finding reachable nodes given a start point in the graph.
  * 
- * One can define a set of node connections that must not be traversed to find additional node connections and a traversal direciton. 
+ * One can define a set of node connections that must not be traversed to find additional node connections and a traversal direciton.
  * 
  * @author jpdaigle, jkealey
- *  
+ * 
  */
 public class ReachableNodeFinder extends AbstractQueryProcessor implements IQueryProcessorChain {
 
     private Vector _visitedNodes;
     private Vector _visitedNodeConnections;
-    
+
     public ReachableNodeFinder() {
         this._answerQueryTypes = new String[] { QueryObject.FINDREACHABLENODES };
     }
@@ -53,7 +53,6 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         return r;
     }
 
-    
     /**
      * 
      * @param n
@@ -77,9 +76,9 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             EList links = n.getPred();
             for (int i = 0; direction != QFindReachableNodes.DIRECTION_FORWARD && i < links.size(); i++) {
                 // add the connection's source to the list
-                PathNode node = (PathNode)((NodeConnection) links.get(i)).getSource();
+                PathNode node = (PathNode) ((NodeConnection) links.get(i)).getSource();
                 if (!exclusions.contains(links.get(i)) && !(node instanceof Connect)) {
-                	_visitedNodeConnections.add(links.get(i));
+                    _visitedNodeConnections.add(links.get(i));
                     toVisit.add(node);
                 }
             }
@@ -87,9 +86,9 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             links = n.getSucc();
             for (int i = 0; direction != QFindReachableNodes.DIRECTION_REVERSE && i < links.size(); i++) {
                 // add the connection's target to the list
-                PathNode node = (PathNode)((NodeConnection) links.get(i)).getTarget();
+                PathNode node = (PathNode) ((NodeConnection) links.get(i)).getTarget();
                 if (!exclusions.contains(links.get(i)) && !(node instanceof Connect)) {
-                	_visitedNodeConnections.add(links.get(i));
+                    _visitedNodeConnections.add(links.get(i));
                     toVisit.add(node);
                 }
             }
@@ -102,10 +101,10 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
     }
 
     /**
-     * Query to find the reachable nodes. 
+     * Query to find the reachable nodes.
      * 
      * @author jkealey
-     *
+     * 
      */
     public static class QFindReachableNodes extends QueryRequest {
         public static final int DIRECTION_BOTH = 0;
@@ -151,15 +150,16 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
     }
 
     /**
-     * Response that indicates the reached nodes and node connections. 
+     * Response that indicates the reached nodes and node connections.
+     * 
      * @author jkealey
-     *
+     * 
      */
     public static class RReachableNodes extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */
         private Vector nodes;
         private Vector connections;
-        
+
         public RReachableNodes() {
             this._queryType = QueryObject.FINDREACHABLENODES;
         }
@@ -179,13 +179,13 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             this.nodes = nodes;
         }
 
-		public Vector getConnections() {
-			return connections;
-		}
+        public Vector getConnections() {
+            return connections;
+        }
 
-		public void setConnections(Vector connections) {
-			this.connections = connections;
-		}
+        public void setConnections(Vector connections) {
+            this.connections = connections;
+        }
     }
 
 }

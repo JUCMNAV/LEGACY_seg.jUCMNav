@@ -19,19 +19,19 @@ import urn.URNspec;
  * Property source for KPIModelLinkRefs
  * 
  * @author pchen
- *
+ * 
  */
 public class KPIModelLinkRefPropertySource extends URNElementPropertySource {
 
     private KPIModelLink kpiModelLink = null;
-    
+
     /**
      * @param obj
      */
     public KPIModelLinkRefPropertySource(EObject obj) {
         super(obj);
-        if ((obj instanceof KPIModelLinkRef) && (((KPIModelLinkRef)obj).getLink() != null)){
-            kpiModelLink = ((KPIModelLinkRef)obj).getLink();
+        if ((obj instanceof KPIModelLinkRef) && (((KPIModelLinkRef) obj).getLink() != null)) {
+            kpiModelLink = ((KPIModelLinkRef) obj).getLink();
         }
     }
 
@@ -56,8 +56,7 @@ public class KPIModelLinkRefPropertySource extends URNElementPropertySource {
         }
         return (Vector) descriptors;
     }
-    
-    
+
     /**
      * @param propertyid
      * @param feature
@@ -73,7 +72,7 @@ public class KPIModelLinkRefPropertySource extends URNElementPropertySource {
             result = object.eGet(feature);
         return result;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -96,7 +95,7 @@ public class KPIModelLinkRefPropertySource extends URNElementPropertySource {
             super.setPropertyValue(id, value);
         }
     }
-    
+
     protected void setReferencedObject(PropertyID propertyid, EStructuralFeature feature, Object result) {
         if (propertyid.getEClass() != object.eClass()) {
             kpiModelLink.eSet(feature, result);

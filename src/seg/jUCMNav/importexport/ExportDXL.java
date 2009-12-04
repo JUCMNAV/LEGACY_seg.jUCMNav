@@ -57,6 +57,7 @@ public class ExportDXL implements IURNExport {
     public static final String QUOTES_END_ELEM = "\" )\n"; //$NON-NLS-1$
 
     private String filename;
+
     /**
      * Not used.
      */
@@ -124,7 +125,7 @@ public class ExportDXL implements IURNExport {
      */
     protected void writeActors(URNspec urn) throws IOException {
         for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
-            Actor actor = (Actor)iter.next();
+            Actor actor = (Actor) iter.next();
             write("actor( "); //$NON-NLS-1$
 
             // ID
@@ -141,15 +142,14 @@ public class ExportDXL implements IURNExport {
             write(QUOTES);
             write(actor.getDescription());
             write(QUOTES);
-            
+
             write(END_ELEM);
         }
         write("\n"); //$NON-NLS-1$
     }
 
     /**
-     * Writes the information about actor references, such as id, fx, fy, width, height, definition id, name, and parent actor
-     * of stubs.
+     * Writes the information about actor references, such as id, fx, fy, width, height, definition id, name, and parent actor of stubs.
      * 
      * @param graph
      *            GRLGraph
@@ -205,7 +205,7 @@ public class ExportDXL implements IURNExport {
             write(QUOTES_END_ELEM);
         }
     }
-    
+
     /**
      * Writes the information about components such as id, name, type, and description of the components
      * 
@@ -216,7 +216,7 @@ public class ExportDXL implements IURNExport {
      */
     protected void writeComponents(URNspec urn) throws IOException {
         for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
-            Component element = (Component)iter.next();
+            Component element = (Component) iter.next();
             write("component( "); //$NON-NLS-1$
 
             // ID
@@ -356,49 +356,49 @@ public class ExportDXL implements IURNExport {
 
         for (Iterator iter = strategy.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
             IntentionalElement elem = (IntentionalElement) iter.next();
-            
 
             Evaluation eval = EvaluationStrategyManager.getInstance(false).getEvaluationObject(elem);
-            
+
             // evaluation
             if (eval.getStrategies() != null) {
-                write( "   defined( "); //$NON-NLS-1$
+                write("   defined( "); //$NON-NLS-1$
             } else {
                 write("   evaluation( ");//$NON-NLS-1$
             }
-            
-            //Element Id
+
+            // Element Id
             write(QUOTES);
             write(elem.getId());
-            write(QUOTES_COMMA);            
-            
-            //Element Name
-//            write(QUOTES);
-//            write(elem.getName());
-//            write("(E)"); //$NON-NLS-1$
-//            write(QUOTES_COMMA);
-            
+            write(QUOTES_COMMA);
+
+            // Element Name
+            // write(QUOTES);
+            // write(elem.getName());
+            //            write("(E)"); //$NON-NLS-1$
+            // write(QUOTES_COMMA);
+
             String temp = QUOTES + eval.getEvaluation() + QUOTES_END_ELEM;
             write(temp);
         }
-        
-        //Write evaluation for actors
+
+        // Write evaluation for actors
         for (Iterator iter = strategy.getGrlspec().getActors().iterator(); iter.hasNext();) {
             Actor actor = (Actor) iter.next();
-            
+
             int evaluation = EvaluationStrategyManager.getInstance(false).getActorEvaluation(actor);
-            
+
             write("   evaluation( ");//$NON-NLS-1$
-            
+
             write(QUOTES);
             write(actor.getId());
             write(QUOTES_COMMA);
-            
+
             String temp = QUOTES + evaluation + QUOTES_END_ELEM;
             write(temp);
         }
-        
+
     }
+
     /**
      * Writes the DXL footer.
      * 
@@ -461,20 +461,20 @@ public class ExportDXL implements IURNExport {
                 write(QUOTES);
                 write(grlgraph.getDescription());
                 write(QUOTES_END_ELEM);
-                
-                //Write the element in the graph
+
+                // Write the element in the graph
                 writeActorRef(grlgraph);
                 writeGrlNodes(grlgraph);
-                
-                //Write the links in the diagram
-                //writeLinkRef(grlgraph);
-                
+
+                // Write the links in the diagram
+                // writeLinkRef(grlgraph);
+
             }
         }
         write("\n\n"); //$NON-NLS-1$
 
     }
-    
+
     /**
      * Writes the DXL header.
      * 
@@ -485,7 +485,7 @@ public class ExportDXL implements IURNExport {
     protected void writeHeader(URNspec urn) throws IOException {
         write("#include \"addins/URN/lib/URNUtilities.dxl\"\n"); //$NON-NLS-1$
         write("pragma runLim, 0\n\n"); //$NON-NLS-1$
-        //Set the name of the import model
+        // Set the name of the import model
         // GraphFileName
         int firstIndex = filename.lastIndexOf("\\") + 1; //$NON-NLS-1$
         int lastIndex = filename.lastIndexOf("."); //$NON-NLS-1$
@@ -504,14 +504,14 @@ public class ExportDXL implements IURNExport {
      */
     protected void writeElementLinks(URNspec urn) throws IOException {
         for (Iterator iter = urn.getGrlspec().getLinks().iterator(); iter.hasNext();) {
-            //Create different type of dxl based on the type of link
+            // Create different type of dxl based on the type of link
             ElementLink link = (ElementLink) iter.next();
-            if (link instanceof Contribution){
+            if (link instanceof Contribution) {
                 write("contribution("); //$NON-NLS-1$
             } else {
                 write("elementlink( "); //$NON-NLS-1$
             }
-            
+
             // ID
             write(QUOTES);
             write(link.getId());
@@ -521,30 +521,28 @@ public class ExportDXL implements IURNExport {
             write(QUOTES);
             write(link.getName());
             write(QUOTES_COMMA);
-            
-            if (link instanceof Decomposition)
-            {
+
+            if (link instanceof Decomposition) {
                 write(QUOTES);
                 write("decomposition"); //$NON-NLS-1$
                 write(QUOTES_COMMA);
-            } else if (link instanceof Dependency){
+            } else if (link instanceof Dependency) {
                 write(QUOTES);
                 write("dependency"); //$NON-NLS-1$
                 write(QUOTES_COMMA);
-            } else if (link instanceof Contribution){
+            } else if (link instanceof Contribution) {
                 write(QUOTES);
                 write("contribution"); //$NON-NLS-1$
                 write(QUOTES_COMMA);
-                
+
                 // Contribution Type
                 write(QUOTES);
-                write(((Contribution)link).getContribution().getName());
+                write(((Contribution) link).getContribution().getName());
                 write(QUOTES_COMMA);
-                
-                //Correlation
+
+                // Correlation
                 write(QUOTES);
-                if (((Contribution)link).isCorrelation())
-                {
+                if (((Contribution) link).isCorrelation()) {
                     write("1"); //$NON-NLS-1$
                 } else {
                     write("0"); //$NON-NLS-1$
@@ -553,17 +551,17 @@ public class ExportDXL implements IURNExport {
             } else {
                 throw new IOException(Messages.getString("ExportDXL.InvalidElementLinkType")); //$NON-NLS-1$
             }
-            
+
             // Description
             write(QUOTES);
             write(link.getDescription());
             write(QUOTES_COMMA);
-            
+
             // Source
             write(QUOTES);
             write(link.getSrc().getId());
             write(QUOTES_COMMA);
-            
+
             // Destination
             write(QUOTES);
             write(link.getDest().getId());
@@ -594,12 +592,12 @@ public class ExportDXL implements IURNExport {
             write(element.getName());
             write(QUOTES_COMMA);
 
-            // Type 
+            // Type
             IntentionalElementType type = element.getType();
             write(QUOTES);
             write(type.getName());
             write(QUOTES_COMMA);
-            
+
             // Description
             write(QUOTES);
             write(element.getDescription());
@@ -616,8 +614,8 @@ public class ExportDXL implements IURNExport {
     }
 
     /**
-     * Writes the information about grl nodes (intentional element references or belief), 
-     * such as id, fx, fy, enclosing actor, definition id, name, description, priority and criticality
+     * Writes the information about grl nodes (intentional element references or belief), such as id, fx, fy, enclosing actor, definition id, name, description,
+     * priority and criticality
      * 
      * @param graph
      *            GRLGraph
@@ -668,17 +666,17 @@ public class ExportDXL implements IURNExport {
                 write(QUOTES);
                 write(intElement.getDescription());
                 write(QUOTES_COMMA);
-                
-                //Priority
+
+                // Priority
                 write(QUOTES);
                 write(elementRef.getPriority().getName());
                 write(QUOTES_COMMA);
-                
-                //Criticality
+
+                // Criticality
                 write(QUOTES);
                 write(elementRef.getCriticality().getName());
                 write(QUOTES_END_ELEM);
-            } else if (specNode instanceof Belief){
+            } else if (specNode instanceof Belief) {
                 Belief belief = (Belief) specNode;
                 write("   belief( "); //$NON-NLS-1$
 
@@ -705,17 +703,17 @@ public class ExportDXL implements IURNExport {
                 }
                 write(QUOTES_COMMA);
 
-                //Link to intentional element (id)
+                // Link to intentional element (id)
                 write(QUOTES);
-                if (belief.getSucc().size() > 0){
-                    IURNConnection connection = (IURNConnection)belief.getSucc().get(0);
-                    if (connection != null && (connection instanceof BeliefLink)){
-                        IntentionalElementRef beliefref = (IntentionalElementRef)connection.getTarget();
+                if (belief.getSucc().size() > 0) {
+                    IURNConnection connection = (IURNConnection) belief.getSucc().get(0);
+                    if (connection != null && (connection instanceof BeliefLink)) {
+                        IntentionalElementRef beliefref = (IntentionalElementRef) connection.getTarget();
                         write(beliefref.getId());
                     }
                 }
                 write(QUOTES_COMMA);
-                
+
                 // Name
                 write(QUOTES);
                 write(belief.getName());
@@ -725,15 +723,15 @@ public class ExportDXL implements IURNExport {
                 write(QUOTES);
                 write(belief.getDescription());
                 write(QUOTES_COMMA);
-                
-                //Author
+
+                // Author
                 write(QUOTES);
                 write(belief.getAuthor());
                 write(QUOTES_END_ELEM);
             }
         }
     }
-    
+
     /**
      * Writes the information about Link References
      * 
@@ -741,30 +739,30 @@ public class ExportDXL implements IURNExport {
      *            GRLGraph
      * @throws IOException
      */
-//    protected void writeLinkRef(GRLGraph graph) throws IOException {
-//        for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-//            IURNConnection connection = (IURNConnection) iter.next();
-//            if (connection instanceof LinkRef){
-//                write("   linkref( "); //$NON-NLS-1$
-//                LinkRef ref = (LinkRef)connection;
-//                //Source
-//                write(QUOTES);
-//                write(((URNmodelElement)ref.getSource()).getId());
-//                write(QUOTES_COMMA);         
-//                
-//                //Target
-//                write(QUOTES);
-//                write(((URNmodelElement)ref.getTarget()).getId());
-//                write(QUOTES_COMMA);  
-//                
-//                //Element Link
-//                write(QUOTES);
-//                write(ref.getLink().getId());
-//                write(QUOTES_END_ELEM);                  
-//            }
-//        }
-//    }
-    
+    // protected void writeLinkRef(GRLGraph graph) throws IOException {
+    // for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
+    // IURNConnection connection = (IURNConnection) iter.next();
+    // if (connection instanceof LinkRef){
+    //                write("   linkref( "); //$NON-NLS-1$
+    // LinkRef ref = (LinkRef)connection;
+    // //Source
+    // write(QUOTES);
+    // write(((URNmodelElement)ref.getSource()).getId());
+    // write(QUOTES_COMMA);
+    //                
+    // //Target
+    // write(QUOTES);
+    // write(((URNmodelElement)ref.getTarget()).getId());
+    // write(QUOTES_COMMA);
+    //                
+    // //Element Link
+    // write(QUOTES);
+    // write(ref.getLink().getId());
+    // write(QUOTES_END_ELEM);
+    // }
+    // }
+    // }
+
     /**
      * Writes the information about maps, such as id, name, map file name, map title, and description of maps.
      * 
@@ -967,34 +965,35 @@ public class ExportDXL implements IURNExport {
      * @throws IOException
      */
     protected void writeStrategies(URNspec urn) throws IOException {
-        for (Iterator iter = urn.getGrlspec().getStrategies().iterator(); iter.hasNext();){
-            EvaluationStrategy strategy = (EvaluationStrategy)iter.next();
+        for (Iterator iter = urn.getGrlspec().getStrategies().iterator(); iter.hasNext();) {
+            EvaluationStrategy strategy = (EvaluationStrategy) iter.next();
             write("strategy( "); //$NON-NLS-1$
-            
+
             // ID
             write(QUOTES);
             write(strategy.getId());
-            write(QUOTES_COMMA);    
-            
-            //Name
+            write(QUOTES_COMMA);
+
+            // Name
             write(QUOTES);
             write(strategy.getName());
             write(QUOTES_COMMA);
-            
-            //Description
+
+            // Description
             write(QUOTES);
             write(strategy.getDescription());
             write(QUOTES_COMMA);
-            
-            //Author
+
+            // Author
             write(QUOTES);
             write(strategy.getAuthor());
             write(QUOTES_END_ELEM);
-            
+
             writeEvaluations(strategy);
             write("\n"); //$NON-NLS-1$
         }
     }
+
     /**
      * Writes the information about stubs, such as id, fx, fy, name, stub type, and plugin ids of stubs.
      * 
@@ -1050,7 +1049,7 @@ public class ExportDXL implements IURNExport {
             }
         }
     }
-    
+
     /**
      * Writes the information about urnlinks
      * 
@@ -1062,16 +1061,16 @@ public class ExportDXL implements IURNExport {
         for (Iterator iter = urnspec.getUrnLinks().iterator(); iter.hasNext();) {
             URNlink links = (URNlink) iter.next();
             write("urnlink("); //$NON-NLS-1$
-            
-            //From
+
+            // From
             write(QUOTES);
             write(links.getFromElem().getId());
-            write(QUOTES_COMMA);             
-            
-            //TO
+            write(QUOTES_COMMA);
+
+            // TO
             write(QUOTES);
             write(links.getToElem().getId());
-            write(QUOTES_END_ELEM);             
+            write(QUOTES_END_ELEM);
         }
         write("\n"); //$NON-NLS-1$
     }

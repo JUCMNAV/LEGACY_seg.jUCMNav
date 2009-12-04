@@ -10,16 +10,16 @@ public class ChangeUCMDiagramOrder extends Command implements JUCMNavCommand {
     protected URNdefinition def;
     protected int from;
     protected int to;
-    
+
     protected IURNDiagram fromDiag;
     protected IURNDiagram toDiag;
-    
+
     public ChangeUCMDiagramOrder(URNdefinition def, int from, int to) {
         this.def = def;
         this.from = from;
         this.to = to;
-        
-        fromDiag = (IURNDiagram)def.getSpecDiagrams().get(from);
+
+        fromDiag = (IURNDiagram) def.getSpecDiagrams().get(from);
         toDiag = (IURNDiagram) def.getSpecDiagrams().get(to);
     }
 
@@ -29,17 +29,17 @@ public class ChangeUCMDiagramOrder extends Command implements JUCMNavCommand {
 
     public void redo() {
         testPreConditions();
-        
+
         def.getSpecDiagrams().move(to, from);
-        
+
         testPostConditions();
     }
 
     public void undo() {
         testPostConditions();
-        
+
         def.getSpecDiagrams().move(from, to);
-        
+
         testPreConditions();
     }
 

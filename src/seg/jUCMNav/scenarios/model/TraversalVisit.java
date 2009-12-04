@@ -61,20 +61,25 @@ public class TraversalVisit {
     }
 
     /**
-     * Recursively build a List of parent {@link ComponentRef}s by going back up the context.  
-     * @param pn the initial node. 
-     * @param list where to add the parent components. 
-     * @param ignored the list of parent components that were in a child map but were ignored. 
+     * Recursively build a List of parent {@link ComponentRef}s by going back up the context.
+     * 
+     * @param pn
+     *            the initial node.
+     * @param list
+     *            where to add the parent components.
+     * @param ignored
+     *            the list of parent components that were in a child map but were ignored.
      */
     protected void addComponentRefs(PathNode pn, Vector list, Vector ignored) {
         ComponentRef ref = (ComponentRef) pn.getContRef();
-        // Connects aren't always connected. 
-        if (pn instanceof Connect) ref =  (ComponentRef)((NodeConnection)pn.getSucc().get(0)).getTarget().getContRef();
-        
-        // all : all the definitions used in this map. 
+        // Connects aren't always connected.
+        if (pn instanceof Connect)
+            ref = (ComponentRef) ((NodeConnection) pn.getSucc().get(0)).getTarget().getContRef();
+
+        // all : all the definitions used in this map.
         Vector all = new Vector();
         for (Iterator iter = pn.getDiagram().getContRefs().iterator(); iter.hasNext();) {
-            IURNContainerRef c  = (IURNContainerRef) iter.next();
+            IURNContainerRef c = (IURNContainerRef) iter.next();
             all.add(c.getContDef());
         }
         Vector used = new Vector();
@@ -83,22 +88,21 @@ public class TraversalVisit {
             ref = (ComponentRef) ref.getParent();
         }
 
-        // find which component defs were ignored. 
+        // find which component defs were ignored.
         Vector unused = (Vector) all.clone();
         for (Iterator iter = used.iterator(); iter.hasNext();) {
             IURNContainerRef r = (IURNContainerRef) iter.next();
             if (all.contains(r.getContDef()))
                 unused.remove(r.getContDef());
         }
-        
 
-        // add the used to the parent stack. 
+        // add the used to the parent stack.
         for (Iterator iter = used.iterator(); iter.hasNext();) {
             IURNContainerRef c = (IURNContainerRef) iter.next();
             // if I haven't found anything yet, I must consider the ignored list
-            if (list.size()==0) {
-                // only add it if it was not previously ignored. 
-                if (!ignored.contains(c.getContDef())) { 
+            if (list.size() == 0) {
+                // only add it if it was not previously ignored.
+                if (!ignored.contains(c.getContDef())) {
                     list.add(c);
                 }
             } else {
@@ -113,13 +117,12 @@ public class TraversalVisit {
                 ignored.add(def);
         }
 
-        
         // recurse up the plugin stack to add more components.
-        // TODO: this is imperfect... does not work when you have increased the context from different maps.. 
+        // TODO: this is imperfect... does not work when you have increased the context from different maps..
         // meaning if you are on a map and two different paths were taken to get to this map (and synchronized), then you'd need to compare both incoming stacks
         // only picks one ancestor and moves up; not much we can do about it though.
         // as we only have a context list, not a traversal tree
-        
+
         for (Iterator iter = ((UCMmap) pn.getDiagram()).getParentStub().iterator(); iter.hasNext();) {
             PluginBinding element = (PluginBinding) iter.next();
             if (context != null && context.contains(element)) {
@@ -127,8 +130,6 @@ public class TraversalVisit {
                 break;
             }
         }
-
-        
 
     }
 
@@ -152,7 +153,6 @@ public class TraversalVisit {
             return ref.getContDef();
     }
 
-    
     /**
      * 
      * @return The closest component reference to which this element is bound
@@ -184,7 +184,7 @@ public class TraversalVisit {
 
     /**
      * 
-     * @return the node connection that was traversed to get to here. 
+     * @return the node connection that was traversed to get to here.
      */
     public NodeConnection getSourceNodeConnection() {
         return this.source;
@@ -200,7 +200,7 @@ public class TraversalVisit {
 
     /**
      * 
-     * @return the path node that must be visited.  
+     * @return the path node that must be visited.
      */
     public PathNode getVisitedElement() {
         return visitedElement;
@@ -208,7 +208,8 @@ public class TraversalVisit {
 
     /**
      * 
-     * @param v  add a list of {@link PluginBinding}s to the internal context.   
+     * @param v
+     *            add a list of {@link PluginBinding}s to the internal context.
      */
     public void increaseContext(Vector v) {
         for (Iterator iter = v.iterator(); iter.hasNext();) {
@@ -218,37 +219,36 @@ public class TraversalVisit {
         }
     }
 
-
     /**
-     * We called {@link #getParentComponentRef()} or {@link #getParentComponentDef()} and obtained a component reference/definition. Are there any ambiguities on the possible parent?
+     * We called {@link #getParentComponentRef()} or {@link #getParentComponentDef()} and obtained a component reference/definition. Are there any ambiguities
+     * on the possible parent?
      * 
-     * @return is the closest parent unique?  
+     * @return is the closest parent unique?
      */
     public boolean isValidParentComponent() {
         return true;
-        // the following does not work. our context should be a tree instead of a list for us to be able to determine this. 
-        
-//        if (context == null || visitedElement.getContRef()!=null)
-//            return true;
-//        else {
-//            boolean b = false;
-//            //IURNContainerRef compRef = null;
-//            IURNContainer compDef = null;
-//            for (Iterator iter = context.iterator(); iter.hasNext();) {
-//                PluginBinding binding = (PluginBinding) iter.next();
-//                if (binding.getStub().getContRef() != null) {
-//                    if (b && compDef != binding.getStub().getContRef().getContDef())
-//                        return false;
-//                    else {
-//                        b = true;
-//                        compDef = binding.getStub().getContRef().getContDef();
-//                    }
-//                }
-//            }
-//
-//            return true;
-//        }
+        // the following does not work. our context should be a tree instead of a list for us to be able to determine this.
+
+        // if (context == null || visitedElement.getContRef()!=null)
+        // return true;
+        // else {
+        // boolean b = false;
+        // //IURNContainerRef compRef = null;
+        // IURNContainer compDef = null;
+        // for (Iterator iter = context.iterator(); iter.hasNext();) {
+        // PluginBinding binding = (PluginBinding) iter.next();
+        // if (binding.getStub().getContRef() != null) {
+        // if (b && compDef != binding.getStub().getContRef().getContDef())
+        // return false;
+        // else {
+        // b = true;
+        // compDef = binding.getStub().getContRef().getContDef();
+        // }
+        // }
+        // }
+        //
+        // return true;
+        // }
     }
 
-   
 }

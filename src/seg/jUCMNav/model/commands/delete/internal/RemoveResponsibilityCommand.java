@@ -10,7 +10,7 @@ import urncore.Responsibility;
  * Command to delete a Responsibility. (Remove it from the model). Can only be done if the no references remain.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class RemoveResponsibilityCommand extends Command implements JUCMNavCommand {
 

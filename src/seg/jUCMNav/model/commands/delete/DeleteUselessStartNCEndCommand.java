@@ -76,9 +76,8 @@ public class DeleteUselessStartNCEndCommand extends CompoundCommand {
                         PathNode target = (PathNode) ((NodeConnection) pn.getSucc().get(0)).getTarget();
                         if (target instanceof EndPoint && target.getSucc().size() == 0 && Integer.parseInt(target.getId()) >= nextGlobalID) {
                             add(new DeletePathNodeCommand(pn, editpartregistry));
-                        }
-                        else if (target instanceof EmptyPoint && target.getSucc().size() == 1 && Integer.parseInt(target.getId()) >= nextGlobalID) {
-                        	target = (PathNode) ((NodeConnection) target.getSucc().get(0)).getTarget();
+                        } else if (target instanceof EmptyPoint && target.getSucc().size() == 1 && Integer.parseInt(target.getId()) >= nextGlobalID) {
+                            target = (PathNode) ((NodeConnection) target.getSucc().get(0)).getTarget();
                             if (target instanceof EndPoint && target.getSucc().size() == 0 && Integer.parseInt(target.getId()) >= nextGlobalID) {
                                 add(new DeletePathNodeCommand(pn, editpartregistry));
                             }

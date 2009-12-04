@@ -28,8 +28,10 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
 
     /***
      * 
-     * @param model the component ref to draw
-     * @param map the map in which it is contained. 
+     * @param model
+     *            the component ref to draw
+     * @param map
+     *            the map in which it is contained.
      */
     public ComponentRefEditPart(ComponentRef model, UCMmap map) {
         super();
@@ -41,7 +43,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      * 
      * @see org.eclipse.gef.EditPart#activate()
      */
-    public void activate() {       
+    public void activate() {
         if (!isActive() && getComponentRef().getContDef() != null)
             getComponentRef().getContDef().eAdapters().add(this);
 
@@ -49,9 +51,9 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         super.activate();
     }
 
-	/**
-	 * Installs edit policies.  
-	 */
+    /**
+     * Installs edit policies.
+     */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentRefComponentEditPolicy());
         installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ComponentFeedbackEditPolicy());
@@ -74,8 +76,8 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
     public void deactivate() {
         if (isActive() && getComponentRef().getContDef() != null)
             getComponentRef().getContDef().eAdapters().remove(this);
-         
-        //stop listening to reference
+
+        // stop listening to reference
         super.deactivate();
 
     }
@@ -88,9 +90,9 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         return (ComponentRef) getModel();
     }
 
-	/**
-	 * @return a ContainerPropertySource 
-	 */
+    /**
+     * @return a ContainerPropertySource
+     */
     protected IPropertySource getPropertySource() {
         if (propertySource == null) {
             propertySource = new ContainerPropertySource((EObject) getModel());
@@ -128,21 +130,21 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
 
         // set information for specific drawing
         if (getComponentRef().getContDef() instanceof Component) {
-        	Component comp = (Component) getComponentRef().getContDef();
-        	((ComponentRefFigure) figure).setKind(comp.getKind().getValue());
-        	((ComponentRefFigure) figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
+            Component comp = (Component) getComponentRef().getContDef();
+            ((ComponentRefFigure) figure).setKind(comp.getKind().getValue());
+            ((ComponentRefFigure) figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
             // Set the tool tip
             UrnMetadata.setToolTip(comp, figure);
         }
 
-        //   Make the label recenter itself.
-        figure.validate(); 
+        // Make the label recenter itself.
+        figure.validate();
 
         // notify parent container of changed position & location
         // if this line is removed, the XYLayoutManager used by the parent container
         // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
         // and will not draw it correctly.
-        if (getParent() != null && getViewer()!= null && getLayer(URNRootEditPart.COMPONENT_LAYER)!=null  )
+        if (getParent() != null && getViewer() != null && getLayer(URNRootEditPart.COMPONENT_LAYER) != null)
             (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
 }

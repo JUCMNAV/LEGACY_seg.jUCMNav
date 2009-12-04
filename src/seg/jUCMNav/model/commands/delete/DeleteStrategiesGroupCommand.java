@@ -20,110 +20,111 @@ import urn.URNspec;
  */
 public class DeleteStrategiesGroupCommand extends Command implements JUCMNavCommand {
 
-	private Object group;
+    private Object group;
 
-	// the URNspec in which it is contained
-	private URNspec urn;
+    // the URNspec in which it is contained
+    private URNspec urn;
 
-	/**
+    /**
 	 * 
 	 */
-	public DeleteStrategiesGroupCommand(StrategiesGroup group) {
-		this.group = group;
-		setLabel(Messages.getString("DeleteStrategiesGroupCommand.deleteStrategiesGroup")); //$NON-NLS-1$
+    public DeleteStrategiesGroupCommand(StrategiesGroup group) {
+        this.group = group;
+        setLabel(Messages.getString("DeleteStrategiesGroupCommand.deleteStrategiesGroup")); //$NON-NLS-1$
 
-	}
+    }
 
-	/**
+    /**
 	 * 
 	 */
-	public DeleteStrategiesGroupCommand(ScenarioGroup group) {
-		this.group = group;
-		setLabel(Messages.getString("DeleteStrategiesGroupCommand.DeleteScenarioGroup")); //$NON-NLS-1$
-	}
+    public DeleteStrategiesGroupCommand(ScenarioGroup group) {
+        this.group = group;
+        setLabel(Messages.getString("DeleteStrategiesGroupCommand.DeleteScenarioGroup")); //$NON-NLS-1$
+    }
 
-	private ScenarioGroup getScenarioGroup() {
-		return (ScenarioGroup) group;
-	}
+    private ScenarioGroup getScenarioGroup() {
+        return (ScenarioGroup) group;
+    }
 
-	private StrategiesGroup getStrategyGroup() {
+    private StrategiesGroup getStrategyGroup() {
 
-		return (StrategiesGroup) group;
-	}
+        return (StrategiesGroup) group;
+    }
 
-	/**
-	 * Only if no strategy/scenario in it
-	 * 
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
-	public boolean canExecute() {
-		return group != null && ((group instanceof StrategiesGroup && getStrategyGroup().getStrategies().size() == 0)
-				|| (group instanceof ScenarioGroup && getScenarioGroup().getScenarios().size() == 0));
-	}
+    /**
+     * Only if no strategy/scenario in it
+     * 
+     * @see org.eclipse.gef.commands.Command#canExecute()
+     */
+    public boolean canExecute() {
+        return group != null
+                && ((group instanceof StrategiesGroup && getStrategyGroup().getStrategies().size() == 0) || (group instanceof ScenarioGroup && getScenarioGroup()
+                        .getScenarios().size() == 0));
+    }
 
-	/**
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
-	public void execute() {
-		if (group instanceof StrategiesGroup)
-			urn = getStrategyGroup().getGrlspec().getUrnspec();
-		else
-			urn = getScenarioGroup().getUcmspec().getUrnspec();
+    /**
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
+    public void execute() {
+        if (group instanceof StrategiesGroup)
+            urn = getStrategyGroup().getGrlspec().getUrnspec();
+        else
+            urn = getScenarioGroup().getUcmspec().getUrnspec();
 
-		redo();
-	}
+        redo();
+    }
 
-	/**
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
-	public void redo() {
-		testPreConditions();
+    /**
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void redo() {
+        testPreConditions();
 
-		if (group instanceof StrategiesGroup)
-			urn.getGrlspec().getGroups().remove(group);
-		else
-			urn.getUcmspec().getScenarioGroups().remove(group);
+        if (group instanceof StrategiesGroup)
+            urn.getGrlspec().getGroups().remove(group);
+        else
+            urn.getUcmspec().getScenarioGroups().remove(group);
 
-		testPostConditions();
-	}
+        testPostConditions();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
-	 */
-	public void testPreConditions() {
-		assert group != null && urn != null : "pre something is null"; //$NON-NLS-1$
-		assert (group instanceof StrategiesGroup && getStrategyGroup().getStrategies().size() == 0)
-				|| (group instanceof ScenarioGroup && getScenarioGroup().getScenarios().size() == 0) : "pre can't delete if still strategies / scenarios."; //$NON-NLS-1$
-		assert urn.getGrlspec().getGroups().contains(group) || urn.getUcmspec().getScenarioGroups().contains(group) : "pre group in model"; //$NON-NLS-1$
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
+     */
+    public void testPreConditions() {
+        assert group != null && urn != null : "pre something is null"; //$NON-NLS-1$
+        assert (group instanceof StrategiesGroup && getStrategyGroup().getStrategies().size() == 0)
+                || (group instanceof ScenarioGroup && getScenarioGroup().getScenarios().size() == 0) : "pre can't delete if still strategies / scenarios."; //$NON-NLS-1$
+        assert urn.getGrlspec().getGroups().contains(group) || urn.getUcmspec().getScenarioGroups().contains(group) : "pre group in model"; //$NON-NLS-1$
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
-	 */
-	public void testPostConditions() {
-		assert group != null && urn != null : "post something is null"; //$NON-NLS-1$
-		assert (group instanceof StrategiesGroup && getStrategyGroup().getStrategies().size() == 0)
-				|| (group instanceof ScenarioGroup && getScenarioGroup().getScenarios().size() == 0) : "post can't delete if still strategies."; //$NON-NLS-1$
-		assert !urn.getGrlspec().getGroups().contains(group) &&  !urn.getUcmspec().getScenarioGroups().contains(group): "post group in model"; //$NON-NLS-1$
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
+     */
+    public void testPostConditions() {
+        assert group != null && urn != null : "post something is null"; //$NON-NLS-1$
+        assert (group instanceof StrategiesGroup && getStrategyGroup().getStrategies().size() == 0)
+                || (group instanceof ScenarioGroup && getScenarioGroup().getScenarios().size() == 0) : "post can't delete if still strategies."; //$NON-NLS-1$
+        assert !urn.getGrlspec().getGroups().contains(group) && !urn.getUcmspec().getScenarioGroups().contains(group) : "post group in model"; //$NON-NLS-1$
+    }
 
-	/**
-	 * 
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
-	public void undo() {
-		testPostConditions();
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
+    public void undo() {
+        testPostConditions();
 
-		// re-add group
-		if (group instanceof StrategiesGroup)
-			urn.getGrlspec().getGroups().add(group);
-		else
-			urn.getUcmspec().getScenarioGroups().add(group);
+        // re-add group
+        if (group instanceof StrategiesGroup)
+            urn.getGrlspec().getGroups().add(group);
+        else
+            urn.getUcmspec().getScenarioGroups().add(group);
 
-		testPreConditions();
-	}
+        testPreConditions();
+    }
 }

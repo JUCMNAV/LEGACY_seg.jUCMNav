@@ -26,7 +26,7 @@ public class AddOrForkAction extends URNSelectionAction {
     public AddOrForkAction(IWorkbenchPart part) {
         super(part);
         setId(ADDORFORK);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrFork16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/OrFork16.gif")); //$NON-NLS-1$
     }
 
     /**

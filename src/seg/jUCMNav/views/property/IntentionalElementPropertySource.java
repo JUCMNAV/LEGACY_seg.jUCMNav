@@ -156,7 +156,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.views.EObjectPropertySource#addPropertyToDescriptor(java.util.Collection, org.eclipse.emf.ecore.EStructuralFeature,
-     *      org.eclipse.emf.ecore.EClass)
+     * org.eclipse.emf.ecore.EClass)
      */
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         EClassifier type = getFeatureType(attr);
@@ -260,16 +260,16 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             pd.setCategory("Strategy"); //$NON-NLS-1$
             descriptors.add(pd);
         } else if (attr.getName() == "qualitativeEvaluation") { //$NON-NLS-1$
-        	
-        	Collection c = QualitativeLabel.VALUES; 
-        	String[] values = new String[c.size()];
-        	int i = 0;
-        	Iterator vIter = c.iterator();
-        	while(vIter.hasNext()) {
-        		QualitativeLabel tmp = (QualitativeLabel)vIter.next();
-        		values[i++] = tmp.getName();
-        	}
-        	ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "qualitativeEvaluation",values); //$NON-NLS-1$
+
+            Collection c = QualitativeLabel.VALUES;
+            String[] values = new String[c.size()];
+            int i = 0;
+            Iterator vIter = c.iterator();
+            while (vIter.hasNext()) {
+                QualitativeLabel tmp = (QualitativeLabel) vIter.next();
+                values[i++] = tmp.getName();
+            }
+            ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "qualitativeEvaluation", values); //$NON-NLS-1$
 
             pd.setCategory("Strategy"); //$NON-NLS-1$
             descriptors.add(pd);
@@ -477,9 +477,9 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             if (feature.getEType().getInstanceClass() == int.class) {
                 Integer temp = new Integer(Integer.parseInt((String) value));
                 EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def, temp.intValue());
-            } else if(feature.getEType().getInstanceClass() == QualitativeLabel.class) {
-            	QualitativeLabel label = QualitativeLabel.get(((Integer)value).intValue());
-            	EvaluationStrategyManager.getInstance().setIntentionalElementQualitativeEvaluation(def, label);
+            } else if (feature.getEType().getInstanceClass() == QualitativeLabel.class) {
+                QualitativeLabel label = QualitativeLabel.get(((Integer) value).intValue());
+                EvaluationStrategyManager.getInstance().setIntentionalElementQualitativeEvaluation(def, label);
             } else {
                 super.setPropertyValue(id, value);
             }
@@ -490,10 +490,10 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 EvaluationStrategyManager.getInstance().setKPIEvalValueSet(def, feature, temp.doubleValue());
             } else if (feature.getEType().getInstanceClass() == String.class) {
                 EvaluationStrategyManager.getInstance().setKPIEvalValueSetUnit(def, feature, (String) value);
-            } 
-        } else if(feature.getContainerClass() == IntentionalElement.class) {
+            }
+        } else if (feature.getContainerClass() == IntentionalElement.class) {
             if (feature.getEType().getInstanceClass() == ImportanceType.class) {
-                ImportanceType temp = ImportanceType.get(((Integer)value).intValue());
+                ImportanceType temp = ImportanceType.get(((Integer) value).intValue());
                 EvaluationStrategyManager.getInstance().setIntentionalElementQualitativeImportance(def, temp);
             } else if (feature.getEType().getInstanceClass() == int.class) {
                 Integer temp = new Integer(Integer.parseInt((String) value));
@@ -501,7 +501,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             } else {
                 super.setPropertyValue(id, value);
             }
-            
+
         } else if (feature.getName() == "name") { //$NON-NLS-1$
             String message = URNNamingHelper.isNameValid(urn, (URNmodelElement) object, value.toString());
 

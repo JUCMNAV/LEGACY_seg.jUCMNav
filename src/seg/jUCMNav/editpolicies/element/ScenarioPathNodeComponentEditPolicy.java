@@ -16,23 +16,23 @@ import ucm.scenario.ScenarioStartPoint;
  */
 public class ScenarioPathNodeComponentEditPolicy extends ComponentEditPolicy {
 
-	/**
-	 * Return a DeleteVariableCommand
-	 */
-	protected Command getDeleteCommand(GroupRequest request) {
-		Object obj = getHost().getModel();
-		if (obj instanceof ScenarioStartPoint) {
+    /**
+     * Return a DeleteVariableCommand
+     */
+    protected Command getDeleteCommand(GroupRequest request) {
+        Object obj = getHost().getModel();
+        if (obj instanceof ScenarioStartPoint) {
 
-			ScenarioStartPoint pt = (ScenarioStartPoint) obj;
-			DeleteScenarioPathNodeCommand deleteCommand = new DeleteScenarioPathNodeCommand(pt);
-			return deleteCommand;
-		} else if (obj instanceof ScenarioEndPoint) {
+            ScenarioStartPoint pt = (ScenarioStartPoint) obj;
+            DeleteScenarioPathNodeCommand deleteCommand = new DeleteScenarioPathNodeCommand(pt);
+            return deleteCommand;
+        } else if (obj instanceof ScenarioEndPoint) {
 
-			ScenarioEndPoint pt = (ScenarioEndPoint) obj;
-			DeleteScenarioPathNodeCommand deleteCommand = new DeleteScenarioPathNodeCommand(pt);
-			return deleteCommand;
-		}
-		
-		return null;
-	}
+            ScenarioEndPoint pt = (ScenarioEndPoint) obj;
+            DeleteScenarioPathNodeCommand deleteCommand = new DeleteScenarioPathNodeCommand(pt);
+            return deleteCommand;
+        }
+
+        return null;
+    }
 }

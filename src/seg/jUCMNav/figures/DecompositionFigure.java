@@ -13,7 +13,7 @@ import org.eclipse.swt.SWT;
  * This figure is used to draw the circle associate with the connection in a decomposition
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class DecompositionFigure extends Shape {
 
@@ -22,14 +22,14 @@ public class DecompositionFigure extends Shape {
     protected static final int DEFAULT_WIDTH = 25;
 
     protected ConnectionAnchor anchor;
-    
+
     /**
      * @see seg.jUCMNav.figures.util.JUCMNavFigure
      */
     public static Dimension getDefaultDimension() {
         return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
-    
+
     /**
      * 
      */
@@ -37,10 +37,10 @@ public class DecompositionFigure extends Shape {
         super();
         setLineWidth(1);
         setAntialias(SWT.ON);
-        
+
         initAnchor();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        setLocation(new Point(100,100));
+        setLocation(new Point(100, 100));
     }
 
     /**
@@ -49,16 +49,20 @@ public class DecompositionFigure extends Shape {
     protected void initAnchor() {
         anchor = new ChopboxAnchor(this);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
      */
     protected void fillShape(Graphics graphics) {
-       Rectangle r = getBounds().getCopy();
-       graphics.drawOval(r);
+        Rectangle r = getBounds().getCopy();
+        graphics.drawOval(r);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.draw2d.Shape#outlineShape(org.eclipse.draw2d.Graphics)
      */
     protected void outlineShape(Graphics graphics) {

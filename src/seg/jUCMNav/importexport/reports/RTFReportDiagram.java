@@ -28,221 +28,221 @@ import com.lowagie.text.Table;
 
 /**
  * Class creating the report's diagram figure and its description.
-
+ * 
  * 
  * @author dessure
  * 
  */
 public class RTFReportDiagram extends PDFReport {
 
-	public RTFReportDiagram() {
+    public RTFReportDiagram() {
 
-	}
+    }
 
-	/**
-	 * creates the diagram figure and its description
-	 * 
-	 * @param document
-	 *            the document we are reporting into
-	 * @param urndef
-	 *            the urn definition of the elements
-	 * @param mapDiagrams
-	 *            list of diagrams to be documented
-	 * @param pagesize
-	 *            the rectangle with dimensions for the size of page
-	 */
+    /**
+     * creates the diagram figure and its description
+     * 
+     * @param document
+     *            the document we are reporting into
+     * @param urndef
+     *            the urn definition of the elements
+     * @param mapDiagrams
+     *            list of diagrams to be documented
+     * @param pagesize
+     *            the rectangle with dimensions for the size of page
+     */
 
-	public void createRTFReportDiagramsAndDescription(Document document, URNdefinition urndef, HashMap mapDiagrams, Rectangle pagesize) {
-		try {
-			document.add(Chunk.NEXTPAGE);
+    public void createRTFReportDiagramsAndDescription(Document document, URNdefinition urndef, HashMap mapDiagrams, Rectangle pagesize) {
+        try {
+            document.add(Chunk.NEXTPAGE);
 
-			int i = 0;
-			for (Iterator iter = mapDiagrams.keySet().iterator(); iter.hasNext();) {
-				i++;
-				IURNDiagram diagram = (IURNDiagram) iter.next();
-				URNmodelElement element = (URNmodelElement) diagram;
+            int i = 0;
+            for (Iterator iter = mapDiagrams.keySet().iterator(); iter.hasNext();) {
+                i++;
+                IURNDiagram diagram = (IURNDiagram) iter.next();
+                URNmodelElement element = (URNmodelElement) diagram;
 
-				// diagram Header
-				createHeader1(document, element.getName());
+                // diagram Header
+                createHeader1(document, element.getName());
 
-				// insert the figure
-				insertDiagram(document, mapDiagrams, diagram, urndef, i, pagesize);
+                // insert the figure
+                insertDiagram(document, mapDiagrams, diagram, urndef, i, pagesize);
 
-				// insert diagram name under figure
-				insertDiagramLegend(document, element, i);
+                // insert diagram name under figure
+                insertDiagramLegend(document, element, i);
 
-				if (diagram instanceof UCMmap) {
-					UCMDiagramSection ucmSection = new UCMDiagramSection();
-					ucmSection.createUCMDiagramDescription(document, element, diagram);
-				} else {
-					GRLDiagramSection grlSection = new GRLDiagramSection();
-					grlSection.createGRLDiagramDescription( document, element, diagram );
-				}
+                if (diagram instanceof UCMmap) {
+                    UCMDiagramSection ucmSection = new UCMDiagramSection();
+                    ucmSection.createUCMDiagramDescription(document, element, diagram);
+                } else {
+                    GRLDiagramSection grlSection = new GRLDiagramSection();
+                    grlSection.createGRLDiagramDescription(document, element, diagram);
+                }
 
-				// empty line
-				document.add(Chunk.NEWLINE);
+                // empty line
+                document.add(Chunk.NEWLINE);
 
-				// New page
-				document.add(Chunk.NEXTPAGE);
-			}
+                // New page
+                document.add(Chunk.NEXTPAGE);
+            }
 
-		} catch (Exception e) {
-			jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            e.printStackTrace();
+        }
 
-	}
+    }
 
-	/**
-	 * creates the diagram figure header
-	 * 
-	 * @param document
-	 *            the document we are reporting into
-	 * @param string
-	 *            the string to show in the figure header
-	 */
-	public void createHeader1(Document document, String string) {
-		try {
+    /**
+     * creates the diagram figure header
+     * 
+     * @param document
+     *            the document we are reporting into
+     * @param string
+     *            the string to show in the figure header
+     */
+    public void createHeader1(Document document, String string) {
+        try {
 
-			Table headerTable = ReportUtils.createTable(2, 2, 0, 100);
+            Table headerTable = ReportUtils.createTable(2, 2, 0, 100);
 
-			Chunk name = new Chunk(string, header1Font);
-			Cell nameCell = new Cell(name);
-			nameCell.setColspan(2);
-			nameCell.setBorderWidthBottom(1.5f);
+            Chunk name = new Chunk(string, header1Font);
+            Cell nameCell = new Cell(name);
+            nameCell.setColspan(2);
+            nameCell.setBorderWidthBottom(1.5f);
 
-			headerTable.addCell(nameCell);
-			document.add(headerTable);
+            headerTable.addCell(nameCell);
+            document.add(headerTable);
 
-		} catch (Exception e) {
-			jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
-			e.printStackTrace();
+        } catch (Exception e) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            e.printStackTrace();
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * inserts the diagram figure
-	 * 
-	 * @param document
-	 *            the document we are reporting into
-	 * @param mapDiagrams
-	 *            list of diagrams to be documented
-	 * @param diagram
-	 *            the diagram to insert
-	 * @param urndef
-	 *            the urn definition of the elements
-	 * @param i
-	 *            the diagram number
-	 * @param pagesize
-	 *            the rectangle with dimensions for the size of page
-	 */
+    /**
+     * inserts the diagram figure
+     * 
+     * @param document
+     *            the document we are reporting into
+     * @param mapDiagrams
+     *            list of diagrams to be documented
+     * @param diagram
+     *            the diagram to insert
+     * @param urndef
+     *            the urn definition of the elements
+     * @param i
+     *            the diagram number
+     * @param pagesize
+     *            the rectangle with dimensions for the size of page
+     */
 
-	public void insertDiagram(Document document, HashMap mapDiagrams, IURNDiagram diagram, URNdefinition urndef, int i, Rectangle pagesize) {
-		try {
-			// get the high level IFigure to be saved.
-			IFigure pane = (IFigure) mapDiagrams.get(diagram);
+    public void insertDiagram(Document document, HashMap mapDiagrams, IURNDiagram diagram, URNdefinition urndef, int i, Rectangle pagesize) {
+        try {
+            // get the high level IFigure to be saved.
+            IFigure pane = (IFigure) mapDiagrams.get(diagram);
 
-			int paneWidth = Math.round(pane.getSize().width*ReportUtils.ZOOMFACTOR);
-			int paneHeight = Math.round(pane.getSize().height*ReportUtils.ZOOMFACTOR);
-			Image image = new Image(Display.getCurrent(), paneWidth, paneHeight);
+            int paneWidth = Math.round(pane.getSize().width * ReportUtils.ZOOMFACTOR);
+            int paneHeight = Math.round(pane.getSize().height * ReportUtils.ZOOMFACTOR);
+            Image image = new Image(Display.getCurrent(), paneWidth, paneHeight);
 
-			GC gc = new GC(image);
-			SWTGraphics graphics = new SWTGraphics(gc);
+            GC gc = new GC(image);
+            SWTGraphics graphics = new SWTGraphics(gc);
 
-			// zoom for better resolution
-			graphics.scale(ReportUtils.ZOOMFACTOR); 
+            // zoom for better resolution
+            graphics.scale(ReportUtils.ZOOMFACTOR);
 
-			// if the bounds are in the negative x/y, we don't see them without a translation
-			graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
-			pane.paint(graphics);
+            // if the bounds are in the negative x/y, we don't see them without a translation
+            graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
+            pane.paint(graphics);
 
-			// downSample the image to an 8-bit palette, using the 256 most frequently used color
-			ImageData ideaImageData = ExportImageGIF.downSample(image);
+            // downSample the image to an 8-bit palette, using the 256 most frequently used color
+            ImageData ideaImageData = ExportImageGIF.downSample(image);
 
-			ImageData croppedImage = ReportUtils.cropImage(ideaImageData);
-			java.awt.Image awtImage = ReportUtils.SWTimageToAWTImage(croppedImage);
+            ImageData croppedImage = ReportUtils.cropImage(ideaImageData);
+            java.awt.Image awtImage = ReportUtils.SWTimageToAWTImage(croppedImage);
 
-			BufferedImage bufferedImage = (BufferedImage) awtImage;
-			int imageHeight = bufferedImage.getHeight();
-			int imageWidth = bufferedImage.getWidth();
+            BufferedImage bufferedImage = (BufferedImage) awtImage;
+            int imageHeight = bufferedImage.getHeight();
+            int imageWidth = bufferedImage.getWidth();
 
-			ReportUtils.insertRTFImage(document, pane, pagesize, imageWidth, imageHeight);
+            ReportUtils.insertRTFImage(document, pane, pagesize, imageWidth, imageHeight);
 
-			gc.dispose();
-			image.dispose();
-			awtImage.flush();
+            gc.dispose();
+            image.dispose();
+            awtImage.flush();
 
-			boolean isLast = i == mapDiagrams.size() - 1;
+            boolean isLast = i == mapDiagrams.size() - 1;
 
-		} catch (Exception e) {
-			jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
-			e.printStackTrace();
+        } catch (Exception e) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            e.printStackTrace();
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * inserts the diagram figure legend
-	 * 
-	 * @param document
-	 *            the document we are reporting into
-	 * @param element
-	 *            the element illustrated by this diagram
-	 * @param i
-	 *            the diagram number
-	 */
-	public void insertDiagramLegend(Document document, URNmodelElement element, int i) {
-		try {
-			int figureNo = i + 1;
-			Table headerTable = ReportUtils.createTable(1, 1, 0, 100);
+    /**
+     * inserts the diagram figure legend
+     * 
+     * @param document
+     *            the document we are reporting into
+     * @param element
+     *            the element illustrated by this diagram
+     * @param i
+     *            the diagram number
+     */
+    public void insertDiagramLegend(Document document, URNmodelElement element, int i) {
+        try {
+            int figureNo = i + 1;
+            Table headerTable = ReportUtils.createTable(1, 1, 0, 100);
 
-			Chunk name = new Chunk("Figure " + figureNo + " - " + element.getName(), figureLegendFont);
-			Cell nameCell = new Cell(name);
-			nameCell.setColspan(1);
-			nameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			nameCell.setBorderWidthTop(2f);
+            Chunk name = new Chunk("Figure " + figureNo + " - " + element.getName(), figureLegendFont);
+            Cell nameCell = new Cell(name);
+            nameCell.setColspan(1);
+            nameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            nameCell.setBorderWidthTop(2f);
 
-			headerTable.addCell(nameCell);
-			document.add(headerTable);
+            headerTable.addCell(nameCell);
+            document.add(headerTable);
 
-		} catch (Exception e) {
-			jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
-			e.printStackTrace();
+        } catch (Exception e) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            e.printStackTrace();
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * inserts the diagram figure description
-	 * 
-	 * @param document
-	 *            the document we are reporting into
-	 * @param element
-	 *            the element illustrated by this diagram
-	 */
-	public void insertDiagramDescription(Document document, URNmodelElement element) {
-		try {
+    /**
+     * inserts the diagram figure description
+     * 
+     * @param document
+     *            the document we are reporting into
+     * @param element
+     *            the element illustrated by this diagram
+     */
+    public void insertDiagramDescription(Document document, URNmodelElement element) {
+        try {
 
-			Table table = ReportUtils.createTable(1, 2, 0, 100);
+            Table table = ReportUtils.createTable(1, 2, 0, 100);
 
-			Chunk chunk = new Chunk("Description ", descriptionBoldFont);
-			Cell descriptionCell = new Cell(chunk);
-			descriptionCell.setColspan(1);
-			descriptionCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			descriptionCell.setBorderWidthBottom(1.5f);
+            Chunk chunk = new Chunk("Description ", descriptionBoldFont);
+            Cell descriptionCell = new Cell(chunk);
+            descriptionCell.setColspan(1);
+            descriptionCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            descriptionCell.setBorderWidthBottom(1.5f);
 
-			Chunk descText = new Chunk(element.getDescription(), descriptionFont);
+            Chunk descText = new Chunk(element.getDescription(), descriptionFont);
 
-			table.addCell(descriptionCell);
-			document.add(table);
-			document.add(descText);
+            table.addCell(descriptionCell);
+            document.add(table);
+            document.add(descText);
 
-		} catch (Exception e) {
-			jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
-			e.printStackTrace();
+        } catch (Exception e) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            e.printStackTrace();
 
-		}
-	}
+        }
+    }
 
 }

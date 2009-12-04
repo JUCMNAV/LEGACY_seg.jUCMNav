@@ -53,7 +53,7 @@ public class MapTreeEditPart extends UrnModelElementTreeEditPart {
         Vector v = new Vector();
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
-            //Do not add the Empty point if the preference is not selected.
+            // Do not add the Empty point if the preference is not selected.
             if (!(element instanceof Connect) && elementShouldBeChildren(element))
                 v.add(element);
         }
@@ -66,11 +66,10 @@ public class MapTreeEditPart extends UrnModelElementTreeEditPart {
     /*
      * Verify if the path node should be added to the children of the map.
      */
-    private boolean elementShouldBeChildren(PathNode element)
-    {
-    	return !DisplayPreferences.getInstance().isElementFiltered(element);
+    private boolean elementShouldBeChildren(PathNode element) {
+        return !DisplayPreferences.getInstance().isElementFiltered(element);
     }
-    
+
     /**
      * @return the map being represented.
      */
@@ -83,7 +82,7 @@ public class MapTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage( "icons/ucm16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/ucm16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 

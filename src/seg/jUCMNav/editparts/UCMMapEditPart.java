@@ -26,20 +26,23 @@ import ucm.map.UCMmap;
 
 /**
  * 
- * Edit part for a UCMmap 
+ * Edit part for a UCMmap
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class UCMMapEditPart extends URNDiagramEditPart {
 
     /**
      * Creates an editpart for the map
-     * @param map the use case map
+     * 
+     * @param map
+     *            the use case map
      */
     public UCMMapEditPart(UCMmap map) {
         super(map);
     }
-    
+
     /**
      * Creates our top level edit policies.
      * 
@@ -49,7 +52,7 @@ public class UCMMapEditPart extends URNDiagramEditPart {
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new MapXYLayoutEditPolicy());
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
     }
-    
+
     /**
      * 
      * @return the conditions linked to node connection, start points or end points.
@@ -74,7 +77,7 @@ public class UCMMapEditPart extends URNDiagramEditPart {
 
         return list;
     }
-    
+
     /**
      * @return the labels linked to pathnodes or componentrefs.
      */
@@ -98,19 +101,17 @@ public class UCMMapEditPart extends URNDiagramEditPart {
 
         return list;
     }
-    
+
     private List getComments() {
-		List list = new ArrayList();
-		for (Iterator iterator = getDiagram().getComments().iterator(); iterator
-				.hasNext();) {
-			list.add(iterator.next());
-		}
-		return list;
-	}
-    
+        List list = new ArrayList();
+        for (Iterator iterator = getDiagram().getComments().iterator(); iterator.hasNext();) {
+            list.add(iterator.next());
+        }
+        return list;
+    }
+
     /**
-     * Returns the map children: ComponentRefs and PathNodes and PathNode Labels, ordered in such a way that they don't interfere with each other on
-     * the board.
+     * Returns the map children: ComponentRefs and PathNodes and PathNode Labels, ordered in such a way that they don't interfere with each other on the board.
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
      */
@@ -122,7 +123,7 @@ public class UCMMapEditPart extends URNDiagramEditPart {
         list.addAll(getComments());
         return list;
     }
-    
+
     /**
      * @return the nodes in the diagram, except for Connects.
      */
@@ -139,11 +140,11 @@ public class UCMMapEditPart extends URNDiagramEditPart {
 
         return list;
     }
-    
+
     /**
      * Change listener. Has to handle when its children are changed and when we might have to reorder them.
      * 
-     * This method should be reviewed for performance issues. We probably refresh too often. 
+     * This method should be reviewed for performance issues. We probably refresh too often.
      * 
      * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
@@ -177,13 +178,13 @@ public class UCMMapEditPart extends URNDiagramEditPart {
                 }
                 break;
             }
-            //            refreshVisuals();
+            // refreshVisuals();
             break;
         }
 
         refreshChildren();
     }
-    
+
     /**
      * This function was overiden to include refresh of Stub's In and Out
      * 
@@ -198,29 +199,28 @@ public class UCMMapEditPart extends URNDiagramEditPart {
                 ((StubEditPart) element).refreshInOuts();
         }
     }
-    
+
     /**
-     *
-     * Setup the connection router  
+     * 
+     * Setup the connection router
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()
      */
     protected void registerVisuals() {
         ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-        cLayer.setConnectionRouter(new UCMConnectionRouter(getViewer().getEditPartRegistry(), (UCMmap)getDiagram()));
+        cLayer.setConnectionRouter(new UCMConnectionRouter(getViewer().getEditPartRegistry(), (UCMmap) getDiagram()));
 
         super.registerVisuals();
     }
-    
+
     protected void unregisterVisuals() {
-        
-        //disconnectRouter();
+
+        // disconnectRouter();
 
         super.unregisterVisuals();
     }
 
-    public void dispose()
-    {
+    public void dispose() {
         for (Iterator iterator = getChildren().iterator(); iterator.hasNext();) {
             EditPart part = (EditPart) iterator.next();
             part.removeNotify();
@@ -230,16 +230,14 @@ public class UCMMapEditPart extends URNDiagramEditPart {
         removeNotify();
         disconnectRouter();
     }
-    
+
     public void disconnectRouter() {
         ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-        if (cLayer!=null)
-        {
-            if (cLayer.getConnectionRouter() instanceof UCMConnectionRouter)
-            {
+        if (cLayer != null) {
+            if (cLayer.getConnectionRouter() instanceof UCMConnectionRouter) {
                 UCMConnectionRouter router = (UCMConnectionRouter) cLayer.getConnectionRouter();
                 router.dispose();
-                
+
             }
             cLayer.setConnectionRouter(null);
         }

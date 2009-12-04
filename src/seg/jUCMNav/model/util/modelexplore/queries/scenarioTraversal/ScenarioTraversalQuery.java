@@ -43,14 +43,14 @@ public class ScenarioTraversalQuery extends QueryRequest {
 
     /**
      * 
-     * @return the end path nodes that are defined in the scenario definition. 
+     * @return the end path nodes that are defined in the scenario definition.
      */
     public Vector getEndPathNodes() {
         return _EndPathNodes;
     }
 
     /**
-     *  
+     * 
      * @return The environment in which the scenario was executed.
      */
     public UcmEnvironment getEnvironment() {
@@ -59,7 +59,7 @@ public class ScenarioTraversalQuery extends QueryRequest {
 
     /**
      * 
-     * @return the start path nodes that should be executed. 
+     * @return the start path nodes that should be executed.
      */
     public Vector getStartPathNodes() {
         return _StartPathNodes;

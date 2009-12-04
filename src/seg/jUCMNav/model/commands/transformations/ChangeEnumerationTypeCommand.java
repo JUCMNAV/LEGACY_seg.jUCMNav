@@ -10,7 +10,7 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.scenario.EnumerationType;
 
 /**
- * Changes the name/values of an enumeration type.  
+ * Changes the name/values of an enumeration type.
  * 
  * @author jkealey
  */
@@ -19,33 +19,30 @@ public class ChangeEnumerationTypeCommand extends Command implements JUCMNavComm
     private String name, oldName, values, oldValues;
 
     public ChangeEnumerationTypeCommand(EnumerationType elem, String newName, Vector newValues) {
-    	this.elem = elem;
-    	this.name = newName;
-    	String tmp=""; //$NON-NLS-1$
-    	for (Iterator iter = newValues.iterator(); iter.hasNext();) {
-			String str = (String) iter.next();
-			tmp+="," + str; //$NON-NLS-1$
-		}
-    	
-    	if (tmp.length()>0)
-    		this.values = tmp.substring(1);
-    	else
-    		this.values = tmp;
-    	
-    	
-    	setLabel(Messages.getString("ChangeEnumerationTypeCommand.ChangeEnumerationType")); //$NON-NLS-1$
-    }
+        this.elem = elem;
+        this.name = newName;
+        String tmp = ""; //$NON-NLS-1$
+        for (Iterator iter = newValues.iterator(); iter.hasNext();) {
+            String str = (String) iter.next();
+            tmp += "," + str; //$NON-NLS-1$
+        }
 
+        if (tmp.length() > 0)
+            this.values = tmp.substring(1);
+        else
+            this.values = tmp;
+
+        setLabel(Messages.getString("ChangeEnumerationTypeCommand.ChangeEnumerationType")); //$NON-NLS-1$
+    }
 
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	oldName = elem.getName();
-    	oldValues = elem.getValues();
+        oldName = elem.getName();
+        oldValues = elem.getValues();
         redo();
     }
-
 
     /*
      * (non-Javadoc)
@@ -54,13 +51,12 @@ public class ChangeEnumerationTypeCommand extends Command implements JUCMNavComm
      */
     public void redo() {
         testPreConditions();
-        
+
         elem.setName(name);
         elem.setValues(values);
 
         testPostConditions();
     }
-
 
     /*
      * (non-Javadoc)
@@ -71,7 +67,7 @@ public class ChangeEnumerationTypeCommand extends Command implements JUCMNavComm
         assert elem != null : "post no element!"; //$NON-NLS-1$
     }
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
@@ -81,7 +77,7 @@ public class ChangeEnumerationTypeCommand extends Command implements JUCMNavComm
 
     }
 
-	/**
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
@@ -89,18 +85,16 @@ public class ChangeEnumerationTypeCommand extends Command implements JUCMNavComm
 
         elem.setName(oldName);
         elem.setValues(oldValues);
-        
+
         testPreConditions();
     }
 
+    public EnumerationType getElem() {
+        return elem;
+    }
 
-	public EnumerationType getElem() {
-		return elem;
-	}
-
-
-	public void setElem(EnumerationType elem) {
-		this.elem = elem;
-	}
+    public void setElem(EnumerationType elem) {
+        this.elem = elem;
+    }
 
 }

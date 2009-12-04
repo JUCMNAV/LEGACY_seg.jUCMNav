@@ -40,14 +40,14 @@ public class AutoLayoutPreferences {
      * Sets the default values in the preference store.
      */
     public static void createPreferences() {
-    	if (System.getProperty("os.name").startsWith("Windows")) //$NON-NLS-1$ //$NON-NLS-2$
-    	{
-    		// Default only provided to Windows. See bug #561
-    		getPreferenceStore().setDefault(AutoLayoutPreferences.PREF_DOTPATH, AutoLayoutPreferences.DEFAULTDOTPATH);
-    	} else {
-    		getPreferenceStore().setDefault(AutoLayoutPreferences.PREF_DOTPATH, AutoLayoutPreferences.DEFAULTNONWINDOWSDOTPATH); 
-    	}
-    	
+        if (System.getProperty("os.name").startsWith("Windows")) //$NON-NLS-1$ //$NON-NLS-2$
+        {
+            // Default only provided to Windows. See bug #561
+            getPreferenceStore().setDefault(AutoLayoutPreferences.PREF_DOTPATH, AutoLayoutPreferences.DEFAULTDOTPATH);
+        } else {
+            getPreferenceStore().setDefault(AutoLayoutPreferences.PREF_DOTPATH, AutoLayoutPreferences.DEFAULTNONWINDOWSDOTPATH);
+        }
+
         getPreferenceStore().setDefault(AutoLayoutPreferences.PREF_ORIENTATION, AutoLayoutPreferences.DEFAULTORIENTATION);
         getPreferenceStore().setDefault(AutoLayoutPreferences.PREF_WIDTH, AutoLayoutPreferences.DEFAULTWIDTH);
         getPreferenceStore().setDefault(AutoLayoutPreferences.PREF_HEIGHT, AutoLayoutPreferences.DEFAULTHEIGHT);

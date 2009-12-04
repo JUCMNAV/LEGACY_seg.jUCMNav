@@ -9,12 +9,14 @@ import seg.jUCMNav.editparts.treeEditparts.GrlGraphTreeEditPart;
 
 /**
  * TreeEditPart for a GRL graph in the Concern outline
+ * 
  * @author gunterm
  */
 public class ConcernsGrlGraphTreeEditPart extends GrlGraphTreeEditPart {
 
     /**
-     * @param model represents a GRL graph
+     * @param model
+     *            represents a GRL graph
      */
     public ConcernsGrlGraphTreeEditPart(GRLGraph model) {
         super(model);

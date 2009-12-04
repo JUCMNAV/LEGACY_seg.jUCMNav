@@ -25,8 +25,8 @@ import urncore.Responsibility;
  */
 public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropTargetListener {
 
-    // leak bug 631. 
-    //protected UrnEditor editor;
+    // leak bug 631.
+    // protected UrnEditor editor;
     private Object lastTemplate;
     private CreationFactory lastFactory;
     private URNspec urn;
@@ -41,7 +41,7 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
         super(editor.getGraphicalViewer());
         setEnablementDeterminedByCommand(true);
         setTransfer(UrnTemplateTransfer.getInstance());
-        //this.editor = editor;
+        // this.editor = editor;
         this.urn = editor.getModel().getUrndefinition().getUrnspec();
     }
 
@@ -65,8 +65,7 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
             if (definition instanceof ComponentRef)
                 definition = ((ComponentRef) definition).getContDef();
 
-            lastFactory = new ModelCreationFactory(urn, ComponentRef.class, ((Component) definition).getKind()
-                    .getValue(), definition);
+            lastFactory = new ModelCreationFactory(urn, ComponentRef.class, ((Component) definition).getKind().getValue(), definition);
         }
 
         if (template instanceof Responsibility || template instanceof RespRef) {
@@ -93,8 +92,7 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
             if (definition instanceof IntentionalElementRef)
                 definition = ((IntentionalElementRef) definition).getDef();
 
-            lastFactory = new ModelCreationFactory(urn, IntentionalElementRef.class,
-                    ((IntentionalElement) definition).getType().getValue(), definition);
+            lastFactory = new ModelCreationFactory(urn, IntentionalElementRef.class, ((IntentionalElement) definition).getType().getValue(), definition);
 
         }
 

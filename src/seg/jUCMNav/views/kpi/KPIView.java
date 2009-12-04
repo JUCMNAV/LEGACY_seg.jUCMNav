@@ -48,8 +48,8 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
         // Set root editpart
         root = new ScalableFreeformRootEditPart();
         viewer.setRootEditPart(root);
-        
-        //Register the view
+
+        // Register the view
         DisplayPreferences.getInstance().registerListener(this);
     }
 
@@ -63,7 +63,7 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
         getSite().getPage().removePostSelectionListener(this);
         DisplayPreferences.getInstance().unregisterListener(this);
 
-        if (viewer!=null) {
+        if (viewer != null) {
             Object p = viewer.getRootEditPart();
             if (p instanceof AbstractTreeEditPart) {
                 ((AbstractTreeEditPart) p).setModel(null);
@@ -74,12 +74,12 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
                 domain.dispose();
             }
         }
-        
+
         // dispose
         super.dispose();
-        
-        viewer=null;
-        root=null;
+
+        viewer = null;
+        root = null;
     }
 
     /**
@@ -99,13 +99,11 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
     public void partActivated(IWorkbenchPartReference partRef) {
         if (partRef.getPart(false) == this || partRef.getPart(false) instanceof UCMNavMultiPageEditor) {
             setEditor(partRef);
-        }
-        else
-        {
-        	// bug 709 - if we are no longer selecting a UCM editor, flush the current selection. 
-        	if (!(partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor)) {
-		        viewer.setContents(null);
-        	}
+        } else {
+            // bug 709 - if we are no longer selecting a UCM editor, flush the current selection.
+            if (!(partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor)) {
+                viewer.setContents(null);
+            }
         }
     }
 
@@ -241,9 +239,9 @@ public class KPIView extends ViewPart implements IPartListener2, ISelectionChang
         EvaluationStrategyManager.getInstance().setKPIViewer(viewer);
     }
 
-	public void refreshView() {
-		viewer.setContents(viewer.getContents());
-		
-	}
+    public void refreshView() {
+        viewer.setContents(viewer.getContents());
+
+    }
 
 }

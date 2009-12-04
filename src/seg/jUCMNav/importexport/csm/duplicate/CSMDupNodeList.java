@@ -121,17 +121,17 @@ public class CSMDupNodeList {
     } // method
 
     /**
-     * Populate non-RESPREF and non-STUB nodes with downstream and upstream resource lists such that computing RA
-     * and RR can be optimized later on (i.e. by not acquiring a resource acquired previously, and by not releasing
-     * a resource that will be needed next).
+     * Populate non-RESPREF and non-STUB nodes with downstream and upstream resource lists such that computing RA and RR can be optimized later on (i.e. by not
+     * acquiring a resource acquired previously, and by not releasing a resource that will be needed next).
      * 
-     * @param dupMapConnList list of duplicated connections
+     * @param dupMapConnList
+     *            list of duplicated connections
      */
     public void computeNodesResources(CSMDupConnectionList dupMapConnList) {
         boolean done = false;
-	// propagate resources - forward and backward - from nodes RESPRES and STUB.
-	// TODO:  investigate possibility to take into account nodes START and END.
-	while (!done) {
+        // propagate resources - forward and backward - from nodes RESPRES and STUB.
+        // TODO: investigate possibility to take into account nodes START and END.
+        while (!done) {
             done = true;
             for (int i = 0; i < dupMapConnList.size(); i++) {
                 CSMDupConnection conn = dupMapConnList.get(i);
@@ -186,7 +186,7 @@ public class CSMDupNodeList {
      *            the new type of the node
      */
     public void retype(CSMDupNode dupNode, int type) {
-	int nodeIndex = getNodeIndex(dupNode.getNode());
-	nodeList[nodeIndex].setType(type);
+        int nodeIndex = getNodeIndex(dupNode.getNode());
+        nodeList[nodeIndex].setType(type);
     }
 }

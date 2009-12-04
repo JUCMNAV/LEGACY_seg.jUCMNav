@@ -24,166 +24,136 @@ import urn.URNspec;
 import urncore.URNmodelElement;
 
 /**
- * Search the model for a certain string and produce a result. 
+ * Search the model for a certain string and produce a result.
+ * 
  * @author jkealey
- *
+ * 
  */
-public class UrnSearchQuery implements ISearchQuery
-{
-	protected String name;
-	protected UrnSearchResult result;
+public class UrnSearchQuery implements ISearchQuery {
+    protected String name;
+    protected UrnSearchResult result;
 
-	protected IResource source;
+    protected IResource source;
 
-	/**
-	 * Searches in all workspace for name. 
-	 * 
-	 * @param name
-	 */
-	public UrnSearchQuery(String name)
-	{
-		this.name = name;
-		
-	}
+    /**
+     * Searches in all workspace for name.
+     * 
+     * @param name
+     */
+    public UrnSearchQuery(String name) {
+        this.name = name;
 
-	public UrnSearchQuery(String name, IResource source)
-	{
-		this.name = name;
-		this.source = source;
-		
-	}
+    }
 
-	public boolean canRerun()
-	{
-		return true;
-	}
+    public UrnSearchQuery(String name, IResource source) {
+        this.name = name;
+        this.source = source;
 
-	public boolean canRunInBackground()
-	{
-		return true;
-	}
+    }
 
+    public boolean canRerun() {
+        return true;
+    }
 
-	public String getLabel()
-	{
-		return getName();
-	}
+    public boolean canRunInBackground() {
+        return true;
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    public String getLabel() {
+        return getName();
+    }
 
-	public ISearchResult getSearchResult()
-	{
-		if (result == null)
-			result = new UrnSearchResult(this, "URN Search Results for '" + getLabel() + "'");
-		return result;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public IResource getSource()
-	{
-		return source;
-	}
+    public ISearchResult getSearchResult() {
+        if (result == null)
+            result = new UrnSearchResult(this, "URN Search Results for '" + getLabel() + "'");
+        return result;
+    }
 
-	public boolean isFileNameSearch()
-	{
-		return false;
-	}
+    public IResource getSource() {
+        return source;
+    }
 
-	public IStatus run(IProgressMonitor monitor) throws OperationCanceledException
-	{
-		monitor.beginTask("", 1000);
+    public boolean isFileNameSearch() {
+        return false;
+    }
 
-		UrnSearchResult res = (UrnSearchResult) getSearchResult();
-		res.removeAll();
+    public IStatus run(IProgressMonitor monitor) throws OperationCanceledException {
+        monitor.beginTask("", 1000);
 
-		// if you don't specify a source, do all the workspace. 
-		if (getSource() == null)
-		{
-			setSource(ResourcesPlugin.getWorkspace().getRoot());
-		}
+        UrnSearchResult res = (UrnSearchResult) getSearchResult();
+        res.removeAll();
 
-		if (getSource() instanceof IWorkspaceRoot)
-			searchInContainer(monitor, (IWorkspaceRoot)getSource());
-		else  if (getSource() instanceof IFile)
-			searchInFile(monitor, (IFile) getSource());
-		
-		monitor.done();
+        // if you don't specify a source, do all the workspace.
+        if (getSource() == null) {
+            setSource(ResourcesPlugin.getWorkspace().getRoot());
+        }
 
-		return new Status(IStatus.OK, JUCMNavPlugin.PLUGIN_ID, 0, "", null);
-	}
+        if (getSource() instanceof IWorkspaceRoot)
+            searchInContainer(monitor, (IWorkspaceRoot) getSource());
+        else if (getSource() instanceof IFile)
+            searchInFile(monitor, (IFile) getSource());
 
-	public void searchInContainer(IProgressMonitor monitor, IContainer project)
-	{
-		// recurse into files.
-		try
-		{
-			IResource[] members = project.members();
-			for (int i = 0; i < members.length; i++)
-			{
-				IResource member = members[i];
-				if (member instanceof IFile)
-				{
-					searchInFile(monitor, (IFile)member);
-				} 
-				else if (member instanceof IContainer)
-				{
-					searchInContainer(monitor, (IContainer)member);
-					monitor.worked(1);
-				}
-			}
-		}
-		catch (CoreException ex)
-		{
-		}
-	}
+        monitor.done();
 
-	public void searchInFile(IProgressMonitor monitor, IFile file)
-	{
-		if (file.getFileExtension()!=null && file.getFileExtension().equalsIgnoreCase("jucm")) {
-			
-			// load file. 
-			UrnModelManager manager = new UrnModelManager();
-			try
-			{
-				manager.load(file.getFullPath());
-			}
-			catch (IOException e)
-			{
-				return;
-			}
-			URNspec urn = manager.getModel();
+        return new Status(IStatus.OK, JUCMNavPlugin.PLUGIN_ID, 0, "", null);
+    }
 
-			// get all matches in model. 
-			Collection c = URNElementFinder.findAllByNamePattern(urn, getName());
-			
-			// add them to result. 
-			for (Iterator iterator = c.iterator(); iterator.hasNext();)
-			{
-				Object o = (Object) iterator.next();
-				int i=1;
-				if (o!=null && o instanceof URNmodelElement)
-				{
-					URNmodelElement modelElement = (URNmodelElement) o;
-					((UrnSearchResult) getSearchResult()).addEntry(file,  getName(), modelElement);
-				}
-			}
-		}
-		
-		monitor.worked(1);
-	}
+    public void searchInContainer(IProgressMonitor monitor, IContainer project) {
+        // recurse into files.
+        try {
+            IResource[] members = project.members();
+            for (int i = 0; i < members.length; i++) {
+                IResource member = members[i];
+                if (member instanceof IFile) {
+                    searchInFile(monitor, (IFile) member);
+                } else if (member instanceof IContainer) {
+                    searchInContainer(monitor, (IContainer) member);
+                    monitor.worked(1);
+                }
+            }
+        } catch (CoreException ex) {
+        }
+    }
 
-	
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-	
-	public void setSource(IResource source)
-	{
-		this.source = source;
-	}
-	
+    public void searchInFile(IProgressMonitor monitor, IFile file) {
+        if (file.getFileExtension() != null && file.getFileExtension().equalsIgnoreCase("jucm")) {
+
+            // load file.
+            UrnModelManager manager = new UrnModelManager();
+            try {
+                manager.load(file.getFullPath());
+            } catch (IOException e) {
+                return;
+            }
+            URNspec urn = manager.getModel();
+
+            // get all matches in model.
+            Collection c = URNElementFinder.findAllByNamePattern(urn, getName());
+
+            // add them to result.
+            for (Iterator iterator = c.iterator(); iterator.hasNext();) {
+                Object o = (Object) iterator.next();
+                int i = 1;
+                if (o != null && o instanceof URNmodelElement) {
+                    URNmodelElement modelElement = (URNmodelElement) o;
+                    ((UrnSearchResult) getSearchResult()).addEntry(file, getName(), modelElement);
+                }
+            }
+        }
+
+        monitor.worked(1);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSource(IResource source) {
+        this.source = source;
+    }
 
 }

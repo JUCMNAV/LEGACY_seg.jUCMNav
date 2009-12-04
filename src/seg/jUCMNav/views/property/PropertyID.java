@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * Furthermore, this class should help increase readability in the property source classes.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class PropertyID {
 
@@ -32,7 +32,7 @@ public class PropertyID {
      * Overridden to allow the properties HashMap to detect changes properly.
      */
     public int hashCode() {
-    	return c.hashCode() + feature.hashCode();
+        return c.hashCode() + feature.hashCode();
     }
 
     /**

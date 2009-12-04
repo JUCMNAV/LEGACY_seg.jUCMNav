@@ -18,7 +18,7 @@ import urncore.IURNConnection;
  * This compound command delete all the LinkRef associate with the specified IntentionalElementRef
  * 
  * @author Jean-François Roy, pchen
- *
+ * 
  */
 public class DeleteAllLinkRefCommand extends CompoundCommand {
 
@@ -26,8 +26,8 @@ public class DeleteAllLinkRefCommand extends CompoundCommand {
      * 
      */
     public DeleteAllLinkRefCommand(IntentionalElementRef element) {
-        setLabel(Messages.getString("DeleteAllLinkRefCommand.deleteAllLinkRefs"));  //$NON-NLS-1$
-        for (Iterator iter = element.getPred().iterator(); iter.hasNext();){
+        setLabel(Messages.getString("DeleteAllLinkRefCommand.deleteAllLinkRefs")); //$NON-NLS-1$
+        for (Iterator iter = element.getPred().iterator(); iter.hasNext();) {
             IURNConnection linkref = (IURNConnection) iter.next();
 
             if (linkref instanceof KPIModelLinkRef) {
@@ -36,9 +36,9 @@ public class DeleteAllLinkRefCommand extends CompoundCommand {
                 add(new DeleteLinkRefCommand((LinkRef) linkref));
             }
         }
-        
-        for (Iterator iter = element.getSucc().iterator(); iter.hasNext();){
-            LinkRef linkref = (LinkRef)iter.next();
+
+        for (Iterator iter = element.getSucc().iterator(); iter.hasNext();) {
+            LinkRef linkref = (LinkRef) iter.next();
             add(new DeleteLinkRefCommand(linkref));
         }
     }

@@ -10,7 +10,7 @@ import ucm.map.PathNode;
 
 public class CSMDupConnection {
 
-	private NodeConnection connection;
+    private NodeConnection connection;
 
     private String target_id;
 
@@ -112,7 +112,7 @@ public class CSMDupConnection {
     }
 
     public void setTarget(CSMDupNode target) {
-	target_node = target;
+        target_node = target;
     }
 
     // checks validity of node connection

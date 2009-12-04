@@ -23,57 +23,57 @@ import urncore.Responsibility;
  */
 public class ManageResourcesAction extends URNSelectionAction {
 
-	public static final String MANAGERESOURCESACTION = "seg.jUCMNav.actions.performance.ManageResourcesAction"; //$NON-NLS-1$
+    public static final String MANAGERESOURCESACTION = "seg.jUCMNav.actions.performance.ManageResourcesAction"; //$NON-NLS-1$
 
-	private EObject obj;
-	private URNspec urn;
+    private EObject obj;
+    private URNspec urn;
 
-	/**
-	 * Opens the resource editor.
-	 * 
-	 * @param part
-	 *            the UCMNavMultiPageEditor
-	 */
-	public ManageResourcesAction(IWorkbenchPart part) {
-		super(part);
-		setId(MANAGERESOURCESACTION);
-		setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Resource.gif")); //$NON-NLS-1$
-	}
+    /**
+     * Opens the resource editor.
+     * 
+     * @param part
+     *            the UCMNavMultiPageEditor
+     */
+    public ManageResourcesAction(IWorkbenchPart part) {
+        super(part);
+        setId(MANAGERESOURCESACTION);
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Resource.gif")); //$NON-NLS-1$
+    }
 
-	/**
-	 * True if we've selected something with resource.
-	 */
-	protected boolean calculateEnabled() {
-		boolean enable = false;
+    /**
+     * True if we've selected something with resource.
+     */
+    protected boolean calculateEnabled() {
+        boolean enable = false;
 
-		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-		obj = sel.getURNmodelElement();
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        obj = sel.getURNmodelElement();
 
-		if (obj instanceof ComponentRef) {
-		    this.urn = ((Component)((ComponentRef)obj).getContDef()).getUrndefinition().getUrnspec();
-		    enable = true;
-		}
-		if (obj instanceof RespRef) {
-		    this.urn = ((Responsibility)((RespRef)obj).getRespDef()).getUrndefinition().getUrnspec();
-		    enable = true;
-		}
+        if (obj instanceof ComponentRef) {
+            this.urn = ((Component) ((ComponentRef) obj).getContDef()).getUrndefinition().getUrnspec();
+            enable = true;
+        }
+        if (obj instanceof RespRef) {
+            this.urn = ((Responsibility) ((RespRef) obj).getRespDef()).getUrndefinition().getUrnspec();
+            enable = true;
+        }
 
-		return enable;
-	}
+        return enable;
+    }
 
-	/**
-	 * Opens the resource editor.
-	 * 
-	 * @see seg.jUCMNav.views.wizards.performance.ManageResources
-	 * @see org.eclipse.jface.action.IAction#run()
-	 */
-	public void run() {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		ManageResources wizard = new ManageResources(urn);
-		wizard.init(PlatformUI.getWorkbench(), obj);
-		WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.open();
+    /**
+     * Opens the resource editor.
+     * 
+     * @see seg.jUCMNav.views.wizards.performance.ManageResources
+     * @see org.eclipse.jface.action.IAction#run()
+     */
+    public void run() {
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        ManageResources wizard = new ManageResources(urn);
+        wizard.init(PlatformUI.getWorkbench(), obj);
+        WizardDialog dialog = new WizardDialog(shell, wizard);
+        dialog.open();
 
-	}
+    }
 
 }

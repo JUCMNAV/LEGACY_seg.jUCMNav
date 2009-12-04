@@ -17,17 +17,17 @@ import urncore.Responsibility;
  * Command to delete a Responsibility and delete URNlink associate to it.
  * 
  * @author jkealey, Jean-Francois Roy
- *  
+ * 
  */
 public class DeleteResponsibilityCommand extends CompoundCommand {
 
-	private Responsibility resp;
-	
+    private Responsibility resp;
+
     public DeleteResponsibilityCommand(Responsibility resp) {
         setLabel(Messages.getString("DeleteResponsibilityCommand.deleteResponsibilityCommand")); //$NON-NLS-1$
         this.resp = resp;
     }
-    
+
     /**
      * Returns true even if no commands exist.
      * 
@@ -49,12 +49,12 @@ public class DeleteResponsibilityCommand extends CompoundCommand {
         else
             return super.canUndo();
     }
-    
+
     /**
      * Late building
      */
     public void execute() {
-    	build();
+        build();
         super.execute();
     }
 
@@ -62,36 +62,33 @@ public class DeleteResponsibilityCommand extends CompoundCommand {
      * Builds a sequence of DeleteGRLNodeCommands
      * 
      */
-	private void build() {
-        
-		//Verify if the definition can be delete.
-        if(resp.getRespRefs().size() == 0 ||
-        		DeletePreferences.getDeleteReference(resp))
-        {
-			//Remove the URNlinks
-	        for (Iterator it = resp.getFromLinks().iterator(); it.hasNext();){
-	            URNlink link = (URNlink)it.next();
-	            add(new DeleteURNlinkCommand(link));
-	        }
-	        for (Iterator it = resp.getToLinks().iterator(); it.hasNext();){
-	            URNlink link = (URNlink)it.next();
-	            add(new DeleteURNlinkCommand(link));
-	        }
-	        for (Iterator iter = resp.getDemands().iterator(); iter.hasNext();) {
-	            Demand demand = (Demand) iter.next();
-	            add(new DeleteDemandCommand(demand));
-	            
-	        }
-	        
-	        //Delete all references
-	        for(Iterator it=resp.getRespRefs().iterator(); it.hasNext(); )
-	        {
-	        	RespRef reference = (RespRef)it.next();
-	        	//Edit part registry map is not necessary here.
-	        	add(new RemovePathNodeCommand(reference, null));
-	        }
-	        
-	        add(new RemoveResponsibilityCommand(resp));
+    private void build() {
+
+        // Verify if the definition can be delete.
+        if (resp.getRespRefs().size() == 0 || DeletePreferences.getDeleteReference(resp)) {
+            // Remove the URNlinks
+            for (Iterator it = resp.getFromLinks().iterator(); it.hasNext();) {
+                URNlink link = (URNlink) it.next();
+                add(new DeleteURNlinkCommand(link));
+            }
+            for (Iterator it = resp.getToLinks().iterator(); it.hasNext();) {
+                URNlink link = (URNlink) it.next();
+                add(new DeleteURNlinkCommand(link));
+            }
+            for (Iterator iter = resp.getDemands().iterator(); iter.hasNext();) {
+                Demand demand = (Demand) iter.next();
+                add(new DeleteDemandCommand(demand));
+
+            }
+
+            // Delete all references
+            for (Iterator it = resp.getRespRefs().iterator(); it.hasNext();) {
+                RespRef reference = (RespRef) it.next();
+                // Edit part registry map is not necessary here.
+                add(new RemovePathNodeCommand(reference, null));
+            }
+
+            add(new RemoveResponsibilityCommand(resp));
         }
-	}
+    }
 }

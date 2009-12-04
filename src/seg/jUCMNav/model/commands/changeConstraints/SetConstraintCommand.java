@@ -14,7 +14,7 @@ import urncore.IURNNode;
  * This command is used to resize/move Nodes. Is a compound command because might move connected elements.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class SetConstraintCommand extends CompoundCommand {
 
@@ -50,5 +50,5 @@ public class SetConstraintCommand extends CompoundCommand {
             }
         }
     }
-    
+
 }

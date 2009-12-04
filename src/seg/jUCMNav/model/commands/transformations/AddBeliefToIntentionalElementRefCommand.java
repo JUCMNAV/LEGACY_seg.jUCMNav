@@ -18,17 +18,16 @@ import seg.jUCMNav.model.commands.create.AddBeliefLinkCommand;
 import urn.URNspec;
 
 /**
- * This command create a belief, add a link between the belief and the intentionalElementRef
- * and move the belief near the element
+ * This command create a belief, add a link between the belief and the intentionalElementRef and move the belief near the element
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class AddBeliefToIntentionalElementRefCommand extends CompoundCommand {
 
     IntentionalElementRef ref;
     URNspec urn;
-    
+
     /**
      * Constructor
      */
@@ -50,16 +49,16 @@ public class AddBeliefToIntentionalElementRefCommand extends CompoundCommand {
         build();
         super.execute();
     }
-    
+
     private void build() {
         Belief belief = (Belief) ModelCreationFactory.getNewObject(urn, Belief.class);
         BeliefLink link = (BeliefLink) ModelCreationFactory.getNewObject(urn, BeliefLink.class);
-        
-        add(new AddBeliefCommand((GRLGraph)ref.getDiagram(), belief));
-        AddBeliefLinkCommand linkcmd = new AddBeliefLinkCommand((GRLGraph)ref.getDiagram(), belief, link);
+
+        add(new AddBeliefCommand((GRLGraph) ref.getDiagram(), belief));
+        AddBeliefLinkCommand linkcmd = new AddBeliefLinkCommand((GRLGraph) ref.getDiagram(), belief, link);
         linkcmd.setTarget(ref);
         add(linkcmd);
-        
-        add(new SetConstraintCommand(belief, ref.getX()-150, ref.getY()));
+
+        add(new SetConstraintCommand(belief, ref.getX() - 150, ref.getY()));
     }
 }

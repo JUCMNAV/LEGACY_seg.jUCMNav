@@ -16,12 +16,11 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.GRLGraphComponentEditPolicy;
 import seg.jUCMNav.model.util.DelegatingElementComparator;
 
-
 /**
  * Tree edit part for the GrlGraph
  * 
  * @author Jean-François Roy, pchen
- *
+ * 
  */
 public class GrlGraphTreeEditPart extends UrnModelElementTreeEditPart {
 
@@ -64,16 +63,16 @@ public class GrlGraphTreeEditPart extends UrnModelElementTreeEditPart {
      * 
      * @return the GRLGraph
      */
-    public GRLGraph getGraph(){
+    public GRLGraph getGraph() {
         return ((GRLGraph) getModel());
     }
-    
+
     /**
      * Returns an icon representing a GrlGraph.
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage( "icons/grl16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/grl16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 

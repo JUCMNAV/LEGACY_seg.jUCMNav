@@ -67,7 +67,7 @@ public class IndicatorTreeEditPart extends KPIUrnModelElementTreeEditPart {
         } else {
             iconFile = "icons/indicator.gif"; //$NON-NLS-1$
         }
-        
+
         setImage(JUCMNavPlugin.getImage(iconFile));
 
         return super.getImage();

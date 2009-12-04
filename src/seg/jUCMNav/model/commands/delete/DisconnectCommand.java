@@ -18,7 +18,7 @@ import urn.URNspec;
  * Given a PathNode connected to a Connect, remove the connect from the map and break the connections.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class DisconnectCommand extends Command implements JUCMNavCommand {
     private Connect connect;
@@ -41,7 +41,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
                 this.ncLeft = nc;
                 this.connect = (Connect) nc.getTarget();
                 this.ncRight = (NodeConnection) this.connect.getSucc().get(0);
-                this.right = (PathNode)this.ncRight.getTarget();
+                this.right = (PathNode) this.ncRight.getTarget();
                 break;
             }
 
@@ -56,7 +56,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
                     this.ncRight = nc;
                     this.connect = (Connect) nc.getSource();
                     this.ncLeft = (NodeConnection) this.connect.getPred().get(0);
-                    this.left = (PathNode)this.ncLeft.getSource();
+                    this.left = (PathNode) this.ncLeft.getSource();
                     break;
                 }
 
@@ -66,7 +66,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         if (left != null && left.getDiagram() != null) {
             this.urn = this.left.getDiagram().getUrndefinition().getUrnspec();
         }
-        
+
         setLabel(Messages.getString("DisconnectCommand.disconnectCommand")); //$NON-NLS-1$
     }
 
@@ -106,7 +106,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         left.setContRef(ParentFinder.getPossibleParent(left));
 
         connect.setContRef(null);
-        
+
         testPostConditions();
     }
 

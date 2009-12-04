@@ -64,7 +64,7 @@ public class ComponentRefConverter {
             parentCompDef = (Component) parentCompRef.getContDef();
             parentID += "c" + parentCompDef.getId(); //$NON-NLS-1$
         } else {
-        	parentID += " "; //$NON-NLS-1$
+            parentID += " "; //$NON-NLS-1$
         }
 
         // retrieve childrenIDs
@@ -82,8 +82,8 @@ public class ComponentRefConverter {
         /*
          * Only convert Process, Agent, Team and Object components to CSM components. For all of those, activeProcStatusDefined is true.
          * 
-         * NOT! What if some activeProcStatusDefined() component is contained (parentID) within a !activeProcStatusDefined()??? Answer: There is no ID/IDREF binding for IDREF
-         * 'cNNN'.
+         * NOT! What if some activeProcStatusDefined() component is contained (parentID) within a !activeProcStatusDefined()??? Answer: There is no ID/IDREF
+         * binding for IDREF 'cNNN'.
          */
         // if (!activeProcStatusDefined) return;
         String comp_host = ""; //$NON-NLS-1$

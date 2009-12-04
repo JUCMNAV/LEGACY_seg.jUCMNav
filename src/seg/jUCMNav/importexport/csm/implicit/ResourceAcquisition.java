@@ -20,9 +20,9 @@ import ucm.map.StartPoint;
 public class ResourceAcquisition {
 
     // RA and Empty Point IDs
-    static int ra_id = 1000; // TODO:  wave limitation.
+    static int ra_id = 1000; // TODO: wave limitation.
 
-    static int seq_id = 2000; // TODO:  wave limitation.
+    static int seq_id = 2000; // TODO: wave limitation.
 
     PrintStream ps;
 
@@ -172,7 +172,7 @@ public class ResourceAcquisition {
     // inserts RA and Empty Points where necessary in the duplicate map
     public int addRA(CSMResourceSet resToAcquire, CSMResourceSet usedResources, PathNode curr_edge, CSMDupNodeList map, CSMDupConnectionList conn_map,
             int ins_nodes) {
-	int nodesInserted = ins_nodes;
+        int nodesInserted = ins_nodes;
         // create resource acquire component and insert it in duplicate map
         CSMDupNode ra_node = new CSMDupNode(++ra_id);
         ra_node.setResourcesDownstream(usedResources); // to compute the

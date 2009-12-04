@@ -4,7 +4,7 @@ package seg.jUCMNav.model.util.modelexplore;
  * Interface used by QueryProcessorChains.
  * 
  * @author jpdaigle
- *  
+ * 
  */
 public interface IQueryProcessorChain {
 

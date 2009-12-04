@@ -106,13 +106,13 @@ public class SimpleNode implements Node {
     }
 
     public void dumpEvaluation(String prefix, UcmEnvironment env) {
-        Object eval =  UcmExpressionEvaluator.evaluate(this, env);
+        Object eval = UcmExpressionEvaluator.evaluate(this, env);
         if (eval == jUCMNavType.VOID)
-            eval=""; //$NON-NLS-1$
+            eval = ""; //$NON-NLS-1$
         if (m_text != null && m_text.length() > 0)
             System.out.println(toString(prefix) + "[" + m_text + "] == " + eval); //$NON-NLS-1$ //$NON-NLS-2$
         else
-            System.out.println(toString(prefix)+  " == " + eval); //$NON-NLS-1$
+            System.out.println(toString(prefix) + " == " + eval); //$NON-NLS-1$
         if (children != null) {
             for (int i = 0; i < children.length; ++i) {
                 SimpleNode n = (SimpleNode) children[i];
@@ -122,7 +122,7 @@ public class SimpleNode implements Node {
             }
         }
     }
-    
+
     public int getId() {
         return id;
     }

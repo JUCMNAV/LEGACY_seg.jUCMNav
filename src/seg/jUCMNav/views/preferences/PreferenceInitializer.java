@@ -29,7 +29,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_HOVERCOLOR, ColorManager.LIGHTGRAY.getRGB());
         PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_TRAVERSALCOLOR, ColorManager.RED.getRGB());
         PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_POINTCUTBORDERCOLOR, ColorManager.DARKGRAY.getRGB());
-        
+
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_AUTHOR, System.getProperty("user.name")); //$NON-NLS-1$
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_STRICTCODEEDITOR, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_GRLICONVISIBLE, true);
@@ -37,8 +37,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_GRLAUTOADDLINKS, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_NEWGRL, false);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_NEWUCM, true);
-        
-        
+
         // done elsewhere
         AutoLayoutPreferences.createPreferences();
         ScenarioTraversalPreferences.createPreferences();

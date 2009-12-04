@@ -18,68 +18,66 @@ import org.eclipse.ui.IWorkbenchWizard;
  */
 public class ManageDemand extends Wizard {
 
-	private ManageDemandPage page1ManageDemandPage;
-	private ISelection selection;
-	private EObject defaultSelected;
+    private ManageDemandPage page1ManageDemandPage;
+    private ISelection selection;
+    private EObject defaultSelected;
 
+    /**
+     * The workbench in which we are working
+     */
+    protected IWorkbenchPage workbenchPage;
 
-	/**
-	 * The workbench in which we are working
-	 */
-	protected IWorkbenchPage workbenchPage;
+    /**
+     * Creates the editor
+     */
+    public ManageDemand() {
+        super();
+        setNeedsProgressMonitor(true);
+        this.setWindowTitle("Manage Demand"); //$NON-NLS-1$
+    }
 
-	/**
-	 * Creates the editor
-	 */
-	public ManageDemand() {
-		super();
-		setNeedsProgressMonitor(true);
-		this.setWindowTitle("Manage Demand"); //$NON-NLS-1$
-	}
+    /**
+     * Adding the page1QueryResType to the wizard.
+     */
+    public void addPages() {
+        page1ManageDemandPage = new ManageDemandPage(workbenchPage, defaultSelected);
+        addPage(page1ManageDemandPage);
+    }
 
-	/**
-	 * Adding the page1QueryResType to the wizard.
-	 */
-	public void addPages() {
-		page1ManageDemandPage = new ManageDemandPage(workbenchPage, defaultSelected);
-		addPage(page1ManageDemandPage);
-	}
+    /*
+     * TODO: cannot finish until can undo all, i.e. compound command _js_
+     */
+    public boolean canFinish() {
+        return true;
+    }
 
-	/*
-	 * TODO: cannot finish until can undo all, i.e. compound command _js_
-	 */
-	public boolean canFinish() {
-		return true;
-	}
+    /**
+     * This method is called when 'Finish' button is pressed in the wizard. But we are never finishing (just cancelling) _js_
+     */
+    public boolean performFinish() {
+        return true;
+    }
 
-	/**
-	 * This method is called when 'Finish' button is pressed in the wizard.
-	 * But we are never finishing (just cancelling) _js_
-	 */
-	public boolean performFinish() {
-		return true;
-	}
+    /**
+     * Throws an error using the message.
+     * 
+     * @param message
+     *            the error message.
+     * @throws CoreException
+     *             the generated exception.
+     */
+    private void throwCoreException(String message) throws CoreException {
+        IStatus status = new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null); //$NON-NLS-1$
+        throw new CoreException(status);
+    }
 
-	/**
-	 * Throws an error using the message.
-	 * 
-	 * @param message
-	 *            the error message.
-	 * @throws CoreException
-	 *             the generated exception.
-	 */
-	private void throwCoreException(String message) throws CoreException {
-		IStatus status = new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null); //$NON-NLS-1$
-		throw new CoreException(status);
-	}
-
-	/**
-	 * 
-	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
-	 */
-	public void init(IWorkbench workbench, EObject defaultSelected) {
-		this.defaultSelected = defaultSelected;
-		this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
-	}
+    /**
+     * 
+     * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
+     */
+    public void init(IWorkbench workbench, EObject defaultSelected) {
+        this.defaultSelected = defaultSelected;
+        this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
+    }
 
 }

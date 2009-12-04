@@ -65,17 +65,17 @@ public class UrnModelElementTreeEditPart extends UrnAbstractTreeEditPart impleme
     public void deactivate() {
         if (isActive()) {
             ((EObject) getModel()).eAdapters().remove(this);
-//            if (image != null) {
-//                image.dispose();
-//                image = null;
-//            }
+            // if (image != null) {
+            // image.dispose();
+            // image = null;
+            // }
         }
         super.deactivate();
     }
 
     /**
      * When something is changed, refresh. We are also refreshing the parent so that elements can be reordered if renamed
-     *  
+     * 
      */
     public void notifyChanged(Notification notification) {
         if (notification.getEventType() != Notification.REMOVING_ADAPTER) {
@@ -83,7 +83,8 @@ public class UrnModelElementTreeEditPart extends UrnAbstractTreeEditPart impleme
             refreshVisuals();
 
             // refresh parent to reorder children if name changes.
-            if (notification.getFeature() instanceof EAttributeImpl && ((EAttributeImpl) notification.getFeature()).getName().equals("name") && getParent()!=null) { //$NON-NLS-1$
+            if (notification.getFeature() instanceof EAttributeImpl
+                    && ((EAttributeImpl) notification.getFeature()).getName().equals("name") && getParent() != null) { //$NON-NLS-1$
                 getParent().refresh();
             }
 
@@ -96,15 +97,13 @@ public class UrnModelElementTreeEditPart extends UrnAbstractTreeEditPart impleme
      * @see seg.jUCMNav.model.util.EObjectClassNameComparator
      */
     protected String getText() {
-        //Set the text depending on the outline preferences
-    	if(DisplayPreferences.getInstance().getShowNodeNumber())
-    	{
-    		//This class return the ID between () at the element name
-    		return EObjectClassNameComparator.getSortableElementName((EObject) getModel());
-    	} else
-    	{
-    		return URNNamingHelper.getName((URNmodelElement)getModel());
-    	}
+        // Set the text depending on the outline preferences
+        if (DisplayPreferences.getInstance().getShowNodeNumber()) {
+            // This class return the ID between () at the element name
+            return EObjectClassNameComparator.getSortableElementName((EObject) getModel());
+        } else {
+            return URNNamingHelper.getName((URNmodelElement) getModel());
+        }
     }
 
     /**
@@ -160,7 +159,7 @@ public class UrnModelElementTreeEditPart extends UrnAbstractTreeEditPart impleme
     /**
      * Convenience method to return the map that containst his element.
      * 
-     * @return the map containing this element. 
+     * @return the map containing this element.
      */
     public IURNDiagram getContainingMap() {
         if (getModel() instanceof IURNNode) {
@@ -174,46 +173,45 @@ public class UrnModelElementTreeEditPart extends UrnAbstractTreeEditPart impleme
     }
 
     /**
-     * @return The icon associated with this model element. 
+     * @return The icon associated with this model element.
      */
     protected Image getImage() {
         return image;
     }
 
     /**
-     * @param image the icon associated with this model element. 
+     * @param image
+     *            the icon associated with this model element.
      */
     public void setImage(Image image) {
         this.image = image;
     }
-    
+
     /**
-     * @param ancestor is the {@link UrnModelElementTreeEditPart} for which it should be determined whether it 
-     *    is an ancestor in the tree hierachy above and including this {@link UrnModelElementTreeEditPart} 
-     *    (i.e. whether the model of the ancestor appears in the tree hierarchy)
+     * @param ancestor
+     *            is the {@link UrnModelElementTreeEditPart} for which it should be determined whether it is an ancestor in the tree hierachy above and
+     *            including this {@link UrnModelElementTreeEditPart} (i.e. whether the model of the ancestor appears in the tree hierarchy)
      * @return true if the model of the ancestor can be found in the tree hierarchy, false if it cannot be found
      */
     public boolean isAncestor(EditPart ancestor) {
-    	if (ancestor.getModel() == this.getModel())
-    		return true;
-    	else {
-    		// the second clause makes sure that we are not checking beyond the part of the tree that contains 
-    		// only UrnModelElementTreeEditParts (because the root of the tree has a different type)
-    		if (getParent() == null || !(getParent() instanceof UrnModelElementTreeEditPart))
-    			return false;
-    		else
-    			return ((UrnModelElementTreeEditPart) getParent()).isAncestor(ancestor);
-    	}
+        if (ancestor.getModel() == this.getModel())
+            return true;
+        else {
+            // the second clause makes sure that we are not checking beyond the part of the tree that contains
+            // only UrnModelElementTreeEditParts (because the root of the tree has a different type)
+            if (getParent() == null || !(getParent() instanceof UrnModelElementTreeEditPart))
+                return false;
+            else
+                return ((UrnModelElementTreeEditPart) getParent()).isAncestor(ancestor);
+        }
     }
-    
-    protected void removeChildVisual(EditPart childEditPart) {
-    	TreeEditPart treeEditPart = (TreeEditPart)childEditPart;
-    	if (treeEditPart.getWidget()!=null) {
-	    	treeEditPart.getWidget().dispose();
-	    	treeEditPart.setWidget(null);
-    	}
-    }
-    
 
+    protected void removeChildVisual(EditPart childEditPart) {
+        TreeEditPart treeEditPart = (TreeEditPart) childEditPart;
+        if (treeEditPart.getWidget() != null) {
+            treeEditPart.getWidget().dispose();
+            treeEditPart.setWidget(null);
+        }
+    }
 
 }

@@ -9,39 +9,30 @@ import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
 
 /**
- * This class maps EditParts to their model object so that the
- * TabbedPropertySheetPage knows witch property section to show.
+ * This class maps EditParts to their model object so that the TabbedPropertySheetPage knows witch property section to show.
  * 
  * @author Etienne
  * 
  */
-public class EditPartTypeMapper extends AbstractTypeMapper
-{
+public class EditPartTypeMapper extends AbstractTypeMapper {
 
-	public Class mapType(Object object)
-	{
-		if (object instanceof LabelEditPart)
-		{
-			LabelEditPart labelEditPart = (LabelEditPart) object;
-			if (labelEditPart instanceof ConditionEditPart)
-				return mapType(labelEditPart.getModelObj());
-			if (labelEditPart.getModelObj().eContainer()!=null)
-				return labelEditPart.getModelObj().eContainer().getClass();
-		}
-		if (object instanceof LinkRefEditPart)
-		{
-			LinkRefEditPart linkRefEditPart = (LinkRefEditPart) object;
-			return linkRefEditPart.getLinkRef().getLink().getClass();
-		}
-		else if (object instanceof EditPart)
-		{
-			return ((EditPart) object).getModel().getClass();
-		}
-		else if (object instanceof EObject)
-		{
-			return ((EObject) object).getClass();
-		}
+    public Class mapType(Object object) {
+        if (object instanceof LabelEditPart) {
+            LabelEditPart labelEditPart = (LabelEditPart) object;
+            if (labelEditPart instanceof ConditionEditPart)
+                return mapType(labelEditPart.getModelObj());
+            if (labelEditPart.getModelObj().eContainer() != null)
+                return labelEditPart.getModelObj().eContainer().getClass();
+        }
+        if (object instanceof LinkRefEditPart) {
+            LinkRefEditPart linkRefEditPart = (LinkRefEditPart) object;
+            return linkRefEditPart.getLinkRef().getLink().getClass();
+        } else if (object instanceof EditPart) {
+            return ((EditPart) object).getModel().getClass();
+        } else if (object instanceof EObject) {
+            return ((EObject) object).getClass();
+        }
 
-		return super.mapType(object);
-	}
+        return super.mapType(object);
+    }
 }

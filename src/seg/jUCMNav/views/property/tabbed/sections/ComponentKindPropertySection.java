@@ -10,33 +10,33 @@ import urncore.UrncorePackage;
 
 public class ComponentKindPropertySection extends AbstractEnumerationPropertySection {
 
-	protected String[] getEnumerationFeatureValues() {
-		List values = ComponentKind.VALUES;
-		String[] result = new String[values.size()];
-		
-		for (int i = 0; i < result.length; i++)
-			result[i] = ((ComponentKind)values.get(i)).getName();
-		
-		return result;
-	}
+    protected String[] getEnumerationFeatureValues() {
+        List values = ComponentKind.VALUES;
+        String[] result = new String[values.size()];
 
-	protected EAttribute getFeature() {
-		return UrncorePackage.eINSTANCE.getComponent_Kind();
-	}
+        for (int i = 0; i < result.length; i++)
+            result[i] = ((ComponentKind) values.get(i)).getName();
 
-	protected String getFeatureAsText() {
-		return ((Component)eObject).getKind().getName();
-	}
+        return result;
+    }
 
-	protected Object getFeatureValue(int index) {
-		return ComponentKind.VALUES.get(index);
-	}
+    protected EAttribute getFeature() {
+        return UrncorePackage.eINSTANCE.getComponent_Kind();
+    }
 
-	public String getLabelText() {
-		return "Component Kind:";
-	}
+    protected String getFeatureAsText() {
+        return ((Component) eObject).getKind().getName();
+    }
 
-	protected boolean isEqual(int index) {
-		return ((Component)eObject).getKind().equals(ComponentKind.VALUES.get(index));
-	}
+    protected Object getFeatureValue(int index) {
+        return ComponentKind.VALUES.get(index);
+    }
+
+    public String getLabelText() {
+        return "Component Kind:";
+    }
+
+    protected boolean isEqual(int index) {
+        return ((Component) eObject).getKind().equals(ComponentKind.VALUES.get(index));
+    }
 }

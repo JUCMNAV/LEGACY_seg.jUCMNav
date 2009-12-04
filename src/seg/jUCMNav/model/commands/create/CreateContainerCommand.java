@@ -13,7 +13,7 @@ import urncore.IURNContainer;
  * This command adds a new IURNContainer to the URNspec.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class CreateContainerCommand extends Command implements JUCMNavCommand {
     private IURNContainer container;
@@ -30,20 +30,19 @@ public class CreateContainerCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return urn != null && container!=null;
+        return urn != null && container != null;
     }
 
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	if (container instanceof Component)
-    		oldCount = urn.getUrndef().getComponents().size();
-    	else if (container instanceof Actor)
-    		oldCount = urn.getGrlspec().getActors().size();
+        if (container instanceof Component)
+            oldCount = urn.getUrndef().getComponents().size();
+        else if (container instanceof Actor)
+            oldCount = urn.getGrlspec().getActors().size();
         redo();
     }
-
 
     /**
      * 
@@ -51,11 +50,11 @@ public class CreateContainerCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-        
+
         if (container instanceof Component)
-        	urn.getUrndef().getComponents().add(container);
-    	else if (container instanceof Actor)
-    		urn.getGrlspec().getActors().add(container);
+            urn.getUrndef().getComponents().add(container);
+        else if (container instanceof Actor)
+            urn.getGrlspec().getActors().add(container);
 
         testPostConditions();
     }
@@ -82,9 +81,9 @@ public class CreateContainerCommand extends Command implements JUCMNavCommand {
     public void undo() {
         testPostConditions();
         if (container instanceof Component)
-        	urn.getUrndef().getComponents().remove(container);
-    	else if (container instanceof Actor)
-    		urn.getGrlspec().getActors().remove(container);
+            urn.getUrndef().getComponents().remove(container);
+        else if (container instanceof Actor)
+            urn.getGrlspec().getActors().remove(container);
         testPreConditions();
     }
 }

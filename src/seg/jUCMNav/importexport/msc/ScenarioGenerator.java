@@ -74,7 +74,7 @@ public class ScenarioGenerator {
     private ScenarioSpec scenariospec;
 
     private URNspec urnspec;
-    
+
     public ScenarioGenerator(URNspec urnspec) {
         this.urnspec = urnspec;
 
@@ -213,23 +213,20 @@ public class ScenarioGenerator {
         condition.setExpression(cond.getExpression());
 
         condition.setInstance(getInstance(compRef));
-        
-        
-        // add preconditions before start point. 
-        if (MetadataHelper.getMetaData(wp, "isPreCondition")!=null && "true".equalsIgnoreCase(MetadataHelper.getMetaData(wp, "isPreCondition"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+        // add preconditions before start point.
+        if (MetadataHelper.getMetaData(wp, "isPreCondition") != null && "true".equalsIgnoreCase(MetadataHelper.getMetaData(wp, "isPreCondition"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         {
-            if (seq.getChildren().size()>0 && seq.getChildren().get(seq.getChildren().size()-1) instanceof Event) {
-                Event event = (Event) seq.getChildren().get(seq.getChildren().size()-1);
+            if (seq.getChildren().size() > 0 && seq.getChildren().get(seq.getChildren().size() - 1) instanceof Event) {
+                Event event = (Event) seq.getChildren().get(seq.getChildren().size() - 1);
                 if (event.getType() == EventType.START_POINT_LITERAL)
-                    seq.getChildren().add(seq.getChildren().size()-1, condition);
-                else 
+                    seq.getChildren().add(seq.getChildren().size() - 1, condition);
+                else
                     condition.setSequence(seq);
-                
+
             }
-        }
-        else 
+        } else
             condition.setSequence(seq);
-        
 
         return compRef;
 
@@ -289,14 +286,13 @@ public class ScenarioGenerator {
                 action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceEnter")); //$NON-NLS-1$ //$NON-NLS-2$
             else if (type == EventType.WP_LEAVE_LITERAL) {
                 action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceLeave")); //$NON-NLS-1$ //$NON-NLS-2$
-            }
-            else if (type == EventType.TIMER_SET_LITERAL)
+            } else if (type == EventType.TIMER_SET_LITERAL)
                 action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceSet")); //$NON-NLS-1$ //$NON-NLS-2$
             else if (type == EventType.TIMER_RESET_LITERAL) {
                 action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceReset")); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
-        
+
         action.setSequence(seq);
         return compRef;
     }
@@ -368,10 +364,9 @@ public class ScenarioGenerator {
                 element.getChildren().add(msg);
             else
                 element.getChildren().add(index, msg);
-        } else
-        {
+        } else {
             // this is normal for queued messages
-            //System.out.println("Creating a message but we have no element to add it to!");
+            // System.out.println("Creating a message but we have no element to add it to!");
         }
 
         return msg;
@@ -407,7 +402,7 @@ public class ScenarioGenerator {
                 }
                 msgs.clear();
             }
-            
+
             // stop when subbranch is done
             if (pn == stopAtNode)
                 break;
@@ -417,7 +412,6 @@ public class ScenarioGenerator {
                 continue;
             }
 
-
             EventType type = null;
             if (pn instanceof RespRef) {
                 compRef = addDo(seq, (RespRef) pn);
@@ -425,14 +419,12 @@ public class ScenarioGenerator {
                 type = EventType.get(MetadataHelper.getMetaData(pn, "type")); //$NON-NLS-1$
                 // these types are ignored.
                 if (type == EventType.CONNECT_END_LITERAL || type == EventType.CONNECT_START_LITERAL) { // || type == EventType.TRIGGER_END_LITERAL) {
-                    //continue;
-                    compRef =  (ComponentRef) pn.getContRef();
-                }
-                else if (type == EventType.TRIGGER_END_LITERAL) {
-                    //compRef =  (ComponentRef) pn.getContRef();
+                    // continue;
+                    compRef = (ComponentRef) pn.getContRef();
+                } else if (type == EventType.TRIGGER_END_LITERAL) {
+                    // compRef = (ComponentRef) pn.getContRef();
                     continue;
-                }
-                else
+                } else
                     compRef = addDoSimple(seq, pn);
 
                 if (!processedPathNodes.containsKey(pn))
@@ -452,7 +444,6 @@ public class ScenarioGenerator {
                 //System.out.println("unexpected pathnode"); //$NON-NLS-1$
                 continue;
             }
-
 
             // skip flow points
             if (pn instanceof AndFork || pn instanceof AndJoin)
@@ -492,10 +483,10 @@ public class ScenarioGenerator {
                     PathNode next = (PathNode) vResponsibilities.get(j);
                     ComponentRef nextCompRef = (ComponentRef) next.getContRef();
                     if (nextCompRef != compRef) {
-                        // this solves some issues but may cause others; to explore.  
-                        if (type==EventType.WP_LEAVE_LITERAL || type == EventType.TIMER_RESET_LITERAL)
+                        // this solves some issues but may cause others; to explore.
+                        if (type == EventType.WP_LEAVE_LITERAL || type == EventType.TIMER_RESET_LITERAL)
                             enqueueMessage(compRef, pn, next, nextCompRef);
-                        else 
+                        else
                             addMessage(seq, compRef, nextCompRef, pn, next);
 
                     }
@@ -536,8 +527,8 @@ public class ScenarioGenerator {
                 par.setSequence(seq);
 
                 // inverse order by convention
-                //for (int i = in.getStartPoints().size() - 1; i >= 0; i--) {
-                for (int i=0;i<in.getStartPoints().size();i++) {
+                // for (int i = in.getStartPoints().size() - 1; i >= 0; i--) {
+                for (int i = 0; i < in.getStartPoints().size(); i++) {
                     ScenarioStartPoint ssp = (ScenarioStartPoint) in.getStartPoints().get(i);
                     StartPoint sp = ssp.getStartPoint();
 
@@ -566,8 +557,8 @@ public class ScenarioGenerator {
             }
 
             // inverse order by convention
-            //for (int i = in.getStartPoints().size() - 1; i >= 0; i--) {
-            for (int i=0;i<in.getStartPoints().size();i++) {
+            // for (int i = in.getStartPoints().size() - 1; i >= 0; i--) {
+            for (int i = 0; i < in.getStartPoints().size(); i++) {
                 ScenarioStartPoint ssp = (ScenarioStartPoint) in.getStartPoints().get(i);
                 StartPoint sp = ssp.getStartPoint();
 
@@ -576,9 +567,9 @@ public class ScenarioGenerator {
                 addPath(seq2, sp, null);
 
                 // look to see if was merged in other path.
-                //for (int j = i - 1; j < in.getStartPoints().size(); j++) {
-                for (int j=0;j<i;j++) {
-                    //if (j<0 || j==i)break;
+                // for (int j = i - 1; j < in.getStartPoints().size(); j++) {
+                for (int j = 0; j < i; j++) {
+                    // if (j<0 || j==i)break;
                     Vector curr = (Vector) reachable[i].clone();
                     curr.retainAll(reachable[j]);
 
@@ -592,46 +583,43 @@ public class ScenarioGenerator {
                         Sequence location_seq = (Sequence) location[0];
                         Integer location_pos = (Integer) location[1];
 
-                        //location_seq.getChildren().add(location_pos.intValue() == 0 ? 0 : location_pos.intValue() - 1, seq2);
-                        
-                        int where=-1;
-                        
-                        // the following if checks to see if we're inserting a path right after a timer reset or waiting place leave (which are consecutive). if so, lets insert ourselves in between the two   
-                        if (location_pos.intValue()>0 && location_pos.intValue()-1<location_seq.getChildren().size() && location_seq.getChildren().get(location_pos.intValue()-1) instanceof Event ){
-                            Event previous = (Event) location_seq.getChildren().get(location_pos.intValue()-1);
-                            if (previous.getType().getValue() == EventType.TIMER_RESET || previous.getType().getValue() == EventType.WP_LEAVE)
-                            {
-                                location_seq.getChildren().add(location_pos.intValue()-1, seq2);
+                        // location_seq.getChildren().add(location_pos.intValue() == 0 ? 0 : location_pos.intValue() - 1, seq2);
+
+                        int where = -1;
+
+                        // the following if checks to see if we're inserting a path right after a timer reset or waiting place leave (which are consecutive). if
+                        // so, lets insert ourselves in between the two
+                        if (location_pos.intValue() > 0 && location_pos.intValue() - 1 < location_seq.getChildren().size()
+                                && location_seq.getChildren().get(location_pos.intValue() - 1) instanceof Event) {
+                            Event previous = (Event) location_seq.getChildren().get(location_pos.intValue() - 1);
+                            if (previous.getType().getValue() == EventType.TIMER_RESET || previous.getType().getValue() == EventType.WP_LEAVE) {
+                                location_seq.getChildren().add(location_pos.intValue() - 1, seq2);
                                 where = location_pos.intValue();
                             }
-                                    
+
                         }
-                        
-                        if (where==-1) {
-                            if (location_pos.intValue()>=location_seq.getChildren().size()) location_pos = new Integer(location_seq.getChildren().size()); // last
+
+                        if (where == -1) {
+                            if (location_pos.intValue() >= location_seq.getChildren().size())
+                                location_pos = new Integer(location_seq.getChildren().size()); // last
                             location_seq.getChildren().add(location_pos.intValue(), seq2);
                             where = location_pos.intValue();
                         }
 
-                        
-                        // update ALL pointers for next, not just this one. 
-                        //location[1] = new Integer(location_pos.intValue() +1);
+                        // update ALL pointers for next, not just this one.
+                        // location[1] = new Integer(location_pos.intValue() +1);
                         for (Iterator iter = processedPathNodes.values().iterator(); iter.hasNext();) {
-                            Object o  = (Object) iter.next();
+                            Object o = (Object) iter.next();
                             if (o instanceof Object[]) {
-                                Integer location_pos2 = (Integer) ((Object[])o)[1];
-                                if (location_pos2.intValue()>=where) {
-                                    ((Object[])o)[1]=new Integer(location_pos2.intValue()+1);
+                                Integer location_pos2 = (Integer) ((Object[]) o)[1];
+                                if (location_pos2.intValue() >= where) {
+                                    ((Object[]) o)[1] = new Integer(location_pos2.intValue() + 1);
                                 }
-                                
+
                             }
-                            
+
                         }
-                        
-                        
-                        
-                        
-                        
+
                         break;
                     }
 
@@ -698,29 +686,27 @@ public class ScenarioGenerator {
 
             boolean b = addScenario(element, scenario);
 
-            
             for (Iterator iterator = processedPathNodes.values().iterator(); iterator.hasNext();) {
                 Object model = (Object) iterator.next();
-                // if parallel 
+                // if parallel
                 // if timer reset at end of child sequence, move it outside after the parallel
                 if (model instanceof Parallel) {
                     Parallel parallel = (Parallel) model;
                     for (Iterator it = parallel.getChildren().iterator(); it.hasNext();) {
                         Sequence child = (Sequence) it.next();
-                        if (child.getChildren().size()>0 && child.getChildren().get(child.getChildren().size()-1) instanceof Event ){
-                            Event ev = (Event)child.getChildren().get(child.getChildren().size()-1);
+                        if (child.getChildren().size() > 0 && child.getChildren().get(child.getChildren().size() - 1) instanceof Event) {
+                            Event ev = (Event) child.getChildren().get(child.getChildren().size() - 1);
                             if (ev.getType() == EventType.TIMER_RESET_LITERAL) {
                                 ev.setSequence(null);
-                                parallel.getSequence().getChildren().add(parallel.getSequence().getChildren().indexOf(parallel)+1,ev);
+                                parallel.getSequence().getChildren().add(parallel.getSequence().getChildren().indexOf(parallel) + 1, ev);
                             }
                         }
                     }
-                
+
                 }
-                
+
             }
-            
-            
+
             scenario.setGroup(out);
 
         }
@@ -807,7 +793,6 @@ public class ScenarioGenerator {
         else
             return "[" + cond.getExpression() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
     }
-
 
     /**
      * Returns the target scenario; caches the result for future calls.

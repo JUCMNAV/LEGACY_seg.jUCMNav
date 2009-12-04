@@ -6,7 +6,7 @@ import java.util.HashMap;
 import urn.URNspec;
 
 /**
- * Interface used by the UrnReport extension point. 
+ * Interface used by the UrnReport extension point.
  * 
  * @author dessure
  * 
@@ -20,7 +20,7 @@ public interface IURNReport {
      *            the urn specification to conver
      * @param mapDiagrams
      *            the list of diagrams to include in the report
-     * @param filename 
+     * @param filename
      *            the filename of the report
      */
 

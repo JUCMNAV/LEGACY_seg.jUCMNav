@@ -25,7 +25,7 @@ import ucm.map.WaitingPlace;
  * TreeEditPart for PathNodes
  * 
  * @author TremblaE
- *  
+ * 
  */
 public class PathNodeTreeEditPart extends UrnModelElementTreeEditPart {
 
@@ -74,27 +74,27 @@ public class PathNodeTreeEditPart extends UrnModelElementTreeEditPart {
 
         if (super.getImage() == null) {
             if (node instanceof Timer)
-                setImage((JUCMNavPlugin.getImage( "icons/Timer16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Timer16.gif"))); //$NON-NLS-1$
             else if (node instanceof StartPoint || node instanceof WaitingPlace)
-                setImage((JUCMNavPlugin.getImage( "icons/Start16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Start16.gif"))); //$NON-NLS-1$
             else if (node instanceof EmptyPoint)
-                setImage((JUCMNavPlugin.getImage( "icons/Node16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Node16.gif"))); //$NON-NLS-1$
             else if (node instanceof EndPoint)
-                setImage((JUCMNavPlugin.getImage( "icons/End16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/End16.gif"))); //$NON-NLS-1$
             else if (node instanceof DirectionArrow)
-                setImage((JUCMNavPlugin.getImage( "icons/DirectionArrow16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/DirectionArrow16.gif"))); //$NON-NLS-1$
             else if (node instanceof RespRef)
-                setImage((JUCMNavPlugin.getImage( "icons/Resp16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Resp16.gif"))); //$NON-NLS-1$
             else if (node instanceof OrFork) {
-                setImage((JUCMNavPlugin.getImage( "icons/OrFork16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/OrFork16.gif"))); //$NON-NLS-1$
             } else if (node instanceof AndFork) {
-                setImage((JUCMNavPlugin.getImage( "icons/AndFork16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/AndFork16.gif"))); //$NON-NLS-1$
             } else if (node instanceof OrJoin) {
-                setImage((JUCMNavPlugin.getImage( "icons/OrJoin16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/OrJoin16.gif"))); //$NON-NLS-1$
             } else if (node instanceof AndJoin) {
-                setImage((JUCMNavPlugin.getImage( "icons/AndJoin16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/AndJoin16.gif"))); //$NON-NLS-1$
             } else
-                setImage((JUCMNavPlugin.getImage( "icons/Node16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Node16.gif"))); //$NON-NLS-1$
         }
 
         return super.getImage();

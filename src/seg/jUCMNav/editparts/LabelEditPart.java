@@ -58,408 +58,406 @@ import urncore.UrncorePackage;
  * @author Jordan McManus, jkealey
  */
 public class LabelEditPart extends ModelElementEditPart {
-	// label padding
-	protected static final int LABEL_PADDING_X = 6;
-	protected static final int LABEL_PADDING_Y = 4;
+    // label padding
+    protected static final int LABEL_PADDING_X = 6;
+    protected static final int LABEL_PADDING_Y = 4;
 
-	// when referencing comprefs, the label's text is contained in the definition.
-	private IURNContainer comp = null;
+    // when referencing comprefs, the label's text is contained in the definition.
+    private IURNContainer comp = null;
 
-	// for direct edit
-	protected DirectEditManager manager;
+    // for direct edit
+    protected DirectEditManager manager;
 
-	// the model element being referenced; might be component, pathnode or even node connection (see ConditionEditPart)
-	protected EObject modelElement;
+    // the model element being referenced; might be component, pathnode or even node connection (see ConditionEditPart)
+    protected EObject modelElement;
 
-	// when referencing resprefs, the label's text is contained in the definition.
-	private Responsibility resp = null;
+    // when referencing resprefs, the label's text is contained in the definition.
+    private Responsibility resp = null;
 
-	//Image
-	private Image iconImg;
-	/**
-	 * Constructor infers the referenced model element for NodeLabels and ComponentLabels.
-	 * 
-	 * @param model
-	 *            the urncore.Label to be represented
-	 */
-	public LabelEditPart(Label model) {
-		super();
-		setModel(model);
-		if (model instanceof NodeLabel)
-			modelElement = ((NodeLabel) model).getNode();
-		else if (model instanceof ComponentLabel)
-			modelElement = ((ComponentLabel) model).getContRef();
+    // Image
+    private Image iconImg;
 
-	}
+    /**
+     * Constructor infers the referenced model element for NodeLabels and ComponentLabels.
+     * 
+     * @param model
+     *            the urncore.Label to be represented
+     */
+    public LabelEditPart(Label model) {
+        super();
+        setModel(model);
+        if (model instanceof NodeLabel)
+            modelElement = ((NodeLabel) model).getNode();
+        else if (model instanceof ComponentLabel)
+            modelElement = ((ComponentLabel) model).getContRef();
 
-	/**
-	 * 
-	 * @param model
-	 *            the urncore.Label to be represented
-	 * @param modelElement
-	 *            the model element is is supposed to be linked to.
-	 */
-	public LabelEditPart(Label model, EObject modelElement) {
-		super();
-		setModel(model);
-		this.modelElement = modelElement;
-	}
+    }
 
-	/**
-	 * activates the listeners
-	 */
-	public void activate() {
-		if (!isActive()) {
-			modelElement.eAdapters().add(this);
-			if (modelElement instanceof IURNContainerRef && ((IURNContainerRef) modelElement).getContDef() != null) {
-				comp = ((IURNContainerRef) modelElement).getContDef();
-				comp.eAdapters().add(this);
-			} else if (modelElement instanceof RespRef && ((RespRef) modelElement).getRespDef() != null) {
-				resp = ((RespRef) modelElement).getRespDef();
-				resp.eAdapters().add(this);
-			}
-		}
-		super.activate();
-	}
+    /**
+     * 
+     * @param model
+     *            the urncore.Label to be represented
+     * @param modelElement
+     *            the model element is is supposed to be linked to.
+     */
+    public LabelEditPart(Label model, EObject modelElement) {
+        super();
+        setModel(model);
+        this.modelElement = modelElement;
+    }
 
-	/**
-	 * Places labels on the screen given their size, the model element's position and the deltax/y.
-	 * 
-	 * NodeLabels are positioned relative to the center of the Node. ComponentLabels are positioned relative to the top left corner of the ComponentRef.
-	 * 
-	 * @param label
-	 *            the urncore.Label to be drawn.
-	 * @param labelDimension
-	 *            its dimensions.
-	 * @return the point where the label should be located.
-	 */
-	protected Point calculateModelElementPosition(Label label, Dimension labelDimension) {
-		Point location = null;
+    /**
+     * activates the listeners
+     */
+    public void activate() {
+        if (!isActive()) {
+            modelElement.eAdapters().add(this);
+            if (modelElement instanceof IURNContainerRef && ((IURNContainerRef) modelElement).getContDef() != null) {
+                comp = ((IURNContainerRef) modelElement).getContDef();
+                comp.eAdapters().add(this);
+            } else if (modelElement instanceof RespRef && ((RespRef) modelElement).getRespDef() != null) {
+                resp = ((RespRef) modelElement).getRespDef();
+                resp.eAdapters().add(this);
+            }
+        }
+        super.activate();
+    }
 
-		if (modelElement instanceof IURNNode) {
-			IURNNode node = (IURNNode) modelElement;
-			location = new Point(node.getX() - labelDimension.width / 2 - label.getDeltaX(), node.getY()
-					- (labelDimension.height + JUCMNavFigure.getDimension(modelElement).height / 2) - label.getDeltaY());
-		} else if (modelElement instanceof IURNContainerRef) {
-			IURNContainerRef component = (IURNContainerRef) modelElement;
-			location = new Point(component.getX() - label.getDeltaX(), component.getY() - label.getDeltaY() - labelDimension.height);
-		} else {
-			// if we don't know how to place this label, use top left corner of screen.
-			// not used in practice, simply for debugging.
-			location = new Point(0, 0);
-		}
+    /**
+     * Places labels on the screen given their size, the model element's position and the deltax/y.
+     * 
+     * NodeLabels are positioned relative to the center of the Node. ComponentLabels are positioned relative to the top left corner of the ComponentRef.
+     * 
+     * @param label
+     *            the urncore.Label to be drawn.
+     * @param labelDimension
+     *            its dimensions.
+     * @return the point where the label should be located.
+     */
+    protected Point calculateModelElementPosition(Label label, Dimension labelDimension) {
+        Point location = null;
 
-		return location;
-	}
+        if (modelElement instanceof IURNNode) {
+            IURNNode node = (IURNNode) modelElement;
+            location = new Point(node.getX() - labelDimension.width / 2 - label.getDeltaX(), node.getY()
+                    - (labelDimension.height + JUCMNavFigure.getDimension(modelElement).height / 2) - label.getDeltaY());
+        } else if (modelElement instanceof IURNContainerRef) {
+            IURNContainerRef component = (IURNContainerRef) modelElement;
+            location = new Point(component.getX() - label.getDeltaX(), component.getY() - label.getDeltaY() - labelDimension.height);
+        } else {
+            // if we don't know how to place this label, use top left corner of screen.
+            // not used in practice, simply for debugging.
+            location = new Point(0, 0);
+        }
 
-	/**
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
-	 */
-	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
-		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
-		
-		// to support selecting the label even with palette tool open. 
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new PathNodeXYLayoutEditPolicy());
-	}
+        return location;
+    }
 
-	/**
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	protected IFigure createFigure() {
-		return new LabelFigure();
-	}
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies() {
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
+        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
+        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
 
-	/**
-	 * removes listeners
-	 */
-	public void deactivate() {
-		if (isActive()) {
-			modelElement.eAdapters().remove(this);
-			if (modelElement instanceof IURNContainerRef && comp != null) {
-				comp.eAdapters().remove(this);
-				comp = null;
-			} else if (modelElement instanceof RespRef && resp != null) {
-				resp.eAdapters().remove(this);
-				resp = null;
-			}
-		}
-		super.deactivate();
-	}
+        // to support selecting the label even with palette tool open.
+        installEditPolicy(EditPolicy.LAYOUT_ROLE, new PathNodeXYLayoutEditPolicy());
+    }
 
-	/**
-	 * For direct edit, verify location.
-	 * 
-	 * @param requestLoc
-	 * @return true if the label contains the point
-	 */
-	private boolean directEditHitTest(Point requestLoc) {
-		LabelFigure figure = (LabelFigure) getFigure();
-		figure.translateToRelative(requestLoc);
-		if (figure.containsPoint(requestLoc))
-			return true;
-		return false;
-	}
+    /**
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+     */
+    protected IFigure createFigure() {
+        return new LabelFigure();
+    }
 
-	/**
-	 * Convenience method to avoid casting.
-	 * 
-	 * @return the label's figure.
-	 */
-	public LabelFigure getLabelFigure() {
-		return (LabelFigure) getFigure();
-	}
+    /**
+     * removes listeners
+     */
+    public void deactivate() {
+        if (isActive()) {
+            modelElement.eAdapters().remove(this);
+            if (modelElement instanceof IURNContainerRef && comp != null) {
+                comp.eAdapters().remove(this);
+                comp = null;
+            } else if (modelElement instanceof RespRef && resp != null) {
+                resp.eAdapters().remove(this);
+                resp = null;
+            }
+        }
+        super.deactivate();
+    }
 
-	/**
-	 * Convenience method to avoid casting.
-	 * 
-	 * @return the label
-	 */
-	public Label getModelObj() {
-		return (Label) getModel();
-	}
+    /**
+     * For direct edit, verify location.
+     * 
+     * @param requestLoc
+     * @return true if the label contains the point
+     */
+    private boolean directEditHitTest(Point requestLoc) {
+        LabelFigure figure = (LabelFigure) getFigure();
+        figure.translateToRelative(requestLoc);
+        if (figure.containsPoint(requestLoc))
+            return true;
+        return false;
+    }
 
-	/**
-	 * @return an instance of LabelPropertySource.
-	 */
-	protected IPropertySource getPropertySource() {
-		if (propertySource == null) {
-			propertySource = new LabelPropertySource((EObject) getModel());
-		}
-		return propertySource;
-	}
+    /**
+     * Convenience method to avoid casting.
+     * 
+     * @return the label's figure.
+     */
+    public LabelFigure getLabelFigure() {
+        return (LabelFigure) getFigure();
+    }
 
-	/**
-	 * 
-	 * @return the referenced model element.
-	 */
-	public EObject getURNmodelElement() {
-		return modelElement;
-	}
+    /**
+     * Convenience method to avoid casting.
+     * 
+     * @return the label
+     */
+    public Label getModelObj() {
+        return (Label) getModel();
+    }
 
-	/**
-	 * @param value
-	 *            the name change during an edit
-	 */
-	public void handleNameChange(String value) {
-		LabelFigure tableFigure = (LabelFigure) getFigure();
-		tableFigure.setVisible(false);
-		refreshVisuals();
-	}
+    /**
+     * @return an instance of LabelPropertySource.
+     */
+    protected IPropertySource getPropertySource() {
+        if (propertySource == null) {
+            propertySource = new LabelPropertySource((EObject) getModel());
+        }
+        return propertySource;
+    }
 
-	/**
-	 * When the label's model element definition changes, we must change our references.
-	 * 
-	 */
-	public void notifyChanged(Notification notification) {
-		int type = notification.getEventType();
-		int featureIdUrn = notification.getFeatureID(UrncorePackage.class);
-		int featureIdUcm = notification.getFeatureID(MapPackage.class);
-		int featureIdGrl = notification.getFeatureID(GrlPackage.class);
+    /**
+     * 
+     * @return the referenced model element.
+     */
+    public EObject getURNmodelElement() {
+        return modelElement;
+    }
 
-		// bug 523: feedback remains even when element is deleted. 
-		eraseTargetFeedback(new SelectionRequest());
+    /**
+     * @param value
+     *            the name change during an edit
+     */
+    public void handleNameChange(String value) {
+        LabelFigure tableFigure = (LabelFigure) getFigure();
+        tableFigure.setVisible(false);
+        refreshVisuals();
+    }
 
-		if (type == Notification.SET) {
-			// if changing component definitions
-			if (featureIdUrn == UrncorePackage.IURN_CONTAINER_REF__CONT_DEF) {
-				if (modelElement instanceof IURNContainerRef) {
-					if (comp != null)
-						comp.eAdapters().remove(this);
-					comp = ((IURNContainerRef) modelElement).getContDef();
-					if (comp != null)
-						comp.eAdapters().add(this);
-				}
-			} else if (featureIdUcm == MapPackage.RESP_REF__RESP_DEF) { // if changing responsibility definitions
-				if (modelElement instanceof RespRef) {
-					if (resp != null)
-						resp.eAdapters().remove(this);
-					resp = ((RespRef) modelElement).getRespDef();
-					if (resp != null)
-						resp.eAdapters().add(this);
-				}
-			}
+    /**
+     * When the label's model element definition changes, we must change our references.
+     * 
+     */
+    public void notifyChanged(Notification notification) {
+        int type = notification.getEventType();
+        int featureIdUrn = notification.getFeatureID(UrncorePackage.class);
+        int featureIdUcm = notification.getFeatureID(MapPackage.class);
+        int featureIdGrl = notification.getFeatureID(GrlPackage.class);
 
-			// something changed; inform parent. not sure how useful this is anymore
-			if (getParent() != null) {
-				((URNDiagramEditPart) getParent()).notifyChanged(notification);
-				refreshVisuals();
-			}
-		} else if (type == Notification.ADD || type == Notification.ADD_MANY || type == Notification.REMOVE || type == Notification.REMOVE_MANY){
-			refreshVisuals();
-		}
+        // bug 523: feedback remains even when element is deleted.
+        eraseTargetFeedback(new SelectionRequest());
 
-	}
+        if (type == Notification.SET) {
+            // if changing component definitions
+            if (featureIdUrn == UrncorePackage.IURN_CONTAINER_REF__CONT_DEF) {
+                if (modelElement instanceof IURNContainerRef) {
+                    if (comp != null)
+                        comp.eAdapters().remove(this);
+                    comp = ((IURNContainerRef) modelElement).getContDef();
+                    if (comp != null)
+                        comp.eAdapters().add(this);
+                }
+            } else if (featureIdUcm == MapPackage.RESP_REF__RESP_DEF) { // if changing responsibility definitions
+                if (modelElement instanceof RespRef) {
+                    if (resp != null)
+                        resp.eAdapters().remove(this);
+                    resp = ((RespRef) modelElement).getRespDef();
+                    if (resp != null)
+                        resp.eAdapters().add(this);
+                }
+            }
 
-	/**
-	 * Opens the direct edit manager.
-	 * 
-	 */
-	protected void performDirectEdit() {
-		openDirectEditor();
-	}
+            // something changed; inform parent. not sure how useful this is anymore
+            if (getParent() != null) {
+                ((URNDiagramEditPart) getParent()).notifyChanged(notification);
+                refreshVisuals();
+            }
+        } else if (type == Notification.ADD || type == Notification.ADD_MANY || type == Notification.REMOVE || type == Notification.REMOVE_MANY) {
+            refreshVisuals();
+        }
 
-	public void openDirectEditor()
-	{
-		if (manager == null) {
-			LabelFigure figure = (LabelFigure) getFigure();
+    }
 
-			ICellEditorValidator validator = new ICellEditorValidator() {
-				public String isValid(Object value) {
-					return ""; //$NON-NLS-1$
-				}
-			};
+    /**
+     * Opens the direct edit manager.
+     * 
+     */
+    protected void performDirectEdit() {
+        openDirectEditor();
+    }
 
-			manager = new ExtendedDirectEditManager(this, AutocompleteTextCellEditor.class, new LabelCellEditorLocator(figure), figure, validator);
-		}
-		manager.show();
-	}
+    public void openDirectEditor() {
+        if (manager == null) {
+            LabelFigure figure = (LabelFigure) getFigure();
 
-	/**
-	 * Show direct edit on label on double click, f2 or delay.
-	 */
-	public void performRequest(Request request) {
-		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
-			if (request instanceof DirectEditRequest && !directEditHitTest(((DirectEditRequest) request).getLocation().getCopy()))
-				return;
-			performDirectEdit();
-		}
-	}
+            ICellEditorValidator validator = new ICellEditorValidator() {
+                public String isValid(Object value) {
+                    return ""; //$NON-NLS-1$
+                }
+            };
 
-	/**
-	 * Refresh the label.
-	 */
-	public void refreshVisuals() {
-		if (modelElement != null) {
-			eraseTargetFeedback(new SelectionRequest());
-			LabelFigure labelFigure = getLabelFigure();
+            manager = new ExtendedDirectEditManager(this, AutocompleteTextCellEditor.class, new LabelCellEditorLocator(figure), figure, validator);
+        }
+        manager.show();
+    }
 
-			// set the label's text
-			setLabelText();
+    /**
+     * Show direct edit on label on double click, f2 or delay.
+     */
+    public void performRequest(Request request) {
+        if (request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
+            if (request instanceof DirectEditRequest && !directEditHitTest(((DirectEditRequest) request).getLocation().getCopy()))
+                return;
+            performDirectEdit();
+        }
+    }
 
-			// If the element has metadata, indicate stereotypes and other metadata.   
-			if (modelElement instanceof URNmodelElement)
-			{
-				if (modelElement instanceof IURNContainerRef) { // use definition
-					IURNContainer componentElement = ((IURNContainerRef) modelElement).getContDef();
-					if (componentElement != null)
-						labelFigure.setSuffixText(UrnMetadata.getStereotypes(componentElement));
-					
-					if (modelElement instanceof ComponentRef)
-					{
-						if (((ComponentRef)modelElement).getContDef() instanceof Component) {
-							Component component = (Component) ((ComponentRef)modelElement).getContDef();
-							if (component.isContext())
-								labelFigure.setPrefixText(Messages.getString("LabelEditPart.parentprefix")); //$NON-NLS-1$
-							else
-								labelFigure.setPrefixText("");//$NON-NLS-1$
+    /**
+     * Refresh the label.
+     */
+    public void refreshVisuals() {
+        if (modelElement != null) {
+            eraseTargetFeedback(new SelectionRequest());
+            LabelFigure labelFigure = getLabelFigure();
 
-						}
-						
-					}
-				} else if (modelElement instanceof RespRef) { // use definition
-					Responsibility responsibility = ((RespRef) modelElement).getRespDef();
-					if (responsibility != null)
-						labelFigure.setSuffixText(UrnMetadata.getStereotypes(responsibility));
-				} else {
-					labelFigure.setSuffixText(UrnMetadata.getStereotypes(modelElement));
-				}
-			}
+            // set the label's text
+            setLabelText();
 
-			//If the element has a URNlink associated, show the link symbol
-			if (modelElement instanceof URNmodelElement){
-				URNmodelElement urnElem;
-				if (modelElement instanceof RespRef){
-					urnElem = ((RespRef)modelElement).getRespDef();
-				} else if (modelElement instanceof ComponentRef){
-					urnElem = (URNmodelElement)((ComponentRef)modelElement).getContDef();
-				} else if (modelElement instanceof ActorRef){
-					urnElem = (URNmodelElement)((ActorRef)modelElement).getContDef();
-				} else if (modelElement instanceof IntentionalElementRef){
-					urnElem = (URNmodelElement)((IntentionalElementRef)modelElement).getDef();
-				} else {
-					urnElem = (URNmodelElement)modelElement;
-				}
+            // If the element has metadata, indicate stereotypes and other metadata.
+            if (modelElement instanceof URNmodelElement) {
+                if (modelElement instanceof IURNContainerRef) { // use definition
+                    IURNContainer componentElement = ((IURNContainerRef) modelElement).getContDef();
+                    if (componentElement != null)
+                        labelFigure.setSuffixText(UrnMetadata.getStereotypes(componentElement));
 
-				if (urnElem!=null && (urnElem.getToLinks().size() + urnElem.getFromLinks().size())> 0){
-					//If there is a link, add the icon if not already added
-					if (iconImg == null) {
-						iconImg = (JUCMNavPlugin.getImage( "icons/urnlink.gif")); //$NON-NLS-1$
-						labelFigure.setIcon(iconImg);
-					}                    
-				} else {
-					//Remove the icon
-					if (iconImg != null) {
-						iconImg = null;
-						labelFigure.setIcon(iconImg);
-					}
+                    if (modelElement instanceof ComponentRef) {
+                        if (((ComponentRef) modelElement).getContDef() instanceof Component) {
+                            Component component = (Component) ((ComponentRef) modelElement).getContDef();
+                            if (component.isContext())
+                                labelFigure.setPrefixText(Messages.getString("LabelEditPart.parentprefix")); //$NON-NLS-1$
+                            else
+                                labelFigure.setPrefixText("");//$NON-NLS-1$
 
-				}
-			} 
+                        }
 
-			// The position of the new figure
-			Point location;
-			Dimension newLabelDimension;
-			if (getParent() != null) {
-				Dimension dimEditableLabel = labelFigure.getPreferredSize().getCopy();
-				newLabelDimension = new Dimension(dimEditableLabel.width + LABEL_PADDING_X, dimEditableLabel.height + LABEL_PADDING_Y);
-				location = calculateModelElementPosition(getModelObj(), newLabelDimension);
-			} else {
-				// happens in mass deletions; random unimportant location.
-				location = new Point(0, 0);
-				newLabelDimension = new Dimension(100, 100);
-			}
+                    }
+                } else if (modelElement instanceof RespRef) { // use definition
+                    Responsibility responsibility = ((RespRef) modelElement).getRespDef();
+                    if (responsibility != null)
+                        labelFigure.setSuffixText(UrnMetadata.getStereotypes(responsibility));
+                } else {
+                    labelFigure.setSuffixText(UrnMetadata.getStereotypes(modelElement));
+                }
+            }
 
-			Rectangle bounds = new Rectangle(location, newLabelDimension);
-			labelFigure.setBounds(bounds);
+            // If the element has a URNlink associated, show the link symbol
+            if (modelElement instanceof URNmodelElement) {
+                URNmodelElement urnElem;
+                if (modelElement instanceof RespRef) {
+                    urnElem = ((RespRef) modelElement).getRespDef();
+                } else if (modelElement instanceof ComponentRef) {
+                    urnElem = (URNmodelElement) ((ComponentRef) modelElement).getContDef();
+                } else if (modelElement instanceof ActorRef) {
+                    urnElem = (URNmodelElement) ((ActorRef) modelElement).getContDef();
+                } else if (modelElement instanceof IntentionalElementRef) {
+                    urnElem = (URNmodelElement) ((IntentionalElementRef) modelElement).getDef();
+                } else {
+                    urnElem = (URNmodelElement) modelElement;
+                }
 
-			// For UCM, we only show empty points (and their labels) when the mode is 0.
-			if (modelElement instanceof EmptyPoint) {
-				if (getParent() != null) {
-					labelFigure.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
-				}
-			}
+                if (urnElem != null && (urnElem.getToLinks().size() + urnElem.getFromLinks().size()) > 0) {
+                    // If there is a link, add the icon if not already added
+                    if (iconImg == null) {
+                        iconImg = (JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
+                        labelFigure.setIcon(iconImg);
+                    }
+                } else {
+                    // Remove the icon
+                    if (iconImg != null) {
+                        iconImg = null;
+                        labelFigure.setIcon(iconImg);
+                    }
 
-			// notify parent container of changed position & location
-			// if this line is removed, the XYLayoutManager used by the parent container
-			// (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
-			// and will not draw it correctly.
-			if (getParent() != null) {
-				((GraphicalEditPart) getParent()).setLayoutConstraint(this, labelFigure, bounds);
-			}
+                }
+            }
 
-		}
-	}
+            // The position of the new figure
+            Point location;
+            Dimension newLabelDimension;
+            if (getParent() != null) {
+                Dimension dimEditableLabel = labelFigure.getPreferredSize().getCopy();
+                newLabelDimension = new Dimension(dimEditableLabel.width + LABEL_PADDING_X, dimEditableLabel.height + LABEL_PADDING_Y);
+                location = calculateModelElementPosition(getModelObj(), newLabelDimension);
+            } else {
+                // happens in mass deletions; random unimportant location.
+                location = new Point(0, 0);
+                newLabelDimension = new Dimension(100, 100);
+            }
 
-	/**
-	 * Reverts to existing name in model when exiting from a direct edit (possibly before a commit which will result in a change in the label value)
-	 */
-	public void revertNameChange() {
-		LabelFigure tableFigure = (LabelFigure) getFigure();
-		tableFigure.setVisible(true);
-		refreshVisuals();
-	}
+            Rectangle bounds = new Rectangle(location, newLabelDimension);
+            labelFigure.setBounds(bounds);
 
-	/**
-	 * Sets the label's text, given its referenced model element.
-	 */
-	protected void setLabelText() {
-		LabelFigure labelFigure = getLabelFigure();
+            // For UCM, we only show empty points (and their labels) when the mode is 0.
+            if (modelElement instanceof EmptyPoint) {
+                if (getParent() != null) {
+                    labelFigure.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+                }
+            }
 
-		if (modelElement instanceof IURNContainerRef) { // use definition
-			IURNContainer componentElement = ((IURNContainerRef) modelElement).getContDef();
-			if (componentElement != null)
-				labelFigure.setEditableText(((URNmodelElement) componentElement).getName());
-			// componentref labels are in bold.
-			labelFigure.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
-		} else if (modelElement instanceof RespRef) { // use definition
-			Responsibility responsibility = ((RespRef) modelElement).getRespDef();
-			if (responsibility != null)
-				labelFigure.setEditableText(responsibility.getName());
-		} else if (modelElement instanceof URNmodelElement) { // use element's name directly.
-			labelFigure.setEditableText(((URNmodelElement) modelElement).getName());
-		}
+            // notify parent container of changed position & location
+            // if this line is removed, the XYLayoutManager used by the parent container
+            // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
+            // and will not draw it correctly.
+            if (getParent() != null) {
+                ((GraphicalEditPart) getParent()).setLayoutConstraint(this, labelFigure, bounds);
+            }
 
-	}
+        }
+    }
+
+    /**
+     * Reverts to existing name in model when exiting from a direct edit (possibly before a commit which will result in a change in the label value)
+     */
+    public void revertNameChange() {
+        LabelFigure tableFigure = (LabelFigure) getFigure();
+        tableFigure.setVisible(true);
+        refreshVisuals();
+    }
+
+    /**
+     * Sets the label's text, given its referenced model element.
+     */
+    protected void setLabelText() {
+        LabelFigure labelFigure = getLabelFigure();
+
+        if (modelElement instanceof IURNContainerRef) { // use definition
+            IURNContainer componentElement = ((IURNContainerRef) modelElement).getContDef();
+            if (componentElement != null)
+                labelFigure.setEditableText(((URNmodelElement) componentElement).getName());
+            // componentref labels are in bold.
+            labelFigure.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
+        } else if (modelElement instanceof RespRef) { // use definition
+            Responsibility responsibility = ((RespRef) modelElement).getRespDef();
+            if (responsibility != null)
+                labelFigure.setEditableText(responsibility.getName());
+        } else if (modelElement instanceof URNmodelElement) { // use element's name directly.
+            labelFigure.setEditableText(((URNmodelElement) modelElement).getName());
+        }
+
+    }
 }

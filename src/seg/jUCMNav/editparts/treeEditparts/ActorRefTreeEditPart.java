@@ -12,14 +12,15 @@ import seg.jUCMNav.views.property.ContainerPropertySource;
 
 /**
  * Tree edit part for the actor ref
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class ActorRefTreeEditPart extends UrnModelElementTreeEditPart {
 
     /**
      * @param model
-     *          the actor ref
+     *            the actor ref
      */
     public ActorRefTreeEditPart(ActorRef model) {
         super(model);
@@ -56,17 +57,17 @@ public class ActorRefTreeEditPart extends UrnModelElementTreeEditPart {
     private ActorRef getActorRef() {
         return (ActorRef) getModel();
     }
-    
+
     /**
      * Returns the icon appropriate
      */
     protected Image getImage() {
-        if (super.getImage() == null) {       
-            setImage((JUCMNavPlugin.getImage( "icons/GRLActor16.gif"))); //$NON-NLS-1$
+        if (super.getImage() == null) {
+            setImage((JUCMNavPlugin.getImage("icons/GRLActor16.gif"))); //$NON-NLS-1$
         }
         return super.getImage();
     }
-    
+
     /**
      * Returns a ContainerPropertySource
      * 

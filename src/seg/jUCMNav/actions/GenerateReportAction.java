@@ -26,11 +26,11 @@ public class GenerateReportAction extends URNSelectionAction {
     public GenerateReportAction(IWorkbenchPart part) {
         super(part);
         setId(GENERATEREPORT);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/report16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/report16.gif")); //$NON-NLS-1$
     }
 
     /**
-     * True if we've selected a Map or URNSpec 
+     * True if we've selected a Map or URNSpec
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

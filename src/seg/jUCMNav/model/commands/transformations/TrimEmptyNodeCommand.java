@@ -18,7 +18,7 @@ import ucm.map.UCMmap;
  * Used by the autolayout tool.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class TrimEmptyNodeCommand extends CompoundCommand {
 

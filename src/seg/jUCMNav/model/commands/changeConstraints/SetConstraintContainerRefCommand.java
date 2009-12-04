@@ -19,7 +19,7 @@ import urncore.UCMmodelElement;
  * 
  * Would put package access because we don't want the external framework using it; we want them to use
  * seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand. However, don't want to modify a bunch of test cases that depend
- * on this command's behaviour. 
+ * on this command's behaviour.
  * 
  * @author jkealey
  * @see seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand
@@ -162,7 +162,7 @@ public class SetConstraintContainerRefCommand extends Command implements JUCMNav
      */
     public void setNewHeight(int newHeight) {
         this.newHeight = newHeight;
-        if (newHeight <= 0){
+        if (newHeight <= 0) {
             if (getCompRef() instanceof UCMmodelElement)
                 this.newHeight = ModelCreationFactory.DEFAULT_UCM_COMPONENT_HEIGHT;
             else if (getCompRef() instanceof GRLmodelElement)
@@ -177,7 +177,7 @@ public class SetConstraintContainerRefCommand extends Command implements JUCMNav
     public void setNewWidth(int newWidth) {
 
         this.newWidth = newWidth;
-        if (newWidth <= 0){
+        if (newWidth <= 0) {
             if (getCompRef() instanceof UCMmodelElement)
                 this.newWidth = ModelCreationFactory.DEFAULT_UCM_COMPONENT_WIDTH;
             else if (getCompRef() instanceof GRLmodelElement)
@@ -230,8 +230,8 @@ public class SetConstraintContainerRefCommand extends Command implements JUCMNav
         assert compRef.getY() == this.oldY : "pre y"; //$NON-NLS-1$
 
         // this is not true because in our compound command the parent might already have been moved.
-        //        if (newParent!=null)
-        //            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new
+        // if (newParent!=null)
+        // assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new
         // Rectangle(compRef.getX(),
         // compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent.";
 

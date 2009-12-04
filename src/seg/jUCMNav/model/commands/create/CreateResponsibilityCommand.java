@@ -10,7 +10,7 @@ import urncore.Responsibility;
  * This command adds a new responsibility to the URNspec.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class CreateResponsibilityCommand extends Command implements JUCMNavCommand {
     private Responsibility resp;
@@ -27,7 +27,7 @@ public class CreateResponsibilityCommand extends Command implements JUCMNavComma
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return urn != null && resp!=null;
+        return urn != null && resp != null;
     }
 
     /**
@@ -37,7 +37,6 @@ public class CreateResponsibilityCommand extends Command implements JUCMNavComma
         oldCount = urn.getUrndef().getResponsibilities().size();
         redo();
     }
-
 
     /**
      * 

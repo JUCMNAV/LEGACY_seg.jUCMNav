@@ -18,47 +18,47 @@ import seg.jUCMNav.views.wizards.performance.ManageDemand;
  */
 public class ManageDemandAction extends URNSelectionAction {
 
-	public static final String MANAGEDEMANDACTION = "seg.jUCMNav.actions.performance.ManageDemandAction"; //$NON-NLS-1$
+    public static final String MANAGEDEMANDACTION = "seg.jUCMNav.actions.performance.ManageDemandAction"; //$NON-NLS-1$
 
-	private EObject obj;
+    private EObject obj;
 
-	/**
-	 * Opens the resource editor.
-	 * 
-	 * @param part
-	 *            the UCMNavMultiPageEditor
-	 */
-	public ManageDemandAction(IWorkbenchPart part) {
-		super(part);
-		setId(MANAGEDEMANDACTION);
-		setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Resource.gif")); //$NON-NLS-1$
-	}
+    /**
+     * Opens the resource editor.
+     * 
+     * @param part
+     *            the UCMNavMultiPageEditor
+     */
+    public ManageDemandAction(IWorkbenchPart part) {
+        super(part);
+        setId(MANAGEDEMANDACTION);
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Resource.gif")); //$NON-NLS-1$
+    }
 
-	/**
-	 * True if we've selected something with resource.
-	 */
-	protected boolean calculateEnabled() {
-		boolean enable = false;
+    /**
+     * True if we've selected something with resource.
+     */
+    protected boolean calculateEnabled() {
+        boolean enable = false;
 
-		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-		obj = sel.getURNmodelElement();
-		if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
-			enable = true;
-		}
-		return enable;
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        obj = sel.getURNmodelElement();
+        if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
+            enable = true;
+        }
+        return enable;
 
-	}
+    }
 
-	/**
-	 * Opens the demand editor.
-	 * 
-	 */
-	public void run() {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		ManageDemand wizard = new ManageDemand();
-		wizard.init(PlatformUI.getWorkbench(), obj);
-		WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.open();
-	}
+    /**
+     * Opens the demand editor.
+     * 
+     */
+    public void run() {
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        ManageDemand wizard = new ManageDemand();
+        wizard.init(PlatformUI.getWorkbench(), obj);
+        WizardDialog dialog = new WizardDialog(shell, wizard);
+        dialog.open();
+    }
 
 }

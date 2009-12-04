@@ -16,11 +16,12 @@ import ucm.map.UCMmap;
  * Will get rid of any plugin bindings associated with the start/end points.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class MergeStartEndCommand extends CompoundCommand {
 
-	private DoMergeCommand cmd;
+    private DoMergeCommand cmd;
+
     /**
      * @param map
      *            the map containing the elements
@@ -32,7 +33,7 @@ public class MergeStartEndCommand extends CompoundCommand {
      *            where the new empty point should be created.
      * @param y
      *            where the new empty point should be created
-     *  
+     * 
      */
     public MergeStartEndCommand(UCMmap map, StartPoint sp, EndPoint ep, int x, int y) {
         add(new PreDeleteUrnModelElementCommand(sp));
@@ -41,8 +42,8 @@ public class MergeStartEndCommand extends CompoundCommand {
         add(cmd);
         setLabel(Messages.getString("MergeStartEndCommand.mergeStartEnd")); //$NON-NLS-1$
     }
-    
-    public EmptyPoint getNewEmptyPoint(){
-    	return cmd.getNewEmptyPoint();
+
+    public EmptyPoint getNewEmptyPoint() {
+        return cmd.getNewEmptyPoint();
     }
 }

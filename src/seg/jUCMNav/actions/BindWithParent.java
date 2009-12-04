@@ -28,7 +28,7 @@ public class BindWithParent extends URNSelectionAction {
     public BindWithParent(IWorkbenchPart part) {
         super(part);
         setId(BINDWITHPARENT);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Component16.gif")); //$NON-NLS-1$sa
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Component16.gif")); //$NON-NLS-1$sa
     }
 
     /**
@@ -82,7 +82,7 @@ public class BindWithParent extends URNSelectionAction {
     }
 
     /**
-     * @return A chained command to bind all selected components with their parent. 
+     * @return A chained command to bind all selected components with their parent.
      */
     protected Command getCommand() {
         Command cmd;

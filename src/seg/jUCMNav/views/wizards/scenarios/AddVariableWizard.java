@@ -25,126 +25,121 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.ScenarioDef;
 
 /**
- * Wizard for adding a new variable to the model. 
+ * Wizard for adding a new variable to the model.
  * 
  * @author jkealey
  */
 public class AddVariableWizard extends Wizard {
-	private AddVariableWizardPage page;
-	private AddVariableWizardEnumsPage page2;
-	private AddVariableWizardInitsPage page3;
-	private ISelection selection;
-	/*
-	 * The workbench page in which we are working
-	 */
-	protected IWorkbenchPage workbenchPage;
+    private AddVariableWizardPage page;
+    private AddVariableWizardEnumsPage page2;
+    private AddVariableWizardInitsPage page3;
+    private ISelection selection;
+    /*
+     * The workbench page in which we are working
+     */
+    protected IWorkbenchPage workbenchPage;
 
-	/**
-	 * Creates the editor
-	 */
-	public AddVariableWizard() {
-		super();
-		setNeedsProgressMonitor(true);
-		this.setWindowTitle(Messages.getString("AddVariableWizard.NewVariableWizard")); //$NON-NLS-1$
+    /**
+     * Creates the editor
+     */
+    public AddVariableWizard() {
+        super();
+        setNeedsProgressMonitor(true);
+        this.setWindowTitle(Messages.getString("AddVariableWizard.NewVariableWizard")); //$NON-NLS-1$
 
-	}
+    }
 
-	/**
-	 * Adding the page to the wizard.
-	 */
-	public void addPages() {
-		SelectionHelper helper = new SelectionHelper(((StructuredSelection)selection).toList());
-		page = new AddVariableWizardPage(helper.getUrnspec());
-		page2 = new AddVariableWizardEnumsPage(helper.getUrnspec());
-		page3 = new AddVariableWizardInitsPage(helper.getUrnspec());
-		addPage(page);
-		addPage(page2);
-		addPage(page3);
-	}
-	
-	public boolean canFinish() {
-		if (page.isPageComplete() && page3.isPageComplete() && page.getVariableType()!=null && !page.getVariableType().equals(ScenarioUtils.sTypeEnumeration))
-			return true;
-		else
-			return super.canFinish();
-	}
+    /**
+     * Adding the page to the wizard.
+     */
+    public void addPages() {
+        SelectionHelper helper = new SelectionHelper(((StructuredSelection) selection).toList());
+        page = new AddVariableWizardPage(helper.getUrnspec());
+        page2 = new AddVariableWizardEnumsPage(helper.getUrnspec());
+        page3 = new AddVariableWizardInitsPage(helper.getUrnspec());
+        addPage(page);
+        addPage(page2);
+        addPage(page3);
+    }
 
-	public IWizardPage getNextPage(IWizardPage page) {
-		if (page==this.page) {
-			if (this.page.getVariableType()!=null && this.page.getVariableType().equals(ScenarioUtils.sTypeEnumeration))
-				return page2;
-			else
-				return page3;
-		}
-		else 
-			return super.getNextPage(page);
-	}
-	
-	public IWizardPage getPreviousPage(IWizardPage page) {
-		if (page==this.page3) {
-			if (this.page.getVariableType().equals(ScenarioUtils.sTypeEnumeration))
-				return page2;
-			else
-				return this.page;
-		}
-		else 
-			return super.getPreviousPage(page);
-	}
-	/**
-	 * This method is called when 'Finish' button is pressed in the wizard. We
-	 * will create an operation and run it using wizard as execution context.
-	 */
-	public boolean performFinish() {
-		
-		
-		 CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
-		 CompoundCommand command = new CompoundCommand();
-		 
-		 CreateVariableCommand createCmd = new CreateVariableCommand(page.urn, page.getVariableType(), page.getVariableName());
-		 if (page.getVariableType()==ScenarioUtils.sTypeEnumeration)
-			 createCmd.setEnumerationType(page2.getSelectedEnumerationType());
-		 command.add(createCmd);
-		 
-		 for (Iterator iter = page3.getInitializations().keySet().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			command.add(new CreateVariableInitializationCommand(page.getVariableName(), scenario, page3.getInitializations().get(scenario).toString()));
-		}
-		 
-		 // use a command to be undoable.
-		 if (command.canExecute())
-			 cs.execute(command);
+    public boolean canFinish() {
+        if (page.isPageComplete() && page3.isPageComplete() && page.getVariableType() != null && !page.getVariableType().equals(ScenarioUtils.sTypeEnumeration))
+            return true;
+        else
+            return super.canFinish();
+    }
 
-		return true;
-	}
-	
-	public boolean performCancel() {
-		page2.undoAll();
-		return super.performCancel();
-	}
+    public IWizardPage getNextPage(IWizardPage page) {
+        if (page == this.page) {
+            if (this.page.getVariableType() != null && this.page.getVariableType().equals(ScenarioUtils.sTypeEnumeration))
+                return page2;
+            else
+                return page3;
+        } else
+            return super.getNextPage(page);
+    }
 
-	/**
-	 * Throws an error using the message.
-	 * 
-	 * @param message
-	 *            the error message.
-	 * @throws CoreException
-	 *             the generated exception.
-	 */
-	private void throwCoreException(String message) throws CoreException {
-		IStatus status = new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null); //$NON-NLS-1$
-		throw new CoreException(status);
-	}
+    public IWizardPage getPreviousPage(IWizardPage page) {
+        if (page == this.page3) {
+            if (this.page.getVariableType().equals(ScenarioUtils.sTypeEnumeration))
+                return page2;
+            else
+                return this.page;
+        } else
+            return super.getPreviousPage(page);
+    }
 
-	/**
-	 * We will accept the selection in the workbench to see if we can initialize
-	 * from it.
-	 * 
-	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
-	 */
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		this.selection = selection;
-		this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
-	}
-	
-	
+    /**
+     * This method is called when 'Finish' button is pressed in the wizard. We will create an operation and run it using wizard as execution context.
+     */
+    public boolean performFinish() {
+
+        CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
+        CompoundCommand command = new CompoundCommand();
+
+        CreateVariableCommand createCmd = new CreateVariableCommand(page.urn, page.getVariableType(), page.getVariableName());
+        if (page.getVariableType() == ScenarioUtils.sTypeEnumeration)
+            createCmd.setEnumerationType(page2.getSelectedEnumerationType());
+        command.add(createCmd);
+
+        for (Iterator iter = page3.getInitializations().keySet().iterator(); iter.hasNext();) {
+            ScenarioDef scenario = (ScenarioDef) iter.next();
+            command.add(new CreateVariableInitializationCommand(page.getVariableName(), scenario, page3.getInitializations().get(scenario).toString()));
+        }
+
+        // use a command to be undoable.
+        if (command.canExecute())
+            cs.execute(command);
+
+        return true;
+    }
+
+    public boolean performCancel() {
+        page2.undoAll();
+        return super.performCancel();
+    }
+
+    /**
+     * Throws an error using the message.
+     * 
+     * @param message
+     *            the error message.
+     * @throws CoreException
+     *             the generated exception.
+     */
+    private void throwCoreException(String message) throws CoreException {
+        IStatus status = new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null); //$NON-NLS-1$
+        throw new CoreException(status);
+    }
+
+    /**
+     * We will accept the selection in the workbench to see if we can initialize from it.
+     * 
+     * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
+     */
+    public void init(IWorkbench workbench, IStructuredSelection selection) {
+        this.selection = selection;
+        this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
+    }
+
 }

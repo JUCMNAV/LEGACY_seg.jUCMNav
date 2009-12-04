@@ -43,9 +43,9 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand, I
         this.diagram = m;
         this.compRef = cr;
         if (compRef instanceof UCMmodelElement) {
-        	setLabel(Messages.getString("AddContainerRefCommand.createComp")); //$NON-NLS-1$
+            setLabel(Messages.getString("AddContainerRefCommand.createComp")); //$NON-NLS-1$
         } else {
-        	setLabel(Messages.getString("AddContainerRefCommand.createActor")); //$NON-NLS-1$        
+            setLabel(Messages.getString("AddContainerRefCommand.createActor")); //$NON-NLS-1$        
         }
     }
 
@@ -55,13 +55,13 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand, I
      */
     public void execute() {
         existingDef = compRef.getContDef();
-        
+
         if (compRef instanceof UCMmodelElement) {
             bDefAlreadyExists = diagram.getUrndefinition().getUrnspec().getUrndef().getComponents().contains(compRef.getContDef());
         } else if (compRef instanceof GRLmodelElement) {
             bDefAlreadyExists = diagram.getUrndefinition().getUrnspec().getGrlspec().getActors().contains(existingDef);
         }
-        
+
         redo();
     }
 
@@ -90,7 +90,7 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand, I
         // add the component definition to the model
         if (!bDefAlreadyExists && compRef instanceof UCMmodelElement) {
             urnspec.getUrndef().getComponents().add(compRef.getContDef());
-        } else if (!bDefAlreadyExists  && compRef instanceof GRLmodelElement) {
+        } else if (!bDefAlreadyExists && compRef instanceof GRLmodelElement) {
             urnspec.getGrlspec().getActors().add(compRef.getContDef());
         } else if (bDefAlreadyExists)
             compRef.setContDef(existingDef);

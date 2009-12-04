@@ -60,8 +60,8 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
         this.prevConn = (NodeConnection) endPoint.getPred().get(0);
         this.nextConn = (NodeConnection) startPoint.getSucc().get(0);
 
-        parentStart = (ComponentRef)startPoint.getContRef();
-        parentEnd = (ComponentRef)endPoint.getContRef();
+        parentStart = (ComponentRef) startPoint.getContRef();
+        parentEnd = (ComponentRef) endPoint.getContRef();
 
         redo();
     }
@@ -118,8 +118,7 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
         assert startPoint != null && endPoint != null && newEmptyPoint != null && map != null : "pre something is null"; //$NON-NLS-1$
-        assert map.getNodes().contains(startPoint) && map.getNodes().contains(endPoint)
-                && !map.getNodes().contains(newEmptyPoint) : "pre pathnode problem "; //$NON-NLS-1$
+        assert map.getNodes().contains(startPoint) && map.getNodes().contains(endPoint) && !map.getNodes().contains(newEmptyPoint) : "pre pathnode problem "; //$NON-NLS-1$
         assert map.getConnections().contains(prevConn) && map.getConnections().contains(nextConn) : "pre connection problem "; //$NON-NLS-1$
 
     }
@@ -133,9 +132,9 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
         assert map.getConnections().contains(prevConn) && map.getConnections().contains(nextConn) : "post connection problem "; //$NON-NLS-1$
 
     }
-    
+
     public EmptyPoint getNewEmptyPoint() {
-    	return newEmptyPoint;
+        return newEmptyPoint;
     }
 
 }

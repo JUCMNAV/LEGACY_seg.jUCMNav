@@ -23,12 +23,13 @@ import seg.jUCMNav.figures.util.UrnMetadata;
 
 /**
  * This is a figure representing a GRL node. Extend this class to create GrlNode
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
-public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
+public abstract class GrlNodeFigure extends Shape implements LabelElementFigure {
 
-    //for grl multiline label, space between start of the figure and start of the label
+    // for grl multiline label, space between start of the figure and start of the label
     protected static final int LABEL_PADDING_X = 15;
     protected static final int LABEL_PADDING_Y = 8;
 
@@ -41,7 +42,7 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
     protected FlowPage flowPage;
 
     protected ConnectionAnchor anchor;
-    
+
     /**
      * Override this method if your figure is not of the default size.
      * 
@@ -54,51 +55,53 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
 
     // is the figure in hover state
     protected boolean hover;
-    
+
     // is the figure in selected state
     protected boolean selected;
-    
-    // automatically resize when changing text. 
+
+    // automatically resize when changing text.
     protected boolean autoResize;
-    
+
     protected XYLayout xylayout;
-    
+
     /**
      * Constructor of the node figure. Set the layout manager and the line width
      */
     public GrlNodeFigure() {
         super();
-        autoResize=true;
+        autoResize = true;
         setAntialias(SWT.ON);
-        
+
         xylayout = new XYLayout();
         this.setLayoutManager(xylayout);
         setLineWidth(3);
-        
+
         initAnchor();
-        
+
         flowPage = new FlowPage();
         // Center text in GRL nodes. Vertical centering not available...
-        flowPage.setHorizontalAligment(PositionConstants.CENTER); 
-
+        flowPage.setHorizontalAligment(PositionConstants.CENTER);
 
         textFlow = new TextFlow();
         // Slightly larger font here used for GRL node labels.
         textFlow.setFont(new Font(Display.getDefault(), new FontData("Tahoma", 9, SWT.NONE))); //$NON-NLS-1$
-        
-        textFlow.setLayoutManager(new ParagraphTextLayout(textFlow,
-                ParagraphTextLayout.WORD_WRAP_HARD));
+
+        textFlow.setLayoutManager(new ParagraphTextLayout(textFlow, ParagraphTextLayout.WORD_WRAP_HARD));
 
         flowPage.add(textFlow);
         add(flowPage);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.draw2d.Shape#outlineShape(org.eclipse.draw2d.Graphics)
      */
     protected abstract void outlineShape(Graphics graphics);
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
      */
     protected abstract void fillShape(Graphics graphics);
@@ -111,35 +114,39 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
     public ConnectionAnchor getConnectionAnchor() {
         return anchor;
     }
-    
+
     /**
      * @return this figure
      */
     public Figure getNodeFigure() {
         return this;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
      */
     public Dimension getPreferredSize(int wHint, int hHint) {
         return textFlow.getPreferredSize().getCopy();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.figures.LabelElementFigure#getText()
      */
     public String getEditableText() {
-    	return UrnMetadata.removeStereotypes(textFlow.getText());
+        return UrnMetadata.removeStereotypes(textFlow.getText());
     }
-    
+
     /**
      * @see seg.jUCMNav.figures.PathNodeFigure#initAnchor()
      */
     protected void initAnchor() {
         anchor = new ChopboxAnchor(this);
     }
-    
+
     /**
      * Sets the figure's colors. The default line color is black, the default fill color is white.
      * 
@@ -155,64 +162,58 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
 
         if (fillColor == null || fillColor.length() == 0) {
             setBackgroundColor(ColorManager.FILL);
-        }
-        else
-        	setBackgroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(fillColor)));
+        } else
+            setBackgroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(fillColor)));
 
         if (lineColor == null || lineColor.length() == 0) {
-        	setForegroundColor(ColorManager.LINE);
-        }
-        else
-        	setForegroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(lineColor)));
+            setForegroundColor(ColorManager.LINE);
+        } else
+            setForegroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(lineColor)));
     }
-        
-    
+
     /**
      * Sets the text of the TextFlow to the given value and set the size of the label.
      * 
-     * @param newText the new text value.
+     * @param newText
+     *            the new text value.
      */
     public void setEditableText(String newText) {
         textFlow.setText(newText);
-      	resizeAccordingToText();
+        resizeAccordingToText();
     }
 
-	protected void resizeAccordingToText() {
+    protected void resizeAccordingToText() {
 
-		Dimension dimEditableLabel = flowPage.getPreferredSize().getCopy();
-        
-        //Calculate the size of the label and of the figure
-        //Max size available for the label
-        int width = getDefaultDimension().width - 2*LABEL_PADDING_X;
+        Dimension dimEditableLabel = flowPage.getPreferredSize().getCopy();
+
+        // Calculate the size of the label and of the figure
+        // Max size available for the label
+        int width = getDefaultDimension().width - 2 * LABEL_PADDING_X;
         int height = dimEditableLabel.height;
-        
-        int minWidth = flowPage.getPreferredSize(width,1).width;
-        
-        //Loop until we have good dimension for the labels to fit in the node
-        while (dimEditableLabel.width > (width* Math.floor((height-1)/dimEditableLabel.height)) || 
-                width < minWidth){
+
+        int minWidth = flowPage.getPreferredSize(width, 1).width;
+
+        // Loop until we have good dimension for the labels to fit in the node
+        while (dimEditableLabel.width > (width * Math.floor((height - 1) / dimEditableLabel.height)) || width < minWidth) {
             height = height + dimEditableLabel.height;
             width = width + 20;
 
         }
-        if (height < (getDefaultDimension().height - 2*LABEL_PADDING_Y)){
-            height = getDefaultDimension().height - 2*LABEL_PADDING_Y;
+        if (height < (getDefaultDimension().height - 2 * LABEL_PADDING_Y)) {
+            height = getDefaultDimension().height - 2 * LABEL_PADDING_Y;
         }
         Rectangle r = new Rectangle();
         r.x = LABEL_PADDING_X;
         r.y = LABEL_PADDING_Y;
         r.width = width;
         r.height = height;
-        
-        if (!autoResize)
-        {
-        	r.setSize(getSize().width - 2*LABEL_PADDING_X, getSize().height - 2*LABEL_PADDING_Y);
-        	setConstraint(flowPage,r);
+
+        if (!autoResize) {
+            r.setSize(getSize().width - 2 * LABEL_PADDING_X, getSize().height - 2 * LABEL_PADDING_Y);
+            setConstraint(flowPage, r);
+        } else {
+            setConstraint(flowPage, r);
+            setSize(r.width + 2 * LABEL_PADDING_X, r.height + 2 * LABEL_PADDING_Y);
         }
-        else
-        {
-	    	setConstraint(flowPage,r);
-			setSize(r.width + 2*LABEL_PADDING_X, r.height + 2*LABEL_PADDING_Y);
-        }
-	}    
+    }
 }

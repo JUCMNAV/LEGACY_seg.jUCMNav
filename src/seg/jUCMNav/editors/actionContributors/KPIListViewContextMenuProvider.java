@@ -79,8 +79,7 @@ public class KPIListViewContextMenuProvider extends ContextMenuProvider {
         actionRegistry = registry;
     }
 
-    public void dispose()
-    {
+    public void dispose() {
         setActionRegistry(null);
         super.dispose();
     }

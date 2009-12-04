@@ -24,7 +24,8 @@ public class UrnModelManager extends EmfModelManager {
     /**
      * Creates a new URNspec.
      * 
-     * @param path where should it be created
+     * @param path
+     *            where should it be created
      * @return a new URNspec
      */
     public URNspec createURNspec(File path) {
@@ -39,8 +40,10 @@ public class UrnModelManager extends EmfModelManager {
     /**
      * Creates a new URNspec.
      * 
-     * @param path where should it be created
-     * @param urnspec the file's contents
+     * @param path
+     *            where should it be created
+     * @param urnspec
+     *            the file's contents
      * @return a new URNspec
      */
     public URNspec createURNspec(File path, URNspec urnspec) {
@@ -48,11 +51,12 @@ public class UrnModelManager extends EmfModelManager {
         resource.getContents().add(urnspec);
         return urnspec;
     }
-    
+
     /**
      * Creates a new URNspec.
      * 
-     * @param path where should it be created
+     * @param path
+     *            where should it be created
      * @return a new URNspec
      */
     public URNspec createURNspec(IPath path) {
@@ -67,8 +71,10 @@ public class UrnModelManager extends EmfModelManager {
     /**
      * Creates a new URNspec.
      * 
-     * @param path where should it be created
-     * @param urnspec the file's contents
+     * @param path
+     *            where should it be created
+     * @param urnspec
+     *            the file's contents
      * @return a new URNspec
      */
     public URNspec createURNspec(IPath path, URNspec urnspec) {
@@ -77,13 +83,12 @@ public class UrnModelManager extends EmfModelManager {
         return urnspec;
     }
 
-
     /**
      * The file extension for jUCMNav.
      */
-	protected String getFileExtension() {
-		return Messages.getString("UrnModelManager.ucmExtension"); //$NON-NLS-1$
-	}
+    protected String getFileExtension() {
+        return Messages.getString("UrnModelManager.ucmExtension"); //$NON-NLS-1$
+    }
 
     /**
      * Gets the top level model elements.
@@ -100,7 +105,7 @@ public class UrnModelManager extends EmfModelManager {
                     model = (URNspec) o;
             }
 
-            // clean the loaded file to make sure its semantics are valid. 
+            // clean the loaded file to make sure its semantics are valid.
             URNNamingHelper.sanitizeURNspec((URNspec) model);
             URNReferencerChecker.sanitizeReferences((URNspec) model);
         }
@@ -110,10 +115,10 @@ public class UrnModelManager extends EmfModelManager {
     /**
      * Initialize EMF
      */
-	protected void init() {
-	    // Initialize the ucm package
-	    MapPackageImpl.init();
-		
-	}
+    protected void init() {
+        // Initialize the ucm package
+        MapPackageImpl.init();
+
+    }
 
 }

@@ -26,8 +26,8 @@ import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
 /**
- * This class is special cased for ContainerRef's so that we can replace our id/name/description with that of the ContainerElement and add the
- * Container's properties to ours.
+ * This class is special cased for ContainerRef's so that we can replace our id/name/description with that of the ContainerElement and add the Container's
+ * properties to ours.
  * 
  * Container are listed as a dropdown of all Container in the model.
  * 
@@ -92,7 +92,7 @@ public class ContainerPropertySource extends URNElementPropertySource {
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.views.EObjectPropertySource#addPropertyToDescriptor(java.util.Collection, org.eclipse.emf.ecore.EStructuralFeature,
-     *      org.eclipse.emf.ecore.EClass)
+     * org.eclipse.emf.ecore.EClass)
      */
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         EClassifier type = getFeatureType(attr);
@@ -111,13 +111,13 @@ public class ContainerPropertySource extends URNElementPropertySource {
      * @param propertyid
      */
     private void componentElementDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (((IURNContainerRef) getEditableValue()).getDiagram()==null || ((IURNContainerRef) getEditableValue()).getDiagram().getUrndefinition() == null)
+        if (((IURNContainerRef) getEditableValue()).getDiagram() == null || ((IURNContainerRef) getEditableValue()).getDiagram().getUrndefinition() == null)
             return;
         URNspec urn = ((IURNContainerRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
         Vector list;
-        if (getEditableValue() instanceof UCMmodelElement){
+        if (getEditableValue() instanceof UCMmodelElement) {
             list = new Vector(urn.getUrndef().getComponents());
-        }else{
+        } else {
             list = new Vector(urn.getGrlspec().getActors());
         }
         Collections.sort(list, new EObjectClassNameComparator());
@@ -127,11 +127,11 @@ public class ContainerPropertySource extends URNElementPropertySource {
 
             values[i] = EObjectClassNameComparator.getSortableElementName((IURNContainer) list.get(i));
             if (values[i] == null)
-                values[i] = Messages.getString("ContainerPropertySource.unnamed");  //$NON-NLS-1$
+                values[i] = Messages.getString("ContainerPropertySource.unnamed"); //$NON-NLS-1$
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "definition", values); //$NON-NLS-1$
-        pd.setCategory(Messages.getString("ContainerPropertySource.reference"));  //$NON-NLS-1$
+        pd.setCategory(Messages.getString("ContainerPropertySource.reference")); //$NON-NLS-1$
         descriptors.add(pd);
 
     }
@@ -148,9 +148,9 @@ public class ContainerPropertySource extends URNElementPropertySource {
              */
             URNspec urn = ((IURNContainerRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
             Vector list;
-            if (getEditableValue() instanceof UCMmodelElement){
+            if (getEditableValue() instanceof UCMmodelElement) {
                 list = new Vector(urn.getUrndef().getComponents());
-            }else{
+            } else {
                 list = new Vector(urn.getGrlspec().getActors());
             }
             Collections.sort(list, new EObjectClassNameComparator());
@@ -197,11 +197,10 @@ public class ContainerPropertySource extends URNElementPropertySource {
                 if (feature.getName().equalsIgnoreCase("fillColor")) { //$NON-NLS-1$
                     comp.setFilled(false);
                 }
-                
-            }
-            else
+
+            } else
                 object.eSet(feature, null);
-            
+
         } else
             super.resetPropertyValue(id);
     }
@@ -220,9 +219,9 @@ public class ContainerPropertySource extends URNElementPropertySource {
         if (feature.getEType().getInstanceClass() == IURNContainer.class) {
 
             Vector list;
-            if (getEditableValue() instanceof UCMmodelElement){
+            if (getEditableValue() instanceof UCMmodelElement) {
                 list = new Vector(urn.getUrndef().getComponents());
-            }else{
+            } else {
                 list = new Vector(urn.getGrlspec().getActors());
             }
 
@@ -260,11 +259,11 @@ public class ContainerPropertySource extends URNElementPropertySource {
         PropertyID propertyid = (PropertyID) id;
         EStructuralFeature feature = propertyid.getFeature();
 
-    	if (feature.getName().toLowerCase().indexOf("fillcolor")>=0) //$NON-NLS-1$
-    		return super.isPropertySet(id) && comp.isFilled();
-    	else
-    		return super.isPropertySet(id);
-    	
+        if (feature.getName().toLowerCase().indexOf("fillcolor") >= 0) //$NON-NLS-1$
+            return super.isPropertySet(id) && comp.isFilled();
+        else
+            return super.isPropertySet(id);
+
     }
-    
+
 }

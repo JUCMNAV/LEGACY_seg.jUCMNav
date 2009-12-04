@@ -63,7 +63,7 @@ public class ComponentRefTreeEditPart extends UrnModelElementTreeEditPart {
      * Returns the icon appropriate for the definition's kind
      */
     protected Image getImage() {
-        Component comp = (Component)getCompRef().getContDef();
+        Component comp = (Component) getCompRef().getContDef();
         if (super.getImage() == null) {
             if (comp instanceof Component) {
                 setImage(ComponentTreeEditPart.getComponentImage(((Component) comp).getKind()));
@@ -84,10 +84,10 @@ public class ComponentRefTreeEditPart extends UrnModelElementTreeEditPart {
             EStructuralFeature structuralFeature = (EStructuralFeature) notification.getFeature();
             if (structuralFeature.getEType().getInstanceClass() == ComponentKind.class) {
                 // next getImage() will refresh it. (refreshVisuals() in parent will do it)
-//                if (getImage() != null) {
-//                    getImage().dispose();
-//                    setImage(null);
-//                }
+                // if (getImage() != null) {
+                // getImage().dispose();
+                // setImage(null);
+                // }
             }
         }
         super.notifyChanged(notification);

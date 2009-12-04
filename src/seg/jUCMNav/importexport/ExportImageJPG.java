@@ -3,7 +3,7 @@ package seg.jUCMNav.importexport;
 import org.eclipse.swt.SWT;
 
 /**
- * Exports as JPEG file. Implementation used in Eclipse 3.1 doesn't allow variable quality. 
+ * Exports as JPEG file. Implementation used in Eclipse 3.1 doesn't allow variable quality.
  * 
  * @author jkealey
  * 

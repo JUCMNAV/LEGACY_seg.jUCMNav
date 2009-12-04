@@ -13,10 +13,10 @@ import urn.URNspec;
 import urncore.Component;
 
 /**
- * This command adds a passive resource 
+ * This command adds a passive resource
  * 
  * @author jack
- *
+ * 
  */
 public class CreatePassiveResourceCommand extends Command implements JUCMNavCommand {
 
@@ -26,12 +26,12 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
     private String name;
     private String multiplicity;
     private String schedPolicy;
-    
+
     /**
-     * @param name 
-     * @param component 
-     * @param schedPolicy 
-     * @param multiplicity 
+     * @param name
+     * @param component
+     * @param schedPolicy
+     * @param multiplicity
      * 
      */
     public CreatePassiveResourceCommand(URNspec urn, String name, Component component, String multiplicity, String schedPolicy) {
@@ -47,14 +47,14 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return (urn != null) ; // passive resources need not be bound to components
+        return (urn != null); // passive resources need not be bound to components
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	passiveResource = (PassiveResource) ModelCreationFactory.getNewObject(urn, PassiveResource.class, 0, null);
+        passiveResource = (PassiveResource) ModelCreationFactory.getNewObject(urn, PassiveResource.class, 0, null);
         redo();
     }
 
@@ -72,25 +72,28 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
         passiveResource.setName(name);
         passiveResource.setMultiplicity(multiplicity);
         passiveResource.setSchedPolicy(schedPolicy);
-    	testPostConditions();
+        testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPostConditions() {
-        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null): "post not null"; //$NON-NLS-1$
-        assert urn.getUcmspec().getResources().contains(passiveResource): "post passiveResource in model"; //$NON-NLS-1$
+        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null) : "post not null"; //$NON-NLS-1$
+        assert urn.getUcmspec().getResources().contains(passiveResource) : "post passiveResource in model"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPreConditions() {
-        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null): "pre not null"; //$NON-NLS-1$
+        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null) : "pre not null"; //$NON-NLS-1$
         assert !urn.getUcmspec().getResources().contains(passiveResource) : "pre passiveResource not in model"; //$NON-NLS-1$
     }
-
 
     /**
      * @see org.eclipse.gef.commands.Command#undo()
@@ -102,7 +105,7 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
         passiveResource.setSchedPolicy(null);
         if (passiveResource.getComponent() != null) {
             passiveResource.setComponent(null);
-            component.setResource(null);            
+            component.setResource(null);
         }
         urn.getUcmspec().getResources().remove(passiveResource);
         testPreConditions();

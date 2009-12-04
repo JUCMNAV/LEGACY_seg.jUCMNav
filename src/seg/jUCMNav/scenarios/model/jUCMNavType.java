@@ -123,7 +123,7 @@ public class jUCMNavType {
     }
 
     /**
-     * A string representation of the type. 
+     * A string representation of the type.
      */
     public String toString() {
         if (this == VOID)

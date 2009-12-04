@@ -9,14 +9,15 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * This anchor is used for decomposition. It is at the bottom of an intentionalElement
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class DecompositionAnchor extends AbstractConnectionAnchor {
 
-    public static final int TYPE_SRC= 0;
-    public static final int TYPE_TARGET = 1;   
-    
+    public static final int TYPE_SRC = 0;
+    public static final int TYPE_TARGET = 1;
+
     private int type;
+
     /**
      * @param owner
      */
@@ -25,7 +26,9 @@ public class DecompositionAnchor extends AbstractConnectionAnchor {
         this.type = type;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.draw2d.ConnectionAnchor#getLocation(org.eclipse.draw2d.geometry.Point)
      */
     public Point getLocation(Point reference) {

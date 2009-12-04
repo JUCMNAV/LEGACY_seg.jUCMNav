@@ -13,7 +13,7 @@ import urncore.Component;
 import urncore.ComponentKind;
 
 /**
- * Adds a component binding between a parent and a plug-in map. 
+ * Adds a component binding between a parent and a plug-in map.
  * 
  * @author jkealey
  */
@@ -26,7 +26,7 @@ public class AddComponentBindingCommand extends Command implements JUCMNavComman
     private ComponentRef child;
 
     private ComponentBinding binding;
-    
+
     private boolean isContext;
     private ComponentKind kind;
 
@@ -67,8 +67,8 @@ public class AddComponentBindingCommand extends Command implements JUCMNavComman
         urnSpec = plugin.getPlugin().getUrndefinition().getUrnspec();
 
         binding = (ComponentBinding) ModelCreationFactory.getNewObject(urnSpec, ComponentBinding.class);
-        isContext = ((Component)child.getContDef()).isContext();
-        kind = ((Component)child.getContDef()).getKind();
+        isContext = ((Component) child.getContDef()).isContext();
+        kind = ((Component) child.getContDef()).getKind();
 
         redo();
     }
@@ -83,9 +83,9 @@ public class AddComponentBindingCommand extends Command implements JUCMNavComman
         plugin.getComponents().add(binding);
         binding.setParentComponent(parent);
         binding.setPluginComponent(child);
-        ((Component)child.getContDef()).setContext(true);
-        ((Component)child.getContDef()).setKind(ComponentKind.TEAM_LITERAL);
-        
+        ((Component) child.getContDef()).setContext(true);
+        ((Component) child.getContDef()).setKind(ComponentKind.TEAM_LITERAL);
+
         testPostConditions();
     }
 
@@ -100,8 +100,8 @@ public class AddComponentBindingCommand extends Command implements JUCMNavComman
         binding.setParentComponent(null);
         binding.setPluginComponent(null);
 
-        ((Component)child.getContDef()).setContext(isContext);
-        ((Component)child.getContDef()).setKind(kind);
+        ((Component) child.getContDef()).setContext(isContext);
+        ((Component) child.getContDef()).setKind(kind);
 
         testPreConditions();
     }

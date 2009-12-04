@@ -15,7 +15,7 @@ import urncore.URNmodelElement;
  * Unbinds a child/children from a parent ContainerRef.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class ContainerRefUnbindChildCommand extends Command implements JUCMNavCommand {
 

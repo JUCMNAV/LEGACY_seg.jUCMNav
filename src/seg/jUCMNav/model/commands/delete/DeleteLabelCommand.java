@@ -159,8 +159,8 @@ public class DeleteLabelCommand extends Command {
         assert label != null : "pre Label"; //$NON-NLS-1$
         assert modelElement != null : "pre UCMmodelElement"; //$NON-NLS-1$
         // jkealey: don't know why this is commented.
-        //assert label.getPathNode() != null : "pre NodeLabel not connected to a PathNode";
-        //assert node.getLabel() != null : "pre PathNode not connected to a NodeLabel";
+        // assert label.getPathNode() != null : "pre NodeLabel not connected to a PathNode";
+        // assert node.getLabel() != null : "pre PathNode not connected to a NodeLabel";
     }
 
     /**
@@ -170,8 +170,8 @@ public class DeleteLabelCommand extends Command {
         assert label != null : "pre Label"; //$NON-NLS-1$
         assert modelElement != null : "pre UCMmodelElement"; //$NON-NLS-1$
         // jkealey: don't know why this is commented.
-        //assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
-        //assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
+        // assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
+        // assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
     }
 
     /**

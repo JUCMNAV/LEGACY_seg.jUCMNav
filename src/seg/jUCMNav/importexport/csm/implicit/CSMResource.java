@@ -47,11 +47,12 @@ public class CSMResource {
     }
 
     /**
-     * A CSM Resource implicitly derived from a UCM Component.
-     * <BR><BR>
+     * A CSM Resource implicitly derived from a UCM Component. <BR>
+     * <BR>
      * <EM>NB: the <B>quantity</B> attribute is currently set according to the replication factor of the
      * component.  This is an implementation choice.  An alternative could be to use a fixed value
      * (e.g. '1').</EM>
+     * 
      * @param compRef
      */
     public CSMResource(ComponentRef compRef) {

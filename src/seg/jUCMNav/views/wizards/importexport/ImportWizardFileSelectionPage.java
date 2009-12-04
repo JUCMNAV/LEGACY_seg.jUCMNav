@@ -60,7 +60,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
     public boolean overwrite = false;
 
     private boolean bAutolayout;
-    
+
     private ISelection selection;
 
     /**
@@ -74,8 +74,8 @@ public class ImportWizardFileSelectionPage extends WizardPage {
     }
 
     public void createControl(Composite parent) {
-    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.import_fileselection"); //$NON-NLS-1$
-    	
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.import_fileselection"); //$NON-NLS-1$
+
         // create the composite to hold the widgets
         Composite composite = new Composite(parent, SWT.NONE);
 
@@ -128,7 +128,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
             public void widgetSelected(SelectionEvent e) {
                 FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
                 dialog.setFileName(ImportPreferenceHelper.getPath());
-                dialog.setText(Messages.getString("ImportWizardFileSelectionPage.SelectFileImport"));  //$NON-NLS-1$
+                dialog.setText(Messages.getString("ImportWizardFileSelectionPage.SelectFileImport")); //$NON-NLS-1$
                 if (cboFileTypes.getItemCount() > 0) {
                     String importer = URNImportExtensionPointHelper.getExporterFromLabelIndex(cboFileTypes.getSelectionIndex());
                     String extension = URNImportExtensionPointHelper.getFilenameExtension(importer);
@@ -156,18 +156,18 @@ public class ImportWizardFileSelectionPage extends WizardPage {
         if (selection != null && selection.isEmpty() == false && selection instanceof IStructuredSelection) {
             IStructuredSelection ssel = (IStructuredSelection) selection;
             if (ssel.size() == 1) {
-            Object obj = ssel.getFirstElement();
-	            if (obj instanceof IResource) {
-	                IContainer container;
-	                if (obj instanceof IContainer)
-	                    container = (IContainer) obj;
-	                else
-	                    container = ((IResource) obj).getParent();
-	                containerText.setText(container.getFullPath().toString());
-	            }
+                Object obj = ssel.getFirstElement();
+                if (obj instanceof IResource) {
+                    IContainer container;
+                    if (obj instanceof IContainer)
+                        container = (IContainer) obj;
+                    else
+                        container = ((IResource) obj).getParent();
+                    containerText.setText(container.getFullPath().toString());
+                }
             }
         }
-        	
+
         setContainerName(containerText.getText());
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         containerText.setLayoutData(gd);
@@ -208,7 +208,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
                 page.setTitle(Messages.getString("ImportWizardFileSelectionPage.AutolayoutPreferences")); //$NON-NLS-1$
                 PreferenceManager mgr = new PreferenceManager();
                 IPreferenceNode node = new PreferenceNode("1", page); //$NON-NLS-1$
-                
+
                 mgr.addToRoot(node);
                 PreferenceDialog dialog = new PreferenceDialog(getShell(), mgr);
                 dialog.create();
@@ -219,7 +219,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
         data = new GridData();
         data.horizontalSpan = 2;
         b.setLayoutData(data);
-        
+
         fillTypeDropDown();
 
         dialogChanged();
@@ -240,7 +240,8 @@ public class ImportWizardFileSelectionPage extends WizardPage {
      */
 
     private void handleBrowse() {
-        ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, Messages.getString("ImportWizardFileSelectionPage.SelectProject")); //$NON-NLS-1$
+        ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, Messages
+                .getString("ImportWizardFileSelectionPage.SelectProject")); //$NON-NLS-1$
         if (dialog.open() == Window.OK) {
             Object[] result = dialog.getResult();
             if (result.length == 1) {

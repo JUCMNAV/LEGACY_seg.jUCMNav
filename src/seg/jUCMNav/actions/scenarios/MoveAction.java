@@ -59,9 +59,11 @@ public class MoveAction extends URNSelectionAction {
         initScenario();
         List list = getSelectedObjects();
 
-        return scenario != null && obj != null && list.size() > 0 && ((list.get(0) instanceof ScenarioPathNodeTreeEditPart
-                && !((ScenarioPathNodeTreeEditPart) list.get(0)).isInherited())||(list.get(0) instanceof ScenarioDefTreeEditPart
-                        && !((ScenarioDefTreeEditPart) list.get(0)).isInherited()));
+        return scenario != null
+                && obj != null
+                && list.size() > 0
+                && ((list.get(0) instanceof ScenarioPathNodeTreeEditPart && !((ScenarioPathNodeTreeEditPart) list.get(0)).isInherited()) || (list.get(0) instanceof ScenarioDefTreeEditPart && !((ScenarioDefTreeEditPart) list
+                        .get(0)).isInherited()));
     }
 
     /**
@@ -121,7 +123,7 @@ public class MoveAction extends URNSelectionAction {
     }
 
     /**
-     * Creates a {@link seg.jUCMNav.model.commands.transformations.ReorderScenarioChildrenCommand} to re-order the selected object. 
+     * Creates a {@link seg.jUCMNav.model.commands.transformations.ReorderScenarioChildrenCommand} to re-order the selected object.
      */
     protected Command getCommand() {
         ReorderScenarioChildrenCommand move = new ReorderScenarioChildrenCommand(scenario, obj, isMoveUp);

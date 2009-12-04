@@ -53,7 +53,7 @@ public class RespRefTreeEditPart extends PathNodeTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage( "icons/Resp16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Resp16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 

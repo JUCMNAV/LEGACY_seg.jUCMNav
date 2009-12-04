@@ -8,6 +8,7 @@ import urncore.URNdefinition;
 
 /**
  * Command to delete a Concern (remove it from the model), can only be done if no associations remain.
+ * 
  * @author gunterm
  */
 public class InternalDeleteConcernCommand extends Command implements JUCMNavCommand {
@@ -18,7 +19,8 @@ public class InternalDeleteConcernCommand extends Command implements JUCMNavComm
     private URNdefinition oldUrnDefinition;
 
     /**
-     * @param concern to be deleted
+     * @param concern
+     *            to be deleted
      */
     public InternalDeleteConcernCommand(Concern concern) {
         this.concern = concern;
@@ -27,6 +29,7 @@ public class InternalDeleteConcernCommand extends Command implements JUCMNavComm
 
     /**
      * checks all conditions of testPreConditions that can be checked before execute()
+     * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
@@ -51,7 +54,7 @@ public class InternalDeleteConcernCommand extends Command implements JUCMNavComm
         concern.setUrndefinition(null);
         testPostConditions();
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
@@ -80,33 +83,32 @@ public class InternalDeleteConcernCommand extends Command implements JUCMNavComm
         assert testConditionInModel() : "pre concern in model"; //$NON-NLS-1$
     }
 
-	/**
-	 * @return true if condition is met, false otherwise
-	 */
+    /**
+     * @return true if condition is met, false otherwise
+     */
     private boolean testConditionNotNull() {
-		return concern != null;
-	}
-    
-	/**
-	 * @return true if condition is met, false otherwise
-	 */
+        return concern != null;
+    }
+
+    /**
+     * @return true if condition is met, false otherwise
+     */
     private boolean testConditionOldNotNull() {
-		return oldUrnDefinition != null;
-	}
+        return oldUrnDefinition != null;
+    }
 
-	/**
-	 * @return true if condition is met, false otherwise
-	 */
-	private boolean testConditionNoAssociations() {
-		return concern.getSpecDiagrams().size() == 0 && concern.getToLinks().size() == 0 && 
-    		concern.getFromLinks().size() == 0;
-	}
+    /**
+     * @return true if condition is met, false otherwise
+     */
+    private boolean testConditionNoAssociations() {
+        return concern.getSpecDiagrams().size() == 0 && concern.getToLinks().size() == 0 && concern.getFromLinks().size() == 0;
+    }
 
-	/**
-	 * @return true if condition is met, false otherwise
-	 */
-	private boolean testConditionInModel() {
-		return oldUrnDefinition.getConcerns().contains(concern);
-	}
-	
+    /**
+     * @return true if condition is met, false otherwise
+     */
+    private boolean testConditionInModel() {
+        return oldUrnDefinition.getConcerns().contains(concern);
+    }
+
 }

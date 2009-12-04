@@ -157,22 +157,22 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        //		assert oldPlugin != null : "Pre oldPlugin is null";
-        //		assert stub.getBindings().contains(oldPlugin) : "Pre oldPlugin not contained in stub bindings";
-        //		assert oldMap.getParentStub().contains(oldPlugin) : "Pre oldPlugin not contained in the map parent stubs";
-        //		assert !stub.getBindings().contains(newPlugin) : "Pre newPlugin contained in the stub bindings";
-        //		assert !oldMap.getParentStub().contains(newPlugin) : "Pre newPlugin contained in the map parent stubs";
+        // assert oldPlugin != null : "Pre oldPlugin is null";
+        // assert stub.getBindings().contains(oldPlugin) : "Pre oldPlugin not contained in stub bindings";
+        // assert oldMap.getParentStub().contains(oldPlugin) : "Pre oldPlugin not contained in the map parent stubs";
+        // assert !stub.getBindings().contains(newPlugin) : "Pre newPlugin contained in the stub bindings";
+        // assert !oldMap.getParentStub().contains(newPlugin) : "Pre newPlugin contained in the map parent stubs";
     }
 
     /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        //		assert oldPlugin != null : "Post oldPlugin is null";
-        //		assert !stub.getBindings().contains(oldPlugin) : "Post oldPlugin contained in stub bindings";
-        //		assert !oldMap.getParentStub().contains(oldPlugin) : "Post oldPlugin contained in the map parent stubs";
-        //		assert stub.getBindings().contains(newPlugin) : "Post newPlugin not contained in the stub bindings";
-        //		assert oldMap.getParentStub().contains(newPlugin) : "Post newPlugin noy contained in the map parent stubs";
+        // assert oldPlugin != null : "Post oldPlugin is null";
+        // assert !stub.getBindings().contains(oldPlugin) : "Post oldPlugin contained in stub bindings";
+        // assert !oldMap.getParentStub().contains(oldPlugin) : "Post oldPlugin contained in the map parent stubs";
+        // assert stub.getBindings().contains(newPlugin) : "Post newPlugin not contained in the stub bindings";
+        // assert oldMap.getParentStub().contains(newPlugin) : "Post newPlugin noy contained in the map parent stubs";
     }
 
 }

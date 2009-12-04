@@ -14,16 +14,16 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.DelegatingElementComparator;
 
 /**
- * This class is one of the top level edit parts for the stategies view. 
+ * This class is one of the top level edit parts for the stategies view.
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class GRLspecStrategyTreeEditPart extends StrategyUrnModelElementTreeEditPart {
-    
+
     /**
      * @param model
-     *          The GRLspec model
+     *            The GRLspec model
      */
     public GRLspecStrategyTreeEditPart(GRLspec model) {
         super(model);
@@ -52,16 +52,16 @@ public class GRLspecStrategyTreeEditPart extends StrategyUrnModelElementTreeEdit
         }
         super.deactivate();
     }
-    
+
     /**
      * @return the icon associated with GRLspec
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage( "icons/folder16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/folder16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
-    
+
     /**
      * @return the sorted list of {@link StrategiesGroup}
      */
@@ -76,12 +76,12 @@ public class GRLspecStrategyTreeEditPart extends StrategyUrnModelElementTreeEdit
      * 
      * @return the GRLspec
      */
-    private GRLspec getGRLspec(){
-        return (GRLspec)getModel();
+    private GRLspec getGRLspec() {
+        return (GRLspec) getModel();
     }
-    
+
     /**
-     * @return the label for the folder containing evaluation strategies. 
+     * @return the label for the folder containing evaluation strategies.
      */
     protected String getText() {
         return Messages.getString("GRLspecStrategyTreeEditPart.grlEvaluationStrategies"); //$NON-NLS-1$

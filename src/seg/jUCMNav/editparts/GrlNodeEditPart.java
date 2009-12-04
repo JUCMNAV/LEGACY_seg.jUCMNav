@@ -16,13 +16,13 @@ import seg.jUCMNav.figures.GrlNodeFigure;
  * Generic Editpart for GrlNode
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public abstract class GrlNodeEditPart extends ModelElementEditPart {
 
     // for direct edit
     protected DirectEditManager manager;
-    
+
     /**
      * For direct edit, verify location.
      * 
@@ -36,7 +36,7 @@ public abstract class GrlNodeEditPart extends ModelElementEditPart {
             return true;
         return false;
     }
-  
+
     /**
      * @param value
      *            the name change during an edit
@@ -46,10 +46,10 @@ public abstract class GrlNodeEditPart extends ModelElementEditPart {
         tableFigure.setVisible(false);
         refreshVisuals();
     }
-    
+
     /**
      * Opens the direct edit manager.
-     *  
+     * 
      */
     protected void performDirectEdit() {
         if (manager == null) {
@@ -65,7 +65,7 @@ public abstract class GrlNodeEditPart extends ModelElementEditPart {
         }
         manager.show();
     }
-    
+
     /**
      * Show direct edit on element on double click, f2 or delay.
      */
@@ -74,7 +74,7 @@ public abstract class GrlNodeEditPart extends ModelElementEditPart {
             if (request instanceof DirectEditRequest && !directEditHitTest(((DirectEditRequest) request).getLocation().getCopy()))
                 return;
             performDirectEdit();
-        } 
+        }
     }
 
     /**
@@ -85,5 +85,5 @@ public abstract class GrlNodeEditPart extends ModelElementEditPart {
         tableFigure.setVisible(true);
         refreshVisuals();
     }
-    
+
 }

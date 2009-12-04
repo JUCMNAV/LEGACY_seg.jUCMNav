@@ -3,9 +3,8 @@ package seg.jUCMNav.scenarios.parser;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.scenarios.model.jUCMNavType;
+
 public class jUCMNavTypeChecker {
-
-
 
     protected static jUCMNavType verifySemantics(SimpleNode root, UcmEnvironment env) {
 
@@ -13,8 +12,7 @@ public class jUCMNavTypeChecker {
         case jUCMNavParserTreeConstants.JJTSTART:
         case jUCMNavParserTreeConstants.JJTSTARTRESPONSIBILITY:
             return verifySemantics(((SimpleNode) root.jjtGetChild(0)), env);
-        case jUCMNavParserTreeConstants.JJTCOMPOUNDSTATEMENT: 
-        {
+        case jUCMNavParserTreeConstants.JJTCOMPOUNDSTATEMENT: {
             for (int i = 0; i < root.jjtGetNumChildren(); i++) {
                 SimpleNode node = ((SimpleNode) root.jjtGetChild(i));
                 if (!verifySemantics(node, env).equals(jUCMNavType.VOID)) {
@@ -25,11 +23,10 @@ public class jUCMNavTypeChecker {
             return jUCMNavType.VOID;
         }
         case jUCMNavParserTreeConstants.JJTIFSTATEMENT: {
-            if (!verifySemantics(((SimpleNode) root.jjtGetChild(0)), env).equals(jUCMNavType.BOOLEAN))
-            {
+            if (!verifySemantics(((SimpleNode) root.jjtGetChild(0)), env).equals(jUCMNavType.BOOLEAN)) {
                 throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.ConditionToIfStatementIsNotBoolean")); //$NON-NLS-1$
             }
-            
+
             for (int i = 1; i < root.jjtGetNumChildren(); i++) {
                 SimpleNode node = ((SimpleNode) root.jjtGetChild(i));
                 if (!verifySemantics(node, env).equals(jUCMNavType.VOID)) {
@@ -42,12 +39,13 @@ public class jUCMNavTypeChecker {
         case jUCMNavParserTreeConstants.JJTASSIGNMENT: {
             SimpleNode node = ((SimpleNode) root.jjtGetChild(0));
             SimpleNode node2 = ((SimpleNode) root.jjtGetChild(1));
-            jUCMNavType type = verifySemantics(node, env); 
+            jUCMNavType type = verifySemantics(node, env);
             jUCMNavType type2 = verifySemantics(node2, env);
             if (!type.equals(type2)) {
-                throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.CannotAssign") + type2.toString() + Messages.getString("jUCMNavTypeChecker.ToVariableOfType") + type.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+                throw new IllegalArgumentException(
+                        Messages.getString("jUCMNavTypeChecker.CannotAssign") + type2.toString() + Messages.getString("jUCMNavTypeChecker.ToVariableOfType") + type.toString()); //$NON-NLS-1$ //$NON-NLS-2$
             }
-            
+
             return jUCMNavType.VOID;
         }
         case jUCMNavParserTreeConstants.JJTIMPLICATION:
@@ -73,7 +71,7 @@ public class jUCMNavTypeChecker {
             Object type2 = verifySemantics((SimpleNode) root.jjtGetChild(2), env);
 
             if (!type1.equals(type2)) {
-                    throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.EqualityInequalityMustBeAppliedToSameTypes")); //$NON-NLS-1$
+                throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.EqualityInequalityMustBeAppliedToSameTypes")); //$NON-NLS-1$
             }
             for (int i = 3; i < root.jjtGetNumChildren(); i++) {
                 SimpleNode node = ((SimpleNode) root.jjtGetChild(i));

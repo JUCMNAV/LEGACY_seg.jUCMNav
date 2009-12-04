@@ -19,7 +19,7 @@ import urncore.URNmodelElement;
  * Doesn't bind Connects. See DevDocSpecialCaseConnects
  * 
  * @author jkealey
- *  
+ * 
  */
 public class ContainerRefBindChildCommand extends Command implements JUCMNavCommand {
 
@@ -59,7 +59,7 @@ public class ContainerRefBindChildCommand extends Command implements JUCMNavComm
         this.parent = parent;
         this.children = new Vector();
 
-        // don't bind Connects        
+        // don't bind Connects
         if (!(child instanceof Connect))
             this.children.add(child);
 

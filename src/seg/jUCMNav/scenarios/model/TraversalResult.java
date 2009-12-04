@@ -60,7 +60,8 @@ public class TraversalResult {
     /**
      * Merge the parameter into this traversal (sum up the values); used when we launch multiple scenarios to compute coverage.
      * 
-     * @param res the element to merge with. 
+     * @param res
+     *            the element to merge with.
      */
     public void merge(TraversalResult res) {
         hitCount += res.getHitCount();

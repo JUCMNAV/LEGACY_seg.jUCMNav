@@ -199,18 +199,18 @@ public class StubConnectionEndpointLocator implements Locator {
 
         conn.getPoints().getPoint(startPoint, startPointPosition);
         conn.getPoints().getPoint(endPoint, endPointPosition);
-//        IFigure connOwner = getConnectionOwner();
+        // IFigure connOwner = getConnectionOwner();
 
         int quadrant;
-//      start of modifications jkealey 
-//        if (connOwner != null) {
-//            Rectangle connOwnerBounds = connOwner.getBounds();
-//            Point connOwnerCenter = connOwnerBounds.getCenter();
-//            Point connOwnerTL = connOwnerBounds.getTopLeft();
-//            quadrant = calculateConnectionLocation(startPoint, connOwnerTL, connOwnerCenter);
-//        } else
-            quadrant = calculateConnectionLocation(startPoint, endPoint);
-//          end of modifications jkealey
+        // start of modifications jkealey
+        // if (connOwner != null) {
+        // Rectangle connOwnerBounds = connOwner.getBounds();
+        // Point connOwnerCenter = connOwnerBounds.getCenter();
+        // Point connOwnerTL = connOwnerBounds.getTopLeft();
+        // quadrant = calculateConnectionLocation(startPoint, connOwnerTL, connOwnerCenter);
+        // } else
+        quadrant = calculateConnectionLocation(startPoint, endPoint);
+        // end of modifications jkealey
 
         int cos = 1;
         transposer.setEnabled(false);
@@ -222,9 +222,9 @@ public class StubConnectionEndpointLocator implements Locator {
 
         if (quadrant == 1 || quadrant == 3)
             transposer.setEnabled(true);
-        
-    	if (quadrant == 3 || quadrant == 4)
-    		cos = -1;		
+
+        if (quadrant == 3 || quadrant == 4)
+            cos = -1;
 
         Dimension figureSize = transposer.t(figure.getPreferredSize());
         startPoint = transposer.t(startPoint);

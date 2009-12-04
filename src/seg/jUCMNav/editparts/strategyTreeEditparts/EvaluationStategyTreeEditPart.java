@@ -18,51 +18,50 @@ import seg.jUCMNav.figures.ColorManager;
  */
 public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
+    /**
+     * @param model
+     */
+    public EvaluationStategyTreeEditPart(EvaluationStrategy model) {
+        super(model);
+    }
 
-	/**
-	 * @param model
-	 */
-	public EvaluationStategyTreeEditPart(EvaluationStrategy model) {
-		super(model);
-	}
-
-	/**
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
-	 */
-	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationStrategyComponentEditPolicy());
-	}
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies() {
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationStrategyComponentEditPolicy());
+    }
 
     /**
      * 
      * @return the evaluation strategy
      */
-	public EvaluationStrategy getEvaluationStrategy() {
-		return (EvaluationStrategy) getModel();
-	}
+    public EvaluationStrategy getEvaluationStrategy() {
+        return (EvaluationStrategy) getModel();
+    }
 
-	/**
-	 * @return the icon for an evaluation strategy. 
-	 */
-	protected Image getImage() {
-		if (super.getImage() == null) {
-			setImage((JUCMNavPlugin.getImage( "icons/grlstrat16.gif"))); //$NON-NLS-1$
-		}
-		return super.getImage();
-	}
+    /**
+     * @return the icon for an evaluation strategy.
+     */
+    protected Image getImage() {
+        if (super.getImage() == null) {
+            setImage((JUCMNavPlugin.getImage("icons/grlstrat16.gif"))); //$NON-NLS-1$
+        }
+        return super.getImage();
+    }
 
-	/** 
+    /**
      * If selected, set the element in bold.
-	 */
-	public void setSelected(boolean selected) {
-		// bug 411
-		if (widget == null)
-			return;
-		if (selected) {
-			((TreeItem) widget).setBackground(ColorManager.LIGHTGRAY);
-		} else {
-			((TreeItem) widget).setBackground(ColorManager.WHITE);
-		}
-		// refreshVisuals();
-	}
+     */
+    public void setSelected(boolean selected) {
+        // bug 411
+        if (widget == null)
+            return;
+        if (selected) {
+            ((TreeItem) widget).setBackground(ColorManager.LIGHTGRAY);
+        } else {
+            ((TreeItem) widget).setBackground(ColorManager.WHITE);
+        }
+        // refreshVisuals();
+    }
 }

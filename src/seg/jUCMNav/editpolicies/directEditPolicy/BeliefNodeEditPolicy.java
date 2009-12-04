@@ -15,7 +15,7 @@ import seg.jUCMNav.model.commands.create.AddBeliefLinkCommand;
  * Edit policy to create connection between beliefs and IntentionalElementRef or LinkRef
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class BeliefNodeEditPolicy extends GraphicalNodeEditPolicy {
 
@@ -26,8 +26,8 @@ public class BeliefNodeEditPolicy extends GraphicalNodeEditPolicy {
         super();
     }
 
-    /* 
-     * Not implemented  
+    /*
+     * Not implemented
      * 
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
@@ -41,15 +41,16 @@ public class BeliefNodeEditPolicy extends GraphicalNodeEditPolicy {
      */
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
         Belief source = (Belief) getHost().getModel();
-        if (source.getSucc().size() == 0 && (request.getNewObject() instanceof BeliefLink)){
-            AddBeliefLinkCommand  cmd = new AddBeliefLinkCommand ((GRLGraph)source.getDiagram(), source, (BeliefLink)request.getNewObject());
+        if (source.getSucc().size() == 0 && (request.getNewObject() instanceof BeliefLink)) {
+            AddBeliefLinkCommand cmd = new AddBeliefLinkCommand((GRLGraph) source.getDiagram(), source, (BeliefLink) request.getNewObject());
             request.setStartCommand(cmd);
             return cmd;
         }
         return null;
     }
 
-    /* Not implemented
+    /*
+     * Not implemented
      * 
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
      */
@@ -57,8 +58,9 @@ public class BeliefNodeEditPolicy extends GraphicalNodeEditPolicy {
         return null;
     }
 
-    /* Not implemented
-     *
+    /*
+     * Not implemented
+     * 
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
      */
     protected Command getReconnectSourceCommand(ReconnectRequest request) {

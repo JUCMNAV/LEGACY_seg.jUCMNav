@@ -20,7 +20,7 @@ import ucm.map.Stub;
  * EndPoint, but not enforced.
  * 
  * @author jpdaigle, jkealey
- *  
+ * 
  */
 public class SafePathChecker {
 
@@ -48,12 +48,11 @@ public class SafePathChecker {
      * @return true if safe
      */
     public static boolean isSafeFusion(PathNode joinFromPathNode, NodeConnection joinToNodeConnection) {
-        PathNode toNode = (PathNode)joinToNodeConnection.getTarget();
+        PathNode toNode = (PathNode) joinToNodeConnection.getTarget();
         boolean b = isSafeFusion(joinFromPathNode, toNode);
-        if (!b && (joinFromPathNode instanceof EndPoint && toNode instanceof EndPoint))
-        {
-        	toNode = (PathNode)joinToNodeConnection.getSource();
-        	b = isSafeFusion(joinFromPathNode, toNode);
+        if (!b && (joinFromPathNode instanceof EndPoint && toNode instanceof EndPoint)) {
+            toNode = (PathNode) joinToNodeConnection.getSource();
+            b = isSafeFusion(joinFromPathNode, toNode);
         }
         return b;
     }
@@ -68,9 +67,9 @@ public class SafePathChecker {
      * @return true if safe; no illegal loops caused
      */
     public static boolean isSafeFusion(PathNode joinFromPathNode, PathNode joinToPathNode) {
-    	
-    	if (joinFromPathNode == joinToPathNode)
-    		return false;
+
+        if (joinFromPathNode == joinToPathNode)
+            return false;
         // Query for reachable nodes starting from joinToPathNode: if joinFromPathNode is not included in there,
         // the join won't cause a loop.
 

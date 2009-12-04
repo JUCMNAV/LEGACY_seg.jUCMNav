@@ -21,67 +21,58 @@ import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.model.commands.cutcopypaste.CopyCommand;
 
-public class CopyAction extends SelectionAction
-{
+public class CopyAction extends SelectionAction {
 
-	public CopyAction(IWorkbenchPart part)
-	{
-		super(part);
-		setId(ActionFactory.COPY.getId());
-		setText(GEFMessages.CopyAction_Label);
-		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
-		setDisabledImageDescriptor(sharedImages.getImageDescriptor(
-				ISharedImages.IMG_TOOL_COPY_DISABLED));
-	}
+    public CopyAction(IWorkbenchPart part) {
+        super(part);
+        setId(ActionFactory.COPY.getId());
+        setText(GEFMessages.CopyAction_Label);
+        ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+        setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
+        setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
+    }
 
-	protected boolean calculateEnabled()
-	{
-		return true;
-	}
+    protected boolean calculateEnabled() {
+        return true;
+    }
 
-	public void run()
-	{
-		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-		// Don't need to put this on the stack. 
-		if (sel.getUrnspec()!=null) {
-			ImageData screenshot = buildScreenshot(getWorkbenchPart());
-			
-			CopyCommand cmd = new CopyCommand(sel.getUrnspec(), getSelectedObjects(), screenshot);
-			cmd.execute();
-		}
-	}
+    public void run() {
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        // Don't need to put this on the stack.
+        if (sel.getUrnspec() != null) {
+            ImageData screenshot = buildScreenshot(getWorkbenchPart());
 
-	public static ImageData buildScreenshot(IWorkbenchPart part)
-	{
-		ImageData screenshot = null;
-		
-		if ( part instanceof UCMNavMultiPageEditor)
-		{
-			UCMNavMultiPageEditor multi = (UCMNavMultiPageEditor) part;
-			if (multi.getCurrentPage()!=null)
-			{
-				UrnEditor editor = (UrnEditor)multi.getCurrentPage();
-				LayeredPane pane = ((URNRootEditPart) (editor.getGraphicalViewer().getRootEditPart())).getScaledLayers();
-			
-				IFigure figure = pane;
-				int w = figure.getSize().width;
-				int h = figure.getSize().height;
-				Image image = new Image(Display.getDefault(), w, h);
-				
-				GC gc = new GC(image);
-				SWTGraphics graphics = new SWTGraphics(gc);
-				figure.paint(graphics);
-		        graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
-				graphics.dispose();
-				gc.dispose();
-				
-				// TODO: Improve crop to make use of current selection. 
-				screenshot=ReportUtils.cropImage(image.getImageData());
-			}
-		}
-		return screenshot;
-	}
-	
+            CopyCommand cmd = new CopyCommand(sel.getUrnspec(), getSelectedObjects(), screenshot);
+            cmd.execute();
+        }
+    }
+
+    public static ImageData buildScreenshot(IWorkbenchPart part) {
+        ImageData screenshot = null;
+
+        if (part instanceof UCMNavMultiPageEditor) {
+            UCMNavMultiPageEditor multi = (UCMNavMultiPageEditor) part;
+            if (multi.getCurrentPage() != null) {
+                UrnEditor editor = (UrnEditor) multi.getCurrentPage();
+                LayeredPane pane = ((URNRootEditPart) (editor.getGraphicalViewer().getRootEditPart())).getScaledLayers();
+
+                IFigure figure = pane;
+                int w = figure.getSize().width;
+                int h = figure.getSize().height;
+                Image image = new Image(Display.getDefault(), w, h);
+
+                GC gc = new GC(image);
+                SWTGraphics graphics = new SWTGraphics(gc);
+                figure.paint(graphics);
+                graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
+                graphics.dispose();
+                gc.dispose();
+
+                // TODO: Improve crop to make use of current selection.
+                screenshot = ReportUtils.cropImage(image.getImageData());
+            }
+        }
+        return screenshot;
+    }
 
 }

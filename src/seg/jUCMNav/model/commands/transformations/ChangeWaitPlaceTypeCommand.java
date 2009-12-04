@@ -12,92 +12,91 @@ import ucm.map.WaitingPlace;
  * 
  * @author jkealey
  */
-public class ChangeWaitPlaceTypeCommand extends Command implements
-		JUCMNavCommand {
-	private WaitingPlace element;
-	private WaitKind oldKind, newKind;
+public class ChangeWaitPlaceTypeCommand extends Command implements JUCMNavCommand {
+    private WaitingPlace element;
+    private WaitKind oldKind, newKind;
 
-	public ChangeWaitPlaceTypeCommand(WaitingPlace obj, WaitKind kind) {
-		this.element = obj;
-		this.newKind = kind;
+    public ChangeWaitPlaceTypeCommand(WaitingPlace obj, WaitKind kind) {
+        this.element = obj;
+        this.newKind = kind;
 
-		setLabel(Messages.getString("ChangeWaitPlaceTypeCommand.ChangeWaitPlaceType")); //$NON-NLS-1$
-	}
+        setLabel(Messages.getString("ChangeWaitPlaceTypeCommand.ChangeWaitPlaceType")); //$NON-NLS-1$
+    }
 
-	/**
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
-	public void execute() {
-		oldKind = element.getWaitType();
-		
-		redo();
-	}
+    /**
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
+    public void execute() {
+        oldKind = element.getWaitType();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
-	public void redo() {
-		testPreConditions();
+        redo();
+    }
 
-		element.setWaitType(newKind);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void redo() {
+        testPreConditions();
 
-		testPostConditions();
-	}
+        element.setWaitType(newKind);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
-	 */
-	public void testPostConditions() {
-		assert element != null : "post no elem to change!"; //$NON-NLS-1$
-	}
+        testPostConditions();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
-	 */
-	public void testPreConditions() {
-		assert element != null : "pre no elem to change"; //$NON-NLS-1$
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
+     */
+    public void testPostConditions() {
+        assert element != null : "post no elem to change!"; //$NON-NLS-1$
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
+     */
+    public void testPreConditions() {
+        assert element != null : "pre no elem to change"; //$NON-NLS-1$
 
-	/**
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
-	public void undo() {
-		testPostConditions();
+    }
 
-		element.setWaitType(oldKind);
+    /**
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
+    public void undo() {
+        testPostConditions();
 
-		testPreConditions();
-	}
+        element.setWaitType(oldKind);
 
-	public WaitingPlace getElement() {
-		return element;
-	}
+        testPreConditions();
+    }
 
-	public void setElement(WaitingPlace element) {
-		this.element = element;
-	}
+    public WaitingPlace getElement() {
+        return element;
+    }
 
-	public WaitKind getOldKind() {
-		return oldKind;
-	}
+    public void setElement(WaitingPlace element) {
+        this.element = element;
+    }
 
-	public void setOldKind(WaitKind oldKind) {
-		this.oldKind = oldKind;
-	}
+    public WaitKind getOldKind() {
+        return oldKind;
+    }
 
-	public WaitKind getNewKind() {
-		return newKind;
-	}
+    public void setOldKind(WaitKind oldKind) {
+        this.oldKind = oldKind;
+    }
 
-	public void setNewKind(WaitKind newKind) {
-		this.newKind = newKind;
-	}
+    public WaitKind getNewKind() {
+        return newKind;
+    }
+
+    public void setNewKind(WaitKind newKind) {
+        this.newKind = newKind;
+    }
 
 }

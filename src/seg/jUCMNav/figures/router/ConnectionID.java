@@ -9,7 +9,7 @@ import ucm.map.PathNode;
  * equals() and hashCode() are overridden to allow the ID to be used in HashMaps and other collections.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class ConnectionID {
 
@@ -97,7 +97,8 @@ public class ConnectionID {
 
     /**
      * 
-     * @param target the target PathNode
+     * @param target
+     *            the target PathNode
      */
     public void setTarget(PathNode target) {
         this.target = target;

@@ -73,7 +73,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     /**
      * 
      * Use this constructor to pass arguments in a delayed fashion.
-     *  
+     * 
      */
     public CutPathCommand() {
         super();
@@ -94,12 +94,12 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         if (b) {
             PathNode ep = (PathNode) p;
             if (ep.getSucc().size() > 0 && ep.getPred().size() > 0) {
-                PathNode pn = (PathNode)((NodeConnection) ep.getSucc().get(0)).getTarget();
+                PathNode pn = (PathNode) ((NodeConnection) ep.getSucc().get(0)).getTarget();
                 b = (pn instanceof EmptyPoint || pn instanceof DirectionArrow);
                 // check if no connects
                 b = b && pn.getPred().size() == 1 && pn.getSucc().size() == 1;
 
-                pn = (PathNode)((NodeConnection) ep.getPred().get(0)).getSource();
+                pn = (PathNode) ((NodeConnection) ep.getPred().get(0)).getSource();
                 b = b && (pn instanceof EmptyPoint || pn instanceof DirectionArrow);
                 // check if no connects
                 b = b && pn.getPred().size() == 1 && pn.getSucc().size() == 1;
@@ -109,11 +109,11 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         }
         if (b == false && p instanceof NodeConnection) {
             NodeConnection nc = (NodeConnection) p;
-            b = nc.getTarget() instanceof EmptyPoint ||  nc.getTarget() instanceof DirectionArrow;
-            //check if no connects
+            b = nc.getTarget() instanceof EmptyPoint || nc.getTarget() instanceof DirectionArrow;
+            // check if no connects
             b = b && nc.getTarget().getSucc().size() == 1 && nc.getTarget().getPred().size() == 1;
             b = b && (nc.getSource() instanceof EmptyPoint || nc.getSource() instanceof DirectionArrow);
-            //check if no connects
+            // check if no connects
             b = b && nc.getSource().getSucc().size() == 1 && nc.getSource().getPred().size() == 1;
         }
 
@@ -151,23 +151,23 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
 
         if (targetConn == null) {
             connToNext1 = (NodeConnection) emptyPoint.getSucc().get(0);
-            nextPoint = (PathNode)connToNext1.getTarget();
+            nextPoint = (PathNode) connToNext1.getTarget();
 
             connToPrev1 = (NodeConnection) emptyPoint.getPred().get(0);
-            previousPoint = (PathNode)connToPrev1.getSource();
+            previousPoint = (PathNode) connToPrev1.getSource();
         } else {
-            nextPoint = (PathNode)targetConn.getTarget();
-            previousPoint = (PathNode)targetConn.getSource();
+            nextPoint = (PathNode) targetConn.getTarget();
+            previousPoint = (PathNode) targetConn.getSource();
         }
 
         connToPrev2 = (NodeConnection) previousPoint.getPred().get(0);
         connToNext2 = (NodeConnection) nextPoint.getSucc().get(0);
 
         if (emptyPoint != null) {
-            parentEmpty = (ComponentRef)emptyPoint.getContRef();
+            parentEmpty = (ComponentRef) emptyPoint.getContRef();
         }
-        parentPrevious = (ComponentRef)previousPoint.getContRef();
-        parentNext = (ComponentRef)nextPoint.getContRef();
+        parentPrevious = (ComponentRef) previousPoint.getContRef();
+        parentNext = (ComponentRef) nextPoint.getContRef();
 
         newStart.setX(nextPoint.getX());
         newStart.setY(nextPoint.getY());
@@ -216,7 +216,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      * Undo model changes
      */
     public void undo() {
-        //      reconnect the lazily disconnected branch
+        // reconnect the lazily disconnected branch
         testPostConditions();
         connToPrev2.setTarget(previousPoint);
         connToNext2.setSource(nextPoint);
@@ -380,7 +380,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * @return the newly created start point. 
+     * @return the newly created start point.
      */
     public StartPoint getNewStart() {
         return newStart;

@@ -113,7 +113,7 @@ public class ModelCreationFactory implements CreationFactory {
     private URNspec urn;
     public static final int DEFAULT_UCM_COMPONENT_HEIGHT = 100;
     public static final int DEFAULT_UCM_COMPONENT_WIDTH = 100;
-    
+
     public static final int DEFAULT_GRL_COMPONENT_HEIGHT = 200;
     public static final int DEFAULT_GRL_COMPONENT_WIDTH = 200;
     public static final String URNSPEC_VERSION = "0.920"; //$NON-NLS-1$
@@ -281,9 +281,9 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(ComponentLabel.class)) {
                 result = urncorefactory.createComponentLabel();
             } else if (targetClass.equals(Comment.class)) {
-            	result = urncorefactory.createComment();
-            	((Comment)result).setWidth(DEFAULT_UCM_COMPONENT_WIDTH);
-            	((Comment)result).setHeight(DEFAULT_UCM_COMPONENT_HEIGHT);
+                result = urncorefactory.createComment();
+                ((Comment) result).setWidth(DEFAULT_UCM_COMPONENT_WIDTH);
+                ((Comment) result).setHeight(DEFAULT_UCM_COMPONENT_HEIGHT);
             } else if (targetClass.equals(OrFork.class)) {
                 result = mapfactory.createOrFork();
             } else if (targetClass.equals(AndFork.class)) {
@@ -560,28 +560,29 @@ public class ModelCreationFactory implements CreationFactory {
 
     }
 
-
     /**
      * 
-     * Creates a new URNspec. A new GRL or UCM will be created, depending on the preferences last set in the new file wizard. 
+     * Creates a new URNspec. A new GRL or UCM will be created, depending on the preferences last set in the new file wizard.
+     * 
      * @return a new URN spec
      */
     public static URNspec getNewURNspec() {
         // Will also create one if no GRL or UCM diagrams were selected (so at least one diagram is present)
 
-        return getNewURNspec(GeneralPreferencePage.getNewUCM() || !GeneralPreferencePage.getNewGRL(),GeneralPreferencePage.getNewGRL());   
+        return getNewURNspec(GeneralPreferencePage.getNewUCM() || !GeneralPreferencePage.getNewGRL(), GeneralPreferencePage.getNewGRL());
     }
-    
+
     /**
      * 
-     * Creates a new URNspec. 
+     * Creates a new URNspec.
      * 
-     * @param createUcm should a blank UCM be created?
-     * @param createGrl should a blank GRL graph be created?
+     * @param createUcm
+     *            should a blank UCM be created?
+     * @param createGrl
+     *            should a blank GRL graph be created?
      * @return a new URN spec
-     */    
-    public static URNspec getNewURNspec(boolean createUcm, boolean createGrl)
-    {
+     */
+    public static URNspec getNewURNspec(boolean createUcm, boolean createGrl) {
 
         URNspec result = null;
 
@@ -615,13 +616,13 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
 
         // add a new GRL diagram to the GRLspec, if desired
-        if (createGrl){
-            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, GRLGraph.class));        	
+        if (createGrl) {
+            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, GRLGraph.class));
         }
-        
-        // add a new UCM map to the UCMspec, if desired. 
-        if (createUcm){
-            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, UCMmap.class));        	
+
+        // add a new UCM map to the UCMspec, if desired.
+        if (createUcm) {
+            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, UCMmap.class));
         }
 
         // Create a Strategy and Strategy Group

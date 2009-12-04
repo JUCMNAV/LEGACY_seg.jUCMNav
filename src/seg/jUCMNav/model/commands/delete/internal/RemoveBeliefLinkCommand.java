@@ -15,14 +15,14 @@ import urncore.IURNNode;
  * Delete a BeliefLink from a GRLGraph
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class RemoveBeliefLinkCommand extends Command implements JUCMNavCommand {
 
     BeliefLink link;
     IURNDiagram graph;
     IURNNode source, target;
-    
+
     /**
      * 
      */
@@ -40,7 +40,7 @@ public class RemoveBeliefLinkCommand extends Command implements JUCMNavCommand {
         this.target = link.getTarget();
         redo();
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -51,31 +51,35 @@ public class RemoveBeliefLinkCommand extends Command implements JUCMNavCommand {
         link.setTarget(null);
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert link != null: "Pre link is null"; //$NON-NLS-1$
+        assert link != null : "Pre link is null"; //$NON-NLS-1$
         assert graph != null : "Pre graph is null"; //$NON-NLS-1$
-        assert source != null && target != null: "Pre source-target is null"; //$NON-NLS-1$
-        
+        assert source != null && target != null : "Pre source-target is null"; //$NON-NLS-1$
+
         assert graph.getConnections().contains(link) : "Pre graph-linkref"; //$NON-NLS-1$
         assert source.getSucc().contains(link) && target.getPred().contains(link) : "Pre link"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert link != null: "post link is null"; //$NON-NLS-1$
+        assert link != null : "post link is null"; //$NON-NLS-1$
         assert graph != null : "post graph is null"; //$NON-NLS-1$
-        assert source != null && target != null: "post source-target is null"; //$NON-NLS-1$
-        
+        assert source != null && target != null : "post source-target is null"; //$NON-NLS-1$
+
         assert !graph.getConnections().contains(link) : "post graph-linkref"; //$NON-NLS-1$
         assert !source.getSucc().contains(link) && !target.getPred().contains(link) : "post link"; //$NON-NLS-1$
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#undo()
      */

@@ -15,21 +15,16 @@ import seg.jUCMNav.model.commands.delete.DeleteActorRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteGRLNodeCommand;
 
 /**
- * This class unlink reference and definition of IntentionalElements, Actors and Links. 
- * It also delete the GRLGraph
- *  
+ * This class unlink reference and definition of IntentionalElements, Actors and Links. It also delete the GRLGraph
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class DeleteGRLGraphRefDefLinksCommand extends CompoundCommand {
-    
+
     // the graph to delete
     private GRLGraph graph;
 
-
-    
-
-   
     /**
      * @param diagram
      *            the graph to delete
@@ -48,7 +43,7 @@ public class DeleteGRLGraphRefDefLinksCommand extends CompoundCommand {
         else
             return super.canExecute();
     }
-    
+
     /**
      * Builds command as late as possible.
      */
@@ -56,7 +51,7 @@ public class DeleteGRLGraphRefDefLinksCommand extends CompoundCommand {
         build();
         super.execute();
     }
-    
+
     /**
      * Create the command to delete a GRLGraph
      */
@@ -70,8 +65,8 @@ public class DeleteGRLGraphRefDefLinksCommand extends CompoundCommand {
             GRLNode node = (GRLNode) iter.next();
             add(new DeleteGRLNodeCommand(node));
         }
-        
+
         add(new RemoveGRLGraphCommand(graph));
     }
-    
+
 }

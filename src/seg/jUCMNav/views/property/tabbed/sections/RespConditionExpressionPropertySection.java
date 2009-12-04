@@ -5,27 +5,26 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-public class RespConditionExpressionPropertySection extends
-		ConditionExpressionPropertySection {
+public class RespConditionExpressionPropertySection extends ConditionExpressionPropertySection {
 
-	protected Text createText(Composite parent) {
-		Text result = getWidgetFactory().createText(parent, "", SWT.MULTI | SWT.WRAP);
-		
-		result.setEnabled(false);
+    protected Text createText(Composite parent) {
+        Text result = getWidgetFactory().createText(parent, "", SWT.MULTI | SWT.WRAP);
 
-		GridData gridData = new GridData();
-		gridData.heightHint = 75;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.horizontalIndent=2;
-		gridData.verticalAlignment = GridData.CENTER;
-		
-		result.setLayoutData(gridData);
-		
-		return result;
-	}
+        result.setEnabled(false);
 
-	public String getLabelText() {
-		return "Code:";
-	}
+        GridData gridData = new GridData();
+        gridData.heightHint = 75;
+        gridData.grabExcessHorizontalSpace = true;
+        gridData.horizontalAlignment = GridData.FILL;
+        gridData.horizontalIndent = 2;
+        gridData.verticalAlignment = GridData.CENTER;
+
+        result.setLayoutData(gridData);
+
+        return result;
+    }
+
+    public String getLabelText() {
+        return "Code:";
+    }
 }

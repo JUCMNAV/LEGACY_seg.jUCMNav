@@ -15,14 +15,14 @@ import urncore.Comment;
  */
 public class CommentComponentEditPolicy extends ComponentEditPolicy {
 
-	/**
-	 * 
-	 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-	 */
-	protected Command getDeleteCommand(GroupRequest request) {
+    /**
+     * 
+     * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
+     */
+    protected Command getDeleteCommand(GroupRequest request) {
 
-		Comment node = (Comment) getHost().getModel();
-		return new DeleteCommentCommand(node);
-	}
+        Comment node = (Comment) getHost().getModel();
+        return new DeleteCommentCommand(node);
+    }
 
 }

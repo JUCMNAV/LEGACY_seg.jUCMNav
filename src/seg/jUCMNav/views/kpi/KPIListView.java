@@ -134,15 +134,15 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
         retrieveKPIValues.setText(Messages.getString("KPIListView.Retrieve")); //$NON-NLS-1$
 
         DisplayPreferences.getInstance().registerListener(this);
-        
-        //Add the showNodeNumber action.
+
+        // Add the showNodeNumber action.
         showNodeNumberAction = new Action() {
-        	public void run() {
-        		DisplayPreferences.getInstance().setShowNodeNumber(showNodeNumberAction.isChecked());
-        	}
+            public void run() {
+                DisplayPreferences.getInstance().setShowNodeNumber(showNodeNumberAction.isChecked());
+            }
         };
-        
-        showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/identifiers.png")); //$NON-NLS-1$
+
+        showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/identifiers.png")); //$NON-NLS-1$
         showNodeNumberAction.setToolTipText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
         showNodeNumberAction.setText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
         showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
@@ -166,35 +166,34 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
             // unhook outline viewer
             // multieditor.getSelectionSynchronizer().removeViewer(viewer);
         }
-        
+
         Object p = viewer.getRootEditPart();
         if (p instanceof AbstractTreeEditPart) {
             ((AbstractTreeEditPart) p).setModel(null);
         }
-        
-        if (viewer.getContextMenu()!=null) { 
+
+        if (viewer.getContextMenu() != null) {
             viewer.getContextMenu().dispose();
             viewer.setContextMenu(null);
         }
-        
-        if (viewer.getEditDomain() instanceof UrnEditDomain)
-        {
+
+        if (viewer.getEditDomain() instanceof UrnEditDomain) {
             UrnEditDomain domain = (UrnEditDomain) viewer.getEditDomain();
             domain.dispose();
         }
-        
+
         DisplayPreferences.getInstance().unregisterListener(this);
         getSite().getPage().removePartListener(this);
 
         // dispose
         super.dispose();
-        
-        viewer=null;
-        multieditor=null;
-        currentIndicator=null;
-        currentSelection=null;
-        retrieveKPIValues=null;
-        showNodeNumberAction=null;
+
+        viewer = null;
+        multieditor = null;
+        currentIndicator = null;
+        currentSelection = null;
+        retrieveKPIValues = null;
+        showNodeNumberAction = null;
     }
 
     /**
@@ -214,14 +213,12 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
     public void partActivated(IWorkbenchPartReference partRef) {
         if (partRef.getPart(false) == this || partRef.getPart(false) instanceof UCMNavMultiPageEditor) {
             setEditor(partRef);
-        }
-        else
-        {
-        	// bug 709 - if we are no longer selecting a UCM editor, flush the current selection. 
-        	if (!(partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor)) {
-        		setEditor((UCMNavMultiPageEditor)null);
-		        viewer.setContents(null);
-        	}        
+        } else {
+            // bug 709 - if we are no longer selecting a UCM editor, flush the current selection.
+            if (!(partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor)) {
+                setEditor((UCMNavMultiPageEditor) null);
+                viewer.setContents(null);
+            }
         }
     }
 
@@ -316,9 +313,8 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
 
             multieditor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
 
-            if (viewer.getEditDomain() instanceof UrnEditDomain)
-            {
-                ((UrnEditDomain)viewer.getEditDomain()).dispose();
+            if (viewer.getEditDomain() instanceof UrnEditDomain) {
+                ((UrnEditDomain) viewer.getEditDomain()).dispose();
             }
             viewer.setEditDomain(new UrnEditDomain(multieditor));
             viewer.setEditPartFactory(new KPITreeEditPartFactory(multieditor.getModel()));
@@ -393,8 +389,8 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
         }
     }
 
-	public void refreshView() {
-		viewer.setContents(viewer.getContents());
-		showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
-	}
+    public void refreshView() {
+        viewer.setContents(viewer.getContents());
+        showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
+    }
 }

@@ -7,17 +7,17 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urncore.Comment;
 
 /**
- * Changes the comment's description.  
+ * Changes the comment's description.
  * 
  * @author jkealey
  */
 public class ChangeCommentDescriptionCommand extends Command implements JUCMNavCommand {
-    private String description="", oldDesc=""; //$NON-NLS-1$ //$NON-NLS-2$
+    private String description = "", oldDesc = ""; //$NON-NLS-1$ //$NON-NLS-2$
     private Comment elem;
 
     public ChangeCommentDescriptionCommand(Comment comment, String name) {
-    	this.elem = comment;
-    	this.description = name;
+        this.elem = comment;
+        this.description = name;
         setLabel(Messages.getString("ChangeCommentDescriptionCommand.ChangeComment")); //$NON-NLS-1$
     }
 
@@ -25,21 +25,21 @@ public class ChangeCommentDescriptionCommand extends Command implements JUCMNavC
      * @return whether we can apply changes
      */
     public boolean canExecute() {
-        return elem !=null;
+        return elem != null;
     }
 
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	oldDesc = elem.getDescription();
-        
+        oldDesc = elem.getDescription();
+
         redo();
     }
 
     public String getDescription() {
-		return description;
-	}
+        return description;
+    }
 
     /*
      * (non-Javadoc)
@@ -54,11 +54,9 @@ public class ChangeCommentDescriptionCommand extends Command implements JUCMNavC
         testPostConditions();
     }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /*
      * (non-Javadoc)
@@ -69,7 +67,7 @@ public class ChangeCommentDescriptionCommand extends Command implements JUCMNavC
         assert elem != null : "post no elemement to name!"; //$NON-NLS-1$
     }
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
@@ -79,7 +77,7 @@ public class ChangeCommentDescriptionCommand extends Command implements JUCMNavC
 
     }
 
-	/**
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {

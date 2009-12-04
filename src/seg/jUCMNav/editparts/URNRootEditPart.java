@@ -22,49 +22,47 @@ import ucm.map.NodeConnection;
 import ucm.map.UCMmap;
 
 /**
- * Root edit part of any jUCMNav editor.
- * This class is used to manage all editors using the same EditPart
+ * Root edit part of any jUCMNav editor. This class is used to manage all editors using the same EditPart
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
 
-    // Used to simplify some stub binding code. 
+    // Used to simplify some stub binding code.
     private UCMNavMultiPageEditor multiPageEditor;
-    
+
     protected boolean strategyView;
     protected boolean scenarioView;
-    
-  
+
     public static final String COMPONENT_LAYER = "COMPONENT"; //$NON-NLS-1$
 
-    // what is the current view mode for this editor. 
+    // what is the current view mode for this editor.
     protected int mode = 0;
-    
 
     /**
      * 
-     * @param editor the multi page editor
+     * @param editor
+     *            the multi page editor
      */
     public URNRootEditPart(UCMNavMultiPageEditor editor) {
         super();
         multiPageEditor = editor;
-        if (EvaluationStrategyManager.getInstance().getEvaluationStrategy() != null){
+        if (EvaluationStrategyManager.getInstance().getEvaluationStrategy() != null) {
             strategyView = true;
-        } else{
+        } else {
             strategyView = false;
         }
-        
-        scenarioView = ScenarioUtils.getActiveScenario(editor.getModel())!=null;
+
+        scenarioView = ScenarioUtils.getActiveScenario(editor.getModel()) != null;
     }
 
-    public Object getAdapter(Class adapter) { 
-    	if (adapter == AutoexposeHelper.class /*|| adapter == ExposeHelper.class*/)
-			return new ViewportAutoexposeHelper(this, new Insets(50,50,50,50));
-		return super.getAdapter(adapter);
-	} 
-    
+    public Object getAdapter(Class adapter) {
+        if (adapter == AutoexposeHelper.class /* || adapter == ExposeHelper.class */)
+            return new ViewportAutoexposeHelper(this, new Insets(50, 50, 50, 50));
+        return super.getAdapter(adapter);
+    }
+
     /**
      * @return number of current mode
      */
@@ -73,30 +71,29 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
     }
 
     /**
-     * Overridden to allow access from export image wizard. 
+     * Overridden to allow access from export image wizard.
      */
     public LayeredPane getScaledLayers() {
         return super.getScaledLayers();
     }
-    
+
     /**
-     * @return Returns the MultiPageEditor. This is bad design but used to simplify some stub binding code. 
+     * @return Returns the MultiPageEditor. This is bad design but used to simplify some stub binding code.
      */
     public UCMNavMultiPageEditor getMultiPageEditor() {
         return multiPageEditor;
     }
-    
+
     public void setMultiPageEditor(UCMNavMultiPageEditor multiPageEditor) {
         this.multiPageEditor = multiPageEditor;
     }
 
     public abstract void setMode(int mode);
 
-
     public boolean isStrategyView() {
         return strategyView;
     }
-    
+
     public boolean isScenarioView() {
         return scenarioView;
     }
@@ -111,44 +108,44 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
 
         }
     }
-    
+
     public void setScenarioView(boolean view) {
         scenarioView = view;
-		for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
-			URNDiagramEditPart element = (URNDiagramEditPart) iter.next();
-			if (element instanceof UCMMapEditPart) {
-				UCMMapEditPart map = (UCMMapEditPart) element;
-				element.refreshVisuals();
+        for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
+            URNDiagramEditPart element = (URNDiagramEditPart) iter.next();
+            if (element instanceof UCMMapEditPart) {
+                UCMMapEditPart map = (UCMMapEditPart) element;
+                element.refreshVisuals();
 
-				ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+                ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
 
-				if (cLayer.getConnectionRouter() instanceof UCMConnectionRouter) {
-					((UCMConnectionRouter) cLayer.getConnectionRouter()).refreshConnections();
+                if (cLayer.getConnectionRouter() instanceof UCMConnectionRouter) {
+                    ((UCMConnectionRouter) cLayer.getConnectionRouter()).refreshConnections();
 
-						PathNodeEditPart child = null;
+                    PathNodeEditPart child = null;
 
-						for (Iterator iterator = map.getChildren().iterator(); iterator.hasNext();) {
-							EditPart part = (EditPart) iterator.next();
+                    for (Iterator iterator = map.getChildren().iterator(); iterator.hasNext();) {
+                        EditPart part = (EditPart) iterator.next();
 
-							if (part instanceof PathNodeEditPart) {
-								child = (PathNodeEditPart) part;
-								break;
-							}
-						}
-						
-						// using a method already in the code to refresh all node connections. 
-						if (child != null) {
-							for (Iterator iterator = ((UCMmap) map.getModel()).getConnections().iterator(); iterator.hasNext();) {
-								NodeConnection nc = (NodeConnection) iterator.next();
-								child.refreshNodeConnection(nc);
-							}
-						}
-					}
-				}
-		}
-        
-    }    
-    
+                        if (part instanceof PathNodeEditPart) {
+                            child = (PathNodeEditPart) part;
+                            break;
+                        }
+                    }
+
+                    // using a method already in the code to refresh all node connections.
+                    if (child != null) {
+                        for (Iterator iterator = ((UCMmap) map.getModel()).getConnections().iterator(); iterator.hasNext();) {
+                            NodeConnection nc = (NodeConnection) iterator.next();
+                            child.refreshNodeConnection(nc);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
     public void refreshChildren() {
         for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
             URNDiagramEditPart element = (URNDiagramEditPart) iter.next();

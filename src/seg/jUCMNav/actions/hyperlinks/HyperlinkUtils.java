@@ -7,37 +7,37 @@ import urncore.URNmodelElement;
 
 /**
  * Provides common utilities for hyperlink-related actions
+ * 
  * @author damyot
  */
 
 public class HyperlinkUtils {
 
-	/**
-	 * Metadata name for hyperlinks
-	 */
-	public static String HYPERLINK = "hyperlink";
+    /**
+     * Metadata name for hyperlinks
+     */
+    public static String HYPERLINK = "hyperlink";
 
-	/**
-	 * Find the element abstracting from common references
-	 */
-	public static URNmodelElement findURNmodelElement(SelectionHelper sel)
-	{
-		URNmodelElement element=null; 
+    /**
+     * Find the element abstracting from common references
+     */
+    public static URNmodelElement findURNmodelElement(SelectionHelper sel) {
+        URNmodelElement element = null;
 
-		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
-			element = sel.getIntentionalelementref().getDef();
-		} else if (sel.getSelectionType() == SelectionHelper.ACTORREF){
-			element = (Actor) sel.getActorref().getContDef();
-		} else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF){
-			element = sel.getRespRef().getRespDef();
-		} else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF){
-			element = (Component) sel.getComponentref().getContDef();
-		} else if (sel.getSelectionType() == SelectionHelper.LINKREF){
-			element = sel.getLinkref().getLink();
-		} else if (sel.getURNmodelElement() != null){
-			element = sel.getURNmodelElement();
-		}
+        if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
+            element = sel.getIntentionalelementref().getDef();
+        } else if (sel.getSelectionType() == SelectionHelper.ACTORREF) {
+            element = (Actor) sel.getActorref().getContDef();
+        } else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
+            element = sel.getRespRef().getRespDef();
+        } else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
+            element = (Component) sel.getComponentref().getContDef();
+        } else if (sel.getSelectionType() == SelectionHelper.LINKREF) {
+            element = sel.getLinkref().getLink();
+        } else if (sel.getURNmodelElement() != null) {
+            element = sel.getURNmodelElement();
+        }
 
-		return element;
-	}
+        return element;
+    }
 }

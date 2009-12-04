@@ -25,7 +25,7 @@ import urncore.NodeLabel;
  * Command to transform AND to OR or vice-versa. (forks/joins)
  * 
  * @author jpdaigle, jkealey
- *  
+ * 
  */
 public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCommand {
 

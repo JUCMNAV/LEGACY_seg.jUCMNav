@@ -11,29 +11,32 @@ import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import urncore.Condition;
 
 /**
- * This class opens editors for conditions.  
+ * This class opens editors for conditions.
  * 
  * @author jkealey
  * 
  */
 public class OpenEditorQuickFix implements IMarkerResolution {
     private Condition cond;
+
     OpenEditorQuickFix(Condition cond) {
-       this.cond=cond;
+        this.cond = cond;
     }
+
     public Condition getCondition() {
-       return cond;
+        return cond;
     }
+
     public void run(IMarker marker) {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		CodeEditor wizard = new CodeEditor();
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        CodeEditor wizard = new CodeEditor();
 
-		wizard.init(PlatformUI.getWorkbench(), null, cond);
-		WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.open();
-	}
-	public String getLabel() {
-		return Messages.getString("OpenEditorQuickFix.EditCode"); //$NON-NLS-1$
-	}
- }
+        wizard.init(PlatformUI.getWorkbench(), null, cond);
+        WizardDialog dialog = new WizardDialog(shell, wizard);
+        dialog.open();
+    }
 
+    public String getLabel() {
+        return Messages.getString("OpenEditorQuickFix.EditCode"); //$NON-NLS-1$
+    }
+}

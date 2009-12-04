@@ -22,7 +22,7 @@ import urncore.IURNContainerRef;
  * Creates a synchronous connection (EndPoint with StartPoint/WaitingPlace/Timer) or asynchronous connection (EmptyPoint with StartPoint/WaitingPlace/Timer)
  * 
  * @author jkealey
- *  
+ * 
  */
 public class ConnectCommand extends Command implements JUCMNavCommand {
 
@@ -52,7 +52,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         if (left != null) {
             urn = left.getDiagram().getUrndefinition().getUrnspec();
         }
-        
+
         setLabel(Messages.getString("ConnectCommand.connect")); //$NON-NLS-1$
     }
 
@@ -80,7 +80,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
 
         oldLeftX = left.getX();
         oldLeftY = left.getY();
-        oldLeftParent = (ComponentRef)left.getContRef();
+        oldLeftParent = (ComponentRef) left.getContRef();
 
         connect.getPred().add(ncLeft);
         connect.getSucc().add(ncRight);
@@ -173,8 +173,8 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
 
     }
 
-	public Connect getConnect() {
-		return connect;
-	}
+    public Connect getConnect() {
+        return connect;
+    }
 
 }

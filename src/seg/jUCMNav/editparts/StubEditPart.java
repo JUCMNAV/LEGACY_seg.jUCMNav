@@ -98,21 +98,21 @@ public class StubEditPart extends PathNodeEditPart {
     public void performRequest(Request req) {
         if (req.getType() == REQ_OPEN) {
             Stub stub = (Stub) getModel();
-            
-        	Vector activeBindings = new Vector();
-        	
-        	EList bindings = stub.getBindings();
-        	
-        	for (Iterator iter = bindings.iterator(); iter.hasNext();) {
-				EObject element = (EObject) iter.next();
-				if (ScenarioUtils.getTraversalHitCount(element)>0) {
-					activeBindings.add(element);
-				}
-			}
-        		
-        	if (activeBindings.size()==0)
-        		activeBindings.addAll(bindings);
-            
+
+            Vector activeBindings = new Vector();
+
+            EList bindings = stub.getBindings();
+
+            for (Iterator iter = bindings.iterator(); iter.hasNext();) {
+                EObject element = (EObject) iter.next();
+                if (ScenarioUtils.getTraversalHitCount(element) > 0) {
+                    activeBindings.add(element);
+                }
+            }
+
+            if (activeBindings.size() == 0)
+                activeBindings.addAll(bindings);
+
             if (activeBindings.size() == 1) {
                 // if only one plugin, open it.
                 UCMmap map = ((PluginBinding) activeBindings.get(0)).getPlugin();
@@ -156,7 +156,7 @@ public class StubEditPart extends PathNodeEditPart {
 
     /**
      * Refreshes all the incoming/outgoing connections
-     *  
+     * 
      */
     public void refreshInOuts() {
         for (Iterator iter = ((Stub) getModel()).getPred().iterator(); iter.hasNext();) {
@@ -182,12 +182,12 @@ public class StubEditPart extends PathNodeEditPart {
         if (nodeFigure instanceof StubFigure && !needsMove(nodeFigure)) {
             for (Iterator iter = ((Stub) getModel()).getSucc().iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
-                b = refreshNodeConnection(nc,false) || b;
+                b = refreshNodeConnection(nc, false) || b;
             }
 
             for (Iterator iter = ((Stub) getModel()).getPred().iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
-                b = refreshNodeConnection(nc,false) || b;
+                b = refreshNodeConnection(nc, false) || b;
             }
         }
         return b;

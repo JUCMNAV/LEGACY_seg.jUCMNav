@@ -28,7 +28,7 @@ public class UnbindFromParent extends URNSelectionAction {
     public UnbindFromParent(IWorkbenchPart part) {
         super(part);
         setId(UNBINDFROMPARENT);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Component16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Component16.gif")); //$NON-NLS-1$
     }
 
     /**
@@ -53,10 +53,10 @@ public class UnbindFromParent extends URNSelectionAction {
 
                 if (p.getModel() instanceof IURNContainerRef) {
                     if (((IURNContainerRef) p.getModel()).getParent() == null)
-                        return false; //#3 failed for ComponentRef
+                        return false; // #3 failed for ComponentRef
                 } else if (p.getModel() instanceof IURNNode) {
                     if (((IURNNode) p.getModel()).getContRef() == null)
-                        return false; //#3 failed for PathNode
+                        return false; // #3 failed for PathNode
                 } else
                     return false; // #3 failed.
 

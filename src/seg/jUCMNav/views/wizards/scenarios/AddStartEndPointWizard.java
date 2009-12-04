@@ -27,85 +27,81 @@ import ucm.scenario.ScenarioDef;
  * @author jkealey
  */
 public class AddStartEndPointWizard extends Wizard {
-	private AddStartEndPointWizardPage page;
-	private ISelection selection;
-	private boolean bStartPoint;
-	/**
-	 * The workbench page in which we are working
-	 */
-	protected IWorkbenchPage workbenchPage;
+    private AddStartEndPointWizardPage page;
+    private ISelection selection;
+    private boolean bStartPoint;
+    /**
+     * The workbench page in which we are working
+     */
+    protected IWorkbenchPage workbenchPage;
 
-	/**
-	 * Creates the editor
-	 */
-	public AddStartEndPointWizard(boolean bStartPoint) {
-		super();
-		setNeedsProgressMonitor(true);
-		this.bStartPoint = bStartPoint;
-		if (bStartPoint)
-			this.setWindowTitle(Messages.getString("AddStartEndPointWizard.AddStartPoint")); //$NON-NLS-1$
-		else
-			this.setWindowTitle(Messages.getString("AddStartEndPointWizard.AddEndPoint")); //$NON-NLS-1$
+    /**
+     * Creates the editor
+     */
+    public AddStartEndPointWizard(boolean bStartPoint) {
+        super();
+        setNeedsProgressMonitor(true);
+        this.bStartPoint = bStartPoint;
+        if (bStartPoint)
+            this.setWindowTitle(Messages.getString("AddStartEndPointWizard.AddStartPoint")); //$NON-NLS-1$
+        else
+            this.setWindowTitle(Messages.getString("AddStartEndPointWizard.AddEndPoint")); //$NON-NLS-1$
 
-	}
+    }
 
-	/**
-	 * Adding the page to the wizard.
-	 */
-	public void addPages() {
-		page = new AddStartEndPointWizardPage(selection, this.bStartPoint);
-		addPage(page);
-	}
+    /**
+     * Adding the page to the wizard.
+     */
+    public void addPages() {
+        page = new AddStartEndPointWizardPage(selection, this.bStartPoint);
+        addPage(page);
+    }
 
-	/**
-	 * This method is called when 'Finish' button is pressed in the wizard. We
-	 * will create an operation and run it using wizard as execution context.
-	 */
-	public boolean performFinish() {
-		 final ScenarioDef parent = page.getParentScenario();
-		 final Vector children = page.getSelectedNodes();
+    /**
+     * This method is called when 'Finish' button is pressed in the wizard. We will create an operation and run it using wizard as execution context.
+     */
+    public boolean performFinish() {
+        final ScenarioDef parent = page.getParentScenario();
+        final Vector children = page.getSelectedNodes();
 
+        CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 
-		 CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
+        CompoundCommand cmd = new CompoundCommand();
 
-		 CompoundCommand cmd = new CompoundCommand();
-		 
-		 for (Iterator iter = children.iterator(); iter.hasNext();) {
-			PathNode child = (PathNode) iter.next();
-			IncludePathNodeInScenarioCommand command = new IncludePathNodeInScenarioCommand(parent, child);
-			if (command.canExecute())
-				cmd.add(command);
-		}
-		 // use a command to be undoable.
-		 
-		 
-		 if (cmd.canExecute())
-			 cs.execute(cmd);
+        for (Iterator iter = children.iterator(); iter.hasNext();) {
+            PathNode child = (PathNode) iter.next();
+            IncludePathNodeInScenarioCommand command = new IncludePathNodeInScenarioCommand(parent, child);
+            if (command.canExecute())
+                cmd.add(command);
+        }
+        // use a command to be undoable.
 
-		return true;
-	}
+        if (cmd.canExecute())
+            cs.execute(cmd);
 
-	/**
-	 * Throws an error using the message.
-	 * 
-	 * @param message
-	 *            the error message.
-	 * @throws CoreException
-	 *             the generated exception.
-	 */
-	private void throwCoreException(String message) throws CoreException {
-		IStatus status = new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null); //$NON-NLS-1$
-		throw new CoreException(status);
-	}
+        return true;
+    }
 
-	/**
-	 * We will accept the selection in the workbench to see if we can initialize
-	 * from it.
-	 * 
-	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
-	 */
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		this.selection = selection;
-		this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
-	}
+    /**
+     * Throws an error using the message.
+     * 
+     * @param message
+     *            the error message.
+     * @throws CoreException
+     *             the generated exception.
+     */
+    private void throwCoreException(String message) throws CoreException {
+        IStatus status = new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null); //$NON-NLS-1$
+        throw new CoreException(status);
+    }
+
+    /**
+     * We will accept the selection in the workbench to see if we can initialize from it.
+     * 
+     * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
+     */
+    public void init(IWorkbench workbench, IStructuredSelection selection) {
+        this.selection = selection;
+        this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
+    }
 }

@@ -8,34 +8,33 @@ import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 
 /**
- * Adds a GRL graph to the current URNspec. 
+ * Adds a GRL graph to the current URNspec.
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class AddGrlGraphAction extends URNSelectionAction {
 
     public static final String ADDGRLGRAPH = "seg.jUCMNav.AddGrlGraph"; //$NON-NLS-1$
-    
-    public AddGrlGraphAction(IWorkbenchPart part){
+
+    public AddGrlGraphAction(IWorkbenchPart part) {
         super(part);
         setId(ADDGRLGRAPH);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/grl16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/grl16.gif")); //$NON-NLS-1$
     }
-    
 
     /**
      * If you have a URNspec or Graph selected.
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-    	int type=sel.getSelectionType();
-        
-        return sel.getUrnspec() != null && ( type == SelectionHelper.MAP || type == SelectionHelper.GRLGRAPH || 
-        		                            (type == SelectionHelper.URNSPEC) && (sel.getSelection().size() == 1) );
+        int type = sel.getSelectionType();
+
+        return sel.getUrnspec() != null
+                && (type == SelectionHelper.MAP || type == SelectionHelper.GRLGRAPH || (type == SelectionHelper.URNSPEC) && (sel.getSelection().size() == 1));
 
     }
 
-    
     /**
      * @return a {@link CreateGrlGraphCommand}
      */
@@ -44,10 +43,9 @@ public class AddGrlGraphAction extends URNSelectionAction {
 
         CreateGrlGraphCommand create = new CreateGrlGraphCommand(sel.getUrnspec());
 
-        if (create.canExecute())
-        {
-        	DisplayPreferences.getInstance().setShowGRLS(true);
+        if (create.canExecute()) {
+            DisplayPreferences.getInstance().setShowGRLS(true);
         }
-        return create;        
+        return create;
     }
 }

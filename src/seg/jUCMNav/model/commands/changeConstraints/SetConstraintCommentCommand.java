@@ -8,7 +8,7 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urncore.Comment;
 
 /**
- * This command is used to resize/move Comments. 
+ * This command is used to resize/move Comments.
  * 
  * @author jkealey
  */
@@ -52,7 +52,6 @@ public class SetConstraintCommentCommand extends Command implements JUCMNavComma
         redo();
     }
 
-
     /**
      * @return Returns the comment.
      */
@@ -88,7 +87,6 @@ public class SetConstraintCommentCommand extends Command implements JUCMNavComma
         return newY;
     }
 
-
     /**
      * Will not change model if new and old parameters are the same.
      */
@@ -97,13 +95,13 @@ public class SetConstraintCommentCommand extends Command implements JUCMNavComma
         testPreConditions();
 
         if (oldX != newX)
-        	comment.setX(newX);
+            comment.setX(newX);
         if (oldY != newY)
-        	comment.setY(newY);
+            comment.setY(newY);
         if (oldWidth != newWidth)
-        	comment.setWidth(newWidth);
+            comment.setWidth(newWidth);
         if (oldHeight != newHeight)
-        	comment.setHeight(newHeight);
+            comment.setHeight(newHeight);
 
         testPostConditions();
     }
@@ -122,7 +120,7 @@ public class SetConstraintCommentCommand extends Command implements JUCMNavComma
      */
     public void setNewHeight(int newHeight) {
         this.newHeight = newHeight;
-        if (newHeight <= 0){
+        if (newHeight <= 0) {
             this.newHeight = ModelCreationFactory.DEFAULT_UCM_COMPONENT_HEIGHT;
         }
     }
@@ -134,7 +132,7 @@ public class SetConstraintCommentCommand extends Command implements JUCMNavComma
     public void setNewWidth(int newWidth) {
 
         this.newWidth = newWidth;
-        if (newWidth <= 0){
+        if (newWidth <= 0) {
             this.newWidth = ModelCreationFactory.DEFAULT_UCM_COMPONENT_WIDTH;
         }
     }
@@ -187,13 +185,13 @@ public class SetConstraintCommentCommand extends Command implements JUCMNavComma
         testPostConditions();
 
         if (oldX != newX)
-        	comment.setX(oldX);
+            comment.setX(oldX);
         if (oldY != newY)
-        	comment.setY(oldY);
+            comment.setY(oldY);
         if (oldWidth != newWidth)
-        	comment.setWidth(oldWidth);
+            comment.setWidth(oldWidth);
         if (oldHeight != newHeight)
-        	comment.setHeight(oldHeight);
+            comment.setHeight(oldHeight);
         testPreConditions();
     }
 }

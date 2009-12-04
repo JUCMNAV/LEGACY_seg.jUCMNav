@@ -32,12 +32,12 @@ import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
  * This class builds the context menu for the Strategy/scenario view
  * 
  * @author Jean-François Roy, jkealey
- *
+ * 
  */
 public class StrategyContextMenuProvider extends ContextMenuProvider {
 
     private ActionRegistry actionRegistry;
-    
+
     /**
      * @param viewer
      * @param registry
@@ -60,15 +60,15 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
 
         action = getActionRegistry().getAction(ActionFactory.REDO.getId());
         menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
-        
+
         action = getActionRegistry().getAction(ActionFactory.CUT.getId());
-        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);      
+        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
         action = getActionRegistry().getAction(ActionFactory.COPY.getId());
-        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);      
+        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
         action = getActionRegistry().getAction(ActionFactory.PASTE.getId());
-        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);     
+        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
         action = getActionRegistry().getAction(ActionFactory.DELETE.getId());
         if (action.isEnabled())
@@ -81,81 +81,81 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(AddEvaluationStrategyAction.ADDEVALUATIONSTRATEGY);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(AddScenarioGroupAction.ADDSCENARIOGROUP);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(AddScenarioAction.ADDSCENARIO);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);     
-        
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(AddVariableAction.ADDBOOLVARIABLE);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);            
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(AddVariableAction.ADDINTVARIABLE);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);            
-        
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(AddVariableAction.ADDVARIABLEWIZARD);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
-        
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(AddVariableAction.ADDENUMERATIONVARIABLE);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
-                
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(EditCodeAction.EDITCODEACTION);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);              
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(DuplicateAction.DUPLICATEACTION);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action); 
-        
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(MoveAction.MOVEUPACTION);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action); 
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(MoveAction.MOVEDOWNACTION);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action); 
-        
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(VariableInitializationsAction.VARIABLEINITIALIZATIONS);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action); 
-        
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(IncludeScenarioAction.INCLUDESCENARIO);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
-        
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(AddStartEndPointAction.ADDSTARTPOINT);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
-        
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(AddStartEndPointAction.ADDENDPOINT);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
-                
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(AddPrePostConditionAction.ADDPRECONDITIONACTION);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);            
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(AddPrePostConditionAction.ADDPOSTCONDITIONACTION);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(RunAllScenariosAction.RUNALLSCENARIOS);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-		//_js_
+        // _js_
         action = getActionRegistry().getAction(ManageDemandAction.MANAGEDEMANDACTION);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-	//_js_
+        // _js_
         action = getActionRegistry().getAction(ManageResourcesAction.MANAGERESOURCESACTION);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -181,9 +181,8 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
     private void setActionRegistry(ActionRegistry registry) {
         actionRegistry = registry;
     }
-    
-    public void dispose()
-    {
+
+    public void dispose() {
         setViewer(null);
         setActionRegistry(null);
         super.dispose();

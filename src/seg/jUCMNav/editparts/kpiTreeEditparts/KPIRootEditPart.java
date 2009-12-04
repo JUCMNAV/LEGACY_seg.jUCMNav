@@ -16,7 +16,7 @@ import seg.jUCMNav.editparts.treeEditparts.UrnAbstractTreeEditPart;
  * @author pchen
  * 
  */
-public class KPIRootEditPart extends UrnAbstractTreeEditPart  {
+public class KPIRootEditPart extends UrnAbstractTreeEditPart {
     public KPIRootEditPart(UCMNavMultiPageEditor editor) {
         super(editor);
     }

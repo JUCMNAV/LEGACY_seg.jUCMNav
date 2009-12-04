@@ -19,108 +19,89 @@ import urncore.URNmodelElement;
  * Container for the matches that are built while running UrnSearchQuery
  * 
  * @author jkealey
- *
+ * 
  */
-public class UrnSearchResult extends AbstractTextSearchResult implements ISearchResult, IEditorMatchAdapter, IFileMatchAdapter
-{
-	private final Match[] EMPTY_ARR = new Match[0];
+public class UrnSearchResult extends AbstractTextSearchResult implements ISearchResult, IEditorMatchAdapter, IFileMatchAdapter {
+    private final Match[] EMPTY_ARR = new Match[0];
 
-	protected String label;
-	protected UrnSearchQuery query;
+    protected String label;
+    protected UrnSearchQuery query;
 
-	public UrnSearchResult(UrnSearchQuery query)
-	{
-		this.query = query;
-	}
+    public UrnSearchResult(UrnSearchQuery query) {
+        this.query = query;
+    }
 
-	public UrnSearchResult(UrnSearchQuery query, String label)
-	{
-		this.query = query;
-		this.label = label;
-	}
+    public UrnSearchResult(UrnSearchQuery query, String label) {
+        this.query = query;
+        this.label = label;
+    }
 
-	public Match addEntry(IFile file, String searchPattern, URNmodelElement modelElement)
-	{
-		Match fm;
-		if (modelElement != null) // create a specific type of match. 
-		{
-			fm = new UrnFileMatch(file, searchPattern, modelElement);
-		}
-		else
-			fm = new FileMatch(file);
-		addMatch(fm);
+    public Match addEntry(IFile file, String searchPattern, URNmodelElement modelElement) {
+        Match fm;
+        if (modelElement != null) // create a specific type of match.
+        {
+            fm = new UrnFileMatch(file, searchPattern, modelElement);
+        } else
+            fm = new FileMatch(file);
+        addMatch(fm);
 
+        return fm;
+    }
 
-		return fm;
-	}
+    public Match[] computeContainedMatches(AbstractTextSearchResult result, IEditorPart editor) {
+        IEditorInput ei = editor.getEditorInput();
+        if (ei instanceof IFileEditorInput) {
+            IFileEditorInput fi = (IFileEditorInput) ei;
+            return getMatches(fi.getFile());
+        }
+        return EMPTY_ARR;
+    }
 
-	public Match[] computeContainedMatches(AbstractTextSearchResult result, IEditorPart editor)
-	{
-		IEditorInput ei = editor.getEditorInput();
-		if (ei instanceof IFileEditorInput)
-		{
-			IFileEditorInput fi = (IFileEditorInput) ei;
-			return getMatches(fi.getFile());
-		}
-		return EMPTY_ARR;
-	}
+    public Match[] computeContainedMatches(AbstractTextSearchResult result, IFile file) {
+        return getMatches(file);
+    }
 
-	public Match[] computeContainedMatches(AbstractTextSearchResult result, IFile file)
-	{
-		return getMatches(file);
-	}
+    public IEditorMatchAdapter getEditorMatchAdapter() {
+        return this;
+    }
 
-	public IEditorMatchAdapter getEditorMatchAdapter()
-	{
-		return this;
-	}
+    public IFile getFile(Object element) {
+        if (element instanceof IFile)
+            return (IFile) element;
+        return null;
+    }
 
-	public IFile getFile(Object element)
-	{
-		if (element instanceof IFile)
-			return (IFile) element;
-		return null;
-	}
+    public IFileMatchAdapter getFileMatchAdapter() {
+        return this;
+    }
 
-	public IFileMatchAdapter getFileMatchAdapter()
-	{
-		return this;
-	}
+    public ImageDescriptor getImageDescriptor() {
+        return null;
+    }
 
-	public ImageDescriptor getImageDescriptor()
-	{
-		return null;
-	}
+    public String getLabel() {
+        return label;
+    }
 
-	public String getLabel()
-	{
-		return label;
-	}
+    public ISearchQuery getQuery() {
+        return query;
+    }
 
-	public ISearchQuery getQuery()
-	{
-		return query;
-	}
+    public String getTooltip() {
+        return getLabel();
+    }
 
-	public String getTooltip()
-	{
-		return getLabel();
-	}
+    public boolean isShownInEditor(Match match, IEditorPart editor) {
+        IEditorInput ei = editor.getEditorInput();
+        if (ei instanceof IFileEditorInput) {
+            IFileEditorInput fi = (IFileEditorInput) ei;
+            return match.getElement().equals(fi.getFile());
+        }
+        return false;
+    }
 
-	public boolean isShownInEditor(Match match, IEditorPart editor)
-	{
-		IEditorInput ei = editor.getEditorInput();
-		if (ei instanceof IFileEditorInput)
-		{
-			IFileEditorInput fi = (IFileEditorInput) ei;
-			return match.getElement().equals(fi.getFile());
-		}
-		return false;
-	}
-
-	public void setLabel(String value)
-	{
-		label = value;
-	}
+    public void setLabel(String value) {
+        label = value;
+    }
 
 }

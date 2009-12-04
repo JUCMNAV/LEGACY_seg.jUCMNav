@@ -39,7 +39,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
      * Contains radio button to decide on the export type and a label explaning the alternatives.
      */
     public void createControl(Composite parent) {
-    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.export_typeselection"); //$NON-NLS-1$
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.export_typeselection"); //$NON-NLS-1$
         // create the composite to hold the widgets
         Composite composite = new Composite(parent, SWT.NONE);
 
@@ -69,7 +69,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
                 ((ExportWizard) getWizard()).refreshPages();
             }
         });
-        
+
         Label lblUCMInformation = new Label(composite, SWT.NONE);
         iUCMCount = UCMExportExtensionPointHelper.getExportLabels().length;
         String ucm = getUcmExportStrings();
@@ -97,7 +97,6 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
         iURNCount = URNExportExtensionPointHelper.getExportLabels().length;
         String urn = getUrnExportStrings();
         lblInformation.setText(Messages.getString("ExportWizardTypeSelectionPage.ExportURNTo") + urn + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ 
-
 
         // page can only be complete if we have a type to export to at the next step.
         if ((ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM && iUCMCount == 0)

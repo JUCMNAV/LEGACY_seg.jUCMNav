@@ -10,7 +10,8 @@ import seg.jUCMNav.model.commands.transformations.SimplifyForksAndJoinsCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
 
 /**
- * This action deletes all empty points form a map. 
+ * This action deletes all empty points form a map.
+ * 
  * @author jkealey
  */
 public class TrimEmptyPointsAction extends URNSelectionAction {
@@ -22,11 +23,11 @@ public class TrimEmptyPointsAction extends URNSelectionAction {
     public TrimEmptyPointsAction(IWorkbenchPart part) {
         super(part);
         setId(TRIMEMPTYPOINTS);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/ucm16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/ucm16.gif")); //$NON-NLS-1$
     }
 
     /**
-     *  Always enabled when you have something selected.  
+     * Always enabled when you have something selected.
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

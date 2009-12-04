@@ -13,12 +13,14 @@ import urncore.Concern;
 
 /**
  * TreeEditPartFactory associated with the Concerns Outline
+ * 
  * @author gunterm
  */
 public class ConcernsTreeEditPartFactory extends TreeEditPartFactory {
 
     /**
-     * @param urn is the urnspec to display in the concern outline
+     * @param urn
+     *            is the urnspec to display in the concern outline
      */
     public ConcernsTreeEditPartFactory(URNspec urn) {
         super(urn, false);
@@ -28,10 +30,10 @@ public class ConcernsTreeEditPartFactory extends TreeEditPartFactory {
      * @see seg.jUCMNav.editparts.treeEditparts.TreeEditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
      */
     public EditPart createEditPart(EditPart context, Object model) {
-        if (model instanceof UCMNavMultiPageEditor) 
+        if (model instanceof UCMNavMultiPageEditor)
             return new ConcernsRootTreeEditPart((UCMNavMultiPageEditor) model);
         else if (model instanceof Concern)
-        	return new ConcernsConcernTreeEditPart((Concern) model);
+            return new ConcernsConcernTreeEditPart((Concern) model);
         else if (model instanceof String)
             return new ConcernsLabelTreeEditPart((String) model, urn);
         else if (model instanceof UCMmap)

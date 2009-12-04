@@ -11,20 +11,20 @@ import ucm.map.StartPoint;
 import urncore.Responsibility;
 
 public class ConditionSectionFilter implements IFilter {
-	protected static IPropertyDataResolver resolver = new ConditionDataResolver();
-	protected static IPropertyDataResolver urnResolver = new UrnPropertyResolver();
-	
-	public boolean select(Object arg0) {		
-		if(arg0 instanceof EditPart)
-			arg0 = ((EditPart)arg0).getModel();
-		
-		if((arg0 instanceof StartPoint) || (arg0 instanceof EndPoint))
-			return false;
-		
-		arg0 = urnResolver.getData(arg0);
-		
-		arg0 = resolver.getData(arg0);
-		
-		return arg0 != null && !(arg0 instanceof Responsibility);
-	}
+    protected static IPropertyDataResolver resolver = new ConditionDataResolver();
+    protected static IPropertyDataResolver urnResolver = new UrnPropertyResolver();
+
+    public boolean select(Object arg0) {
+        if (arg0 instanceof EditPart)
+            arg0 = ((EditPart) arg0).getModel();
+
+        if ((arg0 instanceof StartPoint) || (arg0 instanceof EndPoint))
+            return false;
+
+        arg0 = urnResolver.getData(arg0);
+
+        arg0 = resolver.getData(arg0);
+
+        return arg0 != null && !(arg0 instanceof Responsibility);
+    }
 }

@@ -36,7 +36,7 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
         this.map = map;
         setLabel(Messages.getString("AddPlugin.addPlugin")); //$NON-NLS-1$
     }
-    
+
     /**
      * @param stub
      *            the stub
@@ -70,8 +70,8 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
         urnSpec = map.getUrndefinition().getUrnspec();
 
         plugin = (PluginBinding) ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
-        if (condition!=null)
-        	plugin.setPrecondition(condition);
+        if (condition != null)
+            plugin.setPrecondition(condition);
 
         redo();
     }
@@ -83,8 +83,8 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
 
-        // first assign the pluginbinding to the map and then to the stub (this ensures that when 
-        // the stub is notified about a change in its plugins, the map is already associated with 
+        // first assign the pluginbinding to the map and then to the stub (this ensures that when
+        // the stub is notified about a change in its plugins, the map is already associated with
         // the plugin) - this is important for the Concern outline!
         map.getParentStub().add(plugin);
         stub.getBindings().add(plugin);

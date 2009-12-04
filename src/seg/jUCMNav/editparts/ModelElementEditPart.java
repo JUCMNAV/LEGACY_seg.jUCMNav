@@ -20,8 +20,8 @@ import urncore.IURNNode;
 import urncore.Label;
 
 /**
- * This is a top level EditPart that defines the behaviour that needs to be adhered to in order to function properly.
- * All jUCMNav EditParts should subclass this EditPart.
+ * This is a top level EditPart that defines the behaviour that needs to be adhered to in order to function properly. All jUCMNav EditParts should subclass this
+ * EditPart.
  * 
  * @author Etienne Tremblay
  */
@@ -74,7 +74,8 @@ public abstract class ModelElementEditPart extends AbstractGraphicalEditPart imp
     }
 
     /**
-     * Returns a ResponsibilityPropertySource if the model element is a RespRef,  UCMElementPropertySource otherwise. 
+     * Returns a ResponsibilityPropertySource if the model element is a RespRef, UCMElementPropertySource otherwise.
+     * 
      * @return a property source for our object
      */
     protected IPropertySource getPropertySource() {
@@ -110,7 +111,7 @@ public abstract class ModelElementEditPart extends AbstractGraphicalEditPart imp
     public abstract void notifyChanged(Notification notification);
 
     /**
-     * Called when the figure needs to be refreshed. 
+     * Called when the figure needs to be refreshed.
      */
     protected abstract void refreshVisuals();
 
@@ -122,25 +123,24 @@ public abstract class ModelElementEditPart extends AbstractGraphicalEditPart imp
     }
 
     public void performRequest(Request req) {
-        if(req.getType() == RequestConstants.REQ_DIRECT_EDIT)
-        {
-            if(getModel() instanceof IURNNode || getModel() instanceof IURNConnection || getModel() instanceof IURNContainerRef) {
+        if (req.getType() == RequestConstants.REQ_DIRECT_EDIT) {
+            if (getModel() instanceof IURNNode || getModel() instanceof IURNConnection || getModel() instanceof IURNContainerRef) {
                 Label label = null;
-                if(getModel() instanceof IURNNode)
-                    label = ((IURNNode)getModel()).getLabel();
-                else if(getModel() instanceof IURNConnection)
-                    label = ((IURNConnection)getModel()).getLabel();
-                else if(getModel() instanceof IURNContainerRef)
-                    label = ((IURNContainerRef)getModel()).getLabel();
-                
-                if(label != null) {
-                    EditPart editpart = (EditPart)getViewer().getEditPartRegistry().get(label);
-                    if(editpart != null)
+                if (getModel() instanceof IURNNode)
+                    label = ((IURNNode) getModel()).getLabel();
+                else if (getModel() instanceof IURNConnection)
+                    label = ((IURNConnection) getModel()).getLabel();
+                else if (getModel() instanceof IURNContainerRef)
+                    label = ((IURNContainerRef) getModel()).getLabel();
+
+                if (label != null) {
+                    EditPart editpart = (EditPart) getViewer().getEditPartRegistry().get(label);
+                    if (editpart != null)
                         editpart.performRequest(req);
                 }
             }
         }
-        
+
         super.performRequest(req);
     }
 }

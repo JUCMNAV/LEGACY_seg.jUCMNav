@@ -10,8 +10,9 @@ import seg.jUCMNav.model.commands.delete.internal.RemoveBeliefLinkCommand;
 
 /**
  * ComponentEditPolicy for Belief Link. Return the delete command for a BeliefLink
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class BeliefLinkComponentEditPolicy extends ComponentEditPolicy {
 

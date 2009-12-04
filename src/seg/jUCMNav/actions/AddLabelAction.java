@@ -26,7 +26,7 @@ public class AddLabelAction extends URNSelectionAction {
     public AddLabelAction(IWorkbenchPart part) {
         super(part);
         setId(ADDLABEL);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/label.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/label.gif")); //$NON-NLS-1$
     }
 
     /**

@@ -15,7 +15,6 @@ import ucm.map.ComponentRef;
  */
 public class ComponentRefComponentEditPolicy extends ComponentEditPolicy {
 
-
     /**
      * Returns a DeleteComponentRefCommand
      */

@@ -61,7 +61,7 @@ public class VariableListTreeEditPart extends StrategyUrnModelElementTreeEditPar
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage( "icons/folder16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/folder16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 
@@ -98,7 +98,7 @@ public class VariableListTreeEditPart extends StrategyUrnModelElementTreeEditPar
 
     /**
      * 
-     * @return  is this the enumeration list (true) or the variable list (false)
+     * @return is this the enumeration list (true) or the variable list (false)
      */
     public boolean isEnumerations() {
         return isEnumerations;

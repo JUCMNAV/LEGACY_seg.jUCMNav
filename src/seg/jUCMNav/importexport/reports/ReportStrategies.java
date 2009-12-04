@@ -73,7 +73,7 @@ public class ReportStrategies extends ReportDataDictionary {
      * @param strategies
      *            the strategies we need to evaluate
      */
-    
+
     private void writeStrategiesLegend(Document document, HashMap strategies) {
 
         try {
@@ -108,7 +108,7 @@ public class ReportStrategies extends ReportDataDictionary {
      * @param pagesize
      *            the size of the report page
      */
-    
+
     private void writeStrategies(Document document, GRLspec grlspec, Rectangle pagesize) {
 
         try {
@@ -190,7 +190,8 @@ public class ReportStrategies extends ReportDataDictionary {
                             emptyCell2.setColspan(intElementColumnWidth);
                             table.addCell(emptyCell2);
 
-                            // Second line - strategy number header. This number represents a strategy as documented in the legend. One number per column/strategy.
+                            // Second line - strategy number header. This number represents a strategy as documented in the legend. One number per
+                            // column/strategy.
                             for (int column = lastCellAdded; (column <= (maxStratPerPage * pageNo) && column <= nbOfStrategies); column++) {
                                 Cell strategyNo = new Cell(column + "");
                                 strategyNo.setBorderColor(new java.awt.Color(0, 0, 0));
@@ -270,7 +271,6 @@ public class ReportStrategies extends ReportDataDictionary {
      *            the number of cells the strategy has to fill
      */
 
-    
     protected void writeEvaluation(Table table, EvaluationStrategy strategy, IntentionalElement intentionalElement, int strategyCellWidth) throws IOException {
         EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
         EvaluationStrategyManager.getInstance(false).calculateEvaluation();

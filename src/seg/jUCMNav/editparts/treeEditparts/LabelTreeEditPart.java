@@ -35,17 +35,15 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
         this.root = root;
     }
 
-    public URNspec getURNSpec()
-	{
-		return root;
-	}
+    public URNspec getURNSpec() {
+        return root;
+    }
 
-	public void setURNSpec(URNspec root)
-	{
-		this.root = root;
-	}
+    public void setURNSpec(URNspec root) {
+        this.root = root;
+    }
 
-	/**
+    /**
      * Activate listeners
      */
     public void activate() {
@@ -101,15 +99,15 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         if (getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) //$NON-NLS-1$
-        	addAllIfMatch(list, root.getUrndef().getComponents());
+            addAllIfMatch(list, root.getUrndef().getComponents());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
-        	addAllIfMatch(list, root.getUrndef().getResponsibilities());
+            addAllIfMatch(list, root.getUrndef().getResponsibilities());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$
-        	addAllIfMatch(list, root.getGrlspec().getIntElements());
+            addAllIfMatch(list, root.getGrlspec().getIntElements());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.kpiInformationElementDefs"))) //$NON-NLS-1$
-        	addAllIfMatch(list, root.getGrlspec().getKpiInformationElements());
+            addAllIfMatch(list, root.getGrlspec().getKpiInformationElements());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))) //$NON-NLS-1$
-        	addAllIfMatch(list, root.getGrlspec().getActors());
+            addAllIfMatch(list, root.getGrlspec().getActors());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))) { //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.components")); //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.responsibilities")); //$NON-NLS-1$
@@ -129,23 +127,22 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
 
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.resources"))) //$NON-NLS-1$
         {
-        	addAllIfMatch(list, root.getUrndef().getUrnspec().getUcmspec().getResources());
+            addAllIfMatch(list, root.getUrndef().getUrnspec().getUcmspec().getResources());
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.concerns"))) //$NON-NLS-1$
-        	addAllIfMatch(list, root.getUrndef().getConcerns());
+            addAllIfMatch(list, root.getUrndef().getConcerns());
 
         Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
 
-    protected void addAllIfMatch(ArrayList list, EList elements)
-    {
-    	for (Iterator iterator = elements.iterator(); iterator.hasNext();)
-		{
-			URNmodelElement object = (URNmodelElement) iterator.next();
-			if (!DisplayPreferences.getInstance().isElementFiltered(object))
-				list.add(object);
-		}
+    protected void addAllIfMatch(ArrayList list, EList elements) {
+        for (Iterator iterator = elements.iterator(); iterator.hasNext();) {
+            URNmodelElement object = (URNmodelElement) iterator.next();
+            if (!DisplayPreferences.getInstance().isElementFiltered(object))
+                list.add(object);
+        }
     }
+
     /**
      * Their label is their model string.
      * 
@@ -191,9 +188,9 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
             setImage((JUCMNavPlugin.getImage("icons/Resp16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))) //$NON-NLS-1$
-            setImage((JUCMNavPlugin.getImage( "icons/grldef16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/grldef16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))) //$NON-NLS-1$
-            setImage((JUCMNavPlugin.getImage( "icons/ucmdef16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/ucmdef16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))) //$NON-NLS-1$
             setImage((JUCMNavPlugin.getImage("icons/GRLActor16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$

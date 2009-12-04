@@ -19,7 +19,7 @@ import urncore.ComponentKind;
 public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
 
     private ComponentTreeWrapper wrapper;
-    
+
     /**
      * @param model
      *            the component definition
@@ -27,15 +27,15 @@ public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
     public ComponentTreeEditPart(Component model) {
         super(model);
     }
-    
+
     /**
      * 
      * @param model
-     * the resx-component wrapper
+     *            the resx-component wrapper
      */
     public ComponentTreeEditPart(ComponentTreeWrapper model) {
-         super(model.getComp());
-         this.wrapper =model;
+        super(model.getComp());
+        this.wrapper = model;
     }
 
     /**
@@ -70,15 +70,15 @@ public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
     protected static Image getComponentImage(ComponentKind kind) {
         switch (kind.getValue()) {
         case ComponentKind.AGENT:
-            return (JUCMNavPlugin.getImage( "icons/Agent16.gif")); //$NON-NLS-1$
+            return (JUCMNavPlugin.getImage("icons/Agent16.gif")); //$NON-NLS-1$
         case ComponentKind.ACTOR:
-            return ((JUCMNavPlugin.getImage( "icons/Actor16.gif"))); //$NON-NLS-1$
+            return ((JUCMNavPlugin.getImage("icons/Actor16.gif"))); //$NON-NLS-1$
         case ComponentKind.OBJECT:
-            return ((JUCMNavPlugin.getImage( "icons/Object16.gif"))); //$NON-NLS-1$
+            return ((JUCMNavPlugin.getImage("icons/Object16.gif"))); //$NON-NLS-1$
         case ComponentKind.PROCESS:
-            return ((JUCMNavPlugin.getImage( "icons/Process16.gif"))); //$NON-NLS-1$
+            return ((JUCMNavPlugin.getImage("icons/Process16.gif"))); //$NON-NLS-1$
         default:
-            return ((JUCMNavPlugin.getImage( "icons/Component16.gif"))); //$NON-NLS-1$
+            return ((JUCMNavPlugin.getImage("icons/Component16.gif"))); //$NON-NLS-1$
         }
     }
 
@@ -95,8 +95,9 @@ public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-    	if (widget==null)return;
-        if (getComp().getContRefs().size() == 0 && wrapper==null)
+        if (widget == null)
+            return;
+        if (getComp().getContRefs().size() == 0 && wrapper == null)
             ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
         else
             ((TreeItem) widget).setForeground(ColorManager.BLACK);

@@ -10,7 +10,7 @@ import urn.URNspec;
  * This class is simply here because the root of our tree (URNspec) doesn't appear in the outline.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class OutlineRootEditPart extends UrnAbstractTreeEditPart {
 
@@ -26,10 +26,9 @@ public class OutlineRootEditPart extends UrnAbstractTreeEditPart {
         l.add(((UCMNavMultiPageEditor) getModel()).getModel());
         return l;
     }
-    
-    public URNspec getURNSpec()
-    {
-    	return (URNspec) getModelChildren().get(0);
+
+    public URNspec getURNSpec() {
+        return (URNspec) getModelChildren().get(0);
     }
-    
+
 }

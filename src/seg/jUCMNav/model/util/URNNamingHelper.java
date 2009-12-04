@@ -456,19 +456,19 @@ public class URNNamingHelper {
             URNmodelElement elem = (URNmodelElement) IDConflicts.get(0);
 
             do {
-            	String oldDescription="Description..."; //$NON-NLS-1$
+                String oldDescription = "Description..."; //$NON-NLS-1$
                 // set it to nothing
                 elem.setId(""); //$NON-NLS-1$
 
                 // get the next ID; might take a while.. find first free space.
                 if (elem instanceof Belief) {
-                	// Bug 555. We do not want to override the description in a duplicated belief.
-                	oldDescription = ((Belief) elem).getDescription();
+                    // Bug 555. We do not want to override the description in a duplicated belief.
+                    oldDescription = ((Belief) elem).getDescription();
                 }
                 setElementNameAndID(urn, elem);
                 if (elem instanceof Belief) {
-                	// Bug 555. Reinsert old description in duplicated belief.
-                	((Belief) elem).setDescription(oldDescription);
+                    // Bug 555. Reinsert old description in duplicated belief.
+                    ((Belief) elem).setDescription(oldDescription);
                 }
             } while (htIDs.containsKey(elem.getId()));
             htIDs.put(elem.getId(), null);
@@ -574,8 +574,7 @@ public class URNNamingHelper {
 
     /**
      * Given an object that might not have its name or ID set, set the default id and name. For the ID, it should be the next one available in the URNspec. For
-     * the name, it uses getPrefix() for most cases, getPrefix() concatenated with the ID for Components and reponsibilities. Does not verify naming
-     * unicity.
+     * the name, it uses getPrefix() for most cases, getPrefix() concatenated with the ID for Components and reponsibilities. Does not verify naming unicity.
      * 
      * @param urn
      *            the urnspec containing all the elements
@@ -600,19 +599,19 @@ public class URNNamingHelper {
             if (ce.getName() == null || ce.getName().trim().length() == 0) {
                 ce.setName(getPrefix(o.getClass()) + ce.getId());
             }
-            
+
             // Set the name properly for intentional elements. "IntentionalElementXXX" is too long...
             if (o instanceof IntentionalElement) {
-            	// Fix badly named intentional element type Ressource (should have only 1 s...)
-            	if ( ((IntentionalElement) o).getType().getValue() == IntentionalElementType.RESSOURCE)
-            		ce.setName( "Resource" + ce.getId()); //$NON-NLS-1$
-            	else
-            		ce.setName( ( (IntentionalElement) o).getType().toString() + ce.getId()); //$NON-NLS-1$
+                // Fix badly named intentional element type Ressource (should have only 1 s...)
+                if (((IntentionalElement) o).getType().getValue() == IntentionalElementType.RESSOURCE)
+                    ce.setName("Resource" + ce.getId()); //$NON-NLS-1$
+                else
+                    ce.setName(((IntentionalElement) o).getType().toString() + ce.getId()); //$NON-NLS-1$
             }
 
             // Dummy description for beliefs
             if (o instanceof Belief) {
-            	( (Belief) o).setDescription("Description..."); //$NON-NLS-1$
+                ((Belief) o).setDescription("Description..."); //$NON-NLS-1$
             }
 
         } else if (o instanceof EvaluationStrategy) {
@@ -919,8 +918,8 @@ public class URNNamingHelper {
         } else if (elem instanceof KPIInformationElementRef) {
             KPIInformationElementRef ref = (KPIInformationElementRef) elem;
             return getName(ref.getDef());
-        } else if (elem==null) 
-        	return "";
+        } else if (elem == null)
+            return "";
         else
             return elem.getName();
     }
@@ -1052,8 +1051,7 @@ public class URNNamingHelper {
     public static String getGrlVariableName(IntentionalElement element) {
         return getGrlVariableName(element.getName());
     }
-    
-    
+
     /**
      * Returns an intentional element's variable for use in UCM scenarios.
      * 
@@ -1064,5 +1062,5 @@ public class URNNamingHelper {
     public static String getGrlVariableName(String elementName) {
         return URNNamingHelper.cleanVariableName("_GRL_" + elementName); //$NON-NLS-1$
     }
-    
+
 }

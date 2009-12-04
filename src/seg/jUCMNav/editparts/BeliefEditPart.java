@@ -29,23 +29,23 @@ import urncore.IURNNode;
  * Edit Part for a GRL Belief
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
 
-    
     /**
      * Constructor for the Belief edit part
-     * @param model the Belief to draw
+     * 
+     * @param model
+     *            the Belief to draw
      */
     public BeliefEditPart(IURNNode model) {
         super();
         setModel(model);
     }
 
-
     /**
-     * Creates edit policies. 
+     * Creates edit policies.
      * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#createEditPolicies()
      */
@@ -57,7 +57,7 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
     }
 
     /**
-     * Creates the belief's figures. 
+     * Creates the belief's figures.
      * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#createFigure()
      */
@@ -68,10 +68,10 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
     /**
      * @return the model cast as a belief
      */
-    private Belief getBelief(){
+    private Belief getBelief() {
         return (Belief) getModel();
     }
-    
+
     /**
      * When nodes are dragged in GEF, they explictly remove connections from being possible drop targets. By overriding DragEditPartsTracker, we allow this
      * behaviour.
@@ -97,7 +97,7 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
     protected List getModelTargetConnections() {
         return getBelief().getPred();
     }
-    
+
     /**
      * @return The node's figure
      */
@@ -136,23 +136,24 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
         return getNodeFigure().getConnectionAnchor();
     }
-    
-    /** 
-     * Be notified that a change has occurred. 
+
+    /**
+     * Be notified that a change has occurred.
+     * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
         refreshTargetConnections();
         refreshSourceConnections();
         refreshVisuals();
-        
+
         // we want the top level editpart to refresh its children so that the largest components are always in the back.
         if (notification.getEventType() == Notification.SET && getParent() != null)
             ((URNDiagramEditPart) getParent()).notifyChanged(notification);
     }
 
     /**
-     * Refresh the {@link BeliefFigure}. 
+     * Refresh the {@link BeliefFigure}.
      * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
      */
@@ -160,23 +161,23 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
         // The position of the current figure
         Point location = new Point(getBelief().getX(), getBelief().getY());
         // its size (the width of the elements should always be 2 the height of them
-        Dimension size = getNodeFigure().getSize().getCopy(); //new Dimension(getBelief().getWidth(), getBelief().getHeight());
+        Dimension size = getNodeFigure().getSize().getCopy(); // new Dimension(getBelief().getWidth(), getBelief().getHeight());
         Rectangle bounds = new Rectangle(location, size);
         figure.setBounds(bounds);
         figure.setLocation(location);
- 
+
         setText();
 
-        //Set the tool tip
+        // Set the tool tip
         UrnMetadata.setToolTip(getBelief(), getNodeFigure());
 
-        if (((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
+        if (((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
             ((BeliefFigure) figure).setColors("25,25,25", "0,0,0", false); //$NON-NLS-1$ //$NON-NLS-2$
-        } else{
+        } else {
             ((BeliefFigure) figure).setColors("0,0,0", "0,0,0", false); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
-        figure.validate(); 
+        figure.validate();
 
     }
 
@@ -184,8 +185,8 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
      * Sets the label's text, given its referenced model element.
      */
     private void setText() {
-    	String stereotypes = UrnMetadata.getStereotypes(getBelief());
-    	String description = getBelief().getDescription();
-    	getNodeFigure().setEditableText(description + stereotypes);
+        String stereotypes = UrnMetadata.getStereotypes(getBelief());
+        String description = getBelief().getDescription();
+        getNodeFigure().setEditableText(description + stereotypes);
     }
 }

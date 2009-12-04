@@ -41,48 +41,46 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
     public void run() {
         URNspec urn = ((UCMNavMultiPageEditor) getWorkbenchPart()).getModel();
         Command cmd = createDeleteSmallPaths();
-        if (getSelectedObjects().size()>0) 
-        {
+        if (getSelectedObjects().size() > 0) {
             boolean result = true;
-            if(containsScenario(getSelectedObjects())) {
-                result = MessageDialog.openConfirm(getWorkbenchPart().getSite().getShell(), Messages.getString("DeleteAction_0"), Messages.getString("DeleteAction_1")); //$NON-NLS-1$ //$NON-NLS-2$
+            if (containsScenario(getSelectedObjects())) {
+                result = MessageDialog.openConfirm(getWorkbenchPart().getSite().getShell(),
+                        Messages.getString("DeleteAction_0"), Messages.getString("DeleteAction_1")); //$NON-NLS-1$ //$NON-NLS-2$
             }
-            
-            if(result) {
-    	        if (cmd == null || !cmd.canExecute())
-    	            execute(createDeleteCommand(getSelectedObjects()));
-    	        else
-    	            execute(createDeleteCommand(getSelectedObjects()).chain(cmd));
+
+            if (result) {
+                if (cmd == null || !cmd.canExecute())
+                    execute(createDeleteCommand(getSelectedObjects()));
+                else
+                    execute(createDeleteCommand(getSelectedObjects()).chain(cmd));
             }
-        }
-        else
-        {
-        	if (cmd != null && cmd.canExecute())
-        		execute(cmd);
+        } else {
+            if (cmd != null && cmd.canExecute())
+                execute(cmd);
         }
     }
-    
+
     private boolean containsScenario(List selected) {
         for (Iterator i = selected.iterator(); i.hasNext();) {
             Object part = (Object) i.next();
-            if(part instanceof EditPart) {
-                if(((EditPart) part).getModel() instanceof ScenarioDef) {
-                    return ((ScenarioDef)((EditPart) part).getModel()).getParentScenarios().size() > 0;
+            if (part instanceof EditPart) {
+                if (((EditPart) part).getModel() instanceof ScenarioDef) {
+                    return ((ScenarioDef) ((EditPart) part).getModel()).getParentScenarios().size() > 0;
                 }
             }
         }
-        
+
         return false;
     }
 
     /**
-     * @return a new {@link DeleteUselessStartNCEndCommand}.  
+     * @return a new {@link DeleteUselessStartNCEndCommand}.
      */
     private Command createDeleteSmallPaths() {
         UrnEditor editor = ((UCMNavMultiPageEditor) getWorkbenchPart()).getCurrentPage();
         if (editor == null || !(editor.getModel() instanceof UCMmap))
             return null;
-        UCMmap map = (UCMmap)editor.getModel();
+        UCMmap map = (UCMmap) editor.getModel();
         return new DeleteUselessStartNCEndCommand(map, editor.getGraphicalViewer().getEditPartRegistry());
     }
 }

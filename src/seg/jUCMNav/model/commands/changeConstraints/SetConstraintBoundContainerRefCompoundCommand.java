@@ -17,7 +17,7 @@ import urncore.URNmodelElement;
  * [class wins worst name ever award]
  * 
  * @author jkealey
- *  
+ * 
  */
 public class SetConstraintBoundContainerRefCompoundCommand extends CompoundCommand implements JUCMNavCommand {
 
@@ -110,10 +110,10 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
     }
 
     /**
-     * Using the compRef's children (Nodes and ComponentRefs), build a set of commands to be executed to move/resize the children with the parent. Note:
-     * when resizing the parent, children are moved inside the parent so they retain the same relative position inside the parent. if they kept the same
-     * absolute position, they could potentially become outside the parent and they would thus no longer be children of the parnet.
-     *  
+     * Using the compRef's children (Nodes and ComponentRefs), build a set of commands to be executed to move/resize the children with the parent. Note: when
+     * resizing the parent, children are moved inside the parent so they retain the same relative position inside the parent. if they kept the same absolute
+     * position, they could potentially become outside the parent and they would thus no longer be children of the parnet.
+     * 
      */
     private void buildChildCommands() {
         testPreConditions();

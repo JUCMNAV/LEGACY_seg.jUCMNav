@@ -12,10 +12,10 @@ import ucm.scenario.EnumerationType;
 import urn.URNspec;
 
 /**
- * This command adds an enumeration type.  
+ * This command adds an enumeration type.
  * 
  * @author jkealey
- *
+ * 
  */
 public class CreateEnumerationTypeCommand extends Command implements JUCMNavCommand {
 
@@ -23,20 +23,17 @@ public class CreateEnumerationTypeCommand extends Command implements JUCMNavComm
     private String name;
     private String values;
     private EnumerationType enumerationType;
-    
-    public void setEnumerationType(EnumerationType enumerationType)
-	{
-		this.enumerationType = enumerationType;
-		if (enumerationType!=null)
-		{
-			this.name = enumerationType.getName();
-			this.values = enumerationType.getValues();
-		}
-		else
-			this.values = Messages.getString("CreateEnumerationTypeCommand.DEFAULT"); //$NON-NLS-1$
-	}
 
-	/**
+    public void setEnumerationType(EnumerationType enumerationType) {
+        this.enumerationType = enumerationType;
+        if (enumerationType != null) {
+            this.name = enumerationType.getName();
+            this.values = enumerationType.getValues();
+        } else
+            this.values = Messages.getString("CreateEnumerationTypeCommand.DEFAULT"); //$NON-NLS-1$
+    }
+
+    /**
      * 
      */
     public CreateEnumerationTypeCommand(URNspec urn, String name, String values) {
@@ -55,25 +52,24 @@ public class CreateEnumerationTypeCommand extends Command implements JUCMNavComm
         setLabel(Messages.getString("CreateEnumerationTypeCommand.CreateEnumerationType")); //$NON-NLS-1$
     }
 
-
-    
     /**
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return urn != null; 
+        return urn != null;
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	if (enumerationType==null) {
-	    	enumerationType = (EnumerationType) ModelCreationFactory.getNewObject(urn, EnumerationType.class);
-    	}
-    	if (name!=null) enumerationType.setName(name);
-    	enumerationType.setValues(values);
-	
+        if (enumerationType == null) {
+            enumerationType = (EnumerationType) ModelCreationFactory.getNewObject(urn, EnumerationType.class);
+        }
+        if (name != null)
+            enumerationType.setName(name);
+        enumerationType.setValues(values);
+
         redo();
     }
 
@@ -86,23 +82,26 @@ public class CreateEnumerationTypeCommand extends Command implements JUCMNavComm
         urn.getUcmspec().getEnumerationTypes().add(enumerationType);
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPostConditions() {
         assert urn != null && urn.getUcmspec() != null && enumerationType != null : "post not null"; //$NON-NLS-1$
-        assert urn.getUcmspec().getEnumerationTypes().contains(enumerationType): "post enumerationType not in model"; //$NON-NLS-1$
+        assert urn.getUcmspec().getEnumerationTypes().contains(enumerationType) : "post enumerationType not in model"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPreConditions() {
-    	assert urn != null && urn.getUcmspec() != null && enumerationType != null : "pre not null"; //$NON-NLS-1$
+        assert urn != null && urn.getUcmspec() != null && enumerationType != null : "pre not null"; //$NON-NLS-1$
         assert !urn.getUcmspec().getEnumerationTypes().contains(enumerationType) : "pre enumerationType not in model"; //$NON-NLS-1$
     }
-
 
     /**
      * @see org.eclipse.gef.commands.Command#undo()

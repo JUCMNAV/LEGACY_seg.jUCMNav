@@ -37,7 +37,7 @@ public class ResponsibilityTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage( "icons/Resp16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Resp16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 
@@ -50,12 +50,13 @@ public class ResponsibilityTreeEditPart extends UrnModelElementTreeEditPart {
     }
 
     /**
-     * Unreferenced responsibilities are displayed in a lighter color. 
+     * Unreferenced responsibilities are displayed in a lighter color.
      * 
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-    	if (widget==null)return;
+        if (widget == null)
+            return;
         if (getResponsibility().getRespRefs().size() == 0)
             ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
         else

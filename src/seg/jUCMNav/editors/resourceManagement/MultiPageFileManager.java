@@ -52,7 +52,8 @@ public class MultiPageFileManager {
 
     /**
      * 
-     * @param editor jUCMNav
+     * @param editor
+     *            jUCMNav
      */
     public MultiPageFileManager(UCMNavMultiPageEditor editor) {
         this.editor = editor;
@@ -61,24 +62,25 @@ public class MultiPageFileManager {
     /**
      * Returns the URNspec object from the specified file.
      * 
-     * @param file the file to create
+     * @param file
+     *            the file to create
      * @return the urn object from the specified file
      */
     public URNspec create(IFile file) throws CoreException {
         URNspec urn = null;
 
         if (file.exists()) {
-        	urn = create(file.getFullPath());
+            urn = create(file.getFullPath());
         }
 
         return urn;
     }
 
-
     /**
      * Returns the URNspec object from the specified file.
      * 
-     * @param path the file to create
+     * @param path
+     *            the file to create
      * @return the urn object from the specified file
      */
     public URNspec create(IPath path) throws CoreException {
@@ -107,10 +109,11 @@ public class MultiPageFileManager {
             throw new CoreException(new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, Messages.getString("MultiPageFileManager.errorLoadingUCM"), null)); //$NON-NLS-1$
         }
 
-//        }
+        // }
 
         return urn;
     }
+
     /**
      * Perform a save on the file we are editing.
      * 
@@ -128,7 +131,7 @@ public class MultiPageFileManager {
                 sDate = df.format(new Date());
                 editor.getModel().setModified(sDate);
                 setVersions();
-                // MetadataHelper.cleanRunTimeMetadata(getEditor().getModel());  *** does not work here. Refresh/adds metadata while deleting --> infinite loop!
+                // MetadataHelper.cleanRunTimeMetadata(getEditor().getModel()); *** does not work here. Refresh/adds metadata while deleting --> infinite loop!
                 save(file, monitor);
                 getEditor().getMultiPageCommandStackListener().markSaveLocations();
             }
@@ -182,7 +185,7 @@ public class MultiPageFileManager {
             editor.getModel().setModified(sDate);
 
             setVersions();
-            // MetadataHelper.cleanRunTimeMetadata(getEditor().getModel());  *** does not work here. Refresh/adds metadata while deleting --> infinite loop!
+            // MetadataHelper.cleanRunTimeMetadata(getEditor().getModel()); *** does not work here. Refresh/adds metadata while deleting --> infinite loop!
 
             // save the new file
             modelManager.save(path);
@@ -224,7 +227,7 @@ public class MultiPageFileManager {
             ver = "1"; //$NON-NLS-1$
         }
         editor.getModel().setSpecVersion(ver);
-        editor.getModel().setUrnVersion(ModelCreationFactory.URNSPEC_VERSION); 
+        editor.getModel().setUrnVersion(ModelCreationFactory.URNSPEC_VERSION);
     }
 
     /**

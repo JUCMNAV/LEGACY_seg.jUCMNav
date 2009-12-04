@@ -25,7 +25,7 @@ public class UnbindChildren extends URNSelectionAction {
     public UnbindChildren(IWorkbenchPart part) {
         super(part);
         setId(UNBINDCHILDREN);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Component16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Component16.gif")); //$NON-NLS-1$
     }
 
     /**

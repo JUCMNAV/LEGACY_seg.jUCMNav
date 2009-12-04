@@ -26,25 +26,26 @@ import urncore.NodeLabel;
 
 /**
  * @author Jean-François Roy
- *
+ * 
  */
 public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
-
-    /** 
+    /**
      * Handles moving/resizing of Graph children.
+     * 
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
         return null;
     }
 
-    /** 
-     * Hnaldes dropping of elements from palette. 
+    /**
+     * Hnaldes dropping of elements from palette.
+     * 
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
      */
     protected abstract Command getCreateCommand(CreateRequest request);
-    
+
     /**
      * Moves a label. Doesn't move it if its path not is being moved as well. Moves PathNode conditions as well. Keeps the label centered on its location.
      * 
@@ -86,10 +87,9 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
                 } else
                     node = (PathNode) (((LabelEditPart) child).getURNmodelElement());
 
-                if (node==null)
-                {
-                    x=0;
-                    y=0;
+                if (node == null) {
+                    x = 0;
+                    y = 0;
                 } else {
                     int height = ((PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
                     x = node.getX() - ((Rectangle) constraint).x - (dim.width / 2);
@@ -131,30 +131,30 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
         return moveResize;
     }
 
-	protected Command handleCreateComment(CreateRequest request, Rectangle constraint) {
-	
-		Comment node = (Comment) request.getNewObject();
-		AddCommentCommand create = new AddCommentCommand((IURNDiagram) getHost().getModel(), node);
-	
-		SetConstraintCommentCommand move = new SetConstraintCommentCommand(node,
-				constraint.x, constraint.y, constraint.width, constraint.height);
-		
-		return create.chain(move);
-	}
-	/**
-	 * Handles moving an GRLNode.
-	 * 
-	 * @param child
-	 *            the IntentionalElementRefEditPart or BeliefEditPart
-	 * @param constraint
-	 *            where it should be moved and resize.
-	 * @return a SetConstraintIntentionalElementRefCommand
-	 */
-	protected Command handleMoveResizeComment(EditPart child, Object constraint) {
-	    Rectangle rect = (Rectangle) constraint;
-	    Comment node = (Comment) child.getModel();
-	
-	    return new SetConstraintCommentCommand(node, rect.getLocation().x, rect.getLocation().y, rect.width, rect.height);
-	}
-    
+    protected Command handleCreateComment(CreateRequest request, Rectangle constraint) {
+
+        Comment node = (Comment) request.getNewObject();
+        AddCommentCommand create = new AddCommentCommand((IURNDiagram) getHost().getModel(), node);
+
+        SetConstraintCommentCommand move = new SetConstraintCommentCommand(node, constraint.x, constraint.y, constraint.width, constraint.height);
+
+        return create.chain(move);
+    }
+
+    /**
+     * Handles moving an GRLNode.
+     * 
+     * @param child
+     *            the IntentionalElementRefEditPart or BeliefEditPart
+     * @param constraint
+     *            where it should be moved and resize.
+     * @return a SetConstraintIntentionalElementRefCommand
+     */
+    protected Command handleMoveResizeComment(EditPart child, Object constraint) {
+        Rectangle rect = (Rectangle) constraint;
+        Comment node = (Comment) child.getModel();
+
+        return new SetConstraintCommentCommand(node, rect.getLocation().x, rect.getLocation().y, rect.width, rect.height);
+    }
+
 }

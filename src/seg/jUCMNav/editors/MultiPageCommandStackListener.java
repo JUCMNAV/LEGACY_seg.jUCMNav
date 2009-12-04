@@ -26,7 +26,8 @@ public class MultiPageCommandStackListener implements CommandStackListener {
     private final UCMNavMultiPageEditor editor;
 
     /**
-     * @param editor jUCMNav
+     * @param editor
+     *            jUCMNav
      */
     MultiPageCommandStackListener(UCMNavMultiPageEditor editor) {
         this.editor = editor;
@@ -47,7 +48,9 @@ public class MultiPageCommandStackListener implements CommandStackListener {
 
     /**
      * What should be done when the stack changes.
-     * @param event the command stack changed event. 
+     * 
+     * @param event
+     *            the command stack changed event.
      * 
      * @see org.eclipse.gef.commands.CommandStackListener#commandStackChanged(java.util.EventObject)
      */
@@ -76,10 +79,11 @@ public class MultiPageCommandStackListener implements CommandStackListener {
         commandStackVerifyPages(event);
     }
 
-    /** 
-     * Updates the editor when a new page is added/removed. Keeps the open editors in synch with the omdel.  
+    /**
+     * Updates the editor when a new page is added/removed. Keeps the open editors in synch with the omdel.
      * 
-     * @param event the command stack changed event. 
+     * @param event
+     *            the command stack changed event.
      */
     private void commandStackVerifyPages(EventObject event) {
         if (this.editor.getPageCount() != this.editor.getModel().getUrndef().getSpecDiagrams().size() && event.getSource() instanceof DelegatingCommandStack) {
@@ -88,11 +92,11 @@ public class MultiPageCommandStackListener implements CommandStackListener {
             // was added
             if (this.editor.getModel().getUrndef().getSpecDiagrams().contains(diagramChanged)) {
                 UrnEditor u = null;
-                if (diagramChanged instanceof UCMmap){
+                if (diagramChanged instanceof UCMmap) {
                     u = new UcmEditor(this.editor);
                 } else { // if(diagramChanged instanceof GRLGraph){
                     u = new GrlEditor(this.editor);
-                } 
+                }
                 u.setModel(diagramChanged);
 
                 try {
@@ -161,10 +165,10 @@ public class MultiPageCommandStackListener implements CommandStackListener {
             CommandStack stack = (CommandStack) stacks.next();
             stack.markSaveLocation();
         }
-        
+
         // bug 447
-        if (editor!=null && editor.getDelegatingCommandStack()!=null)
-        	editor.getDelegatingCommandStack().markSaveLocation();
+        if (editor != null && editor.getDelegatingCommandStack() != null)
+            editor.getDelegatingCommandStack().markSaveLocation();
     }
 
     /**

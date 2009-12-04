@@ -15,15 +15,15 @@ import seg.jUCMNav.views.preferences.GeneralPreferencePage;
  * The main plugin class to be used in the desktop.
  */
 public class JUCMNavPlugin extends AbstractUIPlugin {
-    //The shared instance.
+    // The shared instance.
     private static JUCMNavPlugin plugin;
 
-    //Resource bundle.
+    // Resource bundle.
     private ResourceBundle resourceBundle;
 
     private static HashMap imgDescriptorFactory;
     private static HashMap imgFactory;
-    
+
     public static final String PLUGIN_ID = "seg.jUCMNav"; //$NON-NLS-1$
 
     /**
@@ -78,38 +78,41 @@ public class JUCMNavPlugin extends AbstractUIPlugin {
     public ResourceBundle getResourceBundle() {
         return resourceBundle;
     }
-    
-    
+
     public static ImageDescriptor getImageDescriptor(String path) {
-    	if (imgDescriptorFactory==null) imgDescriptorFactory= new HashMap();
-    	
-    	if (!imgDescriptorFactory.containsKey(path)) {
-    		imgDescriptorFactory.put(path, ImageDescriptor.createFromFile(JUCMNavPlugin.class, path));
-    	}
-    	
-    	return (ImageDescriptor) imgDescriptorFactory.get(path);
+        if (imgDescriptorFactory == null)
+            imgDescriptorFactory = new HashMap();
+
+        if (!imgDescriptorFactory.containsKey(path)) {
+            imgDescriptorFactory.put(path, ImageDescriptor.createFromFile(JUCMNavPlugin.class, path));
+        }
+
+        return (ImageDescriptor) imgDescriptorFactory.get(path);
     }
+
     public static Image getImage(String path) {
-    	if (imgFactory==null) imgFactory= new HashMap();
-    	
-    	if (!imgFactory.containsKey(path)) {
-    		imgFactory.put(path, ImageDescriptor.createFromFile(JUCMNavPlugin.class, path).createImage());
-    	}
-    	
-    	return ((Image) imgFactory.get(path));
+        if (imgFactory == null)
+            imgFactory = new HashMap();
+
+        if (!imgFactory.containsKey(path)) {
+            imgFactory.put(path, ImageDescriptor.createFromFile(JUCMNavPlugin.class, path).createImage());
+        }
+
+        return ((Image) imgFactory.get(path));
     }
-    
-    public static Image getImage(ImageDescriptor descriptor)
-    {
-    	if (imgFactory==null) imgFactory = new HashMap();
-    	if (!imgFactory.containsKey(descriptor)) {
-    		imgFactory.put(descriptor, descriptor.createImage());
-    	}
-    	
-    	return ((Image) imgFactory.get(descriptor));
+
+    public static Image getImage(ImageDescriptor descriptor) {
+        if (imgFactory == null)
+            imgFactory = new HashMap();
+        if (!imgFactory.containsKey(descriptor)) {
+            imgFactory.put(descriptor, descriptor.createImage());
+        }
+
+        return ((Image) imgFactory.get(descriptor));
     }
+
     public static boolean isInDebug() {
-        return (GeneralPreferencePage.getAuthor()!=null && "debug".equalsIgnoreCase(GeneralPreferencePage.getAuthor())); //$NON-NLS-1$
+        return (GeneralPreferencePage.getAuthor() != null && "debug".equalsIgnoreCase(GeneralPreferencePage.getAuthor())); //$NON-NLS-1$
     }
-    
+
 }

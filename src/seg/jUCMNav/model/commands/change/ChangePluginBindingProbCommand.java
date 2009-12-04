@@ -13,50 +13,52 @@ public class ChangePluginBindingProbCommand extends Command implements JUCMNavCo
     private double newProbability;
 
     public ChangePluginBindingProbCommand(PluginBinding pb, double prob) {
-	super();
-	this.pluginBinding = pb;
-	this.newProbability = prob;
-	this.oldProbability = pluginBinding.getProbability();
-	setLabel(Messages.getString("ChangePluginBindingProbCommand.ChangePluginBindingProbability")); //$NON-NLS-1$
+        super();
+        this.pluginBinding = pb;
+        this.newProbability = prob;
+        this.oldProbability = pluginBinding.getProbability();
+        setLabel(Messages.getString("ChangePluginBindingProbCommand.ChangePluginBindingProbability")); //$NON-NLS-1$
     }
 
     public void execute() {
-	redo();
+        redo();
     }
 
     public boolean canExecute() {
-	return pluginBinding != null;
+        return pluginBinding != null;
     }
 
     public void redo() {
-	testPreConditions();
-	pluginBinding.setProbability(newProbability);
-	testPostConditions();
+        testPreConditions();
+        pluginBinding.setProbability(newProbability);
+        testPostConditions();
     }
 
     public void undo() {
-	testPostConditions();
-	pluginBinding.setProbability(oldProbability);
-	testPreConditions();
+        testPostConditions();
+        pluginBinding.setProbability(oldProbability);
+        testPreConditions();
     }
 
     public void testPostConditions() {
-	assert pluginBinding != null : "Post Plugin Binding is null"; //$NON-NLS-1$
-	assert pluginBinding.getProbability() == newProbability : "Post newProbability changed"; //$NON-NLS-1$
+        assert pluginBinding != null : "Post Plugin Binding is null"; //$NON-NLS-1$
+        assert pluginBinding.getProbability() == newProbability : "Post newProbability changed"; //$NON-NLS-1$
     }
 
     public void testPreConditions() {
-	assert pluginBinding != null : "Pre Plugin Binding is null"; //$NON-NLS-1$
-	assert pluginBinding.getProbability() == oldProbability : "Pre newProbability changed"; //$NON-NLS-1$
+        assert pluginBinding != null : "Pre Plugin Binding is null"; //$NON-NLS-1$
+        assert pluginBinding.getProbability() == oldProbability : "Pre newProbability changed"; //$NON-NLS-1$
     }
-    
+
     public double getProbability() {
-	return newProbability;
+        return newProbability;
     }
+
     public void setProbability(double probability) {
-	this.newProbability = probability;
+        this.newProbability = probability;
     }
+
     public PluginBinding getPluginBinding() {
-	return pluginBinding;
+        return pluginBinding;
     }
 }

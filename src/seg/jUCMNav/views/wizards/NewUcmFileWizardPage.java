@@ -36,219 +36,220 @@ import seg.jUCMNav.views.wizards.importexport.jUCMNavLoader;
  * The settings page for the new wizard; name your file and select where you want to create it.
  * 
  * @author etremblay
- *  
+ * 
  */
 public class NewUcmFileWizardPage extends WizardPage {
-	private Text containerText;
-	private Text fileText;
-	private ISelection selection;
-	public boolean overwrite=false;
-	/**
-	 * Constructor for SampleNewWizardPage.
-	 * 
-	 * @param selection
-	 */
-	public NewUcmFileWizardPage(ISelection selection) {
-		super("wizardPage"); //$NON-NLS-1$
-		setTitle(Messages.getString("NewUcmFileWizardPage.jUCMFile")); //$NON-NLS-1$
-		setDescription(Messages.getString("NewUcmFileWizardPage.createsNewJUCM")); //$NON-NLS-1$
-		this.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/perspectiveIcon.gif")); //$NON-NLS-1$
-		this.selection = selection;
-	}
+    private Text containerText;
+    private Text fileText;
+    private ISelection selection;
+    public boolean overwrite = false;
 
-	/**
-	 * Creates the buttons and fields for the New .jucm File Wizard
-	 */
-	public void createControl(Composite parent) {
-		
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.newfile"); //$NON-NLS-1$
-		Composite container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
-		container.setLayout(layout);
-		layout.numColumns = 3;
-		layout.verticalSpacing = 9;
-		Label label = new Label(container, SWT.NULL);
-		label.setText(Messages.getString("NewUcmFileWizardPage.Container")); //$NON-NLS-1$
+    /**
+     * Constructor for SampleNewWizardPage.
+     * 
+     * @param selection
+     */
+    public NewUcmFileWizardPage(ISelection selection) {
+        super("wizardPage"); //$NON-NLS-1$
+        setTitle(Messages.getString("NewUcmFileWizardPage.jUCMFile")); //$NON-NLS-1$
+        setDescription(Messages.getString("NewUcmFileWizardPage.createsNewJUCM")); //$NON-NLS-1$
+        this.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/perspectiveIcon.gif")); //$NON-NLS-1$
+        this.selection = selection;
+    }
 
-		containerText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		containerText.setLayoutData(gd);
-		containerText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
+    /**
+     * Creates the buttons and fields for the New .jucm File Wizard
+     */
+    public void createControl(Composite parent) {
 
-		Button button = new Button(container, SWT.PUSH);
-		button.setText(Messages.getString("NewUcmFileWizardPage.Browse")); //$NON-NLS-1$
-		button.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				handleBrowse();
-			}
-		});
-		label = new Label(container, SWT.NULL);
-		label.setText(Messages.getString("NewUcmFileWizardPage.fileName")); //$NON-NLS-1$
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.newfile"); //$NON-NLS-1$
+        Composite container = new Composite(parent, SWT.NULL);
+        GridLayout layout = new GridLayout();
+        container.setLayout(layout);
+        layout.numColumns = 3;
+        layout.verticalSpacing = 9;
+        Label label = new Label(container, SWT.NULL);
+        label.setText(Messages.getString("NewUcmFileWizardPage.Container")); //$NON-NLS-1$
 
-		fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		fileText.setLayoutData(gd);
-		fileText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
+        containerText = new Text(container, SWT.BORDER | SWT.SINGLE);
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        containerText.setLayoutData(gd);
+        containerText.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                dialogChanged();
+            }
+        });
 
-		// Selection buttons for type of new diagram(s) in file
-		Label spacelabel = new Label(container, SWT.NULL); // Skip last column
-		Label addLabel = new Label(container, SWT.NULL);
-		addLabel.setText(Messages.getString("NewUcmFileWizardPage.CreateNewDiagram")); //$NON-NLS-1$
+        Button button = new Button(container, SWT.PUSH);
+        button.setText(Messages.getString("NewUcmFileWizardPage.Browse")); //$NON-NLS-1$
+        button.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                handleBrowse();
+            }
+        });
+        label = new Label(container, SWT.NULL);
+        label.setText(Messages.getString("NewUcmFileWizardPage.fileName")); //$NON-NLS-1$
 
-		Composite diagramComposite = new Composite(container, SWT.NO_RADIO_GROUP);
-		RowLayout diagLayout = new RowLayout();
-		diagramComposite.setLayout(diagLayout);
-		final Composite composite = diagramComposite;
+        fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fileText.setLayoutData(gd);
+        fileText.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                dialogChanged();
+            }
+        });
 
-		Listener checkGroupListener = new Listener () {
-			public void handleEvent (Event event) {
-				doDiagramSelection((Button)event.widget);
-			}
-		};
-			      
-		Button ucmButton = new Button(diagramComposite, SWT.CHECK);
-		ucmButton.setImage(JUCMNavPlugin.getImage( "icons/ucm16.gif"));  //$NON-NLS-1$
-		ucmButton.setText("UCM");  //$NON-NLS-1$
-		ucmButton.addListener(SWT.Selection, checkGroupListener);
+        // Selection buttons for type of new diagram(s) in file
+        Label spacelabel = new Label(container, SWT.NULL); // Skip last column
+        Label addLabel = new Label(container, SWT.NULL);
+        addLabel.setText(Messages.getString("NewUcmFileWizardPage.CreateNewDiagram")); //$NON-NLS-1$
 
-		Button grlButton = new Button(diagramComposite, SWT.CHECK);
-		grlButton.setImage(JUCMNavPlugin.getImage( "icons/grl16.gif"));  //$NON-NLS-1$
-		grlButton.setText("GRL");  //$NON-NLS-1$
-		grlButton.addListener(SWT.Selection, checkGroupListener);
+        Composite diagramComposite = new Composite(container, SWT.NO_RADIO_GROUP);
+        RowLayout diagLayout = new RowLayout();
+        diagramComposite.setLayout(diagLayout);
+        final Composite composite = diagramComposite;
 
-		if (GeneralPreferencePage.getNewGRL()) {
-			grlButton.setSelection(true);
-			doDiagramSelection(grlButton);
-		}
-		if (GeneralPreferencePage.getNewUCM()) {
-			ucmButton.setSelection(true);
-			doDiagramSelection(ucmButton);
-		}
-			
-		initialize();
-		dialogChanged();
-		setControl(container);
-	}
-	
-	/**
-	 * Updates preferences for new UCM/GRL diagrams based on checkbox (un)selected.
-	 */
-	static void doDiagramSelection(Button button) {
-        if (button.getSelection()){
-        	if (button.getText().equals("GRL")){   //$NON-NLS-1$
-        		GeneralPreferencePage.setNewGRL(true);
-        	} else {
-        		GeneralPreferencePage.setNewUCM(true);
-        	}
-        } else {
-        	if (button.getText().equals("GRL")){   //$NON-NLS-1$
-        		GeneralPreferencePage.setNewGRL(false);
-        	} else {
-        		GeneralPreferencePage.setNewUCM(false);
-        	}
+        Listener checkGroupListener = new Listener() {
+            public void handleEvent(Event event) {
+                doDiagramSelection((Button) event.widget);
+            }
+        };
+
+        Button ucmButton = new Button(diagramComposite, SWT.CHECK);
+        ucmButton.setImage(JUCMNavPlugin.getImage("icons/ucm16.gif")); //$NON-NLS-1$
+        ucmButton.setText("UCM"); //$NON-NLS-1$
+        ucmButton.addListener(SWT.Selection, checkGroupListener);
+
+        Button grlButton = new Button(diagramComposite, SWT.CHECK);
+        grlButton.setImage(JUCMNavPlugin.getImage("icons/grl16.gif")); //$NON-NLS-1$
+        grlButton.setText("GRL"); //$NON-NLS-1$
+        grlButton.addListener(SWT.Selection, checkGroupListener);
+
+        if (GeneralPreferencePage.getNewGRL()) {
+            grlButton.setSelection(true);
+            doDiagramSelection(grlButton);
         }
-	}
+        if (GeneralPreferencePage.getNewUCM()) {
+            ucmButton.setSelection(true);
+            doDiagramSelection(ucmButton);
+        }
 
-	/**
-	 * Tests if the current workbench selection is a suitable container to use.
-	 */
+        initialize();
+        dialogChanged();
+        setControl(container);
+    }
 
-	private void initialize() {
-		if (selection != null && selection.isEmpty() == false && selection instanceof IStructuredSelection) {
-			IStructuredSelection ssel = (IStructuredSelection) selection;
-			if (ssel.size() > 1)
-				return;
-			Object obj = ssel.getFirstElement();
-			if (obj instanceof IResource) {
-				IContainer container;
-				if (obj instanceof IContainer)
-					container = (IContainer) obj;
-				else
-					container = ((IResource) obj).getParent();
-				containerText.setText(container.getFullPath().toString());
-			}
-		}
-		fileText.setText(Messages.getString("NewUcmFileWizardPage.newFile.jucm")); //$NON-NLS-1$
-	}
+    /**
+     * Updates preferences for new UCM/GRL diagrams based on checkbox (un)selected.
+     */
+    static void doDiagramSelection(Button button) {
+        if (button.getSelection()) {
+            if (button.getText().equals("GRL")) { //$NON-NLS-1$
+                GeneralPreferencePage.setNewGRL(true);
+            } else {
+                GeneralPreferencePage.setNewUCM(true);
+            }
+        } else {
+            if (button.getText().equals("GRL")) { //$NON-NLS-1$
+                GeneralPreferencePage.setNewGRL(false);
+            } else {
+                GeneralPreferencePage.setNewUCM(false);
+            }
+        }
+    }
 
-	/**
-	 * Uses the standard container selection dialog to choose the new value for the container field.
-	 */
+    /**
+     * Tests if the current workbench selection is a suitable container to use.
+     */
 
-	private void handleBrowse() {
-		ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, Messages
-				.getString("NewUcmFileWizardPage.selectNewFileContainer")); //$NON-NLS-1$
-		if (dialog.open() == Window.OK) {
-			Object[] result = dialog.getResult();
-			if (result.length == 1) {
-				containerText.setText(((Path) result[0]).toOSString());
-			}
-		}
-	}
+    private void initialize() {
+        if (selection != null && selection.isEmpty() == false && selection instanceof IStructuredSelection) {
+            IStructuredSelection ssel = (IStructuredSelection) selection;
+            if (ssel.size() > 1)
+                return;
+            Object obj = ssel.getFirstElement();
+            if (obj instanceof IResource) {
+                IContainer container;
+                if (obj instanceof IContainer)
+                    container = (IContainer) obj;
+                else
+                    container = ((IResource) obj).getParent();
+                containerText.setText(container.getFullPath().toString());
+            }
+        }
+        fileText.setText(Messages.getString("NewUcmFileWizardPage.newFile.jucm")); //$NON-NLS-1$
+    }
 
-	/**
-	 * Ensures that both text fields are set.
-	 */
+    /**
+     * Uses the standard container selection dialog to choose the new value for the container field.
+     */
 
-	private void dialogChanged() {
-		String container = getContainerName();
-		String fileName = getFileName();
+    private void handleBrowse() {
+        ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, Messages
+                .getString("NewUcmFileWizardPage.selectNewFileContainer")); //$NON-NLS-1$
+        if (dialog.open() == Window.OK) {
+            Object[] result = dialog.getResult();
+            if (result.length == 1) {
+                containerText.setText(((Path) result[0]).toOSString());
+            }
+        }
+    }
 
-		if (container.length() == 0) {
-			updateStatus(Messages.getString("NewUcmFileWizardPage.fileContainerMissing")); //$NON-NLS-1$
-			return;
-		}
-		if (fileName.length() == 0) {
-			updateStatus(Messages.getString("NewUcmFileWizardPage.fileNameMissing")); //$NON-NLS-1$
-			return;
-		}
-		int dotLoc = fileName.lastIndexOf('.');
-		if (dotLoc != -1) {
-			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase("jucm") == false) { //$NON-NLS-1$
-				updateStatus(Messages.getString("NewUcmFileWizardPage.fileExtensionJUCM")); //$NON-NLS-1$
-				return;
-			}
-		} else {
-			updateStatus(Messages.getString("NewUcmFileWizardPage.fileExtensionJUCM")); //$NON-NLS-1$
-			return;
-		}
+    /**
+     * Ensures that both text fields are set.
+     */
 
-		updateStatus(null);
-	}
+    private void dialogChanged() {
+        String container = getContainerName();
+        String fileName = getFileName();
 
-	private void updateStatus(String message) {
-		setErrorMessage(message);
-		setPageComplete(message == null);
-	}
+        if (container.length() == 0) {
+            updateStatus(Messages.getString("NewUcmFileWizardPage.fileContainerMissing")); //$NON-NLS-1$
+            return;
+        }
+        if (fileName.length() == 0) {
+            updateStatus(Messages.getString("NewUcmFileWizardPage.fileNameMissing")); //$NON-NLS-1$
+            return;
+        }
+        int dotLoc = fileName.lastIndexOf('.');
+        if (dotLoc != -1) {
+            String ext = fileName.substring(dotLoc + 1);
+            if (ext.equalsIgnoreCase("jucm") == false) { //$NON-NLS-1$
+                updateStatus(Messages.getString("NewUcmFileWizardPage.fileExtensionJUCM")); //$NON-NLS-1$
+                return;
+            }
+        } else {
+            updateStatus(Messages.getString("NewUcmFileWizardPage.fileExtensionJUCM")); //$NON-NLS-1$
+            return;
+        }
 
-	public String getContainerName() {
-		return containerText.getText();
-	}
+        updateStatus(null);
+    }
 
-	public String getFileName() {
-		return fileText.getText();
-	}
+    private void updateStatus(String message) {
+        setErrorMessage(message);
+        setPageComplete(message == null);
+    }
 
-	public void preFinish() {
-		String sFileName = fileText.getText();
-		String sContainer = containerText.getText();
-		jUCMNavLoader loader = new jUCMNavLoader(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), getShell());
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IResource resource = root.findMember(new Path(loader.getTargetFilename(sFileName, sContainer, true)));
-		if (resource != null) {
-			overwrite = MessageDialog.openQuestion(getShell(), Messages.getString("NewUcmFileWizardPage.FilenameAlreadyInUse"), //$NON-NLS-1$
-					Messages.getString("NewUcmFileWizardPage.FilenameAlreadyInUseOverwrite")); //$NON-NLS-1$
+    public String getContainerName() {
+        return containerText.getText();
+    }
 
-		}
+    public String getFileName() {
+        return fileText.getText();
+    }
 
-	}
+    public void preFinish() {
+        String sFileName = fileText.getText();
+        String sContainer = containerText.getText();
+        jUCMNavLoader loader = new jUCMNavLoader(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), getShell());
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IResource resource = root.findMember(new Path(loader.getTargetFilename(sFileName, sContainer, true)));
+        if (resource != null) {
+            overwrite = MessageDialog.openQuestion(getShell(), Messages.getString("NewUcmFileWizardPage.FilenameAlreadyInUse"), //$NON-NLS-1$
+                    Messages.getString("NewUcmFileWizardPage.FilenameAlreadyInUseOverwrite")); //$NON-NLS-1$
+
+        }
+
+    }
 }

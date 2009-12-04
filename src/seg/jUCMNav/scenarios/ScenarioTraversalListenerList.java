@@ -36,7 +36,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
         this._warnings = warnings;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#codeExecuted(seg.jUCMNav.scenarios.model.TraversalVisit, java.lang.String)
      */
     public void codeExecuted(TraversalVisit visit, String code) {
@@ -53,8 +55,11 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
-     * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#conditionEvaluated(seg.jUCMNav.scenarios.model.TraversalVisit, urncore.Condition, boolean)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#conditionEvaluated(seg.jUCMNav.scenarios.model.TraversalVisit, urncore.Condition,
+     * boolean)
      */
     public void conditionEvaluated(TraversalVisit visit, Condition condition, boolean result, boolean isPreCondition) {
         for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
@@ -70,7 +75,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#drillDown(seg.jUCMNav.scenarios.model.TraversalVisit, ucm.map.InBinding)
      */
     public void drillDown(TraversalVisit visit, InBinding inb) {
@@ -86,7 +93,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#drillUp(seg.jUCMNav.scenarios.model.TraversalVisit, ucm.map.OutBinding)
      */
     public void drillUp(TraversalVisit visit, OutBinding outb) {
@@ -102,7 +111,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#leftWaitingPlace(seg.jUCMNav.scenarios.model.TraversalVisit, boolean)
      */
     public void leftWaitingPlace(TraversalVisit visit, boolean becauseOfCondition) {
@@ -118,7 +129,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#newThreadStarted(seg.jUCMNav.scenarios.model.TraversalVisit)
      */
     public void newThreadStarted(TraversalVisit visit) {
@@ -135,7 +148,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#pathNodeAborted(seg.jUCMNav.scenarios.model.TraversalVisit)
      */
     public void pathNodeAborted(TraversalVisit visit) {
@@ -152,7 +167,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#pathNodeAttempted(seg.jUCMNav.scenarios.model.TraversalVisit)
      */
     public void pathNodeAttempted(TraversalVisit visit) {
@@ -169,7 +186,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#pathNodeBlocked(seg.jUCMNav.scenarios.model.TraversalVisit)
      */
     public void pathNodeBlocked(TraversalVisit visit) {
@@ -185,7 +204,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#pathNodeUnblocked(seg.jUCMNav.scenarios.model.TraversalVisit)
      */
     public void pathNodeUnblocked(TraversalVisit visit) {
@@ -201,7 +222,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#pathNodeVisited(seg.jUCMNav.scenarios.model.TraversalVisit)
      */
     public void pathNodeVisited(TraversalVisit visit) {
@@ -218,7 +241,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#threadDied(int)
      */
     public void threadDied(int threadId) {
@@ -234,7 +259,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#threadsMerged(java.util.List, int)
      */
     public void threadsMerged(List oldThreadIDs, int newThreadID) {
@@ -251,7 +278,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#threadSplit(int, java.util.List)
      */
     public void threadSplit(int oldThreadID, List newThreadIDs) {
@@ -268,7 +297,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#timerTimeout(seg.jUCMNav.scenarios.model.TraversalVisit, boolean)
      */
     public void timerTimeout(TraversalVisit visit, boolean becauseOfCondition) {
@@ -285,7 +316,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#traversalEnded()
      */
     public void traversalEnded() {
@@ -302,7 +335,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#traversalEnded(seg.jUCMNav.scenarios.model.UcmEnvironment, ucm.scenario.ScenarioDef)
      */
     public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
@@ -319,7 +354,9 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#traversalStarted(seg.jUCMNav.scenarios.model.UcmEnvironment, ucm.scenario.ScenarioDef)
      */
     public void traversalStarted(UcmEnvironment env, ScenarioDef scenario) {

@@ -14,7 +14,7 @@ public class UrnPaletteViewerProvider extends PaletteViewerProvider {
 
     public void unconfigurePaletteViewer(PaletteViewer viewer) {
         viewer.removeDragSourceListener((TransferDragSourceListener) list);
-        list=null;
+        list = null;
     }
 
     public void configurePaletteViewer(PaletteViewer viewer) {

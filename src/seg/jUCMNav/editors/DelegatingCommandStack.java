@@ -35,12 +35,12 @@ import urncore.IURNDiagram;
  * This is a delegating command stack, which delegates everything a defined the CommandStack except event listners.
  * 
  * <p>
- * Event listeners registered to a <code>DelegatingCommandStack</code> will be informed whenever the underlying <code>CommandStack</code> changes. They will
- * not be registered to the underlying <code>CommandStack</code> but they will be informed about change events of them.
+ * Event listeners registered to a <code>DelegatingCommandStack</code> will be informed whenever the underlying <code>CommandStack</code> changes. They will not
+ * be registered to the underlying <code>CommandStack</code> but they will be informed about change events of them.
  * 
  * All ugly stkUrnSpec related code added by jkealey. This code is to allow DeleteMapCommands/CreateMapCommands to be undone because they can't be executed in
  * one of the UcmEditor's command stacks.
- *  
+ * 
  * @author Gunnar Wagenknecht, jkealey
  */
 public class DelegatingCommandStack extends CommandStack implements CommandStackListener {
@@ -117,20 +117,18 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
 
     /**
      * 
-     * If the command adds or removes a new diagram, it executes the command in a special stack that will refresh the UI properly.   
+     * If the command adds or removes a new diagram, it executes the command in a special stack that will refresh the UI properly.
      * 
      */
     public void execute(Command command) {
-    	if (command instanceof PasteCommand)
-    	{
-			PasteCommand pasteCommand = (PasteCommand) command;
-			pasteCommand.build(); // typically built later during execution. 
-    	}
-    	
-    	
-    	boolean b = checkSimpleCommand(command);
-		if (b)return;
-		
+        if (command instanceof PasteCommand) {
+            PasteCommand pasteCommand = (PasteCommand) command;
+            pasteCommand.build(); // typically built later during execution.
+        }
+
+        boolean b = checkSimpleCommand(command);
+        if (b)
+            return;
 
         if (null != currentCommandStack) {
             flushURNspecStack();
@@ -138,20 +136,19 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
         }
     }
 
-	private boolean checkSimpleCommand(Command command)
-	{
-		if (command instanceof CreateMapCommand) {
+    private boolean checkSimpleCommand(Command command) {
+        if (command instanceof CreateMapCommand) {
             lastAffectedDiagram = ((CreateMapCommand) command).getMap();
             stkUrnSpec.execute(command);
             return true;
-        } else if (command instanceof CreateGrlGraphCommand){
+        } else if (command instanceof CreateGrlGraphCommand) {
             lastAffectedDiagram = ((CreateGrlGraphCommand) command).getDiagram();
             stkUrnSpec.execute(command);
             return true;
         } else if (command instanceof DuplicateMapCommand) {
             lastAffectedDiagram = ((DuplicateMapCommand) command).getNewDiagram();
-        	stkUrnSpec.execute(command);
-        	return true;        	
+            stkUrnSpec.execute(command);
+            return true;
         } else if (command instanceof DeleteGRLGraphCommand) {
             lastAffectedDiagram = ((DeleteGRLGraphCommand) command).getDiagram();
             stkUrnSpec.execute(command);
@@ -160,20 +157,21 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
             lastAffectedDiagram = ((DeleteMapCommand) command).getDiagram();
             stkUrnSpec.execute(command);
             return true;
-        }  
-		
+        }
+
         if (command instanceof CompoundCommand) {
             for (Iterator iter = ((CompoundCommand) command).getCommands().iterator(); iter.hasNext();) {
                 Command internal = (Command) iter.next();
-                
+
                 // recurse
-                boolean  b = checkSimpleCommand(internal);
-                if (b) return true;
+                boolean b = checkSimpleCommand(internal);
+                if (b)
+                    return true;
             }
         }
-		
-		return false;
-	}
+
+        return false;
+    }
 
     /*
      * (non-Javadoc)
@@ -321,13 +319,13 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
             Command command = stkUrnSpec.getRedoCommand();
             if (command instanceof DeleteMapCommand) {
                 lastAffectedDiagram = ((DeleteMapCommand) command).getDiagram();
-            }else if (command instanceof DeleteGRLGraphCommand) {
+            } else if (command instanceof DeleteGRLGraphCommand) {
                 lastAffectedDiagram = ((DeleteGRLGraphCommand) command).getDiagram();
-            }else if (command instanceof CreateMapCommand) {
+            } else if (command instanceof CreateMapCommand) {
                 lastAffectedDiagram = ((CreateMapCommand) command).getMap();
-            }else if (command instanceof CreateGrlGraphCommand) {
+            } else if (command instanceof CreateGrlGraphCommand) {
                 lastAffectedDiagram = ((CreateGrlGraphCommand) command).getDiagram();
-            } else if (command instanceof DuplicateMapCommand){
+            } else if (command instanceof DuplicateMapCommand) {
                 lastAffectedDiagram = ((DuplicateMapCommand) command).getNewDiagram();
             }
 
@@ -356,7 +354,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
         currentCommandStack = stack;
 
         // watch new command stack
-        if (currentCommandStack!=null)
+        if (currentCommandStack != null)
             currentCommandStack.addCommandStackListener(this);
 
         // the command stack changed
@@ -396,9 +394,9 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
                 lastAffectedDiagram = ((DeleteGRLGraphCommand) command).getDiagram();
             } else if (command instanceof CreateMapCommand) {
                 lastAffectedDiagram = ((CreateMapCommand) command).getMap();
-            } else if (command instanceof CreateGrlGraphCommand){
+            } else if (command instanceof CreateGrlGraphCommand) {
                 lastAffectedDiagram = ((CreateGrlGraphCommand) command).getDiagram();
-            } else if (command instanceof DuplicateMapCommand){
+            } else if (command instanceof DuplicateMapCommand) {
                 lastAffectedDiagram = ((DuplicateMapCommand) command).getNewDiagram();
             }
 

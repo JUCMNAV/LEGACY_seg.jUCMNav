@@ -25,15 +25,13 @@ import ucm.scenario.Variable;
  */
 public class StrategyUrnModelElementTreeEditPart extends UrnModelElementTreeEditPart implements Adapter {
 
+    public final Color DARKGRAY = ColorManager.DARKGRAY;
+    public final Color BLACK = ColorManager.BLACK;
+    public final Color GRAY = ColorManager.GRAY;
+    public final Color WHITE = ColorManager.WHITE;
 
-	public final Color DARKGRAY = ColorManager.DARKGRAY;
-	public final Color BLACK = ColorManager.BLACK;
-	public final Color GRAY = ColorManager.GRAY;
-	public final Color WHITE = ColorManager.WHITE;
-	
     // The property source associated with this model element.
     protected IPropertySource propertySource = null;
-
 
     /**
      * @param model
@@ -47,56 +45,53 @@ public class StrategyUrnModelElementTreeEditPart extends UrnModelElementTreeEdit
      * @see org.eclipse.gef.EditPart#getRoot()
      */
     public RootEditPart getRoot() {
-    	if (getParent()==null)
-    		return null;
-    	else
-    		return getParent().getRoot();
+        if (getParent() == null)
+            return null;
+        else
+            return getParent().getRoot();
     }
-    
+
     /**
-     * Undoes any registration performed by {@link #register()}. The provided base classes
-     * will correctly unregister their visuals.
+     * Undoes any registration performed by {@link #register()}. The provided base classes will correctly unregister their visuals.
      */
     protected void unregister() {
-    	unregisterAccessibility();
-    	unregisterVisuals();
-    	if (getRoot()!=null)
-    		unregisterModel();
+        unregisterAccessibility();
+        unregisterVisuals();
+        if (getRoot() != null)
+            unregisterModel();
     }
-    
+
     /**
      * When something is changed, refresh. We are also refreshing the parent so that elements can be reordered if renamed
-     *  
+     * 
      */
     public void notifyChanged(Notification notification) {
-        if (notification.getEventType() != Notification.REMOVING_ADAPTER && getRoot()!=null) {
+        if (notification.getEventType() != Notification.REMOVING_ADAPTER && getRoot() != null) {
 
-        	try {
-            refreshChildren();
-        	} catch(Exception ex) {
-        		// Bug 475: should be resolved but leaving code here as defense in depth. 
-        		System.out.println("quick ugly hack; trying to prevent weird happenings in UI "); //$NON-NLS-1$
-        		getChildren().clear();
-        		refreshChildren();
-        	}
+            try {
+                refreshChildren();
+            } catch (Exception ex) {
+                // Bug 475: should be resolved but leaving code here as defense in depth.
+                System.out.println("quick ugly hack; trying to prevent weird happenings in UI "); //$NON-NLS-1$
+                getChildren().clear();
+                refreshChildren();
+            }
             refreshVisuals();
-            
-            // get rid of elements that were deleted. 
-            if (getModel() instanceof EObject && ((EObject)getModel()).eContainer()==null)
-            	getParent().refresh();
-            
+
+            // get rid of elements that were deleted.
+            if (getModel() instanceof EObject && ((EObject) getModel()).eContainer() == null)
+                getParent().refresh();
+
             // refresh parent to reorder children if name changes.
             if (notification.getFeature() instanceof EAttributeImpl && ((EAttributeImpl) notification.getFeature()).getName().equals("name")) { //$NON-NLS-1$
                 getParent().refresh();
             }
-            
-    		// force a refresh of colors. 
-    		getText();
+
+            // force a refresh of colors.
+            getText();
 
         }
     }
-
-
 
     /**
      * 
@@ -104,10 +99,10 @@ public class StrategyUrnModelElementTreeEditPart extends UrnModelElementTreeEdit
      */
     protected IPropertySource getPropertySource() {
         if (propertySource == null) {
-        	if (getModel() instanceof Variable)
-        		propertySource = new VariablePropertySource((EObject) getModel());
-        	else
-        		propertySource = new URNElementPropertySource((EObject) getModel());
+            if (getModel() instanceof Variable)
+                propertySource = new VariablePropertySource((EObject) getModel());
+            else
+                propertySource = new URNElementPropertySource((EObject) getModel());
         }
         return propertySource;
 

@@ -16,14 +16,14 @@ import urn.URNspec;
  * This command add a new GrlGraph to the model
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class CreateGrlGraphCommand extends Command implements JUCMNavCommand {
-    
+
     private URNspec urn;
     private GRLGraph graph;
     private int oldCount;
-    
+
     public CreateGrlGraphCommand(URNspec urn) {
         this.urn = urn;
 
@@ -31,14 +31,14 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand {
         graph = (GRLGraph) ModelCreationFactory.getNewObject(urn, GRLGraph.class);
         setLabel(Messages.getString("CreateGrlGraphCommand.createGrlGraph")); //$NON-NLS-1$
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
         return urn != null;
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
@@ -47,9 +47,10 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand {
         redo();
     }
 
-    public GRLGraph getDiagram(){
+    public GRLGraph getDiagram() {
         return graph;
     }
+
     /**
      * 
      * @see org.eclipse.gef.commands.Command#redo()
@@ -60,7 +61,9 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPostConditions() {
@@ -69,7 +72,9 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand {
         assert oldCount + 1 == urn.getUrndef().getSpecDiagrams().size() : "post should have only one graph added"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPreConditions() {

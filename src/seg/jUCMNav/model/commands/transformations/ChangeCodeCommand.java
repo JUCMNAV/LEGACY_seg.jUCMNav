@@ -10,7 +10,7 @@ import urncore.Condition;
 import urncore.Responsibility;
 
 /**
- * Changes the pseudo-code associated with a Responsibility or a Condition or the Initialization value of a variable. 
+ * Changes the pseudo-code associated with a Responsibility or a Condition or the Initialization value of a variable.
  * 
  * @author jkealey
  */
@@ -22,52 +22,50 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
     private boolean extendedFeatures;
 
     public ChangeCodeCommand(EObject obj, String newcode) {
-    	this.elem = obj;
-    	this.code = newcode;
-    	this.extendedFeatures=false;
-    	
-        if (elem instanceof Responsibility )
-            setLabel(Messages.getString("ChangeCodeCommand.ChangeResponsibilityCode")); //$NON-NLS-1$
-        else if (elem instanceof Condition)
-        	setLabel(Messages.getString("ChangeCodeCommand.ChangeCondition")); //$NON-NLS-1$
-        else if (elem instanceof Initialization)
-        	setLabel(Messages.getString("ChangeCodeCommand.ChangeInitialization")); //$NON-NLS-1$
-    }
-    
-    public ChangeCodeCommand(EObject obj, String newcode, String newlabel, String newDescription) {
-    	this.elem = obj;
-    	this.code = newcode;
-    	this.extendedFeatures=true;
-    	this.name = newlabel;
-    	this.description = newDescription;
-    	
-        if (elem instanceof Responsibility )
-            setLabel(Messages.getString("ChangeCodeCommand.ChangeResponsibilityCode")); //$NON-NLS-1$
-        else if (elem instanceof Condition)
-        	setLabel(Messages.getString("ChangeCodeCommand.ChangeCondition")); //$NON-NLS-1$
-        else if (elem instanceof Initialization)
-        	setLabel(Messages.getString("ChangeCodeCommand.ChangeInitialization")); //$NON-NLS-1$
-    }    
+        this.elem = obj;
+        this.code = newcode;
+        this.extendedFeatures = false;
 
+        if (elem instanceof Responsibility)
+            setLabel(Messages.getString("ChangeCodeCommand.ChangeResponsibilityCode")); //$NON-NLS-1$
+        else if (elem instanceof Condition)
+            setLabel(Messages.getString("ChangeCodeCommand.ChangeCondition")); //$NON-NLS-1$
+        else if (elem instanceof Initialization)
+            setLabel(Messages.getString("ChangeCodeCommand.ChangeInitialization")); //$NON-NLS-1$
+    }
+
+    public ChangeCodeCommand(EObject obj, String newcode, String newlabel, String newDescription) {
+        this.elem = obj;
+        this.code = newcode;
+        this.extendedFeatures = true;
+        this.name = newlabel;
+        this.description = newDescription;
+
+        if (elem instanceof Responsibility)
+            setLabel(Messages.getString("ChangeCodeCommand.ChangeResponsibilityCode")); //$NON-NLS-1$
+        else if (elem instanceof Condition)
+            setLabel(Messages.getString("ChangeCodeCommand.ChangeCondition")); //$NON-NLS-1$
+        else if (elem instanceof Initialization)
+            setLabel(Messages.getString("ChangeCodeCommand.ChangeInitialization")); //$NON-NLS-1$
+    }
 
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
         if (elem instanceof Responsibility) {
-            oldCode = ((Responsibility)elem).getExpression();
-            oldName = ((Responsibility)elem).getName();
-            oldDescription = ((Responsibility)elem).getDescription();
+            oldCode = ((Responsibility) elem).getExpression();
+            oldName = ((Responsibility) elem).getName();
+            oldDescription = ((Responsibility) elem).getDescription();
         } else if (elem instanceof Condition) {
-        	oldCode = ((Condition) elem).getExpression();
-        	oldName = ((Condition)elem).getLabel();
-        	oldDescription = ((Condition)elem).getDescription();
+            oldCode = ((Condition) elem).getExpression();
+            oldName = ((Condition) elem).getLabel();
+            oldDescription = ((Condition) elem).getDescription();
         } else if (elem instanceof Initialization) {
-        	oldCode =  ((Initialization)elem).getValue();
+            oldCode = ((Initialization) elem).getValue();
         }
         redo();
     }
-
 
     /*
      * (non-Javadoc)
@@ -78,25 +76,24 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         if (elem instanceof Responsibility) {
-            ((Responsibility)elem).setExpression(code);
+            ((Responsibility) elem).setExpression(code);
             if (extendedFeatures) {
-            	((Responsibility)elem).setName(name);
-            	((Responsibility)elem).setDescription(description);
+                ((Responsibility) elem).setName(name);
+                ((Responsibility) elem).setDescription(description);
             }
-            	
+
         } else if (elem instanceof Condition) {
-        	((Condition) elem).setExpression(code);
+            ((Condition) elem).setExpression(code);
             if (extendedFeatures) {
-            	((Condition)elem).setLabel(name);
-            	((Condition)elem).setDescription(description);
-            }        	
+                ((Condition) elem).setLabel(name);
+                ((Condition) elem).setDescription(description);
+            }
         } else if (elem instanceof Initialization) {
-        	((Initialization) elem).setValue(code);
+            ((Initialization) elem).setValue(code);
         }
 
         testPostConditions();
     }
-
 
     /*
      * (non-Javadoc)
@@ -107,7 +104,7 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
         assert elem != null : "post no elemement to name!"; //$NON-NLS-1$
     }
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
@@ -117,28 +114,28 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
 
     }
 
-	/**
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
         testPostConditions();
 
         if (elem instanceof Responsibility) {
-            ((Responsibility)elem).setExpression(oldCode);
+            ((Responsibility) elem).setExpression(oldCode);
             if (extendedFeatures) {
-            	((Responsibility)elem).setName(oldName);
-            	((Responsibility)elem).setDescription(oldDescription);
-            }            
+                ((Responsibility) elem).setName(oldName);
+                ((Responsibility) elem).setDescription(oldDescription);
+            }
         } else if (elem instanceof Condition) {
-        	((Condition) elem).setExpression(oldCode);
+            ((Condition) elem).setExpression(oldCode);
             if (extendedFeatures) {
-            	((Condition)elem).setLabel(oldName);
-            	((Condition)elem).setDescription(oldDescription);
-            }          	
+                ((Condition) elem).setLabel(oldName);
+                ((Condition) elem).setDescription(oldDescription);
+            }
         } else if (elem instanceof Initialization) {
-        	((Initialization) elem).setValue(oldCode);
+            ((Initialization) elem).setValue(oldCode);
         }
-        
+
         testPreConditions();
     }
 

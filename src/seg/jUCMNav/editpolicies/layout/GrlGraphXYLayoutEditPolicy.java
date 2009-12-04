@@ -58,7 +58,7 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
         } else if (newObjectType == ActorRef.class) {
             createCommand = handleCreateActorRef(request, constraint);
         } else if (newObjectType == Comment.class) {
-        	createCommand = handleCreateComment(request, constraint);
+            createCommand = handleCreateComment(request, constraint);
         }
         return createCommand;
     }
@@ -94,7 +94,7 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
         } else if (child.getModel() instanceof IURNContainerRef) {
             return handleMoveResizeContainerRef(child, constraint);
         } else if (child.getModel() instanceof Comment) {
-        	return handleMoveResizeComment(child, constraint);
+            return handleMoveResizeComment(child, constraint);
         } else {
             System.out.println("Unknown model element"); //$NON-NLS-1$
             return null;
@@ -153,50 +153,48 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
         return createCommand;
     }
 
-	public static Command buildCreateKPIInformationElementCommand(GRLGraph graph, KPIInformationElementRef info)
-	{
-		Command create;
-		create = new AddKPIInformationElementRefCommand(graph, info);
+    public static Command buildCreateKPIInformationElementCommand(GRLGraph graph, KPIInformationElementRef info) {
+        Command create;
+        create = new AddKPIInformationElementRefCommand(graph, info);
 
-		if (GeneralPreferencePage.getGrlAutoAddLinks()) {
-		    if (info.getDef().getKpiModelLinksSrc().size() > 0) {
-		        // dragged existing element from outline.
+        if (GeneralPreferencePage.getGrlAutoAddLinks()) {
+            if (info.getDef().getKpiModelLinksSrc().size() > 0) {
+                // dragged existing element from outline.
 
-		        CreateAllKPIModelLinkRefCommand createCmd = new CreateAllKPIModelLinkRefCommand(graph, info);
-		        if (createCmd.canExecute())
-		            create = create.chain(createCmd);
+                CreateAllKPIModelLinkRefCommand createCmd = new CreateAllKPIModelLinkRefCommand(graph, info);
+                if (createCmd.canExecute())
+                    create = create.chain(createCmd);
 
-		    }
-		}
-		return create;
-	}
+            }
+        }
+        return create;
+    }
 
-	public static Command buildCreateGrlNodeCommand(GRLGraph graph, IntentionalElementRef node)
-	{
-		Command create;
-		create = new AddIntentionalElementRefCommand(graph, node);
+    public static Command buildCreateGrlNodeCommand(GRLGraph graph, IntentionalElementRef node) {
+        Command create;
+        create = new AddIntentionalElementRefCommand(graph, node);
 
-		if (GeneralPreferencePage.getGrlAutoAddLinks()) {
-		    if ((node).getDef().getLinksSrc().size() + (node).getDef().getLinksDest().size() > 0) {
-		        // dragged existing element from outline.
+        if (GeneralPreferencePage.getGrlAutoAddLinks()) {
+            if ((node).getDef().getLinksSrc().size() + (node).getDef().getLinksDest().size() > 0) {
+                // dragged existing element from outline.
 
-		        CreateAllLinkRefCommand createCmd = new CreateAllLinkRefCommand(graph, node);
-		        if (createCmd.canExecute())
-		            create = create.chain(createCmd);
+                CreateAllLinkRefCommand createCmd = new CreateAllLinkRefCommand(graph, node);
+                if (createCmd.canExecute())
+                    create = create.chain(createCmd);
 
-		    }
+            }
 
-		    if (node instanceof Indicator && ((Indicator) (node).getDef()).getKpiModelLinksDest().size() > 0) {
-		        // dragged existing element from outline.
+            if (node instanceof Indicator && ((Indicator) (node).getDef()).getKpiModelLinksDest().size() > 0) {
+                // dragged existing element from outline.
 
-		        CreateAllKPIModelLinkRefCommand createCmd = new CreateAllKPIModelLinkRefCommand(graph, node);
-		        if (createCmd.canExecute())
-		            create = create.chain(createCmd);
+                CreateAllKPIModelLinkRefCommand createCmd = new CreateAllKPIModelLinkRefCommand(graph, node);
+                if (createCmd.canExecute())
+                    create = create.chain(createCmd);
 
-		    }
-		}
-		return create;
-	}
+            }
+        }
+        return create;
+    }
 
     /**
      * Handles moving an GRLNode.
@@ -213,5 +211,5 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
 
         return new SetConstraintCommand(node, rect.getLocation().x, rect.getLocation().y);
     }
-    
+
 }

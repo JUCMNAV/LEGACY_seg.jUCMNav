@@ -92,7 +92,7 @@ public class AttachStartCommand extends Command implements JUCMNavCommand {
         oldX = oldStartPoint.getX();
         oldY = oldStartPoint.getY();
 
-        pg = (UCMmap)oldStartPoint.getDiagram();
+        pg = (UCMmap) oldStartPoint.getDiagram();
 
         ncOldStart = (NodeConnection) oldStartPoint.getSucc().get(0);
 
@@ -100,7 +100,7 @@ public class AttachStartCommand extends Command implements JUCMNavCommand {
             newCondition = (Condition) ModelCreationFactory.getNewObject(pg.getUrndefinition().getUrnspec(), Condition.class);
         }
 
-        oldParent = (ComponentRef)oldStartPoint.getContRef();
+        oldParent = (ComponentRef) oldStartPoint.getContRef();
 
         redo();
     }
@@ -110,7 +110,7 @@ public class AttachStartCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-        
+
         ncOldStart.setSource(stubOrFork);
         pg.getNodes().remove(oldStartPoint);
 
@@ -121,7 +121,6 @@ public class AttachStartCommand extends Command implements JUCMNavCommand {
 
         testPostConditions();
     }
-
 
     /**
      * @see org.eclipse.gef.commands.Command#undo()

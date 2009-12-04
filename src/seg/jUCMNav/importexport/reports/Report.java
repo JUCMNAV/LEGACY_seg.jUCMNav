@@ -58,12 +58,11 @@ public class Report extends URNReport {
     protected URNdefinition urndef;
 
     private String filename;
-    
-    public Report(){
-    	
+
+    public Report() {
+
     }
 
-    
     public int getType() {
 
         return 0;
@@ -83,7 +82,7 @@ public class Report extends URNReport {
      * @param pagesize
      *            the report page size
      */
-    
+
     public void export(URNspec urn, HashMap mapDiagrams, String filename, Document document, Rectangle pagesize) throws InvocationTargetException {
         // TODO remove all hardcoded preferences, font names and sizes
         // TODO report description strings should be externalized
@@ -100,11 +99,11 @@ public class Report extends URNReport {
                 urndef = urn.getUrndef();
             }
 
-            //<BM> Insert title page for PDF and RTF report
+            // <BM> Insert title page for PDF and RTF report
             ReportTitlePage titlePage = new ReportTitlePage();
             titlePage.CreateTitlePage(document, urn);
-            //<BM> 
-            
+            // <BM>
+
             // Report header
             ReportHeader reportHeader = new ReportHeader();
             reportHeader.createReportHeader(document, filename);
@@ -129,29 +128,28 @@ public class Report extends URNReport {
 
     /**
      * Indicates whether the GRL spec has any non-empty strategy.
+     * 
      * @param grlspec
      * @return true if there is at least one strategy with initializations
      */
     public boolean hasStrategies(GRLspec grlspec) {
-    	boolean result = false;
-    	
-    	if (grlspec != null)
-    		if (grlspec.getStrategies().size() > 0)
-    			for (int i = 0; i<grlspec.getStrategies().size(); i++)
-    			{
-    				EvaluationStrategy s = (EvaluationStrategy) grlspec.getStrategies().get(i);
-    				if (s.getEvaluations().size() > 0)
-    					return true;
-    			}
-    	return result;
-	}
+        boolean result = false;
 
+        if (grlspec != null)
+            if (grlspec.getStrategies().size() > 0)
+                for (int i = 0; i < grlspec.getStrategies().size(); i++) {
+                    EvaluationStrategy s = (EvaluationStrategy) grlspec.getStrategies().get(i);
+                    if (s.getEvaluations().size() > 0)
+                        return true;
+                }
+        return result;
+    }
 
-	/**
+    /**
      * not used
      * 
      */
-    
+
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
 
     }

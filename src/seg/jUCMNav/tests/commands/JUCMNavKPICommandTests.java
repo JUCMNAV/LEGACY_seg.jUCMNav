@@ -131,10 +131,10 @@ public class JUCMNavKPICommandTests extends TestCase {
         assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        //Set the preferences for deleting the references to ALWAYS
+        // Set the preferences for deleting the references to ALWAYS
         DeletePreferences.getPreferenceStore().setValue(DeletePreferences.PREF_DELDEFINITION, DeletePreferences.PREF_ALWAYS);
         DeletePreferences.getPreferenceStore().setValue(DeletePreferences.PREF_DELREFERENCE, DeletePreferences.PREF_ALWAYS);
-        
+
     }
 
     protected void tearDown() throws Exception {
@@ -271,18 +271,17 @@ public class JUCMNavKPICommandTests extends TestCase {
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        KPIInformationElementRef ref3Diag2 = (KPIInformationElementRef) ModelCreationFactory.getNewObject(urnspec, KPIInformationElementRef.class, 0, ref3.getDef());
+        KPIInformationElementRef ref3Diag2 = (KPIInformationElementRef) ModelCreationFactory.getNewObject(urnspec, KPIInformationElementRef.class, 0, ref3
+                .getDef());
         cmd = new AddKPIInformationElementRefCommand(graph, ref3Diag2);
         assertTrue("Can't execute AddKPIInformationElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        
-        /*
 
-        // Set the element's definition to the same for both diagrams
-        ref1Diag2.setDef(ref1.getDef());
-        ref2Diag2.setDef(ref2.getDef());
-        ref3Diag2.setDef(ref3.getDef());
-        */
+        /*
+         * 
+         * // Set the element's definition to the same for both diagrams ref1Diag2.setDef(ref1.getDef()); ref2Diag2.setDef(ref2.getDef());
+         * ref3Diag2.setDef(ref3.getDef());
+         */
 
         // Execute the CreateAllLinkRef command
         cmd = new CreateAllLinkRefCommand(ref2Diag2);

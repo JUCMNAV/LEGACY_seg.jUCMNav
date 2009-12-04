@@ -24,7 +24,7 @@ public class ImportPreferenceHelper {
     // values of PREF_IMPORTTYPE
     public static final int IMPORT_NEWFILE = 0;
     public static final int IMPORT_URN = 1;
-    
+
     /**
      * Sets the default values for the export wizard.
      */
@@ -78,7 +78,7 @@ public class ImportPreferenceHelper {
     public static String getSavePath() {
         return getPreferenceStore().getString(PREF_SAVEPATH);
     }
-    
+
     /**
      * 
      * @return the type of files loaded
@@ -130,7 +130,7 @@ public class ImportPreferenceHelper {
     public static void setSavePath(String path) {
         getPreferenceStore().setValue(PREF_SAVEPATH, path);
     }
-    
+
     /**
      * 
      * @param type

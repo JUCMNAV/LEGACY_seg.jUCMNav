@@ -25,7 +25,7 @@ public class ReportExtensionPointHelper extends ExportExtensionPointHelper {
     }
 
     /* Facade for ExportExtensionPointHelper */
-    
+
     protected static ArrayList getExportConfigurationElements() {
         return ExportExtensionPointHelper.getExportConfigurationElements(sExtensionPoint);
     }

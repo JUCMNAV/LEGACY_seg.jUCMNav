@@ -15,13 +15,13 @@ import urn.URNspec;
  * This command add an Strategies Group to the model (for Evaluation Strategies)
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class CreateStrategiesGroupCommand extends Command implements JUCMNavCommand {
 
     private URNspec urn;
     private StrategiesGroup group;
-    
+
     /**
      * 
      */
@@ -37,7 +37,7 @@ public class CreateStrategiesGroupCommand extends Command implements JUCMNavComm
     public boolean canExecute() {
         return urn != null && group != null;
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
@@ -54,8 +54,10 @@ public class CreateStrategiesGroupCommand extends Command implements JUCMNavComm
         urn.getGrlspec().getGroups().add(group);
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPostConditions() {
@@ -63,14 +65,15 @@ public class CreateStrategiesGroupCommand extends Command implements JUCMNavComm
         assert urn.getGrlspec().getGroups().contains(group) : "post group not in model"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPreConditions() {
         assert urn != null && urn.getGrlspec() != null && group != null : "pre not null"; //$NON-NLS-1$
         assert !urn.getGrlspec().getGroups().contains(group) : "pre groups not in model"; //$NON-NLS-1$
     }
-
 
     /**
      * @see org.eclipse.gef.commands.Command#undo()

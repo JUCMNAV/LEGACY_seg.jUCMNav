@@ -13,20 +13,22 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.ScenarioDef;
 
 /**
- * Editpart for textual strings that are children of Scenarios. 
+ * Editpart for textual strings that are children of Scenarios.
  * 
  * @author jkealey
  */
 public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
     /**
-     * The parent. 
+     * The parent.
      */
     private ScenarioDef root;
 
     /**
-     * @param model the child
-     * @param root the scenario
+     * @param model
+     *            the child
+     * @param root
+     *            the scenario
      */
     public ScenarioLabelTreeEditPart(Object model, ScenarioDef root) {
         super(model);
@@ -80,24 +82,24 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
     }
 
     /**
-     * @return the list of scenario children depending on the folder type. uses {@link ScenarioUtils}.   
+     * @return the list of scenario children depending on the folder type. uses {@link ScenarioUtils}.
      */
     public List getModelChildren() {
         ArrayList list = new ArrayList();
         if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.IncludedScenarios"))) { //$NON-NLS-1$
-        	list.addAll(ScenarioUtils.getDefinedIncludedScenarios(root));
+            list.addAll(ScenarioUtils.getDefinedIncludedScenarios(root));
         } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.StartPoints"))) { //$NON-NLS-1$
-        	list.addAll(ScenarioUtils.getDefinedStartPoints(root));
-		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Preconditions"))) { //$NON-NLS-1$
-			list.addAll(ScenarioUtils.getDefinedPreconditions(root));
-		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Initializations"))) { //$NON-NLS-1$
-			list.addAll(ScenarioUtils.getDefinedInitializations(root));
-		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.EndPoints"))) { //$NON-NLS-1$
-			list.addAll(ScenarioUtils.getDefinedEndPoints(root));
-		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Postconditions"))) { //$NON-NLS-1$
-			list.addAll(ScenarioUtils.getDefinedPostconditions(root));
-		}
-        
+            list.addAll(ScenarioUtils.getDefinedStartPoints(root));
+        } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Preconditions"))) { //$NON-NLS-1$
+            list.addAll(ScenarioUtils.getDefinedPreconditions(root));
+        } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Initializations"))) { //$NON-NLS-1$
+            list.addAll(ScenarioUtils.getDefinedInitializations(root));
+        } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.EndPoints"))) { //$NON-NLS-1$
+            list.addAll(ScenarioUtils.getDefinedEndPoints(root));
+        } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Postconditions"))) { //$NON-NLS-1$
+            list.addAll(ScenarioUtils.getDefinedPostconditions(root));
+        }
+
         return list;
     }
 
@@ -114,15 +116,15 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
      * Their label text is inferred from the model element. (Mapping)
      */
     protected String getText() {
-    	return (String) getModel();
+        return (String) getModel();
     }
 
     /**
-     * Returns the icon for the folder. 
+     * Returns the icon for the folder.
      */
     protected Image getImage() {
-        if (super.getImage() == null) {       
-            setImage((JUCMNavPlugin.getImage( "icons/folder16.gif"))); //$NON-NLS-1$
+        if (super.getImage() == null) {
+            setImage((JUCMNavPlugin.getImage("icons/folder16.gif"))); //$NON-NLS-1$
         }
         return super.getImage();
     }

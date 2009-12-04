@@ -12,16 +12,16 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.Variable;
 
 /**
- * This class is the root edit part for a variable.  
+ * This class is the root edit part for a variable.
  * 
  * @author jkealey
- *
+ * 
  */
 public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
-    
+
     /**
      * @param model
-     *          The Variable model
+     *            The Variable model
      */
     public VariableTreeEditPart(Variable model) {
         super(model);
@@ -45,40 +45,40 @@ public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new VariableComponentEditPolicy());
     }
-    
+
     /**
-     * Stops listening to the variable. 
+     * Stops listening to the variable.
      * 
      * @see org.eclipse.gef.EditPart#deactivate()
      */
     public void deactivate() {
         if (isActive()) {
-        	getVariable().eAdapters().remove(this);
+            getVariable().eAdapters().remove(this);
         }
         super.deactivate();
     }
-    
+
     /**
-     * @return the icon associated with the variable. 
+     * @return the icon associated with the variable.
      */
     protected Image getImage() {
-		if (super.getImage() == null) {
-			if (ScenarioUtils.sTypeBoolean.equals(getVariable().getType())) {
-				setImage(JUCMNavPlugin.getImage( "icons/Boolean16.gif")); //$NON-NLS-1$
-			} else if (ScenarioUtils.sTypeInteger.equals(getVariable().getType())) {
-				setImage(JUCMNavPlugin.getImage( "icons/Integer16.gif")); //$NON-NLS-1$
-			} else {
-				setImage(JUCMNavPlugin.getImage( "icons/Enumeration16.gif")); //$NON-NLS-1$
-			}
-		}
-		return super.getImage();
+        if (super.getImage() == null) {
+            if (ScenarioUtils.sTypeBoolean.equals(getVariable().getType())) {
+                setImage(JUCMNavPlugin.getImage("icons/Boolean16.gif")); //$NON-NLS-1$
+            } else if (ScenarioUtils.sTypeInteger.equals(getVariable().getType())) {
+                setImage(JUCMNavPlugin.getImage("icons/Integer16.gif")); //$NON-NLS-1$
+            } else {
+                setImage(JUCMNavPlugin.getImage("icons/Enumeration16.gif")); //$NON-NLS-1$
+            }
+        }
+        return super.getImage();
     }
-    
+
     /**
-	 * Variables have no children.
-	 * 
-	 * @return empty list
-	 */
+     * Variables have no children.
+     * 
+     * @return empty list
+     */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         return list;
@@ -88,10 +88,10 @@ public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
      * 
      * @return the variable
      */
-    private Variable getVariable(){
-        return (Variable)getModel();
+    private Variable getVariable() {
+        return (Variable) getModel();
     }
-    
+
     /**
      * @return the URNspec name.
      */

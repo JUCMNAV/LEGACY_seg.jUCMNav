@@ -30,7 +30,7 @@ public class RemoveBindingCommand extends Command implements JUCMNavCommand {
     private URNspec urnSpec;
 
     private int index;
-    
+
     /**
      * This command delete a PluginBinding from a Stub. Infers URNspec from stub.
      * 
@@ -91,7 +91,7 @@ public class RemoveBindingCommand extends Command implements JUCMNavCommand {
         testPreConditions();
         index = stub.getBindings().indexOf(oldPlugin);
         stub.getBindings().remove(oldPlugin);
-        
+
         oldMap.getParentStub().remove(oldPlugin);
         testPostConditions();
     }
@@ -104,7 +104,7 @@ public class RemoveBindingCommand extends Command implements JUCMNavCommand {
         testPostConditions();
 
         oldMap.getParentStub().add(oldPlugin);
-        stub.getBindings().add(index,oldPlugin);
+        stub.getBindings().add(index, oldPlugin);
 
         testPreConditions();
     }

@@ -8,12 +8,14 @@ import urncore.Concern;
 
 /**
  * CompoundCommand to delete a Concern (remove it from the model)
+ * 
  * @author gunterm
  */
 public class DeleteConcernCommand extends CompoundCommand {
 
     /**
-     * @param concern to delete
+     * @param concern
+     *            to delete
      */
     public DeleteConcernCommand(Concern concern) {
         setLabel(Messages.getString("DeleteConcernCommand.DeleteConcern")); //$NON-NLS-1$
@@ -22,5 +24,5 @@ public class DeleteConcernCommand extends CompoundCommand {
         // remove the concern itself
         add(new InternalDeleteConcernCommand(concern));
     }
-    
+
 }

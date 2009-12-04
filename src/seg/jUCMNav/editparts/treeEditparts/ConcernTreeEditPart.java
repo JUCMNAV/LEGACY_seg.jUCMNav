@@ -25,7 +25,7 @@ public class ConcernTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage( "icons/Concern16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Concern16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 

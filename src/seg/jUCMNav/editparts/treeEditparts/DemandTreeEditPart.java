@@ -29,17 +29,15 @@ public class DemandTreeEditPart extends UrnModelElementTreeEditPart {
         return (Demand) getModel();
     }
 
-    
     /**
      * Returns the icon appropriate for this component's kind
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage( "icons/Resp16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Resp16.gif"))); //$NON-NLS-1$
         return super.getImage();
 
     }
-
 
     /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
@@ -47,6 +45,5 @@ public class DemandTreeEditPart extends UrnModelElementTreeEditPart {
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new DemandComponentEditPolicy());
     }
-
 
 }

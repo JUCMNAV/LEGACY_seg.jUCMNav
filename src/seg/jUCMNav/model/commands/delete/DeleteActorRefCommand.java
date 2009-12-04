@@ -17,32 +17,29 @@ import seg.jUCMNav.views.preferences.DeletePreferences;
  * Command to delete a ActorRef
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class DeleteActorRefCommand extends CompoundCommand {
 
-	private ActorRef actorRef;
+    private ActorRef actorRef;
+
     /**
      * @param ar
-     *          the ActorRef to delete
+     *            the ActorRef to delete
      */
     public DeleteActorRefCommand(ActorRef ar) {
         this.actorRef = ar;
-    	setLabel(Messages.getString("DeleteActorRefCommand.deleteActorRef")); //$NON-NLS-1$
+        setLabel(Messages.getString("DeleteActorRefCommand.deleteActorRef")); //$NON-NLS-1$
         add(new PreDeleteUrnModelElementCommand(ar));
         add(new RemoveURNmodelElementCommand(ar));
     }
 
-    public void execute()
-    {
-        //Verify if this reference is the only one
-        if(actorRef.getContDef().getContRefs().size() <= 1 &&
-        		DeletePreferences.getDeleteDefinition(actorRef))
-        {
-        	add(new DeleteActorCommand((Actor)actorRef.getContDef()));
+    public void execute() {
+        // Verify if this reference is the only one
+        if (actorRef.getContDef().getContRefs().size() <= 1 && DeletePreferences.getDeleteDefinition(actorRef)) {
+            add(new DeleteActorCommand((Actor) actorRef.getContDef()));
         }
         super.execute();
     }
-
 
 }

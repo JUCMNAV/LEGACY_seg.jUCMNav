@@ -13,14 +13,14 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
  * This is an action delegate that can be used in plugin.xml to run commands that are in the action registry.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class UCMActionDelegate implements IEditorActionDelegate {
 
     private UCMNavMultiPageEditor target;
 
     /**
-     * Memorize the active editor if it is a {@link UCMNavMultiPageEditor} 
+     * Memorize the active editor if it is a {@link UCMNavMultiPageEditor}
      * 
      * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
      */
@@ -33,7 +33,7 @@ public class UCMActionDelegate implements IEditorActionDelegate {
     }
 
     /**
-     * Run the action that we are given in the current editor. 
+     * Run the action that we are given in the current editor.
      * 
      * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
      */

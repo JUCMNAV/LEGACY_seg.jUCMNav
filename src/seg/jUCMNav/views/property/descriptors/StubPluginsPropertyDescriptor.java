@@ -23,7 +23,7 @@ public class StubPluginsPropertyDescriptor extends PropertyDescriptor {
      * @param id
      * @param stub
      * @param cmdStack
-     *  
+     * 
      */
     public StubPluginsPropertyDescriptor(Object id, Stub stub, CommandStack cmdStack) {
         super(id, Messages.getString("StubPluginsPropertyDescriptor.plugins")); //$NON-NLS-1$

@@ -14,18 +14,18 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import urn.URNspec;
 
 /**
- * Command to create a Dependency between two intentional elements.
- * The direction of the dependency is dependee->depender (dest->src) (inverse of standard Element Link)
+ * Command to create a Dependency between two intentional elements. The direction of the dependency is dependee->depender (dest->src) (inverse of standard
+ * Element Link)
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class AddDependencyElementLinkCommand extends Command implements JUCMNavCommand {
 
     private IntentionalElement depender, dependee;
     private URNspec urnspec;
     private Dependency link;
-    
+
     /**
      * 
      */
@@ -33,16 +33,18 @@ public class AddDependencyElementLinkCommand extends Command implements JUCMNavC
         this.urnspec = urn;
         this.link = link;
         this.dependee = dependee;
-        
-        setLabel(Messages.getString("AddDependencyElementLinkCommand.addDependency"));  //$NON-NLS-1$
+
+        setLabel(Messages.getString("AddDependencyElementLinkCommand.addDependency")); //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        //disallow source -> source connections
-        if (dependee.equals(depender)){
+        // disallow source -> source connections
+        if (dependee.equals(depender)) {
             return false;
         }
         return true;
@@ -55,7 +57,7 @@ public class AddDependencyElementLinkCommand extends Command implements JUCMNavC
     public void execute() {
         redo();
     }
-    
+
     /**
      * 
      * @see org.eclipse.gef.commands.Command#redo()
@@ -63,26 +65,30 @@ public class AddDependencyElementLinkCommand extends Command implements JUCMNavC
     public void redo() {
         testPreConditions();
 
-        //Set the source and destination
+        // Set the source and destination
         depender.getLinksSrc().add(link);
         dependee.getLinksDest().add(link);
-        
+
         urnspec.getGrlspec().getLinks().add(link);
-        
+
         EvaluationStrategyManager.getInstance().calculateEvaluation();
-        
+
         testPostConditions();
     }
 
     /**
      * Set the target endpoint for the connection.
-     * @param target that target endpoint (a non-null IntentionalElement instance)
+     * 
+     * @param target
+     *            that target endpoint (a non-null IntentionalElement instance)
      */
     public void setTarget(IntentionalElement target) {
         this.depender = target;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -97,7 +103,9 @@ public class AddDependencyElementLinkCommand extends Command implements JUCMNavC
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -118,14 +126,14 @@ public class AddDependencyElementLinkCommand extends Command implements JUCMNavC
     public void undo() {
         testPostConditions();
 
-        //remove the source 
+        // remove the source
         depender.getLinksSrc().remove(link);
-        dependee.getLinksDest().remove(link); 
+        dependee.getLinksDest().remove(link);
 
         urnspec.getGrlspec().getLinks().remove(link);
-        
+
         EvaluationStrategyManager.getInstance().calculateEvaluation();
-        
+
         testPreConditions();
     }
 }

@@ -21,12 +21,13 @@ import ucm.scenario.ScenarioGroup;
  * TreeEditPart for Scenarios Group
  * 
  * @author jkealey
- *
+ * 
  */
 public class ScenarioGroupTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
     /**
-     * @param model the group
+     * @param model
+     *            the group
      */
     public ScenarioGroupTreeEditPart(ScenarioGroup model) {
         super(model);
@@ -38,25 +39,25 @@ public class ScenarioGroupTreeEditPart extends StrategyUrnModelElementTreeEditPa
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new StrategiesGroupComponentEditPolicy());
     }
-    
+
     /**
      * 
      * @return the scenario group
      */
-    public ScenarioGroup getScenarioGroup(){
-        return (ScenarioGroup)getModel();
+    public ScenarioGroup getScenarioGroup() {
+        return (ScenarioGroup) getModel();
     }
-    
+
     /**
-     * Returns the icon for a scenario group. 
+     * Returns the icon for a scenario group.
      */
     protected Image getImage() {
-        if (super.getImage() == null) {       
-            setImage((JUCMNavPlugin.getImage( "icons/folder16.gif"))); //$NON-NLS-1$
+        if (super.getImage() == null) {
+            setImage((JUCMNavPlugin.getImage("icons/folder16.gif"))); //$NON-NLS-1$
         }
         return super.getImage();
     }
-    
+
     /**
      * @return the sorted list of Scenario Group
      */
@@ -66,7 +67,7 @@ public class ScenarioGroupTreeEditPart extends StrategyUrnModelElementTreeEditPa
         Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
-    
+
     /**
      * Sets unused group to a lighter color.
      * 

@@ -54,8 +54,8 @@ public class SyntaxChecker {
     private static void verifyCondition(URNspec urn, Vector errors, EObject location, String expr) {
         Object o = ScenarioUtils.parse(expr, ScenarioUtils.getEnvironment(urn), false);
         if (!(o instanceof SimpleNode)) {
-        	TraversalWarning warning = new TraversalWarning((String) o, location, IMarker.SEVERITY_ERROR);
-        	warning.setExpression(expr);
+            TraversalWarning warning = new TraversalWarning((String) o, location, IMarker.SEVERITY_ERROR);
+            warning.setExpression(expr);
             errors.add(warning);
         }
     }
@@ -120,8 +120,11 @@ public class SyntaxChecker {
 
     /**
      * Verify the code associated to all responsibilities
-     * @param urn the urnspec
-     * @param errors where should errors be appended. 
+     * 
+     * @param urn
+     *            the urnspec
+     * @param errors
+     *            where should errors be appended.
      */
     private static void verifyResponsibilitySyntax(URNspec urn, Vector errors) {
         for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
@@ -133,17 +136,20 @@ public class SyntaxChecker {
                         errors.add(new TraversalWarning((String) o, (EObject) resp.getRespRefs().get(0), IMarker.SEVERITY_ERROR));
                     else
                         errors.add(new TraversalWarning((String) o, resp, IMarker.SEVERITY_ERROR));
-                    
-                    ((TraversalWarning)errors.get(errors.size()-1)).setExpression(resp.getExpression());
+
+                    ((TraversalWarning) errors.get(errors.size() - 1)).setExpression(resp.getExpression());
                 }
             }
         }
     }
 
     /**
-     * Verifies the syntax of all scenario pre/post conditions. 
-     * @param urn the urnspec
-     * @param errors where should errors be appended. 
+     * Verifies the syntax of all scenario pre/post conditions.
+     * 
+     * @param urn
+     *            the urnspec
+     * @param errors
+     *            where should errors be appended.
      */
     private static void verifyScenarioPrePostConditions(URNspec urn, Vector errors) {
         for (Iterator iter = urn.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
@@ -182,7 +188,8 @@ public class SyntaxChecker {
     /**
      * Clears the warnings associated to this file and replaces them with those supplied in the vector.
      * 
-     * @param warnings a vector of {@link TraversalWarning}s to be pushed to the problems view. 
+     * @param warnings
+     *            a vector of {@link TraversalWarning}s to be pushed to the problems view.
      */
     public static void refreshProblemsView(Vector warnings) {
         if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null

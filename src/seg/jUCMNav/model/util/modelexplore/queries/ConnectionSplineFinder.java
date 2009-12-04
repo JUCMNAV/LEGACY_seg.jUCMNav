@@ -61,13 +61,13 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
      *            the node connection to start with
      */
     protected void processNodeConnection(Vector _splinePath, NodeConnection n) {
-        //        System.out.println("starts with: " + n.getSource());
-        //        System.out.println("ends with: " + n.getTarget());
+        // System.out.println("starts with: " + n.getSource());
+        // System.out.println("ends with: " + n.getTarget());
 
         if (n.getTarget() instanceof Connect || n.getSource() instanceof Connect)
             return;
-        PathNode source = (PathNode)n.getSource();
-        PathNode target = (PathNode)n.getTarget();
+        PathNode source = (PathNode) n.getSource();
+        PathNode target = (PathNode) n.getTarget();
         NodeConnection nc = n;
 
         if (source == null || target == null)
@@ -80,13 +80,13 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
             s.push(nc);
 
             // if we are adding a node connection connected to an and fork/join, stop processing further.
-            if (isPathStopper((PathNode)n.getSource()))
+            if (isPathStopper((PathNode) n.getSource()))
                 break;
 
             // if we can continue further
             if (source.getSucc().indexOf(nc) == 0 && source.getPred().size() > 0) {
                 nc = (NodeConnection) source.getPred().get(0);
-                source = (PathNode)nc.getSource();
+                source = (PathNode) nc.getSource();
 
                 // prevent infinite loops
                 if (s.contains(nc) || isPathStopper(source)) {
@@ -114,10 +114,10 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
             if (!_splinePath.contains(nc))
                 _splinePath.add(nc);
 
-            //if we can continue further
+            // if we can continue further
             if (target.getPred().indexOf(nc) == 0 && target.getSucc().size() > 0) {
                 nc = (NodeConnection) target.getSucc().get(0);
-                target = (PathNode)nc.getTarget();
+                target = (PathNode) nc.getTarget();
                 // prevent infinite loops
                 if (_splinePath.contains(nc) || isPathStopper(target)) {
                     // if we are adding a node connection connected to an and fork/join, stop processing further but save the connection.
@@ -130,23 +130,24 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
 
         }
 
-        // we have inconsistencies between different path stoppers. we want to include the NC going into an AndFork or AndJoin but not a Connect. Get rid of any connect related elements.
+        // we have inconsistencies between different path stoppers. we want to include the NC going into an AndFork or AndJoin but not a Connect. Get rid of any
+        // connect related elements.
         nc = (NodeConnection) _splinePath.firstElement();
         if (nc.getSource() instanceof Connect)
             _splinePath.remove(nc);
-        
+
         nc = (NodeConnection) _splinePath.lastElement();
         if (nc.getTarget() instanceof Connect)
             _splinePath.remove(nc);
-        
+
         // Debugging
-        //        System.out.println("**");
-        //        System.out.println("\t" + n.getSource() + "\n\t" + n.getTarget());
-        //        for (Iterator iter = _splinePath.iterator(); iter.hasNext();) {
-        //            NodeConnection elem = (NodeConnection) iter.next();
-        //            System.out.println(elem.getSource() + "\n" + elem.getTarget());
+        // System.out.println("**");
+        // System.out.println("\t" + n.getSource() + "\n\t" + n.getTarget());
+        // for (Iterator iter = _splinePath.iterator(); iter.hasNext();) {
+        // NodeConnection elem = (NodeConnection) iter.next();
+        // System.out.println(elem.getSource() + "\n" + elem.getTarget());
         //
-        //        }
+        // }
     }
 
     /**
@@ -165,7 +166,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
      * QueryRequest to find a spline, starting with a node connection.
      * 
      * @author jkealey
-     *  
+     * 
      */
     public class QFindSpline extends QueryRequest {
         // Finds reachable node connections starting with a NodeConnection
@@ -195,7 +196,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
      * QueryResponse containing a list of connections on a certain spline.
      * 
      * @author jkealey
-     *  
+     * 
      */
     public class RSpline extends QueryResponse {
         /* Data structure (query response) for passing a vector of connections */

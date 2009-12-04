@@ -55,7 +55,7 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
             // call recursive function processNode with the start node
             Set exclusions = ((QFindResponsibilities) q).getExclusionSet();
             this.bOnlyRespRef = ((QFindResponsibilities) q).getOnlyRespRef();
-            this.bIncludeDirectionArrow =  ((QFindResponsibilities) q).getIncludeDirectionArrows();
+            this.bIncludeDirectionArrow = ((QFindResponsibilities) q).getIncludeDirectionArrows();
             if (exclusions == null)
                 exclusions = Collections.EMPTY_SET;
             processNode(((QFindResponsibilities) q).getStartPathNode(), exclusions, ((QFindResponsibilities) q).getDirection());
@@ -179,15 +179,17 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
         public boolean getOnlyRespRef() {
             return _onlyRespRef;
         }
+
         public boolean getIncludeDirectionArrows() {
             return _includeDirectionArrow;
         }
     }
 
     /**
-     * Response indicating the reached responsibilities (and possibily waiting places, timers, end points, and start points). 
+     * Response indicating the reached responsibilities (and possibily waiting places, timers, end points, and start points).
+     * 
      * @author jkealey
-     *
+     * 
      */
     public static class RNextResponsibilities extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */
@@ -217,7 +219,8 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
             this.nodes = new Vector();
             for (Iterator iter = nodes.iterator(); iter.hasNext();) {
                 PathNode pn = (PathNode) iter.next();
-                if (pn instanceof RespRef || (!onlyRespRef && (pn instanceof WaitingPlace || pn instanceof EndPoint || pn instanceof StartPoint || (pn instanceof DirectionArrow && includeDirectionArrows))))
+                if (pn instanceof RespRef
+                        || (!onlyRespRef && (pn instanceof WaitingPlace || pn instanceof EndPoint || pn instanceof StartPoint || (pn instanceof DirectionArrow && includeDirectionArrows))))
                     this.nodes.add(pn);
 
             }

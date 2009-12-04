@@ -39,7 +39,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 
         if (getHost().getViewer() instanceof TreeViewer) {
             // we need an editpart registry with NodeConnectionEditParts
-            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
             registry = editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry();
         } else
             registry = getHost().getViewer().getEditPartRegistry();
@@ -64,7 +64,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
     public Command getCommand(Request request) {
         if (request.getType() == CutPathAction.CUTPATH_REQUEST) {
             PathNode ep = ((PathNode) (getHost()).getModel());
-            CutPathCommand cp = new CutPathCommand((UCMmap)ep.getDiagram(), ep);
+            CutPathCommand cp = new CutPathCommand((UCMmap) ep.getDiagram(), ep);
             // LINE A
             // System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE A to run."); //$NON-NLS-1$
             // CutPathAction on PathNode.

@@ -10,8 +10,9 @@ import seg.jUCMNav.model.commands.delete.DeleteElementLinkCommand;
 
 /**
  * ComponentEditPolicy for ElementLink. Used in the outline, and return the command to delete an ElementLink
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class ElementLinkComponentEditPolicy extends ComponentEditPolicy {
 

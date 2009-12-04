@@ -22,12 +22,13 @@ import seg.jUCMNav.model.util.DelegatingElementComparator;
  * TreeEditPart for Strategies Group
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class StrategiesGroupTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
     /**
-     * @param model the strategy group
+     * @param model
+     *            the strategy group
      */
     public StrategiesGroupTreeEditPart(StrategiesGroup model) {
         super(model);
@@ -39,25 +40,25 @@ public class StrategiesGroupTreeEditPart extends StrategyUrnModelElementTreeEdit
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new StrategiesGroupComponentEditPolicy());
     }
-    
+
     /**
      * 
      * @return the strategy group
      */
-    public StrategiesGroup getStrategiesGroup(){
-        return (StrategiesGroup)getModel();
+    public StrategiesGroup getStrategiesGroup() {
+        return (StrategiesGroup) getModel();
     }
-    
+
     /**
-     * Returns the icon 
+     * Returns the icon
      */
     protected Image getImage() {
-        if (super.getImage() == null) {       
-            setImage((JUCMNavPlugin.getImage( "icons/folder16.gif"))); //$NON-NLS-1$
+        if (super.getImage() == null) {
+            setImage((JUCMNavPlugin.getImage("icons/folder16.gif"))); //$NON-NLS-1$
         }
         return super.getImage();
     }
-    
+
     /**
      * @return the sorted list of Strategy Group
      */
@@ -67,19 +68,19 @@ public class StrategiesGroupTreeEditPart extends StrategyUrnModelElementTreeEdit
         Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
-    
+
     /**
      * Sets unused group to a lighter color.
      * 
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-    	if (widget!=null && !widget.isDisposed()) {
-	        if (getStrategiesGroup().getStrategies().size() == 0)
-	            ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
-	        else
-	            ((TreeItem) widget).setForeground(ColorManager.BLACK);
-    	}
+        if (widget != null && !widget.isDisposed()) {
+            if (getStrategiesGroup().getStrategies().size() == 0)
+                ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
+            else
+                ((TreeItem) widget).setForeground(ColorManager.BLACK);
+        }
         getImage();
         super.refreshVisuals();
     }

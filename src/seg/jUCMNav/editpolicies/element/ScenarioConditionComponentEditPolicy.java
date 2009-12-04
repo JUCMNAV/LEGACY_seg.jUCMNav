@@ -15,18 +15,18 @@ import urncore.Condition;
  */
 public class ScenarioConditionComponentEditPolicy extends ComponentEditPolicy {
 
-	/**
-	 * Return a DeleteVariableCommand
-	 */
-	protected Command getDeleteCommand(GroupRequest request) {
-		Object obj = getHost().getModel();
-		if (obj instanceof Condition) {
+    /**
+     * Return a DeleteVariableCommand
+     */
+    protected Command getDeleteCommand(GroupRequest request) {
+        Object obj = getHost().getModel();
+        if (obj instanceof Condition) {
 
-			Condition var = (Condition) obj;
-			DeleteScenarioConditionCommand deleteCommand = new DeleteScenarioConditionCommand(var);
-			return deleteCommand;
-		}
+            Condition var = (Condition) obj;
+            DeleteScenarioConditionCommand deleteCommand = new DeleteScenarioConditionCommand(var);
+            return deleteCommand;
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

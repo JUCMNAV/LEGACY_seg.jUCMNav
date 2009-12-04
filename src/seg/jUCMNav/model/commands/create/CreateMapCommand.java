@@ -12,7 +12,7 @@ import urn.URNspec;
  * This command adds a new map to the URNspec.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class CreateMapCommand extends Command implements JUCMNavCommand {
     private UCMmap map;

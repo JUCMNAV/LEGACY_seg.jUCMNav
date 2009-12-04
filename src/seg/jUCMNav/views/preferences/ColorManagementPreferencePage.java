@@ -17,9 +17,9 @@ import seg.jUCMNav.figures.ColorManager;
  * This is the preference page to manage the default color used for URN elements.
  * 
  * @author jfroy
- *
+ * 
  */
-public class ColorManagementPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
+public class ColorManagementPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
     public static final String PREF_STUBLABELCOLOR = "PREF_STUBLABELCOLOR"; //$NON-NLS-1$
     public static final String PREF_CONDITIONLABELCOLOR = "PREF_CONDITIONLABELCOLOR"; //$NON-NLS-1$
@@ -39,18 +39,20 @@ public class ColorManagementPreferencePage extends FieldEditorPreferencePage imp
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         setPreferenceStore(store);
     }
-    
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
-	 */
-	protected void createFieldEditors() {
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
+     */
+    protected void createFieldEditors() {
         ColorFieldEditor editor = new ColorFieldEditor(PREF_STUBLABELCOLOR, Messages.getString("GeneralPreferencePage.StubLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(editor);
         editor = new ColorFieldEditor(PREF_CONDITIONLABELCOLOR, Messages.getString("GeneralPreferencePage.ConditionLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(editor);
         editor = new ColorFieldEditor(PREF_LINKREFLABELCOLOR, Messages.getString("GeneralPreferencePage.GrlLinkLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(editor);
-        
+
         editor = new ColorFieldEditor(PREF_KPIMODELLINKREFLABELCOLOR, Messages.getString("GeneralPreferencePage.KpiModelLinkRef"), getFieldEditorParent()); //$NON-NLS-1$
         addField(editor);
         editor = new ColorFieldEditor(PREF_LINECOLOR, Messages.getString("GeneralPreferencePage.LineColor"), getFieldEditorParent()); //$NON-NLS-1$
@@ -66,11 +68,11 @@ public class ColorManagementPreferencePage extends FieldEditorPreferencePage imp
         editor = new ColorFieldEditor(PREF_POINTCUTBORDERCOLOR, Messages.getString("GeneralPreferencePage.PointcutBorderColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(editor);
 
-	}
+    }
 
-	public void init(IWorkbench workbench) {
-		 // nothing to do
-	}
+    public void init(IWorkbench workbench) {
+        // nothing to do
+    }
 
     public boolean performOk() {
 
@@ -78,5 +80,5 @@ public class ColorManagementPreferencePage extends FieldEditorPreferencePage imp
         ColorManager.refresh();
         return b;
     }
-    
+
 }

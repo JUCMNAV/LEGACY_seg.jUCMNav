@@ -13,8 +13,8 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * Exports as a PDF Report. Implements the export functionality called by the ReportGenerator Wizard. 
- * It extends the Report class containing all generic code for all report types.
+ * Exports as a PDF Report. Implements the export functionality called by the ReportGenerator Wizard. It extends the Report class containing all generic code
+ * for all report types.
  * 
  * This class contains code specific to PDF generation (headers, footers, ...)
  * 
@@ -33,7 +33,7 @@ public class PDFReport extends Report {
      * @param filename
      *            the report filename
      */
-    
+
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
 
         // Create a report document with page size from preferences, 72 points per inch
@@ -65,7 +65,7 @@ public class PDFReport extends Report {
                 reportDiagrams.createPDFReportDiagramsAndDescription(document, urndef, mapDiagrams, pagesize);
 
             }
-             
+
             document.close();
 
         } catch (Exception e) {

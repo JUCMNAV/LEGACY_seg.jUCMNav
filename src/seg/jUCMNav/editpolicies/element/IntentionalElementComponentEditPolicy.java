@@ -10,8 +10,9 @@ import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
 
 /**
  * ComponentEditPolicy for IntentionalElement. return the delete command
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class IntentionalElementComponentEditPolicy extends ComponentEditPolicy {
 

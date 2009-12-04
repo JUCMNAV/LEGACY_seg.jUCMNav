@@ -13,8 +13,9 @@ import seg.jUCMNav.model.commands.delete.DeleteLinkRefCommand;
 
 /**
  * ComponentEditPolicy for LinkRef. Return the command to delete a LinkRef
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class LinkRefComponentEditPolicy extends ComponentEditPolicy {
 

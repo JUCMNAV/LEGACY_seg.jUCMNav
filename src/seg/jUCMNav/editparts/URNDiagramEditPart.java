@@ -25,7 +25,8 @@ import urncore.IURNNode;
  * 
  * Parent of all other edit parts in the editor.
  * 
- * This edit part and those calling it don't follow GEF standards. It may be possible to refactor our code so that it is cleaner, but we have not yet attempted.  Don't use this class as an example for edit part behaviour. 
+ * This edit part and those calling it don't follow GEF standards. It may be possible to refactor our code so that it is cleaner, but we have not yet attempted.
+ * Don't use this class as an example for edit part behaviour.
  * 
  * @author Etienne Tremblay, jkealey
  */
@@ -35,7 +36,9 @@ public abstract class URNDiagramEditPart extends ModelElementEditPart {
 
     /**
      * Creates an editpart for the specificationdiagram
-     * @param diagram the specification diagram
+     * 
+     * @param diagram
+     *            the specification diagram
      */
     public URNDiagramEditPart(IURNDiagram diagram) {
         setModel(diagram);
@@ -92,7 +95,7 @@ public abstract class URNDiagramEditPart extends ModelElementEditPart {
     protected IFigure createFigure() {
         FreeformLayer layer = new FreeformLayer();
         layer.setLayoutManager(new FreeformLayout());
-      //layer.setBorder(new LineBorder(1));
+        // layer.setBorder(new LineBorder(1));
         return layer;
     }
 
@@ -224,7 +227,7 @@ public abstract class URNDiagramEditPart extends ModelElementEditPart {
                 }
             }
 
-            //Look to see if the EditPart is already around but in the wrong location
+            // Look to see if the EditPart is already around but in the wrong location
             editPart = (EditPart) modelToEditPart.get(model);
 
             // If we found the model in the editpart children list
@@ -235,7 +238,7 @@ public abstract class URNDiagramEditPart extends ModelElementEditPart {
                 else
                     reorderChild(editPart, index++);
             } else {
-                //An editpart for this model doesn't exist yet. Create and insert one.
+                // An editpart for this model doesn't exist yet. Create and insert one.
                 editPart = createChild(model);
                 if (!(model instanceof IURNContainerRef)) {
                     addChild(editPart, index++);
@@ -263,14 +266,14 @@ public abstract class URNDiagramEditPart extends ModelElementEditPart {
         // if we ever want to notify the outline view when of changes instead of having the pathgraph inform it, here is the code.
         // for now, doesn't change anything because refreshChildren() is also called too often.
         //
-        //        UCMNavMultiPageEditor editor = ((ConnectionOnBottomRootEditPart) getParent()).getMultiPageEditor();
-        //        if (editor.getPageCount() > 0 && editor.getActivePage() > -1) {
-        //            MapTreeEditPart part = (MapTreeEditPart) ((UcmOutlinePage) editor.getAdapter(IContentOutlinePage.class)).getViewer().getEditPartRegistry().get(
-        //                    getMap());
-        //            if (part != null)
-        //                part.refresh();
+        // UCMNavMultiPageEditor editor = ((ConnectionOnBottomRootEditPart) getParent()).getMultiPageEditor();
+        // if (editor.getPageCount() > 0 && editor.getActivePage() > -1) {
+        // MapTreeEditPart part = (MapTreeEditPart) ((UcmOutlinePage) editor.getAdapter(IContentOutlinePage.class)).getViewer().getEditPartRegistry().get(
+        // getMap());
+        // if (part != null)
+        // part.refresh();
         //
-        //        }
+        // }
         //
     }
 
@@ -314,7 +317,7 @@ public abstract class URNDiagramEditPart extends ModelElementEditPart {
         if (child.getModel() instanceof IURNContainerRef)
             i += getSpecificationNodeEditParts().size();
 
-        //		 Save the constraint of the child so that it does not
+        // Save the constraint of the child so that it does not
         // get lost during the remove and re-add.
         IFigure childFigure = ((GraphicalEditPart) child).getFigure();
         LayoutManager layout = getContentPane().getLayoutManager();

@@ -39,7 +39,7 @@ public class RunAllScenariosAction extends SelectionAction {
     }
 
     /**
-     * We need to have a URNspec or a group to run all the children. 
+     * We need to have a URNspec or a group to run all the children.
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
@@ -65,7 +65,7 @@ public class RunAllScenariosAction extends SelectionAction {
     }
 
     /**
-     * Runs all the scenarios and sets all editors in execution mode.  
+     * Runs all the scenarios and sets all editors in execution mode.
      * 
      * 
      */

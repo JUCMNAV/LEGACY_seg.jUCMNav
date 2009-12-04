@@ -10,117 +10,115 @@ import urncore.URNmodelElement;
 /**
  * A NavigationLocation for jUCMNav. Memorizes the currently opened page.
  * 
- * Maybe should start memorizing URNspec/IFile path instead of the actual
- * editor.
+ * Maybe should start memorizing URNspec/IFile path instead of the actual editor.
  * 
  * @author jkealey
  * 
  */
 public class MultiPageEditorLocation extends NavigationLocation {
 
-	private String currentGraphID;
-	private String text;
-	
-	//private UCMNavMultiPageEditor editor;
+    private String currentGraphID;
+    private String text;
 
-	/**
-	 * @param editorPart
-	 */
-	protected MultiPageEditorLocation(IEditorPart editorPart) {
-		super(editorPart);
-		UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) editorPart;
-		this.text = editor!=null ? editor.getTitle() : "";
+    // private UCMNavMultiPageEditor editor;
 
-		update(editor);
-	}
+    /**
+     * @param editorPart
+     */
+    protected MultiPageEditorLocation(IEditorPart editorPart) {
+        super(editorPart);
+        UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) editorPart;
+        this.text = editor != null ? editor.getTitle() : "";
 
-	/**
-	 * 
-	 * @return returns the graph ID for this location. (not relative position)
-	 */
-	public String getCurrentGraphID() {
-		return currentGraphID;
-	}
+        update(editor);
+    }
 
-	/**
-	 * 
-	 * @return the UCMNavMultiPageEditor that is associated with this location.
-	 */
-	public UCMNavMultiPageEditor getEditor() {
-		return (UCMNavMultiPageEditor) getEditorPart();
-	}
+    /**
+     * 
+     * @return returns the graph ID for this location. (not relative position)
+     */
+    public String getCurrentGraphID() {
+        return currentGraphID;
+    }
 
-	public String getText() {
-		//if (getEditorPart() == null)
-		//	return ""; //$NON-NLS-1$
-		//return getEditorPart().getTitle();
-	    return text;
-	}
+    /**
+     * 
+     * @return the UCMNavMultiPageEditor that is associated with this location.
+     */
+    public UCMNavMultiPageEditor getEditor() {
+        return (UCMNavMultiPageEditor) getEditorPart();
+    }
 
-	/**
-	 * The navigation location stack tries to minimize the number of entries by
-	 * merging duplicates/similar entries together.
-	 */
-	public boolean mergeInto(INavigationLocation currentLocation) {
-		if (currentLocation instanceof MultiPageEditorLocation) {
-			if (((MultiPageEditorLocation) currentLocation).getCurrentGraphID()!=null && ((MultiPageEditorLocation) currentLocation).getCurrentGraphID().equals(currentGraphID))
-				return true;
-		}
-		return false;
-	}
+    public String getText() {
+        // if (getEditorPart() == null)
+        //	return ""; //$NON-NLS-1$
+        // return getEditorPart().getTitle();
+        return text;
+    }
 
-	/**
-	 * Loads the appropriate tab.
-	 */
-	public void restoreLocation() {
+    /**
+     * The navigation location stack tries to minimize the number of entries by merging duplicates/similar entries together.
+     */
+    public boolean mergeInto(INavigationLocation currentLocation) {
+        if (currentLocation instanceof MultiPageEditorLocation) {
+            if (((MultiPageEditorLocation) currentLocation).getCurrentGraphID() != null
+                    && ((MultiPageEditorLocation) currentLocation).getCurrentGraphID().equals(currentGraphID))
+                return true;
+        }
+        return false;
+    }
 
-		for (int i = 0; i < getEditor().getModel().getUrndef().getSpecDiagrams().size(); i++) {
-			URNmodelElement graph = (URNmodelElement) getEditor().getModel().getUrndef().getSpecDiagrams().get(i);
-			if (graph.getId().equals(currentGraphID)) {
-				((UCMNavMultiPageEditor) getEditorPart()).setActivePage(i);
-				break;
-			}
-		}
+    /**
+     * Loads the appropriate tab.
+     */
+    public void restoreLocation() {
 
-	}
+        for (int i = 0; i < getEditor().getModel().getUrndef().getSpecDiagrams().size(); i++) {
+            URNmodelElement graph = (URNmodelElement) getEditor().getModel().getUrndef().getSpecDiagrams().get(i);
+            if (graph.getId().equals(currentGraphID)) {
+                ((UCMNavMultiPageEditor) getEditorPart()).setActivePage(i);
+                break;
+            }
+        }
 
-	/**
-	 * Loads its state from the memento
-	 * 
-	 */
-	public void restoreState(IMemento memento) {
-		// can only load page because reference to editor is useless.
-		currentGraphID = memento.getString("iCurrentPage"); //$NON-NLS-1$
+    }
 
-	}
+    /**
+     * Loads its state from the memento
+     * 
+     */
+    public void restoreState(IMemento memento) {
+        // can only load page because reference to editor is useless.
+        currentGraphID = memento.getString("iCurrentPage"); //$NON-NLS-1$
 
-	/**
-	 * Saves the state in the memento.
-	 */
-	public void saveState(IMemento memento) {
-		// can only save page because reference to editor is useless.
-		memento.putString("iCurrentPage", currentGraphID); //$NON-NLS-1$
+    }
 
-	}
+    /**
+     * Saves the state in the memento.
+     */
+    public void saveState(IMemento memento) {
+        // can only save page because reference to editor is useless.
+        memento.putString("iCurrentPage", currentGraphID); //$NON-NLS-1$
 
-	/**
-	 * @param currentPage
-	 *            the page that is currently opened
-	 */
-	public void setCurrentGraphID(String currentPage) {
-		currentGraphID = currentPage;
-	}
+    }
 
+    /**
+     * @param currentPage
+     *            the page that is currently opened
+     */
+    public void setCurrentGraphID(String currentPage) {
+        currentGraphID = currentPage;
+    }
 
-	/**
-	 * update this location by querying the active page
-	 */
-	public void update(UCMNavMultiPageEditor editor) {
-		if (editor!=null && editor.getCurrentPage() != null)
-			currentGraphID = ((URNmodelElement) editor.getCurrentPage().getModel()).getId();
-		else
-			currentGraphID = null;
-	}
+    /**
+     * update this location by querying the active page
+     */
+    public void update(UCMNavMultiPageEditor editor) {
+        if (editor != null && editor.getCurrentPage() != null)
+            currentGraphID = ((URNmodelElement) editor.getCurrentPage().getModel()).getId();
+        else
+            currentGraphID = null;
+    }
 
     public void update() {
         update(getEditor());

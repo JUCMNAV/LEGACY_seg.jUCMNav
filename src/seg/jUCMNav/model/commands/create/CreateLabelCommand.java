@@ -30,6 +30,7 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand, ICrea
     private int deltaY;
 
     private Condition cond;
+
     /**
      * Create a label for elem.
      * 
@@ -48,15 +49,16 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand, ICrea
      *            a PathNode or ComponentRef
      */
     public CreateLabelCommand(Condition cond) {
-        this.cond =cond; 
+        this.cond = cond;
         setLabel(Messages.getString("CreateLabelCommand.createLabel")); //$NON-NLS-1$
     }
+
     /**
      * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return modelElement != null || cond!=null;
+        return modelElement != null || cond != null;
     }
 
     /**
@@ -64,19 +66,19 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand, ICrea
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	if (cond==null) {
-	        if (modelElement instanceof PathNode) {
-	            label = (Label) ModelCreationFactory.getNewObject(((PathNode) modelElement).getDiagram().getUrndefinition().getUrnspec(), NodeLabel.class);
-	        } else if (modelElement instanceof ComponentRef) {
-	            label = (Label) ModelCreationFactory.getNewObject(((ComponentRef) modelElement).getDiagram().getUrndefinition().getUrnspec(), ComponentLabel.class);
-	        }
-        
-	
-	        label.setDeltaX(deltaX);
-	        label.setDeltaY(deltaY);
-    	} else {
-    		label = cond;
-    	}
+        if (cond == null) {
+            if (modelElement instanceof PathNode) {
+                label = (Label) ModelCreationFactory.getNewObject(((PathNode) modelElement).getDiagram().getUrndefinition().getUrnspec(), NodeLabel.class);
+            } else if (modelElement instanceof ComponentRef) {
+                label = (Label) ModelCreationFactory.getNewObject(((ComponentRef) modelElement).getDiagram().getUrndefinition().getUrnspec(),
+                        ComponentLabel.class);
+            }
+
+            label.setDeltaX(deltaX);
+            label.setDeltaY(deltaY);
+        } else {
+            label = cond;
+        }
         redo();
     }
 
@@ -87,14 +89,15 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand, ICrea
     public void redo() {
         testPreConditions();
 
-        if (cond==null) {
-	        if (modelElement instanceof PathNode) {
-	            ((PathNode) modelElement).setLabel((NodeLabel) label);
-	        } else if (modelElement instanceof ComponentRef) {
-	            ((ComponentRef) modelElement).setLabel((ComponentLabel) label);
-	        }
+        if (cond == null) {
+            if (modelElement instanceof PathNode) {
+                ((PathNode) modelElement).setLabel((NodeLabel) label);
+            } else if (modelElement instanceof ComponentRef) {
+                ((ComponentRef) modelElement).setLabel((ComponentLabel) label);
+            }
         } else {
-    		cond.setLabel(URNNamingHelper.getNameFromExpression((cond.getExpression()==null || cond.getExpression().length()==0)?"-":cond.getExpression())); //$NON-NLS-1$
+            cond.setLabel(URNNamingHelper
+                    .getNameFromExpression((cond.getExpression() == null || cond.getExpression().length() == 0) ? "-" : cond.getExpression())); //$NON-NLS-1$
         }
 
         testPostConditions();
@@ -107,14 +110,14 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand, ICrea
     public void undo() {
         testPostConditions();
 
-        if (cond==null) {
-	        if (modelElement instanceof PathNode) {
-	            ((PathNode) modelElement).setLabel(null);
-	        } else if (modelElement instanceof ComponentRef) {
-	            ((ComponentRef) modelElement).setLabel(null);
-	        }
+        if (cond == null) {
+            if (modelElement instanceof PathNode) {
+                ((PathNode) modelElement).setLabel(null);
+            } else if (modelElement instanceof ComponentRef) {
+                ((ComponentRef) modelElement).setLabel(null);
+            }
         } else {
-    		cond.setLabel(null);
+            cond.setLabel(null);
         }
 
         testPreConditions();
@@ -126,11 +129,11 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand, ICrea
      */
     public void testPreConditions() {
         assert label != null : "pre Label"; //$NON-NLS-1$
-        assert modelElement != null || cond!=null : "pre UCMmodelElement"; //$NON-NLS-1$
+        assert modelElement != null || cond != null : "pre UCMmodelElement"; //$NON-NLS-1$
 
         // jkealey: don't know why these are commented
-        //assert label.getPathNode() == null : "pre NodeLabel not connected to a PathNode";
-        //assert node.getLabel() == null : "pre PathNode not connected to a NodeLabel";
+        // assert label.getPathNode() == null : "pre NodeLabel not connected to a PathNode";
+        // assert node.getLabel() == null : "pre PathNode not connected to a NodeLabel";
     }
 
     /**
@@ -138,10 +141,10 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand, ICrea
      */
     public void testPostConditions() {
         assert label != null : "pre Label"; //$NON-NLS-1$
-        assert modelElement != null || cond!=null : "pre UCMmodelElement"; //$NON-NLS-1$
+        assert modelElement != null || cond != null : "pre UCMmodelElement"; //$NON-NLS-1$
         // jkealey: don't know why these are commented
-        //assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
-        //assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
+        // assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
+        // assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
     }
 
     /**

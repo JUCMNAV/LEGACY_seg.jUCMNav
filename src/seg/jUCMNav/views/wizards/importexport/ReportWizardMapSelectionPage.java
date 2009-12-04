@@ -46,7 +46,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
     // which extension is chosen in the drop down list (file type)
     private int iTypeSelectionIndex;
 
-    // list of maps 
+    // list of maps
     private List listMaps;
 
     // given a map, return its UCMNavMultiPageEditor
@@ -69,7 +69,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
     // component for the filename
     private Label lblFilenamePrefix;
     private Text txtFilenamePrefix;
-    
+
     boolean htmlSelected = false;
 
     /**
@@ -92,7 +92,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
      * Contains controls to set the report directory, report file type and selected maps.
      */
     public void createControl(Composite parent) {
-    	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.import_mapselection"); //$NON-NLS-1$
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.import_mapselection"); //$NON-NLS-1$
         SelectionListener selList = new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent e) {
                 verifyPage();
@@ -120,7 +120,6 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         txtReportPath = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
         txtReportPath.setText(ReportPreferenceHelper.getPath());
 
-
         data = new GridData();
         data.horizontalAlignment = GridData.FILL;
         data.grabExcessHorizontalSpace = true;
@@ -141,7 +140,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
                 DirectoryDialog dialog = new DirectoryDialog(getShell(), SWT.OPEN);
                 dialog.setFilterPath(txtReportPath.getText());
 
-                dialog.setText(Messages.getString("ReportWizardPage.reportDirectory"));  //$NON-NLS-1$
+                dialog.setText(Messages.getString("ReportWizardPage.reportDirectory")); //$NON-NLS-1$
                 String path = dialog.open();
 
                 if (path != null) {
@@ -166,7 +165,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         cboReportType.setLayoutData(data);
 
         lblFilenamePrefix = new Label(composite, SWT.NONE);
-        lblFilenamePrefix.setText(Messages.getString("ReportWizardMapSelectionPage.reportPrefix"));  //$NON-NLS-1$
+        lblFilenamePrefix.setText(Messages.getString("ReportWizardMapSelectionPage.reportPrefix")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 1;
         data.horizontalAlignment = GridData.FILL;
@@ -174,7 +173,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
 
         txtFilenamePrefix = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
         txtFilenamePrefix.setText(ReportPreferenceHelper.getFilenamePrefix()); //$NON-NLS-1$
-        //txtFilenamePrefix.setText(ReportPreferenceHelper.getPath());
+        // txtFilenamePrefix.setText(ReportPreferenceHelper.getPath());
 
         data = new GridData();
         data.horizontalAlignment = GridData.FILL;
@@ -221,33 +220,34 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         Vector selected = ((ReportWizard) getWizard()).getSelectedDiagrams();
         Vector vIndices = new Vector();
         String filteredName, diagramName;
-        
-        int i=0;
+
+        int i = 0;
         for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
             IURNDiagram diagram = (IURNDiagram) iter.next();
 
-
             // peek to see if this is one of the maps that should be selected by default
-            if (selected.indexOf(diagram)>=0) {
+            if (selected.indexOf(diagram) >= 0) {
                 vIndices.add(new Integer(i));
             }
-            
-            diagramName = ReportWizard.getDiagramName( diagram );
-            if ( diagramName.contains( "-Map") )
-            	filteredName = diagramName.substring( 0, diagramName.indexOf( "-Map" )+1 ) + diagramName.substring( diagramName.lastIndexOf( '-' )+1, diagramName.length() );
+
+            diagramName = ReportWizard.getDiagramName(diagram);
+            if (diagramName.contains("-Map"))
+                filteredName = diagramName.substring(0, diagramName.indexOf("-Map") + 1)
+                        + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
             else
-            	filteredName = diagramName.substring( 0, diagramName.indexOf( "-GRLGraph" )+1 ) + diagramName.substring( diagramName.lastIndexOf( '-' )+1, diagramName.length() );
-            listMaps.add( filteredName );
+                filteredName = diagramName.substring(0, diagramName.indexOf("-GRLGraph") + 1)
+                        + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
+            listMaps.add(filteredName);
 
             i++;
         }
 
         // build the int array from the vector of Integers
         int[] indices = new int[vIndices.size()];
-        for (i=0;i<vIndices.size();i++)
-            indices[i]=((Integer)vIndices.get(i)).intValue();
+        for (i = 0; i < vIndices.size(); i++)
+            indices[i] = ((Integer) vIndices.get(i)).intValue();
 
-        if (vIndices.size()>0) {
+        if (vIndices.size() > 0) {
             listMaps.select(indices);
         } else
             listMaps.selectAll();
@@ -263,7 +263,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
     }
 
     /**
-     * Refresh the page 
+     * Refresh the page
      * 
      */
     void refresh() {
@@ -273,11 +273,12 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         fillSelectionList();
         lblFilenamePrefix.setVisible(true);
         txtFilenamePrefix.setVisible(true);
-        if (mapsToExport.size()>0)
-            txtFilenamePrefix.setText(ExportWizard.getFilePrefix((IURNDiagram)mapsToExport.get(0)));
+        if (mapsToExport.size() > 0)
+            txtFilenamePrefix.setText(ExportWizard.getFilePrefix((IURNDiagram) mapsToExport.get(0)));
         fillTypeDropDown();
 
     }
+
     /**
      * Updates passed Vector and preference store with the selection properties
      * 
@@ -294,8 +295,8 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         ReportPreferenceHelper.setReportType(iTypeSelectionIndex);
         ReportPreferenceHelper.setFilenamePrefix(sFilename);
 
-         if ( !htmlSelected ) // if HTML report type is selected bypass map selection filtering, export all maps
-        	updatemapsToExport();
+        if (!htmlSelected) // if HTML report type is selected bypass map selection filtering, export all maps
+            updatemapsToExport();
 
         return true;
     }
@@ -304,12 +305,11 @@ public class ReportWizardMapSelectionPage extends WizardPage {
      * Saves the current state of the page so that another thread can run finish() and not worry about thread access exceptions.
      * 
      */
-    public void preFinish()
-    {
-    	sReportPath = txtReportPath.getText();
+    public void preFinish() {
+        sReportPath = txtReportPath.getText();
         sFilename = txtFilenamePrefix.getText();
         iTypeSelectionIndex = cboReportType.getSelectionIndex();
-        htmlSelected = cboReportType.getText().contains( "HTML" ) ? true : false;
+        htmlSelected = cboReportType.getText().contains("HTML") ? true : false;
         iMapSelectionIndices = listMaps.getSelectionIndices();
     }
 
@@ -318,15 +318,15 @@ public class ReportWizardMapSelectionPage extends WizardPage {
      * 
      */
     private void updatemapsToExport() {
-        
+
         Vector toKeep = new Vector();
-        
-            // direct mapping
-            for (int i = 0; i < iMapSelectionIndices.length; i++) {
-                int index = iMapSelectionIndices[i];
-                toKeep.add(mapsToExport.get(index));
-            }
-        
+
+        // direct mapping
+        for (int i = 0; i < iMapSelectionIndices.length; i++) {
+            int index = iMapSelectionIndices[i];
+            toKeep.add(mapsToExport.get(index));
+        }
+
         mapsToExport.removeAllElements();
         mapsToExport.addAll(toKeep);
 
@@ -339,23 +339,20 @@ public class ReportWizardMapSelectionPage extends WizardPage {
     private void verifyPage() {
         File dir = new File(txtReportPath.getText());
         if (!(dir.exists() && dir.isDirectory())) {
-            setErrorMessage( Messages.getString("ReportWizardPage.invalidPath") );  //$NON-NLS-1$
+            setErrorMessage(Messages.getString("ReportWizardPage.invalidPath")); //$NON-NLS-1$
         } else {
             setErrorMessage(null);
         }
 
-        if ( cboReportType.getText().contains( "HTML" ) )
+        if (cboReportType.getText().contains("HTML"))
             listMaps.selectAll();
-        else if (mapsToExport.size() == 0 )
-            setErrorMessage( Messages.getString("ReportWizardPage.noMapsSelected") );  //$NON-NLS-1$
+        else if (mapsToExport.size() == 0)
+            setErrorMessage(Messages.getString("ReportWizardPage.noMapsSelected")); //$NON-NLS-1$
 
         if (txtFilenamePrefix.getText() == "") //$NON-NLS-1$
-            setErrorMessage( Messages.getString("ReportWizardMapSelectionPage.invalidFilename") );  //$NON-NLS-1$
-        
-        
-        setPageComplete(getErrorMessage() == null && 
-                (listMaps.getSelectionCount() > 0 )
-                && cboReportType.getSelectionIndex() >= 0);
+            setErrorMessage(Messages.getString("ReportWizardMapSelectionPage.invalidFilename")); //$NON-NLS-1$
+
+        setPageComplete(getErrorMessage() == null && (listMaps.getSelectionCount() > 0) && cboReportType.getSelectionIndex() >= 0);
     }
 
 }

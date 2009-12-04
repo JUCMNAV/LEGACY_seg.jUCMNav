@@ -7,29 +7,31 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import urn.URNspec;
 
 /**
- * ToolEntry that loads the PathTool. 
+ * ToolEntry that loads the PathTool.
  * 
  * @author Etienne Tremblay
  */
 public class PathToolEntry extends ToolEntry {
-	
-	private URNspec urn;
 
-	/**
-	 * @param label
-	 * @param shortDesc
-	 * @param iconSmall
-	 * @param iconLarge
-	 */
-	public PathToolEntry(String label, String shortDesc, URNspec urn, ImageDescriptor iconSmall, ImageDescriptor iconLarge) {
-		super(label, shortDesc, iconSmall, iconLarge);
-		this.urn = urn;
-	}
+    private URNspec urn;
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.palette.ToolEntry#createTool()
-	 */
-	public Tool createTool() {
-		return new PathTool(urn);
-	}
+    /**
+     * @param label
+     * @param shortDesc
+     * @param iconSmall
+     * @param iconLarge
+     */
+    public PathToolEntry(String label, String shortDesc, URNspec urn, ImageDescriptor iconSmall, ImageDescriptor iconLarge) {
+        super(label, shortDesc, iconSmall, iconLarge);
+        this.urn = urn;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.palette.ToolEntry#createTool()
+     */
+    public Tool createTool() {
+        return new PathTool(urn);
+    }
 }

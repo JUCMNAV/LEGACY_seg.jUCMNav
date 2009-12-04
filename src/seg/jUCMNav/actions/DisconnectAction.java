@@ -11,7 +11,7 @@ import ucm.map.PathNode;
  * Breaks an existing synchronous or asynchronous connection.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class DisconnectAction extends URNSelectionAction {
 

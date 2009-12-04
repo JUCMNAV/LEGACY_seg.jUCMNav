@@ -7,43 +7,43 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 public class SetCommand extends Command implements JUCMNavCommand {
-	
-	EObject obj;
-	EAttribute attr;
-	Object value;
-	Object before;
-	
-	public SetCommand(EObject obj, EAttribute attr, Object value) {
-		super();
 
-		this.obj = obj;
-		this.attr = attr;
-		this.value = value;
-		
-		this.before = obj.eGet(attr);
-	}
+    EObject obj;
+    EAttribute attr;
+    Object value;
+    Object before;
 
-	public void execute() {
-		redo();
-	}
+    public SetCommand(EObject obj, EAttribute attr, Object value) {
+        super();
 
-	public void redo() {
-		obj.eSet(attr, value);
-	}
+        this.obj = obj;
+        this.attr = attr;
+        this.value = value;
 
-	public void undo() {
-		obj.eSet(attr, before);
-	}
+        this.before = obj.eGet(attr);
+    }
 
-	public void testPostConditions() {
-		
-	}
+    public void execute() {
+        redo();
+    }
 
-	public void testPreConditions() {
-		
-	}
+    public void redo() {
+        obj.eSet(attr, value);
+    }
 
-	public boolean canExecute() {
-		return obj != null && attr != null && value != null;
-	}
+    public void undo() {
+        obj.eSet(attr, before);
+    }
+
+    public void testPostConditions() {
+
+    }
+
+    public void testPreConditions() {
+
+    }
+
+    public boolean canExecute() {
+        return obj != null && attr != null && value != null;
+    }
 }

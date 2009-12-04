@@ -98,7 +98,7 @@ public class CsmExportWarning {
      * 
      */
     public void setError() {
-	severity = IMarker.SEVERITY_ERROR;
+        severity = IMarker.SEVERITY_ERROR;
     }
 
     /**
@@ -106,7 +106,7 @@ public class CsmExportWarning {
      * 
      */
     public void setInfo() {
-	severity = IMarker.SEVERITY_INFO;
+        severity = IMarker.SEVERITY_INFO;
     }
 
     /**
@@ -114,7 +114,7 @@ public class CsmExportWarning {
      * 
      */
     public void setWarning() {
-	severity = IMarker.SEVERITY_WARNING;
+        severity = IMarker.SEVERITY_WARNING;
     }
 
     /**

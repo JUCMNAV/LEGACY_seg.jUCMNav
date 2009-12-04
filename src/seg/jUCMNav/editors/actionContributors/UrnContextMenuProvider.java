@@ -82,8 +82,8 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
 
     public static final String SUBMENU_INSERTNODE = "seg.jUCMnav.InsertNodeSubMenu"; //$NON-NLS-1$
     public static final String SUBMENU_PATHOPERATIONS = "seg.jUCMnav.PathOperationsSubMenu"; //$NON-NLS-1$
-	private ActionRegistry actionRegistry;
-    protected static final String GROUP_UNCOMMON = "seg.jUCMNav.Uncommon";  //$NON-NLS-1$
+    private ActionRegistry actionRegistry;
+    protected static final String GROUP_UNCOMMON = "seg.jUCMNav.Uncommon"; //$NON-NLS-1$
 
     /**
      * Looks up a set of actions in the action registry. If they are enabled, adds them to the correct groups.
@@ -101,14 +101,14 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         manager.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
         action = getActionRegistry().getAction(ActionFactory.CUT.getId());
-        manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);      
+        manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
         action = getActionRegistry().getAction(ActionFactory.COPY.getId());
-        manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);      
+        manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
         action = getActionRegistry().getAction(ActionFactory.PASTE.getId());
-        manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);      
-        
+        manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);
+
         action = getActionRegistry().getAction(GEFActionConstants.ZOOM_IN);
         manager.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
 
@@ -125,7 +125,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(DeleteEvaluationAction.DELETEEVALUATION);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
-     
+
         action = getActionRegistry().getAction(AddLabelAction.ADDLABEL);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -157,7 +157,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[7] = getActionRegistry().getAction(AddBranchOnStubAction.ADDBRANCH2);
         actions[8] = getActionRegistry().getAction(DisconnectTimeoutPathAction.DISCONNECTTIMEOUTPATH);
         actions[9] = getActionRegistry().getAction(CutPathAction.CUTPATH);
-        actions[10]= getActionRegistry().getAction(TransmogrifyOrForkOrJoinAction.TRANSMOGRIFYFORK);
+        actions[10] = getActionRegistry().getAction(TransmogrifyOrForkOrJoinAction.TRANSMOGRIFYFORK);
         actions[11] = getActionRegistry().getAction(TransmogrifyAndForkOrJoinAction.TRANSMOGRIFYJOIN);
         actions[12] = getActionRegistry().getAction(AddStartPointAction.ADDSTART);
         actions[13] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(0));
@@ -166,10 +166,12 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[16] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(0));
         actions[17] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(1));
 
-        SubmenuAction submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.PathOperations"), Messages.getString("UrnContextMenuProvider.PathOperations"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        SubmenuAction submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.PathOperations"), Messages.getString("UrnContextMenuProvider.PathOperations"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
         submenu.setId(SUBMENU_PATHOPERATIONS);
-        if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
         actions = new IAction[8];
         actions[0] = getActionRegistry().getAction(AddResponsibilityAction.ADDRESPONSIBILITY);
@@ -180,12 +182,14 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[5] = getActionRegistry().getAction(AddStubAction.ADDPOINTCUTSTUB);
         actions[6] = getActionRegistry().getAction(AddWaitingPlaceAction.ADDWP);
         actions[7] = getActionRegistry().getAction(AddWaitingPlaceAction.ADDTIMER);
-        
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.InsertNode"), Messages.getString("UrnContextMenuProvider.InsertNode"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.InsertNode"), Messages.getString("UrnContextMenuProvider.InsertNode"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
         submenu.setId(SUBMENU_INSERTNODE);
-        if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
-        
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+
         actions = new IAction[6];
         actions[0] = getActionRegistry().getAction(AddContainerRefAction.ADDTEAM);
         actions[1] = getActionRegistry().getAction(AddContainerRefAction.ADDOBJECT);
@@ -193,57 +197,71 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[3] = getActionRegistry().getAction(AddContainerRefAction.ADDAGENT);
         actions[4] = getActionRegistry().getAction(AddContainerRefAction.ADDACTOR);
         actions[5] = getActionRegistry().getAction(AddContainerRefAction.ADDOTHER);
-        
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.InsertComponent"), Messages.getString("UrnContextMenuProvider.InsertComponent"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
-        if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
-        
+
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.InsertComponent"), Messages.getString("UrnContextMenuProvider.InsertComponent"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+
         actions = new IAction[6];
-        for (int i=0;i<6;i++)
-        	actions[i] = getActionRegistry().getAction(ChangeComponentTypeAction.generateId(i));
-        
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.ChangeComponentType"), Messages.getString("UrnContextMenuProvider.ChangeComponentType"), actions[0].getImageDescriptor(), true);  //$NON-NLS-1$ //$NON-NLS-2$
-        if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);         
-        
+        for (int i = 0; i < 6; i++)
+            actions[i] = getActionRegistry().getAction(ChangeComponentTypeAction.generateId(i));
+
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.ChangeComponentType"), Messages.getString("UrnContextMenuProvider.ChangeComponentType"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+
         actions = new IAction[16];
-        for (int i=0;i<16;i++)
-        	actions[i] = getActionRegistry().getAction(ChangeColorAction.generateId(i));
+        for (int i = 0; i < 16; i++)
+            actions[i] = getActionRegistry().getAction(ChangeColorAction.generateId(i));
 
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.ChangeFillColor"), Messages.getString("UrnContextMenuProvider.ChangeFillColor"), actions[3].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
-        if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.ChangeFillColor"), Messages.getString("UrnContextMenuProvider.ChangeFillColor"), actions[3].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
-        manager.add(new Separator(GROUP_UNCOMMON));  
-        
+        manager.add(new Separator(GROUP_UNCOMMON));
+
         actions = new IAction[8];
-        for ( int i = 0; i <= 7; i++ )
-        	actions[i] = getActionRegistry().getAction( SetNumericalImportanceAction.generateId(i) );
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.SetNumericalImportance"), Messages.getString("UrnContextMenuProvider.SetNumericalImportance"), JUCMNavPlugin.getImageDescriptor("icons/StrategyNumImp16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-        if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
- 
+        for (int i = 0; i <= 7; i++)
+            actions[i] = getActionRegistry().getAction(SetNumericalImportanceAction.generateId(i));
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.SetNumericalImportance"), Messages.getString("UrnContextMenuProvider.SetNumericalImportance"), JUCMNavPlugin.getImageDescriptor("icons/StrategyNumImp16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+
         actions = new IAction[6];
-        for ( int i = 0; i <= 5; i++ )
-        	actions[i] = getActionRegistry().getAction( SetQualitativeImportanceAction.generateId(i) );
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.SetQualitativeImportance"), Messages.getString("UrnContextMenuProvider.SetQualitativeImportance"), JUCMNavPlugin.getImageDescriptor("icons/StrategyQualImp16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-        if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
+        for (int i = 0; i <= 5; i++)
+            actions[i] = getActionRegistry().getAction(SetQualitativeImportanceAction.generateId(i));
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.SetQualitativeImportance"), Messages.getString("UrnContextMenuProvider.SetQualitativeImportance"), JUCMNavPlugin.getImageDescriptor("icons/StrategyQualImp16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
         actions = new IAction[12];
-        for ( int i = 0; i <= 11; i++ )
-        	actions[i] = getActionRegistry().getAction( SetNumericalEvaluationAction.generateId(i) );
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.SetNumericalEvaluation"), Messages.getString("UrnContextMenuProvider.SetNumericalEvaluation"), JUCMNavPlugin.getImageDescriptor("icons/StrategyNumEval16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-        if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);   
-        
+        for (int i = 0; i <= 11; i++)
+            actions[i] = getActionRegistry().getAction(SetNumericalEvaluationAction.generateId(i));
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.SetNumericalEvaluation"), Messages.getString("UrnContextMenuProvider.SetNumericalEvaluation"), JUCMNavPlugin.getImageDescriptor("icons/StrategyNumEval16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+
         actions = new IAction[9];
-        for ( int i = 0; i <= 8; i++ )
-        	actions[i] = getActionRegistry().getAction( SetQualitativeEvaluationAction.generateId(i) );
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.SetQualitativeEvaluation"), Messages.getString("UrnContextMenuProvider.SetQualitativeEvaluation"), JUCMNavPlugin.getImageDescriptor("icons/StrategyQualEval16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-        if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup( GEFActionConstants.GROUP_REST, submenu );
-                
+        for (int i = 0; i <= 8; i++)
+            actions[i] = getActionRegistry().getAction(SetQualitativeEvaluationAction.generateId(i));
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.SetQualitativeEvaluation"), Messages.getString("UrnContextMenuProvider.SetQualitativeEvaluation"), JUCMNavPlugin.getImageDescriptor("icons/StrategyQualEval16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -267,7 +285,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ChangeDecompositionTypeAction.CHANGEDECOMPOSITIONTYPE);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(AddMapAction.ADDMAP);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -281,19 +299,21 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[1] = getActionRegistry().getAction(NavigateHyperlinkAction.NAVIGATEHYPERLINK);
         actions[2] = getActionRegistry().getAction(ChangeHyperlinkAction.CHANGEHYPERLINK);
         actions[3] = getActionRegistry().getAction(DeleteHyperlinkAction.DELETEHYPERLINK);
-        
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.Hyperlink"), Messages.getString("UrnContextMenuProvider.Hyperlink"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
-        if (submenu.getActiveOperationCount()>0)
-        	manager.appendToGroup(GROUP_UNCOMMON, submenu);
-        
+
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.Hyperlink"), Messages.getString("UrnContextMenuProvider.Hyperlink"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GROUP_UNCOMMON, submenu);
+
         action = getActionRegistry().getAction(ManageConcernsAction.MANAGECONCERNS);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(DeleteUnreferencedDefinitionAction.DELETEDEF);
-        if(action.isEnabled())
-        	manager.appendToGroup(GROUP_UNCOMMON, action);
-        
+        if (action.isEnabled())
+            manager.appendToGroup(GROUP_UNCOMMON, action);
+
         action = getActionRegistry().getAction(ImportAction.IMPORT);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);
@@ -341,18 +361,18 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GROUP_UNCOMMON, action);
 
         // only available when debugging jucmnav
-        
+
         if (JUCMNavPlugin.isInDebug()) {
             action = getActionRegistry().getAction(MakeWellFormedAction.MAKEWELLFORMED);
-            if (action!=null && action.isEnabled())
+            if (action != null && action.isEnabled())
                 manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
             action = getActionRegistry().getAction(SimplifyForksAndJoinsAction.SIMPLIFYFORKSANDJOINS);
-            if (action!=null && action.isEnabled())
+            if (action != null && action.isEnabled())
                 manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
             action = getActionRegistry().getAction(TrimEmptyPointsAction.TRIMEMPTYPOINTS);
-            if (action!=null && action.isEnabled())
+            if (action != null && action.isEnabled())
                 manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         }
@@ -385,9 +405,8 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
     private void setActionRegistry(ActionRegistry registry) {
         actionRegistry = registry;
     }
-    
-    public void dispose()
-    {
+
+    public void dispose() {
         setActionRegistry(null);
         super.dispose();
     }

@@ -31,7 +31,7 @@ public class SelectDefaultPaletteToolAction extends URNSelectionAction {
     }
 
     /**
-     * Reverts the palette to the default tool and deselects the seleciton.  
+     * Reverts the palette to the default tool and deselects the seleciton.
      * 
      * @see seg.jUCMNav.actions.URNSelectionAction#run()
      */

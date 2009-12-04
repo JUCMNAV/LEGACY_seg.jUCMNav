@@ -41,22 +41,20 @@ public class AndForkJoinEditPart extends PathNodeEditPart implements AnchorListe
         extraAnchors = new HashMap();
     }
 
-    public void activate()
-    {
+    public void activate() {
         getNodeFigure().getSourceConnectionAnchor().addAnchorListener(this);
         getNodeFigure().getTargetConnectionAnchor().addAnchorListener(this);
-        
+
         super.activate();
     }
-    
-    public void deactivate()
-    {
+
+    public void deactivate() {
         getNodeFigure().getSourceConnectionAnchor().removeAnchorListener(this);
         getNodeFigure().getTargetConnectionAnchor().removeAnchorListener(this);
-        
+
         super.deactivate();
     }
-    
+
     /**
      * Refreshes all outgoing or incoming connections if the super classes's anchors are moved.
      */

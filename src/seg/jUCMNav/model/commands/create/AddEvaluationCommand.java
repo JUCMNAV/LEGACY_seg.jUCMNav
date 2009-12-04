@@ -14,15 +14,16 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
  * This command link a Evaluation to it IntentionalElement and Strategy
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class AddEvaluationCommand extends Command implements JUCMNavCommand {
 
     private Evaluation evaluation;
     private IntentionalElement element;
     private EvaluationStrategy strategy;
-    
+
     /**
      * Constructor
      */
@@ -30,7 +31,7 @@ public class AddEvaluationCommand extends Command implements JUCMNavCommand {
         this.evaluation = evaluation;
         this.element = elem;
         this.strategy = strategy;
-        
+
         setLabel(Messages.getString("AddEvaluationCommand.addEvaluation")); //$NON-NLS-1$
     }
 
@@ -38,13 +39,12 @@ public class AddEvaluationCommand extends Command implements JUCMNavCommand {
      * @return whether we can apply changes
      */
     public boolean canExecute() {
-        if ((evaluation != null && element != null && strategy != null) && 
-                (evaluation.getIntElement() == null) && (evaluation.getStrategies() == null)){
+        if ((evaluation != null && element != null && strategy != null) && (evaluation.getIntElement() == null) && (evaluation.getStrategies() == null)) {
             return true;
-        } 
+        }
         return false;
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
@@ -61,11 +61,13 @@ public class AddEvaluationCommand extends Command implements JUCMNavCommand {
         testPreConditions();
         evaluation.setIntElement(element);
         strategy.getEvaluations().add(evaluation);
-        
+
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -74,7 +76,9 @@ public class AddEvaluationCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -82,7 +86,7 @@ public class AddEvaluationCommand extends Command implements JUCMNavCommand {
         assert !(evaluation.getIntElement() != element && evaluation.getStrategies() != strategy) : "post link set"; //$NON-NLS-1$
 
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#undo()
      */

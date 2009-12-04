@@ -75,7 +75,7 @@ public class PluginListDialog extends ListDialog {
     }
 
     protected Control createButtonBar(Composite parent) {
-    	
+
         return super.createButtonBar(parent);
     }
 
@@ -86,38 +86,34 @@ public class PluginListDialog extends ListDialog {
      */
     protected void okPressed() {
         IStructuredSelection selection = (IStructuredSelection) getTableViewer().getSelection();
-        if (selection.size()==0) selection = new StructuredSelection(getTableViewer().getElementAt(0));
-        UCMmap map=null;
-        EObject selectedItem = (EObject) selection.toList().get(0) ; 
+        if (selection.size() == 0)
+            selection = new StructuredSelection(getTableViewer().getElementAt(0));
+        UCMmap map = null;
+        EObject selectedItem = (EObject) selection.toList().get(0);
         if (selectedItem instanceof PluginBinding) {
-        	map = ((PluginBinding) selection.toList().get(0)).getPlugin();
-        } else if (selectedItem instanceof OutBinding)
-    	{
-			OutBinding binding = (OutBinding) selection.toList().get(0);
-			map = (UCMmap) binding.getBinding().getStub().getDiagram();
-    	
-    	}else if (selectedItem instanceof InBinding)
-    	{
-    		InBinding binding = (InBinding) selection.toList().get(0);
-			map = (UCMmap) binding.getBinding().getStub().getDiagram();
-    	}
-        	 
-        
+            map = ((PluginBinding) selection.toList().get(0)).getPlugin();
+        } else if (selectedItem instanceof OutBinding) {
+            OutBinding binding = (OutBinding) selection.toList().get(0);
+            map = (UCMmap) binding.getBinding().getStub().getDiagram();
+
+        } else if (selectedItem instanceof InBinding) {
+            InBinding binding = (InBinding) selection.toList().get(0);
+            map = (UCMmap) binding.getBinding().getStub().getDiagram();
+        }
 
         if (map != null) {
             editor.setActivePage(map);
-            
-            GraphicalViewer viewer = ((UcmEditor)editor.getCurrentPage()).getGraphicalViewer();
+
+            GraphicalViewer viewer = ((UcmEditor) editor.getCurrentPage()).getGraphicalViewer();
             if (selectedItem instanceof InBinding) {
-				InBinding binding = (InBinding) selectedItem;
-				viewer.select((EditPart)viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
-            	
+                InBinding binding = (InBinding) selectedItem;
+                viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+
             } else if (selectedItem instanceof OutBinding) {
-				OutBinding binding = (OutBinding) selectedItem;
-				viewer.select((EditPart)viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                OutBinding binding = (OutBinding) selectedItem;
+                viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
             }
-            
-            
+
         }
 
         super.okPressed();
@@ -130,30 +126,29 @@ public class PluginListDialog extends ListDialog {
      */
     protected void createButtonsForButtonBar(Composite parent) {
 
-    	super.createButtonsForButtonBar(parent);
-//    	createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
-//		Button button = getButton(IDialogConstants.CANCEL_ID);
-//		if (button != null)
-//			button.setText(IDialogConstants.CLOSE_LABEL);
-		
-		parent.setBackground(ColorManager.WHITE);
-		parent.getParent().setBackground(ColorManager.WHITE);
+        super.createButtonsForButtonBar(parent);
+        // createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+        // Button button = getButton(IDialogConstants.CANCEL_ID);
+        // if (button != null)
+        // button.setText(IDialogConstants.CLOSE_LABEL);
 
-		
+        parent.setBackground(ColorManager.WHITE);
+        parent.getParent().setBackground(ColorManager.WHITE);
+
     }
 
     /*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.dialogs.SelectionDialog#createMessageArea(org.eclipse.swt.widgets.Composite)
-	 */
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.dialogs.SelectionDialog#createMessageArea(org.eclipse.swt.widgets.Composite)
+     */
     protected Label createMessageArea(Composite composite) {
         Label toReturn = super.createMessageArea(composite);
         toReturn.setBackground(ColorManager.WHITE);
         return toReturn;
     }
-    
-	public  boolean isHelpAvailable() {
-		return false;
-	}
+
+    public boolean isHelpAvailable() {
+        return false;
+    }
 }

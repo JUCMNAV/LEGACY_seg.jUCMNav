@@ -46,16 +46,16 @@ public class CSMDupConnectionList {
 
     // add connection at the end of list
     public void add(CSMDupConnection conn) {
-	connList.add(conn);
+        connList.add(conn);
     }
 
     // remove connection
     public void remove(int i) {
-	connList.remove(i);
+        connList.remove(i);
     }
 
     public void remove(CSMDupConnection conn) {
-	connList.remove(conn);
+        connList.remove(conn);
     }
 
     // scans connections list and remove connection having the given target and
@@ -63,7 +63,7 @@ public class CSMDupConnectionList {
     public void remove(CSMDupNode source, PathNode target) {
         for (int i = 0; i < connList.size(); i++) {
             if (((CSMDupConnection) connList.get(i)).getSourceStr() == source.getId() && ((CSMDupConnection) connList.get(i)).getTargetStr() == target.getId()) {
-        	connList.remove(i);
+                connList.remove(i);
             }
         }
     }
@@ -71,7 +71,7 @@ public class CSMDupConnectionList {
     public void remove(PathNode source, CSMDupNode target) {
         for (int i = 0; i < connList.size(); i++) {
             if (((CSMDupConnection) connList.get(i)).getSourceStr() == source.getId() && ((CSMDupConnection) connList.get(i)).getTargetStr() == target.getId()) {
-        	connList.remove(i);
+                connList.remove(i);
             }
         }
     }
@@ -79,7 +79,7 @@ public class CSMDupConnectionList {
     public void remove(CSMDupNode source, CSMDupNode target) {
         for (int i = 0; i < connList.size(); i++) {
             if (((CSMDupConnection) connList.get(i)).getSourceStr() == source.getId() && ((CSMDupConnection) connList.get(i)).getTargetStr() == target.getId()) {
-        	connList.remove(i);
+                connList.remove(i);
             }
         }
     }
@@ -87,7 +87,7 @@ public class CSMDupConnectionList {
     public void remove(PathNode source, PathNode target) {
         for (int i = 0; i < connList.size(); i++) {
             if (((CSMDupConnection) connList.get(i)).getSourceStr() == source.getId() && ((CSMDupConnection) connList.get(i)).getTargetStr() == target.getId()) {
-        	connList.remove(i);
+                connList.remove(i);
             }
         }
     }

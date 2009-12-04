@@ -25,7 +25,7 @@ public class EditStubPluginsAction extends URNSelectionAction {
     public EditStubPluginsAction(IWorkbenchPart part) {
         super(part);
         setId(EDITSTUBPLUGINS);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Binding16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Binding16.gif")); //$NON-NLS-1$
     }
 
     /**

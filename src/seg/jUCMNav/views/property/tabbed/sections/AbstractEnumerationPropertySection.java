@@ -27,122 +27,113 @@ import seg.jUCMNav.model.commands.change.SetCommand;
 import seg.jUCMNav.views.property.StackHelper;
 
 /**
- * An abstract implementation of a section with a enumeration field using a
- * combo box (pulldown).
+ * An abstract implementation of a section with a enumeration field using a combo box (pulldown).
  * 
  * @author Anthony Hunter
  */
-public abstract class AbstractEnumerationPropertySection
-	extends AbstractGEFPropertySection {
+public abstract class AbstractEnumerationPropertySection extends AbstractGEFPropertySection {
 
-	/**
-	 * the combo box control for the section.
-	 */
-	protected CCombo combo;
+    /**
+     * the combo box control for the section.
+     */
+    protected CCombo combo;
 
-	/**
-	 * @see org.eclipse.ui.views.properties.tabbed.ISection#createControls(org.eclipse.swt.widgets.Composite,
-	 *      org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
-	 */
-	public void createControls(Composite parent,
-			TabbedPropertySheetPage aTabbedPropertySheetPage) {
-		super.createControls(parent, aTabbedPropertySheetPage);
-		Composite composite = getWidgetFactory()
-			.createFlatFormComposite(parent);
-		FormData data;
+    /**
+     * @see org.eclipse.ui.views.properties.tabbed.ISection#createControls(org.eclipse.swt.widgets.Composite,
+     *      org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+     */
+    public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
+        super.createControls(parent, aTabbedPropertySheetPage);
+        Composite composite = getWidgetFactory().createFlatFormComposite(parent);
+        FormData data;
 
-		combo = getWidgetFactory().createCCombo(composite); 
-		data = new FormData();
-		data.left = new FormAttachment(0, getStandardLabelWidth(composite,
-			new String[] {getLabelText()}));
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-		combo.setLayoutData(data);
+        combo = getWidgetFactory().createCCombo(composite);
+        data = new FormData();
+        data.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[] { getLabelText() }));
+        data.right = new FormAttachment(100, 0);
+        data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+        combo.setLayoutData(data);
 
-		CLabel nameLabel = getWidgetFactory().createCLabel(composite,
-			getLabelText());
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(combo, -ITabbedPropertyConstants.HSPACE);
-		data.top = new FormAttachment(combo, 0, SWT.CENTER);
-		nameLabel.setLayoutData(data);
+        CLabel nameLabel = getWidgetFactory().createCLabel(composite, getLabelText());
+        data = new FormData();
+        data.left = new FormAttachment(0, 0);
+        data.right = new FormAttachment(combo, -ITabbedPropertyConstants.HSPACE);
+        data.top = new FormAttachment(combo, 0, SWT.CENTER);
+        nameLabel.setLayoutData(data);
 
-		combo.addSelectionListener(new SelectionAdapter() {
+        combo.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected(SelectionEvent event) {
-				handleComboModified();
-			}
-		});
-	}
+            public void widgetSelected(SelectionEvent event) {
+                handleComboModified();
+            }
+        });
+    }
 
-	/**
-	 * Handle the combo modified event.
-	 */
-	protected void handleComboModified() {
+    /**
+     * Handle the combo modified event.
+     */
+    protected void handleComboModified() {
 
-		int index = combo.getSelectionIndex();
-		boolean equals = isEqual(index);
-		if (!equals) {
-			
-			CommandStack cs = StackHelper.getStack(propertySheetPage);
-			if (cs==null)return;
-	        SetCommand s = new SetCommand(eObject, getFeature(), getFeatureValue(index));
+        int index = combo.getSelectionIndex();
+        boolean equals = isEqual(index);
+        if (!equals) {
 
-	        if (s.canExecute())
-	            cs.execute(s);
-		}
-	}
+            CommandStack cs = StackHelper.getStack(propertySheetPage);
+            if (cs == null)
+                return;
+            SetCommand s = new SetCommand(eObject, getFeature(), getFeatureValue(index));
 
-	/**
-	 * @see org.eclipse.ui.views.properties.tabbed.ISection#refresh()
-	 */
-	public void refresh() {
-		if(!combo.isDisposed())
-		{
-			combo.setItems(getEnumerationFeatureValues());
-			combo.setText(getFeatureAsText());
-		}
-	}
+            if (s.canExecute())
+                cs.execute(s);
+        }
+    }
 
-	/**
-	 * Determine if the provided index of the enumeration is equal to the
-	 * current setting of the enumeration property.
-	 * 
-	 * @param index
-	 *            the new index in the enumeration.
-	 * @return <code>true</code> if the new index value is equal to the
-	 *         current property setting.
-	 */
-	protected abstract boolean isEqual(int index);
+    /**
+     * @see org.eclipse.ui.views.properties.tabbed.ISection#refresh()
+     */
+    public void refresh() {
+        if (!combo.isDisposed()) {
+            combo.setItems(getEnumerationFeatureValues());
+            combo.setText(getFeatureAsText());
+        }
+    }
 
-	/**
-	 * Get the feature for the combo field for the section.
-	 * 
-	 * @return the feature for the text.
-	 */
-	protected abstract EAttribute getFeature();
+    /**
+     * Determine if the provided index of the enumeration is equal to the current setting of the enumeration property.
+     * 
+     * @param index
+     *            the new index in the enumeration.
+     * @return <code>true</code> if the new index value is equal to the current property setting.
+     */
+    protected abstract boolean isEqual(int index);
 
-	/**
-	 * Get the enumeration values of the feature for the combo field for the
-	 * section.
-	 * 
-	 * @return the list of values of the feature as text.
-	 */
-	protected abstract String[] getEnumerationFeatureValues();
+    /**
+     * Get the feature for the combo field for the section.
+     * 
+     * @return the feature for the text.
+     */
+    protected abstract EAttribute getFeature();
 
-	/**
-	 * Get the value of the feature as text for the combo field for the section.
-	 * 
-	 * @return the value of the feature as text.
-	 */
-	protected abstract String getFeatureAsText();
+    /**
+     * Get the enumeration values of the feature for the combo field for the section.
+     * 
+     * @return the list of values of the feature as text.
+     */
+    protected abstract String[] getEnumerationFeatureValues();
 
-	/**
-	 * Get the new value of the feature for the text field for the section.
-	 * 
-	 * @param index
-	 *            the new index in the enumeration.
-	 * @return the new value of the feature.
-	 */
-	protected abstract Object getFeatureValue(int index);
+    /**
+     * Get the value of the feature as text for the combo field for the section.
+     * 
+     * @return the value of the feature as text.
+     */
+    protected abstract String getFeatureAsText();
+
+    /**
+     * Get the new value of the feature for the text field for the section.
+     * 
+     * @param index
+     *            the new index in the enumeration.
+     * @return the new value of the feature.
+     */
+    protected abstract Object getFeatureValue(int index);
 }

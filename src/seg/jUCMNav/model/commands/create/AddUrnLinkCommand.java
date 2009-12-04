@@ -15,7 +15,7 @@ import urncore.URNmodelElement;
  * This class create a URNLink between a GRL element and a UCM element
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class AddUrnLinkCommand extends Command implements JUCMNavCommand {
 
@@ -23,12 +23,16 @@ public class AddUrnLinkCommand extends Command implements JUCMNavCommand {
     private URNmodelElement from;
     private URNmodelElement to;
     private URNspec urn;
-    
+
     /**
-     * @param urn the URNspec
-     * @param link the URNlink to add
-     * @param fromElem the URNmodelElement in the link
-     * @param toElem the URNmodelElement in the link
+     * @param urn
+     *            the URNspec
+     * @param link
+     *            the URNlink to add
+     * @param fromElem
+     *            the URNmodelElement in the link
+     * @param toElem
+     *            the URNmodelElement in the link
      */
     public AddUrnLinkCommand(URNspec urn, URNlink link, URNmodelElement fromElem, URNmodelElement toElem) {
         this.link = link;
@@ -42,15 +46,15 @@ public class AddUrnLinkCommand extends Command implements JUCMNavCommand {
      * @return whether we can apply changes
      */
     public boolean canExecute() {
-        
+
         if ((urn != null && link != null && from != null && to != null)) {
-        	// Restriction below is now removed (DA)    
-        	// && (to.getToLinks().size() == 0)){ //We only support 1 link from the to element
+            // Restriction below is now removed (DA)
+            // && (to.getToLinks().size() == 0)){ //We only support 1 link from the to element
             return true;
-        } 
+        }
         return false;
     }
-    
+
     /**
      * 
      * @see org.eclipse.gef.commands.Command#execute()
@@ -71,23 +75,27 @@ public class AddUrnLinkCommand extends Command implements JUCMNavCommand {
         urn.getUrnLinks().add(link);
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urn != null && link != null && from != null && to != null: "pre null"; //$NON-NLS-1$
+        assert urn != null && link != null && from != null && to != null : "pre null"; //$NON-NLS-1$
         assert !urn.getUrnLinks().contains(link) : "pre urn contain link!"; //$NON-NLS-1$
-        assert !from.getFromLinks().contains(link) && !to.getToLinks().contains(link): "pre element contain link"; //$NON-NLS-1$
+        assert !from.getFromLinks().contains(link) && !to.getToLinks().contains(link) : "pre element contain link"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urn != null && link != null && from != null && to != null: "pre null"; //$NON-NLS-1$
+        assert urn != null && link != null && from != null && to != null : "pre null"; //$NON-NLS-1$
         assert urn.getUrnLinks().contains(link) : "pre urn contain link!"; //$NON-NLS-1$
-        assert from.getFromLinks().contains(link) && to.getToLinks().contains(link): "pre element contain link"; //$NON-NLS-1$
+        assert from.getFromLinks().contains(link) && to.getToLinks().contains(link) : "pre element contain link"; //$NON-NLS-1$
     }
 
     /**

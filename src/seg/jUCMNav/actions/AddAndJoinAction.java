@@ -24,7 +24,7 @@ public class AddAndJoinAction extends AddOrJoinAction {
     public AddAndJoinAction(IWorkbenchPart part) {
         super(part);
         setId(ADDANDJOIN);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/AndJoin16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/AndJoin16.gif")); //$NON-NLS-1$
     }
 
     /**

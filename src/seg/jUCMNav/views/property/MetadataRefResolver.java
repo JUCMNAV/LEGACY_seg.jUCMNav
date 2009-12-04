@@ -23,9 +23,9 @@ import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 public class MetadataRefResolver {
-	
-	public IStructuredSelection adjustSelection(ISelection selection, EObject defaultSelected) {
-		if (selection == null) {
+
+    public IStructuredSelection adjustSelection(ISelection selection, EObject defaultSelected) {
+        if (selection == null) {
             Vector v = new Vector();
 
             // choose only urn model elements
@@ -69,24 +69,23 @@ public class MetadataRefResolver {
             }
 
             return new StructuredSelection(v);
-        }
-		else
-			return null;
-	}
+        } else
+            return null;
+    }
 
-	public EObject getRealObject(EObject defaultSelected) {
-		EObject result;
-		
-		// This code prevents the addition of metadata on *references* to intentional elements
+    public EObject getRealObject(EObject defaultSelected) {
+        EObject result;
+
+        // This code prevents the addition of metadata on *references* to intentional elements
         // and components. This was also prevented for responsibility references in the past
         // but this had to be allowed for CSM export.
         // CHANGED on April 10, 2009: No longer allowed for resp. references... Too annoying.
-		if (defaultSelected instanceof IntentionalElementRef) {
+        if (defaultSelected instanceof IntentionalElementRef) {
             IntentionalElement intentionalElem = ((IntentionalElementRef) defaultSelected).getDef();
             result = intentionalElem;
         } else if (defaultSelected instanceof RespRef) {
-        	Responsibility respElem = ((RespRef) defaultSelected).getRespDef();
-        	result = respElem;
+            Responsibility respElem = ((RespRef) defaultSelected).getRespDef();
+            result = respElem;
         } else if (defaultSelected instanceof KPIInformationElementRef) {
             KPIInformationElement kpiInformationElem = ((KPIInformationElementRef) defaultSelected).getDef();
             result = kpiInformationElem;
@@ -97,9 +96,9 @@ public class MetadataRefResolver {
             Actor actorElem = (Actor) ((ActorRef) defaultSelected).getContDef();
             result = actorElem;
         } else {
-        	result = defaultSelected;
+            result = defaultSelected;
         }
-		
-		return result;
-	}
+
+        return result;
+    }
 }

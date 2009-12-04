@@ -17,13 +17,13 @@ import ucmscenarios.impl.UcmscenariosPackageImpl;
  * @see EmfModelManager
  * @author Jason Kealey
  */
-public class UcmScenariosModelManager extends EmfModelManager  {
-  
+public class UcmScenariosModelManager extends EmfModelManager {
 
     /**
      * Creates a new ScenarioSpec.
      * 
-     * @param path the location where the new file should be created. 
+     * @param path
+     *            the location where the new file should be created.
      * @return a new ScenarioSpec
      */
     public ScenarioSpec createScenarioSpec(File path) {
@@ -38,26 +38,29 @@ public class UcmScenariosModelManager extends EmfModelManager  {
     /**
      * Creates a new ScenarioSpec.
      * 
-     * @param path the location where the new file should be created. 
-     * @param spec the initial contents of the file
+     * @param path
+     *            the location where the new file should be created.
+     * @param spec
+     *            the initial contents of the file
      * @return a new ScenarioSpec
      */
     public ScenarioSpec createScenarioSpec(File path, ScenarioSpec spec) {
         createResource(path);
         resource.getContents().add(spec);
         try {
-			save(path);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            save(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return spec;
     }
 
     /**
      * Creates a new ScenarioSpec.
      * 
-     * @param path the location where the new file should be created. 
-     * @return a new ScenarioSpec 
+     * @param path
+     *            the location where the new file should be created.
+     * @return a new ScenarioSpec
      */
     public ScenarioSpec createScenarioSpec(IPath path) {
         createResource(path);
@@ -67,35 +70,35 @@ public class UcmScenariosModelManager extends EmfModelManager  {
         resource.getContents().add(spec);
         return spec;
     }
-    
+
     /**
      * Creates a new ScenarioSpec.
      * 
-     * @param path the location where the new file should be created. 
-     * @param spec the initial contents of the file
+     * @param path
+     *            the location where the new file should be created.
+     * @param spec
+     *            the initial contents of the file
      * @return a new ScenarioSpec
      */
     public ScenarioSpec createScenarioSpec(IPath path, ScenarioSpec spec) {
         createResource(path);
         resource.getContents().add(spec);
         try {
-			save(path);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            save(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return spec;
     }
 
     /**
-     * Returns the ScenarioSpec serialization filename. 
+     * Returns the ScenarioSpec serialization filename.
      */
     protected String getFileExtension() {
-    	return "jucmscenarios";  //$NON-NLS-1$
+        return "jucmscenarios"; //$NON-NLS-1$
 
     }
 
-    
-    
     /**
      * Gets the top level model elements.
      * 
@@ -112,17 +115,16 @@ public class UcmScenariosModelManager extends EmfModelManager  {
             }
 
         }
-        return (ScenarioSpec)model;
+        return (ScenarioSpec) model;
     }
 
     /**
      * Initialize EMF
      */
-	protected void init() {
-	    // Initialize the ucm package
-	    UcmscenariosPackageImpl.init();
-		
-	}
+    protected void init() {
+        // Initialize the ucm package
+        UcmscenariosPackageImpl.init();
 
-    
+    }
+
 }

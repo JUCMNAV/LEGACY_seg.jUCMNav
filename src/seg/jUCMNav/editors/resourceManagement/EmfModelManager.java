@@ -57,7 +57,7 @@ public abstract class EmfModelManager {
      */
     protected Resource createResource(IPath path) {
         ResourceSet resSet = getResourceSet();
-        resource = resSet.createResource(URI.createPlatformResourceURI(path.toString(),true));
+        resource = resSet.createResource(URI.createPlatformResourceURI(path.toString(), true));
         return resource;
     }
 
@@ -97,7 +97,7 @@ public abstract class EmfModelManager {
 
             ResourceSet resSet = getResourceSet();
             // ,true added as the other createPlatformResourceURI is deprecated
-            resource = resSet.getResource(URI.createPlatformResourceURI(path.toString(),true), true); // ,true added
+            resource = resSet.getResource(URI.createPlatformResourceURI(path.toString(), true), true); // ,true added
         }
         return resource;
     }

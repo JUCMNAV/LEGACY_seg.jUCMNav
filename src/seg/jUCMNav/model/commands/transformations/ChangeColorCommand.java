@@ -11,7 +11,7 @@ import urncore.Comment;
 import urncore.IURNContainerRef;
 
 /**
- * Changes an element's color   
+ * Changes an element's color
  * 
  * @author jkealey, damyot
  */
@@ -21,38 +21,34 @@ public class ChangeColorCommand extends Command implements JUCMNavCommand {
     private boolean isFilled;
 
     public ChangeColorCommand(EObject obj, String newColor) {
-    	this.element = obj;
-    	this.newColor = newColor;
-    	
-    	setLabel(Messages.getString("ChangeColorCommand.ChangeElementColor")); //$NON-NLS-1$
-    }
+        this.element = obj;
+        this.newColor = newColor;
 
+        setLabel(Messages.getString("ChangeColorCommand.ChangeElementColor")); //$NON-NLS-1$
+    }
 
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	if (element instanceof IURNContainerRef) {
-			IURNContainerRef containerRef = (IURNContainerRef) element;
-			if (containerRef.getContDef()!=null) {
-				oldColor = containerRef.getContDef().getFillColor();
-				isFilled=containerRef.getContDef().isFilled();
-			}
-		}
-    	else if (element instanceof IntentionalElementRef) {
-    		IntentionalElementRef ieRef = (IntentionalElementRef) element;
-			if (ieRef.getDef()!=null) {
-				oldColor = ieRef.getDef().getFillColor();
-				isFilled=ieRef.getDef().isFilled();
-			}
-		}
-      	else if (element instanceof Comment) {
-    		Comment c = (Comment) element;
-    		oldColor = c.getFillColor();
-		}
-    	redo();
+        if (element instanceof IURNContainerRef) {
+            IURNContainerRef containerRef = (IURNContainerRef) element;
+            if (containerRef.getContDef() != null) {
+                oldColor = containerRef.getContDef().getFillColor();
+                isFilled = containerRef.getContDef().isFilled();
+            }
+        } else if (element instanceof IntentionalElementRef) {
+            IntentionalElementRef ieRef = (IntentionalElementRef) element;
+            if (ieRef.getDef() != null) {
+                oldColor = ieRef.getDef().getFillColor();
+                isFilled = ieRef.getDef().isFilled();
+            }
+        } else if (element instanceof Comment) {
+            Comment c = (Comment) element;
+            oldColor = c.getFillColor();
+        }
+        redo();
     }
-
 
     /*
      * (non-Javadoc)
@@ -62,28 +58,25 @@ public class ChangeColorCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
 
-    	if (element instanceof IURNContainerRef) {
-			IURNContainerRef containerRef = (IURNContainerRef) element;
-			if (containerRef.getContDef()!=null) {
-				containerRef.getContDef().setFillColor(newColor);
-				containerRef.getContDef().setFilled(newColor!=null);
-			}
-		}
-    	else if (element instanceof IntentionalElementRef) {
-    		IntentionalElementRef ieRef = (IntentionalElementRef) element;
-			if (ieRef.getDef()!=null) {
-				ieRef.getDef().setFillColor(newColor);
-				ieRef.getDef().setFilled(newColor!=null);
-			}
-		}
-     	else if (element instanceof Comment) {
-    		Comment c = (Comment) element;
-    		c.setFillColor(newColor);
-		}
+        if (element instanceof IURNContainerRef) {
+            IURNContainerRef containerRef = (IURNContainerRef) element;
+            if (containerRef.getContDef() != null) {
+                containerRef.getContDef().setFillColor(newColor);
+                containerRef.getContDef().setFilled(newColor != null);
+            }
+        } else if (element instanceof IntentionalElementRef) {
+            IntentionalElementRef ieRef = (IntentionalElementRef) element;
+            if (ieRef.getDef() != null) {
+                ieRef.getDef().setFillColor(newColor);
+                ieRef.getDef().setFilled(newColor != null);
+            }
+        } else if (element instanceof Comment) {
+            Comment c = (Comment) element;
+            c.setFillColor(newColor);
+        }
 
         testPostConditions();
     }
-
 
     /*
      * (non-Javadoc)
@@ -94,7 +87,7 @@ public class ChangeColorCommand extends Command implements JUCMNavCommand {
         assert element != null : "post no elem to change description!"; //$NON-NLS-1$
     }
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
@@ -104,62 +97,54 @@ public class ChangeColorCommand extends Command implements JUCMNavCommand {
 
     }
 
-	/**
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
         testPostConditions();
 
-    	if (element instanceof IURNContainerRef) {
-			IURNContainerRef containerRef = (IURNContainerRef) element;
-			if (containerRef.getContDef()!=null) {
-				containerRef.getContDef().setFillColor(oldColor);
-				containerRef.getContDef().setFilled(isFilled);
-			}
-		}
-    	else if (element instanceof IntentionalElementRef) {
-    		IntentionalElementRef ieRef = (IntentionalElementRef) element;
-			if (ieRef.getDef()!=null) {
-				ieRef.getDef().setFillColor(oldColor);
-				ieRef.getDef().setFilled(isFilled);
-			}
-		}
-    	else if (element instanceof Comment) {
-    		Comment c = (Comment) element;
-    		c.setFillColor(oldColor);
-    	}
-        
+        if (element instanceof IURNContainerRef) {
+            IURNContainerRef containerRef = (IURNContainerRef) element;
+            if (containerRef.getContDef() != null) {
+                containerRef.getContDef().setFillColor(oldColor);
+                containerRef.getContDef().setFilled(isFilled);
+            }
+        } else if (element instanceof IntentionalElementRef) {
+            IntentionalElementRef ieRef = (IntentionalElementRef) element;
+            if (ieRef.getDef() != null) {
+                ieRef.getDef().setFillColor(oldColor);
+                ieRef.getDef().setFilled(isFilled);
+            }
+        } else if (element instanceof Comment) {
+            Comment c = (Comment) element;
+            c.setFillColor(oldColor);
+        }
+
         testPreConditions();
     }
 
+    public EObject getElement() {
+        return element;
+    }
 
-	public EObject getElement() {
-		return element;
-	}
+    public void setElement(EObject element) {
+        this.element = element;
+    }
 
+    public String getNewColor() {
+        return newColor;
+    }
 
-	public void setElement(EObject element) {
-		this.element = element;
-	}
+    public void setNewColor(String newColor) {
+        this.newColor = newColor;
+    }
 
+    public String getOldColor() {
+        return oldColor;
+    }
 
-	public String getNewColor() {
-		return newColor;
-	}
-
-
-	public void setNewColor(String newColor) {
-		this.newColor = newColor;
-	}
-
-
-	public String getOldColor() {
-		return oldColor;
-	}
-
-
-	public void setOldColor(String oldColor) {
-		this.oldColor = oldColor;
-	}
+    public void setOldColor(String oldColor) {
+        this.oldColor = oldColor;
+    }
 
 }

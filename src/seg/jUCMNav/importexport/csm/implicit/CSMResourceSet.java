@@ -65,16 +65,19 @@ public class CSMResourceSet {
                                 }
                             }
                             if (!found) {
-                                warnings.add(new CsmExportWarning(Messages.getString("CSMResourceSet.ReleasedResource") + mdElement.getValue() + Messages.getString("CSMResourceSet.NotFoundInRespMD") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.ReleaseSkipped"), respref)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                                warnings
+                                        .add(new CsmExportWarning(
+                                                Messages.getString("CSMResourceSet.ReleasedResource") + mdElement.getValue() + Messages.getString("CSMResourceSet.NotFoundInRespMD") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.ReleaseSkipped"), respref)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                             }
-                            
+
                         } else {
                             warnings.add(new CsmExportWarning(Messages.getString("CSMResourceSet.Responsibility") + respref.getRespDef().getName() //$NON-NLS-1$
                                     + Messages.getString("CSMResourceSet.ContainsRRnoQty"), respref)); //$NON-NLS-1$
                         }
                     } else {
-                        warnings.add(new CsmExportWarning(
-                                Messages.getString("CSMResourceSet.Responsibility") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.ContainsRRnoMD"), respref)); //$NON-NLS-1$ //$NON-NLS-2$
+                        warnings
+                                .add(new CsmExportWarning(
+                                        Messages.getString("CSMResourceSet.Responsibility") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.ContainsRRnoMD"), respref)); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                 } else if (mdElement.getName().equals("RA")) { //$NON-NLS-1$
                     if (md.hasNext()) {
@@ -94,7 +97,9 @@ public class CSMResourceSet {
                                 }
                             }
                             if (!found) {
-                                warnings.add(new CsmExportWarning(Messages.getString("CSMResourceSet.AcquiredResource") + mdElement.getValue() + Messages.getString("CSMResourceSet.NotFoundInRespMD") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.AcquireSkipped"), respref)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                                warnings
+                                        .add(new CsmExportWarning(
+                                                Messages.getString("CSMResourceSet.AcquiredResource") + mdElement.getValue() + Messages.getString("CSMResourceSet.NotFoundInRespMD") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.AcquireSkipped"), respref)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                             }
                         } else {
                             warnings.add(new CsmExportWarning(Messages.getString("CSMResourceSet.Responsibility") + respref.getRespDef().getName() //$NON-NLS-1$
@@ -102,8 +107,9 @@ public class CSMResourceSet {
                         }
 
                     } else {
-                        warnings.add(new CsmExportWarning(
-                                Messages.getString("CSMResourceSet.Responsibility") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.ContainsRANoMD"), respref)); //$NON-NLS-1$ //$NON-NLS-2$
+                        warnings
+                                .add(new CsmExportWarning(
+                                        Messages.getString("CSMResourceSet.Responsibility") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.ContainsRANoMD"), respref)); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                 }
             }
@@ -111,8 +117,8 @@ public class CSMResourceSet {
     }
 
     public CSMResourceSet(CSMResource[] resArrayList, int size) {
-	resources = resArrayList;
-	resources_count = size;
+        resources = resArrayList;
+        resources_count = size;
     }
 
     public CSMResource get(int n) {
@@ -144,11 +150,11 @@ public class CSMResourceSet {
      * @param resourcesIn
      */
     public void getContainingComponentsAndResources(ComponentRef compRef, CSMResource[] resourcesIn) {
-	if (compRef != null) {
-	    // In order to obtain outermost precedence component-wise, traversal is processed
-	    // using a head recursion approach
+        if (compRef != null) {
+            // In order to obtain outermost precedence component-wise, traversal is processed
+            // using a head recursion approach
             getContainingComponentsAndResources((ComponentRef) compRef.getParent(), resourcesIn);
-            // TYPE:  UCM Component of kind Team, Object, Process and Agent
+            // TYPE: UCM Component of kind Team, Object, Process and Agent
             if (compRef.getContDef() instanceof Component) {
                 // TODO: check that only Component has a *kind* ?
                 if (((Component) compRef.getContDef()).getKind().equals(ComponentKind.TEAM_LITERAL)
@@ -161,8 +167,8 @@ public class CSMResourceSet {
                 if (((Component) compRef.getContDef()).getResource() != null) {
                     resourcesIn[resources_count++] = new CSMResource(((Component) compRef.getContDef()).getResource());
                 }
-            // Possibly a futile test (because Component seem inexistent...).  Nevertheless...
-            // TYPE: PassiveResource bound to a UCM Component
+                // Possibly a futile test (because Component seem inexistent...). Nevertheless...
+                // TYPE: PassiveResource bound to a UCM Component
             } else if (compRef.getContDef() instanceof Component) {
                 if (((Component) compRef.getContDef()).getResource() != null) {
                     resourcesIn[resources_count++] = new CSMResource(((Component) compRef.getContDef()).getResource());
@@ -209,9 +215,8 @@ public class CSMResourceSet {
      * Returns elements of this CSMResourceSet which are not in (CSMResourceSet) second
      * 
      * @param second
-     * 		CSMResourceSet of which the elements should be removed from this
-     * @return
-     * 		CSMResourceSet == this - second
+     *            CSMResourceSet of which the elements should be removed from this
+     * @return CSMResourceSet == this - second
      */
     public CSMResourceSet minus(CSMResourceSet second) {
         CSMResource[] curMinusSecond = new CSMResource[RESLIMIT];

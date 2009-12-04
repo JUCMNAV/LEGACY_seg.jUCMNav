@@ -5,7 +5,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import seg.jUCMNav.JUCMNavPlugin;
 
 /**
- * Encapsulates load/save of the scenario export properties. 
+ * Encapsulates load/save of the scenario export properties.
  * 
  * @author jkealey
  * 
@@ -19,6 +19,7 @@ public class ScenarioExportPreferences {
     public final static String PREF_EXPORTTYPE = "seg.jUCMNav.ScenarioExport.ExportType"; //$NON-NLS-1$
     public final static String PREF_EXPORTALL = "seg.jUCMNav.ScenarioExport.ExportAll"; //$NON-NLS-1$
     public final static String PREF_OPENAFTEREXPORT = "seg.jUCMNav.ScenarioExport.OpenAfterExport"; // $NON-NLS-1$ //$NON-NLS-1$
+
     /**
      * 
      * @return Preference store where the properties are stored.
@@ -38,10 +39,9 @@ public class ScenarioExportPreferences {
 
     /**
      * 
-     * 0: .jucmnavscenarios file
-     * 1: non-well formed linearization
-     * 2: well-formed linearization
-     * @return the export type  
+     * 0: .jucmnavscenarios file 1: non-well formed linearization 2: well-formed linearization
+     * 
+     * @return the export type
      */
     public static String getExportType() {
         return getPreferenceStore().getString(PREF_EXPORTTYPE);
@@ -54,7 +54,6 @@ public class ScenarioExportPreferences {
     public static String getExportAll() {
         return getPreferenceStore().getString(PREF_EXPORTALL);
     }
-    
 
     /**
      * 
@@ -64,12 +63,8 @@ public class ScenarioExportPreferences {
         return getPreferenceStore().getBoolean(PREF_OPENAFTEREXPORT);
     }
 
-
-
     /**
-     *  0: .jucmnavscenarios file
-     * 1: non-well formed linearization
-     * 2: well-formed linearization
+     * 0: .jucmnavscenarios file 1: non-well formed linearization 2: well-formed linearization
      * 
      * @param type
      *            the export type
@@ -90,10 +85,10 @@ public class ScenarioExportPreferences {
     /**
      * 
      * @param b
-     *          should we open the editor after exporting
+     *            should we open the editor after exporting
      */
     public static void setShouldOpenEditorAfterExport(boolean b) {
         getPreferenceStore().setValue(PREF_OPENAFTEREXPORT, b);
     }
-    
+
 }

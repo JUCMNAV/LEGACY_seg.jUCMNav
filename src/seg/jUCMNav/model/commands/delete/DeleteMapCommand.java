@@ -18,6 +18,7 @@ import urncore.IURNDiagram;
 public class DeleteMapCommand extends CompoundCommand {
 
     private IURNDiagram diagram;
+
     /**
      * @param map
      *            the map to delete
@@ -38,6 +39,5 @@ public class DeleteMapCommand extends CompoundCommand {
     public void setDiagram(IURNDiagram diagram) {
         this.diagram = diagram;
     }
-    
-    
+
 }

@@ -8,7 +8,7 @@ import seg.jUCMNav.model.commands.delete.DeleteNodeConnectionCommand;
 import ucm.map.NodeConnection;
 
 /**
- * ComponentEditPolicy for UCM NodeConnections. Returns DeleteNodeConnectionCommands 
+ * ComponentEditPolicy for UCM NodeConnections. Returns DeleteNodeConnectionCommands
  * 
  * @author jkealey
  * 

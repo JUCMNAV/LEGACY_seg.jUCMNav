@@ -18,20 +18,20 @@ import seg.jUCMNav.views.preferences.DeletePreferences;
 import urn.URNlink;
 
 /**
- * Delete an actor definition. 
+ * Delete an actor definition.
  * 
  * @author Jean-François Roy
- *
+ * 
  */
-public class DeleteActorCommand extends CompoundCommand{
+public class DeleteActorCommand extends CompoundCommand {
 
-	private Actor actor;
-	
+    private Actor actor;
+
     /**
      * @param actor
-     *          the ActorRef to delete
+     *            the ActorRef to delete
      */
-	public DeleteActorCommand(Actor actor) {
+    public DeleteActorCommand(Actor actor) {
         setLabel(Messages.getString("DeleteActorCommand.deleteActor")); //$NON-NLS-1$
         this.actor = actor;
     }
@@ -45,7 +45,7 @@ public class DeleteActorCommand extends CompoundCommand{
         else
             return super.canExecute();
     }
-    
+
     /**
      * Returns true even if no commands exist.
      */
@@ -55,7 +55,7 @@ public class DeleteActorCommand extends CompoundCommand{
         else
             return super.canUndo();
     }
-    
+
     /**
      * Late building
      */
@@ -63,35 +63,31 @@ public class DeleteActorCommand extends CompoundCommand{
         build();
         super.execute();
     }
-    
+
     /**
      * Build the compound command.
      * 
      */
-    private void build()
-    {
-        //Verify if the definition can be delete.
-        if(actor.getContRefs().size() == 0 ||
-        		DeletePreferences.getDeleteReference(actor))
-        {
-	        //Remove all the actor references
-	        for(Iterator it = actor.getContRefs().iterator(); it.hasNext(); )
-	        {
-	        	ActorRef actorRef = (ActorRef)it.next();
-	            add(new PreDeleteUrnModelElementCommand(actorRef));
-	            add(new RemoveURNmodelElementCommand(actorRef));
-	        }
-	        
-	        //Remove the URNlinks
-	        for (Iterator it = actor.getFromLinks().iterator(); it.hasNext();){
-	            URNlink link = (URNlink)it.next();
-	            add(new DeleteURNlinkCommand(link));
-	        }
-	        for (Iterator it = actor.getToLinks().iterator(); it.hasNext();){
-	            URNlink link = (URNlink)it.next();
-	            add(new DeleteURNlinkCommand(link));
-	        }
-	        add(new RemoveActorCommand(actor));
+    private void build() {
+        // Verify if the definition can be delete.
+        if (actor.getContRefs().size() == 0 || DeletePreferences.getDeleteReference(actor)) {
+            // Remove all the actor references
+            for (Iterator it = actor.getContRefs().iterator(); it.hasNext();) {
+                ActorRef actorRef = (ActorRef) it.next();
+                add(new PreDeleteUrnModelElementCommand(actorRef));
+                add(new RemoveURNmodelElementCommand(actorRef));
+            }
+
+            // Remove the URNlinks
+            for (Iterator it = actor.getFromLinks().iterator(); it.hasNext();) {
+                URNlink link = (URNlink) it.next();
+                add(new DeleteURNlinkCommand(link));
+            }
+            for (Iterator it = actor.getToLinks().iterator(); it.hasNext();) {
+                URNlink link = (URNlink) it.next();
+                add(new DeleteURNlinkCommand(link));
+            }
+            add(new RemoveActorCommand(actor));
         }
     }
 

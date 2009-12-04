@@ -11,28 +11,28 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 /**
  * 
  * Adds a belief to a {@link GRLGraph}
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class AddBeliefCommand extends Command implements JUCMNavCommand {
 
     private Belief belief;
-    
-    //Graph where the element has been added.
-    private GRLGraph graph;
 
+    // Graph where the element has been added.
+    private GRLGraph graph;
 
     /**
      * @param graph
-     *           graph where to add the belief 
+     *            graph where to add the belief
      * @param belief
-     *           belief to add
+     *            belief to add
      */
     public AddBeliefCommand(GRLGraph graph, Belief belief) {
         super();
         this.graph = graph;
         this.belief = belief;
-        setLabel(Messages.getString("AddBeliefCommand.createBelief"));  //$NON-NLS-1$
+        setLabel(Messages.getString("AddBeliefCommand.createBelief")); //$NON-NLS-1$
     }
 
     /**
@@ -49,13 +49,15 @@ public class AddBeliefCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-  
+
         graph.getNodes().add(belief);
-        
+
         testPostConditions();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -65,7 +67,9 @@ public class AddBeliefCommand extends Command implements JUCMNavCommand {
         assert !graph.getNodes().contains(belief) : "pre belief in graph"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -81,7 +85,7 @@ public class AddBeliefCommand extends Command implements JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
-        
+
         graph.getNodes().remove(belief);
 
         testPreConditions();

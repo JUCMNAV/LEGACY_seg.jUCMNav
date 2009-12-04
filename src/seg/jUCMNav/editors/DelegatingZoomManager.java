@@ -34,8 +34,7 @@ import seg.jUCMNav.editparts.URNRootEditPart;
  * 
  * @author Gunnar Wagenknecht
  */
-public class DelegatingZoomManager extends ZoomManager implements ZoomListener
-{
+public class DelegatingZoomManager extends ZoomManager implements ZoomListener {
     /** the current ZoomManager all work is delegated to */
     private ZoomManager currentZoomManager;
 
@@ -44,23 +43,20 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
 
     private UCMNavMultiPageEditor editor;
 
-
     /**
      * Creates a new DelegatingZoomManager instance.
      */
-    public DelegatingZoomManager(UCMNavMultiPageEditor editor)
-    {
+    public DelegatingZoomManager(UCMNavMultiPageEditor editor) {
         super((ScalableFigure) null, (Viewport) null);
-    	
+
         setEditor(editor);
 
-    	
         List zoomLevels = new ArrayList(3);
         zoomLevels.add(ZoomManager.FIT_ALL);
         zoomLevels.add(ZoomManager.FIT_WIDTH);
         zoomLevels.add(ZoomManager.FIT_HEIGHT);
         setZoomLevelContributions(zoomLevels);
-       
+
     }
 
     public UCMNavMultiPageEditor getEditor() {
@@ -70,303 +66,323 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
     public void setEditor(UCMNavMultiPageEditor editor) {
         this.editor = editor;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomListener#zoomChanged(double)
      */
-    public void zoomChanged(double zoom)
-    {
+    public void zoomChanged(double zoom) {
         Object[] listeners = zoomListeners.getListeners();
-        for (int i = 0; i < listeners.length; ++i)
-        {
+        for (int i = 0; i < listeners.length; ++i) {
             ((ZoomListener) listeners[i]).zoomChanged(zoom);
         }
-        
+
         // TODO: refresh all if global
-        if (getEditor()!=null && getEditor().getCurrentPage()!=null)
-        {
-        	// force a refresh
-        	URNRootEditPart rootEditPart = (URNRootEditPart)getEditor().getCurrentPage().getGraphicalViewer().getRootEditPart();
+        if (getEditor() != null && getEditor().getCurrentPage() != null) {
+            // force a refresh
+            URNRootEditPart rootEditPart = (URNRootEditPart) getEditor().getCurrentPage().getGraphicalViewer().getRootEditPart();
             rootEditPart.setMode(rootEditPart.getMode());
         }
-        
-        
+
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#addZoomListener(org.eclipse.gef.editparts.ZoomListener)
      */
-    public void addZoomListener(ZoomListener listener)
-    {
+    public void addZoomListener(ZoomListener listener) {
         zoomListeners.add(listener);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#removeZoomListener(org.eclipse.gef.editparts.ZoomListener)
      */
-    public void removeZoomListener(ZoomListener listener)
-    {
+    public void removeZoomListener(ZoomListener listener) {
         zoomListeners.remove(listener);
     }
 
     /**
      * Sets the ZoomManager all work should be delegated to.
+     * 
      * @param zoomManager
      */
-    public void setCurrentZoomManager(ZoomManager zoomManager)
-    {
+    public void setCurrentZoomManager(ZoomManager zoomManager) {
         if (null != currentZoomManager)
             currentZoomManager.removeZoomListener(this);
 
         currentZoomManager = zoomManager;
-        if(null != currentZoomManager)
-        {
+        if (null != currentZoomManager) {
             currentZoomManager.addZoomListener(this);
             zoomChanged(currentZoomManager.getZoom());
         }
-        
-        
+
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#canZoomIn()
      */
-    public boolean canZoomIn()
-    {
-        if(null == currentZoomManager)
+    public boolean canZoomIn() {
+        if (null == currentZoomManager)
             return false;
-            
+
         return currentZoomManager.canZoomIn();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#canZoomOut()
      */
-    public boolean canZoomOut()
-    {
-        if(null == currentZoomManager)
+    public boolean canZoomOut() {
+        if (null == currentZoomManager)
             return false;
-            
+
         return currentZoomManager.canZoomOut();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getMaxZoom()
      */
-    public double getMaxZoom()
-    {
-        if(null == currentZoomManager)
+    public double getMaxZoom() {
+        if (null == currentZoomManager)
             return 1;
-            
+
         return currentZoomManager.getMaxZoom();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getMinZoom()
      */
-    public double getMinZoom()
-    {
-        if(null == currentZoomManager)
+    public double getMinZoom() {
+        if (null == currentZoomManager)
             return 1;
-            
+
         return currentZoomManager.getMinZoom();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getNextZoomLevel()
      */
-    public double getNextZoomLevel()
-    {
-        if(null == currentZoomManager)
+    public double getNextZoomLevel() {
+        if (null == currentZoomManager)
             return 1;
-            
+
         return currentZoomManager.getNextZoomLevel();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getPreviousZoomLevel()
      */
-    public double getPreviousZoomLevel()
-    {
-        if(null == currentZoomManager)
+    public double getPreviousZoomLevel() {
+        if (null == currentZoomManager)
             return 1;
-            
+
         return currentZoomManager.getPreviousZoomLevel();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getScalableFigure()
      */
-    public ScalableFigure getScalableFigure()
-    {
-        if(null == currentZoomManager)
-           return null;
-            
-       return currentZoomManager.getScalableFigure();
+    public ScalableFigure getScalableFigure() {
+        if (null == currentZoomManager)
+            return null;
+
+        return currentZoomManager.getScalableFigure();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getUIMultiplier()
      */
-    public double getUIMultiplier()
-    {
-        if(null == currentZoomManager)
+    public double getUIMultiplier() {
+        if (null == currentZoomManager)
             return 1;
-            
+
         return currentZoomManager.getUIMultiplier();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getViewport()
      */
-    public Viewport getViewport()
-    {
-        if(null == currentZoomManager)
+    public Viewport getViewport() {
+        if (null == currentZoomManager)
             return null;
-            
+
         return currentZoomManager.getViewport();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getZoom()
      */
-    public double getZoom()
-    {
-        if(null == currentZoomManager)
+    public double getZoom() {
+        if (null == currentZoomManager)
             return 1;
-            
+
         return currentZoomManager.getZoom();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getZoomAsText()
      */
-    public String getZoomAsText()
-    {
-        if(null == currentZoomManager)
+    public String getZoomAsText() {
+        if (null == currentZoomManager)
             return " 100%"; //$NON-NLS-1$
-            
+
         return currentZoomManager.getZoomAsText();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getZoomLevels()
      */
-    public double[] getZoomLevels()
-    {
-        if(null == currentZoomManager)
-            return new double[] {1};
-            
+    public double[] getZoomLevels() {
+        if (null == currentZoomManager)
+            return new double[] { 1 };
+
         return currentZoomManager.getZoomLevels();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#getZoomLevelsAsText()
      */
-    public String[] getZoomLevelsAsText()
-    {
-        if(null == currentZoomManager)
-            return new String[] {" 100%"}; //$NON-NLS-1$
-            
+    public String[] getZoomLevelsAsText() {
+        if (null == currentZoomManager)
+            return new String[] { " 100%" }; //$NON-NLS-1$
+
         return currentZoomManager.getZoomLevelsAsText();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#setUIMultiplier(double)
      */
-    public void setUIMultiplier(double multiplier)
-    {
-        if(null == currentZoomManager)
-            return ;
-            
+    public void setUIMultiplier(double multiplier) {
+        if (null == currentZoomManager)
+            return;
+
         currentZoomManager.setUIMultiplier(multiplier);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#setViewLocation(org.eclipse.draw2d.geometry.Point)
      */
-    public void setViewLocation(Point p)
-    {
-        if(null == currentZoomManager)
-            return ;
-            
+    public void setViewLocation(Point p) {
+        if (null == currentZoomManager)
+            return;
+
         currentZoomManager.setViewLocation(p);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#setZoom(double)
      */
-    public void setZoom(double zoom)
-    {
-        if(null == currentZoomManager)
-            return ;
-            
+    public void setZoom(double zoom) {
+        if (null == currentZoomManager)
+            return;
+
         currentZoomManager.setZoom(zoom);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#setZoomAnimationStyle(int)
      */
-    public void setZoomAnimationStyle(int style)
-    {
-        if(null == currentZoomManager)
-            return ;
-            
+    public void setZoomAnimationStyle(int style) {
+        if (null == currentZoomManager)
+            return;
+
         currentZoomManager.setZoomAnimationStyle(style);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#setZoomAsText(java.lang.String)
      */
-    public void setZoomAsText(String zoomString)
-    {
-        if(null == currentZoomManager)
-            return ;
-            
+    public void setZoomAsText(String zoomString) {
+        if (null == currentZoomManager)
+            return;
+
         currentZoomManager.setZoomAsText(zoomString);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#setZoomLevels(double[])
      */
-    public void setZoomLevels(double[] zoomLevels)
-    {
-        if(null == currentZoomManager)
-            return ;
-            
+    public void setZoomLevels(double[] zoomLevels) {
+        if (null == currentZoomManager)
+            return;
+
         currentZoomManager.setZoomLevels(zoomLevels);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#zoomIn()
      */
-    public void zoomIn()
-    {
-        if(null == currentZoomManager)
-            return ;
-            
+    public void zoomIn() {
+        if (null == currentZoomManager)
+            return;
+
         currentZoomManager.zoomIn();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#zoomOut()
      */
-    public void zoomOut()
-    {
-        if(null == currentZoomManager)
-            return ;
-            
+    public void zoomOut() {
+        if (null == currentZoomManager)
+            return;
+
         currentZoomManager.zoomOut();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editparts.ZoomManager#zoomTo(org.eclipse.draw2d.geometry.Rectangle)
      */
-    public void zoomTo(Rectangle rect)
-    {
-        if(null == currentZoomManager)
-            return ;
-            
+    public void zoomTo(Rectangle rect) {
+        if (null == currentZoomManager)
+            return;
+
         currentZoomManager.zoomTo(rect);
     }
 

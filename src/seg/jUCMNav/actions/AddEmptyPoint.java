@@ -1,4 +1,5 @@
 package seg.jUCMNav.actions;
+
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -16,8 +17,7 @@ import urn.URNspec;
  * @author Ali
  */
 public class AddEmptyPoint extends URNSelectionAction {
-    public static final String ADDEMPTYPOINT= "seg.jUCMNav.AddEmptyPoint"; //$NON-NLS-1$
-    
+    public static final String ADDEMPTYPOINT = "seg.jUCMNav.AddEmptyPoint"; //$NON-NLS-1$
 
     /**
      * @param part
@@ -25,7 +25,7 @@ public class AddEmptyPoint extends URNSelectionAction {
     public AddEmptyPoint(IWorkbenchPart part) {
         super(part);
         setId(ADDEMPTYPOINT);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Node16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Node16.gif")); //$NON-NLS-1$
     }
 
     /**
@@ -35,13 +35,13 @@ public class AddEmptyPoint extends URNSelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.DIRECTIONARROW:
-              return true;
+            return true;
         case SelectionHelper.NODECONNECTION:
             return true;
         }
         return false;
     }
-    
+
     /**
      * Returns the appropriate Empty Point creation command, given the current selection.
      */
@@ -49,26 +49,25 @@ public class AddEmptyPoint extends URNSelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         PathNode newEmptyPoint = getNewEmptyPoint(sel.getUrnspec());
         Command comm;
-        
-        
+
         switch (sel.getSelectionType()) {
 
         case SelectionHelper.DIRECTIONARROW:
-           comm = new ReplaceEmptyPointCommand(sel.getDirectionarrow(),newEmptyPoint);         
+            comm = new ReplaceEmptyPointCommand(sel.getDirectionarrow(), newEmptyPoint);
             return comm;
 
         case SelectionHelper.NODECONNECTION:
-            comm = new SplitLinkCommand(sel.getMap(), newEmptyPoint, sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y ) ;         
-             return comm;
-             
+            comm = new SplitLinkCommand(sel.getMap(), newEmptyPoint, sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y);
+            return comm;
+
         default:
             return null;
         }
 
     }
-    
+
     /**
-     * Creates a new empty point. 
+     * Creates a new empty point.
      * 
      * @param urn
      * @return an Empty Point

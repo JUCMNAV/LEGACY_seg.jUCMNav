@@ -34,7 +34,7 @@ import urncore.Label;
  * XYLayoutEditPolicy for the MapAndPathGraphEditPart. Handles creation of new elements and moving/resizing of existing ones.
  * 
  * @author etremblay, jkealey
- *  
+ * 
  */
 public class MapXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
 
@@ -69,7 +69,7 @@ public class MapXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
         } else if (newObjectType == ComponentRef.class) {
             createCommand = handleCreateComponentRef(request, constraint);
         } else if (newObjectType == Comment.class) {
-        	createCommand = handleCreateComment(request, constraint);
+            createCommand = handleCreateComment(request, constraint);
         }
 
         return createCommand;
@@ -87,8 +87,8 @@ public class MapXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
         ComponentRef compRef = (ComponentRef) request.getNewObject();
 
         AddContainerRefCommand create = new AddContainerRefCommand(getMap(), compRef);
-        SetConstraintBoundContainerRefCompoundCommand moveResize = new SetConstraintBoundContainerRefCompoundCommand(compRef, constraint.x, constraint.y, constraint.width,
-                constraint.height);
+        SetConstraintBoundContainerRefCompoundCommand moveResize = new SetConstraintBoundContainerRefCompoundCommand(compRef, constraint.x, constraint.y,
+                constraint.width, constraint.height);
 
         // after creation, move and resize the component;
         createCommand = create.chain(moveResize);
@@ -143,14 +143,13 @@ public class MapXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
         } else if (child.getModel() instanceof Label) {
             return handleMoveLabel(child, constraint);
         } else if (child.getModel() instanceof Comment) {
-        	return handleMoveResizeComment(child, constraint);
+            return handleMoveResizeComment(child, constraint);
         } else {
             System.out.println(Messages.getString("MapAndPathGraphXYLayoutEditPolicy.unknownModelElement")); //$NON-NLS-1$
             return null;
         }
 
     }
-
 
     /**
      * Handles moving a NodeConnection condition.

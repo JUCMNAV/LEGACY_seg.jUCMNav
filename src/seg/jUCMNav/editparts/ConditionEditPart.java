@@ -42,8 +42,8 @@ public class ConditionEditPart extends LabelEditPart {
      * 
      * NodeConnection conditions are placed relative to the middle of the node connection.
      * 
-     * For pre/post-conditions, refer to superclass.   
-     *  
+     * For pre/post-conditions, refer to superclass.
+     * 
      */
     protected Point calculateModelElementPosition(Label label, Dimension labelDimension) {
         Point location = new Point(0, 0);
@@ -59,7 +59,6 @@ public class ConditionEditPart extends LabelEditPart {
 
     }
 
-
     /**
      * Returns the node connection; no check to see if we are actually linking to a node connection
      * 
@@ -71,17 +70,17 @@ public class ConditionEditPart extends LabelEditPart {
 
     /**
      * Opens the direct edit manager.
-     *  
+     * 
      */
     protected void performDirectEdit() {
-    	// open condition editor 
+        // open condition editor
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         CodeEditor wizard = new CodeEditor();
-        
-        wizard.init(PlatformUI.getWorkbench(), null, (EObject)getModel());
+
+        wizard.init(PlatformUI.getWorkbench(), null, (EObject) getModel());
         WizardDialog dialog = new WizardDialog(shell, wizard);
         dialog.open();
-        
+
     }
 
     /**
@@ -91,7 +90,7 @@ public class ConditionEditPart extends LabelEditPart {
         LabelFigure tableFigure = (LabelFigure) getFigure();
         tableFigure.setVisible(true);
         // remove surrounding []
-        if (tableFigure.getEditableText().startsWith("[") && tableFigure.getEditableText().length()>2)
+        if (tableFigure.getEditableText().startsWith("[") && tableFigure.getEditableText().length() > 2)
             tableFigure.setEditableText(tableFigure.getEditableText().substring(1, tableFigure.getEditableText().length() - 1));
 
         refreshVisuals();
@@ -120,31 +119,28 @@ public class ConditionEditPart extends LabelEditPart {
                 labelFigure.setVisible(false);
                 this.setSelected(0);
             }
-            
+
             // Set tool tip with description and formal expression, if any
-            String toolTipText=""; //$NON-NLS-1$
-            if (cond.getExpression()!=null && !cond.getExpression().equals("")) {   //$NON-NLS-1$
-            	if (cond.getDescription()!=null && !cond.getDescription().equals("")) { //$NON-NLS-1$
-                	// Both
-            		toolTipText = " " + cond.getDescription() + " \n " + cond.getExpression() + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            	}
-            	else {
-                	// Expression only
-            		toolTipText = " " + cond.getExpression() + " "; //$NON-NLS-1$ //$NON-NLS-2$            		
-            	}
+            String toolTipText = ""; //$NON-NLS-1$
+            if (cond.getExpression() != null && !cond.getExpression().equals("")) { //$NON-NLS-1$
+                if (cond.getDescription() != null && !cond.getDescription().equals("")) { //$NON-NLS-1$
+                    // Both
+                    toolTipText = " " + cond.getDescription() + " \n " + cond.getExpression() + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                } else {
+                    // Expression only
+                    toolTipText = " " + cond.getExpression() + " "; //$NON-NLS-1$ //$NON-NLS-2$            		
+                }
+            } else {
+                if (cond.getDescription() != null && !cond.getDescription().equals("")) { //$NON-NLS-1$
+                    // Description only
+                    toolTipText = " " + cond.getDescription() + " "; //$NON-NLS-1$ //$NON-NLS-2$
+                }
             }
-            else {            	
-            	if (cond.getDescription()!=null && !cond.getDescription().equals("")) { //$NON-NLS-1$
-                	// Description only
-            		toolTipText = " " + cond.getDescription() + " "; //$NON-NLS-1$ //$NON-NLS-2$
-            	}
-            }
-            
-            if (toolTipText.equals("")) {   //$NON-NLS-1$
-            	labelFigure.setToolTip(null);
-            }
-            else {
-            	labelFigure.setToolTip(new org.eclipse.draw2d.Label (toolTipText));
+
+            if (toolTipText.equals("")) { //$NON-NLS-1$
+                labelFigure.setToolTip(null);
+            } else {
+                labelFigure.setToolTip(new org.eclipse.draw2d.Label(toolTipText));
             }
 
             // get color from preferences

@@ -14,27 +14,25 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 
 /**
- * This command is only be called from the edit part. 
+ * This command is only be called from the edit part.
  * 
- * If the path node is a responsibility, and there is no more references,
- * depending of the preferences, it might also delete the definition.
+ * If the path node is a responsibility, and there is no more references, depending of the preferences, it might also delete the definition.
  * 
  * @author jfroy
- *
+ * 
  */
 public class DeletePathNodeCommand extends CompoundCommand {
 
-	private PathNode pathNode;
-	private Map editPartRegistry;
-	
-	public DeletePathNodeCommand(PathNode pn, java.util.Map editpartregistry)
-	{
-		this.pathNode = pn;
-		this.editPartRegistry = editpartregistry;
-		setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode"));
-		
-	}
-	
+    private PathNode pathNode;
+    private Map editPartRegistry;
+
+    public DeletePathNodeCommand(PathNode pn, java.util.Map editpartregistry) {
+        this.pathNode = pn;
+        this.editPartRegistry = editpartregistry;
+        setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode"));
+
+    }
+
     /**
      * Returns true even if no commands exist.
      * 
@@ -56,12 +54,12 @@ public class DeletePathNodeCommand extends CompoundCommand {
         else
             return super.canUndo();
     }
-    
+
     /**
      * Late building
      */
     public void execute() {
-    	build();
+        build();
         super.execute();
     }
 
@@ -69,17 +67,15 @@ public class DeletePathNodeCommand extends CompoundCommand {
      * Builds a sequence of DeleteGRLNodeCommands
      * 
      */
-	private void build() {
+    private void build() {
 
-		add(new RemovePathNodeCommand(pathNode, editPartRegistry));
-		
-        //Verify if it is a responsibility and if the definition can be delete.
-        if(pathNode instanceof RespRef && ((RespRef)pathNode).getRespDef()!=null 
-        		&& (((RespRef)pathNode).getRespDef().getRespRefs().size() <= 1 &&
-        		DeletePreferences.getDeleteDefinition(pathNode)))
-        {
-        	add(new DeleteResponsibilityCommand(((RespRef)pathNode).getRespDef()));
-        } 
+        add(new RemovePathNodeCommand(pathNode, editPartRegistry));
 
-	}
+        // Verify if it is a responsibility and if the definition can be delete.
+        if (pathNode instanceof RespRef && ((RespRef) pathNode).getRespDef() != null
+                && (((RespRef) pathNode).getRespDef().getRespRefs().size() <= 1 && DeletePreferences.getDeleteDefinition(pathNode))) {
+            add(new DeleteResponsibilityCommand(((RespRef) pathNode).getRespDef()));
+        }
+
+    }
 }

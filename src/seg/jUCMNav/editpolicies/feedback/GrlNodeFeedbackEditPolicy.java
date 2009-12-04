@@ -11,7 +11,7 @@ import seg.jUCMNav.figures.BeliefFigure;
  * On mouse hover on GRLNode (IntentionalElement and Beliefs and KPIInformationElement), the nodes become thicker.
  * 
  * @author Jean-François Roy, pchen
- *
+ * 
  */
 public class GrlNodeFeedbackEditPolicy extends GraphicalEditPolicy {
 
@@ -22,25 +22,25 @@ public class GrlNodeFeedbackEditPolicy extends GraphicalEditPolicy {
     private Shape getFigure() {
         return (Shape) ((ModelElementEditPart) this.getHost()).getFigure();
     }
-    
+
     /**
      * Return to smaller line widths.
      */
     public void eraseTargetFeedback(Request request) {
-        if (getFigure() instanceof BeliefFigure){
+        if (getFigure() instanceof BeliefFigure) {
             getFigure().setLineWidth(2);
-        } else{
+        } else {
             getFigure().setLineWidth(3);
         }
     }
-    
+
     /**
      * Put larger line widths,.
      */
     public void showTargetFeedback(Request request) {
-        if (getFigure() instanceof BeliefFigure){
+        if (getFigure() instanceof BeliefFigure) {
             getFigure().setLineWidth(4);
-        } else{
+        } else {
             getFigure().setLineWidth(6);
         }
     }

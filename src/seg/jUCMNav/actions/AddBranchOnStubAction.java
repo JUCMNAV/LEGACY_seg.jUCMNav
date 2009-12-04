@@ -9,26 +9,27 @@ import seg.jUCMNav.model.commands.create.AddBranchOnStubCommand;
 import ucm.map.Stub;
 
 /**
- * Action to add an additional branch to an existing stub. 
+ * Action to add an additional branch to an existing stub.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class AddBranchOnStubAction extends URNSelectionAction {
 
     public static final String ADDBRANCH = "seg.jUCMNav.AddInBranchOnStub"; //$NON-NLS-1$
     public static final String ADDBRANCH2 = "seg.jUCMNav.AddOutBranchOnStub"; //$NON-NLS-1$
     private boolean isInBranch;
+
     /**
      * @param part
      */
     public AddBranchOnStubAction(IWorkbenchPart part, boolean isInBranch) {
         super(part);
-        this.isInBranch=isInBranch;
+        this.isInBranch = isInBranch;
         if (isInBranch)
-        	setId(ADDBRANCH);
+            setId(ADDBRANCH);
         else
-        	setId(ADDBRANCH2);
+            setId(ADDBRANCH2);
     }
 
     /**
@@ -39,10 +40,10 @@ public class AddBranchOnStubAction extends URNSelectionAction {
 
         switch (sel.getSelectionType()) {
         case SelectionHelper.STUB:
-        	if (isInBranch)
-        		setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/inBinding16.gif")); //$NON-NLS-1$
-        	else 
-        		setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/outBinding16.gif")); //$NON-NLS-1$
+            if (isInBranch)
+                setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/inBinding16.gif")); //$NON-NLS-1$
+            else
+                setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/outBinding16.gif")); //$NON-NLS-1$
             break;
         default:
             return false;

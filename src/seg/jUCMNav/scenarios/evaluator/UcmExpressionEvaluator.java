@@ -10,14 +10,16 @@ import seg.jUCMNav.scenarios.parser.jUCMNavParserTreeConstants;
  * Evaluates a parsed javacc/jjtree in a certain {@link UcmEnvironment}
  * 
  * @author jkealey
- *
+ * 
  */
 public class UcmExpressionEvaluator {
     /**
      * Evaluates a parsed javacc/jjtree in a certain {@link UcmEnvironment}
      * 
-     * @param root the result of a javacc/jjtree parsing
-     * @param env the environment
+     * @param root
+     *            the result of a javacc/jjtree parsing
+     * @param env
+     *            the environment
      * @return the parsed result (Boolean, Integer, {@link jUCMNavType}, null)
      */
     public static Object evaluate(SimpleNode root, UcmEnvironment env) {
@@ -29,28 +31,26 @@ public class UcmExpressionEvaluator {
 
             if (result)
                 evaluate(((SimpleNode) root.jjtGetChild(1)), env);
-            else if (root.jjtGetNumChildren()==3)
+            else if (root.jjtGetNumChildren() == 3)
                 evaluate(((SimpleNode) root.jjtGetChild(2)), env);
 
             return null;
         }
         case jUCMNavParserTreeConstants.JJTSTARTRESPONSIBILITY:
-        case jUCMNavParserTreeConstants.JJTCOMPOUNDSTATEMENT:
-        {
+        case jUCMNavParserTreeConstants.JJTCOMPOUNDSTATEMENT: {
             for (int i = 0; i < root.jjtGetNumChildren(); i++) {
                 SimpleNode node = ((SimpleNode) root.jjtGetChild(i));
                 evaluate(node, env);
             }
             return null;
         }
-        case jUCMNavParserTreeConstants.JJTASSIGNMENT:
-        {
+        case jUCMNavParserTreeConstants.JJTASSIGNMENT: {
             SimpleNode node = ((SimpleNode) root.jjtGetChild(0));
             Object value = evaluate(((SimpleNode) root.jjtGetChild(1)), env);
-            
-            //System.out.println("Setting " + node.getText() + " to " + value );
+
+            // System.out.println("Setting " + node.getText() + " to " + value );
             env.setValue(node.getText(), value);
-            
+
             return null;
         }
         case jUCMNavParserTreeConstants.JJTIMPLICATION:
@@ -213,14 +213,14 @@ public class UcmExpressionEvaluator {
         case jUCMNavParserTreeConstants.JJTEXCLUSIVEDISJUNCTION:
         case jUCMNavParserTreeConstants.JJTINCLUSIVEDISJUNCTION:
         case jUCMNavParserTreeConstants.JJTADDITION:
-        case jUCMNavParserTreeConstants.JJTSUBSTRACTION: 
-        case jUCMNavParserTreeConstants.JJTMULTIPLICATION: 
-        case jUCMNavParserTreeConstants.JJTGREATEROREQUALTO: 
-        case jUCMNavParserTreeConstants.JJTGREATERTHAN: 
+        case jUCMNavParserTreeConstants.JJTSUBSTRACTION:
+        case jUCMNavParserTreeConstants.JJTMULTIPLICATION:
+        case jUCMNavParserTreeConstants.JJTGREATEROREQUALTO:
+        case jUCMNavParserTreeConstants.JJTGREATERTHAN:
         case jUCMNavParserTreeConstants.JJTLOWEROREQUALTO:
         case jUCMNavParserTreeConstants.JJTLOWERTHAN:
         case jUCMNavParserTreeConstants.JJTEQUALITY:
-        case jUCMNavParserTreeConstants.JJTINEQUALITY: 
+        case jUCMNavParserTreeConstants.JJTINEQUALITY:
             return jUCMNavType.VOID;
         default:
             System.out.println(Messages.getString("UcmExpressionEvaluator.ErrorUnimplemented")); //$NON-NLS-1$
@@ -229,13 +229,15 @@ public class UcmExpressionEvaluator {
 
     }
 
-    
     /**
      * Applies boolean operations represented in the parsed object tree using Java constructs.
-     *  
-     * @param operation  a {@link jUCMNavParserTreeConstants} representing a boolean operator
-     * @param result the first parameter
-     * @param result2 the second parameter
+     * 
+     * @param operation
+     *            a {@link jUCMNavParserTreeConstants} representing a boolean operator
+     * @param result
+     *            the first parameter
+     * @param result2
+     *            the second parameter
      * @return the boolean result
      */
     private static boolean applyBooleanOperation(int operation, boolean result, boolean result2) {

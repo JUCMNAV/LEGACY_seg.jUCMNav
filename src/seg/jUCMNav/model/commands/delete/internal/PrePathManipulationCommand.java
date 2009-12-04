@@ -70,9 +70,9 @@ public class PrePathManipulationCommand extends CompoundCommand {
         // if (cmd.getNcInBefore().size() == 1 && cmd.getNcOutBefore().size() == 1 || mustReplaceWithEmpty) {
         // we are rewiring the paths underneath the element
         if (rewire && pn.getSucc().size() > 0) {
-            //add(new PreDeleteUrnModelElementCommand((NodeConnection) pn.getSucc().get(0)));
+            // add(new PreDeleteUrnModelElementCommand((NodeConnection) pn.getSucc().get(0)));
             add(new RewirePathCommand(pn));
-            
+
         }
 
     }

@@ -20,11 +20,10 @@ import seg.jUCMNav.views.property.URNElementPropertySource;
 import urncore.IURNDiagram;
 
 /**
- * Edit part associate with BeliefLink. These connection connect a belief to an
- * IntentionalElementRef of a LinkRef
+ * Edit part associate with BeliefLink. These connection connect a belief to an IntentionalElementRef of a LinkRef
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class BeliefLinkEditPart extends AbstractConnectionEditPart {
 
@@ -60,7 +59,7 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
 
             int type = notification.getEventType();
             int featureId = notification.getFeatureID(GrlPackage.class);
-            if (type == Notification.SET){ //If a modification to the properties have been done
+            if (type == Notification.SET) { // If a modification to the properties have been done
                 refreshVisuals();
             }
         }
@@ -72,7 +71,7 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
             target = newTarget;
         }
     }
-    
+
     ElementLinkAdapter adapter;
 
     private IURNDiagram diagram;
@@ -83,7 +82,7 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
      */
     public BeliefLinkEditPart(BeliefLink link, IURNDiagram diagram) {
         super();
-        
+
         setModel(link);
         this.diagram = diagram;
 
@@ -100,9 +99,9 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
             ((EObject) getModel()).eAdapters().add(adapter);
         super.activate();
     }
-    
+
     /**
-     * Creates edit policies. 
+     * Creates edit policies.
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
@@ -118,13 +117,13 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
      */
     protected IFigure createFigure() {
         PolylineConnection connection = new PolylineConnection();
-        
+
         connection.setLineWidth(2);
         connection.setLineStyle(SWT.LINE_DASH);
         connection.setAntialias(SWT.ON);
         return connection;
     }
-    
+
     /**
      * Removes the adapter.
      * 
@@ -135,7 +134,7 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
             ((EObject) getModel()).eAdapters().remove(adapter);
         super.deactivate();
     }
-    
+
     /**
      * Returns a URNElementPropertySource
      * 
@@ -150,16 +149,16 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
         }
         return super.getAdapter(adapter);
     }
-    
+
     /**
      * Returns the BeliefLink
-     *
-     * @return  BeliefLink.
+     * 
+     * @return BeliefLink.
      */
     public BeliefLink getBeliefLink() {
         return (BeliefLink) getModel();
     }
-    
+
     /**
      * 
      * @return the diagram containing the connection.
@@ -167,7 +166,7 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
     public IURNDiagram getDiagram() {
         return diagram;
     }
-    
+
     /**
      * Is informed when the model changes.
      * 

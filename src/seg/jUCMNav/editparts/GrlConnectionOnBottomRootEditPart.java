@@ -31,22 +31,21 @@ public class GrlConnectionOnBottomRootEditPart extends URNRootEditPart {
      * Overwrite this function and add the connection layer before the primary layer. This will make the nodes display on top of the connections.
      */
     protected LayeredPane createPrintableLayers() {
-         FreeformLayeredPane layeredPane = new FreeformLayeredPane();
-        
-         FreeformLayer comp = new FreeformLayer();
-         comp.setLayoutManager(new FreeformLayout());
-        
-                
-         layeredPane.add(comp, COMPONENT_LAYER);
+        FreeformLayeredPane layeredPane = new FreeformLayeredPane();
 
-         layeredPane.add(new FreeformLayer(), PRIMARY_LAYER);
-         layeredPane.add(new ConnectionLayer(), CONNECTION_LAYER);
-         return layeredPane;
+        FreeformLayer comp = new FreeformLayer();
+        comp.setLayoutManager(new FreeformLayout());
+
+        layeredPane.add(comp, COMPONENT_LAYER);
+
+        layeredPane.add(new FreeformLayer(), PRIMARY_LAYER);
+        layeredPane.add(new ConnectionLayer(), CONNECTION_LAYER);
+        return layeredPane;
 
     }
 
     /**
-     * Sets the mode (what is shown (all / versus filtered view)) for all children. 
+     * Sets the mode (what is shown (all / versus filtered view)) for all children.
      * 
      * @see seg.jUCMNav.editparts.URNRootEditPart#setMode(int)
      */

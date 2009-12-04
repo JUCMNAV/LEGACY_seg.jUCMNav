@@ -23,158 +23,153 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 import urn.URNspec;
 
 /**
- * New variable name / type selection page.  
+ * New variable name / type selection page.
  * 
  */
 public class AddVariableWizardPage extends WizardPage {
-	URNspec urn;
-	
-	private Text variableName;
-	private String sVariableName;
-	
-	private String sType;
+    URNspec urn;
 
-	
-	/**
-	 * Initializes the wizard page with the URNspec. 
-	 * 
-	 * @param urn
-	 */
-	public AddVariableWizardPage(URNspec urn) {
-		super("wizardPage"); //$NON-NLS-1$
+    private Text variableName;
+    private String sVariableName;
 
-		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
+    private String sType;
 
-		setTitle(Messages.getString("AddVariableWizardPage.NewVariableWizard")); //$NON-NLS-1$
-		setDescription(Messages.getString("AddVariableWizardPage.PleaseNameVariable")); //$NON-NLS-1$
-		this.urn=urn;
-	}
+    /**
+     * Initializes the wizard page with the URNspec.
+     * 
+     * @param urn
+     */
+    public AddVariableWizardPage(URNspec urn) {
+        super("wizardPage"); //$NON-NLS-1$
 
-	/**
-	 * Creates the page.
-	 */
-	public void createControl(Composite parent) {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_addvariable"); //$NON-NLS-1$
-		Composite container = new Composite(parent, SWT.NULL);
+        this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
-		GridLayout layout = new GridLayout();
-		container.setLayout(layout);
-		layout.numColumns = 2;
-		layout.verticalSpacing = 5;
+        setTitle(Messages.getString("AddVariableWizardPage.NewVariableWizard")); //$NON-NLS-1$
+        setDescription(Messages.getString("AddVariableWizardPage.PleaseNameVariable")); //$NON-NLS-1$
+        this.urn = urn;
+    }
 
-		Label label = new Label(container, SWT.NULL);
-		label.setText(Messages.getString("AddVariableWizardPage.VariableName")); //$NON-NLS-1$
+    /**
+     * Creates the page.
+     */
+    public void createControl(Composite parent) {
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_addvariable"); //$NON-NLS-1$
+        Composite container = new Composite(parent, SWT.NULL);
 
+        GridLayout layout = new GridLayout();
+        container.setLayout(layout);
+        layout.numColumns = 2;
+        layout.verticalSpacing = 5;
 
-		variableName = new Text(container, SWT.BORDER);
-		variableName.setText(Messages.getString("AddVariableWizardPage.Variable")); //$NON-NLS-1$
+        Label label = new Label(container, SWT.NULL);
+        label.setText(Messages.getString("AddVariableWizardPage.VariableName")); //$NON-NLS-1$
 
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		variableName.setLayoutData(gd);
-		variableName.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
-		
-		label = new Label(container, SWT.NULL);
-		label.setText(Messages.getString("AddVariableWizardPage.VariableType")); //$NON-NLS-1$
-		
-		Composite composite = new Composite(container, SWT.NULL);
-		composite.setLayout(new RowLayout(SWT.VERTICAL));
-		 
-		Button btnType = new Button(composite, SWT.RADIO);
-		btnType.setText(Messages.getString("AddVariableWizardPage.Boolean")); //$NON-NLS-1$
-		btnType.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if (!ScenarioUtils.sTypeBoolean.equals(sType)) {
-					((AddVariableWizardInitsPage)getWizard().getPages()[2]).setupInitializations();
-					sType=ScenarioUtils.sTypeBoolean;
-				}
-				dialogChanged();
-			}
-		});
+        variableName = new Text(container, SWT.BORDER);
+        variableName.setText(Messages.getString("AddVariableWizardPage.Variable")); //$NON-NLS-1$
 
-		btnType.setSelection(true);
-		sType=ScenarioUtils.sTypeBoolean;
-		
-		btnType = new Button(composite, SWT.RADIO);
-		btnType.setText(Messages.getString("AddVariableWizardPage.Integer")); //$NON-NLS-1$
-		btnType.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if (!ScenarioUtils.sTypeInteger.equals(sType)) {
-					((AddVariableWizardInitsPage)getWizard().getPages()[2]).setupInitializations();
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        variableName.setLayoutData(gd);
+        variableName.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                dialogChanged();
+            }
+        });
 
-					sType=ScenarioUtils.sTypeInteger;
-				}
-				dialogChanged();
-			}
-		});
-		
-		btnType = new Button(composite, SWT.RADIO);
-		btnType.setText(Messages.getString("AddVariableWizardPage.Enumeration")); //$NON-NLS-1$
-		btnType.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if (!ScenarioUtils.sTypeEnumeration.equals(sType)) {
-					((AddVariableWizardInitsPage)getWizard().getPages()[2]).setupInitializations();
+        label = new Label(container, SWT.NULL);
+        label.setText(Messages.getString("AddVariableWizardPage.VariableType")); //$NON-NLS-1$
 
-					sType=ScenarioUtils.sTypeEnumeration;
-				}
-				dialogChanged();
-			}
-		});
+        Composite composite = new Composite(container, SWT.NULL);
+        composite.setLayout(new RowLayout(SWT.VERTICAL));
 
+        Button btnType = new Button(composite, SWT.RADIO);
+        btnType.setText(Messages.getString("AddVariableWizardPage.Boolean")); //$NON-NLS-1$
+        btnType.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                if (!ScenarioUtils.sTypeBoolean.equals(sType)) {
+                    ((AddVariableWizardInitsPage) getWizard().getPages()[2]).setupInitializations();
+                    sType = ScenarioUtils.sTypeBoolean;
+                }
+                dialogChanged();
+            }
+        });
 
-		dialogChanged();
-		setControl(container);
+        btnType.setSelection(true);
+        sType = ScenarioUtils.sTypeBoolean;
 
-	}
+        btnType = new Button(composite, SWT.RADIO);
+        btnType.setText(Messages.getString("AddVariableWizardPage.Integer")); //$NON-NLS-1$
+        btnType.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                if (!ScenarioUtils.sTypeInteger.equals(sType)) {
+                    ((AddVariableWizardInitsPage) getWizard().getPages()[2]).setupInitializations();
 
+                    sType = ScenarioUtils.sTypeInteger;
+                }
+                dialogChanged();
+            }
+        });
 
-	/**
-	 * Ensures that the selection is legal
-	 */
-	private void dialogChanged() {
-		sVariableName = URNNamingHelper.cleanVariableName(variableName.getText());
-		
-		
-		if (URNNamingHelper.doesVariableNameExist(urn, sVariableName))
-			updateStatus(Messages.getString("AddVariableWizardPage.VariableNameAlreadyInUse")); //$NON-NLS-1$
-		else if (sType==null)
-			updateStatus(Messages.getString("AddVariableWizardPage.PleaseSelectType")); //$NON-NLS-1$
-		else
-			updateStatus(null);
+        btnType = new Button(composite, SWT.RADIO);
+        btnType.setText(Messages.getString("AddVariableWizardPage.Enumeration")); //$NON-NLS-1$
+        btnType.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                if (!ScenarioUtils.sTypeEnumeration.equals(sType)) {
+                    ((AddVariableWizardInitsPage) getWizard().getPages()[2]).setupInitializations();
 
-	}
+                    sType = ScenarioUtils.sTypeEnumeration;
+                }
+                dialogChanged();
+            }
+        });
 
-	/**
-	 * Updates the status of the window
-	 * 
-	 * @param message
-	 *            the error message or null if no error message.
-	 */
-	private void updateStatus(String message) {
-		setErrorMessage(message);
-		setPageComplete(message == null);
+        dialogChanged();
+        setControl(container);
 
-	}
+    }
 
-	/**
-	 * Returns the variable name chosen by the user. 
-	 * 
-	 * @return the variable name. 
-	 */
-	public String getVariableName() {
-		return sVariableName;
-	}
+    /**
+     * Ensures that the selection is legal
+     */
+    private void dialogChanged() {
+        sVariableName = URNNamingHelper.cleanVariableName(variableName.getText());
 
-	/**
-	 * Returns the variable type (constant from ScenarioUtils)
-	 * 
-	 * @return variable type. 
-	 */
-	public String getVariableType() {
-		return sType;
-	}
+        if (URNNamingHelper.doesVariableNameExist(urn, sVariableName))
+            updateStatus(Messages.getString("AddVariableWizardPage.VariableNameAlreadyInUse")); //$NON-NLS-1$
+        else if (sType == null)
+            updateStatus(Messages.getString("AddVariableWizardPage.PleaseSelectType")); //$NON-NLS-1$
+        else
+            updateStatus(null);
+
+    }
+
+    /**
+     * Updates the status of the window
+     * 
+     * @param message
+     *            the error message or null if no error message.
+     */
+    private void updateStatus(String message) {
+        setErrorMessage(message);
+        setPageComplete(message == null);
+
+    }
+
+    /**
+     * Returns the variable name chosen by the user.
+     * 
+     * @return the variable name.
+     */
+    public String getVariableName() {
+        return sVariableName;
+    }
+
+    /**
+     * Returns the variable type (constant from ScenarioUtils)
+     * 
+     * @return variable type.
+     */
+    public String getVariableType() {
+        return sType;
+    }
 
 }

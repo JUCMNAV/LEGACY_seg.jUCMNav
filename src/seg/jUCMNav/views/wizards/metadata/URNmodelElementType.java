@@ -35,8 +35,7 @@ import urncore.URNmodelElement;
  */
 public class URNmodelElementType {
     public static final HashMap urnElementTypes = new HashMap();
-    public static final String[] urnElementTypeNames = new String[] { 
-    		Messages.getString("URNmodelElementType.All"), //$NON-NLS-1$
+    public static final String[] urnElementTypeNames = new String[] { Messages.getString("URNmodelElementType.All"), //$NON-NLS-1$
             Messages.getString("URNmodelElementType.Actor"), //$NON-NLS-1$
             Messages.getString("URNmodelElementType.Contribution"), //$NON-NLS-1$
             Messages.getString("URNmodelElementType.Decomposition"), //$NON-NLS-1$

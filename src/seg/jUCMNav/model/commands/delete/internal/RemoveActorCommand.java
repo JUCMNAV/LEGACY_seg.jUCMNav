@@ -15,7 +15,7 @@ import urn.URNspec;
  * Delete an actor definition. The definition should have no references
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class RemoveActorCommand extends Command implements JUCMNavCommand {
     // the actor to delete
@@ -23,7 +23,7 @@ public class RemoveActorCommand extends Command implements JUCMNavCommand {
 
     // the URNspec in which it is contained
     private URNspec urn;
-    
+
     /**
      * 
      */
@@ -50,14 +50,14 @@ public class RemoveActorCommand extends Command implements JUCMNavCommand {
 
         redo();
     }
-    
+
     /**
      * @return the actor to delete
      */
     public Actor getActorDef() {
         return actor;
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -78,8 +78,10 @@ public class RemoveActorCommand extends Command implements JUCMNavCommand {
     public void setActorDef(Actor actor) {
         this.actor = actor;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -89,7 +91,9 @@ public class RemoveActorCommand extends Command implements JUCMNavCommand {
         assert urn.getGrlspec().getActors().contains(getActorDef()) : "pre actor in model"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -104,7 +108,7 @@ public class RemoveActorCommand extends Command implements JUCMNavCommand {
      * 
      * @see org.eclipse.gef.commands.Command#undo()
      */
-	public void undo() {
+    public void undo() {
         testPostConditions();
 
         // re-add actor

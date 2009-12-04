@@ -1,4 +1,3 @@
-
 package seg.jUCMNav.editparts.treeEditparts;
 
 import grl.Actor;
@@ -15,13 +14,13 @@ import seg.jUCMNav.figures.ColorManager;
  * TreeEditPart for the actors
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class ActorTreeEditPart extends UrnModelElementTreeEditPart {
 
     /**
      * @param model
-     *          the actor
+     *            the actor
      */
     public ActorTreeEditPart(Actor model) {
         super(model);
@@ -40,24 +39,25 @@ public class ActorTreeEditPart extends UrnModelElementTreeEditPart {
     protected Actor getActor() {
         return (Actor) getModel();
     }
-    
+
     /**
-     * Returns the icon 
+     * Returns the icon
      */
     protected Image getImage() {
-        if (super.getImage() == null) {       
-            setImage((JUCMNavPlugin.getImage( "icons/GRLActor16.gif"))); //$NON-NLS-1$
+        if (super.getImage() == null) {
+            setImage((JUCMNavPlugin.getImage("icons/GRLActor16.gif"))); //$NON-NLS-1$
         }
         return super.getImage();
     }
-    
+
     /**
      * Sets unused definitions to a lighter color.
      * 
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-    	if (widget==null)return;
+        if (widget == null)
+            return;
         if (getActor().getContRefs().size() == 0)
             ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
         else

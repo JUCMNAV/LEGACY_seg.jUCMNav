@@ -117,7 +117,7 @@ public abstract class ExportExtensionPointHelper {
         return ((attrib != null) && attrib.equalsIgnoreCase("true")); //$NON-NLS-1$
 
     }
-    
+
     /**
      * 
      * @param id

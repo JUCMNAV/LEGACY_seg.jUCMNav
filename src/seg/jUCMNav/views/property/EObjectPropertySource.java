@@ -99,8 +99,8 @@ public class EObjectPropertySource implements IPropertySource2 {
     }
 
     /**
-     * This method is called by getPropertyDescriptors() to get a list of additional properties to add to this descriptor. Subclass can overwrite this method
-     * to add more properties to the property descriptor.
+     * This method is called by getPropertyDescriptors() to get a list of additional properties to add to this descriptor. Subclass can overwrite this method to
+     * add more properties to the property descriptor.
      */
     protected Vector addSpecificProperties() {
         return new Vector();
@@ -218,7 +218,7 @@ public class EObjectPropertySource implements IPropertySource2 {
             // conditions have expressions
             pd = new CodePropertyDescriptor(propertyid, ((RespRef) getEditableValue()).getRespDef());
         } else if (name.equals("description")) {
-        	pd = new TextAreaPropertyDescriptor(propertyid, attr.getName());
+            pd = new TextAreaPropertyDescriptor(propertyid, attr.getName());
         } else {
             pd = new TextPropertyDescriptor(propertyid, attr.getName());
         }

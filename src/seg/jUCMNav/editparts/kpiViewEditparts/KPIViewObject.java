@@ -56,7 +56,7 @@ public class KPIViewObject {
     public final static int DEFAULT_HEIGHT = 250;
     public final static int SHIFT_X = 20;
     public final static int SHIFT_Y = 10;
-    
+
     private int x = SHIFT_X;
     private int y = SHIFT_Y;
     private int width = DEFAULT_WIDTH;
@@ -95,8 +95,8 @@ public class KPIViewObject {
         if (elementLinks != null) {
             intentionalElementNames = new String[elementLinks.length];
             for (int i = 0; i < elementLinks.length; i++) {
-            	// TODO: Make sure this GRLLinkableElement is an IntentionalElement
-            	IntentionalElement intElem = (IntentionalElement) elementLinks[i].getDest();
+                // TODO: Make sure this GRLLinkableElement is an IntentionalElement
+                IntentionalElement intElem = (IntentionalElement) elementLinks[i].getDest();
                 if (intElem != null) {
                     String intElemName = intElem.getName();
                     intentionalElementNames[i] = intElemName;
@@ -127,7 +127,7 @@ public class KPIViewObject {
                 kpiInformationMap.put(kpiInfoElemName, kpiInfoSetting);
             }
         }
-        
+
         // calculate the preferred height
         KPIViewObjectFigure figure = new KPIViewObjectFigure(this);
         figure.setLocation(new Point(0, 0));

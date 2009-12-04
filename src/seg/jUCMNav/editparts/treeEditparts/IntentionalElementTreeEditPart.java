@@ -51,15 +51,15 @@ public class IntentionalElementTreeEditPart extends UrnModelElementTreeEditPart 
     protected Image getImage() {
         if (super.getImage() == null) {
             if (getElement().getType().getValue() == IntentionalElementType.GOAL)
-                setImage((JUCMNavPlugin.getImage( "icons/Goal16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Goal16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.SOFTGOAL)
-                setImage((JUCMNavPlugin.getImage( "icons/Softgoal16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Softgoal16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.TASK)
-                setImage((JUCMNavPlugin.getImage( "icons/Task16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Task16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.RESSOURCE)
-                setImage((JUCMNavPlugin.getImage( "icons/Resource16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Resource16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.INDICATOR)
-                setImage((JUCMNavPlugin.getImage( "icons/Indicator16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Indicator16.gif"))); //$NON-NLS-1$
         }
 
         return super.getImage();
@@ -87,7 +87,8 @@ public class IntentionalElementTreeEditPart extends UrnModelElementTreeEditPart 
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-    	if (widget==null)return;
+        if (widget == null)
+            return;
         if (getElement().getRefs().size() == 0)
             ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
         else

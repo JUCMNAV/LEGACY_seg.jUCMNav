@@ -18,47 +18,45 @@ import urn.URNspec;
  */
 public class VariablePropertySource extends URNElementPropertySource {
 
-	private int i = 0;
-	
-	/**
-	 * @param obj
-	 *            a Variable
-	 */
-	public VariablePropertySource(EObject obj) {
-		super(obj);
-	}
+    private int i = 0;
 
-	/**
-	 * Given the property id, return the contained value
-	 */
-	public Object getPropertyValue(Object id) {
+    /**
+     * @param obj
+     *            a Variable
+     */
+    public VariablePropertySource(EObject obj) {
+        super(obj);
+    }
 
-		// int propertyid = Integer.parseInt((String) id);
-		// EStructuralFeature feature =
-		// object.eClass().getEStructuralFeature(propertyid);
-		PropertyID propertyid = (PropertyID) id;
-		EStructuralFeature feature = propertyid.getFeature();
-		if (feature.getName() == "type") { //$NON-NLS-1$
-			Object result = getFeature(propertyid, feature);
-			result = returnPropertyValue(feature, result);
-			if (result.equals(ScenarioUtils.sTypeEnumeration) &&  ((Variable)getEditableValue()).getEnumerationType()!=null)
-				result = ((Variable)getEditableValue()).getEnumerationType().getName();
-			return result != null ? result : ""; //$NON-NLS-1$
-		}
-		else 
-			return super.getPropertyValue(id);
-		
-	}
-	
-	public void setPropertyValue(Object id, Object value) {
+    /**
+     * Given the property id, return the contained value
+     */
+    public Object getPropertyValue(Object id) {
+
+        // int propertyid = Integer.parseInt((String) id);
+        // EStructuralFeature feature =
+        // object.eClass().getEStructuralFeature(propertyid);
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
+        if (feature.getName() == "type") { //$NON-NLS-1$
+            Object result = getFeature(propertyid, feature);
+            result = returnPropertyValue(feature, result);
+            if (result.equals(ScenarioUtils.sTypeEnumeration) && ((Variable) getEditableValue()).getEnumerationType() != null)
+                result = ((Variable) getEditableValue()).getEnumerationType().getName();
+            return result != null ? result : ""; //$NON-NLS-1$
+        } else
+            return super.getPropertyValue(id);
+
+    }
+
+    public void setPropertyValue(Object id, Object value) {
         PropertyID propertyid = (PropertyID) id;
         EStructuralFeature feature = propertyid.getFeature();
 
         URNspec urn = getVariable().getUcmspec().getUrnspec();
 
-        
-		if (feature.getName() == "name") { //$NON-NLS-1$
-			value = URNNamingHelper.cleanVariableName(value.toString());
+        if (feature.getName() == "name") { //$NON-NLS-1$
+            value = URNNamingHelper.cleanVariableName(value.toString());
             String message = URNNamingHelper.isNameValid(urn, (Variable) object, value.toString());
 
             if (message.length() == 0) {
@@ -67,16 +65,17 @@ public class VariablePropertySource extends URNElementPropertySource {
             } else if (++i % 2 == 1) { // because refreshed twice.
                 MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", message); //$NON-NLS-1$
             }
-            
+
         } else {
             super.setPropertyValue(id, value);
-        }	}
+        }
+    }
 
-	/**
-	 * 
-	 * @return the variable we are editing.
-	 */
-	public Variable getVariable() {
-		return (Variable) getEditableValue();
-	}
+    /**
+     * 
+     * @return the variable we are editing.
+     */
+    public Variable getVariable() {
+        return (Variable) getEditableValue();
+    }
 }

@@ -11,7 +11,6 @@ import org.eclipse.draw2d.Shape;
  */
 public class Polygon extends Polyline {
 
-
     /**
      * @see Shape#fillShape(Graphics)
      */

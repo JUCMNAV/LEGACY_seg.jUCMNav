@@ -19,7 +19,7 @@ import seg.jUCMNav.editparts.GrlConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GrlGraphicalEditPartFactory;
 import urncore.IURNDiagram;
 
-/** 
+/**
  * This is the main class for editing a single GRLGraph in our model.
  * 
  * @author Jean-François Roy
@@ -28,10 +28,11 @@ import urncore.IURNDiagram;
 public class GrlEditor extends UrnEditor {
 
     private GRLGraph graphModel;
-   
-    /** Create a new GrlEditor instance. This is called by the Workspace. 
+
+    /**
+     * Create a new GrlEditor instance. This is called by the Workspace.
      * 
-    */
+     */
     public GrlEditor(UCMNavMultiPageEditor parent) {
         super(parent);
     }
@@ -49,7 +50,7 @@ public class GrlEditor extends UrnEditor {
         super.configureGraphicalViewer();
 
         ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
-        //Root editpart that include a zoom manager
+        // Root editpart that include a zoom manager
         root = new GrlConnectionOnBottomRootEditPart(getParent());
 
         // zoom management is delegated to us from our parent.
@@ -60,17 +61,16 @@ public class GrlEditor extends UrnEditor {
         root.getZoomManager().setZoomLevelContributions(zoomLevels);
 
         viewer.setRootEditPart(root);
-        
+
         registerContextMenuProvider(viewer);
-        
-        viewer.setEditPartFactory(new GrlGraphicalEditPartFactory((GRLGraph)getModel()));
+
+        viewer.setEditPartFactory(new GrlGraphicalEditPartFactory((GRLGraph) getModel()));
         KeyHandler handler = new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler());
         viewer.setKeyHandler(handler);
         getEditDomain().getPaletteViewer().setKeyHandler(handler);
 
     }
 
-   
     /**
      * Overiden to change the visibility
      */
@@ -83,7 +83,7 @@ public class GrlEditor extends UrnEditor {
      * 
      * @return The model of this editor
      */
-    public IURNDiagram getModel(){
+    public IURNDiagram getModel() {
         return graphModel;
     }
 
@@ -121,26 +121,25 @@ public class GrlEditor extends UrnEditor {
         graphicalViewer.addDropTargetListener(getTransferDropTargetListener());
         graphicalViewer.addDropTargetListener(getUrnTransferDropTargetListener());
     }
-    
+
     /**
      * Set the model of this editor
      * 
-     * @param model a {@link GRLGraph}
+     * @param model
+     *            a {@link GRLGraph}
      */
-    public void setModel(IURNDiagram model){
-        graphModel = (GRLGraph)model;
+    public void setModel(IURNDiagram model) {
+        graphModel = (GRLGraph) model;
     }
-    
-    public void dispose()
-    {
-        if (getGraphicalViewer()!=null) 
-        {
+
+    public void dispose() {
+        if (getGraphicalViewer() != null) {
             getGraphicalViewer().removeDropTargetListener(getTransferDropTargetListener());
             getGraphicalViewer().removeDropTargetListener(getUrnTransferDropTargetListener());
         }
-    
-        graphModel=null;
+
+        graphModel = null;
         super.dispose();
     }
-    
+
 }

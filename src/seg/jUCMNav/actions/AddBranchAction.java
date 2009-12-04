@@ -12,7 +12,7 @@ import ucm.map.PathNode;
  * Action to add an additional branch to an existing fork or join.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class AddBranchAction extends URNSelectionAction {
 
@@ -34,16 +34,16 @@ public class AddBranchAction extends URNSelectionAction {
 
         switch (sel.getSelectionType()) {
         case SelectionHelper.ANDFORK:
-            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/AndFork16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/AndFork16.gif")); //$NON-NLS-1$
             break;
         case SelectionHelper.ORFORK:
-            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrFork16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/OrFork16.gif")); //$NON-NLS-1$
             break;
         case SelectionHelper.ANDJOIN:
-            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/AndJoin16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/AndJoin16.gif")); //$NON-NLS-1$
             break;
         case SelectionHelper.ORJOIN:
-            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrJoin16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/OrJoin16.gif")); //$NON-NLS-1$
             break;
         default:
             return false;

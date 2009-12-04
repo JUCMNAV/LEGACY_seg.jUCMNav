@@ -13,17 +13,19 @@ import ucm.map.UCMmap;
 
 /**
  * TreeEditPart for a Stub in the Concern Outline
+ * 
  * @author gunterm
  */
 public class ConcernsStubTreeEditPart extends StubTreeEditPart {
 
     /**
-     * @param model represents a stub
+     * @param model
+     *            represents a stub
      */
     public ConcernsStubTreeEditPart(Stub model) {
         super(model);
     }
-    
+
     /**
      * @return sorted list of plug-in maps
      * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
@@ -34,7 +36,7 @@ public class ConcernsStubTreeEditPart extends StubTreeEditPart {
             PluginBinding element = (PluginBinding) iter.next();
             UCMmap map = element.getPlugin();
             if (map != null)
-            	list.add(map);
+                list.add(map);
         }
         Collections.sort(list, new DelegatingElementComparator());
         return list;

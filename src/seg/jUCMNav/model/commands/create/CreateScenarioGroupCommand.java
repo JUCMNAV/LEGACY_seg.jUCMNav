@@ -14,13 +14,13 @@ import urn.URNspec;
  * This command add an Scenario Group to the model (for Scenarios)
  * 
  * @author jkealey
- *
+ * 
  */
 public class CreateScenarioGroupCommand extends Command implements JUCMNavCommand {
 
     private URNspec urn;
     private ScenarioGroup group;
-    
+
     /**
      * 
      */
@@ -36,7 +36,7 @@ public class CreateScenarioGroupCommand extends Command implements JUCMNavComman
     public boolean canExecute() {
         return urn != null && group != null;
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
@@ -53,8 +53,10 @@ public class CreateScenarioGroupCommand extends Command implements JUCMNavComman
         urn.getUcmspec().getScenarioGroups().add(group);
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPostConditions() {
@@ -62,14 +64,15 @@ public class CreateScenarioGroupCommand extends Command implements JUCMNavComman
         assert urn.getUcmspec().getScenarioGroups().contains(group) : "post group not in model"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPreConditions() {
         assert urn != null && urn.getUcmspec() != null && group != null : "pre not null"; //$NON-NLS-1$
         assert !urn.getUcmspec().getScenarioGroups().contains(group) : "pre groups not in model"; //$NON-NLS-1$
     }
-
 
     /**
      * @see org.eclipse.gef.commands.Command#undo()

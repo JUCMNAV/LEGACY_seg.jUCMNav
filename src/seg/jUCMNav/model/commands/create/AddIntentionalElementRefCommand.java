@@ -17,18 +17,18 @@ import urn.URNspec;
  * This command create a IntentionalElementRef and a IntentionalElement object in the model
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class AddIntentionalElementRefCommand extends Command implements JUCMNavCommand {
 
     private IntentionalElementRef elementRef;
-    
-    //Graph where the element has been added.
+
+    // Graph where the element has been added.
     private GRLGraph graph;
 
     private boolean bDefAlreadyExists;
     private IntentionalElement existingDef;
-    
+
     /**
      * 
      * @param graph
@@ -39,7 +39,7 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
     public AddIntentionalElementRefCommand(GRLGraph graph, IntentionalElementRef ir) {
         this.graph = graph;
         this.elementRef = ir;
-        setLabel(Messages.getString("AddIntentionalElementRefCommand.CreateIntentionalElements"));  //$NON-NLS-1$
+        setLabel(Messages.getString("AddIntentionalElementRefCommand.CreateIntentionalElements")); //$NON-NLS-1$
     }
 
     /**
@@ -47,10 +47,10 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        
+
         existingDef = elementRef.getDef();
         bDefAlreadyExists = graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(existingDef);
-        
+
         redo();
     }
 
@@ -67,11 +67,13 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
         else
             elementRef.setDef(existingDef);
         graph.getNodes().add(elementRef);
-        
+
         testPostConditions();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -83,7 +85,9 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
         assert bDefAlreadyExists || !graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(elementRef.getDef()) : "pre elementDef in model"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -107,7 +111,7 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
             urnspec.getGrlspec().getIntElements().remove(elementRef.getDef());
         else
             elementRef.setDef(null);
-        
+
         graph.getNodes().remove(elementRef);
 
         testPreConditions();

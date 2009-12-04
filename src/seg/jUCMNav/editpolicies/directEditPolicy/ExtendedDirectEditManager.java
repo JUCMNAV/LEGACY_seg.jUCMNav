@@ -64,7 +64,8 @@ public class ExtendedDirectEditManager extends DirectEditManager {
      * @param locator
      *            the CellEditorLocator
      */
-    public ExtendedDirectEditManager(GraphicalEditPart source, Class editorType, CellEditorLocator locator, LabelElementFigure label, ICellEditorValidator validator) {
+    public ExtendedDirectEditManager(GraphicalEditPart source, Class editorType, CellEditorLocator locator, LabelElementFigure label,
+            ICellEditorValidator validator) {
         super(source, editorType, locator);
         this.label = label;
         this.originalValue = label.getEditableText();
@@ -76,13 +77,13 @@ public class ExtendedDirectEditManager extends DirectEditManager {
      */
     protected void bringDown() {
         try {
-        Font disposeFont = figureFont;
-        figureFont = null;
-        super.bringDown();
-        if (disposeFont != null)
-            disposeFont.dispose();
-        } catch (IllegalArgumentException ex){
-            figureFont=null;
+            Font disposeFont = figureFont;
+            figureFont = null;
+            super.bringDown();
+            if (disposeFont != null)
+                disposeFont.dispose();
+        } catch (IllegalArgumentException ex) {
+            figureFont = null;
         }
     }
 
@@ -91,40 +92,34 @@ public class ExtendedDirectEditManager extends DirectEditManager {
      */
     protected void initCellEditor() {
 
-    	if (getCellEditor() instanceof AutocompleteTextCellEditor)
-    	{
-    		URNspec urn = ((URNRootEditPart) getEditPart().getRoot()).getMultiPageEditor().getModel();
-    		if (getEditPart().getModel() instanceof Label) {
-	    		Label lbl = (Label)getEditPart().getModel();
-	    		if (lbl instanceof ComponentLabel)
-	    		{
-	    			if (((ComponentLabel)lbl).getContRef() instanceof ActorRef) 
-	    				((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new ActorProposalProvider(urn),null,null);
-	    			else
-	    				((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new ComponentProposalProvider(urn),null,null);
-	    		}
-	    		else if (lbl instanceof NodeLabel)
-	    		{
-	    			// only responsibilities. 
-	    			if (((NodeLabel) lbl).getNode() instanceof RespRef) {
-	    				((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new ResponsibilityProposalProvider(urn),null,null);
-	    			}
-	    		}  
-    		} else if (getEditPart().getModel() instanceof GRLNode)
-    		{
-    			GRLNode node = (GRLNode) getEditPart().getModel();
-    			 if (node instanceof IntentionalElementRef) {
-    				((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new IntentionalElementProposalProvider(urn),null,null);
-    			}
-    			else  if (node instanceof KPIInformationElementRef) {
-    				((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new KPIInformationElementProposalProvider(urn),null,null);
-    			}    			
-    		}
-    
-		}
+        if (getCellEditor() instanceof AutocompleteTextCellEditor) {
+            URNspec urn = ((URNRootEditPart) getEditPart().getRoot()).getMultiPageEditor().getModel();
+            if (getEditPart().getModel() instanceof Label) {
+                Label lbl = (Label) getEditPart().getModel();
+                if (lbl instanceof ComponentLabel) {
+                    if (((ComponentLabel) lbl).getContRef() instanceof ActorRef)
+                        ((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new ActorProposalProvider(urn), null, null);
+                    else
+                        ((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new ComponentProposalProvider(urn), null, null);
+                } else if (lbl instanceof NodeLabel) {
+                    // only responsibilities.
+                    if (((NodeLabel) lbl).getNode() instanceof RespRef) {
+                        ((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new ResponsibilityProposalProvider(urn), null, null);
+                    }
+                }
+            } else if (getEditPart().getModel() instanceof GRLNode) {
+                GRLNode node = (GRLNode) getEditPart().getModel();
+                if (node instanceof IntentionalElementRef) {
+                    ((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new IntentionalElementProposalProvider(urn), null, null);
+                } else if (node instanceof KPIInformationElementRef) {
+                    ((AutocompleteTextCellEditor) getCellEditor()).enableContentProposal(new KPIInformationElementProposalProvider(urn), null, null);
+                }
+            }
+
+        }
         Text text = (Text) getCellEditor().getControl();
 
-        //add the verifyListener to apply changes to the control size
+        // add the verifyListener to apply changes to the control size
         verifyListener = new VerifyListener() {
 
             /**
@@ -147,7 +142,7 @@ public class ExtendedDirectEditManager extends DirectEditManager {
                 if (size.x != 0)
                     size = text.computeSize(size.x, SWT.DEFAULT);
                 else {
-                    //just make it square
+                    // just make it square
                     size.x = size.y;
                 }
                 getCellEditor().getControl().setSize(size.x, size.y);
@@ -156,22 +151,22 @@ public class ExtendedDirectEditManager extends DirectEditManager {
         };
         text.addVerifyListener(verifyListener);
 
-        //set the initial value of the
+        // set the initial value of the
         originalValue = this.label.getEditableText();
         getCellEditor().setValue(originalValue);
 
-        //calculate the font size of the underlying
+        // calculate the font size of the underlying
         IFigure figure = (getEditPart()).getFigure();
         figureFont = figure.getFont();
         FontData data = figureFont.getFontData()[0];
         Dimension fontSize = new Dimension(0, data.getHeight());
 
-        //set the font to be used
+        // set the font to be used
         this.label.translateToAbsolute(fontSize);
         data.setHeight(fontSize.height);
         figureFont = new Font(null, data);
 
-        //set the validator for the CellEditor
+        // set the validator for the CellEditor
         getCellEditor().setValidator(validator);
 
         text.setFont(figureFont);
@@ -193,7 +188,7 @@ public class ExtendedDirectEditManager extends DirectEditManager {
         committing = true;
         try {
 
-            //we set the cell editor control to invisible to remove any
+            // we set the cell editor control to invisible to remove any
             // possible flicker
             getCellEditor().getControl().setVisible(false);
             if (isDirty()) {
@@ -202,30 +197,27 @@ public class ExtendedDirectEditManager extends DirectEditManager {
 
                 if (command != null && command.canExecute())
                     stack.execute(command);
-                else if (command instanceof ChangeLabelNameCommand || command instanceof ChangeGrlNodeNameCommand )
-                {
-                	boolean confirm = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("ExtendedDirectEditManager.NameAlreadyInUse"), Messages.getString("ExtendedDirectEditManager.OtherDefinitionExists")); //$NON-NLS-1$ //$NON-NLS-2$
-                	if (confirm)
-                	{
-                		URNspec urn = ((URNRootEditPart) getEditPart().getRoot()).getMultiPageEditor().getModel();
-                		ChangeDefinitionCommand cmd = null;
-                		
-                		if (command instanceof ChangeLabelNameCommand) {
-	                		ChangeLabelNameCommand rename = ((ChangeLabelNameCommand) command);
-	                		cmd = new ChangeDefinitionCommand(urn, rename.getRenamedLabel(), rename.getName() );
-                		}
-                		else if (command instanceof ChangeGrlNodeNameCommand)
-                		{
-                			ChangeGrlNodeNameCommand rename = ((ChangeGrlNodeNameCommand) command);
-	                		cmd = new ChangeDefinitionCommand(urn, rename.getElement(), rename.getName());
-                			
-                		}
-                		if (cmd!=null && cmd.canExecute())
-                			stack.execute(cmd);
-                		
-                	}
+                else if (command instanceof ChangeLabelNameCommand || command instanceof ChangeGrlNodeNameCommand) {
+                    boolean confirm = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages
+                            .getString("ExtendedDirectEditManager.NameAlreadyInUse"), Messages.getString("ExtendedDirectEditManager.OtherDefinitionExists")); //$NON-NLS-1$ //$NON-NLS-2$
+                    if (confirm) {
+                        URNspec urn = ((URNRootEditPart) getEditPart().getRoot()).getMultiPageEditor().getModel();
+                        ChangeDefinitionCommand cmd = null;
+
+                        if (command instanceof ChangeLabelNameCommand) {
+                            ChangeLabelNameCommand rename = ((ChangeLabelNameCommand) command);
+                            cmd = new ChangeDefinitionCommand(urn, rename.getRenamedLabel(), rename.getName());
+                        } else if (command instanceof ChangeGrlNodeNameCommand) {
+                            ChangeGrlNodeNameCommand rename = ((ChangeGrlNodeNameCommand) command);
+                            cmd = new ChangeDefinitionCommand(urn, rename.getElement(), rename.getName());
+
+                        }
+                        if (cmd != null && cmd.canExecute())
+                            stack.execute(cmd);
+
+                    }
                 }
-             
+
             }
         } finally {
             bringDown();

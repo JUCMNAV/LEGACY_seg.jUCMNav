@@ -30,11 +30,11 @@ import urncore.Responsibility;
  * The colors shown are those of the linked component definition.
  * 
  * @author jkealey, etremblay
- *  
+ * 
  */
 public class ResponsibilityPropertySource extends URNElementPropertySource {
 
-    //	 if this is a reference to a component, we want it.
+    // if this is a reference to a component, we want it.
     private Responsibility resp = null;
     private int i = 0;
 
@@ -79,8 +79,8 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
             // add the new properties
             while (it.hasNext()) {
                 EAttribute attr = (EAttribute) it.next();
-                
-               addPropertyToDescriptor(descriptors, attr, resp.eClass());
+
+                addPropertyToDescriptor(descriptors, attr, resp.eClass());
             }
         }
         return (Vector) descriptors;
@@ -90,7 +90,7 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.views.EObjectPropertySource#addPropertyToDescriptor(java.util.Collection, org.eclipse.emf.ecore.EStructuralFeature,
-     *      org.eclipse.emf.ecore.EClass)
+     * org.eclipse.emf.ecore.EClass)
      */
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         EClassifier type = getFeatureType(attr);
@@ -109,7 +109,7 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
      * @param propertyid
      */
     private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (((RespRef) getEditableValue()).getDiagram() == null || ((RespRef) getEditableValue()).getDiagram().getUrndefinition()==null)
+        if (((RespRef) getEditableValue()).getDiagram() == null || ((RespRef) getEditableValue()).getDiagram().getUrndefinition() == null)
             return;
         URNspec urn = ((RespRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
         Vector list = new Vector(urn.getUrndef().getResponsibilities());

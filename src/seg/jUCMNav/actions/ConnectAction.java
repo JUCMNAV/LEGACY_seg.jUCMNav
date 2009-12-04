@@ -11,7 +11,7 @@ import ucm.map.PathNode;
  * Creates synchronous and asynchronous connections between elements.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class ConnectAction extends URNSelectionAction {
 

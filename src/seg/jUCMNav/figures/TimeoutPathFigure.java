@@ -12,7 +12,7 @@ import org.eclipse.swt.SWT;
  * Attempts to make rotateable failed.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class TimeoutPathFigure extends Figure {
 
@@ -32,7 +32,7 @@ public class TimeoutPathFigure extends Figure {
 
     /**
      * Is a Z like figure determined by the three static constants, WIDTH, HEIGHT and DELTA
-     *  
+     * 
      */
     protected void createFigure() {
         poly = new Polyline();
@@ -42,7 +42,7 @@ public class TimeoutPathFigure extends Figure {
         poly.addPoint(new Point(WIDTH / 2, -HEIGHT / 2));
         poly.addPoint(new Point(WIDTH / 2, -DELTA));
         poly.setAntialias(SWT.ON);
-        
+
         add(poly);
     }
 

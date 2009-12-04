@@ -26,8 +26,8 @@ public class ScenarioTraversalResponse extends QueryResponse {
     protected Vector warnings;
 
     /**
-     * Create a new traversal response. 
-     *
+     * Create a new traversal response.
+     * 
      */
     public ScenarioTraversalResponse() {
         this._queryType = QueryObject.DEFAULTSCENARIOTRAVERSAL;
@@ -35,7 +35,7 @@ public class ScenarioTraversalResponse extends QueryResponse {
 
     /**
      * 
-     * @return the error message if an error occured, null if no error happened. 
+     * @return the error message if an error occured, null if no error happened.
      */
     public String getError() {
         return error;
@@ -50,7 +50,7 @@ public class ScenarioTraversalResponse extends QueryResponse {
     }
 
     /**
-     * @return a list of {@link PathNode}s and {@link NodeConnection}s that were visisted. 
+     * @return a list of {@link PathNode}s and {@link NodeConnection}s that were visisted.
      */
     public Vector getVisited() {
         return visited;
@@ -66,7 +66,8 @@ public class ScenarioTraversalResponse extends QueryResponse {
 
     /**
      * 
-     * @param error   the error message if an error occured, null if no error happened. 
+     * @param error
+     *            the error message if an error occured, null if no error happened.
      */
     public void setError(String error) {
         this.error = error;
@@ -74,7 +75,8 @@ public class ScenarioTraversalResponse extends QueryResponse {
 
     /**
      * 
-     * @param results a map between an {@link EObject} and its {@link TraversalResult}
+     * @param results
+     *            a map between an {@link EObject} and its {@link TraversalResult}
      */
     public void setResults(HashMap results) {
         this.results = results;
@@ -90,7 +92,8 @@ public class ScenarioTraversalResponse extends QueryResponse {
 
     /**
      * 
-     * @param warnings a list of {@link TraversalWarning}
+     * @param warnings
+     *            a list of {@link TraversalWarning}
      */
     public void setWarnings(Vector warnings) {
         this.warnings = warnings;

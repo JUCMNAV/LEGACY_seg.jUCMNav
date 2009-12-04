@@ -15,18 +15,18 @@ import urncore.URNmodelElement;
  * Delete a URNlink from the model
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class DeleteURNlinkCommand extends Command implements JUCMNavCommand {
 
     private URNlink link;
-    
+
     // the URNspec in which it is contained
     private URNspec urn;
-    
+
     private URNmodelElement from;
     private URNmodelElement to;
-    
+
     /**
      * 
      */
@@ -50,28 +50,32 @@ public class DeleteURNlinkCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-        
+
         link.setFromElem(null);
         link.setToElem(null);
         urn.getUrnLinks().remove(link);
-        
+
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urn != null && link != null && to != null && from != null: "pre something is null"; //$NON-NLS-1$
+        assert urn != null && link != null && to != null && from != null : "pre something is null"; //$NON-NLS-1$
         assert urn.getUrnLinks().contains(link) : "pre urn contains link."; //$NON-NLS-1$
         assert from.getFromLinks().contains(link) && to.getToLinks().contains(link) : "pre element contains link"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urn != null && link != null && to != null && from != null: "pre something is null"; //$NON-NLS-1$
+        assert urn != null && link != null && to != null && from != null : "pre something is null"; //$NON-NLS-1$
         assert !urn.getUrnLinks().contains(link) : "pre urn contains link."; //$NON-NLS-1$
         assert !from.getFromLinks().contains(link) && !to.getToLinks().contains(link) : "pre element contains link"; //$NON-NLS-1$
     }
@@ -86,7 +90,7 @@ public class DeleteURNlinkCommand extends Command implements JUCMNavCommand {
         urn.getUrnLinks().add(link);
         link.setFromElem(from);
         link.setToElem(to);
-        
+
         testPreConditions();
     }
 }

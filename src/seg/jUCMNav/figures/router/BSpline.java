@@ -47,7 +47,7 @@ public class BSpline {
 
     /**
      * Initialize all the arrays and the necessary data for the spline.
-     *  
+     * 
      */
     private void init(PointList points) {
         n1 = n + 1;
@@ -277,7 +277,7 @@ public class BSpline {
 
     /**
      * Find curve points. Update all the arrays so that we can find the curve points after.
-     *  
+     * 
      */
     public void findCPoints() {
         Bi[1] = -.25;

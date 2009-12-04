@@ -8,7 +8,7 @@ import org.eclipse.swt.SWT;
  * Figure which represent an actor
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class ActorFigure extends GrlNodeFigure {
 
@@ -19,12 +19,13 @@ public class ActorFigure extends GrlNodeFigure {
         super();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.figures.GrlNodeFigure#outlineShape(org.eclipse.draw2d.Graphics)
      */
     protected void outlineShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
-        
 
         r.x += lineWidth / 2;
         r.y += lineWidth / 2;
@@ -32,13 +33,15 @@ public class ActorFigure extends GrlNodeFigure {
         r.height -= lineWidth;
 
         graphics.setLineStyle(SWT.LINE_DASH);
-        int[] dashpattern = {2,2};
+        int[] dashpattern = { 2, 2 };
         graphics.setLineDash(dashpattern);
         graphics.drawOval(r);
-        
+
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.figures.GrlNodeFigure#fillShape(org.eclipse.draw2d.Graphics)
      */
     protected void fillShape(Graphics graphics) {
@@ -50,10 +53,10 @@ public class ActorFigure extends GrlNodeFigure {
         r.height -= lineWidth;
 
         graphics.setLineStyle(SWT.LINE_DASH);
-        int[] dashpattern = {2,2};
+        int[] dashpattern = { 2, 2 };
         graphics.setLineDash(dashpattern);
         graphics.fillOval(r);
 
     }
-    
+
 }

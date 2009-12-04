@@ -52,23 +52,25 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
     private int x, y;
 
     private int oldIndex;
-    
+
     // does the responsibility definition already exist? (don't remove it on undo)
     private boolean bDefAlreadyExists;
 
     private Responsibility existingDef;
-    
+
     private Condition outgoingCondition;
-    
+
     private URNspec urn;
 
     public Condition getOutgoingCondition() {
-		return outgoingCondition;
-	}
-	public void setOutgoingCondition(Condition outgoingCondition) {
-		this.outgoingCondition = outgoingCondition;
-	}
-	/**
+        return outgoingCondition;
+    }
+
+    public void setOutgoingCondition(Condition outgoingCondition) {
+        this.outgoingCondition = outgoingCondition;
+    }
+
+    /**
      * @param pg
      *            the pathgraph containing the elements
      * @param pn
@@ -86,26 +88,27 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
         this.oldLink = link;
         this.x = x;
         this.y = y;
-        this.outgoingCondition=null;
+        this.outgoingCondition = null;
 
         this.urn = diagram.getUrndefinition().getUrnspec();
-        
+
         setLabel(Messages.getString("SplitLinkCommand.insertNodeOnPath")); //$NON-NLS-1$
     }
-    
+
     public SplitLinkCommand(UCMmap pg, PathNode pn, NodeConnection link, NodeConnection newLink, int x, int y) {
         this.diagram = pg;
         this.node = pn;
         this.oldLink = link;
         this.x = x;
         this.y = y;
-        this.outgoingCondition=null;
+        this.outgoingCondition = null;
 
         this.urn = diagram.getUrndefinition().getUrnspec();
         this.newLink = newLink;
-        
+
         setLabel(Messages.getString("SplitLinkCommand.insertNodeOnPath")); //$NON-NLS-1$
     }
+
     /**
      * @param pg
      *            the pathgraph containing the elements
@@ -118,8 +121,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
      * @param y
      *            insertion location
      * @param outgoingCondition
-     * 			the condition on the outgoing node            
-     *            
+     *            the condition on the outgoing node
+     * 
      */
     public SplitLinkCommand(UCMmap pg, PathNode pn, NodeConnection link, int x, int y, Condition outgoingCondition) {
         this.diagram = pg;
@@ -127,9 +130,10 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
         this.oldLink = link;
         this.x = x;
         this.y = y;
-        this.outgoingCondition=outgoingCondition;
+        this.outgoingCondition = outgoingCondition;
         setLabel(Messages.getString("SplitLinkCommand.insertNodeOnPath")); //$NON-NLS-1$
     }
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
@@ -140,19 +144,19 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
             aborted = true;
             return;
         }
-        
-        if(newLink == null)
-        	newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
-        
-        if (outgoingCondition==null && (node instanceof OrFork || node instanceof WaitingPlace || node instanceof Timer)) {
-        	outgoingCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
-            // blocking path. 
+
+        if (newLink == null)
+            newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
+
+        if (outgoingCondition == null && (node instanceof OrFork || node instanceof WaitingPlace || node instanceof Timer)) {
+            outgoingCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
+            // blocking path.
             if (previousNode instanceof Timer)
-            	outgoingCondition.setExpression("false"); //$NON-NLS-1$
+                outgoingCondition.setExpression("false"); //$NON-NLS-1$
         }
-        
-        if (outgoingCondition!=null)
-        	newLink.setCondition(outgoingCondition);        
+
+        if (outgoingCondition != null)
+            newLink.setCondition(outgoingCondition);
 
         node.getSucc().add(0, newLink);
 
@@ -163,10 +167,9 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
             existingDef = ((RespRef) node).getRespDef();
             bDefAlreadyExists = diagram.getUrndefinition().getResponsibilities().contains(existingDef);
         }
-        
-        
+
         oldIndex = nextNode.getPred().indexOf(oldLink);
-        
+
         redo();
     }
 
@@ -194,11 +197,9 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
 
         // relink
         oldLink.setTarget(node);
-        //  may break connection order, which impacts Connects        
-        //newLink.setTarget(nextNode);
-        nextNode.getPred().add(oldIndex, newLink); 
-        
-        
+        // may break connection order, which impacts Connects
+        // newLink.setTarget(nextNode);
+        nextNode.getPred().add(oldIndex, newLink);
 
         // add to model
         diagram.getNodes().add(node);
@@ -238,10 +239,9 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
 
         // unlink
         newLink.setTarget(null);
-        //  may break connection order, which impacts Connects
-        //oldLink.setTarget(nextNode);
+        // may break connection order, which impacts Connects
+        // oldLink.setTarget(nextNode);
         nextNode.getPred().add(oldIndex, oldLink);
-        
 
         if (node instanceof RespRef && !bDefAlreadyExists) {
             URNspec urn = diagram.getUrndefinition().getUrnspec();
@@ -385,9 +385,11 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
         assert node.getPred().size() == 1 && node.getSucc().size() == 1 : "post node 1 in 1 out"; //$NON-NLS-1$
 
     }
-	public NodeConnection getNewLink() {
-		return newLink;
-	}
+
+    public NodeConnection getNewLink() {
+        return newLink;
+    }
+
     public Object getNewModelElement() {
         return node;
     }

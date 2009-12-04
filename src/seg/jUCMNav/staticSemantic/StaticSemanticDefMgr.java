@@ -8,6 +8,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.rulemanagement.RuleGroup;
 import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
+
 /**
  * This class is the control center of all rule defining features:
  * <ul>
@@ -18,17 +19,17 @@ import seg.jUCMNav.rulemanagement.RuleManagementDefinitionManager;
  * </ul>
  * 
  * @author Byrne Yan
- *
+ * 
  */
-public class StaticSemanticDefMgr extends RuleManagementDefinitionManager{
-	 
-	 private static String RULE_TYPE = "StaticSemantic" ; //$NON-NLS-1$
-	 private static final String SHOW_DESCRIPTION = RULE_TYPE + "SHOW_DESCRIPTION"; //$NON-NLS-1$
+public class StaticSemanticDefMgr extends RuleManagementDefinitionManager {
 
-	 private boolean bShowDesc;
-	 private static StaticSemanticDefMgr instance_ = null;
-	 
-	/**
+    private static String RULE_TYPE = "StaticSemantic"; //$NON-NLS-1$
+    private static final String SHOW_DESCRIPTION = RULE_TYPE + "SHOW_DESCRIPTION"; //$NON-NLS-1$
+
+    private boolean bShowDesc;
+    private static StaticSemanticDefMgr instance_ = null;
+
+    /**
      * Prevents the StaticSemanticDefMgr from being created outside the class
      */
     private StaticSemanticDefMgr() {
@@ -45,21 +46,21 @@ public class StaticSemanticDefMgr extends RuleManagementDefinitionManager{
         }
         return instance_;
     }
-    
-    protected RuleManagementDefinitionManager getDefferManagerInstance(){
-    	return instance();
+
+    protected RuleManagementDefinitionManager getDefferManagerInstance() {
+        return instance();
     }
-    
-    protected String getRuleType() {		
-		return RULE_TYPE;
-	}
-    
+
+    protected String getRuleType() {
+        return RULE_TYPE;
+    }
+
     /**
      * Returns a list of default groups populated with default rules from files.
      */
     protected List getDefaultGroups() {
         List defaultGroups = new ArrayList();
-        
+
         // Special "All" group, always first
         RuleGroup all = new RuleGroup("All"); //$NON-NLS-1$
         defaultGroups.add(all);
@@ -77,16 +78,16 @@ public class StaticSemanticDefMgr extends RuleManagementDefinitionManager{
         return defaultGroups;
     }
 
-    /** 
+    /**
      * @deprecated
      */
-    public List getDefaultDefinitions()
-    {
-    	return new ArrayList();
+    public List getDefaultDefinitions() {
+        return new ArrayList();
     }
-    
+
     /**
      * Check if the switch of showing description in the problem view is on or off.
+     * 
      * @return true if it is on, otherwise off.
      */
     public boolean isShowDesc() {
@@ -95,21 +96,23 @@ public class StaticSemanticDefMgr extends RuleManagementDefinitionManager{
 
     /**
      * Set the switch of showing description in the problem view.
-     * @param bChecked true to switch on, false to switch off
+     * 
+     * @param bChecked
+     *            true to switch on, false to switch off
      */
     public void setShowDesc(boolean bChecked) {
         bShowDesc = bChecked;
-        //saveShowDescriptonPreference();
+        // saveShowDescriptonPreference();
     }
-    
-    protected void loadShowDescriptonPreference(){
-    	IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
-        bShowDesc =  store.getBoolean(SHOW_DESCRIPTION);     	
+
+    protected void loadShowDescriptonPreference() {
+        IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
+        bShowDesc = store.getBoolean(SHOW_DESCRIPTION);
     }
-    
-    protected void saveShowDescriptonPreference(){
-		IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
-        store.setValue(SHOW_DESCRIPTION, isShowDesc()); 
-	}
+
+    protected void saveShowDescriptonPreference() {
+        IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
+        store.setValue(SHOW_DESCRIPTION, isShowDesc());
+    }
 
 }

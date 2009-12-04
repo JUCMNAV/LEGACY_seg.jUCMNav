@@ -26,11 +26,11 @@ public class ExportAction extends URNSelectionAction {
     public ExportAction(IWorkbenchPart part) {
         super(part);
         setId(EXPORT);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/export.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/export.gif")); //$NON-NLS-1$
     }
 
     /**
-     * True if we've selected a Map or URNSpec 
+     * True if we've selected a Map or URNSpec
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

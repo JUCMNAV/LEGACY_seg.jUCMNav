@@ -26,7 +26,7 @@ public class BindChildren extends URNSelectionAction {
     public BindChildren(IWorkbenchPart part) {
         super(part);
         setId(BINDCHILDREN);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Component16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Component16.gif")); //$NON-NLS-1$
     }
 
     /**
@@ -87,7 +87,7 @@ public class BindChildren extends URNSelectionAction {
             cmd = new ContainerRefBindChildCommand(parent, children);
 
             for (int i = 1; i < getSelectedObjects().size(); i++) {
-                //get the selected parent, find its new children and create a command
+                // get the selected parent, find its new children and create a command
                 parent = (IURNContainerRef) ((EditPart) getSelectedObjects().get(i)).getModel();
                 children = ParentFinder.findNewChildren(parent.getDiagram(), parent);
                 cmd = cmd.chain(new ContainerRefBindChildCommand(parent, children));

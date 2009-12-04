@@ -39,10 +39,12 @@ public class TreeEditPartFactory implements EditPartFactory {
     // the urn spec being edited.
     protected URNspec urn;
     protected boolean onlyDefinitions;
+
     /**
      * @param urn
      *            the urnspec to display
-     * @param onlyDefinitions do we show only the grl/ucm definitions?            
+     * @param onlyDefinitions
+     *            do we show only the grl/ucm definitions?
      */
     public TreeEditPartFactory(URNspec urn, boolean onlyDefinitions) {
         this.urn = urn;

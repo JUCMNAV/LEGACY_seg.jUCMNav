@@ -23,16 +23,14 @@ import ucm.scenario.ScenarioStartPoint;
 /**
  * Abstract base class that should reasonably be shared by any implementation of a Scenario Traversal Data Structure.
  * 
- * Represents the "plumbing" for a traversal data structure. 
+ * Represents the "plumbing" for a traversal data structure.
  * 
- *  Responsibilities:
- * - encapsulate logic of getting the next path node that must be processed
- * - keep track of what has been visited
- * - keep track of different threads
+ * Responsibilities: - encapsulate logic of getting the next path node that must be processed - keep track of what has been visited - keep track of different
+ * threads
  * 
  * 
  * @author jkealey
- *
+ * 
  */
 public abstract class AbstractScenarioTraversalDataStructure {
 
@@ -44,28 +42,27 @@ public abstract class AbstractScenarioTraversalDataStructure {
     protected HashMap _results;
     protected Vector _visited;
 
-    
     public AbstractScenarioTraversalDataStructure() {
         _visited = new Vector();
         _results = new HashMap();
-        _consecutiveReblocks =0;
-        _nextThreadID=1;
-        _currentThreadID=0;
+        _consecutiveReblocks = 0;
+        _nextThreadID = 1;
+        _currentThreadID = 0;
     }
-    
+
     /**
-     * Adds an element to the waiting list. Assuming elements have no memory for simplicity.  
-     *  
+     * Adds an element to the waiting list. Assuming elements have no memory for simplicity.
+     * 
      * @param pn
      */
     protected abstract void addToWaitingList(PathNode pn);
 
     /**
      * Removes instances of the same path node from the waiting list since we're processing the node.
-     *
+     * 
      */
     protected abstract void cleanWaitingList();
-    
+
     /**
      * 
      * @param o
@@ -73,14 +70,14 @@ public abstract class AbstractScenarioTraversalDataStructure {
      * @return decrements the external counter for the number of times the traversal algo. has gone through this element.
      */
     protected int decrementHitCount(EObject o) {
-    	TraversalResult result;
-    	if (!_results.containsKey(o))
-    		_results.put(o, new TraversalResult());
-    
-    	result = (TraversalResult) _results.get(o);
-    	result.decrementHitCount();
-    
-    	return result.getExternalHitCount();
+        TraversalResult result;
+        if (!_results.containsKey(o))
+            _results.put(o, new TraversalResult());
+
+        result = (TraversalResult) _results.get(o);
+        result.decrementHitCount();
+
+        return result.getExternalHitCount();
     }
 
     /**
@@ -91,30 +88,28 @@ public abstract class AbstractScenarioTraversalDataStructure {
 
     /**
      * Removes instances of the same path node from the waiting list since we're processing the node.
-     *
+     * 
      */
     protected abstract int getConsecutiveReblocks();
 
-    
     /**
      * Returns the current plug-in binding context.
-     *  
-     * @return A vector of pluginbindings that were traversed to get to here. 
+     * 
+     * @return A vector of pluginbindings that were traversed to get to here.
      */
     protected Vector getCurrentContext() {
         return _currentContext;
     }
 
     /**
-     * Returns the current (or last used) threadID. 
+     * Returns the current (or last used) threadID.
      * 
-     * @return and integer representing the thread number. 
+     * @return and integer representing the thread number.
      */
     protected int getCurrentThreadID() {
-    	return _currentThreadID;
+        return _currentThreadID;
     }
 
-    
     /**
      * 
      * @param o
@@ -122,81 +117,73 @@ public abstract class AbstractScenarioTraversalDataStructure {
      * @return Number of times the traversal algorithm has gone to this element.
      */
     protected int getHitCount(EObject o) {
-    	TraversalResult result;
-    	if (!_results.containsKey(o))
-    		_results.put(o, new TraversalResult());
-    
-    	result = (TraversalResult) _results.get(o);
-    
-    	return result.getHitCount();
+        TraversalResult result;
+        if (!_results.containsKey(o))
+            _results.put(o, new TraversalResult());
+
+        result = (TraversalResult) _results.get(o);
+
+        return result.getHitCount();
     }
-    
-    
+
     /**
-     * Returns the next threadID to be used. 
+     * Returns the next threadID to be used.
      * 
-     * @return and integer representing the thread number. 
+     * @return and integer representing the thread number.
      */
     protected int getNextThreadID() {
-    	return _nextThreadID;
+        return _nextThreadID;
     }
-    
 
-    
     /**
-     * Gets the next path node to be processed. This data structure encapsulates the logic behind which path node to process next (waiting lists, threads, etc). 
+     * Gets the next path node to be processed. This data structure encapsulates the logic behind which path node to process next (waiting lists, threads, etc).
      * 
      * @return the next PathNode
      */
     protected abstract TraversalVisit getNextVisit() throws TraversalException;
-      
 
     /**
-     * Find the reached end points. 
+     * Find the reached end points.
      * 
-     * @return a vector containing the end points that were visited. 
+     * @return a vector containing the end points that were visited.
      */
     protected Vector getReachedEndPoints() {
-    	Vector reachedEndPoints = new Vector();
-    	for (Iterator iter = _visited.iterator(); iter.hasNext();) {
-    		EObject element = (EObject) iter.next();
-    		if (element instanceof EndPoint) {
-    			reachedEndPoints.add(element);
-    		}
-    	}
-    	return reachedEndPoints;
-    }
-    
-    
-    /**
-     * The traversal results for each EObject
-     * @return HashMap of EObject -> TraversalResults 
-     */
-    protected HashMap getResults() {
-    	return _results;
+        Vector reachedEndPoints = new Vector();
+        for (Iterator iter = _visited.iterator(); iter.hasNext();) {
+            EObject element = (EObject) iter.next();
+            if (element instanceof EndPoint) {
+                reachedEndPoints.add(element);
+            }
+        }
+        return reachedEndPoints;
     }
 
     /**
-     * Returns the status of a certain thread. 
+     * The traversal results for each EObject
      * 
-     * Given a ThreadID, returns:
-     * -2 thread sanity check error
-     * -1 if the thread never existed
-     * 0 if the thread is dead
-     * 1 if the thread is alive and running
-     * 2 if the thread is blocked in the waiting list
+     * @return HashMap of EObject -> TraversalResults
+     */
+    protected HashMap getResults() {
+        return _results;
+    }
+
+    /**
+     * Returns the status of a certain thread.
+     * 
+     * Given a ThreadID, returns: -2 thread sanity check error -1 if the thread never existed 0 if the thread is dead 1 if the thread is alive and running 2 if
+     * the thread is blocked in the waiting list
      * 
      * @return the thread status
      */
     protected abstract int getThreadState(int threadID);
 
     /**
-     * A sequence of visited elements. 
+     * A sequence of visited elements.
      * 
      * @return a sequence of visited pathnodes/nodeconnections
      */
     protected Vector getVisited() {
-    	return _visited;
+        return _visited;
     }
 
     /**
@@ -206,22 +193,22 @@ public abstract class AbstractScenarioTraversalDataStructure {
      * @return increment the counter for the number of times the traversal algo. has gone through this element.
      */
     protected int incrementHitCount(EObject o) {
-    	TraversalResult result;
-    	if (!_results.containsKey(o))
-    		_results.put(o, new TraversalResult());
-    
-    	result = (TraversalResult) _results.get(o);
-    	result.incrementHitCount();
-    
-    	return result.getHitCount();
+        TraversalResult result;
+        if (!_results.containsKey(o))
+            _results.put(o, new TraversalResult());
+
+        result = (TraversalResult) _results.get(o);
+        result.incrementHitCount();
+
+        return result.getHitCount();
     }
 
     /**
      * Push a path node on the to be processed stack. Behaviour might vary if we are asking for a new thread (might be a new stack, depending on the
      * implementation).
      * 
-     * @param nc 
-     *              originating node connection
+     * @param nc
+     *            originating node connection
      * @param pn
      *            the pathnode to process
      * @param newThread
@@ -263,17 +250,19 @@ public abstract class AbstractScenarioTraversalDataStructure {
 
     /**
      * Sets the current plug-in binding context.
-     *  
-     * @param ctx A vector of pluginbindings that were traversed to get to here.
+     * 
+     * @param ctx
+     *            A vector of pluginbindings that were traversed to get to here.
      */
     protected void setCurrentContext(Vector ctx) {
-    	_currentContext = ctx;
+        _currentContext = ctx;
     }
 
     /**
-     * Adds a list of {@link ITraversalListener} to the current internal listener list.  
+     * Adds a list of {@link ITraversalListener} to the current internal listener list.
      * 
-     * @param listeners the new listeners 
+     * @param listeners
+     *            the new listeners
      */
     public void setListeners(ScenarioTraversalListenerList listeners) {
         _listeners = listeners;
@@ -288,19 +277,21 @@ public abstract class AbstractScenarioTraversalDataStructure {
      *             if an infinite loop is detected.
      */
     protected void trackVisit(EObject o) throws TraversalException {
-    	_visited.add(o);
-    
-    	int count = incrementHitCount(o);
-    
-    	if (count >= ScenarioTraversalPreferences.getMaxHitCount()) {
-    		throw new TraversalException(Messages.getString("DefaultScenarioTraversal.InfiniteLoopDetectedOn") + o.toString()); //$NON-NLS-1$
-    	}
+        _visited.add(o);
+
+        int count = incrementHitCount(o);
+
+        if (count >= ScenarioTraversalPreferences.getMaxHitCount()) {
+            throw new TraversalException(Messages.getString("DefaultScenarioTraversal.InfiniteLoopDetectedOn") + o.toString()); //$NON-NLS-1$
+        }
     }
 
     /**
      * Unblocks a waiting place and traverses the given nc
-     * @param nc the node connection
-     * @return a warning if it was not blocked. 
+     * 
+     * @param nc
+     *            the node connection
+     * @return a warning if it was not blocked.
      * @throws TraversalException
      */
     protected abstract TraversalWarning unblockWaitingPlace(NodeConnection nc) throws TraversalException;
@@ -312,12 +303,12 @@ public abstract class AbstractScenarioTraversalDataStructure {
      * @throws TraversalException
      */
     public void visitAllSucc(PathNode pn) throws TraversalException {
-    	// TODO: semantic variation: maybe we don't want all invocations of this method to run paths in parallel.
-    	for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
-    		NodeConnection nc = (NodeConnection) iter.next();
-    		//visitNodeConnection(nc, true);
-    		visitNodeConnection(nc, pn.getSucc().size()!=1);
-    	}
+        // TODO: semantic variation: maybe we don't want all invocations of this method to run paths in parallel.
+        for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            // visitNodeConnection(nc, true);
+            visitNodeConnection(nc, pn.getSucc().size() != 1);
+        }
     }
 
     /**
@@ -327,7 +318,7 @@ public abstract class AbstractScenarioTraversalDataStructure {
      * @throws TraversalException
      */
     public void visitNodeConnection(NodeConnection nc) throws TraversalException {
-    	visitNodeConnection(nc, false);
+        visitNodeConnection(nc, false);
     }
 
     /**
@@ -340,8 +331,8 @@ public abstract class AbstractScenarioTraversalDataStructure {
      * @throws TraversalException
      */
     public void visitNodeConnection(NodeConnection nc, boolean newThread) throws TraversalException {
-    	trackVisit(nc);
-    	pushPathNode(nc, (PathNode) nc.getTarget(), newThread);
+        trackVisit(nc);
+        pushPathNode(nc, (PathNode) nc.getTarget(), newThread);
     }
 
     /**
@@ -352,13 +343,13 @@ public abstract class AbstractScenarioTraversalDataStructure {
      * @return an error if one occurred, null otherwise.
      */
     public String visitOnlySucc(PathNode pn) throws TraversalException {
-    	if (pn.getSucc().size() == 1) {
-    		NodeConnection nc = (NodeConnection) pn.getSucc().get(0);
-    		visitNodeConnection(nc);
-    	} else
-    		return Messages.getString("DefaultScenarioTraversal.TraversalError"); //$NON-NLS-1$
-    	
-    	return null;
+        if (pn.getSucc().size() == 1) {
+            NodeConnection nc = (NodeConnection) pn.getSucc().get(0);
+            visitNodeConnection(nc);
+        } else
+            return Messages.getString("DefaultScenarioTraversal.TraversalError"); //$NON-NLS-1$
+
+        return null;
     }
 
     /**
@@ -368,9 +359,9 @@ public abstract class AbstractScenarioTraversalDataStructure {
      * @throws TraversalException
      */
     public void visitOnlySuccIfExists(PathNode pn) throws TraversalException {
-    	if (pn.getSucc().size() == 1) {
-    		visitOnlySucc(pn);
-    	}
+        if (pn.getSucc().size() == 1) {
+            visitOnlySucc(pn);
+        }
     }
 
 }

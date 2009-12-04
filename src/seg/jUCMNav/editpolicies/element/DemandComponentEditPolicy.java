@@ -15,7 +15,7 @@ import ucm.performance.Demand;
 public class DemandComponentEditPolicy extends ComponentEditPolicy {
 
     /**
-     * Return a DeleteDemandCommand. 
+     * Return a DeleteDemandCommand.
      */
     protected Command getDeleteCommand(GroupRequest request) {
         Object obj = getHost().getModel();

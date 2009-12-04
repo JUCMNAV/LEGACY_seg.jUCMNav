@@ -11,7 +11,7 @@ import urncore.IURNDiagram;
  * Command to delete a comment. (Remove it from the model). Can only do it if it has no references.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class DeleteCommentCommand extends Command implements JUCMNavCommand {
 
@@ -23,7 +23,7 @@ public class DeleteCommentCommand extends Command implements JUCMNavCommand {
 
     public DeleteCommentCommand(Comment comment) {
         this.comment = comment;
-        setLabel(Messages.getString("DeleteCommentCommand.DeleteComment"));  //$NON-NLS-1$
+        setLabel(Messages.getString("DeleteCommentCommand.DeleteComment")); //$NON-NLS-1$
     }
 
     /**
@@ -32,18 +32,17 @@ public class DeleteCommentCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return comment!=null;
+        return comment != null;
     }
 
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	diag = comment.getDiagram();
+        diag = comment.getDiagram();
         redo();
     }
 
-   
     /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -60,7 +59,7 @@ public class DeleteCommentCommand extends Command implements JUCMNavCommand {
      */
     public void testPostConditions() {
         // lists could be empty but not null
-        assert  comment!=null && diag != null : "post something is null"; //$NON-NLS-1$
+        assert comment != null && diag != null : "post something is null"; //$NON-NLS-1$
     }
 
     /**
@@ -68,7 +67,7 @@ public class DeleteCommentCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
         // lists could be empty but not null
-        assert  comment!=null && diag != null : "pre something is null"; //$NON-NLS-1$
+        assert comment != null && diag != null : "pre something is null"; //$NON-NLS-1$
 
     }
 

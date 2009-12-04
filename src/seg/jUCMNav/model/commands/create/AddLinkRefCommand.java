@@ -18,16 +18,16 @@ import urncore.IURNDiagram;
  * Command to create LinkRef in a GRLDiagram
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class AddLinkRefCommand extends Command implements JUCMNavCommand {
 
     IURNDiagram graph;
     IntentionalElementRef source, destination;
     ElementLink link;
-    
+
     LinkRef linkref;
-    
+
     /**
      * 
      */
@@ -36,7 +36,7 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
         this.source = source;
         this.destination = destination;
         this.link = link;
-        
+
         setLabel(Messages.getString("AddLinkRefCommand.addLinkRef")); //$NON-NLS-1$
     }
 
@@ -47,7 +47,7 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
     public boolean canExecute() {
         return (source != null && destination != null);
     }
-    
+
     /**
      * 
      * @see org.eclipse.gef.commands.Command#execute()
@@ -64,39 +64,43 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
         testPreConditions();
         linkref.setLink(link);
         linkref.setDiagram(graph);
-        
+
         linkref.setSource(source);
         linkref.setTarget(destination);
-        
+
         testPostConditions();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
         assert link != null : "pre Link"; //$NON-NLS-1$
-        assert linkref != null: "pre linkref"; //$NON-NLS-1$
+        assert linkref != null : "pre linkref"; //$NON-NLS-1$
         assert graph != null : "pre Graph"; //$NON-NLS-1$
         assert source != null : "pre source"; //$NON-NLS-1$
         assert destination != null : "pre destination"; //$NON-NLS-1$
-        
-        assert linkref.getSource() != source: "pre linkref source"; //$NON-NLS-1$
-        assert linkref.getTarget() != destination: "pre linkref destination"; //$NON-NLS-1$
+
+        assert linkref.getSource() != source : "pre linkref source"; //$NON-NLS-1$
+        assert linkref.getTarget() != destination : "pre linkref destination"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
         assert link != null : "post Link"; //$NON-NLS-1$
-        assert linkref != null: "post linkref"; //$NON-NLS-1$
+        assert linkref != null : "post linkref"; //$NON-NLS-1$
         assert graph != null : "post Graph"; //$NON-NLS-1$
         assert source != null : "post source"; //$NON-NLS-1$
         assert destination != null : "post destination"; //$NON-NLS-1$
-        
-        assert linkref.getSource() == source: "post linkref source"; //$NON-NLS-1$
-        assert linkref.getTarget() == destination: "post linkref destination"; //$NON-NLS-1$
+
+        assert linkref.getSource() == source : "post linkref source"; //$NON-NLS-1$
+        assert linkref.getTarget() == destination : "post linkref destination"; //$NON-NLS-1$
     }
 
     /**
@@ -110,7 +114,7 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
         linkref.setTarget(null);
         linkref.setLink(null);
         linkref.setDiagram(null);
-        
+
         testPreConditions();
     }
 }

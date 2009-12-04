@@ -58,7 +58,7 @@ public class UcmEditor extends UrnEditor {
         viewer.setRootEditPart(root);
 
         registerContextMenuProvider(viewer);
-        
+
         viewer.setEditPartFactory(new GraphicalEditPartFactory((UCMmap) getModel()));
         KeyHandler handler = new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler());
         viewer.setKeyHandler(handler);
@@ -121,22 +121,21 @@ public class UcmEditor extends UrnEditor {
     /**
      * Sets the map to be manipulated by this editor
      * 
-     * @param m the {@link UCMmap}
+     * @param m
+     *            the {@link UCMmap}
      */
     public void setModel(IURNDiagram m) {
         mapModel = (UCMmap) m;
     }
-    
-    public void dispose()
-    {
-        
-        if (getGraphicalViewer()!=null) 
-        {
+
+    public void dispose() {
+
+        if (getGraphicalViewer() != null) {
             getGraphicalViewer().removeDropTargetListener(getTransferDropTargetListener());
             getGraphicalViewer().removeDropTargetListener(getUrnTransferDropTargetListener());
-            
+
         }
-        mapModel=null;
+        mapModel = null;
         super.dispose();
     }
 

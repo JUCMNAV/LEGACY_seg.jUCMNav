@@ -11,7 +11,7 @@ import org.eclipse.swt.SWT;
  * Figure for AndForks and AndJoins. Core is like an end point but maintains a list of points to which connection anchors should be associated.
  * 
  * @author jpdaigle, Jordan McManus, jkealey
- *  
+ * 
  */
 public class AndForkJoinFigure extends PathNodeFigure implements IRotateable {
     protected static final int DEFAULT_HEIGHT = 16;
@@ -85,17 +85,17 @@ public class AndForkJoinFigure extends PathNodeFigure implements IRotateable {
      */
     public Dimension getPreferredSize(int wHint, int hHint) {
         return new Dimension(DEFAULT_WIDTH * branchCount, DEFAULT_WIDTH * branchCount);
-        //        Dimension d = getRotatedSize();
-        //        if (d.width < DEFAULT_WIDTH)
-        //            d.width = DEFAULT_WIDTH;
-        //        else if (d.height < DEFAULT_HEIGHT)
-        //            d.height = DEFAULT_HEIGHT;
-        //        return d;
+        // Dimension d = getRotatedSize();
+        // if (d.width < DEFAULT_WIDTH)
+        // d.width = DEFAULT_WIDTH;
+        // else if (d.height < DEFAULT_HEIGHT)
+        // d.height = DEFAULT_HEIGHT;
+        // return d;
     }
 
     /**
      * Supposed to get the size of the bounding box given the angle, but doesn't work or isn't queried late enough.
-     *  
+     * 
      */
     public Dimension getRotatedSize() {
         int w = Math.abs((int) (DEFAULT_WIDTH * branchCount * Math.cos(angle + Math.PI / 2)));
@@ -147,10 +147,9 @@ public class AndForkJoinFigure extends PathNodeFigure implements IRotateable {
             ((ChopboxAnchor) outgoingAnchor).ancestorMoved(this);
         }
     }
-    
-    public double getAngle()
-    {
-    	return this.angle;
+
+    public double getAngle() {
+        return this.angle;
     }
 
     /**

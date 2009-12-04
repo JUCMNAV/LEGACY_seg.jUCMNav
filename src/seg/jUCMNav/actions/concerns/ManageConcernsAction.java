@@ -13,9 +13,10 @@ import urn.URNspec;
 import urncore.URNmodelElement;
 
 /**
- * Action related to managing concerns (adding, deleting, and assignment to a diagram) 
+ * Action related to managing concerns (adding, deleting, and assignment to a diagram)
+ * 
  * @author gunterm
- *  
+ * 
  */
 public class ManageConcernsAction extends URNSelectionAction {
 
@@ -24,34 +25,37 @@ public class ManageConcernsAction extends URNSelectionAction {
     private URNspec urn;
 
     /**
-     * @param part the workbench part we are working with
+     * @param part
+     *            the workbench part we are working with
      */
     public ManageConcernsAction(IWorkbenchPart part) {
         super(part);
         setId(MANAGECONCERNS);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Concern16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Concern16.gif")); //$NON-NLS-1$
     }
 
     /**
      * Returns true if a map, a grl graph, or a concern in selected; false otherwise
+     * 
      * @see seg.jUCMNav.actions.URNSelectionAction#calculateEnabled()
      */
     protected boolean calculateEnabled() {
-    	SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-    	element = sel.getURNmodelElement();
-    	switch (sel.getSelectionType()) {
-    	case SelectionHelper.MAP:
-    	case SelectionHelper.GRLGRAPH:
-    	case SelectionHelper.CONCERN:
-    		urn = sel.getUrnspec();
-    		return true;
-    	default:
-    		return false;
-    	}
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        element = sel.getURNmodelElement();
+        switch (sel.getSelectionType()) {
+        case SelectionHelper.MAP:
+        case SelectionHelper.GRLGRAPH:
+        case SelectionHelper.CONCERN:
+            urn = sel.getUrnspec();
+            return true;
+        default:
+            return false;
+        }
     }
 
     /**
      * starts the Concern Manager wizard
+     * 
      * @see seg.jUCMNav.actions.URNSelectionAction#run()
      */
     public void run() {
@@ -61,5 +65,5 @@ public class ManageConcernsAction extends URNSelectionAction {
         WizardDialog dialog = new WizardDialog(shell, wizard);
         dialog.open();
     }
-    
+
 }

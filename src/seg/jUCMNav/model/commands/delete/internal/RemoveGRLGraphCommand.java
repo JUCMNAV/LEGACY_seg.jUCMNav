@@ -9,17 +9,16 @@ import urn.URNspec;
 
 /**
  * This class delete the GRLGraph from the model (should be empty of actor and element)
- *  
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class RemoveGRLGraphCommand extends Command implements JUCMNavCommand {
 
     private GRLGraph diagram;
     private URNspec urn;
     private int position;
-    
-    
+
     public RemoveGRLGraphCommand(GRLGraph graph) {
         setLabel("Remove GRLGraph"); //$NON-NLS-1$
         diagram = graph;
@@ -33,7 +32,7 @@ public class RemoveGRLGraphCommand extends Command implements JUCMNavCommand {
 
         redo();
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -45,7 +44,7 @@ public class RemoveGRLGraphCommand extends Command implements JUCMNavCommand {
 
         testPostConditions();
     }
-    
+
     public void testPreConditions() {
         assert diagram != null && urn != null : "pre something is null"; //$NON-NLS-1$
         assert urn.getUrndef().getSpecDiagrams().contains(diagram) : "pre diagram in model"; //$NON-NLS-1$

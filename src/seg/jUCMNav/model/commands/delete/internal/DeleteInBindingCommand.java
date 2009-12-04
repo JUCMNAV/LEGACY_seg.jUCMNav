@@ -12,7 +12,7 @@ import ucm.map.StartPoint;
  * Removes pluginbinding's inbindings.
  * 
  * @author TremblaE
- *  
+ * 
  */
 public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
 
@@ -20,7 +20,8 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
     private StartPoint start;
     private InBinding in;
     private NodeConnection stubEntry;
-    private int index; 
+    private int index;
+
     /**
      * @param in
      *            the InBinding to be deleted.
@@ -63,7 +64,7 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
     public void undo() {
         testPostConditions();
 
-        plugin.getIn().add(index,in);
+        plugin.getIn().add(index, in);
         start.getInBindings().add(in);
         stubEntry.getInBindings().add(in);
 

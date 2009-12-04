@@ -40,38 +40,33 @@ public abstract class ExportImage implements IUseCaseMapExport {
 
         ImageLoader loader = new ImageLoader();
         loader.data = new ImageData[] { ReportUtils.cropImage(image.getImageData()) };
-        //loader.data = new ImageData[] { image.getImageData() };
+        // loader.data = new ImageData[] { image.getImageData() };
         loader.save(fos, getType());
-        
-        
+
         gc.dispose();
         image.dispose();
     }
 
-   
-    
     public void export(IFigure pane, String path) {
 
-    	FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(path);
-			export(pane, fos);
-		} catch (FileNotFoundException ex) {
-			ex.printStackTrace();
-		} finally {
-			// close the stream
-			if (fos != null) {
-				try {
-					fos.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-		}
-    	 
-    	 
-    }
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(path);
+            export(pane, fos);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } finally {
+            // close the stream
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
 
+    }
 
     public void export(IURNDiagram diagram, FileOutputStream fos) {
         // not used.

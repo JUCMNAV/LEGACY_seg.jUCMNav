@@ -47,27 +47,27 @@ public class ReportDataDictionary extends Report {
     public void createReportDataDictionary(Document document, UCMspec ucmspec, GRLspec grlspec) {
 
         try {
-        	// UCMspec report documentation
-        	if (ucmspec != null) {
-        		// document scenario Groups
-        		if (!ucmspec.getScenarioGroups().isEmpty()) {
-        			document.add(Chunk.NEWLINE);
-        			document.add(Chunk.NEWLINE);
-        			writeScenarioGroups(document, ucmspec);
-        		}
+            // UCMspec report documentation
+            if (ucmspec != null) {
+                // document scenario Groups
+                if (!ucmspec.getScenarioGroups().isEmpty()) {
+                    document.add(Chunk.NEWLINE);
+                    document.add(Chunk.NEWLINE);
+                    writeScenarioGroups(document, ucmspec);
+                }
 
-        		// document variables contained in ucmspec
-        		if (!ucmspec.getVariables().isEmpty()) {
-        			document.add(Chunk.NEWLINE);
-        			writeVariables(document, ucmspec);
-        		}
+                // document variables contained in ucmspec
+                if (!ucmspec.getVariables().isEmpty()) {
+                    document.add(Chunk.NEWLINE);
+                    writeVariables(document, ucmspec);
+                }
 
-        		// document enumeration types and their content
-        		if (!ucmspec.getEnumerationTypes().isEmpty()) {
-        			document.add(Chunk.NEWLINE);
-        			writeEnumerationTypes(document, ucmspec);
-        		}
-        	}
+                // document enumeration types and their content
+                if (!ucmspec.getEnumerationTypes().isEmpty()) {
+                    document.add(Chunk.NEWLINE);
+                    writeEnumerationTypes(document, ucmspec);
+                }
+            }
             // GRLspec report documentation
             if (grlspec != null) {
 
@@ -102,7 +102,7 @@ public class ReportDataDictionary extends Report {
      * @param ucmspec
      *            the ucm specification used to retrieve elements
      */
-    
+
     public void writeScenarioGroups(Document document, UCMspec ucmspec) {
         try {
             document.add(new Paragraph("UCM Scenario Groups documentation", header1Font));
@@ -149,7 +149,7 @@ public class ReportDataDictionary extends Report {
      * @param ucmspec
      *            the ucm specification used to retrieve elements
      */
-    
+
     public void writeVariables(Document document, UCMspec ucmspec) {
 
         try {
@@ -192,7 +192,7 @@ public class ReportDataDictionary extends Report {
      * @param ucmspec
      *            the ucm specification used to retrieve elements
      */
-    
+
     public void writeEnumerationTypes(Document document, UCMspec ucmspec) {
 
         try {
@@ -247,7 +247,7 @@ public class ReportDataDictionary extends Report {
      * @param grlspec
      *            the grl specification used to retrieve elements
      */
-    
+
     public void writeIntElements(Document document, GRLspec grlspec) {
 
         try {
@@ -277,7 +277,7 @@ public class ReportDataDictionary extends Report {
      * @param grlspec
      *            the grl specification used to retrieve elements
      */
-    
+
     public void writeActors(Document document, GRLspec grlspec) {
 
         try {
@@ -308,7 +308,6 @@ public class ReportDataDictionary extends Report {
      *            the urn definition used to retrieve elements
      */
 
-    
     public void writeResponsibilities(Document document, URNdefinition urndef) {
 
         try {
@@ -337,8 +336,7 @@ public class ReportDataDictionary extends Report {
      * @param urndef
      *            the urn definition used to retrieve elements
      */
-    
-    
+
     public void writeComponents(Document document, URNdefinition urndef) {
 
         try {

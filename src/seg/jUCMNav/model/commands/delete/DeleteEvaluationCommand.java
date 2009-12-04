@@ -18,14 +18,14 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
  * This command delete an GRL evaluation
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
 
     private Evaluation evaluation;
     private EvaluationStrategy strategy;
     private IntentionalElement intentional;
-    
+
     /**
      * 
      */
@@ -33,7 +33,7 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
         this.evaluation = eval;
         setLabel(Messages.getString("DeleteEvaluationCommand.deleteEvaluation")); //$NON-NLS-1$
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
@@ -42,37 +42,41 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
         intentional = evaluation.getIntElement();
         redo();
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
         testPreConditions();
 
-        //Remove the evaluation object from the EvaluationManager to calculate the new value
+        // Remove the evaluation object from the EvaluationManager to calculate the new value
         EvaluationStrategyManager.getInstance().setEvaluationForElement(intentional,
-                (Evaluation)ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class));
+                (Evaluation) ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class));
 
         evaluation.setStrategies(null);
         evaluation.setIntElement(null);
 
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert evaluation != null && strategy != null && intentional != null: "pre something is null"; //$NON-NLS-1$
+        assert evaluation != null && strategy != null && intentional != null : "pre something is null"; //$NON-NLS-1$
         assert strategy.getEvaluations().contains(evaluation) : "pre evaluation in strategy"; //$NON-NLS-1$
-        assert evaluation.getIntElement().equals(intentional): "pre evaluation in intentional element"; //$NON-NLS-1$
+        assert evaluation.getIntElement().equals(intentional) : "pre evaluation in intentional element"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert evaluation != null && strategy != null && intentional != null: "post something is null"; //$NON-NLS-1$
+        assert evaluation != null && strategy != null && intentional != null : "post something is null"; //$NON-NLS-1$
         assert !strategy.getEvaluations().contains(evaluation) : "post evaluation in strategy"; //$NON-NLS-1$
     }
 
@@ -85,7 +89,7 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
         evaluation.setStrategies(strategy);
         evaluation.setIntElement(intentional);
 
-        //Set the evaluation object from the EvaluationManager
+        // Set the evaluation object from the EvaluationManager
         EvaluationStrategyManager.getInstance().setEvaluationForElement(intentional, evaluation);
 
         testPreConditions();

@@ -12,9 +12,9 @@ import ucm.map.Stub;
  */
 public class StubTreeEditPart extends PathNodeTreeEditPart {
 
-    protected Image imStaticStub = (JUCMNavPlugin.getImage( "icons/Stub16.gif")); //$NON-NLS-1$ 
-    protected Image imDynamicStub = (JUCMNavPlugin.getImage( "icons/DynStub16.gif")); //$NON-NLS-1$
-    protected Image imPointcutStub = (JUCMNavPlugin.getImage( "icons/PointcutStub16.gif")); //$NON-NLS-1$
+    protected Image imStaticStub = (JUCMNavPlugin.getImage("icons/Stub16.gif")); //$NON-NLS-1$ 
+    protected Image imDynamicStub = (JUCMNavPlugin.getImage("icons/DynStub16.gif")); //$NON-NLS-1$
+    protected Image imPointcutStub = (JUCMNavPlugin.getImage("icons/PointcutStub16.gif")); //$NON-NLS-1$
 
     /**
      * 
@@ -39,18 +39,17 @@ public class StubTreeEditPart extends PathNodeTreeEditPart {
      */
     protected Image getImage() {
 
-    	if (getStub().isPointcut()) {
+        if (getStub().isPointcut()) {
             if (imPointcutStub == null)
-                imPointcutStub = (JUCMNavPlugin.getImage( "icons/PointcutStub16.gif")); //$NON-NLS-1$
+                imPointcutStub = (JUCMNavPlugin.getImage("icons/PointcutStub16.gif")); //$NON-NLS-1$
             return imPointcutStub;
-    	}
-    	else if (getStub().isDynamic()) {
+        } else if (getStub().isDynamic()) {
             if (imDynamicStub == null)
-                imDynamicStub = (JUCMNavPlugin.getImage( "icons/DynStub16.gif")); //$NON-NLS-1$
+                imDynamicStub = (JUCMNavPlugin.getImage("icons/DynStub16.gif")); //$NON-NLS-1$
             return imDynamicStub;
         } else {
             if (imStaticStub == null)
-                imStaticStub = (JUCMNavPlugin.getImage( "icons/Stub16.gif")); //$NON-NLS-1$
+                imStaticStub = (JUCMNavPlugin.getImage("icons/Stub16.gif")); //$NON-NLS-1$
             return imStaticStub;
         }
     }
@@ -61,18 +60,18 @@ public class StubTreeEditPart extends PathNodeTreeEditPart {
      * @see seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart#deactivate()
      */
     public void deactivate() {
-//        if (imStaticStub != null) {
-//            imStaticStub.dispose();
-//            imStaticStub = null;
-//        }
-//        if (imDynamicStub != null) {
-//            imDynamicStub.dispose();
-//            imDynamicStub = null;
-//        }
-//        if (imPointcutStub != null) {
-//        	imPointcutStub.dispose();
-//        	imPointcutStub = null;
-//        }
+        // if (imStaticStub != null) {
+        // imStaticStub.dispose();
+        // imStaticStub = null;
+        // }
+        // if (imDynamicStub != null) {
+        // imDynamicStub.dispose();
+        // imDynamicStub = null;
+        // }
+        // if (imPointcutStub != null) {
+        // imPointcutStub.dispose();
+        // imPointcutStub = null;
+        // }
         super.deactivate();
     }
 }

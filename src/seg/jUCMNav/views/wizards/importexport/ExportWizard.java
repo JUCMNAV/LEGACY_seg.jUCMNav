@@ -129,7 +129,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
     public boolean needsProgressMonitor() {
         return true;
     }
-    
+
     /**
      * Add both pages
      */
@@ -154,7 +154,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * @param editor
      * @param diagram
      */
-    
+
     protected void defineMapping(UCMNavMultiPageEditor editor, IURNDiagram diagram) {
         mapsToEditor.put(diagram, editor);
         mapsToSpecificEditor.put(diagram, editor.getEditor(editor.getModel().getUrndef().getSpecDiagrams().indexOf(diagram)));
@@ -163,7 +163,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
     /**
      * Saves all images and closes opened editors.
      */
-    
+
     protected boolean doFinish(IProgressMonitor monitor) throws Exception {
         boolean b = ((ExportWizardMapSelectionPage) getPage(PAGE1)).finish();
         postHooks = new Vector();
@@ -175,8 +175,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
             for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
                 if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
                     ExportDiagram((IURNDiagram) iter.next());
-                }
-                else
+                } else
                     ExportURN((IURNDiagram) iter.next(), v);
 
                 monitor.worked(1);
@@ -190,7 +189,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * 
      * @param diagram
      */
-    protected void ExportDiagram(IURNDiagram diagram) throws Exception  {
+    protected void ExportDiagram(IURNDiagram diagram) throws Exception {
         FileOutputStream fos = null;
 
         try {
@@ -204,7 +203,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
             Path genericPath = new Path(ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_PATH));
             genericPath = (Path) genericPath.append("/" + diagramName); //$NON-NLS-1$
             genericPath = (Path) genericPath.addFileExtension(UCMExportExtensionPointHelper.getFilenameExtension(id));
-            
+
             // get the simple editor
             UrnEditor editor = (UrnEditor) mapsToSpecificEditor.get(diagram);
 
@@ -256,7 +255,6 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
     }
 
-
     /**
      * Exports a URNSpec to a file. Uses mapsToExport to find the editor and the preference store to build the file name.
      * 
@@ -281,7 +279,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             // generate the path.
             Path genericPath = new Path(ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_PATH));
-            genericPath = (Path) genericPath.append("/" + ExportPreferenceHelper.getFilenamePrefix());  //$NON-NLS-1$
+            genericPath = (Path) genericPath.append("/" + ExportPreferenceHelper.getFilenamePrefix()); //$NON-NLS-1$
             genericPath = (Path) genericPath.addFileExtension(URNExportExtensionPointHelper.getFilenameExtension(id));
 
             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(diagram);
@@ -289,7 +287,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
             // get exporter
             IURNExport exporter = URNExportExtensionPointHelper.getExporter(id);
 
-            // TODO: this should be before we get to this point, in the same thread as the UI. 
+            // TODO: this should be before we get to this point, in the same thread as the UI.
             if (exporter instanceof IURNExportPrePostHooks) {
                 IURNExportPrePostHooks hooks = (IURNExportPrePostHooks) exporter;
                 hooks.preHook(editor);
@@ -298,7 +296,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
             HashMap mapDiagrams = new HashMap();
             for (Iterator iter = editor.getModel().getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
                 IURNDiagram diag = (IURNDiagram) iter.next();
-                UrnEditor editor2 = ((UrnEditor)mapsToSpecificEditor.get(diag));
+                UrnEditor editor2 = ((UrnEditor) mapsToSpecificEditor.get(diag));
                 LayeredPane pane = ((URNRootEditPart) (editor2.getGraphicalViewer().getRootEditPart())).getScaledLayers();
                 mapDiagrams.put(diag, pane);
             }
@@ -368,9 +366,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
     public static String getFilePrefix(IURNDiagram diagram) {
 
         String filename = ExportPreferenceHelper.getFilenamePrefix();
-        //((FileEditorInput) editor.getEditorInput()).getName();
+        // ((FileEditorInput) editor.getEditorInput()).getName();
         // remove the .jucm extension
-        if (filename.length()>5 && filename.substring(filename.length() - 5).equals(".jucm")){ //$NON-NLS-1$
+        if (filename.length() > 5 && filename.substring(filename.length() - 5).equals(".jucm")) { //$NON-NLS-1$
             filename = filename.substring(0, filename.length() - 5);
         }
         return filename;
@@ -440,7 +438,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
                         // to be able to close them later.
                         openedEditors.add(editor);
                     }
-                    //Set the filename prefix
+                    // Set the filename prefix
                     ExportPreferenceHelper.setFilenamePrefix(editor.getEditorInput().getName());
                 } catch (ClassCastException e) {
                     // if default editor isn't UCMNavMultiPageEditor
@@ -449,7 +447,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
                     e.printStackTrace();
                 }
 
-                if (editor==null)return;
+                if (editor == null)
+                    return;
                 // add all maps.
                 this.mapsToExport.addAll(editor.getModel().getUrndef().getSpecDiagrams());
                 for (Iterator iterator = editor.getModel().getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();) {
@@ -506,10 +505,10 @@ public class ExportWizard extends Wizard implements IExportWizard {
                     doFinish(monitor);
                 } catch (Exception ex) {
                     if (ex instanceof InvocationTargetException)
-                        throw (InvocationTargetException)ex;
-                    else 
+                        throw (InvocationTargetException) ex;
+                    else
                         throw new InvocationTargetException(ex);
-                }finally {
+                } finally {
                     monitor.done();
                 }
             }
@@ -522,7 +521,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 IURNExportPrePostHooks hook = (IURNExportPrePostHooks) iter.next();
                 hook.postHook(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage());
 
-            }            
+            }
             closedOpenedEditors();
 
         } catch (InterruptedException e) {
@@ -562,5 +561,4 @@ public class ExportWizard extends Wizard implements IExportWizard {
         getSelectedDiagrams().add(d);
     }
 
-    
 }

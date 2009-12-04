@@ -12,16 +12,16 @@ import seg.jUCMNav.model.util.DelegatingElementComparator;
 import ucm.UCMspec;
 
 /**
- * This class is the root edit part for the scenarios view. 
+ * This class is the root edit part for the scenarios view.
  * 
  * @author jkealey
- *
+ * 
  */
 public class UCMspecScenarioTreeEditPart extends StrategyUrnModelElementTreeEditPart {
-    
+
     /**
      * @param model
-     *          The UCMspec model
+     *            The UCMspec model
      */
     public UCMspecScenarioTreeEditPart(UCMspec model) {
         super(model);
@@ -46,20 +46,20 @@ public class UCMspecScenarioTreeEditPart extends StrategyUrnModelElementTreeEdit
      */
     public void deactivate() {
         if (isActive()) {
-        	getUCMspec().eAdapters().remove(this);
+            getUCMspec().eAdapters().remove(this);
         }
         super.deactivate();
     }
-    
+
     /**
      * @return the icon associated with the UCMspec
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage( "icons/folder16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/folder16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
-    
+
     /**
      * @return the sorted list of Scenario Groups
      */
@@ -74,10 +74,10 @@ public class UCMspecScenarioTreeEditPart extends StrategyUrnModelElementTreeEdit
      * 
      * @return the UCMspec
      */
-    private UCMspec getUCMspec(){
-        return (UCMspec)getModel();
+    private UCMspec getUCMspec() {
+        return (UCMspec) getModel();
     }
-    
+
     /**
      * @return the UCMspec name.
      */

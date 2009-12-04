@@ -11,30 +11,27 @@ import seg.jUCMNav.views.preferences.rulemanagement.RuleEditDialog;
 
 public class MetricsRuleEditDialog extends RuleEditDialog {
 
-	public MetricsRuleEditDialog(IShellProvider parentShell,
-			RuleManagementDefinitionManager defferManager) {
-		super(parentShell, defferManager);
-	}
+    public MetricsRuleEditDialog(IShellProvider parentShell, RuleManagementDefinitionManager defferManager) {
+        super(parentShell, defferManager);
+    }
 
-	public MetricsRuleEditDialog(Shell parentShell,
-			RuleManagementDefinitionManager defferManager) {
-		super(parentShell, defferManager);
-	}
+    public MetricsRuleEditDialog(Shell parentShell, RuleManagementDefinitionManager defferManager) {
+        super(parentShell, defferManager);
+    }
 
     // Override. Remove this part.
-	protected void createConstraintGUI(Composite c1){
-	}
-
-    protected String getQueryLabel(){
-    	return Messages.getString("MetricsRuleEditDialog.QueryExpression"); //$NON-NLS-1$
+    protected void createConstraintGUI(Composite c1) {
     }
-    
-    protected GridData getQueryGridData(){
-   	 GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+
+    protected String getQueryLabel() {
+        return Messages.getString("MetricsRuleEditDialog.QueryExpression"); //$NON-NLS-1$
+    }
+
+    protected GridData getQueryGridData() {
+        GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
         gd.heightHint = 80;
         return gd;
-   	
-   }
-    
+
+    }
 
 }

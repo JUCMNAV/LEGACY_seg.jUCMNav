@@ -12,25 +12,25 @@ import seg.jUCMNav.model.commands.delete.internal.CleanRelationshipsCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteGRLGraphRefDefLinksCommand;
 import urncore.IURNDiagram;
 
-
 /**
- * Command to delete a GRLGraph. 
+ * Command to delete a GRLGraph.
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class DeleteGRLGraphCommand extends CompoundCommand {
 
     private IURNDiagram diagram;
-    
+
     /**
      * 
      */
     public DeleteGRLGraphCommand(GRLGraph diagram) {
         setLabel(Messages.getString("DeleteGRLGraphCommand.deleteGrlGraph")); //$NON-NLS-1$
         setDiagram(diagram);
-        
+
         add(new CleanRelationshipsCommand(diagram));
-        //Command to delete information about link between GRL and UCM should be add in the CleanRelationshipCommand
+        // Command to delete information about link between GRL and UCM should be add in the CleanRelationshipCommand
         add(new DeleteGRLGraphRefDefLinksCommand(diagram));
     }
 
@@ -41,6 +41,5 @@ public class DeleteGRLGraphCommand extends CompoundCommand {
     public void setDiagram(IURNDiagram diagram) {
         this.diagram = diagram;
     }
-    
-    
+
 }

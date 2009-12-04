@@ -58,16 +58,15 @@ public class AutoLayoutPreferencePage extends FieldEditorPreferencePage implemen
         BooleanFieldEditor empty = new BooleanFieldEditor(AutoLayoutPreferences.PREF_EMPTYPOINTS, Messages
                 .getString("AutoLayoutDotSettingsWizardPage.manipulateEmptyPoints"), getFieldEditorParent()); //$NON-NLS-1$
         addField(empty);
-        
+
     }
 
     public void init(IWorkbench workbench) {
 
     }
 
-    public boolean isValid()
-    {
-    	return true; // otherwise we get stuck in the preference pages. 
+    public boolean isValid() {
+        return true; // otherwise we get stuck in the preference pages.
     }
 
 }

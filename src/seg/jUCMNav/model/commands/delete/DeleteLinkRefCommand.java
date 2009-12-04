@@ -14,26 +14,27 @@ import seg.jUCMNav.model.commands.delete.internal.RemoveElementLinkCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveLinkRefCommand;
 
 /**
- * Delete a LinkRef and all the LinkRefBendpoint associate to it. If it is the 
- * last linkref in the GRLGraphs, delete also the definition.
+ * Delete a LinkRef and all the LinkRefBendpoint associate to it. If it is the last linkref in the GRLGraphs, delete also the definition.
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class DeleteLinkRefCommand extends CompoundCommand {
 
     LinkRef linkref;
     ElementLink link;
+
     /**
-     * @param ref The LinkRef to delete
-     *     
+     * @param ref
+     *            The LinkRef to delete
+     * 
      */
     public DeleteLinkRefCommand(LinkRef ref) {
         this.linkref = ref;
         this.link = linkref.getLink();
         setLabel(Messages.getString("DeleteLinkRefCommand.deleteLinkRef")); //$NON-NLS-1$
     }
-    
+
     /**
      * Returns true even if no commands exist.
      */
@@ -43,7 +44,7 @@ public class DeleteLinkRefCommand extends CompoundCommand {
         else
             return super.canExecute();
     }
-    
+
     /**
      * Late building
      */
@@ -51,28 +52,28 @@ public class DeleteLinkRefCommand extends CompoundCommand {
         build();
         super.execute();
     }
-    
+
     /**
      * Builds a sequence of DeletePathNodeCommands
      * 
      */
     private void build() {
-    	int size = linkref.getBendpoints().size();
-        for (int i=0; i<size; i++){
-            LinkRefBendpoint bendpoint = (LinkRefBendpoint) linkref.getBendpoints().get(size-1-i);
+        int size = linkref.getBendpoints().size();
+        for (int i = 0; i < size; i++) {
+            LinkRefBendpoint bendpoint = (LinkRefBendpoint) linkref.getBendpoints().get(size - 1 - i);
             add(new DeleteLinkRefBendpointCommand(bendpoint));
         }
-        
+
         add(new RemoveLinkRefCommand(linkref));
-        if (link != null && link.getRefs().size() <= 1){
+        if (link != null && link.getRefs().size() <= 1) {
             add(new RemoveElementLinkCommand(link));
         }
     }
-    
-    public void setElementLink(ElementLink link){
-        for (int i = 0; i<getCommands().size(); i++){
-            if ((getCommands().get(i) instanceof RemoveLinkRefCommand)){
-                RemoveLinkRefCommand ref = (RemoveLinkRefCommand)getCommands().get(i);
+
+    public void setElementLink(ElementLink link) {
+        for (int i = 0; i < getCommands().size(); i++) {
+            if ((getCommands().get(i) instanceof RemoveLinkRefCommand)) {
+                RemoveLinkRefCommand ref = (RemoveLinkRefCommand) getCommands().get(i);
                 ref.setElementLink(link);
             }
         }

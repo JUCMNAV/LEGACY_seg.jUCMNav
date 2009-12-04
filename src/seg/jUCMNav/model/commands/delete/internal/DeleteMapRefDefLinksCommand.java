@@ -18,10 +18,10 @@ import urncore.Responsibility;
 /**
  * This class unlinks a Map from its ComponentRef->Component and RespRef->Responsibility references. It will also remove the map from its URNspec.
  * 
- * Intended to be used only by DeleteMapCommand, as PluginBindings might subsist.   
+ * Intended to be used only by DeleteMapCommand, as PluginBindings might subsist.
  * 
  * @author jkealey, gunterm
- *  
+ * 
  */
 public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavCommand {
 
@@ -33,12 +33,11 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
 
     // the URNspec in which it is contained
     private URNspec urn;
-    
+
     private int mapPosition;
-    
+
     // undo information: the concern assigned to the map
     private Concern concern;
-    
 
     /**
      * @param m
@@ -74,7 +73,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
                 htReferences.put(node, ((RespRef) node).getRespDef());
         }
         concern = getMap().getConcern();
-        
+
         mapPosition = getMap().getUrndefinition().getSpecDiagrams().indexOf(getMap());
         redo();
     }
@@ -88,7 +87,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
      */
     public void redo() {
         testPreConditions();
-        
+
         // remove map
         urn.getUrndef().getSpecDiagrams().remove(getMap());
 
@@ -103,9 +102,9 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
             if (node instanceof RespRef)
                 ((RespRef) node).setRespDef(null);
         }
-        
+
         map.setConcern(null);
-        
+
         testPostConditions();
     }
 
@@ -179,9 +178,9 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
             if (node instanceof RespRef)
                 ((RespRef) node).setRespDef((Responsibility) htReferences.get(node));
         }
-        
+
         map.setConcern(concern);
-        
+
         testPreConditions();
     }
 

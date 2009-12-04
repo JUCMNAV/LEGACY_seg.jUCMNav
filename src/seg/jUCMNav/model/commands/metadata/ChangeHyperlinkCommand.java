@@ -17,12 +17,12 @@ import urncore.URNmodelElement;
  */
 public class ChangeHyperlinkCommand extends Command implements JUCMNavCommand {
     private URNspec urnspec;
-	private URNmodelElement urnelem;
+    private URNmodelElement urnelem;
     private String oldHyperlink;
     private String newHyperlink;
 
     public ChangeHyperlinkCommand(URNspec spec, EObject obj, String hyperlink) {
-    	urnspec = spec;
+        urnspec = spec;
         if (obj instanceof URNmodelElement) {
             this.urnelem = (URNmodelElement) obj;
             this.newHyperlink = hyperlink;
@@ -34,7 +34,7 @@ public class ChangeHyperlinkCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	oldHyperlink = MetadataHelper.getMetaData(urnelem, HyperlinkUtils.HYPERLINK);
+        oldHyperlink = MetadataHelper.getMetaData(urnelem, HyperlinkUtils.HYPERLINK);
         redo();
     }
 
@@ -47,10 +47,10 @@ public class ChangeHyperlinkCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         if (newHyperlink != null)
-        	MetadataHelper.addMetaData(urnspec, urnelem, HyperlinkUtils.HYPERLINK, newHyperlink);
+            MetadataHelper.addMetaData(urnspec, urnelem, HyperlinkUtils.HYPERLINK, newHyperlink);
         else
-        	MetadataHelper.removeMetaData(urnelem, HyperlinkUtils.HYPERLINK);
-        
+            MetadataHelper.removeMetaData(urnelem, HyperlinkUtils.HYPERLINK);
+
         testPostConditions();
     }
 
@@ -81,9 +81,9 @@ public class ChangeHyperlinkCommand extends Command implements JUCMNavCommand {
         testPostConditions();
 
         if (oldHyperlink != null)
-        	MetadataHelper.addMetaData(urnspec, urnelem, HyperlinkUtils.HYPERLINK, oldHyperlink);
+            MetadataHelper.addMetaData(urnspec, urnelem, HyperlinkUtils.HYPERLINK, oldHyperlink);
         else
-        	MetadataHelper.removeMetaData(urnelem, HyperlinkUtils.HYPERLINK);
+            MetadataHelper.removeMetaData(urnelem, HyperlinkUtils.HYPERLINK);
 
         testPreConditions();
     }

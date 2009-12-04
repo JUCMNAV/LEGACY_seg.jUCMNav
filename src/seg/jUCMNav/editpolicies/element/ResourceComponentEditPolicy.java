@@ -15,18 +15,18 @@ import ucm.performance.GeneralResource;
 public class ResourceComponentEditPolicy extends ComponentEditPolicy {
 
     /**
-     * Return a DeleteResourceCommand. 
+     * Return a DeleteResourceCommand.
      */
     protected Command getDeleteCommand(GroupRequest request) {
         Object obj = getHost().getModel();
         if (obj instanceof GeneralResource) {
 
             GeneralResource elem = (GeneralResource) obj;
-//            if (elem.getDemands().size() == 0) {
-                DeleteGeneralResourceCommand deleteCommand = new DeleteGeneralResourceCommand(elem);
-                return deleteCommand;
-//            } else
-//                return null;
+            // if (elem.getDemands().size() == 0) {
+            DeleteGeneralResourceCommand deleteCommand = new DeleteGeneralResourceCommand(elem);
+            return deleteCommand;
+            // } else
+            // return null;
         }
 
         return null;

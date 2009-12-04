@@ -9,14 +9,14 @@ import org.eclipse.swt.SWT;
  * Figure that represent a belief in GRL
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class BeliefFigure extends GrlNodeFigure {
- 
+
     // default sizes
     protected final static int DEFAULT_HEIGHT = 50;
     protected final static int DEFAULT_WIDTH = 100;
-   
+
     /**
      * Override this method if your figure is not of the default size.
      * 
@@ -26,10 +26,9 @@ public class BeliefFigure extends GrlNodeFigure {
     public static Dimension getDefaultDimension() {
         return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
-    
+
     /**
-     * Constructor of the belief figure
-     * the line style is in dash
+     * Constructor of the belief figure the line style is in dash
      */
     public BeliefFigure() {
         super();
@@ -38,7 +37,9 @@ public class BeliefFigure extends GrlNodeFigure {
         setAntialias(SWT.ON);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.figures.GrlNodeFigure#outlineShape(org.eclipse.draw2d.Graphics)
      */
     protected void outlineShape(Graphics graphics) {
@@ -50,7 +51,9 @@ public class BeliefFigure extends GrlNodeFigure {
         graphics.drawOval(r);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.figures.GrlNodeFigure#fillShape(org.eclipse.draw2d.Graphics)
      */
     protected void fillShape(Graphics graphics) {

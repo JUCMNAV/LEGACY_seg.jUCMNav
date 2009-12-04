@@ -1,4 +1,3 @@
-
 package seg.jUCMNav.editparts.treeEditparts;
 
 import grl.Belief;
@@ -13,13 +12,13 @@ import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
  * TreeEditPart for the Beliefs
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class BeliefTreeEditPart extends UrnModelElementTreeEditPart {
 
     /**
      * @param model
-     *          The belief
+     *            The belief
      */
     public BeliefTreeEditPart(Belief model) {
         super(model);
@@ -31,13 +30,13 @@ public class BeliefTreeEditPart extends UrnModelElementTreeEditPart {
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new GRLNodeComponentEditPolicy());
     }
-    
+
     /**
      * Returns an image representing the Intentional element.
      */
     protected Image getImage() {
         if (super.getImage() == null) {
-            setImage((JUCMNavPlugin.getImage( "icons/Belief16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Belief16.gif"))); //$NON-NLS-1$
         }
         return super.getImage();
     }

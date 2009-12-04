@@ -12,7 +12,7 @@ import ucm.map.PluginBinding;
  * Deletes a plugin's outbinding.
  * 
  * @author TremblaE
- *  
+ * 
  */
 public class DeleteOutBindingCommand extends Command implements JUCMNavCommand {
 
@@ -22,6 +22,7 @@ public class DeleteOutBindingCommand extends Command implements JUCMNavCommand {
     private NodeConnection stubExit;
 
     private int index;
+
     /**
      * @param out
      *            the outbinding to be deleted.
@@ -46,7 +47,7 @@ public class DeleteOutBindingCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
-    	index = plugin.getOut().indexOf(out);
+        index = plugin.getOut().indexOf(out);
         plugin.getOut().remove(out);
         end.getOutBindings().remove(out);
         stubExit.getOutBindings().remove(out);

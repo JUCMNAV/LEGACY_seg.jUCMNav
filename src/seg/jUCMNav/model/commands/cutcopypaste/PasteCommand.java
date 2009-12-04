@@ -82,1039 +82,899 @@ import urncore.IURNDiagram;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 
-public class PasteCommand extends CompoundCommand
-{
-	protected EObject insertionPoint; 
-	protected Point nodeConnectionMiddle, cursorLocation; 
-	protected List sourceIds;
-	protected List sourceSelection;
-	protected URNspec sourceUrn; 
+public class PasteCommand extends CompoundCommand {
+    protected EObject insertionPoint;
+    protected Point nodeConnectionMiddle, cursorLocation;
+    protected List sourceIds;
+    protected List sourceSelection;
+    protected URNspec sourceUrn;
 
-	protected IURNDiagram targetDiagram;
-	protected UCMmap targetMap;
-	protected GRLGraph targetGraph;
-	protected URNspec targetUrn;
-	
-	protected boolean alreadyBuilt;
-	
-	
-	protected EObject firstPlaced;
-	protected int firstPlacedX;
-	protected int firstPlacedY;
-	
-	public PasteCommand(EObject insertionPoint, URNspec targetUrn, IURNDiagram targetMap, Point nodeConnectionMiddle, Point cursorLocation)
-	{
-		this.insertionPoint = insertionPoint;
-		this.targetUrn=targetUrn;
-		
-		this.targetDiagram=targetMap;
-		if (targetDiagram instanceof UCMmap)
-			this.targetMap=(UCMmap)targetDiagram;
-		else if (targetDiagram instanceof GRLGraph)
-			this.targetGraph = (GRLGraph) targetDiagram;
-		
-		this.nodeConnectionMiddle = nodeConnectionMiddle;
-		this.cursorLocation = cursorLocation;
-		
-		Clipboard clip = Clipboard.getInstance();
-		sourceIds = clip.getSelectedIds();
-		sourceUrn = clip.getOriginalURNspec();
-		sourceSelection = clip.getSelection();
-		alreadyBuilt=false;
-	}
+    protected IURNDiagram targetDiagram;
+    protected UCMmap targetMap;
+    protected GRLGraph targetGraph;
+    protected URNspec targetUrn;
 
-	public void build()
-	{
-		if (alreadyBuilt==true) return;
-		
-		if (insertionPoint==null)
-			return; 
-		else
-		{
-			
-			Responsibility def = getFirstResponsibility();
-			PathNode oldPn = getFirstPathNode();
-			
-			
-			// this must only be executed when actually doing the initial
-			// insert. otherwise create bogus items that are not used
-			
-			// only use the ModelCreationFactory for References. otherwise clone or lose metadata, urnlinks, etc. 
-			ModelCreationFactory factory;
-			PathNode newPathNode = null;
-			
-			if (def != null)
-			{
-				factory = new ModelCreationFactory(targetUrn, RespRef.class, def);
-				newPathNode = (RespRef) factory.getNewObject();
-			}
-			else if (oldPn != null)
-			{
-				newPathNode = (PathNode) EcoreUtil.copy(oldPn);
-				if (newPathNode instanceof Stub)
-				{
-					Stub stub = (Stub) newPathNode;
-					stub.getBindings().clear();
-				}
-				resetCloneId(newPathNode);
-			} 
+    protected boolean alreadyBuilt;
 
-			if (newPathNode != null && targetMap!=null)
-			{
+    protected EObject firstPlaced;
+    protected int firstPlacedX;
+    protected int firstPlacedY;
 
-				setNewNodePosition(newPathNode);
+    public PasteCommand(EObject insertionPoint, URNspec targetUrn, IURNDiagram targetMap, Point nodeConnectionMiddle, Point cursorLocation) {
+        this.insertionPoint = insertionPoint;
+        this.targetUrn = targetUrn;
 
-				if (newPathNode instanceof AndFork || newPathNode instanceof OrFork || newPathNode instanceof AndJoin || newPathNode instanceof OrJoin || newPathNode instanceof Stub || newPathNode instanceof Timer)
-				{
-					buildDividePath(oldPn, newPathNode);
-				}
-				else
-				{
-					buildRegularSplice(oldPn, newPathNode);
-				}
-				
-				if (newPathNode instanceof Stub)
-				{
-					Stub newStub = (Stub) newPathNode;
-					Stub oldStub = (Stub) oldPn;
-					
-					copyStubPlugins(newStub, oldStub);
-				}
-			}
-			
-			if (targetGraph!=null && getFirstGRLNode()!=null)
-			{
-				buildGrlNodes();
-			}
-			
-			if (targetDiagram!=null) 
-			{
-				buildAllContainerRefs();
-				
-				buildAllComments();
-			}
-			
-			if (targetUrn!=null)
-			{
-				Vector list = getSimpleList(-1);
-				for (Iterator iterator = list.iterator(); iterator.hasNext();)
-				{
-					EObject obj = (EObject) iterator.next();
-					if(obj instanceof Responsibility)
-					{
-						Responsibility oldResp=  (Responsibility)obj;
-						buildResponsibility(oldResp);
-					} else if(obj instanceof Component)
-					{
-						Component oldComponent = (Component) obj;
-						buildComponent(oldComponent);
-					} else if(obj instanceof Actor)
-					{
-						Actor oldActor = (Actor) obj;
-						buildActor(oldActor);
-					} else if (obj instanceof IURNDiagram)
-					{
-						IURNDiagram oldDiagram = (IURNDiagram) obj;
-						buildDiagram(oldDiagram);
-					}
-					else
-						System.out.println("TODO: Paste " + obj);
-				}
-				
-				list = getScenarioList(-1);
-				for (Iterator iterator = list.iterator(); iterator.hasNext();)
-				{
-					EObject obj = (EObject) iterator.next();
-					if(obj instanceof ScenarioDef && insertionPoint instanceof ScenarioGroup)
-					{
-						ScenarioDef oldScenario = (ScenarioDef) obj;
-						buildScenario(oldScenario, (ScenarioGroup) insertionPoint );
-					}				
-				}
-				
-				list = getScenarioGroupList(-1);
-				for (Iterator iterator = list.iterator(); iterator.hasNext();)
-				{
-					EObject obj = (EObject) iterator.next();
-					if(obj instanceof ScenarioGroup)
-					{
-						ScenarioGroup oldScenarioGroup = (ScenarioGroup) obj;
-						buildScenarioGroup(oldScenarioGroup);
-					}				
-				}	
-			}
-		}
-		
-		alreadyBuilt=true;
-	}
+        this.targetDiagram = targetMap;
+        if (targetDiagram instanceof UCMmap)
+            this.targetMap = (UCMmap) targetDiagram;
+        else if (targetDiagram instanceof GRLGraph)
+            this.targetGraph = (GRLGraph) targetDiagram;
 
-	private void buildGrlNodes()
-	{
-		Vector list = getClonedGrlNodeRefs();
-		
-		for (Iterator iterator = list.iterator(); iterator.hasNext();)
-		{
-			EObject obj = (EObject) iterator.next();
-			
-			if (obj instanceof IntentionalElementRef)
-			{
-				add(GrlGraphXYLayoutEditPolicy.buildCreateGrlNodeCommand(targetGraph, (IntentionalElementRef)obj));
-			} else if (obj instanceof Belief)
-			{
-				add(new AddBeliefCommand(targetGraph, (Belief)obj));
-			} else if (obj instanceof KPIInformationElementRef)
-			{
-				add(GrlGraphXYLayoutEditPolicy.buildCreateKPIInformationElementCommand(targetGraph, (KPIInformationElementRef)obj));
-			} 
-		}
-	}
+        this.nodeConnectionMiddle = nodeConnectionMiddle;
+        this.cursorLocation = cursorLocation;
 
-	private void buildActor(Actor oldActor)
-	{
-		if (URNElementFinder.findActorByName(targetUrn, oldActor.getName())==null)
-		{
-			Actor newActor = (Actor) EcoreUtil.copy(oldActor);
-			resetCloneId(newActor);
-			add(new CreateContainerCommand(targetUrn,newActor));
-		}
-	}
+        Clipboard clip = Clipboard.getInstance();
+        sourceIds = clip.getSelectedIds();
+        sourceUrn = clip.getOriginalURNspec();
+        sourceSelection = clip.getSelection();
+        alreadyBuilt = false;
+    }
 
-	private void buildAllComments()
-	{
-		Vector commentList = getClonedComments();
-		for (Iterator iterator = commentList.iterator(); iterator.hasNext();)
-		{
-			Comment comment = (Comment) iterator.next();
-			add(new AddCommentCommand(targetDiagram, comment));
-		}
-	}
+    public void build() {
+        if (alreadyBuilt == true)
+            return;
 
-	private void buildAllContainerRefs()
-	{
-		Vector compRefList = getClonedContainerRefs();
-		if (compRefList != null)
-		{
-			for (Iterator iterator = compRefList.iterator(); iterator.hasNext();)
-			{
-				IURNContainerRef newCompRef = (IURNContainerRef) iterator.next();
-				add(new AddContainerRefCommand(targetDiagram, newCompRef));
-		        add(new SetConstraintBoundContainerRefCompoundCommand(newCompRef, newCompRef.getX(), newCompRef.getY(), newCompRef.getWidth(), newCompRef.getHeight()));
-			}
-		}
-	}
+        if (insertionPoint == null)
+            return;
+        else {
 
-	private void buildComponent(Component oldComponent)
-	{
-		if (URNElementFinder.findComponentByName(targetUrn, oldComponent.getName())==null)
-		{
-			Component newComponent = (Component) EcoreUtil.copy(oldComponent);
-			resetCloneId(newComponent);
-			add(new CreateContainerCommand(targetUrn,newComponent));
-		}
-	}
+            Responsibility def = getFirstResponsibility();
+            PathNode oldPn = getFirstPathNode();
 
-	private void buildDiagram(IURNDiagram oldDiagram)
-	{
-		String oldName = ((URNmodelElement)oldDiagram).getName();
-		IURNDiagram toClone= URNElementFinder.findMapByName(targetUrn, oldName);
-		if (toClone instanceof UCMmap)
-		{
-			add(new DuplicateMapCommand((UCMmap)toClone));
-		}
-		else if (toClone instanceof GRLGraph)
-		{
-			add(new DuplicateMapCommand((GRLGraph)toClone));
-		}
-	}
-	
-	private void buildDividePath(PathNode oldPn, PathNode newPathNode)
-	{
-		DividePathCommand cmd = null;
-		if (insertionPoint instanceof EmptyPoint) {
-			cmd = new DividePathCommand(newPathNode, (EmptyPoint)insertionPoint);
-		}
-		else if (insertionPoint instanceof DirectionArrow)
-			cmd = new DividePathCommand(newPathNode, (DirectionArrow)insertionPoint);
-		else if (insertionPoint instanceof NodeConnection)
-			cmd = new DividePathCommand(newPathNode, (NodeConnection)insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y);
-		
-		if (cmd!=null && oldPn!=null)
-			cmd.cloneBranchesFrom(oldPn, targetMap);
-		if (cmd!=null)
-			add(cmd);
-	}
+            // this must only be executed when actually doing the initial
+            // insert. otherwise create bogus items that are not used
 
-	private void buildRegularSplice(PathNode oldPn, PathNode newPathNode)
-	{
-		Condition cond= null;
-		if (oldPn.getSucc().size()>0)
-		{
-			NodeConnection nc = (NodeConnection)oldPn.getSucc().get(0);
-			cond = nc.getCondition();
-		}
-		
-		Command cmd=null;
-		if (insertionPoint instanceof PathNode)
-			cmd = new ReplaceEmptyPointCommand((PathNode) insertionPoint, newPathNode, cond );
-		else if (insertionPoint instanceof NodeConnection)
-		    cmd = new SplitLinkCommand(targetMap, newPathNode, (NodeConnection)insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y, cond) ;
-		
-		if (cmd!=null)
-			add(cmd);
-	}
+            // only use the ModelCreationFactory for References. otherwise clone or lose metadata, urnlinks, etc.
+            ModelCreationFactory factory;
+            PathNode newPathNode = null;
 
-	private void buildResponsibility(Responsibility oldResp)
-	{
-		if (URNElementFinder.findResponsibilityByName(targetUrn, oldResp.getName())==null) 
-		{
-			Responsibility newResp = (Responsibility) EcoreUtil.copy(oldResp);
-			resetCloneId(newResp);
-			add(new CreateResponsibilityCommand(targetUrn,newResp));
-		}
-	}
+            if (def != null) {
+                factory = new ModelCreationFactory(targetUrn, RespRef.class, def);
+                newPathNode = (RespRef) factory.getNewObject();
+            } else if (oldPn != null) {
+                newPathNode = (PathNode) EcoreUtil.copy(oldPn);
+                if (newPathNode instanceof Stub) {
+                    Stub stub = (Stub) newPathNode;
+                    stub.getBindings().clear();
+                }
+                resetCloneId(newPathNode);
+            }
 
-	private void buildScenario(ScenarioDef oldScenario, ScenarioGroup targetGroup)
-	{
-		if (targetGroup!=null)
-		{
-			
-			// create a shallow copy to break references to stuff we don't know exists. 
-			ScenarioDef newScenario =(ScenarioDef) EcoreUtil.copy(oldScenario);
-			resetCloneId(newScenario);
-			newScenario.getStartPoints().clear();
-			newScenario.getEndPoints().clear();
-			
-			DuplicateCommand duplicateCommand = new DuplicateCommand(newScenario, targetGroup, targetUrn);
-			add(duplicateCommand);
-			
-			ScenarioDef duplicate = (ScenarioDef) duplicateCommand.getDuplicate();
-			for (int i=0;i<oldScenario.getInitializations().size();i++)
-			{
-				Initialization init = (Initialization) oldScenario.getInitializations().get(i);
-				Variable var = URNElementFinder.findVariable(targetUrn, init.getVariable().getId());
-				if (var!=null)
-				{
-					add(new CreateVariableInitializationCommand(var, duplicate, init.getValue() ));
-				}
-			}
-			for (int i=0;i<oldScenario.getStartPoints().size();i++)
-			{
-				ScenarioStartPoint start = (ScenarioStartPoint) oldScenario.getStartPoints().get(i);
-				Object pn = URNElementFinder.find(targetUrn, start.getStartPoint().getId());
-				if (pn!=null && pn instanceof StartPoint)
-				{
-					IncludePathNodeInScenarioCommand inc = new IncludePathNodeInScenarioCommand(duplicate, (PathNode) pn, targetUrn);
-					inc.setClone(start);
-					add(inc);
-				}
-			}
-			for (int i=0;i<oldScenario.getEndPoints().size();i++)
-			{
-				ScenarioEndPoint end = (ScenarioEndPoint) oldScenario.getEndPoints().get(i);
-				Object pn = URNElementFinder.find(targetUrn, end.getEndPoint().getId());
-				if (pn!=null && pn instanceof EndPoint)
-				{
-					IncludePathNodeInScenarioCommand inc = new IncludePathNodeInScenarioCommand(duplicate, (PathNode) pn, targetUrn);
-					inc.setClone(end);
-					add(inc);
-				}
-			}		
-			for (int i=0;i<oldScenario.getIncludedScenarios().size();i++)
-			{
-				ScenarioDef oldChild = (ScenarioDef) oldScenario.getIncludedScenarios().get(i);
-				ScenarioDef newChild = URNElementFinder.findScenario(targetUrn, oldChild.getId());
-				if (newChild!=null)
-				{
-					IncludeScenarioCommand inc = new IncludeScenarioCommand(duplicate, newChild,true);
-					add(inc);
-				}
-			}			
-		}
-	}
+            if (newPathNode != null && targetMap != null) {
 
-	private void buildScenarioGroup(ScenarioGroup oldScenarioGroup)
-	{
-		if (insertionPoint instanceof URNspec) 
-		{
-			ScenarioGroup newScenarioGroup =(ScenarioGroup) EcoreUtil.copy(oldScenarioGroup);
-			resetCloneId(newScenarioGroup);
-			
-			newScenarioGroup.getScenarios().clear();
-			DuplicateCommand duplicateCommand = new DuplicateCommand(newScenarioGroup, targetUrn);
-			add(duplicateCommand);
-			
-			ScenarioGroup duplicate = (ScenarioGroup) duplicateCommand.getDuplicate();
-			
-			for (Iterator iterator = oldScenarioGroup.getScenarios().iterator(); iterator.hasNext();)
-			{
-				ScenarioDef oldScenario = (ScenarioDef) iterator.next();
-				buildScenario(oldScenario, duplicate);
-			}
-		}
-	}
+                setNewNodePosition(newPathNode);
 
-	
-	public boolean canExecute()
-	{
-		boolean found = insertionPoint != null;
+                if (newPathNode instanceof AndFork || newPathNode instanceof OrFork || newPathNode instanceof AndJoin || newPathNode instanceof OrJoin
+                        || newPathNode instanceof Stub || newPathNode instanceof Timer) {
+                    buildDividePath(oldPn, newPathNode);
+                } else {
+                    buildRegularSplice(oldPn, newPathNode);
+                }
 
-		if (found)
-		{
-			// we've selected something that is copiable. 
-			found = (insertionPoint instanceof NodeConnection || insertionPoint instanceof EmptyPoint || insertionPoint instanceof DirectionArrow) && targetMap!=null && (getFirstResponsibility() != null || getFirstPathNode()!=null);
-			if (found) return true;
-			
-			
-			found =  insertionPoint instanceof IURNDiagram && (getFirstContainer()!=null);
-			if (found) return true;
-			
-			found =  insertionPoint instanceof IURNDiagram && getFirstComment()!=null;
-			if (found) return true;
+                if (newPathNode instanceof Stub) {
+                    Stub newStub = (Stub) newPathNode;
+                    Stub oldStub = (Stub) oldPn;
 
-			found =  insertionPoint instanceof GRLGraph && getFirstGRLNode()!=null;
-			if (found) return true;
+                    copyStubPlugins(newStub, oldStub);
+                }
+            }
 
-			found = insertionPoint instanceof ScenarioGroup && getFirstScenario()!=null;
-			if (found) return true;
-			
-			found = insertionPoint instanceof URNspec && getFirstScenarioGroup()!=null;
-			if (found) return true;
-			
-			found = insertionPoint instanceof URNspec && getFirstSimple()!=null; 
-			return found;
-		}
-		else
-			return false;
-	}
+            if (targetGraph != null && getFirstGRLNode() != null) {
+                buildGrlNodes();
+            }
 
-	private void copyStubPlugins(Stub newStub, Stub oldStub)
-	{
-		for (int i=0;i<oldStub.getBindings().size();i++)
-		{
-			PluginBinding binding = (PluginBinding ) oldStub.getBindings().get(i);
-			UCMmap oldMap = binding.getPlugin();
-			UCMmap map = (UCMmap) URNElementFinder.findMap(targetUrn, oldMap.getId());
-			if (map==null)
-			{
-				map = (UCMmap) URNElementFinder.findMapByName(targetUrn, oldMap.getName());
-			}
-			if (map!=null && map!=targetMap) // don't allow plugin to self. 
-			{
-				Condition condition = (Condition) EcoreUtil.copy(binding.getPrecondition());
-				add(new AddPluginCommand(newStub, map, condition));
-			}
-		}
-	}
+            if (targetDiagram != null) {
+                buildAllContainerRefs();
 
-	public void execute()
-	{
-		build();
-		super.execute();
-		postBuild();
-	}
-	
-	protected Vector getClonedComments()
-	{
-		return getCommentList(-1);
-	}
-	
-	/***
-	 * Special case for containers. Builds a list of containers refs that are ready to be inserted. 
-	 * 
-	 * @return a list of containers refs  
-	 */
-	protected Vector getClonedContainerRefs()
-	{
-		return getContainerList(-1, true);
-	}
+                buildAllComments();
+            }
 
-	protected Vector getClonedGrlNodeRefs()
-	{
-		return getGRLNodeList(-1, true);
-	}
-	
-	protected Vector getCommentList(int maxCount)
-	{
-		if (sourceIds != null && sourceUrn != null && targetUrn != null)
-		{
-			Vector results = new Vector();
-			for (Iterator iterator = sourceSelection.iterator(); iterator.hasNext();)
-			{
-				Object object = (Object) iterator.next();
-				if (object instanceof CommentEditPart)
-				{
-					Comment oldComment = (Comment)((CommentEditPart)object).getModel();
-					Comment newComment = (Comment) EcoreUtil.copy(oldComment);
-					
-					setNewCommentConstraints(newComment, oldComment);
-					
-					if (firstPlaced==null) // leave null for first added, then set it. 
-					{
-						firstPlaced=oldComment;
-						firstPlacedX=oldComment.getX();
-						firstPlacedY=oldComment.getY();
-					}
-					
-					results.add(newComment);
-				}
-				if (results.size()>=maxCount && maxCount>0)break;
-			}
-			return results;
-		}
-		return null;
-	}
-	
-	/**
-	 * Builds a list of elements that are ready to be inserted on a diagram. 
-	 * 
-	 * @param maxCount the maximum number of answers. limit the number for faster checks. 
-	 * @param generateRefs if true, will return a new ref - otherwise returns the original def 
-	 * 
-	 * @return a list of containers refs/containers
-	 */
-	protected Vector getContainerList(int maxCount, boolean generateRefs )
-	{
-		if (sourceIds != null && sourceUrn != null && targetUrn != null)
-		{
-			Vector results = new Vector();
+            if (targetUrn != null) {
+                Vector list = getSimpleList(-1);
+                for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+                    EObject obj = (EObject) iterator.next();
+                    if (obj instanceof Responsibility) {
+                        Responsibility oldResp = (Responsibility) obj;
+                        buildResponsibility(oldResp);
+                    } else if (obj instanceof Component) {
+                        Component oldComponent = (Component) obj;
+                        buildComponent(oldComponent);
+                    } else if (obj instanceof Actor) {
+                        Actor oldActor = (Actor) obj;
+                        buildActor(oldActor);
+                    } else if (obj instanceof IURNDiagram) {
+                        IURNDiagram oldDiagram = (IURNDiagram) obj;
+                        buildDiagram(oldDiagram);
+                    } else
+                        System.out.println("TODO: Paste " + obj);
+                }
 
-			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
-			{
-				String id = iterator.next().toString();
+                list = getScenarioList(-1);
+                for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+                    EObject obj = (EObject) iterator.next();
+                    if (obj instanceof ScenarioDef && insertionPoint instanceof ScenarioGroup) {
+                        ScenarioDef oldScenario = (ScenarioDef) obj;
+                        buildScenario(oldScenario, (ScenarioGroup) insertionPoint);
+                    }
+                }
 
-				IURNContainer def = null;
-				IURNContainerRef ref = null;
-				Object obj = URNElementFinder.find(sourceUrn, id);
-				// pasting on wrong map. 
-				if ((targetMap == null && obj instanceof ComponentRef) || (targetMap != null && obj instanceof ActorRef)) continue;
+                list = getScenarioGroupList(-1);
+                for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+                    EObject obj = (EObject) iterator.next();
+                    if (obj instanceof ScenarioGroup) {
+                        ScenarioGroup oldScenarioGroup = (ScenarioGroup) obj;
+                        buildScenarioGroup(oldScenarioGroup);
+                    }
+                }
+            }
+        }
 
-				if (obj instanceof IURNContainerRef)
-				{
-					ref = (IURNContainerRef) obj;
-					IURNContainer comp=null;
+        alreadyBuilt = true;
+    }
 
-					String oldDefinition = ((URNmodelElement)ref.getContDef()).getName();
-					if (ref instanceof ComponentRef)
-						comp = URNElementFinder.findComponentByName(targetUrn, oldDefinition);
-					else if (ref instanceof ActorRef)
-						comp = URNElementFinder.findActorByName(targetUrn, oldDefinition);
-					
-					if (comp==null) {
-						if (ref instanceof ComponentRef)
-							comp = URNElementFinder.findComponentByName(sourceUrn, oldDefinition);
-						else if (ref instanceof ActorRef)
-							comp = URNElementFinder.findActorByName(sourceUrn, oldDefinition);
+    private void buildGrlNodes() {
+        Vector list = getClonedGrlNodeRefs();
 
-						comp = (IURNContainer) EcoreUtil.copy(comp); // clone it because it is used to create a new element.
-						resetCloneId((URNmodelElement)comp);
-					}
-					def = comp;
-				}
-				
-				if (def!=null)
-				{
-					if (generateRefs) 
-					{
-						ModelCreationFactory factory=null;
-						if (ref instanceof ComponentRef)
-							factory = new ModelCreationFactory(targetUrn, ComponentRef.class, ((Component)def).getKind().getValue(), def);
-						else if (ref instanceof ActorRef)
-							factory = new ModelCreationFactory(targetUrn, ActorRef.class, def);
-						
-						if (factory!=null) 
-						{
-							IURNContainerRef newCompRef = (IURNContainerRef) factory.getNewObject();
-							setNewContainerConstraints(newCompRef, ref);
-	
-							if (firstPlaced==null) // leave null for first added, then set it. 
-							{
-								firstPlaced=ref;
-								firstPlacedX=ref.getX();
-								firstPlacedY=ref.getY();
-							}
-							results.add(newCompRef);
-						}
-					} 
-					else 
-					{
-						results.add(def);
-					}
-				}
-				if (results.size()>=maxCount && maxCount>0)break;
-			}
-			
-			return results;
-		}
-		return null;
-	}
-	
-	
-	/**
-	 * Builds a list of elements that are ready to be inserted on a diagram. 
-	 * 
-	 * @param maxCount the maximum number of answers. limit the number for faster checks. 
-	 * @param generateRefs if true, will return a new ref - otherwise returns the original def 
-	 * 
-	 * @return a list of refs/defs
-	 */
-	protected Vector getGRLNodeList(int maxCount, boolean generateRefs )
-	{
-		if (sourceIds != null && sourceUrn != null && targetUrn != null)
-		{
-			Vector results = new Vector();
+        for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+            EObject obj = (EObject) iterator.next();
 
-			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
-			{
-				String id = iterator.next().toString();
+            if (obj instanceof IntentionalElementRef) {
+                add(GrlGraphXYLayoutEditPolicy.buildCreateGrlNodeCommand(targetGraph, (IntentionalElementRef) obj));
+            } else if (obj instanceof Belief) {
+                add(new AddBeliefCommand(targetGraph, (Belief) obj));
+            } else if (obj instanceof KPIInformationElementRef) {
+                add(GrlGraphXYLayoutEditPolicy.buildCreateKPIInformationElementCommand(targetGraph, (KPIInformationElementRef) obj));
+            }
+        }
+    }
 
-				GRLmodelElement def = null;
-				GRLNode ref = null;
-				Object obj = URNElementFinder.find(sourceUrn, id);
-				// pasting on wrong graph. 
-				if (targetGraph == null && obj instanceof GRLNode) continue;
+    private void buildActor(Actor oldActor) {
+        if (URNElementFinder.findActorByName(targetUrn, oldActor.getName()) == null) {
+            Actor newActor = (Actor) EcoreUtil.copy(oldActor);
+            resetCloneId(newActor);
+            add(new CreateContainerCommand(targetUrn, newActor));
+        }
+    }
 
-				if (obj instanceof IntentionalElementRef)
-				{
-					IntentionalElementRef intentionalElementRef = (IntentionalElementRef) obj;
-					IntentionalElement intentionalElement=null;
+    private void buildAllComments() {
+        Vector commentList = getClonedComments();
+        for (Iterator iterator = commentList.iterator(); iterator.hasNext();) {
+            Comment comment = (Comment) iterator.next();
+            add(new AddCommentCommand(targetDiagram, comment));
+        }
+    }
 
-					String oldDefinition = ((URNmodelElement)intentionalElementRef.getDef()).getName();
+    private void buildAllContainerRefs() {
+        Vector compRefList = getClonedContainerRefs();
+        if (compRefList != null) {
+            for (Iterator iterator = compRefList.iterator(); iterator.hasNext();) {
+                IURNContainerRef newCompRef = (IURNContainerRef) iterator.next();
+                add(new AddContainerRefCommand(targetDiagram, newCompRef));
+                add(new SetConstraintBoundContainerRefCompoundCommand(newCompRef, newCompRef.getX(), newCompRef.getY(), newCompRef.getWidth(), newCompRef
+                        .getHeight()));
+            }
+        }
+    }
 
-					intentionalElement = URNElementFinder.findIntentionalElementByName(targetUrn, oldDefinition); 
-					
-					if (intentionalElement==null) {
-						intentionalElement = URNElementFinder.findIntentionalElementByName(sourceUrn, oldDefinition);
+    private void buildComponent(Component oldComponent) {
+        if (URNElementFinder.findComponentByName(targetUrn, oldComponent.getName()) == null) {
+            Component newComponent = (Component) EcoreUtil.copy(oldComponent);
+            resetCloneId(newComponent);
+            add(new CreateContainerCommand(targetUrn, newComponent));
+        }
+    }
 
-						IntentionalElement oldElement = intentionalElement;
-						intentionalElement = (IntentionalElement) EcoreUtil.copy(intentionalElement); // clone it because it is used to create a new element.
-						resetCloneId(intentionalElement);
-					}
-					
-					def = intentionalElement;
-					ref = intentionalElementRef; 
+    private void buildDiagram(IURNDiagram oldDiagram) {
+        String oldName = ((URNmodelElement) oldDiagram).getName();
+        IURNDiagram toClone = URNElementFinder.findMapByName(targetUrn, oldName);
+        if (toClone instanceof UCMmap) {
+            add(new DuplicateMapCommand((UCMmap) toClone));
+        } else if (toClone instanceof GRLGraph) {
+            add(new DuplicateMapCommand((GRLGraph) toClone));
+        }
+    }
 
-				} else if (obj instanceof Belief )
-				{
-					def = null;
-					ref = (Belief)obj;
-					if (generateRefs)
-					{
-						Belief newNode = (Belief) EcoreUtil.copy(ref);
-						setNewGRLConstraints(newNode, ref);
+    private void buildDividePath(PathNode oldPn, PathNode newPathNode) {
+        DividePathCommand cmd = null;
+        if (insertionPoint instanceof EmptyPoint) {
+            cmd = new DividePathCommand(newPathNode, (EmptyPoint) insertionPoint);
+        } else if (insertionPoint instanceof DirectionArrow)
+            cmd = new DividePathCommand(newPathNode, (DirectionArrow) insertionPoint);
+        else if (insertionPoint instanceof NodeConnection)
+            cmd = new DividePathCommand(newPathNode, (NodeConnection) insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y);
 
-						if (firstPlaced==null) // leave null for first added, then set it. 
-						{
-							firstPlaced=ref;
-							firstPlacedX=ref.getX();
-							firstPlacedY=ref.getY();
-						}
-						results.add(newNode);
+        if (cmd != null && oldPn != null)
+            cmd.cloneBranchesFrom(oldPn, targetMap);
+        if (cmd != null)
+            add(cmd);
+    }
 
-					}
-					else
-						results.add(ref);
-				} else if (obj instanceof KPIInformationElementRef )
-				{
-					KPIInformationElementRef informationElementRef = (KPIInformationElementRef) obj;
-					KPIInformationElement informationElement=null;
+    private void buildRegularSplice(PathNode oldPn, PathNode newPathNode) {
+        Condition cond = null;
+        if (oldPn.getSucc().size() > 0) {
+            NodeConnection nc = (NodeConnection) oldPn.getSucc().get(0);
+            cond = nc.getCondition();
+        }
 
-					String oldDefinition = ((URNmodelElement)informationElementRef.getDef()).getName();
+        Command cmd = null;
+        if (insertionPoint instanceof PathNode)
+            cmd = new ReplaceEmptyPointCommand((PathNode) insertionPoint, newPathNode, cond);
+        else if (insertionPoint instanceof NodeConnection)
+            cmd = new SplitLinkCommand(targetMap, newPathNode, (NodeConnection) insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y, cond);
 
-					informationElement = URNElementFinder.findKPIInformationElementByName(targetUrn, oldDefinition); 
-					
-					if (informationElement==null) {
-						informationElement = URNElementFinder.findKPIInformationElementByName(sourceUrn, oldDefinition);
+        if (cmd != null)
+            add(cmd);
+    }
 
-						informationElement = (KPIInformationElement) EcoreUtil.copy(informationElement); // clone it because it is used to create a new element.
-						resetCloneId(informationElement);
-					}
-					
-					def = informationElement;
-					ref = informationElementRef; 
-				}
-				
-				if (def!=null)
-				{
-					if (generateRefs) 
-					{
-						ModelCreationFactory factory=null;
-						if (ref instanceof IntentionalElementRef)
-							factory = new ModelCreationFactory(targetUrn, IntentionalElementRef.class, ((IntentionalElement)def).getType().getValue(), def);
-						else if (ref instanceof KPIInformationElementRef)
-							factory = new ModelCreationFactory(targetUrn, KPIInformationElementRef.class, def);
-						
-						if (factory!=null) 
-						{
-							GRLNode newNode = (GRLNode) factory.getNewObject();
-							setNewGRLConstraints(newNode, ref);
-	
-							if (firstPlaced==null) // leave null for first added, then set it. 
-							{
-								firstPlaced=ref;
-								firstPlacedX=ref.getX();
-								firstPlacedY=ref.getY();
-							}
-							results.add(newNode);
-						}
-					} 
-					else 
-					{
-						results.add(def);
-					}
-				}
-				if (results.size()>=maxCount && maxCount>0)break;
-			}
-			
-			return results;
-		}
-		return null;
-	}
-	
-	protected Comment getFirstComment()
-	{
-		Vector v=  getCommentList(1);
-		if (v==null || v.size()==0) 
-			return null;
-		else 
-			return (Comment) v.get(0);
-	}
-	
-	/***
-	 * Special case for components.
-	 * 
-	 * @return the first ComponentRef in our list 
-	 */
-	protected IURNContainer getFirstContainer()
-	{
-		Vector v=  getContainerList(1, false);
-		if (v==null || v.size()==0) 
-			return null;
-		else 
-			return (IURNContainer) v.get(0);
-	}
-	
+    private void buildResponsibility(Responsibility oldResp) {
+        if (URNElementFinder.findResponsibilityByName(targetUrn, oldResp.getName()) == null) {
+            Responsibility newResp = (Responsibility) EcoreUtil.copy(oldResp);
+            resetCloneId(newResp);
+            add(new CreateResponsibilityCommand(targetUrn, newResp));
+        }
+    }
 
-	protected GRLmodelElement getFirstGRLNode()
-	{
-		Vector v=  getGRLNodeList(1, false);
-		if (v==null || v.size()==0) 
-			return null;
-		else 
-			return (GRLmodelElement) v.get(0);
-	}
-	
-	
-	protected PathNode getFirstPathNode()
-	{
-		if (sourceIds != null && sourceUrn != null && targetUrn != null)
-		{
-			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
-			{
-				String id = iterator.next().toString();
-				
-				Object obj = URNElementFinder.find(sourceUrn, id);
-				if (IsPastablePathNode(obj))
-				{
-					PathNode oldPn =(PathNode) obj;
-					return oldPn; // pn from old urn
-				}
-			}
-		}
-		return null;
-	}
-	
-	/***
-	 * Special case for responsibilities.
-	 * 
-	 * @return the first Responsibility in our 
-	 */
-	protected Responsibility getFirstResponsibility()
-	{
+    private void buildScenario(ScenarioDef oldScenario, ScenarioGroup targetGroup) {
+        if (targetGroup != null) {
 
-		if (sourceIds != null && sourceUrn != null && targetUrn != null)
-		{
-			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
-			{
-				String id = iterator.next().toString();
+            // create a shallow copy to break references to stuff we don't know exists.
+            ScenarioDef newScenario = (ScenarioDef) EcoreUtil.copy(oldScenario);
+            resetCloneId(newScenario);
+            newScenario.getStartPoints().clear();
+            newScenario.getEndPoints().clear();
 
-				Object obj= URNElementFinder.find(sourceUrn, id);
-				if (obj instanceof RespRef)
-				{
-					String oldDefinition = ((RespRef) obj).getRespDef().getName();
-					// this one is faster... searching for the definition.
-					Responsibility resp = URNElementFinder.findResponsibilityByName(targetUrn, oldDefinition);
-					if (resp==null) {
-						resp = URNElementFinder.findResponsibilityByName(sourceUrn, oldDefinition);
-						resp = (Responsibility) EcoreUtil.copy(resp); // clone it because it is used to create a new element.
-						resetCloneId(resp);
-					}
-					return resp;
-				}
-			}
-		}
-		return null;
-	}
-	
-	
-	protected EObject getFirstSimple()
-	{
-		Vector v=  getSimpleList(1);
-		if (v==null || v.size()==0) 
-			return null;
-		else 
-			return (EObject) v.get(0);
-	}
+            DuplicateCommand duplicateCommand = new DuplicateCommand(newScenario, targetGroup, targetUrn);
+            add(duplicateCommand);
 
-	protected EObject getFirstScenario()
-	{
-		Vector v=  getScenarioList(1);
-		if (v==null || v.size()==0) 
-			return null;
-		else 
-			return (EObject) v.get(0);
-	}
-	
-	protected EObject getFirstScenarioGroup()
-	{
-		Vector v=  getScenarioGroupList(1);
-		if (v==null || v.size()==0) 
-			return null;
-		else 
-			return (EObject) v.get(0);
-	}
-		
-	protected Vector getSimpleList(int maxCount)
-	{
-		if (sourceIds != null && sourceUrn != null && targetUrn != null)
-		{
-			Vector results = new Vector();
-			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
-			{
-				String id = iterator.next().toString();
+            ScenarioDef duplicate = (ScenarioDef) duplicateCommand.getDuplicate();
+            for (int i = 0; i < oldScenario.getInitializations().size(); i++) {
+                Initialization init = (Initialization) oldScenario.getInitializations().get(i);
+                Variable var = URNElementFinder.findVariable(targetUrn, init.getVariable().getId());
+                if (var != null) {
+                    add(new CreateVariableInitializationCommand(var, duplicate, init.getValue()));
+                }
+            }
+            for (int i = 0; i < oldScenario.getStartPoints().size(); i++) {
+                ScenarioStartPoint start = (ScenarioStartPoint) oldScenario.getStartPoints().get(i);
+                Object pn = URNElementFinder.find(targetUrn, start.getStartPoint().getId());
+                if (pn != null && pn instanceof StartPoint) {
+                    IncludePathNodeInScenarioCommand inc = new IncludePathNodeInScenarioCommand(duplicate, (PathNode) pn, targetUrn);
+                    inc.setClone(start);
+                    add(inc);
+                }
+            }
+            for (int i = 0; i < oldScenario.getEndPoints().size(); i++) {
+                ScenarioEndPoint end = (ScenarioEndPoint) oldScenario.getEndPoints().get(i);
+                Object pn = URNElementFinder.find(targetUrn, end.getEndPoint().getId());
+                if (pn != null && pn instanceof EndPoint) {
+                    IncludePathNodeInScenarioCommand inc = new IncludePathNodeInScenarioCommand(duplicate, (PathNode) pn, targetUrn);
+                    inc.setClone(end);
+                    add(inc);
+                }
+            }
+            for (int i = 0; i < oldScenario.getIncludedScenarios().size(); i++) {
+                ScenarioDef oldChild = (ScenarioDef) oldScenario.getIncludedScenarios().get(i);
+                ScenarioDef newChild = URNElementFinder.findScenario(targetUrn, oldChild.getId());
+                if (newChild != null) {
+                    IncludeScenarioCommand inc = new IncludeScenarioCommand(duplicate, newChild, true);
+                    add(inc);
+                }
+            }
+        }
+    }
 
-				// search for the old id in the old model. 
-				Object obj = URNElementFinder.find(sourceUrn, id);
-				
-				if (obj instanceof IURNContainer || obj instanceof Responsibility || obj instanceof IURNDiagram)
-				{
-					results.add(obj);
-				}
-				if (results.size()>=maxCount && maxCount>0) break;
-			}
-			return results;
-		}
-		return null;
-	}
-	
+    private void buildScenarioGroup(ScenarioGroup oldScenarioGroup) {
+        if (insertionPoint instanceof URNspec) {
+            ScenarioGroup newScenarioGroup = (ScenarioGroup) EcoreUtil.copy(oldScenarioGroup);
+            resetCloneId(newScenarioGroup);
 
-	
-	protected Vector getScenarioList(int maxCount)
-	{
-		if (sourceIds != null && sourceUrn != null && targetUrn != null)
-		{
-			Vector results = new Vector();
-			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
-			{
-				String id = iterator.next().toString();
+            newScenarioGroup.getScenarios().clear();
+            DuplicateCommand duplicateCommand = new DuplicateCommand(newScenarioGroup, targetUrn);
+            add(duplicateCommand);
 
-				// search for the old id in the old model. 
-				Object obj = URNElementFinder.find(sourceUrn, id);
-				
-				if ( obj instanceof ScenarioDef)
-				{
-					results.add(obj);
-				} else if (obj instanceof ScenarioGroup)
-				{
-					for (int i=0;i<((ScenarioGroup)obj).getScenarios().size();i++)
-						results.add(((ScenarioGroup)obj).getScenarios().get(i));
-				}
-				if (results.size()>=maxCount && maxCount>0) break;
-			}
-			return results;
-		}
-		return null;
-	}
-	
-	protected Vector getScenarioGroupList(int maxCount)
-	{
-		if (sourceIds != null && sourceUrn != null && targetUrn != null)
-		{
-			Vector results = new Vector();
-			for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();)
-			{
-				String id = iterator.next().toString();
+            ScenarioGroup duplicate = (ScenarioGroup) duplicateCommand.getDuplicate();
 
-				// search for the old id in the old model. 
-				Object obj = URNElementFinder.find(sourceUrn, id);
-				
-				if ( obj instanceof ScenarioGroup)
-				{
-					results.add(obj);
-				}
-				if (results.size()>=maxCount && maxCount>0) break;
-			}
-			return results;
-		}
-		return null;
-	}
-		
-	protected boolean IsPastablePathNode(Object obj)
-	{
-		return obj instanceof PathNode && !(obj instanceof EndPoint) && !(obj instanceof StartPoint) && !(obj instanceof Connect);   
-	}	
-	
-	protected void postBuild()
-	{
-		Vector errors = SyntaxChecker.verifySyntax(targetUrn);
-		Vector toBeAdded = new Vector(); // variables to create. 
-		for (Iterator iterator = errors.iterator(); iterator.hasNext();)
-		{
-			TraversalWarning warning = (TraversalWarning) iterator.next();
-			if (warning.getExpression()!=null)
-			{
-				for (int i=0;i<sourceUrn.getUcmspec().getVariables().size();i++)
-				{
-					Variable var = (Variable)sourceUrn.getUcmspec().getVariables().get(i);
-					if (warning.getExpression().toLowerCase().indexOf(var.getName().toLowerCase())>=0)
-					{
-						if (!toBeAdded.contains(var) && !URNNamingHelper.doesVariableNameExist(targetUrn, var.getName()) )
-							toBeAdded.add(var);
-					}
-				}
-			}
-		}
-		
-		CompoundCommand cmd = new CompoundCommand();
-		HashMap createdEnumerations = new HashMap();
-		for (int i=0;i<toBeAdded.size();i++)
-		{
-			Variable var = (Variable)toBeAdded.get(i);
-			Variable newVar = (Variable)EcoreUtil.copy(var);
-			resetCloneId(newVar);
-			CreateVariableCommand createVar=new CreateVariableCommand(targetUrn, newVar);
+            for (Iterator iterator = oldScenarioGroup.getScenarios().iterator(); iterator.hasNext();) {
+                ScenarioDef oldScenario = (ScenarioDef) iterator.next();
+                buildScenario(oldScenario, duplicate);
+            }
+        }
+    }
 
-			if (var.getType()!=null && var.getType().equals(ScenarioUtils.sTypeEnumeration))
-			{
-				
-				EnumerationType newType = null;
-				for (int j=0;j<targetUrn.getUcmspec().getEnumerationTypes().size();j++)
-				{
-					EnumerationType type = (EnumerationType)targetUrn.getUcmspec().getEnumerationTypes().get(j);
-					if (type.getName().equals(var.getEnumerationType().getName()))
-						newType = type;
-				}
-				// we need to create the enumeration type. 
-				if (newType==null)
-				{
-					if (createdEnumerations.containsKey(var.getEnumerationType().getName()))
-						newType = (EnumerationType) createdEnumerations.get(var.getEnumerationType().getName());
-					else 
-					{
-						newType = (EnumerationType) EcoreUtil.copy(var.getEnumerationType());
-						resetCloneId(newType);
-						CreateEnumerationTypeCommand createEnum = new CreateEnumerationTypeCommand(targetUrn);
-						createEnum.setEnumerationType(newType);
-						createdEnumerations.put(newType.getName(), newType);
-						cmd.add(createEnum);
-					}
-				}
-				createVar.setEnumerationType(newType);
-			}			
-			
-			cmd.add(createVar);
-		}
-		
-		
-		// don't execute full command, just this portion. 
-		if (cmd.canExecute()) {
-			// chain it for the undo. 
-			add(cmd);
-			
-			cmd.execute();
-		}
-	}
-	private void resetCloneId(URNmodelElement clone) {
-		String name = clone.getName();
-		URNNamingHelper.setElementNameAndID(targetUrn, clone);
-		clone.setName(name);
-	}
+    public boolean canExecute() {
+        boolean found = insertionPoint != null;
 
-	private void setNewCommentConstraints(Comment newComment, Comment oldComment)
-	{
-		if (cursorLocation!=null) 
-		{
-			int x=cursorLocation.x,y=cursorLocation.y;
-			
-			if (firstPlaced!=null)
-			{
-				x += oldComment.getX()-firstPlacedX;
-				y += oldComment.getY()-firstPlacedY;
-			}
-			
-			newComment.setX(x);
-			newComment.setY(y);
-		}
-		
-		if (oldComment!=null)
-		{
-			newComment.setWidth(oldComment.getWidth());
-			newComment.setHeight(oldComment.getHeight());
-		}
-	}
-	
+        if (found) {
+            // we've selected something that is copiable.
+            found = (insertionPoint instanceof NodeConnection || insertionPoint instanceof EmptyPoint || insertionPoint instanceof DirectionArrow)
+                    && targetMap != null && (getFirstResponsibility() != null || getFirstPathNode() != null);
+            if (found)
+                return true;
 
-	private void setNewContainerConstraints(IURNContainerRef newCompRef, IURNContainerRef oldCompRef)
-	{
-		if (cursorLocation!=null) 
-		{
-			int x=cursorLocation.x,y=cursorLocation.y;
-			
-			if (firstPlaced!=null)
-			{
-				x += oldCompRef.getX()-firstPlacedX;
-				y += oldCompRef.getY()-firstPlacedY;
-			}
-			
-			newCompRef.setX(x);
-			newCompRef.setY(y);
-		}
-		
-		if (oldCompRef!=null)
-		{
-			newCompRef.setWidth(oldCompRef.getWidth());
-			newCompRef.setHeight(oldCompRef.getHeight());
-		}
-	}
-	private void setNewGRLConstraints(GRLNode newNode, GRLNode oldNode)
-	{
-		if (cursorLocation!=null) 
-		{
-			int x=cursorLocation.x,y=cursorLocation.y;
-			
-			if (firstPlaced!=null)
-			{
-				x += oldNode.getX()-firstPlacedX;
-				y += oldNode.getY()-firstPlacedY;
-			}
-			
-			newNode.setX(x);
-			newNode.setY(y);
-		}
-	}
-	
-	private void setNewNodePosition(PathNode newPathNode)
-	{
-		// ensures that created branches are at the right place. 
-		if (insertionPoint instanceof PathNode) 
-		{
-			newPathNode.setX(((PathNode) insertionPoint).getX());
-			newPathNode.setY(((PathNode) insertionPoint).getY());
-		} 
-		else if (insertionPoint instanceof NodeConnection)
-		{
-			newPathNode.setX(nodeConnectionMiddle.x);
-			newPathNode.setY(nodeConnectionMiddle.y);
-		}
-	}
+            found = insertionPoint instanceof IURNDiagram && (getFirstContainer() != null);
+            if (found)
+                return true;
+
+            found = insertionPoint instanceof IURNDiagram && getFirstComment() != null;
+            if (found)
+                return true;
+
+            found = insertionPoint instanceof GRLGraph && getFirstGRLNode() != null;
+            if (found)
+                return true;
+
+            found = insertionPoint instanceof ScenarioGroup && getFirstScenario() != null;
+            if (found)
+                return true;
+
+            found = insertionPoint instanceof URNspec && getFirstScenarioGroup() != null;
+            if (found)
+                return true;
+
+            found = insertionPoint instanceof URNspec && getFirstSimple() != null;
+            return found;
+        } else
+            return false;
+    }
+
+    private void copyStubPlugins(Stub newStub, Stub oldStub) {
+        for (int i = 0; i < oldStub.getBindings().size(); i++) {
+            PluginBinding binding = (PluginBinding) oldStub.getBindings().get(i);
+            UCMmap oldMap = binding.getPlugin();
+            UCMmap map = (UCMmap) URNElementFinder.findMap(targetUrn, oldMap.getId());
+            if (map == null) {
+                map = (UCMmap) URNElementFinder.findMapByName(targetUrn, oldMap.getName());
+            }
+            if (map != null && map != targetMap) // don't allow plugin to self.
+            {
+                Condition condition = (Condition) EcoreUtil.copy(binding.getPrecondition());
+                add(new AddPluginCommand(newStub, map, condition));
+            }
+        }
+    }
+
+    public void execute() {
+        build();
+        super.execute();
+        postBuild();
+    }
+
+    protected Vector getClonedComments() {
+        return getCommentList(-1);
+    }
+
+    /***
+     * Special case for containers. Builds a list of containers refs that are ready to be inserted.
+     * 
+     * @return a list of containers refs
+     */
+    protected Vector getClonedContainerRefs() {
+        return getContainerList(-1, true);
+    }
+
+    protected Vector getClonedGrlNodeRefs() {
+        return getGRLNodeList(-1, true);
+    }
+
+    protected Vector getCommentList(int maxCount) {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            Vector results = new Vector();
+            for (Iterator iterator = sourceSelection.iterator(); iterator.hasNext();) {
+                Object object = (Object) iterator.next();
+                if (object instanceof CommentEditPart) {
+                    Comment oldComment = (Comment) ((CommentEditPart) object).getModel();
+                    Comment newComment = (Comment) EcoreUtil.copy(oldComment);
+
+                    setNewCommentConstraints(newComment, oldComment);
+
+                    if (firstPlaced == null) // leave null for first added, then set it.
+                    {
+                        firstPlaced = oldComment;
+                        firstPlacedX = oldComment.getX();
+                        firstPlacedY = oldComment.getY();
+                    }
+
+                    results.add(newComment);
+                }
+                if (results.size() >= maxCount && maxCount > 0)
+                    break;
+            }
+            return results;
+        }
+        return null;
+    }
+
+    /**
+     * Builds a list of elements that are ready to be inserted on a diagram.
+     * 
+     * @param maxCount
+     *            the maximum number of answers. limit the number for faster checks.
+     * @param generateRefs
+     *            if true, will return a new ref - otherwise returns the original def
+     * 
+     * @return a list of containers refs/containers
+     */
+    protected Vector getContainerList(int maxCount, boolean generateRefs) {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            Vector results = new Vector();
+
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                IURNContainer def = null;
+                IURNContainerRef ref = null;
+                Object obj = URNElementFinder.find(sourceUrn, id);
+                // pasting on wrong map.
+                if ((targetMap == null && obj instanceof ComponentRef) || (targetMap != null && obj instanceof ActorRef))
+                    continue;
+
+                if (obj instanceof IURNContainerRef) {
+                    ref = (IURNContainerRef) obj;
+                    IURNContainer comp = null;
+
+                    String oldDefinition = ((URNmodelElement) ref.getContDef()).getName();
+                    if (ref instanceof ComponentRef)
+                        comp = URNElementFinder.findComponentByName(targetUrn, oldDefinition);
+                    else if (ref instanceof ActorRef)
+                        comp = URNElementFinder.findActorByName(targetUrn, oldDefinition);
+
+                    if (comp == null) {
+                        if (ref instanceof ComponentRef)
+                            comp = URNElementFinder.findComponentByName(sourceUrn, oldDefinition);
+                        else if (ref instanceof ActorRef)
+                            comp = URNElementFinder.findActorByName(sourceUrn, oldDefinition);
+
+                        comp = (IURNContainer) EcoreUtil.copy(comp); // clone it because it is used to create a new element.
+                        resetCloneId((URNmodelElement) comp);
+                    }
+                    def = comp;
+                }
+
+                if (def != null) {
+                    if (generateRefs) {
+                        ModelCreationFactory factory = null;
+                        if (ref instanceof ComponentRef)
+                            factory = new ModelCreationFactory(targetUrn, ComponentRef.class, ((Component) def).getKind().getValue(), def);
+                        else if (ref instanceof ActorRef)
+                            factory = new ModelCreationFactory(targetUrn, ActorRef.class, def);
+
+                        if (factory != null) {
+                            IURNContainerRef newCompRef = (IURNContainerRef) factory.getNewObject();
+                            setNewContainerConstraints(newCompRef, ref);
+
+                            if (firstPlaced == null) // leave null for first added, then set it.
+                            {
+                                firstPlaced = ref;
+                                firstPlacedX = ref.getX();
+                                firstPlacedY = ref.getY();
+                            }
+                            results.add(newCompRef);
+                        }
+                    } else {
+                        results.add(def);
+                    }
+                }
+                if (results.size() >= maxCount && maxCount > 0)
+                    break;
+            }
+
+            return results;
+        }
+        return null;
+    }
+
+    /**
+     * Builds a list of elements that are ready to be inserted on a diagram.
+     * 
+     * @param maxCount
+     *            the maximum number of answers. limit the number for faster checks.
+     * @param generateRefs
+     *            if true, will return a new ref - otherwise returns the original def
+     * 
+     * @return a list of refs/defs
+     */
+    protected Vector getGRLNodeList(int maxCount, boolean generateRefs) {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            Vector results = new Vector();
+
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                GRLmodelElement def = null;
+                GRLNode ref = null;
+                Object obj = URNElementFinder.find(sourceUrn, id);
+                // pasting on wrong graph.
+                if (targetGraph == null && obj instanceof GRLNode)
+                    continue;
+
+                if (obj instanceof IntentionalElementRef) {
+                    IntentionalElementRef intentionalElementRef = (IntentionalElementRef) obj;
+                    IntentionalElement intentionalElement = null;
+
+                    String oldDefinition = ((URNmodelElement) intentionalElementRef.getDef()).getName();
+
+                    intentionalElement = URNElementFinder.findIntentionalElementByName(targetUrn, oldDefinition);
+
+                    if (intentionalElement == null) {
+                        intentionalElement = URNElementFinder.findIntentionalElementByName(sourceUrn, oldDefinition);
+
+                        IntentionalElement oldElement = intentionalElement;
+                        intentionalElement = (IntentionalElement) EcoreUtil.copy(intentionalElement); // clone it because it is used to create a new element.
+                        resetCloneId(intentionalElement);
+                    }
+
+                    def = intentionalElement;
+                    ref = intentionalElementRef;
+
+                } else if (obj instanceof Belief) {
+                    def = null;
+                    ref = (Belief) obj;
+                    if (generateRefs) {
+                        Belief newNode = (Belief) EcoreUtil.copy(ref);
+                        setNewGRLConstraints(newNode, ref);
+
+                        if (firstPlaced == null) // leave null for first added, then set it.
+                        {
+                            firstPlaced = ref;
+                            firstPlacedX = ref.getX();
+                            firstPlacedY = ref.getY();
+                        }
+                        results.add(newNode);
+
+                    } else
+                        results.add(ref);
+                } else if (obj instanceof KPIInformationElementRef) {
+                    KPIInformationElementRef informationElementRef = (KPIInformationElementRef) obj;
+                    KPIInformationElement informationElement = null;
+
+                    String oldDefinition = ((URNmodelElement) informationElementRef.getDef()).getName();
+
+                    informationElement = URNElementFinder.findKPIInformationElementByName(targetUrn, oldDefinition);
+
+                    if (informationElement == null) {
+                        informationElement = URNElementFinder.findKPIInformationElementByName(sourceUrn, oldDefinition);
+
+                        informationElement = (KPIInformationElement) EcoreUtil.copy(informationElement); // clone it because it is used to create a new element.
+                        resetCloneId(informationElement);
+                    }
+
+                    def = informationElement;
+                    ref = informationElementRef;
+                }
+
+                if (def != null) {
+                    if (generateRefs) {
+                        ModelCreationFactory factory = null;
+                        if (ref instanceof IntentionalElementRef)
+                            factory = new ModelCreationFactory(targetUrn, IntentionalElementRef.class, ((IntentionalElement) def).getType().getValue(), def);
+                        else if (ref instanceof KPIInformationElementRef)
+                            factory = new ModelCreationFactory(targetUrn, KPIInformationElementRef.class, def);
+
+                        if (factory != null) {
+                            GRLNode newNode = (GRLNode) factory.getNewObject();
+                            setNewGRLConstraints(newNode, ref);
+
+                            if (firstPlaced == null) // leave null for first added, then set it.
+                            {
+                                firstPlaced = ref;
+                                firstPlacedX = ref.getX();
+                                firstPlacedY = ref.getY();
+                            }
+                            results.add(newNode);
+                        }
+                    } else {
+                        results.add(def);
+                    }
+                }
+                if (results.size() >= maxCount && maxCount > 0)
+                    break;
+            }
+
+            return results;
+        }
+        return null;
+    }
+
+    protected Comment getFirstComment() {
+        Vector v = getCommentList(1);
+        if (v == null || v.size() == 0)
+            return null;
+        else
+            return (Comment) v.get(0);
+    }
+
+    /***
+     * Special case for components.
+     * 
+     * @return the first ComponentRef in our list
+     */
+    protected IURNContainer getFirstContainer() {
+        Vector v = getContainerList(1, false);
+        if (v == null || v.size() == 0)
+            return null;
+        else
+            return (IURNContainer) v.get(0);
+    }
+
+    protected GRLmodelElement getFirstGRLNode() {
+        Vector v = getGRLNodeList(1, false);
+        if (v == null || v.size() == 0)
+            return null;
+        else
+            return (GRLmodelElement) v.get(0);
+    }
+
+    protected PathNode getFirstPathNode() {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                Object obj = URNElementFinder.find(sourceUrn, id);
+                if (IsPastablePathNode(obj)) {
+                    PathNode oldPn = (PathNode) obj;
+                    return oldPn; // pn from old urn
+                }
+            }
+        }
+        return null;
+    }
+
+    /***
+     * Special case for responsibilities.
+     * 
+     * @return the first Responsibility in our
+     */
+    protected Responsibility getFirstResponsibility() {
+
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                Object obj = URNElementFinder.find(sourceUrn, id);
+                if (obj instanceof RespRef) {
+                    String oldDefinition = ((RespRef) obj).getRespDef().getName();
+                    // this one is faster... searching for the definition.
+                    Responsibility resp = URNElementFinder.findResponsibilityByName(targetUrn, oldDefinition);
+                    if (resp == null) {
+                        resp = URNElementFinder.findResponsibilityByName(sourceUrn, oldDefinition);
+                        resp = (Responsibility) EcoreUtil.copy(resp); // clone it because it is used to create a new element.
+                        resetCloneId(resp);
+                    }
+                    return resp;
+                }
+            }
+        }
+        return null;
+    }
+
+    protected EObject getFirstSimple() {
+        Vector v = getSimpleList(1);
+        if (v == null || v.size() == 0)
+            return null;
+        else
+            return (EObject) v.get(0);
+    }
+
+    protected EObject getFirstScenario() {
+        Vector v = getScenarioList(1);
+        if (v == null || v.size() == 0)
+            return null;
+        else
+            return (EObject) v.get(0);
+    }
+
+    protected EObject getFirstScenarioGroup() {
+        Vector v = getScenarioGroupList(1);
+        if (v == null || v.size() == 0)
+            return null;
+        else
+            return (EObject) v.get(0);
+    }
+
+    protected Vector getSimpleList(int maxCount) {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            Vector results = new Vector();
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                // search for the old id in the old model.
+                Object obj = URNElementFinder.find(sourceUrn, id);
+
+                if (obj instanceof IURNContainer || obj instanceof Responsibility || obj instanceof IURNDiagram) {
+                    results.add(obj);
+                }
+                if (results.size() >= maxCount && maxCount > 0)
+                    break;
+            }
+            return results;
+        }
+        return null;
+    }
+
+    protected Vector getScenarioList(int maxCount) {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            Vector results = new Vector();
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                // search for the old id in the old model.
+                Object obj = URNElementFinder.find(sourceUrn, id);
+
+                if (obj instanceof ScenarioDef) {
+                    results.add(obj);
+                } else if (obj instanceof ScenarioGroup) {
+                    for (int i = 0; i < ((ScenarioGroup) obj).getScenarios().size(); i++)
+                        results.add(((ScenarioGroup) obj).getScenarios().get(i));
+                }
+                if (results.size() >= maxCount && maxCount > 0)
+                    break;
+            }
+            return results;
+        }
+        return null;
+    }
+
+    protected Vector getScenarioGroupList(int maxCount) {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            Vector results = new Vector();
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                // search for the old id in the old model.
+                Object obj = URNElementFinder.find(sourceUrn, id);
+
+                if (obj instanceof ScenarioGroup) {
+                    results.add(obj);
+                }
+                if (results.size() >= maxCount && maxCount > 0)
+                    break;
+            }
+            return results;
+        }
+        return null;
+    }
+
+    protected boolean IsPastablePathNode(Object obj) {
+        return obj instanceof PathNode && !(obj instanceof EndPoint) && !(obj instanceof StartPoint) && !(obj instanceof Connect);
+    }
+
+    protected void postBuild() {
+        Vector errors = SyntaxChecker.verifySyntax(targetUrn);
+        Vector toBeAdded = new Vector(); // variables to create.
+        for (Iterator iterator = errors.iterator(); iterator.hasNext();) {
+            TraversalWarning warning = (TraversalWarning) iterator.next();
+            if (warning.getExpression() != null) {
+                for (int i = 0; i < sourceUrn.getUcmspec().getVariables().size(); i++) {
+                    Variable var = (Variable) sourceUrn.getUcmspec().getVariables().get(i);
+                    if (warning.getExpression().toLowerCase().indexOf(var.getName().toLowerCase()) >= 0) {
+                        if (!toBeAdded.contains(var) && !URNNamingHelper.doesVariableNameExist(targetUrn, var.getName()))
+                            toBeAdded.add(var);
+                    }
+                }
+            }
+        }
+
+        CompoundCommand cmd = new CompoundCommand();
+        HashMap createdEnumerations = new HashMap();
+        for (int i = 0; i < toBeAdded.size(); i++) {
+            Variable var = (Variable) toBeAdded.get(i);
+            Variable newVar = (Variable) EcoreUtil.copy(var);
+            resetCloneId(newVar);
+            CreateVariableCommand createVar = new CreateVariableCommand(targetUrn, newVar);
+
+            if (var.getType() != null && var.getType().equals(ScenarioUtils.sTypeEnumeration)) {
+
+                EnumerationType newType = null;
+                for (int j = 0; j < targetUrn.getUcmspec().getEnumerationTypes().size(); j++) {
+                    EnumerationType type = (EnumerationType) targetUrn.getUcmspec().getEnumerationTypes().get(j);
+                    if (type.getName().equals(var.getEnumerationType().getName()))
+                        newType = type;
+                }
+                // we need to create the enumeration type.
+                if (newType == null) {
+                    if (createdEnumerations.containsKey(var.getEnumerationType().getName()))
+                        newType = (EnumerationType) createdEnumerations.get(var.getEnumerationType().getName());
+                    else {
+                        newType = (EnumerationType) EcoreUtil.copy(var.getEnumerationType());
+                        resetCloneId(newType);
+                        CreateEnumerationTypeCommand createEnum = new CreateEnumerationTypeCommand(targetUrn);
+                        createEnum.setEnumerationType(newType);
+                        createdEnumerations.put(newType.getName(), newType);
+                        cmd.add(createEnum);
+                    }
+                }
+                createVar.setEnumerationType(newType);
+            }
+
+            cmd.add(createVar);
+        }
+
+        // don't execute full command, just this portion.
+        if (cmd.canExecute()) {
+            // chain it for the undo.
+            add(cmd);
+
+            cmd.execute();
+        }
+    }
+
+    private void resetCloneId(URNmodelElement clone) {
+        String name = clone.getName();
+        URNNamingHelper.setElementNameAndID(targetUrn, clone);
+        clone.setName(name);
+    }
+
+    private void setNewCommentConstraints(Comment newComment, Comment oldComment) {
+        if (cursorLocation != null) {
+            int x = cursorLocation.x, y = cursorLocation.y;
+
+            if (firstPlaced != null) {
+                x += oldComment.getX() - firstPlacedX;
+                y += oldComment.getY() - firstPlacedY;
+            }
+
+            newComment.setX(x);
+            newComment.setY(y);
+        }
+
+        if (oldComment != null) {
+            newComment.setWidth(oldComment.getWidth());
+            newComment.setHeight(oldComment.getHeight());
+        }
+    }
+
+    private void setNewContainerConstraints(IURNContainerRef newCompRef, IURNContainerRef oldCompRef) {
+        if (cursorLocation != null) {
+            int x = cursorLocation.x, y = cursorLocation.y;
+
+            if (firstPlaced != null) {
+                x += oldCompRef.getX() - firstPlacedX;
+                y += oldCompRef.getY() - firstPlacedY;
+            }
+
+            newCompRef.setX(x);
+            newCompRef.setY(y);
+        }
+
+        if (oldCompRef != null) {
+            newCompRef.setWidth(oldCompRef.getWidth());
+            newCompRef.setHeight(oldCompRef.getHeight());
+        }
+    }
+
+    private void setNewGRLConstraints(GRLNode newNode, GRLNode oldNode) {
+        if (cursorLocation != null) {
+            int x = cursorLocation.x, y = cursorLocation.y;
+
+            if (firstPlaced != null) {
+                x += oldNode.getX() - firstPlacedX;
+                y += oldNode.getY() - firstPlacedY;
+            }
+
+            newNode.setX(x);
+            newNode.setY(y);
+        }
+    }
+
+    private void setNewNodePosition(PathNode newPathNode) {
+        // ensures that created branches are at the right place.
+        if (insertionPoint instanceof PathNode) {
+            newPathNode.setX(((PathNode) insertionPoint).getX());
+            newPathNode.setY(((PathNode) insertionPoint).getY());
+        } else if (insertionPoint instanceof NodeConnection) {
+            newPathNode.setX(nodeConnectionMiddle.x);
+            newPathNode.setY(nodeConnectionMiddle.y);
+        }
+    }
 
 }

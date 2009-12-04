@@ -56,7 +56,7 @@ public class DeletePluginCommand extends CompoundCommand {
 
     /**
      * Builds the CompoundCommand
-     *  
+     * 
      */
     private void build() {
         oldMap = oldPlugin.getPlugin();

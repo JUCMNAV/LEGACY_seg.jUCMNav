@@ -16,7 +16,7 @@ import ucm.map.Timer;
  * Special kind of ConnectionSplineFinder with more path stoppers. Used to determine deletion paths.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class DeletionPathFinder extends ConnectionSplineFinder {
 
@@ -44,7 +44,8 @@ public class DeletionPathFinder extends ConnectionSplineFinder {
      * @return true if path traversal should be stopped when hitting one of this node.
      */
     public boolean isPathStopper(PathNode node) {
-        return super.isPathStopper(node) || (node instanceof OrFork) || (node instanceof OrJoin) || (node instanceof Stub) || (node instanceof Timer && node.getSucc().size()>1);
+        return super.isPathStopper(node) || (node instanceof OrFork) || (node instanceof OrJoin) || (node instanceof Stub)
+                || (node instanceof Timer && node.getSucc().size() > 1);
     }
 
     /**
@@ -52,7 +53,7 @@ public class DeletionPathFinder extends ConnectionSplineFinder {
      * Must subclass inner class; same behaviour has superclass with different querytype.
      * 
      * @author jkealey
-     *  
+     * 
      */
     public class QFindSpline extends ConnectionSplineFinder.QFindSpline {
 
@@ -73,7 +74,7 @@ public class DeletionPathFinder extends ConnectionSplineFinder {
      * QueryResponse for deletion paths. Same as superclass but can also return the path as a list of nodes.
      * 
      * @author jkealey
-     *  
+     * 
      */
     public class RSpline extends ConnectionSplineFinder.RSpline {
 

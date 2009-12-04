@@ -31,7 +31,7 @@ import seg.jUCMNav.views.property.URNElementPropertySource;
 import urncore.Comment;
 
 /**
- * EditPart for comments. Duplicates a bit of code because is used for both GRL and UCM. 
+ * EditPart for comments. Duplicates a bit of code because is used for both GRL and UCM.
  * 
  * @author jkealey
  * 
@@ -40,7 +40,6 @@ public class CommentEditPart extends GrlNodeEditPart implements NodeEditPart {
 
     // for direct edit
     protected DirectEditManager manager;
-
 
     /**
      * 
@@ -81,7 +80,7 @@ public class CommentEditPart extends GrlNodeEditPart implements NodeEditPart {
      * @return true if the figure contains the point
      */
     private boolean directEditHitTest(Point requestLoc) {
-    	CommentFigure figure = (CommentFigure) getFigure();
+        CommentFigure figure = (CommentFigure) getFigure();
         figure.translateToRelative(requestLoc);
         if (figure.containsPoint(requestLoc))
             return true;
@@ -112,7 +111,7 @@ public class CommentEditPart extends GrlNodeEditPart implements NodeEditPart {
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
      */
     protected List getModelTargetConnections() {
-    	return null;
+        return null;
     }
 
     /**
@@ -173,17 +172,16 @@ public class CommentEditPart extends GrlNodeEditPart implements NodeEditPart {
         return getNodeFigure().getConnectionAnchor();
     }
 
-
     /**
      * @param value
      *            the name change during an edit
      */
     public void handleNameChange(String value) {
-    	CommentFigure tableFigure = (CommentFigure) getFigure();
+        CommentFigure tableFigure = (CommentFigure) getFigure();
         tableFigure.setVisible(false);
         refreshVisuals();
     }
-    
+
     /**
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
@@ -200,14 +198,14 @@ public class CommentEditPart extends GrlNodeEditPart implements NodeEditPart {
         if (notification.getEventType() == Notification.SET && getParent() != null)
             ((URNDiagramEditPart) getParent()).notifyChanged(notification);
     }
-    
+
     /**
      * Opens the direct edit manager.
-     *  
+     * 
      */
     protected void performDirectEdit() {
         if (manager == null) {
-        	CommentFigure figure = (CommentFigure) getFigure();
+            CommentFigure figure = (CommentFigure) getFigure();
 
             ICellEditorValidator validator = new ICellEditorValidator() {
                 public String isValid(Object value) {
@@ -219,7 +217,7 @@ public class CommentEditPart extends GrlNodeEditPart implements NodeEditPart {
         }
         manager.show();
     }
-  
+
     /**
      * Show direct edit on element on double click, f2 or delay.
      */
@@ -228,9 +226,9 @@ public class CommentEditPart extends GrlNodeEditPart implements NodeEditPart {
             if (request instanceof DirectEditRequest && !directEditHitTest(((DirectEditRequest) request).getLocation().getCopy()))
                 return;
             performDirectEdit();
-        } 
+        }
     }
-    
+
     /**
      * Refresh the figure and its associated labels.
      * 
@@ -247,8 +245,8 @@ public class CommentEditPart extends GrlNodeEditPart implements NodeEditPart {
 
         setText();
 
-        ((CommentFigure)figure).setColors(null, getNode().getFillColor(), getNode().getFillColor()!=null);
-        
+        ((CommentFigure) figure).setColors(null, getNode().getFillColor(), getNode().getFillColor() != null);
+
         // Make the label recenter itself.
         figure.validate();
 
@@ -259,12 +257,12 @@ public class CommentEditPart extends GrlNodeEditPart implements NodeEditPart {
         // if (getParent() != null)
         // (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
-    
+
     /**
      * Reverts to existing name in model when exiting from a direct edit (possibly before a commit which will result in a change in the element value)
      */
     public void revertNameChange() {
-    	CommentFigure tableFigure = (CommentFigure) getFigure();
+        CommentFigure tableFigure = (CommentFigure) getFigure();
         tableFigure.setVisible(true);
         refreshVisuals();
     }
@@ -277,6 +275,5 @@ public class CommentEditPart extends GrlNodeEditPart implements NodeEditPart {
             getNodeFigure().setEditableText(getNode().getDescription());
         }
     }
-    
-    
+
 }

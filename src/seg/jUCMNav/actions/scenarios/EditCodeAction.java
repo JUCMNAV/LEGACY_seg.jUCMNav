@@ -19,64 +19,65 @@ import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
  */
 public class EditCodeAction extends URNSelectionAction {
 
-	public static final String EDITCODEACTION = "seg.jUCMNav.EditCodeAction"; //$NON-NLS-1$
+    public static final String EDITCODEACTION = "seg.jUCMNav.EditCodeAction"; //$NON-NLS-1$
 
-	private EObject obj;
+    private EObject obj;
 
-	/**
-	 * @param part
-	 */
-	public EditCodeAction(IWorkbenchPart part) {
-		super(part);
-		setId(EDITCODEACTION);
-		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/condition.gif")); //$NON-NLS-1$
-	}
+    /**
+     * @param part
+     */
+    public EditCodeAction(IWorkbenchPart part) {
+        super(part);
+        setId(EDITCODEACTION);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/condition.gif")); //$NON-NLS-1$
+    }
 
-	/**
-	 * True if we've selected something with code. 	 */
-	protected boolean calculateEnabled() {
-		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-		switch (sel.getSelectionType()) {
-		case SelectionHelper.STARTPOINT: {
-			obj = sel.getStartpoint().getPrecondition();
-			return true;
-		} 
-		case SelectionHelper.ENDPOINT: {
-			obj = sel.getEndpoint().getPostcondition();
-			return true;
-		}
-		case SelectionHelper.CONDITION: 
-			obj = sel.getCondition();
-			return true;
-		case SelectionHelper.NODECONNECTION:
-			if (sel.getNodeconnection().getCondition() != null) {
-				obj = sel.getNodeconnection().getCondition();
-				return true;
-			}
-			break;
-		case SelectionHelper.RESPONSIBILITY: 
-			obj = sel.getRespDef();
-			return true;
-		case SelectionHelper.RESPONSIBILITYREF:
-			obj = sel.getRespRef();//.getRespDef();
-			return true;
-		}
-		return false;
-	}
+    /**
+     * True if we've selected something with code.
+     */
+    protected boolean calculateEnabled() {
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        switch (sel.getSelectionType()) {
+        case SelectionHelper.STARTPOINT: {
+            obj = sel.getStartpoint().getPrecondition();
+            return true;
+        }
+        case SelectionHelper.ENDPOINT: {
+            obj = sel.getEndpoint().getPostcondition();
+            return true;
+        }
+        case SelectionHelper.CONDITION:
+            obj = sel.getCondition();
+            return true;
+        case SelectionHelper.NODECONNECTION:
+            if (sel.getNodeconnection().getCondition() != null) {
+                obj = sel.getNodeconnection().getCondition();
+                return true;
+            }
+            break;
+        case SelectionHelper.RESPONSIBILITY:
+            obj = sel.getRespDef();
+            return true;
+        case SelectionHelper.RESPONSIBILITYREF:
+            obj = sel.getRespRef();// .getRespDef();
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Open's the code editor. 
-	 * 
-	 * @see org.eclipse.jface.action.IAction#run()
-	 */
-	public void run() {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		CodeEditor wizard = new CodeEditor();
+    /**
+     * Open's the code editor.
+     * 
+     * @see org.eclipse.jface.action.IAction#run()
+     */
+    public void run() {
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        CodeEditor wizard = new CodeEditor();
 
-		wizard.init(PlatformUI.getWorkbench(), null, obj);
-		WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.open();
+        wizard.init(PlatformUI.getWorkbench(), null, obj);
+        WizardDialog dialog = new WizardDialog(shell, wizard);
+        dialog.open();
 
-	}
+    }
 
 }

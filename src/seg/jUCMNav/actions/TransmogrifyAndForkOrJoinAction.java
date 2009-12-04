@@ -24,16 +24,16 @@ public class TransmogrifyAndForkOrJoinAction extends TransmogrifyForkOrJoinActio
     /**
      * Conditions for enabling: selection contains exactly 1 item and it's an and fork or and join.
      * 
-     * Sets the image descriptor. 
+     * Sets the image descriptor.
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.ANDJOIN:
-            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrJoin16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/OrJoin16.gif")); //$NON-NLS-1$
             return true;
         case SelectionHelper.ANDFORK:
-            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrFork16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/OrFork16.gif")); //$NON-NLS-1$
             return true;
         default:
             return false;

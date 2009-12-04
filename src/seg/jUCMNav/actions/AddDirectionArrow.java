@@ -1,4 +1,5 @@
 package seg.jUCMNav.actions;
+
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -16,8 +17,7 @@ import urn.URNspec;
  * @author Ali
  */
 public class AddDirectionArrow extends URNSelectionAction {
-    public static final String ADDDIRECTIONARROW= "seg.jUCMNav.CovertToArrow"; //$NON-NLS-1$
-    
+    public static final String ADDDIRECTIONARROW = "seg.jUCMNav.CovertToArrow"; //$NON-NLS-1$
 
     /**
      * @param part
@@ -25,23 +25,23 @@ public class AddDirectionArrow extends URNSelectionAction {
     public AddDirectionArrow(IWorkbenchPart part) {
         super(part);
         setId(ADDDIRECTIONARROW);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/DirectionArrow16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/DirectionArrow16.gif")); //$NON-NLS-1$
     }
 
     /**
-     * True if we've selected an empty point or a node connection. 
+     * True if we've selected an empty point or a node connection.
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.EMPTYPOINT:
-              return true;
+            return true;
         case SelectionHelper.NODECONNECTION:
             return true;
         }
         return false;
     }
-    
+
     /**
      * Returns the appropriate direction arrow creation command, given the current selection.
      */
@@ -49,28 +49,29 @@ public class AddDirectionArrow extends URNSelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         PathNode newDirectionArrow = getNewDirectionArrow(sel.getUrnspec());
         Command comm;
-        
-        
+
         switch (sel.getSelectionType()) {
 
         case SelectionHelper.EMPTYPOINT:
-           comm = new ReplaceEmptyPointCommand(sel.getEmptypoint(),newDirectionArrow);         
+            comm = new ReplaceEmptyPointCommand(sel.getEmptypoint(), newDirectionArrow);
             return comm;
 
         case SelectionHelper.NODECONNECTION:
-            comm = new SplitLinkCommand(sel.getMap(), newDirectionArrow, sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y ) ;         
-             return comm;
-             
+            comm = new SplitLinkCommand(sel.getMap(), newDirectionArrow, sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
+                    .getNodeconnectionMiddle().y);
+            return comm;
+
         default:
             return null;
         }
 
     }
-    
+
     /**
-     * Creates a new direction arrow. 
-     *  
-     * @param urn the URNspec in which to create it 
+     * Creates a new direction arrow.
+     * 
+     * @param urn
+     *            the URNspec in which to create it
      * @return a direction arrow
      */
     protected PathNode getNewDirectionArrow(URNspec urn) {

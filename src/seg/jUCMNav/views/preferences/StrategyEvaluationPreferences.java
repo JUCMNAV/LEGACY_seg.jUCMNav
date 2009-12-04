@@ -5,7 +5,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import seg.jUCMNav.JUCMNavPlugin;
 
 /**
- * Encapsulates load/save of the strategy evaluation properties. 
+ * Encapsulates load/save of the strategy evaluation properties.
  * 
  * @author jkealey, sghanava
  * 
@@ -14,22 +14,20 @@ public class StrategyEvaluationPreferences {
 
     public final static int DEFAULT_TOLERANCE = 10;
     public final static boolean DEFAULT_EVALFILLED = true;
-    
+
     public final static int QUANTITATIVE_ALGORITHM = 0;
     public final static int QUALITATIVE_ALGORITHM = 1;
     public final static int MIXED_ALGORITHM = 2;
     public final static int ROY_2006_GRL_ALGORITHM = 3;
     public final static int FORMULA_BASED_ALGORITHM = 4;
-    
-    public final static int DEFAULT_GRL_ALGORITHM = 0; //this should always be 0
+
+    public final static int DEFAULT_GRL_ALGORITHM = 0; // this should always be 0
     public final static int NUM_ALGORITHMS = 5;
-    
 
     public static final String PREF_ALGORITHM = "PREF_ALGORITHM"; //$NON-NLS-1$    
     public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$
     public static final String PREF_EVALFILLED = "PREF_EVALFILLED"; //$NON-NLS-1$
 
-    
     /**
      * 
      * @return Preference store where the properties are stored.
@@ -42,14 +40,14 @@ public class StrategyEvaluationPreferences {
      * Sets the default values in the preference store.
      */
     public static void createPreferences() {
-        getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_ALGORITHM, StrategyEvaluationPreferences.DEFAULT_GRL_ALGORITHM+"");    	 //$NON-NLS-1$
+        getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_ALGORITHM, StrategyEvaluationPreferences.DEFAULT_GRL_ALGORITHM + ""); //$NON-NLS-1$
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_TOLERANCE, StrategyEvaluationPreferences.DEFAULT_TOLERANCE);
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_EVALFILLED, StrategyEvaluationPreferences.DEFAULT_EVALFILLED);
     }
 
     /**
      * 
-     * @return the grl evaluation algorithm tolerance  
+     * @return the grl evaluation algorithm tolerance
      */
     public static int getTolerance() {
         return getPreferenceStore().getInt(PREF_TOLERANCE);
@@ -88,7 +86,7 @@ public class StrategyEvaluationPreferences {
     public static void setFillElements(boolean b) {
         getPreferenceStore().setValue(PREF_EVALFILLED, b);
     }
-    
+
     /**
      * 
      * @param b
@@ -97,6 +95,5 @@ public class StrategyEvaluationPreferences {
     public static void setAlgorithm(String b) {
         getPreferenceStore().setValue(PREF_ALGORITHM, b);
     }
-    
 
 }

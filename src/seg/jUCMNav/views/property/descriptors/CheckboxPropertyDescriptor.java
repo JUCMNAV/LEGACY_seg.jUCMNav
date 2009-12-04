@@ -9,7 +9,7 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
  * Property descriptor that includes the CheckboxButtonCellEditor
  * 
  * @author TremblaE
- *  
+ * 
  */
 public class CheckboxPropertyDescriptor extends PropertyDescriptor {
     private CheckboxButtonCellEditor editor;

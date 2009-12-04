@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Composite;
  * A composite to be added in a CompositeListControl
  * 
  * @author Etienne Tremblay
- *  
+ * 
  */
 public abstract class CompositeListItem extends Composite {
 
@@ -75,7 +75,7 @@ public abstract class CompositeListItem extends Composite {
 
     /**
      * deselect
-     *  
+     * 
      */
     public void unselect() {
         selected = false;

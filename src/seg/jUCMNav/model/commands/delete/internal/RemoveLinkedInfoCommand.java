@@ -50,9 +50,8 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     private PathNode scenarioPathNode;
     private ScenarioDef scenario;
     private EnumerationType enumType;
-    private List components; // Single Component or list of ComponentRegular 
+    private List components; // Single Component or list of ComponentRegular
     private List perfMeasures;
-    
 
     /**
      * 
@@ -98,7 +97,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     public RemoveLinkedInfoCommand(GRLGraph graph) {
         this.element = graph;
     }
-    
+
     /**
      * 
      * @param pt
@@ -107,7 +106,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     public RemoveLinkedInfoCommand(ScenarioStartPoint pt) {
         this.element = pt;
     }
-    
+
     /**
      * 
      * @param pt
@@ -116,7 +115,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     public RemoveLinkedInfoCommand(ScenarioEndPoint pt) {
         this.element = pt;
     }
-    
+
     /**
      * 
      * @param init
@@ -124,8 +123,8 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
      */
     public RemoveLinkedInfoCommand(Initialization init) {
         this.element = init;
-    }  
-    
+    }
+
     /**
      * 
      * @param var
@@ -133,8 +132,8 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
      */
     public RemoveLinkedInfoCommand(Variable var) {
         this.element = var;
-    }  
-    
+    }
+
     /**
      * 
      * @param resx
@@ -142,7 +141,8 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
      */
     public RemoveLinkedInfoCommand(GeneralResource resx) {
         this.element = resx;
-    }  
+    }
+
     /**
      * 
      * @see org.eclipse.gef.commands.Command#execute()
@@ -151,20 +151,20 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         if (element instanceof NodeConnection)
             this.condition = ((NodeConnection) element).getCondition();
         else if (element instanceof ScenarioStartPoint)
-        	this.scenarioPathNode = ((ScenarioStartPoint)element).getStartPoint();
+            this.scenarioPathNode = ((ScenarioStartPoint) element).getStartPoint();
         else if (element instanceof ScenarioEndPoint)
-        	this.scenarioPathNode = ((ScenarioEndPoint)element).getEndPoint();  
+            this.scenarioPathNode = ((ScenarioEndPoint) element).getEndPoint();
         else if (element instanceof Initialization)
-        	this.scenario = ((Initialization)element).getScenarioDef();
+            this.scenario = ((Initialization) element).getScenarioDef();
         else if (element instanceof Variable)
-        	this.enumType = ((Variable)element).getEnumerationType();
+            this.enumType = ((Variable) element).getEnumerationType();
         else if (element instanceof GeneralResource) {
             // TODO: could use RemoveResourceFromComponentCommand
-            
+
             this.components = new ArrayList();
             if (element instanceof PassiveResource) {
                 PassiveResource passiveResource = (PassiveResource) element;
-                if (passiveResource.getComponent()!=null)
+                if (passiveResource.getComponent() != null)
                     this.components.add(passiveResource.getComponent());
             } else if (element instanceof ProcessingResource) {
                 ProcessingResource processingResource = (ProcessingResource) element;
@@ -182,15 +182,15 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         if (element instanceof NodeConnection)
             ((NodeConnection) element).setCondition(null);
         else if (element instanceof ScenarioStartPoint)
-        	((ScenarioStartPoint)element).setStartPoint(null);
+            ((ScenarioStartPoint) element).setStartPoint(null);
         else if (element instanceof ScenarioEndPoint)
-        	((ScenarioEndPoint)element).setEndPoint(null);
+            ((ScenarioEndPoint) element).setEndPoint(null);
         else if (element instanceof Initialization)
-        	((Initialization)element).setScenarioDef(null);
+            ((Initialization) element).setScenarioDef(null);
         else if (element instanceof Variable)
-        	((Variable)element).setEnumerationType(null);
+            ((Variable) element).setEnumerationType(null);
         else if (element instanceof GeneralResource) {
-//            this.components = new ArrayList(); // This looks too destructive.  JS
+            // this.components = new ArrayList(); // This looks too destructive. JS
             if (element instanceof PassiveResource) {
                 PassiveResource passiveResource = (PassiveResource) element;
                 passiveResource.setComponent(null);
@@ -212,20 +212,20 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         if (element instanceof NodeConnection)
             ((NodeConnection) element).setCondition(condition);
         else if (element instanceof ScenarioStartPoint)
-        	((ScenarioStartPoint)element).setStartPoint((StartPoint)scenarioPathNode);
+            ((ScenarioStartPoint) element).setStartPoint((StartPoint) scenarioPathNode);
         else if (element instanceof ScenarioEndPoint)
-        	((ScenarioEndPoint)element).setEndPoint((EndPoint)scenarioPathNode);  
+            ((ScenarioEndPoint) element).setEndPoint((EndPoint) scenarioPathNode);
         else if (element instanceof Initialization)
-        	((Initialization)element).setScenarioDef(scenario);
+            ((Initialization) element).setScenarioDef(scenario);
         else if (element instanceof Variable)
-        	((Variable)element).setEnumerationType(enumType);
+            ((Variable) element).setEnumerationType(enumType);
         else if (element instanceof GeneralResource) {
             if (element instanceof PassiveResource) {
                 PassiveResource passiveResource = (PassiveResource) element;
-                if (this.components.size()==0)
+                if (this.components.size() == 0)
                     passiveResource.setComponent(null);
                 else
-                    passiveResource.setComponent((Component)this.components.get(0));
+                    passiveResource.setComponent((Component) this.components.get(0));
             } else if (element instanceof ProcessingResource) {
                 ProcessingResource processingResource = (ProcessingResource) element;
                 processingResource.getComponents().addAll(this.components);
@@ -239,8 +239,9 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
         assert element != null : "pre something is null"; //$NON-NLS-1$
-        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap || element instanceof GRLGraph || element instanceof ScenarioStartPoint || element instanceof ScenarioEndPoint || element instanceof Initialization || element instanceof Variable || element instanceof GeneralResource) : "pre invalid class"; //$NON-NLS-1$
-        
+        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap
+                || element instanceof GRLGraph || element instanceof ScenarioStartPoint || element instanceof ScenarioEndPoint
+                || element instanceof Initialization || element instanceof Variable || element instanceof GeneralResource) : "pre invalid class"; //$NON-NLS-1$
 
     }
 
@@ -251,24 +252,22 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         assert element != null : "post something is null"; //$NON-NLS-1$
         if (condition != null && element instanceof NodeConnection)
             assert ((NodeConnection) element).getCondition() == null : "post condition not removed"; //$NON-NLS-1$
-        
+
         if (element instanceof PassiveResource) {
             PassiveResource passiveResource = (PassiveResource) element;
             assert passiveResource.getComponent() == null : "passive resource still linked"; //$NON-NLS-1$
         } else if (element instanceof ProcessingResource) {
             ProcessingResource processingResource = (ProcessingResource) element;
-            assert processingResource.getComponents().size()==0 : "processing resource still linked"; //$NON-NLS-1$
-        }
-        
-        if (element instanceof ucm.performance.ExternalOperation)
-        {
-        	ucm.performance.ExternalOperation exOp = (ucm.performance.ExternalOperation) element;
-            assert exOp.getDemands().size()==0 : "external operation still linked"; //$NON-NLS-1$
+            assert processingResource.getComponents().size() == 0 : "processing resource still linked"; //$NON-NLS-1$
         }
 
-        if (element instanceof GeneralResource)
-        {
-        	GeneralResource resource = (GeneralResource) element;
+        if (element instanceof ucm.performance.ExternalOperation) {
+            ucm.performance.ExternalOperation exOp = (ucm.performance.ExternalOperation) element;
+            assert exOp.getDemands().size() == 0 : "external operation still linked"; //$NON-NLS-1$
+        }
+
+        if (element instanceof GeneralResource) {
+            GeneralResource resource = (GeneralResource) element;
         }
 
     }

@@ -31,111 +31,97 @@ import seg.jUCMNav.views.property.StackHelper;
 import seg.jUCMNav.views.property.tabbed.GEFTabbedPropertySheetPage;
 
 /**
- * An abstract implementation of a section in a tab in the tabbed property sheet
- * page for the hockey league example.
+ * An abstract implementation of a section in a tab in the tabbed property sheet page for the hockey league example.
  * 
  * @author Anthony Hunter
  */
-public abstract class AbstractGEFPropertySection
-	extends AbstractPropertySection {
-	
-	/**
-	 * the property sheet page for this section.
-	 */
-	protected GEFTabbedPropertySheetPage propertySheetPage;
+public abstract class AbstractGEFPropertySection extends AbstractPropertySection {
 
-	/**
-	 * The current selected object or the first object in the selection when
-	 * multiple objects are selected.
-	 */
-	protected EObject eObject;
+    /**
+     * the property sheet page for this section.
+     */
+    protected GEFTabbedPropertySheetPage propertySheetPage;
 
-	/**
-	 * The list of current selected objects.
-	 */
-	protected List eObjectList;
-	
+    /**
+     * The current selected object or the first object in the selection when multiple objects are selected.
+     */
+    protected EObject eObject;
+
+    /**
+     * The list of current selected objects.
+     */
+    protected List eObjectList;
+
     private Notifier target;
-    
+
     protected ISelection selection;
 
-	/**
-	 * Get the standard label width when labels for sections line up on the left
-	 * hand side of the composite. We line up to a fixed position, but if a
-	 * string is wider than the fixed position, then we use that widest string.
-	 * 
-	 * @param parent
-	 *            The parent composite used to create a GC.
-	 * @param labels
-	 *            The list of labels.
-	 * @return the standard label width.
-	 */
-	protected int getStandardLabelWidth(Composite parent, String[] labels) {
-		return propertySheetPage.getLabelWidth(this, parent, labels);
-	}
+    /**
+     * Get the standard label width when labels for sections line up on the left hand side of the composite. We line up to a fixed position, but if a string is
+     * wider than the fixed position, then we use that widest string.
+     * 
+     * @param parent
+     *            The parent composite used to create a GC.
+     * @param labels
+     *            The list of labels.
+     * @return the standard label width.
+     */
+    protected int getStandardLabelWidth(Composite parent, String[] labels) {
+        return propertySheetPage.getLabelWidth(this, parent, labels);
+    }
 
-	/**
-	 * @see org.eclipse.ui.views.properties.tabbed.ISection#createControls(org.eclipse.swt.widgets.Composite,
-	 *      org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
-	 */
-	public void createControls(Composite parent,
-			TabbedPropertySheetPage aTabbedPropertySheetPage) {
-		super.createControls(parent, aTabbedPropertySheetPage);
-		this.propertySheetPage = (GEFTabbedPropertySheetPage) aTabbedPropertySheetPage;
-		this.propertySheetPage.addSectionToRefresh(this);
-	}
+    /**
+     * @see org.eclipse.ui.views.properties.tabbed.ISection#createControls(org.eclipse.swt.widgets.Composite,
+     *      org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+     */
+    public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
+        super.createControls(parent, aTabbedPropertySheetPage);
+        this.propertySheetPage = (GEFTabbedPropertySheetPage) aTabbedPropertySheetPage;
+        this.propertySheetPage.addSectionToRefresh(this);
+    }
 
-	/**
-	 * @see org.eclipse.ui.views.properties.tabbed.ISection#setInput(org.eclipse.ui.IWorkbenchPart,
-	 *      org.eclipse.jface.viewers.ISelection)
-	 */
-	public void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-		
-		this.selection = selection;
-		
-		if (!(selection instanceof IStructuredSelection)) {
-			return;
-		}
-		buildObjectList(selection);
-		if (eObjectList.size()>0)
-		{
-			eObject = (EObject) eObjectList.get(0); 
-		}
-		else
-			eObject=null;
+    /**
+     * @see org.eclipse.ui.views.properties.tabbed.ISection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+     */
+    public void setInput(IWorkbenchPart part, ISelection selection) {
+        super.setInput(part, selection);
 
-	}
+        this.selection = selection;
 
-	private void buildObjectList(ISelection selection)
-	{
-		eObjectList = new Vector();
-		
-		Iterator it = ((IStructuredSelection) selection).toList().iterator();
-		while(it.hasNext())
-		{
-			Object obj = it.next();
-			if(obj instanceof EditPart)
-			{
-				EObject e = (EObject)((EditPart)obj).getModel();
-				obj = getDataForSection(e);
+        if (!(selection instanceof IStructuredSelection)) {
+            return;
+        }
+        buildObjectList(selection);
+        if (eObjectList.size() > 0) {
+            eObject = (EObject) eObjectList.get(0);
+        } else
+            eObject = null;
 
-				if (obj!=null)
-					eObjectList.add(obj);
-			}
-			else if (obj instanceof EObject)
-			{
-				obj = getDataForSection(obj);
-				if (obj!=null)
-					eObjectList.add(obj);
-			}
-		}
-	}
-	
-	public abstract String getLabelText();
-	
-	protected Object getDataForSection(Object obj)
-	{
-		return propertySheetPage.getDataResolver().getData(obj);
-	}
+    }
+
+    private void buildObjectList(ISelection selection) {
+        eObjectList = new Vector();
+
+        Iterator it = ((IStructuredSelection) selection).toList().iterator();
+        while (it.hasNext()) {
+            Object obj = it.next();
+            if (obj instanceof EditPart) {
+                EObject e = (EObject) ((EditPart) obj).getModel();
+                obj = getDataForSection(e);
+
+                if (obj != null)
+                    eObjectList.add(obj);
+            } else if (obj instanceof EObject) {
+                obj = getDataForSection(obj);
+                if (obj != null)
+                    eObjectList.add(obj);
+            }
+        }
+    }
+
+    public abstract String getLabelText();
+
+    protected Object getDataForSection(Object obj) {
+        return propertySheetPage.getDataResolver().getData(obj);
+    }
 }

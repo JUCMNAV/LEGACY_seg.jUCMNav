@@ -6,7 +6,7 @@ import seg.jUCMNav.Messages;
  * Basic implementation for a query processor that verifies if it can run a certain QueryRequest and, if not, sends to chained QueryProcessors.
  * 
  * @author jpdaigle
- *  
+ * 
  */
 public abstract class AbstractQueryProcessor implements IQueryProcessorChain {
     protected IQueryProcessorChain _nextInChain;

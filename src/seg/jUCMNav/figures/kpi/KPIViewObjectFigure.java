@@ -374,8 +374,9 @@ public class KPIViewObjectFigure extends Figure {
         targetValueTextFlow.setText(Messages.getString("KPIViewObjectFigure.TargetValue") + String.valueOf(kpiViewObject.getTargetValue()) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
         thresholdValueTextFlow.setText(Messages.getString("KPIViewObjectFigure.ThresholdValue") + String.valueOf(kpiViewObject.getThresholdValue()) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
         worstValueTextFlow.setText(Messages.getString("KPIViewObjectFigure.WorstValue") + String.valueOf(kpiViewObject.getWorstValue()) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-        evalValueTextFlow.setText(Messages.getString("KPIViewObjectFigure.EvaluationValue") + String.valueOf(kpiViewObject.getEvaluationValue()) + Messages.getString("KPIViewObjectFigure.EvaluationLevel") //$NON-NLS-1$ //$NON-NLS-2$
-                + String.valueOf(kpiViewObject.getEvaluationLevel()) + ")"); //$NON-NLS-1$
+        evalValueTextFlow
+                .setText(Messages.getString("KPIViewObjectFigure.EvaluationValue") + String.valueOf(kpiViewObject.getEvaluationValue()) + Messages.getString("KPIViewObjectFigure.EvaluationLevel") //$NON-NLS-1$ //$NON-NLS-2$
+                        + String.valueOf(kpiViewObject.getEvaluationLevel()) + ")"); //$NON-NLS-1$
 
         setKPITextFlowPageConstraint(targetValueFlowPage, kpiBar.x + kpiBar.width + 10 - BORDER_SHIFT_X, kpiBar.y - BORDER_SHIFT_Y);
         setKPITextFlowPageConstraint(thresholdValueFlowPage, thresholdLine_x2 - getDefaultTextDimension().width / 2 - BORDER_SHIFT_X, thresholdLine_y2 + 5

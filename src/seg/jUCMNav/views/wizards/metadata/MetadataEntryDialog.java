@@ -50,7 +50,7 @@ public class MetadataEntryDialog extends Dialog {
         GridLayout layout = new GridLayout();
         layout.numColumns = 2;
         buttonComp.setLayout(layout);
-        
+
         Button okButton = new Button(buttonComp, SWT.PUSH);
         okButton.setText(Messages.getString("MetadataEditorPage.button_ok")); //$NON-NLS-1$
         gridData = new GridData();
@@ -90,7 +90,7 @@ public class MetadataEntryDialog extends Dialog {
             GridData gridData = new GridData();
             gridData.widthHint = 30;
             label.setLayoutData(gridData);
-            
+
             Text text = new Text(shell, SWT.BORDER);
             gridData = new GridData();
             gridData.widthHint = 200;

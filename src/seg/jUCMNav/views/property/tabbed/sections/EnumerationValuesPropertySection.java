@@ -15,55 +15,54 @@ import seg.jUCMNav.views.wizards.scenarios.EditEnumerationsWizard;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.ScenarioPackage;
 
-public class EnumerationValuesPropertySection extends
-	AbstractDialogPropertySection {
+public class EnumerationValuesPropertySection extends AbstractDialogPropertySection {
 
-	protected EAttribute getFeature() {
-		return ScenarioPackage.eINSTANCE.getEnumerationType_Values();
-	}
+    protected EAttribute getFeature() {
+        return ScenarioPackage.eINSTANCE.getEnumerationType_Values();
+    }
 
-	public String getLabelText() {
-		return "Values:";
-	}
+    public String getLabelText() {
+        return "Values:";
+    }
 
-	protected Text createText(Composite composite) {
-		Text result = getWidgetFactory().createText(composite, "", SWT.MULTI | SWT.WRAP);
-		
-		result.setEnabled(false);
+    protected Text createText(Composite composite) {
+        Text result = getWidgetFactory().createText(composite, "", SWT.MULTI | SWT.WRAP);
 
-		GridData gridData = new GridData();
-		gridData.heightHint = 75;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.verticalAlignment = GridData.CENTER;
-		gridData.horizontalIndent=2;
-		
-		result.setLayoutData(gridData);
-		
-		return result;
-	}
+        result.setEnabled(false);
 
-	protected String getText() {
-		String values = ((EnumerationType)eObject).getValues();
-		
-		if (values!=null)
-			values = values.replace(",", System.getProperty("line.separator", "\n"));
-		return values;
-	}
+        GridData gridData = new GridData();
+        gridData.heightHint = 75;
+        gridData.grabExcessHorizontalSpace = true;
+        gridData.horizontalAlignment = GridData.FILL;
+        gridData.verticalAlignment = GridData.CENTER;
+        gridData.horizontalIndent = 2;
 
-	protected void openDialog() {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        result.setLayoutData(gridData);
+
+        return result;
+    }
+
+    protected String getText() {
+        String values = ((EnumerationType) eObject).getValues();
+
+        if (values != null)
+            values = values.replace(",", System.getProperty("line.separator", "\n"));
+        return values;
+    }
+
+    protected void openDialog() {
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
         Wizard _wizard;
 
         _wizard = new EditEnumerationsWizard();
-        ((EditEnumerationsWizard) _wizard).init(PlatformUI.getWorkbench(), (StructuredSelection)selection);
-        
+        ((EditEnumerationsWizard) _wizard).init(PlatformUI.getWorkbench(), (StructuredSelection) selection);
+
         WizardDialog dialog = new WizardDialog(shell, _wizard);
         dialog.open();
-	}
+    }
 
-	protected Object resolve(Object obj) {
-		return obj;
-	}
+    protected Object resolve(Object obj) {
+        return obj;
+    }
 }

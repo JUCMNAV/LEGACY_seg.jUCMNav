@@ -11,7 +11,7 @@ import ucm.map.RespRef;
 import ucm.map.UCMmap;
 
 /**
- * Editpart for Responsibilities. Adds double-click behaviour. 
+ * Editpart for Responsibilities. Adds double-click behaviour.
  * 
  * @author jkealey
  */
@@ -23,7 +23,7 @@ public class RespRefEditPart extends PathNodeEditPart {
      */
     public RespRefEditPart(PathNode model, UCMmap diagram) {
         super(model, diagram);
-        
+
     }
 
     /**
@@ -36,12 +36,12 @@ public class RespRefEditPart extends PathNodeEditPart {
             RespRef respRef = (RespRef) getModel();
             Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
             wizard = new CodeEditor();
-            
+
             wizard.init(PlatformUI.getWorkbench(), null, respRef);
             WizardDialog dialog = new WizardDialog(shell, wizard);
             dialog.open();
         }
-        
+
         super.performRequest(req);
     }
 }

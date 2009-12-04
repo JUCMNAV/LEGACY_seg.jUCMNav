@@ -75,20 +75,16 @@ public class CleanRelationshipsCommand extends CompoundCommand {
             URNlink link = (URNlink) it.next();
             add(new DeleteURNlinkCommand(link));
         }
-        
-        // bug 553: get rid of scenario start/end point 
-        for (Iterator it = map.getNodes().iterator(); it.hasNext();)
-		{
-			PathNode pn = (PathNode) it.next();
-			if (pn instanceof StartPoint)
-			{
-				add(new DeletePathCommand((StartPoint) pn, null));
-			}
-			else if (pn instanceof EndPoint)
-			{
-				add(new DeletePathCommand((EndPoint) pn, null));
-			}
-		}
+
+        // bug 553: get rid of scenario start/end point
+        for (Iterator it = map.getNodes().iterator(); it.hasNext();) {
+            PathNode pn = (PathNode) it.next();
+            if (pn instanceof StartPoint) {
+                add(new DeletePathCommand((StartPoint) pn, null));
+            } else if (pn instanceof EndPoint) {
+                add(new DeletePathCommand((EndPoint) pn, null));
+            }
+        }
     }
 
     /**

@@ -14,20 +14,18 @@ import ucm.scenario.EnumerationType;
  * Command to delete an EnumerationType
  * 
  * @author jkealey
- *
+ * 
  */
 public class DeleteEnumerationTypeCommand extends CompoundCommand {
 
     /**
      * @param et
-     *          the Variable to delete
+     *            the Variable to delete
      */
     public DeleteEnumerationTypeCommand(EnumerationType et) {
         setLabel(Messages.getString("DeleteEnumerationTypeCommand.DeleteEnumerationType")); //$NON-NLS-1$
         add(new PreDeleteUrnModelElementCommand(et));
         add(new RemoveURNmodelElementCommand(et));
     }
-
-
 
 }

@@ -169,14 +169,12 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
     public void partActivated(IWorkbenchPartReference partRef) {
         if (partRef.getPart(false) == this || partRef.getPart(false) instanceof UCMNavMultiPageEditor) {
             setEditor(partRef);
+        } else {
+            // bug 709 - if we are no longer selecting a UCM editor, flush the current selection.
+            if (!(partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor)) {
+                setInput(null);
+            }
         }
-        else
-        {
-        	// bug 709 - if we are no longer selecting a UCM editor, flush the current selection. 
-        	if (!(partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor)) {
-		        setInput(null);
-        	}
-        }        
     }
 
     /*
@@ -221,7 +219,6 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
         // setInput(null);
         getViewSite().getActionBars().clearGlobalActionHandlers();
         getViewSite().getActionBars().updateActionBars();
-
 
     }
 
@@ -283,8 +280,8 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
         this.editor = editor;
         editor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
         editor.addPageChangeListener(this);
-        
-        // register them. other ways failed to add undo/redo, only added delete.  
+
+        // register them. other ways failed to add undo/redo, only added delete.
         IActionBars bars = getViewSite().getActionBars();
         String id = ActionFactory.UNDO.getId();
         bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));
@@ -295,9 +292,9 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
         id = ActionFactory.PASTE.getId();
         bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));
         id = ActionFactory.COPY.getId();
-        bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));        
+        bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));
         id = ActionFactory.CUT.getId();
-        bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));  
+        bars.setGlobalActionHandler(id, editor.getActionRegistry().getAction(id));
     }
 
     private void setInput(IURNDiagram input) {
@@ -428,23 +425,20 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 
     public Object getAdapter(Class adapter) {
         if (adapter == org.eclipse.ui.views.properties.IPropertySheetPage.class) {
-        	//if (editor!=null)
-        		//return editor.getAdapter(adapter);
-        	
-        	// doesn't seem to work. 
-        	/*
-        	if (editor!=null) {
-        		page = new GEFTabbedPropertySheetPage(editor);
-        		return page;
-        	} 
-        	*/
-        	page = new PropertySheetPage();
+            // if (editor!=null)
+            // return editor.getAdapter(adapter);
+
+            // doesn't seem to work.
+            /*
+             * if (editor!=null) { page = new GEFTabbedPropertySheetPage(editor); return page; }
+             */
+            page = new PropertySheetPage();
             page.setPropertySourceProvider(editor);
-             //page.setRootEntry(new UndoablePropertySheetEntry(editor.getDelegatingCommandStack()));
+            // page.setRootEntry(new UndoablePropertySheetEntry(editor.getDelegatingCommandStack()));
             return page;
 
-        } 
-        
+        }
+
         return super.getAdapter(adapter);
     }
 }

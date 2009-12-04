@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions.cutcopypaste;
 
-
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -18,70 +17,63 @@ import ucm.map.NodeConnection;
 import urn.URNspec;
 import urncore.IURNDiagram;
 
-public class PasteAction extends URNSelectionAction
-{
-	protected UCMNavMultiPageEditor editor;
+public class PasteAction extends URNSelectionAction {
+    protected UCMNavMultiPageEditor editor;
 
-	public PasteAction(UCMNavMultiPageEditor part)
-	{
-		super(part);
-		this.editor=part;
-		setId(ActionFactory.PASTE.getId());
-		setText(GEFMessages.PasteAction_Label);
-		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
-		setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
-	}
+    public PasteAction(UCMNavMultiPageEditor part) {
+        super(part);
+        this.editor = part;
+        setId(ActionFactory.PASTE.getId());
+        setText(GEFMessages.PasteAction_Label);
+        ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+        setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
+        setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
+    }
 
-	protected Command getCommand()
-	{
-		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-		EObject ep = getSelectedInsertionPoint();
-		IURNDiagram targetMap = sel.getMap();
-		if (targetMap==null)
-			targetMap=sel.getGrlgraph();
-		URNspec targetUrn = sel.getUrnspec();
-		Point nodeConnectionMiddle = null;
-		if (ep instanceof NodeConnection) 
-			nodeConnectionMiddle = sel.getNodeconnectionMiddle();
-		
-		org.eclipse.swt.graphics.Point pos = Display.getCurrent().getCursorLocation();
-		if (editor.getCurrentPage()!=null)
-			pos=editor.getCurrentPage().getGraphicalViewer().getControl().toControl(pos) ; 
-		Point cursorPosition = new Point(pos.x, pos.y); // avoid type conflicts in lower library
-		
-		return new PasteCommand(ep, targetUrn, targetMap, nodeConnectionMiddle, cursorPosition);
-	}
+    protected Command getCommand() {
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        EObject ep = getSelectedInsertionPoint();
+        IURNDiagram targetMap = sel.getMap();
+        if (targetMap == null)
+            targetMap = sel.getGrlgraph();
+        URNspec targetUrn = sel.getUrnspec();
+        Point nodeConnectionMiddle = null;
+        if (ep instanceof NodeConnection)
+            nodeConnectionMiddle = sel.getNodeconnectionMiddle();
 
-	protected EObject getSelectedInsertionPoint()
-	{
-		if (getSelectedObjects().size() == 1)
-		{
-			SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        org.eclipse.swt.graphics.Point pos = Display.getCurrent().getCursorLocation();
+        if (editor.getCurrentPage() != null)
+            pos = editor.getCurrentPage().getGraphicalViewer().getControl().toControl(pos);
+        Point cursorPosition = new Point(pos.x, pos.y); // avoid type conflicts in lower library
 
-			switch (sel.getSelectionType())
-			{
-			case SelectionHelper.EMPTYPOINT:
-				return sel.getEmptypoint();
-			case SelectionHelper.DIRECTIONARROW:
-				return sel.getDirectionarrow();
-			case SelectionHelper.NODECONNECTION:
-				return sel.getNodeconnection();
-			case SelectionHelper.GRLGRAPH:
-			case SelectionHelper.ACTORREF:
-				return sel.getGrlgraph();
-			case SelectionHelper.COMPONENTREF:
-			case SelectionHelper.MAP:
-				return sel.getMap();
-			case SelectionHelper.SCENARIOGROUP:
-				return sel.getScenarioGroup();
-			}
+        return new PasteCommand(ep, targetUrn, targetMap, nodeConnectionMiddle, cursorPosition);
+    }
 
-			return sel.getUrnspec();
-		}
+    protected EObject getSelectedInsertionPoint() {
+        if (getSelectedObjects().size() == 1) {
+            SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 
-		
-		return null;
-	}
+            switch (sel.getSelectionType()) {
+            case SelectionHelper.EMPTYPOINT:
+                return sel.getEmptypoint();
+            case SelectionHelper.DIRECTIONARROW:
+                return sel.getDirectionarrow();
+            case SelectionHelper.NODECONNECTION:
+                return sel.getNodeconnection();
+            case SelectionHelper.GRLGRAPH:
+            case SelectionHelper.ACTORREF:
+                return sel.getGrlgraph();
+            case SelectionHelper.COMPONENTREF:
+            case SelectionHelper.MAP:
+                return sel.getMap();
+            case SelectionHelper.SCENARIOGROUP:
+                return sel.getScenarioGroup();
+            }
+
+            return sel.getUrnspec();
+        }
+
+        return null;
+    }
 
 }

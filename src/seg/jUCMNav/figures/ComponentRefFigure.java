@@ -16,7 +16,7 @@ import urncore.ComponentKind;
  * A figure for components refs. Changes appearance depending on ComponentKind. Bounds still stay square.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class ComponentRefFigure extends RectangleFigure {
 
@@ -25,7 +25,7 @@ public class ComponentRefFigure extends RectangleFigure {
 
     /**
      * Default figure is a TEAM.
-     *  
+     * 
      */
     public ComponentRefFigure() {
         setLineWidth(3);
@@ -112,7 +112,7 @@ public class ComponentRefFigure extends RectangleFigure {
             graphics.drawPolygon(points);
             break;
         case ComponentKind.ACTOR:
-            //draw rectangle
+            // draw rectangle
             int x = r.x + lineWidth / 2;
             int y = r.y + lineWidth / 2;
             int w = r.width - lineWidth;
@@ -169,15 +169,13 @@ public class ComponentRefFigure extends RectangleFigure {
 
         if (fillColor == null || fillColor.length() == 0) {
             setBackgroundColor(ColorManager.FILL);
-        }
-        else
-        	setBackgroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(fillColor)));
+        } else
+            setBackgroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(fillColor)));
 
         if (lineColor == null || lineColor.length() == 0) {
-        	setForegroundColor(ColorManager.LINE);
-        }
-        else
-        	setForegroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(lineColor)));
+            setForegroundColor(ColorManager.LINE);
+        } else
+            setForegroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(lineColor)));
     }
 
     /**

@@ -70,21 +70,21 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
     public void dragFinished(DragSourceEvent event) {
         // ModelCreationFactory creates useless refs that are not added when dragged here.
         URNspec urn;
-        
-        UCMNavMultiPageEditor editor =null;
-    	if (getViewer() instanceof UrnTreeViewer) {
-            editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor(); 
-                // ((UrnTreeViewer)getViewer()).getContents().getModel() you can get parent urn from this 
-        }  else
+
+        UCMNavMultiPageEditor editor = null;
+        if (getViewer() instanceof UrnTreeViewer) {
+            editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            // ((UrnTreeViewer)getViewer()).getContents().getModel() you can get parent urn from this
+        } else
             editor = ((UCMNavMultiPageEditor) ((OutlineRootEditPart) getViewer().getRootEditPart().getChildren().get(0)).getModel());
-        
-    	if (editor!=null) {
+
+        if (editor != null) {
             urn = editor.getModel();
             cleanUnusedRespRefs(urn);
             cleanUnusedContRefs(urn);
             cleanUnusedIntElemntRef(urn);
             cleanUnusedKPIInformationElemntRef(urn);
-    	}
+        }
     }
 
     private void cleanUnusedRespRefs(URNspec urn) {

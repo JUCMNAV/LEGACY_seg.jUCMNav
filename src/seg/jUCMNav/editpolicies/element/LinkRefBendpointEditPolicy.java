@@ -36,7 +36,7 @@ public class LinkRefBendpointEditPolicy extends BendpointEditPolicy {
     }
 
     /**
-     * Deletes a bendpoint. 
+     * Deletes a bendpoint.
      * 
      * @see org.eclipse.gef.editpolicies.BendpointEditPolicy#getDeleteBendpointCommand(org.eclipse.gef.requests.BendpointRequest)
      */
@@ -46,7 +46,7 @@ public class LinkRefBendpointEditPolicy extends BendpointEditPolicy {
     }
 
     /**
-     *  Moves a bendpoint
+     * Moves a bendpoint
      * 
      * @see org.eclipse.gef.editpolicies.BendpointEditPolicy#getMoveBendpointCommand(org.eclipse.gef.requests.BendpointRequest)
      */

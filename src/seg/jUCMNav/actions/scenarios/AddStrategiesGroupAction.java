@@ -19,11 +19,12 @@ import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
  * Creates a new strategies group.
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class AddStrategiesGroupAction extends URNSelectionAction {
 
     public static final String ADDSTRATEGIESGROUP = "Add Strategies Group"; //$NON-NLS-1$
+
     /**
      * @param part
      */
@@ -39,15 +40,15 @@ public class AddStrategiesGroupAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && sel.getGRLspec()!=null;
+        return sel.getUrnspec() != null && sel.getGRLspec() != null;
     }
-    
+
     /**
      * Returns a new {@link CreateStrategiesGroupCommand}
      */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        StrategiesGroup group = (StrategiesGroup)ModelCreationFactory.getNewObject(sel.getUrnspec(), StrategiesGroup.class);
+        StrategiesGroup group = (StrategiesGroup) ModelCreationFactory.getNewObject(sel.getUrnspec(), StrategiesGroup.class);
         CreateStrategiesGroupCommand create = new CreateStrategiesGroupCommand(sel.getUrnspec(), group);
 
         return create;

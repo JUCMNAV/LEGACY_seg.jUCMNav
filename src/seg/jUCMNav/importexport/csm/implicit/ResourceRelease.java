@@ -17,9 +17,9 @@ import ucm.map.PathNode;
 public class ResourceRelease {
 
     // RR and Empty Point IDs
-    static int rr_id = 3000; // TODO:  wave limitation.
+    static int rr_id = 3000; // TODO: wave limitation.
 
-    static int seq_id = 4000; // TODO:  wave limitation.
+    static int seq_id = 4000; // TODO: wave limitation.
 
     PrintStream ps;
 
@@ -171,7 +171,7 @@ public class ResourceRelease {
     // inserts RR and Empty Points where necessary in the duplicate map
     public int addRR(CSMResourceSet resToRelease, CSMResourceSet usedResources, CSMDupNodeList map, CSMDupConnectionList conn_map, PathNode curr_edge,
             int ins_nodes) {
-	int nodesInserted = ins_nodes;
+        int nodesInserted = ins_nodes;
         // create resource release component and insert it in duplicate map
         CSMDupNode rr_node = new CSMDupNode(++rr_id);
         rr_node.setResourcesDownstream(usedResources); // to compute

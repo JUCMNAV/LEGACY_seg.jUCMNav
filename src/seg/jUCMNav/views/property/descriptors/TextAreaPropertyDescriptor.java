@@ -25,7 +25,7 @@ public class TextAreaPropertyDescriptor extends TextPropertyDescriptor {
 
     public CellEditor createPropertyEditor(Composite parent) {
         editor = new TextAreaCellEditor(parent);
-        
+
         if (getValidator() != null)
             editor.setValidator(getValidator());
         return editor;

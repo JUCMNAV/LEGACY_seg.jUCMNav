@@ -32,7 +32,7 @@ public class AddConditionLabelAction extends URNSelectionAction {
     public AddConditionLabelAction(IWorkbenchPart part) {
         super(part);
         setId(ADDLABEL);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/label.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/label.gif")); //$NON-NLS-1$
     }
 
     /**
@@ -46,22 +46,22 @@ public class AddConditionLabelAction extends URNSelectionAction {
             EditPart part = (EditPart) parts.get(0);
 
             if ((part.getModel() instanceof NodeConnection)) {
-            	NodeConnection nc = (NodeConnection) part.getModel();
-            	return nc.getCondition()!=null && (nc.getCondition().getLabel()==null || nc.getCondition().getLabel().length()==0);
+                NodeConnection nc = (NodeConnection) part.getModel();
+                return nc.getCondition() != null && (nc.getCondition().getLabel() == null || nc.getCondition().getLabel().length() == 0);
             } else if (part.getModel() instanceof StartPoint) {
-    			StartPoint point = (StartPoint) part.getModel();
-    			return point.getPrecondition()!=null && (point.getPrecondition()).getLabel()==null || point.getPrecondition().getLabel().length()==0; 
+                StartPoint point = (StartPoint) part.getModel();
+                return point.getPrecondition() != null && (point.getPrecondition()).getLabel() == null || point.getPrecondition().getLabel().length() == 0;
             } else if (part.getModel() instanceof EndPoint) {
-            	EndPoint point = (EndPoint) part.getModel();
-    			return (point.getPostcondition()!=null && (point.getPostcondition()).getLabel()==null || point.getPostcondition().getLabel().length()==0); 
-  
-            } else  if ((part.getModel() instanceof OrFork) || (part.getModel() instanceof WaitingPlace)) {
-            	for (Iterator iter = ((PathNode)part.getModel()).getSucc().iterator(); iter.hasNext();) {
-					NodeConnection nc = (NodeConnection) iter.next();
-	            	if (nc.getCondition()!=null && (nc.getCondition().getLabel()==null || nc.getCondition().getLabel().length()==0)) { 
-	            		return true;
-	            	}
-            	}
+                EndPoint point = (EndPoint) part.getModel();
+                return (point.getPostcondition() != null && (point.getPostcondition()).getLabel() == null || point.getPostcondition().getLabel().length() == 0);
+
+            } else if ((part.getModel() instanceof OrFork) || (part.getModel() instanceof WaitingPlace)) {
+                for (Iterator iter = ((PathNode) part.getModel()).getSucc().iterator(); iter.hasNext();) {
+                    NodeConnection nc = (NodeConnection) iter.next();
+                    if (nc.getCondition() != null && (nc.getCondition().getLabel() == null || nc.getCondition().getLabel().length() == 0)) {
+                        return true;
+                    }
+                }
             }
         }
 
@@ -69,38 +69,37 @@ public class AddConditionLabelAction extends URNSelectionAction {
     }
 
     /**
-     * @return a {@link CreateLabelCommand} adapted to the situation. 
+     * @return a {@link CreateLabelCommand} adapted to the situation.
      */
     protected Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
 
-        
         if ((part.getModel() instanceof NodeConnection)) {
-        	NodeConnection nc = (NodeConnection) part.getModel();
-        	if (nc.getCondition()!=null && (nc.getCondition().getLabel()==null || nc.getCondition().getLabel().length()==0))
-        		return  new CreateLabelCommand(nc.getCondition());
+            NodeConnection nc = (NodeConnection) part.getModel();
+            if (nc.getCondition() != null && (nc.getCondition().getLabel() == null || nc.getCondition().getLabel().length() == 0))
+                return new CreateLabelCommand(nc.getCondition());
         } else if (part.getModel() instanceof StartPoint) {
-			StartPoint point = (StartPoint) part.getModel();
-			if (point.getPrecondition()!=null && (point.getPrecondition()).getLabel()==null || point.getPrecondition().getLabel().length()==0) { 
-				return new CreateLabelCommand(point.getPrecondition());
-			}
+            StartPoint point = (StartPoint) part.getModel();
+            if (point.getPrecondition() != null && (point.getPrecondition()).getLabel() == null || point.getPrecondition().getLabel().length() == 0) {
+                return new CreateLabelCommand(point.getPrecondition());
+            }
         } else if (part.getModel() instanceof EndPoint) {
-        	EndPoint point = (EndPoint) part.getModel();
-			if (point.getPostcondition()!=null && (point.getPostcondition()).getLabel()==null || point.getPostcondition().getLabel().length()==0) { 
-				return new CreateLabelCommand(point.getPostcondition());
-			}			
-         } else  if ((part.getModel() instanceof OrFork) || (part.getModel() instanceof WaitingPlace)) {
+            EndPoint point = (EndPoint) part.getModel();
+            if (point.getPostcondition() != null && (point.getPostcondition()).getLabel() == null || point.getPostcondition().getLabel().length() == 0) {
+                return new CreateLabelCommand(point.getPostcondition());
+            }
+        } else if ((part.getModel() instanceof OrFork) || (part.getModel() instanceof WaitingPlace)) {
             UCMmodelElement modelElement = (UCMmodelElement) part.getModel();
 
-        	CompoundCommand cmd = new CompoundCommand();
-        	for (Iterator iter = ((PathNode)part.getModel()).getSucc().iterator(); iter.hasNext();) {
-				NodeConnection nc = (NodeConnection) iter.next();
-            	if (nc.getCondition()!=null && (nc.getCondition().getLabel()==null || nc.getCondition().getLabel().length()==0)) { 
-            		cmd.add(new CreateLabelCommand(nc.getCondition()));
-            	}
-        	}
-        	return cmd;
+            CompoundCommand cmd = new CompoundCommand();
+            for (Iterator iter = ((PathNode) part.getModel()).getSucc().iterator(); iter.hasNext();) {
+                NodeConnection nc = (NodeConnection) iter.next();
+                if (nc.getCondition() != null && (nc.getCondition().getLabel() == null || nc.getCondition().getLabel().length() == 0)) {
+                    cmd.add(new CreateLabelCommand(nc.getCondition()));
+                }
+            }
+            return cmd;
         }
 
         return null;

@@ -79,7 +79,7 @@ public class URNElementFinder {
         if ((o = findScenarioGroup(urn, id)) != null)
             return o;
         if ((o = findActor(urn, id)) != null) // faster
-            return o;        
+            return o;
         if ((o = findGRLmodelElement(urn, id)) != null)
             return o;
 
@@ -92,7 +92,7 @@ public class URNElementFinder {
                 if ((o = findPathNode(map, id)) != null)
                     return o;
             } else if (g instanceof GRLGraph) {
-            	GRLGraph graph = (GRLGraph) g;
+                GRLGraph graph = (GRLGraph) g;
                 if ((o = findActorRef(graph, id)) != null)
                     return o;
                 if ((o = findGRLNode(graph, id)) != null)
@@ -123,6 +123,7 @@ public class URNElementFinder {
     public static Actor findActorByName(URNspec urn, String name) {
         return (Actor) findByName(urn.getGrlspec().getActors(), name);
     }
+
     /**
      * Given a graph, find the actor reference having the passed id or return null.
      * 
@@ -177,70 +178,63 @@ public class URNElementFinder {
         return null;
     }
 
-    public static Collection findAllByNamePattern(URNspec urn, String name) 
-    {
-    	Vector elements = new Vector();
-    	elements.addAll(urn.getUrndef().getComponents());
-    	elements.addAll(urn.getUrndef().getResponsibilities());
-    	elements.addAll(urn.getUcmspec().getVariables());
-    	elements.addAll(urn.getUcmspec().getResources());
-    	elements.addAll(urn.getUcmspec().getScenarioGroups());
-    	for (Iterator iterator = urn.getUcmspec().getScenarioGroups().iterator(); iterator.hasNext();)
-		{
-			ScenarioGroup sg = (ScenarioGroup) iterator.next();
-			elements.addAll(sg.getScenarios());
-		}
-    	elements.addAll(urn.getUcmspec().getEnumerationTypes());
-    	
-    	elements.addAll(urn.getGrlspec().getActors());
-    	elements.addAll(urn.getGrlspec().getIntElements());
-    	elements.addAll(urn.getGrlspec().getKpiInformationElements());
-    	elements.addAll(urn.getUrndef().getSpecDiagrams());
-    	
-     	for (Iterator iterator = urn.getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();)
-		{
-			IURNDiagram d = (IURNDiagram) iterator.next();
-			if (d instanceof UCMmap)
-				elements.addAll(((UCMmap)d).getNodes());
-			else
-				elements.addAll(((GRLGraph)d).getNodes());
-		}
-     	
-     	Vector filteredElements = new Vector();
-     	for (Iterator iterator = elements.iterator(); iterator.hasNext();)
-		{
-			URNmodelElement model = (URNmodelElement) iterator.next();
-			// todo: enhance to support patterns, etc. 
-			if (doesElementMatchPattern(name, model)) {
-				filteredElements.add(model);
-			}
-		}
-     	return filteredElements;
+    public static Collection findAllByNamePattern(URNspec urn, String name) {
+        Vector elements = new Vector();
+        elements.addAll(urn.getUrndef().getComponents());
+        elements.addAll(urn.getUrndef().getResponsibilities());
+        elements.addAll(urn.getUcmspec().getVariables());
+        elements.addAll(urn.getUcmspec().getResources());
+        elements.addAll(urn.getUcmspec().getScenarioGroups());
+        for (Iterator iterator = urn.getUcmspec().getScenarioGroups().iterator(); iterator.hasNext();) {
+            ScenarioGroup sg = (ScenarioGroup) iterator.next();
+            elements.addAll(sg.getScenarios());
+        }
+        elements.addAll(urn.getUcmspec().getEnumerationTypes());
+
+        elements.addAll(urn.getGrlspec().getActors());
+        elements.addAll(urn.getGrlspec().getIntElements());
+        elements.addAll(urn.getGrlspec().getKpiInformationElements());
+        elements.addAll(urn.getUrndef().getSpecDiagrams());
+
+        for (Iterator iterator = urn.getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();) {
+            IURNDiagram d = (IURNDiagram) iterator.next();
+            if (d instanceof UCMmap)
+                elements.addAll(((UCMmap) d).getNodes());
+            else
+                elements.addAll(((GRLGraph) d).getNodes());
+        }
+
+        Vector filteredElements = new Vector();
+        for (Iterator iterator = elements.iterator(); iterator.hasNext();) {
+            URNmodelElement model = (URNmodelElement) iterator.next();
+            // todo: enhance to support patterns, etc.
+            if (doesElementMatchPattern(name, model)) {
+                filteredElements.add(model);
+            }
+        }
+        return filteredElements;
 
     }
 
-	public static boolean doesElementMatchPattern(String name, URNmodelElement model)
-	{
-		if (model instanceof IURNDiagram) // if has child that matches, it matches. 
-		{
-			IURNDiagram mmap = (IURNDiagram) model;
-			for (Iterator iterator = mmap.getNodes().iterator(); iterator.hasNext();)
-			{
-				URNmodelElement pn = (URNmodelElement) iterator.next();
-				if (doesElementMatchPattern(name, pn) && !DisplayPreferences.getInstance().isElementFiltered(pn, false)) 
-					return true;
-			}
-			for (Iterator iterator = mmap.getContRefs().iterator(); iterator.hasNext();)
-			{
-				URNmodelElement pn = (URNmodelElement) iterator.next();
-				if (doesElementMatchPattern(name, pn) &&  !DisplayPreferences.getInstance().isElementFiltered(pn, false)) 
-					return true;
-			}			
-		}
-		
-		return URNNamingHelper.getName(model).toLowerCase().indexOf(name.toLowerCase())>=0;
-	}
-    
+    public static boolean doesElementMatchPattern(String name, URNmodelElement model) {
+        if (model instanceof IURNDiagram) // if has child that matches, it matches.
+        {
+            IURNDiagram mmap = (IURNDiagram) model;
+            for (Iterator iterator = mmap.getNodes().iterator(); iterator.hasNext();) {
+                URNmodelElement pn = (URNmodelElement) iterator.next();
+                if (doesElementMatchPattern(name, pn) && !DisplayPreferences.getInstance().isElementFiltered(pn, false))
+                    return true;
+            }
+            for (Iterator iterator = mmap.getContRefs().iterator(); iterator.hasNext();) {
+                URNmodelElement pn = (URNmodelElement) iterator.next();
+                if (doesElementMatchPattern(name, pn) && !DisplayPreferences.getInstance().isElementFiltered(pn, false))
+                    return true;
+            }
+        }
+
+        return URNNamingHelper.getName(model).toLowerCase().indexOf(name.toLowerCase()) >= 0;
+    }
+
     /**
      * Given a URN spec, find the component element having the passed id or return null.
      * 
@@ -251,7 +245,7 @@ public class URNElementFinder {
     public static Component findComponent(URNspec urn, String id) {
         return (Component) find(urn.getUrndef().getComponents(), id);
     }
-    
+
     /**
      * Given a URN spec, find the component element having the passed name or return null.
      * 
@@ -262,7 +256,7 @@ public class URNElementFinder {
     public static Component findComponentByName(URNspec urn, String name) {
         return (Component) findByName(urn.getUrndef().getComponents(), name);
     }
-    
+
     /**
      * Given a map, find the component reference having the passed id or return null.
      * 
@@ -306,7 +300,7 @@ public class URNElementFinder {
     public static IURNContainerRef findContainerRef(IURNDiagram map, String id) {
         return (IURNContainerRef) find(map.getContRefs(), id);
     }
-    
+
     /**
      * Given a URN spec, find the component element having the passed id or return null.
      * 
@@ -334,13 +328,13 @@ public class URNElementFinder {
 
     /**
      * Given a URN, find an intentional element with the specified name.
-     *  
+     * 
      * @param urn
      * @param name
      * @return matching element
      */
     public static IntentionalElement findIntentionalElementByName(URNspec urn, String name) {
-    	return (IntentionalElement) findByName(urn.getGrlspec().getIntElements(), name);
+        return (IntentionalElement) findByName(urn.getGrlspec().getIntElements(), name);
     }
 
     /**
@@ -355,13 +349,14 @@ public class URNElementFinder {
     }
 
     /**
-     * Given a URN, find a KPI information element with the specified name.  
+     * Given a URN, find a KPI information element with the specified name.
+     * 
      * @param urn
      * @param name
      * @return matching element
      */
     public static KPIInformationElement findKPIInformationElementByName(URNspec urn, String name) {
-    	return (KPIInformationElement) findByName(urn.getGrlspec().getKpiInformationElements(), name);
+        return (KPIInformationElement) findByName(urn.getGrlspec().getKpiInformationElements(), name);
     }
 
     /**
@@ -431,7 +426,7 @@ public class URNElementFinder {
     public static PathNode findPathNode(UCMmap map, String id) {
         return (PathNode) find(map.getNodes(), id);
     }
-    
+
     /**
      * Given a URN spec, find the responsibility having the passed id or return null.
      * 
@@ -442,6 +437,7 @@ public class URNElementFinder {
     public static Responsibility findResponsibility(URNspec urn, String id) {
         return (Responsibility) find(urn.getUrndef().getResponsibilities(), id);
     }
+
     /**
      * Given a URN spec, find the responsibility having the passed name or return null.
      * 
@@ -452,6 +448,7 @@ public class URNElementFinder {
     public static Responsibility findResponsibilityByName(URNspec urn, String name) {
         return (Responsibility) findByName(urn.getUrndef().getResponsibilities(), name);
     }
+
     /**
      * Given a URN spec, find the scenariodef having the passed id or return null.
      * 
@@ -466,8 +463,8 @@ public class URNElementFinder {
             v.addAll(group.getScenarios());
         }
         return (ScenarioDef) find(v, id);
-    }   
-    
+    }
+
     /**
      * Given a URN spec, find the scenario group having the passed id or return null.
      * 
@@ -476,9 +473,9 @@ public class URNElementFinder {
      * @return matching scenario group
      */
     public static ScenarioGroup findScenarioGroup(URNspec urn, String id) {
-    	return (ScenarioGroup)find(urn.getUcmspec().getScenarioGroups(), id);
-    }   
-    
+        return (ScenarioGroup) find(urn.getUcmspec().getScenarioGroups(), id);
+    }
+
     /**
      * Given a URN spec, find the variable having the passed id or return null.
      * 
@@ -489,6 +486,7 @@ public class URNElementFinder {
     public static Variable findVariable(URNspec urn, String id) {
         return (Variable) find(urn.getUcmspec().getVariables(), id);
     }
+
     /**
      * Given a URN spec, find the variable having the passed name or return null.
      * 
@@ -499,14 +497,15 @@ public class URNElementFinder {
     public static Variable findVariableByName(URNspec urn, String name) {
         return (Variable) findByName(urn.getUcmspec().getVariables(), name);
     }
-    
+
     /**
-     * Returns a sorted list of all actor element names. 
+     * Returns a sorted list of all actor element names.
+     * 
      * @param urn
      * @return list of element names
      */
     public static Vector getActorNames(URNspec urn) {
-    	Vector v = new Vector();
+        Vector v = new Vector();
         for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
@@ -514,64 +513,69 @@ public class URNElementFinder {
         Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
     }
-    
+
     /**
-     * Returns a sorted list of all component names. 
+     * Returns a sorted list of all component names.
+     * 
      * @param urn
-     * @return  list of element names
+     * @return list of element names
      */
     public static Vector getComponentNames(URNspec urn) {
-    	Vector v = new Vector();
+        Vector v = new Vector();
         for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
         }
         Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
-    }      
-    
+    }
+
     /**
-     * Returns a sorted list of all intentional element names. 
+     * Returns a sorted list of all intentional element names.
+     * 
      * @param urn
      * @return list of element names
      */
     public static Vector getIntentionalElementNames(URNspec urn) {
-    	Vector v = new Vector();
+        Vector v = new Vector();
         for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
         }
         Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
-    }     
+    }
+
     /**
-     * Returns a sorted list of all KPI information element names. 
+     * Returns a sorted list of all KPI information element names.
+     * 
      * @param urn
      * @return list of element names
      */
     public static Vector getKPIInformationElementNames(URNspec urn) {
-    	Vector v = new Vector();
+        Vector v = new Vector();
         for (Iterator iter = urn.getGrlspec().getKpiInformationElements().iterator(); iter.hasNext();) {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
         }
         Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
-    } 
-    
+    }
+
     /**
-     * Returns a sorted list of all responsibility names. 
+     * Returns a sorted list of all responsibility names.
+     * 
      * @param urn
      * @return list of element names
      */
     public static Vector getResponsibilityNames(URNspec urn) {
-    	Vector v = new Vector();
+        Vector v = new Vector();
         for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
             URNmodelElement element = (URNmodelElement) iter.next();
             v.add(element.getName());
         }
         Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
-    }      
-    
+    }
+
 }

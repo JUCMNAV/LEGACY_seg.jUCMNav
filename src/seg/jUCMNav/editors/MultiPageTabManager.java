@@ -362,8 +362,8 @@ public class MultiPageTabManager {
                 CTabItem item = folder.getItem(p);
                 if (item == null) {
                     refreshPageNames();
-                    
-                    if(isAtTheEnd(p))
+
+                    if (isAtTheEnd(p))
                         item = folder.getItem(folder.getItemCount() - 1);
                     else
                         return;

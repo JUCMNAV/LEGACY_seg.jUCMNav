@@ -7,31 +7,27 @@ import org.eclipse.swt.events.KeyEvent;
 
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 
-public class BaseConnectionCreationTool extends ConnectionCreationTool
-{
-	public BaseConnectionCreationTool() 
-	{
-		super();
-	}
-	public BaseConnectionCreationTool(CreationFactory factory) 
-	{
-		super(factory);
-	}
-	protected boolean handleKeyDown(KeyEvent e)
-	{
-		boolean s = super.handleKeyDown(e);
+public class BaseConnectionCreationTool extends ConnectionCreationTool {
+    public BaseConnectionCreationTool() {
+        super();
+    }
 
-		if (getDomain().getPaletteViewer().getPaletteRoot() instanceof UcmPaletteRoot)
-		{
-			UcmPaletteRoot root = (UcmPaletteRoot) getDomain().getPaletteViewer().getPaletteRoot();
-			ToolEntry entry = root.getAssociatedTool(("" + e.character).toLowerCase()); //$NON-NLS-1$
-			if (entry != null)
-			{
-				getDomain().getPaletteViewer().setActiveTool(entry);
-				return true;
-			}
-		}
-		return false;
-	}
+    public BaseConnectionCreationTool(CreationFactory factory) {
+        super(factory);
+    }
+
+    protected boolean handleKeyDown(KeyEvent e) {
+        boolean s = super.handleKeyDown(e);
+
+        if (getDomain().getPaletteViewer().getPaletteRoot() instanceof UcmPaletteRoot) {
+            UcmPaletteRoot root = (UcmPaletteRoot) getDomain().getPaletteViewer().getPaletteRoot();
+            ToolEntry entry = root.getAssociatedTool(("" + e.character).toLowerCase()); //$NON-NLS-1$
+            if (entry != null) {
+                getDomain().getPaletteViewer().setActiveTool(entry);
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

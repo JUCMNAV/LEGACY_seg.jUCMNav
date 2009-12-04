@@ -24,11 +24,11 @@ public class ImportAction extends URNSelectionAction {
     public ImportAction(IWorkbenchPart part) {
         super(part);
         setId(IMPORT);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/import.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/import.gif")); //$NON-NLS-1$
     }
 
     /**
-     * True if we've selected a Map or URNSpec 
+     * True if we've selected a Map or URNSpec
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

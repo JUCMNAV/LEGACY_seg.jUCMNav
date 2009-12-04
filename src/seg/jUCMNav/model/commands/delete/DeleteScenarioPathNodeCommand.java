@@ -15,13 +15,13 @@ import ucm.scenario.ScenarioStartPoint;
  * Command to delete a ScenarioStartPoint/ScenarioEndPoint
  * 
  * @author jkealey
- *
+ * 
  */
 public class DeleteScenarioPathNodeCommand extends CompoundCommand {
 
     /**
      * @param var
-     *          the ScenarioStartPoint to delete
+     *            the ScenarioStartPoint to delete
      */
     public DeleteScenarioPathNodeCommand(ScenarioStartPoint var) {
         setLabel(Messages.getString("DeleteScenarioPathNodeCommand.DeleteScenarioStartPoint")); //$NON-NLS-1$
@@ -31,13 +31,12 @@ public class DeleteScenarioPathNodeCommand extends CompoundCommand {
 
     /**
      * @param var
-     *          the ScenarioStartPoint to delete
+     *            the ScenarioStartPoint to delete
      */
     public DeleteScenarioPathNodeCommand(ScenarioEndPoint var) {
         setLabel(Messages.getString("DeleteScenarioPathNodeCommand.DeleteScenarioEndPoint")); //$NON-NLS-1$
         add(new PreDeleteUrnModelElementCommand(var));
         add(new RemoveURNmodelElementCommand(var));
     }
-
 
 }

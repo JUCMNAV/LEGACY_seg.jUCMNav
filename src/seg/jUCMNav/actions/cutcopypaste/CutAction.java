@@ -11,34 +11,28 @@ import seg.jUCMNav.actions.DeleteAction;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.model.commands.cutcopypaste.CopyCommand;
 
-public class CutAction extends DeleteAction
-{
+public class CutAction extends DeleteAction {
 
-	public CutAction(IWorkbenchPart part)
-	{
-		super(part);
-		setId(ActionFactory.CUT.getId());
-		setText(Messages.getString("CutAction.Cut")); //$NON-NLS-1$
-		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
-		setDisabledImageDescriptor(sharedImages.getImageDescriptor(
-				ISharedImages.IMG_TOOL_COPY_DISABLED));
-	}
-	
+    public CutAction(IWorkbenchPart part) {
+        super(part);
+        setId(ActionFactory.CUT.getId());
+        setText(Messages.getString("CutAction.Cut")); //$NON-NLS-1$
+        ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+        setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
+        setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
+    }
 
-	public void run()
-	{
-		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-		// Don't need to put this on the stack. 
-		if (sel.getUrnspec()!=null) {
-			ImageData screenshot = CopyAction.buildScreenshot(getWorkbenchPart());
-			
-			CopyCommand cmd = new CopyCommand(sel.getUrnspec(), getSelectedObjects(), screenshot);
-			cmd.execute();
-		}
-		
-		super.run();
-	}
+    public void run() {
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        // Don't need to put this on the stack.
+        if (sel.getUrnspec() != null) {
+            ImageData screenshot = CopyAction.buildScreenshot(getWorkbenchPart());
 
+            CopyCommand cmd = new CopyCommand(sel.getUrnspec(), getSelectedObjects(), screenshot);
+            cmd.execute();
+        }
+
+        super.run();
+    }
 
 }

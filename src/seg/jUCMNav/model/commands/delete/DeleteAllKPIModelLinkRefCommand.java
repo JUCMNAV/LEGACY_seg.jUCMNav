@@ -26,19 +26,19 @@ public class DeleteAllKPIModelLinkRefCommand extends CompoundCommand {
      */
     public DeleteAllKPIModelLinkRefCommand(KPIInformationElementRef element) {
         setLabel(Messages.getString("DeleteAllKPIModelLinkRefCommand.deleteAllKPIModelLinkRefs")); //$NON-NLS-1$
-        
+
         for (Iterator iter = element.getSucc().iterator(); iter.hasNext();) {
             KPIModelLinkRef linkref = (KPIModelLinkRef) iter.next();
             add(new DeleteKPIModelLinkRefCommand(linkref));
         }
     }
-    
+
     /**
      * 
      */
     public DeleteAllKPIModelLinkRefCommand(IntentionalElementRef element) {
         setLabel(Messages.getString("DeleteAllKPIModelLinkRefCommand.deleteAllKPIModelLinkRefs")); //$NON-NLS-1$
-        
+
         for (Iterator iter = element.getPred().iterator(); iter.hasNext();) {
             KPIModelLinkRef linkref = (KPIModelLinkRef) iter.next();
             add(new DeleteKPIModelLinkRefCommand(linkref));

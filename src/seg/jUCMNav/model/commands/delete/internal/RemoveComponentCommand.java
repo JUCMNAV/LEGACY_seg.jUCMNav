@@ -10,7 +10,7 @@ import urncore.Component;
  * Command to delete a Component. (Remove it from the model). Can only do it if it has no references.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class RemoveComponentCommand extends Command implements JUCMNavCommand {
 

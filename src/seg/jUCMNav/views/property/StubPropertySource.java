@@ -43,7 +43,7 @@ public class StubPropertySource extends URNElementPropertySource {
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.views.property.UCMElementPropertySource#addPropertyToDescriptor(java.util.Collection, org.eclipse.emf.ecore.EStructuralFeature,
-     *      org.eclipse.emf.ecore.EClass)
+     * org.eclipse.emf.ecore.EClass)
      */
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         super.addPropertyToDescriptor(descriptors, attr, c);

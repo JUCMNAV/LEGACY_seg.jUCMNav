@@ -15,10 +15,11 @@ import urn.URNspec;
 
 /**
  * Command that create a contribution between 2 intentional element
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
-public class AddStandardElementLinkCommand extends Command implements JUCMNavCommand{
+public class AddStandardElementLinkCommand extends Command implements JUCMNavCommand {
 
     private IntentionalElement src, dest;
     private URNspec urnspec;
@@ -28,20 +29,22 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
      * 
      */
     public AddStandardElementLinkCommand(URNspec urn, IntentionalElement source, ElementLink link) {
-        
+
         this.urnspec = urn;
         this.link = link;
         this.src = source;
-        
-        setLabel(Messages.getString("AddStandardElementLinkCommand.addElementLink"));  //$NON-NLS-1$
+
+        setLabel(Messages.getString("AddStandardElementLinkCommand.addElementLink")); //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        //disallow source -> source connections
-        if (src.equals(dest)){
+        // disallow source -> source connections
+        if (src.equals(dest)) {
             return false;
         }
         return true;
@@ -54,7 +57,7 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
     public void execute() {
         redo();
     }
-    
+
     /**
      * 
      * @see org.eclipse.gef.commands.Command#redo()
@@ -62,26 +65,30 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
     public void redo() {
         testPreConditions();
 
-        //Set the source and destination
+        // Set the source and destination
         src.getLinksSrc().add(link);
         dest.getLinksDest().add(link);
-        
+
         urnspec.getGrlspec().getLinks().add(link);
-        
+
         EvaluationStrategyManager.getInstance().calculateEvaluation();
-        
+
         testPostConditions();
     }
 
     /**
      * Set the target endpoint for the connection.
-     * @param target that target endpoint (a non-null IntentionalElement instance)
+     * 
+     * @param target
+     *            that target endpoint (a non-null IntentionalElement instance)
      */
     public void setTarget(IntentionalElement target) {
         this.dest = target;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -96,7 +103,9 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -110,7 +119,7 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
         assert dest.getLinksDest().contains(link) : "post link in destination"; //$NON-NLS-1$
 
     }
-    
+
     /**
      * 
      * @see org.eclipse.gef.commands.Command#undo()
@@ -118,14 +127,14 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
     public void undo() {
         testPostConditions();
 
-        //remove the source 
+        // remove the source
         src.getLinksSrc().remove(link);
-        dest.getLinksDest().remove(link); 
+        dest.getLinksDest().remove(link);
 
         urnspec.getGrlspec().getLinks().remove(link);
-        
+
         EvaluationStrategyManager.getInstance().calculateEvaluation();
-        
+
         testPreConditions();
     }
 }

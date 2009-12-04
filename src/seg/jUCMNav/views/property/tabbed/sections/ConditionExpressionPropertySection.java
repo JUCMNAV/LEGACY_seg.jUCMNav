@@ -12,44 +12,43 @@ import urncore.Condition;
 import urncore.Responsibility;
 
 public class ConditionExpressionPropertySection extends AbstractDialogPropertySection {
-	
-	protected EObject current;
-	
-	protected static IPropertyDataResolver resolver = new ConditionDataResolver();
-	
-	protected String getText()
-	{
-		String result = "";
-		if(current instanceof Condition)
-			result = ((Condition)current).getExpression();
-		else if(current instanceof Responsibility)
-			result = ((Responsibility)current).getExpression();
-		
-		if(result == null)
-			result = "";
-		
-		return result;
-	}
 
-	public String getLabelText() {
-		return "Condition:";
-	}
+    protected EObject current;
 
-	protected Object resolve(Object obj) {
-		current = (EObject)resolver.getData(eObject);
-		
-		return current;
-	}
+    protected static IPropertyDataResolver resolver = new ConditionDataResolver();
 
-	protected void openDialog() {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		CodeEditor wizard = new CodeEditor();
-		
-		// initialize it
-		wizard.init(PlatformUI.getWorkbench(), null, current);
+    protected String getText() {
+        String result = "";
+        if (current instanceof Condition)
+            result = ((Condition) current).getExpression();
+        else if (current instanceof Responsibility)
+            result = ((Responsibility) current).getExpression();
 
-		// open it.
-		WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.open();
-	}
+        if (result == null)
+            result = "";
+
+        return result;
+    }
+
+    public String getLabelText() {
+        return "Condition:";
+    }
+
+    protected Object resolve(Object obj) {
+        current = (EObject) resolver.getData(eObject);
+
+        return current;
+    }
+
+    protected void openDialog() {
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        CodeEditor wizard = new CodeEditor();
+
+        // initialize it
+        wizard.init(PlatformUI.getWorkbench(), null, current);
+
+        // open it.
+        WizardDialog dialog = new WizardDialog(shell, wizard);
+        dialog.open();
+    }
 }

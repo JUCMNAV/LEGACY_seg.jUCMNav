@@ -14,10 +14,10 @@ import urn.URNspec;
 import urncore.Component;
 
 /**
- * This command adds an active processing resource 
+ * This command adds an active processing resource
  * 
  * @author jack
- *
+ * 
  */
 public class CreateActiveProcessingCommand extends Command implements JUCMNavCommand {
 
@@ -29,15 +29,16 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
     private String name;
     private String multiplicity;
     private String schedPolicy;
-    
+
     /**
-     * @param name 
-     * @param components 
-     * @param schedPolicyStr 
-     * @param multiplicityStr 
+     * @param name
+     * @param components
+     * @param schedPolicyStr
+     * @param multiplicityStr
      * 
      */
-    public CreateActiveProcessingCommand(URNspec urn, String name, Component[] components, String opTime, DeviceKind deviceKind, String multiplicityStr, String schedPolicyStr) {
+    public CreateActiveProcessingCommand(URNspec urn, String name, Component[] components, String opTime, DeviceKind deviceKind, String multiplicityStr,
+            String schedPolicyStr) {
         this.urn = urn;
         this.components = components;
         this.opTime = opTime;
@@ -52,15 +53,15 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-	return (urn != null) ; // components are not mandatory
+        return (urn != null); // components are not mandatory
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	
-    	processingResource = (ProcessingResource) ModelCreationFactory.getNewObject(urn, ProcessingResource.class, 0, null);
+
+        processingResource = (ProcessingResource) ModelCreationFactory.getNewObject(urn, ProcessingResource.class, 0, null);
         redo();
     }
 
@@ -73,30 +74,34 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
         urn.getUcmspec().getResources().add(processingResource);
         processingResource.setName(name);
         for (int i = 0; i < components.length; i++) {
-	    Component comp = components[i];
+            Component comp = components[i];
             comp.setHost(processingResource);
-            processingResource.getComponents().add(comp);    	    
-	}
-    	processingResource.setKind(deviceKind);
-    	processingResource.setOpTime(opTime);
-    	processingResource.setMultiplicity(multiplicity);
-    	processingResource.setSchedPolicy(schedPolicy);
+            processingResource.getComponents().add(comp);
+        }
+        processingResource.setKind(deviceKind);
+        processingResource.setOpTime(opTime);
+        processingResource.setMultiplicity(multiplicity);
+        processingResource.setSchedPolicy(schedPolicy);
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPostConditions() {
-        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null): "post not null"; //$NON-NLS-1$
-        assert urn.getUcmspec().getResources().contains(processingResource): "post processingResource in model"; //$NON-NLS-1$
+        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null) : "post not null"; //$NON-NLS-1$
+        assert urn.getUcmspec().getResources().contains(processingResource) : "post processingResource in model"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPreConditions() {
-        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null): "pre not null"; //$NON-NLS-1$
+        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null) : "pre not null"; //$NON-NLS-1$
         assert !urn.getUcmspec().getResources().contains(processingResource) : "pre passiveResource not in model"; //$NON-NLS-1$
     }
 
@@ -107,15 +112,15 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
         testPostConditions();
         urn.getUcmspec().getResources().remove(processingResource);
         for (int i = 0; i < components.length; i++) {
-	    Component comp = components[i];
-	    comp.setHost(null);
+            Component comp = components[i];
+            comp.setHost(null);
             processingResource.getComponents().remove(comp);
-	}
+        }
         processingResource.setKind(null);
-    	processingResource.setOpTime("0.0"); //$NON-NLS-1$
-    	processingResource.setName(null);
-    	processingResource.setMultiplicity(null);
-    	processingResource.setSchedPolicy(null);    	
+        processingResource.setOpTime("0.0"); //$NON-NLS-1$
+        processingResource.setName(null);
+        processingResource.setMultiplicity(null);
+        processingResource.setSchedPolicy(null);
         testPreConditions();
     }
 

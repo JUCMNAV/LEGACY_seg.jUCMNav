@@ -17,33 +17,30 @@ import urncore.Component;
  */
 public class DeleteComponentRefCommand extends CompoundCommand {
 
-	private ComponentRef cr;
-	
+    private ComponentRef cr;
+
     /**
      * 
      * @param cr
      *            the component reference to delete.
      */
     public DeleteComponentRefCommand(ComponentRef cr) {
-    	this.cr = cr;
+        this.cr = cr;
         setLabel(Messages.getString("DeleteComponentRefCommand.deleteComponentRef")); //$NON-NLS-1$
         add(new PreDeleteUrnModelElementCommand(cr));
         add(new RemoveURNmodelElementCommand(cr));
-        
 
     }
-    
+
     /*
      * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.commands.CompoundCommand#execute()
      */
-    public void execute()
-    {
-        //Verify if this reference is the only on the component definition
-        if(cr.getContDef().getContRefs().size() <= 1 &&
-        		DeletePreferences.getDeleteDefinition(cr))
-        {
-        	add(new DeleteComponentCommand((Component)cr.getContDef()));
+    public void execute() {
+        // Verify if this reference is the only on the component definition
+        if (cr.getContDef().getContRefs().size() <= 1 && DeletePreferences.getDeleteDefinition(cr)) {
+            add(new DeleteComponentCommand((Component) cr.getContDef()));
         }
         super.execute();
     }

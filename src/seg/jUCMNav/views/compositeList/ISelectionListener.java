@@ -4,7 +4,7 @@ package seg.jUCMNav.views.compositeList;
  * Selection listener interface for CompositeListControl/CompositeListItem
  * 
  * @author Etienne Tremblay
- *  
+ * 
  */
 public interface ISelectionListener {
 

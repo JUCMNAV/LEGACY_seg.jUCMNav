@@ -44,7 +44,6 @@ public class URNImportExtensionPointHelper extends ExportExtensionPointHelper {
         return ExportExtensionPointHelper.getFilenameExtension(sExtensionPoint, id);
     }
 
-    
     /**
      * 
      * @param id

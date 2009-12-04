@@ -9,8 +9,8 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.transformations.ChangeDecompositionTypeCommand;
 
 /**
- * This action adds a "change decomposition" action in intentional element contextual menus, 
- * allowing users to change their decomposition type from OR to AND and vice versa.
+ * This action adds a "change decomposition" action in intentional element contextual menus, allowing users to change their decomposition type from OR to AND
+ * and vice versa.
  * 
  * @author damyot
  */
@@ -24,12 +24,11 @@ public class ChangeDecompositionTypeAction extends URNSelectionAction {
     public ChangeDecompositionTypeAction(IWorkbenchPart part) {
         super(part);
         setId(CHANGEDECOMPOSITIONTYPE);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Decomposition16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Decomposition16.gif")); //$NON-NLS-1$
     }
 
     /**
-     * @return a {@link ChangeDecompositionTypeCommand} to change the decomposition 
-     * type of the intentional element (selection)
+     * @return a {@link ChangeDecompositionTypeCommand} to change the decomposition type of the intentional element (selection)
      */
     protected Command getCommand() {
         return new ChangeDecompositionTypeCommand(selection);

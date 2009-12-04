@@ -20,11 +20,12 @@ import ucm.scenario.ScenarioGroup;
  * Creates a scenario group.
  * 
  * @author jkealey
- *
+ * 
  */
 public class AddScenarioGroupAction extends URNSelectionAction {
 
     public static final String ADDSCENARIOGROUP = "Add Scenario Group"; //$NON-NLS-1$
+
     /**
      * @param part
      */
@@ -40,15 +41,16 @@ public class AddScenarioGroupAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && sel.getUCMspec()!=null && sel.getScenarioGroup()==null && getSelectedObjects().size()==1 && !(getSelectedObjects().get(0) instanceof VariableListTreeEditPart) && !(getSelectedObjects().get(0) instanceof EnumerationTypeTreeEditPart);
+        return sel.getUrnspec() != null && sel.getUCMspec() != null && sel.getScenarioGroup() == null && getSelectedObjects().size() == 1
+                && !(getSelectedObjects().get(0) instanceof VariableListTreeEditPart) && !(getSelectedObjects().get(0) instanceof EnumerationTypeTreeEditPart);
     }
-    
+
     /**
-     * Creates a new scenario group. 
+     * Creates a new scenario group.
      */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        ScenarioGroup group = (ScenarioGroup)ModelCreationFactory.getNewObject(sel.getUrnspec(), ScenarioGroup.class);
+        ScenarioGroup group = (ScenarioGroup) ModelCreationFactory.getNewObject(sel.getUrnspec(), ScenarioGroup.class);
         CreateScenarioGroupCommand create = new CreateScenarioGroupCommand(sel.getUrnspec(), group);
 
         return create;

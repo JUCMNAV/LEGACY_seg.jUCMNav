@@ -12,10 +12,10 @@ import ucm.performance.ExternalOperation;
 import urn.URNspec;
 
 /**
- * This command adds an external operation 
+ * This command adds an external operation
  * 
  * @author jack
- *
+ * 
  */
 public class CreateExternalOperationCommand extends Command implements JUCMNavCommand {
 
@@ -26,17 +26,17 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
     private String name;
     private String multiplicity;
     private String schedPolicy;
-    
+
     /**
      * @param urn
-     * 		containing URN specification
-     * @param name 
+     *            containing URN specification
+     * @param name
      * @param opTime
-     * 		to be associated with the external resource
+     *            to be associated with the external resource
      * @param description
-     * 		of the external resource
-     * @param schedPolicyStr 
-     * @param multiplicityStr 
+     *            of the external resource
+     * @param schedPolicyStr
+     * @param multiplicityStr
      * 
      */
     public CreateExternalOperationCommand(URNspec urn, String name, String opTime, String description, String multiplicityStr, String schedPolicyStr) {
@@ -53,16 +53,16 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-    	// this resource should not be there already _js_
-        return (urn != null) ;
+        // this resource should not be there already _js_
+        return (urn != null);
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	
-    	externalOperation = (ExternalOperation) ModelCreationFactory.getNewObject(urn, ExternalOperation.class, 0, null);
+
+        externalOperation = (ExternalOperation) ModelCreationFactory.getNewObject(urn, ExternalOperation.class, 0, null);
         redo();
     }
 
@@ -76,24 +76,28 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
         externalOperation.setName(name);
         externalOperation.setMultiplicity(multiplicity);
         externalOperation.setSchedPolicy(schedPolicy);
-    	externalOperation.setDescription(description);
-    	externalOperation.setOpTime(opTime);
+        externalOperation.setDescription(description);
+        externalOperation.setOpTime(opTime);
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPostConditions() {
-        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null): "post not null"; //$NON-NLS-1$
-        assert urn.getUcmspec().getResources().contains(externalOperation): "post externalOperation in model"; //$NON-NLS-1$
+        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null) : "post not null"; //$NON-NLS-1$
+        assert urn.getUcmspec().getResources().contains(externalOperation) : "post externalOperation in model"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPreConditions() {
-	assert (urn != null) && (urn.getUcmspec() != null): "pre not null"; //$NON-NLS-1$
+        assert (urn != null) && (urn.getUcmspec() != null) : "pre not null"; //$NON-NLS-1$
         assert !urn.getUcmspec().getResources().contains(externalOperation) : "pre externalOperation not in model"; //$NON-NLS-1$
     }
 
@@ -102,9 +106,9 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
      */
     public void undo() {
         testPostConditions();
-    	externalOperation.setOpTime("0.0"); //$NON-NLS-1$
-    	externalOperation.setDescription(null);
-    	externalOperation.setName(null);
+        externalOperation.setOpTime("0.0"); //$NON-NLS-1$
+        externalOperation.setDescription(null);
+        externalOperation.setName(null);
         externalOperation.setMultiplicity(null);
         externalOperation.setSchedPolicy(null);
         urn.getUcmspec().getResources().remove(externalOperation);

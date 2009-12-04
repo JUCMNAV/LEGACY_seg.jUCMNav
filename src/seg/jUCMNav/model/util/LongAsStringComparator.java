@@ -7,7 +7,7 @@ import java.util.Comparator;
  * Converts the arguments to longs and compares them numerically instead of alphabetically.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class LongAsStringComparator implements Comparator, Serializable {
 
@@ -17,7 +17,7 @@ public class LongAsStringComparator implements Comparator, Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Uses Long.parseLong on arguments.toString() to compare. 
+     * Uses Long.parseLong on arguments.toString() to compare.
      * 
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */

@@ -15,23 +15,21 @@ import ucm.scenario.Variable;
  * Command to delete a Variable
  * 
  * @author jkealey
- *
+ * 
  */
 public class DeleteVariableCommand extends CompoundCommand {
 
     /**
      * @param var
-     *          the Variable to delete
+     *            the Variable to delete
      */
     public DeleteVariableCommand(Variable var) {
         setLabel(Messages.getString("DeleteVariableCommand.DeleteVariable")); //$NON-NLS-1$
         add(new PreDeleteUrnModelElementCommand(var));
         add(new RemoveURNmodelElementCommand(var));
         // we are doing this here, after removing it, because we have a listener on ucmspec that needs to know the enumeration type when doing an undo
-		add(new RemoveLinkedInfoCommand(var));
+        add(new RemoveLinkedInfoCommand(var));
 
     }
-
-
 
 }

@@ -13,7 +13,7 @@ import seg.jUCMNav.tests.scenarios.jUCMNavParserTest;
  * Central location to test all of our test cases.
  * 
  * @author jkealey, pchen
- *  
+ * 
  */
 public class TestAllTestSuite {
 

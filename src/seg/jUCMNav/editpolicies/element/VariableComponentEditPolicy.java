@@ -19,30 +19,29 @@ import ucm.scenario.Variable;
  */
 public class VariableComponentEditPolicy extends ComponentEditPolicy {
 
-	/**
-	 * Return a DeleteVariableCommand / DeleteVariableInitializationCommand
-	 */
-	protected Command getDeleteCommand(GroupRequest request) {
-		Object obj = getHost().getModel();
-		if (obj instanceof Variable) {
+    /**
+     * Return a DeleteVariableCommand / DeleteVariableInitializationCommand
+     */
+    protected Command getDeleteCommand(GroupRequest request) {
+        Object obj = getHost().getModel();
+        if (obj instanceof Variable) {
 
-			Variable var = (Variable) obj;
-			DeleteVariableCommand deleteCommand = new DeleteVariableCommand(var);
-			return deleteCommand;
-		} else if (obj instanceof Initialization)
-		{
-			Initialization initialization = (Initialization) obj;
-			DeleteVariableInitializationCommand command = new DeleteVariableInitializationCommand(initialization);
-			return command;
-		} else if (obj instanceof EnumerationType) {
-			EnumerationType enumtype = (EnumerationType) obj;
-			if (enumtype.getInstances().size()==0) {
-				DeleteEnumerationTypeCommand command = new DeleteEnumerationTypeCommand(enumtype);
-				return command;
-			} else
-				return null;
-		}
+            Variable var = (Variable) obj;
+            DeleteVariableCommand deleteCommand = new DeleteVariableCommand(var);
+            return deleteCommand;
+        } else if (obj instanceof Initialization) {
+            Initialization initialization = (Initialization) obj;
+            DeleteVariableInitializationCommand command = new DeleteVariableInitializationCommand(initialization);
+            return command;
+        } else if (obj instanceof EnumerationType) {
+            EnumerationType enumtype = (EnumerationType) obj;
+            if (enumtype.getInstances().size() == 0) {
+                DeleteEnumerationTypeCommand command = new DeleteEnumerationTypeCommand(enumtype);
+                return command;
+            } else
+                return null;
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

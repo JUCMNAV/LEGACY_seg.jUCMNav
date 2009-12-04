@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Label;
 import seg.jUCMNav.Messages;
 
 /**
- * Cell editor that presents a checkbox and can be set to true/false. 
+ * Cell editor that presents a checkbox and can be set to true/false.
  * 
  * @author Etienne Tremblay
  */
@@ -36,7 +36,7 @@ public class CheckboxButtonCellEditor extends CheckboxCellEditor implements Sele
      */
     public CheckboxButtonCellEditor(Composite parent) {
         super(parent);
-        //		createControl(parent);
+        // createControl(parent);
     }
 
     /**
@@ -45,7 +45,7 @@ public class CheckboxButtonCellEditor extends CheckboxCellEditor implements Sele
      */
     public CheckboxButtonCellEditor(Composite parent, int style) {
         super(parent, style);
-        //		createControl(parent);
+        // createControl(parent);
     }
 
     /*
@@ -84,7 +84,8 @@ public class CheckboxButtonCellEditor extends CheckboxCellEditor implements Sele
      * @see org.eclipse.jface.viewers.CellEditor#doSetValue(java.lang.Object)
      */
     protected void doSetValue(Object value) {
-    	if (value instanceof String) value = Boolean.valueOf(Boolean.parseBoolean((String)value));
+        if (value instanceof String)
+            value = Boolean.valueOf(Boolean.parseBoolean((String) value));
         super.doSetValue(value);
 
         Boolean b = (Boolean) value;

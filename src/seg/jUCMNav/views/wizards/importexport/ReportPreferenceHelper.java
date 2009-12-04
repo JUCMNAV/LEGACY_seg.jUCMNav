@@ -19,7 +19,6 @@ public class ReportPreferenceHelper {
     public final static String PREF_REPORTYPE = "seg.jUCMNav.PDFReport"; //$NON-NLS-1$
     public final static String PREF_PATH = "seg.jUCMNav.CreateReport.Path"; //$NON-NLS-1$
     public final static String PREF_FILENAMEPREFIX = "seg.jUCMNav.CreateReport.Filename"; //$NON-NLS-1$
-    
 
     /**
      * Sets the default values for the report wizard.
@@ -35,7 +34,7 @@ public class ReportPreferenceHelper {
     public static int getReportType() {
         return getPreferenceStore().getInt(PREF_REPORTYPE);
     }
-    
+
     /**
      * 
      * @return the folder in which to save the files.
@@ -51,14 +50,14 @@ public class ReportPreferenceHelper {
     public static String getFilenamePrefix() {
         return getPreferenceStore().getString(PREF_FILENAMEPREFIX);
     }
-    
+
     /**
      * @return a reference to the preference store.
      */
     public static IPreferenceStore getPreferenceStore() {
         return JUCMNavPlugin.getDefault().getPreferenceStore();
     }
-   
+
     /**
      * 
      * @param type
@@ -67,7 +66,7 @@ public class ReportPreferenceHelper {
     public static void setReportType(int type) {
         getPreferenceStore().setValue(PREF_REPORTYPE, type);
     }
-    
+
     /**
      * 
      * @param path

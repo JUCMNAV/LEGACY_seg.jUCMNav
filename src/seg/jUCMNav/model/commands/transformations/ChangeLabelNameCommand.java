@@ -22,16 +22,16 @@ import urncore.URNmodelElement;
  */
 public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
     // PluginBinding dependant.
-    private String description="", oldDesc=""; //$NON-NLS-1$ //$NON-NLS-2$
+    private String description = "", oldDesc = ""; //$NON-NLS-1$ //$NON-NLS-2$
     private EObject elem;
 
-    private String expression="", oldExp=""; //$NON-NLS-1$ //$NON-NLS-2$
-    
+    private String expression = "", oldExp = ""; //$NON-NLS-1$ //$NON-NLS-2$
+
     private Label lbl;
     private String name, oldName;
 
     public ChangeLabelNameCommand(Label lbl, String name) {
-    	this.lbl=lbl;
+        this.lbl = lbl;
         if (lbl instanceof ComponentLabel)
             this.elem = ((ComponentLabel) lbl).getContRef();
         else if (lbl instanceof NodeLabel)
@@ -58,38 +58,38 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         if (elem instanceof IURNContainerRef) {
-            oldName = ((URNmodelElement)((IURNContainerRef) elem).getContDef()).getName();
+            oldName = ((URNmodelElement) ((IURNContainerRef) elem).getContDef()).getName();
         } else if (elem instanceof RespRef) {
             oldName = ((RespRef) elem).getRespDef().getName();
         } else if (elem instanceof PathNode) {
             oldName = ((PathNode) elem).getName();
         } else if (elem instanceof Condition) {
             oldName = ((Condition) elem).getLabel();
-            oldDesc = ((Condition)elem).getDescription();
-        	oldExp = ((Condition)elem).getExpression();
+            oldDesc = ((Condition) elem).getDescription();
+            oldExp = ((Condition) elem).getExpression();
         }
         redo();
     }
 
     public String getDescription() {
-		return description;
-	}
+        return description;
+    }
 
     public String getExpression() {
-		return expression;
-	}
+        return expression;
+    }
 
     public String getName() {
-		return name;
-	}
+        return name;
+    }
 
     public String getOldName() {
-		return oldName;
-	}
+        return oldName;
+    }
 
     public Label getRenamedLabel() {
-		return this.lbl;
-	}
+        return this.lbl;
+    }
 
     /*
      * (non-Javadoc)
@@ -100,7 +100,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         if (elem instanceof IURNContainerRef) {
-            ((URNmodelElement)((IURNContainerRef) elem).getContDef()).setName(name);
+            ((URNmodelElement) ((IURNContainerRef) elem).getContDef()).setName(name);
         } else if (elem instanceof RespRef) {
             ((RespRef) elem).getRespDef().setName(name);
         } else if (elem instanceof PathNode) {
@@ -113,15 +113,15 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setExpression(String expression) {
-		this.expression = expression;
-	}
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
 
-	/**
+    /**
      * Sets the new Column name
      * 
      * @param string
@@ -131,7 +131,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         this.name = string;
     }
 
-	/**
+    /**
      * Sets the old Column name
      * 
      * @param string
@@ -151,7 +151,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         assert elem != null : "post no elemement to name!"; //$NON-NLS-1$
     }
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
@@ -162,13 +162,13 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
 
     }
 
-	/**
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
         testPostConditions();
         if (elem instanceof IURNContainerRef) {
-            ((URNmodelElement)((IURNContainerRef) elem).getContDef()).setName(oldName);
+            ((URNmodelElement) ((IURNContainerRef) elem).getContDef()).setName(oldName);
         } else if (elem instanceof RespRef) {
             ((RespRef) elem).getRespDef().setName(oldName);
         } else if (elem instanceof PathNode) {
@@ -181,7 +181,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         testPreConditions();
     }
 
-	/**
+    /**
      * @return true or false - uniqueness of name
      */
     private boolean verifyUniqueness(String name) {

@@ -34,20 +34,23 @@ public class ScenarioTraversalPreferencePage extends FieldEditorPreferencePage i
      */
     protected void createFieldEditors() {
         // Initialize all field editors.
-    	
-    	
-        IntegerFieldEditor hitcount = new IntegerFieldEditor(ScenarioTraversalPreferences.PREF_MAXHITCOUNT, Messages.getString("ScenarioTraversalPreferencePage.MaximumHitCount"),  getFieldEditorParent()); //$NON-NLS-1$
+
+        IntegerFieldEditor hitcount = new IntegerFieldEditor(ScenarioTraversalPreferences.PREF_MAXHITCOUNT, Messages
+                .getString("ScenarioTraversalPreferencePage.MaximumHitCount"), getFieldEditorParent()); //$NON-NLS-1$
         addField(hitcount);
 
-        BooleanFieldEditor strategyVariables = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_INTEGRATESTRATEGYVARIABLES, Messages.getString("ScenarioTraversalPreferencePage.IntegrateStrategyVariables"), getFieldEditorParent());  //$NON-NLS-1$
+        BooleanFieldEditor strategyVariables = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_INTEGRATESTRATEGYVARIABLES, Messages
+                .getString("ScenarioTraversalPreferencePage.IntegrateStrategyVariables"), getFieldEditorParent()); //$NON-NLS-1$
         addField(strategyVariables);
 
-        BooleanFieldEditor patient = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISPATIENTONPRECONDITIONS, Messages.getString("ScenarioTraversalPreferencePage.IsPatient"), getFieldEditorParent());  //$NON-NLS-1$
+        BooleanFieldEditor patient = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISPATIENTONPRECONDITIONS, Messages
+                .getString("ScenarioTraversalPreferencePage.IsPatient"), getFieldEditorParent()); //$NON-NLS-1$
         addField(patient);
-        
-        BooleanFieldEditor deterministic = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISDETERMINISTIC, Messages.getString("ScenarioTraversalPreferencePage.IsDeterministic"), getFieldEditorParent());  //$NON-NLS-1$
-        addField(deterministic);        
-        
+
+        BooleanFieldEditor deterministic = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISDETERMINISTIC, Messages
+                .getString("ScenarioTraversalPreferencePage.IsDeterministic"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(deterministic);
+
     }
 
     public void init(IWorkbench workbench) {

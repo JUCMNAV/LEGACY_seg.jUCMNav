@@ -50,10 +50,9 @@ import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.map.UCMmap;
 
 /**
- * Creates an outline pagebook for both UCMNavMultiPageEditor and UcmEditor. Supports three views: 
- *    hierarchical model element tree view
- *    hierarchical concern view
- *    graphical overview
+ * Creates an outline pagebook for both UCMNavMultiPageEditor and UcmEditor. Supports three views: hierarchical model element tree view hierarchical concern
+ * view graphical overview
+ * 
  * @author jkealey, etremblay, gunterm
  */
 public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IPageChangeListener, JUCMNavRefreshableView {
@@ -68,17 +67,17 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
     private Canvas overview;
     private ContentOutlinePage concernsPage;
     private ContentOutlinePage definitionPage;
-    
+
     private EditPartViewer concernsViewer;
     private EditPartViewer definitionsViewer;
     private Control concerns;
     private Control definitions;
-    
+
     private PageBook pageBook;
     private IAction showOutlineAction, showOverviewAction, showConcernsAction, showDefinitionsAction;
-    //Preference action
+    // Preference action
     private IAction enableGlobalFilter, showNodeNumberAction;
-    
+
     private Thumbnail thumbnail;
 
     /**
@@ -95,18 +94,17 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         // also initializes the second outline (the concern outline)
         this.concernsViewer = new UrnTreeViewer();
         this.concernsPage = new ContentOutlinePage(concernsViewer);
-        
+
         this.definitionsViewer = new UrnTreeViewer();
         this.definitionPage = new ContentOutlinePage(definitionsViewer);
-        
+
     }
 
     /**
-     * Adds buttons and button handlers, initializes drag and drop support.
-     * Creates all three views and performs appropriate connections.
+     * Adds buttons and button handlers, initializes drag and drop support. Creates all three views and performs appropriate connections.
      */
     protected void configureOutlineViewer() {
-        configureOutlineViewerDetails(getViewer(), new TreeEditPartFactory(multieditor.getModel(),false));
+        configureOutlineViewerDetails(getViewer(), new TreeEditPartFactory(multieditor.getModel(), false));
         configureOutlineViewerDetails(getConcernsViewer(), new ConcernsTreeEditPartFactory(multieditor.getModel()));
         configureOutlineViewerDetails(getDefinitionsViewer(), new TreeEditPartFactory(multieditor.getModel(), true));
         multieditor.addPageChangeListener(this);
@@ -118,29 +116,29 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 showPage(ID_OUTLINE);
             }
         };
-        showOutlineAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/outline16.gif")); //$NON-NLS-1$
+        showOutlineAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/outline16.gif")); //$NON-NLS-1$
         showOutlineAction.setToolTipText(Messages.getString("UrnOutlinePage.HierarchicalOutline")); //$NON-NLS-1$
         showOutlineAction.setText(Messages.getString("UrnOutlinePage.HierarchicalOutline")); //$NON-NLS-1$
         tbm.add(showOutlineAction);
-        
+
         showDefinitionsAction = new Action() {
             public void run() {
                 // concern tree view
                 showPage(ID_DEFINITIONS);
             }
         };
-        showDefinitionsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/definitionsOutline16.gif")); //$NON-NLS-1$
+        showDefinitionsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/definitionsOutline16.gif")); //$NON-NLS-1$
         showDefinitionsAction.setToolTipText("Definitions");
         showDefinitionsAction.setText("Definitions");
         tbm.add(showDefinitionsAction);
-        
+
         showConcernsAction = new Action() {
             public void run() {
                 // concern tree view
                 showPage(ID_CONCERNS);
             }
         };
-        showConcernsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/concernsOutline16.gif")); //$NON-NLS-1$
+        showConcernsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/concernsOutline16.gif")); //$NON-NLS-1$
         showConcernsAction.setToolTipText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
         showConcernsAction.setText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
         tbm.add(showConcernsAction);
@@ -151,72 +149,71 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 showPage(ID_OVERVIEW);
             }
         };
-        showOverviewAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/urnstratscenoff16.gif")); //$NON-NLS-1$
+        showOverviewAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/urnstratscenoff16.gif")); //$NON-NLS-1$
         showOverviewAction.setToolTipText(Messages.getString("UrnOutlinePage.GraphicalOverview")); //$NON-NLS-1$
         showOverviewAction.setText(Messages.getString("UrnOutlinePage.GraphicalOverview")); //$NON-NLS-1$
         tbm.add(showOverviewAction);
-        
+
         tbm.add(new Separator());
-        
-        //Set this view as a listener of the display preferences
+
+        // Set this view as a listener of the display preferences
         DisplayPreferences.getInstance().registerListener(this);
-        
-        //Preferences action
+
+        // Preferences action
         enableGlobalFilter = new Action() {
-        	public void run() {
-        		DisplayPreferences.getInstance().setGlobalFilterEnabled(enableGlobalFilter.isChecked());
-        		if (enableGlobalFilter.isChecked())
-        		{
-        			PreferenceDialog pref = PreferencesUtil.createPreferenceDialogOn(getSite().getShell(), "seg.jUCMNav.views.preferences.DisplayPreferencesPage", new String[] { "seg.jUCMNav.views.preferences.DisplayPreferencesPage" }, null);
-        			if (pref!=null)
-        					pref.open();
-        		}
-        	}
+            public void run() {
+                DisplayPreferences.getInstance().setGlobalFilterEnabled(enableGlobalFilter.isChecked());
+                if (enableGlobalFilter.isChecked()) {
+                    PreferenceDialog pref = PreferencesUtil.createPreferenceDialogOn(getSite().getShell(),
+                            "seg.jUCMNav.views.preferences.DisplayPreferencesPage", new String[] { "seg.jUCMNav.views.preferences.DisplayPreferencesPage" },
+                            null);
+                    if (pref != null)
+                        pref.open();
+                }
+            }
         };
-        
+
         enableGlobalFilter.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/filter16.gif")); //$NON-NLS-1$
-        enableGlobalFilter.setToolTipText("Filters certain elements out of the outline."); 
-        enableGlobalFilter.setText("Filter outline"); 
+        enableGlobalFilter.setToolTipText("Filters certain elements out of the outline.");
+        enableGlobalFilter.setText("Filter outline");
         enableGlobalFilter.setChecked(DisplayPreferences.getInstance().isGlobalFilterEnabled());
-        tbm.add(enableGlobalFilter); 
- 
+        tbm.add(enableGlobalFilter);
+
         showNodeNumberAction = new Action() {
-        	public void run() {
-        		DisplayPreferences.getInstance().setShowNodeNumber(showNodeNumberAction.isChecked());
-        	}
+            public void run() {
+                DisplayPreferences.getInstance().setShowNodeNumber(showNodeNumberAction.isChecked());
+            }
         };
-        
-        
-        showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/identifiers.png")); //$NON-NLS-1$
+
+        showNodeNumberAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/identifiers.png")); //$NON-NLS-1$
         showNodeNumberAction.setToolTipText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
         showNodeNumberAction.setText(Messages.getString("UrnOutlinePage.ShowElementsIds")); //$NON-NLS-1$ 
         showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
-        
-        // disabled. 
-        //tbm.add(showNodeNumberAction);
-         
-        
+
+        // disabled.
+        // tbm.add(showNodeNumberAction);
+
         IMenuManager mm = getSite().getActionBars().getMenuManager();
         mm.add(showOutlineAction);
         mm.add(showDefinitionsAction);
         mm.add(showConcernsAction);
         mm.add(showOverviewAction);
-        
-        
+
         showPage(ID_OUTLINE);
     }
 
-	/**
-	 * @param viewer for the outline
-	 * @param treeEditPartFactory is the factory for the outline 
-	 */
-	private void configureOutlineViewerDetails(EditPartViewer viewer, TreeEditPartFactory treeEditPartFactory) {
-        if (viewer.getEditDomain() instanceof UrnEditDomain)
-        {
-            ((UrnEditDomain)viewer.getEditDomain()).dispose();
+    /**
+     * @param viewer
+     *            for the outline
+     * @param treeEditPartFactory
+     *            is the factory for the outline
+     */
+    private void configureOutlineViewerDetails(EditPartViewer viewer, TreeEditPartFactory treeEditPartFactory) {
+        if (viewer.getEditDomain() instanceof UrnEditDomain) {
+            ((UrnEditDomain) viewer.getEditDomain()).dispose();
         }
 
-		viewer.setEditDomain(new UrnEditDomain(multieditor));
+        viewer.setEditDomain(new UrnEditDomain(multieditor));
         viewer.setEditPartFactory(treeEditPartFactory);
 
         // configure & add context menu to viewer
@@ -234,9 +231,9 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         // ((TreeViewer) getViewer())
         // .addDropTargetListener(new MSCTransferDropTargetListener(
         // getViewer()));
-        
+
         viewer.addDragSourceListener(new UrnTemplateTransferDragSourceListener(viewer));
-	}
+    }
 
     /**
      * Creates all pages in a page book and shows the hierarchical outline
@@ -247,7 +244,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         pageBook = new PageBook(parent, SWT.NONE);
         outline = getViewer().createControl(pageBook);
         concerns = getConcernsViewer().createControl(pageBook);
-        definitions= getDefinitionsViewer().createControl(pageBook);
+        definitions = getDefinitionsViewer().createControl(pageBook);
         overview = new Canvas(pageBook, SWT.NONE);
         pageBook.showPage(outline);
         configureOutlineViewer();
@@ -261,86 +258,81 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
      * @see org.eclipse.ui.part.IPage#dispose()
      */
     public void dispose() {
-        
+
         EditPartViewer[] viewers = getViewers();
 
         // doing this one twice just in case.
-        if (multieditor!=null && multieditor.getSelectionSynchronizer()!=null)
+        if (multieditor != null && multieditor.getSelectionSynchronizer() != null)
             multieditor.getSelectionSynchronizer().removeViewer(getViewer());
-        
+
         for (int i = 0; i < viewers.length; i++) {
             if (viewers[i] != null) {
-                if (viewers[i].getContextMenu() != null)
-                {
+                if (viewers[i].getContextMenu() != null) {
                     viewers[i].getContextMenu().dispose();
                     viewers[i].setContextMenu(null);
                 }
-                if (viewers[i].getEditDomain() instanceof UrnEditDomain)
-                {
+                if (viewers[i].getEditDomain() instanceof UrnEditDomain) {
                     UrnEditDomain domain = (UrnEditDomain) viewers[i].getEditDomain();
                     domain.dispose();
                 }
-                
+
                 viewers[i].setEditPartFactory(null);
             }
-            if (multieditor!=null && multieditor.getSelectionSynchronizer()!=null)
+            if (multieditor != null && multieditor.getSelectionSynchronizer() != null)
                 multieditor.getSelectionSynchronizer().removeViewer(viewers[i]);
         }
-
 
         unhookOutlineViewer();
         if (thumbnail != null) {
             thumbnail.deactivate();
             thumbnail = null;
         }
-        
-        multieditor.removePageChangeListener(this);        
+
+        multieditor.removePageChangeListener(this);
         DisplayPreferences.getInstance().unregisterListener(this);
-        
+
         super.dispose();
-        
+
         for (int i = 0; i < viewers.length; i++) {
             EditPartViewer editPartViewer = viewers[i];
-            if (editPartViewer!=null) {
-                if (editPartViewer.getRootEditPart() !=null)
-                {
-                    if (editPartViewer.getRootEditPart().getContents()!=null) {
+            if (editPartViewer != null) {
+                if (editPartViewer.getRootEditPart() != null) {
+                    if (editPartViewer.getRootEditPart().getContents() != null) {
                         editPartViewer.getRootEditPart().getContents().setModel(null);
                         editPartViewer.getRootEditPart().setContents(null);
                     }
                     editPartViewer.getRootEditPart().setModel(null);
                 }
-                
+
                 editPartViewer.getEditPartRegistry().clear();
             }
         }
         // bug 531
-        multieditor=null;
-        disposeListener=null;
-        outline=null;
-        overview=null;
-        concernsPage=null;
-        definitionPage=null;
-        concernsViewer=null;
-        concerns=null;
-        definitions=null;
-        pageBook=null;
-        showOutlineAction=null;
-        showOverviewAction=null;
-        showConcernsAction=null;
-        enableGlobalFilter=null;
-        showNodeNumberAction=null;
-        thumbnail=null;
-        definitionsViewer=null;
-        
-        
+        multieditor = null;
+        disposeListener = null;
+        outline = null;
+        overview = null;
+        concernsPage = null;
+        definitionPage = null;
+        concernsViewer = null;
+        concerns = null;
+        definitions = null;
+        pageBook = null;
+        showOutlineAction = null;
+        showOverviewAction = null;
+        showConcernsAction = null;
+        enableGlobalFilter = null;
+        showNodeNumberAction = null;
+        thumbnail = null;
+        definitionsViewer = null;
+
     }
 
     public EditPartViewer[] getViewers() {
         EditPartViewer[] viewers = new EditPartViewer[3];
-        viewers[0]=getViewer();
-        viewers[1]=definitionsViewer;
-        viewers[2]=concernsViewer;
+        viewers[0] = getViewer();
+        viewers[1] = definitionsViewer;
+        viewers[2] = concernsViewer;
         return viewers;
     }
 
@@ -389,10 +381,10 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         id = ActionFactory.PASTE.getId();
         bars.setGlobalActionHandler(id, registry.getAction(id));
         id = ActionFactory.COPY.getId();
-        bars.setGlobalActionHandler(id, registry.getAction(id));        
+        bars.setGlobalActionHandler(id, registry.getAction(id));
         id = ActionFactory.CUT.getId();
-        bars.setGlobalActionHandler(id, registry.getAction(id));        
-        
+        bars.setGlobalActionHandler(id, registry.getAction(id));
+
     }
 
     /**
@@ -401,39 +393,40 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
     protected void initializeOutlineViewer() {
         setContents(multieditor);
         expandOutline();
-        
+
     }
 
-	private void expandOutline()
-	{
-		// show outline viewer
+    private void expandOutline() {
+        // show outline viewer
         expandOutline((Tree) ((PageBook) getControl()).getChildren()[0], false);
         // show the concern outline viewer
         expandOutline((Tree) ((PageBook) getControl()).getChildren()[1], false);
         // show the definitions outline viewer
-        //expandOutline((Tree) ((PageBook) getControl()).getChildren()[2], true);
+        // expandOutline((Tree) ((PageBook) getControl()).getChildren()[2], true);
         refreshDefinitions();
-	}
+    }
 
     /**
-     * @param tree to be expanded 
-     * @param expandSecondLevel defines up to what level the tree should be expanded (true for first and second, false for only first level)
+     * @param tree
+     *            to be expanded
+     * @param expandSecondLevel
+     *            defines up to what level the tree should be expanded (true for first and second, false for only first level)
      */
     private void expandOutline(Tree tree, boolean expandSecondLevel) {
-    	// can't use tree.getTopItem() because it only returns one item even if there are more than 
-    	// one top level item: use tree.getItems() instead
-    	if (tree.getItems() != null) {
-    		TreeItem[] topItems = tree.getItems();
-    		for (int i = 0; i < topItems.length; i++) {
-    			if (topItems[i] != null) { // fix for crash on linux!
-    				TreeItem[] items = topItems[i].getItems();
-    				for (int j = 0; j < items.length; j++) {
-    					((TreeItem) items[j]).setExpanded(expandSecondLevel);
-    				}
-    				topItems[i].setExpanded(true);
-    			}
-    		}
-    	}
+        // can't use tree.getTopItem() because it only returns one item even if there are more than
+        // one top level item: use tree.getItems() instead
+        if (tree.getItems() != null) {
+            TreeItem[] topItems = tree.getItems();
+            for (int i = 0; i < topItems.length; i++) {
+                if (topItems[i] != null) { // fix for crash on linux!
+                    TreeItem[] items = topItems[i].getItems();
+                    for (int j = 0; j < items.length; j++) {
+                        ((TreeItem) items[j]).setExpanded(expandSecondLevel);
+                    }
+                    topItems[i].setExpanded(true);
+                }
+            }
+        }
     }
 
     /**
@@ -444,7 +437,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         if (multieditor.getCurrentPage() == null) {
             overview.setVisible(false);
             thumbnail.deactivate();
-            thumbnail=null;
+            thumbnail = null;
             return;
         }
 
@@ -471,7 +464,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         if (multieditor.getCurrentPage() == null) {
             overview.setVisible(false);
             thumbnail.deactivate();
-            thumbnail=null;
+            thumbnail = null;
             return;
         }
 
@@ -479,22 +472,20 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         if (rep instanceof ScalableFreeformRootEditPart) {
             refreshThumbnail((ScalableFreeformRootEditPart) rep);
         }
-        
+
         refreshDefinitions();
 
     }
 
-	private void refreshDefinitions()
-	{
-		if (multieditor.getCurrentPage()!=null) 
-		{
-			if (multieditor.getCurrentPage().getModel() instanceof UCMmap)
-	        	definitionsViewer.setContents(Messages.getString("LabelTreeEditPart.ucmDefs"));
-	        else
-	        	definitionsViewer.setContents(Messages.getString("LabelTreeEditPart.grlDefs"));
-	        expandOutline((Tree) ((PageBook) getControl()).getChildren()[2], false);
-		}
-	}
+    private void refreshDefinitions() {
+        if (multieditor.getCurrentPage() != null) {
+            if (multieditor.getCurrentPage().getModel() instanceof UCMmap)
+                definitionsViewer.setContents(Messages.getString("LabelTreeEditPart.ucmDefs"));
+            else
+                definitionsViewer.setContents(Messages.getString("LabelTreeEditPart.grlDefs"));
+            expandOutline((Tree) ((PageBook) getControl()).getChildren()[2], false);
+        }
+    }
 
     /**
      * Reload the thumbnail from the root
@@ -521,7 +512,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         getViewer().setContents(contents);
         getConcernsViewer().setContents(contents);
         getDefinitionsViewer().setContents(contents);
-       
+
     }
 
     /**
@@ -531,11 +522,11 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
      *            parameter indicating which view to display, passed when an appropriate button is pressed in the workbench
      */
     protected void showPage(int id) {
-    	  showOutlineAction.setChecked(id == ID_OUTLINE);
-          showOverviewAction.setChecked(id == ID_OVERVIEW);
-          showConcernsAction.setChecked(id == ID_CONCERNS);
-          showDefinitionsAction.setChecked(id == ID_DEFINITIONS);
-          
+        showOutlineAction.setChecked(id == ID_OUTLINE);
+        showOverviewAction.setChecked(id == ID_OVERVIEW);
+        showConcernsAction.setChecked(id == ID_CONCERNS);
+        showDefinitionsAction.setChecked(id == ID_DEFINITIONS);
+
         if (id == ID_OUTLINE) {
             enableGlobalFilter.setEnabled(true);
             showNodeNumberAction.setEnabled(true);
@@ -548,32 +539,30 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             enableGlobalFilter.setEnabled(true);
             showNodeNumberAction.setEnabled(false);
             pageBook.showPage(overview);
-            if (thumbnail != null && multieditor.getCurrentPage()!=null)
+            if (thumbnail != null && multieditor.getCurrentPage() != null)
                 thumbnail.setVisible(true);
             else
                 overview.setVisible(false);
-        }
-        else if (id == ID_CONCERNS) {
+        } else if (id == ID_CONCERNS) {
             enableGlobalFilter.setEnabled(true);
             showNodeNumberAction.setEnabled(true);
             pageBook.showPage(concerns);
             if (thumbnail != null)
                 thumbnail.setVisible(false);
-        } 
-        else if (id == ID_DEFINITIONS) {
+        } else if (id == ID_DEFINITIONS) {
             enableGlobalFilter.setEnabled(true);
             showNodeNumberAction.setEnabled(true);
             pageBook.showPage(definitions);
             if (thumbnail != null)
                 thumbnail.setVisible(false);
-        } 
+        }
     }
 
     /**
      * Removes selection synchronization, removes listeners. Usually called when outline page is being closed.
      */
     protected void unhookOutlineViewer() {
-        if (multieditor!=null) {
+        if (multieditor != null) {
             multieditor.getSelectionSynchronizer().removeViewer(getViewer());
             multieditor.getSelectionSynchronizer().removeViewer(getConcernsViewer());
             multieditor.getSelectionSynchronizer().removeViewer(getDefinitionsViewer());
@@ -590,41 +579,38 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
     public EditPartViewer getViewer() {
         return super.getViewer();
     }
-    
+
     /**
      * @return the secondary viewer of this page (for concern outline)
      */
     private EditPartViewer getConcernsViewer() {
-    	return concernsViewer;
+        return concernsViewer;
     }
 
     /**
      * @return the secondary viewer of this page (for definitions outline)
      */
     private EditPartViewer getDefinitionsViewer() {
-    	return definitionsViewer;
+        return definitionsViewer;
     }
 
-     
-    
-	public void refreshView() {
-		//To refresh the viewer
-		
-		if (getViewer().getContents() instanceof OutlineRootEditPart) {
-			OutlineRootEditPart outlineRootEditPart = (OutlineRootEditPart) getViewer().getContents();
-			// causes various exceptions otherwise.  
-			if (outlineRootEditPart.getWidget()!=null) {
-				getViewer().setContents(getViewer().getContents());
-				concernsViewer.setContents(concernsViewer.getContents());
-				definitionsViewer.setContents(definitionsViewer.getContents());
-				
-				expandOutline();
-			}
-		}
-	
-		enableGlobalFilter.setChecked(DisplayPreferences.getInstance().isGlobalFilterEnabled());
-		showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
-		
+    public void refreshView() {
+        // To refresh the viewer
 
-	}
+        if (getViewer().getContents() instanceof OutlineRootEditPart) {
+            OutlineRootEditPart outlineRootEditPart = (OutlineRootEditPart) getViewer().getContents();
+            // causes various exceptions otherwise.
+            if (outlineRootEditPart.getWidget() != null) {
+                getViewer().setContents(getViewer().getContents());
+                concernsViewer.setContents(concernsViewer.getContents());
+                definitionsViewer.setContents(definitionsViewer.getContents());
+
+                expandOutline();
+            }
+        }
+
+        enableGlobalFilter.setChecked(DisplayPreferences.getInstance().isGlobalFilterEnabled());
+        showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
+
+    }
 }

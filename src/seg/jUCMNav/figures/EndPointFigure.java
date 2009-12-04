@@ -100,32 +100,30 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
         else
             mainFigure.setLineWidth(5);
     }
-    
-	/**
-	 * the color of an end point depends on whether it is selected, traversed, part of a pointcut, or the cursor is hovering over it
-	 * @see seg.jUCMNav.figures.PathNodeFigure#setColors()
-	 */
-	protected void setColors() {
-		if (selected) {
-    		setForegroundColor(ColorManager.LINE);
-    		setColor(ColorManager.SELECTED);
-    	}
-    	else if (traversed) {
-    		setForegroundColor(ColorManager.TRAVERSAL);
+
+    /**
+     * the color of an end point depends on whether it is selected, traversed, part of a pointcut, or the cursor is hovering over it
+     * 
+     * @see seg.jUCMNav.figures.PathNodeFigure#setColors()
+     */
+    protected void setColors() {
+        if (selected) {
+            setForegroundColor(ColorManager.LINE);
+            setColor(ColorManager.SELECTED);
+        } else if (traversed) {
+            setForegroundColor(ColorManager.TRAVERSAL);
             setColor(ColorManager.TRAVERSAL);
-    	}
-        else if (isPointcutBorder) {
-    		setForegroundColor(ColorManager.POINTCUTBORDER);
+        } else if (isPointcutBorder) {
+            setForegroundColor(ColorManager.POINTCUTBORDER);
             setColor(ColorManager.POINTCUTBORDER);
-    	}
-        else {
-    		setForegroundColor(ColorManager.LINE);
+        } else {
+            setForegroundColor(ColorManager.LINE);
             if (hover)
                 setColor(ColorManager.HOVER);
             else
-                setColor(ColorManager.FILL);    		
+                setColor(ColorManager.FILL);
         }
-	}
+    }
 
     /**
      * if offset, returns a scaled (RESIZEFACTOR) copy of the regular size.

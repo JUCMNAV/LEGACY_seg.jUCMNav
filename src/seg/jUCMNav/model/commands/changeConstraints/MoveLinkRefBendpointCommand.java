@@ -13,16 +13,16 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
  * This command is used to move newBendpoint on linkref
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class MoveLinkRefBendpointCommand extends Command implements JUCMNavCommand {
 
-    //We need to delete the old newBendpoint and create a new one to allow refreshing the connection
+    // We need to delete the old newBendpoint and create a new one to allow refreshing the connection
     LinkRefBendpoint newBendpoint, oldBendpoint;
     LinkRef link;
     int index;
     int newX, newY;
-    
+
     /**
      * 
      */
@@ -33,7 +33,7 @@ public class MoveLinkRefBendpointCommand extends Command implements JUCMNavComma
         this.link = oldBendpoint.getLinkref();
         this.index = link.getBendpoints().indexOf(oldBendpoint);
         setLabel(Messages.getString("MoveLinkRefBendpointCommand.moveLinkRefBendpoint")); //$NON-NLS-1$
-        //System.out.println("Move Bendpoint: x=" + x + " y=" + y);
+        // System.out.println("Move Bendpoint: x=" + x + " y=" + y);
     }
 
     /**
@@ -45,7 +45,7 @@ public class MoveLinkRefBendpointCommand extends Command implements JUCMNavComma
         newBendpoint.setY(newY);
         redo();
     }
-    
+
     /**
      * @return Returns the newX.
      */
@@ -59,7 +59,7 @@ public class MoveLinkRefBendpointCommand extends Command implements JUCMNavComma
     public int getNewY() {
         return newY;
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -70,25 +70,29 @@ public class MoveLinkRefBendpointCommand extends Command implements JUCMNavComma
 
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
         assert newBendpoint != null : "pre newBendpoint"; //$NON-NLS-1$
         assert oldBendpoint != null : "pre oldbendpoint"; //$NON-NLS-1$
 
-        assert newBendpoint.getLinkref() != link: "pre newBendpoint link"; //$NON-NLS-1$
+        assert newBendpoint.getLinkref() != link : "pre newBendpoint link"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
         assert newBendpoint != null : "post newBendpoint"; //$NON-NLS-1$
         assert oldBendpoint != null : "post oldbendpoint"; //$NON-NLS-1$
 
-        assert oldBendpoint.getLinkref() != link: "post newBendpoint link"; //$NON-NLS-1$
+        assert oldBendpoint.getLinkref() != link : "post newBendpoint link"; //$NON-NLS-1$
 
     }
 
