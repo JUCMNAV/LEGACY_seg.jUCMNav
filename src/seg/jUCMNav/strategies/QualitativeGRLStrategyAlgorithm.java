@@ -20,6 +20,7 @@ import java.util.Vector;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.DependencyQualitativeLabelComparitor;
+import seg.jUCMNav.model.util.MetadataHelper;
 import urncore.IURNNode;
 
 /**
@@ -194,6 +195,9 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     hasDecomposition = true;
                 QualitativeLabel decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getQualitativeEvaluation();
                 int qval = decompositionValue.getValue();
+                String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal");
+                if(element.getDecompositionType().getValue() == DecompositionType.AND && "No".equals(value))
+                	continue;
                 decomSums[qval]++;
 
             } else if (link instanceof Dependency) {
@@ -239,6 +243,8 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     result = WS;
                 } else if (dns > 0) {
                     result = S;
+                } else {
+                	result = N;
                 }
             } else if (element.getDecompositionType().getValue() == DecompositionType.OR) {
                 if (dns > 0) {
@@ -376,8 +382,14 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 if (node instanceof IntentionalElementRef) {
                     IntentionalElementRef elementRef = (IntentionalElementRef) node;
                     IntentionalElement element = elementRef.getDef();
+                    String value = MetadataHelper.getMetaData(element, "ST_Legal");
+                    if ("No".equals(value)){
+                    	continue;
+                    }
                     int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
+
                     ImportanceType importance = element.getImportance();
+
 
                     QualitativeLabel ql = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue(evaluation);
                     int ci = importanceMap[importance.getValue()][ql.getValue()];

@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urncore.IURNNode;
 
@@ -132,19 +133,35 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         int[] contributionValues = new int[100];
         int contribArrayIt = 0;
 
-        Iterator it = element.getLinksDest().iterator(); // Return the list of elementlink
-        while (it.hasNext()) {
-            ElementLink link = (ElementLink) it.next();
-            if (link instanceof Decomposition) {
-                if (decompositionValue < -100) {
-                    decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
-                } else if (element.getDecompositionType().getValue() == DecompositionType.AND) {
-                    if (decompositionValue > ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
-                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
+        
+        Iterator it = element.getLinksDest().iterator(); //Return the list of elementlink
+        while (it.hasNext()){
+            ElementLink link = (ElementLink)it.next();
+            if (link instanceof Decomposition){
+            	if (element.getDecompositionType().getValue() == DecompositionType.AND){
+            		String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal");
+            		if ("No".equals(value)){
+            			if(!it.hasNext() && decompositionValue < -100)
+            				decompositionValue = 0; //case where all sources are tagged "N"
+            			else
+            				continue; 
+            		} 
+            		
+            		if (decompositionValue < -100){
+                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
+                    } else if (decompositionValue > ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
+                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
                     }
-                } else if (element.getDecompositionType().getValue() == DecompositionType.OR) {
-                    if (decompositionValue < ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
+
+                } else if (element.getDecompositionType().getValue() == DecompositionType.OR){
+                	if (decompositionValue < -100){
+                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
+                        
+                	} else if (decompositionValue < ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
                         decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
+
+                    } else if (decompositionValue < ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
+                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
                     }
                 }
             } else if (link instanceof Dependency) {
@@ -159,15 +176,19 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 
                 double resultContrib;
 
+
                 resultContrib = (quantitativeContrib * srcNode) / 100;
 
                 if (resultContrib != 0) {
                     contributionValues[contribArrayIt] = (new Double(Math.round(resultContrib))).intValue();
                     contribArrayIt++;
+
                 }
+
             }
         }
         if (decompositionValue >= -100) {
+
             result = decompositionValue;
         }
         if (contributionValues.length > 0) {
@@ -226,10 +247,13 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 if (node instanceof IntentionalElementRef) {
                     IntentionalElementRef elementRef = (IntentionalElementRef) node;
                     IntentionalElement element = elementRef.getDef();
+                    String value = MetadataHelper.getMetaData(element, "ST_Legal");
                     int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
                     int importance = element.getImportanceQuantitative();
-                    if (importance != 0) {
-                        sumEval += evaluation * importance;
+
+                    if (importance != 0 && !"No".equals(value)){
+                        sumEval += evaluation*importance;
+
                         sumImportance += importance;
                     }
 
