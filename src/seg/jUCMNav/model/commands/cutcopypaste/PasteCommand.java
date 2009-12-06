@@ -41,6 +41,7 @@ import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.DuplicateMapCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
+import seg.jUCMNav.model.commands.transformations.internal.DuplicatePathCommand;
 import seg.jUCMNav.model.util.Clipboard;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.model.util.URNNamingHelper;
@@ -100,6 +101,8 @@ public class PasteCommand extends CompoundCommand {
     protected int firstPlacedX;
     protected int firstPlacedY;
 
+    protected Vector impactedNodes;
+
     public PasteCommand(EObject insertionPoint, URNspec targetUrn, IURNDiagram targetMap, Point nodeConnectionMiddle, Point cursorLocation) {
         this.insertionPoint = insertionPoint;
         this.targetUrn = targetUrn;
@@ -128,45 +131,64 @@ public class PasteCommand extends CompoundCommand {
             return;
         else {
 
-            Responsibility def = getFirstResponsibility();
-            PathNode oldPn = getFirstPathNode();
+            if (insertionPoint instanceof EmptyPoint || insertionPoint instanceof NodeConnection || insertionPoint instanceof DirectionArrow) {
 
-            // this must only be executed when actually doing the initial
-            // insert. otherwise create bogus items that are not used
+                Responsibility def = getFirstResponsibility();
+                PathNode oldPn = getFirstPathNode();
 
-            // only use the ModelCreationFactory for References. otherwise clone or lose metadata, urnlinks, etc.
-            ModelCreationFactory factory;
-            PathNode newPathNode = null;
+                // this must only be executed when actually doing the initial
+                // insert. otherwise create bogus items that are not used
 
-            if (def != null) {
-                factory = new ModelCreationFactory(targetUrn, RespRef.class, def);
-                newPathNode = (RespRef) factory.getNewObject();
-            } else if (oldPn != null) {
-                newPathNode = (PathNode) EcoreUtil.copy(oldPn);
-                if (newPathNode instanceof Stub) {
-                    Stub stub = (Stub) newPathNode;
-                    stub.getBindings().clear();
+                // only use the ModelCreationFactory for References. otherwise clone or lose metadata, urnlinks, etc.
+                ModelCreationFactory factory;
+                PathNode newPathNode = null;
+
+                if (def != null) {
+                    factory = new ModelCreationFactory(targetUrn, RespRef.class, def);
+                    newPathNode = (RespRef) factory.getNewObject();
+                } else if (oldPn != null) {
+                    newPathNode = (PathNode) EcoreUtil.copy(oldPn);
+                    if (newPathNode instanceof Stub) {
+                        Stub stub = (Stub) newPathNode;
+                        stub.getBindings().clear();
+                    }
+                    resetCloneId(newPathNode);
                 }
-                resetCloneId(newPathNode);
-            }
 
-            if (newPathNode != null && targetMap != null) {
+                if (newPathNode != null && targetMap != null) {
 
-                setNewNodePosition(newPathNode);
+                    setNewNodePosition(newPathNode);
 
-                if (newPathNode instanceof AndFork || newPathNode instanceof OrFork || newPathNode instanceof AndJoin || newPathNode instanceof OrJoin
-                        || newPathNode instanceof Stub || newPathNode instanceof Timer) {
-                    buildDividePath(oldPn, newPathNode);
+                    if (newPathNode instanceof AndFork || newPathNode instanceof OrFork || newPathNode instanceof AndJoin || newPathNode instanceof OrJoin
+                            || newPathNode instanceof Stub || newPathNode instanceof Timer) {
+                        buildDividePath(oldPn, newPathNode);
+                    } else {
+                        buildRegularSplice(oldPn, newPathNode);
+                    }
+
+                    if (newPathNode instanceof Stub) {
+                        Stub newStub = (Stub) newPathNode;
+                        Stub oldStub = (Stub) oldPn;
+
+                        copyStubPlugins(newStub, oldStub);
+                    }
+                }
+            } else if (insertionPoint instanceof UCMmap) {
+                impactedNodes = new Vector();
+                // pasting of anything directly on map (bug 706)
+                // if we only have selected extremities, copy the whole paths
+                if (getFirstPathNode() == null) {
+                    for (Iterator iterator = getPathExtremityList().iterator(); iterator.hasNext();) {
+                        PathNode sp = (PathNode) iterator.next();
+                        Vector v = new Vector();
+                        v.add(sp);
+                        buildPathExtremity(v);
+                    }
                 } else {
-                    buildRegularSplice(oldPn, newPathNode);
+                    // we chose a non-extremity, meaning we want to copy only what is selected.
+                    buildPathExtremity(getPathNonExtremityList());
                 }
 
-                if (newPathNode instanceof Stub) {
-                    Stub newStub = (Stub) newPathNode;
-                    Stub oldStub = (Stub) oldPn;
-
-                    copyStubPlugins(newStub, oldStub);
-                }
             }
 
             if (targetGraph != null && getFirstGRLNode() != null) {
@@ -220,6 +242,70 @@ public class PasteCommand extends CompoundCommand {
         }
 
         alreadyBuilt = true;
+    }
+
+    private void buildPathExtremity(Vector points) {
+        int x = cursorLocation.x, y = cursorLocation.y;
+        
+        PathNode sp=null;
+        boolean isInclusive=false;
+        if (points.size()>=1)
+        {
+            sp = (PathNode) points.get(0);
+        }
+        
+        if (points.size()==1 && (sp instanceof StartPoint || sp instanceof EndPoint))
+        {
+            isInclusive=true;
+        }
+
+        if (firstPlaced != null) {
+            x += sp.getX() - firstPlacedX;
+            y += sp.getY() - firstPlacedY;
+        }
+
+        if (firstPlaced == null) // leave null for first added, then set it.
+        {
+            firstPlaced = sp;
+            firstPlacedX = sp.getX();
+            firstPlacedY = sp.getY();
+        }
+
+        DuplicatePathCommand cmd;
+        if (isInclusive)
+            cmd = new DuplicatePathCommand((UCMmap) insertionPoint, sp, x - sp.getX(), y - sp.getY());
+        else
+            cmd = new DuplicatePathCommand((UCMmap) insertionPoint, points, x - sp.getX(), y - sp.getY());
+        
+        Vector currentImpactedNodes = cmd.getImpactedNodes();
+        for (Iterator iterator = impactedNodes.iterator(); iterator.hasNext();) {
+            PathNode pn = (PathNode) iterator.next();
+            // have we already duplicated this path.
+            if (currentImpactedNodes.contains(pn))
+                return;
+        }
+
+        impactedNodes.addAll(currentImpactedNodes);
+
+        // must make sure these are all in the model before we execute the previous command.
+        Vector v = cmd.getResponsibilitiesThatMustBeCreatedBeforeExecution();
+
+        if (v != null && v.size() > 0) {
+            for (Iterator iterator = v.iterator(); iterator.hasNext();) {
+                Responsibility r = (Responsibility) iterator.next();
+                buildResponsibility(r);
+            }
+        }
+
+        add(cmd);
+
+        HashMap stubs = cmd.getBindingsThatMustBeCreatedAfterExecution();
+        if (stubs != null && stubs.size() > 0) {
+            for (Iterator iterator = stubs.keySet().iterator(); iterator.hasNext();) {
+                Stub oldStub = (Stub) iterator.next();
+                copyStubPlugins((Stub) stubs.get(oldStub), oldStub);
+            }
+        }
     }
 
     private void buildGrlNodes() {
@@ -401,6 +487,10 @@ public class PasteCommand extends CompoundCommand {
             if (found)
                 return true;
 
+            found = (insertionPoint instanceof UCMmap && (getFirstPathExtremity() != null || getFirstPathNode()!=null));
+            if (found)
+                return true;
+
             found = insertionPoint instanceof IURNDiagram && (getFirstContainer() != null);
             if (found)
                 return true;
@@ -431,10 +521,15 @@ public class PasteCommand extends CompoundCommand {
         for (int i = 0; i < oldStub.getBindings().size(); i++) {
             PluginBinding binding = (PluginBinding) oldStub.getBindings().get(i);
             UCMmap oldMap = binding.getPlugin();
-            UCMmap map = (UCMmap) URNElementFinder.findMap(targetUrn, oldMap.getId());
-            if (map == null) {
-                map = (UCMmap) URNElementFinder.findMapByName(targetUrn, oldMap.getName());
-            }
+            IURNDiagram diag = (IURNDiagram) URNElementFinder.findMap(targetUrn, oldMap.getId());
+            UCMmap map = null;
+            if (diag == null || !(diag instanceof UCMmap)) {
+                diag = (IURNDiagram) URNElementFinder.findMapByName(targetUrn, oldMap.getName());
+                if (diag instanceof UCMmap)
+                    map = (UCMmap) diag;
+            } else
+                map = (UCMmap) diag;
+
             if (map != null && map != targetMap) // don't allow plugin to self.
             {
                 Condition condition = (Condition) EcoreUtil.copy(binding.getPrecondition());
@@ -728,7 +823,7 @@ public class PasteCommand extends CompoundCommand {
         }
         return null;
     }
-
+    
     /***
      * Special case for responsibilities.
      * 
@@ -781,6 +876,49 @@ public class PasteCommand extends CompoundCommand {
             return (EObject) v.get(0);
     }
 
+    protected PathNode getFirstPathExtremity() {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                Object obj = URNElementFinder.find(sourceUrn, id);
+                if (obj instanceof StartPoint || obj instanceof EndPoint) {
+                    return (PathNode) obj; // pn from old urn
+                }
+            }
+        }
+        return null;
+    }
+
+    protected Vector getPathExtremityList() {
+        Vector list = new Vector();
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                Object obj = URNElementFinder.find(sourceUrn, id);
+                if (obj instanceof StartPoint || obj instanceof EndPoint) {
+                    list.add(obj);
+                }
+            }
+        }
+        return list;
+    }
+    protected Vector getPathNonExtremityList() {
+        Vector list = new Vector();
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                Object obj = URNElementFinder.find(sourceUrn, id);
+                if (IsPastablePathNode(obj)) {
+                    list.add(obj);
+                }
+            }
+        }
+        return list;
+    }
+    
     protected Vector getSimpleList(int maxCount) {
         if (sourceIds != null && sourceUrn != null && targetUrn != null) {
             Vector results = new Vector();
@@ -910,6 +1048,7 @@ public class PasteCommand extends CompoundCommand {
 
     private void resetCloneId(URNmodelElement clone) {
         String name = clone.getName();
+        clone.setId(""); //$NON-NLS-1$
         URNNamingHelper.setElementNameAndID(targetUrn, clone);
         clone.setName(name);
     }

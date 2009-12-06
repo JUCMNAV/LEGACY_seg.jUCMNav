@@ -27,7 +27,8 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
 
     private Vector _visitedNodes;
     private Vector _visitedNodeConnections;
-
+    private boolean _allowConnect;
+    
     public ReachableNodeFinder() {
         this._answerQueryTypes = new String[] { QueryObject.FINDREACHABLENODES };
     }
@@ -39,6 +40,8 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         _visitedNodes = new Vector();
         _visitedNodeConnections = new Vector();
         if (((QFindReachableNodes) q).getStartPathNode() != null) {
+            _allowConnect = ((QFindReachableNodes) q).allowConnect();
+            
             // call recursive function processNode with the start node
             Set exclusions = ((QFindReachableNodes) q).getExclusionSet();
             if (exclusions == null)
@@ -50,6 +53,9 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         RReachableNodes r = new RReachableNodes();
         r.setNodes(_visitedNodes);
         r.setConnections(_visitedNodeConnections);
+        
+        _visitedNodeConnections=null;
+        _visitedNodes=null;
         return r;
     }
 
@@ -77,7 +83,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             for (int i = 0; direction != QFindReachableNodes.DIRECTION_FORWARD && i < links.size(); i++) {
                 // add the connection's source to the list
                 PathNode node = (PathNode) ((NodeConnection) links.get(i)).getSource();
-                if (!exclusions.contains(links.get(i)) && !(node instanceof Connect)) {
+                if (!exclusions.contains(links.get(i)) && (_allowConnect || !(node instanceof Connect))) {
                     _visitedNodeConnections.add(links.get(i));
                     toVisit.add(node);
                 }
@@ -87,7 +93,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             for (int i = 0; direction != QFindReachableNodes.DIRECTION_REVERSE && i < links.size(); i++) {
                 // add the connection's target to the list
                 PathNode node = (PathNode) ((NodeConnection) links.get(i)).getTarget();
-                if (!exclusions.contains(links.get(i)) && !(node instanceof Connect)) {
+                if (!exclusions.contains(links.get(i)) && (_allowConnect || !(node instanceof Connect))) {
                     _visitedNodeConnections.add(links.get(i));
                     toVisit.add(node);
                 }
@@ -114,6 +120,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         private PathNode _StartPathNode;
         private Set _ExclusionSet;
         private int _Direction = 0;
+        private boolean _allowConnect=false;
 
         public QFindReachableNodes(PathNode startNode) {
             this._queryType = QueryObject.FINDREACHABLENODES;
@@ -135,6 +142,25 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             _ExclusionSet = nodeConnectionExclusionSet;
             _Direction = direction;
         }
+        
+        /**
+         * 
+         * @param startNode
+         *            the starting point for traversal.
+         * @param nodeConnectionExclusionSet
+         *            A set of node connections that must not be traversed
+         * @param direction
+         *            the direction of traversal; both sides, following the directed graph or opposite the directed graph.
+         * @param allowConnect
+         *         allow traversing through connect elements?            
+         */
+        public QFindReachableNodes(PathNode startNode, Set nodeConnectionExclusionSet, int direction, boolean allowConnect) {
+            this._queryType = QueryObject.FINDREACHABLENODES;
+            _StartPathNode = startNode;
+            _ExclusionSet = nodeConnectionExclusionSet;
+            _Direction = direction;
+            _allowConnect = allowConnect;
+        }        
 
         public PathNode getStartPathNode() {
             return _StartPathNode;
@@ -146,6 +172,11 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
 
         public int getDirection() {
             return _Direction;
+        }
+        
+        public boolean allowConnect()
+        {
+            return _allowConnect;
         }
     }
 

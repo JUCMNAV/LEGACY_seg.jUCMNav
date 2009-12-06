@@ -136,8 +136,8 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
                 midPoint = nodePart.getMiddlePoint();
             } else {
 
-                int x = (toDelete.getX() - nc.getSource().getX()) / 2;
-                int y = (toDelete.getY() - nc.getSource().getY()) / 2;
+                int x = toDelete.getX() - (toDelete.getX() - nc.getSource().getX()) / 2;
+                int y = toDelete.getY() - (toDelete.getY() - nc.getSource().getY()) / 2;
                 midPoint = new Point(x, y);
             }
 
@@ -181,8 +181,8 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
             if (nodePart != null) {
                 midPoint = nodePart.getMiddlePoint();
             } else {
-                int x = (toDelete.getX() - nc.getTarget().getX()) / 2;
-                int y = (toDelete.getY() - nc.getTarget().getY()) / 2;
+                int x = toDelete.getX() - (toDelete.getX() - nc.getTarget().getX()) / 2;
+                int y = toDelete.getY() - (toDelete.getY() - nc.getTarget().getY()) / 2;
                 midPoint = new Point(x, y);
             }
 

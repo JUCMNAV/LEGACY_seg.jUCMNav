@@ -6,7 +6,6 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
 import org.eclipse.gef.RootEditPart;
-import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -98,11 +97,16 @@ public class KPIUrnModelElementTreeEditPart extends UrnAbstractTreeEditPart impl
             try {
                 refreshChildren();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 // Bug 475: should be resolved but leaving code here as defense in depth.
+                // seems to happen in very complex models after very quick changes. 
+                // probably during the quick moment where the model is inconsistent.  
                 System.out.println("quick ugly hack; trying to prevent weird happenings in UI "); //$NON-NLS-1$
                 getChildren().clear();
-                refreshChildren();
+                try {
+                    refreshChildren();
+                } catch (Exception ex2) {
+                    System.out.println("Even our quick ugly hack didn't work."); //$NON-NLS-1$
+                }
             }
             refreshVisuals();
 

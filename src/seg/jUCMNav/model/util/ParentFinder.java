@@ -58,8 +58,12 @@ public class ParentFinder {
         Vector parents = new Vector();
         IURNContainerRef parent = getPossibleParent(child);
         while (parent != null) {
-            parents.add(parent);
-            parent = getPossibleParent((URNmodelElement) parent);
+            if (!parents.contains(parent)) {
+                parents.add(parent);
+                parent = getPossibleParent((URNmodelElement) parent);
+            }
+            else 
+                break; // infinite loop detected. 
         }
         return parents;
 

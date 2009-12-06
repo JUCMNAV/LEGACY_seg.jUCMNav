@@ -382,7 +382,8 @@ public class URNElementFinder {
     public static IURNDiagram findMapByName(URNspec urn, String name) {
         return (IURNDiagram) findByName(urn.getUrndef().getSpecDiagrams(), name);
     }
-
+    
+       
     /**
      * Given a map, find the node having the passed id or return null.
      * 

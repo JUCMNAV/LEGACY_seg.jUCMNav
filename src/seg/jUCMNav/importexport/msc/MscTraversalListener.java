@@ -587,6 +587,7 @@ public class MscTraversalListener implements ITraversalListener {
 
     private void resetCloneId(URNmodelElement clone) {
         String name = clone.getName();
+        clone.setId(""); //$NON-NLS-1$
         URNNamingHelper.setElementNameAndID(urnspec, clone);
         clone.setName(name);
     }
