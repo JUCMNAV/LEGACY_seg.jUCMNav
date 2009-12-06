@@ -36,7 +36,7 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     /**
      * Data container object used by the propagation mechanism.
      * 
-     * @author sghanava
+     * @author Alireza Pourshahid
      * 
      */
     private static class EvaluationCalculation {
@@ -53,7 +53,7 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 
     Vector evalReady;
     HashMap evaluationCalculation;
-    HashMap evaluations;
+    HashMap evaluations;    
 
     /*
      * (non-Javadoc)
@@ -128,9 +128,7 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
      */
     public int getEvaluation(IntentionalElement element) {
         Evaluation eval = (Evaluation) evaluations.get(element);
-        if ((element.getLinksDest().size() == 0) || (eval.getIntElement() != null)) {
-            return eval.getEvaluation();
-        }
+
         List eMetaData = element.getMetadata();
         Metadata formulaMetaData;
         MathEvaluator mathEvaluator = null;
@@ -140,6 +138,9 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 mathEvaluator = new MathEvaluator(formulaMetaData.getValue());
                 break;
             }
+        }
+        if ((element.getLinksDest().size() == 0) || (eval.getIntElement() != null && mathEvaluator == null)) {
+            return eval.getEvaluation();
         }
         int result = 0;
         int decompositionValue = -10000;
@@ -185,7 +186,9 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 int quantitativeContrib = contrib.getQuantitativeContribution();
                 double srcNodeEvaluationValue = ((Evaluation) evaluations.get(link.getSrc())).getKpiEvalValueSet().getEvaluationValue();
                 // TODO: it might be better if we change this to use the name of the source node as opposed to link
+                // TODO: I have noticed if the name of the link does not match the variables used in the formula it can cause errors 
                 mathEvaluator.addVariable(contrib.getName(), srcNodeEvaluationValue);
+
             }
         }
         if (decompositionValue >= -100) {
