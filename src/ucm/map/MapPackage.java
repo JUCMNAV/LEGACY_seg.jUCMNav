@@ -120,11 +120,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int PATH_NODE__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
+    int PATH_NODE__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -256,11 +256,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int AND_JOIN__METADATA = PATH_NODE__METADATA;
+    int AND_JOIN__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -511,11 +511,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int RESP_REF__METADATA = PATH_NODE__METADATA;
+    int RESP_REF__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -592,11 +592,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Host Demand</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int RESP_REF__HOST_DEMAND = PATH_NODE_FEATURE_COUNT + 1;
+    int RESP_REF__HOST_DEMAND = PATH_NODE_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Resp Def</b></em>' reference.
@@ -692,11 +692,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int OR_JOIN__METADATA = PATH_NODE__METADATA;
+    int OR_JOIN__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -837,11 +837,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int OR_FORK__METADATA = PATH_NODE__METADATA;
+    int OR_FORK__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -982,11 +982,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int CONNECT__METADATA = PATH_NODE__METADATA;
+    int CONNECT__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1100,13 +1100,13 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Label</b></em>' containment reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int NODE_CONNECTION__LABEL = UrncorePackage.IURN_CONNECTION__LABEL;
+    int NODE_CONNECTION__LABEL = UrncorePackage.IURN_CONNECTION__LABEL;
 
-				/**
+    /**
      * The feature id for the '<em><b>Probability</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1236,11 +1236,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int WAITING_PLACE__METADATA = PATH_NODE__METADATA;
+    int WAITING_PLACE__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1381,11 +1381,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int STUB__METADATA = PATH_NODE__METADATA;
+    int STUB__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1471,40 +1471,40 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Repetition Count</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int STUB__REPETITION_COUNT = PATH_NODE_FEATURE_COUNT + 2;
+    int STUB__REPETITION_COUNT = PATH_NODE_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Pointcut</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int STUB__POINTCUT = PATH_NODE_FEATURE_COUNT + 3;
+    int STUB__POINTCUT = PATH_NODE_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Synchronization</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int STUB__SYNCHRONIZATION = PATH_NODE_FEATURE_COUNT + 4;
+    int STUB__SYNCHRONIZATION = PATH_NODE_FEATURE_COUNT + 4;
 
-				/**
+    /**
      * The feature id for the '<em><b>Blocking</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int STUB__BLOCKING = PATH_NODE_FEATURE_COUNT + 5;
+    int STUB__BLOCKING = PATH_NODE_FEATURE_COUNT + 5;
 
-				/**
+    /**
      * The feature id for the '<em><b>Aopointcut</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1513,7 +1513,7 @@ public interface MapPackage extends EPackage {
      */
     int STUB__AOPOINTCUT = PATH_NODE_FEATURE_COUNT + 6;
 
-                /**
+    /**
      * The feature id for the '<em><b>Aspect</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1522,7 +1522,7 @@ public interface MapPackage extends EPackage {
      */
     int STUB__ASPECT = PATH_NODE_FEATURE_COUNT + 7;
 
-                /**
+    /**
      * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1598,11 +1598,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int END_POINT__METADATA = PATH_NODE__METADATA;
+    int END_POINT__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1697,11 +1697,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Scenario End Points</b></em>' reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int END_POINT__SCENARIO_END_POINTS = PATH_NODE_FEATURE_COUNT + 3;
+    int END_POINT__SCENARIO_END_POINTS = PATH_NODE_FEATURE_COUNT + 3;
 
     /**
      * The number of structural features of the '<em>End Point</em>' class.
@@ -1770,11 +1770,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int START_POINT__METADATA = PATH_NODE__METADATA;
+    int START_POINT__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1887,11 +1887,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Scenario Start Points</b></em>' reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int START_POINT__SCENARIO_START_POINTS = PATH_NODE_FEATURE_COUNT + 5;
+    int START_POINT__SCENARIO_START_POINTS = PATH_NODE_FEATURE_COUNT + 5;
 
     /**
      * The number of structural features of the '<em>Start Point</em>' class.
@@ -1960,11 +1960,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int UC_MMAP__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
+    int UC_MMAP__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
 
     /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -2005,31 +2005,31 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Concern</b></em>' reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int UC_MMAP__CONCERN = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
+    int UC_MMAP__CONCERN = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Comments</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int UC_MMAP__COMMENTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
+    int UC_MMAP__COMMENTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
 
-				/**
+    /**
      * The feature id for the '<em><b>Singleton</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int UC_MMAP__SINGLETON = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
+    int UC_MMAP__SINGLETON = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
 
-				/**
+    /**
      * The feature id for the '<em><b>Parent Stub</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2078,22 +2078,22 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Transaction</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int PLUGIN_BINDING__TRANSACTION = 2;
+    int PLUGIN_BINDING__TRANSACTION = 2;
 
     /**
      * The feature id for the '<em><b>Replication Factor</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int PLUGIN_BINDING__REPLICATION_FACTOR = 3;
+    int PLUGIN_BINDING__REPLICATION_FACTOR = 3;
 
-				/**
+    /**
      * The feature id for the '<em><b>In</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2141,13 +2141,13 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Components</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int PLUGIN_BINDING__COMPONENTS = 9;
+    int PLUGIN_BINDING__COMPONENTS = 9;
 
-				/**
+    /**
      * The feature id for the '<em><b>Responsibilities</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2156,7 +2156,7 @@ public interface MapPackage extends EPackage {
      */
     int PLUGIN_BINDING__RESPONSIBILITIES = 10;
 
-                /**
+    /**
      * The number of structural features of the '<em>Plugin Binding</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2223,11 +2223,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int COMPONENT_REF__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
+    int COMPONENT_REF__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2358,22 +2358,22 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Parent Bindings</b></em>' reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int COMPONENT_REF__PARENT_BINDINGS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 14;
+    int COMPONENT_REF__PARENT_BINDINGS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 14;
 
-				/**
+    /**
      * The feature id for the '<em><b>Plugin Bindings</b></em>' reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int COMPONENT_REF__PLUGIN_BINDINGS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 15;
+    int COMPONENT_REF__PLUGIN_BINDINGS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 15;
 
-				/**
+    /**
      * The number of structural features of the '<em>Component Ref</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2440,11 +2440,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int TIMER__METADATA = WAITING_PLACE__METADATA;
+    int TIMER__METADATA = WAITING_PLACE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2594,11 +2594,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int AND_FORK__METADATA = PATH_NODE__METADATA;
+    int AND_FORK__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2739,11 +2739,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int EMPTY_POINT__METADATA = PATH_NODE__METADATA;
+    int EMPTY_POINT__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2875,11 +2875,11 @@ public interface MapPackage extends EPackage {
     /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int DIRECTION_ARROW__METADATA = PATH_NODE__METADATA;
+    int DIRECTION_ARROW__METADATA = PATH_NODE__METADATA;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2953,55 +2953,53 @@ public interface MapPackage extends EPackage {
      */
     int DIRECTION_ARROW_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 0;
 
-
     /**
      * The meta object id for the '{@link ucm.map.impl.ComponentBindingImpl <em>Component Binding</em>}' class.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @see ucm.map.impl.ComponentBindingImpl
      * @see ucm.map.impl.MapPackageImpl#getComponentBinding()
      * @generated
      */
-	int COMPONENT_BINDING = 20;
+    int COMPONENT_BINDING = 20;
 
-				/**
+    /**
      * The feature id for the '<em><b>Binding</b></em>' container reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int COMPONENT_BINDING__BINDING = 0;
+    int COMPONENT_BINDING__BINDING = 0;
 
-				/**
+    /**
      * The feature id for the '<em><b>Parent Component</b></em>' reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int COMPONENT_BINDING__PARENT_COMPONENT = 1;
+    int COMPONENT_BINDING__PARENT_COMPONENT = 1;
 
-				/**
+    /**
      * The feature id for the '<em><b>Plugin Component</b></em>' reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int COMPONENT_BINDING__PLUGIN_COMPONENT = 2;
+    int COMPONENT_BINDING__PLUGIN_COMPONENT = 2;
 
-				/**
+    /**
      * The number of structural features of the '<em>Component Binding</em>' class.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int COMPONENT_BINDING_FEATURE_COUNT = 3;
+    int COMPONENT_BINDING_FEATURE_COUNT = 3;
 
-
-				/**
+    /**
      * The meta object id for the '{@link ucm.map.impl.AnythingImpl <em>Anything</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3011,7 +3009,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING = 21;
 
-                /**
+    /**
      * The feature id for the '<em><b>From Links</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3020,7 +3018,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__FROM_LINKS = PATH_NODE__FROM_LINKS;
 
-                /**
+    /**
      * The feature id for the '<em><b>To Links</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3029,7 +3027,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__TO_LINKS = PATH_NODE__TO_LINKS;
 
-                /**
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3038,7 +3036,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__ID = PATH_NODE__ID;
 
-                /**
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3047,7 +3045,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__NAME = PATH_NODE__NAME;
 
-                /**
+    /**
      * The feature id for the '<em><b>Description</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3056,7 +3054,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__DESCRIPTION = PATH_NODE__DESCRIPTION;
 
-                /**
+    /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3065,7 +3063,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__METADATA = PATH_NODE__METADATA;
 
-                /**
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3074,7 +3072,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__X = PATH_NODE__X;
 
-                /**
+    /**
      * The feature id for the '<em><b>Y</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3083,7 +3081,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__Y = PATH_NODE__Y;
 
-                /**
+    /**
      * The feature id for the '<em><b>Diagram</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3092,7 +3090,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__DIAGRAM = PATH_NODE__DIAGRAM;
 
-                /**
+    /**
      * The feature id for the '<em><b>Cont Ref</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3101,7 +3099,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__CONT_REF = PATH_NODE__CONT_REF;
 
-                /**
+    /**
      * The feature id for the '<em><b>Succ</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3110,7 +3108,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__SUCC = PATH_NODE__SUCC;
 
-                /**
+    /**
      * The feature id for the '<em><b>Pred</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3119,7 +3117,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__PRED = PATH_NODE__PRED;
 
-                /**
+    /**
      * The feature id for the '<em><b>Label</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3128,7 +3126,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING__LABEL = PATH_NODE__LABEL;
 
-                /**
+    /**
      * The number of structural features of the '<em>Anything</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3137,7 +3135,7 @@ public interface MapPackage extends EPackage {
      */
     int ANYTHING_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 0;
 
-                /**
+    /**
      * The meta object id for the '{@link ucm.map.impl.FailurePointImpl <em>Failure Point</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3147,7 +3145,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT = 22;
 
-                /**
+    /**
      * The feature id for the '<em><b>From Links</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3156,7 +3154,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__FROM_LINKS = PATH_NODE__FROM_LINKS;
 
-                /**
+    /**
      * The feature id for the '<em><b>To Links</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3165,7 +3163,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__TO_LINKS = PATH_NODE__TO_LINKS;
 
-                /**
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3174,7 +3172,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__ID = PATH_NODE__ID;
 
-                /**
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3183,7 +3181,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__NAME = PATH_NODE__NAME;
 
-                /**
+    /**
      * The feature id for the '<em><b>Description</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3192,7 +3190,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__DESCRIPTION = PATH_NODE__DESCRIPTION;
 
-                /**
+    /**
      * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3201,7 +3199,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__METADATA = PATH_NODE__METADATA;
 
-                /**
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3210,7 +3208,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__X = PATH_NODE__X;
 
-                /**
+    /**
      * The feature id for the '<em><b>Y</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3219,7 +3217,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__Y = PATH_NODE__Y;
 
-                /**
+    /**
      * The feature id for the '<em><b>Diagram</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3228,7 +3226,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__DIAGRAM = PATH_NODE__DIAGRAM;
 
-                /**
+    /**
      * The feature id for the '<em><b>Cont Ref</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3237,7 +3235,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__CONT_REF = PATH_NODE__CONT_REF;
 
-                /**
+    /**
      * The feature id for the '<em><b>Succ</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3246,7 +3244,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__SUCC = PATH_NODE__SUCC;
 
-                /**
+    /**
      * The feature id for the '<em><b>Pred</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3255,7 +3253,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__PRED = PATH_NODE__PRED;
 
-                /**
+    /**
      * The feature id for the '<em><b>Label</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3264,7 +3262,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__LABEL = PATH_NODE__LABEL;
 
-                /**
+    /**
      * The feature id for the '<em><b>Expression</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3273,7 +3271,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT__EXPRESSION = PATH_NODE_FEATURE_COUNT + 0;
 
-                /**
+    /**
      * The number of structural features of the '<em>Failure Point</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3282,7 +3280,7 @@ public interface MapPackage extends EPackage {
      */
     int FAILURE_POINT_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 1;
 
-                /**
+    /**
      * The meta object id for the '{@link ucm.map.impl.ResponsibilityBindingImpl <em>Responsibility Binding</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3292,7 +3290,7 @@ public interface MapPackage extends EPackage {
      */
     int RESPONSIBILITY_BINDING = 23;
 
-                /**
+    /**
      * The feature id for the '<em><b>Binding</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3301,7 +3299,7 @@ public interface MapPackage extends EPackage {
      */
     int RESPONSIBILITY_BINDING__BINDING = 0;
 
-                /**
+    /**
      * The feature id for the '<em><b>Parent Resp</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3310,7 +3308,7 @@ public interface MapPackage extends EPackage {
      */
     int RESPONSIBILITY_BINDING__PARENT_RESP = 1;
 
-                /**
+    /**
      * The feature id for the '<em><b>Plugin Resp</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3319,7 +3317,7 @@ public interface MapPackage extends EPackage {
      */
     int RESPONSIBILITY_BINDING__PLUGIN_RESP = 2;
 
-                /**
+    /**
      * The number of structural features of the '<em>Responsibility Binding</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3328,18 +3326,17 @@ public interface MapPackage extends EPackage {
      */
     int RESPONSIBILITY_BINDING_FEATURE_COUNT = 3;
 
-                /**
+    /**
      * The meta object id for the '{@link ucm.map.WaitKind <em>Wait Kind</em>}' enum.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @see ucm.map.WaitKind
      * @see ucm.map.impl.MapPackageImpl#getWaitKind()
      * @generated
      */
-	int WAIT_KIND = 24;
+    int WAIT_KIND = 24;
 
-
-				/**
+    /**
      * The meta object id for the '{@link ucm.map.AspectKind <em>Aspect Kind</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3349,7 +3346,7 @@ public interface MapPackage extends EPackage {
      */
     int ASPECT_KIND = 25;
 
-                /**
+    /**
      * The meta object id for the '{@link ucm.map.PointcutKind <em>Pointcut Kind</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3359,7 +3356,7 @@ public interface MapPackage extends EPackage {
      */
     int POINTCUT_KIND = 26;
 
-                /**
+    /**
      * The meta object id for the '{@link ucm.map.FailureKind <em>Failure Kind</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3370,7 +3367,7 @@ public interface MapPackage extends EPackage {
     int FAILURE_KIND = 27;
 
 
-                /**
+    /**
      * Returns the meta object for class '{@link ucm.map.AndJoin <em>And Join</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3523,13 +3520,13 @@ public interface MapPackage extends EPackage {
     /**
      * Returns the meta object for the attribute '{@link ucm.map.RespRef#getHostDemand <em>Host Demand</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Host Demand</em>'.
      * @see ucm.map.RespRef#getHostDemand()
      * @see #getRespRef()
      * @generated
      */
-	EAttribute getRespRef_HostDemand();
+    EAttribute getRespRef_HostDemand();
 
     /**
      * Returns the meta object for the reference '{@link ucm.map.RespRef#getRespDef <em>Resp Def</em>}'.
@@ -3759,13 +3756,68 @@ public interface MapPackage extends EPackage {
     /**
      * Returns the meta object for the attribute '{@link ucm.map.Stub#getRepetitionCount <em>Repetition Count</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Repetition Count</em>'.
      * @see ucm.map.Stub#getRepetitionCount()
      * @see #getStub()
      * @generated
      */
-	EAttribute getStub_RepetitionCount();
+    EAttribute getStub_RepetitionCount();
+
+    /**
+     * Returns the meta object for the attribute '{@link ucm.map.Stub#isPointcut <em>Pointcut</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Pointcut</em>'.
+     * @see ucm.map.Stub#isPointcut()
+     * @see #getStub()
+     * @generated
+     */
+    EAttribute getStub_Pointcut();
+
+    /**
+     * Returns the meta object for the attribute '{@link ucm.map.Stub#isSynchronization <em>Synchronization</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Synchronization</em>'.
+     * @see ucm.map.Stub#isSynchronization()
+     * @see #getStub()
+     * @generated
+     */
+    EAttribute getStub_Synchronization();
+
+    /**
+     * Returns the meta object for the attribute '{@link ucm.map.Stub#isBlocking <em>Blocking</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Blocking</em>'.
+     * @see ucm.map.Stub#isBlocking()
+     * @see #getStub()
+     * @generated
+     */
+    EAttribute getStub_Blocking();
+
+    /**
+     * Returns the meta object for the attribute '{@link ucm.map.Stub#getAopointcut <em>Aopointcut</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Aopointcut</em>'.
+     * @see ucm.map.Stub#getAopointcut()
+     * @see #getStub()
+     * @generated
+     */
+    EAttribute getStub_Aopointcut();
+
+    /**
+     * Returns the meta object for the attribute '{@link ucm.map.Stub#getAspect <em>Aspect</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Aspect</em>'.
+     * @see ucm.map.Stub#getAspect()
+     * @see #getStub()
+     * @generated
+     */
+    EAttribute getStub_Aspect();
 
     /**
      * Returns the meta object for the containment reference list '{@link ucm.map.Stub#getBindings <em>Bindings</em>}'.
@@ -3779,61 +3831,6 @@ public interface MapPackage extends EPackage {
     EReference getStub_Bindings();
 
     /**
-     * Returns the meta object for the attribute '{@link ucm.map.Stub#isPointcut <em>Pointcut</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Pointcut</em>'.
-     * @see ucm.map.Stub#isPointcut()
-     * @see #getStub()
-     * @generated
-     */
-	EAttribute getStub_Pointcut();
-
-    /**
-     * Returns the meta object for the attribute '{@link ucm.map.Stub#isSynchronization <em>Synchronization</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Synchronization</em>'.
-     * @see ucm.map.Stub#isSynchronization()
-     * @see #getStub()
-     * @generated
-     */
-	EAttribute getStub_Synchronization();
-
-				/**
-     * Returns the meta object for the attribute '{@link ucm.map.Stub#isBlocking <em>Blocking</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Blocking</em>'.
-     * @see ucm.map.Stub#isBlocking()
-     * @see #getStub()
-     * @generated
-     */
-	EAttribute getStub_Blocking();
-
-				/**
-     * Returns the meta object for the attribute '{@link ucm.map.Stub#getAopointcut <em>Aopointcut</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Aopointcut</em>'.
-     * @see ucm.map.Stub#getAopointcut()
-     * @see #getStub()
-     * @generated
-     */
-    EAttribute getStub_Aopointcut();
-
-                /**
-     * Returns the meta object for the attribute '{@link ucm.map.Stub#getAspect <em>Aspect</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Aspect</em>'.
-     * @see ucm.map.Stub#getAspect()
-     * @see #getStub()
-     * @generated
-     */
-    EAttribute getStub_Aspect();
-
-                /**
      * Returns the meta object for class '{@link ucm.map.PathNode <em>Path Node</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3889,13 +3886,13 @@ public interface MapPackage extends EPackage {
     /**
      * Returns the meta object for the reference list '{@link ucm.map.EndPoint#getScenarioEndPoints <em>Scenario End Points</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Scenario End Points</em>'.
      * @see ucm.map.EndPoint#getScenarioEndPoints()
      * @see #getEndPoint()
      * @generated
      */
-	EReference getEndPoint_ScenarioEndPoints();
+    EReference getEndPoint_ScenarioEndPoints();
 
     /**
      * Returns the meta object for class '{@link ucm.map.StartPoint <em>Start Point</em>}'.
@@ -3965,13 +3962,13 @@ public interface MapPackage extends EPackage {
     /**
      * Returns the meta object for the reference list '{@link ucm.map.StartPoint#getScenarioStartPoints <em>Scenario Start Points</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Scenario Start Points</em>'.
      * @see ucm.map.StartPoint#getScenarioStartPoints()
      * @see #getStartPoint()
      * @generated
      */
-	EReference getStartPoint_ScenarioStartPoints();
+    EReference getStartPoint_ScenarioStartPoints();
 
     /**
      * Returns the meta object for class '{@link ucm.map.UCMmap <em>UC Mmap</em>}'.
@@ -3986,15 +3983,15 @@ public interface MapPackage extends EPackage {
     /**
      * Returns the meta object for the attribute '{@link ucm.map.UCMmap#isSingleton <em>Singleton</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Singleton</em>'.
      * @see ucm.map.UCMmap#isSingleton()
      * @see #getUCMmap()
      * @generated
      */
-	EAttribute getUCMmap_Singleton();
+    EAttribute getUCMmap_Singleton();
 
-				/**
+    /**
      * Returns the meta object for the reference list '{@link ucm.map.UCMmap#getParentStub <em>Parent Stub</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4040,26 +4037,26 @@ public interface MapPackage extends EPackage {
     /**
      * Returns the meta object for the attribute '{@link ucm.map.PluginBinding#isTransaction <em>Transaction</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Transaction</em>'.
      * @see ucm.map.PluginBinding#isTransaction()
      * @see #getPluginBinding()
      * @generated
      */
-	EAttribute getPluginBinding_Transaction();
+    EAttribute getPluginBinding_Transaction();
 
     /**
      * Returns the meta object for the attribute '{@link ucm.map.PluginBinding#getReplicationFactor <em>Replication Factor</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Replication Factor</em>'.
      * @see ucm.map.PluginBinding#getReplicationFactor()
      * @see #getPluginBinding()
      * @generated
      */
-	EAttribute getPluginBinding_ReplicationFactor();
+    EAttribute getPluginBinding_ReplicationFactor();
 
-				/**
+    /**
      * Returns the meta object for the containment reference list '{@link ucm.map.PluginBinding#getIn <em>In</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4117,15 +4114,15 @@ public interface MapPackage extends EPackage {
     /**
      * Returns the meta object for the containment reference list '{@link ucm.map.PluginBinding#getComponents <em>Components</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the containment reference list '<em>Components</em>'.
      * @see ucm.map.PluginBinding#getComponents()
      * @see #getPluginBinding()
      * @generated
      */
-	EReference getPluginBinding_Components();
+    EReference getPluginBinding_Components();
 
-				/**
+    /**
      * Returns the meta object for the containment reference list '{@link ucm.map.PluginBinding#getResponsibilities <em>Responsibilities</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4136,7 +4133,7 @@ public interface MapPackage extends EPackage {
      */
     EReference getPluginBinding_Responsibilities();
 
-                /**
+    /**
      * Returns the meta object for class '{@link ucm.map.ComponentRef <em>Component Ref</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4182,26 +4179,26 @@ public interface MapPackage extends EPackage {
     /**
      * Returns the meta object for the reference list '{@link ucm.map.ComponentRef#getParentBindings <em>Parent Bindings</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Parent Bindings</em>'.
      * @see ucm.map.ComponentRef#getParentBindings()
      * @see #getComponentRef()
      * @generated
      */
-	EReference getComponentRef_ParentBindings();
+    EReference getComponentRef_ParentBindings();
 
-				/**
+    /**
      * Returns the meta object for the reference list '{@link ucm.map.ComponentRef#getPluginBindings <em>Plugin Bindings</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Plugin Bindings</em>'.
      * @see ucm.map.ComponentRef#getPluginBindings()
      * @see #getComponentRef()
      * @generated
      */
-	EReference getComponentRef_PluginBindings();
+    EReference getComponentRef_PluginBindings();
 
-				/**
+    /**
      * Returns the meta object for class '{@link ucm.map.Timer <em>Timer</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4266,47 +4263,47 @@ public interface MapPackage extends EPackage {
     /**
      * Returns the meta object for class '{@link ucm.map.ComponentBinding <em>Component Binding</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for class '<em>Component Binding</em>'.
      * @see ucm.map.ComponentBinding
      * @generated
      */
-	EClass getComponentBinding();
+    EClass getComponentBinding();
 
-				/**
+    /**
      * Returns the meta object for the container reference '{@link ucm.map.ComponentBinding#getBinding <em>Binding</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the container reference '<em>Binding</em>'.
      * @see ucm.map.ComponentBinding#getBinding()
      * @see #getComponentBinding()
      * @generated
      */
-	EReference getComponentBinding_Binding();
+    EReference getComponentBinding_Binding();
 
-				/**
+    /**
      * Returns the meta object for the reference '{@link ucm.map.ComponentBinding#getParentComponent <em>Parent Component</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the reference '<em>Parent Component</em>'.
      * @see ucm.map.ComponentBinding#getParentComponent()
      * @see #getComponentBinding()
      * @generated
      */
-	EReference getComponentBinding_ParentComponent();
+    EReference getComponentBinding_ParentComponent();
 
-				/**
+    /**
      * Returns the meta object for the reference '{@link ucm.map.ComponentBinding#getPluginComponent <em>Plugin Component</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for the reference '<em>Plugin Component</em>'.
      * @see ucm.map.ComponentBinding#getPluginComponent()
      * @see #getComponentBinding()
      * @generated
      */
-	EReference getComponentBinding_PluginComponent();
+    EReference getComponentBinding_PluginComponent();
 
-				/**
+    /**
      * Returns the meta object for class '{@link ucm.map.Anything <em>Anything</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4316,7 +4313,7 @@ public interface MapPackage extends EPackage {
      */
     EClass getAnything();
 
-                /**
+    /**
      * Returns the meta object for class '{@link ucm.map.FailurePoint <em>Failure Point</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4326,7 +4323,7 @@ public interface MapPackage extends EPackage {
      */
     EClass getFailurePoint();
 
-                /**
+    /**
      * Returns the meta object for the attribute '{@link ucm.map.FailurePoint#getExpression <em>Expression</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4337,7 +4334,7 @@ public interface MapPackage extends EPackage {
      */
     EAttribute getFailurePoint_Expression();
 
-                /**
+    /**
      * Returns the meta object for class '{@link ucm.map.ResponsibilityBinding <em>Responsibility Binding</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4347,7 +4344,7 @@ public interface MapPackage extends EPackage {
      */
     EClass getResponsibilityBinding();
 
-                /**
+    /**
      * Returns the meta object for the container reference '{@link ucm.map.ResponsibilityBinding#getBinding <em>Binding</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4358,7 +4355,7 @@ public interface MapPackage extends EPackage {
      */
     EReference getResponsibilityBinding_Binding();
 
-                /**
+    /**
      * Returns the meta object for the reference '{@link ucm.map.ResponsibilityBinding#getParentResp <em>Parent Resp</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4369,7 +4366,7 @@ public interface MapPackage extends EPackage {
      */
     EReference getResponsibilityBinding_ParentResp();
 
-                /**
+    /**
      * Returns the meta object for the reference '{@link ucm.map.ResponsibilityBinding#getPluginResp <em>Plugin Resp</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4380,17 +4377,17 @@ public interface MapPackage extends EPackage {
      */
     EReference getResponsibilityBinding_PluginResp();
 
-                /**
+    /**
      * Returns the meta object for enum '{@link ucm.map.WaitKind <em>Wait Kind</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the meta object for enum '<em>Wait Kind</em>'.
      * @see ucm.map.WaitKind
      * @generated
      */
-	EEnum getWaitKind();
+    EEnum getWaitKind();
 
-				/**
+    /**
      * Returns the meta object for enum '{@link ucm.map.AspectKind <em>Aspect Kind</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4400,7 +4397,7 @@ public interface MapPackage extends EPackage {
      */
     EEnum getAspectKind();
 
-                /**
+    /**
      * Returns the meta object for enum '{@link ucm.map.PointcutKind <em>Pointcut Kind</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4410,7 +4407,7 @@ public interface MapPackage extends EPackage {
      */
     EEnum getPointcutKind();
 
-                /**
+    /**
      * Returns the meta object for enum '{@link ucm.map.FailureKind <em>Failure Kind</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4420,7 +4417,7 @@ public interface MapPackage extends EPackage {
      */
     EEnum getFailureKind();
 
-                /**
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4431,68 +4428,68 @@ public interface MapPackage extends EPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * Defines literals for the meta objects that represent
-	 * <ul>
-	 *   <li>each class,</li>
-	 *   <li>each feature of each class,</li>
-	 *   <li>each enum,</li>
-	 *   <li>and each data type</li>
-	 * </ul>
-	 * <!-- end-user-doc -->
+     * Defines literals for the meta objects that represent
+     * <ul>
+     *   <li>each class,</li>
+     *   <li>each feature of each class,</li>
+     *   <li>each enum,</li>
+     *   <li>and each data type</li>
+     * </ul>
+     * <!-- end-user-doc -->
      * @generated
      */
-	interface Literals  {
+    interface Literals {
         /**
          * The meta object literal for the '{@link ucm.map.impl.AndJoinImpl <em>And Join</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.AndJoinImpl
          * @see ucm.map.impl.MapPackageImpl#getAndJoin()
          * @generated
          */
-		EClass AND_JOIN = eINSTANCE.getAndJoin();
+        EClass AND_JOIN = eINSTANCE.getAndJoin();
 
         /**
          * The meta object literal for the '<em><b>Orientation</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute AND_JOIN__ORIENTATION = eINSTANCE.getAndJoin_Orientation();
+        EAttribute AND_JOIN__ORIENTATION = eINSTANCE.getAndJoin_Orientation();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.OutBindingImpl <em>Out Binding</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.OutBindingImpl
          * @see ucm.map.impl.MapPackageImpl#getOutBinding()
          * @generated
          */
-		EClass OUT_BINDING = eINSTANCE.getOutBinding();
+        EClass OUT_BINDING = eINSTANCE.getOutBinding();
 
         /**
          * The meta object literal for the '<em><b>Binding</b></em>' container reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference OUT_BINDING__BINDING = eINSTANCE.getOutBinding_Binding();
+        EReference OUT_BINDING__BINDING = eINSTANCE.getOutBinding_Binding();
 
         /**
          * The meta object literal for the '<em><b>End Point</b></em>' reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference OUT_BINDING__END_POINT = eINSTANCE.getOutBinding_EndPoint();
+        EReference OUT_BINDING__END_POINT = eINSTANCE.getOutBinding_EndPoint();
 
         /**
          * The meta object literal for the '<em><b>Stub Exit</b></em>' reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference OUT_BINDING__STUB_EXIT = eINSTANCE.getOutBinding_StubExit();
+        EReference OUT_BINDING__STUB_EXIT = eINSTANCE.getOutBinding_StubExit();
 
         /**
          * The meta object literal for the '<em><b>Pointcut Entry</b></em>' reference feature.
@@ -4505,36 +4502,36 @@ public interface MapPackage extends EPackage {
         /**
          * The meta object literal for the '{@link ucm.map.impl.InBindingImpl <em>In Binding</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.InBindingImpl
          * @see ucm.map.impl.MapPackageImpl#getInBinding()
          * @generated
          */
-		EClass IN_BINDING = eINSTANCE.getInBinding();
+        EClass IN_BINDING = eINSTANCE.getInBinding();
 
         /**
          * The meta object literal for the '<em><b>Binding</b></em>' container reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference IN_BINDING__BINDING = eINSTANCE.getInBinding_Binding();
+        EReference IN_BINDING__BINDING = eINSTANCE.getInBinding_Binding();
 
         /**
          * The meta object literal for the '<em><b>Start Point</b></em>' reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference IN_BINDING__START_POINT = eINSTANCE.getInBinding_StartPoint();
+        EReference IN_BINDING__START_POINT = eINSTANCE.getInBinding_StartPoint();
 
         /**
          * The meta object literal for the '<em><b>Stub Entry</b></em>' reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference IN_BINDING__STUB_ENTRY = eINSTANCE.getInBinding_StubEntry();
+        EReference IN_BINDING__STUB_ENTRY = eINSTANCE.getInBinding_StubEntry();
 
         /**
          * The meta object literal for the '<em><b>Pointcut Exit</b></em>' reference feature.
@@ -4547,36 +4544,36 @@ public interface MapPackage extends EPackage {
         /**
          * The meta object literal for the '{@link ucm.map.impl.RespRefImpl <em>Resp Ref</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.RespRefImpl
          * @see ucm.map.impl.MapPackageImpl#getRespRef()
          * @generated
          */
-		EClass RESP_REF = eINSTANCE.getRespRef();
+        EClass RESP_REF = eINSTANCE.getRespRef();
 
         /**
          * The meta object literal for the '<em><b>Repetition Count</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute RESP_REF__REPETITION_COUNT = eINSTANCE.getRespRef_RepetitionCount();
+        EAttribute RESP_REF__REPETITION_COUNT = eINSTANCE.getRespRef_RepetitionCount();
 
         /**
          * The meta object literal for the '<em><b>Host Demand</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute RESP_REF__HOST_DEMAND = eINSTANCE.getRespRef_HostDemand();
+        EAttribute RESP_REF__HOST_DEMAND = eINSTANCE.getRespRef_HostDemand();
 
         /**
          * The meta object literal for the '<em><b>Resp Def</b></em>' reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference RESP_REF__RESP_DEF = eINSTANCE.getRespRef_RespDef();
+        EReference RESP_REF__RESP_DEF = eINSTANCE.getRespRef_RespDef();
 
         /**
          * The meta object literal for the '<em><b>Parent Bindings</b></em>' reference list feature.
@@ -4597,66 +4594,66 @@ public interface MapPackage extends EPackage {
         /**
          * The meta object literal for the '{@link ucm.map.impl.OrJoinImpl <em>Or Join</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.OrJoinImpl
          * @see ucm.map.impl.MapPackageImpl#getOrJoin()
          * @generated
          */
-		EClass OR_JOIN = eINSTANCE.getOrJoin();
+        EClass OR_JOIN = eINSTANCE.getOrJoin();
 
         /**
          * The meta object literal for the '<em><b>Orientation</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute OR_JOIN__ORIENTATION = eINSTANCE.getOrJoin_Orientation();
+        EAttribute OR_JOIN__ORIENTATION = eINSTANCE.getOrJoin_Orientation();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.OrForkImpl <em>Or Fork</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.OrForkImpl
          * @see ucm.map.impl.MapPackageImpl#getOrFork()
          * @generated
          */
-		EClass OR_FORK = eINSTANCE.getOrFork();
+        EClass OR_FORK = eINSTANCE.getOrFork();
 
         /**
          * The meta object literal for the '<em><b>Orientation</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute OR_FORK__ORIENTATION = eINSTANCE.getOrFork_Orientation();
+        EAttribute OR_FORK__ORIENTATION = eINSTANCE.getOrFork_Orientation();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.ConnectImpl <em>Connect</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.ConnectImpl
          * @see ucm.map.impl.MapPackageImpl#getConnect()
          * @generated
          */
-		EClass CONNECT = eINSTANCE.getConnect();
+        EClass CONNECT = eINSTANCE.getConnect();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.NodeConnectionImpl <em>Node Connection</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.NodeConnectionImpl
          * @see ucm.map.impl.MapPackageImpl#getNodeConnection()
          * @generated
          */
-		EClass NODE_CONNECTION = eINSTANCE.getNodeConnection();
+        EClass NODE_CONNECTION = eINSTANCE.getNodeConnection();
 
         /**
          * The meta object literal for the '<em><b>Probability</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute NODE_CONNECTION__PROBABILITY = eINSTANCE.getNodeConnection_Probability();
+        EAttribute NODE_CONNECTION__PROBABILITY = eINSTANCE.getNodeConnection_Probability();
 
         /**
          * The meta object literal for the '<em><b>Threshold</b></em>' attribute feature.
@@ -4669,26 +4666,26 @@ public interface MapPackage extends EPackage {
         /**
          * The meta object literal for the '<em><b>In Bindings</b></em>' reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference NODE_CONNECTION__IN_BINDINGS = eINSTANCE.getNodeConnection_InBindings();
+        EReference NODE_CONNECTION__IN_BINDINGS = eINSTANCE.getNodeConnection_InBindings();
 
         /**
          * The meta object literal for the '<em><b>Out Bindings</b></em>' reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference NODE_CONNECTION__OUT_BINDINGS = eINSTANCE.getNodeConnection_OutBindings();
+        EReference NODE_CONNECTION__OUT_BINDINGS = eINSTANCE.getNodeConnection_OutBindings();
 
         /**
          * The meta object literal for the '<em><b>Condition</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference NODE_CONNECTION__CONDITION = eINSTANCE.getNodeConnection_Condition();
+        EReference NODE_CONNECTION__CONDITION = eINSTANCE.getNodeConnection_Condition();
 
         /**
          * The meta object literal for the '<em><b>Out Bindings Plugin</b></em>' reference list feature.
@@ -4709,88 +4706,80 @@ public interface MapPackage extends EPackage {
         /**
          * The meta object literal for the '{@link ucm.map.impl.WaitingPlaceImpl <em>Waiting Place</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.WaitingPlaceImpl
          * @see ucm.map.impl.MapPackageImpl#getWaitingPlace()
          * @generated
          */
-		EClass WAITING_PLACE = eINSTANCE.getWaitingPlace();
+        EClass WAITING_PLACE = eINSTANCE.getWaitingPlace();
 
         /**
          * The meta object literal for the '<em><b>Wait Type</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute WAITING_PLACE__WAIT_TYPE = eINSTANCE.getWaitingPlace_WaitType();
+        EAttribute WAITING_PLACE__WAIT_TYPE = eINSTANCE.getWaitingPlace_WaitType();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.StubImpl <em>Stub</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.StubImpl
          * @see ucm.map.impl.MapPackageImpl#getStub()
          * @generated
          */
-		EClass STUB = eINSTANCE.getStub();
+        EClass STUB = eINSTANCE.getStub();
 
         /**
          * The meta object literal for the '<em><b>Dynamic</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute STUB__DYNAMIC = eINSTANCE.getStub_Dynamic();
+        EAttribute STUB__DYNAMIC = eINSTANCE.getStub_Dynamic();
 
         /**
          * The meta object literal for the '<em><b>Shared</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute STUB__SHARED = eINSTANCE.getStub_Shared();
+        EAttribute STUB__SHARED = eINSTANCE.getStub_Shared();
 
         /**
          * The meta object literal for the '<em><b>Repetition Count</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute STUB__REPETITION_COUNT = eINSTANCE.getStub_RepetitionCount();
-
-        /**
-         * The meta object literal for the '<em><b>Bindings</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference STUB__BINDINGS = eINSTANCE.getStub_Bindings();
+        EAttribute STUB__REPETITION_COUNT = eINSTANCE.getStub_RepetitionCount();
 
         /**
          * The meta object literal for the '<em><b>Pointcut</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute STUB__POINTCUT = eINSTANCE.getStub_Pointcut();
+        EAttribute STUB__POINTCUT = eINSTANCE.getStub_Pointcut();
 
         /**
          * The meta object literal for the '<em><b>Synchronization</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute STUB__SYNCHRONIZATION = eINSTANCE.getStub_Synchronization();
+        EAttribute STUB__SYNCHRONIZATION = eINSTANCE.getStub_Synchronization();
 
-								/**
+        /**
          * The meta object literal for the '<em><b>Blocking</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute STUB__BLOCKING = eINSTANCE.getStub_Blocking();
+        EAttribute STUB__BLOCKING = eINSTANCE.getStub_Blocking();
 
-								/**
+        /**
          * The meta object literal for the '<em><b>Aopointcut</b></em>' attribute feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -4798,7 +4787,7 @@ public interface MapPackage extends EPackage {
          */
         EAttribute STUB__AOPOINTCUT = eINSTANCE.getStub_Aopointcut();
 
-                                /**
+        /**
          * The meta object literal for the '<em><b>Aspect</b></em>' attribute feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -4806,25 +4795,33 @@ public interface MapPackage extends EPackage {
          */
         EAttribute STUB__ASPECT = eINSTANCE.getStub_Aspect();
 
-                                /**
+        /**
+         * The meta object literal for the '<em><b>Bindings</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference STUB__BINDINGS = eINSTANCE.getStub_Bindings();
+
+        /**
          * The meta object literal for the '{@link ucm.map.impl.PathNodeImpl <em>Path Node</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.PathNodeImpl
          * @see ucm.map.impl.MapPackageImpl#getPathNode()
          * @generated
          */
-		EClass PATH_NODE = eINSTANCE.getPathNode();
+        EClass PATH_NODE = eINSTANCE.getPathNode();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.EndPointImpl <em>End Point</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.EndPointImpl
          * @see ucm.map.impl.MapPackageImpl#getEndPoint()
          * @generated
          */
-		EClass END_POINT = eINSTANCE.getEndPoint();
+        EClass END_POINT = eINSTANCE.getEndPoint();
 
         /**
          * The meta object literal for the '<em><b>Local</b></em>' attribute feature.
@@ -4837,44 +4834,44 @@ public interface MapPackage extends EPackage {
         /**
          * The meta object literal for the '<em><b>Out Bindings</b></em>' reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference END_POINT__OUT_BINDINGS = eINSTANCE.getEndPoint_OutBindings();
+        EReference END_POINT__OUT_BINDINGS = eINSTANCE.getEndPoint_OutBindings();
 
         /**
          * The meta object literal for the '<em><b>Postcondition</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference END_POINT__POSTCONDITION = eINSTANCE.getEndPoint_Postcondition();
+        EReference END_POINT__POSTCONDITION = eINSTANCE.getEndPoint_Postcondition();
 
         /**
          * The meta object literal for the '<em><b>Scenario End Points</b></em>' reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference END_POINT__SCENARIO_END_POINTS = eINSTANCE.getEndPoint_ScenarioEndPoints();
+        EReference END_POINT__SCENARIO_END_POINTS = eINSTANCE.getEndPoint_ScenarioEndPoints();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.StartPointImpl <em>Start Point</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.StartPointImpl
          * @see ucm.map.impl.MapPackageImpl#getStartPoint()
          * @generated
          */
-		EClass START_POINT = eINSTANCE.getStartPoint();
+        EClass START_POINT = eINSTANCE.getStartPoint();
 
         /**
          * The meta object literal for the '<em><b>Workload</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference START_POINT__WORKLOAD = eINSTANCE.getStartPoint_Workload();
+        EReference START_POINT__WORKLOAD = eINSTANCE.getStartPoint_Workload();
 
         /**
          * The meta object literal for the '<em><b>Local</b></em>' attribute feature.
@@ -4895,144 +4892,144 @@ public interface MapPackage extends EPackage {
         /**
          * The meta object literal for the '<em><b>In Bindings</b></em>' reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference START_POINT__IN_BINDINGS = eINSTANCE.getStartPoint_InBindings();
+        EReference START_POINT__IN_BINDINGS = eINSTANCE.getStartPoint_InBindings();
 
         /**
          * The meta object literal for the '<em><b>Precondition</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference START_POINT__PRECONDITION = eINSTANCE.getStartPoint_Precondition();
+        EReference START_POINT__PRECONDITION = eINSTANCE.getStartPoint_Precondition();
 
         /**
          * The meta object literal for the '<em><b>Scenario Start Points</b></em>' reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference START_POINT__SCENARIO_START_POINTS = eINSTANCE.getStartPoint_ScenarioStartPoints();
+        EReference START_POINT__SCENARIO_START_POINTS = eINSTANCE.getStartPoint_ScenarioStartPoints();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.UCMmapImpl <em>UC Mmap</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.UCMmapImpl
          * @see ucm.map.impl.MapPackageImpl#getUCMmap()
          * @generated
          */
-		EClass UC_MMAP = eINSTANCE.getUCMmap();
+        EClass UC_MMAP = eINSTANCE.getUCMmap();
 
         /**
          * The meta object literal for the '<em><b>Singleton</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute UC_MMAP__SINGLETON = eINSTANCE.getUCMmap_Singleton();
+        EAttribute UC_MMAP__SINGLETON = eINSTANCE.getUCMmap_Singleton();
 
-								/**
+        /**
          * The meta object literal for the '<em><b>Parent Stub</b></em>' reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference UC_MMAP__PARENT_STUB = eINSTANCE.getUCMmap_ParentStub();
+        EReference UC_MMAP__PARENT_STUB = eINSTANCE.getUCMmap_ParentStub();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.PluginBindingImpl <em>Plugin Binding</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.PluginBindingImpl
          * @see ucm.map.impl.MapPackageImpl#getPluginBinding()
          * @generated
          */
-		EClass PLUGIN_BINDING = eINSTANCE.getPluginBinding();
+        EClass PLUGIN_BINDING = eINSTANCE.getPluginBinding();
 
         /**
          * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute PLUGIN_BINDING__ID = eINSTANCE.getPluginBinding_Id();
+        EAttribute PLUGIN_BINDING__ID = eINSTANCE.getPluginBinding_Id();
 
         /**
          * The meta object literal for the '<em><b>Probability</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute PLUGIN_BINDING__PROBABILITY = eINSTANCE.getPluginBinding_Probability();
+        EAttribute PLUGIN_BINDING__PROBABILITY = eINSTANCE.getPluginBinding_Probability();
 
         /**
          * The meta object literal for the '<em><b>Transaction</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute PLUGIN_BINDING__TRANSACTION = eINSTANCE.getPluginBinding_Transaction();
+        EAttribute PLUGIN_BINDING__TRANSACTION = eINSTANCE.getPluginBinding_Transaction();
 
         /**
          * The meta object literal for the '<em><b>Replication Factor</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute PLUGIN_BINDING__REPLICATION_FACTOR = eINSTANCE.getPluginBinding_ReplicationFactor();
+        EAttribute PLUGIN_BINDING__REPLICATION_FACTOR = eINSTANCE.getPluginBinding_ReplicationFactor();
 
-								/**
+        /**
          * The meta object literal for the '<em><b>In</b></em>' containment reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference PLUGIN_BINDING__IN = eINSTANCE.getPluginBinding_In();
+        EReference PLUGIN_BINDING__IN = eINSTANCE.getPluginBinding_In();
 
         /**
          * The meta object literal for the '<em><b>Out</b></em>' containment reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference PLUGIN_BINDING__OUT = eINSTANCE.getPluginBinding_Out();
+        EReference PLUGIN_BINDING__OUT = eINSTANCE.getPluginBinding_Out();
 
         /**
          * The meta object literal for the '<em><b>Stub</b></em>' container reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference PLUGIN_BINDING__STUB = eINSTANCE.getPluginBinding_Stub();
+        EReference PLUGIN_BINDING__STUB = eINSTANCE.getPluginBinding_Stub();
 
         /**
          * The meta object literal for the '<em><b>Plugin</b></em>' reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference PLUGIN_BINDING__PLUGIN = eINSTANCE.getPluginBinding_Plugin();
+        EReference PLUGIN_BINDING__PLUGIN = eINSTANCE.getPluginBinding_Plugin();
 
         /**
          * The meta object literal for the '<em><b>Precondition</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference PLUGIN_BINDING__PRECONDITION = eINSTANCE.getPluginBinding_Precondition();
+        EReference PLUGIN_BINDING__PRECONDITION = eINSTANCE.getPluginBinding_Precondition();
 
         /**
          * The meta object literal for the '<em><b>Components</b></em>' containment reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference PLUGIN_BINDING__COMPONENTS = eINSTANCE.getPluginBinding_Components();
+        EReference PLUGIN_BINDING__COMPONENTS = eINSTANCE.getPluginBinding_Components();
 
-								/**
+        /**
          * The meta object literal for the '<em><b>Responsibilities</b></em>' containment reference list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5040,147 +5037,147 @@ public interface MapPackage extends EPackage {
          */
         EReference PLUGIN_BINDING__RESPONSIBILITIES = eINSTANCE.getPluginBinding_Responsibilities();
 
-                                /**
+        /**
          * The meta object literal for the '{@link ucm.map.impl.ComponentRefImpl <em>Component Ref</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.ComponentRefImpl
          * @see ucm.map.impl.MapPackageImpl#getComponentRef()
          * @generated
          */
-		EClass COMPONENT_REF = eINSTANCE.getComponentRef();
+        EClass COMPONENT_REF = eINSTANCE.getComponentRef();
 
         /**
          * The meta object literal for the '<em><b>Role</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute COMPONENT_REF__ROLE = eINSTANCE.getComponentRef_Role();
+        EAttribute COMPONENT_REF__ROLE = eINSTANCE.getComponentRef_Role();
 
         /**
          * The meta object literal for the '<em><b>Replication Factor</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute COMPONENT_REF__REPLICATION_FACTOR = eINSTANCE.getComponentRef_ReplicationFactor();
+        EAttribute COMPONENT_REF__REPLICATION_FACTOR = eINSTANCE.getComponentRef_ReplicationFactor();
 
         /**
          * The meta object literal for the '<em><b>Anchored</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute COMPONENT_REF__ANCHORED = eINSTANCE.getComponentRef_Anchored();
+        EAttribute COMPONENT_REF__ANCHORED = eINSTANCE.getComponentRef_Anchored();
 
         /**
          * The meta object literal for the '<em><b>Parent Bindings</b></em>' reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference COMPONENT_REF__PARENT_BINDINGS = eINSTANCE.getComponentRef_ParentBindings();
+        EReference COMPONENT_REF__PARENT_BINDINGS = eINSTANCE.getComponentRef_ParentBindings();
 
-								/**
+        /**
          * The meta object literal for the '<em><b>Plugin Bindings</b></em>' reference list feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference COMPONENT_REF__PLUGIN_BINDINGS = eINSTANCE.getComponentRef_PluginBindings();
+        EReference COMPONENT_REF__PLUGIN_BINDINGS = eINSTANCE.getComponentRef_PluginBindings();
 
-								/**
+        /**
          * The meta object literal for the '{@link ucm.map.impl.TimerImpl <em>Timer</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.TimerImpl
          * @see ucm.map.impl.MapPackageImpl#getTimer()
          * @generated
          */
-		EClass TIMER = eINSTANCE.getTimer();
+        EClass TIMER = eINSTANCE.getTimer();
 
         /**
          * The meta object literal for the '<em><b>Timeout Path</b></em>' reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference TIMER__TIMEOUT_PATH = eINSTANCE.getTimer_TimeoutPath();
+        EReference TIMER__TIMEOUT_PATH = eINSTANCE.getTimer_TimeoutPath();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.AndForkImpl <em>And Fork</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.AndForkImpl
          * @see ucm.map.impl.MapPackageImpl#getAndFork()
          * @generated
          */
-		EClass AND_FORK = eINSTANCE.getAndFork();
+        EClass AND_FORK = eINSTANCE.getAndFork();
 
         /**
          * The meta object literal for the '<em><b>Orientation</b></em>' attribute feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute AND_FORK__ORIENTATION = eINSTANCE.getAndFork_Orientation();
+        EAttribute AND_FORK__ORIENTATION = eINSTANCE.getAndFork_Orientation();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.EmptyPointImpl <em>Empty Point</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.EmptyPointImpl
          * @see ucm.map.impl.MapPackageImpl#getEmptyPoint()
          * @generated
          */
-		EClass EMPTY_POINT = eINSTANCE.getEmptyPoint();
+        EClass EMPTY_POINT = eINSTANCE.getEmptyPoint();
 
         /**
          * The meta object literal for the '{@link ucm.map.impl.DirectionArrowImpl <em>Direction Arrow</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.DirectionArrowImpl
          * @see ucm.map.impl.MapPackageImpl#getDirectionArrow()
          * @generated
          */
-		EClass DIRECTION_ARROW = eINSTANCE.getDirectionArrow();
+        EClass DIRECTION_ARROW = eINSTANCE.getDirectionArrow();
 
-								/**
+        /**
          * The meta object literal for the '{@link ucm.map.impl.ComponentBindingImpl <em>Component Binding</em>}' class.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.impl.ComponentBindingImpl
          * @see ucm.map.impl.MapPackageImpl#getComponentBinding()
          * @generated
          */
-		EClass COMPONENT_BINDING = eINSTANCE.getComponentBinding();
+        EClass COMPONENT_BINDING = eINSTANCE.getComponentBinding();
 
-								/**
+        /**
          * The meta object literal for the '<em><b>Binding</b></em>' container reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference COMPONENT_BINDING__BINDING = eINSTANCE.getComponentBinding_Binding();
+        EReference COMPONENT_BINDING__BINDING = eINSTANCE.getComponentBinding_Binding();
 
-								/**
+        /**
          * The meta object literal for the '<em><b>Parent Component</b></em>' reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference COMPONENT_BINDING__PARENT_COMPONENT = eINSTANCE.getComponentBinding_ParentComponent();
+        EReference COMPONENT_BINDING__PARENT_COMPONENT = eINSTANCE.getComponentBinding_ParentComponent();
 
-								/**
+        /**
          * The meta object literal for the '<em><b>Plugin Component</b></em>' reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference COMPONENT_BINDING__PLUGIN_COMPONENT = eINSTANCE.getComponentBinding_PluginComponent();
+        EReference COMPONENT_BINDING__PLUGIN_COMPONENT = eINSTANCE.getComponentBinding_PluginComponent();
 
-								/**
+        /**
          * The meta object literal for the '{@link ucm.map.impl.AnythingImpl <em>Anything</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5190,7 +5187,7 @@ public interface MapPackage extends EPackage {
          */
         EClass ANYTHING = eINSTANCE.getAnything();
 
-                                /**
+        /**
          * The meta object literal for the '{@link ucm.map.impl.FailurePointImpl <em>Failure Point</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5200,7 +5197,7 @@ public interface MapPackage extends EPackage {
          */
         EClass FAILURE_POINT = eINSTANCE.getFailurePoint();
 
-                                /**
+        /**
          * The meta object literal for the '<em><b>Expression</b></em>' attribute feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5208,7 +5205,7 @@ public interface MapPackage extends EPackage {
          */
         EAttribute FAILURE_POINT__EXPRESSION = eINSTANCE.getFailurePoint_Expression();
 
-                                /**
+        /**
          * The meta object literal for the '{@link ucm.map.impl.ResponsibilityBindingImpl <em>Responsibility Binding</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5218,7 +5215,7 @@ public interface MapPackage extends EPackage {
          */
         EClass RESPONSIBILITY_BINDING = eINSTANCE.getResponsibilityBinding();
 
-                                /**
+        /**
          * The meta object literal for the '<em><b>Binding</b></em>' container reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5226,7 +5223,7 @@ public interface MapPackage extends EPackage {
          */
         EReference RESPONSIBILITY_BINDING__BINDING = eINSTANCE.getResponsibilityBinding_Binding();
 
-                                /**
+        /**
          * The meta object literal for the '<em><b>Parent Resp</b></em>' reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5234,7 +5231,7 @@ public interface MapPackage extends EPackage {
          */
         EReference RESPONSIBILITY_BINDING__PARENT_RESP = eINSTANCE.getResponsibilityBinding_ParentResp();
 
-                                /**
+        /**
          * The meta object literal for the '<em><b>Plugin Resp</b></em>' reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5242,17 +5239,17 @@ public interface MapPackage extends EPackage {
          */
         EReference RESPONSIBILITY_BINDING__PLUGIN_RESP = eINSTANCE.getResponsibilityBinding_PluginResp();
 
-                                /**
+        /**
          * The meta object literal for the '{@link ucm.map.WaitKind <em>Wait Kind</em>}' enum.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @see ucm.map.WaitKind
          * @see ucm.map.impl.MapPackageImpl#getWaitKind()
          * @generated
          */
-		EEnum WAIT_KIND = eINSTANCE.getWaitKind();
+        EEnum WAIT_KIND = eINSTANCE.getWaitKind();
 
-                                /**
+        /**
          * The meta object literal for the '{@link ucm.map.AspectKind <em>Aspect Kind</em>}' enum.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5262,7 +5259,7 @@ public interface MapPackage extends EPackage {
          */
         EEnum ASPECT_KIND = eINSTANCE.getAspectKind();
 
-                                /**
+        /**
          * The meta object literal for the '{@link ucm.map.PointcutKind <em>Pointcut Kind</em>}' enum.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5272,7 +5269,7 @@ public interface MapPackage extends EPackage {
          */
         EEnum POINTCUT_KIND = eINSTANCE.getPointcutKind();
 
-                                /**
+        /**
          * The meta object literal for the '{@link ucm.map.FailureKind <em>Failure Kind</em>}' enum.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -5282,6 +5279,6 @@ public interface MapPackage extends EPackage {
          */
         EEnum FAILURE_KIND = eINSTANCE.getFailureKind();
 
-	}
+    }
 
 } //MapPackage

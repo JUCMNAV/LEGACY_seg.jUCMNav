@@ -8,19 +8,23 @@ package urncore.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import ucm.map.EndPoint;
-import ucm.map.FailureStartPoint;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
+
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioPackage;
+
 import urncore.Concern;
 import urncore.Condition;
 import urncore.UrncorePackage;
@@ -201,10 +205,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain basicSetStartPoint(StartPoint newStartPoint, NotificationChain msgs) {
+    public NotificationChain basicSetStartPoint(StartPoint newStartPoint, NotificationChain msgs) {
         msgs = eBasicSetContainer((InternalEObject)newStartPoint, UrncorePackage.CONDITION__START_POINT, msgs);
         return msgs;
     }
@@ -242,10 +246,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain basicSetEndPoint(EndPoint newEndPoint, NotificationChain msgs) {
+    public NotificationChain basicSetEndPoint(EndPoint newEndPoint, NotificationChain msgs) {
         msgs = eBasicSetContainer((InternalEObject)newEndPoint, UrncorePackage.CONDITION__END_POINT, msgs);
         return msgs;
     }
@@ -283,10 +287,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain basicSetPluginBinding(PluginBinding newPluginBinding, NotificationChain msgs) {
+    public NotificationChain basicSetPluginBinding(PluginBinding newPluginBinding, NotificationChain msgs) {
         msgs = eBasicSetContainer((InternalEObject)newPluginBinding, UrncorePackage.CONDITION__PLUGIN_BINDING, msgs);
         return msgs;
     }
@@ -324,10 +328,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain basicSetNodeConnection(NodeConnection newNodeConnection, NotificationChain msgs) {
+    public NotificationChain basicSetNodeConnection(NodeConnection newNodeConnection, NotificationChain msgs) {
         msgs = eBasicSetContainer((InternalEObject)newNodeConnection, UrncorePackage.CONDITION__NODE_CONNECTION, msgs);
         return msgs;
     }
@@ -355,30 +359,30 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public Concern getConcern() {
+    public Concern getConcern() {
         if (eContainerFeatureID() != UrncorePackage.CONDITION__CONCERN) return null;
         return (Concern)eContainer();
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain basicSetConcern(Concern newConcern, NotificationChain msgs) {
+    public NotificationChain basicSetConcern(Concern newConcern, NotificationChain msgs) {
         msgs = eBasicSetContainer((InternalEObject)newConcern, UrncorePackage.CONDITION__CONCERN, msgs);
         return msgs;
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void setConcern(Concern newConcern) {
+    public void setConcern(Concern newConcern) {
         if (newConcern != eInternalContainer() || (eContainerFeatureID() != UrncorePackage.CONDITION__CONCERN && newConcern != null)) {
             if (EcoreUtil.isAncestor(this, newConcern))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -394,32 +398,32 @@ public class ConditionImpl extends LabelImpl implements Condition {
             eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.CONDITION__CONCERN, newConcern, newConcern));
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public ScenarioDef getScenarioDefPre() {
+    public ScenarioDef getScenarioDefPre() {
         if (eContainerFeatureID() != UrncorePackage.CONDITION__SCENARIO_DEF_PRE) return null;
         return (ScenarioDef)eContainer();
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain basicSetScenarioDefPre(ScenarioDef newScenarioDefPre, NotificationChain msgs) {
+    public NotificationChain basicSetScenarioDefPre(ScenarioDef newScenarioDefPre, NotificationChain msgs) {
         msgs = eBasicSetContainer((InternalEObject)newScenarioDefPre, UrncorePackage.CONDITION__SCENARIO_DEF_PRE, msgs);
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void setScenarioDefPre(ScenarioDef newScenarioDefPre) {
+    public void setScenarioDefPre(ScenarioDef newScenarioDefPre) {
         if (newScenarioDefPre != eInternalContainer() || (eContainerFeatureID() != UrncorePackage.CONDITION__SCENARIO_DEF_PRE && newScenarioDefPre != null)) {
             if (EcoreUtil.isAncestor(this, newScenarioDefPre))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -437,30 +441,30 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public ScenarioDef getScenarioDefPost() {
+    public ScenarioDef getScenarioDefPost() {
         if (eContainerFeatureID() != UrncorePackage.CONDITION__SCENARIO_DEF_POST) return null;
         return (ScenarioDef)eContainer();
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain basicSetScenarioDefPost(ScenarioDef newScenarioDefPost, NotificationChain msgs) {
+    public NotificationChain basicSetScenarioDefPost(ScenarioDef newScenarioDefPost, NotificationChain msgs) {
         msgs = eBasicSetContainer((InternalEObject)newScenarioDefPost, UrncorePackage.CONDITION__SCENARIO_DEF_POST, msgs);
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void setScenarioDefPost(ScenarioDef newScenarioDefPost) {
+    public void setScenarioDefPost(ScenarioDef newScenarioDefPost) {
         if (newScenarioDefPost != eInternalContainer() || (eContainerFeatureID() != UrncorePackage.CONDITION__SCENARIO_DEF_POST && newScenarioDefPost != null)) {
             if (EcoreUtil.isAncestor(this, newScenarioDefPost))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -478,10 +482,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case UrncorePackage.CONDITION__START_POINT:
                 if (eInternalContainer() != null)
@@ -517,10 +521,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case UrncorePackage.CONDITION__START_POINT:
                 return basicSetStartPoint(null, msgs);
@@ -542,10 +546,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+    public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
         switch (eContainerFeatureID()) {
             case UrncorePackage.CONDITION__START_POINT:
                 return eInternalContainer().eInverseRemove(this, MapPackage.START_POINT__PRECONDITION, StartPoint.class, msgs);
@@ -567,10 +571,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case UrncorePackage.CONDITION__LABEL:
                 return getLabel();
@@ -598,10 +602,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void eSet(int featureID, Object newValue) {
+    public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case UrncorePackage.CONDITION__LABEL:
                 setLabel((String)newValue);
@@ -639,10 +643,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void eUnset(int featureID) {
+    public void eUnset(int featureID) {
         switch (featureID) {
             case UrncorePackage.CONDITION__LABEL:
                 setLabel(LABEL_EDEFAULT);
@@ -680,10 +684,10 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public boolean eIsSet(int featureID) {
+    public boolean eIsSet(int featureID) {
         switch (featureID) {
             case UrncorePackage.CONDITION__LABEL:
                 return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);

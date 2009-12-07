@@ -7,8 +7,11 @@
 package ucm.map.impl;
 
 import grl.GrlPackage;
+
 import grl.impl.GrlPackageImpl;
+
 import grl.kpimodel.KpimodelPackage;
+
 import grl.kpimodel.impl.KpimodelPackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -16,10 +19,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import ucm.UcmPackage;
+
 import ucm.impl.UcmPackageImpl;
+
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.Anything;
@@ -32,7 +38,6 @@ import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.FailureKind;
 import ucm.map.FailurePoint;
-import ucm.map.FailureStartPoint;
 import ucm.map.InBinding;
 import ucm.map.MapFactory;
 import ucm.map.MapPackage;
@@ -51,13 +56,21 @@ import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitKind;
 import ucm.map.WaitingPlace;
+
 import ucm.performance.PerformancePackage;
+
 import ucm.performance.impl.PerformancePackageImpl;
+
 import ucm.scenario.ScenarioPackage;
+
 import ucm.scenario.impl.ScenarioPackageImpl;
+
 import urn.UrnPackage;
+
 import urn.impl.UrnPackageImpl;
+
 import urncore.UrncorePackage;
+
 import urncore.impl.UrncorePackageImpl;
 
 /**
@@ -209,12 +222,12 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	private EClass componentBindingEClass = null;
+    private EClass componentBindingEClass = null;
 
-				/**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -235,35 +248,35 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      */
     private EClass responsibilityBindingEClass = null;
 
-                /**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	private EEnum waitKindEEnum = null;
+    private EEnum waitKindEEnum = null;
 
-				/**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     private EEnum aspectKindEEnum = null;
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     private EEnum pointcutKindEEnum = null;
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     private EEnum failureKindEEnum = null;
 
-                /**
+    /**
      * Creates an instance of the model <b>Package</b>, registered with
      * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
      * package URI value.
@@ -475,10 +488,10 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EAttribute getRespRef_HostDemand() {
+    public EAttribute getRespRef_HostDemand() {
         return (EAttribute)respRefEClass.getEStructuralFeatures().get(1);
     }
 
@@ -673,11 +686,56 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EAttribute getStub_RepetitionCount() {
+    public EAttribute getStub_RepetitionCount() {
         return (EAttribute)stubEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getStub_Pointcut() {
+        return (EAttribute)stubEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getStub_Synchronization() {
+        return (EAttribute)stubEClass.getEStructuralFeatures().get(4);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getStub_Blocking() {
+        return (EAttribute)stubEClass.getEStructuralFeatures().get(5);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getStub_Aopointcut() {
+        return (EAttribute)stubEClass.getEStructuralFeatures().get(6);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getStub_Aspect() {
+        return (EAttribute)stubEClass.getEStructuralFeatures().get(7);
     }
 
     /**
@@ -690,51 +748,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
     }
 
     /**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public EAttribute getStub_Pointcut() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(3);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public EAttribute getStub_Synchronization() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(4);
-    }
-
-				/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public EAttribute getStub_Blocking() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(5);
-    }
-
-				/**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EAttribute getStub_Aopointcut() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(6);
-    }
-
-                /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EAttribute getStub_Aspect() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(7);
-    }
-
-                /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -781,10 +794,10 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EReference getEndPoint_ScenarioEndPoints() {
+    public EReference getEndPoint_ScenarioEndPoints() {
         return (EReference)endPointEClass.getEStructuralFeatures().get(3);
     }
 
@@ -844,10 +857,10 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EReference getStartPoint_ScenarioStartPoints() {
+    public EReference getStartPoint_ScenarioStartPoints() {
         return (EReference)startPointEClass.getEStructuralFeatures().get(5);
     }
 
@@ -862,14 +875,14 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EAttribute getUCMmap_Singleton() {
+    public EAttribute getUCMmap_Singleton() {
         return (EAttribute)ucMmapEClass.getEStructuralFeatures().get(0);
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -907,23 +920,23 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EAttribute getPluginBinding_Transaction() {
+    public EAttribute getPluginBinding_Transaction() {
         return (EAttribute)pluginBindingEClass.getEStructuralFeatures().get(2);
     }
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EAttribute getPluginBinding_ReplicationFactor() {
+    public EAttribute getPluginBinding_ReplicationFactor() {
         return (EAttribute)pluginBindingEClass.getEStructuralFeatures().get(3);
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -970,14 +983,14 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EReference getPluginBinding_Components() {
+    public EReference getPluginBinding_Components() {
         return (EReference)pluginBindingEClass.getEStructuralFeatures().get(9);
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -986,7 +999,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return (EReference)pluginBindingEClass.getEStructuralFeatures().get(10);
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1024,23 +1037,23 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EReference getComponentRef_ParentBindings() {
+    public EReference getComponentRef_ParentBindings() {
         return (EReference)componentRefEClass.getEStructuralFeatures().get(3);
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EReference getComponentRef_PluginBindings() {
+    public EReference getComponentRef_PluginBindings() {
         return (EReference)componentRefEClass.getEStructuralFeatures().get(4);
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1096,41 +1109,41 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EClass getComponentBinding() {
+    public EClass getComponentBinding() {
         return componentBindingEClass;
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EReference getComponentBinding_Binding() {
+    public EReference getComponentBinding_Binding() {
         return (EReference)componentBindingEClass.getEStructuralFeatures().get(0);
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EReference getComponentBinding_ParentComponent() {
+    public EReference getComponentBinding_ParentComponent() {
         return (EReference)componentBindingEClass.getEStructuralFeatures().get(1);
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EReference getComponentBinding_PluginComponent() {
+    public EReference getComponentBinding_PluginComponent() {
         return (EReference)componentBindingEClass.getEStructuralFeatures().get(2);
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1139,7 +1152,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return anythingEClass;
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1148,7 +1161,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return failurePointEClass;
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1157,7 +1170,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return (EAttribute)failurePointEClass.getEStructuralFeatures().get(0);
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1166,7 +1179,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return responsibilityBindingEClass;
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1175,7 +1188,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(0);
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1184,7 +1197,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(1);
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1193,16 +1206,16 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(2);
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EEnum getWaitKind() {
+    public EEnum getWaitKind() {
         return waitKindEEnum;
     }
 
-				/**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1211,7 +1224,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return aspectKindEEnum;
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1220,7 +1233,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return pointcutKindEEnum;
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1229,7 +1242,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         return failureKindEEnum;
     }
 
-                /**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated

@@ -7,10 +7,10 @@
 package urncore;
 
 import ucm.map.EndPoint;
-import ucm.map.FailureStartPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
+
 import ucm.scenario.ScenarioDef;
 
 /**
@@ -233,11 +233,11 @@ public interface Condition extends Label {
      * Returns the value of the '<em><b>Concern</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link urncore.Concern#getCondition <em>Condition</em>}'.
      * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Concern</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Concern</em>' container reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
      * @return the value of the '<em>Concern</em>' container reference.
      * @see #setConcern(Concern)
      * @see urncore.UrncorePackage#getCondition_Concern()
@@ -245,27 +245,27 @@ public interface Condition extends Label {
      * @model opposite="condition"
      * @generated
      */
-	Concern getConcern();
+    Concern getConcern();
 
-				/**
+    /**
      * Sets the value of the '{@link urncore.Condition#getConcern <em>Concern</em>}' container reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @param value the new value of the '<em>Concern</em>' container reference.
      * @see #getConcern()
      * @generated
      */
-	void setConcern(Concern value);
+    void setConcern(Concern value);
 
-				/**
+    /**
      * Returns the value of the '<em><b>Scenario Def Pre</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getPreconditions <em>Preconditions</em>}'.
      * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Scenario Def Pre</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Scenario Def Pre</em>' container reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
      * @return the value of the '<em>Scenario Def Pre</em>' container reference.
      * @see #setScenarioDefPre(ScenarioDef)
      * @see urncore.UrncorePackage#getCondition_ScenarioDefPre()
@@ -273,27 +273,27 @@ public interface Condition extends Label {
      * @model opposite="preconditions"
      * @generated
      */
-	ScenarioDef getScenarioDefPre();
+    ScenarioDef getScenarioDefPre();
 
     /**
      * Sets the value of the '{@link urncore.Condition#getScenarioDefPre <em>Scenario Def Pre</em>}' container reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @param value the new value of the '<em>Scenario Def Pre</em>' container reference.
      * @see #getScenarioDefPre()
      * @generated
      */
-	void setScenarioDefPre(ScenarioDef value);
+    void setScenarioDefPre(ScenarioDef value);
 
     /**
      * Returns the value of the '<em><b>Scenario Def Post</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getPostconditions <em>Postconditions</em>}'.
      * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Scenario Def Post</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Scenario Def Post</em>' container reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
      * @return the value of the '<em>Scenario Def Post</em>' container reference.
      * @see #setScenarioDefPost(ScenarioDef)
      * @see urncore.UrncorePackage#getCondition_ScenarioDefPost()
@@ -301,16 +301,16 @@ public interface Condition extends Label {
      * @model opposite="postconditions"
      * @generated
      */
-	ScenarioDef getScenarioDefPost();
+    ScenarioDef getScenarioDefPost();
 
     /**
      * Sets the value of the '{@link urncore.Condition#getScenarioDefPost <em>Scenario Def Post</em>}' container reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @param value the new value of the '<em>Scenario Def Post</em>' container reference.
      * @see #getScenarioDefPost()
      * @generated
      */
-	void setScenarioDefPost(ScenarioDef value);
+    void setScenarioDefPost(ScenarioDef value);
 
 } // Condition
