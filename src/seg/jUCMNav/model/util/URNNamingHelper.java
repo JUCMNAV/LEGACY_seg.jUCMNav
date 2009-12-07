@@ -587,9 +587,6 @@ public class URNNamingHelper {
                 idConflicts.add(elem);
             } else {
                 // remember the ID
-                if (elem.getId().equals("290"))
-                    System.out.println("290!" + elem.getName());
-
                 htIDs.put(elem.getId(), null);
             }
         }

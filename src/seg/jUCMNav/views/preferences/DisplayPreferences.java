@@ -15,6 +15,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
@@ -119,7 +120,8 @@ public class DisplayPreferences {
                     if (DisplayPreferences.getInstance().isAdvancedControlEnabled()) {
                         showView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
                         showView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
-
+                        showView(page, IPageLayout.ID_PROP_SHEET);
+                        showView(page, "seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
                         addKpi(page);
                         refreshOutline(page);
                     } else {
@@ -208,6 +210,7 @@ public class DisplayPreferences {
     private void showView(IWorkbenchPage page, String name) {
         try {
             page.showView(name);
+
         } catch (PartInitException e) {
             e.printStackTrace();
         }

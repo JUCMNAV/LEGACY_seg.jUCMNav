@@ -86,6 +86,16 @@
          style="push"
          tooltip="%CalculateMetrics">
    </action>
+   <action
+         actionID="seg.jUCMNav.actions.AutoLayoutActionDelegate"
+         class="seg.jUCMNav.actions.AdvancedModeActionDelegate"
+         id="seg.jUCMNav.AdvancedMode"
+         label="jUCMNav Advanced Mode"
+         menubarPath="seg.jUCMNav/ext"
+         style="toggle"
+         toolbarPath="jUCMNav"
+         tooltip="Toggle jUCMNav&apos;s advanced mode. ">
+   </action>
                
       </editorContribution>
    </extension>
