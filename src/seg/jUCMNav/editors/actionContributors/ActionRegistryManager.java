@@ -63,6 +63,7 @@ import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.actions.GenerateReportAction;
 import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
+import seg.jUCMNav.actions.RefactorIntoStubAction;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
 import seg.jUCMNav.actions.SetNumericalEvaluationAction;
 import seg.jUCMNav.actions.SetNumericalImportanceAction;
@@ -259,6 +260,10 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.cutPath")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new RefactorIntoStubAction(editor);
+        action.setText("Refactor into Stub");
+        addEditPartAction((SelectionAction) action);
+        
         action = new AddLabelAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addLabel")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

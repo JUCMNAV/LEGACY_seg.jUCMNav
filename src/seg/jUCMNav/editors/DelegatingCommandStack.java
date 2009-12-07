@@ -29,6 +29,7 @@ import seg.jUCMNav.model.commands.cutcopypaste.PasteCommand;
 import seg.jUCMNav.model.commands.delete.DeleteGRLGraphCommand;
 import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
 import seg.jUCMNav.model.commands.transformations.DuplicateMapCommand;
+import seg.jUCMNav.model.commands.transformations.RefactorIntoStubCommand;
 import urncore.IURNDiagram;
 
 /**
@@ -155,6 +156,11 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
             return true;
         } else if (command instanceof DeleteMapCommand) {
             lastAffectedDiagram = ((DeleteMapCommand) command).getDiagram();
+            stkUrnSpec.execute(command);
+            return true;
+        } else if (command instanceof RefactorIntoStubCommand)
+        {
+            lastAffectedDiagram = ((RefactorIntoStubCommand) command).getAddedMap();
             stkUrnSpec.execute(command);
             return true;
         }

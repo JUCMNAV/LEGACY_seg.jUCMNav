@@ -294,5 +294,10 @@ public class CreatePathCommand extends Command implements JUCMNavCommand, ICreat
     public Object getNewModelElement() {
         return end;
     }
+    
+    public PathNode getNewMiddleNode() {
+        return node;
+    }
+    
 
 }

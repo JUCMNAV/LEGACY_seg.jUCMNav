@@ -73,8 +73,10 @@ public class SubmenuAction extends Action implements SelectionListener {
             }
 
             public Menu getMenu(Menu parent) {
-                if (getCreatedMenu() != null)
+                if (getCreatedMenu() != null) {
+                    getCreatedMenu().setEnabled(false);
                     getCreatedMenu().dispose();
+                }
 
                 // create a submenu
                 Menu menu = new Menu(parent);
@@ -107,8 +109,10 @@ public class SubmenuAction extends Action implements SelectionListener {
             }
 
             public void dispose() {
-                if (getCreatedMenu() != null)
+                if (getCreatedMenu() != null) {
+                    getCreatedMenu().setEnabled(false);
                     getCreatedMenu().dispose();
+                }
             }
         });
 

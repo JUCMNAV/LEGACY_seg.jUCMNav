@@ -49,6 +49,7 @@ import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.actions.GenerateReportAction;
 import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
+import seg.jUCMNav.actions.RefactorIntoStubAction;
 import seg.jUCMNav.actions.SetNumericalEvaluationAction;
 import seg.jUCMNav.actions.SetNumericalImportanceAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
@@ -145,7 +146,12 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(DisconnectAction.DISCONNECT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(RefactorIntoStubAction.REFACTORINTOSTUB);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        
         IAction[] actions = new IAction[18];
         actions[0] = getActionRegistry().getAction(AddOrForkAction.ADDORFORK);
         actions[1] = getActionRegistry().getAction(AddAndForkAction.ADDANDFORK);

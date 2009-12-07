@@ -82,6 +82,20 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
         isSelective = true;
         init();
     }
+    
+    public DuplicatePathCommand(URNspec urn, UCMmap map, Vector startingPoints, int offsetX, int offsetY) {
+        this.urn = urn;
+        this.setMap(map);
+        if (startingPoints == null || startingPoints.size() == 0)
+            throw new IllegalArgumentException();
+        this.startingPoints = startingPoints;
+
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+
+        isSelective = true;
+        init();
+    }    
 
     /**
      * We tried using cloning for this method, but were unsucessful. There is some code in here that is useful when in a cloned model that is left in case we ever manage to finish off the job.
@@ -247,7 +261,7 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
     private void init() {
         setLabel("Duplicate Path");
 
-        if (getMap() != null)
+        if (urn == null && getMap() != null && getMap().getUrndefinition()!=null)
             urn = getMap().getUrndefinition().getUrnspec();
 
         if (urn == null)
