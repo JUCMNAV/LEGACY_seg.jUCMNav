@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import ucm.map.FailureKind;
 import ucm.map.InBinding;
 import ucm.map.MapPackage;
 import ucm.map.StartPoint;
@@ -36,6 +37,7 @@ import urncore.UrncorePackage;
  * <ul>
  *   <li>{@link ucm.map.impl.StartPointImpl#getWorkload <em>Workload</em>}</li>
  *   <li>{@link ucm.map.impl.StartPointImpl#isLocal <em>Local</em>}</li>
+ *   <li>{@link ucm.map.impl.StartPointImpl#getFailureKind <em>Failure Kind</em>}</li>
  *   <li>{@link ucm.map.impl.StartPointImpl#getInBindings <em>In Bindings</em>}</li>
  *   <li>{@link ucm.map.impl.StartPointImpl#getPrecondition <em>Precondition</em>}</li>
  *   <li>{@link ucm.map.impl.StartPointImpl#getScenarioStartPoints <em>Scenario Start Points</em>}</li>
@@ -74,6 +76,26 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
      * @ordered
      */
     protected boolean local = LOCAL_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getFailureKind() <em>Failure Kind</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFailureKind()
+     * @generated
+     * @ordered
+     */
+    protected static final FailureKind FAILURE_KIND_EDEFAULT = FailureKind.NONE_LITERAL;
+
+    /**
+     * The cached value of the '{@link #getFailureKind() <em>Failure Kind</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFailureKind()
+     * @generated
+     * @ordered
+     */
+    protected FailureKind failureKind = FAILURE_KIND_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getInBindings() <em>In Bindings</em>}' reference list.
@@ -185,6 +207,27 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
         local = newLocal;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__LOCAL, oldLocal, local));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public FailureKind getFailureKind() {
+        return failureKind;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setFailureKind(FailureKind newFailureKind) {
+        FailureKind oldFailureKind = failureKind;
+        failureKind = newFailureKind == null ? FAILURE_KIND_EDEFAULT : newFailureKind;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__FAILURE_KIND, oldFailureKind, failureKind));
     }
 
     /**
@@ -307,6 +350,8 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
                 return getWorkload();
             case MapPackage.START_POINT__LOCAL:
                 return isLocal() ? Boolean.TRUE : Boolean.FALSE;
+            case MapPackage.START_POINT__FAILURE_KIND:
+                return getFailureKind();
             case MapPackage.START_POINT__IN_BINDINGS:
                 return getInBindings();
             case MapPackage.START_POINT__PRECONDITION:
@@ -329,6 +374,9 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
                 return;
             case MapPackage.START_POINT__LOCAL:
                 setLocal(((Boolean)newValue).booleanValue());
+                return;
+            case MapPackage.START_POINT__FAILURE_KIND:
+                setFailureKind((FailureKind)newValue);
                 return;
             case MapPackage.START_POINT__IN_BINDINGS:
                 getInBindings().clear();
@@ -358,6 +406,9 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
             case MapPackage.START_POINT__LOCAL:
                 setLocal(LOCAL_EDEFAULT);
                 return;
+            case MapPackage.START_POINT__FAILURE_KIND:
+                setFailureKind(FAILURE_KIND_EDEFAULT);
+                return;
             case MapPackage.START_POINT__IN_BINDINGS:
                 getInBindings().clear();
                 return;
@@ -382,6 +433,8 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
                 return workload != null;
             case MapPackage.START_POINT__LOCAL:
                 return local != LOCAL_EDEFAULT;
+            case MapPackage.START_POINT__FAILURE_KIND:
+                return failureKind != FAILURE_KIND_EDEFAULT;
             case MapPackage.START_POINT__IN_BINDINGS:
                 return inBindings != null && !inBindings.isEmpty();
             case MapPackage.START_POINT__PRECONDITION:
@@ -403,6 +456,8 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (local: ");
         result.append(local);
+        result.append(", failureKind: ");
+        result.append(failureKind);
         result.append(')');
         return result.toString();
     }

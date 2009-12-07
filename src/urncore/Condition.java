@@ -29,7 +29,6 @@ import ucm.scenario.ScenarioDef;
  *   <li>{@link urncore.Condition#getPluginBinding <em>Plugin Binding</em>}</li>
  *   <li>{@link urncore.Condition#getNodeConnection <em>Node Connection</em>}</li>
  *   <li>{@link urncore.Condition#getConcern <em>Concern</em>}</li>
- *   <li>{@link urncore.Condition#getFailureStartPoint <em>Failure Start Point</em>}</li>
  *   <li>{@link urncore.Condition#getScenarioDefPre <em>Scenario Def Pre</em>}</li>
  *   <li>{@link urncore.Condition#getScenarioDefPost <em>Scenario Def Post</em>}</li>
  * </ul>
@@ -259,34 +258,6 @@ public interface Condition extends Label {
 	void setConcern(Concern value);
 
 				/**
-     * Returns the value of the '<em><b>Failure Start Point</b></em>' container reference.
-     * It is bidirectional and its opposite is '{@link ucm.map.FailureStartPoint#getCondition <em>Condition</em>}'.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Failure Start Point</em>' container reference isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Failure Start Point</em>' container reference.
-     * @see #setFailureStartPoint(FailureStartPoint)
-     * @see urncore.UrncorePackage#getCondition_FailureStartPoint()
-     * @see ucm.map.FailureStartPoint#getCondition
-     * @model opposite="condition"
-     * @generated
-     */
-    FailureStartPoint getFailureStartPoint();
-
-                /**
-     * Sets the value of the '{@link urncore.Condition#getFailureStartPoint <em>Failure Start Point</em>}' container reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Failure Start Point</em>' container reference.
-     * @see #getFailureStartPoint()
-     * @generated
-     */
-    void setFailureStartPoint(FailureStartPoint value);
-
-                /**
      * Returns the value of the '<em><b>Scenario Def Pre</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getPreconditions <em>Preconditions</em>}'.
      * <!-- begin-user-doc -->

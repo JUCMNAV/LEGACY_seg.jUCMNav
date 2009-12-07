@@ -226,13 +226,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass failureStartPointEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     private EClass failurePointEClass = null;
 
     /**
@@ -827,8 +820,17 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getStartPoint_FailureKind() {
+        return (EAttribute)startPointEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EReference getStartPoint_InBindings() {
-        return (EReference)startPointEClass.getEStructuralFeatures().get(2);
+        return (EReference)startPointEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -837,7 +839,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      * @generated
      */
     public EReference getStartPoint_Precondition() {
-        return (EReference)startPointEClass.getEStructuralFeatures().get(3);
+        return (EReference)startPointEClass.getEStructuralFeatures().get(4);
     }
 
     /**
@@ -846,7 +848,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      * @generated
      */
 	public EReference getStartPoint_ScenarioStartPoints() {
-        return (EReference)startPointEClass.getEStructuralFeatures().get(4);
+        return (EReference)startPointEClass.getEStructuralFeatures().get(5);
     }
 
     /**
@@ -1142,33 +1144,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getFailureStartPoint() {
-        return failureStartPointEClass;
-    }
-
-                /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EAttribute getFailureStartPoint_Kind() {
-        return (EAttribute)failureStartPointEClass.getEStructuralFeatures().get(0);
-    }
-
-                /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getFailureStartPoint_Condition() {
-        return (EReference)failureStartPointEClass.getEStructuralFeatures().get(1);
-    }
-
-                /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getFailurePoint() {
         return failurePointEClass;
     }
@@ -1346,6 +1321,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         startPointEClass = createEClass(START_POINT);
         createEReference(startPointEClass, START_POINT__WORKLOAD);
         createEAttribute(startPointEClass, START_POINT__LOCAL);
+        createEAttribute(startPointEClass, START_POINT__FAILURE_KIND);
         createEReference(startPointEClass, START_POINT__IN_BINDINGS);
         createEReference(startPointEClass, START_POINT__PRECONDITION);
         createEReference(startPointEClass, START_POINT__SCENARIO_START_POINTS);
@@ -1390,10 +1366,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         createEReference(componentBindingEClass, COMPONENT_BINDING__PLUGIN_COMPONENT);
 
         anythingEClass = createEClass(ANYTHING);
-
-        failureStartPointEClass = createEClass(FAILURE_START_POINT);
-        createEAttribute(failureStartPointEClass, FAILURE_START_POINT__KIND);
-        createEReference(failureStartPointEClass, FAILURE_START_POINT__CONDITION);
 
         failurePointEClass = createEClass(FAILURE_POINT);
         createEAttribute(failurePointEClass, FAILURE_POINT__EXPRESSION);
@@ -1460,7 +1432,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         emptyPointEClass.getESuperTypes().add(this.getPathNode());
         directionArrowEClass.getESuperTypes().add(this.getPathNode());
         anythingEClass.getESuperTypes().add(this.getPathNode());
-        failureStartPointEClass.getESuperTypes().add(this.getPathNode());
         failurePointEClass.getESuperTypes().add(this.getPathNode());
 
         // Initialize classes and features; add operations and parameters
@@ -1528,6 +1499,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         initEClass(startPointEClass, StartPoint.class, "StartPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getStartPoint_Workload(), thePerformancePackage.getWorkload(), thePerformancePackage.getWorkload_StartPoint(), "workload", null, 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getStartPoint_Local(), ecorePackage.getEBoolean(), "local", "false", 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getStartPoint_FailureKind(), this.getFailureKind(), "failureKind", "None", 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getStartPoint_InBindings(), this.getInBinding(), this.getInBinding_StartPoint(), "inBindings", null, 0, -1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getStartPoint_Precondition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_StartPoint(), "precondition", null, 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getStartPoint_ScenarioStartPoints(), theScenarioPackage.getScenarioStartPoint(), theScenarioPackage.getScenarioStartPoint_StartPoint(), "scenarioStartPoints", null, 0, -1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1573,10 +1545,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
         initEClass(anythingEClass, Anything.class, "Anything", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        initEClass(failureStartPointEClass, FailureStartPoint.class, "FailureStartPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getFailureStartPoint_Kind(), this.getFailureKind(), "kind", "Failure", 0, 1, FailureStartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getFailureStartPoint_Condition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_FailureStartPoint(), "condition", null, 0, 1, FailureStartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
         initEClass(failurePointEClass, FailurePoint.class, "FailurePoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getFailurePoint_Expression(), ecorePackage.getEString(), "expression", null, 0, 1, FailurePoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1605,6 +1573,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         initEEnum(failureKindEEnum, FailureKind.class, "FailureKind");
         addEEnumLiteral(failureKindEEnum, FailureKind.FAILURE_LITERAL);
         addEEnumLiteral(failureKindEEnum, FailureKind.ABORT_LITERAL);
+        addEEnumLiteral(failureKindEEnum, FailureKind.NONE_LITERAL);
     }
 
 } //MapPackageImpl

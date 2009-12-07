@@ -1858,13 +1858,22 @@ public interface MapPackage extends EPackage {
     int START_POINT__LOCAL = PATH_NODE_FEATURE_COUNT + 1;
 
     /**
+     * The feature id for the '<em><b>Failure Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int START_POINT__FAILURE_KIND = PATH_NODE_FEATURE_COUNT + 2;
+
+    /**
      * The feature id for the '<em><b>In Bindings</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int START_POINT__IN_BINDINGS = PATH_NODE_FEATURE_COUNT + 2;
+    int START_POINT__IN_BINDINGS = PATH_NODE_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Precondition</b></em>' containment reference.
@@ -1873,7 +1882,7 @@ public interface MapPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int START_POINT__PRECONDITION = PATH_NODE_FEATURE_COUNT + 3;
+    int START_POINT__PRECONDITION = PATH_NODE_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Scenario Start Points</b></em>' reference list.
@@ -1882,7 +1891,7 @@ public interface MapPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int START_POINT__SCENARIO_START_POINTS = PATH_NODE_FEATURE_COUNT + 4;
+	int START_POINT__SCENARIO_START_POINTS = PATH_NODE_FEATURE_COUNT + 5;
 
     /**
      * The number of structural features of the '<em>Start Point</em>' class.
@@ -1891,7 +1900,7 @@ public interface MapPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int START_POINT_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 5;
+    int START_POINT_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 6;
 
     /**
      * The meta object id for the '{@link ucm.map.impl.UCMmapImpl <em>UC Mmap</em>}' class.
@@ -3129,160 +3138,6 @@ public interface MapPackage extends EPackage {
     int ANYTHING_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 0;
 
                 /**
-     * The meta object id for the '{@link ucm.map.impl.FailureStartPointImpl <em>Failure Start Point</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see ucm.map.impl.FailureStartPointImpl
-     * @see ucm.map.impl.MapPackageImpl#getFailureStartPoint()
-     * @generated
-     */
-    int FAILURE_START_POINT = 22;
-
-                /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__FROM_LINKS = PATH_NODE__FROM_LINKS;
-
-                /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__TO_LINKS = PATH_NODE__TO_LINKS;
-
-                /**
-     * The feature id for the '<em><b>Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__ID = PATH_NODE__ID;
-
-                /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__NAME = PATH_NODE__NAME;
-
-                /**
-     * The feature id for the '<em><b>Description</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-                /**
-     * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__METADATA = PATH_NODE__METADATA;
-
-                /**
-     * The feature id for the '<em><b>X</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__X = PATH_NODE__X;
-
-                /**
-     * The feature id for the '<em><b>Y</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__Y = PATH_NODE__Y;
-
-                /**
-     * The feature id for the '<em><b>Diagram</b></em>' container reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__DIAGRAM = PATH_NODE__DIAGRAM;
-
-                /**
-     * The feature id for the '<em><b>Cont Ref</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__CONT_REF = PATH_NODE__CONT_REF;
-
-                /**
-     * The feature id for the '<em><b>Succ</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__SUCC = PATH_NODE__SUCC;
-
-                /**
-     * The feature id for the '<em><b>Pred</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__PRED = PATH_NODE__PRED;
-
-                /**
-     * The feature id for the '<em><b>Label</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__LABEL = PATH_NODE__LABEL;
-
-                /**
-     * The feature id for the '<em><b>Kind</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__KIND = PATH_NODE_FEATURE_COUNT + 0;
-
-                /**
-     * The feature id for the '<em><b>Condition</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT__CONDITION = PATH_NODE_FEATURE_COUNT + 1;
-
-                /**
-     * The number of structural features of the '<em>Failure Start Point</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_START_POINT_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 2;
-
-                /**
      * The meta object id for the '{@link ucm.map.impl.FailurePointImpl <em>Failure Point</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3290,7 +3145,7 @@ public interface MapPackage extends EPackage {
      * @see ucm.map.impl.MapPackageImpl#getFailurePoint()
      * @generated
      */
-    int FAILURE_POINT = 23;
+    int FAILURE_POINT = 22;
 
                 /**
      * The feature id for the '<em><b>From Links</b></em>' reference list.
@@ -3435,7 +3290,7 @@ public interface MapPackage extends EPackage {
      * @see ucm.map.impl.MapPackageImpl#getResponsibilityBinding()
      * @generated
      */
-    int RESPONSIBILITY_BINDING = 24;
+    int RESPONSIBILITY_BINDING = 23;
 
                 /**
      * The feature id for the '<em><b>Binding</b></em>' container reference.
@@ -3481,7 +3336,7 @@ public interface MapPackage extends EPackage {
      * @see ucm.map.impl.MapPackageImpl#getWaitKind()
      * @generated
      */
-	int WAIT_KIND = 25;
+	int WAIT_KIND = 24;
 
 
 				/**
@@ -3492,7 +3347,7 @@ public interface MapPackage extends EPackage {
      * @see ucm.map.impl.MapPackageImpl#getAspectKind()
      * @generated
      */
-    int ASPECT_KIND = 26;
+    int ASPECT_KIND = 25;
 
                 /**
      * The meta object id for the '{@link ucm.map.PointcutKind <em>Pointcut Kind</em>}' enum.
@@ -3502,7 +3357,7 @@ public interface MapPackage extends EPackage {
      * @see ucm.map.impl.MapPackageImpl#getPointcutKind()
      * @generated
      */
-    int POINTCUT_KIND = 27;
+    int POINTCUT_KIND = 26;
 
                 /**
      * The meta object id for the '{@link ucm.map.FailureKind <em>Failure Kind</em>}' enum.
@@ -3512,7 +3367,7 @@ public interface MapPackage extends EPackage {
      * @see ucm.map.impl.MapPackageImpl#getFailureKind()
      * @generated
      */
-    int FAILURE_KIND = 28;
+    int FAILURE_KIND = 27;
 
 
                 /**
@@ -4075,6 +3930,17 @@ public interface MapPackage extends EPackage {
     EAttribute getStartPoint_Local();
 
     /**
+     * Returns the meta object for the attribute '{@link ucm.map.StartPoint#getFailureKind <em>Failure Kind</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Failure Kind</em>'.
+     * @see ucm.map.StartPoint#getFailureKind()
+     * @see #getStartPoint()
+     * @generated
+     */
+    EAttribute getStartPoint_FailureKind();
+
+    /**
      * Returns the meta object for the reference list '{@link ucm.map.StartPoint#getInBindings <em>In Bindings</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4449,38 +4315,6 @@ public interface MapPackage extends EPackage {
      * @generated
      */
     EClass getAnything();
-
-                /**
-     * Returns the meta object for class '{@link ucm.map.FailureStartPoint <em>Failure Start Point</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Failure Start Point</em>'.
-     * @see ucm.map.FailureStartPoint
-     * @generated
-     */
-    EClass getFailureStartPoint();
-
-                /**
-     * Returns the meta object for the attribute '{@link ucm.map.FailureStartPoint#getKind <em>Kind</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Kind</em>'.
-     * @see ucm.map.FailureStartPoint#getKind()
-     * @see #getFailureStartPoint()
-     * @generated
-     */
-    EAttribute getFailureStartPoint_Kind();
-
-                /**
-     * Returns the meta object for the containment reference '{@link ucm.map.FailureStartPoint#getCondition <em>Condition</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference '<em>Condition</em>'.
-     * @see ucm.map.FailureStartPoint#getCondition()
-     * @see #getFailureStartPoint()
-     * @generated
-     */
-    EReference getFailureStartPoint_Condition();
 
                 /**
      * Returns the meta object for class '{@link ucm.map.FailurePoint <em>Failure Point</em>}'.
@@ -5051,6 +4885,14 @@ public interface MapPackage extends EPackage {
         EAttribute START_POINT__LOCAL = eINSTANCE.getStartPoint_Local();
 
         /**
+         * The meta object literal for the '<em><b>Failure Kind</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute START_POINT__FAILURE_KIND = eINSTANCE.getStartPoint_FailureKind();
+
+        /**
          * The meta object literal for the '<em><b>In Bindings</b></em>' reference list feature.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5347,32 +5189,6 @@ public interface MapPackage extends EPackage {
          * @generated
          */
         EClass ANYTHING = eINSTANCE.getAnything();
-
-                                /**
-         * The meta object literal for the '{@link ucm.map.impl.FailureStartPointImpl <em>Failure Start Point</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see ucm.map.impl.FailureStartPointImpl
-         * @see ucm.map.impl.MapPackageImpl#getFailureStartPoint()
-         * @generated
-         */
-        EClass FAILURE_START_POINT = eINSTANCE.getFailureStartPoint();
-
-                                /**
-         * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute FAILURE_START_POINT__KIND = eINSTANCE.getFailureStartPoint_Kind();
-
-                                /**
-         * The meta object literal for the '<em><b>Condition</b></em>' containment reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference FAILURE_START_POINT__CONDITION = eINSTANCE.getFailureStartPoint_Condition();
 
                                 /**
          * The meta object literal for the '{@link ucm.map.impl.FailurePointImpl <em>Failure Point</em>}' class.

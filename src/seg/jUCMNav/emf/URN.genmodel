@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Documents and Settings\Daniel\My Documents\work\jucmnav\URN_21.mdl</foreignModel>
+  <foreignModel>C:\Documents and Settings\Daniel\My Documents\work\jucmnav\URN_22.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -92,7 +92,6 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/pluginBinding"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/nodeConnection"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/concern"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/failureStartPoint"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/scenarioDefPre"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/scenarioDefPost"/>
     </genClasses>
@@ -453,6 +452,7 @@
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="ucm.ecore#//map/FailureKind">
         <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/FailureKind/Failure"/>
         <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/FailureKind/Abort"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//map/FailureKind/None"/>
       </genEnums>
       <genClasses ecoreClass="ucm.ecore#//map/AndJoin">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/AndJoin/orientation"/>
@@ -523,6 +523,7 @@
       <genClasses ecoreClass="ucm.ecore#//map/StartPoint">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/workload"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/StartPoint/local"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/StartPoint/failureKind"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/inBindings"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/precondition"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -570,10 +571,6 @@
             ecoreFeature="ecore:EReference ucm.ecore#//map/ComponentBinding/pluginComponent"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/Anything"/>
-      <genClasses ecoreClass="ucm.ecore#//map/FailureStartPoint">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/FailureStartPoint/kind"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/FailureStartPoint/condition"/>
-      </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/FailurePoint">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/FailurePoint/expression"/>
       </genClasses>

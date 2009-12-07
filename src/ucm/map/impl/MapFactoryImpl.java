@@ -100,7 +100,6 @@ public class MapFactoryImpl extends EFactoryImpl implements MapFactory {
             case MapPackage.DIRECTION_ARROW: return createDirectionArrow();
             case MapPackage.COMPONENT_BINDING: return createComponentBinding();
             case MapPackage.ANYTHING: return createAnything();
-            case MapPackage.FAILURE_START_POINT: return createFailureStartPoint();
             case MapPackage.FAILURE_POINT: return createFailurePoint();
             case MapPackage.RESPONSIBILITY_BINDING: return createResponsibilityBinding();
             default:
@@ -356,16 +355,6 @@ public class MapFactoryImpl extends EFactoryImpl implements MapFactory {
     public Anything createAnything() {
         AnythingImpl anything = new AnythingImpl();
         return anything;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public FailureStartPoint createFailureStartPoint() {
-        FailureStartPointImpl failureStartPoint = new FailureStartPointImpl();
-        return failureStartPoint;
     }
 
     /**

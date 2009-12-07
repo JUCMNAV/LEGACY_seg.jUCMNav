@@ -161,9 +161,6 @@ public class MapAdapterFactory extends AdapterFactoryImpl {
             public Object caseAnything(Anything object) {
                 return createAnythingAdapter();
             }
-            public Object caseFailureStartPoint(FailureStartPoint object) {
-                return createFailureStartPointAdapter();
-            }
             public Object caseFailurePoint(FailurePoint object) {
                 return createFailurePointAdapter();
             }
@@ -511,20 +508,6 @@ public class MapAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createAnythingAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link ucm.map.FailureStartPoint <em>Failure Start Point</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see ucm.map.FailureStartPoint
-     * @generated
-     */
-    public Adapter createFailureStartPointAdapter() {
         return null;
     }
 

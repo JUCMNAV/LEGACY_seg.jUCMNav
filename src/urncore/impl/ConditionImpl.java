@@ -40,7 +40,6 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.ConditionImpl#getPluginBinding <em>Plugin Binding</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getNodeConnection <em>Node Connection</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getConcern <em>Concern</em>}</li>
- *   <li>{@link urncore.impl.ConditionImpl#getFailureStartPoint <em>Failure Start Point</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getScenarioDefPre <em>Scenario Def Pre</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getScenarioDefPost <em>Scenario Def Post</em>}</li>
  * </ul>
@@ -397,47 +396,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
 				/**
      * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public FailureStartPoint getFailureStartPoint() {
-        if (eContainerFeatureID() != UrncorePackage.CONDITION__FAILURE_START_POINT) return null;
-        return (FailureStartPoint)eContainer();
-    }
-
-                /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain basicSetFailureStartPoint(FailureStartPoint newFailureStartPoint, NotificationChain msgs) {
-        msgs = eBasicSetContainer((InternalEObject)newFailureStartPoint, UrncorePackage.CONDITION__FAILURE_START_POINT, msgs);
-        return msgs;
-    }
-
-                /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setFailureStartPoint(FailureStartPoint newFailureStartPoint) {
-        if (newFailureStartPoint != eInternalContainer() || (eContainerFeatureID() != UrncorePackage.CONDITION__FAILURE_START_POINT && newFailureStartPoint != null)) {
-            if (EcoreUtil.isAncestor(this, newFailureStartPoint))
-                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-            NotificationChain msgs = null;
-            if (eInternalContainer() != null)
-                msgs = eBasicRemoveFromContainer(msgs);
-            if (newFailureStartPoint != null)
-                msgs = ((InternalEObject)newFailureStartPoint).eInverseAdd(this, MapPackage.FAILURE_START_POINT__CONDITION, FailureStartPoint.class, msgs);
-            msgs = basicSetFailureStartPoint(newFailureStartPoint, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.CONDITION__FAILURE_START_POINT, newFailureStartPoint, newFailureStartPoint));
-    }
-
-                /**
-     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -545,10 +503,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
                 if (eInternalContainer() != null)
                     msgs = eBasicRemoveFromContainer(msgs);
                 return basicSetConcern((Concern)otherEnd, msgs);
-            case UrncorePackage.CONDITION__FAILURE_START_POINT:
-                if (eInternalContainer() != null)
-                    msgs = eBasicRemoveFromContainer(msgs);
-                return basicSetFailureStartPoint((FailureStartPoint)otherEnd, msgs);
             case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
                 if (eInternalContainer() != null)
                     msgs = eBasicRemoveFromContainer(msgs);
@@ -578,8 +532,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
                 return basicSetNodeConnection(null, msgs);
             case UrncorePackage.CONDITION__CONCERN:
                 return basicSetConcern(null, msgs);
-            case UrncorePackage.CONDITION__FAILURE_START_POINT:
-                return basicSetFailureStartPoint(null, msgs);
             case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
                 return basicSetScenarioDefPre(null, msgs);
             case UrncorePackage.CONDITION__SCENARIO_DEF_POST:
@@ -605,8 +557,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
                 return eInternalContainer().eInverseRemove(this, MapPackage.NODE_CONNECTION__CONDITION, NodeConnection.class, msgs);
             case UrncorePackage.CONDITION__CONCERN:
                 return eInternalContainer().eInverseRemove(this, UrncorePackage.CONCERN__CONDITION, Concern.class, msgs);
-            case UrncorePackage.CONDITION__FAILURE_START_POINT:
-                return eInternalContainer().eInverseRemove(this, MapPackage.FAILURE_START_POINT__CONDITION, FailureStartPoint.class, msgs);
             case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
                 return eInternalContainer().eInverseRemove(this, ScenarioPackage.SCENARIO_DEF__PRECONDITIONS, ScenarioDef.class, msgs);
             case UrncorePackage.CONDITION__SCENARIO_DEF_POST:
@@ -638,8 +588,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
                 return getNodeConnection();
             case UrncorePackage.CONDITION__CONCERN:
                 return getConcern();
-            case UrncorePackage.CONDITION__FAILURE_START_POINT:
-                return getFailureStartPoint();
             case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
                 return getScenarioDefPre();
             case UrncorePackage.CONDITION__SCENARIO_DEF_POST:
@@ -678,9 +626,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
                 return;
             case UrncorePackage.CONDITION__CONCERN:
                 setConcern((Concern)newValue);
-                return;
-            case UrncorePackage.CONDITION__FAILURE_START_POINT:
-                setFailureStartPoint((FailureStartPoint)newValue);
                 return;
             case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
                 setScenarioDefPre((ScenarioDef)newValue);
@@ -723,9 +668,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
             case UrncorePackage.CONDITION__CONCERN:
                 setConcern((Concern)null);
                 return;
-            case UrncorePackage.CONDITION__FAILURE_START_POINT:
-                setFailureStartPoint((FailureStartPoint)null);
-                return;
             case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
                 setScenarioDefPre((ScenarioDef)null);
                 return;
@@ -759,8 +701,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
                 return getNodeConnection() != null;
             case UrncorePackage.CONDITION__CONCERN:
                 return getConcern() != null;
-            case UrncorePackage.CONDITION__FAILURE_START_POINT:
-                return getFailureStartPoint() != null;
             case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
                 return getScenarioDefPre() != null;
             case UrncorePackage.CONDITION__SCENARIO_DEF_POST:

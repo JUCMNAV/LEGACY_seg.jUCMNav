@@ -313,16 +313,6 @@ public class MapSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case MapPackage.FAILURE_START_POINT: {
-                FailureStartPoint failureStartPoint = (FailureStartPoint)theEObject;
-                Object result = caseFailureStartPoint(failureStartPoint);
-                if (result == null) result = casePathNode(failureStartPoint);
-                if (result == null) result = caseUCMmodelElement(failureStartPoint);
-                if (result == null) result = caseIURNNode(failureStartPoint);
-                if (result == null) result = caseURNmodelElement(failureStartPoint);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
             case MapPackage.FAILURE_POINT: {
                 FailurePoint failurePoint = (FailurePoint)theEObject;
                 Object result = caseFailurePoint(failurePoint);
@@ -670,21 +660,6 @@ public class MapSwitch {
      * @generated
      */
     public Object caseAnything(Anything object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Failure Start Point</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Failure Start Point</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object caseFailureStartPoint(FailureStartPoint object) {
         return null;
     }
 

@@ -999,22 +999,13 @@ public interface UrncorePackage extends EPackage {
 	int CONDITION__CONCERN = LABEL_FEATURE_COUNT + 7;
 
 				/**
-     * The feature id for the '<em><b>Failure Start Point</b></em>' container reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CONDITION__FAILURE_START_POINT = LABEL_FEATURE_COUNT + 8;
-
-                /**
      * The feature id for the '<em><b>Scenario Def Pre</b></em>' container reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int CONDITION__SCENARIO_DEF_PRE = LABEL_FEATURE_COUNT + 9;
+	int CONDITION__SCENARIO_DEF_PRE = LABEL_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Scenario Def Post</b></em>' container reference.
@@ -1023,7 +1014,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-	int CONDITION__SCENARIO_DEF_POST = LABEL_FEATURE_COUNT + 10;
+	int CONDITION__SCENARIO_DEF_POST = LABEL_FEATURE_COUNT + 9;
 
     /**
      * The number of structural features of the '<em>Condition</em>' class.
@@ -1032,7 +1023,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CONDITION_FEATURE_COUNT = LABEL_FEATURE_COUNT + 11;
+    int CONDITION_FEATURE_COUNT = LABEL_FEATURE_COUNT + 10;
 
     /**
      * The meta object id for the '{@link urncore.IURNDiagram <em>IURN Diagram</em>}' class.
@@ -2189,17 +2180,6 @@ public interface UrncorePackage extends EPackage {
 	EReference getCondition_Concern();
 
 				/**
-     * Returns the meta object for the container reference '{@link urncore.Condition#getFailureStartPoint <em>Failure Start Point</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the container reference '<em>Failure Start Point</em>'.
-     * @see urncore.Condition#getFailureStartPoint()
-     * @see #getCondition()
-     * @generated
-     */
-    EReference getCondition_FailureStartPoint();
-
-                /**
      * Returns the meta object for the container reference '{@link urncore.Condition#getScenarioDefPre <em>Scenario Def Pre</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3303,14 +3283,6 @@ public interface UrncorePackage extends EPackage {
 		EReference CONDITION__CONCERN = eINSTANCE.getCondition_Concern();
 
 								/**
-         * The meta object literal for the '<em><b>Failure Start Point</b></em>' container reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference CONDITION__FAILURE_START_POINT = eINSTANCE.getCondition_FailureStartPoint();
-
-                                /**
          * The meta object literal for the '<em><b>Scenario Def Pre</b></em>' container reference feature.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->

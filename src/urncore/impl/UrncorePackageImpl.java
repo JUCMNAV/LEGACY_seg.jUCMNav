@@ -706,20 +706,11 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 
 				/**
      * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getCondition_FailureStartPoint() {
-        return (EReference)conditionEClass.getEStructuralFeatures().get(8);
-    }
-
-                /**
-     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
 	public EReference getCondition_ScenarioDefPre() {
-        return (EReference)conditionEClass.getEStructuralFeatures().get(9);
+        return (EReference)conditionEClass.getEStructuralFeatures().get(8);
     }
 
     /**
@@ -728,7 +719,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * @generated
      */
 	public EReference getCondition_ScenarioDefPost() {
-        return (EReference)conditionEClass.getEStructuralFeatures().get(10);
+        return (EReference)conditionEClass.getEStructuralFeatures().get(9);
     }
 
     /**
@@ -1372,7 +1363,6 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         createEReference(conditionEClass, CONDITION__PLUGIN_BINDING);
         createEReference(conditionEClass, CONDITION__NODE_CONNECTION);
         createEReference(conditionEClass, CONDITION__CONCERN);
-        createEReference(conditionEClass, CONDITION__FAILURE_START_POINT);
         createEReference(conditionEClass, CONDITION__SCENARIO_DEF_PRE);
         createEReference(conditionEClass, CONDITION__SCENARIO_DEF_POST);
 
@@ -1549,7 +1539,6 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         initEReference(getCondition_PluginBinding(), theMapPackage.getPluginBinding(), theMapPackage.getPluginBinding_Precondition(), "pluginBinding", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getCondition_NodeConnection(), theMapPackage.getNodeConnection(), theMapPackage.getNodeConnection_Condition(), "nodeConnection", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getCondition_Concern(), this.getConcern(), this.getConcern_Condition(), "concern", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getCondition_FailureStartPoint(), theMapPackage.getFailureStartPoint(), theMapPackage.getFailureStartPoint_Condition(), "failureStartPoint", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getCondition_ScenarioDefPre(), theScenarioPackage.getScenarioDef(), theScenarioPackage.getScenarioDef_Preconditions(), "scenarioDefPre", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getCondition_ScenarioDefPost(), theScenarioPackage.getScenarioDef(), theScenarioPackage.getScenarioDef_Postconditions(), "scenarioDefPost", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

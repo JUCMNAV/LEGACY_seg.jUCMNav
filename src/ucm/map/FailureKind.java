@@ -53,6 +53,21 @@ public final class FailureKind extends AbstractEnumerator {
     public static final int ABORT = 1;
 
     /**
+     * The '<em><b>None</b></em>' literal value.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @see #NONE_LITERAL
+     * @model name="None"
+     * @generated
+     * @ordered
+     */
+    public static final int NONE = 2;
+
+    /**
      * The '<em><b>Failure</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -73,6 +88,16 @@ public final class FailureKind extends AbstractEnumerator {
     public static final FailureKind ABORT_LITERAL = new FailureKind(ABORT, "Abort", "Abort");
 
     /**
+     * The '<em><b>None</b></em>' literal object.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #NONE
+     * @generated
+     * @ordered
+     */
+    public static final FailureKind NONE_LITERAL = new FailureKind(NONE, "None", "None");
+
+    /**
      * An array of all the '<em><b>Failure Kind</b></em>' enumerators.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -82,6 +107,7 @@ public final class FailureKind extends AbstractEnumerator {
         new FailureKind[] {
             FAILURE_LITERAL,
             ABORT_LITERAL,
+            NONE_LITERAL,
         };
 
     /**
@@ -134,6 +160,7 @@ public final class FailureKind extends AbstractEnumerator {
         switch (value) {
             case FAILURE: return FAILURE_LITERAL;
             case ABORT: return ABORT_LITERAL;
+            case NONE: return NONE_LITERAL;
         }
         return null;
     }

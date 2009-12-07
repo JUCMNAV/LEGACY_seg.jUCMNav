@@ -102,8 +102,6 @@
         transient="true" eOpposite="ucm.ecore#//map/NodeConnection/condition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="concern" eType="#//Concern"
         transient="true" eOpposite="#//Concern/condition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="failureStartPoint" eType="ecore:EClass ucm.ecore#//map/FailureStartPoint"
-        transient="true" eOpposite="ucm.ecore#//map/FailureStartPoint/condition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDefPre" eType="ecore:EClass ucm.ecore#//scenario/ScenarioDef"
         transient="true" eOpposite="ucm.ecore#//scenario/ScenarioDef/preconditions"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDefPost" eType="ecore:EClass ucm.ecore#//scenario/ScenarioDef"

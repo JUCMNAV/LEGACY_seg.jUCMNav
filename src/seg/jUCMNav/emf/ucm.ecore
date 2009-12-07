@@ -176,6 +176,8 @@
           containment="true" eOpposite="#//performance/Workload/startPoint"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="local" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="failureKind" eType="#//map/FailureKind"
+          defaultValueLiteral="None"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="inBindings" upperBound="-1"
           eType="#//map/InBinding" eOpposite="#//map/InBinding/startPoint"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="precondition" eType="ecore:EClass urncore.ecore#//Condition"
@@ -262,15 +264,10 @@
       <eLiterals name="Replacement" value="2"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Anything" eSuperTypes="#//map/PathNode"/>
-    <eClassifiers xsi:type="ecore:EClass" name="FailureStartPoint" eSuperTypes="#//map/PathNode">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//map/FailureKind"
-          defaultValueLiteral="Failure"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="ecore:EClass urncore.ecore#//Condition"
-          containment="true" eOpposite="urncore.ecore#//Condition/failureStartPoint"/>
-    </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="FailureKind">
       <eLiterals name="Failure"/>
       <eLiterals name="Abort" value="1"/>
+      <eLiterals name="None" value="2"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FailurePoint" eSuperTypes="#//map/PathNode">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

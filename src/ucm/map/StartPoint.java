@@ -26,6 +26,7 @@ import urncore.Condition;
  * <ul>
  *   <li>{@link ucm.map.StartPoint#getWorkload <em>Workload</em>}</li>
  *   <li>{@link ucm.map.StartPoint#isLocal <em>Local</em>}</li>
+ *   <li>{@link ucm.map.StartPoint#getFailureKind <em>Failure Kind</em>}</li>
  *   <li>{@link ucm.map.StartPoint#getInBindings <em>In Bindings</em>}</li>
  *   <li>{@link ucm.map.StartPoint#getPrecondition <em>Precondition</em>}</li>
  *   <li>{@link ucm.map.StartPoint#getScenarioStartPoints <em>Scenario Start Points</em>}</li>
@@ -91,6 +92,36 @@ public interface StartPoint extends PathNode {
      * @generated
      */
     void setLocal(boolean value);
+
+    /**
+     * Returns the value of the '<em><b>Failure Kind</b></em>' attribute.
+     * The default value is <code>"None"</code>.
+     * The literals are from the enumeration {@link ucm.map.FailureKind}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Failure Kind</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Failure Kind</em>' attribute.
+     * @see ucm.map.FailureKind
+     * @see #setFailureKind(FailureKind)
+     * @see ucm.map.MapPackage#getStartPoint_FailureKind()
+     * @model default="None"
+     * @generated
+     */
+    FailureKind getFailureKind();
+
+    /**
+     * Sets the value of the '{@link ucm.map.StartPoint#getFailureKind <em>Failure Kind</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Failure Kind</em>' attribute.
+     * @see ucm.map.FailureKind
+     * @see #getFailureKind()
+     * @generated
+     */
+    void setFailureKind(FailureKind value);
 
     /**
      * Returns the value of the '<em><b>In Bindings</b></em>' reference list.

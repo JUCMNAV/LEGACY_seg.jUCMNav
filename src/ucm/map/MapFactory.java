@@ -215,15 +215,6 @@ public interface MapFactory extends EFactory {
     Anything createAnything();
 
     /**
-     * Returns a new object of class '<em>Failure Start Point</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Failure Start Point</em>'.
-     * @generated
-     */
-    FailureStartPoint createFailureStartPoint();
-
-    /**
      * Returns a new object of class '<em>Failure Point</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
