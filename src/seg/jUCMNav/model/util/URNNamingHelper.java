@@ -201,11 +201,15 @@ public class URNNamingHelper {
         HashMap htComponentNames = new HashMap();
         HashMap htResponsibilityNames = new HashMap();
         HashMap htVariableNames = new HashMap();
+        HashMap htActorNames = new HashMap();
+        HashMap htIntElementNames = new HashMap();
 
         Vector IDConflicts = new Vector();
         Vector CompNameConflicts = new Vector();
         Vector RespNameConflicts = new Vector();
         Vector VariableNameConflicts = new Vector();
+        Vector ActorNameConflicts = new Vector();
+        Vector IntElementNameConflicts = new Vector();
 
         // make sure that we have a legal Long as our proposedTopID
         if (proposedTopID == null || proposedTopID.length() == 0 || !isValidID(proposedTopID)) {
@@ -252,11 +256,11 @@ public class URNNamingHelper {
         sanitizeUCMspec(urn, htIDs, IDConflicts, htVariableNames, VariableNameConflicts);
 
         // make sure all nodes and actorref have unique ids
-        sanitizeGRLspec(urn, htIDs, IDConflicts);
+        sanitizeGRLspec(urn, htIDs, IDConflicts, htActorNames, ActorNameConflicts, htIntElementNames, IntElementNameConflicts);
 
         // now that we have found our conflicts, clean them up.
-        resolveConflicts(urn, htIDs, htComponentNames, htResponsibilityNames, htVariableNames, IDConflicts, CompNameConflicts, RespNameConflicts,
-                VariableNameConflicts);
+        resolveConflicts(urn, htIDs, htComponentNames, htResponsibilityNames, htVariableNames, htActorNames, htIntElementNames, IDConflicts, CompNameConflicts,
+                RespNameConflicts, VariableNameConflicts, ActorNameConflicts, IntElementNameConflicts);
     }
 
     /**
@@ -269,11 +273,33 @@ public class URNNamingHelper {
      * @param IDConflicts
      *            The vector of conflictual elements. Add problems here.
      */
-    private static void sanitizeGRLspec(URNspec urn, HashMap htIDs, Vector IDConflicts) {
+    private static void sanitizeGRLspec(URNspec urn, HashMap htIDs, Vector IDConflicts, HashMap htActorNames, Vector ActorNameConflicts,
+            HashMap htIntElementNames, Vector IntElementNameConflicts) {
         // we need a ucm specification
         if (urn.getGrlspec() == null) {
             // create a default one; no name required.
             urn.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
+        }
+
+        // look at all actors
+        for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
+            Actor comp = (Actor) iter.next();
+            if (!isNameAndIDSet(comp)) {
+                setElementNameAndID(urn, comp);
+            }
+
+            // find name and id conflicts for actors
+            findConflicts(htIDs, htActorNames, IDConflicts, ActorNameConflicts, comp);
+        }
+
+        for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+            IntentionalElement comp = (IntentionalElement) iter.next();
+            if (!isNameAndIDSet(comp)) {
+                setElementNameAndID(urn, comp);
+            }
+
+            // find name and id conflicts for actors
+            findConflicts(htIDs, htIntElementNames, IDConflicts, IntElementNameConflicts, comp);
         }
 
         // look at all diagram
@@ -429,7 +455,8 @@ public class URNNamingHelper {
      *            a vector in which to store variable name conflicts.
      */
     private static void resolveConflicts(URNspec urn, HashMap htIDs, HashMap htComponentNames, HashMap htResponsibilityNames, HashMap htVariableNames,
-            Vector IDConflicts, Vector CompNameConflicts, Vector RespNameConflicts, Vector VariableNameConflicts) {
+            HashMap htActorNames, HashMap htIntElementNames, Vector IDConflicts, Vector CompNameConflicts, Vector RespNameConflicts, Vector VariableNameConflicts,
+            Vector ActorNameConflicts, Vector IntElementNameConflicts) {
 
         resolveIDConflicts(urn, htIDs, IDConflicts);
 
@@ -438,6 +465,10 @@ public class URNNamingHelper {
         resolveNamingConflicts(urn, htResponsibilityNames, RespNameConflicts);
 
         resolveNamingConflicts(urn, htVariableNames, VariableNameConflicts);
+
+        resolveNamingConflicts(urn, htActorNames, ActorNameConflicts);
+        
+        resolveNamingConflicts(urn, htIntElementNames, IntElementNameConflicts);
     }
 
     /**
@@ -556,6 +587,9 @@ public class URNNamingHelper {
                 idConflicts.add(elem);
             } else {
                 // remember the ID
+                if (elem.getId().equals("290"))
+                    System.out.println("290!" + elem.getName());
+
                 htIDs.put(elem.getId(), null);
             }
         }

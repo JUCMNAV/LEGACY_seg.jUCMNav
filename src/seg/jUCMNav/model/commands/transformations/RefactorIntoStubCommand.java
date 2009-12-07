@@ -17,6 +17,7 @@ import seg.jUCMNav.model.commands.transformations.internal.CutAnyPathIfStillExis
 import seg.jUCMNav.model.commands.transformations.internal.DuplicatePathCommand;
 import seg.jUCMNav.model.util.ICreateElementCommand;
 import seg.jUCMNav.model.util.URNElementFinder;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.EmptyPoint;
@@ -27,6 +28,7 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.URNmodelElement;
 
 public class RefactorIntoStubCommand extends CompoundCommand implements ICreateElementCommand {
 
@@ -76,6 +78,7 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
         for (Iterator iterator = compRefs.iterator(); iterator.hasNext();) {
             ComponentRef cr = (ComponentRef) iterator.next();
             ComponentRef clonedCr = (ComponentRef) EcoreUtil.copy(cr);
+            resetCloneId(clonedCr);
             clonedCr.setContDef(cr.getContDef()); // command will undo this.
             add(new AddContainerRefCommand(getAddedMap(), clonedCr));
         }
@@ -111,6 +114,13 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
 
     }
 
+    private void resetCloneId(URNmodelElement clone) {
+        String name = clone.getName();
+        clone.setId(""); //$NON-NLS-1$
+        URNNamingHelper.setElementNameAndID(urn, clone);
+        clone.setName(name);
+    }
+    
     public void setAddedMap(UCMmap addedMap) {
         this.addedMap = addedMap;
     }
