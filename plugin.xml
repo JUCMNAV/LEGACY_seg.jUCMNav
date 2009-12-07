@@ -343,6 +343,12 @@
             id="seg.jUCMNav.ExportCSV"
             name="%ExportCSV"
             useStream="false"/>
+       <exporter
+            class="seg.jUCMNav.importexport.z151.ExportZ151"
+            extension="z151"
+            id="seg.jUCMNav.ExportZ151"
+            name="%Z151"
+            useStream="false"/>
    </extension>
    <extension
          id="seg.jUCMNav.importexport.URNReport"
@@ -385,6 +391,13 @@
             id="seg.jUCMNav.ImportGRLCatalog"
             importInSelectedFile="true"
             name="%GRLCatalog"
+            useStream="true"/>
+      <importer
+            class="seg.jUCMNav.importexport.z151.ImportZ151"
+            extension="z151"
+            id="seg.jUCMNav.ImportZ151"
+            importInSelectedFile="true"
+            name="%Z151"
             useStream="true"/>
    </extension>
    <extension

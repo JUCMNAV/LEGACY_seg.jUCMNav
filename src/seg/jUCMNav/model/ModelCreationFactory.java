@@ -353,7 +353,7 @@ public class ModelCreationFactory implements CreationFactory {
                 result = ucmscenariofactory.createEnumerationType();
             } else if (targetClass.equals(Variable.class)) {
                 result = ucmscenariofactory.createVariable();
-                ((Variable) result).setType(definition.toString());
+                if (definition!=null) ((Variable) result).setType(definition.toString());
             } else if (targetClass.equals(Initialization.class)) {
                 result = ucmscenariofactory.createInitialization();
             } else if (targetClass.equals(Metadata.class)) {

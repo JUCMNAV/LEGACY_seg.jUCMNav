@@ -1,0 +1,90 @@
+package seg.jUCMNav.importexport.z151.unmarshal;
+
+//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//  <!--  ComponentRef  -->
+//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//  <xsd:complexType name="ComponentRef">
+//    <xsd:complexContent>
+//      <xsd:extension base="UCMmodelElement">
+//        <xsd:sequence>
+//		<xsd:element maxOccurs="unbounded" minOccurs="0" name="parentBindings" type="xsd:IDREF"/> <!-- ComponentBinding -->
+//          <xsd:element maxOccurs="unbounded" minOccurs="0" name="pluginBindings" type="xsd:IDREF"/>  <!-- ComponentBinding -->
+//          <xsd:element name="compDef" type="xsd:IDREF"/>  <!-- Component -->
+//          <xsd:element minOccurs="0" name="label" type="Label"/>
+//          <xsd:element maxOccurs="unbounded" minOccurs="0" name="children" type="xsd:IDREF"/>  <!-- ComponentRef -->
+//          <xsd:element minOccurs="0" name="parent" type="xsd:IDREF"/>  <!-- ComponentRef -->
+//          <xsd:element maxOccurs="unbounded" minOccurs="0" name="nodes" type="xsd:IDREF"/>  <!-- PathNode -->
+//          <xsd:element minOccurs="0" name="pos" type="Position"/>
+//          <xsd:element minOccurs="0" name="size" type="Size"/>
+//        </xsd:sequence>
+//      </xsd:extension>
+//    </xsd:complexContent>
+//  </xsd:complexType>
+
+import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.model.ModelCreationFactory;
+import ucm.map.MapFactory;
+
+public class ComponentRefUMHandler extends UCMmodelElementUMHandler {
+	public Object handle(Object o, Object target, boolean isFullConstruction) {
+		ComponentRef elemZ = (ComponentRef) o;
+		String objId = elemZ.getId();
+		ucm.map.ComponentRef elem = (ucm.map.ComponentRef) id2object.get(objId);
+		if (null == elem) {
+			if (null == target) {
+				elem = (ucm.map.ComponentRef) ModelCreationFactory.getNewObject(urn, ucm.map.ComponentRef.class);
+				elem.setId(objId);
+				if (Integer.valueOf(globelId) < Integer.valueOf(objId))
+					globelId = objId;
+			} else
+				elem = (ucm.map.ComponentRef) target;
+			id2object.put(objId, elem);
+		}
+		if (isFullConstruction) {
+			elem = (ucm.map.ComponentRef) super.handle(elemZ, elem, true);
+			elem.setX(elemZ.getPos().getX().intValue());
+			elem.setY(elemZ.getPos().getY().intValue());
+			elem.setHeight(elemZ.getSize().getHeight().intValue());
+			elem.setFixed(false);
+			// elem.setDiagram(); handled by UCMmapUMHandler
+			elem.setContDef((urncore.Component) process((Component) elemZ.getCompDef(), null, false));
+			elem.setReplicationFactor(1);
+			elem.setRole(null);
+			elem.setAnchored(false);
+			elem.setParent((ucm.map.ComponentRef) process((ComponentRef) elemZ.getParent(), null, false));
+			elem.setWidth(elemZ.getSize().getWidth().intValue());
+			urncore.ComponentLabel compLabel = (urncore.ComponentLabel) ModelCreationFactory.getNewObject(urn, urncore.ComponentLabel.class);
+			compLabel.setDeltaX(elemZ.getLabel().getDeltaX().intValue());
+			compLabel.setDeltaY(elemZ.getLabel().getDeltaY().intValue());
+			compLabel.setContRef(elem);
+			elem.setLabel(compLabel);
+			// elem.setId();
+			// elem.setName();
+			// elem.setDescription();
+
+			// elem.getDiagram();
+			// elem.getContDef();
+			processList(elemZ.getNodes(), elem.getNodes(), false);
+			// elem.getReplicationFactor();
+			// elem.getRole();
+			processList(elemZ.getParentBindings(), elem.getParentBindings(), false);
+			processList(elemZ.getPluginBindings(), elem.getPluginBindings(), false);
+			// elem.getParent();
+			// elem.getX();
+			// elem.getY();
+			// elem.getHeight();
+			// elem.getWidth();
+			// elem.getLabel();
+			processList(elemZ.getChildren(), elem.getChildren(), false);
+			// elem.getFromLinks();
+			// elem.getToLinks();
+			// elem.getMetadata();
+			// elem.getName();
+			// elem.getId();
+			// elem.getDescription();
+			// elem.getClass();
+		}
+		return elem;
+
+	}
+}

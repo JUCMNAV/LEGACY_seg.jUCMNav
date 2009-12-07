@@ -1,0 +1,58 @@
+package seg.jUCMNav.importexport.z151.unmarshal;
+
+//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//  <!--  Variable  -->
+//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//  <xsd:complexType name="Variable">
+//    <xsd:complexContent>
+//      <xsd:extension base="UCMmodelElement">
+//        <xsd:sequence>
+//          <xsd:element default="Boolean" name="type" type="xsd:IDREF"/> <!-- DatatypeKind -->
+//          <xsd:element minOccurs="0" name="enumerationType" type="xsd:IDREF"/> <!-- EnumerationType -->
+//        </xsd:sequence>
+//      </xsd:extension>
+//    </xsd:complexContent>
+//  </xsd:complexType>
+
+import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.model.ModelCreationFactory;
+
+public class VariableUMHandler extends UCMmodelElementUMHandler {
+	public Object handle(Object o, Object target, boolean isFullConstruction) {
+		Variable elemZ = (Variable) o;
+		String objId = elemZ.getId();
+		ucm.scenario.Variable elem = (ucm.scenario.Variable) id2object.get(objId);
+		if (null == elem) {
+		if (null == target){
+				elem = (ucm.scenario.Variable) ModelCreationFactory.getNewObject(urn, ucm.scenario.Variable.class);
+				elem.setId(objId);
+				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
+			}
+			else
+				elem = (ucm.scenario.Variable) target;
+			id2object.put(objId, elem);
+		}
+		if (isFullConstruction) {
+			elem = (ucm.scenario.Variable) super.handle(elemZ, elem, true);
+			// elem.setUcmspec(); handled by UCMspecUMHandler
+			elem.setEnumerationType((ucm.scenario.EnumerationType) process((EnumerationType) elemZ.getEnumerationType(), null, false));
+			String type =elemZ.getType().value().substring(0, 1).toLowerCase()+elemZ.getType().value().substring(1).toLowerCase();
+			elem.setType(type);  // not 100%
+			// elem.setId();
+			// elem.setName();
+			// elem.setDescription();
+
+			// elem.getUcmspec();
+			// elem.getEnumerationType();
+			// elem.getType();
+			// elem.getFromLinks();
+			// elem.getToLinks();
+			// elem.getMetadata();
+			// elem.getName();
+			// elem.getId();
+			// elem.getDescription();
+			// elem.getClass();
+		}
+		return elem;
+	}
+}

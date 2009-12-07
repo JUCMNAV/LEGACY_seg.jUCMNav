@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<URNspec>
+    <name>URN_JAXB_test</name>
+    <grlspec>
+        <intElements>
+            <id>1000</id>
+            <name>MyTask</name>
+            <desc>
+                <description>This is a longer description of my task</description>
+            </desc>
+            <type>Task</type>
+            <importance>Low</importance>
+            <importanceQuantitative>25</importanceQuantitative>
+        </intElements>
+        <intElements>
+            <id>1001</id>
+            <name>MyGoal</name>
+            <type>Goal</type>
+            <importance>None</importance>
+            <importanceQuantitative>0</importanceQuantitative>
+            <refs>1000</refs>
+        </intElements>
+        <info>
+            <showAsMeansEnd>true</showAsMeansEnd>
+        </info>
+    </grlspec>
+</URNspec>

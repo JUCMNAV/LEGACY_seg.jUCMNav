@@ -1,0 +1,1085 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+== XML Schema for the User Requirements Notation (ITU-T Rec. Z.151)
+== Version: 20080903
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+
+  <!-- ========================== -->
+  <!-- =====  Root Element  ===== -->
+  <!-- ========================== -->
+  <xsd:element name="URNspec" type="URNspec"/>
+	
+  <!-- ================================================== -->
+  <!-- ============  Simple Type Definitions ============  -->
+  <!-- ================================================== -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ComponentKind  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:simpleType name="ComponentKind">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Team"/>
+      <xsd:enumeration value="Object"/>
+      <xsd:enumeration value="Process"/>
+      <xsd:enumeration value="Agent"/>
+      <xsd:enumeration value="Actor"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ContributionType  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:simpleType name="ContributionType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Make"/>
+      <xsd:enumeration value="Help"/>
+      <xsd:enumeration value="SomePositive"/>
+      <xsd:enumeration value="Unknown"/>
+      <xsd:enumeration value="SomeNegative"/>
+      <xsd:enumeration value="Hurt"/>
+      <xsd:enumeration value="Break"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  DatatypeKind  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:simpleType name="DatatypeKind">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Boolean"/>
+      <xsd:enumeration value="Integer"/>
+      <xsd:enumeration value="Enumeration"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  DecompositionType  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:simpleType name="DecompositionType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="AND"/>
+      <xsd:enumeration value="XOR"/>
+      <xsd:enumeration value="IOR"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  DeviceKind  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:simpleType name="DeviceKind">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Processor"/>
+      <xsd:enumeration value="Disk"/>
+      <xsd:enumeration value="DSP"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ImportanceType  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:simpleType name="ImportanceType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="High"/>
+      <xsd:enumeration value="Medium"/>
+      <xsd:enumeration value="Low"/>
+      <xsd:enumeration value="None"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  IntentionalElementType  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:simpleType name="IntentionalElementType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Softgoal"/>
+      <xsd:enumeration value="Goal"/>
+      <xsd:enumeration value="Task"/>
+      <xsd:enumeration value="Resource"/>
+      <xsd:enumeration value="Belief"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  QualitativeLabel  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:simpleType name="QualitativeLabel">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Denied"/>
+      <xsd:enumeration value="WeaklyDenied"/>
+      <xsd:enumeration value="WeaklySatisfied"/>
+      <xsd:enumeration value="Satisfied"/>
+      <xsd:enumeration value="Conflict"/>
+      <xsd:enumeration value="Unknown"/>
+      <xsd:enumeration value="None"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  TimeUnit  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:simpleType name="TimeUnit">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="year"/>
+      <xsd:enumeration value="day"/>
+      <xsd:enumeration value="h"/>
+      <xsd:enumeration value="s"/>
+      <xsd:enumeration value="ms"/>
+      <xsd:enumeration value="us"/>
+      <xsd:enumeration value="ns"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  WaitKind  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:simpleType name="WaitKind">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Transient"/>
+      <xsd:enumeration value="Persistent"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!-- ================================================== -->
+  <!-- ============  Complex Type Definitions ===========  -->
+  <!-- ================================================== -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ActiveResource  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ActiveResource">
+    <xsd:complexContent>
+      <xsd:extension base="GeneralResource">
+        <xsd:sequence>
+          <xsd:element name="opTime" type="xsd:string"/>
+          <xsd:element default="ms" name="unit" type="TimeUnit"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Actor  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Actor">
+    <xsd:complexContent>
+      <xsd:extension base="GRLLinkableElement">
+        <xsd:sequence>
+	  <xsd:element maxOccurs="unbounded" minOccurs="0" name="collapsedRefs" type="xsd:IDREF"/> <!-- CollapsedActorRef -->
+	  <xsd:element maxOccurs="unbounded" minOccurs="0" name="actorRefs" type="xsd:IDREF"/> <!-- ActorRef -->
+          <xsd:element minOccurs="0" name="style" type="ConcreteStyle"/>
+	  <xsd:element maxOccurs="unbounded" minOccurs="0" name="elems" type="xsd:IDREF"/> <!-- IntentionalElement -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ActorRef  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ActorRef">
+    <xsd:complexContent>
+      <xsd:extension base="GRLmodelElement">
+        <xsd:sequence>
+          <xsd:element name="label" type="Label"/>
+	  <xsd:element name="actorDef" type="xsd:IDREF"/> <!-- Actor -->
+	  <xsd:element maxOccurs="unbounded" minOccurs="0" name="nodes" type="xsd:IDREF"/> <!-- GRLNode -->
+          <xsd:element name="pos" type="Position"/>
+          <xsd:element name="size" type="Size"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  AndFork  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="AndFork">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  AndJoin  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="AndJoin">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ClosedWorkload  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ClosedWorkload">
+    <xsd:complexContent>
+      <xsd:extension base="Workload">
+        <xsd:sequence>
+          <xsd:element name="population" type="xsd:string"/>
+          <xsd:element name="externalDelay" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  CollapsedActorRef  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="CollapsedActorRef">
+    <xsd:complexContent>
+      <xsd:extension base="GRLNode">
+        <xsd:sequence>
+		<xsd:element name="actor" type="xsd:IDREF"/> <!-- Actor -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Comment  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Comment">
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string"/>
+      <xsd:element name="x" type="xsd:integer"/>
+      <xsd:element name="y" type="xsd:integer"/>
+      <xsd:element name="width" type="xsd:integer"/>
+      <xsd:element name="height" type="xsd:integer"/>
+      <xsd:element name="fillColor" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Component  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Component">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element name="kind" type="ComponentKind"/>
+          <xsd:element name="protected" type="xsd:boolean"/>
+          <xsd:element name="context" type="xsd:boolean"/>
+	  <xsd:element minOccurs="0" name="type" type="xsd:IDREF"/> <!-- ComponentType -->
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="includedComponents" type="xsd:IDREF"/>  <!-- Component -->
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="includingComponents" type="xsd:IDREF"/>  <!-- Component -->
+	  <xsd:element minOccurs="0" name="host" type="xsd:IDREF"/> <!-- ProcessingResource -->
+	  <xsd:element minOccurs="0" name="resource" type="xsd:IDREF"/> <!-- PassiveResource -->
+	  <xsd:element maxOccurs="unbounded" minOccurs="0" name="compRefs" type="xsd:IDREF"/> <!-- ComponentRef -->
+          <xsd:element minOccurs="0" name="style" type="ConcreteStyle"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ComponentBinding  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ComponentBinding">
+    <xsd:sequence>
+	    <xsd:element name="parentComponent" type="xsd:IDREF"/> <!-- ComponentRef -->
+      <xsd:element name="pluginComponent" type="xsd:IDREF"/> <!-- ComponentRef -->
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ComponentRef  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ComponentRef">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+		<xsd:element maxOccurs="unbounded" minOccurs="0" name="parentBindings" type="xsd:IDREF"/> <!-- ComponentBinding -->
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="pluginBindings" type="xsd:IDREF"/>  <!-- ComponentBinding -->
+          <xsd:element name="compDef" type="xsd:IDREF"/>  <!-- Component -->
+          <xsd:element minOccurs="0" name="label" type="Label"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="children" type="xsd:IDREF"/>  <!-- ComponentRef -->
+          <xsd:element minOccurs="0" name="parent" type="xsd:IDREF"/>  <!-- ComponentRef -->
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="nodes" type="xsd:IDREF"/>  <!-- PathNode -->
+          <xsd:element minOccurs="0" name="pos" type="Position"/>
+          <xsd:element minOccurs="0" name="size" type="Size"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ComponentType  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ComponentType">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="instances" type="xsd:IDREF"/>  <!-- Component -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Concern  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Concern">
+    <xsd:complexContent>
+      <xsd:extension base="URNmodelElement">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="condition" type="Condition"/>  <!-- Condition -->
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="elements" type="xsd:IDREF"/>  <!-- URNmodelElement -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ConcreteCondition  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ConcreteCondition">
+    <xsd:sequence>
+      <xsd:element name="label" type="xsd:string"/>
+      <xsd:element name="description" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ConcreteGRLspec  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ConcreteGRLspec">
+    <xsd:sequence>
+      <xsd:element name="showAsMeansEnd" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ConcreteStyle  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ConcreteStyle">
+    <xsd:sequence>
+      <xsd:element name="lineColor" type="xsd:string"/>
+      <xsd:element name="fillColor" type="xsd:string"/>
+      <xsd:element name="filled" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ConcreteURNspec  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ConcreteURNspec">
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string"/>
+      <xsd:element name="author" type="xsd:string"/>
+      <xsd:element name="created" type="xsd:string"/>
+      <xsd:element name="modified" type="xsd:string"/>
+      <xsd:element name="specVersion" type="xsd:string"/>
+      <xsd:element name="urnVersion" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Condition  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Condition">
+    <xsd:sequence>
+      <xsd:element name="expression" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="desc" type="ConcreteCondition"/>
+      <xsd:element minOccurs="0" name="label" type="Label"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Connect  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Connect">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Contribution  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Contribution">
+    <xsd:complexContent>
+      <xsd:extension base="ElementLink">
+        <xsd:sequence>
+          <xsd:element default="Unknown" name="contribution" type="ContributionType"/>
+          <xsd:element name="quantitativeContribution" type="xsd:integer"/>
+          <xsd:element name="correlation" type="xsd:boolean"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Decomposition  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Decomposition">
+    <xsd:complexContent>
+      <xsd:extension base="ElementLink"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Demand  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Demand">
+    <xsd:sequence>
+      <xsd:element name="quantity" type="xsd:string"/>
+      <xsd:element name="resource" type="xsd:IDREF"/> <!-- ExternalOperation -->
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Dependency  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Dependency">
+    <xsd:complexContent>
+      <xsd:extension base="ElementLink"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Description  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Description">
+    <xsd:sequence>
+      <xsd:element name="description" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  DirectionArrow  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="DirectionArrow">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ElementLink  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ElementLink">
+    <xsd:complexContent>
+      <xsd:extension base="GRLmodelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="refs" type="xsd:IDREF"/> <!-- LinkRef -->
+          <xsd:element name="dest" type="xsd:IDREF"/> <!-- GRLLinkableElement -->
+          <xsd:element name="src" type="xsd:IDREF"/> <!-- GRLLinkableElement -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  EmptyPoint  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="EmptyPoint">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  EndPoint  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="EndPoint">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode">
+        <xsd:sequence>
+		<xsd:element maxOccurs="unbounded" minOccurs="0" name="outBindings" type="xsd:IDREF"/> <!-- OutBinding -->
+          <xsd:element minOccurs="0" name="postcondition" type="Condition"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  EnumerationType  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="EnumerationType">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element name="values" type="xsd:string"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="instances" type="xsd:IDREF"/> <!-- Variable -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Evaluation  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Evaluation">
+    <xsd:sequence>
+      <xsd:element name="evaluation" type="xsd:integer"/>
+      <xsd:element default="None" name="qualitativeEvaluation" type="QualitativeLabel"/>
+      <xsd:element name="intElement" type="xsd:IDREF"/>  <!-- IntentionalElement -->
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  EvaluationStrategy  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="EvaluationStrategy">
+    <xsd:complexContent>
+      <xsd:extension base="GRLmodelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="evaluations" type="Evaluation"/>
+          <xsd:element maxOccurs="unbounded" name="group" type="xsd:IDREF"/> <!-- StrategiesGroup -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ExternalOperation  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ExternalOperation">
+    <xsd:complexContent>
+      <xsd:extension base="ActiveResource">
+        <xsd:sequence>
+		<xsd:element maxOccurs="unbounded" minOccurs="0" name="demands" type="xsd:IDREF"/> <!-- Demand -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  GeneralResource  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="GeneralResource">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element default="1" name="multiplicity" type="xsd:nonNegativeInteger"/>
+          <xsd:element name="schedPolicy" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  GRLGraph  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="GRLGraph">
+    <xsd:complexContent>
+      <xsd:extension base="GRLmodelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="connections" type="LinkRef"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="nodes" type="GRLNode"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="contRefs" type="ActorRef"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="comments" type="Comment"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  GRLLinkableElement  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="GRLLinkableElement">
+    <xsd:complexContent>
+      <xsd:extension base="GRLmodelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="linksDest" type="xsd:IDREF"/> <!-- ElementLink -->
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="linksSrc" type="xsd:IDREF"/> <!-- ElementLink -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  GRLmodelElement  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="GRLmodelElement">
+    <xsd:complexContent>
+      <xsd:extension base="URNmodelElement"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  GRLNode  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="GRLNode">
+    <xsd:complexContent>
+      <xsd:extension base="GRLmodelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="pred" type="xsd:IDREF"/> <!-- LinkRef -->
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="succ" type="xsd:IDREF"/> <!-- LinkRef -->
+          <xsd:element minOccurs="0" name="contRef" type="xsd:IDREF"/> <!-- ActorRef -->
+          <xsd:element name="pos" type="Position"/>
+          <xsd:element name="size" type="Size"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  GRLspec  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="GRLspec">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="intElements" type="IntentionalElement"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="actors" type="Actor"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="links" type="ElementLink"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="groups" type="StrategiesGroup"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="strategies" type="EvaluationStrategy"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="grlGraphs" type="GRLGraph"/>
+      <xsd:element minOccurs="0" name="info" type="ConcreteGRLspec"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  InBinding  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="InBinding">
+    <xsd:sequence>
+      <xsd:element name="id" type="xsd:ID"/> <!-- ADDED because InBinding is not a URNmodelElement (no ID) -->     
+      <xsd:element name="startPoint" type="xsd:IDREF"/>  <!-- StartPoint -->
+      <xsd:element name="stubEntry" type="xsd:IDREF"/>  <!-- NodeConnection -->
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Initialization  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Initialization">
+    <xsd:sequence>
+      <xsd:element name="value" type="xsd:string"/>
+      <xsd:element name="variable" type="xsd:IDREF"/>  <!-- Variable -->
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  IntentionalElement  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="IntentionalElement">
+    <xsd:complexContent>
+      <xsd:extension base="GRLLinkableElement">
+        <xsd:sequence>
+          <xsd:element name="type" type="IntentionalElementType"/>
+          <xsd:element default="AND" name="decompositionType" type="DecompositionType"/>
+          <xsd:element default="None" name="importance" type="ImportanceType"/>
+          <xsd:element name="importanceQuantitative" type="xsd:integer"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="refs" type="xsd:IDREF"/>  <!-- IntentionalElementRef -->
+          <xsd:element minOccurs="0" name="style" type="ConcreteStyle"/>
+	  <xsd:element minOccurs="0" name="actor" type="xsd:IDREF"/> <!-- Actor -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  IntentionalElementRef  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="IntentionalElementRef">
+    <xsd:complexContent>
+      <xsd:extension base="GRLNode">
+        <xsd:sequence>
+          <xsd:element name="def" type="xsd:IDREF"/> <!-- IntentionalElement -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Label  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Label">
+    <xsd:sequence>
+      <xsd:element name="deltaX" type="xsd:integer"/>
+      <xsd:element name="deltaY" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  LinkRef  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="LinkRef">
+    <xsd:complexContent>
+      <xsd:extension base="GRLmodelElement">
+        <xsd:sequence>
+          <xsd:element name="curve" type="xsd:boolean"/>
+          <xsd:element name="link" type="xsd:IDREF"/>  <!-- ElementLink -->
+	  <xsd:element maxOccurs="unbounded" minOccurs="0" name="bendpoints" type="LinkRefBendpoint"/> <!-- {ordered} -->
+          <xsd:element minOccurs="0" name="label" type="Label"/>
+          <xsd:element name="target" type="xsd:IDREF"/>  <!-- GRLNode -->
+          <xsd:element name="source" type="xsd:IDREF"/>  <!-- GRLNode -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  LinkRefBendpoint  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="LinkRefBendpoint">
+    <xsd:sequence>
+      <xsd:element name="x" type="xsd:integer"/>
+      <xsd:element name="y" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Metadata  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Metadata">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string"/>
+      <xsd:element name="value" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  NodeConnection  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="NodeConnection">
+    <xsd:sequence>
+      <xsd:element name="id" type="xsd:ID"/> <!-- ADDED because NodeConnection is not a URNmodelElement (no ID) -->	    
+      <xsd:element default="100" name="probability" type="xsd:nonNegativeInteger"/>
+      <xsd:element name="threshold" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="inBindings" type="xsd:IDREF"/> <!-- InBinding -->
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="outBindings" type="xsd:IDREF"/>  <!-- OutBinding -->
+      <xsd:element minOccurs="0" name="condition" type="Condition"/>
+      <xsd:element minOccurs="0" name="timer" type="xsd:IDREF"/> <!-- Timer -->
+      <xsd:element minOccurs="0" name="label" type="Label"/>
+      <xsd:element name="target" type="xsd:IDREF"/> <!-- PathNode -->
+      <xsd:element name="source" type="xsd:IDREF"/> <!-- PathNode -->
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  OWPeriodic  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="OWPeriodic">
+    <xsd:complexContent>
+      <xsd:extension base="OpenWorkload">
+        <xsd:sequence>
+          <xsd:element name="period" type="xsd:string"/>
+          <xsd:element name="deviation" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  OWPhaseType  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="OWPhaseType">
+    <xsd:complexContent>
+      <xsd:extension base="OpenWorkload">
+        <xsd:sequence>
+          <xsd:element name="alpha" type="xsd:string"/>
+          <xsd:element name="s" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  OWPoisson  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="OWPoisson">
+    <xsd:complexContent>
+      <xsd:extension base="OpenWorkload">
+        <xsd:sequence>
+          <xsd:element name="mean" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  OWUniform  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="OWUniform">
+    <xsd:complexContent>
+      <xsd:extension base="OpenWorkload">
+        <xsd:sequence>
+          <xsd:element name="start" type="xsd:string"/>
+          <xsd:element name="end" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  OpenWorkload  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="OpenWorkload">
+    <xsd:complexContent>
+      <xsd:extension base="Workload"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  OrFork  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="OrFork">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  OrJoin  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="OrJoin">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  OutBinding  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="OutBinding">
+    <xsd:sequence>
+      <xsd:element name="id" type="xsd:ID"/> <!-- ADDED because OutBinding is not a URNmodelElement (no ID) -->     
+      <xsd:element name="endPoint" type="xsd:IDREF"/> <!-- EndPoint -->
+      <xsd:element name="stubExit" type="xsd:IDREF"/> <!-- NodeConnection -->
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  PassiveResource  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="PassiveResource">
+    <xsd:complexContent>
+      <xsd:extension base="GeneralResource">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="component" type="xsd:IDREF"/> <!-- Component -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  PathNode  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="PathNode">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="label" type="Label"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="pred" type="xsd:IDREF"/> <!-- NodeConnection -->
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="succ" type="xsd:IDREF"/> <!-- NodeConnection -->
+          <xsd:element minOccurs="0" name="contRef" type="xsd:IDREF"/> <!-- ComponentRef -->
+          <xsd:element minOccurs="0" name="pos" type="Position"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  PluginBinding  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="PluginBinding">
+    <xsd:sequence>
+      <xsd:element name="id" type="xsd:ID"/>
+      <xsd:element default="100" name="probability" type="xsd:nonNegativeInteger"/>
+      <xsd:element name="replicationFactor" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="in" type="InBinding"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="out" type="OutBinding"/>
+      <xsd:element name="plugin" type="xsd:IDREF"/> <!-- UCMmap -->
+      <xsd:element minOccurs="0" name="precondition" type="Condition"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="components" type="ComponentBinding"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Position  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Position">
+    <xsd:sequence>
+      <xsd:element name="x" type="xsd:integer"/>
+      <xsd:element name="y" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ProcessingResource  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ProcessingResource">
+    <xsd:complexContent>
+      <xsd:extension base="ActiveResource">
+        <xsd:sequence>
+          <xsd:element default="Processor" name="kind" type="DeviceKind"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="components" type="xsd:IDREF"/> <!-- Component -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Responsibility  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Responsibility">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element name="expression" type="xsd:string"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="demands" type="Demand"/>
+	  <xsd:element maxOccurs="unbounded" name="respRefs" type="xsd:IDREF"/> <!-- RespRef -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  RespRef  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="RespRef">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode">
+        <xsd:sequence>
+          <xsd:element name="repetitionCount" type="xsd:string"/>
+          <xsd:element name="hostDemand" type="xsd:string"/>
+	  <xsd:element name="respDef" type="xsd:IDREF"/> <!-- Responsibility -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ScenarioDef  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ScenarioDef">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="initializations" type="Initialization"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="postconditions" type="Condition"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="preconditions" type="Condition"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="parentScenarios" type="xsd:IDREF"/>  <!-- ScenarioDef -->
+          <xsd:element minOccurs="0" name="includedScenarios" type="xsd:IDREFS"/>  <!-- ScenarioDef {ordered} -->
+	  <xsd:element maxOccurs="unbounded" name="groups" type="xsd:IDREF"/> <!-- ScenarioGroup -->
+	  <xsd:element minOccurs="0" name="startPoints" type="xsd:IDREFS"/>  <!-- StartPoint {ordered} -->
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="endPoints" type="xsd:IDREF"/>  <!-- EndPoint -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  ScenarioGroup  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="ScenarioGroup">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="scenarios" type="xsd:IDREF"/> <!-- ScenarioDef -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Size  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Size">
+    <xsd:sequence>
+      <xsd:element name="width" type="xsd:integer"/>
+      <xsd:element name="height" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  StartPoint  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="StartPoint">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="workload" type="Workload"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="inBindings" type="xsd:IDREF"/> <!-- InBinding -->
+          <xsd:element minOccurs="0" name="precondition" type="Condition"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  StrategiesGroup  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="StrategiesGroup">
+    <xsd:complexContent>
+      <xsd:extension base="GRLmodelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="strategies" type="xsd:IDREF"/> <!-- EvaluationStrategy -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Stub  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Stub">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode">
+        <xsd:sequence>
+          <xsd:element name="dynamic" type="xsd:boolean"/>
+          <xsd:element name="synchronizing" type="xsd:boolean"/>
+          <xsd:element name="blocking" type="xsd:boolean"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="bindings" type="PluginBinding"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Timer  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Timer">
+    <xsd:complexContent>
+      <xsd:extension base="WaitingPlace">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="timeoutPath" type="xsd:IDREF"/> <!-- NodeConnection -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  UCMmap  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="UCMmap">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element name="singleton" type="xsd:boolean"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="parentStub" type="xsd:IDREF"/> <!-- PluginBinding -->
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="contRefs" type="ComponentRef"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="connections" type="NodeConnection"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="nodes" type="PathNode"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="comments" type="Comment"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  UCMmodelElement  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="UCMmodelElement">
+    <xsd:complexContent>
+      <xsd:extension base="URNmodelElement"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  UCMspec  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="UCMspec">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="enumerationTypes" type="EnumerationType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="variables" type="Variable"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="scenarioGroups" type="ScenarioGroup"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="resources" type="GeneralResource"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="ucmMaps" type="UCMmap"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="components" type="Component"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="componentTypes" type="ComponentType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="responsibilities" type="Responsibility"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="scenarioDefs" type="ScenarioDef"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  URNlink  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="URNlink">
+    <xsd:complexContent>
+      <xsd:extension base="URNmodelElement">
+        <xsd:sequence>
+          <xsd:element name="type" type="xsd:string"/>
+          <xsd:element name="toElem" type="xsd:IDREF"/> <!-- URNmodelElement -->
+          <xsd:element name="fromElem" type="xsd:IDREF"/> <!-- URNmodelElement -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  URNmodelElement  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="URNmodelElement">
+    <xsd:sequence>
+      <xsd:element name="id" type="xsd:ID"/>
+      <xsd:element name="name" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="metadata" type="Metadata"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="toLinks" type="xsd:IDREF"/> <!-- URNlink -->
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="fromLinks" type="xsd:IDREF"/> <!-- URNlink -->
+      <xsd:element minOccurs="0" name="desc" type="Description"/>
+      <xsd:element minOccurs="0" name="concern" type="xsd:IDREF"/> <!-- Concern -->
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  URNspec  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="URNspec">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="ucmspec" type="UCMspec"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="metadata" type="Metadata"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="urnLinks" type="URNlink"/>
+      <xsd:element minOccurs="0" name="grlspec" type="GRLspec"/>
+      <xsd:element minOccurs="0" name="info" type="ConcreteURNspec"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="concerns" type="Concern"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Variable  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Variable">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element default="Boolean" name="type" type="DatatypeKind"/> <!-- DatatypeKind -->
+          <xsd:element minOccurs="0" name="enumerationType" type="xsd:IDREF"/> <!-- EnumerationType -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  WaitingPlace  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="WaitingPlace">
+    <xsd:complexContent>
+      <xsd:extension base="PathNode">
+        <xsd:sequence>
+          <xsd:element name="waitType" type="WaitKind"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--  Workload  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <xsd:complexType name="Workload">
+    <xsd:complexContent>
+      <xsd:extension base="UCMmodelElement">
+        <xsd:sequence>
+          <xsd:element default="ms" name="unit" type="TimeUnit"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>
