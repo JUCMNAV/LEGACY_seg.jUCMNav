@@ -4,12 +4,10 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
-import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.views.property.URNElementPropertySource;
@@ -68,12 +66,16 @@ public class StrategyUrnModelElementTreeEditPart extends UrnModelElementTreeEdit
     public void notifyChanged(Notification notification) {
         if (notification.getEventType() != Notification.REMOVING_ADAPTER && getRoot() != null) {
 
+            if (getWidget().isDisposed())
+                return;
+
             try {
+
                 refreshChildren();
             } catch (Exception ex) {
                 // Bug 475: should be resolved but leaving code here as defense in depth.
-                // seems to happen in very complex models after very quick changes. 
-                // probably during the quick moment where the model is inconsistent.  
+                // seems to happen in very complex models after very quick changes.
+                // probably during the quick moment where the model is inconsistent.
                 System.out.println("quick ugly hack; trying to prevent weird happenings in UI "); //$NON-NLS-1$
                 getChildren().clear();
                 try {

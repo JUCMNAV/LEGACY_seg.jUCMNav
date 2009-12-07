@@ -18,6 +18,7 @@ import seg.jUCMNav.model.commands.delete.DeleteDemandCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioPathNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteVariableCommand;
+import ucm.map.ComponentBinding;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
@@ -255,6 +256,16 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 
         if (cr.getParent() != null)
             add(new ContainerRefUnbindChildCommand(cr.getParent(), cr));
+        
+        for (Iterator iterator = cr.getParentBindings().iterator(); iterator.hasNext();) {
+            ComponentBinding cb = (ComponentBinding) iterator.next();
+            add(new DeleteComponentBindingCommand(cb));    
+        }
+        
+        for (Iterator iterator = cr.getPluginBindings().iterator(); iterator.hasNext();) {
+            ComponentBinding cb = (ComponentBinding) iterator.next();
+            add(new DeleteComponentBindingCommand(cb));    
+        }
     }
 
     /**

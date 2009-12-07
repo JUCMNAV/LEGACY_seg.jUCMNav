@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import ucm.map.ComponentBinding;
 import ucm.map.InBinding;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
@@ -72,6 +73,12 @@ public class DeletePluginCommand extends CompoundCommand {
         for (Iterator i = oldPlugin.getOut().iterator(); i.hasNext();) {
             OutBinding out = (OutBinding) i.next();
             DeleteOutBindingCommand cmd = new DeleteOutBindingCommand(out);
+            add(cmd);
+        }
+        
+        for (Iterator i = oldPlugin.getComponents().iterator(); i.hasNext();) {
+            ComponentBinding out = (ComponentBinding) i.next();
+            DeleteComponentBindingCommand cmd = new DeleteComponentBindingCommand(out);
             add(cmd);
         }
 

@@ -93,7 +93,8 @@ public class KPIUrnModelElementTreeEditPart extends UrnAbstractTreeEditPart impl
      */
     public void notifyChanged(Notification notification) {
         if (notification.getEventType() != Notification.REMOVING_ADAPTER && getRoot() != null) {
-
+            
+            if (getWidget().isDisposed()) return;
             try {
                 refreshChildren();
             } catch (Exception ex) {
