@@ -39,10 +39,16 @@ public class ConditionMHandler extends MHandler {
 			elemZ = (Condition) target;
 		if (isFullConstruction) {
 			elemZ.setExpression(elem.getExpression());
-			if (elem.getDescription() != null && elem.getLabel() != null) {
+			if (elem.getDescription() != null || elem.getLabel() != null) {
 				ConcreteCondition ccZ = of.createConcreteCondition();
-				ccZ.setDescription(elem.getDescription());
-				ccZ.setLabel(elem.getLabel());
+				if (elem.getDescription() != null)
+					ccZ.setDescription(elem.getDescription());
+				else
+					ccZ.setDescription("");
+				if (elem.getLabel() != null)
+					ccZ.setLabel(elem.getLabel());
+				else
+					ccZ.setLabel("");
 				elemZ.setDesc(ccZ);
 			}
 			Label lZ = of.createLabel();

@@ -156,13 +156,13 @@ public abstract class EObjectImplUMHandler {
 	}
 
 	protected grl.DecompositionType getDecompositionType(DecompositionType typeJ) {
-		switch (typeJ.ordinal()) {
-		case 0:
+		switch (typeJ) {
+		case AND:
 			return grl.DecompositionType.AND_LITERAL;
-			// TODO case 1: return grl.DecompositionType.IOR;
+		case IOR: return grl.DecompositionType.OR_LITERAL;
 			// //DecompositionType: jUCMNav has OR, but Z151 is IOR
 		
-		case 1:
+		case XOR:
 			return grl.DecompositionType.XOR_LITERAL;
 		default:
 			return null; //grl.DecompositionType.AND_LITERAL;
@@ -182,16 +182,16 @@ public abstract class EObjectImplUMHandler {
 	// </xsd:restriction>
 	// </xsd:simpleType>
 	protected grl.IntentionalElementType getIntentionalElementType(IntentionalElementType typeJ) {
-		switch (typeJ.ordinal()) {
-		case 0:
+		switch (typeJ) {
+		case SOFTGOAL:
 			return grl.IntentionalElementType.SOFTGOAL_LITERAL;
-		case 1:
+		case GOAL:
 			return grl.IntentionalElementType.GOAL_LITERAL;
-		case 2:
+		case TASK:
 			return grl.IntentionalElementType.TASK_LITERAL;
-		case 3:
+		case RESOURCE:
 			return grl.IntentionalElementType.RESSOURCE_LITERAL;
-		case 4:
+		case BELIEF:
 			return null;// IntentionalElementType: jNCMNav has Indicator, but
 						// Z151 has Belief
 		default:
@@ -231,16 +231,16 @@ public abstract class EObjectImplUMHandler {
 	/* jUCMNav has ComponentKind.OTHER but Z151 does not have */
 
 	protected urncore.ComponentKind getComponentKind(seg.jUCMNav.importexport.z151.generated.ComponentKind typeJ) {
-		switch (typeJ.ordinal()) {
-		case 0:
+		switch (typeJ) {
+		case TEAM:
 			return urncore.ComponentKind.TEAM_LITERAL;
-		case 1:
+		case OBJECT:
 			return urncore.ComponentKind.OBJECT_LITERAL;
-		case 2:
+		case PROCESS:
 			return urncore.ComponentKind.PROCESS_LITERAL;
-		case 3:
+		case AGENT:
 			return urncore.ComponentKind.AGENT_LITERAL;
-		case 4:
+		case ACTOR:
 			return urncore.ComponentKind.ACTOR_LITERAL;
 		}
 		return null;
@@ -334,12 +334,12 @@ public abstract class EObjectImplUMHandler {
 	// </xsd:simpleType>
 
 	protected ucm.performance.DeviceKind getDeviceKind(DeviceKind typeJ) {
-		switch (typeJ.ordinal()) {
-		case 0:
+		switch (typeJ) {
+		case PROCESSOR:
 			return ucm.performance.DeviceKind.PROCESSOR_LITERAL;
-		case 1:
+		case DISK:
 			return ucm.performance.DeviceKind.DISK_LITERAL;
-		case 2:
+		case DSP:
 			return ucm.performance.DeviceKind.DSP_LITERAL;
 		default:
 			return ucm.performance.DeviceKind.OTHER_LITERAL;

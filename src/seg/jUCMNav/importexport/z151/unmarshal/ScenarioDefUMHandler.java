@@ -54,7 +54,7 @@ public class ScenarioDefUMHandler extends UCMmodelElementUMHandler {
 				if (!startPoint.getScenarioStartPoints().contains(scenarioStartPoint))
 					startPoint.getScenarioStartPoints().add(scenarioStartPoint);
 				scenarioStartPoint.setScenarioDef(elem);
-				scenarioStartPoint.setEnabled(false); // set to default
+				scenarioStartPoint.setEnabled(true); // set to default
 				elem.getStartPoints().add(scenarioStartPoint);
 			}
 			processList(elemZ.getParentScenarios(), elem.getParentScenarios(), false);

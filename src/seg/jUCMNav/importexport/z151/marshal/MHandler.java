@@ -155,57 +155,6 @@ public abstract class MHandler {
     	ourClass2Conv.put( ucm.scenario.impl.VariableImpl.class, new VariableMHandler());
     	ourClass2Conv.put( ucm.map.impl.WaitingPlaceImpl.class, new WaitingPlaceMHandler());
     	ourClass2Conv.put( ucm.performance.impl.WorkloadImpl.class, new WorkloadMHandler());
-    	
-    	
-//    	
-//    	
-//        ourClass2Conv.put( grl.Actor.class,   new ActorMHandler() );
-//        ourClass2Conv.put( grl.impl.ActorImpl.class,   new ActorMHandler() );
-//        ourClass2Conv.put( grl.ActorRef.class,   new ActorRefMHandler() );
-//        ourClass2Conv.put( grl.impl.ActorRefImpl.class,   new ActorRefMHandler() );
-//        ourClass2Conv.put( grl.CollapsedActorRef.class,   new CollapsedActorRefMHandler() );
-//        ourClass2Conv.put( grl.impl.CollapsedActorRefImpl.class,   new ActorRefMHandler() );
-//        ourClass2Conv.put( urncore.Concern.class,   new ConcernMHandler() );
-//        ourClass2Conv.put( urncore.impl.ConcernImpl.class,   new ConcernMHandler() );
-//        ourClass2Conv.put( urncore.Condition.class,   new ConditionMHandler() );
-//        ourClass2Conv.put( urncore.impl.ConditionImpl.class,   new ConditionMHandler() );       
-//        ourClass2Conv.put( grl.Contribution.class,   new ContributionMHandler() );
-//        ourClass2Conv.put( grl.impl.ContributionImpl.class,   new ContributionMHandler() );     
-//        ourClass2Conv.put( grl.Decomposition.class,   new DecompositionMHandler() );
-//        ourClass2Conv.put( grl.impl.DecompositionImpl.class,   new DecompositionMHandler() ); 
-//        ourClass2Conv.put( grl.Dependency.class,   new DependencyMHandler() );
-//        ourClass2Conv.put( grl.impl.DependencyImpl.class,   new DependencyMHandler() ); 
-//        ourClass2Conv.put( grl.ElementLink.class,   new ElementLinkMHandler() );
-//        ourClass2Conv.put( grl.impl.ElementLinkImpl.class,   new ElementLinkMHandler() );
-//        ourClass2Conv.put( grl.Evaluation.class,   new EvaluationMHandler() );
-//        ourClass2Conv.put( grl.impl.EvaluationImpl.class,   new EvaluationMHandler() );
-//        ourClass2Conv.put( grl.EvaluationStrategy.class,   new EvaluationStrategyMHandler() );
-//        ourClass2Conv.put( grl.impl.EvaluationStrategyImpl.class,   new EvaluationStrategyMHandler() );
-//        ourClass2Conv.put( grl.GRLGraph.class,   new GRLGraphMHandler() );
-//        ourClass2Conv.put( grl.impl.GRLGraphImpl.class,   new GRLGraphMHandler() );
-//        ourClass2Conv.put( grl.GRLLinkableElement.class,   new GRLLinkableElementMHandler() );
-//        ourClass2Conv.put( grl.impl.GRLLinkableElementImpl.class,   new GRLLinkableElementMHandler() );
-////        ourClass2Conv.put( urncore.GRLmodelElement.class,   new GRLmodelElementMHandler() );
-////        ourClass2Conv.put( urncore.impl.GRLmodelElementImpl.class,   new GRLmodelElementMHandler() );
-//        ourClass2Conv.put( grl.GRLspec.class,   new GRLspecMHandler() );
-//        ourClass2Conv.put( grl.impl.GRLspecImpl.class,   new GRLspecMHandler() );
-//        ourClass2Conv.put( grl.IntentionalElement.class,   new IntentionalElementMHandler() );
-//        ourClass2Conv.put( grl.impl.IntentionalElementImpl.class,   new IntentionalElementMHandler() );
-//        ourClass2Conv.put( grl.IntentionalElementRef.class,   new IntentionalElementRefMHandler() );
-//        ourClass2Conv.put( grl.impl.IntentionalElementRefImpl.class,   new IntentionalElementRefMHandler() );
-//        ourClass2Conv.put( grl.LinkRefBendpoint.class,   new LinkRefBendpointMHandler() );
-//        ourClass2Conv.put( grl.impl.LinkRefBendpointImpl.class,   new LinkRefBendpointMHandler() );
-//        ourClass2Conv.put( grl.LinkRef.class,   new LinkRefMHandler() );
-//        ourClass2Conv.put( grl.impl.LinkRefImpl.class,   new LinkRefMHandler() );
-//        ourClass2Conv.put( urncore.Metadata.class,   new MetadataMHandler() );
-//        ourClass2Conv.put( urncore.impl.MetadataImpl.class,   new StrategiesGroupMHandler() );
-//        ourClass2Conv.put( grl.StrategiesGroup.class,   new StrategiesGroupMHandler() );
-//        ourClass2Conv.put( grl.impl.StrategiesGroupImpl.class,   new StrategiesGroupMHandler() );
-//        ourClass2Conv.put( urn.URNlink.class,   new URNlinkMHandler() );
-//        ourClass2Conv.put( urn.impl.URNlinkImpl.class,   new URNlinkMHandler() );
-//        ourClass2Conv.put( urn.URNspec.class, new URNspecMHandler() );
-//        ourClass2Conv.put( urn.impl.URNspecImpl.class, new URNspecMHandler() );
-        //...
     }
     
     public String getObjectId(Object obj){
@@ -328,29 +277,29 @@ public abstract class MHandler {
     
     protected DecompositionType getDecompositionType(grl.DecompositionType typeJ){
 		switch (typeJ.getValue()){
-			case 0: return seg.jUCMNav.importexport.z151.generated.DecompositionType.AND;
-			//case 1: return seg.jUCMNav.importexport.z151.generated.DecompositionType.IOR;  //DecompositionType: jUCMNav has OR, but Z151 is IOR
-			case 2: return seg.jUCMNav.importexport.z151.generated.DecompositionType.XOR;
+			case grl.DecompositionType.AND: return seg.jUCMNav.importexport.z151.generated.DecompositionType.AND;
+			case grl.DecompositionType.OR: return seg.jUCMNav.importexport.z151.generated.DecompositionType.IOR;  //DecompositionType: jUCMNav has OR, but Z151 is IOR
+			case grl.DecompositionType.XOR: return seg.jUCMNav.importexport.z151.generated.DecompositionType.XOR;
 			default: return null; //return seg.jUCMNav.importexport.z151.generated.DecompositionType.AND; 
 		}
     }
     protected seg.jUCMNav.importexport.z151.generated.IntentionalElementType getIntentionalElementType(grl.IntentionalElementType typeJ){
 		switch (typeJ.getValue()){
-			case 0: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.SOFTGOAL;
-			case 1: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.GOAL;
-			case 2: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.TASK;
-			case 3: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.RESOURCE;
-			case 4: return null;//IntentionalElementType: jNCMNav has Indicator, but Z151 has Belief
+			case grl.IntentionalElementType.SOFTGOAL: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.SOFTGOAL;
+			case grl.IntentionalElementType.GOAL: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.GOAL;
+			case grl.IntentionalElementType.TASK: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.TASK;
+			case grl.IntentionalElementType.RESSOURCE: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.RESOURCE;
+			case grl.IntentionalElementType.INDICATOR: return null;//IntentionalElementType: jNCMNav has Indicator, but Z151 has Belief
 			default: return null;
 		}		
 	}
 	
 	protected seg.jUCMNav.importexport.z151.generated.ImportanceType getImportanceType(grl.ImportanceType typeJ){
 		switch (typeJ.getValue()){
-			case 0: return seg.jUCMNav.importexport.z151.generated.ImportanceType.HIGH;
-			case 1: return seg.jUCMNav.importexport.z151.generated.ImportanceType.MEDIUM;
-			case 2: return seg.jUCMNav.importexport.z151.generated.ImportanceType.LOW;
-			case 3: return seg.jUCMNav.importexport.z151.generated.ImportanceType.NONE;
+			case grl.ImportanceType.HIGH: return seg.jUCMNav.importexport.z151.generated.ImportanceType.HIGH;
+			case grl.ImportanceType.MEDIUM: return seg.jUCMNav.importexport.z151.generated.ImportanceType.MEDIUM;
+			case grl.ImportanceType.LOW: return seg.jUCMNav.importexport.z151.generated.ImportanceType.LOW;
+			case grl.ImportanceType.NONE: return seg.jUCMNav.importexport.z151.generated.ImportanceType.NONE;
 			default: return seg.jUCMNav.importexport.z151.generated.ImportanceType.NONE;// null;
 		}
 		
@@ -373,13 +322,13 @@ public abstract class MHandler {
 	
 	protected QualitativeLabel getQualitativeEvaluation(grl.QualitativeLabel typeJ){
 		switch (typeJ.getValue()){
-			case 0: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.DENIED;
-			case 1: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.WEAKLY_DENIED;  
-			case 2: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.WEAKLY_SATISFIED;
-			case 3: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.SATISFIED; 
-			case 4: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.CONFLICT;  
-			case 5: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.UNKNOWN;
-			case 6: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.NONE; 
+			case grl.QualitativeLabel.DENIED: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.DENIED;
+			case grl.QualitativeLabel.WEAKLY_DENIED: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.WEAKLY_DENIED;  
+			case grl.QualitativeLabel.WEAKLY_SATISFIED: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.WEAKLY_SATISFIED;
+			case grl.QualitativeLabel.SATISFIED: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.SATISFIED; 
+			case grl.QualitativeLabel.CONFLICT: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.CONFLICT;  
+			case grl.QualitativeLabel.UNKNOWN: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.UNKNOWN;
+			case grl.QualitativeLabel.NONE: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.NONE; 
 			default: return seg.jUCMNav.importexport.z151.generated.QualitativeLabel.NONE;
 		}
 	}
@@ -412,11 +361,11 @@ public abstract class MHandler {
 //	}
 	protected ComponentKind getComponentKind(urncore.ComponentKind typeJ){
 		switch (typeJ.getValue()){
-		case 0: return seg.jUCMNav.importexport.z151.generated.ComponentKind.TEAM;
-		case 1: return seg.jUCMNav.importexport.z151.generated.ComponentKind.OBJECT;
-		case 2: return seg.jUCMNav.importexport.z151.generated.ComponentKind.PROCESS;
-		case 3: return seg.jUCMNav.importexport.z151.generated.ComponentKind.AGENT;
-		case 4: return seg.jUCMNav.importexport.z151.generated.ComponentKind.ACTOR; 
+		case urncore.ComponentKind.TEAM: return seg.jUCMNav.importexport.z151.generated.ComponentKind.TEAM;
+		case urncore.ComponentKind.OBJECT: return seg.jUCMNav.importexport.z151.generated.ComponentKind.OBJECT;
+		case urncore.ComponentKind.PROCESS: return seg.jUCMNav.importexport.z151.generated.ComponentKind.PROCESS;
+		case urncore.ComponentKind.AGENT: return seg.jUCMNav.importexport.z151.generated.ComponentKind.AGENT;
+		case urncore.ComponentKind.ACTOR: return seg.jUCMNav.importexport.z151.generated.ComponentKind.ACTOR; 
 		}
 		return null;
     }
@@ -437,13 +386,13 @@ public abstract class MHandler {
 //  </xsd:simpleType>
 	protected ContributionType getContributionType(grl.ContributionType typeJ){
 		switch (typeJ.getValue()){
-		case 0: return seg.jUCMNav.importexport.z151.generated.ContributionType.MAKE;
-		case 1: return seg.jUCMNav.importexport.z151.generated.ContributionType.HELP;
-		case 2: return seg.jUCMNav.importexport.z151.generated.ContributionType.SOME_POSITIVE;
-		case 3: return seg.jUCMNav.importexport.z151.generated.ContributionType.UNKNOWN;
-		case 4: return seg.jUCMNav.importexport.z151.generated.ContributionType.SOME_NEGATIVE;
-		case 5: return seg.jUCMNav.importexport.z151.generated.ContributionType.HURT;
-		case 6: return seg.jUCMNav.importexport.z151.generated.ContributionType.BREAK;
+		case grl.ContributionType.MAKE: return seg.jUCMNav.importexport.z151.generated.ContributionType.MAKE;
+		case grl.ContributionType.HELP: return seg.jUCMNav.importexport.z151.generated.ContributionType.HELP;
+		case grl.ContributionType.SOME_POSITIVE: return seg.jUCMNav.importexport.z151.generated.ContributionType.SOME_POSITIVE;
+		case grl.ContributionType.UNKNOWN: return seg.jUCMNav.importexport.z151.generated.ContributionType.UNKNOWN;
+		case grl.ContributionType.SOME_NEGATIVE: return seg.jUCMNav.importexport.z151.generated.ContributionType.SOME_NEGATIVE;
+		case grl.ContributionType.HURT: return seg.jUCMNav.importexport.z151.generated.ContributionType.HURT;
+		case grl.ContributionType.BREAK: return seg.jUCMNav.importexport.z151.generated.ContributionType.BREAK;
 		default: return seg.jUCMNav.importexport.z151.generated.ContributionType.UNKNOWN;
 		}
     }
@@ -473,9 +422,9 @@ public abstract class MHandler {
 	
 	protected DeviceKind getDeviceKind(ucm.performance.DeviceKind typeJ){
 		switch (typeJ.getValue()){
-		case 0: return seg.jUCMNav.importexport.z151.generated.DeviceKind.PROCESSOR;
-		case 1: return seg.jUCMNav.importexport.z151.generated.DeviceKind.DISK;
-		case 2: return seg.jUCMNav.importexport.z151.generated.DeviceKind.DSP;
+		case ucm.performance.DeviceKind.PROCESSOR: return seg.jUCMNav.importexport.z151.generated.DeviceKind.PROCESSOR;
+		case ucm.performance.DeviceKind.DISK: return seg.jUCMNav.importexport.z151.generated.DeviceKind.DISK;
+		case ucm.performance.DeviceKind.DSP: return seg.jUCMNav.importexport.z151.generated.DeviceKind.DSP;
 		default: return seg.jUCMNav.importexport.z151.generated.DeviceKind.PROCESSOR;
 		}
     }
@@ -492,8 +441,8 @@ public abstract class MHandler {
 	
 	protected WaitKind getWaitKind(ucm.map.WaitKind typeJ){
 		switch (typeJ.getValue()){
-		case 0: return seg.jUCMNav.importexport.z151.generated.WaitKind.TRANSIENT;
-		case 1: return seg.jUCMNav.importexport.z151.generated.WaitKind.PERSISTENT;
+		case ucm.map.WaitKind.TRANSIENT: return seg.jUCMNav.importexport.z151.generated.WaitKind.TRANSIENT;
+		case ucm.map.WaitKind.PERSISTENT: return seg.jUCMNav.importexport.z151.generated.WaitKind.PERSISTENT;
 		default: return null;
 		}
     }
