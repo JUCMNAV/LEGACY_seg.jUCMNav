@@ -53,7 +53,7 @@ in&#13;
 		<Classification>grl::Actor</Classification>
 		<Query>getAllActors()</Query>
    		<Constraint>self.getLinksToForType('traces')&#13;
-	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor))</Constraint>
+	-&gt; forAll (a | a.oclIsTypeOf(grl::Actor) and a &lt;&gt; self)</Constraint>
 		<Utilities />
 		<WarningOnly>false</WarningOnly>
 	</Rule>
@@ -63,7 +63,7 @@ in&#13;
 		<Classification>grl::IntentionalElement</Classification>
 		<Query>getAllIntentionalElements()</Query>
    		<Constraint>self.getLinksToForType('traces')&#13;
-	-&gt; forAll (ie | ie.oclIsTypeOf(grl::IntentionalElement))</Constraint>
+	-&gt; forAll (ie | ie.oclIsTypeOf(grl::IntentionalElement) and ie &lt;&gt; self)</Constraint>
 		<Utilities />
 		<WarningOnly>false</WarningOnly>
 	</Rule>

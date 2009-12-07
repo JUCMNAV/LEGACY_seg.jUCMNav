@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+	<Rule>
+		<Name>IndicatorsNotExported</Name>
+		<Description>Z.151 Export: Indicator will not be exported</Description>
+		<Classification>grl::kpimodel::Indicator</Classification>
+		<Query>getAllIndicators()</Query>
+		<Constraint>false</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>OtherCompAsTeam</Name>
+		<Description>Z.151 Export: Component of kind Other will be converted to Team</Description>
+		<Classification>urncore::Component</Classification>
+		<Query>getAllComponents()</Query>
+		<Constraint>self.kind &lt;&gt; urncore::ComponentKind::Other</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+</Rules>
