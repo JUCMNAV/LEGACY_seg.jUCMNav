@@ -89,6 +89,7 @@
    <action
          actionID="seg.jUCMNav.actions.AutoLayoutActionDelegate"
          class="seg.jUCMNav.actions.AdvancedModeActionDelegate"
+         icon="icons/advanced.gif"
          id="seg.jUCMNav.AdvancedMode"
          label="jUCMNav Advanced Mode"
          menubarPath="seg.jUCMNav/ext"
