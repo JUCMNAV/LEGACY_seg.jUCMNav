@@ -185,9 +185,11 @@ public abstract class URNDiagramEditPart extends ModelElementEditPart {
      * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
      */
     public void refreshChildren() {
+        if (getViewer()==null) return;
         int i;
         EditPart editPart;
         Object model;
+        
 
         HashMap modelToEditPart = new HashMap();
         List children = getChildren();

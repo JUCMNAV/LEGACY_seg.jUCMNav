@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.model.commands.IGlobalStackCommand;
 import seg.jUCMNav.model.commands.delete.internal.CleanRelationshipsCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteMapRefDefLinksCommand;
 import ucm.map.UCMmap;
@@ -15,7 +16,7 @@ import urncore.IURNDiagram;
  * @author jkealey
  * 
  */
-public class DeleteMapCommand extends CompoundCommand {
+public class DeleteMapCommand extends CompoundCommand implements IGlobalStackCommand {
 
     private IURNDiagram diagram;
 
@@ -38,6 +39,10 @@ public class DeleteMapCommand extends CompoundCommand {
 
     public void setDiagram(IURNDiagram diagram) {
         this.diagram = diagram;
+    }
+
+    public IURNDiagram getAffectedDiagram() {
+        return getDiagram();
     }
 
 }

@@ -9,8 +9,10 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.IGlobalStackCommand;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
+import urncore.IURNDiagram;
 
 /**
  * This command add a new GrlGraph to the model
@@ -18,7 +20,7 @@ import urn.URNspec;
  * @author Jean-François Roy
  * 
  */
-public class CreateGrlGraphCommand extends Command implements JUCMNavCommand {
+public class CreateGrlGraphCommand extends Command implements JUCMNavCommand, IGlobalStackCommand {
 
     private URNspec urn;
     private GRLGraph graph;
@@ -91,5 +93,9 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand {
         testPostConditions();
         urn.getUrndef().getSpecDiagrams().remove(graph);
         testPreConditions();
+    }
+
+    public IURNDiagram getAffectedDiagram() {
+        return getDiagram();
     }
 }

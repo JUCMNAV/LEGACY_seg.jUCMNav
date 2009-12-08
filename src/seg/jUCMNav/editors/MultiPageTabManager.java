@@ -25,7 +25,7 @@ import seg.jUCMNav.editparts.ModelElementEditPart;
 import seg.jUCMNav.editparts.URNDiagramEditPart;
 import seg.jUCMNav.editparts.treeEditparts.URNspecTreeEditPart;
 import seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart;
-import seg.jUCMNav.model.commands.transformations.ChangeUCMDiagramOrder;
+import seg.jUCMNav.model.commands.transformations.ChangeUCMDiagramOrderCommand;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.IURNDiagram;
@@ -326,7 +326,7 @@ public class MultiPageTabManager {
 
                         to = index;
 
-                        ed.getDelegatingCommandStack().execute(new ChangeUCMDiagramOrder(getModel().getUrndef(), from, to));
+                        ed.getDelegatingCommandStack().execute(new ChangeUCMDiagramOrderCommand(getModel().getUrndef(), from, to));
                     }
                     // If item is null, then if the mouse is pointing inside folder, but after the last
                     // tab item, then insert the item to the last position.
@@ -334,7 +334,7 @@ public class MultiPageTabManager {
                         int from = folder.indexOf(dragItem);
                         int to = folder.getItemCount() - 1;
 
-                        ed.getDelegatingCommandStack().execute(new ChangeUCMDiagramOrder(getModel().getUrndef(), from, to));
+                        ed.getDelegatingCommandStack().execute(new ChangeUCMDiagramOrderCommand(getModel().getUrndef(), from, to));
                     }
                     refreshPageNames();
                     drag = false;

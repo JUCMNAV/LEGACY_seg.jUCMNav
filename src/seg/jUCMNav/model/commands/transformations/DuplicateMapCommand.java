@@ -11,6 +11,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.IGlobalStackCommand;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.ComponentBinding;
@@ -31,7 +32,7 @@ import urncore.IURNNode;
  * 
  * @author jkealey, pchen
  */
-public class DuplicateMapCommand extends Command implements JUCMNavCommand {
+public class DuplicateMapCommand extends Command implements JUCMNavCommand, IGlobalStackCommand {
 
     private UCMmap oldDiagram; // The UCM diagram
     private GRLGraph oldGraph; // The GRL diagram
@@ -400,5 +401,9 @@ public class DuplicateMapCommand extends Command implements JUCMNavCommand {
         }
 
         testPreConditions();
+    }
+
+    public IURNDiagram getAffectedDiagram() {
+        return getNewDiagram();
     }
 }

@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.IGlobalStackCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
@@ -28,9 +29,10 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
-public class RefactorIntoStubCommand extends CompoundCommand implements ICreateElementCommand {
+public class RefactorIntoStubCommand extends CompoundCommand implements ICreateElementCommand, IGlobalStackCommand{
 
     private Vector startingPoints;
     private URNspec urn;
@@ -139,5 +141,9 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
 
     public Object getNewModelElement() {
         return getAddedStub();
+    }
+
+    public IURNDiagram getAffectedDiagram() {
+        return getAddedMap();
     }
 }

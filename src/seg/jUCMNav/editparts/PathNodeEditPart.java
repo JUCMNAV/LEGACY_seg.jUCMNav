@@ -398,6 +398,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      * @see #rotateFromPrevious(PathNodeFigure)
      */
     private void rotateFromNext(PathNodeFigure nodeFigure) {
+        if (getViewer()==null) return;
+
         PathNode pn = ((PathNode) getModel());
 
         double angleSum = 0;
@@ -498,6 +500,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      * @see #rotateFromNext(PathNodeFigure)
      */
     private void rotateFromPrevious(PathNodeFigure nodeFigure) {
+        if (getViewer()==null) return;
+
         PathNode pn = ((PathNode) getModel());
 
         double angleSum = 0;

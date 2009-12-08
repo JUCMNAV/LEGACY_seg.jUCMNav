@@ -49,6 +49,7 @@ import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
 import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.transformations.ChangeUCMDiagramOrderCommand;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.OpenEditorQuickFix;
@@ -59,7 +60,6 @@ import seg.jUCMNav.views.outline.UrnTreeViewer;
 import seg.jUCMNav.views.property.tabbed.GEFTabbedPropertySheetPage;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
-import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
@@ -631,34 +631,6 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             int featureIdGrl = notification.getFeatureID(GrlPackage.class);
             if ((featureIdUcm == MapPackage.UC_MMAP__NAME) || (featureIdGrl == GrlPackage.GRL_GRAPH__NAME)) {
                 getMultiPageTabManager().refreshPageNames();
-            }
-            break;
-        case Notification.MOVE:
-            if (notification.getFeature() instanceof EReferenceImpl && ((EReferenceImpl) notification.getFeature()).getName() == "specDiagrams") {
-
-                // A user drag&drop a tab from the multipage editor to change its order.
-                int from = ((Integer) notification.getOldValue()).intValue();
-                int to = notification.getPosition();
-
-                
-                IEditorPart fromPart = getEditor(from);
-
-                UrnEditor u = null;
-                if (fromPart instanceof UcmEditor) {
-                    u = new UcmEditor(this);
-                } else { 
-                    u = new GrlEditor(this);
-                }
-                u.setModel((IURNDiagram) getModel().getUrndef().getSpecDiagrams().get(to));
-                removePage(from);
-
-                try {
-                    addPage(to, u, this.getEditorInput());
-                } catch (PartInitException e1) {
-                    e1.printStackTrace();
-                }
-                getMultiPageTabManager().refreshPageNames();
-                setActivePage(to);
             }
             break;
         }

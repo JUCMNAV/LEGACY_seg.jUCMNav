@@ -4,9 +4,11 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.IGlobalStackCommand;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.IURNDiagram;
 
 /**
  * This command adds a new map to the URNspec.
@@ -14,7 +16,7 @@ import urn.URNspec;
  * @author jkealey
  * 
  */
-public class CreateMapCommand extends Command implements JUCMNavCommand {
+public class CreateMapCommand extends Command implements JUCMNavCommand, IGlobalStackCommand {
     private UCMmap map;
     private URNspec urn;
     private int oldCount;
@@ -85,5 +87,9 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
         testPostConditions();
         urn.getUrndef().getSpecDiagrams().remove(map);
         testPreConditions();
+    }
+
+    public IURNDiagram getAffectedDiagram() {
+        return getMap();
     }
 }

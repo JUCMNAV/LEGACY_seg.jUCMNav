@@ -8,6 +8,7 @@ import grl.GRLGraph;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.commands.IGlobalStackCommand;
 import seg.jUCMNav.model.commands.delete.internal.CleanRelationshipsCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteGRLGraphRefDefLinksCommand;
 import urncore.IURNDiagram;
@@ -18,7 +19,7 @@ import urncore.IURNDiagram;
  * @author Jean-François Roy
  * 
  */
-public class DeleteGRLGraphCommand extends CompoundCommand {
+public class DeleteGRLGraphCommand extends CompoundCommand implements IGlobalStackCommand {
 
     private IURNDiagram diagram;
 
@@ -40,6 +41,10 @@ public class DeleteGRLGraphCommand extends CompoundCommand {
 
     public void setDiagram(IURNDiagram diagram) {
         this.diagram = diagram;
+    }
+
+    public IURNDiagram getAffectedDiagram() {
+        return getDiagram();
     }
 
 }
