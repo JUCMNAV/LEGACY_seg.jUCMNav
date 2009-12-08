@@ -28,27 +28,6 @@ public class URNDiagramIndexDialog extends ElementListSelectionDialog {
     }
 
     @Override
-    protected Control createContents(Composite parent) {
-//        FillLayout la = new FillLayout();
-//        
-//        GridLayout layout = (GridLayout)parent.getLayout();
-//        layout.numColumns = 1;
-//        
-//        Composite comboComp = new Composite(parent, SWT.NONE);
-//        comboComp.setLayout(la);
-//        
-//        GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-//        comboComp.setLayoutData(data);
-//        
-//        CLabel label = new CLabel(comboComp, SWT.None);
-//        label.setText("Before/After:");
-//        
-//        Combo mapDropdown = new Combo(parent, SWT.DROP_DOWN | SWT.BORDER);
-        
-        return super.createContents(parent);
-    }
-
-    @Override
     protected void computeResult() {
         List<Object> result = new Vector<Object>();
         
@@ -56,14 +35,6 @@ public class URNDiagramIndexDialog extends ElementListSelectionDialog {
         result.add(new Boolean(mapDropdown.getSelectionIndex() != 0));
         
         setResult(result);
-        
-        //super.computeResult();
-    }
-
-    @Override
-    protected Control createDialogArea(Composite parent) {
-        
-        return super.createDialogArea(parent);
     }
 
     @Override
