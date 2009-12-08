@@ -35,7 +35,6 @@ public class IntentionalElementRefMHandler extends GRLNodeMHandler {
 		elemZ.setDef((IntentionalElement) process(elem.getDef(), null, false));
 		if (isFullConstruction) {			
 			elemZ = (IntentionalElementRef) super.handle(elem, elemZ, true);
-			//elemZ.setName(""); //This is fixed by removing label in GRLNodeUMHandler.java. No longer need this to get rid of extra words
 			elemZ.setDef((IntentionalElement) process(elem.getDef(), null, false));
 		}
 		return elemZ;

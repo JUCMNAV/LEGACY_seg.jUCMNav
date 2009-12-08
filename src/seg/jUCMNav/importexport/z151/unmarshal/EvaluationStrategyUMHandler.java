@@ -14,6 +14,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
+import java.util.List;
+
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
 
@@ -35,9 +37,17 @@ public class EvaluationStrategyUMHandler extends GRLmodelElementUMHandler {
 			id2object.put(objId, elem);
 		}
 		if (isFullConstruction) {
+			List<Metadata> metaDataList = elemZ.getMetadata();
+			for(Metadata item: metaDataList){
+				if (item.getName().equals("author")){
+					elem.setAuthor(item.getValue());
+					metaDataList.remove(item);
+					break;
+				}
+			}
 			elem = (grl.EvaluationStrategy) super.handle(elemZ, elem, true);
 			//elem.setGrlspec(); //Handled in GRLspecUMHandler
-			elem.setAuthor(urn.getAuthor());
+
 			if (elemZ.getGroup()!=null && elemZ.getGroup().size()>0) elem.setGroup((grl.StrategiesGroup) process((StrategiesGroup) elemZ
 					.getGroup().get(0).getValue(), null, false));
 			// elem.setId();
@@ -45,11 +55,12 @@ public class EvaluationStrategyUMHandler extends GRLmodelElementUMHandler {
 			// elem.setDescription();
 
 			elem.getGrlspec();
-			elem.getAuthor();
+			//elem.getAuthor();
 			processList(elemZ.getEvaluations(), elem.getEvaluations(), true);
 			for (Object item : elem.getEvaluations()){
 				((grl.Evaluation) item).setStrategies(elem);
 			}
+			
 			
 			// elem.getKpiInfoConfig();
 			// elem.getGroup();

@@ -109,9 +109,13 @@ public class BeliefMHandler extends GRLLinkableElementMHandler {
 			Size sizeZ = new Size();
 			sizeZ.setHeight(new BigInteger("0"));
 			sizeZ.setWidth(new BigInteger("0")); 
-			//sizeZ.setHeight(new BigInteger(Integer.toString(elem.getContRef().getHeight())));
-			//sizeZ.setWidth(new BigInteger(Integer.toString(elem.getContRef().getWidth())));
 			ieRef.setSize(sizeZ);
+			
+			// Save Author information to metadata
+			Metadata mdZ = of.createMetadata();
+			mdZ.setName("author");
+			mdZ.setValue(elem.getAuthor());
+			ieRef.getMetadata().add(mdZ);
 			
 			intentionalElement.getRefs().add(of.createIntentionalElementRefs(ieRef));
 			urnZ.getGrlspec().getIntElements().add(intentionalElement);

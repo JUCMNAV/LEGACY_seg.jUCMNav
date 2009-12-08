@@ -13,6 +13,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
+import java.util.List;
+
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
 
@@ -33,9 +35,15 @@ public class IntentionalElementRefUMHandler extends GRLNodeUMHandler {
 				id2object.put(objId, elem);
 			}
 			if (isFullConstruction) {
+				List<Metadata> metaDataList = elemZ.getMetadata();
+				for(Metadata item: metaDataList){
+					if (item.getName().equals("author")){
+						elem.setAuthor(item.getValue());
+						metaDataList.remove(item);
+						break;
+					}
+				}
 				elem = (grl.Belief) super.handle(elemZ, elem, true);
-				elem.setAuthor(urn.getAuthor());
-				// elem.setAuthor();
 				// elem.setContRef();
 				// elem.setDescription();
 				// elem.setDescription();
