@@ -16,6 +16,9 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
+import java.util.ArrayList;
+import java.util.List;
+
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
 
@@ -36,11 +39,31 @@ public class StubUMHandler extends PathNodeUMHandler {
 			id2object.put(objId, elem);
 		}
 		if (isFullConstruction) {
+			List<Metadata> metaDataList = elemZ.getMetadata();
+			List<Metadata> removeList = new ArrayList <Metadata> ();
+			for(Metadata item: metaDataList){
+				if (item.getName().equals("jUCMNav Stub shared")){
+					elem.setShared(Boolean.parseBoolean(item.getValue()));
+					removeList.add(item);
+				}
+				if (item.getName().equals("jUCMNav Stub repetitionCount")){
+					elem.setRepetitionCount(item.getValue());
+					removeList.add(item);
+				}
+				if (item.getName().equals("jUCMNav Stub Aopointcut")){
+					elem.setAopointcut(ucm.map.PointcutKind.get(item.getValue()));
+					removeList.add(item);
+				}
+				if (item.getName().equals("jUCMNav Stub aspect")){
+					elem.setAspect(ucm.map.AspectKind.get(item.getValue()));
+					removeList.add(item);
+				}
+			}
+			metaDataList.removeAll(removeList);
+			
 			elem = (ucm.map.Stub) super.handle(elemZ, elem, true);
 			elem.setDynamic(elemZ.isDynamic());
-			elem.setShared(false);
-			elem.setRepetitionCount("1");
-			elem.setPointcut(false);
+			//deprecated elem.setPointcut(false);
 			elem.setSynchronization(elemZ.isSynchronizing());
 			elem.setBlocking(elemZ.isBlocking());
 			// elem.setX();
@@ -70,6 +93,8 @@ public class StubUMHandler extends PathNodeUMHandler {
 			// elem.getId();
 			// elem.getDescription();
 			// elem.getClass();
+			
+			
 		}
 		return elem;
 	}

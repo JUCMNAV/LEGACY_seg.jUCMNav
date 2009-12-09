@@ -17,6 +17,7 @@ package seg.jUCMNav.importexport.z151.marshal;
 //  </xsd:complexType>
 // DONE
 
+import java.util.List;
 import seg.jUCMNav.importexport.z151.generated.*;
 
 public class StubMHandler extends PathNodeMHandler {
@@ -58,6 +59,34 @@ public class StubMHandler extends PathNodeMHandler {
 			// elemZ.getId();
 			// elemZ.getDesc();
 			// elemZ.getClass();
+
+			List<Metadata> list = elemZ.getMetadata();
+
+			boolean shared = elem.isShared();
+			Metadata mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav Stub shared");
+			mdZ.setValue(Boolean.toString(shared));
+			list.add(mdZ);
+
+			String repetitionCount = elem.getRepetitionCount();
+			if (repetitionCount != null) {
+				mdZ = of.createMetadata();
+				mdZ.setName("jUCMNav Stub repetitionCount");
+				mdZ.setValue(repetitionCount);
+				list.add(mdZ);
+			}
+
+			ucm.map.PointcutKind aopointcut = elem.getAopointcut();
+			mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav Stub Aopointcut");
+			mdZ.setValue(aopointcut.toString());
+			list.add(mdZ);
+
+			ucm.map.AspectKind aspect = elem.getAspect();
+			mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav Stub aspect");
+			mdZ.setValue(aspect.toString());
+			list.add(mdZ);
 		}
 		return elemZ;
 	}
