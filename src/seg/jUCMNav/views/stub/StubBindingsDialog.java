@@ -15,6 +15,8 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -35,6 +37,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -84,6 +87,8 @@ import ucm.map.NodeConnection;
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
+import ucm.map.RespRef;
+import ucm.map.ResponsibilityBinding;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
@@ -145,18 +150,27 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     private TableColumn compPluginColumn; // It's first column (so that we can
     // make it as wide as the table)
 
+    private Table tabParentResps; // The table for making out bindings with maps
+    private TableColumn respParentColumn; // It's first column (so that we can
+    // make it as wide as the table)
+    private Table tabPluginResps; // The table for making out bindings with stubs
+    private TableColumn respPluginColumn; // It's first column (so that we can
+    // make it as wide as the table)
+
     // The button for doing in bindings.
     private Button btInBind;
     // The button for doing out bindings.
     private Button btOutBind;
     // The button for doing component bindings
     private Button btCompBind;
+    // The button for doing responsibility bindings
+    private Button btRespBind;
 
     // The editor from wich this dialog was opened.
     private CommandStack cmdStack;
 
     // The list of images to dispose at the end.
-    private ArrayList images = new ArrayList();
+    private ArrayList<Image> images = new ArrayList<Image>();
 
     // The list containing all the maps you can plugin to.
     private Table tabMapList;
@@ -198,6 +212,9 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     private Label txtTransaction;
     private Button btChangeTrans;
     private Button okButton;
+
+    private final int listHeight = 100;
+    private final int columnWidth = 130;
 
     public StubBindingsDialog(Shell parentShell, CommandStack cmdStack) {
         super(parentShell);
@@ -441,13 +458,12 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             }
 
         });
-
         pluginListSection.setClient(sectionClient);
 
         addPluginClient = toolkit.createComposite(sectionClient, SWT.BORDER);
         addPluginClient.setVisible(false);
         grid = new GridLayout();
-        grid.numColumns = 3;
+        grid.numColumns = 1;
         grid.makeColumnsEqualWidth = false;
         addPluginClient.setLayout(grid);
         GridData f = new GridData(GridData.FILL_BOTH);
@@ -455,266 +471,9 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         f.grabExcessVerticalSpace = true;
         addPluginClient.setLayoutData(f);
 
-        // Stub composite for creating new bindings.
-        Composite stubComp = toolkit.createComposite(addPluginClient);
-        grid = new GridLayout();
-        grid.numColumns = 1;
-        stubComp.setLayout(grid);
-        f = new GridData(GridData.FILL_BOTH);
-        f.grabExcessHorizontalSpace = true;
-        f.grabExcessVerticalSpace = true;
-        stubComp.setLayoutData(f);
-
-        lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.stub")); //$NON-NLS-1$
-
-        tabStubIns = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
-        tabStubIns.setLinesVisible(true);
-        tabStubIns.setHeaderVisible(true);
-        tabStubIns.addMouseListener(new MouseAdapter() {
-            public void mouseUp(MouseEvent e) {
-                if (tabStubIns.getSelectionCount() >= 1 && tabMapIns.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
-                    btInBind.setEnabled(true);
-                else
-                    btInBind.setEnabled(false);
-            }
-        });
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        g.heightHint = 75;
-        tabStubIns.setLayoutData(g);
-        stubInsColumn = new TableColumn(tabStubIns, SWT.NONE);
-        stubInsColumn.setWidth(50);
-        stubInsColumn.setText(Messages.getString("StubBindingsDialog.in")); //$NON-NLS-1$
-
-        Composite buttonComp = toolkit.createComposite(addPluginClient);
-        grid = new GridLayout();
-        grid.numColumns = 1;
-        grid.makeColumnsEqualWidth = true;
-        buttonComp.setLayout(grid);
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        buttonComp.setLayoutData(g);
-
-        btInBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT); //$NON-NLS-1$
-        btInBind.setEnabled(false);
-        g = new GridData();
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        g.horizontalAlignment = GridData.CENTER;
-        g.verticalAlignment = GridData.CENTER;
-        btInBind.setLayoutData(g);
-        btInBind.addMouseListener(new MouseAdapter() {
-            public void mouseUp(MouseEvent e) {
-                handleInBindClick();
-            }
-        });
-
-        Composite mapComp = toolkit.createComposite(addPluginClient);
-        grid = new GridLayout();
-        grid.numColumns = 1;
-        mapComp.setLayout(grid);
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        mapComp.setLayoutData(g);
-
-        lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.Map")); //$NON-NLS-1$
-
-        tabMapIns = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
-        tabMapIns.setLinesVisible(true);
-        tabMapIns.setHeaderVisible(true);
-        tabMapIns.addMouseListener(new MouseAdapter() {
-            public void mouseUp(MouseEvent e) {
-                if (tabStubIns.getSelectionCount() >= 1 && tabMapIns.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
-                    btInBind.setEnabled(true);
-                else
-                    btInBind.setEnabled(false);
-            }
-        });
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        g.heightHint = 75;
-        tabMapIns.setLayoutData(g);
-        mapInsColumn = new TableColumn(tabMapIns, SWT.NONE);
-        mapInsColumn.setWidth(50);
-        mapInsColumn.setText(Messages.getString("StubBindingsDialog.inMap")); //$NON-NLS-1$
-
-        // Out bindings controls
-        stubComp = toolkit.createComposite(addPluginClient);
-        grid = new GridLayout();
-        grid.numColumns = 1;
-        stubComp.setLayout(grid);
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        stubComp.setLayoutData(g);
-
-        lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.stub")); //$NON-NLS-1$
-
-        tabStubOuts = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
-        tabStubOuts.setLinesVisible(true);
-        tabStubOuts.setHeaderVisible(true);
-        tabStubOuts.addMouseListener(new MouseAdapter() {
-            public void mouseUp(MouseEvent e) {
-                if (tabStubOuts.getSelectionCount() >= 1 && tabMapOuts.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
-                    btOutBind.setEnabled(true);
-                else
-                    btOutBind.setEnabled(false);
-            }
-        });
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        g.heightHint = 75;
-        tabStubOuts.setLayoutData(g);
-        stubOutsColumn = new TableColumn(tabStubOuts, SWT.NONE);
-        stubOutsColumn.setWidth(50);
-        stubOutsColumn.setText(Messages.getString("StubBindingsDialog.out")); //$NON-NLS-1$
-
-        buttonComp = toolkit.createComposite(addPluginClient);
-        grid = new GridLayout();
-        grid.numColumns = 1;
-        grid.makeColumnsEqualWidth = true;
-        buttonComp.setLayout(grid);
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        buttonComp.setLayoutData(g);
-
-        btOutBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT); //$NON-NLS-1$
-        btOutBind.setEnabled(false);
-        g = new GridData();
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        g.horizontalAlignment = GridData.CENTER;
-        g.verticalAlignment = GridData.CENTER;
-        btOutBind.setLayoutData(g);
-        btOutBind.addMouseListener(new MouseAdapter() {
-            public void mouseUp(MouseEvent e) {
-                handleOutBindClick();
-            }
-        });
-
-        mapComp = toolkit.createComposite(addPluginClient);
-        grid = new GridLayout();
-        grid.numColumns = 1;
-        mapComp.setLayout(grid);
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        mapComp.setLayoutData(g);
-
-        lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.map")); //$NON-NLS-1$
-
-        tabMapOuts = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
-        tabMapOuts.setLinesVisible(true);
-        tabMapOuts.setHeaderVisible(true);
-        tabMapOuts.addMouseListener(new MouseAdapter() {
-            public void mouseUp(MouseEvent e) {
-                if (tabStubOuts.getSelectionCount() >= 1 && tabMapOuts.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
-                    btOutBind.setEnabled(true);
-                else
-                    btOutBind.setEnabled(false);
-            }
-        });
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        g.heightHint = 75;
-        tabMapOuts.setLayoutData(g);
-        mapOutsColumn = new TableColumn(tabMapOuts, SWT.NONE);
-        mapOutsColumn.setWidth(50);
-        mapOutsColumn.setText(Messages.getString("StubBindingsDialog.outMap")); //$NON-NLS-1$
-
-        // start of component binding controls
-        stubComp = toolkit.createComposite(addPluginClient);
-        grid = new GridLayout();
-        grid.numColumns = 1;
-        stubComp.setLayout(grid);
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        stubComp.setLayoutData(g);
-
-        lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.ParentMap")); //$NON-NLS-1$
-
-        tabParentComps = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
-        tabParentComps.setLinesVisible(true);
-        tabParentComps.setHeaderVisible(true);
-        tabParentComps.addMouseListener(new MouseAdapter() {
-            public void mouseUp(MouseEvent e) {
-                if (tabParentComps.getSelectionCount() >= 1 && tabPluginComps.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
-                    btCompBind.setEnabled(true);
-                else
-                    btCompBind.setEnabled(false);
-            }
-        });
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        g.heightHint = 75;
-        tabParentComps.setLayoutData(g);
-        compParentColumn = new TableColumn(tabParentComps, SWT.NONE);
-        compParentColumn.setWidth(50);
-        compParentColumn.setText(Messages.getString("StubBindingsDialog.Components")); //$NON-NLS-1$
-
-        buttonComp = toolkit.createComposite(addPluginClient);
-        grid = new GridLayout();
-        grid.numColumns = 1;
-        grid.makeColumnsEqualWidth = true;
-        buttonComp.setLayout(grid);
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        buttonComp.setLayoutData(g);
-
-        btCompBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT); //$NON-NLS-1$
-        btCompBind.setEnabled(false);
-        g = new GridData();
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        g.horizontalAlignment = GridData.CENTER;
-        g.verticalAlignment = GridData.CENTER;
-        btCompBind.setLayoutData(g);
-        btCompBind.addMouseListener(new MouseAdapter() {
-            public void mouseUp(MouseEvent e) {
-                handleCompBindClick();
-            }
-        });
-
-        mapComp = toolkit.createComposite(addPluginClient);
-        grid = new GridLayout();
-        grid.numColumns = 1;
-        mapComp.setLayout(grid);
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        mapComp.setLayoutData(g);
-
-        lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.PluginMap")); //$NON-NLS-1$
-
-        tabPluginComps = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
-        tabPluginComps.setLinesVisible(true);
-        tabPluginComps.setHeaderVisible(true);
-        tabPluginComps.addMouseListener(new MouseAdapter() {
-            public void mouseUp(MouseEvent e) {
-                if (tabParentComps.getSelectionCount() >= 1 && tabPluginComps.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
-                    btCompBind.setEnabled(true);
-                else
-                    btCompBind.setEnabled(false);
-            }
-        });
-        g = new GridData(GridData.FILL_BOTH);
-        g.grabExcessHorizontalSpace = true;
-        g.grabExcessVerticalSpace = true;
-        g.heightHint = 75;
-        tabPluginComps.setLayoutData(g);
-        compPluginColumn = new TableColumn(tabPluginComps, SWT.NONE);
-        compPluginColumn.setWidth(50);
-        compPluginColumn.setText(Messages.getString("StubBindingsDialog.Components")); //$NON-NLS-1$
+        // Create tab folder containing controls to define new In/Out Bindings
+        // and component and responsibility bindings.
+        createTabFolder();
 
         // start of condition controls
         Composite compCondition = toolkit.createComposite(addPluginClient, SWT.BORDER);
@@ -879,6 +638,434 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         pluginListSection.setExpanded(true);
 
         return area;
+    }
+
+    private void createTabFolder() {
+        GridLayout grid;
+        GridData g;
+        Label lb;
+        GridData f;
+
+        CTabFolder tabFolder = new CTabFolder(addPluginClient, SWT.TOP);
+        toolkit.adapt(tabFolder);
+        tabFolder.setBorderVisible(true);
+        tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+        CTabItem item1 = new CTabItem(tabFolder, SWT.NONE);
+        item1.setText("Start/End Point");
+
+        Composite page1 = toolkit.createComposite(tabFolder);
+        grid = new GridLayout();
+        grid.numColumns = 3;
+        grid.makeColumnsEqualWidth = false;
+        page1.setLayout(grid);
+        f = new GridData(GridData.FILL_BOTH);
+        f.grabExcessHorizontalSpace = true;
+        f.grabExcessVerticalSpace = true;
+        page1.setLayoutData(f);
+
+        item1.setControl(page1);
+
+        tabFolder.setSelection(item1);
+
+        Composite stubComp;
+        Composite buttonComp;
+        Composite mapComp;
+
+        createInBindingsControls(page1);
+
+        createOutBindingsControls(page1);
+
+        // start of component binding controls
+        CTabItem item2 = new CTabItem(tabFolder, SWT.NONE);
+        item2.setText("Components/Responsibilities");
+
+        Composite page2 = toolkit.createComposite(tabFolder);
+        grid = new GridLayout();
+        grid.numColumns = 3;
+        grid.makeColumnsEqualWidth = false;
+        page2.setLayout(grid);
+        f = new GridData(GridData.FILL_BOTH);
+        f.grabExcessHorizontalSpace = true;
+        f.grabExcessVerticalSpace = true;
+        page2.setLayoutData(f);
+
+        item2.setControl(page2);
+
+        createCompBindingsControls(page2);
+
+        createRespBindingsControls(page2);
+    }
+
+    private void createCompBindingsControls(Composite page2) {
+        GridLayout grid;
+        GridData g;
+        Label lb;
+        Composite stubComp;
+        Composite buttonComp;
+        Composite mapComp;
+
+        stubComp = toolkit.createComposite(page2);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        stubComp.setLayout(grid);
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        stubComp.setLayoutData(g);
+
+        lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.ParentMap")); //$NON-NLS-1$
+
+        tabParentComps = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
+        tabParentComps.setLinesVisible(true);
+        tabParentComps.setHeaderVisible(true);
+        tabParentComps.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                if (tabParentComps.getSelectionCount() >= 1 && tabPluginComps.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+                    btCompBind.setEnabled(true);
+                else
+                    btCompBind.setEnabled(false);
+            }
+        });
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.heightHint = listHeight;
+        tabParentComps.setLayoutData(g);
+        compParentColumn = new TableColumn(tabParentComps, SWT.NONE);
+        compParentColumn.setWidth(columnWidth);
+        compParentColumn.setText(Messages.getString("StubBindingsDialog.Components")); //$NON-NLS-1$
+
+        buttonComp = toolkit.createComposite(page2);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        grid.makeColumnsEqualWidth = true;
+        buttonComp.setLayout(grid);
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        buttonComp.setLayoutData(g);
+
+        btCompBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT); //$NON-NLS-1$
+        btCompBind.setEnabled(false);
+        g = new GridData();
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.horizontalAlignment = GridData.CENTER;
+        g.verticalAlignment = GridData.CENTER;
+        btCompBind.setLayoutData(g);
+        btCompBind.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                handleCompBindClick();
+            }
+        });
+
+        mapComp = toolkit.createComposite(page2);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        mapComp.setLayout(grid);
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        mapComp.setLayoutData(g);
+
+        lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.PluginMap")); //$NON-NLS-1$
+
+        tabPluginComps = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
+        tabPluginComps.setLinesVisible(true);
+        tabPluginComps.setHeaderVisible(true);
+        tabPluginComps.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                if (tabParentComps.getSelectionCount() >= 1 && tabPluginComps.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+                    btCompBind.setEnabled(true);
+                else
+                    btCompBind.setEnabled(false);
+            }
+        });
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.heightHint = listHeight;
+        tabPluginComps.setLayoutData(g);
+        compPluginColumn = new TableColumn(tabPluginComps, SWT.NONE);
+        compPluginColumn.setWidth(columnWidth);
+        compPluginColumn.setText(Messages.getString("StubBindingsDialog.Components")); //$NON-NLS-1$
+    }
+
+    private void createRespBindingsControls(Composite page2) {
+        Composite stubComp = toolkit.createComposite(page2);
+        GridLayout grid = new GridLayout();
+        grid.numColumns = 1;
+        stubComp.setLayout(grid);
+        GridData g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        stubComp.setLayoutData(g);
+
+        Label lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.ParentMap")); //$NON-NLS-1$
+
+        tabParentResps = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
+        tabParentResps.setLinesVisible(true);
+        tabParentResps.setHeaderVisible(true);
+        tabParentResps.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                if (tabParentResps.getSelectionCount() >= 1 && tabPluginResps.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+                    btRespBind.setEnabled(true);
+                else
+                    btRespBind.setEnabled(false);
+            }
+        });
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.heightHint = listHeight;
+        tabParentResps.setLayoutData(g);
+        respParentColumn = new TableColumn(tabParentResps, SWT.NONE);
+        respParentColumn.setWidth(columnWidth);
+        respParentColumn.setText(Messages.getString("LabelTreeEditPart.responsibilities"));
+
+        Composite buttonComp = toolkit.createComposite(page2);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        grid.makeColumnsEqualWidth = true;
+        buttonComp.setLayout(grid);
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        buttonComp.setLayoutData(g);
+
+        btRespBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT); //$NON-NLS-1$
+        btRespBind.setEnabled(false);
+        g = new GridData();
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.horizontalAlignment = GridData.CENTER;
+        g.verticalAlignment = GridData.CENTER;
+        btRespBind.setLayoutData(g);
+        btRespBind.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                handleRespBindClick();
+            }
+        });
+
+        Composite mapComp = toolkit.createComposite(page2);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        mapComp.setLayout(grid);
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        mapComp.setLayoutData(g);
+
+        lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.PluginMap")); //$NON-NLS-1$
+
+        tabPluginResps = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
+        tabPluginResps.setLinesVisible(true);
+        tabPluginResps.setHeaderVisible(true);
+        tabPluginResps.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                if (tabPluginResps.getSelectionCount() >= 1 && tabPluginResps.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+                    btRespBind.setEnabled(true);
+                else
+                    btRespBind.setEnabled(false);
+            }
+        });
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.heightHint = listHeight;
+        tabPluginResps.setLayoutData(g);
+        respPluginColumn = new TableColumn(tabPluginResps, SWT.NONE);
+        respPluginColumn.setWidth(columnWidth);
+        respPluginColumn.setText(Messages.getString("LabelTreeEditPart.responsibilities")); //$NON-NLS-1$
+    }
+
+    private void createOutBindingsControls(Composite page1) {
+        GridLayout grid;
+        GridData g;
+        Label lb;
+        Composite stubComp;
+        Composite buttonComp;
+        Composite mapComp;
+        // Out bindings controls
+        stubComp = toolkit.createComposite(page1);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        stubComp.setLayout(grid);
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        stubComp.setLayoutData(g);
+
+        lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.stub")); //$NON-NLS-1$
+
+        tabStubOuts = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
+        tabStubOuts.setLinesVisible(true);
+        tabStubOuts.setHeaderVisible(true);
+        tabStubOuts.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                if (tabStubOuts.getSelectionCount() >= 1 && tabMapOuts.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+                    btOutBind.setEnabled(true);
+                else
+                    btOutBind.setEnabled(false);
+            }
+        });
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.heightHint = listHeight;
+        tabStubOuts.setLayoutData(g);
+        stubOutsColumn = new TableColumn(tabStubOuts, SWT.NONE);
+        stubOutsColumn.setWidth(columnWidth);
+        stubOutsColumn.setText(Messages.getString("StubBindingsDialog.out")); //$NON-NLS-1$
+
+        buttonComp = toolkit.createComposite(page1);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        grid.makeColumnsEqualWidth = true;
+        buttonComp.setLayout(grid);
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        buttonComp.setLayoutData(g);
+
+        btOutBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT); //$NON-NLS-1$
+        btOutBind.setEnabled(false);
+        g = new GridData();
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.horizontalAlignment = GridData.CENTER;
+        g.verticalAlignment = GridData.CENTER;
+        btOutBind.setLayoutData(g);
+        btOutBind.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                handleOutBindClick();
+            }
+        });
+
+        mapComp = toolkit.createComposite(page1);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        mapComp.setLayout(grid);
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        mapComp.setLayoutData(g);
+
+        lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.map")); //$NON-NLS-1$
+
+        tabMapOuts = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
+        tabMapOuts.setLinesVisible(true);
+        tabMapOuts.setHeaderVisible(true);
+        tabMapOuts.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                if (tabStubOuts.getSelectionCount() >= 1 && tabMapOuts.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+                    btOutBind.setEnabled(true);
+                else
+                    btOutBind.setEnabled(false);
+            }
+        });
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.heightHint = listHeight;
+        tabMapOuts.setLayoutData(g);
+        mapOutsColumn = new TableColumn(tabMapOuts, SWT.NONE);
+        mapOutsColumn.setWidth(columnWidth);
+        mapOutsColumn.setText(Messages.getString("StubBindingsDialog.outMap")); //$NON-NLS-1$
+    }
+
+    private void createInBindingsControls(Composite page1) {
+        GridLayout grid;
+        GridData g;
+        Label lb;
+        GridData f;
+        // Stub composite for creating new bindings.
+        Composite stubComp = toolkit.createComposite(page1);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        stubComp.setLayout(grid);
+        f = new GridData(GridData.FILL_BOTH);
+        f.grabExcessHorizontalSpace = true;
+        f.grabExcessVerticalSpace = true;
+        stubComp.setLayoutData(f);
+
+        lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.stub")); //$NON-NLS-1$
+
+        tabStubIns = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
+        tabStubIns.setLinesVisible(true);
+        tabStubIns.setHeaderVisible(true);
+        tabStubIns.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                if (tabStubIns.getSelectionCount() >= 1 && tabMapIns.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+                    btInBind.setEnabled(true);
+                else
+                    btInBind.setEnabled(false);
+            }
+        });
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.heightHint = listHeight;
+        tabStubIns.setLayoutData(g);
+        stubInsColumn = new TableColumn(tabStubIns, SWT.NONE);
+        stubInsColumn.setWidth(columnWidth);
+        stubInsColumn.setText(Messages.getString("StubBindingsDialog.in")); //$NON-NLS-1$
+
+        Composite buttonComp = toolkit.createComposite(page1);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        grid.makeColumnsEqualWidth = true;
+        buttonComp.setLayout(grid);
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        buttonComp.setLayoutData(g);
+
+        btInBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT); //$NON-NLS-1$
+        btInBind.setEnabled(false);
+        g = new GridData();
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.horizontalAlignment = GridData.CENTER;
+        g.verticalAlignment = GridData.CENTER;
+        btInBind.setLayoutData(g);
+        btInBind.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                handleInBindClick();
+            }
+        });
+
+        Composite mapComp = toolkit.createComposite(page1);
+        grid = new GridLayout();
+        grid.numColumns = 1;
+        mapComp.setLayout(grid);
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        mapComp.setLayoutData(g);
+
+        lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.Map")); //$NON-NLS-1$
+
+        tabMapIns = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
+        tabMapIns.setLinesVisible(true);
+        tabMapIns.setHeaderVisible(true);
+        tabMapIns.addMouseListener(new MouseAdapter() {
+            public void mouseUp(MouseEvent e) {
+                if (tabStubIns.getSelectionCount() >= 1 && tabMapIns.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+                    btInBind.setEnabled(true);
+                else
+                    btInBind.setEnabled(false);
+            }
+        });
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.heightHint = listHeight;
+        tabMapIns.setLayoutData(g);
+        mapInsColumn = new TableColumn(tabMapIns, SWT.NONE);
+        mapInsColumn.setWidth(columnWidth);
+        mapInsColumn.setText(Messages.getString("StubBindingsDialog.inMap")); //$NON-NLS-1$
     }
 
     /**
@@ -1143,6 +1330,33 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         }
     }
 
+    protected void resetTreeItemsBackground() {
+        Display d = treeBindings.getDisplay();
+
+        treeBindings.setRedraw(false);
+        setTreeItemBackground(treeBindings.getItem(0), null);
+        treeBindings.setRedraw(true);
+    }
+
+    protected void selectTreeItem(TreeItem item) {
+        Display display = item.getDisplay();
+
+        item.setBackground(display.getSystemColor(SWT.COLOR_LIST_SELECTION));
+    }
+
+    protected void setTreeItemBackground(TreeItem root, Color color) {
+        if (root == null)
+            return;
+
+        root.setBackground(color);
+
+        for (int i = 0; i < root.getItemCount(); i++) {
+            TreeItem item = root.getItem(i);
+
+            setTreeItemBackground(item, color);
+        }
+    }
+
     /**
      * Handle the event when the user click on a tree item. This will update the view for adding bindings and will update the delete button.
      * 
@@ -1155,15 +1369,37 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             // Depending on the data object of the tree item
             if (data instanceof PluginBinding) {
                 selectedItem = data;
+
+                resetTreeItemsBackground();
+
+                selectTreeItem(source);
+
                 // Refresh the add bindings view with the correct plugin.
                 setSelectedPluginView((PluginBinding) data);
             } else if (data instanceof InBinding || data instanceof OutBinding) {
                 selectedItem = data;
+
+                resetTreeItemsBackground();
+
+                selectTreeItem(source.getParentItem().getParentItem());
+
                 // show the binding
                 setSelectedPluginView((PluginBinding) source.getParentItem().getParentItem().getData());
             } else if (data instanceof ComponentBinding) {
                 selectedItem = data;
+                resetTreeItemsBackground();
+
+                selectTreeItem(source.getParentItem().getParentItem());
+
                 setSelectedPluginView(((ComponentBinding) data).getBinding());
+            } else if (data instanceof ResponsibilityBinding) {
+                selectedItem = data;
+
+                resetTreeItemsBackground();
+
+                selectTreeItem(source.getParentItem().getParentItem());
+
+                setSelectedPluginView(((ResponsibilityBinding) data).getBinding());
             } else {
                 setSelectedPluginView(null); // Erase the binding view
                 btDelete.setEnabled(false);
@@ -1482,16 +1718,27 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     }
 
     /**
+     * Handles a click on the bind button for responsibility bindings
+     */
+    protected void handleRespBindClick() {
+
+    }
+
+    /**
      * This method updates the width of columns of tables to make them as wide as possible.
      */
     protected void updateColumnWidth() {
-        mapInsColumn.setWidth(tabMapIns.getSize().x - 2);
-        stubInsColumn.setWidth(tabStubIns.getSize().x - 2);
-        mapOutsColumn.setWidth(tabMapOuts.getSize().x - 2);
-        stubOutsColumn.setWidth(tabStubOuts.getSize().x - 2);
-        tabMapListColumn.setWidth(tabMapList.getSize().x - 2);
-        compParentColumn.setWidth(tabParentComps.getSize().x - 2);
-        compPluginColumn.setWidth(tabPluginComps.getSize().x - 2);
+        final int widthDif = 10;
+
+        mapInsColumn.setWidth(tabMapIns.getSize().x - widthDif);
+        stubInsColumn.setWidth(tabStubIns.getSize().x - widthDif);
+        mapOutsColumn.setWidth(tabMapOuts.getSize().x - widthDif);
+        stubOutsColumn.setWidth(tabStubOuts.getSize().x - widthDif);
+        tabMapListColumn.setWidth(tabMapList.getSize().x - widthDif);
+        compParentColumn.setWidth(tabParentComps.getSize().x - widthDif);
+        compPluginColumn.setWidth(tabPluginComps.getSize().x - widthDif);
+        respParentColumn.setWidth(tabParentResps.getSize().x - widthDif);
+        respPluginColumn.setWidth(tabPluginResps.getSize().x - widthDif);
     }
 
     /**
@@ -1721,15 +1968,19 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     // The list of all the incoming connections from outside to the stub
     private ArrayList inStubList;
     // The list of all the StartPoints of the binded map.
-    private ArrayList inMapList;
+    private ArrayList<StartPoint> inMapList;
     // The list of all the outgoing connections from the stub to the outside.
     private ArrayList outStubList;
     // The list of all the EndPoints of the binded map.
-    private ArrayList outMapList;
+    private ArrayList<EndPoint> outMapList;
     // The list of all the parent components of the binded map
-    private ArrayList parentCompList;
+    private ArrayList<ComponentRef> parentCompList;
     // The list of all the plug-in copmonents of the binded map
-    private ArrayList pluginCompList;
+    private ArrayList<ComponentRef> pluginCompList;
+    // The list of all the parent components of the binded map
+    private ArrayList<RespRef> parentRespList;
+    // The list of all the plug-in responsibility of the binded map
+    private ArrayList<RespRef> pluginRespList;
 
     /**
      * Refresh the lists and tables for the ins/out of the Stub and Map of a PluginBinding.
@@ -1745,6 +1996,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         tabStubOuts.removeAll();
         tabParentComps.removeAll();
         tabPluginComps.removeAll();
+        tabParentResps.removeAll();
+        tabPluginResps.removeAll();
 
         // Clear the arrays
         inStubList = new ArrayList();
@@ -1753,6 +2006,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         outMapList = new ArrayList();
         parentCompList = new ArrayList();
         pluginCompList = new ArrayList();
+        parentRespList = new ArrayList();
+        pluginRespList = new ArrayList();
 
         // If the user selected a plugin
         if (selectedPlugin != null) {
@@ -1770,11 +2025,13 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             Image in = (JUCMNavPlugin.getImage("icons/inBinding16.gif")); //$NON-NLS-1$
             Image out = (JUCMNavPlugin.getImage("icons/outBinding16.gif")); //$NON-NLS-1$
             Image comp = (JUCMNavPlugin.getImage("icons/Component16.gif")); //$NON-NLS-1$
+            Image resp = (JUCMNavPlugin.getImage("icons/Resp16.gif")); //$NON-NLS-1$
             images.add(in);
             images.add(out);
             images.add(start);
             images.add(end);
             images.add(comp);
+            images.add(resp);
 
             // Get the list of all the incoming connections from outside to the
             // stub to fill the 'in' list.
@@ -1815,7 +2072,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 // The node is a start point
                 if (node instanceof StartPoint) {
                     if (!isStartPointInBinded((StartPoint) node, selectedPlugin)) {
-                        inMapList.add(node);
+                        inMapList.add((StartPoint) node);
                         item = new TableItem(tabMapIns, SWT.NULL);
                         item.setText(node.getName());
                         item.setImage(start);
@@ -1823,7 +2080,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                     // The node is an EndPoint
                 } else if (node instanceof EndPoint) {
                     if (!isEndPointOutBinded((EndPoint) node, selectedPlugin)) {
-                        outMapList.add(node);
+                        outMapList.add((EndPoint) node);
                         item = new TableItem(tabMapOuts, SWT.NULL);
                         item.setText(node.getName());
                         item.setImage(end);
@@ -1847,6 +2104,30 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                     item = new TableItem(tabPluginComps, SWT.NULL);
                     item.setText(URNNamingHelper.getName(c));
                     item.setImage(comp);
+                }
+            }
+
+            list = ((UCMmap) stub.getDiagram()).getNodes();
+            for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+                Object c = (Object) iterator.next();
+                if (c instanceof RespRef) {
+                    RespRef r = (RespRef) c;
+                    parentRespList.add(r);
+                    item = new TableItem(tabParentResps, SWT.NULL);
+                    item.setText(URNNamingHelper.getName(r));
+                    item.setImage(resp);
+                }
+            }
+
+            list = selectedPlugin.getPlugin().getNodes();
+            for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+                Object c = (Object) iterator.next();
+                if (c instanceof RespRef) {
+                    RespRef r = (RespRef) c;
+                    pluginRespList.add(r);
+                    item = new TableItem(tabPluginResps, SWT.NULL);
+                    item.setText(URNNamingHelper.getName(r));
+                    item.setImage(resp);
                 }
             }
 
