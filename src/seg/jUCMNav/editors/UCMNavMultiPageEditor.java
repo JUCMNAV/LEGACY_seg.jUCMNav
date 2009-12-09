@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.RootEditPart;
@@ -49,7 +48,6 @@ import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
 import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.transformations.ChangeUCMDiagramOrderCommand;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.OpenEditorQuickFix;
@@ -162,6 +160,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      */
     protected void createPages() {
         getMultiPageTabManager().createPages();
+    }
+
+    protected IEditorSite createSite(IEditorPart editor) {
+        return new UrnMultiPageEditorSite(this, editor);
     }
 
     /**
