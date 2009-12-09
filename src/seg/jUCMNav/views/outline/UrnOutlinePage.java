@@ -143,7 +143,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         showConcernsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/concernsOutline16.gif")); //$NON-NLS-1$
         showConcernsAction.setToolTipText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
         showConcernsAction.setText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
-        if(DisplayPreferences.getInstance().isAdvancedControlEnabled())
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled())
             tbm.add(showConcernsAction);
 
         showOverviewAction = new Action() {
@@ -199,7 +199,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         IMenuManager mm = getSite().getActionBars().getMenuManager();
         mm.add(showOutlineAction);
         mm.add(showDefinitionsAction);
-        if(DisplayPreferences.getInstance().isAdvancedControlEnabled())
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled())
             mm.add(showConcernsAction);
         mm.add(showOverviewAction);
 
@@ -407,7 +407,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         expandOutline((Tree) ((PageBook) getControl()).getChildren()[1], false);
         // show the definitions outline viewer
         // expandOutline((Tree) ((PageBook) getControl()).getChildren()[2], true);
-        refreshDefinitions();
+        refreshDefinitions(true);
     }
 
     /**
@@ -477,17 +477,30 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             refreshThumbnail((ScalableFreeformRootEditPart) rep);
         }
 
-        refreshDefinitions();
+        refreshDefinitions(false);
 
     }
 
-    private void refreshDefinitions() {
+    private void refreshDefinitions(boolean forceRefresh) {
         if (multieditor.getCurrentPage() != null) {
-            if (multieditor.getCurrentPage().getModel() instanceof UCMmap)
-                definitionsViewer.setContents(Messages.getString("LabelTreeEditPart.ucmDefs"));
-            else
-                definitionsViewer.setContents(Messages.getString("LabelTreeEditPart.grlDefs"));
-            expandOutline((Tree) ((PageBook) getControl()).getChildren()[2], false);
+            boolean expand = false;
+            if (multieditor.getCurrentPage().getModel() instanceof UCMmap) {
+                String root = Messages.getString("LabelTreeEditPart.ucmDefs");
+                if (forceRefresh || definitionsViewer.getContents() == null || definitionsViewer.getContents().getModel() == null
+                        || !definitionsViewer.getContents().getModel().equals(root)) {
+                    definitionsViewer.setContents(root);
+                    expand = true;
+                }
+            } else {
+                String root = Messages.getString("LabelTreeEditPart.grlDefs");
+                if (forceRefresh || definitionsViewer.getContents() == null || definitionsViewer.getContents().getModel() == null
+                        || !definitionsViewer.getContents().getModel().equals(root)) {
+                    definitionsViewer.setContents(root);
+                    expand = true;
+                }
+            }
+            if (expand)
+                expandOutline((Tree) ((PageBook) getControl()).getChildren()[2], false);
         }
     }
 
@@ -613,20 +626,21 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             }
         }
 
-        enableGlobalFilter.setChecked(DisplayPreferences.getInstance().isGlobalFilterEnabled());
-        showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
+        if (enableGlobalFilter != null)
+            enableGlobalFilter.setChecked(DisplayPreferences.getInstance().isGlobalFilterEnabled());
+        if (showNodeNumberAction != null)
+            showNodeNumberAction.setChecked(DisplayPreferences.getInstance().getShowNodeNumber());
 
         IMenuManager mm = getSite().getActionBars().getMenuManager();
         IToolBarManager tbm = getSite().getActionBars().getToolBarManager();
-        if(DisplayPreferences.getInstance().isAdvancedControlEnabled()) {
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled()) {
             mm.insertAfter(showDefinitionsAction.getId(), showConcernsAction);
             tbm.insertAfter(showDefinitionsAction.getId(), showConcernsAction);
-        }
-        else {
+        } else {
             mm.remove(showConcernsAction.getId());
             tbm.remove(showConcernsAction.getId());
         }
-        
+
         tbm.update(false);
         mm.update();
     }
