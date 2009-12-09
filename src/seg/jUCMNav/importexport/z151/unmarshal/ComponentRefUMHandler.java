@@ -43,8 +43,7 @@ public class ComponentRefUMHandler extends UCMmodelElementUMHandler {
 			id2object.put(objId, elem);
 		}
 		if (isFullConstruction) {
-			
-			//Handling jUCMNav includedActors and includingActor
+
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();
 			for(Metadata item: metaDataList){

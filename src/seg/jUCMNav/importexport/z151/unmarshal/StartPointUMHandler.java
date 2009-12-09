@@ -15,6 +15,9 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
+import java.util.ArrayList;
+import java.util.List;
+
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
 
@@ -34,6 +37,21 @@ public class StartPointUMHandler extends PathNodeUMHandler {
 			id2object.put(objId, elem);
 		}
 		if (isFullConstruction) {
+
+			List<Metadata> metaDataList = elemZ.getMetadata();
+			List<Metadata> removeList = new ArrayList <Metadata> ();
+			for(Metadata item: metaDataList){
+				if (item.getName().equals("jUCMNav StartPoint local")){
+					elem.setLocal(Boolean.parseBoolean(item.getValue()));
+					removeList.add(item);
+				}
+				if (item.getName().equals("jUCMNav StartPoint failureKind")){
+					elem.setFailureKind(ucm.map.FailureKind.get(item.getValue()));
+					removeList.add(item);
+				}
+			}
+			metaDataList.removeAll(removeList);
+			
 			elem = (ucm.map.StartPoint) super.handle(elemZ, elem, true);
 			if (elemZ.getWorkload() != null) {
 				ucm.performance.Workload workload = (ucm.performance.Workload) process(elemZ.getWorkload(), null, true);

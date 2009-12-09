@@ -58,6 +58,17 @@ public class StartPointMHandler extends PathNodeMHandler {
 			// elemZ.getId();
 			// elemZ.getDesc();
 			// elemZ.getClass();
+			boolean local = elem.isLocal();
+			Metadata mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav StartPoint local");
+			mdZ.setValue(""+local);
+			elemZ.getMetadata().add(mdZ);
+			
+			ucm.map.FailureKind  failureKind = elem.getFailureKind();
+			mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav StartPoint failureKind");
+			mdZ.setValue(failureKind.toString());
+			elemZ.getMetadata().add(mdZ);
 		}
 		return elemZ;
 	}

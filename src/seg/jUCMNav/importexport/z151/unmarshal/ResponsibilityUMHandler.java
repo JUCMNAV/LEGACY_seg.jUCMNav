@@ -15,6 +15,9 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.util.EList;
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -35,10 +38,24 @@ public class ResponsibilityUMHandler extends UCMmodelElementUMHandler {
 			id2object.put(objId, elem);
 		}
 		if (isFullConstruction) {
+			
+			List<Metadata> metaDataList = elemZ.getMetadata();
+			List<Metadata> removeList = new ArrayList <Metadata> ();
+			for(Metadata item: metaDataList){
+				if (item.getName().equals("jUCMNav Responsibility context")){
+					elem.setContext(Boolean.parseBoolean(item.getValue()));
+					removeList.add(item);
+				}
+				if (item.getName().equals("jUCMNav Responsibility empty")){
+					elem.setEmpty(Boolean.parseBoolean(item.getValue()));
+					removeList.add(item);
+				}
+			}
+			metaDataList.removeAll(removeList);
+			
 			elem = (urncore.Responsibility) super.handle(elemZ, elem, true);
 			elem.setUrndefinition(urn.getUrndef());
 			elem.setExpression(elemZ.getExpression());
-			elem.setEmpty(false); // set to default
 			// elem.setId();
 			// elem.setName();
 			// elem.setDescription();

@@ -56,6 +56,12 @@ public class EndPointMHandler extends PathNodeMHandler {
 			// elemZ.getId();
 			// elemZ.getDesc();
 			// elemZ.getClass();
+			
+			boolean local = elem.isLocal();
+			Metadata mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav EndPoint local");
+			mdZ.setValue(Boolean.toString(local));
+			elemZ.getMetadata().add(mdZ);
 		}
 		return elemZ;
 	}

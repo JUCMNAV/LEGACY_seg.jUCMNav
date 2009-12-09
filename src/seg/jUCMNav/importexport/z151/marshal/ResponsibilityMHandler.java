@@ -48,6 +48,18 @@ public class ResponsibilityMHandler extends UCMmodelElementMHandler {
 			// elemZ.getId();
 			// elemZ.getDesc();
 			// elemZ.getClass();
+			
+			boolean context = elem.isContext();
+			Metadata mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav Responsibility context");
+			mdZ.setValue(Boolean.toString(context));
+			elemZ.getMetadata().add(mdZ);
+			
+			boolean empty = elem.isEmpty();
+			mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav Responsibility empty");
+			mdZ.setValue(Boolean.toString(empty));
+			elemZ.getMetadata().add(mdZ);
 		}
 		return elemZ;
 	}

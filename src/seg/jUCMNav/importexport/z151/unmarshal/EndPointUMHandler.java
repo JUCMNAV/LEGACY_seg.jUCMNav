@@ -14,6 +14,9 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.util.EList;
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -34,6 +37,16 @@ public class EndPointUMHandler extends PathNodeUMHandler {
 			id2object.put(objId, elem);
 		}
 		if (isFullConstruction) {
+			List<Metadata> metaDataList = elemZ.getMetadata();
+			List<Metadata> removeList = new ArrayList <Metadata> ();
+			for(Metadata item: metaDataList){
+				if (item.getName().equals("jUCMNav EndPoint local")){
+					elem.setLocal(Boolean.parseBoolean(item.getValue()));
+					removeList.add(item);
+				}
+			}
+			metaDataList.removeAll(removeList);
+			
 			elem = (ucm.map.EndPoint) super.handle(elemZ, elem, true);
 			if (elem.getPostcondition() != null) {
 				urncore.Condition condition = (urncore.Condition) process(elemZ.getPostcondition(), null, true);
