@@ -54,7 +54,7 @@ public class ChangeUCMDiagramOrderCommand extends Command implements JUCMNavComm
     }
 
     public void testPostConditions() {
-        assert def.getSpecDiagrams().indexOf(toDiag) == getFrom();
+        //assert def.getSpecDiagrams().indexOf(toDiag) == getFrom();
         assert def.getSpecDiagrams().indexOf(getMovedDiagram()) == getTo();
     }
 
