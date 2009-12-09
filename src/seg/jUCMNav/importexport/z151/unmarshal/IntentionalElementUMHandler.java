@@ -19,62 +19,87 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import java.util.List;
+
+import seg.jUCMNav.importexport.z151.generated.IntentionalElement;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElementType;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class IntentionalElementUMHandler extends GRLLinkableElementUMHandler {
-	public Object handle(Object o, Object target, boolean isFullConstruction) {
-		IntentionalElement elemZ = (IntentionalElement) o;
-		if (!elemZ.getType().equals(IntentionalElementType.BELIEF)) {
-			String objId = elemZ.getId();
-			grl.IntentionalElement elem = (grl.IntentionalElement) id2object.get(objId);
-			if (null == elem) {
-				if (null == target) {
-					elem = (grl.IntentionalElement) ModelCreationFactory.getNewObject(urn, grl.IntentionalElement.class);
-					elem.setId(objId);
-					if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-						globelId = objId;
-				} else
-					elem = (grl.IntentionalElement) target;
-				id2object.put(objId, elem);
-			}
-			if (isFullConstruction) {
-				elem = (grl.IntentionalElement) super.handle(elemZ, elem, true);
-				elem.setLineColor(elemZ.getStyle().getLineColor());
-				elem.setFillColor(elemZ.getStyle().getFillColor());
-				elem.setFilled(elemZ.getStyle().isFilled());
-				// elem.setGrlspec(); //Handled in GRLspecUMHandler
-				elem.setDecompositionType(getDecompositionType(elemZ.getDecompositionType()));
-				elem.setImportance(grl.ImportanceType.get(elemZ.getImportance().ordinal()));
-				elem.setImportanceQuantitative(elemZ.getImportanceQuantitative().intValue());
-				elem.setType(getIntentionalElementType(elemZ.getType()));
-				// elem.setId();
-				// elem.setName();
-				// elem.setDescription();
+    public Object handle(Object o, Object target, boolean isFullConstruction) {
+        IntentionalElement elemZ = (IntentionalElement) o;
+        grl.IntentionalElement elem = null;
+        boolean isIndicator = false;
+        
+        if (!elemZ.getType().equals(IntentionalElementType.BELIEF)) {
+            if (elemZ.getType().equals(IntentionalElementType.TASK)) {
+                List<Metadata> metaDataList = elemZ.getMetadata();
+                for(Metadata item: metaDataList){
+                    if (item.getName().equals("jUCMNav Indicator")){
+                        elem = (grl.kpimodel.Indicator) getObjectFromId(elemZ.getId(),grl.kpimodel.Indicator.class);
+                        isIndicator=true;
+                        metaDataList.remove(item);
+                        break;
+                    }
+                }               
+            }
+            String objId = elemZ.getId();
+            if (elem == null) {
+                elem = (grl.IntentionalElement) id2object.get(objId);
+                if (null == elem) {
+                    if (null == target) {
+                        elem = (grl.IntentionalElement) ModelCreationFactory.getNewObject(urn, grl.IntentionalElement.class);
+                        elem.setId(objId);
+                        if (Integer.valueOf(globelId) < Integer.valueOf(objId))
+                            globelId = objId;
+                    } else
+                        elem = (grl.IntentionalElement) target;
+                    id2object.put(objId, elem);
+                }
+            }
+            if (isFullConstruction) {
+                elem = (grl.IntentionalElement) super.handle(elemZ, elem, true);
+                elem.setLineColor(elemZ.getStyle().getLineColor());
+                elem.setFillColor(elemZ.getStyle().getFillColor());
+                elem.setFilled(elemZ.getStyle().isFilled());
+                // elem.setGrlspec(); //Handled in GRLspecUMHandler
+                elem.setDecompositionType(getDecompositionType(elemZ.getDecompositionType()));
+                elem.setImportance(grl.ImportanceType.get(elemZ.getImportance().ordinal()));
+                elem.setImportanceQuantitative(elemZ.getImportanceQuantitative().intValue());
+                if (isIndicator) {
+                    elem.setType(grl.IntentionalElementType.INDICATOR_LITERAL);
+                }
+                else {
+                    elem.setType(getIntentionalElementType(elemZ.getType()));
+                }
+                // elem.setId();
+                // elem.setName();
+                // elem.setDescription();
 
-				// elem.getFillColor();
-				// elem.getGrlspec();
-				processList(elemZ.getRefs(), elem.getRefs(), false);
-				// elem.getDecompositionType();
-				// elem.getImportance();
-				// elem.getImportanceQuantitative();
-				// elem.getType();
-				// elem.getLineColor();
-				// elem.getLinksDest();
-				// elem.getLinksSrc();
-				// elem.getFromLinks();
-				// elem.getToLinks();
-				// elem.getMetadata();
-				// elem.getName();
-				// elem.getId();
-				// elem.getDescription();
-				// elem.getClass();
-				// TODO elemZ.getActor()
-			}
-			return elem;
-		} else {
-			return null;
-		}
+                // elem.getFillColor();
+                // elem.getGrlspec();
+                processList(elemZ.getRefs(), elem.getRefs(), false);
+                // elem.getDecompositionType();
+                // elem.getImportance();
+                // elem.getImportanceQuantitative();
+                // elem.getType();
+                // elem.getLineColor();
+                // elem.getLinksDest();
+                // elem.getLinksSrc();
+                // elem.getFromLinks();
+                // elem.getToLinks();
+                // elem.getMetadata();
+                // elem.getName();
+                // elem.getId();
+                // elem.getDescription();
+                // elem.getClass();
+                // TODO elemZ.getActor()
+            }
+            return elem;
+        } else {
+            return null;
+        }
 
-	}
+    }
 }

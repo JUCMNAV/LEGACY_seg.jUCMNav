@@ -55,6 +55,7 @@ public abstract class MHandler {
     	//ourClass2Conv.put( grl.impl.GRLNodeImpl.class, new GRLNodeMHandler());
     	ourClass2Conv.put( grl.impl.GRLspecImpl.class, new GRLspecMHandler());
     	ourClass2Conv.put( ucm.map.impl.InBindingImpl.class, new InBindingMHandler());
+        ourClass2Conv.put( grl.kpimodel.impl.IndicatorImpl.class, new IndicatorMHandler());
     	ourClass2Conv.put( ucm.scenario.impl.InitializationImpl.class, new InitializationMHandler());
     	ourClass2Conv.put( grl.impl.IntentionalElementImpl.class, new IntentionalElementMHandler());
     	ourClass2Conv.put( grl.impl.IntentionalElementRefImpl.class, new IntentionalElementRefMHandler());
@@ -222,7 +223,9 @@ public abstract class MHandler {
 			case grl.IntentionalElementType.GOAL: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.GOAL;
 			case grl.IntentionalElementType.TASK: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.TASK;
 			case grl.IntentionalElementType.RESSOURCE: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.RESOURCE;
-			case grl.IntentionalElementType.INDICATOR: return null;//IntentionalElementType: jNCMNav has Indicator, but Z151 has Belief
+			case grl.IntentionalElementType.INDICATOR: return seg.jUCMNav.importexport.z151.generated.IntentionalElementType.TASK;
+			//IntentionalElementType: jUCMNav has Indicator, but Z151 has Belief
+			//Indicator saved as TASK + metadata
 			default: return null;
 		}		
 	}
@@ -299,6 +302,7 @@ public abstract class MHandler {
 		case urncore.ComponentKind.PROCESS: return seg.jUCMNav.importexport.z151.generated.ComponentKind.PROCESS;
 		case urncore.ComponentKind.AGENT: return seg.jUCMNav.importexport.z151.generated.ComponentKind.AGENT;
 		case urncore.ComponentKind.ACTOR: return seg.jUCMNav.importexport.z151.generated.ComponentKind.ACTOR; 
+        case urncore.ComponentKind.OTHER: return seg.jUCMNav.importexport.z151.generated.ComponentKind.TEAM; 
 		}
 		return null;
     }

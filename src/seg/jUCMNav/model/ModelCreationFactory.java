@@ -269,7 +269,7 @@ public class ModelCreationFactory implements CreationFactory {
                     result = grlfactory.createIntentionalElement();
                 }
             } else if (targetClass.equals(Indicator.class)) {
-                result = grlfactory.createIntentionalElement();
+                result = kpiFactory.createIndicator();
             } else if (targetClass.equals(IndicatorGroup.class)) {
                 result = kpiFactory.createIndicatorGroup();
             } else if (targetClass.equals(KPIInformationElement.class)) {
