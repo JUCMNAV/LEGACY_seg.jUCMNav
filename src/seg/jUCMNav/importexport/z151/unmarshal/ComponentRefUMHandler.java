@@ -21,6 +21,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
+import java.util.ArrayList;
+import java.util.List;
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.MapFactory;
@@ -41,16 +43,36 @@ public class ComponentRefUMHandler extends UCMmodelElementUMHandler {
 			id2object.put(objId, elem);
 		}
 		if (isFullConstruction) {
+			
+			//Handling jUCMNav includedActors and includingActor
+			List<Metadata> metaDataList = elemZ.getMetadata();
+			List<Metadata> removeList = new ArrayList <Metadata> ();
+			for(Metadata item: metaDataList){
+				if (item.getName().equals("jUCMNav ComponentRef replicationFactor")){
+					elem.setReplicationFactor(Integer.parseInt(item.getValue()));
+					removeList.add(item);
+				}
+				if (item.getName().equals("jUCMNav ComponentRef role")){
+					elem.setRole(item.getValue());
+					removeList.add(item);
+				}
+				if (item.getName().equals("jUCMNav ComponentRef anchored")){
+					elem.setAnchored(Boolean.parseBoolean(item.getValue()));
+					removeList.add(item);
+				}
+				if (item.getName().equals("jUCMNav Actor fixed")){
+					elem.setFixed(Boolean.parseBoolean(item.getValue()));
+					removeList.add(item);
+				}
+			}
+			metaDataList.removeAll(removeList);
+			
 			elem = (ucm.map.ComponentRef) super.handle(elemZ, elem, true);
 			elem.setX(elemZ.getPos().getX().intValue());
 			elem.setY(elemZ.getPos().getY().intValue());
 			elem.setHeight(elemZ.getSize().getHeight().intValue());
-			elem.setFixed(false);
 			// elem.setDiagram(); handled by UCMmapUMHandler
 			elem.setContDef((urncore.Component) process((Component) elemZ.getCompDef(), null, false));
-			elem.setReplicationFactor(1);
-			elem.setRole(null);
-			elem.setAnchored(false);
 			elem.setParent((ucm.map.ComponentRef) process((ComponentRef) elemZ.getParent(), null, false));
 			elem.setWidth(elemZ.getSize().getWidth().intValue());
 			urncore.ComponentLabel compLabel = (urncore.ComponentLabel) ModelCreationFactory.getNewObject(urn, urncore.ComponentLabel.class);
@@ -83,6 +105,8 @@ public class ComponentRefUMHandler extends UCMmodelElementUMHandler {
 			// elem.getId();
 			// elem.getDescription();
 			// elem.getClass();
+			
+			
 		}
 		return elem;
 

@@ -22,6 +22,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -45,6 +47,16 @@ public class ComponentUMHandler extends UCMmodelElementUMHandler {
 			id2object.put(objId, elem);
 		}
 		if (isFullConstruction) {
+			List<Metadata> metaDataList = elemZ.getMetadata();
+			List<Metadata> removeList = new ArrayList <Metadata> ();
+			for(Metadata item: metaDataList){
+				if (item.getName().equals("jUCMNav Component slot")){
+					elem.setSlot(Boolean.parseBoolean(item.getValue()));
+					removeList.add(item);
+				}
+			}
+			metaDataList.removeAll(removeList);
+			
 			elem = (urncore.Component) super.handle(elemZ, elem, true);
 			elem.setFillColor(elemZ.getStyle().getFillColor());
 			elem.setUrndefinition(urn.getUrndef());
@@ -52,7 +64,6 @@ public class ComponentUMHandler extends UCMmodelElementUMHandler {
 			elem.setFilled(elemZ.getStyle().isFilled());
 			elem.setKind(getComponentKind(elemZ.getKind()));
 			elem.setProtected(elemZ.isProtected());
-			elem.setSlot(false);
 			elem.setContext(elemZ.isContext());
 			if (elemZ.getIncludedComponents().size()>0)
 			elem.setIncludingComponent((urncore.Component) process(elemZ.getIncludingComponents()

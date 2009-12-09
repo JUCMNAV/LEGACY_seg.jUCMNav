@@ -9,6 +9,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -28,9 +30,9 @@ public class OrForkUMHandler extends PathNodeUMHandler {
 				elem = (ucm.map.OrFork) target;
 			id2object.put(objId, elem);
 		}
-		if (isFullConstruction) {
+		if (isFullConstruction) {			
 			elem = (ucm.map.OrFork) super.handle(elemZ, elem, true);
-			elem.setOrientation(null); //set to default
+			elem.setOrientation(null); //ORIENTATION_EDEFAULT
 			// elem.setX();
 			// elem.setY();
 			// elem.setDiagram();

@@ -39,7 +39,7 @@ public class EvaluationStrategyUMHandler extends GRLmodelElementUMHandler {
 		if (isFullConstruction) {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			for(Metadata item: metaDataList){
-				if (item.getName().equals("author")){
+				if (item.getName().equals("jUCMNav EvaluationStrategy author")){
 					elem.setAuthor(item.getValue());
 					metaDataList.remove(item);
 					break;

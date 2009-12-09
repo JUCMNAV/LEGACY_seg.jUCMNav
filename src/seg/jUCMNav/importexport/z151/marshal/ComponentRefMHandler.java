@@ -22,6 +22,9 @@ package seg.jUCMNav.importexport.z151.marshal;
 //  </xsd:complexType>
 //Z151 has size, but not from jUCMNav
 import java.math.BigInteger;
+import java.util.List;
+
+import org.eclipse.emf.common.util.EList;
 
 import seg.jUCMNav.importexport.z151.generated.*;
 
@@ -45,7 +48,7 @@ public class ComponentRefMHandler extends UCMmodelElementMHandler {
 			sizeZ.setHeight(new BigInteger(Integer.toString(elem.getHeight())));
 			sizeZ.setWidth(new BigInteger(Integer.toString(elem.getWidth())));
 			elemZ.setSize(sizeZ);
-			//parent
+			// parent
 			elemZ.setParent(process((ucm.map.ComponentRef) elem.getParent(), null, false));
 
 			// label
@@ -55,7 +58,7 @@ public class ComponentRefMHandler extends UCMmodelElementMHandler {
 				labelZ.setDeltaY(new BigInteger(Integer.toString(elem.getLabel().getDeltaY())));
 				elemZ.setLabel(labelZ);
 			}
-			//pos
+			// pos
 			Position positionZ = of.createPosition();
 			positionZ.setX(new BigInteger(Integer.toString(elem.getX())));
 			positionZ.setY(new BigInteger(Integer.toString(elem.getY())));
@@ -64,8 +67,8 @@ public class ComponentRefMHandler extends UCMmodelElementMHandler {
 			// elemZ.setDesc();
 			// elemZ.setConcern();
 			// elemZ.setName();
-			
-			//nodes
+
+			// nodes
 			processList(elem.getNodes(), elemZ.getNodes(), "createComponentRefNodes", false);
 			// parentBindings
 			processList(elem.getParentBindings(), elemZ.getParentBindings(), "createComponentRefParentBindings", false);
@@ -73,9 +76,9 @@ public class ComponentRefMHandler extends UCMmodelElementMHandler {
 			processList(elem.getPluginBindings(), elemZ.getPluginBindings(), "createComponentRefPluginBindings", false);
 			// elemZ.getCompDef();
 			// elemZ.getParent();
-			//TODO  elemZ.getSize();
+			// TODO elemZ.getSize();
 			// elemZ.getLabel();
-			//children
+			// children
 			processList(elem.getChildren(), elemZ.getChildren(), "createComponentRefChildren", false);
 			// elemZ.getPos();
 			// elemZ.getMetadata();
@@ -86,6 +89,33 @@ public class ComponentRefMHandler extends UCMmodelElementMHandler {
 			// elemZ.getId();
 			// elemZ.getDesc();
 			// elemZ.getClass();
+
+			List<Metadata> list = elemZ.getMetadata();
+			int item = elem.getReplicationFactor();
+			Metadata mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav ComponentRef replicationFactor");
+			mdZ.setValue(Integer.toString(item));
+			list.add(mdZ);
+
+			String role = elem.getRole();
+			if (role != null) {
+				mdZ = of.createMetadata();
+				mdZ.setName("jUCMNav ComponentRef role");
+				mdZ.setValue(role);
+				list.add(mdZ);
+			}
+
+			boolean anchored = elem.isAnchored();
+			mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav ComponentRef anchored");
+			mdZ.setValue(Boolean.toString(anchored));
+			list.add(mdZ);
+			
+			boolean fixed = elem.isFixed();
+			mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav ComponentRef fixed");
+			mdZ.setValue(Boolean.toString(fixed));
+			list.add(mdZ);
 		}
 		return elemZ;
 	}

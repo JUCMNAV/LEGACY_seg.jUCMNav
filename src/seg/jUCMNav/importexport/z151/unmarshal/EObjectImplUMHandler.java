@@ -369,5 +369,13 @@ public abstract class EObjectImplUMHandler {
 	protected EObjectImplUMHandler getHandler(Object obj) {
 		return ourClass2Conv.get(obj.getClass());
 	}
-
+	
+	protected Object getObjectFromId(String id, Class type){
+		Object obj = this.id2object.get(id);
+		if (obj == null){
+			obj = ModelCreationFactory.getNewObject(urn, type);
+			this.id2object.put(id, obj);
+		}
+		return obj;
+	}
 }

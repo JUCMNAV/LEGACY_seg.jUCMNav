@@ -37,7 +37,7 @@ public class IntentionalElementRefUMHandler extends GRLNodeUMHandler {
 			if (isFullConstruction) {
 				List<Metadata> metaDataList = elemZ.getMetadata();
 				for(Metadata item: metaDataList){
-					if (item.getName().equals("author")){
+					if (item.getName().equals("jUCMNav Belief author")){
 						elem.setAuthor(item.getValue());
 						metaDataList.remove(item);
 						break;

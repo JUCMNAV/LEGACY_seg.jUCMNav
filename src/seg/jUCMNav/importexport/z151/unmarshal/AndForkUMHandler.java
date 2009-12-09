@@ -29,7 +29,7 @@ public class AndForkUMHandler extends PathNodeUMHandler {
 				elem = (ucm.map.AndFork) target;
 			id2object.put(objId, elem);
 		}
-		if (isFullConstruction) {
+		if (isFullConstruction) {			
 			elem = (ucm.map.AndFork) super.handle(elemZ, elem, true);
 			elem.setOrientation(null); //ORIENTATION_EDEFAULT
 			// elem.setX();

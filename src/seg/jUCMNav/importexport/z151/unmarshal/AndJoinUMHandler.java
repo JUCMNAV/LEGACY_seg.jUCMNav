@@ -29,9 +29,9 @@ public class AndJoinUMHandler extends PathNodeUMHandler {
 				elem = (ucm.map.AndJoin) target;
 			id2object.put(objId, elem);
 		}
-		if (isFullConstruction) {
+		if (isFullConstruction) {			
 			elem = (ucm.map.AndJoin) super.handle(elemZ, elem, true);
-			elem.setOrientation(null);
+			elem.setOrientation(null); //ORIENTATION_EDEFAULT
 			// elem.setX();
 			// elem.setY();
 			// elem.setDiagram();

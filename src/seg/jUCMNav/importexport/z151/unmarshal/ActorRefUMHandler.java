@@ -17,6 +17,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -37,15 +39,31 @@ public class ActorRefUMHandler extends GRLmodelElementUMHandler {
 			id2object.put(objId, elem);
 		}
 		if (isFullConstruction) {
+			List<Metadata> metaDataList = elemZ.getMetadata();
+			List<Metadata> removeList = new ArrayList <Metadata> ();
+			for(Metadata item: metaDataList){
+				if (item.getName().equals("jUCMNav ActorRef children")){
+					grl.ActorRef actorRef = (grl.ActorRef) getObjectFromId(item.getValue(),grl.ActorRef.class);
+					if (!elem.getChildren().contains(actorRef)){
+						elem.getChildren().add(actorRef);
+					}
+					removeList.add(item);
+				}
+				if (item.getName().equals("jUCMNav ActorRef parent")){
+					grl.ActorRef actorRef = (grl.ActorRef) getObjectFromId(item.getValue(),grl.ActorRef.class);
+					elem.setParent(actorRef);
+					removeList.add(item);
+				}
+			}
+			metaDataList.removeAll(removeList);
+			
 			elem = (grl.ActorRef) super.handle(elemZ, elem, true);
 			elem.setX(elemZ.getPos().getX().intValue());
 			elem.setY(elemZ.getPos().getY().intValue());
 			elem.setHeight(elemZ.getSize().getHeight().intValue());
 			elem.setFixed(false);
 			// elem.setDiagram(); //Handled in GRLGraphUMHandler
-			elem.setContDef((grl.Actor) process(elemZ.getActorDef(), null, false)); // not
-																					// certain
-			// TODO elem.setParent();
+			elem.setContDef((grl.Actor) process(elemZ.getActorDef(), null, false));
 			elem.setWidth(elemZ.getSize().getWidth().intValue());
 			urncore.ComponentLabel componentLabel = (urncore.ComponentLabel) ModelCreationFactory.getNewObject(urn, urncore.ComponentLabel.class);
 			componentLabel.setDeltaX(elemZ.getLabel().getDeltaX().intValue());
@@ -65,7 +83,6 @@ public class ActorRefUMHandler extends GRLmodelElementUMHandler {
 			// elem.getHeight();
 			// elem.getWidth();
 			// elem.getLabel();
-			// TODO processList(elem.getChildren());
 			// elem.getFromLinks();
 			// elem.getToLinks();
 			// elem.getMetadata();

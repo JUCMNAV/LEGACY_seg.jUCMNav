@@ -86,6 +86,12 @@ public class ComponentMHandler extends UCMmodelElementMHandler {
 			// elemZ.getId();
 			// elemZ.getDesc();
 			// elemZ.getClass();
+			
+			boolean slot = elem.isSlot();
+			Metadata mdZ = of.createMetadata();
+			mdZ.setName("jUCMNav Component slot");
+			mdZ.setValue(Boolean.toString(slot));
+			elemZ.getMetadata().add(mdZ);
 		}
 		return elemZ;
 	}
