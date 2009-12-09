@@ -58,8 +58,7 @@ public class NodeConnectionMHandler extends MHandler {
 			elemZ.setProbability(new BigInteger(Integer.toString((int) (elem.getProbability() * 100))));
 
 			// elemZ.setTimer(); handled by TimerMHandler
-
-			// TODO elemZ.setThreshold();
+			elemZ.setThreshold(elem.getThreshold());
 			//source
 			elemZ.setSource(process(elem.getSource(), null, false));
 			//label

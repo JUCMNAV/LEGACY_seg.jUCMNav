@@ -83,8 +83,6 @@ public class BeliefMHandler extends GRLLinkableElementMHandler {
 			csZ.setLineColor("0,0,0");
 			csZ.setFilled(false);
 			intentionalElement.setStyle(csZ);
-			// elemZ.setActor() //handled by ActorMHandler. jUCMNav doesn't have
-			// this relation.
 			
 			ieRef.setId(elem.getId());
 			ieRef.setName(elem.getName()); 
@@ -113,7 +111,7 @@ public class BeliefMHandler extends GRLLinkableElementMHandler {
 			
 			// Save Author information to metadata
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("author");
+			mdZ.setName("jUCMNav Belief author");
 			mdZ.setValue(elem.getAuthor());
 			ieRef.getMetadata().add(mdZ);
 			

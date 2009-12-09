@@ -3,9 +3,7 @@ package seg.jUCMNav.importexport.z151.marshal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBElement;
-
 import org.eclipse.emf.common.util.EList;
-
 import seg.jUCMNav.importexport.z151.generated.*;
 import urncore.IURNContainer;
 import urncore.URNmodelElement;
@@ -52,7 +50,7 @@ public class ActorMHandler extends GRLLinkableElementMHandler {
 			// contRefs in jUCMNav = ActorRef in Z151
 			processList(elem.getContRefs(), elemZ.getActorRefs(), "createActorActorRefs", false);
 
-			//elems MISSING IN jUCMNav
+			// elems MISSING IN jUCMNav
 			// elems
 			EList actorRefs = elem.getContRefs();
 			for (Object actorRef : elem.getContRefs()) {
@@ -60,8 +58,8 @@ public class ActorMHandler extends GRLLinkableElementMHandler {
 					if (grlNode instanceof grl.IntentionalElementRef) {
 						IntentionalElement intElem = (IntentionalElement) process(((grl.IntentionalElementRef) grlNode).getDef(), null, false);
 						intElem.setActor(elemZ); // handling
-													// IntentionalElementMHandler
-													// elemZ.setActor
+						// IntentionalElementMHandler
+						// elemZ.setActor
 						JAXBElement<Object> javbIntElem = of.createActorElems(intElem);
 						if (!elemZ.getElems().contains(javbIntElem))
 							elemZ.getElems().add(javbIntElem);
@@ -82,7 +80,7 @@ public class ActorMHandler extends GRLLinkableElementMHandler {
 			ConcreteStyle csZ = of.createConcreteStyle();
 			if (null == elem.getFillColor())
 				csZ.setFillColor("255,255,255"); // set to default "white", when
-													// null
+			// null
 			else
 				csZ.setFillColor(elem.getFillColor());
 			if (null == elem.getLineColor())
@@ -91,6 +89,25 @@ public class ActorMHandler extends GRLLinkableElementMHandler {
 				csZ.setLineColor(elem.getLineColor());
 			csZ.setFilled(elem.isFilled());
 			elemZ.setStyle(csZ);
+
+			EList list = elem.getIncludedActors();
+			if (list != null && list.size() > 0) {
+				for (Object item : list) {
+					((grl.Actor) item).getId();
+					Metadata mdZ = of.createMetadata();
+					mdZ.setName("jUCMNav Actor includedActors");
+					mdZ.setValue(((grl.Actor) item).getId());
+					elemZ.getMetadata().add(mdZ);
+				}
+			}
+			grl.Actor item = elem.getIncludingActor();
+			if (item != null) {
+				Metadata mdZ = of.createMetadata();
+				mdZ.setName("jUCMNav Actor includingActor");
+				mdZ.setValue(item.getId());
+				elemZ.getMetadata().add(mdZ);
+			}
+
 		}
 		return elemZ;
 	}

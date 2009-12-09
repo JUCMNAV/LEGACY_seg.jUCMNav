@@ -54,7 +54,7 @@ public class EvaluationStrategyMHandler extends GRLmodelElementMHandler {
 
 			// Save Author information to metadata
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("author");
+			mdZ.setName("jUCMNav EvaluationStrategy author");
 			mdZ.setValue(elem.getAuthor());
 			elemZ.getMetadata().add(mdZ);
 			// jUCMNav has elem.setGrlspec(value)

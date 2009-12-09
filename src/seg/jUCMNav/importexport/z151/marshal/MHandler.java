@@ -17,72 +17,6 @@ public abstract class MHandler {
     protected static Map<String,Object> id2object = new HashMap<String,Object>();
     	
     static {
-//    	ourClass2Conv.put( ucm.performance.impl.ActiveResourceImpl.class, new ActiveResourceMHandler());
-//    	ourClass2Conv.put( grl.Actor.class, new ActorMHandler());
-//    	ourClass2Conv.put( grl.ActorRef.class, new ActorRefMHandler());
-//    	ourClass2Conv.put( ucm.map.AndFork.class, new AndForkMHandler());
-//    	ourClass2Conv.put( ucm.map.AndJoin.class, new AndJoinMHandler());
-//    	ourClass2Conv.put( grl.CollapsedActorRef.class, new CollapsedActorRefMHandler());
-//    	ourClass2Conv.put( urncore.Comment.class, new CommentMHandler());
-//    	ourClass2Conv.put( ucm.map.ComponentBinding.class, new ComponentBindingMHandler());
-//    	ourClass2Conv.put( urncore.Component.class, new ComponentMHandler());
-//    	ourClass2Conv.put( ucm.map.ComponentRef.class, new ComponentRefMHandler());
-//    	ourClass2Conv.put( urncore.ComponentType.class, new ComponentTypeMHandler());
-//    	ourClass2Conv.put( urncore.Concern.class, new ConcernMHandler());
-//    	ourClass2Conv.put( urncore.Condition.class, new ConditionMHandler());
-//    	ourClass2Conv.put( ucm.map.Connect.class, new ConnectMHandler());
-//    	ourClass2Conv.put( grl.Contribution.class, new ContributionMHandler());
-//    	ourClass2Conv.put( grl.Decomposition.class, new DecompositionMHandler());
-//    	ourClass2Conv.put( ucm.performance.Demand.class, new DemandMHandler());
-//    	ourClass2Conv.put( grl.Dependency.class, new DependencyMHandler());
-//    	ourClass2Conv.put( ucm.map.DirectionArrow.class, new DirectionArrowMHandler());
-//    	ourClass2Conv.put( grl.ElementLink.class, new ElementLinkMHandler());
-//    	ourClass2Conv.put( ucm.map.EmptyPoint.class, new EmptyPointMHandler());
-//    	ourClass2Conv.put( ucm.map.EndPoint.class, new EndPointMHandler());
-//    	ourClass2Conv.put( ucm.scenario.EnumerationType.class, new EnumerationTypeMHandler());
-//    	ourClass2Conv.put( grl.Evaluation.class, new EvaluationMHandler());
-//    	ourClass2Conv.put( grl.EvaluationStrategy.class, new EvaluationStrategyMHandler());
-//    	ourClass2Conv.put( ucm.performance.ExternalOperation.class, new ExternalOperationMHandler());
-//    	ourClass2Conv.put( ucm.performance.GeneralResource.class, new GeneralResourceMHandler());
-//    	ourClass2Conv.put( grl.GRLGraph.class, new GRLGraphMHandler());
-//    	ourClass2Conv.put( grl.GRLLinkableElement.class, new GRLLinkableElementMHandler());
-//    	//ourClass2Conv.put( grl.GRLmodelElement.class, new GRLmodelElementMHandler());**
-//    	//ourClass2Conv.put( grl.GRLNode.class, new GRLNodeMHandler());**
-//    	ourClass2Conv.put( grl.GRLspec.class, new GRLspecMHandler());
-//    	ourClass2Conv.put( ucm.map.InBinding.class, new InBindingMHandler());
-//    	ourClass2Conv.put( ucm.scenario.Initialization.class, new InitializationMHandler());
-//    	ourClass2Conv.put( grl.IntentionalElement.class, new IntentionalElementMHandler());
-//    	ourClass2Conv.put( grl.IntentionalElementRef.class, new IntentionalElementRefMHandler());
-//    	//ourClass2Conv.put( IURNConnection.class, new IURNConnectionMHandler());**
-//    	ourClass2Conv.put( grl.LinkRefBendpoint.class, new LinkRefBendpointMHandler());
-//    	ourClass2Conv.put( grl.LinkRef.class, new LinkRefMHandler());
-//    	ourClass2Conv.put( urncore.Metadata.class, new MetadataMHandler());
-//    	ourClass2Conv.put( ucm.map.NodeConnection.class, new NodeConnectionMHandler());
-//    	ourClass2Conv.put( ucm.map.OrFork.class, new OrForkMHandler());
-//    	ourClass2Conv.put( ucm.map.OrJoin.class, new OrJoinMHandler());
-//    	ourClass2Conv.put( ucm.map.OutBinding.class, new OutBindingMHandler());
-//    	ourClass2Conv.put( ucm.performance.PassiveResource.class, new PassiveResourceMHandler());
-//    	ourClass2Conv.put( ucm.map.PathNode.class, new PathNodeMHandler());
-//    	ourClass2Conv.put( ucm.map.PluginBinding.class, new PluginBindingMHandler());
-//    	ourClass2Conv.put( ucm.performance.ProcessingResource.class, new ProcessingResourceMHandler());
-//    	ourClass2Conv.put( urncore.Responsibility.class, new ResponsibilityMHandler());
-//    	ourClass2Conv.put( ucm.map.RespRef.class, new RespRefMHandler());
-//    	ourClass2Conv.put( ucm.scenario.ScenarioDef.class, new ScenarioDefMHandler());
-//    	ourClass2Conv.put( ucm.scenario.ScenarioGroup.class, new ScenarioGroupMHandler());
-//    	ourClass2Conv.put( ucm.map.StartPoint.class, new StartPointMHandler());
-//    	ourClass2Conv.put( grl.StrategiesGroup.class, new StrategiesGroupMHandler());
-//    	ourClass2Conv.put( ucm.map.Stub.class, new StubMHandler());
-//    	ourClass2Conv.put( ucm.map.Timer.class, new TimerMHandler());
-//    	ourClass2Conv.put( ucm.map.UCMmap.class, new UCMmapMHandler());
-//    	//ourClass2Conv.put( urncore.UCMmodelElement.class, new UCMmodelElementMHandler()); **
-//    	ourClass2Conv.put( ucm.UCMspec.class, new UCMspecMHandler());
-//    	ourClass2Conv.put( urn.URNlink.class, new URNlinkMHandler());
-//    	//ourClass2Conv.put( urncore.URNmodelElement.class, new URNmodelElementMHandler());**
-//    	ourClass2Conv.put( urn.URNspec.class, new URNspecMHandler());
-//    	ourClass2Conv.put( ucm.scenario.Variable.class, new VariableMHandler());
-//    	ourClass2Conv.put( ucm.map.WaitingPlace.class, new WaitingPlaceMHandler());
-//    	ourClass2Conv.put( ucm.performance.Workload.class, new WorkloadMHandler());
-
     	ourClass2Conv.put( grl.impl.BeliefImpl.class, new BeliefMHandler());
     	ourClass2Conv.put( grl.impl.BeliefLinkImpl.class, new BeliefLinkMHandler());
     	
@@ -216,7 +150,6 @@ public abstract class MHandler {
 					System.err.println(obj.getClass().getName()+" Exception");
 					e.printStackTrace();
 				}
-                //return h.handle( obj, target, isFullConstruction);
             }else{
             	System.err.println(obj.getClass().getName()+" MHandler is UNDEFINED!");
             }

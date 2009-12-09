@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
+
+import org.eclipse.emf.common.util.EList;
+
 import seg.jUCMNav.importexport.z151.generated.*;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -34,9 +37,9 @@ public class ActorRefMHandler extends GRLmodelElementMHandler {
 		String objId = elem.getId();
 		ActorRef elemZ = (ActorRef) id2object.get(objId);
 		if (null == elemZ) {
-			if (null == target){
+			if (null == target) {
 				elemZ = of.createActorRef();
-			}else
+			} else
 				elemZ = (ActorRef) target;
 			id2object.put(objId, elemZ);
 		}
@@ -68,6 +71,24 @@ public class ActorRefMHandler extends GRLmodelElementMHandler {
 			sZ.setHeight(new BigInteger(Integer.toString(elem.getHeight())));
 			sZ.setWidth((new BigInteger(Integer.toString(elem.getWidth()))));
 			elemZ.setSize(sZ);
+
+			EList list = elem.getChildren();
+			if (list != null && list.size() > 0) {
+				for (Object item : list) {
+					((grl.ActorRef) item).getId();
+					Metadata mdZ = of.createMetadata();
+					mdZ.setName("jUCMNav ActorRef children");
+					mdZ.setValue(((grl.ActorRef) item).getId());
+					elemZ.getMetadata().add(mdZ);
+				}
+			}
+			grl.ActorRef item = (grl.ActorRef) elem.getParent();
+			if (item != null) {
+				Metadata mdZ = of.createMetadata();
+				mdZ.setName("jUCMNav ActorRef parent");
+				mdZ.setValue(item.getId());
+				elemZ.getMetadata().add(mdZ);
+			}
 		}
 		return elemZ;
 	}
