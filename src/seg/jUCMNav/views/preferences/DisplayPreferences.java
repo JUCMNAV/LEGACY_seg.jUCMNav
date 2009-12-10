@@ -66,7 +66,7 @@ public class DisplayPreferences {
     public static final String SORT_ID = "SORTID"; //$NON-NLS-1$
     public static final String SORT_NAME = "SORTNAME"; //$NON-NLS-1$
     
-    public Vector advancedActions = new Vector();
+    public Vector<String> advancedActions = new Vector<String>();
 
     /**
      * Sets the default values in the preference store.
@@ -97,13 +97,13 @@ public class DisplayPreferences {
 
     private boolean globalFilterEnabled;
 
-    private List listenerViews;
+    private List<JUCMNavRefreshableView> listenerViews;
 
     /**
      * Constructor
      */
     private DisplayPreferences() {
-        listenerViews = new ArrayList();
+        listenerViews = new ArrayList<JUCMNavRefreshableView>();
         setGlobalFilterEnabled(false);
         
         advancedActions.add(ManageConcernsAction.MANAGECONCERNS);
@@ -122,6 +122,7 @@ public class DisplayPreferences {
                         showView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
                         showView(page, IPageLayout.ID_PROP_SHEET);
                         showView(page, "seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
+                        
                         addKpi(page);
                         refreshOutline(page);
                     } else {
@@ -137,7 +138,7 @@ public class DisplayPreferences {
     }
     
     private void refreshOutline(IWorkbenchPage page) {
-        Vector ref = getEditors(page, "seg.jUCMNav.MainEditor"); //$NON-NLS-1$
+        Vector<IEditorPart> ref = getEditors(page, "seg.jUCMNav.MainEditor"); //$NON-NLS-1$
 
         if(ref.size() > 0) {
             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) ref.get(0);
@@ -155,9 +156,9 @@ public class DisplayPreferences {
      * @param page
      */
     private void addKpi(IWorkbenchPage page) {
-        Vector pal = getGrlPalettes(page);
-        for (Iterator iterator = pal.iterator(); iterator.hasNext();) {
-            GrlPaletteRoot palette = (GrlPaletteRoot) iterator.next();
+        Vector<GrlPaletteRoot> pal = getGrlPalettes(page);
+        for (Iterator<GrlPaletteRoot> iterator = pal.iterator(); iterator.hasNext();) {
+            GrlPaletteRoot palette = iterator.next();
             palette.addKpi();
         }
     }
@@ -168,9 +169,9 @@ public class DisplayPreferences {
      * @param page
      */
     private void removeKpi(IWorkbenchPage page) {
-        Vector pal = getGrlPalettes(page);
-        for (Iterator iterator = pal.iterator(); iterator.hasNext();) {
-            GrlPaletteRoot palette = (GrlPaletteRoot) iterator.next();
+        Vector<GrlPaletteRoot> pal = getGrlPalettes(page);
+        for (Iterator<GrlPaletteRoot> iterator = pal.iterator(); iterator.hasNext();) {
+            GrlPaletteRoot palette = iterator.next();
             palette.removeKpi();
         }
     }
@@ -181,12 +182,12 @@ public class DisplayPreferences {
      * @param page
      * @return
      */
-    private Vector getGrlPalettes(IWorkbenchPage page) {
-        Vector result = new Vector();
+    private Vector<GrlPaletteRoot> getGrlPalettes(IWorkbenchPage page) {
+        Vector<GrlPaletteRoot> result = new Vector<GrlPaletteRoot>();
 
-        Vector ref = getEditors(page, "seg.jUCMNav.MainEditor"); //$NON-NLS-1$
+        Vector<IEditorPart> ref = getEditors(page, "seg.jUCMNav.MainEditor"); //$NON-NLS-1$
 
-        for (Iterator it = ref.iterator(); it.hasNext();) {
+        for (Iterator<IEditorPart> it = ref.iterator(); it.hasNext();) {
             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) it.next();
 
             if (editor != null) {
@@ -252,8 +253,8 @@ public class DisplayPreferences {
      * @param name
      * @return
      */
-    private Vector getEditors(IWorkbenchPage page, String name) {
-        Vector result = new Vector();
+    private Vector<IEditorPart> getEditors(IWorkbenchPage page, String name) {
+        Vector<IEditorPart> result = new Vector<IEditorPart>();
 
         for (int i = 0; i < page.getEditorReferences().length; i++) {
             IWorkbenchPartReference ref = page.getEditorReferences()[i];
@@ -364,8 +365,8 @@ public class DisplayPreferences {
     }
 
     public void refreshViews() {
-        for (Iterator it = listenerViews.iterator(); it.hasNext();) {
-            JUCMNavRefreshableView currentView = (JUCMNavRefreshableView) it.next();
+        for (Iterator<JUCMNavRefreshableView> it = listenerViews.iterator(); it.hasNext();) {
+            JUCMNavRefreshableView currentView = it.next();
             currentView.refreshView();
         }
     }
