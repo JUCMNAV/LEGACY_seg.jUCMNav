@@ -620,7 +620,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         if (getViewer().getContents() instanceof OutlineRootEditPart) {
             OutlineRootEditPart outlineRootEditPart = (OutlineRootEditPart) getViewer().getContents();
             // causes various exceptions otherwise.
-            if (outlineRootEditPart.getWidget() != null) {
+            if (outlineRootEditPart.getWidget() != null && !outlineRootEditPart.getWidget().isDisposed()) {
                 getViewer().setContents(getViewer().getContents());
                 concernsViewer.setContents(concernsViewer.getContents());
                 definitionsViewer.setContents(definitionsViewer.getContents());
