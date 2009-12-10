@@ -1,5 +1,6 @@
 package seg.jUCMNav.scenarios;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -10,7 +11,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
@@ -181,7 +184,25 @@ public class SyntaxChecker {
         verifyPluginBindingSyntax(urn, errors);
         verifyMapConditions(urn, errors);
         verifyScenarioPrePostConditions(urn, errors);
+        if (JUCMNavPlugin.isInDebug())
+            verifyUniqueIDs(urn, errors);
         return errors;
+
+    }
+
+    public static void verifyUniqueIDs(URNspec urn, Vector errors) {
+        UrnModelManager manager = new UrnModelManager();
+        try {
+            Vector duplicates = manager.getDuplicateIDs(urn);
+
+            for (Iterator iterator = duplicates.iterator(); iterator.hasNext();) {
+                URNmodelElement o = (URNmodelElement) iterator.next();
+                errors.add(new TraversalWarning("Element has a duplicate ID: " + o.getId(), o, IMarker.SEVERITY_ERROR));
+
+            }
+        } catch (IOException ex) {
+            errors.add(new TraversalWarning("Unable to check for duplicates IDs." + ex.getMessage(), IMarker.SEVERITY_ERROR));
+        }
 
     }
 

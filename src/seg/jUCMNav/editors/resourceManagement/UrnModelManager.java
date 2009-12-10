@@ -1,10 +1,16 @@
 package seg.jUCMNav.editors.resourceManagement;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -12,6 +18,7 @@ import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.URNReferencerChecker;
 import ucm.map.impl.MapPackageImpl;
 import urn.URNspec;
+import urncore.URNmodelElement;
 
 /**
  * This class is used to load and save the {@link URNspec} model from the file system.
@@ -105,6 +112,7 @@ public class UrnModelManager extends EmfModelManager {
                     model = (URNspec) o;
             }
 
+            if (model == null)return null;
             // clean the loaded file to make sure its semantics are valid.
             URNNamingHelper.sanitizeURNspec((URNspec) model);
             URNReferencerChecker.sanitizeReferences((URNspec) model);
@@ -118,7 +126,34 @@ public class UrnModelManager extends EmfModelManager {
     protected void init() {
         // Initialize the ucm package
         MapPackageImpl.init();
+    }
+    
+    public Vector getDuplicateIDs(URNspec model) throws IOException
+    {
+        File temp = File.createTempFile("jucmnav", "tmp");
+        // if we don't clone, it makes it point to the new resource and empties the old one. 
+        createURNspec(temp, (URNspec) EcoreUtil.copy(model));
+        
+        Vector errors = new Vector();
+        HashMap hm = new HashMap(); 
+        
+        TreeIterator<EObject> it = resource.getAllContents();
+        while (it.hasNext()) {
+            EObject o = it.next();
+            if (o instanceof URNmodelElement)
+            {
+                Integer key = new Integer(((URNmodelElement) o).getId());
+                if (!hm.containsKey(key))
+                    hm.put(key, o);
+                else
+                {
+                    errors.add(o);
+                }
+            }
+        }
 
+        temp.delete();
+        return errors;
     }
 
 }

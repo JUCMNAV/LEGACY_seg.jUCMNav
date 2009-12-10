@@ -3,18 +3,14 @@ package seg.jUCMNav.model.util;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
-import grl.ElementLink;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
-import grl.StrategiesGroup;
-import grl.kpimodel.IndicatorGroup;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIInformationElementRef;
-import grl.kpimodel.KPIModelLink;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -203,6 +199,8 @@ public class URNNamingHelper {
         HashMap htVariableNames = new HashMap();
         HashMap htActorNames = new HashMap();
         HashMap htIntElementNames = new HashMap();
+        HashMap htKpiInfoElementNames = new HashMap();
+        // HashMap htContributionElementNames = new HashMap();
 
         Vector IDConflicts = new Vector();
         Vector CompNameConflicts = new Vector();
@@ -210,6 +208,8 @@ public class URNNamingHelper {
         Vector VariableNameConflicts = new Vector();
         Vector ActorNameConflicts = new Vector();
         Vector IntElementNameConflicts = new Vector();
+        Vector KpiInfoElementNameConflicts = new Vector();
+        // Vector ContributionNameConflicts = new Vector();
 
         // make sure that we have a legal Long as our proposedTopID
         if (proposedTopID == null || proposedTopID.length() == 0 || !isValidID(proposedTopID)) {
@@ -256,11 +256,13 @@ public class URNNamingHelper {
         sanitizeUCMspec(urn, htIDs, IDConflicts, htVariableNames, VariableNameConflicts);
 
         // make sure all nodes and actorref have unique ids
-        sanitizeGRLspec(urn, htIDs, IDConflicts, htActorNames, ActorNameConflicts, htIntElementNames, IntElementNameConflicts);
+        sanitizeGRLspec(urn, htIDs, IDConflicts, htActorNames, ActorNameConflicts, htIntElementNames, IntElementNameConflicts, htKpiInfoElementNames,
+                KpiInfoElementNameConflicts);
 
         // now that we have found our conflicts, clean them up.
-        resolveConflicts(urn, htIDs, htComponentNames, htResponsibilityNames, htVariableNames, htActorNames, htIntElementNames, IDConflicts, CompNameConflicts,
-                RespNameConflicts, VariableNameConflicts, ActorNameConflicts, IntElementNameConflicts);
+        resolveConflicts(urn, htIDs, htComponentNames, htResponsibilityNames, htVariableNames, htActorNames, htIntElementNames, htKpiInfoElementNames,
+                IDConflicts, CompNameConflicts, RespNameConflicts, VariableNameConflicts, ActorNameConflicts, IntElementNameConflicts,
+                KpiInfoElementNameConflicts);
     }
 
     /**
@@ -274,7 +276,7 @@ public class URNNamingHelper {
      *            The vector of conflictual elements. Add problems here.
      */
     private static void sanitizeGRLspec(URNspec urn, HashMap htIDs, Vector IDConflicts, HashMap htActorNames, Vector ActorNameConflicts,
-            HashMap htIntElementNames, Vector IntElementNameConflicts) {
+            HashMap htIntElementNames, Vector IntElementNameConflicts, HashMap htKpiInfoElementNames, Vector KpiInfoElementNameConflicts) {
         // we need a ucm specification
         if (urn.getGrlspec() == null) {
             // create a default one; no name required.
@@ -283,43 +285,52 @@ public class URNNamingHelper {
 
         // look at all actors
         for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
-            Actor comp = (Actor) iter.next();
-            if (!isNameAndIDSet(comp)) {
-                setElementNameAndID(urn, comp);
-            }
-
             // find name and id conflicts for actors
-            findConflicts(htIDs, htActorNames, IDConflicts, ActorNameConflicts, comp);
+            findConflicts(htIDs, htActorNames, IDConflicts, ActorNameConflicts, urn, (URNmodelElement)iter.next());
         }
 
+        // int elements
         for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
-            IntentionalElement comp = (IntentionalElement) iter.next();
-            if (!isNameAndIDSet(comp)) {
-                setElementNameAndID(urn, comp);
-            }
-
-            // find name and id conflicts for actors
-            findConflicts(htIDs, htIntElementNames, IDConflicts, IntElementNameConflicts, comp);
+            findConflicts(htIDs, htIntElementNames, IDConflicts, IntElementNameConflicts, urn, (URNmodelElement)iter.next());
         }
 
-        // look at all diagram
+        // kpi info elements
+        for (Iterator iter = urn.getGrlspec().getKpiInformationElements().iterator(); iter.hasNext();) {
+            // find name and id conflicts for actors
+            findConflicts(htIDs, htKpiInfoElementNames, IDConflicts, KpiInfoElementNameConflicts, urn, (URNmodelElement)iter.next());
+        }
+
+        // links
+        for (Iterator iter = urn.getGrlspec().getLinks().iterator(); iter.hasNext();) {
+            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement)iter.next());
+        }
+
+        // kpi model links.
+        for (Iterator iter = urn.getGrlspec().getKpiModelLinks().iterator(); iter.hasNext();) {
+            // don't care about their names.
+            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement)iter.next());
+        }
+
+        // look at all strategies
+        for (Iterator iterator = urn.getGrlspec().getStrategies().iterator(); iterator.hasNext();) {
+            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iterator.next());
+        }   
+        
+        // look at all diagrams
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
             IURNDiagram g = (IURNDiagram) iter.next();
             if (g instanceof GRLGraph) {
                 GRLGraph diagram = (GRLGraph) g;
-                if (!isNameAndIDSet(diagram)) {
-                    setElementNameAndID(urn, diagram);
-                }
-                findConflicts(htIDs, null, IDConflicts, null, diagram);
+                findConflicts(htIDs, null, IDConflicts, null, urn, diagram);
 
                 // look at all actorref
                 for (Iterator iterator = diagram.getContRefs().iterator(); iterator.hasNext();) {
-                    findConflicts(htIDs, null, IDConflicts, null, (URNmodelElement) iterator.next());
+                    findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iterator.next());
                 }
 
                 // look at all nodes
                 for (Iterator iterator = diagram.getNodes().iterator(); iterator.hasNext();) {
-                    findConflicts(htIDs, null, IDConflicts, null, (URNmodelElement) iterator.next());
+                    findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iterator.next());
                 }
             }
         }
@@ -349,32 +360,39 @@ public class URNNamingHelper {
 
         // look at all variables
         for (Iterator iterator = urn.getUcmspec().getVariables().iterator(); iterator.hasNext();) {
-            findConflicts(htIDs, htVariableNames, IDConflicts, VariableNameConflicts, (URNmodelElement) iterator.next());
+            findConflicts(htIDs, htVariableNames, IDConflicts, VariableNameConflicts, urn, (URNmodelElement) iterator.next());
         }
 
         // look at all resources
         for (Iterator iterator = urn.getUcmspec().getResources().iterator(); iterator.hasNext();) {
-            findConflicts(htIDs, null, IDConflicts, null, (URNmodelElement) iterator.next());
+            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iterator.next());
         }
+        
+        // look at all scenarios
+        for (Iterator iterator = urn.getUcmspec().getScenarioGroups().iterator(); iterator.hasNext();) {
+            ScenarioGroup g = (ScenarioGroup) iterator.next();
+            findConflicts(htIDs, null, IDConflicts, null, urn, g);
+            
+            for (Iterator iter = g.getScenarios().iterator(); iter.hasNext();) {
+                findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iter.next());
+            }   
+        }        
 
         // look at all maps
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
             IURNDiagram g = (IURNDiagram) iter.next();
             if (g instanceof UCMmap) {
                 UCMmap map = (UCMmap) g;
-                if (!isNameAndIDSet(map)) {
-                    setElementNameAndID(urn, map);
-                }
-                findConflicts(htIDs, null, IDConflicts, null, map);
+                findConflicts(htIDs, null, IDConflicts, null, urn, map);
 
                 // look at all componentrefs
                 for (Iterator iterator = map.getContRefs().iterator(); iterator.hasNext();) {
-                    findConflicts(htIDs, null, IDConflicts, null, (URNmodelElement) iterator.next());
+                    findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iterator.next());
                 }
 
                 // look at all pathnodes
                 for (Iterator iterator = map.getNodes().iterator(); iterator.hasNext();) {
-                    findConflicts(htIDs, null, IDConflicts, null, (UCMmodelElement) iterator.next());
+                    findConflicts(htIDs, null, IDConflicts, null, urn, (UCMmodelElement) iterator.next());
                 }
             }
         }
@@ -411,24 +429,19 @@ public class URNNamingHelper {
 
         // look at all components
         for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
-            Component comp = (Component) iter.next();
-            if (!isNameAndIDSet(comp)) {
-                setElementNameAndID(urn, comp);
-            }
-
             // find name and id conflicts for components
-            findConflicts(htIDs, htComponentNames, IDConflicts, CompNameConflicts, comp);
+            findConflicts(htIDs, htComponentNames, IDConflicts, CompNameConflicts, urn, (URNmodelElement)iter.next());
         }
 
         // look at all responsibilities
         for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
-            Responsibility resp = (Responsibility) iter.next();
-            if (!isNameAndIDSet(resp)) {
-                setElementNameAndID(urn, resp);
-            }
-
             // find name and id conflicts for responsibilities
-            findConflicts(htIDs, htResponsibilityNames, IDConflicts, RespNameConflicts, resp);
+            findConflicts(htIDs, htResponsibilityNames, IDConflicts, RespNameConflicts, urn, (URNmodelElement)iter.next());
+        }
+
+        for (Iterator iter = urn.getUrndef().getConcerns().iterator(); iter.hasNext();) {
+            // find name and id conflicts for responsibilities
+            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement)iter.next());
         }
     }
 
@@ -455,8 +468,9 @@ public class URNNamingHelper {
      *            a vector in which to store variable name conflicts.
      */
     private static void resolveConflicts(URNspec urn, HashMap htIDs, HashMap htComponentNames, HashMap htResponsibilityNames, HashMap htVariableNames,
-            HashMap htActorNames, HashMap htIntElementNames, Vector IDConflicts, Vector CompNameConflicts, Vector RespNameConflicts, Vector VariableNameConflicts,
-            Vector ActorNameConflicts, Vector IntElementNameConflicts) {
+            HashMap htActorNames, HashMap htIntElementNames, HashMap htKpiInfoElementNames, Vector IDConflicts, Vector CompNameConflicts,
+            Vector RespNameConflicts, Vector VariableNameConflicts, Vector ActorNameConflicts, Vector IntElementNameConflicts,
+            Vector KpiInfoElementNameConflicts) {
 
         resolveIDConflicts(urn, htIDs, IDConflicts);
 
@@ -467,8 +481,10 @@ public class URNNamingHelper {
         resolveNamingConflicts(urn, htVariableNames, VariableNameConflicts);
 
         resolveNamingConflicts(urn, htActorNames, ActorNameConflicts);
-        
+
         resolveNamingConflicts(urn, htIntElementNames, IntElementNameConflicts);
+
+        resolveNamingConflicts(urn, htKpiInfoElementNames, KpiInfoElementNameConflicts);
     }
 
     /**
@@ -483,6 +499,25 @@ public class URNNamingHelper {
      */
     private static void resolveIDConflicts(URNspec urn, HashMap htIDs, Vector IDConflicts) {
         String proposedTopID;
+        // sort the ids to get the highest one.
+        ArrayList ids = new ArrayList(htIDs.keySet());
+        Collections.sort(ids, new LongAsStringComparator());
+
+        // because of our calls to isValidID, should be convertible to a Long
+        // the proposedTopID is the minimal legal value.
+
+        if (ids.size() > 0) {
+            proposedTopID = Long.toString(Long.parseLong((String) ids.get(ids.size() - 1)) + 1);
+
+            // update the ID if necessary
+            if (!urn.getNextGlobalID().equals(proposedTopID)) {
+                // don't lower the top id; simply increment it if changes
+                // occured.
+                if (Long.parseLong(proposedTopID) > Long.parseLong(urn.getNextGlobalID()))
+                    urn.setNextGlobalID(proposedTopID);
+            }
+        }
+
         while (IDConflicts.size() > 0) {
             URNmodelElement elem = (URNmodelElement) IDConflicts.get(0);
 
@@ -507,24 +542,6 @@ public class URNNamingHelper {
             IDConflicts.remove(0);
         }
 
-        // sort the ids to get the highest one.
-        ArrayList ids = new ArrayList(htIDs.keySet());
-        Collections.sort(ids, new LongAsStringComparator());
-
-        // because of our calls to isValidID, should be convertible to a Long
-        // the proposedTopID is the minimal legal value.
-
-        if (ids.size() > 0) {
-            proposedTopID = Long.toString(Long.parseLong((String) ids.get(ids.size() - 1)) + 1);
-
-            // update the ID if necessary
-            if (!urn.getNextGlobalID().equals(proposedTopID)) {
-                // don't lower the top id; simply increment it if changes
-                // occured.
-                if (Long.parseLong(proposedTopID) > Long.parseLong(urn.getNextGlobalID()))
-                    urn.setNextGlobalID(proposedTopID);
-            }
-        }
     }
 
     /**
@@ -579,8 +596,15 @@ public class URNNamingHelper {
      * @param elem
      *            the element to check
      */
-    private static void findConflicts(HashMap htIDs, HashMap htNames, Vector idConflicts, Vector nameConflicts, URNmodelElement elem) {
-
+    private static void findConflicts(HashMap htIDs, HashMap htNames, Vector idConflicts, Vector nameConflicts, URNspec urn, URNmodelElement elem) {
+        
+        if (urn!=null)
+        {
+            if (!isNameAndIDSet(elem)) {
+                setElementNameAndID(urn, elem);
+            }
+        }
+        
         if (htIDs != null && idConflicts != null) {
             // do we have an id conflict or a non numeric one?
             if (htIDs.containsKey(elem.getId()) || !isValidID(elem.getId())) {
@@ -619,9 +643,7 @@ public class URNNamingHelper {
         // Generics would help minimize the code for the rest; we could use EMF
         // to determine of the name and id attributes exist but decided to go
         // for legibility
-        if (o instanceof Component || o instanceof Responsibility || o instanceof Actor || o instanceof IntentionalElement || o instanceof Belief
-                || o instanceof ElementLink || o instanceof StrategiesGroup || o instanceof ScenarioGroup || o instanceof KPIInformationElement
-                || o instanceof KPIModelLink || o instanceof IndicatorGroup) {
+        if (o instanceof URNmodelElement) {
             URNmodelElement ce = (URNmodelElement) o;
             if (ce.getId() == null || ce.getId().trim().length() == 0) {
                 ce.setId(getNewID(urn));
