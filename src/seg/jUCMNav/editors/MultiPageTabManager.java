@@ -206,9 +206,15 @@ public class MultiPageTabManager {
         // I don't know why we flush() but etremblay did it in his code
         editor.getCurrentPage().getGraphicalViewer().flush();
 
-        // select the background map 
-        if (e != null)
-            editor.getCurrentPage().getGraphicalViewer().select(e);
+        // select the background map
+        try {
+            if (e != null) {
+                editor.getCurrentPage().getGraphicalViewer().select(e);
+            }
+        } catch (Exception ex) // defense in depth.
+        {
+
+        }
 
         // Tell to listeners that the current page changed
         firePageChanged();

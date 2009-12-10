@@ -541,6 +541,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
      *            parameter indicating which view to display, passed when an appropriate button is pressed in the workbench
      */
     protected void showPage(int id) {
+        if (showOutlineAction==null) return; // defense in depth. 
         showOutlineAction.setChecked(id == ID_OUTLINE);
         showOverviewAction.setChecked(id == ID_OVERVIEW);
         showConcernsAction.setChecked(id == ID_CONCERNS);
