@@ -35,8 +35,10 @@ public class ConditionUMHandler extends EObjectImplUMHandler {
 			// elem.setScenarioDefPost(); handled by ScenarioDefUMHandler
 
 			if (elemZ.getDesc() != null) {
-				elem.setDescription(elemZ.getDesc().getDescription());
-				elem.setLabel(elemZ.getDesc().getLabel());
+				String description = elemZ.getDesc().getDescription();
+				if (!description.equals("")) elem.setDescription(description);
+				String label = elemZ.getDesc().getLabel();
+				if (!label.equals("")) elem.setLabel(label);
 			}
 			if (elemZ.getLabel() != null) {
 				elem.setDeltaX(elemZ.getLabel().getDeltaX().intValue());

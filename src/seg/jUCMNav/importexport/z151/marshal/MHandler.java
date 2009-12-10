@@ -41,6 +41,8 @@ public abstract class MHandler {
     	ourClass2Conv.put( ucm.map.impl.DirectionArrowImpl.class, new DirectionArrowMHandler());
     	ourClass2Conv.put( grl.impl.ElementLinkImpl.class, new ElementLinkMHandler());
     	ourClass2Conv.put( ucm.map.impl.EmptyPointImpl.class, new EmptyPointMHandler());
+    	ourClass2Conv.put( ucm.map.impl.FailurePointImpl.class, new FailurePointMHandler());
+    	ourClass2Conv.put( ucm.map.impl.AnythingImpl.class, new AnythingMHandler());
     	
     	ourClass2Conv.put( ucm.scenario.impl.ScenarioEndPointImpl.class, new ScenarioEndPointMHandler());
     	ourClass2Conv.put( ucm.map.impl.EndPointImpl.class, new EndPointMHandler());
@@ -214,7 +216,7 @@ public abstract class MHandler {
 			case grl.DecompositionType.AND: return seg.jUCMNav.importexport.z151.generated.DecompositionType.AND;
 			case grl.DecompositionType.OR: return seg.jUCMNav.importexport.z151.generated.DecompositionType.IOR;  //DecompositionType: jUCMNav has OR, but Z151 is IOR
 			case grl.DecompositionType.XOR: return seg.jUCMNav.importexport.z151.generated.DecompositionType.XOR;
-			default: return null; //return seg.jUCMNav.importexport.z151.generated.DecompositionType.AND; 
+			default: return seg.jUCMNav.importexport.z151.generated.DecompositionType.AND; 
 		}
     }
     protected seg.jUCMNav.importexport.z151.generated.IntentionalElementType getIntentionalElementType(grl.IntentionalElementType typeJ){
