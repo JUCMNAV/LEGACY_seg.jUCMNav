@@ -59,7 +59,14 @@ public class IntentionalElementUMHandler extends GRLLinkableElementUMHandler {
                 }
             }
             if (isFullConstruction) {
-                elem = (grl.IntentionalElement) super.handle(elemZ, elem, true);
+                if (isIndicator) {
+                    elem = (grl.kpimodel.Indicator) super.handle(elemZ, elem, true);
+                    elem.setType(grl.IntentionalElementType.INDICATOR_LITERAL);
+                }
+                else {
+                    elem = (grl.IntentionalElement) super.handle(elemZ, elem, true);
+                    elem.setType(getIntentionalElementType(elemZ.getType()));
+                }
                 elem.setLineColor(elemZ.getStyle().getLineColor());
                 elem.setFillColor(elemZ.getStyle().getFillColor());
                 elem.setFilled(elemZ.getStyle().isFilled());
@@ -67,12 +74,6 @@ public class IntentionalElementUMHandler extends GRLLinkableElementUMHandler {
                 elem.setDecompositionType(getDecompositionType(elemZ.getDecompositionType()));
                 elem.setImportance(grl.ImportanceType.get(elemZ.getImportance().ordinal()));
                 elem.setImportanceQuantitative(elemZ.getImportanceQuantitative().intValue());
-                if (isIndicator) {
-                    elem.setType(grl.IntentionalElementType.INDICATOR_LITERAL);
-                }
-                else {
-                    elem.setType(getIntentionalElementType(elemZ.getType()));
-                }
                 // elem.setId();
                 // elem.setName();
                 // elem.setDescription();
