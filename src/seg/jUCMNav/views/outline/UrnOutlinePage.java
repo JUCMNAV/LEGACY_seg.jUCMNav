@@ -1,5 +1,7 @@
 package seg.jUCMNav.views.outline;
 
+import java.util.Iterator;
+
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.LightweightSystem;
@@ -634,8 +636,15 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         IMenuManager mm = getSite().getActionBars().getMenuManager();
         IToolBarManager tbm = getSite().getActionBars().getToolBarManager();
         if (DisplayPreferences.getInstance().isAdvancedControlEnabled()) {
-            mm.insertAfter(showDefinitionsAction.getId(), showConcernsAction);
-            tbm.insertAfter(showDefinitionsAction.getId(), showConcernsAction);
+            boolean found=false;
+            for (int i = 0; i < mm.getItems().length; i++) {
+                if (mm.getItems()[i].getId()!=null && mm.getItems()[i].getId().equals(showConcernsAction.getId()))
+                    found=true;
+            }
+            if (!found) {
+                mm.insertAfter(showDefinitionsAction.getId(), showConcernsAction);
+                tbm.insertAfter(showDefinitionsAction.getId(), showConcernsAction);
+            }
         } else {
             mm.remove(showConcernsAction.getId());
             tbm.remove(showConcernsAction.getId());
