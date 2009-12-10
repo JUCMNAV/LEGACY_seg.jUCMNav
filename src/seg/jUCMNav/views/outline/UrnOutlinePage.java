@@ -1,7 +1,5 @@
 package seg.jUCMNav.views.outline;
 
-import java.util.Iterator;
-
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.LightweightSystem;
@@ -18,7 +16,9 @@ import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
@@ -77,6 +77,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
 
     private PageBook pageBook;
     private IAction showOutlineAction, showOverviewAction, showConcernsAction, showDefinitionsAction;
+    private ActionContributionItem showConcernsActionItem;
     // Preference action
     private IAction enableGlobalFilter, showNodeNumberAction;
 
@@ -111,6 +112,12 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         configureOutlineViewerDetails(getDefinitionsViewer(), new TreeEditPartFactory(multieditor.getModel(), true));
         multieditor.addPageChangeListener(this);
 
+        addMenuItems();
+
+        showPage(ID_OUTLINE);
+    }
+
+    private void addMenuItems() {
         IToolBarManager tbm = getSite().getActionBars().getToolBarManager();
         showOutlineAction = new Action() {
             public void run() {
@@ -130,6 +137,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             }
         };
         showDefinitionsAction.setId("Definitions");
+        showDefinitionsAction.setActionDefinitionId("Definitions");
         showDefinitionsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/definitionsOutline16.gif")); //$NON-NLS-1$
         showDefinitionsAction.setToolTipText("Definitions");
         showDefinitionsAction.setText("Definitions");
@@ -142,11 +150,15 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             }
         };
         showConcernsAction.setId("UrnOutlinePage.ConcernOutline");
+        showConcernsAction.setActionDefinitionId("UrnOutlinePage.ConcernOutline");
         showConcernsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/concernsOutline16.gif")); //$NON-NLS-1$
         showConcernsAction.setToolTipText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
         showConcernsAction.setText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
+
+        showConcernsActionItem = new ActionContributionItem(showConcernsAction);
+
         if (DisplayPreferences.getInstance().isAdvancedControlEnabled())
-            tbm.add(showConcernsAction);
+            tbm.add(showConcernsActionItem);
 
         showOverviewAction = new Action() {
             public void run() {
@@ -202,10 +214,8 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         mm.add(showOutlineAction);
         mm.add(showDefinitionsAction);
         if (DisplayPreferences.getInstance().isAdvancedControlEnabled())
-            mm.add(showConcernsAction);
+            mm.add(showConcernsActionItem);
         mm.add(showOverviewAction);
-
-        showPage(ID_OUTLINE);
     }
 
     /**
@@ -637,21 +647,30 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         IMenuManager mm = getSite().getActionBars().getMenuManager();
         IToolBarManager tbm = getSite().getActionBars().getToolBarManager();
         if (DisplayPreferences.getInstance().isAdvancedControlEnabled()) {
+//            IContributionItem item = tbm.find(showConcernsAction.getActionDefinitionId());
+            
             boolean found=false;
-            for (int i = 0; i < mm.getItems().length; i++) {
-                if (mm.getItems()[i].getId()!=null && mm.getItems()[i].getId().equals(showConcernsAction.getId()))
+            for (int i = 0; i < tbm.getItems().length; i++) {
+                if (tbm.getItems()[i].getId()!=null && tbm.getItems()[i].getId().equals(showConcernsAction.getId()))
                     found=true;
             }
             if (!found) {
-                mm.insertAfter(showDefinitionsAction.getId(), showConcernsAction);
-                tbm.insertAfter(showDefinitionsAction.getId(), showConcernsAction);
+                tbm.removeAll();
+                mm.removeAll();
+                
+                addMenuItems();
+
+                tbm.update(true);
+                mm.updateAll(true);
             }
         } else {
-            mm.remove(showConcernsAction.getId());
-            tbm.remove(showConcernsAction.getId());
-        }
+            mm.remove(showConcernsActionItem);
+            tbm.remove(showConcernsActionItem);
+            
+            tbm.markDirty();
 
-        tbm.update(false);
-        mm.update();
+            tbm.update(true);
+            mm.updateAll(true);
+        }
     }
 }

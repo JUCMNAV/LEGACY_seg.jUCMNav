@@ -124,30 +124,15 @@ public class DisplayPreferences {
                         showView(page, "seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
                         
                         addKpi(page);
-                        refreshOutline(page);
                     } else {
                         hideView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
                         hideView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
 
                         removeKpi(page);
-                        refreshOutline(page);
                     }
                 }
             }
         });
-    }
-    
-    private void refreshOutline(IWorkbenchPage page) {
-        Vector<IEditorPart> ref = getEditors(page, "seg.jUCMNav.MainEditor"); //$NON-NLS-1$
-
-        if(ref.size() > 0) {
-            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) ref.get(0);
-
-            if (editor != null) {
-                if(editor.getPageCount() > 0)
-                    ((UrnEditor)editor.getEditor(0)).getOutlinePage().refreshView();
-            }
-        }
     }
 
     /**
