@@ -55,7 +55,7 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
      */
     public void setSelected(boolean selected) {
         // bug 411
-        if (widget == null)
+        if (widget == null || widget.isDisposed())
             return;
         if (selected) {
             ((TreeItem) widget).setBackground(ColorManager.LIGHTGRAY);
