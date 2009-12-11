@@ -41,7 +41,8 @@ public class ContainerRefBindChildCommand extends Command implements JUCMNavComm
         // don't bind Connects
         for (Iterator iter = children.iterator(); iter.hasNext();) {
             Object o = iter.next();
-            if (!(o instanceof Connect))
+            // bug 721 - we bind them now.  
+            //if (!(o instanceof Connect))
                 this.children.add(o);
         }
         setLabel(Messages.getString("ContainerRefBindChildCommand.bindContainerReference")); //$NON-NLS-1$
@@ -60,7 +61,9 @@ public class ContainerRefBindChildCommand extends Command implements JUCMNavComm
         this.children = new Vector();
 
         // don't bind Connects
-        if (!(child instanceof Connect))
+        // bug 721 - we bind them now.  
+
+        //if (!(child instanceof Connect))
             this.children.add(child);
 
     }
