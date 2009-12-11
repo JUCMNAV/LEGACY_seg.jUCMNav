@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.model.commands.IDelayedBuildCompoundCommand;
 import ucm.map.PathNode;
 
 /**
@@ -13,11 +14,12 @@ import ucm.map.PathNode;
  * @author jkealey
  * 
  */
-public class PrePathManipulationCommand extends CompoundCommand {
+public class PrePathManipulationCommand extends CompoundCommand implements IDelayedBuildCompoundCommand {
     private boolean rewire = false;
     private List ncIn, ncOut;
     private PathNode pn;
     private Map editpartregistry;
+    private boolean built=false;
 
     /**
      * @param pn
@@ -56,8 +58,10 @@ public class PrePathManipulationCommand extends CompoundCommand {
      * Disconnect the branches and rewire if necessary.
      * 
      */
-    private void build() {
-
+    public void build() {
+        if (built)return;
+        built=true;
+        
         DisconnectBranchesCommand cmd;
         if (ncIn == null || ncOut == null) {
             cmd = new DisconnectBranchesCommand(pn, editpartregistry);

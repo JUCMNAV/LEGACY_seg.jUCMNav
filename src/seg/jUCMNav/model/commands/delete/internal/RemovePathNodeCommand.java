@@ -3,6 +3,7 @@ package seg.jUCMNav.model.commands.delete.internal;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.IDelayedBuildCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.EmptyPoint;
@@ -10,6 +11,7 @@ import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 import ucm.map.UCMmap;
 
 /**
@@ -19,10 +21,13 @@ import ucm.map.UCMmap;
  * @author jkealey
  * 
  */
-public class RemovePathNodeCommand extends CompoundCommand {
+public class RemovePathNodeCommand extends CompoundCommand implements IDelayedBuildCompoundCommand {
 
     private PathNode pn;
     private java.util.Map editpartregistry;
+    private boolean built;
+
+    private boolean replaceWithEmptyPoint = false;
 
     /**
      * @param pn
@@ -34,6 +39,23 @@ public class RemovePathNodeCommand extends CompoundCommand {
     public RemovePathNodeCommand(PathNode pn, java.util.Map editpartregistry) {
         this.pn = pn;
         this.editpartregistry = editpartregistry;
+        this.replaceWithEmptyPoint = false;
+        setLabel("Remove PathNode");
+    }
+
+    /**
+     * @param pn
+     *            The PathNode to be deleted.
+     * @param editpartregistry
+     *            The Edit Part Viewer's edit part registry. It is sufficient to pass a map containing only the mapping between NodeConnections and
+     *            NodeConnectionEditParts.
+     * @param replaceWithEmptyPoint
+     *            if this is a simple node, should it be replaced with an empty point?
+     */
+    public RemovePathNodeCommand(PathNode pn, java.util.Map editpartregistry, boolean replaceWithEmptyPoint) {
+        this.pn = pn;
+        this.editpartregistry = editpartregistry;
+        this.replaceWithEmptyPoint = replaceWithEmptyPoint;
         setLabel("Remove PathNode");
     }
 
@@ -41,7 +63,11 @@ public class RemovePathNodeCommand extends CompoundCommand {
      * Builds a command to delete the passed element.
      * 
      */
-    private void build() {
+    public void build() {
+        if (built)
+            return;
+        built = true;
+
         UCMmap map = (UCMmap) pn.getDiagram();
 
         if (pn instanceof StartPoint) {
@@ -54,10 +80,13 @@ public class RemovePathNodeCommand extends CompoundCommand {
             add(new PreDeleteUrnModelElementCommand(pn));
             add(new PrePathManipulationCommand(pn, editpartregistry));
             add(new RemoveURNmodelElementCommand(pn));
-            add(new PostPathManipulationCommand(pn));
+            
+            if (replaceWithEmptyPoint && pn.getPred().size()>0 && !(pn instanceof Stub) && !isDeletingLastNodeOnAStubLoop())
+                add(new PostPathManipulationCommand(pn, (NodeConnection)pn.getPred().get(0)));
+            else 
+                add(new PostPathManipulationCommand(pn));
 
-            if (pn.getSucc().size() == 1 && pn.getPred().size() == 1
-                    && ((NodeConnection) pn.getSucc().get(0)).getTarget() == ((NodeConnection) pn.getPred().get(0)).getSource()) {
+            if (isDeletingLastNodeOnAStubLoop()) {
                 // deleting last pathnode on a stub's loop.
                 NodeConnection link = (NodeConnection) pn.getPred().get(0);
                 PathNode target = (PathNode) ((NodeConnection) pn.getSucc().get(0)).getTarget();
@@ -76,6 +105,11 @@ public class RemovePathNodeCommand extends CompoundCommand {
             }
         }
 
+    }
+
+    private boolean isDeletingLastNodeOnAStubLoop() {
+        return pn.getSucc().size() == 1 && pn.getPred().size() == 1
+                && ((NodeConnection) pn.getSucc().get(0)).getTarget() == ((NodeConnection) pn.getPred().get(0)).getSource();
     }
 
     /**

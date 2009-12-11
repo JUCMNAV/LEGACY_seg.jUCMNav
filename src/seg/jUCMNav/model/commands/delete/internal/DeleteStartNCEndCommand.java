@@ -50,7 +50,12 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
+        build();
+        if (!aborted)
+            redo();
+    }
 
+    public void build() {
         if (start != null) {
 
             // might have already been deleted.
@@ -83,8 +88,6 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
             aborted = true;
             return;
         }
-
-        redo();
     }
 
     /**
@@ -139,6 +142,30 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
         end.setContRef(endParent);
 
         testPreConditions();
+    }
+
+    public EndPoint getEnd() {
+        return end;
+    }
+
+    public void setEnd(EndPoint end) {
+        this.end = end;
+    }
+
+    public StartPoint getStart() {
+        return start;
+    }
+
+    public void setStart(StartPoint start) {
+        this.start = start;
+    }
+
+    public boolean isAborted() {
+        return aborted;
+    }
+
+    public void setAborted(boolean aborted) {
+        this.aborted = aborted;
     }
 
 }

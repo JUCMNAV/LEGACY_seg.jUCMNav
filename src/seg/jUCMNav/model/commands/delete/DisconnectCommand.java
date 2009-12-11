@@ -24,6 +24,15 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
     private Connect connect;
 
     private PathNode left, right;
+
+    public PathNode getLeft() {
+        return left;
+    }
+
+    public void setLeft(PathNode left) {
+        this.left = left;
+    }
+
     private NodeConnection ncLeft, ncRight;
     private URNspec urn;
 
@@ -167,6 +176,30 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         left.setContRef(right.getContRef());
         connect.setContRef(right.getContRef());
         testPreConditions();
+    }
+
+    public Connect getConnect() {
+        return connect;
+    }
+
+    public void setConnect(Connect connect) {
+        this.connect = connect;
+    }
+
+    public PathNode getRight() {
+        return right;
+    }
+
+    public void setRight(PathNode right) {
+        this.right = right;
+    }
+
+    public URNspec getUrn() {
+        return urn;
+    }
+
+    public void setUrn(URNspec urn) {
+        this.urn = urn;
     }
 
 }

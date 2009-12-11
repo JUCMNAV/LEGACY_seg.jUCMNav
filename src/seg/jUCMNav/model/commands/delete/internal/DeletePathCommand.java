@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.model.commands.IDelayedBuildCompoundCommand;
 import seg.jUCMNav.model.commands.delete.DeleteBranchesCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.util.DoesDisconnectImplyDelete;
@@ -22,11 +23,12 @@ import ucm.map.StartPoint;
  * @author jkealey
  * 
  */
-public class DeletePathCommand extends CompoundCommand {
+public class DeletePathCommand extends CompoundCommand implements IDelayedBuildCompoundCommand {
 
     private PathNode pnSeed;
     private NodeConnection ncSeed;
     private Map editpartregistry;
+    private boolean built=false;
 
     public DeletePathCommand(StartPoint start, Map editpartregistry) {
         this.pnSeed = start;
@@ -42,8 +44,9 @@ public class DeletePathCommand extends CompoundCommand {
         // build();
     }
 
-    private void build() {
-
+    public void build() {
+        if (built)return;
+        built=true;
         // we want to make sure we aren't merging elements on the same deletion path to cause illegal loops.
         QFindSpline qry = new DeletionPathFinder().new QFindSpline(ncSeed);
         DeletionPathFinder.RSpline resp = (DeletionPathFinder.RSpline) GraphExplorer.run(qry);

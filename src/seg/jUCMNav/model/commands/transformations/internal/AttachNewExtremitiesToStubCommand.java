@@ -1,11 +1,15 @@
 package seg.jUCMNav.model.commands.transformations.internal;
 
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.DeleteNodeConnectionCommand;
+import seg.jUCMNav.model.commands.delete.DeleteUselessStartNCEndCommand;
+import seg.jUCMNav.model.commands.delete.internal.DeleteStartNCEndCommand;
 import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
+import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
@@ -19,8 +23,12 @@ public class AttachNewExtremitiesToStubCommand extends CompoundCommand {
     protected int maxIdDuringCreation = 0;
     protected UCMmap map;
     protected Stub stub;
+    protected Vector alsoAttachThese;
     protected boolean built = false;
     protected boolean replaceFirst = false;
+
+    protected boolean firstIn = true;
+    protected boolean firstOut = true;
 
     /**
      * Between the time this command is created and its execution, the model has changed. we want to attach new start/end points in map to the stub.
@@ -30,12 +38,16 @@ public class AttachNewExtremitiesToStubCommand extends CompoundCommand {
      * @param replaceFirst
      *            should we disconnect the first in/out we find?
      */
-    public AttachNewExtremitiesToStubCommand(UCMmap map, Stub stub, boolean replaceFirst) {
+    public AttachNewExtremitiesToStubCommand(UCMmap map, Stub stub, Vector alsoAttachThese, boolean replaceFirst) {
 
         this.stub = stub;
         this.map = map;
         this.replaceFirst = replaceFirst;
+        this.alsoAttachThese = alsoAttachThese;
         maxIdDuringCreation = Integer.parseInt(this.map.getUrndefinition().getUrnspec().getNextGlobalID());
+        this.firstIn = true;
+        this.firstOut = true;
+
     }
 
     public boolean canExecute() {
@@ -44,36 +56,97 @@ public class AttachNewExtremitiesToStubCommand extends CompoundCommand {
 
     public void execute() {
         if (!built) {
+            /*
+            DeleteUselessStartNCEndCommand uselessCmd = new DeleteUselessStartNCEndCommand(map, null);
+            uselessCmd.setNextGlobalID(maxIdDuringCreation);
+            add(uselessCmd);
+            */
 
-            boolean firstIn = true;
-            boolean firstOut = true;
+            Vector toAttach = new Vector();
             for (Iterator iterator = map.getNodes().iterator(); iterator.hasNext();) {
                 PathNode pn = (PathNode) iterator.next();
 
                 if (pn instanceof EndPoint || pn instanceof StartPoint) {
                     int newid = Integer.parseInt(pn.getId());
                     if (newid >= maxIdDuringCreation) {
-                        if (replaceFirst) {
-
-                            if (SafePathChecker.isSafeFusion(pn, stub)) {
-                                // get rid of the first connection
-                                if (firstIn && pn instanceof EndPoint) {
-                                    add(new DeleteNodeConnectionCommand((NodeConnection) stub.getPred().get(0), null));
-                                    firstIn = false;
-                                } else if (firstOut && pn instanceof StartPoint) {
-                                    add(new DeleteNodeConnectionCommand((NodeConnection) stub.getSucc().get(0), null));
-                                    firstOut = false;
-                                }
-
-                                add(new AttachBranchCommand(pn, stub));
-                            }
-                        }
-
+                        toAttach.add(pn);
                     }
+                }
+            }
+
+            for (Iterator iterator = toAttach.iterator(); iterator.hasNext();) {
+                PathNode pn = (PathNode) iterator.next();
+                // attach branch unless both ends will be attached.
+                //if (!removeTinyBranch(toAttach, pn))
+                    attachBranch(firstIn, firstOut, pn);
+            }
+
+            if (alsoAttachThese != null) {
+                for (Iterator iterator2 = alsoAttachThese.iterator(); iterator2.hasNext();) {
+                    PathNode pn = (PathNode) iterator2.next();
+                    if (pn.getDiagram() != null) // if still exists.
+                        attachBranch(firstIn, firstOut, pn);
                 }
             }
             built = true;
         }
         super.execute();
+    }
+
+    private void attachBranch(boolean firstIn, boolean firstOut, PathNode pn) {
+        if (SafePathChecker.isSafeFusion(pn, stub)) {
+            //System.out.println("Attached: " + pn.getId());
+            if (replaceFirst) {
+
+                // get rid of the first connection
+                if (this.firstIn && pn instanceof EndPoint) {
+                    NodeConnection nc = (NodeConnection ) stub.getPred().get(0);
+//                    if (nc.getSource() instanceof StartPoint)
+//                        add(new MergeStartEndCommand((UCMmap) stub.getDiagram(), (StartPoint) nc.getSource(), (EndPoint) pn, pn.getX(), pn.getY()));
+//                    else {
+                        add(new DeleteNodeConnectionCommand(nc, null));
+                        add(new AttachBranchCommand(pn, stub));
+//                    }
+                    this.firstIn = false;
+                } else if (this.firstOut && pn instanceof StartPoint) {
+                    NodeConnection nc = (NodeConnection ) stub.getSucc().get(0);
+//                    if (nc.getTarget() instanceof EndPoint)
+//                        add(new MergeStartEndCommand((UCMmap) stub.getDiagram(), (StartPoint) pn, (EndPoint) nc.getTarget(), pn.getX(), pn.getY()));
+//                    else {
+                        add(new DeleteNodeConnectionCommand(nc, null));
+                        add(new AttachBranchCommand(pn, stub));
+//                    }
+                    this.firstOut = false;
+                } else {
+                    add(new AttachBranchCommand(pn, stub));
+                }
+            } else {
+                add(new AttachBranchCommand(pn, stub));
+            }
+        }
+    }
+
+    private boolean removeTinyBranch(Vector toAttach, PathNode pn) {
+
+        // instead of attaching a tiny branch
+        DeleteStartNCEndCommand cmd = null;
+        if (pn instanceof StartPoint)
+            cmd = new DeleteStartNCEndCommand((StartPoint) pn);
+        else if (pn instanceof EndPoint)
+            cmd = new DeleteStartNCEndCommand((EndPoint) pn);
+        if (cmd != null) {
+            cmd.build();
+            boolean aborted = cmd.isAborted();
+            if (!aborted) { // means this is a tiny branch.
+                // are both ends scheduled to be attached?
+                if (toAttach.contains(cmd.getStart()) && toAttach.contains(cmd.getEnd())) {
+                    add(cmd);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
     }
 }

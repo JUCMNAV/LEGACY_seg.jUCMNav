@@ -8,6 +8,7 @@ import java.util.Map;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.commands.IDelayedBuildCompoundCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemovePathNodeCommand;
 import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.PathNode;
@@ -21,16 +22,25 @@ import ucm.map.RespRef;
  * @author jfroy
  * 
  */
-public class DeletePathNodeCommand extends CompoundCommand {
+public class DeletePathNodeCommand extends CompoundCommand implements IDelayedBuildCompoundCommand {
 
     private PathNode pathNode;
     private Map editPartRegistry;
+    private boolean built = false;
+    private boolean replaceWithEmptyPoint = false;
 
     public DeletePathNodeCommand(PathNode pn, java.util.Map editpartregistry) {
         this.pathNode = pn;
         this.editPartRegistry = editpartregistry;
+        this.replaceWithEmptyPoint = false;
         setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode"));
+    }
 
+    public DeletePathNodeCommand(PathNode pn, java.util.Map editpartregistry, boolean replaceWithEmptyPoint) {
+        this.pathNode = pn;
+        this.editPartRegistry = editpartregistry;
+        this.replaceWithEmptyPoint = replaceWithEmptyPoint;
+        setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode"));
     }
 
     /**
@@ -67,9 +77,12 @@ public class DeletePathNodeCommand extends CompoundCommand {
      * Builds a sequence of DeleteGRLNodeCommands
      * 
      */
-    private void build() {
+    public void build() {
+        if (built)
+            return;
+        built = true;
 
-        add(new RemovePathNodeCommand(pathNode, editPartRegistry));
+        add(new RemovePathNodeCommand(pathNode, editPartRegistry, replaceWithEmptyPoint));
 
         // Verify if it is a responsibility and if the definition can be delete.
         if (pathNode instanceof RespRef && ((RespRef) pathNode).getRespDef() != null
