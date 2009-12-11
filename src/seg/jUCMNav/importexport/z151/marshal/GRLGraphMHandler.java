@@ -27,14 +27,7 @@ public class GRLGraphMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		grl.GRLGraph elem = (grl.GRLGraph) o;
 		String objId = elem.getId();
-		GRLGraph elemZ = (GRLGraph) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createGRLGraph();
-			}else
-				elemZ = (GRLGraph) target;
-			id2object.put(objId, elemZ);
-		}
+		GRLGraph elemZ = (GRLGraph) getObject(objId, target, "createGRLGraph");
 		
 		if (isFullConstruction) {
 			elemZ = (GRLGraph) super.handle(elem, elemZ, true);

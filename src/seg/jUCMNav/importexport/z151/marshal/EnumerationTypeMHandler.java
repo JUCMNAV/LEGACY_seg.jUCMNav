@@ -19,15 +19,8 @@ import seg.jUCMNav.importexport.z151.generated.*;
 public class EnumerationTypeMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.scenario.EnumerationType elem = (ucm.scenario.EnumerationType) o;
-		String objId = elem.getId();
-		EnumerationType elemZ = (EnumerationType) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createEnumerationType();
-			}else
-				elemZ = (EnumerationType) target;
-			id2object.put(objId, elemZ);
-		}
+		String objId = elem.getId(); 
+		EnumerationType elemZ = (EnumerationType) getObject(objId, target, "createEnumerationType");
 		if (isFullConstruction) {
 			elemZ = (EnumerationType) super.handle(elem, elemZ, true);
 			elemZ.setValues(elem.getValues());

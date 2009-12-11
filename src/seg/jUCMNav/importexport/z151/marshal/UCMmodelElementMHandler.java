@@ -11,7 +11,6 @@ import seg.jUCMNav.importexport.z151.generated.URNmodelElement;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-/***Done!***/
 
 public abstract class UCMmodelElementMHandler extends URNmodelElementMHandler{
 }

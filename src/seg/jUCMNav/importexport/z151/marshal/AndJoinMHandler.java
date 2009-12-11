@@ -15,14 +15,7 @@ public class AndJoinMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.AndJoin elem = (ucm.map.AndJoin) o;
 		String objId = elem.getId();
-		AndJoin elemZ = (AndJoin) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createAndJoin();
-			}else
-				elemZ = (AndJoin) target;
-			id2object.put(objId, elemZ);
-		}
+		AndJoin elemZ = (AndJoin) getObject(objId, target, "createAndJoin");
 		if (isFullConstruction) {
 			elemZ = (AndJoin) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();

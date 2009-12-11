@@ -24,14 +24,7 @@ public class StubMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.Stub elem = (ucm.map.Stub) o;
 		String objId = elem.getId();
-		Stub elemZ = (Stub) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target)
-				elemZ = of.createStub();
-			else
-				elemZ = (Stub) target;
-			id2object.put(objId, elemZ);
-		}
+		Stub elemZ = (Stub) getObject(objId, target, "createStub");
 		if (isFullConstruction) {
 			elemZ = (Stub) super.handle(elem, elemZ, true);
 			elemZ.setDynamic(elem.isDynamic());

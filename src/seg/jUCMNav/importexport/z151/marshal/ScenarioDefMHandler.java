@@ -26,14 +26,7 @@ public class ScenarioDefMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.scenario.ScenarioDef elem = (ucm.scenario.ScenarioDef) o;
 		String objId = elem.getId();
-		ScenarioDef elemZ = (ScenarioDef) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createScenarioDef();
-			}else
-				elemZ = (ScenarioDef) target;
-			id2object.put(objId, elemZ);
-		}
+		ScenarioDef elemZ = (ScenarioDef) getObject(objId, target, "createScenarioDef");
 		if (isFullConstruction) {
 			elemZ = (ScenarioDef) super.handle(elem, elemZ, true);
 			// elemZ.setId();

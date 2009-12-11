@@ -15,14 +15,7 @@ public class DecompositionMHandler extends ElementLinkMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.Decomposition elem = (grl.Decomposition) obj;
 		String objId = elem.getId();
-		Decomposition elemZ = (Decomposition) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createDecomposition();
-			}else
-				elemZ = (Decomposition) target;
-			id2object.put(objId, elemZ);
-		}
+		Decomposition elemZ = (Decomposition) getObject(objId, target, "createDecomposition");
 		if (isFullConstruction) {
 			super.handle(elem, elemZ, true);
 		}

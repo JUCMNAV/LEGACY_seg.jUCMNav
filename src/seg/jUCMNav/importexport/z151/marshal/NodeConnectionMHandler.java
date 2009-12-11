@@ -41,15 +41,7 @@ public class NodeConnectionMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.NodeConnection elem = (ucm.map.NodeConnection) o;
 		String objId = this.getObjectId(elem); //jUCMNav does not assign value to ID
-		NodeConnection elemZ = (NodeConnection) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target) {
-				elemZ = of.createNodeConnection();
-				elemZ.setId(objId);
-			} else
-				elemZ = (NodeConnection) target;
-			id2object.put(objId, elemZ);
-		}
+		NodeConnection elemZ = (NodeConnection) getObject(objId, target, "createNodeConnection");
 		if (isFullConstruction) {
 			//condition
 			elemZ.setCondition((Condition) process(elem.getCondition(), null, true));

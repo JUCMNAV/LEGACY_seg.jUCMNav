@@ -17,14 +17,7 @@ public class OrForkMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.OrFork elem = (ucm.map.OrFork) o;
 		String objId = elem.getId();
-		OrFork elemZ = (OrFork) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createOrFork();
-			}else
-				elemZ = (OrFork) target;
-			id2object.put(objId, elemZ);
-		}
+		OrFork elemZ = (OrFork) getObject(objId, target, "createOrFork");
 		if (isFullConstruction) {
 			elemZ = (OrFork) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();

@@ -23,14 +23,7 @@ public class ScenarioEndPointMHandler extends PathNodeMHandler {
 		ucm.scenario.ScenarioEndPoint elem = (ucm.scenario.ScenarioEndPoint) o;
 		ucm.map.EndPoint endPoint = elem.getEndPoint();
 		String objId = endPoint.getId();
-		EndPoint elemZ = (EndPoint) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createEndPoint();
-			}else
-				elemZ = (EndPoint) target;
-			id2object.put(objId, elemZ);
-		}
+		EndPoint elemZ = (EndPoint) getObject(objId, target, "createEndPoint");
 		if (isFullConstruction) {
 			elemZ = (EndPoint) super.handle(endPoint, elemZ, true);
 			// elemZ.setPostcondition();

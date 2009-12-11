@@ -32,14 +32,7 @@ public class ComponentRefMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.ComponentRef elem = (ucm.map.ComponentRef) o;
 		String objId = elem.getId();
-		ComponentRef elemZ = (ComponentRef) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target) {
-				elemZ = of.createComponentRef();
-			} else
-				elemZ = (ComponentRef) target;
-			id2object.put(objId, elemZ);
-		}
+		ComponentRef elemZ = (ComponentRef) getObject(objId, target, "createComponentRef");
 		if (isFullConstruction) {
 			elemZ = (ComponentRef) super.handle(elem, elemZ, true);
 			// compDef

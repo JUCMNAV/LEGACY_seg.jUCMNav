@@ -31,14 +31,7 @@ public class GRLNodeMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.GRLNode elem = (grl.GRLNode) obj;
 		String objId = elem.getId();
-		GRLNode elemZ = (GRLNode) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = (GRLNode) of.createGRLNode();
-			}else
-				elemZ = (GRLNode) target;
-			id2object.put(objId, elemZ);
-		}
+		GRLNode elemZ = (GRLNode) getObject(objId, target, "createGRLNode");
 		if (isFullConstruction) {
 			super.handle(elem, elemZ, true);
 			processList(elem.getPred(), elemZ.getPred(), "createGRLNodePred", false);

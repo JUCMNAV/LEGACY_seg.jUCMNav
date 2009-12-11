@@ -30,14 +30,7 @@ public class ComponentMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		urncore.Component elem = (urncore.Component) o;
 		String objId = elem.getId();
-		Component elemZ = (Component) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createComponent();
-			}else
-				elemZ = (Component) target;
-			id2object.put(objId, elemZ);
-		}
+		Component elemZ = (Component) getObject(objId, target, "createComponent");
 		if (isFullConstruction) {
 			elemZ = (Component) super.handle(elem, elemZ, true);
 			//kind

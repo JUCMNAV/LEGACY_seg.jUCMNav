@@ -32,14 +32,7 @@ public class ElementLinkMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.ElementLink elem = (grl.ElementLink) obj;
 		String objId = elem.getId();
-		ElementLink elemZ = (ElementLink) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createElementLink();
-			}else
-				elemZ = (ElementLink) target;
-			id2object.put(objId, elemZ);
-		}
+		ElementLink elemZ = (ElementLink) getObject(objId, target,"createElementLink");
 		if (isFullConstruction) {
 			super.handle(elem, elemZ, true);
 			processList(elem.getRefs(), elemZ.getRefs(), "createElementLinkRefs", false);

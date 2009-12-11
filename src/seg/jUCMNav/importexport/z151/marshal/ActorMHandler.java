@@ -24,25 +24,12 @@ import urncore.URNmodelElement;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-/***
- * Done*** actorRefs AND elems MISSING IN jUCMNav actorRefs: jUCMNav does not
- * have actorRefs, but Z151 has actorRefs -- contRefs in jUCMNav = ActorRef in
- * Z151
- */
-
 public class ActorMHandler extends GRLLinkableElementMHandler {
 
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.Actor elem = (grl.Actor) obj;
 		String objId = elem.getId();
-		Actor elemZ = (Actor) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target) {
-				elemZ = of.createActor();
-			} else
-				elemZ = (Actor) target;
-			id2object.put(objId, elemZ);
-		}
+		Actor elemZ = (Actor) getObject(objId, target, "createActor");
 		if (isFullConstruction) {
 			elemZ = (Actor) super.handle(elem, elemZ, true);
 			processList(elem.getCollapsedRefs(), elemZ.getCollapsedRefs(), false);

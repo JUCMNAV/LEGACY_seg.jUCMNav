@@ -19,14 +19,7 @@ public class ComponentTypeMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		urncore.ComponentType elem = (urncore.ComponentType) o;
 		String objId = elem.getId();
-		ComponentType elemZ = (ComponentType) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createComponentType();
-			}else
-				elemZ = (ComponentType) target;
-			id2object.put(objId, elemZ);
-		}
+		ComponentType elemZ = (ComponentType) getObject(objId, target, "createComponentType");
 		if (isFullConstruction) {
 			elemZ = (ComponentType) super.handle(elem, elemZ, true);
 			// elemZ.setId();

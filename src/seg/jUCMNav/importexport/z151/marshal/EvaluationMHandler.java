@@ -30,8 +30,6 @@ import seg.jUCMNav.importexport.z151.generated.*;
 //  </xsd:restriction>
 //</xsd:simpleType>
 
-/*** Done ***/
-
 public class EvaluationMHandler extends MHandler {
 	@Override
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {

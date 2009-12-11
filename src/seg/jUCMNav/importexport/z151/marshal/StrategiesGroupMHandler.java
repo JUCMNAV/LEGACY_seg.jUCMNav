@@ -21,20 +21,12 @@ import seg.jUCMNav.importexport.z151.generated.*;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-/*** Done! ***/
 
 public class StrategiesGroupMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.StrategiesGroup elem = (grl.StrategiesGroup) obj;
 		String objId = elem.getId();
-		StrategiesGroup elemZ = (StrategiesGroup) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target) {
-				elemZ = of.createStrategiesGroup();
-			} else
-				elemZ = (StrategiesGroup) target;
-			this.id2object.put(objId, elemZ);
-		}
+		StrategiesGroup elemZ = (StrategiesGroup) getObject(objId, target, "createStrategiesGroup");
 		if (isFullConstruction) {
 			elemZ = (StrategiesGroup) super.handle(elem, elemZ, true);
 			processList(elem.getStrategies(), elemZ.getStrategies(), "createStrategiesGroupStrategies", false);

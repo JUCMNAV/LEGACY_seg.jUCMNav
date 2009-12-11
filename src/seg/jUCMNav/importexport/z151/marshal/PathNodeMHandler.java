@@ -27,14 +27,7 @@ public class PathNodeMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.PathNode elem = (ucm.map.PathNode) o;
 		String objId = elem.getId();
-		PathNode elemZ = (PathNode) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target) {
-				elemZ = of.createPathNode();
-			} else
-				elemZ = (PathNode) target;
-			id2object.put(objId, elemZ);
-		}
+		PathNode elemZ = (PathNode) getObject(objId, target, "createPathNode");
 		if (isFullConstruction) {
 			elemZ = (PathNode) super.handle(elem, elemZ, true);
 			//label

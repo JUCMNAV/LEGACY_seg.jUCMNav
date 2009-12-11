@@ -21,14 +21,7 @@ public class ResponsibilityMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		urncore.Responsibility elem = (urncore.Responsibility) o;
 		String objId = elem.getId();
-		Responsibility elemZ = (Responsibility) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createResponsibility();
-			}else
-				elemZ = (Responsibility) target;
-			id2object.put(objId, elemZ);
-		}
+		Responsibility elemZ = (Responsibility) getObject(objId, target, "createResponsibility");
 		if (isFullConstruction) {
 			elemZ = (Responsibility) super.handle(elem, elemZ, true);
 			elemZ.setExpression(elem.getExpression());

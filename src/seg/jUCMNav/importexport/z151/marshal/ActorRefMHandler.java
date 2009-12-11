@@ -35,14 +35,7 @@ public class ActorRefMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.ActorRef elem = (grl.ActorRef) obj;
 		String objId = elem.getId();
-		ActorRef elemZ = (ActorRef) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target) {
-				elemZ = of.createActorRef();
-			} else
-				elemZ = (ActorRef) target;
-			id2object.put(objId, elemZ);
-		}
+		ActorRef elemZ = (ActorRef) getObject(objId, target, "createActorRef");
 		if (isFullConstruction) {
 			elemZ = (ActorRef) super.handle(elem, elemZ, true);
 

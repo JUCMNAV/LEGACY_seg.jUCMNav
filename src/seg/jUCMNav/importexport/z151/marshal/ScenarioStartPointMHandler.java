@@ -23,14 +23,7 @@ public class ScenarioStartPointMHandler extends PathNodeMHandler {
 		ucm.scenario.ScenarioStartPoint elem = (ucm.scenario.ScenarioStartPoint) o;
 		ucm.map.StartPoint startPoint = elem.getStartPoint();
 		String objId = startPoint.getId();
-		StartPoint elemZ = (StartPoint) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createStartPoint();
-			}else
-				elemZ = (StartPoint) target;
-			id2object.put(objId, elemZ);
-		}
+		StartPoint elemZ = (StartPoint) getObject(objId, target, "createStartPoint");
 		if (isFullConstruction) {
 			elemZ = (StartPoint) super.handle(startPoint, elemZ, true);
 			elemZ.setPrecondition((Condition) process(startPoint.getPrecondition(), null, true));

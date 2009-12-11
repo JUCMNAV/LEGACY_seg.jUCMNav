@@ -20,15 +20,7 @@ public class ActiveResourceMHandler extends GeneralResourceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.performance.ActiveResource elem = (ucm.performance.ActiveResource) o;
 		String objId = elem.getId();
-		ActiveResource elemZ = (ActiveResource) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createActiveResource();
-				elemZ.setId(objId);
-			}else
-				elemZ = (ActiveResource) target;
-			id2object.put(objId, elemZ);
-		}
+		ActiveResource elemZ = (ActiveResource) getObject(objId, target, "createActiveResource");
 		if (isFullConstruction) {
 			elemZ = (ActiveResource) super.handle(elem, elemZ, isFullConstruction);
 			elemZ.setOpTime(elem.getOpTime());

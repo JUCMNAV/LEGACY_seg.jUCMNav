@@ -16,15 +16,7 @@ public class OutBindingMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.OutBinding elem = (ucm.map.OutBinding) o;
 		String objId = this.getObjectId(elem);
-		OutBinding elemZ = (OutBinding) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target) {
-				elemZ = of.createOutBinding();
-				elemZ.setId(objId);
-			} else
-				elemZ = (OutBinding) target;
-			id2object.put(objId, elemZ);
-		}
+		OutBinding elemZ = (OutBinding) getObject(objId, target, "createOutBinding");
 		if (isFullConstruction) {
 			elemZ.setEndPoint(process(elem.getEndPoint(), null, false));
 			elemZ.setStubExit(process(elem.getStubExit(), null, false));

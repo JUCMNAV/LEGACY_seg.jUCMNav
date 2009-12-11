@@ -22,14 +22,7 @@ public class EndPointMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.EndPoint elem = (ucm.map.EndPoint) o;
 		String objId = elem.getId();
-		EndPoint elemZ = (EndPoint) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createEndPoint();
-			}else
-				elemZ = (EndPoint) target;
-			id2object.put(objId, elemZ);
-		}
+		EndPoint elemZ = (EndPoint) getObject(objId, target, "createEndPoint");
 		if (isFullConstruction) {
 			elemZ = (EndPoint) super.handle(elem, elemZ, true);
 			// elemZ.setPostcondition();

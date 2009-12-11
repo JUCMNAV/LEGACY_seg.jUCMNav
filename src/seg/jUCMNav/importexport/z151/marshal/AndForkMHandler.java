@@ -17,14 +17,8 @@ public class AndForkMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.AndFork elem = (ucm.map.AndFork) o;
 		String objId = elem.getId();
-		AndFork elemZ = (AndFork) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createAndFork();
-			}else
-				elemZ = (AndFork) target;
-			id2object.put(objId, elemZ);
-		}
+		AndFork elemZ = (AndFork) getObject(objId, target, "createAndFork");
+		
 		if (isFullConstruction) {
 			elemZ = (AndFork) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();

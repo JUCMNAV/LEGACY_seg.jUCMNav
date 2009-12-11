@@ -24,15 +24,7 @@ public class PluginBindingMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.PluginBinding elem = (ucm.map.PluginBinding) o;
 		String objId = this.getObjectId(elem);//elem.getId();
-		PluginBinding elemZ = (PluginBinding) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createPluginBinding();
-				elemZ.setId(objId);
-			}else
-				elemZ = (PluginBinding) target;
-			id2object.put(objId, elemZ);
-		}
+		PluginBinding elemZ = (PluginBinding) getObject(objId, target, "createPluginBinding");
 		
 		if (isFullConstruction) {
 			//probability

@@ -17,14 +17,7 @@ public class AnythingMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.Anything elem = (ucm.map.Anything) o;
 		String objId = elem.getId();
-		EmptyPoint elemZ = (EmptyPoint) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createEmptyPoint();
-			}else
-				elemZ = (EmptyPoint) target;
-			id2object.put(objId, elemZ);
-		}
+		EmptyPoint elemZ = (EmptyPoint) getObject(objId, target, "createEmptyPoint");
 		if (isFullConstruction) {
 			elemZ = (EmptyPoint) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();

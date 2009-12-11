@@ -21,14 +21,7 @@ public class RespRefMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.RespRef elem = (ucm.map.RespRef) o;
 		String objId = elem.getId();
-		RespRef elemZ = (RespRef) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createRespRef();
-			}else
-				elemZ = (RespRef) target;
-			id2object.put(objId, elemZ);
-		}
+		RespRef elemZ = (RespRef) getObject(objId, target, "createRespRef");
 		if (isFullConstruction) {
 			elemZ = (RespRef) super.handle(elem, elemZ, true);
 			elemZ.setRepetitionCount(elem.getRepetitionCount());

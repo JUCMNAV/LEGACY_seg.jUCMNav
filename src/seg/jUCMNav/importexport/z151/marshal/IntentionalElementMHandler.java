@@ -25,24 +25,11 @@ import seg.jUCMNav.importexport.z151.generated.*;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-/***
- * Done! But TODO: DecompositionType: jUCMNav has OR, but Z151 is IOR
- * IntentionalElementType: jNCMNav has Indicator, but Z151 has Belief Actor:
- * jUCMNav doesn't have the relation between IntentionalElement, but Z151 has .
- * 
- */
 public class IntentionalElementMHandler extends GRLLinkableElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		grl.IntentionalElement elem = (grl.IntentionalElement) o;
 		String objId = elem.getId();
-		IntentionalElement elemZ = (IntentionalElement) id2object.get(objId);
-		if (elemZ == null) {
-			if (null == target) {
-				elemZ = of.createIntentionalElement();
-			} else
-				elemZ = (IntentionalElement) target;
-			this.id2object.put(objId, elemZ);
-		}
+		IntentionalElement elemZ = (IntentionalElement) getObject(objId, target, "createIntentionalElement");
 		if (isFullConstruction) {
 			elemZ = (IntentionalElement) super.handle(elem, elemZ, true);
 			//type

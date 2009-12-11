@@ -57,14 +57,7 @@ public class LinkRefMHandler extends MHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.LinkRef elem = (grl.LinkRef) obj;
 		String objId = this.getObjectId(elem);
-		LinkRef elemZ = (LinkRef) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target) {
-				elemZ = of.createLinkRef();
-			} else
-				elemZ = (LinkRef) target;
-			id2object.put(objId, elemZ);
-		}
+		LinkRef elemZ = (LinkRef) getObject(objId, target, "createLinkRef");
 		if (isFullConstruction) {
 			elemZ.setId(objId);
 			elemZ.setName(objId);

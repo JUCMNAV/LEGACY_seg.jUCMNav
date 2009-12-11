@@ -30,14 +30,7 @@ public class GRLLinkableElementMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.GRLLinkableElement elem = (grl.GRLLinkableElement) obj;
 		String objId = elem.getId();
-		GRLLinkableElement elemZ = (GRLLinkableElement) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = (GRLLinkableElement) of.createGRLLinkableElement();
-			}else
-				elemZ = (GRLLinkableElement) target;
-			id2object.put(objId, elemZ);
-		}
+		GRLLinkableElement elemZ = (GRLLinkableElement) getObject(objId, target, "createGRLLinkableElement");
 		if (isFullConstruction) {
 			elemZ = (GRLLinkableElement) super.handle(elem, elemZ, true);
 			processList(elem.getLinksDest(), elemZ.getLinksDest(), "createGRLLinkableElementLinksDest", false);

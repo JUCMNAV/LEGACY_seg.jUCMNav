@@ -24,14 +24,7 @@ public class CollapsedActorRefMHandler extends GRLNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		grl.CollapsedActorRef elem = (grl.CollapsedActorRef) o;
 		String objId = elem.getId();
-		CollapsedActorRef elemZ = (CollapsedActorRef) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createCollapsedActorRef();
-			}else
-				elemZ = (CollapsedActorRef) target;
-			id2object.put(objId, elemZ);
-		}
+		CollapsedActorRef elemZ = (CollapsedActorRef) getObject(objId, target, "createCollapsedActorRef");
 		if (isFullConstruction) {
 			elemZ.setActor((grl.Actor) process(elem.getActor(), null, false));
 		}

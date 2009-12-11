@@ -19,14 +19,7 @@ public class PassiveResourceMHandler extends GeneralResourceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.performance.PassiveResource elem = (ucm.performance.PassiveResource) o;
 		String objId = elem.getId();
-		PassiveResource elemZ = (PassiveResource) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createPassiveResource();
-			}else
-				elemZ = (PassiveResource) target;
-			id2object.put(objId, elemZ);
-		}
+		PassiveResource elemZ = (PassiveResource) getObject(objId, target, "createPassiveResource");
 		if (isFullConstruction) {
 			elemZ = (PassiveResource) super.handle(elem, elemZ, true);
 			elemZ.setComponent(process(elem.getComponent(), null, true));

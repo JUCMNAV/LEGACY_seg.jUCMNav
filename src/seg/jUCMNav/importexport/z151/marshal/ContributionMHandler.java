@@ -30,15 +30,7 @@ public class ContributionMHandler extends ElementLinkMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.Contribution elem = (grl.Contribution) obj;
 		String objId = elem.getId();
-		Contribution elemZ = (Contribution) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createContribution();
-			}else
-				elemZ = (Contribution) target;
-			id2object.put(objId, elemZ);
-		}
-		
+		Contribution elemZ = (Contribution) getObject(objId, target, "createContribution");
 		if (isFullConstruction) {
 			elemZ = (Contribution) super.handle(elem, elemZ, true);
 			elemZ.setContribution(getContributionType(elem.getContribution()));

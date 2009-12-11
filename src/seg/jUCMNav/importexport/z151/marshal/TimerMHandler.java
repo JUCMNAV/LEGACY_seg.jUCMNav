@@ -19,14 +19,7 @@ public class TimerMHandler extends WaitingPlaceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.Timer elem = (ucm.map.Timer) o;
 		String objId = elem.getId();
-		Timer elemZ = (Timer) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target)
-				elemZ = of.createTimer();
-			else
-				elemZ = (Timer) target;
-			id2object.put(objId, elemZ);
-		}
+		Timer elemZ = (Timer) getObject(objId, target, "createTimer");
 		if (isFullConstruction) {
 			elemZ = (Timer) super.handle(elem, elemZ, true);
 			if (elem.getTimeoutPath() != null) {

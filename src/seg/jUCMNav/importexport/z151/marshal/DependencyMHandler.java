@@ -14,14 +14,7 @@ public class DependencyMHandler extends ElementLinkMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.Dependency elem = (grl.Dependency) obj;
 		String objId = elem.getId();
-		Dependency elemZ = (Dependency) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createDependency();
-			}else
-				elemZ = (Dependency) target;
-			id2object.put(objId, elemZ);
-		}
+		Dependency elemZ = (Dependency) getObject(objId, target, "createDependency");
 		if (isFullConstruction) {
 			super.handle(elem, elemZ, true);
 		}

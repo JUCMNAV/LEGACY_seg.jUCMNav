@@ -15,14 +15,7 @@ public class OrJoinMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.OrJoin elem = (ucm.map.OrJoin) o;
 		String objId = elem.getId();
-		OrJoin elemZ = (OrJoin) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createOrJoin();
-			}else
-				elemZ = (OrJoin) target;
-			id2object.put(objId, elemZ);
-		}
+		OrJoin elemZ = (OrJoin) getObject(objId, target, "createOrJoin");
 		if (isFullConstruction) {
 			elemZ = (OrJoin) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();

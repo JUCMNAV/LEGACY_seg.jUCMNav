@@ -16,15 +16,7 @@ public class InBindingMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.InBinding elem = (ucm.map.InBinding) o;
 		String objId = this.getObjectId(elem);
-		InBinding elemZ = (InBinding) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target) {
-				elemZ = of.createInBinding();
-				elemZ.setId(objId);
-			} else
-				elemZ = (InBinding) target;
-			id2object.put(objId, elemZ);
-		}
+		InBinding elemZ = (InBinding) getObject(objId, target, "createInBinding");
 		if (isFullConstruction) {
 			elemZ.setStartPoint(process(elem.getStartPoint(), null, false));
 			elemZ.setStubEntry(process(elem.getStubEntry(), null, false));

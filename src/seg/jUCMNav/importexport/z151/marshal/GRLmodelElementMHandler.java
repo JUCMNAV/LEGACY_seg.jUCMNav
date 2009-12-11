@@ -18,14 +18,7 @@ public class GRLmodelElementMHandler extends URNmodelElementMHandler{
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		urncore.GRLmodelElement elem = (urncore.GRLmodelElement) obj;
 		String objId = elem.getId();
-		GRLmodelElement elemZ = (GRLmodelElement) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = (GRLmodelElement) of.createGRLLinkableElement();
-			}else
-				elemZ = (GRLmodelElement) target;
-			id2object.put(objId, elemZ);
-		}
+		GRLmodelElement elemZ = (GRLmodelElement) getObject(objId, target, "createGRLmodelElement");
 		if (isFullConstruction) {
 			super.handle(elem,elemZ, true);
 		}

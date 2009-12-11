@@ -24,14 +24,7 @@ public class IntentionalElementRefMHandler extends GRLNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		grl.IntentionalElementRef elem = (grl.IntentionalElementRef) o;
 		String objId = elem.getId();
-		IntentionalElementRef elemZ = (IntentionalElementRef) id2object.get(objId);
-		if (elemZ == null) {
-			if (null == target) {
-				elemZ = of.createIntentionalElementRef();
-			} else
-				elemZ = (IntentionalElementRef) target;
-			this.id2object.put(objId, elemZ);
-		}
+		IntentionalElementRef elemZ = (IntentionalElementRef) getObject(objId, target, "createIntentionalElementRef");
 		elemZ.setDef((IntentionalElement) process(elem.getDef(), null, false));
 		if (isFullConstruction) {			
 			elemZ = (IntentionalElementRef) super.handle(elem, elemZ, true);

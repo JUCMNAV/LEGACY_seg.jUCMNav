@@ -20,14 +20,7 @@ public class VariableMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.scenario.Variable elem = (ucm.scenario.Variable) o;
 		String objId = elem.getId();
-		Variable elemZ = (Variable) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target)
-				elemZ = of.createVariable();
-			else
-				elemZ = (Variable) target;
-			id2object.put(objId, elemZ);
-		}
+		Variable elemZ = (Variable) getObject(objId, target, "createVariable");
 		if (isFullConstruction) {
 			elemZ = (Variable) super.handle(elem, elemZ, true);
 			elemZ.setEnumerationType((EnumerationType) process(elem.getEnumerationType(), null, false));

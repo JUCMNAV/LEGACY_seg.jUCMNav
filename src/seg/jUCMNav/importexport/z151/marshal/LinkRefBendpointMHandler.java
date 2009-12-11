@@ -13,7 +13,6 @@ import seg.jUCMNav.importexport.z151.generated.*;
 //  </xsd:sequence>
 //</xsd:complexType>
 
-/*** Done! ***/
 
 public class LinkRefBendpointMHandler extends MHandler {
 

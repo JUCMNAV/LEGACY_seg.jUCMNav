@@ -21,26 +21,13 @@ import seg.jUCMNav.importexport.z151.generated.*;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-/***
- * Done! //Key Differences between Z.151 and jUCMNav 7.5.2: EvaluationStrategy
- * in Z.151 may be associated to many StrategiesGroup in Z.151, but to only one
- * in jUCMNav.
- ****/
-
 public class EvaluationStrategyMHandler extends GRLmodelElementMHandler {
 
 	@Override
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.EvaluationStrategy elem = (grl.EvaluationStrategy) obj;
 		String objId = elem.getId();
-		EvaluationStrategy elemZ = (EvaluationStrategy) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target) {
-				elemZ = of.createEvaluationStrategy();
-			} else
-				elemZ = (EvaluationStrategy) target;
-			this.id2object.put(objId, elemZ);
-		}
+		EvaluationStrategy elemZ = (EvaluationStrategy) getObject(objId, target, "createEvaluationStrategy");
 		if (isFullConstruction) {
 			super.handle(elem, elemZ, true);
 			processList(elem.getEvaluations(), elemZ.getEvaluations(), true);

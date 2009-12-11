@@ -19,14 +19,7 @@ public class ExternalOperationMHandler extends ActiveResourceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.performance.ExternalOperation elem = (ucm.performance.ExternalOperation) o;
 		String objId = elem.getId();
-		ExternalOperation elemZ = (ExternalOperation) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createExternalOperation();
-			}else
-				elemZ = (ExternalOperation) target;
-			id2object.put(objId, elemZ);
-		}
+		ExternalOperation elemZ = (ExternalOperation) getObject(objId, target, "createExternalOperation");
 		if (isFullConstruction) {
 			elemZ = (ExternalOperation) super.handle(elem, elemZ, true);
 			// elemZ.setOpTime();

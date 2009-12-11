@@ -20,14 +20,7 @@ public class ProcessingResourceMHandler extends ActiveResourceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.performance.ProcessingResource elem = (ucm.performance.ProcessingResource) o;
 		String objId = elem.getId();
-		ProcessingResource elemZ = (ProcessingResource) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createProcessingResource();
-			}else
-				elemZ = (ProcessingResource) target;
-			id2object.put(objId, elemZ);
-		}
+		ProcessingResource elemZ = (ProcessingResource) getObject(objId, target, "createProcessingResource");
 		if (isFullConstruction) {
 			elemZ = (ProcessingResource) super.handle(elem, elemZ, true);
 			elemZ.setKind(getDeviceKind(elem.getKind()));

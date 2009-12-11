@@ -22,14 +22,7 @@ public class StartPointMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.StartPoint elem = (ucm.map.StartPoint) o;
 		String objId = elem.getId();
-		StartPoint elemZ = (StartPoint) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target){
-				elemZ = of.createStartPoint();
-			}else
-				elemZ = (StartPoint) target;
-			id2object.put(objId, elemZ);
-		}
+		StartPoint elemZ = (StartPoint) getObject(objId, target, "createStartPoint");
 		if (isFullConstruction) {
 			elemZ = (StartPoint) super.handle(elem, elemZ, true);
 			elemZ.setPrecondition((Condition) process(elem.getPrecondition(), null, true));
