@@ -62,6 +62,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.commands.change.ChangePluginBindingProbCommand;
+import seg.jUCMNav.model.commands.change.ChangePluginBindingRepFactorCommand;
 import seg.jUCMNav.model.commands.change.ChangePluginBindingTransCommand;
 import seg.jUCMNav.model.commands.create.AddComponentBindingCommand;
 import seg.jUCMNav.model.commands.create.AddInBindingCommand;
@@ -211,6 +212,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
     // The text field and Double for the probability of a PluginBinding
     private Text txtProbability;
+    private Text txtRepFactor;
     private Label lblProbabilityValid;
     private Label txtTransaction;
     private Button btChangeTrans;
@@ -218,6 +220,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
     private final int listHeight = 100;
     private final int columnWidth = 130;
+    private Label lblRepFactorValid;
 
     public StubBindingsDialog(Shell parentShell, CommandStack cmdStack) {
         super(parentShell);
@@ -620,6 +623,33 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         g.grabExcessHorizontalSpace = false;
         g.grabExcessVerticalSpace = true;
         lblProbabilityValid.setLayoutData(g);
+        
+
+        // Probability: label & value(double)
+        Label lblRepFactor = toolkit.createLabel(compCondition, Messages.getString("StubBindingsDialog.RepFactor")); //$NON-NLS-1$
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = false;
+        g.grabExcessVerticalSpace = true;
+        lblRepFactor.setLayoutData(g);
+
+        txtRepFactor = toolkit.createText(compCondition, "", SWT.BORDER); //$NON-NLS-1$
+        g = new GridData();
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.horizontalSpan = 1;
+        g.widthHint = 50;
+        txtRepFactor.setLayoutData(g);
+        txtRepFactor.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent event) {
+                handleUpdateReplicationFactor();
+            }
+        });
+
+        lblRepFactorValid = toolkit.createLabel(compCondition, ""); //$NON-NLS-1$
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = false;
+        g.grabExcessVerticalSpace = true;
+        lblRepFactorValid.setLayoutData(g);
 
         // btUpdateLink = toolkit.createHyperlink(compCondition,
         // Messages.getString("StubBindingsDialog.Update"), SWT.NONE);
@@ -656,7 +686,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         CTabItem item1 = new CTabItem(tabFolder, SWT.NONE);
-        item1.setText("Start/End Point");
+        item1.setText(Messages.getString("StubBindingsDialog.StartEnd")); //$NON-NLS-1$
 
         Composite page1 = toolkit.createComposite(tabFolder);
         grid = new GridLayout();
@@ -682,7 +712,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
         // start of component binding controls
         CTabItem item2 = new CTabItem(tabFolder, SWT.NONE);
-        item2.setText("Components/Responsibilities");
+        item2.setText(Messages.getString("StubBindingsDialog.CompRespTab")); //$NON-NLS-1$
 
         Composite page2 = toolkit.createComposite(tabFolder);
         grid = new GridLayout();
@@ -826,7 +856,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         tabParentResps.setLayoutData(g);
         respParentColumn = new TableColumn(tabParentResps, SWT.NONE);
         respParentColumn.setWidth(columnWidth);
-        respParentColumn.setText(Messages.getString("LabelTreeEditPart.responsibilities"));
+        respParentColumn.setText(Messages.getString("LabelTreeEditPart.responsibilities")); //$NON-NLS-1$
 
         Composite buttonComp = toolkit.createComposite(page2);
         grid = new GridLayout();
@@ -1153,6 +1183,27 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             }
         }
     }
+    protected void handleUpdateReplicationFactor() {
+        if (this.preventUpdate)
+            return;
+        PluginBinding pluginBinding = selectedPluginBinding();
+        if (pluginBinding != null) {
+            try {
+                Integer repFactor = new Integer(txtRepFactor.getText());
+                if (pluginBinding.getProbability() != repFactor.intValue()) {
+                    ChangePluginBindingRepFactorCommand changeRepFactor = new ChangePluginBindingRepFactorCommand(pluginBinding, repFactor.intValue());
+                    execute(changeRepFactor, false);
+                }
+                okButton.setEnabled(true);
+                lblRepFactorValid.setText(""); //$NON-NLS-1$
+                lblRepFactorValid.setBackground(ColorManager.WHITE);
+            } catch (Exception e) {
+                okButton.setEnabled(false);
+                lblRepFactorValid.setText("INVALID"); //$NON-NLS-1$
+                lblRepFactorValid.setBackground(ColorManager.RED);
+            }
+        }
+    }
 
     /**
      * Listener when the Transaction value is changed (by the toggle button)
@@ -1192,6 +1243,22 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             txtProbability.setText("" + pluginBinding.getProbability()); //$NON-NLS-1$
             lblProbabilityValid.setText(""); //$NON-NLS-1$
             lblProbabilityValid.setBackground(ColorManager.WHITE);
+            okButton.setEnabled(true);
+            this.preventUpdate = false;
+        }
+    }
+
+    /**
+     * Displays value of Replication Factor for the selected PluginBinding
+     * 
+     */
+    private void refreshReplicationFactor() {
+        PluginBinding pluginBinding = selectedPluginBinding();
+        if (pluginBinding != null) {
+            this.preventUpdate = true;
+            txtRepFactor.setText("" + pluginBinding.getReplicationFactor()); //$NON-NLS-1$
+            lblRepFactorValid.setText(""); //$NON-NLS-1$
+            lblRepFactorValid.setBackground(ColorManager.WHITE);
             okButton.setEnabled(true);
             this.preventUpdate = false;
         }
@@ -1352,7 +1419,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         Display d = treeBindings.getDisplay();
 
         treeBindings.setRedraw(false);
-        setTreeItemBackground(treeBindings.getItem(0), null);
+        setTreeItemBackground(treeBindings.getItem(0), null, null);
         treeBindings.setRedraw(true);
     }
 
@@ -1365,6 +1432,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         Display display = item.getDisplay();
 
         item.setBackground(display.getSystemColor(SWT.COLOR_LIST_SELECTION));
+        item.setForeground(display.getSystemColor(SWT.COLOR_LIST_SELECTION_TEXT));
     }
 
     /**
@@ -1373,16 +1441,17 @@ public class StubBindingsDialog extends Dialog implements Adapter {
      * @param root
      * @param color
      */
-    protected void setTreeItemBackground(TreeItem root, Color color) {
+    protected void setTreeItemBackground(TreeItem root, Color backColor, Color frontColor) {
         if (root == null)
             return;
 
-        root.setBackground(color);
+        root.setBackground(backColor);
+        root.setForeground(frontColor);
 
         for (int i = 0; i < root.getItemCount(); i++) {
             TreeItem item = root.getItem(i);
 
-            setTreeItemBackground(item, color);
+            setTreeItemBackground(item, backColor, frontColor);
         }
     }
 
@@ -1506,7 +1575,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
      * @see org.eclipse.jface.window.Window#getInitialSize()
      */
     protected Point getInitialSize() {
-        return new Point(1080, 775);
+        return new Point(1080, 810);
     }
 
     /**
@@ -1776,7 +1845,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                     boolean answer = MessageDialog
                             .openQuestion(
                                     getShell(),
-                                    Messages.getString("StubBindingsDialog.InvalidPluginComponent"), Messages.getString("StubBindingsDialog.InvalidPluginComponentText")); //$NON-NLS-1$ //$NON-NLS-2$
+                                    Messages.getString("StubBindingsDialog.InvalidPluginResp"), Messages.getString("StubBindingsDialog.InvalidPluginRespText")); //$NON-NLS-1$ //$NON-NLS-2$
                     if (!answer)
                         return;
                 }
@@ -2040,7 +2109,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             if (refs.size() > 0) {
                 // The add the label for Component Bindings under the PluginBinding item
                 subLabelItem = new TreeItem(item, SWT.NULL);
-                subLabelItem.setText("Responsibility Bindings");
+                subLabelItem.setText(Messages.getString("StubBindingsDialog.respBindings")); //$NON-NLS-1$
                 image = (JUCMNavPlugin.getImage("icons/RespBinding16.gif")); //$NON-NLS-1$
                 images.add(image);
                 subLabelItem.setImage(image);
@@ -2237,6 +2306,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             refreshCondition();
             refreshTransaction();
             refreshProbability();
+            refreshReplicationFactor();
         } else {
             selectedPluginLabel.setText(Messages.getString("StubBindingsDialog.noPluginSelected")); //$NON-NLS-1$
             selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD))); //$NON-NLS-1$
