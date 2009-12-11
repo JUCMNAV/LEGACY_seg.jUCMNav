@@ -23,6 +23,8 @@ import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
+import ucm.map.ResponsibilityBinding;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import ucm.performance.Demand;
@@ -225,6 +227,20 @@ public class CleanRelationshipsCommand extends CompoundCommand {
             for (Iterator iter = ((EndPoint) pn).getScenarioEndPoints().iterator(); iter.hasNext();) {
                 ScenarioEndPoint pt = (ScenarioEndPoint) iter.next();
                 add(new DeleteScenarioPathNodeCommand(pt));
+            }
+        }
+        
+        if(pn instanceof RespRef) {
+            RespRef r = (RespRef)pn;
+            
+            for (Iterator iterator = r.getParentBindings().iterator(); iterator.hasNext();) {
+                ResponsibilityBinding cb = (ResponsibilityBinding) iterator.next();
+                add(new DeleteRespBindingCommand(cb));    
+            }
+            
+            for (Iterator iterator = r.getPluginBindings().iterator(); iterator.hasNext();) {
+                ResponsibilityBinding cb = (ResponsibilityBinding) iterator.next();
+                add(new DeleteRespBindingCommand(cb));    
             }
         }
 

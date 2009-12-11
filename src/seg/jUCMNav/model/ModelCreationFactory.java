@@ -55,6 +55,7 @@ import ucm.map.OrJoin;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.ResponsibilityBinding;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
@@ -360,6 +361,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = urncorefactory.createMetadata();
             } else if (targetClass.equals(ComponentBinding.class)) {
                 result = mapfactory.createComponentBinding();
+            } else if (targetClass.equals(ResponsibilityBinding.class)) {
+                result = mapfactory.createResponsibilityBinding();
             } else {
                 // complex creations
                 if (targetClass.equals(UCMmap.class)) {

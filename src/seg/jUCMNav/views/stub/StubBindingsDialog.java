@@ -67,11 +67,13 @@ import seg.jUCMNav.model.commands.create.AddComponentBindingCommand;
 import seg.jUCMNav.model.commands.create.AddInBindingCommand;
 import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
+import seg.jUCMNav.model.commands.create.AddRespRefBindingCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteComponentBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteInBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteOutBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeletePluginCommand;
+import seg.jUCMNav.model.commands.delete.internal.DeleteRespBindingCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeDescriptionCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.ReplacePluginCommand;
@@ -97,6 +99,7 @@ import urncore.Component;
 import urncore.ComponentKind;
 import urncore.Condition;
 import urncore.IURNDiagram;
+import urncore.Responsibility;
 
 /**
  * The stub bindings dialog is the only way one can manage a stub's bindings: this stub can load which maps and how its in/out connections mapped to start/end
@@ -278,7 +281,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         GridData g = new GridData(GridData.FILL_BOTH);
         g.grabExcessHorizontalSpace = true;
         g.grabExcessVerticalSpace = true;
-        g.heightHint = 250;
+        g.heightHint = 490;
+        g.widthHint = 200;
         tabMapList.setLayoutData(g);
         tabMapListColumn = new TableColumn(tabMapList, SWT.NONE);
         tabMapListColumn.setWidth(150);
@@ -1208,6 +1212,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             plug = ((OutBinding) selectedItem).getBinding();
         } else if (selectedItem instanceof ComponentBinding) {
             plug = ((ComponentBinding) selectedItem).getBinding();
+        } else if (selectedItem instanceof ResponsibilityBinding) {
+            plug = ((ResponsibilityBinding) selectedItem).getBinding();
         } else {
             //System.err.println("Unexpected Context:  What's the selected item?"); //$NON-NLS-1$
             plug = null;
@@ -1255,9 +1261,17 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
             btDelete.setEnabled(false);
 
-            // Refresh the add bindings view with nothing since the plugin was
-            // deleted.
+            // Refresh the add bindings view with nothing since the plugin was deleted.
             setSelectedPluginView(comp.getBinding());
+        } else if (selectedItem instanceof ResponsibilityBinding) {
+            ResponsibilityBinding resp = (ResponsibilityBinding) selectedItem;
+            DeleteRespBindingCommand delete = new DeleteRespBindingCommand(resp);
+            execute(delete);
+
+            btDelete.setEnabled(false);
+
+            // Refresh the add bindings view with nothing since the plugin was deleted.
+            setSelectedPluginView(resp.getBinding());
         } else {
             System.err.println("Unexpected Context:  What's the selected item?"); //$NON-NLS-1$
         }
@@ -1330,6 +1344,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         }
     }
 
+    /**
+     * Recursively reset the background color for all items.
+     * 
+     */
     protected void resetTreeItemsBackground() {
         Display d = treeBindings.getDisplay();
 
@@ -1338,12 +1356,23 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         treeBindings.setRedraw(true);
     }
 
+    /**
+     * Change UI to indicate this TreeItem is selected.
+     * 
+     * @param item
+     */
     protected void selectTreeItem(TreeItem item) {
         Display display = item.getDisplay();
 
         item.setBackground(display.getSystemColor(SWT.COLOR_LIST_SELECTION));
     }
 
+    /**
+     * Recursively set the background color on a tree node from a root node.
+     * 
+     * @param root
+     * @param color
+     */
     protected void setTreeItemBackground(TreeItem root, Color color) {
         if (root == null)
             return;
@@ -1409,6 +1438,11 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         } else {
             if (source.getParentItem() != null) {
                 selectedItem = (PluginBinding) source.getParentItem().getData();
+
+                resetTreeItemsBackground();
+
+                selectTreeItem(source.getParentItem());
+
                 setSelectedPluginView((PluginBinding) source.getParentItem().getData());
             }
             btDelete.setEnabled(false);
@@ -1472,7 +1506,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
      * @see org.eclipse.jface.window.Window#getInitialSize()
      */
     protected Point getInitialSize() {
-        return new Point(900, 775);
+        return new Point(1080, 775);
     }
 
     /**
@@ -1721,7 +1755,40 @@ public class StubBindingsDialog extends Dialog implements Adapter {
      * Handles a click on the bind button for responsibility bindings
      */
     protected void handleRespBindClick() {
+        if (tabParentResps.getSelectionCount() >= 1 && tabPluginResps.getSelectionCount() >= 1 && stub.getBindings().size() > 0) {
+            PluginBinding plug = null;
+            // Check that the selected Stub is not dynamic
+            if (!stub.isDynamic()) {
+                // Set the binding of the OutBinding to to first one in the list
+                // of the plugin.
+                plug = (PluginBinding) stub.getBindings().get(0);
+            } else {
+                plug = (PluginBinding) selectedPluginLabel.getData();
+            }
+            // Get the selected StartPoint and NodeConnection in the map and
+            // stub in table.
+            RespRef parent = (RespRef) parentRespList.get(tabParentResps.getSelectionIndex());
+            RespRef plugin = (RespRef) pluginRespList.get(tabPluginResps.getSelectionIndex());
 
+            if (plugin.getRespDef() instanceof Responsibility) {
+                Responsibility def = ((Responsibility) plugin.getRespDef());
+                if (!(def.isContext())) {
+                    boolean answer = MessageDialog
+                            .openQuestion(
+                                    getShell(),
+                                    Messages.getString("StubBindingsDialog.InvalidPluginComponent"), Messages.getString("StubBindingsDialog.InvalidPluginComponentText")); //$NON-NLS-1$ //$NON-NLS-2$
+                    if (!answer)
+                        return;
+                }
+
+            }
+            AddRespRefBindingCommand in = new AddRespRefBindingCommand(plug, parent, plugin);
+            execute(in);
+
+            setSelectedPluginView(plug);
+
+            btRespBind.setEnabled(false);
+        }
     }
 
     /**
@@ -1895,70 +1962,104 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             item.setData(binding);
 
             // Then add a label for InBindings under this item
-            subLabelItem = new TreeItem(item, SWT.NULL);
-            subLabelItem.setText(Messages.getString("StubBindingsDialog.inBindings")); //$NON-NLS-1$
-            image = (JUCMNavPlugin.getImage("icons/inBinding16.gif")); //$NON-NLS-1$
-            images.add(image);
-            subLabelItem.setImage(image);
-
-            // Loop through all the InBindings and add them under the InBinding
-            // label
             List in = binding.getIn();
-            for (Iterator j = in.iterator(); j.hasNext();) {
-                InBinding inBind = (InBinding) j.next();
-                subItem = new TreeItem(subLabelItem, SWT.NULL);
-                subItem.setText("IN" + (stub.getPred().indexOf(inBind.getStubEntry()) + 1) + " <-> " + inBind.getStartPoint().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+
+            if (in.size() > 0) {
+                subLabelItem = new TreeItem(item, SWT.NULL);
+                subLabelItem.setText(Messages.getString("StubBindingsDialog.inBindings")); //$NON-NLS-1$
                 image = (JUCMNavPlugin.getImage("icons/inBinding16.gif")); //$NON-NLS-1$
                 images.add(image);
-                subItem.setImage(image);
-                subItem.setData(inBind);
+                subLabelItem.setImage(image);
+
+                // Loop through all the InBindings and add them under the InBinding
+                // label
+                for (Iterator j = in.iterator(); j.hasNext();) {
+                    InBinding inBind = (InBinding) j.next();
+                    subItem = new TreeItem(subLabelItem, SWT.NULL);
+                    subItem.setText("IN" + (stub.getPred().indexOf(inBind.getStubEntry()) + 1) + " <-> " + inBind.getStartPoint().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+                    image = (JUCMNavPlugin.getImage("icons/inBinding16.gif")); //$NON-NLS-1$
+                    images.add(image);
+                    subItem.setImage(image);
+                    subItem.setData(inBind);
+                }
+                subLabelItem.setExpanded(true); // We want everything expanded by default.
             }
-            subLabelItem.setExpanded(true); // We want everything expanded by
-            // default.
 
-            // The add the label for OutBindings under the PluginBinding item
-            subLabelItem = new TreeItem(item, SWT.NULL);
-            subLabelItem.setText(Messages.getString("StubBindingsDialog.outBindings")); //$NON-NLS-1$
-            image = (JUCMNavPlugin.getImage("icons/outBinding16.gif")); //$NON-NLS-1$
-            images.add(image);
-            subLabelItem.setImage(image);
-
-            // Loop through all the OutBindings and add them under the
-            // OutBinding label
             List out = binding.getOut();
-            for (Iterator j = out.iterator(); j.hasNext();) {
-                OutBinding outBind = (OutBinding) j.next();
-                subItem = new TreeItem(subLabelItem, SWT.NULL);
-                subItem.setText("OUT" + (stub.getSucc().indexOf(outBind.getStubExit()) + 1) + " <-> " + outBind.getEndPoint().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+            if (out.size() > 0) {
+                // The add the label for OutBindings under the PluginBinding item
+                subLabelItem = new TreeItem(item, SWT.NULL);
+                subLabelItem.setText(Messages.getString("StubBindingsDialog.outBindings")); //$NON-NLS-1$
                 image = (JUCMNavPlugin.getImage("icons/outBinding16.gif")); //$NON-NLS-1$
                 images.add(image);
-                subItem.setImage(image);
-                subItem.setData(outBind);
+                subLabelItem.setImage(image);
+
+                // Loop through all the OutBindings and add them under the
+                // OutBinding label
+                for (Iterator j = out.iterator(); j.hasNext();) {
+                    OutBinding outBind = (OutBinding) j.next();
+                    subItem = new TreeItem(subLabelItem, SWT.NULL);
+                    subItem.setText("OUT" + (stub.getSucc().indexOf(outBind.getStubExit()) + 1) + " <-> " + outBind.getEndPoint().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+                    image = (JUCMNavPlugin.getImage("icons/outBinding16.gif")); //$NON-NLS-1$
+                    images.add(image);
+                    subItem.setImage(image);
+                    subItem.setData(outBind);
+                }
+                // We want everything expanded by default.
+                subLabelItem.setExpanded(true);
             }
-            // We want everything expanded by default.
-            subLabelItem.setExpanded(true);
 
-            // The add the label for Component Bindings under the PluginBinding item
-            subLabelItem = new TreeItem(item, SWT.NULL);
-            subLabelItem.setText(Messages.getString("StubBindingsDialog.ComponentBindings")); //$NON-NLS-1$
-            image = (JUCMNavPlugin.getImage("icons/componentBinding16.gif")); //$NON-NLS-1$
-            images.add(image);
-            subLabelItem.setImage(image);
-
-            // Loop through all the Component Bindings and add them under the
-            // Component Bindings label
             List comps = binding.getComponents();
-            for (Iterator j = comps.iterator(); j.hasNext();) {
-                ComponentBinding compBind = (ComponentBinding) j.next();
-                subItem = new TreeItem(subLabelItem, SWT.NULL);
-                subItem.setText(URNNamingHelper.getName(compBind.getParentComponent()) + " <-> " + URNNamingHelper.getName(compBind.getPluginComponent())); //$NON-NLS-1$ 
+
+            if (comps.size() > 0) {
+                // The add the label for Component Bindings under the PluginBinding item
+                subLabelItem = new TreeItem(item, SWT.NULL);
+                subLabelItem.setText(Messages.getString("StubBindingsDialog.ComponentBindings")); //$NON-NLS-1$
                 image = (JUCMNavPlugin.getImage("icons/componentBinding16.gif")); //$NON-NLS-1$
                 images.add(image);
-                subItem.setImage(image);
-                subItem.setData(compBind);
+                subLabelItem.setImage(image);
+
+                // Loop through all the Component Bindings and add them under the
+                // Component Bindings label
+
+                for (Iterator j = comps.iterator(); j.hasNext();) {
+                    ComponentBinding compBind = (ComponentBinding) j.next();
+                    subItem = new TreeItem(subLabelItem, SWT.NULL);
+                    subItem.setText(URNNamingHelper.getName(compBind.getParentComponent()) + " <-> " + URNNamingHelper.getName(compBind.getPluginComponent())); //$NON-NLS-1$ 
+                    image = (JUCMNavPlugin.getImage("icons/componentBinding16.gif")); //$NON-NLS-1$
+                    images.add(image);
+                    subItem.setImage(image);
+                    subItem.setData(compBind);
+                }
+                // We want everything expanded by default.
+                subLabelItem.setExpanded(true);
             }
-            // We want everything expanded by default.
-            subLabelItem.setExpanded(true);
+            
+            List refs = binding.getResponsibilities();
+
+            if (refs.size() > 0) {
+                // The add the label for Component Bindings under the PluginBinding item
+                subLabelItem = new TreeItem(item, SWT.NULL);
+                subLabelItem.setText("Responsibility Bindings");
+                image = (JUCMNavPlugin.getImage("icons/RespBinding16.gif")); //$NON-NLS-1$
+                images.add(image);
+                subLabelItem.setImage(image);
+
+                // Loop through all the Component Bindings and add them under the
+                // Component Bindings label
+
+                for (Iterator j = refs.iterator(); j.hasNext();) {
+                    ResponsibilityBinding refBind = (ResponsibilityBinding) j.next();
+                    subItem = new TreeItem(subLabelItem, SWT.NULL);
+                    subItem.setText(URNNamingHelper.getName(refBind.getParentResp()) + " <-> " + URNNamingHelper.getName(refBind.getPluginResp())); //$NON-NLS-1$ 
+                    image = (JUCMNavPlugin.getImage("icons/RespBinding16.gif")); //$NON-NLS-1$
+                    images.add(image);
+                    subItem.setImage(image);
+                    subItem.setData(refBind);
+                }
+                // We want everything expanded by default.
+                subLabelItem.setExpanded(true);
+            }
 
             item.setExpanded(true);
         }
@@ -2124,10 +2225,12 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 Object c = (Object) iterator.next();
                 if (c instanceof RespRef) {
                     RespRef r = (RespRef) c;
-                    pluginRespList.add(r);
-                    item = new TableItem(tabPluginResps, SWT.NULL);
-                    item.setText(URNNamingHelper.getName(r));
-                    item.setImage(resp);
+                    if (r.getPluginBindings().size() == 0) {
+                        pluginRespList.add(r);
+                        item = new TableItem(tabPluginResps, SWT.NULL);
+                        item.setText(URNNamingHelper.getName(r));
+                        item.setImage(resp);
+                    }
                 }
             }
 

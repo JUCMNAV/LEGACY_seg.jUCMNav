@@ -8,6 +8,7 @@ import ucm.map.ComponentBinding;
 import ucm.map.InBinding;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
+import ucm.map.ResponsibilityBinding;
 import ucm.map.UCMmap;
 import urn.URNspec;
 
@@ -79,6 +80,12 @@ public class DeletePluginCommand extends CompoundCommand {
         for (Iterator i = oldPlugin.getComponents().iterator(); i.hasNext();) {
             ComponentBinding out = (ComponentBinding) i.next();
             DeleteComponentBindingCommand cmd = new DeleteComponentBindingCommand(out);
+            add(cmd);
+        }
+        
+        for (Iterator i = oldPlugin.getResponsibilities().iterator(); i.hasNext();) {
+            ResponsibilityBinding out = (ResponsibilityBinding) i.next();
+            DeleteRespBindingCommand cmd = new DeleteRespBindingCommand(out);
             add(cmd);
         }
 

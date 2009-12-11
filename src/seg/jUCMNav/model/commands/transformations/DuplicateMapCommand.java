@@ -19,6 +19,7 @@ import ucm.map.InBinding;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.ResponsibilityBinding;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urn.URNspec;
@@ -147,6 +148,12 @@ public class DuplicateMapCommand extends Command implements JUCMNavCommand, IGlo
                             ComponentBinding destcb = (ComponentBinding) destpb.getComponents().get(k);
                             destcb.setParentComponent(srccb.getParentComponent());
                             destcb.setPluginComponent(srccb.getPluginComponent());
+                        }
+                        for (int k = 0; k < srcpb.getResponsibilities().size(); k++) {
+                            ResponsibilityBinding srccb = (ResponsibilityBinding) srcpb.getResponsibilities().get(k);
+                            ResponsibilityBinding destcb = (ResponsibilityBinding) destpb.getResponsibilities().get(k);
+                            destcb.setParentResp(srccb.getParentResp());
+                            destcb.setPluginResp(srccb.getPluginResp());
                         }
                     }
 
@@ -365,6 +372,11 @@ public class DuplicateMapCommand extends Command implements JUCMNavCommand, IGlo
                             ComponentBinding destcb = (ComponentBinding) destpb.getComponents().get(k);
                             destcb.setParentComponent(null);
                             destcb.setPluginComponent(null);
+                        }
+                        for (int k = 0; k < destpb.getResponsibilities().size(); k++) {
+                            ResponsibilityBinding destcb = (ResponsibilityBinding) destpb.getResponsibilities().get(k);
+                            destcb.setParentResp(null);
+                            destcb.setPluginResp(null);
                         }
                     }
                 }
