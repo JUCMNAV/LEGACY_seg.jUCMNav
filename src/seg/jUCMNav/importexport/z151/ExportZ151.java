@@ -40,8 +40,7 @@ public class ExportZ151 implements IURNExport {
             // close the stream
             if (fos != null) {
                 try {
-                    fos.close();
-//                    validateXml(filename);              
+                    fos.close();             
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -49,15 +48,12 @@ public class ExportZ151 implements IURNExport {
         }
     }
 
-   /**
-     * Main control loop that provides the CSM header, translates each UCM map into a CSM scenario
-     * (with components and resources), then outputs the CSM footer.
-     */
     public void export(urn.URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
 
+    	MHandler mh = null;
     	// Marchal the URN spec to XML...
 		try {
-	    	MHandler mh = new URNspecMHandler();
+	    	mh = new URNspecMHandler();
 	    	URNspec urnZ = null;
 	    	urnZ = (URNspec) mh.handle(urn, null, true);
 	    	JAXBContext context = JAXBContext.newInstance(URNspec.class);
@@ -69,9 +65,10 @@ public class ExportZ151 implements IURNExport {
 			mh.resetUrnSpec();
 		} catch (JAXBException jbe) {
 			System.err.println(jbe);
+			mh.resetUrnSpec();
+		}catch (Exception e) {
+			System.err.println(e);
+			mh.resetUrnSpec();
 		}
-//		
-//    	URNmarshaller marshaler = new URNmarshaller();
-//    	marshaler.URNmarshallerMain(urn,mapDiagrams, fos);
     }
 }
