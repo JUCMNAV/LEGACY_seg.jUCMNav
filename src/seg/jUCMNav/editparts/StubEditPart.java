@@ -198,7 +198,7 @@ public class StubEditPart extends PathNodeEditPart {
      */
     public void refreshVisuals() {
         Stub stub = (Stub) getNode();
-        figure.setStubType(stub.isDynamic(), stub.isPointcut());
+        figure.setStubType(stub.isDynamic(), stub.isPointcut(), stub.isSynchronization(), stub.isBlocking(), stub.getRepetitionCount());
 
         super.refreshVisuals();
     }

@@ -13,7 +13,7 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
     protected int lastSelection = 0;
 
     protected String[] getList() {
-        return new String[] { "Static", "Pointcut", "Dynamic" };
+        return new String[] { "Static", "Pointcut", "Dynamic", "Synchronizing", "Synchronizing Blocking" };
     }
 
     protected void updateSelection() {
@@ -23,7 +23,12 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
             combo.select(0);
         else if (s.isPointcut() && s.isDynamic())
             combo.select(1);
-        else if (s.isDynamic())
+        else if (s.isDynamic() && s.isSynchronization()) {
+            if (s.isBlocking())
+                combo.select(4);
+            else
+                combo.select(3);
+        } else if (s.isDynamic())
             combo.select(2);
 
         lastSelection = combo.getSelectionIndex();
@@ -42,15 +47,49 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
                 case 0:
                     c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Dynamic(), new Boolean(false));
                     cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Synchronization(), new Boolean(false));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Blocking(), new Boolean(false));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Pointcut(), new Boolean(false));
+                    cmd.add(c);
                     break;
                 case 1:
                     c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Pointcut(), new Boolean(true));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Synchronization(), new Boolean(false));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Blocking(), new Boolean(false));
                     cmd.add(c);
                     c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Dynamic(), new Boolean(true));
                     cmd.add(c);
                     break;
                 case 2:
                     c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Pointcut(), new Boolean(false));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Synchronization(), new Boolean(false));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Blocking(), new Boolean(false));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Dynamic(), new Boolean(true));
+                    cmd.add(c);
+                    break;
+                case 3:
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Pointcut(), new Boolean(false));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Synchronization(), new Boolean(true));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Blocking(), new Boolean(false));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Dynamic(), new Boolean(true));
+                    cmd.add(c);
+                    break;
+                case 4:
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Pointcut(), new Boolean(false));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Synchronization(), new Boolean(true));
+                    cmd.add(c);
+                    c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Blocking(), new Boolean(true));
                     cmd.add(c);
                     c = new SetCommand(s, MapPackage.eINSTANCE.getStub_Dynamic(), new Boolean(true));
                     cmd.add(c);
