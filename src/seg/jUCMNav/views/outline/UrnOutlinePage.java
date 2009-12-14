@@ -137,7 +137,6 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             }
         };
         showDefinitionsAction.setId("Definitions");
-        showDefinitionsAction.setActionDefinitionId("Definitions");
         showDefinitionsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/definitionsOutline16.gif")); //$NON-NLS-1$
         showDefinitionsAction.setToolTipText("Definitions");
         showDefinitionsAction.setText("Definitions");
@@ -150,7 +149,6 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             }
         };
         showConcernsAction.setId("UrnOutlinePage.ConcernOutline");
-        showConcernsAction.setActionDefinitionId("UrnOutlinePage.ConcernOutline");
         showConcernsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/concernsOutline16.gif")); //$NON-NLS-1$
         showConcernsAction.setToolTipText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
         showConcernsAction.setText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
