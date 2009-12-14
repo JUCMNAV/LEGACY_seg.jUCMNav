@@ -1,9 +1,13 @@
 package seg.jUCMNav.editors.actionContributors;
 
+import java.util.Iterator;
+import java.util.Vector;
+
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
@@ -73,6 +77,7 @@ import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 
 /**
  * This class builds the context menu used in our editor and views.
@@ -146,13 +151,12 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(DisconnectAction.DISCONNECT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(RefactorIntoStubAction.REFACTORINTOSTUB);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        
-        IAction[] actions = new IAction[18];
+        IAction[] actions = new IAction[20];
         actions[0] = getActionRegistry().getAction(AddOrForkAction.ADDORFORK);
         actions[1] = getActionRegistry().getAction(AddAndForkAction.ADDANDFORK);
         actions[2] = getActionRegistry().getAction(AddOrJoinAction.ADDORJOIN);
@@ -168,9 +172,13 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[12] = getActionRegistry().getAction(AddStartPointAction.ADDSTART);
         actions[13] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(0));
         actions[14] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(1));
-        actions[15] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(2));
-        actions[16] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(0));
-        actions[17] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(1));
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled()) {
+            actions[15] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(2));
+            actions[16] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(3));
+            actions[17] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(4));
+        }
+        actions[18] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(0));
+        actions[19] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(1));
 
         SubmenuAction submenu = new SubmenuAction(
                 actions,

@@ -280,7 +280,7 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.addResponsibility")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             action = new ChangeStubTypeAction(editor, i);
             // set text done in action.
             addEditPartAction((SelectionAction) action);

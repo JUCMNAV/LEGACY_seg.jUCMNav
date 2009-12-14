@@ -13,13 +13,15 @@ import ucm.map.Stub;
  */
 public class ChangeStubTypeCommand extends Command implements JUCMNavCommand {
     private Stub stub;
-    private boolean newIsDynamic, newIsPointcut;
-    private boolean oldIsDynamic, oldIsPointcut;
+    private boolean newIsDynamic, newIsPointcut, newSync, newBlocking;
+    private boolean oldIsDynamic, oldIsPointcut, oldSync, oldBlocking;
 
-    public ChangeStubTypeCommand(Stub stub, boolean isDynamic, boolean isPointcut) {
+    public ChangeStubTypeCommand(Stub stub, boolean isDynamic, boolean isPointcut, boolean isSync, boolean isBlocking) {
         this.stub = stub;
         this.newIsDynamic = isDynamic;
         this.newIsPointcut = isPointcut;
+        this.newSync = isSync;
+        this.newBlocking = isBlocking;
 
         setLabel(Messages.getString("ChangeStubTypeCommand.ChangeStubType")); //$NON-NLS-1$
     }
@@ -30,6 +32,9 @@ public class ChangeStubTypeCommand extends Command implements JUCMNavCommand {
     public void execute() {
         this.oldIsDynamic = stub.isDynamic();
         this.oldIsPointcut = stub.isPointcut();
+        this.oldSync = stub.isSynchronization();
+        this.oldBlocking = stub.isBlocking();
+        
         redo();
     }
 
@@ -50,6 +55,8 @@ public class ChangeStubTypeCommand extends Command implements JUCMNavCommand {
 
         stub.setDynamic(newIsDynamic);
         stub.setPointcut(newIsPointcut);
+        stub.setSynchronization(newSync);
+        stub.setBlocking(newBlocking);
 
         testPostConditions();
     }
@@ -81,6 +88,8 @@ public class ChangeStubTypeCommand extends Command implements JUCMNavCommand {
 
         stub.setDynamic(oldIsDynamic);
         stub.setPointcut(oldIsPointcut);
+        stub.setSynchronization(oldSync);
+        stub.setBlocking(oldBlocking);
 
         testPreConditions();
     }
