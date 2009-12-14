@@ -176,7 +176,12 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, false);
         targetEndpointLocator.setVDistance(5);
         targetEndpointLocator.setUDistance(30);
-        startLabel = new Label(Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1)); //$NON-NLS-1$
+        
+        String startText = Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1); //$NON-NLS-1$
+        if(getLink().getThreshold() != null && !getLink().getThreshold().isEmpty())
+            startText += " [" + getLink().getThreshold() + "]";
+        
+        startLabel = new Label(startText);
         startLabel.setForegroundColor(ColorManager.STUBLABEL);
         startLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
         connection.add(startLabel, targetEndpointLocator);
