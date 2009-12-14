@@ -178,7 +178,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         targetEndpointLocator.setUDistance(30);
         
         String startText = Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1); //$NON-NLS-1$
-        if(getLink().getThreshold() != null && !getLink().getThreshold().isEmpty())
+        if(getLink().getThreshold() != null && getLink().getThreshold().length() > 0)
             startText += " [" + getLink().getThreshold() + "]";
         
         startLabel = new Label(startText);
