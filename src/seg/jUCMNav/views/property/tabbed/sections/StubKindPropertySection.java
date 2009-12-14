@@ -13,7 +13,7 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
     protected int lastSelection = 0;
 
     protected String[] getList() {
-        return new String[] { "Static", "Pointcut", "Dynamic", "Synchronizing", "Synchronizing Blocking" };
+        return new String[] { "Static", "Pointcut", "Dynamic", "Synchronizing", "Blocking" };
     }
 
     protected void updateSelection() {

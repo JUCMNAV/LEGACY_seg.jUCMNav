@@ -90,8 +90,18 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
                         if (registry != null) {
                             URNDiagramEditPart part = (URNDiagramEditPart) registry.get(getMap());
                             if (part != null) {
-
                                 part.notifyChanged(notification);
+                            }
+                        }
+                    }
+                } else if (featureId == MapPackage.NODE_CONNECTION__THRESHOLD) {
+                    EditPartViewer viewer = getViewer();
+                    if (viewer != null) {
+                        Map registry = viewer.getEditPartRegistry();
+                        if (registry != null) {
+                            NodeConnectionEditPart part = (NodeConnectionEditPart) registry.get(getLink());
+                            if (part != null) {
+                                part.refreshVisuals();
                             }
                         }
                     }
@@ -172,19 +182,26 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     private void addStartLabel(SplineConnection connection) {
         if (startLabel != null)
             getFigure().remove(startLabel);
-        int index = getLink().getSource().getSucc().indexOf(getLink());
+        
         StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, false);
         targetEndpointLocator.setVDistance(5);
         targetEndpointLocator.setUDistance(30);
         
-        String startText = Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1); //$NON-NLS-1$
-        if(getLink().getThreshold() != null && getLink().getThreshold().length() > 0)
-            startText += " [" + getLink().getThreshold() + "]";
+        String startText = getStartText();
         
         startLabel = new Label(startText);
         startLabel.setForegroundColor(ColorManager.STUBLABEL);
         startLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
         connection.add(startLabel, targetEndpointLocator);
+    }
+
+    private String getStartText() {
+        int index = getLink().getSource().getSucc().indexOf(getLink());
+        
+        String startText = Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1); //$NON-NLS-1$
+        if(getLink().getThreshold() != null && getLink().getThreshold().length() > 0)
+            startText += " [" + getLink().getThreshold() + "]";
+        return startText;
     }
 
     /**
@@ -346,6 +363,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         // hide in print mode.
         if (startLabel != null) {
             startLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
+            startLabel.setText(getStartText());
         }
 
         // hide in print mode.
