@@ -21,6 +21,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.palette.tools.PathToolEntry;
 import seg.jUCMNav.editors.palette.tools.URNElementCreationEntry;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
@@ -62,6 +63,8 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
 
     /** Map from string to ToolEntry for hotkeys. */
     protected HashMap keyboardMapping;
+
+    protected Vector<ToolEntry> advancedItems = new Vector<ToolEntry>();
 
     /**
      * Creates a new UcmPaletteRoot instance. To be called by the palette or anything else that might not be recreated when a save-as is done.
@@ -164,26 +167,6 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
         keyboardMapping.put("r", entry); //$NON-NLS-1$
 
         entry = new URNElementCreationEntry(
-                Messages.getString("UcmPaletteRoot.stub"), Messages.getString("UcmPaletteRoot.createStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
-                        .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), JUCMNavPlugin.getImageDescriptor("icons/Stub24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
-        componentsDrawer.add(entry);
-        keyboardMapping.put("s", entry); //$NON-NLS-1$
-
-        entry = new URNElementCreationEntry(
-                Messages.getString("UcmPaletteRoot.dynamicStub"), Messages.getString("UcmPaletteRoot.createDynamicStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 1), //$NON-NLS-1$ //$NON-NLS-2$
-                JUCMNavPlugin.getImageDescriptor("icons/DynStub16.gif"), JUCMNavPlugin.getImageDescriptor( //$NON-NLS-1$
-                        "icons/DynStub24.gif")); //$NON-NLS-1$
-        componentsDrawer.add(entry);
-        keyboardMapping.put("d", entry); //$NON-NLS-1$
-
-        entry = new URNElementCreationEntry(
-                Messages.getString("UcmPaletteRoot.pointcutStub"), Messages.getString("UcmPaletteRoot.createPointcutStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 2), //$NON-NLS-1$ //$NON-NLS-2$
-                JUCMNavPlugin.getImageDescriptor("icons/PointcutStub16.gif"), JUCMNavPlugin.getImageDescriptor( //$NON-NLS-1$
-                        "icons/PointcutStub24.gif")); //$NON-NLS-1$
-        componentsDrawer.add(entry);
-        keyboardMapping.put("c", entry); //$NON-NLS-1$
-
-        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.timer"), Messages.getString("UcmPaletteRoot.createTimer"), Timer.class, new ModelCreationFactory(getURNspec(), Timer.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
                         .createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif"), JUCMNavPlugin.getImageDescriptor("icons/Timer24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
@@ -231,6 +214,49 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
                         "icons/AndJoin24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
         keyboardMapping.put("k", entry); //$NON-NLS-1$
+
+        add(componentsDrawer);
+
+        componentsDrawer = new PaletteDrawer("Stubs");
+
+        entry = new URNElementCreationEntry(
+                Messages.getString("UcmPaletteRoot.stub"), Messages.getString("UcmPaletteRoot.createStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
+                        .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), JUCMNavPlugin.getImageDescriptor("icons/Stub24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
+        componentsDrawer.add(entry);
+        keyboardMapping.put("s", entry); //$NON-NLS-1$
+
+        entry = new URNElementCreationEntry(
+                Messages.getString("UcmPaletteRoot.dynamicStub"), Messages.getString("UcmPaletteRoot.createDynamicStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 1), //$NON-NLS-1$ //$NON-NLS-2$
+                JUCMNavPlugin.getImageDescriptor("icons/DynStub16.gif"), JUCMNavPlugin.getImageDescriptor( //$NON-NLS-1$
+                        "icons/DynStub24.gif")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
+        keyboardMapping.put("d", entry); //$NON-NLS-1$
+        
+        entry = new URNElementCreationEntry(
+                Messages.getString("UcmPaletteRoot.pointcutStub"), Messages.getString("UcmPaletteRoot.createPointcutStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 2), //$NON-NLS-1$ //$NON-NLS-2$
+                JUCMNavPlugin.getImageDescriptor("icons/PointcutStub16.gif"), JUCMNavPlugin.getImageDescriptor( //$NON-NLS-1$
+                        "icons/PointcutStub24.gif")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
+        advancedItems.add(entry);
+        keyboardMapping.put("c", entry); //$NON-NLS-1$
+
+        entry = new URNElementCreationEntry(
+                Messages.getString("UcmPaletteRoot.SyncStub"), Messages.getString("UcmPaletteRoot.CreateSyncStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 3), //$NON-NLS-1$ //$NON-NLS-2$
+                JUCMNavPlugin.getImageDescriptor("icons/SyncStub16.gif"), JUCMNavPlugin.getImageDescriptor( //$NON-NLS-1$
+                        "icons/SyncStub24.gif")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
+        advancedItems.add(entry);
+        keyboardMapping.put("y", entry); //$NON-NLS-1$
+
+        entry = new URNElementCreationEntry(
+                Messages.getString("UcmPaletteRoot.BlockStub"), Messages.getString("UcmPaletteRoot.CreateBlockStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 4), //$NON-NLS-1$ //$NON-NLS-2$
+                JUCMNavPlugin.getImageDescriptor("icons/BlockStub16.gif"), JUCMNavPlugin.getImageDescriptor( //$NON-NLS-1$
+                        "icons/BlockStub24.gif")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
+        advancedItems.add(entry);
+        keyboardMapping.put("b", entry); //$NON-NLS-1$
+        
+        showAdvancedStubs(DisplayPreferences.getInstance().isAdvancedControlEnabled());
 
         add(componentsDrawer);
     }
@@ -322,5 +348,12 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
         parent = null;
         keyboardMapping.clear();
         keyboardMapping = null;
+    }
+
+    public void showAdvancedStubs(boolean show) {
+        for (Iterator i = advancedItems.iterator(); i.hasNext();) {
+            ToolEntry t = (ToolEntry) i.next();
+            t.setVisible(show);
+        }
     }
 }

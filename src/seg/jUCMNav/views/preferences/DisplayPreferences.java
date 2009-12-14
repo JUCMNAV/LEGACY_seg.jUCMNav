@@ -26,8 +26,9 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.concerns.ManageConcernsAction;
 import seg.jUCMNav.editors.GrlEditor;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.editors.UrnEditor;
+import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.editors.palette.GrlPaletteRoot;
+import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.views.JUCMNavRefreshableView;
 import ucm.map.AndFork;
@@ -124,15 +125,43 @@ public class DisplayPreferences {
                         showView(page, "seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
                         
                         addKpi(page);
+                        addStubs(page);
                     } else {
                         hideView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
                         hideView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
 
                         removeKpi(page);
+                        removeStubs(page);
                     }
                 }
             }
         });
+    }
+
+    /**
+     * Add Advanced Stubs entries to all the palettes of all UCM editors.
+     * 
+     * @param page
+     */
+    private void addStubs(IWorkbenchPage page) {
+        Vector<UcmPaletteRoot> pal = getUcmPalettes(page);
+        for (Iterator<UcmPaletteRoot> iterator = pal.iterator(); iterator.hasNext();) {
+            UcmPaletteRoot palette = iterator.next();
+            palette.showAdvancedStubs(true);
+        }
+    }
+
+    /**
+     * Remove Advanced Stubs entries from all the palettes of all UCM editors.
+     * 
+     * @param page
+     */
+    private void removeStubs(IWorkbenchPage page) {
+        Vector<UcmPaletteRoot> pal = getUcmPalettes(page);
+        for (Iterator<UcmPaletteRoot> iterator = pal.iterator(); iterator.hasNext();) {
+            UcmPaletteRoot palette = iterator.next();
+            palette.showAdvancedStubs(false);
+        }
     }
 
     /**
@@ -180,6 +209,27 @@ public class DisplayPreferences {
                     IEditorPart part = editor.getEditor(j);
                     if (part instanceof GrlEditor)
                         result.add((GrlPaletteRoot) ((GrlEditor) part).getPaletteRoot());
+                }
+            }
+        }
+
+        return result;
+    }
+    
+
+    private Vector<UcmPaletteRoot> getUcmPalettes(IWorkbenchPage page) {
+        Vector<UcmPaletteRoot> result = new Vector<UcmPaletteRoot>();
+
+        Vector<IEditorPart> ref = getEditors(page, "seg.jUCMNav.MainEditor"); //$NON-NLS-1$
+
+        for (Iterator<IEditorPart> it = ref.iterator(); it.hasNext();) {
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) it.next();
+
+            if (editor != null) {
+                for (int j = 0; j < editor.getPageCount(); j++) {
+                    IEditorPart part = editor.getEditor(j);
+                    if (part instanceof UcmEditor)
+                        result.add((UcmPaletteRoot) ((UcmEditor) part).getPaletteRoot());
                 }
             }
         }

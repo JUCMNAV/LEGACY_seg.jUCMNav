@@ -354,7 +354,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = ucmscenariofactory.createEnumerationType();
             } else if (targetClass.equals(Variable.class)) {
                 result = ucmscenariofactory.createVariable();
-                if (definition!=null) ((Variable) result).setType(definition.toString());
+                if (definition != null)
+                    ((Variable) result).setType(definition.toString());
             } else if (targetClass.equals(Initialization.class)) {
                 result = ucmscenariofactory.createInitialization();
             } else if (targetClass.equals(Metadata.class)) {
@@ -410,6 +411,17 @@ public class ModelCreationFactory implements CreationFactory {
                         Stub stub = (Stub) result;
                         stub.setDynamic(true);
                         stub.setPointcut(true);
+                    } else if (type == 3) {
+                        // Synchronizing Stub
+                        Stub stub = (Stub) result;
+                        stub.setDynamic(true);
+                        stub.setSynchronization(true);
+                    } else if (type == 4) {
+                        // Blocking Stub
+                        Stub stub = (Stub) result;
+                        stub.setDynamic(true);
+                        stub.setSynchronization(true);
+                        stub.setBlocking(true);
                     }
                 } else if (targetClass.equals(RespRef.class)) {
                     // should create responsibility definition
