@@ -30,16 +30,15 @@ public class IntentionalElementUMHandler extends GRLLinkableElementUMHandler {
     public Object handle(Object o, Object target, boolean isFullConstruction) {
         IntentionalElement elemZ = (IntentionalElement) o;
         grl.IntentionalElement elem = null;
-        boolean isIndicator = false;
         
         if (!elemZ.getType().equals(IntentionalElementType.BELIEF)) {
             if (elemZ.getType().equals(IntentionalElementType.TASK)) {
                 List<Metadata> metaDataList = elemZ.getMetadata();
                 for(Metadata item: metaDataList){
                     if (item.getName().equals("jUCMNav Indicator")){
-                    	elem = (grl.kpimodel.Indicator) getObject(elemZ.getId(), target, grl.IntentionalElement.class);
+                    	elem = (grl.kpimodel.Indicator) getObject(elemZ.getId(), target, grl.kpimodel.Indicator.class);
                         //elem = (grl.kpimodel.Indicator) getObjectFromId(elemZ.getId(),grl.kpimodel.Indicator.class);
-                        isIndicator=true;
+
                         metaDataList.remove(item);
                         break;
                     }
@@ -50,11 +49,10 @@ public class IntentionalElementUMHandler extends GRLLinkableElementUMHandler {
                 elem = (grl.IntentionalElement) getObject(elemZ.getId(), target, grl.IntentionalElement.class);
             }
             if (isFullConstruction) {
-                if (isIndicator) {
+                if (elem instanceof grl.kpimodel.Indicator) {
                     elem = (grl.kpimodel.Indicator) super.handle(elemZ, elem, true);
                     elem.setType(grl.IntentionalElementType.INDICATOR_LITERAL);
-                }
-                else {
+                }else {
                     elem = (grl.IntentionalElement) super.handle(elemZ, elem, true);
                     elem.setType(getIntentionalElementType(elemZ.getType()));
                 }
