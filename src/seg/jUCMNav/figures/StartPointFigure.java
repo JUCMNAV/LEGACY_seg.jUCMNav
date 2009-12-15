@@ -2,10 +2,18 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
+import org.eclipse.draw2d.LineBorder;
+import org.eclipse.draw2d.Polyline;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.text.FlowPage;
+import org.eclipse.draw2d.text.SimpleTextLayout;
+import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 
 /**
  * This figure represent a StartPoint and Waiting Place!
@@ -14,6 +22,11 @@ import org.eclipse.swt.graphics.Color;
  */
 public class StartPointFigure extends PathNodeFigure {
     private Ellipse ellipse;
+    private FlowPage flowPage;
+    private TextFlow stubTypeText;
+    private boolean isFailure = false;
+    private boolean isAbort;
+    private Polyline lightning;
 
     /**
      * An ellipse that fills 2/3 of the area.
@@ -21,11 +34,47 @@ public class StartPointFigure extends PathNodeFigure {
      * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
      */
     protected void createFigure() {
+
+        int width = preferredSize.width;
+        int height = preferredSize.height;
+
         ellipse = new Ellipse();
-        ellipse.setBounds(new Rectangle(DEFAULT_WIDTH / 6, DEFAULT_HEIGHT / 6, DEFAULT_WIDTH * 2 / 3, DEFAULT_HEIGHT * 2 / 3));
+        ellipse.setBounds(new Rectangle(20, 20, 16, 16));
         ellipse.setBackgroundColor(ColorManager.LINE);
         ellipse.setAntialias(SWT.ON);
         add(ellipse);
+
+        // create the text inside the main figure
+        flowPage = new FlowPage();
+        stubTypeText = new TextFlow();
+        stubTypeText.setLayoutManager(new SimpleTextLayout(stubTypeText));
+        // TODO CONCERNS: should use default font?
+        stubTypeText.setFont(new Font(null, "Verdana", 12, SWT.BOLD)); //$NON-NLS-1$
+        stubTypeText.setText("F"); //$NON-NLS-1$
+        stubTypeText.setForegroundColor(ColorManager.WHITE);
+        flowPage.add(stubTypeText);
+        // TODO CONCERNS: depends on font size!
+        flowPage.setBounds(new Rectangle(16, 12, 20, 20));
+        flowPage.setVisible(false);
+
+        add(flowPage);
+
+        // The lightning for an abort failure point
+        PointList pts = new PointList();
+        pts.addPoint(23, 27);
+        pts.addPoint(27, 33);
+        pts.addPoint(20, 32);
+        pts.addPoint(28, 42);
+        pts.addPoint(28, 37);
+        pts.addPoint(28, 42);
+        pts.addPoint(23, 41);
+        
+        lightning = new Polyline();
+        lightning.setLineWidth(2);
+        lightning.setAntialias(SWT.ON);
+        lightning.setPoints(pts);
+        
+        add(lightning);
     }
 
     /**
@@ -48,12 +97,15 @@ public class StartPointFigure extends PathNodeFigure {
         this.hover = hover;
 
         if (hover) {
-            ellipse.setLocation(new Point(DEFAULT_WIDTH / 6 - 2, DEFAULT_HEIGHT / 6 - 2));
-            ellipse.setSize(DEFAULT_WIDTH * 2 / 3 + 4, DEFAULT_HEIGHT * 2 / 3 + 4);
-
+            ellipse.setLocation(new Point(13 - 2, 13 - 2));
+            ellipse.setSize(16 + 4, 16 + 4);
+            
+            lightning.setStart(new Point(23+2, 27+2));
         } else {
-            ellipse.setLocation(new Point(DEFAULT_WIDTH / 6, DEFAULT_HEIGHT / 6));
-            ellipse.setSize(DEFAULT_WIDTH * 2 / 3, DEFAULT_HEIGHT * 2 / 3);
+            ellipse.setLocation(new Point(13, 13));
+            ellipse.setSize(16, 16);
+            
+            lightning.setStart(new Point(23, 27));
         }
     }
 
@@ -78,6 +130,26 @@ public class StartPointFigure extends PathNodeFigure {
         }
     }
 
+    public void setType(int failureKind) {
+
+        switch (failureKind) {
+        case 0: // Normal startpoint
+            this.isFailure = false;
+            this.isAbort = false;
+            break;
+        case 1: // Failure point
+            this.isFailure = true;
+            this.isAbort = false;
+            break;
+        default: // Failure Abort point
+            this.isFailure = true;
+            this.isAbort = true;
+            break;
+        }
+        flowPage.setVisible(isFailure);
+        lightning.setVisible(isAbort);
+    }
+
     /**
      * We need local coordinates when resizing
      * 
@@ -86,5 +158,10 @@ public class StartPointFigure extends PathNodeFigure {
     protected boolean useLocalCoordinates() {
 
         return true;
+    }
+
+    @Override
+    public Dimension getPreferredSize(int wHint, int hHint) {
+        return new Dimension(42, 42);
     }
 }

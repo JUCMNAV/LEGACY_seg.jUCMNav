@@ -60,6 +60,7 @@ import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.FailureKind;
 import ucm.map.InBinding;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
@@ -398,7 +399,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      * @see #rotateFromPrevious(PathNodeFigure)
      */
     private void rotateFromNext(PathNodeFigure nodeFigure) {
-        if (getViewer()==null) return;
+        if (getViewer() == null)
+            return;
 
         PathNode pn = ((PathNode) getModel());
 
@@ -500,7 +502,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      * @see #rotateFromNext(PathNodeFigure)
      */
     private void rotateFromPrevious(PathNodeFigure nodeFigure) {
-        if (getViewer()==null) return;
+        if (getViewer() == null)
+            return;
 
         PathNode pn = ((PathNode) getModel());
 
@@ -568,6 +571,22 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     public void refreshVisuals() {
         PathNodeFigure nodeFigure = getNodeFigure();
         PathNode node = getNode();
+
+        if (node instanceof StartPoint) {// If it's a startpoint, update it's type
+            switch (((StartPoint) node).getFailureKind().getValue()) {
+            case FailureKind.NONE:
+                ((StartPointFigure) nodeFigure).setType(0);
+                break;
+            case FailureKind.FAILURE:
+                ((StartPointFigure) nodeFigure).setType(1);
+                break;
+            case FailureKind.ABORT:
+                ((StartPointFigure) nodeFigure).setType(2);
+                break;
+            default:
+                break;
+            }
+        }
 
         // inform and forks/joins how many branches they must display.
         if (node instanceof AndFork) {

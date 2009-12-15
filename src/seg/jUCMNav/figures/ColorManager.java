@@ -40,6 +40,7 @@ public class ColorManager {
     public static Color LINKREFLABEL;
     public static Color KPIMODELLINKREFLABEL;
     public static Color CONDITIONLABEL;
+    public static Color FAILUREPOINT = RED;
 
     static {
         refresh();
@@ -121,6 +122,5 @@ public class ColorManager {
         // }
         rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), ColorManagementPreferencePage.PREF_CONDITIONLABELCOLOR);
         CONDITIONLABEL = new Color(null, rgb.red, rgb.green, rgb.blue);
-
     }
 }
