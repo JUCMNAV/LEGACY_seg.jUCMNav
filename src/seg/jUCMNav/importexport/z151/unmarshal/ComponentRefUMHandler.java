@@ -49,7 +49,7 @@ public class ComponentRefUMHandler extends UCMmodelElementUMHandler {
 					elem.setAnchored(Boolean.parseBoolean(item.getValue()));
 					removeList.add(item);
 				}
-				if (item.getName().equals("jUCMNav Actor fixed")){
+				if (item.getName().equals("jUCMNav ComponentRef fixed")){
 					elem.setFixed(Boolean.parseBoolean(item.getValue()));
 					removeList.add(item);
 				}
