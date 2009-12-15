@@ -27,6 +27,7 @@ public class PluginBindingMHandler extends MHandler {
 		PluginBinding elemZ = (PluginBinding) getObject(objId, target, "createPluginBinding");
 		
 		if (isFullConstruction) {
+			elemZ.setId(objId);
 			//probability
 			elemZ.setProbability(new BigInteger(Integer.toString((int) (elem.getProbability() * 100))));
 			

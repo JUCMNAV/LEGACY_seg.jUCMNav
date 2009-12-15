@@ -43,6 +43,7 @@ public class NodeConnectionMHandler extends MHandler {
 		String objId = this.getObjectId(elem); //jUCMNav does not assign value to ID
 		NodeConnection elemZ = (NodeConnection) getObject(objId, target, "createNodeConnection");
 		if (isFullConstruction) {
+			elemZ.setId(objId);
 			//condition
 			elemZ.setCondition((Condition) process(elem.getCondition(), null, true));
 			
@@ -50,7 +51,8 @@ public class NodeConnectionMHandler extends MHandler {
 			elemZ.setProbability(new BigInteger(Integer.toString((int) (elem.getProbability() * 100))));
 
 			// elemZ.setTimer(); handled by TimerMHandler
-			elemZ.setThreshold(elem.getThreshold());
+			if(elem.getThreshold()!=null) elemZ.setThreshold(elem.getThreshold());
+			else elemZ.setThreshold("");
 			//source
 			elemZ.setSource(process(elem.getSource(), null, false));
 			//label

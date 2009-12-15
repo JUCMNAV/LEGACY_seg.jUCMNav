@@ -452,13 +452,13 @@ public abstract class MHandler {
 	}
 
 	protected Object getObject(String objId, Object target, String methodName) {
-		Object elem = id2object.get(objId);
-		if (null == elem) {
+		Object elemZ = id2object.get(objId);
+		if (null == elemZ) {
 			if (null == target) {
 				Method method;
 				try {
 					method = of.getClass().getMethod(methodName);
-					elem = method.invoke(of);
+					elemZ = method.invoke(of);
 				} catch (SecurityException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -476,10 +476,10 @@ public abstract class MHandler {
 					e.printStackTrace();
 				}
 			} else
-				elem = target;
-			id2object.put(objId, elem);
+				elemZ = target;
+			id2object.put(objId, elemZ);
 
 		}
-		return elem;
+		return elemZ;
 	}
 }

@@ -34,7 +34,7 @@ public class BeliefLinkMHandler extends MHandler {
 		grl.BeliefLink elem = (grl.BeliefLink) obj;
 		String objId = this.getObjectId(elem);
 		ElementLink elemZ = (ElementLink) id2object.get(objId);
-		LinkRef linkRef = (LinkRef) id2object.get(""+elem.hashCode());;
+		LinkRef linkRef = (LinkRef) id2object.get("jUCMNav_"+elem.hashCode());;
 		if (null == elemZ) {
 			if (null == target){
 				elemZ = of.createElementLink();
@@ -44,7 +44,7 @@ public class BeliefLinkMHandler extends MHandler {
 		}
 		if (linkRef == null) {
 			linkRef = of.createLinkRef();
-			this.id2object.put(""+elem.hashCode(), linkRef);
+			this.id2object.put("jUCMNav_"+elem.hashCode(), linkRef);
 		}
 		if (isFullConstruction) {
 			elemZ.setId(objId);

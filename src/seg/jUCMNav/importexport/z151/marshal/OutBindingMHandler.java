@@ -18,6 +18,7 @@ public class OutBindingMHandler extends MHandler {
 		String objId = this.getObjectId(elem);
 		OutBinding elemZ = (OutBinding) getObject(objId, target, "createOutBinding");
 		if (isFullConstruction) {
+			elemZ.setId(objId);
 			elemZ.setEndPoint(process(elem.getEndPoint(), null, false));
 			elemZ.setStubExit(process(elem.getStubExit(), null, false));
 		}

@@ -18,6 +18,7 @@ public class InBindingMHandler extends MHandler {
 		String objId = this.getObjectId(elem);
 		InBinding elemZ = (InBinding) getObject(objId, target, "createInBinding");
 		if (isFullConstruction) {
+			elemZ.setId(objId);
 			elemZ.setStartPoint(process(elem.getStartPoint(), null, false));
 			elemZ.setStubEntry(process(elem.getStubEntry(), null, false));
 			// elemZ.getStubEntry();
