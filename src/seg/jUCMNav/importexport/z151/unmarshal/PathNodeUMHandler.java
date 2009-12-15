@@ -17,7 +17,6 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import org.eclipse.emf.common.util.EList;
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
 
@@ -25,17 +24,7 @@ public class PathNodeUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		PathNode elemZ = (PathNode) o;
 		String objId = elemZ.getId();
-		ucm.map.PathNode elem = (ucm.map.PathNode) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.PathNode) ModelCreationFactory.getNewObject(urn, ucm.map.PathNode.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.PathNode) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.PathNode elem = (ucm.map.PathNode) getObject(elemZ.getId(), target, ucm.map.PathNode.class);
 		if (isFullConstruction) {
 			elem = (ucm.map.PathNode) super.handle(elemZ, elem, true);
 			if (elemZ.getPos() != null) {

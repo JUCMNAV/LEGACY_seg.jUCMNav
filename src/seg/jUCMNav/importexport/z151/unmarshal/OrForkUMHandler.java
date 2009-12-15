@@ -19,17 +19,7 @@ public class OrForkUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		OrFork elemZ = (OrFork) o;
 		String objId = elemZ.getId();
-		ucm.map.OrFork elem = (ucm.map.OrFork) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.OrFork) ModelCreationFactory.getNewObject(urn, ucm.map.OrFork.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.OrFork) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.OrFork elem = (ucm.map.OrFork) getObject(elemZ.getId(), target, ucm.map.OrFork.class);
 		if (isFullConstruction) {			
 			elem = (ucm.map.OrFork) super.handle(elemZ, elem, true);
 			elem.setOrientation(null); //ORIENTATION_EDEFAULT

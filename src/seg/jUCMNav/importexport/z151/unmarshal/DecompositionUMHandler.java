@@ -17,18 +17,7 @@ public class DecompositionUMHandler extends ElementLinkUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Decomposition elemZ = (Decomposition) o;
 		String objId = elemZ.getId();
-		grl.Decomposition elem = (grl.Decomposition) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (grl.Decomposition) ModelCreationFactory.getNewObject(
-						urn, grl.Decomposition.class);
-					elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (grl.Decomposition) target;
-			id2object.put(objId, elem);
-		}
+		grl.Decomposition elem = (grl.Decomposition) getObject(objId, target, grl.Decomposition.class);
 		if (isFullConstruction) {
 			elem = (grl.Decomposition) super.handle(elemZ, elem, true);
 			// elem.setGrlspec();

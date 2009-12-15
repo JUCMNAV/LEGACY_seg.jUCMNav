@@ -22,17 +22,7 @@ public class ConcernUMHandler extends URNmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Concern elemZ = (Concern) o;
 		String objId = elemZ.getId();
-		urncore.Concern elem = (urncore.Concern) id2object.get(objId);
-		if (null == elem) {
-			if (null == target) {
-				elem = (urncore.Concern) ModelCreationFactory.getNewObject(urn, urncore.Concern.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-					globelId = objId;
-			} else
-				elem = (urncore.Concern) target;
-			id2object.put(objId, elem);
-		}
+		urncore.Concern elem = (urncore.Concern) getObject(objId, target, urncore.Concern.class);
 		if (isFullConstruction) {
 			elem = (urncore.Concern) super.handle(elemZ, elem, true);
 			elem.setUrndefinition(urn.getUrndef());

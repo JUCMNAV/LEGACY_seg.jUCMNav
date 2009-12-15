@@ -5,7 +5,8 @@ import org.eclipse.emf.common.util.EList;
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.model.ModelCreationFactory;
 
-
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,8 @@ public abstract class EObjectImplUMHandler {
 	public static urn.URNspec urn = null;
 	protected static Map<Class<?>, EObjectImplUMHandler> ourClass2Conv = new HashMap<Class<?>, EObjectImplUMHandler>();
 	protected static Map<String, Object> id2object = new HashMap<String, Object>();
-	protected static String globelId = "0"; 
-	
+	protected static String globelId = "0";
+
 	static {
 		ourClass2Conv.put(ActiveResource.class, new ActiveResourceUMHandler());
 		ourClass2Conv.put(ActorRef.class, new ActorRefUMHandler());
@@ -85,7 +86,7 @@ public abstract class EObjectImplUMHandler {
 		ourClass2Conv.put(URNspec.class, new URNspecUMHandler());
 		ourClass2Conv.put(Variable.class, new VariableUMHandler());
 		ourClass2Conv.put(WaitingPlace.class, new WaitingPlaceUMHandler());
-		//ourClass2Conv.put(Workload.class, new WorkloadUMHandler());
+		// ourClass2Conv.put(Workload.class, new WorkloadUMHandler());
 		ourClass2Conv.put(OWPeriodic.class, new WorkloadUMHandler());
 		ourClass2Conv.put(OWPoisson.class, new WorkloadUMHandler());
 		ourClass2Conv.put(OWUniform.class, new WorkloadUMHandler());
@@ -93,12 +94,13 @@ public abstract class EObjectImplUMHandler {
 		ourClass2Conv.put(ClosedWorkload.class, new WorkloadUMHandler());
 		// ...
 	}
-	
-	public void resetUrnSpec(){
+
+	public void resetUrnSpec() {
 		urn = null;
 		id2object.clear();
-		globelId = "0"; 
+		globelId = "0";
 	}
+
 	public String getObjectId(Object obj) {
 		return "Z151_id_" + obj.getClass() + "_" + hashCode(obj);
 	}
@@ -110,17 +112,17 @@ public abstract class EObjectImplUMHandler {
 	public abstract Object handle(Object obj, Object target, boolean isFullConstruction);
 
 	protected Object process(Object obj, Object target, boolean isFullConstruction) {
-		try{
-		if (null != obj) {
-			EObjectImplUMHandler h = ourClass2Conv.get(obj.getClass());
-			if (null != h) {
-				return h.handle(obj, target, isFullConstruction);
-			} else {
-				System.err.println(obj.getClass().getName()+" MHandler is UNDEFINED!");
+		try {
+			if (null != obj) {
+				EObjectImplUMHandler h = ourClass2Conv.get(obj.getClass());
+				if (null != h) {
+					return h.handle(obj, target, isFullConstruction);
+				} else {
+					System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!");
+				}
 			}
-		}
-		}catch(Exception e){
-			System.err.println(obj.getClass().getName()+" Exception");
+		} catch (Exception e) {
+			System.err.println(obj.getClass().getName() + " Exception");
 		}
 		return null;
 	}
@@ -132,26 +134,27 @@ public abstract class EObjectImplUMHandler {
 				if (obj instanceof JAXBElement) {
 					h = this.getHandler(((JAXBElement) obj).getValue());
 					if (null != h) {
-						Object result =h.process(((JAXBElement) obj).getValue(), null, isFullConstruction);
-						if (result!=null && !targetList.contains(result)) {
+						Object result = h.process(((JAXBElement) obj).getValue(), null, isFullConstruction);
+						if (result != null && !targetList.contains(result)) {
 							targetList.add(result);
 						}
 					} else {
-						System.err.println(((JAXBElement) obj).getValue().getClass().getName()+" UMHandler is UNDEFINED!");
+						System.err.println(((JAXBElement) obj).getValue().getClass().getName() + " UMHandler is UNDEFINED!");
 					}
 				} else {
 					h = this.getHandler(obj);
 					if (null != h) {
 						Object result = h.process(obj, null, isFullConstruction);
-						if (result!=null && !targetList.contains(result)) targetList.add(result);
+						if (result != null && !targetList.contains(result))
+							targetList.add(result);
 					} else {
-						System.err.println(obj.getClass().getName()+" UNMHandler is UNDEFINED!");
+						System.err.println(obj.getClass().getName() + " UNMHandler is UNDEFINED!");
 					}
 				}
 
 			}
 		} else {
-			System.out.println(this.getClass().getName()+" processList list is null or empty! " );
+			System.out.println(this.getClass().getName() + " processList list is null or empty! ");
 		}
 	}
 
@@ -159,13 +162,14 @@ public abstract class EObjectImplUMHandler {
 		switch (typeJ) {
 		case AND:
 			return grl.DecompositionType.AND_LITERAL;
-		case IOR: return grl.DecompositionType.OR_LITERAL;
+		case IOR:
+			return grl.DecompositionType.OR_LITERAL;
 			// //DecompositionType: jUCMNav has OR, but Z151 is IOR
-		
+
 		case XOR:
 			return grl.DecompositionType.XOR_LITERAL;
 		default:
-			return null; //grl.DecompositionType.AND_LITERAL;
+			return grl.DecompositionType.AND_LITERAL;
 		}
 	}
 
@@ -193,28 +197,11 @@ public abstract class EObjectImplUMHandler {
 			return grl.IntentionalElementType.RESSOURCE_LITERAL;
 		case BELIEF:
 			return null;// IntentionalElementType: jNCMNav has Indicator, but
-						// Z151 has Belief
+			// Z151 has Belief
 		default:
 			return null;
 		}
 	}
-
-	// protected seg.jUCMNav.importexport.z151.generated.ImportanceType
-	// getImportanceType(grl.ImportanceType typeJ){
-	// switch (typeJ.getValue()){
-	// case 0: return
-	// seg.jUCMNav.importexport.z151.generated.ImportanceType.HIGH;
-	// case 1: return
-	// seg.jUCMNav.importexport.z151.generated.ImportanceType.MEDIUM;
-	// case 2: return
-	// seg.jUCMNav.importexport.z151.generated.ImportanceType.LOW;
-	// case 3: return
-	// seg.jUCMNav.importexport.z151.generated.ImportanceType.NONE;
-	// default: return
-	// seg.jUCMNav.importexport.z151.generated.ImportanceType.NONE;// null;
-	// }
-	//		
-	// }
 
 	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	// <!-- ComponentKind -->
@@ -247,43 +234,6 @@ public abstract class EObjectImplUMHandler {
 	}
 
 	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	// <!-- QualitativeLabel -->
-	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	// <xsd:simpleType name="QualitativeLabel">
-	// <xsd:restriction base="xsd:string">
-	// <xsd:enumeration value="Denied"/>
-	// <xsd:enumeration value="WeaklyDenied"/>
-	// <xsd:enumeration value="WeaklySatisfied"/>
-	// <xsd:enumeration value="Satisfied"/>
-	// <xsd:enumeration value="Conflict"/>
-	// <xsd:enumeration value="Unknown"/>
-	// <xsd:enumeration value="None"/>
-	// </xsd:restriction>
-	// </xsd:simpleType>
-
-	// protected grl.QualitativeLabel getQualitativeEvaluation(QualitativeLabel
-	// typeJ){
-	// switch (typeJ.getValue()){
-	// case 0: return
-	// seg.jUCMNav.importexport.z151.generated.QualitativeLabel.DENIED;
-	// case 1: return
-	// seg.jUCMNav.importexport.z151.generated.QualitativeLabel.WEAKLY_DENIED;
-	// case 2: return
-	// seg.jUCMNav.importexport.z151.generated.QualitativeLabel.WEAKLY_SATISFIED;
-	// case 3: return
-	// seg.jUCMNav.importexport.z151.generated.QualitativeLabel.SATISFIED;
-	// case 4: return
-	// seg.jUCMNav.importexport.z151.generated.QualitativeLabel.CONFLICT;
-	// case 5: return
-	// seg.jUCMNav.importexport.z151.generated.QualitativeLabel.UNKNOWN;
-	// case 6: return
-	// seg.jUCMNav.importexport.z151.generated.QualitativeLabel.NONE;
-	// default: return
-	// seg.jUCMNav.importexport.z151.generated.QualitativeLabel.NONE;
-	// }
-	// }
-
-	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	// <!-- ContributionType -->
 	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	// <xsd:simpleType name="ContributionType">
@@ -299,28 +249,7 @@ public abstract class EObjectImplUMHandler {
 	// </xsd:simpleType>
 	protected grl.ContributionType getContributionType(ContributionType typeJ) {
 		return grl.ContributionType.get(typeJ.ordinal());
-		// switch (typeJ.ordinal()){
-		// case 0: return grl.ContributionType.MAKE_LITERAL;
-		// case 1: return grl.ContributionType.HELP_LITERAL;
-		// case 2: return grl.ContributionType.SOME_POSITIVE_LITERAL;
-		// case 3: return grl.ContributionType.UNKNOWN_LITERAL;
-		// case 4: return grl.ContributionType.SOME_NEGATIVE_LITERAL;
-		// case 5: return grl.ContributionType.HURT_LITERAL;
-		// case 6: return grl.ContributionType.BREAK_LITERAL;
-		// default: return grl.ContributionType.UNKNOWN_LITERAL;
-		// }
 	}
-
-	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	// <!-- DatatypeKind -->
-	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	// <xsd:simpleType name="DatatypeKind">
-	// <xsd:restriction base="xsd:string">
-	// <xsd:enumeration value="Boolean"/>
-	// <xsd:enumeration value="Integer"/>
-	// <xsd:enumeration value="Enumeration"/>
-	// </xsd:restriction>
-	// Use DatatypeKind.fromValue(String)
 
 	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	// <!-- DeviceKind -->
@@ -346,36 +275,35 @@ public abstract class EObjectImplUMHandler {
 		}
 	}
 
-	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	// <!-- WaitKind -->
-	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	// <xsd:simpleType name="WaitKind">
-	// <xsd:restriction base="xsd:string">
-	// <xsd:enumeration value="Transient"/>
-	// <xsd:enumeration value="Persistent"/>
-	// </xsd:restriction>
-	// </xsd:simpleType>
-
-	// protected WaitKind getWaitKind(ucm.map.WaitKind typeJ){
-	// switch (typeJ.getValue()){
-	// case 0: return
-	// seg.jUCMNav.importexport.z151.generated.WaitKind.TRANSIENT;
-	// case 1: return
-	// seg.jUCMNav.importexport.z151.generated.WaitKind.PERSISTENT;
-	// default: return null;
-	// }
-	// }
-
 	protected EObjectImplUMHandler getHandler(Object obj) {
 		return ourClass2Conv.get(obj.getClass());
 	}
-	
-	protected Object getObjectFromId(String id, Class type){
+
+	protected Object getObjectFromId(String id, Class type) {
 		Object obj = this.id2object.get(id);
-		if (obj == null){
+		if (obj == null) {
 			obj = ModelCreationFactory.getNewObject(urn, type);
 			this.id2object.put(id, obj);
 		}
 		return obj;
+	}
+
+	protected Object getObject(String objId, Object target, Class type) {
+		Object elem = null;
+		elem=id2object.get(objId);
+		if (null == elem) {
+			if (null == target) {
+				elem = ModelCreationFactory.getNewObject(urn, type);
+				try {
+					int value = Integer.parseInt(objId);
+					if (Integer.valueOf(globelId) < Integer.valueOf(objId))
+						globelId = Integer.toString(value);
+				} catch (NumberFormatException e) {
+				}
+			} else
+				elem = target;
+			id2object.put(objId, elem);
+		}
+		return elem;
 	}
 }

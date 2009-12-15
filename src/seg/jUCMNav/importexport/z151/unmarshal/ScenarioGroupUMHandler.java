@@ -14,23 +14,12 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //  </xsd:complexType>
 
 import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
 
 public class ScenarioGroupUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ScenarioGroup elemZ = (ScenarioGroup) o;
 		String objId = elemZ.getId();
-		ucm.scenario.ScenarioGroup elem = (ucm.scenario.ScenarioGroup) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.scenario.ScenarioGroup) ModelCreationFactory.getNewObject(urn,ucm.scenario.ScenarioGroup.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else		
-				elem = (ucm.scenario.ScenarioGroup) target;
-			id2object.put(objId, elem);
-		}
+		ucm.scenario.ScenarioGroup elem = (ucm.scenario.ScenarioGroup) getObject(elemZ.getId(), target, ucm.scenario.ScenarioGroup.class);
 		if (isFullConstruction) {
 		elem = (ucm.scenario.ScenarioGroup) super.handle(elemZ, elem, true);
 //		elem.setUcmspec(); handled by UCMspecUMHandler

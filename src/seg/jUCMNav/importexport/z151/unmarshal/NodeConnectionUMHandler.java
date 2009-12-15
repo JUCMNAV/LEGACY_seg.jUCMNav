@@ -25,15 +25,7 @@ public class NodeConnectionUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		NodeConnection elemZ = (NodeConnection) o;
 		String objId = elemZ.getId();
-		ucm.map.NodeConnection elem = (ucm.map.NodeConnection) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.NodeConnection) ModelCreationFactory.getNewObject(urn, ucm.map.NodeConnection.class);
-			}
-			else
-				elem = (ucm.map.NodeConnection) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.NodeConnection elem = (ucm.map.NodeConnection) getObject(elemZ.getId(), target, ucm.map.NodeConnection.class);
 		if (isFullConstruction) {
 			// TODO elemZ.getId()
 			// elem.setDiagram(); handled by UCMmodelElementUMHandler

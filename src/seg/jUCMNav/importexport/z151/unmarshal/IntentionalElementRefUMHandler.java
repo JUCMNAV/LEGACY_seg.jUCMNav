@@ -23,17 +23,7 @@ public class IntentionalElementRefUMHandler extends GRLNodeUMHandler {
 		IntentionalElementRef elemZ = (IntentionalElementRef) o;
 		if (((IntentionalElement) elemZ.getDef()).getType().equals(IntentionalElementType.BELIEF)) {
 			String objId = elemZ.getId();
-			grl.Belief elem = (grl.Belief) id2object.get(objId);
-			if (null == elem) {
-				if (null == target) {
-					elem = (grl.Belief) ModelCreationFactory.getNewObject(urn, grl.Belief.class);
-					elem.setId(objId);
-					if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-						globelId = objId;
-				} else
-					elem = (grl.Belief) target;
-				id2object.put(objId, elem);
-			}
+			grl.Belief elem = (grl.Belief) getObject(objId, target, grl.Belief.class);
 			if (isFullConstruction) {
 				List<Metadata> metaDataList = elemZ.getMetadata();
 				for(Metadata item: metaDataList){
@@ -70,17 +60,7 @@ public class IntentionalElementRefUMHandler extends GRLNodeUMHandler {
 			return elem;
 		} else {
 			String objId = elemZ.getId();
-			grl.IntentionalElementRef elem = (grl.IntentionalElementRef) id2object.get(objId);
-			if (null == elem) {
-				if (null == target) {
-					elem = (grl.IntentionalElementRef) ModelCreationFactory.getNewObject(urn, grl.IntentionalElementRef.class);
-					elem.setId(objId);
-					if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-						globelId = objId;
-				} else
-					elem = (grl.IntentionalElementRef) target;
-				id2object.put(objId, elem);
-			}
+			grl.IntentionalElementRef elem = (grl.IntentionalElementRef) getObject(objId, target, grl.IntentionalElementRef.class);
 			if (isFullConstruction) {
 				elem = (grl.IntentionalElementRef) super.handle(elemZ, elem, true);
 				elem.setCriticality(grl.Criticality.NONE_LITERAL); // set to

@@ -21,18 +21,7 @@ public class StrategiesGroupUMHandler extends GRLmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		StrategiesGroup elemZ = (StrategiesGroup) o;
 		String objId = elemZ.getId();
-		grl.StrategiesGroup elem = (grl.StrategiesGroup) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (grl.StrategiesGroup) ModelCreationFactory.getNewObject(
-						urn, grl.StrategiesGroup.class);
-					elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (grl.StrategiesGroup) target;
-			id2object.put(objId, elem);
-		}
+		grl.StrategiesGroup elem = (grl.StrategiesGroup) getObject(elemZ.getId(), target, grl.StrategiesGroup.class);
 		if (isFullConstruction) {
 			elem = (grl.StrategiesGroup) super.handle(elemZ, elem, true);
 			//elem.setGrlspec(); //Handled in GRLspecUMHandler

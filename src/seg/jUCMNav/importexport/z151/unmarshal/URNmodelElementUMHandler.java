@@ -22,17 +22,7 @@ public class URNmodelElementUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		URNmodelElement elemZ = (URNmodelElement) o;
 		String objId = elemZ.getId();
-		urncore.URNmodelElement elem = (urncore.URNmodelElement) id2object.get(objId);
-		if (null == elem) {
-			if (null == target) {
-				elem = (urncore.URNmodelElement) ModelCreationFactory.getNewObject(urn, urncore.URNmodelElement.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-					globelId = objId;
-			} else
-				elem = (urncore.URNmodelElement) target;
-			id2object.put(objId, elem);
-		}
+		urncore.URNmodelElement elem = (urncore.URNmodelElement) getObject(elemZ.getId(), target, urncore.URNmodelElement.class);
 		if (isFullConstruction) {
 			elem.setId(elemZ.getId());
 			elem.setName(elemZ.getName());

@@ -19,18 +19,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 public class TimerUMHandler extends WaitingPlaceUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Timer elemZ = (Timer) o;
-		String objId = elemZ.getId();
-		ucm.map.Timer elem = (ucm.map.Timer) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.Timer) ModelCreationFactory.getNewObject(urn, ucm.map.Timer.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.Timer) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.Timer elem = (ucm.map.Timer) getObject(elemZ.getId(), target, ucm.map.Timer.class);
 		if (isFullConstruction) {
 			elem = (ucm.map.Timer) super.handle(elemZ, elem, true);
 			elem.setTimeoutPath((ucm.map.NodeConnection) process(elemZ.getTimeoutPath(), null, false)); 

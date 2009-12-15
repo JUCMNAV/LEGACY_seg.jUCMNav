@@ -17,18 +17,7 @@ public class AndForkUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		AndFork elemZ = (AndFork) o;
 		String objId = elemZ.getId();
-		ucm.map.AndFork elem = (ucm.map.AndFork) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.AndFork) ModelCreationFactory.getNewObject(urn,
-						ucm.map.AndFork.class);
-						elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.AndFork) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.AndFork elem = (ucm.map.AndFork) getObject(objId, target, ucm.map.AndFork.class);
 		if (isFullConstruction) {			
 			elem = (ucm.map.AndFork) super.handle(elemZ, elem, true);
 			elem.setOrientation(null); //ORIENTATION_EDEFAULT

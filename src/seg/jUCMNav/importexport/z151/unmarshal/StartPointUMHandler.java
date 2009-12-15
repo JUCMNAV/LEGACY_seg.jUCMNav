@@ -25,17 +25,7 @@ public class StartPointUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		StartPoint elemZ = (StartPoint) o;
 		String objId = elemZ.getId();
-		ucm.map.StartPoint elem = (ucm.map.StartPoint) id2object.get(objId);
-		if (null == elem) {
-			if (null == target) {
-				elem = (ucm.map.StartPoint) ModelCreationFactory.getNewObject(urn, ucm.map.StartPoint.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-					globelId = objId;
-			} else
-				elem = (ucm.map.StartPoint) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.StartPoint elem = (ucm.map.StartPoint) getObject(elemZ.getId(), target, ucm.map.StartPoint.class);
 		if (isFullConstruction) {
 
 			List<Metadata> metaDataList = elemZ.getMetadata();

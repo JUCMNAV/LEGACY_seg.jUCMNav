@@ -20,20 +20,7 @@ public class ExternalOperationUMHandler extends ActiveResourceUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ExternalOperation elemZ = (ExternalOperation) o;
 		String objId = elemZ.getId();
-		ucm.performance.ExternalOperation elem = (ucm.performance.ExternalOperation) id2object
-				.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.performance.ExternalOperation) ModelCreationFactory
-						.getNewObject(urn,
-								ucm.performance.ExternalOperation.class);
-							elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.performance.ExternalOperation) target;
-			id2object.put(objId, elem);
-		}
+		ucm.performance.ExternalOperation elem = (ucm.performance.ExternalOperation) getObject(objId, target, ucm.performance.ExternalOperation.class);
 		if (isFullConstruction) {
 			elem = (ucm.performance.ExternalOperation) super.handle(elemZ,
 					elem, true);

@@ -23,17 +23,7 @@ public class PluginBindingUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		PluginBinding elemZ = (PluginBinding) o;
 		String objId = elemZ.getId();
-		ucm.map.PluginBinding elem = (ucm.map.PluginBinding) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.PluginBinding) ModelCreationFactory.getNewObject(urn, ucm.map.PluginBinding.class);
-				elem.setId(objId);
-				//if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.PluginBinding) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.PluginBinding elem = (ucm.map.PluginBinding) getObject(elemZ.getId(), target, ucm.map.PluginBinding.class);
 		if (isFullConstruction) {
 			elem.setId(elemZ.getId());
 			if (elemZ.getPrecondition() != null) {

@@ -16,19 +16,7 @@ public class DirectionArrowUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		DirectionArrow elemZ = (DirectionArrow) o;
 		String objId = elemZ.getId();
-		ucm.map.DirectionArrow elem = (ucm.map.DirectionArrow) id2object
-				.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.DirectionArrow) ModelCreationFactory
-						.getNewObject(urn, ucm.map.DirectionArrow.class);
-					elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.DirectionArrow) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.DirectionArrow elem = (ucm.map.DirectionArrow) getObject(objId, target, ucm.map.DirectionArrow.class);
 		if (isFullConstruction) {
 			elem = (ucm.map.DirectionArrow) super.handle(elemZ, elem, true);
 //			 elem.setx();

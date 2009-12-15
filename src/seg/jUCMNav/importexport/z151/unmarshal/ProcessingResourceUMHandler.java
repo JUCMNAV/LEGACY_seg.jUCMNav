@@ -21,17 +21,7 @@ public class ProcessingResourceUMHandler extends ActiveResourceUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ProcessingResource elemZ = (ProcessingResource) o;
 		String objId = elemZ.getId();
-		ucm.performance.ProcessingResource elem = (ucm.performance.ProcessingResource) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.performance.ProcessingResource) ModelCreationFactory.getNewObject(urn, ucm.performance.ProcessingResource.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.performance.ProcessingResource) target;
-			id2object.put(objId, elem);
-		}
+		ucm.performance.ProcessingResource elem = (ucm.performance.ProcessingResource) getObject(elemZ.getId(), target, ucm.performance.ProcessingResource.class);
 		if (isFullConstruction) {
 			elem = (ucm.performance.ProcessingResource) super.handle(elemZ, elem, true);
 			elem.setKind(getDeviceKind(elemZ.getKind()));

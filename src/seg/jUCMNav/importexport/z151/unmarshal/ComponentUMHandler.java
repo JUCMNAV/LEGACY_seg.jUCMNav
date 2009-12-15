@@ -34,18 +34,7 @@ public class ComponentUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Component elemZ = (Component) o;
 		String objId = elemZ.getId();
-		urncore.Component elem = (urncore.Component) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (urncore.Component) ModelCreationFactory.getNewObject(
-						urn, urncore.Component.class);
-					elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (urncore.Component) target;
-			id2object.put(objId, elem);
-		}
+		urncore.Component elem = (urncore.Component) getObject(objId, target, urncore.Component.class);
 		if (isFullConstruction) {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();

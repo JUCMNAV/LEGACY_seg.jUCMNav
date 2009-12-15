@@ -20,24 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+
 
 public class StubUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Stub elemZ = (Stub) o;
-		String objId = elemZ.getId();
-		ucm.map.Stub elem = (ucm.map.Stub) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.Stub) ModelCreationFactory.getNewObject(urn,
-						ucm.map.Stub.class);
-					elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.Stub) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.Stub elem = (ucm.map.Stub) getObject(elemZ.getId(), target, ucm.map.Stub.class);
 		if (isFullConstruction) {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();

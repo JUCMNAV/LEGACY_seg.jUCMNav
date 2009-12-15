@@ -15,24 +15,11 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //  </xsd:complexType>
 
 import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
 
 public class ActiveResourceUMHandler extends GeneralResourceUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ActiveResource elemZ = (ActiveResource) o;
-		String objId = elemZ.getId();
-		ucm.performance.ActiveResource elem = (ucm.performance.ActiveResource) id2object
-				.get(objId);
-		if (null == elem) {
-			if (null == target){
-				elem = (ucm.performance.ActiveResource) ModelCreationFactory
-						.getNewObject(urn, ucm.performance.ActiveResource.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}else
-				elem = (ucm.performance.ActiveResource) target;
-			id2object.put(objId, elem);
-		}
+		ucm.performance.ActiveResource elem = (ucm.performance.ActiveResource) getObject(elemZ.getId(), target, ucm.performance.ActiveResource.class);
 		if (isFullConstruction) {
 			elem = (ucm.performance.ActiveResource) super.handle(elemZ, elem,
 					true);

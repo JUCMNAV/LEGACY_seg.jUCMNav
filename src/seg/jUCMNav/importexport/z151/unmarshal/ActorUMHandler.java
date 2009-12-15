@@ -25,18 +25,7 @@ public class ActorUMHandler extends GRLLinkableElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Actor elemZ = (Actor) o;
 		String objId = elemZ.getId();
-		grl.Actor elem = (grl.Actor) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (grl.Actor) ModelCreationFactory.getNewObject(urn,
-						grl.Actor.class);
-					elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (grl.Actor) target;
-			id2object.put(objId, elem);
-		}
+		grl.Actor elem = (grl.Actor) getObject(objId, target, grl.Actor.class);
 		if (isFullConstruction) {
 			
 			//Handling jUCMNav includedActors and includingActor

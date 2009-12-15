@@ -22,17 +22,7 @@ public class ContributionUMHandler extends ElementLinkUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Contribution elemZ = (Contribution) o;
 		String objId = elemZ.getId();
-		grl.Contribution elem = (grl.Contribution) id2object.get(objId);
-		if (null == elem) {
-			if (null == target) {
-				elem = (grl.Contribution) ModelCreationFactory.getNewObject(urn, grl.Contribution.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-					globelId = objId;
-			} else
-				elem = (grl.Contribution) target;
-			id2object.put(objId, elem);
-		}
+		grl.Contribution elem = (grl.Contribution) getObject(objId, target, grl.Contribution.class);
 		if (isFullConstruction) {
 			elem = (grl.Contribution) super.handle(elemZ, elem, true);
 			elem.setContribution(grl.ContributionType.get(elemZ.getContribution().ordinal()));

@@ -25,17 +25,7 @@ public class EndPointUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		EndPoint elemZ = (EndPoint) o;
 		String objId = elemZ.getId();
-		ucm.map.EndPoint elem = (ucm.map.EndPoint) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.EndPoint) ModelCreationFactory.getNewObject(urn, ucm.map.EndPoint.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.EndPoint) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.EndPoint elem = (ucm.map.EndPoint) getObject(objId, target, ucm.map.EndPoint.class);
 		if (isFullConstruction) {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();

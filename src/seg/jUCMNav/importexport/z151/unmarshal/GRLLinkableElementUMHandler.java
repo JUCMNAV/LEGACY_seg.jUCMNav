@@ -21,19 +21,7 @@ public class GRLLinkableElementUMHandler extends GRLmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		GRLLinkableElement elemZ = (GRLLinkableElement) o;
 		String objId = elemZ.getId();
-		grl.GRLLinkableElement elem = (grl.GRLLinkableElement) id2object
-				.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (grl.GRLLinkableElement) ModelCreationFactory
-						.getNewObject(urn, grl.GRLLinkableElement.class);
-					elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (grl.GRLLinkableElement) target;
-			id2object.put(objId, elem);
-		}
+		grl.GRLLinkableElement elem = (grl.GRLLinkableElement) getObject(objId, target, grl.GRLLinkableElement.class);
 		if (isFullConstruction) {
 			elem = (grl.GRLLinkableElement) super.handle(elemZ, elem, true);
 			// elem.setId();

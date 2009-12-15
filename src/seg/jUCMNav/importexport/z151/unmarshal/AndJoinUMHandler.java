@@ -17,18 +17,7 @@ public class AndJoinUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		AndJoin elemZ = (AndJoin) o;
 		String objId = elemZ.getId();
-		ucm.map.AndJoin elem = (ucm.map.AndJoin) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.AndJoin) ModelCreationFactory.getNewObject(urn,
-						ucm.map.AndJoin.class);
-					elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.AndJoin) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.AndJoin elem = (ucm.map.AndJoin) getObject(objId, target, ucm.map.AndJoin.class);
 		if (isFullConstruction) {			
 			elem = (ucm.map.AndJoin) super.handle(elemZ, elem, true);
 			elem.setOrientation(null); //ORIENTATION_EDEFAULT

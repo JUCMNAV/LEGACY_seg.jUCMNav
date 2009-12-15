@@ -23,19 +23,7 @@ public class EvaluationStrategyUMHandler extends GRLmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		EvaluationStrategy elemZ = (EvaluationStrategy) o;
 		String objId = elemZ.getId();
-		grl.EvaluationStrategy elem = (grl.EvaluationStrategy) id2object
-				.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (grl.EvaluationStrategy) ModelCreationFactory
-						.getNewObject(urn, grl.EvaluationStrategy.class);
-					elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (grl.EvaluationStrategy) target;
-			id2object.put(objId, elem);
-		}
+		grl.EvaluationStrategy elem = (grl.EvaluationStrategy) getObject(objId, target, grl.EvaluationStrategy.class);
 		if (isFullConstruction) {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			for(Metadata item: metaDataList){

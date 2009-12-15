@@ -27,14 +27,7 @@ public class LinkRefUMHandler extends EObjectImplUMHandler {
 		String objId = elemZ.getId();
 		IntentionalElementType type = ((IntentionalElement) ((IntentionalElementRef) elemZ.getSource()).getDef()).getType();
 		if (type.equals(IntentionalElementType.BELIEF)) {
-			grl.BeliefLink elem = (grl.BeliefLink) id2object.get(objId);
-			if (null == elem) {
-				if (null == target)
-					elem = (grl.BeliefLink) ModelCreationFactory.getNewObject(urn, grl.BeliefLink.class);
-				else
-					elem = (grl.BeliefLink) target;
-				id2object.put(objId, elem);
-			}
+			grl.BeliefLink elem = (grl.BeliefLink) getObject(elemZ.getId(), target, grl.BeliefLink.class);
 			if (isFullConstruction) {
 				// elem.setDiagram(); //Handled in GRLGraphUMHandler
 				
@@ -60,14 +53,7 @@ public class LinkRefUMHandler extends EObjectImplUMHandler {
 			}
 			return elem;
 		} else {
-			grl.LinkRef elem = (grl.LinkRef) id2object.get(objId);
-			if (null == elem) {
-				if (null == target)
-					elem = (grl.LinkRef) ModelCreationFactory.getNewObject(urn, grl.LinkRef.class);
-				else
-					elem = (grl.LinkRef) target;
-				id2object.put(objId, elem);
-			}
+			grl.LinkRef elem = (grl.LinkRef) getObject(elemZ.getId(), target, grl.LinkRef.class);
 			if (isFullConstruction) {
 				// elem.setDiagram(); //Handled in GRLGraphUMHandler
 				elem.setLink((grl.ElementLink) process((ElementLink) elemZ.getLink(), null, false));

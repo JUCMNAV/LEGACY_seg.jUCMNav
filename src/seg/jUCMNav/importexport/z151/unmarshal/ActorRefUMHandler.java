@@ -27,17 +27,7 @@ public class ActorRefUMHandler extends GRLmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ActorRef elemZ = (ActorRef) o;
 		String objId = elemZ.getId();
-		grl.ActorRef elem = (grl.ActorRef) id2object.get(objId);
-		if (null == elem) {
-			if (null == target) {
-				elem = (grl.ActorRef) ModelCreationFactory.getNewObject(urn, grl.ActorRef.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-					globelId = objId;
-			} else
-				elem = (grl.ActorRef) target;
-			id2object.put(objId, elem);
-		}
+		grl.ActorRef elem = (grl.ActorRef) getObject(objId, target, grl.ActorRef.class);
 		if (isFullConstruction) {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();

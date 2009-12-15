@@ -22,14 +22,7 @@ public class URNlinkUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		URNlink elemZ = (URNlink) o;
 		String objId = elemZ.getId();
-		urn.URNlink elem = (urn.URNlink) id2object.get(objId);
-		if (null == elem) {
-			if (null == target) {
-				elem = (urn.URNlink) ModelCreationFactory.getNewObject(urn, urn.URNlink.class);
-			} else
-				elem = (urn.URNlink) target;
-			id2object.put(objId, elem);
-		}
+		urn.URNlink elem = (urn.URNlink) getObject(elemZ.getId(), target, urn.URNlink.class);
 		if (isFullConstruction) {
 			elem.setUrnspec(urn);
 			elem.setFromElem((urncore.URNmodelElement) process((URNmodelElement) elemZ.getFromElem(), null, false));

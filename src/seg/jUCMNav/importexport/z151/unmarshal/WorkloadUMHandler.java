@@ -21,17 +21,7 @@ public class WorkloadUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Workload elemZ = (Workload) o;
 		String objId = elemZ.getId();
-		ucm.performance.Workload elem = (ucm.performance.Workload) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.performance.Workload) ModelCreationFactory.getNewObject(urn, ucm.performance.Workload.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.performance.Workload) target;
-			id2object.put(objId, elem);
-		}
+		ucm.performance.Workload elem = (ucm.performance.Workload) getObject(elemZ.getId(), target, ucm.performance.Workload.class);
 		if (isFullConstruction) {
 			elem = (ucm.performance.Workload) super.handle(elemZ, elem, true);
 			// elem.setStartPoint(); handled by StartPointUMHandler
@@ -65,6 +55,7 @@ public class WorkloadUMHandler extends UCMmodelElementUMHandler {
 			// case UNIFORM: return UNIFORM_LITERAL;
 			// case PHASE_TYPE: return PHASE_TYPE_LITERAL;
 			//		
+		
 			// OWPhaseType
 			// OWPoisson
 			// OWUniform

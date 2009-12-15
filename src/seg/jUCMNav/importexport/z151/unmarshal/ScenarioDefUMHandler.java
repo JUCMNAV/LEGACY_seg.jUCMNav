@@ -28,17 +28,7 @@ public class ScenarioDefUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ScenarioDef elemZ = (ScenarioDef) o;
 		String objId = elemZ.getId();
-		ucm.scenario.ScenarioDef elem = (ucm.scenario.ScenarioDef) id2object.get(objId);
-		if (null == elem) {
-			if (null == target) {
-				elem = (ucm.scenario.ScenarioDef) ModelCreationFactory.getNewObject(urn, ucm.scenario.ScenarioDef.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-					globelId = objId;
-			} else
-				elem = (ucm.scenario.ScenarioDef) target;
-			id2object.put(objId, elem);
-		}
+		ucm.scenario.ScenarioDef elem = (ucm.scenario.ScenarioDef) getObject(elemZ.getId(), target, ucm.scenario.ScenarioDef.class);
 		if (isFullConstruction) {
 			elem = (ucm.scenario.ScenarioDef) super.handle(elemZ, elem, true);
 			// elem.setGroup(); handled by ScenarioGroupUMHandler

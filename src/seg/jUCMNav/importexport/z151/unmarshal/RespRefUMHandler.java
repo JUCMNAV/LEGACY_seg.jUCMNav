@@ -22,17 +22,7 @@ public class RespRefUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		RespRef elemZ = (RespRef) o;
 		String objId = elemZ.getId();
-		ucm.map.RespRef elem = (ucm.map.RespRef) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.RespRef) ModelCreationFactory.getNewObject(urn, ucm.map.RespRef.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.RespRef) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.RespRef elem = (ucm.map.RespRef) getObject(elemZ.getId(), target, ucm.map.RespRef.class);
 		if (isFullConstruction) {
 			elem = (ucm.map.RespRef) super.handle(elemZ, elem, true);
 			elem.setRepetitionCount(elemZ.getRepetitionCount());

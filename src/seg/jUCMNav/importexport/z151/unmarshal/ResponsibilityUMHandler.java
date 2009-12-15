@@ -26,17 +26,7 @@ public class ResponsibilityUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Responsibility elemZ = (Responsibility) o;
 		String objId = elemZ.getId();
-		urncore.Responsibility elem = (urncore.Responsibility) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (urncore.Responsibility) ModelCreationFactory.getNewObject(urn, urncore.Responsibility.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (urncore.Responsibility) target;
-			id2object.put(objId, elem);
-		}
+		urncore.Responsibility elem = (urncore.Responsibility) getObject(elemZ.getId(), target, urncore.Responsibility.class);
 		if (isFullConstruction) {
 			
 			List<Metadata> metaDataList = elemZ.getMetadata();

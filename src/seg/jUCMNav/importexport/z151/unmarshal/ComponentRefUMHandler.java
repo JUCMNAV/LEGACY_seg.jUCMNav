@@ -31,17 +31,7 @@ public class ComponentRefUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ComponentRef elemZ = (ComponentRef) o;
 		String objId = elemZ.getId();
-		ucm.map.ComponentRef elem = (ucm.map.ComponentRef) id2object.get(objId);
-		if (null == elem) {
-			if (null == target) {
-				elem = (ucm.map.ComponentRef) ModelCreationFactory.getNewObject(urn, ucm.map.ComponentRef.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-					globelId = objId;
-			} else
-				elem = (ucm.map.ComponentRef) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.ComponentRef elem = (ucm.map.ComponentRef) getObject(objId, target, ucm.map.ComponentRef.class);
 		if (isFullConstruction) {
 
 			List<Metadata> metaDataList = elemZ.getMetadata();

@@ -21,17 +21,7 @@ public class VariableUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Variable elemZ = (Variable) o;
 		String objId = elemZ.getId();
-		ucm.scenario.Variable elem = (ucm.scenario.Variable) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.scenario.Variable) ModelCreationFactory.getNewObject(urn, ucm.scenario.Variable.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.scenario.Variable) target;
-			id2object.put(objId, elem);
-		}
+		ucm.scenario.Variable elem = (ucm.scenario.Variable) getObject(elemZ.getId(), target, ucm.scenario.Variable.class);
 		if (isFullConstruction) {
 			elem = (ucm.scenario.Variable) super.handle(elemZ, elem, true);
 			// elem.setUcmspec(); handled by UCMspecUMHandler

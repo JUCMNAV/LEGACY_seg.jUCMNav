@@ -17,15 +17,7 @@ public class InBindingUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		InBinding elemZ = (InBinding) o;
 		String objId = elemZ.getId();
-		ucm.map.InBinding elem = (ucm.map.InBinding) id2object.get(objId);
-		;
-		if (null == elem) {
-			if (null == target) {
-				elem = (ucm.map.InBinding) ModelCreationFactory.getNewObject(urn, ucm.map.InBinding.class);
-			} else
-				elem = (ucm.map.InBinding) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.InBinding elem = (ucm.map.InBinding) getObject(objId, target, ucm.map.InBinding.class);
 		if (isFullConstruction) {
 			elem.setStartPoint((ucm.map.StartPoint) process((StartPoint) elemZ.getStartPoint(), null, false));
 			// elem.setBinding(); handled by PluginBindingUMHandler

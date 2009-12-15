@@ -23,18 +23,7 @@ public class EmptyPointUMHandler extends PathNodeUMHandler {
 		for(Metadata item: metaDataList){
 			if (item.getName().equals("jUCMNav FailurePoint expression")){
 				String objId = elemZ.getId();
-				ucm.map.FailurePoint elem = (ucm.map.FailurePoint) id2object.get(objId);
-				if (null == elem) {
-				if (null == target){
-						elem = (ucm.map.FailurePoint) ModelCreationFactory.getNewObject(
-								urn, ucm.map.FailurePoint.class);
-							elem.setId(objId);
-						if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-					}
-					else
-						elem = (ucm.map.FailurePoint) target;
-					id2object.put(objId, elem);
-				}
+				ucm.map.FailurePoint elem = (ucm.map.FailurePoint) getObject(objId, target, ucm.map.FailurePoint.class);
 				elem.setExpression(item.getValue());
 				metaDataList.remove(item);
 				if (isFullConstruction) {
@@ -44,18 +33,7 @@ public class EmptyPointUMHandler extends PathNodeUMHandler {
 			}
 			if (item.getName().equals("jUCMNav Anything")){
 				String objId = elemZ.getId();
-				ucm.map.Anything elem = (ucm.map.Anything) id2object.get(objId);
-				if (null == elem) {
-				if (null == target){
-						elem = (ucm.map.Anything) ModelCreationFactory.getNewObject(
-								urn, ucm.map.Anything.class);
-							elem.setId(objId);
-						if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-					}
-					else
-						elem = (ucm.map.Anything) target;
-					id2object.put(objId, elem);
-				}
+				ucm.map.Anything elem = (ucm.map.Anything) getObject(objId, target, ucm.map.Anything.class);
 				metaDataList.remove(item);
 				if (isFullConstruction) {
 					elem = (ucm.map.Anything) super.handle(elemZ, elem, true);
@@ -65,18 +43,7 @@ public class EmptyPointUMHandler extends PathNodeUMHandler {
 		}
 
 		String objId = elemZ.getId();
-		ucm.map.EmptyPoint elem = (ucm.map.EmptyPoint) id2object.get(objId);
-		if (null == elem) {
-		if (null == target){
-				elem = (ucm.map.EmptyPoint) ModelCreationFactory.getNewObject(
-						urn, ucm.map.EmptyPoint.class);
-					elem.setId(objId);
-				if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-			}
-			else
-				elem = (ucm.map.EmptyPoint) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.EmptyPoint elem = (ucm.map.EmptyPoint) getObject(objId, target, ucm.map.EmptyPoint.class);
 		if (isFullConstruction) {
 			elem = (ucm.map.EmptyPoint) super.handle(elemZ, elem, true);
 			// elem.setX();

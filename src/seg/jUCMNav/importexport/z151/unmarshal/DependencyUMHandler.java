@@ -17,18 +17,7 @@ public class DependencyUMHandler extends ElementLinkUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		Dependency elemZ = (Dependency) o;
 		String objId = elemZ.getId();
-		grl.Dependency elem = (grl.Dependency) id2object.get(objId);
-		if (null == elem) {
-			if (null == target){
-				elem = (grl.Dependency) ModelCreationFactory.getNewObject(urn,
-						grl.Dependency.class);
-			elem.setId(objId);
-			if (Integer.valueOf(globelId)< Integer.valueOf(objId)) globelId = objId;
-		}
-			else
-				elem = (grl.Dependency) target;
-			id2object.put(objId, elem);
-		}
+		grl.Dependency elem = (grl.Dependency) getObject(objId, target, grl.Dependency.class);
 		if (isFullConstruction) {
 			elem = (grl.Dependency) super.handle(elemZ, elem, true);
 			// elem.setGrlspec();

@@ -25,17 +25,7 @@ public class UCMmapUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		UCMmap elemZ = (UCMmap) o;
 		String objId = elemZ.getId();
-		ucm.map.UCMmap elem = (ucm.map.UCMmap) id2object.get(objId);
-		if (null == elem) {
-			if (null == target) {
-				elem = (ucm.map.UCMmap) ModelCreationFactory.getNewObject(urn, ucm.map.UCMmap.class);
-				elem.setId(objId);
-				if (Integer.valueOf(globelId) < Integer.valueOf(objId))
-					globelId = objId;
-			} else
-				elem = (ucm.map.UCMmap) target;
-			id2object.put(objId, elem);
-		}
+		ucm.map.UCMmap elem = (ucm.map.UCMmap) getObject(elemZ.getId(), target, ucm.map.UCMmap.class);
 		if (isFullConstruction) {
 			elem = (ucm.map.UCMmap) super.handle(elemZ, elem, true);
 			elem.setUrndefinition(urn.getUrndef());
