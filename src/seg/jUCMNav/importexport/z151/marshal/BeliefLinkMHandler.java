@@ -58,7 +58,7 @@ public class BeliefLinkMHandler extends MHandler {
 			elemZ.setSrc(srcNode.getDef());
 			elemZ.setDest(dstNode.getDef());
 			
-			linkRef.setId(""+elem.hashCode());
+			linkRef.setId("jUCMNav_"+elem.hashCode());
 			linkRef.setName("");
 			linkRef.setCurve(false);
 			linkRef.setLink(elemZ);
