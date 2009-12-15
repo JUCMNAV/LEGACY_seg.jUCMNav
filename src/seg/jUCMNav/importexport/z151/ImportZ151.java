@@ -4,40 +4,25 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-
-import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import seg.jUCMNav.extensionpoints.IURNImport;
 import seg.jUCMNav.importexport.z151.generated.*;
 import seg.jUCMNav.importexport.z151.unmarshal.*;
 
-/**
- * This class import a GRL catalog from an xml file
- * 
- * @author Jean-François Roy
- * 
- */
 public class ImportZ151 implements IURNImport {
 
 	private Vector autolayoutDiagrams;
 	
 	 public urn.URNspec importURN(FileInputStream fis, Vector autolayoutDiagrams) throws InvocationTargetException {
         urn.URNspec urn = null;
-        
-        //Remove ucm diagram (only one diagram is insert by default).
-        //urn.getUrndef().getSpecDiagrams().remove(0);
-        //urn=(urn.URNspec)EcoreUtil.copy(importURN(fis, null, autolayoutDiagrams));        
-        //urn= importURN(fis, urn, autolayoutDiagrams);
         return importURN(fis, urn, autolayoutDiagrams);
     }
 	public urn.URNspec importURN(FileInputStream fis, urn.URNspec urn, Vector autolayoutDiagrams) throws InvocationTargetException {
+		EObjectImplUMHandler mh = new URNspecUMHandler();
 		try {
-			EObjectImplUMHandler mh = new URNspecUMHandler();
 			JAXBContext context = JAXBContext.newInstance(URNspec.class);
 			Unmarshaller um = context.createUnmarshaller();
 			// Unmarshal XML contents of the file into Java object instance.
@@ -53,11 +38,11 @@ public class ImportZ151 implements IURNImport {
 			return urn;
 		} catch (JAXBException jbe) {
 			System.err.println(jbe);
+			mh.resetUrnSpec();
+		} catch (Exception jbe) {
+			System.err.println(jbe);
+			mh.resetUrnSpec();
 		}
-
-		// Remove ucm diagram (only one diagram is insert by default).
-		// urn.getUrndef().getSpecDiagrams().remove(0);
-		// URNunmarshaller um = new URNunmarshaller();
 		return null;
 	}
 
@@ -87,7 +72,6 @@ public class ImportZ151 implements IURNImport {
 			if (fis != null) {
 				try {
 					fis.close();
-					// validateXml(filename);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
