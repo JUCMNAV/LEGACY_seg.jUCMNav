@@ -65,7 +65,7 @@ public class DeleteLinkRefCommand extends CompoundCommand {
         }
 
         add(new RemoveLinkRefCommand(linkref));
-        if (link != null && link.getRefs().size() <= 1) {
+        if (link != null && link.getRefs().size() <= 1 && link.getGrlspec()!=null) {
             add(new RemoveElementLinkCommand(link));
         }
     }

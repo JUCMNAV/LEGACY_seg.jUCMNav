@@ -25,6 +25,7 @@ public class RemoveLinkRefCommand extends Command implements JUCMNavCommand {
     IURNDiagram graph;
     IURNNode source, target;
 
+    boolean aborted=false;
     /**
      * 
      */
@@ -41,6 +42,7 @@ public class RemoveLinkRefCommand extends Command implements JUCMNavCommand {
         this.graph = linkref.getDiagram();
         this.source = linkref.getSource();
         this.target = linkref.getTarget();
+        
         redo();
     }
 
@@ -55,6 +57,11 @@ public class RemoveLinkRefCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
+        if (link==null || graph==null || source==null || target==null) {
+            aborted=true;
+            return;
+        }
+
         testPreConditions();
         graph.getConnections().remove(linkref);
         link.getRefs().remove(linkref);
@@ -98,6 +105,11 @@ public class RemoveLinkRefCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
+        if (link==null || graph==null || source==null || target==null) {
+            aborted=true;
+            return;
+        }
+        
         testPostConditions();
         graph.getConnections().add(linkref);
         link.getRefs().add(linkref);
