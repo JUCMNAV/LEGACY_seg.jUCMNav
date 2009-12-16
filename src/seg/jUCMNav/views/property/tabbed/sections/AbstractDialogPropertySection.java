@@ -41,7 +41,7 @@ public abstract class AbstractDialogPropertySection extends AbstractGEFPropertyS
                 openDialog();
             }
         });
-        b.setText("...");
+        b.setText("..."); //$NON-NLS-1$
     }
 
     protected Text createText(Composite parent) {

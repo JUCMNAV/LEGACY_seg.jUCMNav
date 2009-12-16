@@ -2,6 +2,7 @@ package seg.jUCMNav.views.property.tabbed.sections;
 
 import org.eclipse.emf.ecore.EAttribute;
 
+import seg.jUCMNav.Messages;
 import urn.URNspec;
 import urn.UrnPackage;
 import urncore.UrncorePackage;
@@ -16,6 +17,6 @@ public class NamePropertySection extends AbstractStringPropertySection {
     }
 
     public String getLabelText() {
-        return "Name:";
+        return Messages.getString("NamePropertySection_Name"); //$NON-NLS-1$
     }
 }

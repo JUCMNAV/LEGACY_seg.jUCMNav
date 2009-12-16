@@ -21,7 +21,7 @@ public class CollectionIndexPropertySection extends AbstractDialogPropertySectio
     @Override
     protected String getText() {
         if (spec == null)
-            return "";
+            return ""; //$NON-NLS-1$
         return (new Integer(spec.getSpecDiagrams().indexOf(current))).toString();
     }
 
@@ -36,13 +36,13 @@ public class CollectionIndexPropertySection extends AbstractDialogPropertySectio
             }
 
             public String getText(Object element) {
-                String name = ""; 
+                String name = "";  //$NON-NLS-1$
                 if (element instanceof URNmodelElement)
                     name= ((URNmodelElement) element).getName();
                 
                 if (element instanceof IURNDiagram)
                 {
-                    name += " (Tab #" + ((IURNDiagram)element).getUrndefinition().getSpecDiagrams().indexOf(element) + ")";
+                    name += Messages.getString("CollectionIndexPropertySection.Tab") + ((IURNDiagram)element).getUrndefinition().getSpecDiagrams().indexOf(element) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
                 }
 
                 return name;

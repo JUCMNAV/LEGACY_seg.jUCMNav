@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 
+import seg.jUCMNav.Messages;
+
 public class IntentionalTypePropertySection extends AbstractEnumerationPropertySection {
 
     protected String[] getEnumerationFeatureValues() {
@@ -33,7 +35,7 @@ public class IntentionalTypePropertySection extends AbstractEnumerationPropertyS
     }
 
     public String getLabelText() {
-        return "Type:";
+        return Messages.getString("IntentionalTypePropertySection_Type"); //$NON-NLS-1$
     }
 
     protected boolean isEqual(int index) {

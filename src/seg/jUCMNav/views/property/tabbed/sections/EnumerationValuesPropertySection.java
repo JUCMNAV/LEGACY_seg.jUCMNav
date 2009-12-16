@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.wizards.scenarios.EditEnumerationsWizard;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.ScenarioPackage;
@@ -22,11 +23,11 @@ public class EnumerationValuesPropertySection extends AbstractDialogPropertySect
     }
 
     public String getLabelText() {
-        return "Values:";
+        return Messages.getString("EnumerationValuesPropertySection_Vals"); //$NON-NLS-1$
     }
 
     protected Text createText(Composite composite) {
-        Text result = getWidgetFactory().createText(composite, "", SWT.MULTI | SWT.WRAP);
+        Text result = getWidgetFactory().createText(composite, "", SWT.MULTI | SWT.WRAP); //$NON-NLS-1$
 
         result.setEnabled(false);
 
@@ -46,7 +47,7 @@ public class EnumerationValuesPropertySection extends AbstractDialogPropertySect
         String values = ((EnumerationType) eObject).getValues();
 
         if (values != null)
-            values = values.replace(",", System.getProperty("line.separator", "\n"));
+            values = values.replace(",", System.getProperty("line.separator", "\n")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         return values;
     }
 

@@ -2,6 +2,7 @@ package seg.jUCMNav.views.property.tabbed.sections;
 
 import org.eclipse.emf.ecore.EAttribute;
 
+import seg.jUCMNav.Messages;
 import ucm.map.MapPackage;
 import ucm.map.RespRef;
 import urncore.NodeLabel;
@@ -13,7 +14,7 @@ public class RepetitionPropertySection extends AbstractStringPropertySection {
     }
 
     public String getLabelText() {
-        return "Repetition Count:";
+        return Messages.getString("RepetitionPropertySection_RepCount"); //$NON-NLS-1$
     }
 
     protected Object getDataForSection(Object obj) {

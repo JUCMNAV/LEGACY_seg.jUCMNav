@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 
+import seg.jUCMNav.Messages;
 import urncore.Component;
 import urncore.ComponentKind;
 import urncore.UrncorePackage;
@@ -33,7 +34,7 @@ public class ComponentKindPropertySection extends AbstractEnumerationPropertySec
     }
 
     public String getLabelText() {
-        return "Component Kind:";
+        return Messages.getString("ComponentKindPropertySection_Kind"); //$NON-NLS-1$
     }
 
     protected boolean isEqual(int index) {

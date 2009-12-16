@@ -2,6 +2,7 @@ package seg.jUCMNav.views.property.tabbed.sections;
 
 import org.eclipse.emf.ecore.EAttribute;
 
+import seg.jUCMNav.Messages;
 import urn.UrnPackage;
 
 public class AuthorPropertySection extends AbstractStringPropertySection {
@@ -11,7 +12,7 @@ public class AuthorPropertySection extends AbstractStringPropertySection {
     }
 
     public String getLabelText() {
-        return "Author:";
+        return Messages.getString("AuthorPropertySection_Author"); //$NON-NLS-1$
     }
 
 }

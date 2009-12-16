@@ -5,10 +5,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+import seg.jUCMNav.Messages;
+
 public class RespConditionExpressionPropertySection extends ConditionExpressionPropertySection {
 
     protected Text createText(Composite parent) {
-        Text result = getWidgetFactory().createText(parent, "", SWT.MULTI | SWT.WRAP);
+        Text result = getWidgetFactory().createText(parent, "", SWT.MULTI | SWT.WRAP); //$NON-NLS-1$
 
         result.setEnabled(false);
 
@@ -25,6 +27,6 @@ public class RespConditionExpressionPropertySection extends ConditionExpressionP
     }
 
     public String getLabelText() {
-        return "Code:";
+        return Messages.getString("RespConditionExpressionPropertySection_Code"); //$NON-NLS-1$
     }
 }

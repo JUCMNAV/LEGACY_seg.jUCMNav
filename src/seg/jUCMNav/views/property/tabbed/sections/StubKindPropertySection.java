@@ -4,6 +4,7 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.change.SetCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeStubTypeCommand;
 import seg.jUCMNav.views.property.StackHelper;
@@ -15,7 +16,7 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
     protected int lastSelection = 0;
 
     protected String[] getList() {
-        return new String[] { "Static", "Dynamic", "Pointcut", "Synchronizing", "Blocking" };
+        return new String[] { Messages.getString("StubKindPropertySection_Static"), Messages.getString("StubKindPropertySection_Dynamic"), Messages.getString("StubKindPropertySection_Pointcut"), Messages.getString("StubKindPropertySection_Synchronizing"), Messages.getString("StubKindPropertySection_Blocking") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
     }
 
     protected void updateSelection() {
@@ -69,7 +70,7 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
                     else {
                         combo.select(lastSelection);
                         
-                        MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Warning, can't change stub kind.", "Warning, can't change stub kind.  This can be caused by existing stub plugins or if your stub was associated to more than one map.");
+                        MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("StubKindPropertySection_WarningCantChange"), Messages.getString("StubKindPropertySection_WarningLong")); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                 }
             }
@@ -79,7 +80,7 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
     }
 
     public String getLabelText() {
-        return "Stub Kind:";
+        return Messages.getString("StubKindPropertySection_Kind"); //$NON-NLS-1$
     }
 
 }

@@ -2,6 +2,7 @@ package seg.jUCMNav.views.property.tabbed.sections;
 
 import org.eclipse.emf.ecore.EAttribute;
 
+import seg.jUCMNav.Messages;
 import urn.URNspec;
 import urn.UrnPackage;
 import urncore.Comment;
@@ -19,6 +20,6 @@ public class DescriptionPropertySection extends AbstractMultiLineStringPropertyS
     }
 
     public String getLabelText() {
-        return "Description: ";
+        return Messages.getString("DescriptionPropertySection_Desc"); //$NON-NLS-1$
     }
 }

@@ -2,6 +2,7 @@ package seg.jUCMNav.views.property.tabbed.sections;
 
 import org.eclipse.emf.ecore.EAttribute;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.property.tabbed.mapper.ConditionDataResolver;
 import seg.jUCMNav.views.property.tabbed.mapper.IPropertyDataResolver;
 import urncore.UrncorePackage;
@@ -15,7 +16,7 @@ public class ConditionLabelPropertySection extends AbstractStringPropertySection
     }
 
     public String getLabelText() {
-        return "Condition Label:";
+        return Messages.getString("ConditionLabelPropertySection_Cond"); //$NON-NLS-1$
     }
 
     protected Object getDataForSection(Object obj) {

@@ -5,6 +5,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.property.tabbed.mapper.ConditionDataResolver;
 import seg.jUCMNav.views.property.tabbed.mapper.IPropertyDataResolver;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
@@ -18,20 +19,20 @@ public class ConditionExpressionPropertySection extends AbstractDialogPropertySe
     protected static IPropertyDataResolver resolver = new ConditionDataResolver();
 
     protected String getText() {
-        String result = "";
+        String result = ""; //$NON-NLS-1$
         if (current instanceof Condition)
             result = ((Condition) current).getExpression();
         else if (current instanceof Responsibility)
             result = ((Responsibility) current).getExpression();
 
         if (result == null)
-            result = "";
+            result = ""; //$NON-NLS-1$
 
         return result;
     }
 
     public String getLabelText() {
-        return "Condition:";
+        return Messages.getString("ConditionExpressionPropertySection_Condition"); //$NON-NLS-1$
     }
 
     protected Object resolve(Object obj) {
