@@ -14,6 +14,7 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.LineAttributes;
 
 /**
  * This figure represent a StartPoint and Waiting Place!
@@ -25,8 +26,9 @@ public class StartPointFigure extends PathNodeFigure {
     private FlowPage flowPage;
     private TextFlow stubTypeText;
     private boolean isFailure = false;
-    private boolean isAbort;
+    private boolean isAbort = false;
     private Polyline lightning;
+    private Polyline bar;
 
     /**
      * An ellipse that fills 2/3 of the area.
@@ -42,6 +44,7 @@ public class StartPointFigure extends PathNodeFigure {
         ellipse.setBounds(new Rectangle(20, 20, 16, 16));
         ellipse.setBackgroundColor(ColorManager.LINE);
         ellipse.setAntialias(SWT.ON);
+        
         add(ellipse);
 
         // create the text inside the main figure
@@ -73,8 +76,18 @@ public class StartPointFigure extends PathNodeFigure {
         lightning.setLineWidth(2);
         lightning.setAntialias(SWT.ON);
         lightning.setPoints(pts);
+        lightning.setVisible(false);
         
         add(lightning);
+        
+        bar = new Polyline();
+        bar.addPoint(new Point(15, 15));
+        bar.addPoint(new Point(27, 27));
+        bar.setLineWidth(3);
+        bar.setVisible(false);
+        bar.setForegroundColor(ColorManager.RED);
+        
+        add(bar);
     }
 
     /**
@@ -130,7 +143,17 @@ public class StartPointFigure extends PathNodeFigure {
         }
     }
 
-    public void setType(int failureKind) {
+    public void setType(int failureKind, boolean isLocal) {
+        
+        if(isLocal) {
+            ellipse.setForegroundColor(ColorManager.RED);
+            ellipse.setLineWidth(2);
+            bar.setVisible(true);
+        } else {
+            ellipse.setForegroundColor(ColorManager.LINE);
+            ellipse.setLineWidth(1);
+            bar.setVisible(false);
+        }
 
         switch (failureKind) {
         case 0: // Normal startpoint

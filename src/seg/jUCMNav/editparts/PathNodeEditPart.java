@@ -579,17 +579,21 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         if (node instanceof StartPoint) {// If it's a startpoint, update it's type
             switch (((StartPoint) node).getFailureKind().getValue()) {
             case FailureKind.NONE:
-                ((StartPointFigure) nodeFigure).setType(0);
+                ((StartPointFigure) nodeFigure).setType(0, ((StartPoint) node).isLocal());
                 break;
             case FailureKind.FAILURE:
-                ((StartPointFigure) nodeFigure).setType(1);
+                ((StartPointFigure) nodeFigure).setType(1, ((StartPoint) node).isLocal());
                 break;
             case FailureKind.ABORT:
-                ((StartPointFigure) nodeFigure).setType(2);
+                ((StartPointFigure) nodeFigure).setType(2, ((StartPoint) node).isLocal());
                 break;
             default:
                 break;
             }
+        }
+        
+        if(node instanceof EndPoint) {
+            ((EndPointFigure)nodeFigure).setType(((EndPoint) node).isLocal());
         }
 
         // inform and forks/joins how many branches they must display.

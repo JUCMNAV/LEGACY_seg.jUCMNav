@@ -1,6 +1,7 @@
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
@@ -19,6 +20,10 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
 
     // is this end point connected to a start point
     private boolean offset;
+    private Polyline line;
+    private PointList linePts;
+    
+    private boolean isLocal = false;
 
     // by how much to scale when connected to start point.
     public static final double RESIZEFACTOR = 1.4;
@@ -31,38 +36,70 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
     protected void createFigure() {
         mainFigure = new Polygon();
         edges = new PointList();
+        
+        int barWidth = 6 / 2;
 
-        edges.addPoint(DEFAULT_WIDTH / 2, 0);
-        edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT);
+        edges.addPoint(DEFAULT_WIDTH / 2 - barWidth, 1);
+        edges.addPoint(DEFAULT_WIDTH / 2 - barWidth, DEFAULT_HEIGHT-1);
 
-        mainFigure.setLineWidth(5);
+        edges.addPoint(DEFAULT_WIDTH / 2 + barWidth, DEFAULT_HEIGHT-1);
+        edges.addPoint(DEFAULT_WIDTH / 2 + barWidth, 1);
+        edges.addPoint(DEFAULT_WIDTH / 2 - barWidth, 1);
+
+        mainFigure.setLineWidth(2);
         mainFigure.setPoints(edges);
         mainFigure.setAntialias(SWT.ON);
+        mainFigure.setForegroundColor(ColorManager.RED);
+        mainFigure.setBackgroundColor(ColorManager.LINE);
+        mainFigure.setFill(true);
+        
         add(mainFigure);
+        
+        line = new Polyline();
+        linePts = new PointList();
+        linePts.addPoint(new Point(DEFAULT_WIDTH / 2 - barWidth+1, 0));
+        linePts.addPoint(new Point(DEFAULT_WIDTH / 2 + barWidth-1, DEFAULT_HEIGHT - 1));
+        line.setPoints(linePts);
+        line.setAntialias(SWT.ON);
+        line.setForegroundColor(ColorManager.RED);
+        
+        add(line);
     }
 
     /**
      * Rotate the line. Figure knows that center moves if there offset==true
      */
     public void rotate(double angle) {
+        PointList newEdges = rotatePoints(angle, edges);
+        mainFigure.setPoints(newEdges);
+        
+        newEdges = rotatePoints(angle, linePts);
+        line.setPoints(newEdges);
+    }
+    
+    /**
+     * For a given angle, rotate the point list.
+     * 
+     * @param angle
+     * @param points
+     * @return
+     */
+    protected PointList rotatePoints(double angle, PointList points) {
         Transform t = new Transform();
         t.setRotation(angle);
 
         PointList newEdges = new PointList();
         Point center = new Point(getPreferredSize().width / 2, getPreferredSize().height / 2);
 
-        edges = new PointList();
-        edges.addPoint(DEFAULT_WIDTH / 2, 0);
-        edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT);
-        for (int i = 0; i < edges.size(); i++) {
-            Point newPoint = t.getTransformed(new Point(edges.getPoint(i).x - center.x, edges.getPoint(i).y - center.y));
+        for (int i = 0; i < points.size(); i++) {
+            Point newPoint = t.getTransformed(new Point(points.getPoint(i).x - center.x, points.getPoint(i).y - center.y));
             Point pt = new Point(center.x - newPoint.x, center.y - newPoint.y);
             newEdges.addPoint(pt);
         }
         if (offset)
             newEdges.translate(t.getTransformed(new Point(DEFAULT_WIDTH * (RESIZEFACTOR - 1) / 2, -DEFAULT_WIDTH * (RESIZEFACTOR - 1) / 2)));
-
-        mainFigure.setPoints(newEdges);
+        
+        return newEdges;
     }
 
     /**
@@ -96,9 +133,9 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
         this.hover = hover;
 
         if (hover)
-            mainFigure.setLineWidth(7);
+            mainFigure.setLineWidth(2);
         else
-            mainFigure.setLineWidth(5);
+            mainFigure.setLineWidth(1);
     }
 
     /**
@@ -117,12 +154,26 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
             setForegroundColor(ColorManager.POINTCUTBORDER);
             setColor(ColorManager.POINTCUTBORDER);
         } else {
-            setForegroundColor(ColorManager.LINE);
+            if(isLocal)
+                mainFigure.setForegroundColor(ColorManager.RED);
+            else
+                mainFigure.setForegroundColor(ColorManager.LINE);
+            
             if (hover)
                 setColor(ColorManager.HOVER);
             else
                 setColor(ColorManager.FILL);
         }
+    }
+    
+    public void setType(boolean isLocal) {
+        this.isLocal = isLocal;
+        
+        line.setVisible(isLocal);
+        if(isLocal)
+            mainFigure.setForegroundColor(ColorManager.RED);
+        else
+            mainFigure.setForegroundColor(ColorManager.LINE);
     }
 
     /**
