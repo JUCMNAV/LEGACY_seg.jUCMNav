@@ -39,6 +39,7 @@ import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.DirectionArrowFigure;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
+import seg.jUCMNav.figures.FailurePointFigure;
 import seg.jUCMNav.figures.IRotateable;
 import seg.jUCMNav.figures.OrForkJoinFigure;
 import seg.jUCMNav.figures.PathNodeFigure;
@@ -61,6 +62,7 @@ import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.FailureKind;
+import ucm.map.FailurePoint;
 import ucm.map.InBinding;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
@@ -153,6 +155,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             figure = new AndForkJoinFigure();
         else if (getModel() instanceof DirectionArrow)
             figure = new DirectionArrowFigure();
+        else if (getModel() instanceof FailurePoint)
+            figure = new FailurePointFigure();
 
         assert figure != null : "cannot map model element to figure in PathNodeEditPart.createFigure()"; //$NON-NLS-1$
 
@@ -629,7 +633,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         // note: you can't have andjoin rotate from previous for andjoin because it would cause infinite loops with connection router.
         if (!(node instanceof AndJoin || node instanceof AndFork) && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getPred().size() > 0) {
             rotateFromPrevious(nodeFigure);
-        } else if ((node instanceof AndJoin || node instanceof AndFork) && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getSucc().size() > 0) {
+        } else if ((node instanceof AndJoin || node instanceof AndFork || node instanceof FailurePoint) && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getSucc().size() > 0) {
             rotateFromNext(nodeFigure);
         }
 

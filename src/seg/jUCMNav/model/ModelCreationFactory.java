@@ -47,6 +47,7 @@ import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
 import ucm.map.InBinding;
 import ucm.map.MapFactory;
 import ucm.map.NodeConnection;
@@ -295,6 +296,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createAndJoin();
             } else if (targetClass.equals(WaitingPlace.class)) {
                 result = mapfactory.createWaitingPlace();
+            } else if (targetClass.equals(FailurePoint.class)) {
+                result = mapfactory.createFailurePoint();
             } else if (targetClass.equals(Timer.class)) {
                 result = mapfactory.createTimer();
             } else if (targetClass.equals(InBinding.class)) {

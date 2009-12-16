@@ -26,6 +26,7 @@ import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.DirectionArrow;
+import ucm.map.FailurePoint;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.RespRef;
@@ -216,6 +217,12 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
         keyboardMapping.put("k", entry); //$NON-NLS-1$
 
         add(componentsDrawer);
+
+        entry = new URNElementCreationEntry(
+                "Failure Point", "Create a Failure Point", FailurePoint.class, new ModelCreationFactory(getURNspec(), FailurePoint.class),
+                JUCMNavPlugin.getImageDescriptor("icons/FailurePoint16.gif"), JUCMNavPlugin.getImageDescriptor("icons/FailurePoint24.gif"));
+        componentsDrawer.add(entry);
+//        keyboardMapping.put("k", entry); //$NON-NLS-1$
 
         componentsDrawer = new PaletteDrawer("Stubs");
 
