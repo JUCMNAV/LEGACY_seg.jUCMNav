@@ -148,6 +148,33 @@ public class SyntaxChecker {
     }
 
     /**
+     * Verify the code associated to all failure poitns
+     * 
+     * @param urn
+     *            the urnspec
+     * @param errors
+     *            where should errors be appended.
+     */
+    private static void verifyFailurePointSyntax(URNspec urn, Vector errors) {
+        for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
+            IURNDiagram diag = (IURNDiagram) iter.next();
+            if (diag instanceof UCMmap) {
+                for (Iterator iterator = diag.getNodes().iterator(); iterator.hasNext();) {
+                    PathNode pn = (PathNode) iterator.next();
+                    if (pn instanceof FailurePoint) {
+                        FailurePoint fail = (FailurePoint) pn;
+                        Object o = ScenarioUtils.parse(fail.getExpression(), ScenarioUtils.getEnvironment(fail), true);
+                        if (!(o instanceof SimpleNode)) {
+                            errors.add(new TraversalWarning((String) o, fail, IMarker.SEVERITY_ERROR));
+                            ((TraversalWarning) errors.get(errors.size() - 1)).setExpression(fail.getExpression());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Verifies the syntax of all scenario pre/post conditions.
      * 
      * @param urn
@@ -182,6 +209,7 @@ public class SyntaxChecker {
     public static Vector verifySyntax(URNspec urn) {
         Vector errors = new Vector();
         verifyResponsibilitySyntax(urn, errors);
+        verifyFailurePointSyntax(urn, errors);
         verifyPluginBindingSyntax(urn, errors);
         verifyMapConditions(urn, errors);
         verifyScenarioPrePostConditions(urn, errors);

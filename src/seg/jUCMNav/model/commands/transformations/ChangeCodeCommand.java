@@ -5,6 +5,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import ucm.map.FailurePoint;
 import ucm.scenario.Initialization;
 import urncore.Condition;
 import urncore.Responsibility;
@@ -57,6 +58,10 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
             oldCode = ((Responsibility) elem).getExpression();
             oldName = ((Responsibility) elem).getName();
             oldDescription = ((Responsibility) elem).getDescription();
+        } else if (elem instanceof FailurePoint) {
+            oldCode = ((FailurePoint) elem).getExpression();
+            oldName = ((FailurePoint) elem).getName();
+            oldDescription = ((FailurePoint) elem).getDescription();
         } else if (elem instanceof Condition) {
             oldCode = ((Condition) elem).getExpression();
             oldName = ((Condition) elem).getLabel();
@@ -80,6 +85,13 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
             if (extendedFeatures) {
                 ((Responsibility) elem).setName(name);
                 ((Responsibility) elem).setDescription(description);
+            }
+
+        } else if (elem instanceof FailurePoint) {
+            ((FailurePoint) elem).setExpression(code);
+            if (extendedFeatures) {
+                ((FailurePoint) elem).setName(name);
+                ((FailurePoint) elem).setDescription(description);
             }
 
         } else if (elem instanceof Condition) {
@@ -125,6 +137,12 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
             if (extendedFeatures) {
                 ((Responsibility) elem).setName(oldName);
                 ((Responsibility) elem).setDescription(oldDescription);
+            }
+        } else if (elem instanceof FailurePoint) {
+            ((FailurePoint) elem).setExpression(oldCode);
+            if (extendedFeatures) {
+                ((FailurePoint) elem).setName(oldName);
+                ((FailurePoint) elem).setDescription(oldDescription);
             }
         } else if (elem instanceof Condition) {
             ((Condition) elem).setExpression(oldCode);

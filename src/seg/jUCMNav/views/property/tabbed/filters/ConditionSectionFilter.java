@@ -7,6 +7,7 @@ import seg.jUCMNav.views.property.tabbed.mapper.ConditionDataResolver;
 import seg.jUCMNav.views.property.tabbed.mapper.IPropertyDataResolver;
 import seg.jUCMNav.views.property.tabbed.mapper.UrnPropertyResolver;
 import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
 import ucm.map.StartPoint;
 import urncore.Responsibility;
 
@@ -18,7 +19,7 @@ public class ConditionSectionFilter implements IFilter {
         if (arg0 instanceof EditPart)
             arg0 = ((EditPart) arg0).getModel();
 
-        if ((arg0 instanceof StartPoint) || (arg0 instanceof EndPoint))
+        if ((arg0 instanceof StartPoint) || (arg0 instanceof EndPoint) || (arg0 instanceof FailurePoint))
             return false;
 
         arg0 = urnResolver.getData(arg0);

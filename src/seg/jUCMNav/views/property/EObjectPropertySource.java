@@ -26,6 +26,7 @@ import seg.jUCMNav.views.property.descriptors.CheckboxPropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.CodePropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.CustomTextPropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.TextAreaPropertyDescriptor;
+import ucm.map.FailurePoint;
 import ucm.map.MapPackage;
 import ucm.map.RespRef;
 import urncore.Condition;
@@ -217,6 +218,10 @@ public class EObjectPropertySource implements IPropertySource2 {
         {
             // conditions have expressions
             pd = new CodePropertyDescriptor(propertyid, ((RespRef) getEditableValue()).getRespDef());
+        } else if (name.equals("expression") && getEditableValue() instanceof FailurePoint) //$NON-NLS-1$
+        {
+            // conditions have expressions
+            pd = new CodePropertyDescriptor(propertyid, ((FailurePoint) getEditableValue()));
         } else if (name.equals("description")) {
             pd = new TextAreaPropertyDescriptor(propertyid, attr.getName());
         } else {

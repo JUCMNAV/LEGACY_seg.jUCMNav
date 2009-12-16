@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
 import seg.jUCMNav.Messages;
+import ucm.map.FailurePoint;
 import urncore.Condition;
 import urncore.Responsibility;
 
@@ -20,6 +21,7 @@ public class CodePropertyDescriptor extends PropertyDescriptor {
     // one of these is passed.
     private Responsibility resp;
     private Condition cond;
+    private FailurePoint failure;
 
     /**
      * Property descriptor for a responsibility.
@@ -56,6 +58,24 @@ public class CodePropertyDescriptor extends PropertyDescriptor {
             }
         });
     }
+    
+    /**
+     * Property descriptor for a failure point
+     * 
+     * @param id
+     *            the PropertyID
+     * @param failure
+     *            the failurepoint
+     */
+    public CodePropertyDescriptor(Object id, FailurePoint failure) {
+        super(id, Messages.getString("CodePropertyDescriptor.expression")); //$NON-NLS-1$
+        this.failure = failure;
+        setLabelProvider(new LabelProvider() {
+            public String getText(Object element) {
+                return Messages.getString("CodePropertyDescriptor.ClickToEdit"); //$NON-NLS-1$
+            }
+        });
+    }    
 
     /**
      * Creates the cell editor.
@@ -64,6 +84,8 @@ public class CodePropertyDescriptor extends PropertyDescriptor {
         CodeCellEditor editor = new CodeCellEditor(parent);
         if (resp != null)
             editor.setResponsibility(resp);
+        else if (failure!=null)
+            editor.setFailure(failure);
         else
             editor.setCondition(cond);
         return editor;

@@ -12,6 +12,7 @@ import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
+import ucm.map.FailurePoint;
 import urncore.Condition;
 import urncore.Responsibility;
 
@@ -25,6 +26,10 @@ public class CodeCellEditor extends DialogCellEditor {
 
     // can either edit a responsibility's code
     private Responsibility resp;
+
+    // or a failure point.
+    private FailurePoint failure;
+
     // or a condition
     private Condition cond;
 
@@ -63,6 +68,8 @@ public class CodeCellEditor extends DialogCellEditor {
         CodeEditor wizard = new CodeEditor();
 
         EObject defaultObj = resp == null ? (EObject) cond : (EObject) resp;
+        if (defaultObj == null)
+            defaultObj = failure;
 
         // initialize it
         wizard.init(PlatformUI.getWorkbench(), null, defaultObj);
@@ -108,6 +115,14 @@ public class CodeCellEditor extends DialogCellEditor {
         this.cond = cond;
     }
 
+    public FailurePoint getFailure() {
+        return failure;
+    }
+
+    public void setFailure(FailurePoint failure) {
+        this.failure = failure;
+    }
+
     /**
      * Initialize the label that invites the user to click the button.
      */
@@ -131,4 +146,5 @@ public class CodeCellEditor extends DialogCellEditor {
     protected Label getDefaultLabel() {
         return defaultLabel;
     }
+
 }

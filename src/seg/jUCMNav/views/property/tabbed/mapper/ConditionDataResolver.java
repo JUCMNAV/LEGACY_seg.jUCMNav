@@ -1,6 +1,7 @@
 package seg.jUCMNav.views.property.tabbed.mapper;
 
 import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.StartPoint;
 import urncore.Condition;
@@ -16,6 +17,8 @@ public class ConditionDataResolver implements IPropertyDataResolver {
         else if (object instanceof EndPoint)
             return ((EndPoint) object).getPostcondition();
         else if (object instanceof Responsibility)
+            return object;
+        else if (object instanceof FailurePoint)
             return object;
         else if (object instanceof Condition)
             return object;

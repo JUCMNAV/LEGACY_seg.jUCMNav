@@ -9,6 +9,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.property.tabbed.mapper.ConditionDataResolver;
 import seg.jUCMNav.views.property.tabbed.mapper.IPropertyDataResolver;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
+import ucm.map.FailurePoint;
 import urncore.Condition;
 import urncore.Responsibility;
 
@@ -22,6 +23,8 @@ public class ConditionExpressionPropertySection extends AbstractDialogPropertySe
         String result = ""; //$NON-NLS-1$
         if (current instanceof Condition)
             result = ((Condition) current).getExpression();
+        else if (current instanceof FailurePoint)
+            result = ((FailurePoint) current).getExpression();
         else if (current instanceof Responsibility)
             result = ((Responsibility) current).getExpression();
 

@@ -36,6 +36,7 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
+import ucm.map.FailurePoint;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.Variable;
 import urn.URNspec;
@@ -55,6 +56,7 @@ public class CodeEditorPage extends WizardPage {
 
     private ISelection selection;
     private Responsibility resp;
+    private FailurePoint failure;
     private Condition cond;
     private URNspec urn;
     private List variables;
@@ -118,6 +120,8 @@ public class CodeEditorPage extends WizardPage {
 
                         if (defaultSelected instanceof Responsibility)
                             resp = (Responsibility) defaultSelected;
+                        else if (defaultSelected instanceof FailurePoint)
+                            failure = (FailurePoint) defaultSelected;
                         else
                             cond = (Condition) defaultSelected;
                     }
@@ -230,6 +234,9 @@ public class CodeEditorPage extends WizardPage {
         if (isResponsibility()) {
             setTitle(Messages.getString("CodeEditorPage.ResponsibilityEditor")); //$NON-NLS-1$
             setDescription(Messages.getString("CodeEditorPage.PleaseEnterResponsibility")); //$NON-NLS-1$
+        } else if (isFailurePoint()) {
+            setTitle("Failure Expression Editor");
+            setDescription("Please enter the failure point's pseudo-code in the text box below.");
         } else {
             setDescription(Messages.getString("CodeEditorPage.PleaseEnterCondition")); //$NON-NLS-1$
             setTitle(Messages.getString("CodeEditorPage.ConditionEditor")); //$NON-NLS-1$
@@ -290,6 +297,8 @@ public class CodeEditorPage extends WizardPage {
 
         if (defaultSelected instanceof Responsibility)
             resp = (Responsibility) defaultSelected;
+        else if (defaultSelected instanceof FailurePoint)
+            failure = (FailurePoint) defaultSelected;
         else
             cond = (Condition) defaultSelected;
 
@@ -297,6 +306,8 @@ public class CodeEditorPage extends WizardPage {
         EObject o;
         if (resp != null)
             urn = resp.getUrndefinition().getUrnspec();
+        else if (failure != null)
+            urn = failure.getDiagram().getUrndefinition().getUrnspec();
         else {
             o = cond.eContainer();
             while (o != null) {
@@ -316,24 +327,28 @@ public class CodeEditorPage extends WizardPage {
         labelText.removeModifyListener(modifyListener);
         descriptionText.removeModifyListener(modifyListener);
 
-        if (obj instanceof Responsibility) {
-            resp = (Responsibility) obj;
-            if (code.get(resp) == null)
+        if (obj instanceof Responsibility || obj instanceof FailurePoint) {
+            if (obj instanceof Responsibility)
+                resp = (Responsibility) obj;
+            else
+                failure = (FailurePoint) obj;
+
+            if (code.get(obj) == null)
                 codeText.setText(""); //$NON-NLS-1$
             else
-                codeText.setText(code.get(resp).toString());
+                codeText.setText(code.get(obj).toString());
 
             labelLabel.setText(Messages.getString("CodeEditorPage.Name")); //$NON-NLS-1$
 
-            if (labels.get(resp) == null)
+            if (labels.get(obj) == null)
                 labelText.setText(""); //$NON-NLS-1$
             else
-                labelText.setText(labels.get(resp).toString());
+                labelText.setText(labels.get(obj).toString());
 
-            if (descriptions.get(resp) == null)
+            if (descriptions.get(obj) == null)
                 descriptionText.setText(""); //$NON-NLS-1$
             else
-                descriptionText.setText(descriptions.get(resp).toString());
+                descriptionText.setText(descriptions.get(obj).toString());
 
         } else if (obj instanceof Condition) {
             cond = (Condition) obj;
@@ -390,6 +405,23 @@ public class CodeEditorPage extends WizardPage {
                     descriptions.put(element, ""); //$NON-NLS-1$
                 else
                     descriptions.put(element, r.getDescription());
+
+            } else if (element instanceof FailurePoint) {
+                FailurePoint f = (FailurePoint) element;
+                if (f.getExpression() == null)
+                    code.put(element, ""); //$NON-NLS-1$
+                else
+                    code.put(element, f.getExpression());
+
+                if (f.getName() == null)
+                    labels.put(element, ""); //$NON-NLS-1$
+                else
+                    labels.put(element, f.getName());
+
+                if (f.getDescription() == null)
+                    descriptions.put(element, ""); //$NON-NLS-1$
+                else
+                    descriptions.put(element, f.getDescription());
 
             } else if (element instanceof Condition) {
                 Condition c = (Condition) element;
@@ -460,7 +492,7 @@ public class CodeEditorPage extends WizardPage {
         labels.put(defaultSelected, labelText.getText());
         descriptions.put(defaultSelected, descriptionText.getText());
 
-        if (resp != null && ScenarioUtils.isEmptyResponsibility(getCode())) {
+        if (isEditingExpression() && ScenarioUtils.isEmptyResponsibility(getCode())) {
             code.put(defaultSelected, ""); //$NON-NLS-1$
             updateStatus(null);
         } else {
@@ -468,13 +500,15 @@ public class CodeEditorPage extends WizardPage {
 
             if (isResponsibility())
                 o = ScenarioUtils.parse(getCode(), ScenarioUtils.getEnvironment(resp), true);
+            else if (isFailurePoint())
+                o = ScenarioUtils.parse(getCode(), ScenarioUtils.getEnvironment(failure), true);
             else
                 o = ScenarioUtils.parse(getCode(), ScenarioUtils.getEnvironment(cond), false);
 
             if (o instanceof SimpleNode) {
                 code.put(defaultSelected, getCode());
                 updateStatus(null);
-            } else if (ScenarioUtils.IS_ELSE_CONDITION_ALLOWED && !isResponsibility() && ScenarioUtils.isElseCondition(getCode())
+            } else if (ScenarioUtils.IS_ELSE_CONDITION_ALLOWED && !isEditingExpression() && ScenarioUtils.isElseCondition(getCode())
                     && !(cond.eContainer() instanceof ScenarioDef)) {
                 // bug 497: we will allow else in conditions.
                 if (allPossibilities.size() > 1) {
@@ -493,6 +527,10 @@ public class CodeEditorPage extends WizardPage {
             }
         }
 
+    }
+
+    private boolean isEditingExpression() {
+        return isResponsibility() || isFailurePoint();
     }
 
     /**
@@ -539,6 +577,15 @@ public class CodeEditorPage extends WizardPage {
      */
     public boolean isResponsibility() {
         return resp != null;
+    }
+
+    /**
+     * Are we editing a failure point?
+     * 
+     * @return true if failure point, false otherwise.
+     */
+    public boolean isFailurePoint() {
+        return failure != null;
     }
 
     /**

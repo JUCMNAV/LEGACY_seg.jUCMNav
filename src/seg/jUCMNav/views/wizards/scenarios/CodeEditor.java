@@ -137,13 +137,19 @@ public class CodeEditor extends Wizard {
             } else if (defaultSelected instanceof OrFork || defaultSelected instanceof WaitingPlace || defaultSelected instanceof FailurePoint) {
 
                 PathNode pn = (PathNode) defaultSelected;
+                if (!(defaultSelected instanceof FailurePoint))
+                    this.defaultSelected = null;
+                else {
+                    v.add(pn);
+                }
                 for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
                     NodeConnection nc = (NodeConnection) iter.next();
                     if (nc.getCondition() != null)
                         v.add(nc.getCondition());
                 }
 
-                this.defaultSelected = null;
+                    
+                    
             }
 
             else if (defaultSelected instanceof Condition) {
