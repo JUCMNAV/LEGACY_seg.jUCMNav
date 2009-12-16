@@ -379,7 +379,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                     dlg.setMessage(Messages.getString("PathNodeEditPart.SelectParentUCM")); //$NON-NLS-1$
                     dlg.open();
                 }
-            } else if (getNode() instanceof OrFork || getNode() instanceof WaitingPlace) {
+            } else if (getNode() instanceof OrFork || getNode() instanceof WaitingPlace || getNode() instanceof FailurePoint) {
                 Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
                 CodeEditor wizard = new CodeEditor();
 

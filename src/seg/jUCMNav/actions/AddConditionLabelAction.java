@@ -11,6 +11,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.create.CreateLabelCommand;
 import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
@@ -55,7 +56,7 @@ public class AddConditionLabelAction extends URNSelectionAction {
                 EndPoint point = (EndPoint) part.getModel();
                 return (point.getPostcondition() != null && (point.getPostcondition()).getLabel() == null || point.getPostcondition().getLabel().length() == 0);
 
-            } else if ((part.getModel() instanceof OrFork) || (part.getModel() instanceof WaitingPlace)) {
+            } else if ((part.getModel() instanceof OrFork) || (part.getModel() instanceof WaitingPlace) || (part.getModel() instanceof FailurePoint)) {
                 for (Iterator iter = ((PathNode) part.getModel()).getSucc().iterator(); iter.hasNext();) {
                     NodeConnection nc = (NodeConnection) iter.next();
                     if (nc.getCondition() != null && (nc.getCondition().getLabel() == null || nc.getCondition().getLabel().length() == 0)) {
@@ -89,7 +90,7 @@ public class AddConditionLabelAction extends URNSelectionAction {
             if (point.getPostcondition() != null && (point.getPostcondition()).getLabel() == null || point.getPostcondition().getLabel().length() == 0) {
                 return new CreateLabelCommand(point.getPostcondition());
             }
-        } else if ((part.getModel() instanceof OrFork) || (part.getModel() instanceof WaitingPlace)) {
+        } else if ((part.getModel() instanceof OrFork) || (part.getModel() instanceof WaitingPlace) || (part.getModel() instanceof FailurePoint)) {
             UCMmodelElement modelElement = (UCMmodelElement) part.getModel();
 
             CompoundCommand cmd = new CompoundCommand();

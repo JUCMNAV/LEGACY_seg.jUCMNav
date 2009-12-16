@@ -33,11 +33,13 @@ import seg.jUCMNav.editparts.treeEditparts.LabelTreeEditPart;
 import ucm.UCMspec;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.Anything;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
@@ -83,6 +85,7 @@ public class SelectionHelper {
     // SelectionTypes
     public static final int ANDFORK = 13;
     public static final int ANDJOIN = 14;
+    public static final int ANYTHING = 21;
     public static final int COMPONENTLABEL = 10;
     public static final int COMPONENTREF = 11;
     public static final int COMPONENT = 125;
@@ -125,6 +128,7 @@ public class SelectionHelper {
     public static final int RESPONSIBILITY = 121;
     public static final int CONDITION = 122;
     public static final int INITIALIZATION = 123;
+    public static final int FAILUREPOINT = 20;
 
     // GRL constant
     public static final int GRLGRAPH = 200;
@@ -153,6 +157,7 @@ public class SelectionHelper {
     // internal variables; for quick reference.
     private AndFork andfork;
     private AndJoin andjoin;
+    private Anything anything;
     private ComponentLabel componentlabel;
     private Component component;
     private ComponentRef componentref;
@@ -160,6 +165,7 @@ public class SelectionHelper {
     private DirectionArrow directionarrow;
     private EmptyPoint emptypoint;
     private EndPoint endpoint;
+    private FailurePoint failurepoint;
     private UCMmap map;
     private NodeConnection nodeconnection;
     private Point nodeconnectionmiddle;
@@ -255,6 +261,10 @@ public class SelectionHelper {
                     directionarrow = (DirectionArrow) model;
                 else if (model instanceof OrFork)
                     orfork = (OrFork) model;
+                else if (model instanceof FailurePoint)
+                    failurepoint = (FailurePoint) model;
+                else if (model instanceof Anything)
+                    anything = (Anything) anything;
                 else if (model instanceof AndFork)
                     andfork = (AndFork) model;
                 else if (model instanceof OrJoin)
@@ -615,6 +625,10 @@ public class SelectionHelper {
             selectionType = ORFORK;
         else if (andfork != null)
             selectionType = ANDFORK;
+        else if (anything != null)
+            selectionType = ANYTHING;
+        else if (failurepoint != null)
+            selectionType = FAILUREPOINT;
         else if (orjoin != null)
             selectionType = ORJOIN;
         else if (andjoin != null)
@@ -670,6 +684,10 @@ public class SelectionHelper {
         return andjoin;
     }
 
+    public Anything getAnything() {
+        return anything;
+    }
+
     public Component getComponent() {
         return component;
     }
@@ -692,6 +710,10 @@ public class SelectionHelper {
 
     public EndPoint getEndpoint() {
         return endpoint;
+    }
+
+    public FailurePoint getFailurePoint() {
+        return failurepoint;
     }
 
     public UCMmap getMap() {

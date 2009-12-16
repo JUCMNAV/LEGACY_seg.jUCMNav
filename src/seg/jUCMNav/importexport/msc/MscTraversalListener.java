@@ -41,11 +41,13 @@ import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.Anything;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
 import ucm.map.InBinding;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
@@ -548,7 +550,7 @@ public class MscTraversalListener implements ITraversalListener {
 
         PathNode n = visit.getVisitedElement();
         if (!(n instanceof EmptyPoint || n instanceof DirectionArrow || n instanceof OrJoin || n instanceof OrFork || n instanceof Connect
-                || n instanceof StartPoint || n instanceof EndPoint || n instanceof Stub || n instanceof AndFork || n instanceof AndJoin || n instanceof WaitingPlace)) {
+                || n instanceof StartPoint || n instanceof EndPoint || n instanceof Stub || n instanceof AndFork || n instanceof AndJoin || n instanceof WaitingPlace || n instanceof FailurePoint || n instanceof Anything)) {
 
             createRespRef(visit);
         }

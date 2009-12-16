@@ -18,6 +18,7 @@ import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
@@ -85,7 +86,7 @@ public class SyntaxChecker {
                         if (((EndPoint) node).getPostcondition() != null) {
                             verifyCondition(urn, errors, node, ((EndPoint) node).getPostcondition().getExpression());
                         }
-                    } else if (node instanceof OrFork || node instanceof WaitingPlace) {
+                    } else if (node instanceof OrFork || node instanceof WaitingPlace || node instanceof FailurePoint) {
                         for (Iterator it2 = node.getSucc().iterator(); it2.hasNext();) {
                             NodeConnection nc = (NodeConnection) it2.next();
                             if (nc.getCondition() != null) {
@@ -268,7 +269,7 @@ public class SyntaxChecker {
                                 marker.setAttribute("ScenarioPreConditionIndex", scenario.getPreconditions().indexOf(o.getCondition())); //$NON-NLS-1$
                                 marker.setAttribute("ScenarioPostConditionIndex", scenario.getPostconditions().indexOf(o.getCondition())); //$NON-NLS-1$
                             }
-                        } else if (o.getLocation() instanceof OrFork || o.getLocation() instanceof WaitingPlace) {
+                        } else if (o.getLocation() instanceof OrFork || o.getLocation() instanceof WaitingPlace || o.getLocation() instanceof FailurePoint) {
                             PathNode pn = (PathNode) o.getLocation();
                             marker.setAttribute("Condition", pn.getId()); //$NON-NLS-1$							
                         }

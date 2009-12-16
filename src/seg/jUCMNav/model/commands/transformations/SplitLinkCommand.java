@@ -8,6 +8,7 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ICreateElementCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.Connect;
+import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
@@ -148,7 +149,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
         if (newLink == null)
             newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
 
-        if (outgoingCondition == null && (node instanceof OrFork || node instanceof WaitingPlace || node instanceof Timer)) {
+        if (outgoingCondition == null && (node instanceof OrFork || node instanceof WaitingPlace || node instanceof Timer || node instanceof FailurePoint)) {
             outgoingCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
             // blocking path.
             if (previousNode instanceof Timer)

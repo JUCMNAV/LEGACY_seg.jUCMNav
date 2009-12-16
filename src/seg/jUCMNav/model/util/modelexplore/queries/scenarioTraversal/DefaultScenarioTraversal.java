@@ -350,7 +350,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
      * @throws TraversalException
      */    
     protected void processFailurePoint(UcmEnvironment env, FailurePoint pn) throws TraversalException  {
-        processEmptyPoint(env, pn); // not yet implemented. 
+        processWaitingPlaceAndTimer(env, pn); // not yet implemented. 
     }
     
 
@@ -654,7 +654,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
      *            the waiting place or timer to process
      * @throws TraversalException
      */
-    protected void processWaitingPlaceAndTimer(UcmEnvironment env, WaitingPlace pn) throws TraversalException {
+    protected void processWaitingPlaceAndTimer(UcmEnvironment env, PathNode pn) throws TraversalException {
         // only one out.
         NodeConnection nc = (NodeConnection) pn.getSucc().get(0); // WP/Timer successor, normal path
 

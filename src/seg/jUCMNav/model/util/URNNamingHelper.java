@@ -30,6 +30,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UCMspec;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PluginBinding;
@@ -286,36 +287,36 @@ public class URNNamingHelper {
         // look at all actors
         for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
             // find name and id conflicts for actors
-            findConflicts(htIDs, htActorNames, IDConflicts, ActorNameConflicts, urn, (URNmodelElement)iter.next());
+            findConflicts(htIDs, htActorNames, IDConflicts, ActorNameConflicts, urn, (URNmodelElement) iter.next());
         }
 
         // int elements
         for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
-            findConflicts(htIDs, htIntElementNames, IDConflicts, IntElementNameConflicts, urn, (URNmodelElement)iter.next());
+            findConflicts(htIDs, htIntElementNames, IDConflicts, IntElementNameConflicts, urn, (URNmodelElement) iter.next());
         }
 
         // kpi info elements
         for (Iterator iter = urn.getGrlspec().getKpiInformationElements().iterator(); iter.hasNext();) {
             // find name and id conflicts for actors
-            findConflicts(htIDs, htKpiInfoElementNames, IDConflicts, KpiInfoElementNameConflicts, urn, (URNmodelElement)iter.next());
+            findConflicts(htIDs, htKpiInfoElementNames, IDConflicts, KpiInfoElementNameConflicts, urn, (URNmodelElement) iter.next());
         }
 
         // links
         for (Iterator iter = urn.getGrlspec().getLinks().iterator(); iter.hasNext();) {
-            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement)iter.next());
+            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iter.next());
         }
 
         // kpi model links.
         for (Iterator iter = urn.getGrlspec().getKpiModelLinks().iterator(); iter.hasNext();) {
             // don't care about their names.
-            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement)iter.next());
+            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iter.next());
         }
 
         // look at all strategies
         for (Iterator iterator = urn.getGrlspec().getStrategies().iterator(); iterator.hasNext();) {
             findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iterator.next());
-        }   
-        
+        }
+
         // look at all diagrams
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
             IURNDiagram g = (IURNDiagram) iter.next();
@@ -367,16 +368,16 @@ public class URNNamingHelper {
         for (Iterator iterator = urn.getUcmspec().getResources().iterator(); iterator.hasNext();) {
             findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iterator.next());
         }
-        
+
         // look at all scenarios
         for (Iterator iterator = urn.getUcmspec().getScenarioGroups().iterator(); iterator.hasNext();) {
             ScenarioGroup g = (ScenarioGroup) iterator.next();
             findConflicts(htIDs, null, IDConflicts, null, urn, g);
-            
+
             for (Iterator iter = g.getScenarios().iterator(); iter.hasNext();) {
                 findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iter.next());
-            }   
-        }        
+            }
+        }
 
         // look at all maps
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
@@ -430,18 +431,18 @@ public class URNNamingHelper {
         // look at all components
         for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
             // find name and id conflicts for components
-            findConflicts(htIDs, htComponentNames, IDConflicts, CompNameConflicts, urn, (URNmodelElement)iter.next());
+            findConflicts(htIDs, htComponentNames, IDConflicts, CompNameConflicts, urn, (URNmodelElement) iter.next());
         }
 
         // look at all responsibilities
         for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
             // find name and id conflicts for responsibilities
-            findConflicts(htIDs, htResponsibilityNames, IDConflicts, RespNameConflicts, urn, (URNmodelElement)iter.next());
+            findConflicts(htIDs, htResponsibilityNames, IDConflicts, RespNameConflicts, urn, (URNmodelElement) iter.next());
         }
 
         for (Iterator iter = urn.getUrndef().getConcerns().iterator(); iter.hasNext();) {
             // find name and id conflicts for responsibilities
-            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement)iter.next());
+            findConflicts(htIDs, null, IDConflicts, null, urn, (URNmodelElement) iter.next());
         }
     }
 
@@ -597,14 +598,13 @@ public class URNNamingHelper {
      *            the element to check
      */
     private static void findConflicts(HashMap htIDs, HashMap htNames, Vector idConflicts, Vector nameConflicts, URNspec urn, URNmodelElement elem) {
-        
-        if (urn!=null)
-        {
+
+        if (urn != null) {
             if (!isNameAndIDSet(elem)) {
                 setElementNameAndID(urn, elem);
             }
         }
-        
+
         if (htIDs != null && idConflicts != null) {
             // do we have an id conflict or a non numeric one?
             if (htIDs.containsKey(elem.getId()) || !isValidID(elem.getId())) {
@@ -1017,9 +1017,10 @@ public class URNNamingHelper {
                     else
                         return Messages.getString("URNNamingHelper.TimeoutPath") + getNameFromExpression(expression); //$NON-NLS-1$
 
-                }
-                if (connection.getSource() instanceof OrFork || connection.getSource() instanceof WaitingPlace) {
+                } else if (connection.getSource() instanceof OrFork || connection.getSource() instanceof WaitingPlace) {
                     return Messages.getString("URNNamingHelper.Branch") + (connection.getSource().getSucc().indexOf(connection) + 1) + Messages.getString("URNNamingHelper.ColonSpace") + getNameFromExpression(expression); //$NON-NLS-1$ //$NON-NLS-2$
+                } else if (connection.getSource() instanceof FailurePoint) {
+                    return "Failure condition: " + getNameFromExpression(expression);
                 } else
                     name = getNameFromExpression(expression);
 

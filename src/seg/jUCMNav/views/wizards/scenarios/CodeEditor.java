@@ -22,6 +22,7 @@ import org.eclipse.ui.IWorkbenchWizard;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.transformations.ChangeCodeCommand;
+import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
@@ -133,7 +134,7 @@ public class CodeEditor extends Wizard {
                 }
 
                 this.defaultSelected = respRef.getRespDef();
-            } else if (defaultSelected instanceof OrFork || defaultSelected instanceof WaitingPlace) {
+            } else if (defaultSelected instanceof OrFork || defaultSelected instanceof WaitingPlace || defaultSelected instanceof FailurePoint) {
 
                 PathNode pn = (PathNode) defaultSelected;
                 for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {

@@ -41,6 +41,7 @@ import ucm.UCMspec;
 import ucm.UcmFactory;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.Anything;
 import ucm.map.ComponentBinding;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
@@ -296,6 +297,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createAndJoin();
             } else if (targetClass.equals(WaitingPlace.class)) {
                 result = mapfactory.createWaitingPlace();
+            } else if (targetClass.equals(Anything.class)) {
+                result = mapfactory.createAnything();
             } else if (targetClass.equals(FailurePoint.class)) {
                 result = mapfactory.createFailurePoint();
             } else if (targetClass.equals(Timer.class)) {
@@ -559,7 +562,7 @@ public class ModelCreationFactory implements CreationFactory {
 
         // add labels automatically to the required pathnodes.
         if (result instanceof StartPoint || result instanceof EndPoint || result instanceof Stub || result instanceof RespRef || result instanceof WaitingPlace
-                || result instanceof Timer) {
+                || result instanceof Timer || result instanceof FailurePoint || result instanceof Anything) {
             ((IURNNode) result).setLabel(urncorefactory.createNodeLabel());
         }
 

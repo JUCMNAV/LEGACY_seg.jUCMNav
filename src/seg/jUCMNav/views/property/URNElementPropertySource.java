@@ -26,6 +26,7 @@ import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.property.descriptors.MetadataPropertyDescriptor;
 import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
@@ -75,7 +76,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
             if (getEditableValue() instanceof NodeConnection) {
                 NodeConnection nc = (NodeConnection) getEditableValue();
                 // only on node connections that follow an or fork or a waitingplace/timer
-                if (nc.getSource() instanceof OrFork || nc.getSource() instanceof WaitingPlace) {
+                if (nc.getSource() instanceof OrFork || nc.getSource() instanceof WaitingPlace || nc.getSource() instanceof FailurePoint) {
                     conditionDescriptor(descriptors, propertyid);
                 }
             } else
@@ -324,7 +325,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
                 if (getEditableValue() instanceof NodeConnection) {
 
                     NodeConnection connection = (NodeConnection) getEditableValue();
-                    if (connection.getSource() instanceof WaitingPlace) {
+                    if (connection.getSource() instanceof WaitingPlace || connection.getSource() instanceof FailurePoint) {
                         ((Condition) result).setExpression("false"); //$NON-NLS-1$
                     }
                     ((Condition) result).setNodeConnection(connection);
