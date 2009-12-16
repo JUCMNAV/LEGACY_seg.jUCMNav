@@ -159,6 +159,14 @@ public class jUCMNavTypeChecker {
         return type.equals(jUCMNavType.BOOLEAN);
     }
 
+    protected boolean isInteger(SimpleNode root, UcmEnvironment env) {
+        return type.equals(jUCMNavType.INTEGER);
+    }
+
+    public boolean isValidInteger() {
+        return isInteger(tree, env);
+    }
+
     public boolean isValidCondition() {
         return isBoolean(tree, env);
     }

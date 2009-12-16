@@ -29,6 +29,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import com.sun.org.apache.xerces.internal.impl.dtd.models.DFAContentModel;
+
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
@@ -37,6 +39,7 @@ import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.map.FailurePoint;
+import ucm.map.NodeConnection;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.Variable;
 import urn.URNspec;
@@ -58,6 +61,8 @@ public class CodeEditorPage extends WizardPage {
     private Responsibility resp;
     private FailurePoint failure;
     private Condition cond;
+    private NodeConnection nc;
+
     private URNspec urn;
     private List variables;
     private Combo possibilities;
@@ -122,6 +127,8 @@ public class CodeEditorPage extends WizardPage {
                             resp = (Responsibility) defaultSelected;
                         else if (defaultSelected instanceof FailurePoint)
                             failure = (FailurePoint) defaultSelected;
+                        else if (defaultSelected instanceof NodeConnection)
+                            nc = (NodeConnection) defaultSelected;
                         else
                             cond = (Condition) defaultSelected;
                     }
@@ -237,6 +244,9 @@ public class CodeEditorPage extends WizardPage {
         } else if (isFailurePoint()) {
             setTitle("Failure Expression Editor");
             setDescription("Please enter the failure point's pseudo-code in the text box below.");
+        } else if (isNodeConnection()) {
+            setTitle("Threshold Editor");
+            setDescription("Please enter the threshold in the text box below. Must be an integer.");
         } else {
             setDescription(Messages.getString("CodeEditorPage.PleaseEnterCondition")); //$NON-NLS-1$
             setTitle(Messages.getString("CodeEditorPage.ConditionEditor")); //$NON-NLS-1$
@@ -275,6 +285,12 @@ public class CodeEditorPage extends WizardPage {
                             : URNNamingHelper.getName((urncore.Condition) element, code.get(element).toString()));
                 }
 
+            } else if (element instanceof NodeConnection)
+            {
+                if (add)
+                    possibilities.add("Threshold");
+                else
+                    possibilities.setItem(i, "Threshold");
             }
 
         }
@@ -299,6 +315,8 @@ public class CodeEditorPage extends WizardPage {
             resp = (Responsibility) defaultSelected;
         else if (defaultSelected instanceof FailurePoint)
             failure = (FailurePoint) defaultSelected;
+        else if (defaultSelected instanceof NodeConnection)
+            nc = (NodeConnection) defaultSelected;
         else
             cond = (Condition) defaultSelected;
 
@@ -308,6 +326,8 @@ public class CodeEditorPage extends WizardPage {
             urn = resp.getUrndefinition().getUrnspec();
         else if (failure != null)
             urn = failure.getDiagram().getUrndefinition().getUrnspec();
+        else if (nc != null)
+            urn = nc.getDiagram().getUrndefinition().getUrnspec();
         else {
             o = cond.eContainer();
             while (o != null) {
@@ -327,6 +347,9 @@ public class CodeEditorPage extends WizardPage {
         labelText.removeModifyListener(modifyListener);
         descriptionText.removeModifyListener(modifyListener);
 
+        labelText.setEnabled(true);
+        descriptionText.setEnabled(true);
+        
         if (obj instanceof Responsibility || obj instanceof FailurePoint) {
             if (obj instanceof Responsibility)
                 resp = (Responsibility) obj;
@@ -373,7 +396,21 @@ public class CodeEditorPage extends WizardPage {
             else
                 descriptionText.setText(cond.getDescription());
 
-        }
+        } else if (obj instanceof NodeConnection) {
+            nc = (NodeConnection) obj;
+
+            if (code.get(nc) == null)
+                codeText.setText("true"); //$NON-NLS-1$
+            else
+                codeText.setText(code.get(nc).toString());
+
+            labelLabel.setText(Messages.getString("CodeEditorPage.Label")); //$NON-NLS-1$
+
+            labelText.setText("");//$NON-NLS-1$
+            labelText.setEnabled(false);
+            descriptionText.setText(""); //$NON-NLS-1$
+            descriptionText.setEnabled(false);
+        }        
         codeText.addModifyListener(modifyListener);
         labelText.addModifyListener(modifyListener);
         descriptionText.addModifyListener(modifyListener);
@@ -439,8 +476,16 @@ public class CodeEditorPage extends WizardPage {
                     descriptions.put(element, ""); //$NON-NLS-1$
                 else
                     descriptions.put(element, c.getDescription());
-            }
+            } else if (element instanceof NodeConnection) {
+                NodeConnection c = (NodeConnection) element;
+                if (c.getThreshold() == null)
+                    code.put(element, ""); //$NON-NLS-1$
+                else
+                    code.put(element, c.getThreshold());
 
+                labels.put(element, ""); //$NON-NLS-1$
+                descriptions.put(element, ""); //$NON-NLS-1$
+            }
         }
 
         // ignore it if it wasn't in the list.
@@ -492,7 +537,7 @@ public class CodeEditorPage extends WizardPage {
         labels.put(defaultSelected, labelText.getText());
         descriptions.put(defaultSelected, descriptionText.getText());
 
-        if (isEditingExpression() && ScenarioUtils.isEmptyResponsibility(getCode())) {
+        if ((isEditingExpression() || isNodeConnection()) && ScenarioUtils.isEmptyResponsibility(getCode())) {
             code.put(defaultSelected, ""); //$NON-NLS-1$
             updateStatus(null);
         } else {
@@ -502,6 +547,8 @@ public class CodeEditorPage extends WizardPage {
                 o = ScenarioUtils.parse(getCode(), ScenarioUtils.getEnvironment(resp), true);
             else if (isFailurePoint())
                 o = ScenarioUtils.parse(getCode(), ScenarioUtils.getEnvironment(failure), true);
+            else if (isNodeConnection())
+                o = ScenarioUtils.parseInteger(getCode(), ScenarioUtils.getEnvironment(nc));
             else
                 o = ScenarioUtils.parse(getCode(), ScenarioUtils.getEnvironment(cond), false);
 
@@ -586,6 +633,15 @@ public class CodeEditorPage extends WizardPage {
      */
     public boolean isFailurePoint() {
         return failure != null;
+    }
+    
+    /**
+     * Are we editing a node connection?
+     * 
+     * @return true if node connection, false otherwise.
+     */
+    public boolean isNodeConnection() {
+        return nc != null;
     }
 
     /**

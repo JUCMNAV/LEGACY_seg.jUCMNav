@@ -24,6 +24,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.views.property.descriptors.CodePropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.MetadataPropertyDescriptor;
 import ucm.map.EndPoint;
 import ucm.map.FailurePoint;
@@ -31,6 +32,7 @@ import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 import ucm.map.WaitingPlace;
 import ucm.performance.Workload;
 import ucm.scenario.Initialization;
@@ -101,7 +103,23 @@ public class URNElementPropertySource extends EObjectPropertySource {
             }
         } else if (type.getInstanceClass() == Metadata.class) {
             metadataDescriptor(descriptors, attr, propertyid);
-        } else {
+        }   
+        else if (getEditableValue() instanceof NodeConnection && attr.getName().equals("threshold")) //$NON-NLS-1$ 
+        {
+            NodeConnection nc = (NodeConnection)getEditableValue();
+            // only show when following synch stub. 
+            if (nc.getSource() instanceof Stub)
+            {
+                Stub stub = (Stub) nc.getSource();
+                if (stub.isSynchronization()) {
+                    //super.addPropertyToDescriptor(descriptors, attr, c);
+                    PropertyDescriptor pd = new CodePropertyDescriptor(propertyid, nc);
+                    descriptors.add(pd);
+                }
+            
+            }
+        }
+        else {
             super.addPropertyToDescriptor(descriptors, attr, c);
         }
     }

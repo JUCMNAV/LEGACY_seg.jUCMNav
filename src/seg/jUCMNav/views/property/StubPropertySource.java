@@ -9,7 +9,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.CommandStack;
 
 import seg.jUCMNav.views.property.descriptors.CheckboxPropertyDescriptor;
+import seg.jUCMNav.views.property.descriptors.CodePropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.StubPluginsPropertyDescriptor;
+import ucm.map.NodeConnection;
 import ucm.map.Stub;
 
 /**
@@ -35,8 +37,18 @@ public class StubPropertySource extends URNElementPropertySource {
         Vector property = new Vector();
 
         property.add(new StubPluginsPropertyDescriptor(new PropertyID(stub.eClass(), stub.eClass().getEStructuralFeature("bindings")), stub, cmdStack)); //$NON-NLS-1$
-
+        /* would need to add one for each nc. 
+        if (hasThreshold()) 
+        {
+            NodeConnection nc = (NodeConnection)stub.getSucc().get(0);
+            property.add(new CodePropertyDescriptor(new PropertyID(nc.eClass(), nc.eClass().getEStructuralFeature("threshold")), nc)); 
+        }
+        */
         return property;
+    }
+
+    private boolean hasThreshold() {
+        return stub!=null && stub.isSynchronization() && stub.getSucc().size()>=1;
     }
 
     /*
@@ -56,5 +68,21 @@ public class StubPropertySource extends URNElementPropertySource {
             else
                 pd.setReadOnly(false);
         }
+    }
+    
+    /**
+     * @param propertyid
+     * @param feature
+     * @return the feature
+     */
+    protected Object getFeature(PropertyID propertyid, EStructuralFeature feature) {
+        Object result = null;
+
+        // if this attribute comes from the referenced object
+        if (propertyid.getEClass() != object.eClass() && hasThreshold())
+            result = ((NodeConnection)stub.getSucc().get(0)).eGet(feature);
+        else
+            result = object.eGet(feature);
+        return result;
     }
 }

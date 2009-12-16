@@ -162,16 +162,27 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
      * @param connection
      */
     private void addEndLabel(SplineConnection connection) {
-        if (endLabel != null)
-            getFigure().remove(endLabel);
+        cleanEndLabel();
         int index = getLink().getTarget().getPred().indexOf(getLink());
         StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, true);
         targetEndpointLocator.setVDistance(5);
         targetEndpointLocator.setUDistance(30);
-        endLabel = new Label(Messages.getString("NodeConnectionEditPart.IN") + Integer.toString(index + 1)); //$NON-NLS-1$
+        endLabel = new Label(Messages.getString("NodeConnectionEditPart.IN") + Integer.toString(index + 1)+ " "); //$NON-NLS-1$
         endLabel.setForegroundColor(ColorManager.STUBLABEL);
         endLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
         connection.add(endLabel, targetEndpointLocator);
+    }
+
+    private void cleanEndLabel() {
+        if (endLabel != null && getFigure().getChildren().contains(endLabel)) {
+            getFigure().remove(endLabel);
+        }
+    }
+
+    private void cleanStartLabel() {
+        if (startLabel != null && getFigure().getChildren().contains(startLabel)) {
+            getFigure().remove(startLabel);
+        }
     }
 
     /**
@@ -180,15 +191,13 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
      * @param connection
      */
     private void addStartLabel(SplineConnection connection) {
-        if (startLabel != null)
-            getFigure().remove(startLabel);
-        
+        cleanStartLabel();
         StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, false);
         targetEndpointLocator.setVDistance(5);
         targetEndpointLocator.setUDistance(30);
-        
+
         String startText = getStartText();
-        
+
         startLabel = new Label(startText);
         startLabel.setForegroundColor(ColorManager.STUBLABEL);
         startLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
@@ -197,11 +206,17 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
     private String getStartText() {
         int index = getLink().getSource().getSucc().indexOf(getLink());
-        
-        String startText = Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1); //$NON-NLS-1$
-        if(getLink().getThreshold() != null && getLink().getThreshold().length() > 0)
-            startText += " [" + getLink().getThreshold() + "]";
+
+        String startText = Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1) + " "; //$NON-NLS-1$
+        startText += getSuffix();
         return startText;
+    }
+
+    private String getSuffix() {
+        if (getLink().getThreshold() != null && getLink().getThreshold().length() > 0)
+            return "[" + getLink().getThreshold().replaceAll("\n", "").replace("\r", "") + "] ";
+        else
+            return "";
     }
 
     /**
@@ -341,17 +356,13 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     public void refreshVisuals() {
         if (getLink().getTarget() instanceof Stub) {
             addEndLabel((SplineConnection) getFigure());
-        } else if (endLabel != null) {
-            ((SplineConnection) getFigure()).remove(endLabel);
-            endLabel = null;
-        }
+        } else
+            cleanEndLabel();
 
         if (getLink().getSource() instanceof Stub) {
             addStartLabel((SplineConnection) getFigure());
-        } else if (startLabel != null) {
-            ((SplineConnection) getFigure()).remove(startLabel);
-            startLabel = null;
-        }
+        } else
+            cleanStartLabel();
 
         if (getLink().getSource() instanceof Timer && getLink().getSource().getSucc().indexOf(getLink()) == 1) {
             addTimeout((SplineConnection) getFigure());
@@ -362,8 +373,14 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
         // hide in print mode.
         if (startLabel != null) {
-            startLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
+            boolean hide = ((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() >= 2;
+            startLabel.setVisible(!hide);
             startLabel.setText(getStartText());
+
+            if (hide && getSuffix().length() > 0) {
+                startLabel.setVisible(true);
+                startLabel.setText(getSuffix());
+            }
         }
 
         // hide in print mode.
@@ -393,13 +410,22 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     public void performRequest(Request request) {
         if (request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
             if (getLink() != null && getLink().getCondition() != null) {
-                Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-                CodeEditor wizard = new CodeEditor();
-
-                wizard.init(PlatformUI.getWorkbench(), null, getLink().getCondition());
-                WizardDialog dialog = new WizardDialog(shell, wizard);
-                dialog.open();
+                openEditor(getLink().getCondition());
+            } else if (getLink().getSource() instanceof Stub) {
+                Stub stub = (Stub) getLink().getSource();
+                if (stub.isSynchronization()) {
+                    openEditor(getLink());
+                }
             }
         }
+    }
+
+    private void openEditor(EObject model) {
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        CodeEditor wizard = new CodeEditor();
+
+        wizard.init(PlatformUI.getWorkbench(), null, model);
+        WizardDialog dialog = new WizardDialog(shell, wizard);
+        dialog.open();
     }
 }

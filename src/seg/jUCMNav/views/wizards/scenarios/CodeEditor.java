@@ -147,11 +147,7 @@ public class CodeEditor extends Wizard {
                     if (nc.getCondition() != null)
                         v.add(nc.getCondition());
                 }
-
-                    
-                    
             }
-
             else if (defaultSelected instanceof Condition) {
                 Condition cond = (Condition) defaultSelected;
                 if (cond.eContainer() instanceof NodeConnection) {

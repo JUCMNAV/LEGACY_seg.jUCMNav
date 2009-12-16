@@ -7,6 +7,7 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
 
 import seg.jUCMNav.Messages;
 import ucm.map.FailurePoint;
+import ucm.map.NodeConnection;
 import urncore.Condition;
 import urncore.Responsibility;
 
@@ -22,7 +23,8 @@ public class CodePropertyDescriptor extends PropertyDescriptor {
     private Responsibility resp;
     private Condition cond;
     private FailurePoint failure;
-
+    
+    private NodeConnection nc; // for threshold
     /**
      * Property descriptor for a responsibility.
      * 
@@ -76,6 +78,24 @@ public class CodePropertyDescriptor extends PropertyDescriptor {
             }
         });
     }    
+    
+    /**
+     * Property descriptor for a node connection (threshold)
+     * 
+     * @param id
+     *            the PropertyID
+     * @param nc
+     *            the node connection
+     */
+    public CodePropertyDescriptor(Object id, NodeConnection nc) {
+        super(id, "Threshold");
+        this.nc = nc;
+        setLabelProvider(new LabelProvider() {
+            public String getText(Object element) {
+                return Messages.getString("CodePropertyDescriptor.ClickToEdit"); //$NON-NLS-1$
+            }
+        });
+    }     
 
     /**
      * Creates the cell editor.
@@ -86,6 +106,8 @@ public class CodePropertyDescriptor extends PropertyDescriptor {
             editor.setResponsibility(resp);
         else if (failure!=null)
             editor.setFailure(failure);
+        else if (nc!=null)
+            editor.setNodeConnection(nc);
         else
             editor.setCondition(cond);
         return editor;

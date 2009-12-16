@@ -19,13 +19,13 @@ public class ConditionSectionFilter implements IFilter {
         if (arg0 instanceof EditPart)
             arg0 = ((EditPart) arg0).getModel();
 
-        if ((arg0 instanceof StartPoint) || (arg0 instanceof EndPoint) || (arg0 instanceof FailurePoint))
+        if ((arg0 instanceof StartPoint) || (arg0 instanceof EndPoint))
             return false;
 
         arg0 = urnResolver.getData(arg0);
 
         arg0 = resolver.getData(arg0);
 
-        return arg0 != null && !(arg0 instanceof Responsibility);
+        return arg0 != null && !(arg0 instanceof Responsibility) && !(arg0 instanceof FailurePoint);
     }
 }

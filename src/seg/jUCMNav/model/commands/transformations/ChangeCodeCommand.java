@@ -6,6 +6,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.FailurePoint;
+import ucm.map.NodeConnection;
 import ucm.scenario.Initialization;
 import urncore.Condition;
 import urncore.Responsibility;
@@ -27,12 +28,20 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
         this.code = newcode;
         this.extendedFeatures = false;
 
+        setLabel();
+    }
+
+    private void setLabel() {
         if (elem instanceof Responsibility)
             setLabel(Messages.getString("ChangeCodeCommand.ChangeResponsibilityCode")); //$NON-NLS-1$
         else if (elem instanceof Condition)
             setLabel(Messages.getString("ChangeCodeCommand.ChangeCondition")); //$NON-NLS-1$
         else if (elem instanceof Initialization)
             setLabel(Messages.getString("ChangeCodeCommand.ChangeInitialization")); //$NON-NLS-1$
+        else if (elem instanceof NodeConnection)
+            setLabel("Change threshold");
+        else if (elem instanceof FailurePoint)
+            setLabel("Change failure expression");
     }
 
     public ChangeCodeCommand(EObject obj, String newcode, String newlabel, String newDescription) {
@@ -42,12 +51,7 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
         this.name = newlabel;
         this.description = newDescription;
 
-        if (elem instanceof Responsibility)
-            setLabel(Messages.getString("ChangeCodeCommand.ChangeResponsibilityCode")); //$NON-NLS-1$
-        else if (elem instanceof Condition)
-            setLabel(Messages.getString("ChangeCodeCommand.ChangeCondition")); //$NON-NLS-1$
-        else if (elem instanceof Initialization)
-            setLabel(Messages.getString("ChangeCodeCommand.ChangeInitialization")); //$NON-NLS-1$
+        setLabel();
     }
 
     /**
@@ -68,6 +72,9 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
             oldDescription = ((Condition) elem).getDescription();
         } else if (elem instanceof Initialization) {
             oldCode = ((Initialization) elem).getValue();
+        } else if (elem instanceof NodeConnection)
+        {
+            oldCode = ((NodeConnection)elem).getThreshold();
         }
         redo();
     }
@@ -103,6 +110,9 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
         } else if (elem instanceof Initialization) {
             ((Initialization) elem).setValue(code);
         }
+        else if (elem instanceof NodeConnection) {
+            ((NodeConnection) elem).setThreshold(code);
+        }        
 
         testPostConditions();
     }
@@ -152,7 +162,9 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
             }
         } else if (elem instanceof Initialization) {
             ((Initialization) elem).setValue(oldCode);
-        }
+        } else if (elem instanceof NodeConnection) {
+            ((NodeConnection) elem).setThreshold(oldCode);
+        }        
 
         testPreConditions();
     }

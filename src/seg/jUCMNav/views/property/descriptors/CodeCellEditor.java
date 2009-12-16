@@ -13,6 +13,7 @@ import org.eclipse.ui.PlatformUI;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.map.FailurePoint;
+import ucm.map.NodeConnection;
 import urncore.Condition;
 import urncore.Responsibility;
 
@@ -33,6 +34,9 @@ public class CodeCellEditor extends DialogCellEditor {
     // or a condition
     private Condition cond;
 
+    // or a nc threshold 
+    private NodeConnection nc;
+    
     // swt label to be displayed
     private Label defaultLabel;
 
@@ -70,6 +74,8 @@ public class CodeCellEditor extends DialogCellEditor {
         EObject defaultObj = resp == null ? (EObject) cond : (EObject) resp;
         if (defaultObj == null)
             defaultObj = failure;
+        if (defaultObj == null)
+            defaultObj = nc;
 
         // initialize it
         wizard.init(PlatformUI.getWorkbench(), null, defaultObj);
@@ -122,6 +128,14 @@ public class CodeCellEditor extends DialogCellEditor {
     public void setFailure(FailurePoint failure) {
         this.failure = failure;
     }
+    
+    public NodeConnection getNodeConnection() {
+        return nc;
+    }
+
+    public void setNodeConnection(NodeConnection nc) {
+        this.nc = nc;
+    }
 
     /**
      * Initialize the label that invites the user to click the button.
@@ -146,5 +160,7 @@ public class CodeCellEditor extends DialogCellEditor {
     protected Label getDefaultLabel() {
         return defaultLabel;
     }
+
+
 
 }

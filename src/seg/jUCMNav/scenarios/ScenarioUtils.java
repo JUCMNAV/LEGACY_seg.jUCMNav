@@ -649,7 +649,31 @@ public class ScenarioUtils {
      *            is this a responsibility or a condition?
      * @return a SimpleNode instance if valid, a String otherwise.
      */
+
     public static Object parse(String code, UcmEnvironment env, boolean isResponsibility) {
+        return parse(code, env, isResponsibility, isResponsibility ? null : jUCMNavType.BOOLEAN);
+    }
+
+    public static Object parseInteger(String code, UcmEnvironment env) {
+        return parse(code, env, false, jUCMNavType.INTEGER);
+    }
+
+    /**
+     * Parses a string and returns an error message if is not valid (as a string) or a SimpleNode AST of the code if it is. Does both syntax checking and type
+     * checking.
+     * 
+     * @param code
+     *            the code to be parsed
+     * @param env
+     *            the environment in which it should be parsed
+     * @param isResponsibility
+     *            is this a responsibility or a condition?
+     * @param expectedType
+     *            the expected type
+     * @return a SimpleNode instance if valid, a String otherwise.
+     */
+
+    private static Object parse(String code, UcmEnvironment env, boolean isResponsibility, jUCMNavType expectedType) {
         SimpleNode n = null;
 
         // syntax checking
@@ -673,7 +697,11 @@ public class ScenarioUtils {
                     return Messages.getString("ScenarioUtils.IsNotAValidResponsibility"); //$NON-NLS-1$
                 }
             } else {
-                if (!checker.isValidCondition()) {
+                if (expectedType == jUCMNavType.INTEGER) {
+                    if (!checker.isValidInteger()) {
+                        return "Is not a valid integer.";
+                    }
+                } else if (!checker.isValidCondition()) {
                     return Messages.getString("ScenarioUtils.IsNotAValidCondition"); //$NON-NLS-1$
                 }
             }
