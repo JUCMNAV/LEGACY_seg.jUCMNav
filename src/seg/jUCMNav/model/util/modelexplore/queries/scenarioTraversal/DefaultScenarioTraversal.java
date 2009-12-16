@@ -15,10 +15,12 @@ import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.Anything;
 import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.FailurePoint;
 import ucm.map.InBinding;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
@@ -177,6 +179,20 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
         _traversalData.visitAllSucc(andfork);
     }
 
+    
+    /**
+     * Processes an anything element
+     * 
+     * @param env
+     *            the environment
+     * @param pn
+     *            the anything to process
+     * @throws TraversalException
+     */
+    protected void processAnythingElement(UcmEnvironment env, Anything pn) throws TraversalException  {
+        processEmptyPoint(env, pn); // not yet implemented. 
+    }
+    
     /**
      * Processes an and join.
      * 
@@ -323,6 +339,20 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
             _traversalData.visitOnlySuccIfExists(end);
         }
     }
+    
+    /**
+     * Processes a failure point. 
+     * 
+     * @param env
+     *            the environment
+     * @param pn
+     *            the failure point to process
+     * @throws TraversalException
+     */    
+    protected void processFailurePoint(UcmEnvironment env, FailurePoint pn) throws TraversalException  {
+        processEmptyPoint(env, pn); // not yet implemented. 
+    }
+    
 
     /**
      * Process a path node in the given environment.
@@ -368,6 +398,10 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
         } else if (pn instanceof RespRef) {
             RespRef resp = (RespRef) pn;
             processRespRef(env, resp);
+        } else if (pn instanceof Anything) {
+            processAnythingElement(env, (Anything) pn);
+        } else if (pn instanceof FailurePoint) {
+            processFailurePoint(env, (FailurePoint) pn);
         } else if (pn instanceof EmptyPoint || pn instanceof DirectionArrow) {
             processEmptyPoint(env, pn);
         } else if (pn instanceof WaitingPlace) { // includes timer
@@ -386,6 +420,8 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
                 _error = Messages.getString("DefaultScenarioTraversal.UnknownPathNodeColon") + pn.toString(); //$NON-NLS-1$
         }
     }
+
+
 
     /**
      * Processes an or fork.
