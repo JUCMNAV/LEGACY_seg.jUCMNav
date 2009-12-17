@@ -30,7 +30,7 @@ public class EvaluationUMHandler extends EObjectImplUMHandler {
 			elem.setQualitativeEvaluation(grl.QualitativeLabel.get(elemZ
 					.getQualitativeEvaluation().ordinal()));
 			elem.setIntElement((grl.IntentionalElement) process(
-					(IntentionalElement) elemZ.getIntElement(), null, true));
+					(IntentionalElement) elemZ.getIntElement(), null, false));
 			//elem.setStrategies(); handled by EvaluationStrategyUMHandler
 			// elem.setKpiEvalValueSet();
 

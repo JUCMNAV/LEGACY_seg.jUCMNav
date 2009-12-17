@@ -28,12 +28,6 @@ public class ImportZ151 implements IURNImport {
 			// Unmarshal XML contents of the file into Java object instance.
 			JAXBElement<seg.jUCMNav.importexport.z151.generated.URNspec> specFromFile = (JAXBElement<seg.jUCMNav.importexport.z151.generated.URNspec>) um.unmarshal(fis);
 			urn = (urn.URNspec) mh.handle(specFromFile.getValue(), null, true);
-//			for(Object graph:urn.getUrndef().getSpecDiagrams()){
-//				if (graph instanceof grl.impl.GRLspecImpl)
-//					autolayoutDiagrams.add(((grl.GRLGraph) graph).getId());
-//				else
-//					autolayoutDiagrams.add(((ucm.map.UCMmap) graph).getId());
-//			}
 			mh.resetUrnSpec();
 			return urn;
 		} catch (JAXBException jbe) {

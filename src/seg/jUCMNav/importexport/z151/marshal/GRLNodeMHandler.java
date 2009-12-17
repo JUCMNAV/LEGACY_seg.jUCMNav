@@ -1,10 +1,11 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
-import java.util.List;
-import javax.xml.bind.JAXBElement;
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
+
+import seg.jUCMNav.importexport.z151.generated.ActorRef;
+import seg.jUCMNav.importexport.z151.generated.GRLNode;
+import seg.jUCMNav.importexport.z151.generated.Position;
+import seg.jUCMNav.importexport.z151.generated.Size;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  GRLNode  -->
@@ -42,12 +43,9 @@ public class GRLNodeMHandler extends GRLmodelElementMHandler {
 			posZ.setY(new BigInteger(Integer.toString(elem.getY())));
 			elemZ.setPos(posZ);
 			Size sizeZ = new Size();
-			sizeZ.setHeight(new BigInteger("0"));
-			sizeZ.setWidth(new BigInteger("0")); 
-			//sizeZ.setHeight(new BigInteger(Integer.toString(elem.getContRef().getHeight())));
-			//sizeZ.setWidth(new BigInteger(Integer.toString(elem.getContRef().getWidth())));
+			sizeZ.setHeight(new BigInteger("0")); // Size auto-computed from content in in jUCMNav
+			sizeZ.setWidth(new BigInteger("0"));  // Size auto-computed from content in in jUCMNav
 			elemZ.setSize(sizeZ);
-			
 		}
 		return elemZ;
 	}
