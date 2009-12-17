@@ -19,16 +19,16 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
 
     protected String[] getList() {
         return new String[] {
-                Messages.getString("StubKindPropertySection_Static"),
-                Messages.getString("StubKindPropertySection_Dynamic"),
-                Messages.getString("StubKindPropertySection_Pointcut"),
-                "Pointcut Replacement",
-                Messages.getString("StubKindPropertySection_Synchronizing"),
-                Messages.getString("StubKindPropertySection_Blocking"),
-                "Aspect Marker",
-                "Aspect Marker Entrance",
-                "Aspect Marker Exit",
-                "Aspect Marker Conditional"
+                Messages.getString("StubKindPropertySection_Static"), //$NON-NLS-1$
+                Messages.getString("StubKindPropertySection_Dynamic"), //$NON-NLS-1$
+                Messages.getString("StubKindPropertySection_Pointcut"), //$NON-NLS-1$
+                Messages.getString("StubKindPropertySection.PointcutRep"), //$NON-NLS-1$
+                Messages.getString("StubKindPropertySection_Synchronizing"), //$NON-NLS-1$
+                Messages.getString("StubKindPropertySection_Blocking"), //$NON-NLS-1$
+                Messages.getString("StubKindPropertySection.AE"), //$NON-NLS-1$
+                Messages.getString("StubKindPropertySection.AEEntrance"), //$NON-NLS-1$
+                Messages.getString("StubKindPropertySection.AEExit"), //$NON-NLS-1$
+                Messages.getString("StubKindPropertySection.AEConditional") //$NON-NLS-1$
                 };
     }
 
