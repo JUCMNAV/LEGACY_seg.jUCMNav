@@ -137,18 +137,21 @@ public class CodeEditor extends Wizard {
             } else if (defaultSelected instanceof OrFork || defaultSelected instanceof WaitingPlace || defaultSelected instanceof FailurePoint) {
 
                 PathNode pn = (PathNode) defaultSelected;
-                if (!(defaultSelected instanceof FailurePoint))
+
+                // note: if you do add related conditions to FailurePoint, you will need to edit the CodeEditorPage so that it knows if it is editing a
+                // condition or code depending on the selection in the dropdown
+                if (!(defaultSelected instanceof FailurePoint)) {
                     this.defaultSelected = null;
-                else {
+
+                    for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
+                        NodeConnection nc = (NodeConnection) iter.next();
+                        if (nc.getCondition() != null)
+                            v.add(nc.getCondition());
+                    }
+                } else {
                     v.add(pn);
                 }
-                for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
-                    NodeConnection nc = (NodeConnection) iter.next();
-                    if (nc.getCondition() != null)
-                        v.add(nc.getCondition());
-                }
-            }
-            else if (defaultSelected instanceof Condition) {
+            } else if (defaultSelected instanceof Condition) {
                 Condition cond = (Condition) defaultSelected;
                 if (cond.eContainer() instanceof NodeConnection) {
                     NodeConnection connection = (NodeConnection) cond.eContainer();
