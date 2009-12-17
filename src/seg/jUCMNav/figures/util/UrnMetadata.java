@@ -9,10 +9,12 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.model.util.MetadataHelper;
+import ucm.map.FailurePoint;
 import ucm.map.RespRef;
 import urn.URNlink;
 import urncore.Component;
 import urncore.Metadata;
+import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 /**
@@ -121,6 +123,24 @@ public class UrnMetadata {
         if (elem.getDescription() != null) {
             toolTipText = toolTipText + " " + elem.getDescription() + " "; //$NON-NLS-1$ $NON-NLS-2$  
             descOnly = true;
+        }
+        
+        if (elem instanceof Responsibility && ((Responsibility)elem).getExpression()!=null)
+        {
+            String exp = ((Responsibility)elem).getExpression();
+            if (exp.length()!=0)
+            {
+                toolTipText += "\n " + exp + " \n";
+            }
+        }
+        
+        if (elem instanceof FailurePoint && ((FailurePoint)elem).getExpression()!=null)
+        {
+            String exp = ((FailurePoint)elem).getExpression();
+            if (exp.length()!=0)
+            {
+                toolTipText += "\n " + exp + " \n";
+            }
         }
 
         // Consider only non-stereotype metadata.

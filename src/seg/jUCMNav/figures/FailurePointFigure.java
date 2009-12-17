@@ -113,8 +113,10 @@ public class FailurePointFigure extends PathNodeFigure implements IRotateable {
     }
 
     public void rotate(double angle) {
-//        angle += Math.PI / 2;
-        
+        // make it always point towards botom
+        //if (Math.cos(angle)>0)
+        //    angle -= Math.PI;
+
         Transform t = new Transform();
         t.setRotation(angle);
         

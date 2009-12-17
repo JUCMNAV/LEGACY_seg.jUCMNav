@@ -2,7 +2,6 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
-import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -14,7 +13,6 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.LineAttributes;
 
 /**
  * This figure represent a StartPoint and Waiting Place!
