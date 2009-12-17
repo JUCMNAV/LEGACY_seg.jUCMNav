@@ -7,6 +7,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Transform;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * This figure represent and EndPoint
@@ -162,7 +163,7 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
             if (hover)
                 setColor(ColorManager.HOVER);
             else
-                setColor(ColorManager.FILL);
+                setColor(ColorManager.LINE);
         }
     }
     
@@ -186,5 +187,15 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
             return super.getPreferredSize(wHint, hHint);
         else
             return super.getPreferredSize(wHint, hHint).getCopy().scale(RESIZEFACTOR);
+    }
+
+    @Override
+    public void setColor(Color bg) {
+        mainFigure.setBackgroundColor(bg);
+    }
+
+    @Override
+    public void setForegroundColor(Color fg) {
+        mainFigure.setForegroundColor(fg);
     }
 }
