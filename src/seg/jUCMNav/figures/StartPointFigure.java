@@ -52,7 +52,7 @@ public class StartPointFigure extends PathNodeFigure {
         // TODO CONCERNS: should use default font?
         stubTypeText.setFont(new Font(null, "Verdana", 12, SWT.BOLD)); //$NON-NLS-1$
         stubTypeText.setText("F"); //$NON-NLS-1$
-        stubTypeText.setForegroundColor(ColorManager.GRAY);
+        stubTypeText.setForegroundColor(ColorManager.WHITE);
         flowPage.add(stubTypeText);
         // TODO CONCERNS: depends on font size!
         flowPage.setBounds(new Rectangle(16, 12, 20, 20));
@@ -83,7 +83,7 @@ public class StartPointFigure extends PathNodeFigure {
         bar.addPoint(new Point(27, 27));
         bar.setLineWidth(3);
         bar.setVisible(false);
-        bar.setForegroundColor(ColorManager.GRAY);
+        bar.setForegroundColor(ColorManager.WHITE);
         
         add(bar);
     }
@@ -144,7 +144,7 @@ public class StartPointFigure extends PathNodeFigure {
     public void setType(int failureKind, boolean isLocal) {
         
         if(isLocal) {
-            ellipse.setForegroundColor(ColorManager.GRAY);
+            ellipse.setForegroundColor(ColorManager.DARKGRAY);
             ellipse.setLineWidth(2);
             bar.setVisible(true);
         } else {
