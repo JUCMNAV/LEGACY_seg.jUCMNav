@@ -6,6 +6,7 @@ import java.util.List;
 import ucm.map.EndPoint;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
+import ucm.map.PointcutKind;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
@@ -40,7 +41,7 @@ public class PointcutBorderDetector {
                                 PluginBinding binding = (PluginBinding) iter.next();
                                 Stub stub = binding.getStub();
                                 if (stub != null) {
-                                    if (stub.isPointcut())
+                                    if (stub.getAopointcut() != PointcutKind.NONE_LITERAL)
                                         pluggedIntoPointcutStub = true;
                                     else
                                         pluggedIntoNormalStub = true;

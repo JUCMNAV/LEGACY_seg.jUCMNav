@@ -21,10 +21,12 @@ import seg.jUCMNav.views.property.StubPropertySource;
 import seg.jUCMNav.views.stub.PluginListDialog;
 import seg.jUCMNav.views.stub.StubBindingsDialog;
 import ucm.UcmPackage;
+import ucm.map.AspectKind;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
+import ucm.map.PointcutKind;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 
@@ -198,7 +200,40 @@ public class StubEditPart extends PathNodeEditPart {
      */
     public void refreshVisuals() {
         Stub stub = (Stub) getNode();
-        figure.setStubType(stub.isDynamic(), stub.isPointcut(), stub.isSynchronization(), stub.isBlocking(), stub.getRepetitionCount());
+
+        int pointcut = 0, aspect = 0;
+
+        switch (stub.getAopointcut().getValue()) {
+        case PointcutKind.NONE:
+            pointcut = 0;
+            break;
+        case PointcutKind.REGULAR:
+            pointcut = 1;
+            break;
+        case PointcutKind.REPLACEMENT:
+            pointcut = 2;
+            break;
+        }
+        
+        switch (stub.getAspect().getValue()) {
+        case AspectKind.NONE:
+            aspect = 0;
+            break;
+        case AspectKind.REGULAR:
+            aspect = 1;
+            break;
+        case AspectKind.ENTRANCE:
+            aspect = 2;
+            break;
+        case AspectKind.EXIT:
+            aspect = 3;
+            break;
+        case AspectKind.CONDITIONAL:
+            aspect = 4;
+            break;
+        }
+
+        figure.setStubType(stub.isDynamic(), pointcut, aspect, stub.isSynchronization(), stub.isBlocking(), stub.getRepetitionCount());
 
         super.refreshVisuals();
     }

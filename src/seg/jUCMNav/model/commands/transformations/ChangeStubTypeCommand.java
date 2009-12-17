@@ -4,6 +4,8 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import ucm.map.AspectKind;
+import ucm.map.PointcutKind;
 import ucm.map.Stub;
 
 /**
@@ -13,15 +15,18 @@ import ucm.map.Stub;
  */
 public class ChangeStubTypeCommand extends Command implements JUCMNavCommand {
     private Stub stub;
-    private boolean newIsDynamic, newIsPointcut, newSync, newBlocking;
-    private boolean oldIsDynamic, oldIsPointcut, oldSync, oldBlocking;
+    private boolean newIsDynamic, newSync, newBlocking;
+    private boolean oldIsDynamic, oldSync, oldBlocking;
+    private PointcutKind newPointcutKind, oldPointcutKind;
+    private AspectKind newAspectKind, oldAspectKind;
 
-    public ChangeStubTypeCommand(Stub stub, boolean isDynamic, boolean isPointcut, boolean isSync, boolean isBlocking) {
+    public ChangeStubTypeCommand(Stub stub, boolean isDynamic, PointcutKind pointcutKind, boolean isSync, boolean isBlocking, AspectKind aspectKind) {
         this.stub = stub;
         this.newIsDynamic = isDynamic;
-        this.newIsPointcut = isPointcut;
+        this.newPointcutKind = pointcutKind;
         this.newSync = isSync;
         this.newBlocking = isBlocking;
+        this.newAspectKind = aspectKind;
 
         setLabel(Messages.getString("ChangeStubTypeCommand.ChangeStubType")); //$NON-NLS-1$
     }
@@ -31,9 +36,10 @@ public class ChangeStubTypeCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         this.oldIsDynamic = stub.isDynamic();
-        this.oldIsPointcut = stub.isPointcut();
+        this.oldPointcutKind = stub.getAopointcut();
         this.oldSync = stub.isSynchronization();
         this.oldBlocking = stub.isBlocking();
+        this.oldAspectKind = stub.getAspect();
         
         redo();
     }
@@ -54,9 +60,10 @@ public class ChangeStubTypeCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         stub.setDynamic(newIsDynamic);
-        stub.setPointcut(newIsPointcut);
+        stub.setAopointcut(newPointcutKind);
         stub.setSynchronization(newSync);
         stub.setBlocking(newBlocking);
+        stub.setAspect(newAspectKind);
 
         testPostConditions();
     }
@@ -87,9 +94,10 @@ public class ChangeStubTypeCommand extends Command implements JUCMNavCommand {
         testPostConditions();
 
         stub.setDynamic(oldIsDynamic);
-        stub.setPointcut(oldIsPointcut);
+        stub.setAopointcut(oldPointcutKind);
         stub.setSynchronization(oldSync);
         stub.setBlocking(oldBlocking);
+        stub.setAspect(oldAspectKind);
 
         testPreConditions();
     }

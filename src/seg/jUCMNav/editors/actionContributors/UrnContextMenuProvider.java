@@ -156,7 +156,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        IAction[] actions = new IAction[20];
+        IAction[] actions = new IAction[25];
         actions[0] = getActionRegistry().getAction(AddOrForkAction.ADDORFORK);
         actions[1] = getActionRegistry().getAction(AddAndForkAction.ADDANDFORK);
         actions[2] = getActionRegistry().getAction(AddOrJoinAction.ADDORJOIN);
@@ -176,9 +176,14 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             actions[15] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(2));
             actions[16] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(3));
             actions[17] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(4));
+            actions[18] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(5));
+            actions[19] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(6));
+            actions[20] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(7));
+            actions[21] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(8));
+            actions[22] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(9));
         }
-        actions[18] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(0));
-        actions[19] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(1));
+        actions[23] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(0));
+        actions[24] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(1));
 
         SubmenuAction submenu = new SubmenuAction(
                 actions,

@@ -34,8 +34,10 @@ import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PluginBinding;
+import ucm.map.PointcutKind;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
@@ -393,7 +395,16 @@ public class URNNamingHelper {
 
                 // look at all pathnodes
                 for (Iterator iterator = map.getNodes().iterator(); iterator.hasNext();) {
-                    findConflicts(htIDs, null, IDConflicts, null, urn, (UCMmodelElement) iterator.next());
+                    UCMmodelElement elem = (UCMmodelElement) iterator.next();
+                    findConflicts(htIDs, null, IDConflicts, null, urn, elem);
+                    if (elem instanceof Stub) {
+                        if(((Stub) elem).isPointcut()) {
+                            ((Stub) elem).setAopointcut(PointcutKind.REGULAR_LITERAL);
+                            ((Stub) elem).setPointcut(false);
+                        }
+                        else
+                            ((Stub) elem).setAopointcut(PointcutKind.NONE_LITERAL);
+                    }
                 }
             }
         }

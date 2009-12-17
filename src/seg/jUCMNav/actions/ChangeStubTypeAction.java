@@ -6,6 +6,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.transformations.ChangeStubTypeCommand;
+import seg.jUCMNav.model.util.StubHelper;
+import ucm.map.AspectKind;
+import ucm.map.PointcutKind;
 import ucm.map.Stub;
 
 /**
@@ -18,14 +21,19 @@ public class ChangeStubTypeAction extends URNSelectionAction {
 
     public static final String[] STUB_TYPES = new String[] { Messages.getString("ChangeStubTypeAction.Stub"), //$NON-NLS-1$
             Messages.getString("ChangeStubTypeAction.DynamicStub"), Messages.getString("ChangeStubTypeAction.PointcutStub"),  //$NON-NLS-1$ //$NON-NLS-2$
-            "Synchronizing Stub", "Blocking Stub" };
+            "Pointcut Replacement Stub", "Synchronizing Stub", "Blocking Stub", "Aspect Marker", "Entrance Aspect Marker", "Exit Aspect Marker", "Conditional Aspect Marker" };
 
     protected int stubType;
     // 0: Static
     // 1: Dynamic
-    // 2: Pointcut
-    // 3: Synchronizing
-    // 4: Blocking Stub
+    // 2: Pointcut Regular
+    // 3: Pointcut Replacement
+    // 4: Synchronizing
+    // 5: Blocking Stub
+    // 6: Aspect Marker
+    // 7: Aspect Marker Entrance
+    // 8: Aspect Marker Exit
+    // 9: Aspect Marker Conditional
 
     /**
      * @param part
@@ -40,9 +48,19 @@ public class ChangeStubTypeAction extends URNSelectionAction {
         else if (stubType == 2)
             setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/PointcutStub16.gif")); //$NON-NLS-1$
         else if (stubType == 3)
-            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/SyncStub16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/PointcutRepStub16.gif")); //$NON-NLS-1$
         else if (stubType == 4)
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/SyncStub16.gif")); //$NON-NLS-1$
+        else if (stubType == 5)
             setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/BlockStub16.gif")); //$NON-NLS-1$
+        else if (stubType == 6)
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/aspectMarker16.gif")); //$NON-NLS-1$
+        else if (stubType == 7)
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerEntrance16.gif")); //$NON-NLS-1$
+        else if (stubType == 8)
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerExit16.gif")); //$NON-NLS-1$
+        else if (stubType == 9)
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerCond16.gif")); //$NON-NLS-1$
         else
             setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Stub16.gif")); //$NON-NLS-1$
 
@@ -61,15 +79,9 @@ public class ChangeStubTypeAction extends URNSelectionAction {
         switch (sel.getSelectionType()) {
         case SelectionHelper.STUB:
             Stub s = sel.getStub();
-            if (stubType == 0 && !s.isDynamic() && !s.isPointcut() && !s.isSynchronization() && !s.isBlocking()) // already static
-                return false;
-            else if (stubType == 1 && s.isDynamic() && !s.isPointcut() && !s.isSynchronization() && !s.isBlocking()) // already dynamic
-                return false;
-            else if (stubType == 2 && s.isDynamic() && s.isPointcut() && !s.isSynchronization() && !s.isBlocking()) // already pointcut
-                return false;
-            else if (stubType == 3 && s.isDynamic() && !s.isPointcut() && s.isSynchronization() && !s.isBlocking()) // already synchro
-                return false;
-            else if(stubType == 4 && s.isDynamic() && !s.isPointcut() && s.isSynchronization() && s.isBlocking()) // already blocking
+            
+            int kind = StubHelper.getStubKind(s);
+            if (stubType == kind) // already same stub type
                 return false;
             else if (stubType == 0 && s.getBindings().size() > 1) // not when have multiple plugins
                 return false;
@@ -90,7 +102,23 @@ public class ChangeStubTypeAction extends URNSelectionAction {
 
         case SelectionHelper.STUB:
             try {
-            comm = new ChangeStubTypeCommand(sel.getStub(), stubType != 0, stubType == 2, stubType == 3 || stubType == 4, stubType == 4);
+                PointcutKind p = PointcutKind.NONE_LITERAL;
+                if(stubType == 2)
+                    p = PointcutKind.REGULAR_LITERAL;
+                else
+                    p = PointcutKind.REPLACEMENT_LITERAL;
+
+                AspectKind a = AspectKind.NONE_LITERAL;
+                if(stubType == 6)
+                    a = AspectKind.REGULAR_LITERAL;
+                if(stubType == 7)
+                    a = AspectKind.ENTRANCE_LITERAL;
+                else if (stubType == 8)
+                    a = AspectKind.EXIT_LITERAL;
+                else if (stubType == 8)
+                    a = AspectKind.CONDITIONAL_LITERAL;
+                
+            comm = new ChangeStubTypeCommand(sel.getStub(), stubType != 0, p, stubType == 3 || stubType == 4, stubType == 4, a);
             return comm;
             }
             catch(Exception ex) {

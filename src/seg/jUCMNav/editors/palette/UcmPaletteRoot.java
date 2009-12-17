@@ -65,7 +65,7 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
     /** Map from string to ToolEntry for hotkeys. */
     protected HashMap keyboardMapping;
 
-    protected Vector<ToolEntry> advancedItems = new Vector<ToolEntry>();
+    protected Vector advancedItems = new Vector();
 
     /**
      * Creates a new UcmPaletteRoot instance. To be called by the palette or anything else that might not be recreated when a save-as is done.
@@ -238,17 +238,9 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
                         "icons/DynStub24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
         keyboardMapping.put("d", entry); //$NON-NLS-1$
-        
-        entry = new URNElementCreationEntry(
-                Messages.getString("UcmPaletteRoot.pointcutStub"), Messages.getString("UcmPaletteRoot.createPointcutStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 2), //$NON-NLS-1$ //$NON-NLS-2$
-                JUCMNavPlugin.getImageDescriptor("icons/PointcutStub16.gif"), JUCMNavPlugin.getImageDescriptor( //$NON-NLS-1$
-                        "icons/PointcutStub24.gif")); //$NON-NLS-1$
-        componentsDrawer.add(entry);
-        advancedItems.add(entry);
-        keyboardMapping.put("c", entry); //$NON-NLS-1$
 
         entry = new URNElementCreationEntry(
-                Messages.getString("UcmPaletteRoot.SyncStub"), Messages.getString("UcmPaletteRoot.CreateSyncStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 3), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("UcmPaletteRoot.SyncStub"), Messages.getString("UcmPaletteRoot.CreateSyncStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 4), //$NON-NLS-1$ //$NON-NLS-2$
                 JUCMNavPlugin.getImageDescriptor("icons/SyncStub16.gif"), JUCMNavPlugin.getImageDescriptor( //$NON-NLS-1$
                         "icons/SyncStub24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
@@ -256,7 +248,7 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
         keyboardMapping.put("y", entry); //$NON-NLS-1$
 
         entry = new URNElementCreationEntry(
-                Messages.getString("UcmPaletteRoot.BlockStub"), Messages.getString("UcmPaletteRoot.CreateBlockStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 4), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("UcmPaletteRoot.BlockStub"), Messages.getString("UcmPaletteRoot.CreateBlockStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 5), //$NON-NLS-1$ //$NON-NLS-2$
                 JUCMNavPlugin.getImageDescriptor("icons/BlockStub16.gif"), JUCMNavPlugin.getImageDescriptor( //$NON-NLS-1$
                         "icons/BlockStub24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
@@ -264,6 +256,42 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
         keyboardMapping.put("b", entry); //$NON-NLS-1$
         
         showAdvancedStubs(DisplayPreferences.getInstance().isAdvancedControlEnabled());
+
+        add(componentsDrawer);
+        
+        componentsDrawer = new PaletteDrawer("Aspects");
+        advancedItems.add(componentsDrawer);
+        
+        entry = new URNElementCreationEntry(
+                Messages.getString("UcmPaletteRoot.pointcutStub"), Messages.getString("UcmPaletteRoot.createPointcutStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 2), //$NON-NLS-1$ //$NON-NLS-2$
+                JUCMNavPlugin.getImageDescriptor("icons/PointcutStub16.gif"), JUCMNavPlugin.getImageDescriptor( //$NON-NLS-1$
+                        "icons/PointcutStub24.gif")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
+        keyboardMapping.put("c", entry); //$NON-NLS-1$
+        
+        entry = new URNElementCreationEntry("Pointcut Replacement Stub", "Create a Pointcut Replacement Stub", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 3),
+                JUCMNavPlugin.getImageDescriptor("icons/PointcutRepStub16.gif"), JUCMNavPlugin.getImageDescriptor("icons/PointcutRepStub24.gif"));
+        componentsDrawer.add(entry);
+
+        entry = new URNElementCreationEntry(
+                "Aspect Marker", "Create Aspect marker", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 6), ImageDescriptor
+                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarker16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarker24.gif"));
+        componentsDrawer.add(entry);
+        
+        entry = new URNElementCreationEntry(
+                "Entrance Aspect Marker", "Create Entrance Aspect marker", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 7), ImageDescriptor
+                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarkerEntrance16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerEntrance24.gif"));
+        componentsDrawer.add(entry);
+        
+        entry = new URNElementCreationEntry(
+                "Exit Aspect Marker", "Create Exit Aspect marker", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 8), ImageDescriptor
+                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarkerExit16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerExit24.gif"));
+        componentsDrawer.add(entry);
+        
+        entry = new URNElementCreationEntry(
+                "Conditional Aspect Marker", "Create Conditional Aspect marker", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 9), ImageDescriptor
+                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarkerCond16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerCond24.gif"));
+        componentsDrawer.add(entry);
 
         add(componentsDrawer);
     }
@@ -359,7 +387,7 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
 
     public void showAdvancedStubs(boolean show) {
         for (Iterator i = advancedItems.iterator(); i.hasNext();) {
-            ToolEntry t = (ToolEntry) i.next();
+            PaletteEntry t = (PaletteEntry) i.next();
             t.setVisible(show);
         }
     }

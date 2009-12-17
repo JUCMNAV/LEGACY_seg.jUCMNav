@@ -42,6 +42,7 @@ import ucm.UcmFactory;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.Anything;
+import ucm.map.AspectKind;
 import ucm.map.ComponentBinding;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
@@ -56,6 +57,7 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
+import ucm.map.PointcutKind;
 import ucm.map.RespRef;
 import ucm.map.ResponsibilityBinding;
 import ucm.map.StartPoint;
@@ -408,26 +410,40 @@ public class ModelCreationFactory implements CreationFactory {
                 } else if (targetClass.equals(Stub.class)) {
                     // static stub by default
                     result = mapfactory.createStub();
+                    Stub stub = (Stub) result;
+                    
                     if (type == 1) {
                         // dynamic stub
-                        Stub stub = (Stub) result;
                         stub.setDynamic(true);
                     } else if (type == 2) {
                         // pointcut stub
-                        Stub stub = (Stub) result;
                         stub.setDynamic(true);
-                        stub.setPointcut(true);
-                    } else if (type == 3) {
+                        stub.setAopointcut(PointcutKind.REGULAR_LITERAL);
+                    } else if(type == 3) {
+                        // pointcut replacement
+                        stub.setDynamic(true);
+                        stub.setAopointcut(PointcutKind.REPLACEMENT_LITERAL);
+                    } else if (type == 4) {
                         // Synchronizing Stub
-                        Stub stub = (Stub) result;
                         stub.setDynamic(true);
                         stub.setSynchronization(true);
-                    } else if (type == 4) {
+                    } else if (type == 5) {
                         // Blocking Stub
-                        Stub stub = (Stub) result;
                         stub.setDynamic(true);
                         stub.setSynchronization(true);
                         stub.setBlocking(true);
+                    } else if(type == 6) {
+                        // Aspect Marker
+                        stub.setAspect(AspectKind.REGULAR_LITERAL);
+                    } else if(type == 7) {
+                        // Aspect Marker Entrance
+                        stub.setAspect(AspectKind.ENTRANCE_LITERAL);
+                    } else if(type == 8) {
+                     // Aspect Marker Exit
+                        stub.setAspect(AspectKind.EXIT_LITERAL);
+                    } else if(type == 9) {
+                     // Aspect Marker Conditional
+                        stub.setAspect(AspectKind.CONDITIONAL_LITERAL);
                     }
                 } else if (targetClass.equals(RespRef.class)) {
                     // should create responsibility definition

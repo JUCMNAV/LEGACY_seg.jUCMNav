@@ -7,8 +7,10 @@ import org.eclipse.ui.PlatformUI;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.change.SetCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeStubTypeCommand;
+import seg.jUCMNav.model.util.StubHelper;
 import seg.jUCMNav.views.property.StackHelper;
-import ucm.map.MapPackage;
+import ucm.map.AspectKind;
+import ucm.map.PointcutKind;
 import ucm.map.Stub;
 
 public class StubKindPropertySection extends AbstractChoicePropertySection {
@@ -16,23 +18,25 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
     protected int lastSelection = 0;
 
     protected String[] getList() {
-        return new String[] { Messages.getString("StubKindPropertySection_Static"), Messages.getString("StubKindPropertySection_Dynamic"), Messages.getString("StubKindPropertySection_Pointcut"), Messages.getString("StubKindPropertySection_Synchronizing"), Messages.getString("StubKindPropertySection_Blocking") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        return new String[] {
+                Messages.getString("StubKindPropertySection_Static"),
+                Messages.getString("StubKindPropertySection_Dynamic"),
+                Messages.getString("StubKindPropertySection_Pointcut"),
+                "Pointcut Replacement",
+                Messages.getString("StubKindPropertySection_Synchronizing"),
+                Messages.getString("StubKindPropertySection_Blocking"),
+                "Aspect Marker",
+                "Aspect Marker Entrance",
+                "Aspect Marker Exit",
+                "Aspect Marker Conditional"
+                };
     }
 
     protected void updateSelection() {
         Stub s = (Stub) eObject;
-
-        if (!s.isDynamic())
-            combo.select(0);
-        else if (s.isPointcut() && s.isDynamic())
-            combo.select(2);
-        else if (s.isDynamic() && s.isSynchronization()) {
-            if (s.isBlocking())
-                combo.select(4);
-            else
-                combo.select(3);
-        } else if (s.isDynamic())
-            combo.select(1);
+        
+        int index = StubHelper.getStubKind(s);;
+        combo.select(index);
 
         lastSelection = combo.getSelectionIndex();
     }
@@ -48,19 +52,34 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
 
                 switch (index) {
                 case 0: // Static
-                    cmd = new ChangeStubTypeCommand(s, false, false, false, false);
+                    cmd = new ChangeStubTypeCommand(s, false, PointcutKind.NONE_LITERAL, false, false, AspectKind.NONE_LITERAL);
                     break;
                 case 1: // Dynamic
-                    cmd = new ChangeStubTypeCommand(s, true, false, false, false);
+                    cmd = new ChangeStubTypeCommand(s, true, PointcutKind.NONE_LITERAL, false, false, AspectKind.NONE_LITERAL);
                     break;
                 case 2: // Pointcut
-                    cmd = new ChangeStubTypeCommand(s, true, true, false, false);
+                    cmd = new ChangeStubTypeCommand(s, true, PointcutKind.REGULAR_LITERAL, false, false, AspectKind.NONE_LITERAL);
                     break;
-                case 3: // Synchronizing
-                    cmd = new ChangeStubTypeCommand(s, true, false, true, false);
+                case 3: // Pointcut replacement
+                    cmd = new ChangeStubTypeCommand(s, true, PointcutKind.REPLACEMENT_LITERAL, false, false, AspectKind.NONE_LITERAL);
                     break;
-                case 4: // Blocking
-                    cmd = new ChangeStubTypeCommand(s, true, false, true, true);
+                case 4: // Synchronizing
+                    cmd = new ChangeStubTypeCommand(s, true, PointcutKind.NONE_LITERAL, true, false, AspectKind.NONE_LITERAL);
+                    break;
+                case 5: // Blocking
+                    cmd = new ChangeStubTypeCommand(s, true, PointcutKind.NONE_LITERAL, true, true, AspectKind.NONE_LITERAL);
+                    break;
+                case 6: // Aspect Marker
+                    cmd = new ChangeStubTypeCommand(s, false, PointcutKind.NONE_LITERAL, false, false, AspectKind.REGULAR_LITERAL);
+                    break;
+                case 7: // Aspect Marker Entrance
+                    cmd = new ChangeStubTypeCommand(s, false, PointcutKind.NONE_LITERAL, false, false, AspectKind.ENTRANCE_LITERAL);
+                    break;
+                case 8: // Aspect Marker Exit
+                    cmd = new ChangeStubTypeCommand(s, false, PointcutKind.NONE_LITERAL, false, false, AspectKind.EXIT_LITERAL);
+                    break;
+                case 9: // Aspect Marker Conditional
+                    cmd = new ChangeStubTypeCommand(s, false, PointcutKind.NONE_LITERAL, false, false, AspectKind.CONDITIONAL_LITERAL);
                     break;
                 }
 

@@ -3,6 +3,7 @@ package seg.jUCMNav.editparts.treeEditparts;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.model.util.StubHelper;
 import ucm.map.Stub;
 
 /**
@@ -11,10 +12,19 @@ import ucm.map.Stub;
  * @author jkealey, gunterm
  */
 public class StubTreeEditPart extends PathNodeTreeEditPart {
-
-    protected Image imStaticStub = (JUCMNavPlugin.getImage("icons/Stub16.gif")); //$NON-NLS-1$ 
-    protected Image imDynamicStub = (JUCMNavPlugin.getImage("icons/DynStub16.gif")); //$NON-NLS-1$
-    protected Image imPointcutStub = (JUCMNavPlugin.getImage("icons/PointcutStub16.gif")); //$NON-NLS-1$
+    
+    protected static Image[] icons = new Image[] {
+        (JUCMNavPlugin.getImage("icons/Stub16.gif")), //$NON-NLS-1$
+        (JUCMNavPlugin.getImage("icons/DynStub16.gif")), //$NON-NLS-1$
+        (JUCMNavPlugin.getImage("icons/PointcutStub16.gif")), //$NON-NLS-1$
+        (JUCMNavPlugin.getImage("icons/PointcutRepStub16.gif")), //$NON-NLS-1$
+        (JUCMNavPlugin.getImage("icons/SyncStub16.gif")), //$NON-NLS-1$
+        (JUCMNavPlugin.getImage("icons/BlockStub16.gif")), //$NON-NLS-1$
+        (JUCMNavPlugin.getImage("icons/aspectMarker16.gif")), //$NON-NLS-1$
+        (JUCMNavPlugin.getImage("icons/aspectMarkerEntrance16.gif")), //$NON-NLS-1$
+        (JUCMNavPlugin.getImage("icons/aspectMarkerExit16.gif")), //$NON-NLS-1$
+        (JUCMNavPlugin.getImage("icons/aspectMarkerCond16.gif")) //$NON-NLS-1$
+    };
 
     /**
      * 
@@ -38,40 +48,9 @@ public class StubTreeEditPart extends PathNodeTreeEditPart {
      * @see seg.jUCMNav.editparts.treeEditparts.PathNodeTreeEditPart#getImage()
      */
     protected Image getImage() {
-
-        if (getStub().isPointcut()) {
-            if (imPointcutStub == null)
-                imPointcutStub = (JUCMNavPlugin.getImage("icons/PointcutStub16.gif")); //$NON-NLS-1$
-            return imPointcutStub;
-        } else if (getStub().isDynamic()) {
-            if (imDynamicStub == null)
-                imDynamicStub = (JUCMNavPlugin.getImage("icons/DynStub16.gif")); //$NON-NLS-1$
-            return imDynamicStub;
-        } else {
-            if (imStaticStub == null)
-                imStaticStub = (JUCMNavPlugin.getImage("icons/Stub16.gif")); //$NON-NLS-1$
-            return imStaticStub;
-        }
-    }
-
-    /**
-     * Deactivates and disposes stub images.
-     * 
-     * @see seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart#deactivate()
-     */
-    public void deactivate() {
-        // if (imStaticStub != null) {
-        // imStaticStub.dispose();
-        // imStaticStub = null;
-        // }
-        // if (imDynamicStub != null) {
-        // imDynamicStub.dispose();
-        // imDynamicStub = null;
-        // }
-        // if (imPointcutStub != null) {
-        // imPointcutStub.dispose();
-        // imPointcutStub = null;
-        // }
-        super.deactivate();
+        
+        int kind = StubHelper.getStubKind(getStub());
+        
+        return icons[kind];
     }
 }
