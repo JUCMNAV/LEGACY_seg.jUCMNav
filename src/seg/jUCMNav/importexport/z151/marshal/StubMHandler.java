@@ -21,66 +21,73 @@ import java.util.List;
 import seg.jUCMNav.importexport.z151.generated.*;
 
 public class StubMHandler extends PathNodeMHandler {
-	public Object handle(Object o, Object target, boolean isFullConstruction) {
-		ucm.map.Stub elem = (ucm.map.Stub) o;
-		String objId = elem.getId();
-		Stub elemZ = (Stub) getObject(objId, target, "createStub");
-		if (isFullConstruction) {
-			elemZ = (Stub) super.handle(elem, elemZ, true);
-			elemZ.setDynamic(elem.isDynamic());
-			elemZ.setSynchronizing(elem.isSynchronization());
-			elemZ.setBlocking(elem.isBlocking());
-			// elemZ.setContRef();
-			// elemZ.setLabel();
-			// elemZ.setPos();
-			// elemZ.setId();
-			// elemZ.setDesc();
-			// elemZ.setConcern();
-			// elemZ.setName();
+    public Object handle(Object o, Object target, boolean isFullConstruction) {
+        ucm.map.Stub elem = (ucm.map.Stub) o;
+        String objId = elem.getId();
+        Stub elemZ = (Stub) getObject(objId, target, "createStub");
+        if (isFullConstruction) {
+            elemZ = (Stub) super.handle(elem, elemZ, true);
+            elemZ.setDynamic(elem.isDynamic());
+            elemZ.setSynchronizing(elem.isSynchronization());
+            elemZ.setBlocking(elem.isBlocking());
+            // elemZ.setContRef();
+            // elemZ.setLabel();
+            // elemZ.setPos();
+            // elemZ.setId();
+            // elemZ.setDesc();
+            // elemZ.setConcern();
+            // elemZ.setName();
 
-			processList(elem.getBindings(), elemZ.getBindings(), true);
-			// elemZ.getPred();
-			// elemZ.getSucc();
-			// elemZ.getContRef();
-			// elemZ.getLabel();
-			// elemZ.getPos();
-			// elemZ.getMetadata();
-			// elemZ.getToLinks();
-			// elemZ.getFromLinks();
-			// elemZ.getConcern();
-			// elemZ.getName();
-			// elemZ.getId();
-			// elemZ.getDesc();
-			// elemZ.getClass();
+            processList(elem.getBindings(), elemZ.getBindings(), true);
+            // elemZ.getPred();
+            // elemZ.getSucc();
+            // elemZ.getContRef();
+            // elemZ.getLabel();
+            // elemZ.getPos();
+            // elemZ.getMetadata();
+            // elemZ.getToLinks();
+            // elemZ.getFromLinks();
+            // elemZ.getConcern();
+            // elemZ.getName();
+            // elemZ.getId();
+            // elemZ.getDesc();
+            // elemZ.getClass();
 
-			List<Metadata> list = elemZ.getMetadata();
+            List<Metadata> list = elemZ.getMetadata();
 
-			boolean shared = elem.isShared();
-			Metadata mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav Stub shared");
-			mdZ.setValue(Boolean.toString(shared));
-			list.add(mdZ);
+            boolean shared = elem.isShared();
+            Metadata mdZ = of.createMetadata();
+            mdZ.setName("jUCMNav Stub shared");
+            mdZ.setValue(Boolean.toString(shared));
+            list.add(mdZ);
 
-			String repetitionCount = elem.getRepetitionCount();
-			if (repetitionCount != null) {
-				mdZ = of.createMetadata();
-				mdZ.setName("jUCMNav Stub repetitionCount");
-				mdZ.setValue(repetitionCount);
-				list.add(mdZ);
-			}
+            // The pointcut attribute is deprecated, but included just in case.
+            boolean pointcut = elem.isPointcut();
+            mdZ = of.createMetadata();
+            mdZ.setName("jUCMNav Stub pointcut");
+            mdZ.setValue(Boolean.toString(pointcut));
+            list.add(mdZ);
 
-			ucm.map.PointcutKind aopointcut = elem.getAopointcut();
-			mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav Stub Aopointcut");
-			mdZ.setValue(aopointcut.toString());
-			list.add(mdZ);
+            String repetitionCount = elem.getRepetitionCount();
+            if (repetitionCount != null) {
+                mdZ = of.createMetadata();
+                mdZ.setName("jUCMNav Stub repetitionCount");
+                mdZ.setValue(repetitionCount);
+                list.add(mdZ);
+            }
 
-			ucm.map.AspectKind aspect = elem.getAspect();
-			mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav Stub aspect");
-			mdZ.setValue(aspect.toString());
-			list.add(mdZ);
-		}
-		return elemZ;
-	}
+            ucm.map.PointcutKind aopointcut = elem.getAopointcut();
+            mdZ = of.createMetadata();
+            mdZ.setName("jUCMNav Stub Aopointcut");
+            mdZ.setValue(aopointcut.toString());
+            list.add(mdZ);
+
+            ucm.map.AspectKind aspect = elem.getAspect();
+            mdZ = of.createMetadata();
+            mdZ.setName("jUCMNav Stub aspect");
+            mdZ.setValue(aspect.toString());
+            list.add(mdZ);
+        }
+        return elemZ;
+    }
 }

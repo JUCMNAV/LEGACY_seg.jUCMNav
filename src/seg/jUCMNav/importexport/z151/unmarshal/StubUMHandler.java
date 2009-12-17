@@ -34,6 +34,11 @@ public class StubUMHandler extends PathNodeUMHandler {
 					elem.setShared(Boolean.parseBoolean(item.getValue()));
 					removeList.add(item);
 				}
+                // The pointcut attribute is deprecated, but included just in case.
+                if (item.getName().equals("jUCMNav Stub pointcut")){
+                    elem.setPointcut(Boolean.parseBoolean(item.getValue()));
+                    removeList.add(item);
+                }
 				if (item.getName().equals("jUCMNav Stub repetitionCount")){
 					elem.setRepetitionCount(item.getValue());
 					removeList.add(item);
@@ -51,7 +56,6 @@ public class StubUMHandler extends PathNodeUMHandler {
 			
 			elem = (ucm.map.Stub) super.handle(elemZ, elem, true);
 			elem.setDynamic(elemZ.isDynamic());
-			//deprecated elem.setPointcut(false);
 			elem.setSynchronization(elemZ.isSynchronizing());
 			elem.setBlocking(elemZ.isBlocking());
 			// elem.setX();

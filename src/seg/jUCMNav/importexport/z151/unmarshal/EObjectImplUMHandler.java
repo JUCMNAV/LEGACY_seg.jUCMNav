@@ -1,17 +1,87 @@
 package seg.jUCMNav.importexport.z151.unmarshal;
 
-import org.eclipse.emf.common.util.EList;
-
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBElement;
+
+import org.eclipse.emf.common.util.EList;
+
+import seg.jUCMNav.importexport.z151.generated.ActiveResource;
+import seg.jUCMNav.importexport.z151.generated.Actor;
+import seg.jUCMNav.importexport.z151.generated.ActorRef;
+import seg.jUCMNav.importexport.z151.generated.AndFork;
+import seg.jUCMNav.importexport.z151.generated.AndJoin;
+import seg.jUCMNav.importexport.z151.generated.ClosedWorkload;
+import seg.jUCMNav.importexport.z151.generated.CollapsedActorRef;
+import seg.jUCMNav.importexport.z151.generated.Comment;
+import seg.jUCMNav.importexport.z151.generated.Component;
+import seg.jUCMNav.importexport.z151.generated.ComponentBinding;
+import seg.jUCMNav.importexport.z151.generated.ComponentRef;
+import seg.jUCMNav.importexport.z151.generated.ComponentType;
+import seg.jUCMNav.importexport.z151.generated.Concern;
+import seg.jUCMNav.importexport.z151.generated.Condition;
+import seg.jUCMNav.importexport.z151.generated.Connect;
+import seg.jUCMNav.importexport.z151.generated.Contribution;
+import seg.jUCMNav.importexport.z151.generated.ContributionType;
+import seg.jUCMNav.importexport.z151.generated.Decomposition;
+import seg.jUCMNav.importexport.z151.generated.DecompositionType;
+import seg.jUCMNav.importexport.z151.generated.Demand;
+import seg.jUCMNav.importexport.z151.generated.Dependency;
+import seg.jUCMNav.importexport.z151.generated.DeviceKind;
+import seg.jUCMNav.importexport.z151.generated.DirectionArrow;
+import seg.jUCMNav.importexport.z151.generated.ElementLink;
+import seg.jUCMNav.importexport.z151.generated.EmptyPoint;
+import seg.jUCMNav.importexport.z151.generated.EndPoint;
+import seg.jUCMNav.importexport.z151.generated.EnumerationType;
+import seg.jUCMNav.importexport.z151.generated.Evaluation;
+import seg.jUCMNav.importexport.z151.generated.EvaluationStrategy;
+import seg.jUCMNav.importexport.z151.generated.ExternalOperation;
+import seg.jUCMNav.importexport.z151.generated.GRLGraph;
+import seg.jUCMNav.importexport.z151.generated.GRLLinkableElement;
+import seg.jUCMNav.importexport.z151.generated.GRLNode;
+import seg.jUCMNav.importexport.z151.generated.GRLmodelElement;
+import seg.jUCMNav.importexport.z151.generated.GRLspec;
+import seg.jUCMNav.importexport.z151.generated.GeneralResource;
+import seg.jUCMNav.importexport.z151.generated.InBinding;
+import seg.jUCMNav.importexport.z151.generated.Initialization;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElement;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElementRef;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElementType;
+import seg.jUCMNav.importexport.z151.generated.Label;
+import seg.jUCMNav.importexport.z151.generated.LinkRef;
+import seg.jUCMNav.importexport.z151.generated.LinkRefBendpoint;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.NodeConnection;
+import seg.jUCMNav.importexport.z151.generated.OWPeriodic;
+import seg.jUCMNav.importexport.z151.generated.OWPhaseType;
+import seg.jUCMNav.importexport.z151.generated.OWPoisson;
+import seg.jUCMNav.importexport.z151.generated.OWUniform;
+import seg.jUCMNav.importexport.z151.generated.OrFork;
+import seg.jUCMNav.importexport.z151.generated.OrJoin;
+import seg.jUCMNav.importexport.z151.generated.OutBinding;
+import seg.jUCMNav.importexport.z151.generated.PassiveResource;
+import seg.jUCMNav.importexport.z151.generated.PathNode;
+import seg.jUCMNav.importexport.z151.generated.PluginBinding;
+import seg.jUCMNav.importexport.z151.generated.ProcessingResource;
+import seg.jUCMNav.importexport.z151.generated.RespRef;
+import seg.jUCMNav.importexport.z151.generated.Responsibility;
+import seg.jUCMNav.importexport.z151.generated.ScenarioDef;
+import seg.jUCMNav.importexport.z151.generated.ScenarioGroup;
+import seg.jUCMNav.importexport.z151.generated.StartPoint;
+import seg.jUCMNav.importexport.z151.generated.StrategiesGroup;
+import seg.jUCMNav.importexport.z151.generated.Stub;
+import seg.jUCMNav.importexport.z151.generated.Timer;
+import seg.jUCMNav.importexport.z151.generated.UCMmap;
+import seg.jUCMNav.importexport.z151.generated.UCMmodelElement;
+import seg.jUCMNav.importexport.z151.generated.UCMspec;
+import seg.jUCMNav.importexport.z151.generated.URNlink;
+import seg.jUCMNav.importexport.z151.generated.URNmodelElement;
+import seg.jUCMNav.importexport.z151.generated.URNspec;
+import seg.jUCMNav.importexport.z151.generated.Variable;
+import seg.jUCMNav.importexport.z151.generated.WaitingPlace;
+import seg.jUCMNav.model.ModelCreationFactory;
 
 public abstract class EObjectImplUMHandler {
 
@@ -154,7 +224,7 @@ public abstract class EObjectImplUMHandler {
 
 			}
 		} else {
-			System.out.println(this.getClass().getName() + " processList list is null or empty! ");
+			// System.out.println(this.getClass().getName() + " processList list is null or empty! ");
 		}
 	}
 
@@ -280,10 +350,10 @@ public abstract class EObjectImplUMHandler {
 	}
 
 	protected Object getObjectFromId(String id, Class type) {
-		Object obj = this.id2object.get(id);
+		Object obj = EObjectImplUMHandler.id2object.get(id);
 		if (obj == null) {
 			obj = ModelCreationFactory.getNewObject(urn, type);
-			this.id2object.put(id, obj);
+			EObjectImplUMHandler.id2object.put(id, obj);
 		}
 		return obj;
 	}

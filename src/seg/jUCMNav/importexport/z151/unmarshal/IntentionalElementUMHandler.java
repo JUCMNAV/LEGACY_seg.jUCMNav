@@ -24,7 +24,6 @@ import java.util.List;
 import seg.jUCMNav.importexport.z151.generated.IntentionalElement;
 import seg.jUCMNav.importexport.z151.generated.IntentionalElementType;
 import seg.jUCMNav.importexport.z151.generated.Metadata;
-import seg.jUCMNav.model.ModelCreationFactory;
 
 public class IntentionalElementUMHandler extends GRLLinkableElementUMHandler {
     public Object handle(Object o, Object target, boolean isFullConstruction) {
@@ -37,8 +36,6 @@ public class IntentionalElementUMHandler extends GRLLinkableElementUMHandler {
                 for(Metadata item: metaDataList){
                     if (item.getName().equals("jUCMNav Indicator")){
                     	elem = (grl.kpimodel.Indicator) getObject(elemZ.getId(), target, grl.kpimodel.Indicator.class);
-                        //elem = (grl.kpimodel.Indicator) getObjectFromId(elemZ.getId(),grl.kpimodel.Indicator.class);
-
                         metaDataList.remove(item);
                         break;
                     }
