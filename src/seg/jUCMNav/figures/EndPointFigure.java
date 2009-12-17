@@ -50,7 +50,7 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
         mainFigure.setLineWidth(2);
         mainFigure.setPoints(edges);
         mainFigure.setAntialias(SWT.ON);
-        mainFigure.setForegroundColor(ColorManager.RED);
+        mainFigure.setForegroundColor(ColorManager.GRAY);
         mainFigure.setBackgroundColor(ColorManager.LINE);
         mainFigure.setFill(true);
         
@@ -62,7 +62,7 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
         linePts.addPoint(new Point(DEFAULT_WIDTH / 2 + barWidth-1, DEFAULT_HEIGHT - 1));
         line.setPoints(linePts);
         line.setAntialias(SWT.ON);
-        line.setForegroundColor(ColorManager.RED);
+        line.setForegroundColor(ColorManager.GRAY);
         
         add(line);
     }
@@ -156,7 +156,7 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
             setColor(ColorManager.POINTCUTBORDER);
         } else {
             if(isLocal)
-                mainFigure.setForegroundColor(ColorManager.RED);
+                mainFigure.setForegroundColor(ColorManager.GRAY);
             else
                 mainFigure.setForegroundColor(ColorManager.LINE);
             
@@ -172,7 +172,7 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
         
         line.setVisible(isLocal);
         if(isLocal)
-            mainFigure.setForegroundColor(ColorManager.RED);
+            mainFigure.setForegroundColor(ColorManager.GRAY);
         else
             mainFigure.setForegroundColor(ColorManager.LINE);
     }
