@@ -120,26 +120,28 @@ public class UrnMetadata {
         if (elem == null)
             return;
 
-        if (elem.getDescription() != null) {
+        if (elem.getDescription() != null && !elem.getDescription().equals("")) {
             toolTipText = toolTipText + " " + elem.getDescription() + " "; //$NON-NLS-1$ $NON-NLS-2$  
             descOnly = true;
         }
-        
-        if (elem instanceof Responsibility && ((Responsibility)elem).getExpression()!=null)
-        {
-            String exp = ((Responsibility)elem).getExpression();
-            if (exp.length()!=0)
-            {
-                toolTipText += "\n " + exp + " \n";
+
+        if (elem instanceof Responsibility && ((Responsibility) elem).getExpression() != null) {
+            String exp = ((Responsibility) elem).getExpression();
+            if (exp.length() != 0) {
+                if (!toolTipText.equals("")) { //$NON-NLS-1$
+                    toolTipText += "\n\n"; //$NON-NLS-1$
+                }
+                toolTipText += " CODE:\n    " + exp; //$NON-NLS-1$
+                descOnly = true;
             }
-        }
-        
-        if (elem instanceof FailurePoint && ((FailurePoint)elem).getExpression()!=null)
-        {
-            String exp = ((FailurePoint)elem).getExpression();
-            if (exp.length()!=0)
-            {
-                toolTipText += "\n " + exp + " \n";
+        } else if (elem instanceof FailurePoint && ((FailurePoint) elem).getExpression() != null) {
+            String exp = ((FailurePoint) elem).getExpression();
+            if (exp.length() != 0) {
+                if (!toolTipText.equals("")) { //$NON-NLS-1$
+                    toolTipText += "\n\n"; //$NON-NLS-1$
+                }
+                toolTipText += " CODE:\n    " + exp; //$NON-NLS-1$
+                descOnly = true;
             }
         }
 
