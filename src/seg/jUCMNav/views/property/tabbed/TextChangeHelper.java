@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Listener;
 public abstract class TextChangeHelper implements Listener {
 
     private boolean nonUserChange;
+    private boolean lastEnter = false;
 
     /**
      * Marks the start of a programmatic change to the widget contents. Clients must call startNonUserChange() before directly setting the widget contents to
@@ -62,11 +63,16 @@ public abstract class TextChangeHelper implements Listener {
     public void handleEvent(Event event) {
         switch (event.type) {
         case SWT.KeyDown:
-            if (event.character == SWT.CR)
+            if (event.character == SWT.CR) {
+                lastEnter = true;
                 textChanged((Control) event.widget);
+            }
             break;
         case SWT.FocusOut:
-            textChanged((Control) event.widget);
+            if(!lastEnter) {
+                textChanged((Control) event.widget);
+            } else
+                lastEnter = false;
             break;
         }
     }
@@ -83,7 +89,7 @@ public abstract class TextChangeHelper implements Listener {
      */
     public void startListeningTo(Control control) {
         control.addListener(SWT.FocusOut, this);
-        control.addListener(SWT.Modify, this);
+//        control.addListener(SWT.Modify, this);
     }
 
     /**
@@ -100,7 +106,7 @@ public abstract class TextChangeHelper implements Listener {
      */
     public void stopListeningTo(Control control) {
         control.removeListener(SWT.FocusOut, this);
-        control.removeListener(SWT.Modify, this);
+//        control.removeListener(SWT.Modify, this);
         control.removeListener(SWT.KeyDown, this);
     }
 }

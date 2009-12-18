@@ -88,7 +88,8 @@ public abstract class AbstractTextPropertySection extends AbstractGEFPropertySec
     protected void handleTextModified() {
         String newText = text.getText();
         boolean equals = isEqual(newText);
-        if (!equals) {
+        boolean isTextValid = isTextValid(newText);
+        if (!equals && isTextValid) {
             CommandStack stack = StackHelper.getDelegatingStack(getPart());
             if (stack != null) {
                 Object value = getFeatureValue(newText);
@@ -105,7 +106,13 @@ public abstract class AbstractTextPropertySection extends AbstractGEFPropertySec
                     stack.execute(compoundCommand);
                 }
             }
+        } else if (!isTextValid) {
+            setText(getFeatureAsText());
         }
+    }
+
+    protected boolean isTextValid(String text) {
+        return true;
     }
 
     protected Text createText(Composite composite, String value) {
@@ -133,7 +140,7 @@ public abstract class AbstractTextPropertySection extends AbstractGEFPropertySec
     public void refresh() {
         if (text != null) {
             if (!text.isDisposed())
-                text.setText(getFeatureAsText());
+                setText(getFeatureAsText());
         }
     }
 
@@ -175,4 +182,9 @@ public abstract class AbstractTextPropertySection extends AbstractGEFPropertySec
      * @return the label for the text field.
      */
     public abstract String getLabelText();
+    
+    public void setText(String newText) {
+        text.setText(newText);
+        text.setSelection(newText.length());
+    }
 }
