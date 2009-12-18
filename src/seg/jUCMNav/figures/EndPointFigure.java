@@ -9,6 +9,8 @@ import org.eclipse.draw2d.geometry.Transform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
+import seg.jUCMNav.figures.util.TransformationHelper;
+
 /**
  * This figure represent and EndPoint
  * 
@@ -89,15 +91,11 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
     protected PointList rotatePoints(double angle, PointList points) {
         Transform t = new Transform();
         t.setRotation(angle);
-
-        PointList newEdges = new PointList();
+        
         Point center = new Point(getPreferredSize().width / 2, getPreferredSize().height / 2);
 
-        for (int i = 0; i < points.size(); i++) {
-            Point newPoint = t.getTransformed(new Point(points.getPoint(i).x - center.x, points.getPoint(i).y - center.y));
-            Point pt = new Point(center.x - newPoint.x, center.y - newPoint.y);
-            newEdges.addPoint(pt);
-        }
+        PointList newEdges = TransformationHelper.rotatePoints(angle, edges, center);
+        
         if (offset)
             newEdges.translate(t.getTransformed(new Point(DEFAULT_WIDTH * (RESIZEFACTOR - 1) / 2, -DEFAULT_WIDTH * (RESIZEFACTOR - 1) / 2)));
         

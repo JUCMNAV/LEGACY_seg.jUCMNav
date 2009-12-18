@@ -372,6 +372,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createComponentBinding();
             } else if (targetClass.equals(ResponsibilityBinding.class)) {
                 result = mapfactory.createResponsibilityBinding();
+            } else if (targetClass.equals(Anything.class)) {
+                result = mapfactory.createAnything();
             } else {
                 // complex creations
                 if (targetClass.equals(UCMmap.class)) {

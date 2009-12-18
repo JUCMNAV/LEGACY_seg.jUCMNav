@@ -24,6 +24,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.Anything;
 import ucm.map.ComponentRef;
 import ucm.map.DirectionArrow;
 import ucm.map.FailurePoint;
@@ -291,6 +292,10 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
         entry = new URNElementCreationEntry(
                 "Conditional Aspect Marker", "Create Conditional Aspect marker", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 9), ImageDescriptor
                         .createFromFile(JUCMNavPlugin.class, "icons/aspectMarkerCond16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerCond24.gif"));
+        componentsDrawer.add(entry);
+        
+        entry = new URNElementCreationEntry(
+                "Anything Pointcut", "Create Anything Pointcut", Anything.class, new ModelCreationFactory(getURNspec(), Anything.class), JUCMNavPlugin.getImageDescriptor("icons/anything16.gif"), JUCMNavPlugin.getImageDescriptor("icons/anything24.gif"));
         componentsDrawer.add(entry);
 
         add(componentsDrawer);

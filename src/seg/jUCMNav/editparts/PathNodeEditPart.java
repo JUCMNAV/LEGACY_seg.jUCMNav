@@ -35,6 +35,7 @@ import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
 import seg.jUCMNav.editpolicies.layout.PathNodeXYLayoutEditPolicy;
 import seg.jUCMNav.figures.AndForkJoinFigure;
+import seg.jUCMNav.figures.AnythingFigure;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.DirectionArrowFigure;
 import seg.jUCMNav.figures.EmptyPointFigure;
@@ -57,6 +58,7 @@ import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.Anything;
 import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
@@ -157,6 +159,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             figure = new DirectionArrowFigure();
         else if (getModel() instanceof FailurePoint)
             figure = new FailurePointFigure();
+        else if (getModel() instanceof Anything)
+            figure = new AnythingFigure();
 
         assert figure != null : "cannot map model element to figure in PathNodeEditPart.createFigure()"; //$NON-NLS-1$
 

@@ -26,6 +26,7 @@ import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.Anything;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.FailurePoint;
@@ -110,7 +111,7 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         Point constraint = getLocation(request);
 
         if (newObjectType == EmptyPoint.class || newObjectType == RespRef.class || newObjectType == DirectionArrow.class || newObjectType == Stub.class
-                || newObjectType == WaitingPlace.class || newObjectType == Timer.class || newObjectType ==  FailurePoint.class) {
+                || newObjectType == WaitingPlace.class || newObjectType == Timer.class || newObjectType ==  FailurePoint.class || newObjectType == Anything.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
             createCommand = new SplitLinkCommand(getPathGraph(), (PathNode) request.getNewObject(), oldLink, constraint.x, constraint.y);
         } else if (newObjectType == OrFork.class || newObjectType == AndFork.class || newObjectType == OrJoin.class || newObjectType == AndJoin.class) {
