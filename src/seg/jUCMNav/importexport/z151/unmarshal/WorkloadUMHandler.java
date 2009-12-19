@@ -13,9 +13,12 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.importexport.z151.generated.ClosedWorkload;
+import seg.jUCMNav.importexport.z151.generated.OWPeriodic;
+import seg.jUCMNav.importexport.z151.generated.OWPhaseType;
+import seg.jUCMNav.importexport.z151.generated.OWPoisson;
+import seg.jUCMNav.importexport.z151.generated.OWUniform;
+import seg.jUCMNav.importexport.z151.generated.Workload;
 
 public class WorkloadUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

@@ -15,7 +15,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //  </xsd:sequence>
 //</xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.URNspec;
 import seg.jUCMNav.model.ModelCreationFactory;
 import urncore.URNdefinition;
 
@@ -72,7 +72,7 @@ public class URNspecUMHandler extends EObjectImplUMHandler {
 			// elem.getName();
 			// elem.getDescription();
 			// elem.getClass();
-			elem.setNextGlobalID(""+(Integer.parseInt(globelId)+1));
+			elem.setNextGlobalID(""+(Integer.parseInt(globelId)+1)); //$NON-NLS-1$
 			urn = elem;
 		}
 		return elem;

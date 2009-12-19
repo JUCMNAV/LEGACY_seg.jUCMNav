@@ -20,27 +20,27 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ScenarioDef;
 
 public class ScenarioDefMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.scenario.ScenarioDef elem = (ucm.scenario.ScenarioDef) o;
 		String objId = elem.getId();
-		ScenarioDef elemZ = (ScenarioDef) getObject(objId, target, "createScenarioDef");
+		ScenarioDef elemZ = (ScenarioDef) getObject(objId, target, "createScenarioDef"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (ScenarioDef) super.handle(elem, elemZ, true);
 			// elemZ.setId();
 			// elemZ.setDesc();
 			// elemZ.setConcern();
 			// elemZ.setName();
-			elemZ.getGroups().add(process(elem.getGroup(), null, "createScenarioDefGroups", false));
+			elemZ.getGroups().add(process(elem.getGroup(), null, "createScenarioDefGroups", false)); //$NON-NLS-1$
 			processList(elem.getInitializations(), elemZ.getInitializations(), true);
 			processList(elem.getPostconditions(), elemZ.getPostconditions(), true);
 			processList(elem.getPreconditions(), elemZ.getPreconditions(), true);
-			processList(elem.getParentScenarios(), elemZ.getParentScenarios(), "createScenarioDefParentScenarios",false);
+			processList(elem.getParentScenarios(), elemZ.getParentScenarios(), "createScenarioDefParentScenarios",false); //$NON-NLS-1$
 			processList(elem.getIncludedScenarios(), elemZ.getIncludedScenarios(),false);
 			processList(elem.getStartPoints(), elemZ.getStartPoints(), false);
-			processList(elem.getEndPoints(), elemZ.getEndPoints(),"createScenarioDefEndPoints", false);
+			processList(elem.getEndPoints(), elemZ.getEndPoints(),"createScenarioDefEndPoints", false); //$NON-NLS-1$
 			// elemZ.getMetadata();
 			// elemZ.getToLinks();
 			// elemZ.getFromLinks();

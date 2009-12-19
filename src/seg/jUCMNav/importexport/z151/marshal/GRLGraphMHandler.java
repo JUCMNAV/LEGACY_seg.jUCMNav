@@ -2,7 +2,8 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 import javax.xml.bind.JAXBElement;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Concern;
+import seg.jUCMNav.importexport.z151.generated.GRLGraph;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  GRLGraph  -->
@@ -27,7 +28,7 @@ public class GRLGraphMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		grl.GRLGraph elem = (grl.GRLGraph) o;
 		String objId = elem.getId();
-		GRLGraph elemZ = (GRLGraph) getObject(objId, target, "createGRLGraph");
+		GRLGraph elemZ = (GRLGraph) getObject(objId, target, "createGRLGraph"); //$NON-NLS-1$
 		
 		if (isFullConstruction) {
 			elemZ = (GRLGraph) super.handle(elem, elemZ, true);

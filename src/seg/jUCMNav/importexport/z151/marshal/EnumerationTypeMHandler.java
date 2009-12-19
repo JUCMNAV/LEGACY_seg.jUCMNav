@@ -14,13 +14,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.EnumerationType;
 
 public class EnumerationTypeMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.scenario.EnumerationType elem = (ucm.scenario.EnumerationType) o;
 		String objId = elem.getId(); 
-		EnumerationType elemZ = (EnumerationType) getObject(objId, target, "createEnumerationType");
+		EnumerationType elemZ = (EnumerationType) getObject(objId, target, "createEnumerationType"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (EnumerationType) super.handle(elem, elemZ, true);
 			elemZ.setValues(elem.getValues());
@@ -29,7 +29,7 @@ public class EnumerationTypeMHandler extends UCMmodelElementMHandler {
 			// elemZ.setConcern();
 			// elemZ.setName();
 
-			processList(elem.getInstances(), elemZ.getInstances(), "createEnumerationTypeInstances", false);
+			processList(elem.getInstances(), elemZ.getInstances(), "createEnumerationTypeInstances", false); //$NON-NLS-1$
 			// elemZ.getValues();
 			// elemZ.getMetadata();
 			// elemZ.getToLinks();

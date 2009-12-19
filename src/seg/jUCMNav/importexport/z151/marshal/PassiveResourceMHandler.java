@@ -13,13 +13,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.PassiveResource;
 
 public class PassiveResourceMHandler extends GeneralResourceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.performance.PassiveResource elem = (ucm.performance.PassiveResource) o;
 		String objId = elem.getId();
-		PassiveResource elemZ = (PassiveResource) getObject(objId, target, "createPassiveResource");
+		PassiveResource elemZ = (PassiveResource) getObject(objId, target, "createPassiveResource"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (PassiveResource) super.handle(elem, elemZ, true);
 			elemZ.setComponent(process(elem.getComponent(), null, true));

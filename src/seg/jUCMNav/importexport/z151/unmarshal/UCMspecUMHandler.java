@@ -17,9 +17,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import javax.xml.bind.JAXBElement;
-
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.UCMmap;
+import seg.jUCMNav.importexport.z151.generated.UCMspec;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class UCMspecUMHandler extends EObjectImplUMHandler {

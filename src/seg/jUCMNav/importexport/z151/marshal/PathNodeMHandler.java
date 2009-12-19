@@ -21,13 +21,15 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Label;
+import seg.jUCMNav.importexport.z151.generated.PathNode;
+import seg.jUCMNav.importexport.z151.generated.Position;
 
 public class PathNodeMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.PathNode elem = (ucm.map.PathNode) o;
 		String objId = elem.getId();
-		PathNode elemZ = (PathNode) getObject(objId, target, "createPathNode");
+		PathNode elemZ = (PathNode) getObject(objId, target, "createPathNode"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (PathNode) super.handle(elem, elemZ, true);
 			//label
@@ -49,9 +51,9 @@ public class PathNodeMHandler extends UCMmodelElementMHandler {
 			// elemZ.setName();
 			
 			//pred
-			processList(elem.getPred(), elemZ.getPred(), "createPathNodePred", false);
+			processList(elem.getPred(), elemZ.getPred(), "createPathNodePred", false); //$NON-NLS-1$
 			//succ
-			processList(elem.getSucc(), elemZ.getSucc(), "createPathNodeSucc", false);
+			processList(elem.getSucc(), elemZ.getSucc(), "createPathNodeSucc", false); //$NON-NLS-1$
 			//contRef
 			if (elem.getContRef() != null)
 				elemZ.setContRef(process(elem.getContRef(), null, false));

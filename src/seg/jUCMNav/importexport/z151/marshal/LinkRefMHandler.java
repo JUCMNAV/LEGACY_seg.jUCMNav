@@ -1,7 +1,10 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
-import seg.jUCMNav.importexport.z151.generated.*;
+
+import seg.jUCMNav.importexport.z151.generated.GRLNode;
+import seg.jUCMNav.importexport.z151.generated.Label;
+import seg.jUCMNav.importexport.z151.generated.LinkRef;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  LinkRef  -->
@@ -57,7 +60,7 @@ public class LinkRefMHandler extends MHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.LinkRef elem = (grl.LinkRef) obj;
 		String objId = this.getObjectId(elem);
-		LinkRef elemZ = (LinkRef) getObject(objId, target, "createLinkRef");
+		LinkRef elemZ = (LinkRef) getObject(objId, target, "createLinkRef"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ.setId(objId);
 			elemZ.setName(objId);

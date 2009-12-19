@@ -9,11 +9,12 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
 
 import seg.jUCMNav.extensionpoints.IURNExport;
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.importexport.z151.marshal.*;
+import seg.jUCMNav.importexport.z151.generated.ObjectFactory;
+import seg.jUCMNav.importexport.z151.generated.URNspec;
+import seg.jUCMNav.importexport.z151.marshal.MHandler;
+import seg.jUCMNav.importexport.z151.marshal.URNspecMHandler;
 /**
  * Performs the sequence of operations to convert a URN specification into a CSM.
  *

@@ -10,7 +10,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Initialization;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class InitializationUMHandler extends EObjectImplUMHandler {

@@ -1,6 +1,5 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import seg.jUCMNav.importexport.z151.generated.URNmodelElement;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  UCMmodelElement  -->

@@ -2,7 +2,9 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ConcreteCondition;
+import seg.jUCMNav.importexport.z151.generated.Condition;
+import seg.jUCMNav.importexport.z151.generated.Label;
 
 public class ConditionMHandler extends MHandler {
 	// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -39,11 +41,11 @@ public class ConditionMHandler extends MHandler {
 				if (elem.getDescription() != null)
 					ccZ.setDescription(elem.getDescription());
 				else
-					ccZ.setDescription("");
+					ccZ.setDescription(""); //$NON-NLS-1$
 				if (elem.getLabel() != null)
 					ccZ.setLabel(elem.getLabel());
 				else
-					ccZ.setLabel("");
+					ccZ.setLabel(""); //$NON-NLS-1$
 				elemZ.setDesc(ccZ);
 			}
 			Label lZ = of.createLabel();

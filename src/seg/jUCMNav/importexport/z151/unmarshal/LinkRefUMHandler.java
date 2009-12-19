@@ -18,7 +18,12 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ElementLink;
+import seg.jUCMNav.importexport.z151.generated.GRLNode;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElement;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElementRef;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElementType;
+import seg.jUCMNav.importexport.z151.generated.LinkRef;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class LinkRefUMHandler extends EObjectImplUMHandler {

@@ -1,12 +1,13 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.JAXBElement;
+
 import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
-import urncore.IURNContainer;
-import urncore.URNmodelElement;
+
+import seg.jUCMNav.importexport.z151.generated.Actor;
+import seg.jUCMNav.importexport.z151.generated.ConcreteStyle;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElement;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  Actor  -->
@@ -29,13 +30,13 @@ public class ActorMHandler extends GRLLinkableElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.Actor elem = (grl.Actor) obj;
 		String objId = elem.getId();
-		Actor elemZ = (Actor) getObject(objId, target, "createActor");
+		Actor elemZ = (Actor) getObject(objId, target, "createActor"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (Actor) super.handle(elem, elemZ, true);
 			processList(elem.getCollapsedRefs(), elemZ.getCollapsedRefs(), false);
 
 			// contRefs in jUCMNav = ActorRef in Z151
-			processList(elem.getContRefs(), elemZ.getActorRefs(), "createActorActorRefs", false);
+			processList(elem.getContRefs(), elemZ.getActorRefs(), "createActorActorRefs", false); //$NON-NLS-1$
 
 			// elems MISSING IN jUCMNav
 			// elems
@@ -66,12 +67,12 @@ public class ActorMHandler extends GRLLinkableElementMHandler {
 
 			ConcreteStyle csZ = of.createConcreteStyle();
 			if (null == elem.getFillColor())
-				csZ.setFillColor("255,255,255"); // set to default "white", when
+				csZ.setFillColor("255,255,255"); // set to default "white", when //$NON-NLS-1$
 			// null
 			else
 				csZ.setFillColor(elem.getFillColor());
 			if (null == elem.getLineColor())
-				csZ.setLineColor("0,0,0"); // set to default "black" when null
+				csZ.setLineColor("0,0,0"); // set to default "black" when null //$NON-NLS-1$
 			else
 				csZ.setLineColor(elem.getLineColor());
 			csZ.setFilled(elem.isFilled());
@@ -82,7 +83,7 @@ public class ActorMHandler extends GRLLinkableElementMHandler {
 				for (Object item : list) {
 					((grl.Actor) item).getId();
 					Metadata mdZ = of.createMetadata();
-					mdZ.setName("jUCMNav Actor includedActors");
+					mdZ.setName("jUCMNav Actor includedActors"); //$NON-NLS-1$
 					mdZ.setValue(((grl.Actor) item).getId());
 					elemZ.getMetadata().add(mdZ);
 				}
@@ -90,7 +91,7 @@ public class ActorMHandler extends GRLLinkableElementMHandler {
 			grl.Actor item = elem.getIncludingActor();
 			if (item != null) {
 				Metadata mdZ = of.createMetadata();
-				mdZ.setName("jUCMNav Actor includingActor");
+				mdZ.setName("jUCMNav Actor includingActor"); //$NON-NLS-1$
 				mdZ.setValue(item.getId());
 				elemZ.getMetadata().add(mdZ);
 			}

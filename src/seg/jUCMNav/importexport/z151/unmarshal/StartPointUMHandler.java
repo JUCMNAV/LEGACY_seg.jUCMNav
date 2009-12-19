@@ -18,8 +18,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 import java.util.ArrayList;
 import java.util.List;
 
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.StartPoint;
 
 public class StartPointUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
@@ -31,11 +31,11 @@ public class StartPointUMHandler extends PathNodeUMHandler {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();
 			for(Metadata item: metaDataList){
-				if (item.getName().equals("jUCMNav StartPoint local")){
+				if (item.getName().equals("jUCMNav StartPoint local")){ //$NON-NLS-1$
 					elem.setLocal(Boolean.parseBoolean(item.getValue()));
 					removeList.add(item);
 				}
-				if (item.getName().equals("jUCMNav StartPoint failureKind")){
+				if (item.getName().equals("jUCMNav StartPoint failureKind")){ //$NON-NLS-1$
 					elem.setFailureKind(ucm.map.FailureKind.get(item.getValue()));
 					removeList.add(item);
 				}

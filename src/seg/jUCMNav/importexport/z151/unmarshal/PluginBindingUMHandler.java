@@ -16,8 +16,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.importexport.z151.generated.PluginBinding;
+import seg.jUCMNav.importexport.z151.generated.UCMmap;
 
 public class PluginBindingUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

@@ -18,7 +18,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.NodeConnection;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class NodeConnectionUMHandler extends EObjectImplUMHandler {
@@ -53,7 +53,7 @@ public class NodeConnectionUMHandler extends EObjectImplUMHandler {
 			// elem.getTarget();
 			// elem.getLabel();
 			// elem.getClass();
-            if (elemZ.getThreshold() != null && !elemZ.getThreshold().equals("") ) {
+            if (elemZ.getThreshold() != null && !elemZ.getThreshold().equals("") ) { //$NON-NLS-1$
                 elem.setThreshold(elemZ.getThreshold());
             }
 			// TODO elemZ.getTimer()

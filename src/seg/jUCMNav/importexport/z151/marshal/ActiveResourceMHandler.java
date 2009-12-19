@@ -14,13 +14,14 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ActiveResource;
+import seg.jUCMNav.importexport.z151.generated.TimeUnit;
 
 public class ActiveResourceMHandler extends GeneralResourceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.performance.ActiveResource elem = (ucm.performance.ActiveResource) o;
 		String objId = elem.getId();
-		ActiveResource elemZ = (ActiveResource) getObject(objId, target, "createActiveResource");
+		ActiveResource elemZ = (ActiveResource) getObject(objId, target, "createActiveResource"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (ActiveResource) super.handle(elem, elemZ, isFullConstruction);
 			elemZ.setOpTime(elem.getOpTime());

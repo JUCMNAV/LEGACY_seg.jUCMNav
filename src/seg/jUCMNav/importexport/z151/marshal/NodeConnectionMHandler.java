@@ -35,13 +35,15 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Condition;
+import seg.jUCMNav.importexport.z151.generated.Label;
+import seg.jUCMNav.importexport.z151.generated.NodeConnection;
 
 public class NodeConnectionMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.NodeConnection elem = (ucm.map.NodeConnection) o;
 		String objId = this.getObjectId(elem); //jUCMNav does not assign value to ID
-		NodeConnection elemZ = (NodeConnection) getObject(objId, target, "createNodeConnection");
+		NodeConnection elemZ = (NodeConnection) getObject(objId, target, "createNodeConnection"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ.setId(objId);
 			//condition
@@ -52,7 +54,7 @@ public class NodeConnectionMHandler extends MHandler {
 
 			// elemZ.setTimer(); handled by TimerMHandler
 			if(elem.getThreshold()!=null) elemZ.setThreshold(elem.getThreshold());
-			else elemZ.setThreshold("");
+			else elemZ.setThreshold(""); //$NON-NLS-1$
 			//source
 			elemZ.setSource(process(elem.getSource(), null, false));
 			//label
@@ -67,11 +69,11 @@ public class NodeConnectionMHandler extends MHandler {
 
 			// elemZ.getCondition();
 			//outBindings
-			processList(elem.getOutBindings(), elemZ.getOutBindings(), "createNodeConnectionOutBindings", false);
+			processList(elem.getOutBindings(), elemZ.getOutBindings(), "createNodeConnectionOutBindings", false); //$NON-NLS-1$
 			// elemZ.getProbability();
 			//TODO elemZ.getThreshold();
 			//inBindings
-			processList(elem.getInBindings(), elemZ.getInBindings(), "createNodeConnectionInBindings", false);
+			processList(elem.getInBindings(), elemZ.getInBindings(), "createNodeConnectionInBindings", false); //$NON-NLS-1$
 			// elemZ.getId();
 			// elemZ.getSource();
 			// elemZ.getTarget();

@@ -23,9 +23,11 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 
 import java.util.ArrayList;
 import java.util.List;
-import seg.jUCMNav.importexport.z151.generated.*;
+
+import seg.jUCMNav.importexport.z151.generated.Component;
+import seg.jUCMNav.importexport.z151.generated.ComponentRef;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
 import seg.jUCMNav.model.ModelCreationFactory;
-import ucm.map.MapFactory;
 
 public class ComponentRefUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
@@ -37,19 +39,19 @@ public class ComponentRefUMHandler extends UCMmodelElementUMHandler {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();
 			for(Metadata item: metaDataList){
-				if (item.getName().equals("jUCMNav ComponentRef replicationFactor")){
+				if (item.getName().equals("jUCMNav ComponentRef replicationFactor")){ //$NON-NLS-1$
 					elem.setReplicationFactor(Integer.parseInt(item.getValue()));
 					removeList.add(item);
 				}
-				if (item.getName().equals("jUCMNav ComponentRef role")){
+				if (item.getName().equals("jUCMNav ComponentRef role")){ //$NON-NLS-1$
 					elem.setRole(item.getValue());
 					removeList.add(item);
 				}
-				if (item.getName().equals("jUCMNav ComponentRef anchored")){
+				if (item.getName().equals("jUCMNav ComponentRef anchored")){ //$NON-NLS-1$
 					elem.setAnchored(Boolean.parseBoolean(item.getValue()));
 					removeList.add(item);
 				}
-				if (item.getName().equals("jUCMNav ComponentRef fixed")){
+				if (item.getName().equals("jUCMNav ComponentRef fixed")){ //$NON-NLS-1$
 					elem.setFixed(Boolean.parseBoolean(item.getValue()));
 					removeList.add(item);
 				}

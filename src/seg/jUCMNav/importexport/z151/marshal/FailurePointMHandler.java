@@ -11,13 +11,14 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 //DONE
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.EmptyPoint;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
 
 public class FailurePointMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.FailurePoint elem = (ucm.map.FailurePoint) o;
 		String objId = elem.getId();
-		EmptyPoint elemZ = (EmptyPoint) getObject(objId, target, "createEmptyPoint");
+		EmptyPoint elemZ = (EmptyPoint) getObject(objId, target, "createEmptyPoint"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (EmptyPoint) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();
@@ -43,7 +44,7 @@ public class FailurePointMHandler extends PathNodeMHandler {
 			// elemZ.getClass();
 			String expression = elem.getExpression();
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav FailurePoint expression");
+			mdZ.setName("jUCMNav FailurePoint expression"); //$NON-NLS-1$
 			mdZ.setValue(expression);
 			elemZ.getMetadata().add(mdZ);
 		}

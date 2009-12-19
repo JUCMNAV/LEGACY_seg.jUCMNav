@@ -10,13 +10,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.OutBinding;
 
 public class OutBindingMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.OutBinding elem = (ucm.map.OutBinding) o;
 		String objId = this.getObjectId(elem);
-		OutBinding elemZ = (OutBinding) getObject(objId, target, "createOutBinding");
+		OutBinding elemZ = (OutBinding) getObject(objId, target, "createOutBinding"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ.setId(objId);
 			elemZ.setEndPoint(process(elem.getEndPoint(), null, false));

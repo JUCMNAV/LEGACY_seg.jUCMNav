@@ -21,7 +21,10 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //  </xsd:complexType>
 
 import javax.xml.bind.JAXBElement;
-import seg.jUCMNav.importexport.z151.generated.*;
+
+import seg.jUCMNav.importexport.z151.generated.EndPoint;
+import seg.jUCMNav.importexport.z151.generated.ScenarioDef;
+import seg.jUCMNav.importexport.z151.generated.StartPoint;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class ScenarioDefUMHandler extends UCMmodelElementUMHandler {

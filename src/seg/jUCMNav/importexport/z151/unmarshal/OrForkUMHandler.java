@@ -9,11 +9,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import java.util.ArrayList;
-import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.importexport.z151.generated.OrFork;
 
 public class OrForkUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

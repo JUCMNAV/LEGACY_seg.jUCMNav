@@ -24,7 +24,7 @@ public class EmptyPointUMHandler extends PathNodeUMHandler {
 
 		List<Metadata> metaDataList = elemZ.getMetadata();
 		for(Metadata item: metaDataList){
-			if (item.getName().equals("jUCMNav FailurePoint expression")){
+			if (item.getName().equals("jUCMNav FailurePoint expression")){ //$NON-NLS-1$
 				elem = (ucm.map.FailurePoint) getObject(objId, target, ucm.map.FailurePoint.class);
 				((ucm.map.FailurePoint) elem).setExpression(item.getValue());
 				if (isFullConstruction) {
@@ -34,7 +34,7 @@ public class EmptyPointUMHandler extends PathNodeUMHandler {
 				isPlainEmptyPoint=false;
 				return elem;
 			}
-			if (item.getName().equals("jUCMNav Anything")){
+			if (item.getName().equals("jUCMNav Anything")){ //$NON-NLS-1$
 				elem = (ucm.map.Anything) getObject(objId, target, ucm.map.Anything.class);
 				if (isFullConstruction) {
 					elem = (ucm.map.Anything) super.handle(elemZ, elem, true);

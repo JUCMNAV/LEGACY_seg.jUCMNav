@@ -14,13 +14,15 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.DatatypeKind;
+import seg.jUCMNav.importexport.z151.generated.EnumerationType;
+import seg.jUCMNav.importexport.z151.generated.Variable;
 
 public class VariableMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.scenario.Variable elem = (ucm.scenario.Variable) o;
 		String objId = elem.getId();
-		Variable elemZ = (Variable) getObject(objId, target, "createVariable");
+		Variable elemZ = (Variable) getObject(objId, target, "createVariable"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (Variable) super.handle(elem, elemZ, true);
 			elemZ.setEnumerationType((EnumerationType) process(elem.getEnumerationType(), null, false));

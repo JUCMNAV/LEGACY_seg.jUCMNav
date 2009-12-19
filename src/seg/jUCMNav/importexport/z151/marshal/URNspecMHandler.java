@@ -1,6 +1,11 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ConcreteURNspec;
+import seg.jUCMNav.importexport.z151.generated.GRLGraph;
+import seg.jUCMNav.importexport.z151.generated.GRLspec;
+import seg.jUCMNav.importexport.z151.generated.UCMmap;
+import seg.jUCMNav.importexport.z151.generated.UCMspec;
+import seg.jUCMNav.importexport.z151.generated.URNspec;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  URNspec  -->
@@ -38,7 +43,6 @@ import seg.jUCMNav.importexport.z151.generated.*;
 public class URNspecMHandler extends MHandler {
 	public URNspecMHandler() {
 		super();
-		System.out.println("URNspecMHandler");
 	}
 
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {

@@ -15,13 +15,14 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.RespRef;
+import seg.jUCMNav.importexport.z151.generated.Responsibility;
 
 public class RespRefMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.RespRef elem = (ucm.map.RespRef) o;
 		String objId = elem.getId();
-		RespRef elemZ = (RespRef) getObject(objId, target, "createRespRef");
+		RespRef elemZ = (RespRef) getObject(objId, target, "createRespRef"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (RespRef) super.handle(elem, elemZ, true);
 			elemZ.setRepetitionCount(elem.getRepetitionCount());

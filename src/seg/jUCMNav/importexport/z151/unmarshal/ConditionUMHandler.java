@@ -11,7 +11,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Condition;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class ConditionUMHandler extends EObjectImplUMHandler {
@@ -36,9 +36,9 @@ public class ConditionUMHandler extends EObjectImplUMHandler {
 
 			if (elemZ.getDesc() != null) {
 				String description = elemZ.getDesc().getDescription();
-				if (!description.equals("")) elem.setDescription(description);
+				if (!description.equals("")) elem.setDescription(description); //$NON-NLS-1$
 				String label = elemZ.getDesc().getLabel();
-				if (!label.equals("")) elem.setLabel(label);
+				if (!label.equals("")) elem.setLabel(label); //$NON-NLS-1$
 			}
 			if (elemZ.getLabel() != null) {
 				elem.setDeltaX(elemZ.getLabel().getDeltaX().intValue());

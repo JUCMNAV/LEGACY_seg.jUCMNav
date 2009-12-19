@@ -20,13 +20,14 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 import javax.xml.bind.JAXBElement;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Concern;
+import seg.jUCMNav.importexport.z151.generated.UCMmap;
 
 public class UCMmapMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.UCMmap elem = (ucm.map.UCMmap) o;
 		String objId = elem.getId();
-		UCMmap elemZ = (UCMmap) getObject(objId, target, "createUCMmap");
+		UCMmap elemZ = (UCMmap) getObject(objId, target, "createUCMmap"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (UCMmap) super.handle(elem, elemZ, true);
 			elemZ.setSingleton(elem.isSingleton());
@@ -39,7 +40,7 @@ public class UCMmapMHandler extends UCMmodelElementMHandler {
 			processList(elem.getConnections(), elemZ.getConnections(), true);
 			processList(elem.getContRefs(), elemZ.getContRefs(), true);
 			processList(elem.getComments(), elemZ.getComments(), true);
-			processList(elem.getParentStub(), elemZ.getParentStub(), "createUCMmapParentStub", false);
+			processList(elem.getParentStub(), elemZ.getParentStub(), "createUCMmapParentStub", false); //$NON-NLS-1$
 			
 			Concern concern = (Concern) process(elem.getConcern(), null, false);
 			elemZ.setConcern(concern);

@@ -15,8 +15,10 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 
 import java.util.List;
 
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElement;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElementRef;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElementType;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
 
 public class IntentionalElementRefUMHandler extends GRLNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
@@ -27,7 +29,7 @@ public class IntentionalElementRefUMHandler extends GRLNodeUMHandler {
 			if (isFullConstruction) {
 				List<Metadata> metaDataList = elemZ.getMetadata();
 				for(Metadata item: metaDataList){
-					if (item.getName().equals("jUCMNav Belief author")){
+					if (item.getName().equals("jUCMNav Belief author")){ //$NON-NLS-1$
 						elem.setAuthor(item.getValue());
 						metaDataList.remove(item);
 						break;

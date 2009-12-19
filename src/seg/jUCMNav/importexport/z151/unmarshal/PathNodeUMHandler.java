@@ -17,7 +17,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ComponentRef;
+import seg.jUCMNav.importexport.z151.generated.PathNode;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class PathNodeUMHandler extends UCMmodelElementUMHandler {

@@ -13,13 +13,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ComponentType;
 
 public class ComponentTypeMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		urncore.ComponentType elem = (urncore.ComponentType) o;
 		String objId = elem.getId();
-		ComponentType elemZ = (ComponentType) getObject(objId, target, "createComponentType");
+		ComponentType elemZ = (ComponentType) getObject(objId, target, "createComponentType"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (ComponentType) super.handle(elem, elemZ, true);
 			// elemZ.setId();
@@ -27,7 +27,7 @@ public class ComponentTypeMHandler extends UCMmodelElementMHandler {
 			// elemZ.setConcern();
 			// elemZ.setName();
 
-			processList(elem.getInstances(), elemZ.getInstances(), "createComponentTypeInstances", false);
+			processList(elem.getInstances(), elemZ.getInstances(), "createComponentTypeInstances", false); //$NON-NLS-1$
 			// elemZ.getMetadata();
 			// elemZ.getToLinks();
 			// elemZ.getFromLinks();

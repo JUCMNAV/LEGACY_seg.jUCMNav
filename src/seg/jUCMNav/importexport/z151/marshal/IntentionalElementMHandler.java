@@ -25,7 +25,7 @@ public class IntentionalElementMHandler extends GRLLinkableElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		grl.IntentionalElement elem = (grl.IntentionalElement) o;
 		String objId = elem.getId();
-		IntentionalElement elemZ = (IntentionalElement) getObject(objId, target, "createIntentionalElement");
+		IntentionalElement elemZ = (IntentionalElement) getObject(objId, target, "createIntentionalElement"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (IntentionalElement) super.handle(elem, elemZ, true);
 			//type
@@ -33,7 +33,7 @@ public class IntentionalElementMHandler extends GRLLinkableElementMHandler {
 			elemZ.setDecompositionType(getDecompositionType(elem.getDecompositionType()));
 			elemZ.setImportance(getImportanceType(elem.getImportance()));
 			elemZ.setImportanceQuantitative(new BigInteger(Integer.toString(elem.getImportanceQuantitative())));
-			processList(elem.getRefs(), elemZ.getRefs(), "createIntentionalElementRefs", false);
+			processList(elem.getRefs(), elemZ.getRefs(), "createIntentionalElementRefs", false); //$NON-NLS-1$
 
 			// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 			// <!-- ConcreteStyle -->

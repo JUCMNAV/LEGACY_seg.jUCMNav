@@ -10,7 +10,8 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ComponentBinding;
+import seg.jUCMNav.importexport.z151.generated.ComponentRef;
 
 public class ComponentBindingMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

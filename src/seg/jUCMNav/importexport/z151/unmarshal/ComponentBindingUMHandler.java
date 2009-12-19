@@ -10,8 +10,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ComponentBinding;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class ComponentBindingUMHandler extends EObjectImplUMHandler {

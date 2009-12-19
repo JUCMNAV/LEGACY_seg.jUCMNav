@@ -24,11 +24,12 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
-import ucm.map.MapFactory;
-import urncore.UrncoreFactory;
+
+import seg.jUCMNav.importexport.z151.generated.Component;
+import seg.jUCMNav.importexport.z151.generated.ComponentType;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.PassiveResource;
+import seg.jUCMNav.importexport.z151.generated.ProcessingResource;
 
 public class ComponentUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
@@ -39,7 +40,7 @@ public class ComponentUMHandler extends UCMmodelElementUMHandler {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();
 			for(Metadata item: metaDataList){
-				if (item.getName().equals("jUCMNav Component slot")){
+				if (item.getName().equals("jUCMNav Component slot")){ //$NON-NLS-1$
 					elem.setSlot(Boolean.parseBoolean(item.getValue()));
 					removeList.add(item);
 				}

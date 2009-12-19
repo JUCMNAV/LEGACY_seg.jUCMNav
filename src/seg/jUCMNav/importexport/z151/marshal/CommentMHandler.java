@@ -18,7 +18,7 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Comment;
 
 public class CommentMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

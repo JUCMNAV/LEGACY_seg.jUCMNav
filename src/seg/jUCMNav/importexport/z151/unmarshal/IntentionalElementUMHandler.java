@@ -34,7 +34,7 @@ public class IntentionalElementUMHandler extends GRLLinkableElementUMHandler {
             if (elemZ.getType().equals(IntentionalElementType.TASK)) {
                 List<Metadata> metaDataList = elemZ.getMetadata();
                 for(Metadata item: metaDataList){
-                    if (item.getName().equals("jUCMNav Indicator")){
+                    if (item.getName().equals("jUCMNav Indicator")){ //$NON-NLS-1$
                     	elem = (grl.kpimodel.Indicator) getObject(elemZ.getId(), target, grl.kpimodel.Indicator.class);
                         metaDataList.remove(item);
                         break;

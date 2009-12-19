@@ -4,13 +4,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+
 import seg.jUCMNav.extensionpoints.IURNImport;
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.importexport.z151.unmarshal.*;
+import seg.jUCMNav.importexport.z151.generated.URNspec;
+import seg.jUCMNav.importexport.z151.unmarshal.EObjectImplUMHandler;
+import seg.jUCMNav.importexport.z151.unmarshal.URNspecUMHandler;
 
 public class ImportZ151 implements IURNImport {
 

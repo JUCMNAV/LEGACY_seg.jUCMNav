@@ -16,14 +16,16 @@ package seg.jUCMNav.importexport.z151.marshal;
 //  </xsd:complexType>
 
 //DONE
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Condition;
+import seg.jUCMNav.importexport.z151.generated.StartPoint;
+import seg.jUCMNav.importexport.z151.generated.Workload;
 
 public class ScenarioStartPointMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.scenario.ScenarioStartPoint elem = (ucm.scenario.ScenarioStartPoint) o;
 		ucm.map.StartPoint startPoint = elem.getStartPoint();
 		String objId = startPoint.getId();
-		StartPoint elemZ = (StartPoint) getObject(objId, target, "createStartPoint");
+		StartPoint elemZ = (StartPoint) getObject(objId, target, "createStartPoint"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (StartPoint) super.handle(startPoint, elemZ, true);
 			elemZ.setPrecondition((Condition) process(startPoint.getPrecondition(), null, true));
@@ -36,7 +38,7 @@ public class ScenarioStartPointMHandler extends PathNodeMHandler {
 			// elemZ.setConcern();
 			// elemZ.setName();
 
-			processList(startPoint.getInBindings(), elemZ.getInBindings(), "createStartPointInBindings", false);
+			processList(startPoint.getInBindings(), elemZ.getInBindings(), "createStartPointInBindings", false); //$NON-NLS-1$
 			// elemZ.getPrecondition();
 			// elemZ.getWorkload();
 			// elemZ.getPred();

@@ -1,14 +1,11 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-
-import org.eclipse.emf.common.util.EList;
-
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ElementLink;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElementRef;
+import seg.jUCMNav.importexport.z151.generated.Label;
+import seg.jUCMNav.importexport.z151.generated.LinkRef;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  ElementLink  -->
@@ -34,7 +31,7 @@ public class BeliefLinkMHandler extends MHandler {
 		grl.BeliefLink elem = (grl.BeliefLink) obj;
 		String objId = this.getObjectId(elem);
 		ElementLink elemZ = (ElementLink) id2object.get(objId);
-		LinkRef linkRef = (LinkRef) id2object.get("jUCMNav_"+elem.hashCode());;
+		LinkRef linkRef = (LinkRef) id2object.get("jUCMNav_"+elem.hashCode());; //$NON-NLS-1$
 		if (null == elemZ) {
 			if (null == target){
 				elemZ = of.createElementLink();
@@ -44,11 +41,11 @@ public class BeliefLinkMHandler extends MHandler {
 		}
 		if (linkRef == null) {
 			linkRef = of.createLinkRef();
-			this.id2object.put("jUCMNav_"+elem.hashCode(), linkRef);
+			id2object.put("jUCMNav_"+elem.hashCode(), linkRef); //$NON-NLS-1$
 		}
 		if (isFullConstruction) {
 			elemZ.setId(objId);
-			elemZ.setName("");
+			elemZ.setName(""); //$NON-NLS-1$
 						
 			//elem.getDiagram();
 			//elem.getLabel();
@@ -58,8 +55,8 @@ public class BeliefLinkMHandler extends MHandler {
 			elemZ.setSrc(srcNode.getDef());
 			elemZ.setDest(dstNode.getDef());
 			
-			linkRef.setId("jUCMNav_"+elem.hashCode());
-			linkRef.setName("");
+			linkRef.setId("jUCMNav_"+elem.hashCode()); //$NON-NLS-1$
+			linkRef.setName(""); //$NON-NLS-1$
 			linkRef.setCurve(false);
 			linkRef.setLink(elemZ);
 			//processList(elem.getBendpoints(), linkRef.getBendpoints(), true);

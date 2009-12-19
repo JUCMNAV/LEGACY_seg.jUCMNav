@@ -13,13 +13,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ScenarioGroup;
 
 public class ScenarioGroupMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.scenario.ScenarioGroup elem = (ucm.scenario.ScenarioGroup) o;
 		String objId = elem.getId();
-		ScenarioGroup elemZ = (ScenarioGroup) getObject(objId, target, "createScenarioGroup");
+		ScenarioGroup elemZ = (ScenarioGroup) getObject(objId, target, "createScenarioGroup"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (ScenarioGroup) super.handle(elem, elemZ, true);
 			// elemZ.setId();
@@ -27,7 +27,7 @@ public class ScenarioGroupMHandler extends UCMmodelElementMHandler {
 			// elemZ.setConcern();
 			// elemZ.setName();
 
-			processList(elem.getScenarios(), elemZ.getScenarios(), "createScenarioGroupScenarios", false);
+			processList(elem.getScenarios(), elemZ.getScenarios(), "createScenarioGroupScenarios", false); //$NON-NLS-1$
 			// elemZ.getMetadata();
 			// elemZ.getToLinks();
 			// elemZ.getFromLinks();

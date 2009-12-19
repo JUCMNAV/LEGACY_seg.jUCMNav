@@ -1,6 +1,6 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.CollapsedActorRef;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  CollapsedActorRef  -->
@@ -24,7 +24,7 @@ public class CollapsedActorRefMHandler extends GRLNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		grl.CollapsedActorRef elem = (grl.CollapsedActorRef) o;
 		String objId = elem.getId();
-		CollapsedActorRef elemZ = (CollapsedActorRef) getObject(objId, target, "createCollapsedActorRef");
+		CollapsedActorRef elemZ = (CollapsedActorRef) getObject(objId, target, "createCollapsedActorRef"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ.setActor((grl.Actor) process(elem.getActor(), null, false));
 		}

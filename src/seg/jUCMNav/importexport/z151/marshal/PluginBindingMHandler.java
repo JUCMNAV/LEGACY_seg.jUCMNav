@@ -18,13 +18,14 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Condition;
+import seg.jUCMNav.importexport.z151.generated.PluginBinding;
 
 public class PluginBindingMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.PluginBinding elem = (ucm.map.PluginBinding) o;
 		String objId = this.getObjectId(elem);//elem.getId();
-		PluginBinding elemZ = (PluginBinding) getObject(objId, target, "createPluginBinding");
+		PluginBinding elemZ = (PluginBinding) getObject(objId, target, "createPluginBinding"); //$NON-NLS-1$
 		
 		if (isFullConstruction) {
 			elemZ.setId(objId);

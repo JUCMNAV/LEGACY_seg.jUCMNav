@@ -11,13 +11,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 //DONE
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.AndFork;
 
 public class AndForkMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.AndFork elem = (ucm.map.AndFork) o;
 		String objId = elem.getId();
-		AndFork elemZ = (AndFork) getObject(objId, target, "createAndFork");
+		AndFork elemZ = (AndFork) getObject(objId, target, "createAndFork"); //$NON-NLS-1$
 		
 		if (isFullConstruction) {
 			elemZ = (AndFork) super.handle(elem, elemZ, true);

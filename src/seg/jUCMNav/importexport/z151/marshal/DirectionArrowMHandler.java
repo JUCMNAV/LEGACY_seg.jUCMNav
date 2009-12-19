@@ -9,13 +9,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.DirectionArrow;
 
 public class DirectionArrowMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.DirectionArrow elem = (ucm.map.DirectionArrow) o;
 		String objId = elem.getId();
-		DirectionArrow elemZ = (DirectionArrow) getObject(objId, target, "createDirectionArrow");
+		DirectionArrow elemZ = (DirectionArrow) getObject(objId, target, "createDirectionArrow"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (DirectionArrow) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();

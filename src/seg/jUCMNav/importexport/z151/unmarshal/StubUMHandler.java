@@ -19,7 +19,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 import java.util.ArrayList;
 import java.util.List;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.Stub;
 
 
 public class StubUMHandler extends PathNodeUMHandler {
@@ -30,24 +31,24 @@ public class StubUMHandler extends PathNodeUMHandler {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();
 			for(Metadata item: metaDataList){
-				if (item.getName().equals("jUCMNav Stub shared")){
+				if (item.getName().equals("jUCMNav Stub shared")){ //$NON-NLS-1$
 					elem.setShared(Boolean.parseBoolean(item.getValue()));
 					removeList.add(item);
 				}
                 // The pointcut attribute is deprecated, but included just in case.
-                if (item.getName().equals("jUCMNav Stub pointcut")){
+                if (item.getName().equals("jUCMNav Stub pointcut")){ //$NON-NLS-1$
                     elem.setPointcut(Boolean.parseBoolean(item.getValue()));
                     removeList.add(item);
                 }
-				if (item.getName().equals("jUCMNav Stub repetitionCount")){
+				if (item.getName().equals("jUCMNav Stub repetitionCount")){ //$NON-NLS-1$
 					elem.setRepetitionCount(item.getValue());
 					removeList.add(item);
 				}
-				if (item.getName().equals("jUCMNav Stub Aopointcut")){
+				if (item.getName().equals("jUCMNav Stub Aopointcut")){ //$NON-NLS-1$
 					elem.setAopointcut(ucm.map.PointcutKind.get(item.getValue()));
 					removeList.add(item);
 				}
-				if (item.getName().equals("jUCMNav Stub aspect")){
+				if (item.getName().equals("jUCMNav Stub aspect")){ //$NON-NLS-1$
 					elem.setAspect(ucm.map.AspectKind.get(item.getValue()));
 					removeList.add(item);
 				}

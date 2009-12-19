@@ -16,13 +16,15 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 //DONE
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Condition;
+import seg.jUCMNav.importexport.z151.generated.EndPoint;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
 
 public class EndPointMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.EndPoint elem = (ucm.map.EndPoint) o;
 		String objId = elem.getId();
-		EndPoint elemZ = (EndPoint) getObject(objId, target, "createEndPoint");
+		EndPoint elemZ = (EndPoint) getObject(objId, target, "createEndPoint"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (EndPoint) super.handle(elem, elemZ, true);
 			// elemZ.setPostcondition();
@@ -34,7 +36,7 @@ public class EndPointMHandler extends PathNodeMHandler {
 			// elemZ.setConcern();
 			// elemZ.setName();
 
-			processList(elem.getOutBindings(), elemZ.getOutBindings(), "createEndPointOutBindings", false);
+			processList(elem.getOutBindings(), elemZ.getOutBindings(), "createEndPointOutBindings", false); //$NON-NLS-1$
 			elemZ.setPostcondition((Condition) process(elem.getPostcondition(), null, true));
 			// elemZ.getPred();
 			// elemZ.getSucc();
@@ -52,7 +54,7 @@ public class EndPointMHandler extends PathNodeMHandler {
 			
 			boolean local = elem.isLocal();
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav EndPoint local");
+			mdZ.setName("jUCMNav EndPoint local"); //$NON-NLS-1$
 			mdZ.setValue(Boolean.toString(local));
 			elemZ.getMetadata().add(mdZ);
 		}

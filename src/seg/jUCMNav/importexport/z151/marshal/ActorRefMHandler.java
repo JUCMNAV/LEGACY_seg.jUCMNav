@@ -1,14 +1,15 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
 
 import org.eclipse.emf.common.util.EList;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Actor;
+import seg.jUCMNav.importexport.z151.generated.ActorRef;
+import seg.jUCMNav.importexport.z151.generated.Label;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.Position;
+import seg.jUCMNav.importexport.z151.generated.Size;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  ActorRef  -->
@@ -35,7 +36,7 @@ public class ActorRefMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.ActorRef elem = (grl.ActorRef) obj;
 		String objId = elem.getId();
-		ActorRef elemZ = (ActorRef) getObject(objId, target, "createActorRef");
+		ActorRef elemZ = (ActorRef) getObject(objId, target, "createActorRef"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (ActorRef) super.handle(elem, elemZ, true);
 
@@ -51,7 +52,7 @@ public class ActorRefMHandler extends GRLmodelElementMHandler {
 			elemZ.setActorDef((Actor) process(elem.getContDef(), null, false));
 
 			// nodes
-			processList(elem.getNodes(), elemZ.getNodes(), "createActorRefNodes", false);
+			processList(elem.getNodes(), elemZ.getNodes(), "createActorRefNodes", false); //$NON-NLS-1$
 
 			// pos
 			Position posZ = of.createPosition();
@@ -70,7 +71,7 @@ public class ActorRefMHandler extends GRLmodelElementMHandler {
 				for (Object item : list) {
 					((grl.ActorRef) item).getId();
 					Metadata mdZ = of.createMetadata();
-					mdZ.setName("jUCMNav ActorRef children");
+					mdZ.setName("jUCMNav ActorRef children"); //$NON-NLS-1$
 					mdZ.setValue(((grl.ActorRef) item).getId());
 					elemZ.getMetadata().add(mdZ);
 				}
@@ -78,7 +79,7 @@ public class ActorRefMHandler extends GRLmodelElementMHandler {
 			grl.ActorRef item = (grl.ActorRef) elem.getParent();
 			if (item != null) {
 				Metadata mdZ = of.createMetadata();
-				mdZ.setName("jUCMNav ActorRef parent");
+				mdZ.setName("jUCMNav ActorRef parent"); //$NON-NLS-1$
 				mdZ.setValue(item.getId());
 				elemZ.getMetadata().add(mdZ);
 			}

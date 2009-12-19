@@ -86,7 +86,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ClosedWorkload;
+import seg.jUCMNav.importexport.z151.generated.OWPeriodic;
+import seg.jUCMNav.importexport.z151.generated.OWPhaseType;
+import seg.jUCMNav.importexport.z151.generated.OWPoisson;
+import seg.jUCMNav.importexport.z151.generated.OWUniform;
+import seg.jUCMNav.importexport.z151.generated.TimeUnit;
+import seg.jUCMNav.importexport.z151.generated.Workload;
 
 public class WorkloadMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

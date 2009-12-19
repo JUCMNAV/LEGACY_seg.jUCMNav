@@ -14,7 +14,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ActiveResource;
 
 public class ActiveResourceUMHandler extends GeneralResourceUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

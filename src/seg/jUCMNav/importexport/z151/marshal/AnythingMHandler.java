@@ -11,13 +11,14 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 //DONE
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.EmptyPoint;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
 
 public class AnythingMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.Anything elem = (ucm.map.Anything) o;
 		String objId = elem.getId();
-		EmptyPoint elemZ = (EmptyPoint) getObject(objId, target, "createEmptyPoint");
+		EmptyPoint elemZ = (EmptyPoint) getObject(objId, target, "createEmptyPoint"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (EmptyPoint) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();
@@ -42,8 +43,8 @@ public class AnythingMHandler extends PathNodeMHandler {
 			// elemZ.getDesc();
 			// elemZ.getClass();
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav Anything");
-			mdZ.setValue("");
+			mdZ.setName("jUCMNav Anything"); //$NON-NLS-1$
+			mdZ.setValue(""); //$NON-NLS-1$
 			elemZ.getMetadata().add(mdZ);
 		}
 		return elemZ;

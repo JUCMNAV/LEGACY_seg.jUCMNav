@@ -32,19 +32,19 @@ public class GRLNodeMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.GRLNode elem = (grl.GRLNode) obj;
 		String objId = elem.getId();
-		GRLNode elemZ = (GRLNode) getObject(objId, target, "createGRLNode");
+		GRLNode elemZ = (GRLNode) getObject(objId, target, "createGRLNode"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			super.handle(elem, elemZ, true);
-			processList(elem.getPred(), elemZ.getPred(), "createGRLNodePred", false);
-			processList(elem.getSucc(), elemZ.getSucc(), "createGRLNodeSucc", false);
+			processList(elem.getPred(), elemZ.getPred(), "createGRLNodePred", false); //$NON-NLS-1$
+			processList(elem.getSucc(), elemZ.getSucc(), "createGRLNodeSucc", false); //$NON-NLS-1$
 			elemZ.setContRef((ActorRef) process((grl.ActorRef) elem.getContRef(), null, false));
 			Position posZ = new Position();
 			posZ.setX(new BigInteger(Integer.toString(elem.getX())));
 			posZ.setY(new BigInteger(Integer.toString(elem.getY())));
 			elemZ.setPos(posZ);
 			Size sizeZ = new Size();
-			sizeZ.setHeight(new BigInteger("0")); // Size auto-computed from content in in jUCMNav
-			sizeZ.setWidth(new BigInteger("0"));  // Size auto-computed from content in in jUCMNav
+			sizeZ.setHeight(new BigInteger("0")); // Size auto-computed from content in in jUCMNav //$NON-NLS-1$
+			sizeZ.setWidth(new BigInteger("0"));  // Size auto-computed from content in in jUCMNav //$NON-NLS-1$
 			elemZ.setSize(sizeZ);
 		}
 		return elemZ;

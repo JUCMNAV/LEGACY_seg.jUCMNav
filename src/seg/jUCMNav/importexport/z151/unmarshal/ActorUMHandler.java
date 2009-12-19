@@ -18,8 +18,9 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 
 import java.util.ArrayList;
 import java.util.List;
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+
+import seg.jUCMNav.importexport.z151.generated.Actor;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
 
 public class ActorUMHandler extends GRLLinkableElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
@@ -32,14 +33,14 @@ public class ActorUMHandler extends GRLLinkableElementUMHandler {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();
 			for(Metadata item: metaDataList){
-				if (item.getName().equals("jUCMNav Actor includedActors")){
+				if (item.getName().equals("jUCMNav Actor includedActors")){ //$NON-NLS-1$
 					grl.Actor actor = (grl.Actor) getObjectFromId(item.getValue(),grl.Actor.class);
 					if (!elem.getIncludedActors().contains(actor)){
 						elem.getIncludedActors().add(actor);
 					}
 					removeList.add(item);
 				}
-				if (item.getName().equals("jUCMNav Actor includingActor")){
+				if (item.getName().equals("jUCMNav Actor includingActor")){ //$NON-NLS-1$
 					grl.Actor actor = (grl.Actor) getObjectFromId(item.getValue(),grl.Actor.class);
 					elem.setIncludingActor(actor);
 					removeList.add(item);

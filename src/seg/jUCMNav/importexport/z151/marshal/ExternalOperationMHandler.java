@@ -13,13 +13,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ExternalOperation;
 
 public class ExternalOperationMHandler extends ActiveResourceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.performance.ExternalOperation elem = (ucm.performance.ExternalOperation) o;
 		String objId = elem.getId();
-		ExternalOperation elemZ = (ExternalOperation) getObject(objId, target, "createExternalOperation");
+		ExternalOperation elemZ = (ExternalOperation) getObject(objId, target, "createExternalOperation"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (ExternalOperation) super.handle(elem, elemZ, true);
 			// elemZ.setOpTime();
@@ -31,7 +31,7 @@ public class ExternalOperationMHandler extends ActiveResourceMHandler {
 			// elemZ.setConcern();
 			// elemZ.setName();
 
-			processList(elem.getDemands(), elemZ.getDemands(), "createExternalOperationDemands", false);
+			processList(elem.getDemands(), elemZ.getDemands(), "createExternalOperationDemands", false); //$NON-NLS-1$
 			// elemZ.getOpTime();
 			// elemZ.getUnit();
 			// elemZ.getMultiplicity();

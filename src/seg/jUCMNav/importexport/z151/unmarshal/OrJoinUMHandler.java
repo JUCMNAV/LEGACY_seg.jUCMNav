@@ -8,7 +8,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //      <xsd:extension base="PathNode"/>
 //    </xsd:complexContent>
 //  </xsd:complexType>
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.OrJoin;
 
 public class OrJoinUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

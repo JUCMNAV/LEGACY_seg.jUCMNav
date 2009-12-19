@@ -2,7 +2,7 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Contribution;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  Contribution  -->
@@ -30,7 +30,7 @@ public class ContributionMHandler extends ElementLinkMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.Contribution elem = (grl.Contribution) obj;
 		String objId = elem.getId();
-		Contribution elemZ = (Contribution) getObject(objId, target, "createContribution");
+		Contribution elemZ = (Contribution) getObject(objId, target, "createContribution"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (Contribution) super.handle(elem, elemZ, true);
 			elemZ.setContribution(getContributionType(elem.getContribution()));

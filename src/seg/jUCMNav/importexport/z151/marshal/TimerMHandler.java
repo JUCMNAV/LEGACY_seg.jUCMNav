@@ -13,13 +13,14 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.NodeConnection;
+import seg.jUCMNav.importexport.z151.generated.Timer;
 
 public class TimerMHandler extends WaitingPlaceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.Timer elem = (ucm.map.Timer) o;
 		String objId = elem.getId();
-		Timer elemZ = (Timer) getObject(objId, target, "createTimer");
+		Timer elemZ = (Timer) getObject(objId, target, "createTimer"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (Timer) super.handle(elem, elemZ, true);
 			if (elem.getTimeoutPath() != null) {

@@ -17,13 +17,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //DONE
 import java.math.BigInteger;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.GeneralResource;
 
 public class GeneralResourceMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.performance.GeneralResource elem = (ucm.performance.GeneralResource) o;
 		String objId = elem.getId();
-		GeneralResource elemZ = (GeneralResource) getObject(objId, target, "createGeneralResource");
+		GeneralResource elemZ = (GeneralResource) getObject(objId, target, "createGeneralResource"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (GeneralResource) super.handle(elem, elemZ, true);
 			elemZ.setMultiplicity(new BigInteger(elem.getMultiplicity()));

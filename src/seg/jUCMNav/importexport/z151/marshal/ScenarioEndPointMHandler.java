@@ -16,14 +16,15 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 //DONE
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Condition;
+import seg.jUCMNav.importexport.z151.generated.EndPoint;
 
 public class ScenarioEndPointMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.scenario.ScenarioEndPoint elem = (ucm.scenario.ScenarioEndPoint) o;
 		ucm.map.EndPoint endPoint = elem.getEndPoint();
 		String objId = endPoint.getId();
-		EndPoint elemZ = (EndPoint) getObject(objId, target, "createEndPoint");
+		EndPoint elemZ = (EndPoint) getObject(objId, target, "createEndPoint"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (EndPoint) super.handle(endPoint, elemZ, true);
 			// elemZ.setPostcondition();
@@ -35,7 +36,7 @@ public class ScenarioEndPointMHandler extends PathNodeMHandler {
 			// elemZ.setConcern();
 			// elemZ.setName();
 
-			processList(endPoint.getOutBindings(), elemZ.getOutBindings(), "createEndPointOutBindings", false);
+			processList(endPoint.getOutBindings(), elemZ.getOutBindings(), "createEndPointOutBindings", false); //$NON-NLS-1$
 			elemZ.setPostcondition((Condition) process(endPoint.getPostcondition(), null, true));
 			// elemZ.getPred();
 			// elemZ.getSucc();

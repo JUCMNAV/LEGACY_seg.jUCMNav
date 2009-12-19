@@ -66,10 +66,10 @@ public class UCMmapUMHandler extends UCMmodelElementUMHandler {
 	    
 	    for(Object node: nodes){
 	        if (node instanceof ucm.map.Anything){
-	            MetadataHelper.removeMetaData(((ucm.map.Anything) node), "jUCMNav Anything"); 
+	            MetadataHelper.removeMetaData(((ucm.map.Anything) node), "jUCMNav Anything");  //$NON-NLS-1$
 	        }
 	        else if (node instanceof ucm.map.FailurePoint){
-                MetadataHelper.removeMetaData(((ucm.map.FailurePoint) node), "jUCMNav FailurePoint expression"); 
+                MetadataHelper.removeMetaData(((ucm.map.FailurePoint) node), "jUCMNav FailurePoint expression");  //$NON-NLS-1$
             }
 	    }	    
     }

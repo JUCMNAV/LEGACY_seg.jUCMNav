@@ -14,13 +14,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ProcessingResource;
 
 public class ProcessingResourceMHandler extends ActiveResourceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.performance.ProcessingResource elem = (ucm.performance.ProcessingResource) o;
 		String objId = elem.getId();
-		ProcessingResource elemZ = (ProcessingResource) getObject(objId, target, "createProcessingResource");
+		ProcessingResource elemZ = (ProcessingResource) getObject(objId, target, "createProcessingResource"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (ProcessingResource) super.handle(elem, elemZ, true);
 			elemZ.setKind(getDeviceKind(elem.getKind()));
@@ -34,7 +34,7 @@ public class ProcessingResourceMHandler extends ActiveResourceMHandler {
 			// elemZ.setName();
 			//
 			// elemZ.getKind();
-			processList(elem.getComponents(), elemZ.getComponents(), "createProcessingResourceComponents", false);
+			processList(elem.getComponents(), elemZ.getComponents(), "createProcessingResourceComponents", false); //$NON-NLS-1$
 			// elemZ.getOpTime();
 			// elemZ.getUnit();
 			// elemZ.getMultiplicity();

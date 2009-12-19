@@ -19,8 +19,9 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
+
+import seg.jUCMNav.importexport.z151.generated.ActorRef;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class ActorRefUMHandler extends GRLmodelElementUMHandler {
@@ -32,14 +33,14 @@ public class ActorRefUMHandler extends GRLmodelElementUMHandler {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();
 			for(Metadata item: metaDataList){
-				if (item.getName().equals("jUCMNav ActorRef children")){
+				if (item.getName().equals("jUCMNav ActorRef children")){ //$NON-NLS-1$
 					grl.ActorRef actorRef = (grl.ActorRef) getObjectFromId(item.getValue(),grl.ActorRef.class);
 					if (!elem.getChildren().contains(actorRef)){
 						elem.getChildren().add(actorRef);
 					}
 					removeList.add(item);
 				}
-				if (item.getName().equals("jUCMNav ActorRef parent")){
+				if (item.getName().equals("jUCMNav ActorRef parent")){ //$NON-NLS-1$
 					grl.ActorRef actorRef = (grl.ActorRef) getObjectFromId(item.getValue(),grl.ActorRef.class);
 					elem.setParent(actorRef);
 					removeList.add(item);

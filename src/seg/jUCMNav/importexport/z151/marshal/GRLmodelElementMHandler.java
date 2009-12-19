@@ -1,6 +1,6 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.GRLmodelElement;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  GRLmodelElement  -->
@@ -18,7 +18,7 @@ public class GRLmodelElementMHandler extends URNmodelElementMHandler{
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		urncore.GRLmodelElement elem = (urncore.GRLmodelElement) obj;
 		String objId = elem.getId();
-		GRLmodelElement elemZ = (GRLmodelElement) getObject(objId, target, "createGRLmodelElement");
+		GRLmodelElement elemZ = (GRLmodelElement) getObject(objId, target, "createGRLmodelElement"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			super.handle(elem,elemZ, true);
 		}

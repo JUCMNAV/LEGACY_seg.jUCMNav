@@ -10,7 +10,9 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.EndPoint;
+import seg.jUCMNav.importexport.z151.generated.NodeConnection;
+import seg.jUCMNav.importexport.z151.generated.OutBinding;
 
 public class OutBindingUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

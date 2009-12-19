@@ -1,13 +1,7 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-
-import org.eclipse.emf.common.util.EList;
-
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ElementLink;
+import seg.jUCMNav.importexport.z151.generated.GRLLinkableElement;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  ElementLink  -->
@@ -32,10 +26,10 @@ public class ElementLinkMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.ElementLink elem = (grl.ElementLink) obj;
 		String objId = elem.getId();
-		ElementLink elemZ = (ElementLink) getObject(objId, target,"createElementLink");
+		ElementLink elemZ = (ElementLink) getObject(objId, target,"createElementLink"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			super.handle(elem, elemZ, true);
-			processList(elem.getRefs(), elemZ.getRefs(), "createElementLinkRefs", false);
+			processList(elem.getRefs(), elemZ.getRefs(), "createElementLinkRefs", false); //$NON-NLS-1$
 			elemZ.setDest((GRLLinkableElement) process(elem.getDest(), null, false));
 			elemZ.setSrc((GRLLinkableElement) process(elem.getSrc(), null, false));
 		}

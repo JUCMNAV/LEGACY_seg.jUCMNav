@@ -16,13 +16,16 @@ package seg.jUCMNav.importexport.z151.marshal;
 //  </xsd:complexType>
 
 //DONE
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Condition;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.StartPoint;
+import seg.jUCMNav.importexport.z151.generated.Workload;
 
 public class StartPointMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.StartPoint elem = (ucm.map.StartPoint) o;
 		String objId = elem.getId();
-		StartPoint elemZ = (StartPoint) getObject(objId, target, "createStartPoint");
+		StartPoint elemZ = (StartPoint) getObject(objId, target, "createStartPoint"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (StartPoint) super.handle(elem, elemZ, true);
 			elemZ.setPrecondition((Condition) process(elem.getPrecondition(), null, true));
@@ -35,7 +38,7 @@ public class StartPointMHandler extends PathNodeMHandler {
 			// elemZ.setConcern();
 			// elemZ.setName();
 
-			processList(elem.getInBindings(), elemZ.getInBindings(), "createStartPointInBindings", false);
+			processList(elem.getInBindings(), elemZ.getInBindings(), "createStartPointInBindings", false); //$NON-NLS-1$
 			// elemZ.getPrecondition();
 			// elemZ.getWorkload();
 			// elemZ.getPred();
@@ -53,13 +56,13 @@ public class StartPointMHandler extends PathNodeMHandler {
 			// elemZ.getClass();
 			boolean local = elem.isLocal();
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav StartPoint local");
-			mdZ.setValue(""+local);
+			mdZ.setName("jUCMNav StartPoint local"); //$NON-NLS-1$
+			mdZ.setValue(""+local); //$NON-NLS-1$
 			elemZ.getMetadata().add(mdZ);
 			
 			ucm.map.FailureKind  failureKind = elem.getFailureKind();
 			mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav StartPoint failureKind");
+			mdZ.setName("jUCMNav StartPoint failureKind"); //$NON-NLS-1$
 			mdZ.setValue(failureKind.toString());
 			elemZ.getMetadata().add(mdZ);
 		}

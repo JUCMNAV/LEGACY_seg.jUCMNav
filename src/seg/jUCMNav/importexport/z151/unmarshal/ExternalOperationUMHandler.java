@@ -13,8 +13,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.importexport.z151.generated.ExternalOperation;
 
 public class ExternalOperationUMHandler extends ActiveResourceUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

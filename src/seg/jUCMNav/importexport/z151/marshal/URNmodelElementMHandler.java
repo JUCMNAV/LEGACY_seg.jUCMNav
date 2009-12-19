@@ -1,9 +1,7 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import java.util.List;
-import javax.xml.bind.JAXBElement;
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Description;
+import seg.jUCMNav.importexport.z151.generated.URNmodelElement;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  URNmodelElement  -->
@@ -38,8 +36,8 @@ public abstract class URNmodelElementMHandler extends MHandler {
 			elemZ.setId(elem.getId());
 			elemZ.setName(elem.getName());
 			processList(elem.getMetadata(), elemZ.getMetadata(), true);
-			processList(elem.getToLinks(), elemZ.getToLinks(), "createURNmodelElementFromLinks", false);
-			processList(elem.getFromLinks(), elemZ.getFromLinks(), "createURNmodelElementToLinks", false);
+			processList(elem.getToLinks(), elemZ.getToLinks(), "createURNmodelElementFromLinks", false); //$NON-NLS-1$
+			processList(elem.getFromLinks(), elemZ.getFromLinks(), "createURNmodelElementToLinks", false); //$NON-NLS-1$
 			if (null != elem.getDescription()) {
 				Description desc = of.createDescription();
 				desc.setDescription(elem.getDescription());

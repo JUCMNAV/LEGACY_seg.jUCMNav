@@ -18,9 +18,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.Responsibility;
 
 public class ResponsibilityUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
@@ -32,11 +31,11 @@ public class ResponsibilityUMHandler extends UCMmodelElementUMHandler {
 			List<Metadata> metaDataList = elemZ.getMetadata();
 			List<Metadata> removeList = new ArrayList <Metadata> ();
 			for(Metadata item: metaDataList){
-				if (item.getName().equals("jUCMNav Responsibility context")){
+				if (item.getName().equals("jUCMNav Responsibility context")){ //$NON-NLS-1$
 					elem.setContext(Boolean.parseBoolean(item.getValue()));
 					removeList.add(item);
 				}
-				if (item.getName().equals("jUCMNav Responsibility empty")){
+				if (item.getName().equals("jUCMNav Responsibility empty")){ //$NON-NLS-1$
 					elem.setEmpty(Boolean.parseBoolean(item.getValue()));
 					removeList.add(item);
 				}

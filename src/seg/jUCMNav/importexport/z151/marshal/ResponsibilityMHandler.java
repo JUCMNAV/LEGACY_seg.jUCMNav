@@ -15,13 +15,14 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.Responsibility;
 
 public class ResponsibilityMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		urncore.Responsibility elem = (urncore.Responsibility) o;
 		String objId = elem.getId();
-		Responsibility elemZ = (Responsibility) getObject(objId, target, "createResponsibility");
+		Responsibility elemZ = (Responsibility) getObject(objId, target, "createResponsibility"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (Responsibility) super.handle(elem, elemZ, true);
 			elemZ.setExpression(elem.getExpression());
@@ -32,7 +33,7 @@ public class ResponsibilityMHandler extends UCMmodelElementMHandler {
 
 			//elemZ.getExpression();
 			processList(elem.getDemands(), elemZ.getDemands(), true);
-			processList(elem.getRespRefs(), elemZ.getRespRefs(), "createResponsibilityRespRefs", false);
+			processList(elem.getRespRefs(), elemZ.getRespRefs(), "createResponsibilityRespRefs", false); //$NON-NLS-1$
 			// elemZ.getMetadata();
 			// elemZ.getToLinks();
 			// elemZ.getFromLinks();
@@ -44,13 +45,13 @@ public class ResponsibilityMHandler extends UCMmodelElementMHandler {
 			
 			boolean context = elem.isContext();
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav Responsibility context");
+			mdZ.setName("jUCMNav Responsibility context"); //$NON-NLS-1$
 			mdZ.setValue(Boolean.toString(context));
 			elemZ.getMetadata().add(mdZ);
 			
 			boolean empty = elem.isEmpty();
 			mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav Responsibility empty");
+			mdZ.setName("jUCMNav Responsibility empty"); //$NON-NLS-1$
 			mdZ.setValue(Boolean.toString(empty));
 			elemZ.getMetadata().add(mdZ);
 		}

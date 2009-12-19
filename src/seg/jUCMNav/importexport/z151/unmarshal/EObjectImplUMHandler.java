@@ -88,7 +88,7 @@ public abstract class EObjectImplUMHandler {
 	public static urn.URNspec urn = null;
 	protected static Map<Class<?>, EObjectImplUMHandler> ourClass2Conv = new HashMap<Class<?>, EObjectImplUMHandler>();
 	protected static Map<String, Object> id2object = new HashMap<String, Object>();
-	protected static String globelId = "0";
+	protected static String globelId = "0"; //$NON-NLS-1$
 
 	static {
 		ourClass2Conv.put(ActiveResource.class, new ActiveResourceUMHandler());
@@ -168,11 +168,11 @@ public abstract class EObjectImplUMHandler {
 	public void resetUrnSpec() {
 		urn = null;
 		id2object.clear();
-		globelId = "0";
+		globelId = "0"; //$NON-NLS-1$
 	}
 
 	public String getObjectId(Object obj) {
-		return "Z151_id_" + obj.getClass() + "_" + hashCode(obj);
+		return "Z151_id_" + obj.getClass() + "_" + hashCode(obj); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public int hashCode(Object obj) {
@@ -188,11 +188,11 @@ public abstract class EObjectImplUMHandler {
 				if (null != h) {
 					return h.handle(obj, target, isFullConstruction);
 				} else {
-					System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!");
+					System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!"); //$NON-NLS-1$
 				}
 			}
 		} catch (Exception e) {
-			System.err.println(obj.getClass().getName() + " Exception");
+			System.err.println(obj.getClass().getName() + " Exception"); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -209,7 +209,7 @@ public abstract class EObjectImplUMHandler {
 							targetList.add(result);
 						}
 					} else {
-						System.err.println(((JAXBElement) obj).getValue().getClass().getName() + " UMHandler is UNDEFINED!");
+						System.err.println(((JAXBElement) obj).getValue().getClass().getName() + " UMHandler is UNDEFINED!"); //$NON-NLS-1$
 					}
 				} else {
 					h = this.getHandler(obj);
@@ -218,7 +218,7 @@ public abstract class EObjectImplUMHandler {
 						if (result != null && !targetList.contains(result))
 							targetList.add(result);
 					} else {
-						System.err.println(obj.getClass().getName() + " UNMHandler is UNDEFINED!");
+						System.err.println(obj.getClass().getName() + " UNMHandler is UNDEFINED!"); //$NON-NLS-1$
 					}
 				}
 

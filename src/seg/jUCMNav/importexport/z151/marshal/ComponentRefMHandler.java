@@ -24,15 +24,17 @@ package seg.jUCMNav.importexport.z151.marshal;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
-
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ComponentRef;
+import seg.jUCMNav.importexport.z151.generated.Label;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.Position;
+import seg.jUCMNav.importexport.z151.generated.Size;
 
 public class ComponentRefMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.ComponentRef elem = (ucm.map.ComponentRef) o;
 		String objId = elem.getId();
-		ComponentRef elemZ = (ComponentRef) getObject(objId, target, "createComponentRef");
+		ComponentRef elemZ = (ComponentRef) getObject(objId, target, "createComponentRef"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (ComponentRef) super.handle(elem, elemZ, true);
 			// compDef
@@ -62,17 +64,17 @@ public class ComponentRefMHandler extends UCMmodelElementMHandler {
 			// elemZ.setName();
 
 			// nodes
-			processList(elem.getNodes(), elemZ.getNodes(), "createComponentRefNodes", false);
+			processList(elem.getNodes(), elemZ.getNodes(), "createComponentRefNodes", false); //$NON-NLS-1$
 			// parentBindings
-			processList(elem.getParentBindings(), elemZ.getParentBindings(), "createComponentRefParentBindings", false);
+			processList(elem.getParentBindings(), elemZ.getParentBindings(), "createComponentRefParentBindings", false); //$NON-NLS-1$
 			// pluginBindings
-			processList(elem.getPluginBindings(), elemZ.getPluginBindings(), "createComponentRefPluginBindings", false);
+			processList(elem.getPluginBindings(), elemZ.getPluginBindings(), "createComponentRefPluginBindings", false); //$NON-NLS-1$
 			// elemZ.getCompDef();
 			// elemZ.getParent();
 			// TODO elemZ.getSize();
 			// elemZ.getLabel();
 			// children
-			processList(elem.getChildren(), elemZ.getChildren(), "createComponentRefChildren", false);
+			processList(elem.getChildren(), elemZ.getChildren(), "createComponentRefChildren", false); //$NON-NLS-1$
 			// elemZ.getPos();
 			// elemZ.getMetadata();
 			// elemZ.getToLinks();
@@ -86,27 +88,27 @@ public class ComponentRefMHandler extends UCMmodelElementMHandler {
 			List<Metadata> list = elemZ.getMetadata();
 			int item = elem.getReplicationFactor();
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav ComponentRef replicationFactor");
+			mdZ.setName("jUCMNav ComponentRef replicationFactor"); //$NON-NLS-1$
 			mdZ.setValue(Integer.toString(item));
 			list.add(mdZ);
 
 			String role = elem.getRole();
 			if (role != null) {
 				mdZ = of.createMetadata();
-				mdZ.setName("jUCMNav ComponentRef role");
+				mdZ.setName("jUCMNav ComponentRef role"); //$NON-NLS-1$
 				mdZ.setValue(role);
 				list.add(mdZ);
 			}
 
 			boolean anchored = elem.isAnchored();
 			mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav ComponentRef anchored");
+			mdZ.setName("jUCMNav ComponentRef anchored"); //$NON-NLS-1$
 			mdZ.setValue(Boolean.toString(anchored));
 			list.add(mdZ);
 			
 			boolean fixed = elem.isFixed();
 			mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav ComponentRef fixed");
+			mdZ.setName("jUCMNav ComponentRef fixed"); //$NON-NLS-1$
 			mdZ.setValue(Boolean.toString(fixed));
 			list.add(mdZ);
 		}

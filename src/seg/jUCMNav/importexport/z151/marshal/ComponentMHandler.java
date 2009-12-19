@@ -24,13 +24,18 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 //Z151 includingComponent is List<JAXBElement<Object>>, but jUCMNav is an object
 //No other difference. 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Component;
+import seg.jUCMNav.importexport.z151.generated.ComponentType;
+import seg.jUCMNav.importexport.z151.generated.ConcreteStyle;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.PassiveResource;
+import seg.jUCMNav.importexport.z151.generated.ProcessingResource;
 
 public class ComponentMHandler extends UCMmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		urncore.Component elem = (urncore.Component) o;
 		String objId = elem.getId();
-		Component elemZ = (Component) getObject(objId, target, "createComponent");
+		Component elemZ = (Component) getObject(objId, target, "createComponent"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (Component) super.handle(elem, elemZ, true);
 			//kind
@@ -59,11 +64,11 @@ public class ComponentMHandler extends UCMmodelElementMHandler {
 			//
 			// elemZ.getKind();
 			//includedComponents
-			processList(elem.getIncludedComponent(), elemZ.getIncludedComponents(), "createComponentIncludedComponents", false);
+			processList(elem.getIncludedComponent(), elemZ.getIncludedComponents(), "createComponentIncludedComponents", false); //$NON-NLS-1$
 			//includingComponents
 			elemZ.getIncludingComponents().add(of.createComponentIncludingComponents(process(elem.getIncludingComponent(), null, false)));
 			//compRefs
-			processList(elem.getContRefs(), elemZ.getCompRefs(), "createComponentCompRefs", false); // Not 100 certain
+			processList(elem.getContRefs(), elemZ.getCompRefs(), "createComponentCompRefs", false); // Not 100 certain //$NON-NLS-1$
 			
 			// elemZ.getCompRefs()
 			// elemZ.getCompRefs();
@@ -82,7 +87,7 @@ public class ComponentMHandler extends UCMmodelElementMHandler {
 			
 			boolean slot = elem.isSlot();
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav Component slot");
+			mdZ.setName("jUCMNav Component slot"); //$NON-NLS-1$
 			mdZ.setValue(Boolean.toString(slot));
 			elemZ.getMetadata().add(mdZ);
 		}

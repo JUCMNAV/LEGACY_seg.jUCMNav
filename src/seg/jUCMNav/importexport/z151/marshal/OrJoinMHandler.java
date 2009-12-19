@@ -9,13 +9,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.OrJoin;
 
 public class OrJoinMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.OrJoin elem = (ucm.map.OrJoin) o;
 		String objId = elem.getId();
-		OrJoin elemZ = (OrJoin) getObject(objId, target, "createOrJoin");
+		OrJoin elemZ = (OrJoin) getObject(objId, target, "createOrJoin"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (OrJoin) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();

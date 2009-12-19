@@ -13,13 +13,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.WaitingPlace;
 
 public class WaitingPlaceMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.WaitingPlace elem = (ucm.map.WaitingPlace) o;
 		String objId = elem.getId();
-		WaitingPlace elemZ = (WaitingPlace) getObject(objId, target, "createWaitingPlace");
+		WaitingPlace elemZ = (WaitingPlace) getObject(objId, target, "createWaitingPlace"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (WaitingPlace) super.handle(elem, elemZ, true);
 			elemZ.setWaitType(getWaitKind(elem.getWaitType()));

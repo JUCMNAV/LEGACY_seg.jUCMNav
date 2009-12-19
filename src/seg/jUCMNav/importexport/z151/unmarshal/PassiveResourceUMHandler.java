@@ -13,7 +13,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.PassiveResource;
 
 public class PassiveResourceUMHandler extends GeneralResourceUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

@@ -10,8 +10,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Demand;
+import seg.jUCMNav.importexport.z151.generated.ExternalOperation;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class DemandUMHandler extends EObjectImplUMHandler {

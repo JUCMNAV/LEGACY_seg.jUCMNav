@@ -10,7 +10,7 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:sequence>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Initialization;
 
 public class InitializationMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

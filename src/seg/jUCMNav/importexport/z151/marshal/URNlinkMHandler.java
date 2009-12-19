@@ -1,12 +1,6 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-
-import org.eclipse.emf.common.util.EList;
-
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.URNlink;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  URNlink  -->

@@ -26,7 +26,7 @@ public class IndicatorMHandler extends GRLLinkableElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		grl.kpimodel.Indicator elem = (grl.kpimodel.Indicator) o;
 		String objId = elem.getId();
-		IntentionalElement elemZ = (IntentionalElement) getObject(objId, target, "createIntentionalElement");
+		IntentionalElement elemZ = (IntentionalElement) getObject(objId, target, "createIntentionalElement"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (IntentionalElement) super.handle(elem, elemZ, true);
 			//type
@@ -34,7 +34,7 @@ public class IndicatorMHandler extends GRLLinkableElementMHandler {
 			elemZ.setDecompositionType(getDecompositionType(elem.getDecompositionType()));
 			elemZ.setImportance(getImportanceType(elem.getImportance()));
 			elemZ.setImportanceQuantitative(new BigInteger(Integer.toString(elem.getImportanceQuantitative())));
-			processList(elem.getRefs(), elemZ.getRefs(), "createIntentionalElementRefs", false);
+			processList(elem.getRefs(), elemZ.getRefs(), "createIntentionalElementRefs", false); //$NON-NLS-1$
 
 			// <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 			// <!-- ConcreteStyle -->
@@ -55,8 +55,8 @@ public class IndicatorMHandler extends GRLLinkableElementMHandler {
 			// elemZ.setActor() //handled by ActorMHandler. jUCMNav doesn't have this relation.
 			
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav Indicator");
-			mdZ.setValue("Indicator");
+			mdZ.setName("jUCMNav Indicator"); //$NON-NLS-1$
+			mdZ.setValue("Indicator"); //$NON-NLS-1$
 			elemZ.getMetadata().add(mdZ);
 		}
 		return target = elemZ;

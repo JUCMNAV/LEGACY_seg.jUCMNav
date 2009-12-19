@@ -1,11 +1,12 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
 import java.util.List;
+
 import javax.xml.bind.JAXBElement;
 
-import org.eclipse.emf.common.util.EList;
-
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.EvaluationStrategy;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.StrategiesGroup;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  EvaluationStrategy  -->
@@ -27,7 +28,7 @@ public class EvaluationStrategyMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.EvaluationStrategy elem = (grl.EvaluationStrategy) obj;
 		String objId = elem.getId();
-		EvaluationStrategy elemZ = (EvaluationStrategy) getObject(objId, target, "createEvaluationStrategy");
+		EvaluationStrategy elemZ = (EvaluationStrategy) getObject(objId, target, "createEvaluationStrategy"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			super.handle(elem, elemZ, true);
 			processList(elem.getEvaluations(), elemZ.getEvaluations(), true);
@@ -41,7 +42,7 @@ public class EvaluationStrategyMHandler extends GRLmodelElementMHandler {
 
 			// Save Author information to metadata
 			Metadata mdZ = of.createMetadata();
-			mdZ.setName("jUCMNav EvaluationStrategy author");
+			mdZ.setName("jUCMNav EvaluationStrategy author"); //$NON-NLS-1$
 			mdZ.setValue(elem.getAuthor());
 			elemZ.getMetadata().add(mdZ);
 			// jUCMNav has elem.setGrlspec(value)

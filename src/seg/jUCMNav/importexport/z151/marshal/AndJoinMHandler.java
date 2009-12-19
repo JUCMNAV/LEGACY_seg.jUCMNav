@@ -9,13 +9,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 //DONE
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.AndJoin;
 
 public class AndJoinMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.AndJoin elem = (ucm.map.AndJoin) o;
 		String objId = elem.getId();
-		AndJoin elemZ = (AndJoin) getObject(objId, target, "createAndJoin");
+		AndJoin elemZ = (AndJoin) getObject(objId, target, "createAndJoin"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (AndJoin) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();

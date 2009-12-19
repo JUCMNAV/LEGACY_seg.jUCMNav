@@ -1,12 +1,6 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-
-import org.eclipse.emf.common.util.EList;
-
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.StrategiesGroup;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  StrategiesGroup  -->
@@ -26,10 +20,10 @@ public class StrategiesGroupMHandler extends GRLmodelElementMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
 		grl.StrategiesGroup elem = (grl.StrategiesGroup) obj;
 		String objId = elem.getId();
-		StrategiesGroup elemZ = (StrategiesGroup) getObject(objId, target, "createStrategiesGroup");
+		StrategiesGroup elemZ = (StrategiesGroup) getObject(objId, target, "createStrategiesGroup"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (StrategiesGroup) super.handle(elem, elemZ, true);
-			processList(elem.getStrategies(), elemZ.getStrategies(), "createStrategiesGroupStrategies", false);
+			processList(elem.getStrategies(), elemZ.getStrategies(), "createStrategiesGroupStrategies", false); //$NON-NLS-1$
 		}
 		return elemZ;
 	}

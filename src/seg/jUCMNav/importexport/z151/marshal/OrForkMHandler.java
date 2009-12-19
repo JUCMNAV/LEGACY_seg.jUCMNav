@@ -11,13 +11,13 @@ package seg.jUCMNav.importexport.z151.marshal;
 
 //DONE
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.OrFork;
 
 public class OrForkMHandler extends PathNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ucm.map.OrFork elem = (ucm.map.OrFork) o;
 		String objId = elem.getId();
-		OrFork elemZ = (OrFork) getObject(objId, target, "createOrFork");
+		OrFork elemZ = (OrFork) getObject(objId, target, "createOrFork"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			elemZ = (OrFork) super.handle(elem, elemZ, true);
 			// elemZ.setContRef();

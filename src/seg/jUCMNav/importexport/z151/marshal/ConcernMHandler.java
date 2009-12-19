@@ -1,6 +1,7 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.Concern;
+import seg.jUCMNav.importexport.z151.generated.Condition;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  Concern  -->
@@ -21,7 +22,7 @@ public class ConcernMHandler extends URNmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		urncore.Concern elem = (urncore.Concern) o;
 		String objId = elem.getId();
-		Concern elemZ = (Concern) getObject(objId, target, "createConcern");
+		Concern elemZ = (Concern) getObject(objId, target, "createConcern"); //$NON-NLS-1$
 		if (isFullConstruction) {
 			super.handle(elem, elemZ, true);
 			elemZ.setCondition((Condition) process(elem.getCondition(), null, false));

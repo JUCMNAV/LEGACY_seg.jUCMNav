@@ -1,15 +1,21 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.bind.JAXBElement;
+
+import org.eclipse.emf.common.util.EList;
+
+import seg.jUCMNav.importexport.z151.generated.ComponentKind;
+import seg.jUCMNav.importexport.z151.generated.ContributionType;
+import seg.jUCMNav.importexport.z151.generated.DecompositionType;
+import seg.jUCMNav.importexport.z151.generated.DeviceKind;
+import seg.jUCMNav.importexport.z151.generated.QualitativeLabel;
+import seg.jUCMNav.importexport.z151.generated.WaitKind;
 
 public abstract class MHandler {
 	protected static seg.jUCMNav.importexport.z151.generated.ObjectFactory of = new seg.jUCMNav.importexport.z151.generated.ObjectFactory();
@@ -101,7 +107,7 @@ public abstract class MHandler {
 	}
 
 	public String getObjectId(Object obj) {
-		return "Z151_id_" + obj.getClass().getName() + "_" + obj.hashCode();
+		return "Z151_id_" + obj.getClass().getName() + "_" + obj.hashCode(); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public int hashCode(Object obj) {
@@ -121,7 +127,7 @@ public abstract class MHandler {
 			if (null != h) {
 				return h.handle(obj, target, isFullConstruction);
 			} else {
-				System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!");
+				System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!"); //$NON-NLS-1$
 			}
 		}
 		return null;
@@ -147,21 +153,21 @@ public abstract class MHandler {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
 					// TODO Auto-generated catch block
-					System.err.println(obj.getClass().getName() + " IllegalAccessException");
+					System.err.println(obj.getClass().getName() + " IllegalAccessException"); //$NON-NLS-1$
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
-					System.err.println(obj.getClass().getName() + " InvocationTargetException");
+					System.err.println(obj.getClass().getName() + " InvocationTargetException"); //$NON-NLS-1$
 					e.printStackTrace();
 				} catch (NullPointerException e) {
-					System.err.println(obj.getClass().getName() + " NullPointerException");
+					System.err.println(obj.getClass().getName() + " NullPointerException"); //$NON-NLS-1$
 					e.printStackTrace();
 				} catch (Exception e) {
-					System.err.println(obj.getClass().getName() + " Exception");
+					System.err.println(obj.getClass().getName() + " Exception"); //$NON-NLS-1$
 					e.printStackTrace();
 				}
 			} else {
-				System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!");
+				System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!"); //$NON-NLS-1$
 			}
 		}
 		return null;
@@ -176,7 +182,7 @@ public abstract class MHandler {
 					if (!targetList.contains(result))
 						targetList.add(result);
 				} else {
-					System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!");
+					System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!"); //$NON-NLS-1$
 				}
 			}
 		} else {
@@ -213,7 +219,7 @@ public abstract class MHandler {
 					}
 
 				} else {
-					System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!");
+					System.err.println(obj.getClass().getName() + " MHandler is UNDEFINED!"); //$NON-NLS-1$
 				}
 			}
 		} else {
