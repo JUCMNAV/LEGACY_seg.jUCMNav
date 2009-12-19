@@ -9,43 +9,50 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.importexport.z151.generated.EmptyPoint;
+import seg.jUCMNav.importexport.z151.generated.Metadata;
+import seg.jUCMNav.importexport.z151.generated.PathNode;
 
 public class EmptyPointUMHandler extends PathNodeUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		PathNode elemZ = (EmptyPoint) o;
+		ucm.map.PathNode elem = null;
+        String objId = elemZ.getId();
+        boolean isPlainEmptyPoint=true;
+
 		List<Metadata> metaDataList = elemZ.getMetadata();
 		for(Metadata item: metaDataList){
 			if (item.getName().equals("jUCMNav FailurePoint expression")){
-				String objId = elemZ.getId();
-				ucm.map.FailurePoint elem = (ucm.map.FailurePoint) getObject(objId, target, ucm.map.FailurePoint.class);
-				elem.setExpression(item.getValue());
-				metaDataList.remove(item);
+				elem = (ucm.map.FailurePoint) getObject(objId, target, ucm.map.FailurePoint.class);
+				((ucm.map.FailurePoint) elem).setExpression(item.getValue());
 				if (isFullConstruction) {
 					elem = (ucm.map.FailurePoint) super.handle(elemZ, elem, true);
+	                //Cannot remove this metadata here... Would cause a type casting error later
 				}
+				isPlainEmptyPoint=false;
 				return elem;
 			}
 			if (item.getName().equals("jUCMNav Anything")){
-				String objId = elemZ.getId();
-				ucm.map.Anything elem = (ucm.map.Anything) getObject(objId, target, ucm.map.Anything.class);
-				metaDataList.remove(item);
+				elem = (ucm.map.Anything) getObject(objId, target, ucm.map.Anything.class);
 				if (isFullConstruction) {
 					elem = (ucm.map.Anything) super.handle(elemZ, elem, true);
+                    //Cannot remove this metadata here... Would cause a type casting error later
 				}
-				return elem;
+                isPlainEmptyPoint=false;
+                return elem;
 			}
 		}
 
-		String objId = elemZ.getId();
-		ucm.map.EmptyPoint elem = (ucm.map.EmptyPoint) getObject(objId, target, ucm.map.EmptyPoint.class);
+		if (isPlainEmptyPoint){
+	        elem = (ucm.map.EmptyPoint) getObject(objId, target, ucm.map.EmptyPoint.class);
+	        if (isFullConstruction) {
+	            elem = (ucm.map.EmptyPoint) super.handle(elemZ, elem, true);
+	        }		    
+		}
+
 		if (isFullConstruction) {
-			elem = (ucm.map.EmptyPoint) super.handle(elemZ, elem, true);
 			// elem.setX();
 			// elem.setY();
 			// elem.setDiagram();

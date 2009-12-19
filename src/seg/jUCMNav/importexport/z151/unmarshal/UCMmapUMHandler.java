@@ -18,8 +18,10 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-import seg.jUCMNav.importexport.z151.generated.*;
-import seg.jUCMNav.model.ModelCreationFactory;
+import org.eclipse.emf.common.util.EList;
+
+import seg.jUCMNav.importexport.z151.generated.UCMmap;
+import seg.jUCMNav.model.util.MetadataHelper;
 
 public class UCMmapUMHandler extends UCMmodelElementUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
@@ -49,12 +51,30 @@ public class UCMmapUMHandler extends UCMmodelElementUMHandler {
 			// elem.getId();
 			// elem.getDescription();
 			// elem.getClass();
+			cleanPathNodes(elem.getNodes());
 			setDiagram(elem);// added by Yan
 		}
 		return elem;
 	}
 
-	private void setDiagram(ucm.map.UCMmap elem) {
+	/**
+	 * Removes remaining jUCMNav metadata from Anything and FailurePoint path node
+	 * (Cannot do it in their classes because of type casting issues) 
+	 * @param nodes List of PathNode elements
+	 */
+	private void cleanPathNodes(EList nodes) {
+	    
+	    for(Object node: nodes){
+	        if (node instanceof ucm.map.Anything){
+	            MetadataHelper.removeMetaData(((ucm.map.Anything) node), "jUCMNav Anything"); 
+	        }
+	        else if (node instanceof ucm.map.FailurePoint){
+                MetadataHelper.removeMetaData(((ucm.map.FailurePoint) node), "jUCMNav FailurePoint expression"); 
+            }
+	    }	    
+    }
+
+    private void setDiagram(ucm.map.UCMmap elem) {
 		for (Object item : elem.getConnections()) {
 			((ucm.map.NodeConnection) item).setDiagram(elem);
 		}

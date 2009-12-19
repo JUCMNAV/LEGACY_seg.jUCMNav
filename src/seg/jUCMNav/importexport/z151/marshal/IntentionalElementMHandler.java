@@ -1,13 +1,9 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
 import java.math.BigInteger;
-import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-
-import org.eclipse.emf.common.util.EList;
-
-import seg.jUCMNav.importexport.z151.generated.*;
+import seg.jUCMNav.importexport.z151.generated.ConcreteStyle;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElement;
 
 //  <xsd:complexType name="IntentionalElement">
 //    <xsd:complexContent>

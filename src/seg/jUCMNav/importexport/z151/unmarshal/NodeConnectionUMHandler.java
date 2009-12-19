@@ -53,7 +53,9 @@ public class NodeConnectionUMHandler extends EObjectImplUMHandler {
 			// elem.getTarget();
 			// elem.getLabel();
 			// elem.getClass();
-			// TODO elemZ.getThreshold()
+            if (elemZ.getThreshold() != null && !elemZ.getThreshold().equals("") ) {
+                elem.setThreshold(elemZ.getThreshold());
+            }
 			// TODO elemZ.getTimer()
 		}
 		return elem;
