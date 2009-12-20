@@ -826,6 +826,11 @@ public class ScenarioUtils {
                 return;
             }
             UcmEnvironment initial = getEnvironment(scenario);
+            
+            if (initial ==null) {
+                clearActiveScenario(scenario);
+                return;
+            }
             if (activeScenario.containsKey(initial))
                 clearTraversalResults(initial);
             activeScenario.put(initial, scenario);
