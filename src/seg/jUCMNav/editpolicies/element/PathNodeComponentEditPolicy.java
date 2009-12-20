@@ -12,10 +12,8 @@ import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
-import seg.jUCMNav.views.outline.UrnTreeViewer;
 import ucm.map.EndPoint;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;

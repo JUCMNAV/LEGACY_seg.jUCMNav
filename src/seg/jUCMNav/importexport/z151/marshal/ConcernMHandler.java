@@ -1,7 +1,10 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
+import javax.xml.bind.JAXBElement;
+
 import seg.jUCMNav.importexport.z151.generated.Concern;
 import seg.jUCMNav.importexport.z151.generated.Condition;
+import seg.jUCMNav.importexport.z151.generated.URNmodelElement;
 
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<!--  Concern  -->
@@ -10,8 +13,8 @@ import seg.jUCMNav.importexport.z151.generated.Condition;
 //  <xsd:complexContent>
 //    <xsd:extension base="URNmodelElement">
 //      <xsd:sequence>
-//        <xsd:element minOccurs="0" name="condition" type="xsd:IDREF"/>  <!-- Condition -->
-//        <xsd:element maxOccurs="unbounded" minOccurs="0" name="elements" type="Condition"/>  <!-- URNmodelElement -->
+//        <xsd:element minOccurs="0" name="condition" type="Condition" />  <!-- Condition -->
+//        <xsd:element maxOccurs="unbounded" minOccurs="0" name="elements" type="xsd:IDREF" />  <!-- URNmodelElement -->
 //      </xsd:sequence>
 //    </xsd:extension>
 //  </xsd:complexContent>
@@ -26,7 +29,14 @@ public class ConcernMHandler extends URNmodelElementMHandler {
 		if (isFullConstruction) {
 			super.handle(elem, elemZ, true);
 			elemZ.setCondition((Condition) process(elem.getCondition(), null, false));
-			//elemZ.getElements() handled by GRLGraphMHandler, UCMmapMHandler. This only cover concerns for GRLGraph and UCMmap
+			
+            // NOTE: This only cover concerns for GRLGraph and UCMmap. 
+			// To update when concerns accept targets other than diagrams 
+			for (Object concernElement : elem.getSpecDiagrams()) {
+			    URNmodelElement concernElementZ = (URNmodelElement) process(concernElement, null, false);
+		        JAXBElement <Object> jaxbElem = of.createConcernElements(concernElementZ);
+			    elemZ.getElements().add(jaxbElem);
+			}
 		}
 		return elemZ;
 	}

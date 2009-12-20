@@ -24,14 +24,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.commands.UnexecutableCommand;
 
 import seg.jUCMNav.model.commands.IGlobalStackCommand;
-import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
-import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.cutcopypaste.PasteCommand;
-import seg.jUCMNav.model.commands.delete.DeleteGRLGraphCommand;
-import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
-import seg.jUCMNav.model.commands.transformations.ChangeUCMDiagramOrderCommand;
-import seg.jUCMNav.model.commands.transformations.DuplicateMapCommand;
-import seg.jUCMNav.model.commands.transformations.RefactorIntoStubCommand;
 import urncore.IURNDiagram;
 
 /**

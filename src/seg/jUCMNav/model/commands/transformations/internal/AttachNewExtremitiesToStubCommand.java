@@ -6,10 +6,8 @@ import java.util.Vector;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.DeleteNodeConnectionCommand;
-import seg.jUCMNav.model.commands.delete.DeleteUselessStartNCEndCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteStartNCEndCommand;
 import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
-import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;

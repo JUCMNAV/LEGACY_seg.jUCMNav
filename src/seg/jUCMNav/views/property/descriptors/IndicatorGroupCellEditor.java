@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.views.property.StackHelper;
 import seg.jUCMNav.views.wizards.kpi.IndicatorGroupDialog;
 

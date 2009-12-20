@@ -9,8 +9,6 @@ import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.ResponsibilityBinding;
 import urn.URNspec;
-import urncore.Component;
-import urncore.ComponentKind;
 import urncore.Responsibility;
 
 /**

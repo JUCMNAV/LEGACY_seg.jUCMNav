@@ -29,8 +29,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-import com.sun.org.apache.xerces.internal.impl.dtd.models.DFAContentModel;
-
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;

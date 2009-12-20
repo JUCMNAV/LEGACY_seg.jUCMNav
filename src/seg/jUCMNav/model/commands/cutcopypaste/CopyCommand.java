@@ -10,13 +10,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.graphics.ImageData;
 
 import seg.jUCMNav.model.util.Clipboard;
-import ucm.map.Connect;
-import ucm.map.EmptyPoint;
-import ucm.map.EndPoint;
-import ucm.map.NodeConnection;
-import ucm.map.PathNode;
-import ucm.map.StartPoint;
-import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.URNmodelElement;
 

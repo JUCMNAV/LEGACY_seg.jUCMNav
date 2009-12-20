@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.RootEditPart;
-import org.eclipse.gef.editparts.AbstractTreeEditPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.treeEditparts.UrnAbstractTreeEditPart;

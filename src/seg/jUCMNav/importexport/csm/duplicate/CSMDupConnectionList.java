@@ -268,7 +268,6 @@ public class CSMDupConnectionList {
     public int getConnectionIndex(String source) {
         for (int i = 0; i < connList.size(); i++) {
             if (((CSMDupConnection) (connList.get(i))).getSourceStr() == source)
-                ;
             return i;
         }
         return -1; // not found

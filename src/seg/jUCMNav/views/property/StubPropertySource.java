@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.CommandStack;
 
 import seg.jUCMNav.views.property.descriptors.CheckboxPropertyDescriptor;
-import seg.jUCMNav.views.property.descriptors.CodePropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.StubPluginsPropertyDescriptor;
 import ucm.map.NodeConnection;
 import ucm.map.Stub;

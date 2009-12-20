@@ -10,7 +10,6 @@
  *******************************************************************************/
 package seg.jUCMNav.views.property.tabbed.sections;
 
-import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -18,8 +17,6 @@ import java.util.Vector;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
@@ -27,7 +24,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-import seg.jUCMNav.views.property.StackHelper;
 import seg.jUCMNav.views.property.tabbed.GEFTabbedPropertySheetPage;
 
 /**

@@ -21,7 +21,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
 
 import seg.jUCMNav.importexport.ExportImageGIF;
-import seg.jUCMNav.importexport.msc.ExportMSC;
 import seg.jUCMNav.importexport.reports.URNReport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;

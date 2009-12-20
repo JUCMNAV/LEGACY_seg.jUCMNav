@@ -8,7 +8,6 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import ucm.map.Connect;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.URNmodelElement;

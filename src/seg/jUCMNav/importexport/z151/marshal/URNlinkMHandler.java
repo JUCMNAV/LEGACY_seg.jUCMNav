@@ -47,41 +47,41 @@ import seg.jUCMNav.importexport.z151.generated.URNlink;
  ***/
 
 public class URNlinkMHandler extends MHandler {
-	public Object handle(Object o, Object target, boolean isFullConstruction) {
-		urn.URNlink elem = (urn.URNlink) o;
-		String objId = this.getObjectId(elem);
-		URNlink elemZ = (URNlink) id2object.get(objId);
-		if (null == elemZ) {
-			if (null == target)
-				elemZ = of.createURNlink();
-			else
-				elemZ = (URNlink) target;
-			id2object.put(objId, elemZ);
-			elemZ.setId(objId);
-			if (isFullConstruction) {
-				elemZ.setName(objId); // not 100% certain
-				//processList(elem.getToElem().getToLinks(), elemZ.getToLinks(), false); JUCMnav does not support this. 
-				//processList(elem.getFromElem().getFromLinks(), elemZ.getFromLinks(), false); JUCMnav does not support this. 
-				processList(elem.getMetadata(), elemZ.getMetadata(), true);
-				elemZ.setType(elem.getType());
-				elemZ.setToElem(process(elem.getToElem(), null, false));
-				elemZ.setFromElem(process(elem.getFromElem(), null, false));
-			}
-		}
+    public Object handle(Object o, Object target, boolean isFullConstruction) {
+        urn.URNlink elem = (urn.URNlink) o;
+        String objId = this.getObjectId(elem);
+        URNlink elemZ = (URNlink) id2object.get(objId);
+        if (null == elemZ) {
+            if (null == target)
+                elemZ = of.createURNlink();
+            else
+                elemZ = (URNlink) target;
+            id2object.put(objId, elemZ);
+            elemZ.setId(objId);
+        }
+        if (isFullConstruction) {
+            elemZ.setName(objId); // not 100% certain
+            //processList(elem.getToElem().getToLinks(), elemZ.getToLinks(), false); JUCMnav does not support this. 
+            //processList(elem.getFromElem().getFromLinks(), elemZ.getFromLinks(), false); JUCMnav does not support this. 
+            processList(elem.getMetadata(), elemZ.getMetadata(), true);
+            elemZ.setType(elem.getType());
+            elemZ.setToElem(process(elem.getToElem(), null, false));
+            elemZ.setFromElem(process(elem.getFromElem(), null, false));
+        }
 
-		return elemZ;
-	}
+        return elemZ;
+    }
 
-	public int hashCode(Object obj) {
-		int hash = 7;
-		if (null != obj) {
-			urn.URNlink elem = (urn.URNlink) obj;
-			hash = 31 * hash + elem.getType().hashCode();
-			hash = 31 * hash + ((urncore.URNmodelElement) elem.getToElem()).getId().hashCode();
-			hash = 31 * hash + ((urncore.URNmodelElement) elem.getFromElem()).getId().hashCode();
-		} else {
-			hash = 0;
-		}
-		return hash;
-	}
+    public int hashCode(Object obj) {
+        int hash = 7;
+        if (null != obj) {
+            urn.URNlink elem = (urn.URNlink) obj;
+            hash = 31 * hash + elem.getType().hashCode();
+            hash = 31 * hash + ((urncore.URNmodelElement) elem.getToElem()).getId().hashCode();
+            hash = 31 * hash + ((urncore.URNmodelElement) elem.getFromElem()).getId().hashCode();
+        } else {
+            hash = 0;
+        }
+        return hash;
+    }
 }
