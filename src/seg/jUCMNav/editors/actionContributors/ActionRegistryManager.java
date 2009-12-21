@@ -528,7 +528,7 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
 
         action = new EditSecondaryCodeAction(editor);
-        action.setText("Edit Threshold");
+        action.setText("Edit Failure Condition");
         addEditPartAction((SelectionAction) action);
 
         action = new IncludeScenarioAction(editor);
