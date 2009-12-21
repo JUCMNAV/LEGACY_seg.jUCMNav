@@ -192,7 +192,7 @@ public class StubEditPart extends PathNodeEditPart {
                 b = refreshNodeConnection(nc, false) || b;
             }
         }
-        return b;
+        return false;
     }
 
     /**

@@ -74,6 +74,7 @@ import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
@@ -641,7 +642,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         // note: you can't have andjoin rotate from previous for andjoin because it would cause infinite loops with connection router.
         if (!(node instanceof AndJoin || node instanceof AndFork) && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getPred().size() > 0) {
             rotateFromPrevious(nodeFigure);
-        } else if ((node instanceof AndJoin || node instanceof AndFork || node instanceof FailurePoint) && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getSucc().size() > 0) {
+        } else if ((node instanceof AndJoin || node instanceof AndFork || node instanceof FailurePoint || node instanceof Stub) && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getSucc().size() > 0) {
             rotateFromNext(nodeFigure);
         }
 

@@ -1,5 +1,6 @@
 package seg.jUCMNav.figures;
 
+import org.eclipse.draw2d.AbstractPointListShape;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Figure;
@@ -18,6 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.figures.util.TransformationHelper;
 
 /**
  * Figure for stubs.
@@ -55,6 +57,18 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
     private FreeformLayer exitPanel;
     private FreeformLayer entrancePanel;
     private FreeformLayer condPanel;
+    private PointList aspectEdges;
+    private Polygon lineEnt;
+    private Polygon rectEntrance;
+    private PointList rectEntPoints;
+    private Polygon rectExit;
+    private PointList rectExitPoints;
+    private Polygon lineExit;
+    private PointList lineEntPoints;
+    private PointList lineExitPoints;
+    private Polygon rectCond;
+    private PointList rectCondPoints;
+    private double angle;
 
     /**
      * Creates the stub's figure.
@@ -74,16 +88,24 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
         exitPanel = new FreeformLayer();
         exitPanel.setBounds(new Rectangle(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
-        RectangleFigure rectEntrance = new RectangleFigure();
-        rectEntrance.setBounds(new Rectangle(0, 8, 4, 17));
+        rectEntrance = new Polygon();
+        rectEntPoints = new PointList();
+        rectEntPoints.addPoint(0, 8);
+        rectEntPoints.addPoint(0, 8+17);
+        rectEntPoints.addPoint(0+4, 8+17);
+        rectEntPoints.addPoint(0+4, 8);
+        rectEntPoints.addPoint(0, 8);
         rectEntrance.setFill(true);
         rectEntrance.setBackgroundColor(ColorManager.LINE);
+        rectEntrance.setPoints(rectEntPoints);
 
-        Polyline lineEnt = new Polygon();
-        lineEnt.addPoint(new Point(2, 8));
-        lineEnt.addPoint(new Point(10, 16));
-        lineEnt.addPoint(new Point(2, 24));
-        lineEnt.addPoint(new Point(2, 8));
+        lineEnt = new Polygon();
+        lineEntPoints = new PointList();
+        lineEntPoints.addPoint(new Point(2, 8));
+        lineEntPoints.addPoint(new Point(10, 16));
+        lineEntPoints.addPoint(new Point(2, 24));
+        lineEntPoints.addPoint(new Point(2, 8));
+        lineEnt.setPoints(lineEntPoints);
         lineEnt.setFill(true);
         lineEnt.setBackgroundColor(ColorManager.WHITE);
 
@@ -96,16 +118,24 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
         entrancePanel = new FreeformLayer();
         entrancePanel.setBounds(new Rectangle(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
-        RectangleFigure rectExit = new RectangleFigure();
-        rectExit.setBounds(new Rectangle(DEFAULT_WIDTH - 10, 8, 4, 17));
+        rectExit = new Polygon();
+        rectExitPoints = new PointList();
+        rectExitPoints.addPoint(DEFAULT_WIDTH - 10, 8);
+        rectExitPoints.addPoint(DEFAULT_WIDTH - 10, 8+17);
+        rectExitPoints.addPoint(DEFAULT_WIDTH - 10+4, 8+17);
+        rectExitPoints.addPoint(DEFAULT_WIDTH - 10+4, 8);
+        rectExitPoints.addPoint(DEFAULT_WIDTH - 10, 8);
         rectExit.setFill(true);
         rectExit.setBackgroundColor(ColorManager.LINE);
+        rectExit.setPoints(rectExitPoints);
 
-        Polyline lineExit = new Polygon();
-        lineExit.addPoint(new Point(DEFAULT_WIDTH - 8, 8));
-        lineExit.addPoint(new Point(DEFAULT_WIDTH, 16));
-        lineExit.addPoint(new Point(DEFAULT_WIDTH - 8, 24));
-        lineExit.addPoint(new Point(DEFAULT_WIDTH - 8, 8));
+        lineExit = new Polygon();
+        lineExitPoints = new PointList();
+        lineExitPoints.addPoint(new Point(DEFAULT_WIDTH - 8, 8));
+        lineExitPoints.addPoint(new Point(DEFAULT_WIDTH, 16));
+        lineExitPoints.addPoint(new Point(DEFAULT_WIDTH - 8, 24));
+        lineExitPoints.addPoint(new Point(DEFAULT_WIDTH - 8, 8));
+        lineExit.setPoints(lineExitPoints);
         lineExit.setFill(true);
         lineExit.setBackgroundColor(ColorManager.WHITE);
 
@@ -118,8 +148,14 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
         condPanel = new FreeformLayer();
         condPanel.setBounds(new Rectangle(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
-        RectangleFigure rectCond = new RectangleFigure();
-        rectCond.setBounds(new Rectangle(9, DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4, 17, 4));
+        rectCond = new Polygon();
+        rectCondPoints = new PointList();
+        rectCondPoints.addPoint(9, DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4);
+        rectCondPoints.addPoint(9, DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4 + 4);
+        rectCondPoints.addPoint(9+17, DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4+4);
+        rectCondPoints.addPoint(9+17, DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4);
+        rectCondPoints.addPoint(9, DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4);
+        rectCond.setPoints(rectCondPoints);
         rectCond.setFill(true);
         rectCond.setBackgroundColor(ColorManager.LINE);
 
@@ -127,10 +163,11 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
         condPanel.setVisible(false);
 
         add(condPanel);
+        
+        preferredSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
         mainFigure = new Polygon();
         edges = new PointList();
-        preferredSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         edges.addPoint(DEFAULT_WIDTH / 2, 1);
         edges.addPoint(1, DEFAULT_HEIGHT / 2);
         edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT - 1);
@@ -141,6 +178,15 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
         mainFigure.setBackgroundColor(ColorManager.FILL);
         mainFigure.setFill(true);
         mainFigure.setAntialias(SWT.ON);
+        
+        int width = (DEFAULT_HEIGHT / 4);
+        
+        aspectEdges = new PointList();
+        aspectEdges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2 - width);
+        aspectEdges.addPoint(DEFAULT_WIDTH / 2 - width, DEFAULT_HEIGHT / 2);
+        aspectEdges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2 + width);
+        aspectEdges.addPoint(DEFAULT_WIDTH / 2 + width, DEFAULT_HEIGHT / 2);
+        aspectEdges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2 - width);
 
         add(mainFigure);
 
@@ -294,16 +340,6 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
                 mainFigure.setLineStyle(SWT.LINE_SOLID);
             }
         } else {
-            int width = (DEFAULT_HEIGHT / 4);
-
-            edges = new PointList();
-            edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2 - width);
-            edges.addPoint(DEFAULT_WIDTH / 2 - width, DEFAULT_HEIGHT / 2);
-            edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2 + width);
-            edges.addPoint(DEFAULT_WIDTH / 2 + width, DEFAULT_HEIGHT / 2);
-            edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2 - width);
-
-            mainFigure.setPoints(edges);
             mainFigure.setBackgroundColor(ColorManager.LINE);
 
             if (aspect == 2) { // Entrance Aspect marker
@@ -348,7 +384,29 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
 
     public void rotate(double angle) {
         if (aspect != 0) {
-            // TODO: rotate 
+            this.angle = angle;
+            Point center = new Point(getPreferredSize().width / 2, getPreferredSize().height / 2);
+            
+            PointList newPoints = TransformationHelper.rotatePoints(angle, aspectEdges, center);
+            mainFigure.setPoints(newPoints);
+            
+            // Entrance Figures
+           newPoints = TransformationHelper.rotatePoints(angle, rectEntPoints, center);
+           rectEntrance.setPoints(newPoints);
+
+           newPoints = TransformationHelper.rotatePoints(angle, lineEntPoints, center);
+           lineEnt.setPoints(newPoints);
+           
+           // Exit Figures
+           newPoints = TransformationHelper.rotatePoints(angle, rectExitPoints, center);
+           rectExit.setPoints(newPoints);
+
+           newPoints = TransformationHelper.rotatePoints(angle, lineExitPoints, center);
+           lineExit.setPoints(newPoints);
+           
+           // Conditional Figures
+           newPoints = TransformationHelper.rotatePoints(angle, rectCondPoints, center);
+           rectCond.setPoints(newPoints);
         }
     }
 }
