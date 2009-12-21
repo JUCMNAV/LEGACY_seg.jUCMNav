@@ -21,7 +21,7 @@ public class EditCodeAction extends URNSelectionAction {
 
     public static final String EDITCODEACTION = "seg.jUCMNav.EditCodeAction"; //$NON-NLS-1$
 
-    private EObject obj;
+    protected EObject obj;
 
     /**
      * @param part
@@ -37,32 +37,36 @@ public class EditCodeAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        obj=null;
+        
         switch (sel.getSelectionType()) {
         case SelectionHelper.STARTPOINT: {
             obj = sel.getStartpoint().getPrecondition();
-            return true;
+            break;
         }
         case SelectionHelper.ENDPOINT: {
             obj = sel.getEndpoint().getPostcondition();
-            return true;
+            break;
         }
         case SelectionHelper.CONDITION:
             obj = sel.getCondition();
-            return true;
+            break;
         case SelectionHelper.NODECONNECTION:
             if (sel.getNodeconnection().getCondition() != null) {
                 obj = sel.getNodeconnection().getCondition();
-                return true;
             }
             break;
         case SelectionHelper.RESPONSIBILITY:
             obj = sel.getRespDef();
-            return true;
+            break;
         case SelectionHelper.RESPONSIBILITYREF:
             obj = sel.getRespRef();// .getRespDef();
-            return true;
+            break;
+        case SelectionHelper.FAILUREPOINT:
+            obj = sel.getFailurePoint();
+            break;
         }
-        return false;
+        return obj!=null;
     }
 
     /**

@@ -77,6 +77,7 @@ import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
+import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 
 /**
@@ -354,6 +355,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(EditCodeAction.EDITCODEACTION);
+        if (action.isEnabled())
+            manager.appendToGroup(GROUP_UNCOMMON, action);
+
+        action = getActionRegistry().getAction(EditSecondaryCodeAction.EDITSECONDARYCODEACTION);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);
 

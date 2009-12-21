@@ -100,6 +100,7 @@ import seg.jUCMNav.actions.scenarios.AddVariableAction;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
 import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
+import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 import seg.jUCMNav.actions.scenarios.MoveAction;
 import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
@@ -524,6 +525,10 @@ public class ActionRegistryManager implements IDisposable {
 
         action = new EditCodeAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.Edit")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new EditSecondaryCodeAction(editor);
+        action.setText("Edit Threshold");
         addEditPartAction((SelectionAction) action);
 
         action = new IncludeScenarioAction(editor);
