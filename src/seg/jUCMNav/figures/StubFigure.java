@@ -50,25 +50,32 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
     private Polyline line1;
     private Polyline line2;
     private FreeformLayer xPanel;
-    private PointList edges;
+    
+    private PointList edges; // Point list for the mainFigure when not an Aspect Marker
+    private PointList aspectEdges; // Point list for the mainFigure when is Aspect Marker
 
+    // Related to the type of the stub
     private int aspect = 0;
     private int pointcutKind;
-    private FreeformLayer exitPanel;
-    private FreeformLayer entrancePanel;
-    private FreeformLayer condPanel;
-    private PointList aspectEdges;
-    private Polygon lineEnt;
-    private Polygon rectEntrance;
+    
+    private FreeformLayer exitPanel; // Contains the figures for an Exit Aspect Marker exept the lozange
+    private FreeformLayer entrancePanel;  // Contains the figures for an Entrance Aspect Marker exept the lozange
+    private FreeformLayer condPanel; // Contains the figures for a Conditional Aspect Marker exept the lozange
+    
+    private Polygon lineEnt; // White triangle for aspect entrance symbol.
+    private Polygon rectEntrance; // Black rectangle for aspect entrance symbol.
+    private Polygon rectExit; // Black rectangle for aspect exit symbol.
+    private Polygon lineExit; // White triangle for aspect exit symbol.
+    private Polygon rectCond;// Black rectangle for aspect conditional symbol.
+
+    // All point list of figures so that they can easily be rotated afterwards
     private PointList rectEntPoints;
-    private Polygon rectExit;
     private PointList rectExitPoints;
-    private Polygon lineExit;
     private PointList lineEntPoints;
     private PointList lineExitPoints;
-    private Polygon rectCond;
     private PointList rectCondPoints;
-    private double angle;
+    
+    private double angle; // Current rotated angle
 
     /**
      * Creates the stub's figure.
@@ -90,11 +97,11 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
 
         rectEntrance = new Polygon();
         rectEntPoints = new PointList();
-        rectEntPoints.addPoint(0, 8);
-        rectEntPoints.addPoint(0, 8+17);
-        rectEntPoints.addPoint(0+4, 8+17);
-        rectEntPoints.addPoint(0+4, 8);
-        rectEntPoints.addPoint(0, 8);
+        rectEntPoints.addPoint(2, 8);
+        rectEntPoints.addPoint(2, 8+17);
+        rectEntPoints.addPoint(2+2, 8+17);
+        rectEntPoints.addPoint(2+2, 8);
+        rectEntPoints.addPoint(2, 8);
         rectEntrance.setFill(true);
         rectEntrance.setBackgroundColor(ColorManager.LINE);
         rectEntrance.setPoints(rectEntPoints);
@@ -122,8 +129,8 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
         rectExitPoints = new PointList();
         rectExitPoints.addPoint(DEFAULT_WIDTH - 10, 8);
         rectExitPoints.addPoint(DEFAULT_WIDTH - 10, 8+17);
-        rectExitPoints.addPoint(DEFAULT_WIDTH - 10+4, 8+17);
-        rectExitPoints.addPoint(DEFAULT_WIDTH - 10+4, 8);
+        rectExitPoints.addPoint(DEFAULT_WIDTH - 10+2, 8+17);
+        rectExitPoints.addPoint(DEFAULT_WIDTH - 10+2, 8);
         rectExitPoints.addPoint(DEFAULT_WIDTH - 10, 8);
         rectExit.setFill(true);
         rectExit.setBackgroundColor(ColorManager.LINE);
