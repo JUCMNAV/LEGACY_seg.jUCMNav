@@ -233,11 +233,12 @@ public class CleanRelationshipsCommand extends CompoundCommand {
         if(pn instanceof RespRef) {
             RespRef r = (RespRef)pn;
             
-            for (Iterator iterator = r.getParentBindings().iterator(); iterator.hasNext();) {
-                ResponsibilityBinding cb = (ResponsibilityBinding) iterator.next();
-                add(new DeleteRespBindingCommand(cb));    
-            }
-            
+// TODO: Should be done for responsibilities instead
+//            for (Iterator iterator = r.getParentBindings().iterator(); iterator.hasNext();) {
+//                ResponsibilityBinding cb = (ResponsibilityBinding) iterator.next();
+//                add(new DeleteRespBindingCommand(cb));    
+//            }
+//            
             for (Iterator iterator = r.getPluginBindings().iterator(); iterator.hasNext();) {
                 ResponsibilityBinding cb = (ResponsibilityBinding) iterator.next();
                 add(new DeleteRespBindingCommand(cb));    

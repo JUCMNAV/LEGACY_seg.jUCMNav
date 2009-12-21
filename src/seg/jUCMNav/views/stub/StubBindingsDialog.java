@@ -623,7 +623,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         g.grabExcessHorizontalSpace = false;
         g.grabExcessVerticalSpace = true;
         lblProbabilityValid.setLayoutData(g);
-        
+
 
         // Probability: label & value(double)
         Label lblRepFactor = toolkit.createLabel(compCondition, Messages.getString("StubBindingsDialog.RepFactor")); //$NON-NLS-1$
@@ -1103,8 +1103,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     }
 
     /**
-	 * 
-	 */
+     * 
+     */
     protected void handleCreateMap() {
         CreateMapCommand cmd = new CreateMapCommand(urnSpec);
         execute(cmd);
@@ -1804,9 +1804,9 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 Component def = ((Component) plugin.getContDef());
                 if (!(def.isContext() && def.getKind().equals(ComponentKind.TEAM_LITERAL))) {
                     boolean answer = MessageDialog
-                            .openQuestion(
-                                    getShell(),
-                                    Messages.getString("StubBindingsDialog.InvalidPluginComponent"), Messages.getString("StubBindingsDialog.InvalidPluginComponentText")); //$NON-NLS-1$ //$NON-NLS-2$
+                    .openQuestion(
+                            getShell(),
+                            Messages.getString("StubBindingsDialog.InvalidPluginComponent"), Messages.getString("StubBindingsDialog.InvalidPluginComponentText")); //$NON-NLS-1$ //$NON-NLS-2$
                     if (!answer)
                         return;
                 }
@@ -1836,16 +1836,16 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             }
             // Get the selected StartPoint and NodeConnection in the map and
             // stub in table.
-            RespRef parent = (RespRef) parentRespList.get(tabParentResps.getSelectionIndex());
+            Responsibility parent = (Responsibility) parentRespList.get(tabParentResps.getSelectionIndex());
             RespRef plugin = (RespRef) pluginRespList.get(tabPluginResps.getSelectionIndex());
 
             if (plugin.getRespDef() instanceof Responsibility) {
                 Responsibility def = ((Responsibility) plugin.getRespDef());
                 if (!(def.isContext())) {
                     boolean answer = MessageDialog
-                            .openQuestion(
-                                    getShell(),
-                                    Messages.getString("StubBindingsDialog.InvalidPluginResp"), Messages.getString("StubBindingsDialog.InvalidPluginRespText")); //$NON-NLS-1$ //$NON-NLS-2$
+                    .openQuestion(
+                            getShell(),
+                            Messages.getString("StubBindingsDialog.InvalidPluginResp"), Messages.getString("StubBindingsDialog.InvalidPluginRespText")); //$NON-NLS-1$ //$NON-NLS-2$
                     if (!answer)
                         return;
                 }
@@ -2103,7 +2103,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 // We want everything expanded by default.
                 subLabelItem.setExpanded(true);
             }
-            
+
             List refs = binding.getResponsibilities();
 
             if (refs.size() > 0) {
@@ -2148,7 +2148,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     // The list of all the plug-in copmonents of the binded map
     private ArrayList<ComponentRef> pluginCompList;
     // The list of all the parent components of the binded map
-    private ArrayList<RespRef> parentRespList;
+    private ArrayList<Responsibility> parentRespList;
     // The list of all the plug-in responsibility of the binded map
     private ArrayList<RespRef> pluginRespList;
 
@@ -2183,8 +2183,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         if (selectedPlugin != null) {
             // Update the label
             selectedPluginLabel
-                    .setText(selectedPlugin.getStub().getName()
-                            + " <-> " + selectedPlugin.getPlugin().getName() + Messages.getString("StubBindingsDialog.CommaIDColon") + selectedPlugin.getPlugin().getId()); //$NON-NLS-1$ //$NON-NLS-2$
+            .setText(selectedPlugin.getStub().getName()
+                    + " <-> " + selectedPlugin.getPlugin().getName() + Messages.getString("StubBindingsDialog.CommaIDColon") + selectedPlugin.getPlugin().getId()); //$NON-NLS-1$ //$NON-NLS-2$
             selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD))); //$NON-NLS-1$
             selectedPluginLabel.setData(selectedPlugin);
             addPluginClient.setVisible(true);
@@ -2277,16 +2277,13 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 }
             }
 
-            list = ((UCMmap) stub.getDiagram()).getNodes();
+            list = urnSpec.getUrndef().getResponsibilities();
             for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-                Object c = (Object) iterator.next();
-                if (c instanceof RespRef) {
-                    RespRef r = (RespRef) c;
-                    parentRespList.add(r);
-                    item = new TableItem(tabParentResps, SWT.NULL);
-                    item.setText(URNNamingHelper.getName(r));
-                    item.setImage(resp);
-                }
+                Responsibility r = (Responsibility) iterator.next();
+                parentRespList.add(r);
+                item = new TableItem(tabParentResps, SWT.NULL);
+                item.setText(URNNamingHelper.getName(r));
+                item.setImage(resp);
             }
 
             list = selectedPlugin.getPlugin().getNodes();

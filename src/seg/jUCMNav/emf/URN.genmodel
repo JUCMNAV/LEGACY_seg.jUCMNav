@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Documents and Settings\Daniel\My Documents\work\jucmnav\URN_22.mdl</foreignModel>
+  <foreignModel>C:\Documents and Settings\Daniel\My Documents\work\jucmnav\URN_23.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -54,6 +54,7 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/urndefinition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/demands"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/respRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/parentBindings"/>
     </genClasses>
     <genClasses ecoreClass="urncore.ecore#//Component">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Component/kind"/>
@@ -110,6 +111,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//URNmodelElement/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//URNmodelElement/description"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNmodelElement/metadata"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//URNmodelElement/inconcern"/>
     </genClasses>
     <genClasses ecoreClass="urncore.ecore#//IURNNode">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//IURNNode/x"/>
@@ -152,6 +154,7 @@
     <genClasses ecoreClass="urncore.ecore#//Concern">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Concern/urndefinition"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//Concern/specDiagrams"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//Concern/elements"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//Concern/condition"/>
     </genClasses>
     <genClasses ecoreClass="urncore.ecore#//ConnectionLabel">
@@ -396,6 +399,15 @@
         <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//performance/ArrivalProcess/Uniform"/>
         <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//performance/ArrivalProcess/PhaseType"/>
       </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="ucm.ecore#//performance/TimeUnit">
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//performance/TimeUnit/year"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//performance/TimeUnit/day"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//performance/TimeUnit/h"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//performance/TimeUnit/s"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//performance/TimeUnit/ms"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//performance/TimeUnit/us"/>
+        <genEnumLiterals ecoreEnumLiteral="ucm.ecore#//performance/TimeUnit/ns"/>
+      </genEnums>
       <genClasses ecoreClass="ucm.ecore#//performance/Workload">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/Workload/closed"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/Workload/arrivalPattern"/>
@@ -405,6 +417,7 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/Workload/value"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/Workload/coeffVarSeq"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/Workload/population"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/Workload/unit"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/Workload/startPoint"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//performance/GeneralResource">
@@ -414,6 +427,7 @@
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//performance/ActiveResource">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/ActiveResource/opTime"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/ActiveResource/unit"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//performance/PassiveResource">
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/PassiveResource/component"/>
@@ -475,8 +489,6 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/RespRef/repetitionCount"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/RespRef/hostDemand"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/RespRef/respDef"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference ucm.ecore#//map/RespRef/parentBindings"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference ucm.ecore#//map/RespRef/pluginBindings"/>
       </genClasses>
@@ -577,9 +589,9 @@
       <genClasses ecoreClass="ucm.ecore#//map/ResponsibilityBinding">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/ResponsibilityBinding/binding"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference ucm.ecore#//map/ResponsibilityBinding/parentResp"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference ucm.ecore#//map/ResponsibilityBinding/pluginResp"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/ResponsibilityBinding/parentResp"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Scenario" basePackage="ucm" ecorePackage="ucm.ecore#//scenario">

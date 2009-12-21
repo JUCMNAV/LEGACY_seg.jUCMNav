@@ -198,13 +198,22 @@ public interface UrncorePackage extends EPackage {
 	int UR_NMODEL_ELEMENT__METADATA = 5;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int UR_NMODEL_ELEMENT__INCONCERN = 6;
+
+    /**
      * The number of structural features of the '<em>UR Nmodel Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int UR_NMODEL_ELEMENT_FEATURE_COUNT = 6;
+    int UR_NMODEL_ELEMENT_FEATURE_COUNT = 7;
 
     /**
      * The meta object id for the '{@link urncore.impl.UCMmodelElementImpl <em>UC Mmodel Element</em>}' class.
@@ -269,6 +278,15 @@ public interface UrncorePackage extends EPackage {
      * @ordered
      */
 	int UC_MMODEL_ELEMENT__METADATA = UR_NMODEL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int UC_MMODEL_ELEMENT__INCONCERN = UR_NMODEL_ELEMENT__INCONCERN;
 
     /**
      * The number of structural features of the '<em>UC Mmodel Element</em>' class.
@@ -344,6 +362,15 @@ public interface UrncorePackage extends EPackage {
 	int RESPONSIBILITY__METADATA = UC_MMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESPONSIBILITY__INCONCERN = UC_MMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Empty</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -398,13 +425,22 @@ public interface UrncorePackage extends EPackage {
     int RESPONSIBILITY__RESP_REFS = UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
 
     /**
+     * The feature id for the '<em><b>Parent Bindings</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESPONSIBILITY__PARENT_BINDINGS = UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
+
+    /**
      * The number of structural features of the '<em>Responsibility</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int RESPONSIBILITY_FEATURE_COUNT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
+    int RESPONSIBILITY_FEATURE_COUNT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
 
     /**
      * The meta object id for the '{@link urncore.impl.ComponentImpl <em>Component</em>}' class.
@@ -469,6 +505,15 @@ public interface UrncorePackage extends EPackage {
      * @ordered
      */
 	int COMPONENT__METADATA = UC_MMODEL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT__INCONCERN = UC_MMODEL_ELEMENT__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -670,6 +715,15 @@ public interface UrncorePackage extends EPackage {
 	int COMPONENT_TYPE__METADATA = UC_MMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_TYPE__INCONCERN = UC_MMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Instances</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -759,6 +813,15 @@ public interface UrncorePackage extends EPackage {
      * @ordered
      */
 	int GR_LMODEL_ELEMENT__METADATA = UR_NMODEL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GR_LMODEL_ELEMENT__INCONCERN = UR_NMODEL_ELEMENT__INCONCERN;
 
     /**
      * The number of structural features of the '<em>GR Lmodel Element</em>' class.
@@ -1510,6 +1573,15 @@ public interface UrncorePackage extends EPackage {
 	int CONCERN__METADATA = UR_NMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONCERN__INCONCERN = UR_NMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1528,13 +1600,22 @@ public interface UrncorePackage extends EPackage {
 	int CONCERN__SPEC_DIAGRAMS = UR_NMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
+     * The feature id for the '<em><b>Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONCERN__ELEMENTS = UR_NMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+    /**
      * The feature id for the '<em><b>Condition</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int CONCERN__CONDITION = UR_NMODEL_ELEMENT_FEATURE_COUNT + 2;
+	int CONCERN__CONDITION = UR_NMODEL_ELEMENT_FEATURE_COUNT + 3;
 
 				/**
      * The number of structural features of the '<em>Concern</em>' class.
@@ -1543,7 +1624,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-	int CONCERN_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 3;
+	int CONCERN_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
      * The meta object id for the '{@link urncore.impl.ConnectionLabelImpl <em>Connection Label</em>}' class.
@@ -1834,6 +1915,17 @@ public interface UrncorePackage extends EPackage {
      * @generated
      */
     EReference getResponsibility_RespRefs();
+
+    /**
+     * Returns the meta object for the reference list '{@link urncore.Responsibility#getParentBindings <em>Parent Bindings</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Parent Bindings</em>'.
+     * @see urncore.Responsibility#getParentBindings()
+     * @see #getResponsibility()
+     * @generated
+     */
+    EReference getResponsibility_ParentBindings();
 
     /**
      * Returns the meta object for class '{@link urncore.Component <em>Component</em>}'.
@@ -2354,6 +2446,17 @@ public interface UrncorePackage extends EPackage {
 	EReference getURNmodelElement_Metadata();
 
     /**
+     * Returns the meta object for the reference '{@link urncore.URNmodelElement#getInconcern <em>Inconcern</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Inconcern</em>'.
+     * @see urncore.URNmodelElement#getInconcern()
+     * @see #getURNmodelElement()
+     * @generated
+     */
+    EReference getURNmodelElement_Inconcern();
+
+    /**
      * Returns the meta object for class '{@link urncore.IURNNode <em>IURN Node</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2744,6 +2847,17 @@ public interface UrncorePackage extends EPackage {
 	EReference getConcern_SpecDiagrams();
 
     /**
+     * Returns the meta object for the reference list '{@link urncore.Concern#getElements <em>Elements</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Elements</em>'.
+     * @see urncore.Concern#getElements()
+     * @see #getConcern()
+     * @generated
+     */
+    EReference getConcern_Elements();
+
+    /**
      * Returns the meta object for the containment reference '{@link urncore.Concern#getCondition <em>Condition</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3009,6 +3123,14 @@ public interface UrncorePackage extends EPackage {
          * @generated
          */
 		EReference RESPONSIBILITY__RESP_REFS = eINSTANCE.getResponsibility_RespRefs();
+
+        /**
+         * The meta object literal for the '<em><b>Parent Bindings</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference RESPONSIBILITY__PARENT_BINDINGS = eINSTANCE.getResponsibility_ParentBindings();
 
         /**
          * The meta object literal for the '{@link urncore.impl.ComponentImpl <em>Component</em>}' class.
@@ -3415,6 +3537,14 @@ public interface UrncorePackage extends EPackage {
 		EReference UR_NMODEL_ELEMENT__METADATA = eINSTANCE.getURNmodelElement_Metadata();
 
         /**
+         * The meta object literal for the '<em><b>Inconcern</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference UR_NMODEL_ELEMENT__INCONCERN = eINSTANCE.getURNmodelElement_Inconcern();
+
+        /**
          * The meta object literal for the '{@link urncore.IURNNode <em>IURN Node</em>}' class.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3713,6 +3843,14 @@ public interface UrncorePackage extends EPackage {
          * @generated
          */
 		EReference CONCERN__SPEC_DIAGRAMS = eINSTANCE.getConcern_SpecDiagrams();
+
+        /**
+         * The meta object literal for the '<em><b>Elements</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference CONCERN__ELEMENTS = eINSTANCE.getConcern_Elements();
 
         /**
          * The meta object literal for the '<em><b>Condition</b></em>' containment reference feature.

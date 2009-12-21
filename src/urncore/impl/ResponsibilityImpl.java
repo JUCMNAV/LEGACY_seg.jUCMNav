@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import ucm.map.MapPackage;
 import ucm.map.RespRef;
+import ucm.map.ResponsibilityBinding;
 import ucm.performance.Demand;
 import ucm.performance.PerformancePackage;
 import urncore.Responsibility;
@@ -40,6 +41,7 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.ResponsibilityImpl#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link urncore.impl.ResponsibilityImpl#getDemands <em>Demands</em>}</li>
  *   <li>{@link urncore.impl.ResponsibilityImpl#getRespRefs <em>Resp Refs</em>}</li>
+ *   <li>{@link urncore.impl.ResponsibilityImpl#getParentBindings <em>Parent Bindings</em>}</li>
  * </ul>
  * </p>
  *
@@ -125,6 +127,16 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
      * @ordered
      */
     protected EList respRefs;
+
+    /**
+     * The cached value of the '{@link #getParentBindings() <em>Parent Bindings</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getParentBindings()
+     * @generated
+     * @ordered
+     */
+    protected EList parentBindings;
 
     /**
      * <!-- begin-user-doc -->
@@ -274,6 +286,18 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList getParentBindings() {
+        if (parentBindings == null) {
+            parentBindings = new EObjectWithInverseResolvingEList(ResponsibilityBinding.class, this, UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS, MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP);
+        }
+        return parentBindings;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -287,6 +311,8 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
                 return ((InternalEList)getDemands()).basicAdd(otherEnd, msgs);
             case UrncorePackage.RESPONSIBILITY__RESP_REFS:
                 return ((InternalEList)getRespRefs()).basicAdd(otherEnd, msgs);
+            case UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS:
+                return ((InternalEList)getParentBindings()).basicAdd(otherEnd, msgs);
         }
         return super.eInverseAdd(otherEnd, featureID, msgs);
     }
@@ -304,6 +330,8 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
                 return ((InternalEList)getDemands()).basicRemove(otherEnd, msgs);
             case UrncorePackage.RESPONSIBILITY__RESP_REFS:
                 return ((InternalEList)getRespRefs()).basicRemove(otherEnd, msgs);
+            case UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS:
+                return ((InternalEList)getParentBindings()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -340,6 +368,8 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
                 return getDemands();
             case UrncorePackage.RESPONSIBILITY__RESP_REFS:
                 return getRespRefs();
+            case UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS:
+                return getParentBindings();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -371,6 +401,10 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
                 getRespRefs().clear();
                 getRespRefs().addAll((Collection)newValue);
                 return;
+            case UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS:
+                getParentBindings().clear();
+                getParentBindings().addAll((Collection)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -400,6 +434,9 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
             case UrncorePackage.RESPONSIBILITY__RESP_REFS:
                 getRespRefs().clear();
                 return;
+            case UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS:
+                getParentBindings().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -423,6 +460,8 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
                 return demands != null && !demands.isEmpty();
             case UrncorePackage.RESPONSIBILITY__RESP_REFS:
                 return respRefs != null && !respRefs.isEmpty();
+            case UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS:
+                return parentBindings != null && !parentBindings.isEmpty();
         }
         return super.eIsSet(featureID);
     }

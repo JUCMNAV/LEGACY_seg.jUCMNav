@@ -17,6 +17,7 @@ import ucm.map.MapPackage;
 import ucm.map.StartPoint;
 import ucm.performance.ArrivalProcess;
 import ucm.performance.PerformancePackage;
+import ucm.performance.TimeUnit;
 import ucm.performance.Workload;
 import urncore.impl.UCMmodelElementImpl;
 
@@ -35,6 +36,7 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.performance.impl.WorkloadImpl#getValue <em>Value</em>}</li>
  *   <li>{@link ucm.performance.impl.WorkloadImpl#getCoeffVarSeq <em>Coeff Var Seq</em>}</li>
  *   <li>{@link ucm.performance.impl.WorkloadImpl#getPopulation <em>Population</em>}</li>
+ *   <li>{@link ucm.performance.impl.WorkloadImpl#getUnit <em>Unit</em>}</li>
  *   <li>{@link ucm.performance.impl.WorkloadImpl#getStartPoint <em>Start Point</em>}</li>
  * </ul>
  * </p>
@@ -201,6 +203,26 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      * @ordered
      */
     protected String population = POPULATION_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getUnit() <em>Unit</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getUnit()
+     * @generated
+     * @ordered
+     */
+    protected static final TimeUnit UNIT_EDEFAULT = TimeUnit.MS_LITERAL;
+
+    /**
+     * The cached value of the '{@link #getUnit() <em>Unit</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getUnit()
+     * @generated
+     * @ordered
+     */
+    protected TimeUnit unit = UNIT_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -393,6 +415,27 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      * <!-- end-user-doc -->
      * @generated
      */
+    public TimeUnit getUnit() {
+        return unit;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setUnit(TimeUnit newUnit) {
+        TimeUnit oldUnit = unit;
+        unit = newUnit == null ? UNIT_EDEFAULT : newUnit;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.WORKLOAD__UNIT, oldUnit, unit));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public StartPoint getStartPoint() {
         if (eContainerFeatureID() != PerformancePackage.WORKLOAD__START_POINT) return null;
         return (StartPoint)eContainer();
@@ -493,6 +536,8 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
                 return getCoeffVarSeq();
             case PerformancePackage.WORKLOAD__POPULATION:
                 return getPopulation();
+            case PerformancePackage.WORKLOAD__UNIT:
+                return getUnit();
             case PerformancePackage.WORKLOAD__START_POINT:
                 return getStartPoint();
         }
@@ -529,6 +574,9 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
                 return;
             case PerformancePackage.WORKLOAD__POPULATION:
                 setPopulation((String)newValue);
+                return;
+            case PerformancePackage.WORKLOAD__UNIT:
+                setUnit((TimeUnit)newValue);
                 return;
             case PerformancePackage.WORKLOAD__START_POINT:
                 setStartPoint((StartPoint)newValue);
@@ -568,6 +616,9 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
             case PerformancePackage.WORKLOAD__POPULATION:
                 setPopulation(POPULATION_EDEFAULT);
                 return;
+            case PerformancePackage.WORKLOAD__UNIT:
+                setUnit(UNIT_EDEFAULT);
+                return;
             case PerformancePackage.WORKLOAD__START_POINT:
                 setStartPoint((StartPoint)null);
                 return;
@@ -598,6 +649,8 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
                 return COEFF_VAR_SEQ_EDEFAULT == null ? coeffVarSeq != null : !COEFF_VAR_SEQ_EDEFAULT.equals(coeffVarSeq);
             case PerformancePackage.WORKLOAD__POPULATION:
                 return POPULATION_EDEFAULT == null ? population != null : !POPULATION_EDEFAULT.equals(population);
+            case PerformancePackage.WORKLOAD__UNIT:
+                return unit != UNIT_EDEFAULT;
             case PerformancePackage.WORKLOAD__START_POINT:
                 return getStartPoint() != null;
         }
@@ -629,6 +682,8 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
         result.append(coeffVarSeq);
         result.append(", population: ");
         result.append(population);
+        result.append(", unit: ");
+        result.append(unit);
         result.append(')');
         return result.toString();
     }

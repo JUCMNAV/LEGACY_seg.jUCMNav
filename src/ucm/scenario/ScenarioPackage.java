@@ -146,6 +146,15 @@ public interface ScenarioPackage extends EPackage {
 	int VARIABLE__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIABLE__INCONCERN = UrncorePackage.UC_MMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -235,6 +244,15 @@ public interface ScenarioPackage extends EPackage {
      * @ordered
      */
 	int SCENARIO_DEF__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_DEF__INCONCERN = UrncorePackage.UC_MMODEL_ELEMENT__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Group</b></em>' container reference.
@@ -372,6 +390,15 @@ public interface ScenarioPackage extends EPackage {
 	int SCENARIO_GROUP__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_GROUP__INCONCERN = UrncorePackage.UC_MMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Ucmspec</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -461,6 +488,15 @@ public interface ScenarioPackage extends EPackage {
      * @ordered
      */
 	int ENUMERATION_TYPE__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUMERATION_TYPE__INCONCERN = UrncorePackage.UC_MMODEL_ELEMENT__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Values</b></em>' attribute.

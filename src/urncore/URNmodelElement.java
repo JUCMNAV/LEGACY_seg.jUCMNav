@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link urncore.URNmodelElement#getName <em>Name</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getDescription <em>Description</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getMetadata <em>Metadata</em>}</li>
+ *   <li>{@link urncore.URNmodelElement#getInconcern <em>Inconcern</em>}</li>
  * </ul>
  * </p>
  *
@@ -160,5 +161,33 @@ public interface URNmodelElement extends EObject {
      * @generated
      */
 	EList getMetadata();
+
+    /**
+     * Returns the value of the '<em><b>Inconcern</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link urncore.Concern#getElements <em>Elements</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Inconcern</em>' reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Inconcern</em>' reference.
+     * @see #setInconcern(Concern)
+     * @see urncore.UrncorePackage#getURNmodelElement_Inconcern()
+     * @see urncore.Concern#getElements
+     * @model opposite="elements"
+     * @generated
+     */
+    Concern getInconcern();
+
+    /**
+     * Sets the value of the '{@link urncore.URNmodelElement#getInconcern <em>Inconcern</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Inconcern</em>' reference.
+     * @see #getInconcern()
+     * @generated
+     */
+    void setInconcern(Concern value);
 
 } // URNmodelElement

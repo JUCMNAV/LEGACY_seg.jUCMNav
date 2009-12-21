@@ -32,7 +32,6 @@ import urncore.UrncorePackage;
  *   <li>{@link ucm.map.impl.RespRefImpl#getRepetitionCount <em>Repetition Count</em>}</li>
  *   <li>{@link ucm.map.impl.RespRefImpl#getHostDemand <em>Host Demand</em>}</li>
  *   <li>{@link ucm.map.impl.RespRefImpl#getRespDef <em>Resp Def</em>}</li>
- *   <li>{@link ucm.map.impl.RespRefImpl#getParentBindings <em>Parent Bindings</em>}</li>
  *   <li>{@link ucm.map.impl.RespRefImpl#getPluginBindings <em>Plugin Bindings</em>}</li>
  * </ul>
  * </p>
@@ -89,16 +88,6 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
      * @ordered
      */
     protected Responsibility respDef;
-
-    /**
-     * The cached value of the '{@link #getParentBindings() <em>Parent Bindings</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getParentBindings()
-     * @generated
-     * @ordered
-     */
-    protected EList parentBindings;
 
     /**
      * The cached value of the '{@link #getPluginBindings() <em>Plugin Bindings</em>}' reference list.
@@ -235,18 +224,6 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getParentBindings() {
-        if (parentBindings == null) {
-            parentBindings = new EObjectWithInverseResolvingEList(ResponsibilityBinding.class, this, MapPackage.RESP_REF__PARENT_BINDINGS, MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP);
-        }
-        return parentBindings;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EList getPluginBindings() {
         if (pluginBindings == null) {
             pluginBindings = new EObjectWithInverseResolvingEList(ResponsibilityBinding.class, this, MapPackage.RESP_REF__PLUGIN_BINDINGS, MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP);
@@ -265,8 +242,6 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
                 if (respDef != null)
                     msgs = ((InternalEObject)respDef).eInverseRemove(this, UrncorePackage.RESPONSIBILITY__RESP_REFS, Responsibility.class, msgs);
                 return basicSetRespDef((Responsibility)otherEnd, msgs);
-            case MapPackage.RESP_REF__PARENT_BINDINGS:
-                return ((InternalEList)getParentBindings()).basicAdd(otherEnd, msgs);
             case MapPackage.RESP_REF__PLUGIN_BINDINGS:
                 return ((InternalEList)getPluginBindings()).basicAdd(otherEnd, msgs);
         }
@@ -282,8 +257,6 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
         switch (featureID) {
             case MapPackage.RESP_REF__RESP_DEF:
                 return basicSetRespDef(null, msgs);
-            case MapPackage.RESP_REF__PARENT_BINDINGS:
-                return ((InternalEList)getParentBindings()).basicRemove(otherEnd, msgs);
             case MapPackage.RESP_REF__PLUGIN_BINDINGS:
                 return ((InternalEList)getPluginBindings()).basicRemove(otherEnd, msgs);
         }
@@ -304,8 +277,6 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
             case MapPackage.RESP_REF__RESP_DEF:
                 if (resolve) return getRespDef();
                 return basicGetRespDef();
-            case MapPackage.RESP_REF__PARENT_BINDINGS:
-                return getParentBindings();
             case MapPackage.RESP_REF__PLUGIN_BINDINGS:
                 return getPluginBindings();
         }
@@ -327,10 +298,6 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
                 return;
             case MapPackage.RESP_REF__RESP_DEF:
                 setRespDef((Responsibility)newValue);
-                return;
-            case MapPackage.RESP_REF__PARENT_BINDINGS:
-                getParentBindings().clear();
-                getParentBindings().addAll((Collection)newValue);
                 return;
             case MapPackage.RESP_REF__PLUGIN_BINDINGS:
                 getPluginBindings().clear();
@@ -356,9 +323,6 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
             case MapPackage.RESP_REF__RESP_DEF:
                 setRespDef((Responsibility)null);
                 return;
-            case MapPackage.RESP_REF__PARENT_BINDINGS:
-                getParentBindings().clear();
-                return;
             case MapPackage.RESP_REF__PLUGIN_BINDINGS:
                 getPluginBindings().clear();
                 return;
@@ -379,8 +343,6 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
                 return HOST_DEMAND_EDEFAULT == null ? hostDemand != null : !HOST_DEMAND_EDEFAULT.equals(hostDemand);
             case MapPackage.RESP_REF__RESP_DEF:
                 return respDef != null;
-            case MapPackage.RESP_REF__PARENT_BINDINGS:
-                return parentBindings != null && !parentBindings.isEmpty();
             case MapPackage.RESP_REF__PLUGIN_BINDINGS:
                 return pluginBindings != null && !pluginBindings.isEmpty();
         }

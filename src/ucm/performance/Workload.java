@@ -25,6 +25,7 @@ import urncore.UCMmodelElement;
  *   <li>{@link ucm.performance.Workload#getValue <em>Value</em>}</li>
  *   <li>{@link ucm.performance.Workload#getCoeffVarSeq <em>Coeff Var Seq</em>}</li>
  *   <li>{@link ucm.performance.Workload#getPopulation <em>Population</em>}</li>
+ *   <li>{@link ucm.performance.Workload#getUnit <em>Unit</em>}</li>
  *   <li>{@link ucm.performance.Workload#getStartPoint <em>Start Point</em>}</li>
  * </ul>
  * </p>
@@ -245,6 +246,36 @@ public interface Workload extends UCMmodelElement {
      * @generated
      */
 	void setPopulation(String value);
+
+    /**
+     * Returns the value of the '<em><b>Unit</b></em>' attribute.
+     * The default value is <code>"ms"</code>.
+     * The literals are from the enumeration {@link ucm.performance.TimeUnit}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Unit</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Unit</em>' attribute.
+     * @see ucm.performance.TimeUnit
+     * @see #setUnit(TimeUnit)
+     * @see ucm.performance.PerformancePackage#getWorkload_Unit()
+     * @model default="ms"
+     * @generated
+     */
+    TimeUnit getUnit();
+
+    /**
+     * Sets the value of the '{@link ucm.performance.Workload#getUnit <em>Unit</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Unit</em>' attribute.
+     * @see ucm.performance.TimeUnit
+     * @see #getUnit()
+     * @generated
+     */
+    void setUnit(TimeUnit value);
 
     /**
      * Returns the value of the '<em><b>Start Point</b></em>' container reference.

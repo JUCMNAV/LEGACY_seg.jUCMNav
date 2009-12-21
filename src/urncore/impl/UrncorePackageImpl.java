@@ -421,6 +421,15 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getResponsibility_ParentBindings() {
+        return (EReference)responsibilityEClass.getEStructuralFeatures().get(6);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getComponent() {
         return componentEClass;
     }
@@ -853,6 +862,15 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getURNmodelElement_Inconcern() {
+        return (EReference)urNmodelElementEClass.getEStructuralFeatures().get(6);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getIURNNode() {
         return iurnNodeEClass;
     }
@@ -1174,11 +1192,20 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getConcern_Elements() {
+        return (EReference)concernEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
 	public EReference getConcern_Condition() {
-        return (EReference)concernEClass.getEStructuralFeatures().get(2);
+        return (EReference)concernEClass.getEStructuralFeatures().get(3);
     }
 
 				/**
@@ -1323,6 +1350,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         createEReference(responsibilityEClass, RESPONSIBILITY__URNDEFINITION);
         createEReference(responsibilityEClass, RESPONSIBILITY__DEMANDS);
         createEReference(responsibilityEClass, RESPONSIBILITY__RESP_REFS);
+        createEReference(responsibilityEClass, RESPONSIBILITY__PARENT_BINDINGS);
 
         componentEClass = createEClass(COMPONENT);
         createEAttribute(componentEClass, COMPONENT__KIND);
@@ -1381,6 +1409,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         createEAttribute(urNmodelElementEClass, UR_NMODEL_ELEMENT__NAME);
         createEAttribute(urNmodelElementEClass, UR_NMODEL_ELEMENT__DESCRIPTION);
         createEReference(urNmodelElementEClass, UR_NMODEL_ELEMENT__METADATA);
+        createEReference(urNmodelElementEClass, UR_NMODEL_ELEMENT__INCONCERN);
 
         iurnNodeEClass = createEClass(IURN_NODE);
         createEAttribute(iurnNodeEClass, IURN_NODE__X);
@@ -1423,6 +1452,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         concernEClass = createEClass(CONCERN);
         createEReference(concernEClass, CONCERN__URNDEFINITION);
         createEReference(concernEClass, CONCERN__SPEC_DIAGRAMS);
+        createEReference(concernEClass, CONCERN__ELEMENTS);
         createEReference(concernEClass, CONCERN__CONDITION);
 
         connectionLabelEClass = createEClass(CONNECTION_LABEL);
@@ -1499,6 +1529,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         initEReference(getResponsibility_Urndefinition(), this.getURNdefinition(), this.getURNdefinition_Responsibilities(), "urndefinition", null, 1, 1, Responsibility.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getResponsibility_Demands(), thePerformancePackage.getDemand(), thePerformancePackage.getDemand_Responsibility(), "demands", null, 0, -1, Responsibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getResponsibility_RespRefs(), theMapPackage.getRespRef(), theMapPackage.getRespRef_RespDef(), "respRefs", null, 1, -1, Responsibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getResponsibility_ParentBindings(), theMapPackage.getResponsibilityBinding(), theMapPackage.getResponsibilityBinding_ParentResp(), "parentBindings", null, 0, -1, Responsibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getComponent_Kind(), this.getComponentKind(), "kind", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1557,6 +1588,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         initEAttribute(getURNmodelElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getURNmodelElement_Description(), ecorePackage.getEString(), "description", null, 0, 1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getURNmodelElement_Metadata(), this.getMetadata(), null, "metadata", null, 0, -1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getURNmodelElement_Inconcern(), this.getConcern(), this.getConcern_Elements(), "inconcern", null, 0, 1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(iurnNodeEClass, IURNNode.class, "IURNNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getIURNNode_X(), ecorePackage.getEInt(), "x", null, 0, 1, IURNNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1599,6 +1631,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         initEClass(concernEClass, Concern.class, "Concern", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getConcern_Urndefinition(), this.getURNdefinition(), this.getURNdefinition_Concerns(), "urndefinition", null, 1, 1, Concern.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getConcern_SpecDiagrams(), this.getIURNDiagram(), this.getIURNDiagram_Concern(), "specDiagrams", null, 0, -1, Concern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getConcern_Elements(), this.getURNmodelElement(), this.getURNmodelElement_Inconcern(), "elements", null, 0, -1, Concern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getConcern_Condition(), this.getCondition(), this.getCondition_Concern(), "condition", null, 0, 1, Concern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(connectionLabelEClass, ConnectionLabel.class, "ConnectionLabel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

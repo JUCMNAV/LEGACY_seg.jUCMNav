@@ -32,6 +32,7 @@ import ucm.performance.PassiveResource;
 import ucm.performance.PerformanceFactory;
 import ucm.performance.PerformancePackage;
 import ucm.performance.ProcessingResource;
+import ucm.performance.TimeUnit;
 import ucm.performance.Workload;
 import ucm.scenario.ScenarioPackage;
 import ucm.scenario.impl.ScenarioPackageImpl;
@@ -109,6 +110,13 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
      * @generated
      */
     private EEnum arrivalProcessEEnum = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EEnum timeUnitEEnum = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -280,8 +288,17 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getWorkload_Unit() {
+        return (EAttribute)workloadEClass.getEStructuralFeatures().get(8);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EReference getWorkload_StartPoint() {
-        return (EReference)workloadEClass.getEStructuralFeatures().get(8);
+        return (EReference)workloadEClass.getEStructuralFeatures().get(9);
     }
 
     /**
@@ -336,6 +353,15 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
      */
     public EAttribute getActiveResource_OpTime() {
         return (EAttribute)activeResourceEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getActiveResource_Unit() {
+        return (EAttribute)activeResourceEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -460,6 +486,15 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
      * <!-- end-user-doc -->
      * @generated
      */
+    public EEnum getTimeUnit() {
+        return timeUnitEEnum;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public PerformanceFactory getPerformanceFactory() {
         return (PerformanceFactory)getEFactoryInstance();
     }
@@ -492,6 +527,7 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
         createEAttribute(workloadEClass, WORKLOAD__VALUE);
         createEAttribute(workloadEClass, WORKLOAD__COEFF_VAR_SEQ);
         createEAttribute(workloadEClass, WORKLOAD__POPULATION);
+        createEAttribute(workloadEClass, WORKLOAD__UNIT);
         createEReference(workloadEClass, WORKLOAD__START_POINT);
 
         generalResourceEClass = createEClass(GENERAL_RESOURCE);
@@ -501,6 +537,7 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 
         activeResourceEClass = createEClass(ACTIVE_RESOURCE);
         createEAttribute(activeResourceEClass, ACTIVE_RESOURCE__OP_TIME);
+        createEAttribute(activeResourceEClass, ACTIVE_RESOURCE__UNIT);
 
         passiveResourceEClass = createEClass(PASSIVE_RESOURCE);
         createEReference(passiveResourceEClass, PASSIVE_RESOURCE__COMPONENT);
@@ -520,6 +557,7 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
         // Create enums
         deviceKindEEnum = createEEnum(DEVICE_KIND);
         arrivalProcessEEnum = createEEnum(ARRIVAL_PROCESS);
+        timeUnitEEnum = createEEnum(TIME_UNIT);
     }
 
     /**
@@ -568,6 +606,7 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
         initEAttribute(getWorkload_Value(), ecorePackage.getEString(), "value", null, 0, 1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getWorkload_CoeffVarSeq(), ecorePackage.getEString(), "coeffVarSeq", null, 0, 1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getWorkload_Population(), ecorePackage.getEString(), "population", null, 0, 1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getWorkload_Unit(), this.getTimeUnit(), "unit", "ms", 0, 1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getWorkload_StartPoint(), theMapPackage.getStartPoint(), theMapPackage.getStartPoint_Workload(), "startPoint", null, 1, 1, Workload.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(generalResourceEClass, GeneralResource.class, "GeneralResource", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -577,6 +616,7 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 
         initEClass(activeResourceEClass, ActiveResource.class, "ActiveResource", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getActiveResource_OpTime(), ecorePackage.getEString(), "opTime", null, 0, 1, ActiveResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getActiveResource_Unit(), this.getTimeUnit(), "unit", "ms", 0, 1, ActiveResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(passiveResourceEClass, PassiveResource.class, "PassiveResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getPassiveResource_Component(), theUrncorePackage.getComponent(), theUrncorePackage.getComponent_Resource(), "component", null, 0, 1, PassiveResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -605,6 +645,15 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
         addEEnumLiteral(arrivalProcessEEnum, ArrivalProcess.PERIODIC_LITERAL);
         addEEnumLiteral(arrivalProcessEEnum, ArrivalProcess.UNIFORM_LITERAL);
         addEEnumLiteral(arrivalProcessEEnum, ArrivalProcess.PHASE_TYPE_LITERAL);
+
+        initEEnum(timeUnitEEnum, TimeUnit.class, "TimeUnit");
+        addEEnumLiteral(timeUnitEEnum, TimeUnit.YEAR_LITERAL);
+        addEEnumLiteral(timeUnitEEnum, TimeUnit.DAY_LITERAL);
+        addEEnumLiteral(timeUnitEEnum, TimeUnit.H_LITERAL);
+        addEEnumLiteral(timeUnitEEnum, TimeUnit.S_LITERAL);
+        addEEnumLiteral(timeUnitEEnum, TimeUnit.MS_LITERAL);
+        addEEnumLiteral(timeUnitEEnum, TimeUnit.US_LITERAL);
+        addEEnumLiteral(timeUnitEEnum, TimeUnit.NS_LITERAL);
     }
 
 } //PerformancePackageImpl

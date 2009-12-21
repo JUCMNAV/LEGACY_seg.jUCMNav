@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import ucm.performance.ActiveResource;
 import ucm.performance.PerformancePackage;
+import ucm.performance.TimeUnit;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,6 +22,7 @@ import ucm.performance.PerformancePackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link ucm.performance.impl.ActiveResourceImpl#getOpTime <em>Op Time</em>}</li>
+ *   <li>{@link ucm.performance.impl.ActiveResourceImpl#getUnit <em>Unit</em>}</li>
  * </ul>
  * </p>
  *
@@ -46,6 +48,26 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
      * @ordered
      */
     protected String opTime = OP_TIME_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getUnit() <em>Unit</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getUnit()
+     * @generated
+     * @ordered
+     */
+    protected static final TimeUnit UNIT_EDEFAULT = TimeUnit.MS_LITERAL;
+
+    /**
+     * The cached value of the '{@link #getUnit() <em>Unit</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getUnit()
+     * @generated
+     * @ordered
+     */
+    protected TimeUnit unit = UNIT_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -88,6 +110,27 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public TimeUnit getUnit() {
+        return unit;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setUnit(TimeUnit newUnit) {
+        TimeUnit oldUnit = unit;
+        unit = newUnit == null ? UNIT_EDEFAULT : newUnit;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.ACTIVE_RESOURCE__UNIT, oldUnit, unit));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -95,6 +138,8 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
         switch (featureID) {
             case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
                 return getOpTime();
+            case PerformancePackage.ACTIVE_RESOURCE__UNIT:
+                return getUnit();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -108,6 +153,9 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
         switch (featureID) {
             case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
                 setOpTime((String)newValue);
+                return;
+            case PerformancePackage.ACTIVE_RESOURCE__UNIT:
+                setUnit((TimeUnit)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -123,6 +171,9 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
             case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
                 setOpTime(OP_TIME_EDEFAULT);
                 return;
+            case PerformancePackage.ACTIVE_RESOURCE__UNIT:
+                setUnit(UNIT_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -136,6 +187,8 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
         switch (featureID) {
             case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
                 return OP_TIME_EDEFAULT == null ? opTime != null : !OP_TIME_EDEFAULT.equals(opTime);
+            case PerformancePackage.ACTIVE_RESOURCE__UNIT:
+                return unit != UNIT_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -151,6 +204,8 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (opTime: ");
         result.append(opTime);
+        result.append(", unit: ");
+        result.append(unit);
         result.append(')');
         return result.toString();
     }

@@ -21,6 +21,8 @@ import ucm.map.MapPackage;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.ResponsibilityBinding;
+import urncore.Responsibility;
+import urncore.UrncorePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,24 +32,14 @@ import ucm.map.ResponsibilityBinding;
  * The following features are implemented:
  * <ul>
  *   <li>{@link ucm.map.impl.ResponsibilityBindingImpl#getBinding <em>Binding</em>}</li>
- *   <li>{@link ucm.map.impl.ResponsibilityBindingImpl#getParentResp <em>Parent Resp</em>}</li>
  *   <li>{@link ucm.map.impl.ResponsibilityBindingImpl#getPluginResp <em>Plugin Resp</em>}</li>
+ *   <li>{@link ucm.map.impl.ResponsibilityBindingImpl#getParentResp <em>Parent Resp</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class ResponsibilityBindingImpl extends EObjectImpl implements ResponsibilityBinding {
-    /**
-     * The cached value of the '{@link #getParentResp() <em>Parent Resp</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getParentResp()
-     * @generated
-     * @ordered
-     */
-    protected RespRef parentResp;
-
     /**
      * The cached value of the '{@link #getPluginResp() <em>Plugin Resp</em>}' reference.
      * <!-- begin-user-doc -->
@@ -57,6 +49,16 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
      * @ordered
      */
     protected RespRef pluginResp;
+
+    /**
+     * The cached value of the '{@link #getParentResp() <em>Parent Resp</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getParentResp()
+     * @generated
+     * @ordered
+     */
+    protected Responsibility parentResp;
 
     /**
      * <!-- begin-user-doc -->
@@ -122,10 +124,10 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
      * <!-- end-user-doc -->
      * @generated
      */
-    public RespRef getParentResp() {
+    public Responsibility getParentResp() {
         if (parentResp != null && parentResp.eIsProxy()) {
             InternalEObject oldParentResp = (InternalEObject)parentResp;
-            parentResp = (RespRef)eResolveProxy(oldParentResp);
+            parentResp = (Responsibility)eResolveProxy(oldParentResp);
             if (parentResp != oldParentResp) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP, oldParentResp, parentResp));
@@ -139,7 +141,7 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
      * <!-- end-user-doc -->
      * @generated
      */
-    public RespRef basicGetParentResp() {
+    public Responsibility basicGetParentResp() {
         return parentResp;
     }
 
@@ -148,8 +150,8 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetParentResp(RespRef newParentResp, NotificationChain msgs) {
-        RespRef oldParentResp = parentResp;
+    public NotificationChain basicSetParentResp(Responsibility newParentResp, NotificationChain msgs) {
+        Responsibility oldParentResp = parentResp;
         parentResp = newParentResp;
         if (eNotificationRequired()) {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP, oldParentResp, newParentResp);
@@ -163,13 +165,13 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setParentResp(RespRef newParentResp) {
+    public void setParentResp(Responsibility newParentResp) {
         if (newParentResp != parentResp) {
             NotificationChain msgs = null;
             if (parentResp != null)
-                msgs = ((InternalEObject)parentResp).eInverseRemove(this, MapPackage.RESP_REF__PARENT_BINDINGS, RespRef.class, msgs);
+                msgs = ((InternalEObject)parentResp).eInverseRemove(this, UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS, Responsibility.class, msgs);
             if (newParentResp != null)
-                msgs = ((InternalEObject)newParentResp).eInverseAdd(this, MapPackage.RESP_REF__PARENT_BINDINGS, RespRef.class, msgs);
+                msgs = ((InternalEObject)newParentResp).eInverseAdd(this, UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS, Responsibility.class, msgs);
             msgs = basicSetParentResp(newParentResp, msgs);
             if (msgs != null) msgs.dispatch();
         }
@@ -248,14 +250,14 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
                 if (eInternalContainer() != null)
                     msgs = eBasicRemoveFromContainer(msgs);
                 return basicSetBinding((PluginBinding)otherEnd, msgs);
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                if (parentResp != null)
-                    msgs = ((InternalEObject)parentResp).eInverseRemove(this, MapPackage.RESP_REF__PARENT_BINDINGS, RespRef.class, msgs);
-                return basicSetParentResp((RespRef)otherEnd, msgs);
             case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
                 if (pluginResp != null)
                     msgs = ((InternalEObject)pluginResp).eInverseRemove(this, MapPackage.RESP_REF__PLUGIN_BINDINGS, RespRef.class, msgs);
                 return basicSetPluginResp((RespRef)otherEnd, msgs);
+            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+                if (parentResp != null)
+                    msgs = ((InternalEObject)parentResp).eInverseRemove(this, UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS, Responsibility.class, msgs);
+                return basicSetParentResp((Responsibility)otherEnd, msgs);
         }
         return super.eInverseAdd(otherEnd, featureID, msgs);
     }
@@ -269,10 +271,10 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
         switch (featureID) {
             case MapPackage.RESPONSIBILITY_BINDING__BINDING:
                 return basicSetBinding(null, msgs);
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                return basicSetParentResp(null, msgs);
             case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
                 return basicSetPluginResp(null, msgs);
+            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+                return basicSetParentResp(null, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -299,12 +301,12 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
         switch (featureID) {
             case MapPackage.RESPONSIBILITY_BINDING__BINDING:
                 return getBinding();
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                if (resolve) return getParentResp();
-                return basicGetParentResp();
             case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
                 if (resolve) return getPluginResp();
                 return basicGetPluginResp();
+            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+                if (resolve) return getParentResp();
+                return basicGetParentResp();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -319,11 +321,11 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
             case MapPackage.RESPONSIBILITY_BINDING__BINDING:
                 setBinding((PluginBinding)newValue);
                 return;
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                setParentResp((RespRef)newValue);
-                return;
             case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
                 setPluginResp((RespRef)newValue);
+                return;
+            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+                setParentResp((Responsibility)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -339,11 +341,11 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
             case MapPackage.RESPONSIBILITY_BINDING__BINDING:
                 setBinding((PluginBinding)null);
                 return;
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                setParentResp((RespRef)null);
-                return;
             case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
                 setPluginResp((RespRef)null);
+                return;
+            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+                setParentResp((Responsibility)null);
                 return;
         }
         super.eUnset(featureID);
@@ -358,10 +360,10 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
         switch (featureID) {
             case MapPackage.RESPONSIBILITY_BINDING__BINDING:
                 return getBinding() != null;
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                return parentResp != null;
             case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
                 return pluginResp != null;
+            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+                return parentResp != null;
         }
         return super.eIsSet(featureID);
     }

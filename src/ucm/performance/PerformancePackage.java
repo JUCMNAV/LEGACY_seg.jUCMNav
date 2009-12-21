@@ -127,6 +127,15 @@ public interface PerformancePackage extends EPackage {
 	int WORKLOAD__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WORKLOAD__INCONCERN = UrncorePackage.UC_MMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Closed</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -199,13 +208,22 @@ public interface PerformancePackage extends EPackage {
     int WORKLOAD__POPULATION = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
 
     /**
+     * The feature id for the '<em><b>Unit</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WORKLOAD__UNIT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
+
+    /**
      * The feature id for the '<em><b>Start Point</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int WORKLOAD__START_POINT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
+    int WORKLOAD__START_POINT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
 
     /**
      * The number of structural features of the '<em>Workload</em>' class.
@@ -214,7 +232,7 @@ public interface PerformancePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int WORKLOAD_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
+    int WORKLOAD_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 10;
 
     /**
      * The meta object id for the '{@link ucm.performance.impl.GeneralResourceImpl <em>General Resource</em>}' class.
@@ -279,6 +297,15 @@ public interface PerformancePackage extends EPackage {
      * @ordered
      */
     int GENERAL_RESOURCE__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GENERAL_RESOURCE__INCONCERN = UrncorePackage.UC_MMODEL_ELEMENT__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
@@ -381,6 +408,15 @@ public interface PerformancePackage extends EPackage {
     int ACTIVE_RESOURCE__METADATA = GENERAL_RESOURCE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTIVE_RESOURCE__INCONCERN = GENERAL_RESOURCE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -417,13 +453,22 @@ public interface PerformancePackage extends EPackage {
     int ACTIVE_RESOURCE__OP_TIME = GENERAL_RESOURCE_FEATURE_COUNT + 0;
 
     /**
+     * The feature id for the '<em><b>Unit</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTIVE_RESOURCE__UNIT = GENERAL_RESOURCE_FEATURE_COUNT + 1;
+
+    /**
      * The number of structural features of the '<em>Active Resource</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ACTIVE_RESOURCE_FEATURE_COUNT = GENERAL_RESOURCE_FEATURE_COUNT + 1;
+    int ACTIVE_RESOURCE_FEATURE_COUNT = GENERAL_RESOURCE_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link ucm.performance.impl.PassiveResourceImpl <em>Passive Resource</em>}' class.
@@ -488,6 +533,15 @@ public interface PerformancePackage extends EPackage {
      * @ordered
      */
     int PASSIVE_RESOURCE__METADATA = GENERAL_RESOURCE__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PASSIVE_RESOURCE__INCONCERN = GENERAL_RESOURCE__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
@@ -599,6 +653,15 @@ public interface PerformancePackage extends EPackage {
     int EXTERNAL_OPERATION__METADATA = ACTIVE_RESOURCE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTERNAL_OPERATION__INCONCERN = ACTIVE_RESOURCE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -633,6 +696,15 @@ public interface PerformancePackage extends EPackage {
      * @ordered
      */
     int EXTERNAL_OPERATION__OP_TIME = ACTIVE_RESOURCE__OP_TIME;
+
+    /**
+     * The feature id for the '<em><b>Unit</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTERNAL_OPERATION__UNIT = ACTIVE_RESOURCE__UNIT;
 
     /**
      * The feature id for the '<em><b>Demands</b></em>' reference list.
@@ -717,6 +789,15 @@ public interface PerformancePackage extends EPackage {
     int PROCESSING_RESOURCE__METADATA = ACTIVE_RESOURCE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PROCESSING_RESOURCE__INCONCERN = ACTIVE_RESOURCE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -751,6 +832,15 @@ public interface PerformancePackage extends EPackage {
      * @ordered
      */
     int PROCESSING_RESOURCE__OP_TIME = ACTIVE_RESOURCE__OP_TIME;
+
+    /**
+     * The feature id for the '<em><b>Unit</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PROCESSING_RESOURCE__UNIT = ACTIVE_RESOURCE__UNIT;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -844,6 +934,16 @@ public interface PerformancePackage extends EPackage {
      * @generated
      */
     int ARRIVAL_PROCESS = 8;
+
+    /**
+     * The meta object id for the '{@link ucm.performance.TimeUnit <em>Time Unit</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see ucm.performance.TimeUnit
+     * @see ucm.performance.impl.PerformancePackageImpl#getTimeUnit()
+     * @generated
+     */
+    int TIME_UNIT = 9;
 
     /**
      * Returns the meta object for class '{@link ucm.performance.Workload <em>Workload</em>}'.
@@ -944,6 +1044,17 @@ public interface PerformancePackage extends EPackage {
     EAttribute getWorkload_Population();
 
     /**
+     * Returns the meta object for the attribute '{@link ucm.performance.Workload#getUnit <em>Unit</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Unit</em>'.
+     * @see ucm.performance.Workload#getUnit()
+     * @see #getWorkload()
+     * @generated
+     */
+    EAttribute getWorkload_Unit();
+
+    /**
      * Returns the meta object for the container reference '{@link ucm.performance.Workload#getStartPoint <em>Start Point</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1017,6 +1128,17 @@ public interface PerformancePackage extends EPackage {
      * @generated
      */
     EAttribute getActiveResource_OpTime();
+
+    /**
+     * Returns the meta object for the attribute '{@link ucm.performance.ActiveResource#getUnit <em>Unit</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Unit</em>'.
+     * @see ucm.performance.ActiveResource#getUnit()
+     * @see #getActiveResource()
+     * @generated
+     */
+    EAttribute getActiveResource_Unit();
 
     /**
      * Returns the meta object for class '{@link ucm.performance.PassiveResource <em>Passive Resource</em>}'.
@@ -1156,6 +1278,16 @@ public interface PerformancePackage extends EPackage {
     EEnum getArrivalProcess();
 
     /**
+     * Returns the meta object for enum '{@link ucm.performance.TimeUnit <em>Time Unit</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for enum '<em>Time Unit</em>'.
+     * @see ucm.performance.TimeUnit
+     * @generated
+     */
+    EEnum getTimeUnit();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1252,6 +1384,14 @@ public interface PerformancePackage extends EPackage {
 		EAttribute WORKLOAD__POPULATION = eINSTANCE.getWorkload_Population();
 
         /**
+         * The meta object literal for the '<em><b>Unit</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute WORKLOAD__UNIT = eINSTANCE.getWorkload_Unit();
+
+        /**
          * The meta object literal for the '<em><b>Start Point</b></em>' container reference feature.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1310,6 +1450,14 @@ public interface PerformancePackage extends EPackage {
          * @generated
          */
 		EAttribute ACTIVE_RESOURCE__OP_TIME = eINSTANCE.getActiveResource_OpTime();
+
+        /**
+         * The meta object literal for the '<em><b>Unit</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute ACTIVE_RESOURCE__UNIT = eINSTANCE.getActiveResource_Unit();
 
         /**
          * The meta object literal for the '{@link ucm.performance.impl.PassiveResourceImpl <em>Passive Resource</em>}' class.
@@ -1426,6 +1574,16 @@ public interface PerformancePackage extends EPackage {
          * @generated
          */
 		EEnum ARRIVAL_PROCESS = eINSTANCE.getArrivalProcess();
+
+        /**
+         * The meta object literal for the '{@link ucm.performance.TimeUnit <em>Time Unit</em>}' enum.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see ucm.performance.TimeUnit
+         * @see ucm.performance.impl.PerformancePackageImpl#getTimeUnit()
+         * @generated
+         */
+        EEnum TIME_UNIT = eINSTANCE.getTimeUnit();
 
 	}
 

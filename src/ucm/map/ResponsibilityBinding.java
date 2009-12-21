@@ -7,6 +7,7 @@
 package ucm.map;
 
 import org.eclipse.emf.ecore.EObject;
+import urncore.Responsibility;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,8 +18,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link ucm.map.ResponsibilityBinding#getBinding <em>Binding</em>}</li>
- *   <li>{@link ucm.map.ResponsibilityBinding#getParentResp <em>Parent Resp</em>}</li>
  *   <li>{@link ucm.map.ResponsibilityBinding#getPluginResp <em>Plugin Resp</em>}</li>
+ *   <li>{@link ucm.map.ResponsibilityBinding#getParentResp <em>Parent Resp</em>}</li>
  * </ul>
  * </p>
  *
@@ -57,7 +58,7 @@ public interface ResponsibilityBinding extends EObject {
 
     /**
      * Returns the value of the '<em><b>Parent Resp</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link ucm.map.RespRef#getParentBindings <em>Parent Bindings</em>}'.
+     * It is bidirectional and its opposite is '{@link urncore.Responsibility#getParentBindings <em>Parent Bindings</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Parent Resp</em>' reference isn't clear,
@@ -65,13 +66,13 @@ public interface ResponsibilityBinding extends EObject {
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Parent Resp</em>' reference.
-     * @see #setParentResp(RespRef)
+     * @see #setParentResp(Responsibility)
      * @see ucm.map.MapPackage#getResponsibilityBinding_ParentResp()
-     * @see ucm.map.RespRef#getParentBindings
+     * @see urncore.Responsibility#getParentBindings
      * @model opposite="parentBindings" required="true"
      * @generated
      */
-    RespRef getParentResp();
+    Responsibility getParentResp();
 
     /**
      * Sets the value of the '{@link ucm.map.ResponsibilityBinding#getParentResp <em>Parent Resp</em>}' reference.
@@ -81,7 +82,7 @@ public interface ResponsibilityBinding extends EObject {
      * @see #getParentResp()
      * @generated
      */
-    void setParentResp(RespRef value);
+    void setParentResp(Responsibility value);
 
     /**
      * Returns the value of the '<em><b>Plugin Resp</b></em>' reference.

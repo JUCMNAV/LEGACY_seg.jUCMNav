@@ -128,6 +128,15 @@ public interface KpimodelPackage extends EPackage {
     int INDICATOR_GROUP__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INDICATOR_GROUP__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Is Redesign Category</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -226,6 +235,15 @@ public interface KpimodelPackage extends EPackage {
      * @ordered
      */
     int INDICATOR__METADATA = GrlPackage.INTENTIONAL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INDICATOR__INCONCERN = GrlPackage.INTENTIONAL_ELEMENT__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Links Dest</b></em>' reference list.
@@ -418,6 +436,15 @@ public interface KpimodelPackage extends EPackage {
     int KPI_INFORMATION_ELEMENT__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int KPI_INFORMATION_ELEMENT__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -516,6 +543,15 @@ public interface KpimodelPackage extends EPackage {
      * @ordered
      */
     int KPI_INFORMATION_ELEMENT_REF__METADATA = GrlPackage.GRL_NODE__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int KPI_INFORMATION_ELEMENT_REF__INCONCERN = GrlPackage.GRL_NODE__INCONCERN;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -661,6 +697,15 @@ public interface KpimodelPackage extends EPackage {
      * @ordered
      */
     int KPI_MODEL_LINK__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int KPI_MODEL_LINK__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Kpi Information Element Src</b></em>' reference.

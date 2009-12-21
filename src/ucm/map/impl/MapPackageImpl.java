@@ -509,17 +509,8 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getRespRef_ParentBindings() {
-        return (EReference)respRefEClass.getEStructuralFeatures().get(3);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EReference getRespRef_PluginBindings() {
-        return (EReference)respRefEClass.getEStructuralFeatures().get(4);
+        return (EReference)respRefEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -1194,7 +1185,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      * @generated
      */
     public EReference getResponsibilityBinding_ParentResp() {
-        return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(1);
+        return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -1203,7 +1194,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      * @generated
      */
     public EReference getResponsibilityBinding_PluginResp() {
-        return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(2);
+        return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -1289,7 +1280,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         createEAttribute(respRefEClass, RESP_REF__REPETITION_COUNT);
         createEAttribute(respRefEClass, RESP_REF__HOST_DEMAND);
         createEReference(respRefEClass, RESP_REF__RESP_DEF);
-        createEReference(respRefEClass, RESP_REF__PARENT_BINDINGS);
         createEReference(respRefEClass, RESP_REF__PLUGIN_BINDINGS);
 
         orJoinEClass = createEClass(OR_JOIN);
@@ -1385,8 +1375,8 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
         responsibilityBindingEClass = createEClass(RESPONSIBILITY_BINDING);
         createEReference(responsibilityBindingEClass, RESPONSIBILITY_BINDING__BINDING);
-        createEReference(responsibilityBindingEClass, RESPONSIBILITY_BINDING__PARENT_RESP);
         createEReference(responsibilityBindingEClass, RESPONSIBILITY_BINDING__PLUGIN_RESP);
+        createEReference(responsibilityBindingEClass, RESPONSIBILITY_BINDING__PARENT_RESP);
 
         // Create enums
         waitKindEEnum = createEEnum(WAIT_KIND);
@@ -1467,7 +1457,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         initEAttribute(getRespRef_RepetitionCount(), ecorePackage.getEString(), "repetitionCount", "1", 0, 1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getRespRef_HostDemand(), ecorePackage.getEString(), "hostDemand", null, 0, 1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getRespRef_RespDef(), theUrncorePackage.getResponsibility(), theUrncorePackage.getResponsibility_RespRefs(), "respDef", null, 1, 1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getRespRef_ParentBindings(), this.getResponsibilityBinding(), this.getResponsibilityBinding_ParentResp(), "parentBindings", null, 0, -1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getRespRef_PluginBindings(), this.getResponsibilityBinding(), this.getResponsibilityBinding_PluginResp(), "pluginBindings", null, 0, -1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(orJoinEClass, OrJoin.class, "OrJoin", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1563,8 +1552,8 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
         initEClass(responsibilityBindingEClass, ResponsibilityBinding.class, "ResponsibilityBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getResponsibilityBinding_Binding(), this.getPluginBinding(), this.getPluginBinding_Responsibilities(), "binding", null, 1, 1, ResponsibilityBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getResponsibilityBinding_ParentResp(), this.getRespRef(), this.getRespRef_ParentBindings(), "parentResp", null, 1, 1, ResponsibilityBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getResponsibilityBinding_PluginResp(), this.getRespRef(), this.getRespRef_PluginBindings(), "pluginResp", null, 1, 1, ResponsibilityBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getResponsibilityBinding_ParentResp(), theUrncorePackage.getResponsibility(), theUrncorePackage.getResponsibility_ParentBindings(), "parentResp", null, 1, 1, ResponsibilityBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Initialize enums and add enum literals
         initEEnum(waitKindEEnum, WaitKind.class, "WaitKind");

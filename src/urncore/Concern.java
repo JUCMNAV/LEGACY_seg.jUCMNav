@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link urncore.Concern#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link urncore.Concern#getSpecDiagrams <em>Spec Diagrams</em>}</li>
+ *   <li>{@link urncore.Concern#getElements <em>Elements</em>}</li>
  *   <li>{@link urncore.Concern#getCondition <em>Condition</em>}</li>
  * </ul>
  * </p>
@@ -74,6 +75,24 @@ public interface Concern extends URNmodelElement {
 	EList getSpecDiagrams();
 
 				/**
+     * Returns the value of the '<em><b>Elements</b></em>' reference list.
+     * The list contents are of type {@link urncore.URNmodelElement}.
+     * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getInconcern <em>Inconcern</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Elements</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Elements</em>' reference list.
+     * @see urncore.UrncorePackage#getConcern_Elements()
+     * @see urncore.URNmodelElement#getInconcern
+     * @model type="urncore.URNmodelElement" opposite="inconcern"
+     * @generated
+     */
+    EList getElements();
+
+                /**
      * Returns the value of the '<em><b>Condition</b></em>' containment reference.
      * It is bidirectional and its opposite is '{@link urncore.Condition#getConcern <em>Concern</em>}'.
      * <!-- begin-user-doc -->

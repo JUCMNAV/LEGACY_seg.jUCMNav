@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import urn.URNlink;
 import urn.UrnPackage;
+import urncore.Concern;
 import urncore.Metadata;
 import urncore.URNmodelElement;
 import urncore.UrncorePackage;
@@ -38,6 +39,7 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.URNmodelElementImpl#getName <em>Name</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getMetadata <em>Metadata</em>}</li>
+ *   <li>{@link urncore.impl.URNmodelElementImpl#getInconcern <em>Inconcern</em>}</li>
  * </ul>
  * </p>
  *
@@ -133,6 +135,16 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
      * @ordered
      */
 	protected EList metadata;
+
+    /**
+     * The cached value of the '{@link #getInconcern() <em>Inconcern</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getInconcern()
+     * @generated
+     * @ordered
+     */
+    protected Concern inconcern;
 
     /**
      * <!-- begin-user-doc -->
@@ -253,6 +265,66 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Concern getInconcern() {
+        if (inconcern != null && inconcern.eIsProxy()) {
+            InternalEObject oldInconcern = (InternalEObject)inconcern;
+            inconcern = (Concern)eResolveProxy(oldInconcern);
+            if (inconcern != oldInconcern) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.UR_NMODEL_ELEMENT__INCONCERN, oldInconcern, inconcern));
+            }
+        }
+        return inconcern;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Concern basicGetInconcern() {
+        return inconcern;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetInconcern(Concern newInconcern, NotificationChain msgs) {
+        Concern oldInconcern = inconcern;
+        inconcern = newInconcern;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrncorePackage.UR_NMODEL_ELEMENT__INCONCERN, oldInconcern, newInconcern);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setInconcern(Concern newInconcern) {
+        if (newInconcern != inconcern) {
+            NotificationChain msgs = null;
+            if (inconcern != null)
+                msgs = ((InternalEObject)inconcern).eInverseRemove(this, UrncorePackage.CONCERN__ELEMENTS, Concern.class, msgs);
+            if (newInconcern != null)
+                msgs = ((InternalEObject)newInconcern).eInverseAdd(this, UrncorePackage.CONCERN__ELEMENTS, Concern.class, msgs);
+            msgs = basicSetInconcern(newInconcern, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.UR_NMODEL_ELEMENT__INCONCERN, newInconcern, newInconcern));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -262,6 +334,10 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
                 return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
             case UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS:
                 return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+            case UrncorePackage.UR_NMODEL_ELEMENT__INCONCERN:
+                if (inconcern != null)
+                    msgs = ((InternalEObject)inconcern).eInverseRemove(this, UrncorePackage.CONCERN__ELEMENTS, Concern.class, msgs);
+                return basicSetInconcern((Concern)otherEnd, msgs);
         }
         return super.eInverseAdd(otherEnd, featureID, msgs);
     }
@@ -279,6 +355,8 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
                 return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
             case UrncorePackage.UR_NMODEL_ELEMENT__METADATA:
                 return ((InternalEList)getMetadata()).basicRemove(otherEnd, msgs);
+            case UrncorePackage.UR_NMODEL_ELEMENT__INCONCERN:
+                return basicSetInconcern(null, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -302,6 +380,9 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
                 return getDescription();
             case UrncorePackage.UR_NMODEL_ELEMENT__METADATA:
                 return getMetadata();
+            case UrncorePackage.UR_NMODEL_ELEMENT__INCONCERN:
+                if (resolve) return getInconcern();
+                return basicGetInconcern();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -334,6 +415,9 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
                 getMetadata().clear();
                 getMetadata().addAll((Collection)newValue);
                 return;
+            case UrncorePackage.UR_NMODEL_ELEMENT__INCONCERN:
+                setInconcern((Concern)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -363,6 +447,9 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
             case UrncorePackage.UR_NMODEL_ELEMENT__METADATA:
                 getMetadata().clear();
                 return;
+            case UrncorePackage.UR_NMODEL_ELEMENT__INCONCERN:
+                setInconcern((Concern)null);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -386,6 +473,8 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
             case UrncorePackage.UR_NMODEL_ELEMENT__METADATA:
                 return metadata != null && !metadata.isEmpty();
+            case UrncorePackage.UR_NMODEL_ELEMENT__INCONCERN:
+                return inconcern != null;
         }
         return super.eIsSet(featureID);
     }

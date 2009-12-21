@@ -20,7 +20,6 @@ import urncore.Responsibility;
  *   <li>{@link ucm.map.RespRef#getRepetitionCount <em>Repetition Count</em>}</li>
  *   <li>{@link ucm.map.RespRef#getHostDemand <em>Host Demand</em>}</li>
  *   <li>{@link ucm.map.RespRef#getRespDef <em>Resp Def</em>}</li>
- *   <li>{@link ucm.map.RespRef#getParentBindings <em>Parent Bindings</em>}</li>
  *   <li>{@link ucm.map.RespRef#getPluginBindings <em>Plugin Bindings</em>}</li>
  * </ul>
  * </p>
@@ -110,24 +109,6 @@ public interface RespRef extends PathNode {
      * @generated
      */
     void setRespDef(Responsibility value);
-
-    /**
-     * Returns the value of the '<em><b>Parent Bindings</b></em>' reference list.
-     * The list contents are of type {@link ucm.map.ResponsibilityBinding}.
-     * It is bidirectional and its opposite is '{@link ucm.map.ResponsibilityBinding#getParentResp <em>Parent Resp</em>}'.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Parent Bindings</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Parent Bindings</em>' reference list.
-     * @see ucm.map.MapPackage#getRespRef_ParentBindings()
-     * @see ucm.map.ResponsibilityBinding#getParentResp
-     * @model type="ucm.map.ResponsibilityBinding" opposite="parentResp"
-     * @generated
-     */
-    EList getParentBindings();
 
     /**
      * Returns the value of the '<em><b>Plugin Bindings</b></em>' reference list.

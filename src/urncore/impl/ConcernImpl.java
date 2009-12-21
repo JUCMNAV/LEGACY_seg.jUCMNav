@@ -22,6 +22,7 @@ import urncore.Concern;
 import urncore.Condition;
 import urncore.IURNDiagram;
 import urncore.URNdefinition;
+import urncore.URNmodelElement;
 import urncore.UrncorePackage;
 
 /**
@@ -33,6 +34,7 @@ import urncore.UrncorePackage;
  * <ul>
  *   <li>{@link urncore.impl.ConcernImpl#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link urncore.impl.ConcernImpl#getSpecDiagrams <em>Spec Diagrams</em>}</li>
+ *   <li>{@link urncore.impl.ConcernImpl#getElements <em>Elements</em>}</li>
  *   <li>{@link urncore.impl.ConcernImpl#getCondition <em>Condition</em>}</li>
  * </ul>
  * </p>
@@ -49,6 +51,16 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
      * @ordered
      */
 	protected EList specDiagrams;
+
+    /**
+     * The cached value of the '{@link #getElements() <em>Elements</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getElements()
+     * @generated
+     * @ordered
+     */
+    protected EList elements;
 
     /**
      * The cached value of the '{@link #getCondition() <em>Condition</em>}' containment reference.
@@ -133,6 +145,18 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList getElements() {
+        if (elements == null) {
+            elements = new EObjectWithInverseResolvingEList(URNmodelElement.class, this, UrncorePackage.CONCERN__ELEMENTS, UrncorePackage.UR_NMODEL_ELEMENT__INCONCERN);
+        }
+        return elements;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -187,6 +211,8 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
                 return basicSetUrndefinition((URNdefinition)otherEnd, msgs);
             case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
                 return ((InternalEList)getSpecDiagrams()).basicAdd(otherEnd, msgs);
+            case UrncorePackage.CONCERN__ELEMENTS:
+                return ((InternalEList)getElements()).basicAdd(otherEnd, msgs);
             case UrncorePackage.CONCERN__CONDITION:
                 if (condition != null)
                     msgs = ((InternalEObject)condition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UrncorePackage.CONCERN__CONDITION, null, msgs);
@@ -206,6 +232,8 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
                 return basicSetUrndefinition(null, msgs);
             case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
                 return ((InternalEList)getSpecDiagrams()).basicRemove(otherEnd, msgs);
+            case UrncorePackage.CONCERN__ELEMENTS:
+                return ((InternalEList)getElements()).basicRemove(otherEnd, msgs);
             case UrncorePackage.CONCERN__CONDITION:
                 return basicSetCondition(null, msgs);
         }
@@ -236,6 +264,8 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
                 return getUrndefinition();
             case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
                 return getSpecDiagrams();
+            case UrncorePackage.CONCERN__ELEMENTS:
+                return getElements();
             case UrncorePackage.CONCERN__CONDITION:
                 return getCondition();
         }
@@ -255,6 +285,10 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
             case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
                 getSpecDiagrams().clear();
                 getSpecDiagrams().addAll((Collection)newValue);
+                return;
+            case UrncorePackage.CONCERN__ELEMENTS:
+                getElements().clear();
+                getElements().addAll((Collection)newValue);
                 return;
             case UrncorePackage.CONCERN__CONDITION:
                 setCondition((Condition)newValue);
@@ -276,6 +310,9 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
             case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
                 getSpecDiagrams().clear();
                 return;
+            case UrncorePackage.CONCERN__ELEMENTS:
+                getElements().clear();
+                return;
             case UrncorePackage.CONCERN__CONDITION:
                 setCondition((Condition)null);
                 return;
@@ -294,6 +331,8 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
                 return getUrndefinition() != null;
             case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
                 return specDiagrams != null && !specDiagrams.isEmpty();
+            case UrncorePackage.CONCERN__ELEMENTS:
+                return elements != null && !elements.isEmpty();
             case UrncorePackage.CONCERN__CONDITION:
                 return condition != null;
         }

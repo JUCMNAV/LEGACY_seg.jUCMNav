@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link urncore.Responsibility#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link urncore.Responsibility#getDemands <em>Demands</em>}</li>
  *   <li>{@link urncore.Responsibility#getRespRefs <em>Resp Refs</em>}</li>
+ *   <li>{@link urncore.Responsibility#getParentBindings <em>Parent Bindings</em>}</li>
  * </ul>
  * </p>
  *
@@ -173,5 +174,23 @@ public interface Responsibility extends UCMmodelElement {
      * @generated
      */
     EList getRespRefs();
+
+    /**
+     * Returns the value of the '<em><b>Parent Bindings</b></em>' reference list.
+     * The list contents are of type {@link ucm.map.ResponsibilityBinding}.
+     * It is bidirectional and its opposite is '{@link ucm.map.ResponsibilityBinding#getParentResp <em>Parent Resp</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Parent Bindings</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Parent Bindings</em>' reference list.
+     * @see urncore.UrncorePackage#getResponsibility_ParentBindings()
+     * @see ucm.map.ResponsibilityBinding#getParentResp
+     * @model type="ucm.map.ResponsibilityBinding" opposite="parentResp"
+     * @generated
+     */
+    EList getParentBindings();
 
 } // Responsibility

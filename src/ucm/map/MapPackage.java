@@ -127,6 +127,15 @@ public interface MapPackage extends EPackage {
     int PATH_NODE__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PATH_NODE__INCONCERN = UrncorePackage.UC_MMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -261,6 +270,15 @@ public interface MapPackage extends EPackage {
      * @ordered
      */
     int AND_JOIN__METADATA = PATH_NODE__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int AND_JOIN__INCONCERN = PATH_NODE__INCONCERN;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -518,6 +536,15 @@ public interface MapPackage extends EPackage {
     int RESP_REF__METADATA = PATH_NODE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESP_REF__INCONCERN = PATH_NODE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -608,22 +635,13 @@ public interface MapPackage extends EPackage {
     int RESP_REF__RESP_DEF = PATH_NODE_FEATURE_COUNT + 2;
 
     /**
-     * The feature id for the '<em><b>Parent Bindings</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESP_REF__PARENT_BINDINGS = PATH_NODE_FEATURE_COUNT + 3;
-
-    /**
      * The feature id for the '<em><b>Plugin Bindings</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int RESP_REF__PLUGIN_BINDINGS = PATH_NODE_FEATURE_COUNT + 4;
+    int RESP_REF__PLUGIN_BINDINGS = PATH_NODE_FEATURE_COUNT + 3;
 
     /**
      * The number of structural features of the '<em>Resp Ref</em>' class.
@@ -632,7 +650,7 @@ public interface MapPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int RESP_REF_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 5;
+    int RESP_REF_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 4;
 
     /**
      * The meta object id for the '{@link ucm.map.impl.OrJoinImpl <em>Or Join</em>}' class.
@@ -697,6 +715,15 @@ public interface MapPackage extends EPackage {
      * @ordered
      */
     int OR_JOIN__METADATA = PATH_NODE__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int OR_JOIN__INCONCERN = PATH_NODE__INCONCERN;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -844,6 +871,15 @@ public interface MapPackage extends EPackage {
     int OR_FORK__METADATA = PATH_NODE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int OR_FORK__INCONCERN = PATH_NODE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -987,6 +1023,15 @@ public interface MapPackage extends EPackage {
      * @ordered
      */
     int CONNECT__METADATA = PATH_NODE__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONNECT__INCONCERN = PATH_NODE__INCONCERN;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1243,6 +1288,15 @@ public interface MapPackage extends EPackage {
     int WAITING_PLACE__METADATA = PATH_NODE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WAITING_PLACE__INCONCERN = PATH_NODE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1386,6 +1440,15 @@ public interface MapPackage extends EPackage {
      * @ordered
      */
     int STUB__METADATA = PATH_NODE__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STUB__INCONCERN = PATH_NODE__INCONCERN;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1605,6 +1668,15 @@ public interface MapPackage extends EPackage {
     int END_POINT__METADATA = PATH_NODE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int END_POINT__INCONCERN = PATH_NODE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1775,6 +1847,15 @@ public interface MapPackage extends EPackage {
      * @ordered
      */
     int START_POINT__METADATA = PATH_NODE__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int START_POINT__INCONCERN = PATH_NODE__INCONCERN;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1965,6 +2046,15 @@ public interface MapPackage extends EPackage {
      * @ordered
      */
     int UC_MMAP__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int UC_MMAP__INCONCERN = UrncorePackage.UC_MMODEL_ELEMENT__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -2230,6 +2320,15 @@ public interface MapPackage extends EPackage {
     int COMPONENT_REF__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_REF__INCONCERN = UrncorePackage.UC_MMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2447,6 +2546,15 @@ public interface MapPackage extends EPackage {
     int TIMER__METADATA = WAITING_PLACE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TIMER__INCONCERN = WAITING_PLACE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2601,6 +2709,15 @@ public interface MapPackage extends EPackage {
     int AND_FORK__METADATA = PATH_NODE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int AND_FORK__INCONCERN = PATH_NODE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2746,6 +2863,15 @@ public interface MapPackage extends EPackage {
     int EMPTY_POINT__METADATA = PATH_NODE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EMPTY_POINT__INCONCERN = PATH_NODE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2880,6 +3006,15 @@ public interface MapPackage extends EPackage {
      * @ordered
      */
     int DIRECTION_ARROW__METADATA = PATH_NODE__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIRECTION_ARROW__INCONCERN = PATH_NODE__INCONCERN;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -3064,6 +3199,15 @@ public interface MapPackage extends EPackage {
     int ANYTHING__METADATA = PATH_NODE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ANYTHING__INCONCERN = PATH_NODE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3200,6 +3344,15 @@ public interface MapPackage extends EPackage {
     int FAILURE_POINT__METADATA = PATH_NODE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FAILURE_POINT__INCONCERN = PATH_NODE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3300,22 +3453,22 @@ public interface MapPackage extends EPackage {
     int RESPONSIBILITY_BINDING__BINDING = 0;
 
     /**
-     * The feature id for the '<em><b>Parent Resp</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESPONSIBILITY_BINDING__PARENT_RESP = 1;
-
-    /**
      * The feature id for the '<em><b>Plugin Resp</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int RESPONSIBILITY_BINDING__PLUGIN_RESP = 2;
+    int RESPONSIBILITY_BINDING__PLUGIN_RESP = 1;
+
+    /**
+     * The feature id for the '<em><b>Parent Resp</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESPONSIBILITY_BINDING__PARENT_RESP = 2;
 
     /**
      * The number of structural features of the '<em>Responsibility Binding</em>' class.
@@ -3538,17 +3691,6 @@ public interface MapPackage extends EPackage {
      * @generated
      */
     EReference getRespRef_RespDef();
-
-    /**
-     * Returns the meta object for the reference list '{@link ucm.map.RespRef#getParentBindings <em>Parent Bindings</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Parent Bindings</em>'.
-     * @see ucm.map.RespRef#getParentBindings()
-     * @see #getRespRef()
-     * @generated
-     */
-    EReference getRespRef_ParentBindings();
 
     /**
      * Returns the meta object for the reference list '{@link ucm.map.RespRef#getPluginBindings <em>Plugin Bindings</em>}'.
@@ -4574,14 +4716,6 @@ public interface MapPackage extends EPackage {
          * @generated
          */
         EReference RESP_REF__RESP_DEF = eINSTANCE.getRespRef_RespDef();
-
-        /**
-         * The meta object literal for the '<em><b>Parent Bindings</b></em>' reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference RESP_REF__PARENT_BINDINGS = eINSTANCE.getRespRef_ParentBindings();
 
         /**
          * The meta object literal for the '<em><b>Plugin Bindings</b></em>' reference list feature.

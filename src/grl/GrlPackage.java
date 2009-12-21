@@ -245,6 +245,15 @@ public interface GrlPackage extends EPackage {
 	int GRL_NODE__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -379,6 +388,15 @@ public interface GrlPackage extends EPackage {
      * @ordered
      */
 	int BELIEF__METADATA = GRL_NODE__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BELIEF__INCONCERN = GRL_NODE__INCONCERN;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -526,6 +544,15 @@ public interface GrlPackage extends EPackage {
 	int GRL_LINKABLE_ELEMENT__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
 
 				/**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_LINKABLE_ELEMENT__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
+
+                /**
      * The feature id for the '<em><b>Links Dest</b></em>' reference list.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -615,6 +642,15 @@ public interface GrlPackage extends EPackage {
      * @ordered
      */
 	int INTENTIONAL_ELEMENT__METADATA = GRL_LINKABLE_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT__INCONCERN = GRL_LINKABLE_ELEMENT__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Links Dest</b></em>' reference list.
@@ -789,6 +825,15 @@ public interface GrlPackage extends EPackage {
 	int ACTOR__METADATA = GRL_LINKABLE_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR__INCONCERN = GRL_LINKABLE_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Links Dest</b></em>' reference list.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -952,6 +997,15 @@ public interface GrlPackage extends EPackage {
 	int GRL_GRAPH__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_GRAPH__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1077,6 +1131,15 @@ public interface GrlPackage extends EPackage {
      * @ordered
      */
 	int ACTOR_REF__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR_REF__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1251,6 +1314,15 @@ public interface GrlPackage extends EPackage {
 	int INTENTIONAL_ELEMENT_REF__METADATA = GRL_NODE__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT_REF__INCONCERN = GRL_NODE__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1414,6 +1486,15 @@ public interface GrlPackage extends EPackage {
 	int ELEMENT_LINK__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ELEMENT_LINK__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1521,6 +1602,15 @@ public interface GrlPackage extends EPackage {
      * @ordered
      */
 	int CONTRIBUTION__METADATA = ELEMENT_LINK__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION__INCONCERN = ELEMENT_LINK__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
@@ -1732,6 +1822,15 @@ public interface GrlPackage extends EPackage {
 	int DECOMPOSITION__METADATA = ELEMENT_LINK__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DECOMPOSITION__INCONCERN = ELEMENT_LINK__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1839,6 +1938,15 @@ public interface GrlPackage extends EPackage {
      * @ordered
      */
 	int DEPENDENCY__METADATA = ELEMENT_LINK__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DEPENDENCY__INCONCERN = ELEMENT_LINK__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
@@ -2012,6 +2120,15 @@ public interface GrlPackage extends EPackage {
      * @ordered
      */
 	int EVALUATION_STRATEGY__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
+
+    /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_STRATEGY__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
 
     /**
      * The feature id for the '<em><b>Author</b></em>' attribute.
@@ -2233,6 +2350,15 @@ public interface GrlPackage extends EPackage {
 	int STRATEGIES_GROUP__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
 
     /**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STRATEGIES_GROUP__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
+
+    /**
      * The feature id for the '<em><b>Strategies</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2324,6 +2450,15 @@ public interface GrlPackage extends EPackage {
 	int CONTRIBUTION_CONTEXT_GROUP__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
 
 				/**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION_CONTEXT_GROUP__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
+
+                /**
      * The feature id for the '<em><b>Grlspec</b></em>' container reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2415,6 +2550,15 @@ public interface GrlPackage extends EPackage {
 	int CONTRIBUTION_CONTEXT__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
 
 				/**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION_CONTEXT__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
+
+                /**
      * The feature id for the '<em><b>Grlspec</b></em>' container reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2570,6 +2714,15 @@ public interface GrlPackage extends EPackage {
 	int COLLAPSED_ACTOR_REF__METADATA = GRL_NODE__METADATA;
 
 				/**
+     * The feature id for the '<em><b>Inconcern</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COLLAPSED_ACTOR_REF__INCONCERN = GRL_NODE__INCONCERN;
+
+                /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

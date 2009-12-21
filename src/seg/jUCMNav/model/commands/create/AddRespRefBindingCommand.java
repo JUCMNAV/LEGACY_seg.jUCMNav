@@ -20,7 +20,7 @@ public class AddRespRefBindingCommand extends Command implements JUCMNavCommand 
 
     private PluginBinding plugin;
 
-    private RespRef parent;
+    private Responsibility parent;
 
     private RespRef child;
 
@@ -39,7 +39,7 @@ public class AddRespRefBindingCommand extends Command implements JUCMNavCommand 
      * @param child
      *            the plug-in component
      */
-    public AddRespRefBindingCommand(PluginBinding plugin, RespRef parent, RespRef child) {
+    public AddRespRefBindingCommand(PluginBinding plugin, Responsibility parent, RespRef child) {
         super();
         this.plugin = plugin;
         this.parent = parent;

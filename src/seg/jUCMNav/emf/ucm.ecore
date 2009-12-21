@@ -38,6 +38,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="coeffVarSeq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="population" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="#//performance/TimeUnit"
+          defaultValueLiteral="ms"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="startPoint" lowerBound="1"
           eType="#//map/StartPoint" transient="true" eOpposite="#//map/StartPoint/workload"/>
     </eClassifiers>
@@ -49,6 +51,8 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ActiveResource" abstract="true" eSuperTypes="#//performance/GeneralResource">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="opTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="#//performance/TimeUnit"
+          defaultValueLiteral="ms"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="PassiveResource" eSuperTypes="#//performance/GeneralResource">
       <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="ecore:EClass urncore.ecore#//Component"
@@ -69,6 +73,15 @@
           eType="ecore:EClass urncore.ecore#//Responsibility" transient="true" eOpposite="urncore.ecore#//Responsibility/demands"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="resource" lowerBound="1"
           eType="#//performance/ExternalOperation" eOpposite="#//performance/ExternalOperation/demands"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="TimeUnit">
+      <eLiterals name="year"/>
+      <eLiterals name="day" value="1"/>
+      <eLiterals name="h" value="2"/>
+      <eLiterals name="s" value="3"/>
+      <eLiterals name="ms" value="4"/>
+      <eLiterals name="us" value="5"/>
+      <eLiterals name="ns" value="6"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="map" nsURI="http:///ucm/map.ecore" nsPrefix="ucm.map">
@@ -101,8 +114,6 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="hostDemand" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="respDef" lowerBound="1"
           eType="ecore:EClass urncore.ecore#//Responsibility" eOpposite="urncore.ecore#//Responsibility/respRefs"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parentBindings" upperBound="-1"
-          eType="#//map/ResponsibilityBinding" eOpposite="#//map/ResponsibilityBinding/parentResp"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBindings" upperBound="-1"
           eType="#//map/ResponsibilityBinding" eOpposite="#//map/ResponsibilityBinding/pluginResp"/>
     </eClassifiers>
@@ -275,10 +286,10 @@
     <eClassifiers xsi:type="ecore:EClass" name="ResponsibilityBinding">
       <eStructuralFeatures xsi:type="ecore:EReference" name="binding" lowerBound="1"
           eType="#//map/PluginBinding" transient="true" eOpposite="#//map/PluginBinding/responsibilities"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parentResp" lowerBound="1"
-          eType="#//map/RespRef" eOpposite="#//map/RespRef/parentBindings"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginResp" lowerBound="1"
           eType="#//map/RespRef" eOpposite="#//map/RespRef/pluginBindings"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parentResp" lowerBound="1"
+          eType="ecore:EClass urncore.ecore#//Responsibility" eOpposite="urncore.ecore#//Responsibility/parentBindings"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="scenario" nsURI="http:///ucm/scenario.ecore" nsPrefix="ucm.scenario">

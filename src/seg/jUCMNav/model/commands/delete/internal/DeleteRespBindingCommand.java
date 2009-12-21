@@ -6,6 +6,7 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.ResponsibilityBinding;
+import urncore.Responsibility;
 
 /**
  * Deletes a plugin's component binding.
@@ -16,7 +17,7 @@ import ucm.map.ResponsibilityBinding;
 public class DeleteRespBindingCommand extends Command implements JUCMNavCommand {
 
     private PluginBinding plugin;
-    private RespRef parent;
+    private Responsibility parent;
     private RespRef child;
     private ResponsibilityBinding binding;
 

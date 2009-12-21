@@ -88,6 +88,8 @@ public class PerformanceFactoryImpl extends EFactoryImpl implements PerformanceF
                 return createDeviceKindFromString(eDataType, initialValue);
             case PerformancePackage.ARRIVAL_PROCESS:
                 return createArrivalProcessFromString(eDataType, initialValue);
+            case PerformancePackage.TIME_UNIT:
+                return createTimeUnitFromString(eDataType, initialValue);
             default:
                 throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
@@ -104,6 +106,8 @@ public class PerformanceFactoryImpl extends EFactoryImpl implements PerformanceF
                 return convertDeviceKindToString(eDataType, instanceValue);
             case PerformancePackage.ARRIVAL_PROCESS:
                 return convertArrivalProcessToString(eDataType, instanceValue);
+            case PerformancePackage.TIME_UNIT:
+                return convertTimeUnitToString(eDataType, instanceValue);
             default:
                 throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
@@ -196,6 +200,26 @@ public class PerformanceFactoryImpl extends EFactoryImpl implements PerformanceF
      * @generated
      */
 	public String convertArrivalProcessToString(EDataType eDataType, Object instanceValue) {
+        return instanceValue == null ? null : instanceValue.toString();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public TimeUnit createTimeUnitFromString(EDataType eDataType, String initialValue) {
+        TimeUnit result = TimeUnit.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String convertTimeUnitToString(EDataType eDataType, Object instanceValue) {
         return instanceValue == null ? null : instanceValue.toString();
     }
 
