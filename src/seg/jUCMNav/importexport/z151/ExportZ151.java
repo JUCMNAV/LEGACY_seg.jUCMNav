@@ -65,10 +65,10 @@ public class ExportZ151 implements IURNExport {
 			m.marshal(spec, fos);
 			mh.resetUrnSpec();
 		} catch (JAXBException jbe) {
-			System.err.println(jbe);
+			System.err.println(jbe.getMessage());
 			mh.resetUrnSpec();
 		}catch (Exception e) {
-			System.err.println(e);
+			System.err.println(e.getMessage());
 			mh.resetUrnSpec();
 		}
     }

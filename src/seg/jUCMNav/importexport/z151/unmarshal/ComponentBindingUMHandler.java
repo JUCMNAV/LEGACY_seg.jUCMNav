@@ -11,12 +11,14 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 //  </xsd:complexType>
 
 import seg.jUCMNav.importexport.z151.generated.ComponentBinding;
+import seg.jUCMNav.importexport.z151.generated.InBinding;
 import seg.jUCMNav.model.ModelCreationFactory;
 
 public class ComponentBindingUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		ComponentBinding elemZ = (ComponentBinding) o;
-		ucm.map.ComponentBinding elem = null;
+		String objId = elemZ.getId();
+		ucm.map.ComponentBinding elem = (ucm.map.ComponentBinding) getObject(objId, target, ucm.map.ComponentBinding.class);
 		if (null == elem) {
 		if (null == target)
 				elem = (ucm.map.ComponentBinding) ModelCreationFactory

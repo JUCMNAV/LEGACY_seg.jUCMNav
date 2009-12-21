@@ -34,10 +34,10 @@ public class ImportZ151 implements IURNImport {
 			mh.resetUrnSpec();
 			return urn;
 		} catch (JAXBException jbe) {
-			System.err.println(jbe);
+			System.err.println(jbe.getMessage());
 			mh.resetUrnSpec();
 		} catch (Exception jbe) {
-			System.err.println(jbe);
+			System.err.println(jbe.getMessage());
 			mh.resetUrnSpec();
 		}
 		return null;

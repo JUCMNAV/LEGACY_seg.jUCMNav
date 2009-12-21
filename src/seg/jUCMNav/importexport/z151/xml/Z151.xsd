@@ -265,6 +265,7 @@
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<xsd:complexType name="ComponentBinding">
 		<xsd:sequence>
+		<xsd:element name="id" type="xsd:ID" /> <!-- ADDED -->
 			<xsd:element name="parentComponent" type="xsd:IDREF" /> <!-- ComponentRef -->
 			<xsd:element name="pluginComponent" type="xsd:IDREF" /> <!-- ComponentRef -->
 		</xsd:sequence>
