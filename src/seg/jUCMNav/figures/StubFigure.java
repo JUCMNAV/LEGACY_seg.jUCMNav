@@ -341,6 +341,7 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
             }
         } else {
             mainFigure.setBackgroundColor(ColorManager.LINE);
+            mainFigure.setLineStyle(SWT.LINE_SOLID);
 
             if (aspect == 2) { // Entrance Aspect marker
                 entrancePanel.setVisible(true);

@@ -105,7 +105,7 @@ public class ChangeStubTypeAction extends URNSelectionAction {
                 PointcutKind p = PointcutKind.NONE_LITERAL;
                 if(stubType == 2)
                     p = PointcutKind.REGULAR_LITERAL;
-                else
+                else if( stubType == 3)
                     p = PointcutKind.REPLACEMENT_LITERAL;
 
                 AspectKind a = AspectKind.NONE_LITERAL;
@@ -115,10 +115,10 @@ public class ChangeStubTypeAction extends URNSelectionAction {
                     a = AspectKind.ENTRANCE_LITERAL;
                 else if (stubType == 8)
                     a = AspectKind.EXIT_LITERAL;
-                else if (stubType == 8)
+                else if (stubType == 9)
                     a = AspectKind.CONDITIONAL_LITERAL;
                 
-            comm = new ChangeStubTypeCommand(sel.getStub(), stubType != 0, p, stubType == 3 || stubType == 4, stubType == 4, a);
+            comm = new ChangeStubTypeCommand(sel.getStub(), stubType != 0, p, stubType == 4 || stubType == 5, stubType == 5, a);
             return comm;
             }
             catch(Exception ex) {
