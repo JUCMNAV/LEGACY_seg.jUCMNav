@@ -1,6 +1,7 @@
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.Polyline;
@@ -9,6 +10,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.geometry.Transform;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.SimpleTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
@@ -22,7 +24,7 @@ import seg.jUCMNav.Messages;
  * 
  * @author Etienne Tremblay, gunterm
  */
-public class StubFigure extends PathNodeFigure {
+public class StubFigure extends PathNodeFigure implements IRotateable {
     // is of a larger size.
     private static final int DEFAULT_HEIGHT = 34;
     private static final int DEFAULT_WIDTH = 34;
@@ -47,7 +49,7 @@ public class StubFigure extends PathNodeFigure {
     private Polyline line2;
     private FreeformLayer xPanel;
     private PointList edges;
-    
+
     private int aspect = 0;
     private int pointcutKind;
     private FreeformLayer exitPanel;
@@ -69,15 +71,14 @@ public class StubFigure extends PathNodeFigure {
      */
     protected void createFigure() {
 
-        
-        entrancePanel = new FreeformLayer();
-        entrancePanel.setBounds(new Rectangle(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        
+        exitPanel = new FreeformLayer();
+        exitPanel.setBounds(new Rectangle(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
+
         RectangleFigure rectEntrance = new RectangleFigure();
         rectEntrance.setBounds(new Rectangle(0, 8, 4, 17));
         rectEntrance.setFill(true);
         rectEntrance.setBackgroundColor(ColorManager.LINE);
-        
+
         Polyline lineEnt = new Polygon();
         lineEnt.addPoint(new Point(2, 8));
         lineEnt.addPoint(new Point(10, 16));
@@ -86,47 +87,47 @@ public class StubFigure extends PathNodeFigure {
         lineEnt.setFill(true);
         lineEnt.setBackgroundColor(ColorManager.WHITE);
 
-        entrancePanel.add(lineEnt);
-        entrancePanel.add(rectEntrance);
-        entrancePanel.setVisible(false);
-        
-        add(entrancePanel);
-        
-        exitPanel = new FreeformLayer();
-        exitPanel.setBounds(new Rectangle(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        
+        exitPanel.add(lineEnt);
+        exitPanel.add(rectEntrance);
+        exitPanel.setVisible(false);
+
+        add(exitPanel);
+
+        entrancePanel = new FreeformLayer();
+        entrancePanel.setBounds(new Rectangle(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
+
         RectangleFigure rectExit = new RectangleFigure();
-        rectExit.setBounds(new Rectangle(DEFAULT_WIDTH-4, 8, 4, 17));
+        rectExit.setBounds(new Rectangle(DEFAULT_WIDTH - 10, 8, 4, 17));
         rectExit.setFill(true);
         rectExit.setBackgroundColor(ColorManager.LINE);
-        
+
         Polyline lineExit = new Polygon();
-        lineExit.addPoint(new Point(DEFAULT_WIDTH-2, 8));
-        lineExit.addPoint(new Point(DEFAULT_WIDTH-10, 16));
-        lineExit.addPoint(new Point(DEFAULT_WIDTH-2, 24));
-        lineExit.addPoint(new Point(DEFAULT_WIDTH-2, 8));
+        lineExit.addPoint(new Point(DEFAULT_WIDTH - 8, 8));
+        lineExit.addPoint(new Point(DEFAULT_WIDTH, 16));
+        lineExit.addPoint(new Point(DEFAULT_WIDTH - 8, 24));
+        lineExit.addPoint(new Point(DEFAULT_WIDTH - 8, 8));
         lineExit.setFill(true);
         lineExit.setBackgroundColor(ColorManager.WHITE);
 
-        exitPanel.add(lineExit);
-        exitPanel.add(rectExit);
-        exitPanel.setVisible(false);
-        
-        add(exitPanel);
-        
+        entrancePanel.add(lineExit);
+        entrancePanel.add(rectExit);
+        entrancePanel.setVisible(false);
+
+        add(entrancePanel);
+
         condPanel = new FreeformLayer();
         condPanel.setBounds(new Rectangle(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        
+
         RectangleFigure rectCond = new RectangleFigure();
-        rectCond.setBounds(new Rectangle(9, DEFAULT_HEIGHT/2 + DEFAULT_HEIGHT/4, 17, 4));
+        rectCond.setBounds(new Rectangle(9, DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4, 17, 4));
         rectCond.setFill(true);
         rectCond.setBackgroundColor(ColorManager.LINE);
-        
+
         condPanel.add(rectCond);
         condPanel.setVisible(false);
-        
+
         add(condPanel);
-        
+
         mainFigure = new Polygon();
         edges = new PointList();
         preferredSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -140,9 +141,9 @@ public class StubFigure extends PathNodeFigure {
         mainFigure.setBackgroundColor(ColorManager.FILL);
         mainFigure.setFill(true);
         mainFigure.setAntialias(SWT.ON);
-        
+
         add(mainFigure);
-        
+
         // create the text inside the main figure
         flowPage = new FlowPage();
         stubTypeText = new TextFlow();
@@ -239,7 +240,7 @@ public class StubFigure extends PathNodeFigure {
         entrancePanel.setVisible(false);
         exitPanel.setVisible(false);
         condPanel.setVisible(false);
-        
+
         this.pointcutKind = pointcutKind;
         this.aspect = aspect;
 
@@ -251,7 +252,7 @@ public class StubFigure extends PathNodeFigure {
             edges.addPoint(DEFAULT_WIDTH - 1, DEFAULT_HEIGHT / 2);
             edges.addPoint(DEFAULT_WIDTH / 2, 1);
             mainFigure.setPoints(edges);
-            
+
             if (pointcutKind == 1 && dynamic) {
                 stubTypeText.setText(Messages.getString("StubFigure.pointcutStubText")); //$NON-NLS-1$
                 flowPage.setBounds(new Rectangle(DEFAULT_WIDTH / 2 - 5, DEFAULT_HEIGHT / 2 - 12, 20, 20));
@@ -293,23 +294,23 @@ public class StubFigure extends PathNodeFigure {
                 mainFigure.setLineStyle(SWT.LINE_SOLID);
             }
         } else {
-            int width = (DEFAULT_HEIGHT/4);
-            
+            int width = (DEFAULT_HEIGHT / 4);
+
             edges = new PointList();
-            edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT/2 - width);
+            edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2 - width);
             edges.addPoint(DEFAULT_WIDTH / 2 - width, DEFAULT_HEIGHT / 2);
-            edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT/2 + width);
+            edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2 + width);
             edges.addPoint(DEFAULT_WIDTH / 2 + width, DEFAULT_HEIGHT / 2);
-            edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT/2 - width);
-            
+            edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2 - width);
+
             mainFigure.setPoints(edges);
             mainFigure.setBackgroundColor(ColorManager.LINE);
-            
-            if(aspect == 2) { // Entrance Aspect marker
+
+            if (aspect == 2) { // Entrance Aspect marker
                 entrancePanel.setVisible(true);
-            } else if(aspect == 3) { // Exit Aspect marker
+            } else if (aspect == 3) { // Exit Aspect marker
                 exitPanel.setVisible(true);
-            } else if(aspect == 4) { // Conditional Aspect marker
+            } else if (aspect == 4) { // Conditional Aspect marker
                 condPanel.setVisible(true);
             }
         }
@@ -337,11 +338,17 @@ public class StubFigure extends PathNodeFigure {
             if (hover)
                 setColor(ColorManager.HOVER);
             else {
-                if(aspect != 0)
+                if (aspect != 0)
                     setColor(ColorManager.LINE);
                 else
                     setColor(ColorManager.FILL);
             }
+        }
+    }
+
+    public void rotate(double angle) {
+        if (aspect != 0) {
+            // TODO: rotate 
         }
     }
 }
