@@ -152,7 +152,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
         add(elementsDrawer);
 
         // Only add KPI to the palette if we show advanced options
-        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() || !DisplayPreferences.getInstance().isHideKPI())
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() || !DisplayPreferences.getInstance().isShowKPI())
             addKpi();
     }
 

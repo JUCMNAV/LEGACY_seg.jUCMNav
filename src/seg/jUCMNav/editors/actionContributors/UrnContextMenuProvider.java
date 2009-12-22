@@ -169,7 +169,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[12] = getActionRegistry().getAction(AddStartPointAction.ADDSTART);
         actions[13] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(0));
         actions[14] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(1));
-        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isHideAspect()) {
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect()) {
             actions[15] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(2));
             actions[16] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(3));
             actions[17] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(4));

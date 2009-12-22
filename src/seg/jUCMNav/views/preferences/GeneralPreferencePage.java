@@ -4,6 +4,11 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -56,18 +61,41 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         BooleanFieldEditor strict_codeeditor = new BooleanFieldEditor(PREF_STRICTCODEEDITOR,
                 Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(strict_codeeditor);
+        
+        Group g = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
+        g.setText("Advanced Mode");
+        
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 1;
+        
+        g.setLayout(layout);
+        
+        GridData data = new GridData();
+        
+        g.setLayoutData(data);
+        
+        Composite c = new Composite(g, SWT.NONE);
+//        data = new GridData();
+//        data.grabExcessHorizontalSpace = true;
+//        data.horizontalIndent = 5;
+//        c.setLayoutData(data);
 
-        BooleanFieldEditor advanced_jucmnav = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCM, "Hide the following advanced features:",
-                getFieldEditorParent());
+        BooleanFieldEditor advanced_jucmnav = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCM, "Enable the following advanced features:", c);
         addField(advanced_jucmnav);
         
-        BooleanFieldEditor advanced_KPI = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMKPI, "-- KPI", getFieldEditorParent());
+        c = new Composite(g, SWT.NONE);
+        data = new GridData();
+        data.grabExcessHorizontalSpace = true;
+        data.horizontalIndent = 20;
+        c.setLayoutData(data);
+        
+        BooleanFieldEditor advanced_KPI = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMKPI, "KPI", c);
         addField(advanced_KPI);
         
-        BooleanFieldEditor advanced_Perf = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMPERF, "-- Performance Analysis", getFieldEditorParent());
+        BooleanFieldEditor advanced_Perf = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMPERF, "Performance Analysis", c);
         addField(advanced_Perf);
         
-        BooleanFieldEditor advanced_Aspects = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMASPECTS, "-- Aspects", getFieldEditorParent());
+        BooleanFieldEditor advanced_Aspects = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMASPECTS, "Aspects", c);
         addField(advanced_Aspects);
     }
 

@@ -41,7 +41,7 @@ public class ManageConcernsAction extends URNSelectionAction {
      * @see seg.jUCMNav.actions.URNSelectionAction#calculateEnabled()
      */
     protected boolean calculateEnabled() {
-        if(!DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isHideAspect())
+        if(!DisplayPreferences.getInstance().isAdvancedControlEnabled() || !DisplayPreferences.getInstance().isShowAspect())
             return false;
         
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

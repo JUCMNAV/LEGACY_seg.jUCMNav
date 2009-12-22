@@ -256,7 +256,7 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
         advancedItems.add(entry);
         keyboardMapping.put("b", entry); //$NON-NLS-1$
         
-        showAdvancedStubs(DisplayPreferences.getInstance().isAdvancedControlEnabled() || !DisplayPreferences.getInstance().isHideAspect());
+        showAdvancedStubs(DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect());
 
         add(componentsDrawer);
         

@@ -45,7 +45,7 @@ public class ManageResourcesAction extends URNSelectionAction {
      * True if we've selected something with resource.
      */
     protected boolean calculateEnabled() {
-        if(!DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isHidePerformance())
+        if(!DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowPerformance())
             return false;
         
         boolean enable = false;

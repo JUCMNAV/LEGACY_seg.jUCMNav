@@ -125,31 +125,29 @@ public class DisplayPreferences {
                     // The user changed the option to show or hide advanced feature in JUCMNav
                     // Show or hide various informations in the UI.
                     if (DisplayPreferences.getInstance().isAdvancedControlEnabled()) {
-                        showView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
-                        showView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
-                        showView(page, IPageLayout.ID_PROP_SHEET);
-                        showView(page, "seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
-
-                        addKpi(page);
-                        addStubs(page);
-                    } else {
-                        if (isHideKPI()) {
-                            hideView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
-                            hideView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
-                            removeKpi(page);
-                        } else if (!isHideKPI() && event.getProperty().equals(PREF_ADVANCEDUCMKPI)) {
+                        if (isShowKPI()) {
                             showView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
                             showView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
                             showView(page, IPageLayout.ID_PROP_SHEET);
                             showView(page, "seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
+
                             addKpi(page);
+                        } else if (!isShowKPI() && event.getProperty().equals(PREF_ADVANCEDUCMKPI)) {
+                            hideView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
+                            hideView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
+                            removeKpi(page);
                         }
-                        
-                        if (isHideAspect()) {
-                            removeStubs(page);
-                        }
-                        else if(!isHideAspect() && event.getProperty().equals(PREF_ADVANCEDUCMASPECTS))
+
+                        if (isShowAspect())
                             addStubs(page);
+                        else if (!isShowAspect() && event.getProperty().equals(PREF_ADVANCEDUCMASPECTS))
+                            removeStubs(page);
+                    } else {
+                        hideView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
+                        hideView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
+                        removeKpi(page);
+
+                        removeStubs(page);
                     }
 
                     refreshViews();
@@ -475,37 +473,37 @@ public class DisplayPreferences {
     }
 
     public boolean isAdvancedControlEnabled() {
-        return !getPreferenceStore().getBoolean(PREF_ADVANCEDUCM);
+        return getPreferenceStore().getBoolean(PREF_ADVANCEDUCM);
     }
 
     public void setAdvancedControlEnabled(boolean value) {
-        getPreferenceStore().setValue(PREF_ADVANCEDUCM, !value);
+        getPreferenceStore().setValue(PREF_ADVANCEDUCM, value);
         refreshViews();
     }
 
-    public boolean isHideKPI() {
+    public boolean isShowKPI() {
         return getPreferenceStore().getBoolean(PREF_ADVANCEDUCMKPI);
     }
 
-    public void setHideKPI(boolean value) {
+    public void setShowKPI(boolean value) {
         getPreferenceStore().setValue(PREF_ADVANCEDUCMKPI, value);
         refreshViews();
     }
 
-    public boolean isHidePerformance() {
+    public boolean isShowPerformance() {
         return getPreferenceStore().getBoolean(PREF_ADVANCEDUCMPERF);
     }
 
-    public void setHidePerformance(boolean value) {
+    public void setShowPerformance(boolean value) {
         getPreferenceStore().setValue(PREF_ADVANCEDUCMPERF, value);
         refreshViews();
     }
 
-    public boolean isHideAspect() {
+    public boolean isShowAspect() {
         return getPreferenceStore().getBoolean(PREF_ADVANCEDUCMASPECTS);
     }
 
-    public void setHideAspect(boolean value) {
+    public void setShowAspect(boolean value) {
         getPreferenceStore().setValue(PREF_ADVANCEDUCMASPECTS, value);
         refreshViews();
     }
