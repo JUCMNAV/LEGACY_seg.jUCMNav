@@ -5,10 +5,12 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.commands.delete.internal.DeleteRespBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemovePathNodeCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveResponsibilityCommand;
 import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.RespRef;
+import ucm.map.ResponsibilityBinding;
 import ucm.performance.Demand;
 import urn.URNlink;
 import urncore.Responsibility;
@@ -86,6 +88,12 @@ public class DeleteResponsibilityCommand extends CompoundCommand {
                 RespRef reference = (RespRef) it.next();
                 // Edit part registry map is not necessary here.
                 add(new RemovePathNodeCommand(reference, null));
+            }
+            
+            // Delete all responsibility bindings
+            for (Iterator it = resp.getParentBindings().iterator(); it.hasNext();) {
+                ResponsibilityBinding binding = (ResponsibilityBinding) it.next();
+                add(new DeleteRespBindingCommand(binding));
             }
 
             add(new RemoveResponsibilityCommand(resp));
