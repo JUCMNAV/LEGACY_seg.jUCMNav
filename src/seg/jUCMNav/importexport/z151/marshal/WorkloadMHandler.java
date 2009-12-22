@@ -91,7 +91,6 @@ import seg.jUCMNav.importexport.z151.generated.OWPeriodic;
 import seg.jUCMNav.importexport.z151.generated.OWPhaseType;
 import seg.jUCMNav.importexport.z151.generated.OWPoisson;
 import seg.jUCMNav.importexport.z151.generated.OWUniform;
-import seg.jUCMNav.importexport.z151.generated.TimeUnit;
 import seg.jUCMNav.importexport.z151.generated.Workload;
 
 public class WorkloadMHandler extends UCMmodelElementMHandler {
@@ -131,7 +130,7 @@ public class WorkloadMHandler extends UCMmodelElementMHandler {
 		}
 		if (isFullConstruction){
 		elemZ = (Workload) super.handle(elem, elemZ, true);
-		elemZ.setUnit(TimeUnit.MS);
+        elemZ.setUnit(getTimeUnit(elem.getUnit()));
 		//elemZ.setId();
 		//elemZ.setDesc();
 		//elemZ.setConcern();

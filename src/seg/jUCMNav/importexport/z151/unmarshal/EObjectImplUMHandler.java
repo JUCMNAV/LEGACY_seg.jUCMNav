@@ -72,6 +72,7 @@ import seg.jUCMNav.importexport.z151.generated.ScenarioGroup;
 import seg.jUCMNav.importexport.z151.generated.StartPoint;
 import seg.jUCMNav.importexport.z151.generated.StrategiesGroup;
 import seg.jUCMNav.importexport.z151.generated.Stub;
+import seg.jUCMNav.importexport.z151.generated.TimeUnit;
 import seg.jUCMNav.importexport.z151.generated.Timer;
 import seg.jUCMNav.importexport.z151.generated.UCMmap;
 import seg.jUCMNav.importexport.z151.generated.UCMmodelElement;
@@ -344,6 +345,38 @@ public abstract class EObjectImplUMHandler {
 			return ucm.performance.DeviceKind.OTHER_LITERAL;
 		}
 	}
+
+    //    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    //    <!--  TimeUnit  -->
+    //    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    //            <xsd:enumeration value="year" />
+    //            <xsd:enumeration value="day" />
+    //            <xsd:enumeration value="h" />
+    //            <xsd:enumeration value="s" />
+    //            <xsd:enumeration value="ms" />
+    //            <xsd:enumeration value="us" />
+    //            <xsd:enumeration value="ns" />
+
+    protected ucm.performance.TimeUnit getTimeUnit(TimeUnit typeJ) {
+        switch (typeJ) {
+        case MS: // Default situation sorted first...
+            return ucm.performance.TimeUnit.MS_LITERAL;
+        case YEAR:
+            return ucm.performance.TimeUnit.YEAR_LITERAL;
+        case DAY:
+            return ucm.performance.TimeUnit.DAY_LITERAL;
+        case H:
+            return ucm.performance.TimeUnit.H_LITERAL;
+        case S:
+            return ucm.performance.TimeUnit.S_LITERAL;
+        case US:
+            return ucm.performance.TimeUnit.US_LITERAL;
+        case NS:
+            return ucm.performance.TimeUnit.NS_LITERAL;
+        default:
+            return ucm.performance.TimeUnit.MS_LITERAL;
+        }
+    }
 
 	protected EObjectImplUMHandler getHandler(Object obj) {
 		return ourClass2Conv.get(obj.getClass());

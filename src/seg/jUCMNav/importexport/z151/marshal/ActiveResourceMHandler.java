@@ -15,7 +15,6 @@ package seg.jUCMNav.importexport.z151.marshal;
 //  </xsd:complexType>
 
 import seg.jUCMNav.importexport.z151.generated.ActiveResource;
-import seg.jUCMNav.importexport.z151.generated.TimeUnit;
 
 public class ActiveResourceMHandler extends GeneralResourceMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
@@ -25,7 +24,7 @@ public class ActiveResourceMHandler extends GeneralResourceMHandler {
 		if (isFullConstruction) {
 			elemZ = (ActiveResource) super.handle(elem, elemZ, isFullConstruction);
 			elemZ.setOpTime(elem.getOpTime());
-			elemZ.setUnit(TimeUnit.MS); // set to default
+			elemZ.setUnit(getTimeUnit(elem.getUnit()));
 
 			// elemZ.setMultiplicity(elem.getMultiplicity());
 			// elemZ.setSchedPolicy(elem.getSchedPolicy());

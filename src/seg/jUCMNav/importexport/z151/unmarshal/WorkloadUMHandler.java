@@ -28,6 +28,8 @@ public class WorkloadUMHandler extends UCMmodelElementUMHandler {
 		if (isFullConstruction) {
 			elem = (ucm.performance.Workload) super.handle(elemZ, elem, true);
 			// elem.setStartPoint(); handled by StartPointUMHandler
+	        elem.setUnit(getTimeUnit(elemZ.getUnit()));
+
 			ucm.performance.ArrivalProcess ArrivalProcess = null;
 			if (elemZ instanceof ClosedWorkload) {
 				elem.setPopulation(((ClosedWorkload) elemZ).getPopulation());

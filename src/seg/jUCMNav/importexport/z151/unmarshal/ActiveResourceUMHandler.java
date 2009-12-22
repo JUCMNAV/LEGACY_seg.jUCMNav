@@ -24,7 +24,7 @@ public class ActiveResourceUMHandler extends GeneralResourceUMHandler {
 			elem = (ucm.performance.ActiveResource) super.handle(elemZ, elem,
 					true);
 			elem.setOpTime(elemZ.getOpTime());
-			// jUCMNav doesn't have TimeUnit, but Z151 have
+            elem.setUnit(getTimeUnit(elemZ.getUnit()));
 			// elem.setUcmspec();
 			// elem.setMultiplicity();
 			// elem.setSchedPolicy();
