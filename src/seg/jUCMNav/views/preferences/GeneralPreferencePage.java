@@ -57,9 +57,18 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
                 Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(strict_codeeditor);
 
-        BooleanFieldEditor advanced_jucmnav = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCM, "Use jUCMNav Advanced Features",
+        BooleanFieldEditor advanced_jucmnav = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCM, "Hide the following advanced features:",
                 getFieldEditorParent());
         addField(advanced_jucmnav);
+        
+        BooleanFieldEditor advanced_KPI = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMKPI, "-- KPI", getFieldEditorParent());
+        addField(advanced_KPI);
+        
+        BooleanFieldEditor advanced_Perf = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMPERF, "-- Performance Analysis", getFieldEditorParent());
+        addField(advanced_Perf);
+        
+        BooleanFieldEditor advanced_Aspects = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMASPECTS, "-- Aspects", getFieldEditorParent());
+        addField(advanced_Aspects);
     }
 
     /**

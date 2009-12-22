@@ -154,7 +154,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
 
         showConcernsActionItem = new ActionContributionItem(showConcernsAction);
 
-        if (DisplayPreferences.getInstance().isAdvancedControlEnabled())
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() || !DisplayPreferences.getInstance().isHideAspect())
             tbm.add(showConcernsActionItem);
 
         showOverviewAction = new Action() {
@@ -210,7 +210,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         IMenuManager mm = getSite().getActionBars().getMenuManager();
         mm.add(showOutlineAction);
         mm.add(showDefinitionsAction);
-        if (DisplayPreferences.getInstance().isAdvancedControlEnabled())
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() || !DisplayPreferences.getInstance().isHideAspect())
             mm.add(showConcernsActionItem);
         mm.add(showOverviewAction);
     }
@@ -643,7 +643,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
 
         IMenuManager mm = getSite().getActionBars().getMenuManager();
         IToolBarManager tbm = getSite().getActionBars().getToolBarManager();
-        if (DisplayPreferences.getInstance().isAdvancedControlEnabled()) {
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() || !DisplayPreferences.getInstance().isHideAspect()) {
 //            IContributionItem item = tbm.find(showConcernsAction.getActionDefinitionId());
             
             boolean found=false;

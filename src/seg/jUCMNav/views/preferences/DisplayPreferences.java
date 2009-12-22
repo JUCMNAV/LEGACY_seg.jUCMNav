@@ -66,7 +66,10 @@ public class DisplayPreferences {
     public static final String SORT_DEFAULT = "SORTDEF"; //$NON-NLS-1$
     public static final String SORT_ID = "SORTID"; //$NON-NLS-1$
     public static final String SORT_NAME = "SORTNAME"; //$NON-NLS-1$
-    
+    public static final String PREF_ADVANCEDUCMKPI = "PREF_ADVANCEDKPI";
+    public static final String PREF_ADVANCEDUCMASPECTS = "PREF_ADVANCEDASPECTS";
+    public static final String PREF_ADVANCEDUCMPERF = "PREF_ADVANCEDPERF";
+
     public Vector<String> advancedActions = new Vector<String>();
 
     /**
@@ -85,6 +88,9 @@ public class DisplayPreferences {
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_OUTLINE_FILTER, ""); //$NON-NLS-1$
 
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_ADVANCEDUCM, true);
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_ADVANCEDUCMKPI, true);
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_ADVANCEDUCMASPECTS, true);
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(PREF_ADVANCEDUCMPERF, true);
 
         getInstance(); // Create the instance
     }
@@ -106,14 +112,14 @@ public class DisplayPreferences {
     private DisplayPreferences() {
         listenerViews = new ArrayList<JUCMNavRefreshableView>();
         setGlobalFilterEnabled(false);
-        
+
         advancedActions.add(ManageConcernsAction.MANAGECONCERNS);
 
         // Listen to preference for changes
         JUCMNavPlugin.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent event) {
-                if (event.getProperty().equals(PREF_ADVANCEDUCM)) {
-
+                if (event.getProperty().equals(PREF_ADVANCEDUCM) || event.getProperty().equals(PREF_ADVANCEDUCMASPECTS)
+                        || event.getProperty().equals(PREF_ADVANCEDUCMKPI) || event.getProperty().equals(PREF_ADVANCEDUCMPERF)) {
                     IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
                     // The user changed the option to show or hide advanced feature in JUCMNav
@@ -123,16 +129,30 @@ public class DisplayPreferences {
                         showView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
                         showView(page, IPageLayout.ID_PROP_SHEET);
                         showView(page, "seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
-                        
+
                         addKpi(page);
                         addStubs(page);
                     } else {
-                        hideView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
-                        hideView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
-
-                        removeKpi(page);
-                        removeStubs(page);
+                        if (isHideKPI()) {
+                            hideView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
+                            hideView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
+                            removeKpi(page);
+                        } else if (!isHideKPI() && event.getProperty().equals(PREF_ADVANCEDUCMKPI)) {
+                            showView(page, "seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
+                            showView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
+                            showView(page, IPageLayout.ID_PROP_SHEET);
+                            showView(page, "seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
+                            addKpi(page);
+                        }
+                        
+                        if (isHideAspect()) {
+                            removeStubs(page);
+                        }
+                        else if(!isHideAspect() && event.getProperty().equals(PREF_ADVANCEDUCMASPECTS))
+                            addStubs(page);
                     }
+
+                    refreshViews();
                 }
             }
         });
@@ -215,7 +235,6 @@ public class DisplayPreferences {
 
         return result;
     }
-    
 
     private Vector<UcmPaletteRoot> getUcmPalettes(IWorkbenchPage page) {
         Vector<UcmPaletteRoot> result = new Vector<UcmPaletteRoot>();
@@ -456,11 +475,38 @@ public class DisplayPreferences {
     }
 
     public boolean isAdvancedControlEnabled() {
-        return getPreferenceStore().getBoolean(PREF_ADVANCEDUCM);
+        return !getPreferenceStore().getBoolean(PREF_ADVANCEDUCM);
     }
 
-    public void setIsAdvancedControlEnabled(boolean value) {
-        getPreferenceStore().setValue(PREF_ADVANCEDUCM, value);
+    public void setAdvancedControlEnabled(boolean value) {
+        getPreferenceStore().setValue(PREF_ADVANCEDUCM, !value);
+        refreshViews();
+    }
+
+    public boolean isHideKPI() {
+        return getPreferenceStore().getBoolean(PREF_ADVANCEDUCMKPI);
+    }
+
+    public void setHideKPI(boolean value) {
+        getPreferenceStore().setValue(PREF_ADVANCEDUCMKPI, value);
+        refreshViews();
+    }
+
+    public boolean isHidePerformance() {
+        return getPreferenceStore().getBoolean(PREF_ADVANCEDUCMPERF);
+    }
+
+    public void setHidePerformance(boolean value) {
+        getPreferenceStore().setValue(PREF_ADVANCEDUCMPERF, value);
+        refreshViews();
+    }
+
+    public boolean isHideAspect() {
+        return getPreferenceStore().getBoolean(PREF_ADVANCEDUCMASPECTS);
+    }
+
+    public void setHideAspect(boolean value) {
+        getPreferenceStore().setValue(PREF_ADVANCEDUCMASPECTS, value);
         refreshViews();
     }
 

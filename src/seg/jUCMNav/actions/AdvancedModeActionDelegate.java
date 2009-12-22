@@ -47,7 +47,7 @@ public class AdvancedModeActionDelegate implements IEditorActionDelegate {
     public void run(IAction action) {
         boolean isEnabled = DisplayPreferences.getInstance().isAdvancedControlEnabled();
 
-        DisplayPreferences.getInstance().setIsAdvancedControlEnabled(!isEnabled);
+        DisplayPreferences.getInstance().setAdvancedControlEnabled(!isEnabled);
     }
 
 }
