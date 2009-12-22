@@ -15,21 +15,21 @@ import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.wizards.AutoLayoutWizard;
 
 /**
- * Toggles the advanced mode. 
+ * Toggles the advanced mode.
  * 
  * @author jkealey
  * 
  */
 public class AdvancedModeActionDelegate implements IEditorActionDelegate {
-    
+
     protected IAction action;
-    
+
     public AdvancedModeActionDelegate() {
         super();
 
         JUCMNavPlugin.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent event) {
-                if(action != null)
+                if (action != null)
                     action.setChecked(DisplayPreferences.getInstance().isAdvancedControlEnabled());
             }
         });
@@ -49,14 +49,13 @@ public class AdvancedModeActionDelegate implements IEditorActionDelegate {
      */
     public void run(IAction action) {
         boolean isEnabled = DisplayPreferences.getInstance().isAdvancedControlEnabled();
-        
-        
-        
-        PreferenceDialog pref = PreferencesUtil.createPreferenceDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                "seg.jUCMNav.views.preferences.GeneralPreferencePage", new String[] { "seg.jUCMNav.views.preferences.GeneralPreferencePage" },
-                null);
-        if (pref != null)
-            pref.open();
+
+        if (!isEnabled) {
+            PreferenceDialog pref = PreferencesUtil.createPreferenceDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                    "seg.jUCMNav.views.preferences.GeneralPreferencePage", new String[] { "seg.jUCMNav.views.preferences.GeneralPreferencePage" }, null);
+            if (pref != null)
+                pref.open();
+        }
 
         DisplayPreferences.getInstance().setAdvancedControlEnabled(!isEnabled);
     }
