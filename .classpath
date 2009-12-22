@@ -5,12 +5,7 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/itext-2.0.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/activation.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jaxb-api.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxb-impl.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxb-xjc.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxb1-impl.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jsr173_1.0_api.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/meval.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
