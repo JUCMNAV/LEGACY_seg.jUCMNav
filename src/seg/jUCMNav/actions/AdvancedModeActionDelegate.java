@@ -50,14 +50,14 @@ public class AdvancedModeActionDelegate implements IEditorActionDelegate {
     public void run(IAction action) {
         boolean isEnabled = DisplayPreferences.getInstance().isAdvancedControlEnabled();
 
+        DisplayPreferences.getInstance().setAdvancedControlEnabled(!isEnabled);
+
         if (!isEnabled) {
             PreferenceDialog pref = PreferencesUtil.createPreferenceDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                     "seg.jUCMNav.views.preferences.GeneralPreferencePage", new String[] { "seg.jUCMNav.views.preferences.GeneralPreferencePage" }, null);
             if (pref != null)
                 pref.open();
         }
-
-        DisplayPreferences.getInstance().setAdvancedControlEnabled(!isEnabled);
     }
 
 }

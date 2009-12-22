@@ -101,7 +101,7 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
             list.add(Messages.getString("URNspecTreeEditPart.ucmDefs")); //$NON-NLS-1$
         if (!globalFilter || DisplayPreferences.getInstance().getShowGRLS())
             list.add(Messages.getString("URNspecTreeEditPart.grlDefs")); //$NON-NLS-1$
-        if (!globalFilter || (!onlyDefinitions && DisplayPreferences.getInstance().getShowConcerns()))
+        if ((!globalFilter || (!onlyDefinitions && DisplayPreferences.getInstance().getShowConcerns())) && (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect()))
             list.add(Messages.getString("URNspecTreeEditPart.concerns")); //$NON-NLS-1$
 
         return list;
