@@ -8,6 +8,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.change.SetCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeStubTypeCommand;
 import seg.jUCMNav.model.util.StubHelper;
+import seg.jUCMNav.model.util.StubKind;
 import seg.jUCMNav.views.property.StackHelper;
 import ucm.map.AspectKind;
 import ucm.map.PointcutKind;
@@ -51,34 +52,34 @@ public class StubKindPropertySection extends AbstractChoicePropertySection {
                 ChangeStubTypeCommand cmd = null;
 
                 switch (index) {
-                case 0: // Static
+                case StubKind.STATIC:
                     cmd = new ChangeStubTypeCommand(s, false, PointcutKind.NONE_LITERAL, false, false, AspectKind.NONE_LITERAL);
                     break;
-                case 1: // Dynamic
+                case StubKind.DYNAMIC:
                     cmd = new ChangeStubTypeCommand(s, true, PointcutKind.NONE_LITERAL, false, false, AspectKind.NONE_LITERAL);
                     break;
-                case 2: // Pointcut
+                case StubKind.POINTCUT:
                     cmd = new ChangeStubTypeCommand(s, true, PointcutKind.REGULAR_LITERAL, false, false, AspectKind.NONE_LITERAL);
                     break;
-                case 3: // Pointcut replacement
+                case StubKind.POINTCUT_REPLACEMENT:
                     cmd = new ChangeStubTypeCommand(s, true, PointcutKind.REPLACEMENT_LITERAL, false, false, AspectKind.NONE_LITERAL);
                     break;
-                case 4: // Synchronizing
+                case StubKind.SYNCHRONIZING:
                     cmd = new ChangeStubTypeCommand(s, true, PointcutKind.NONE_LITERAL, true, false, AspectKind.NONE_LITERAL);
                     break;
-                case 5: // Blocking
+                case StubKind.SYNCHRONIZING_BLOCKING:
                     cmd = new ChangeStubTypeCommand(s, true, PointcutKind.NONE_LITERAL, true, true, AspectKind.NONE_LITERAL);
                     break;
-                case 6: // Aspect Marker
+                case StubKind.ASPECT_MARKER:
                     cmd = new ChangeStubTypeCommand(s, false, PointcutKind.NONE_LITERAL, false, false, AspectKind.REGULAR_LITERAL);
                     break;
-                case 7: // Aspect Marker Entrance
+                case StubKind.ASPECT_ENTRANCE:
                     cmd = new ChangeStubTypeCommand(s, false, PointcutKind.NONE_LITERAL, false, false, AspectKind.ENTRANCE_LITERAL);
                     break;
-                case 8: // Aspect Marker Exit
+                case StubKind.ASPECT_EXIT:
                     cmd = new ChangeStubTypeCommand(s, false, PointcutKind.NONE_LITERAL, false, false, AspectKind.EXIT_LITERAL);
                     break;
-                case 9: // Aspect Marker Conditional
+                case StubKind.ASPECT_CONDITIONNAL:
                     cmd = new ChangeStubTypeCommand(s, false, PointcutKind.NONE_LITERAL, false, false, AspectKind.CONDITIONAL_LITERAL);
                     break;
                 }

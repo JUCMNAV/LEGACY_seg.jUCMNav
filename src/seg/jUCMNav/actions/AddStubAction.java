@@ -3,26 +3,28 @@ package seg.jUCMNav.actions;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.util.StubKind;
 import ucm.map.PathNode;
 import ucm.map.Stub;
 import urn.URNspec;
 
 public class AddStubAction extends AddResponsibilityAction {
-
-    public static final String ADDSTUB = "seg.jUCMNav.AddStub"; //$NON-NLS-1$
-    public static final String ADDDYNAMICSTUB = "seg.jUCMNav.AddDynamicStub"; //$NON-NLS-1$
-    public static final String ADDPOINTCUTSTUB = "seg.jUCMNav.AddPointcutStub"; //$NON-NLS-1$
-
-    public AddStubAction(IWorkbenchPart part, String id) {
+    protected int stubType = 0;
+    
+    public AddStubAction(IWorkbenchPart part, int id) {
         super(part);
-        setId(id);
-        if (id.equals(ADDDYNAMICSTUB))
-            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/DynStub16.gif")); //$NON-NLS-1$
-        else if (id.equals(ADDPOINTCUTSTUB))
-            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/PointcutStub16.gif")); //$NON-NLS-1$
-        else
-            setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Stub16.gif")); //$NON-NLS-1$
+        stubType = id;
+        setId(generateId(id));
+        
+        setImageDescriptor(ChangeStubTypeAction.getImageDescriptorForStubType(stubType));
+
+        setText("Add " + ChangeStubTypeAction.STUB_TYPES[stubType]);
+    }
+    
+    public static String generateId(int id) {
+        return "seg.jUCMNav.AddStub" + id;
     }
 
     /**
@@ -30,11 +32,7 @@ public class AddStubAction extends AddResponsibilityAction {
      * @return the PathNode to be inserted.
      */
     protected PathNode getNewPathNode(URNspec urn) {
-        Stub stub = (Stub) ModelCreationFactory.getNewObject(urn, Stub.class);
-        if (getId().equals(ADDDYNAMICSTUB))
-            stub.setDynamic(true);
-        else if (getId().equals(ADDPOINTCUTSTUB))
-            stub.setPointcut(true);
+        Stub stub = (Stub) ModelCreationFactory.getNewObject(urn, Stub.class, stubType);
 
         return stub;
     }

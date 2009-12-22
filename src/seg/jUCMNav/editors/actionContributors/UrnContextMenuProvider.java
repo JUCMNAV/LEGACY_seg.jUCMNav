@@ -189,15 +189,24 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
-        actions = new IAction[8];
+        actions = new IAction[15];
         actions[0] = getActionRegistry().getAction(AddResponsibilityAction.ADDRESPONSIBILITY);
         actions[1] = getActionRegistry().getAction(AddDirectionArrow.ADDDIRECTIONARROW);
         actions[2] = getActionRegistry().getAction(AddEmptyPoint.ADDEMPTYPOINT);
-        actions[3] = getActionRegistry().getAction(AddStubAction.ADDSTUB);
-        actions[4] = getActionRegistry().getAction(AddStubAction.ADDDYNAMICSTUB);
-        actions[5] = getActionRegistry().getAction(AddStubAction.ADDPOINTCUTSTUB);
-        actions[6] = getActionRegistry().getAction(AddWaitingPlaceAction.ADDWP);
-        actions[7] = getActionRegistry().getAction(AddWaitingPlaceAction.ADDTIMER);
+        actions[3] = getActionRegistry().getAction(AddWaitingPlaceAction.ADDWP);
+        actions[4] = getActionRegistry().getAction(AddWaitingPlaceAction.ADDTIMER);
+        actions[5] = getActionRegistry().getAction(AddStubAction.generateId(0));
+        actions[6] = getActionRegistry().getAction(AddStubAction.generateId(1));
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect()) {
+            actions[7] = getActionRegistry().getAction(AddStubAction.generateId(2));
+            actions[8] = getActionRegistry().getAction(AddStubAction.generateId(3));
+            actions[9] = getActionRegistry().getAction(AddStubAction.generateId(4));
+            actions[10] = getActionRegistry().getAction(AddStubAction.generateId(5));
+            actions[11] = getActionRegistry().getAction(AddStubAction.generateId(6));
+            actions[12] = getActionRegistry().getAction(AddStubAction.generateId(7));
+            actions[13] = getActionRegistry().getAction(AddStubAction.generateId(8));
+            actions[14] = getActionRegistry().getAction(AddStubAction.generateId(9));
+        }
 
         submenu = new SubmenuAction(
                 actions,

@@ -298,17 +298,11 @@ public class ActionRegistryManager implements IDisposable {
             // set text done in action.
             addEditPartAction((SelectionAction) action);
         }
-        action = new AddStubAction(editor, AddStubAction.ADDSTUB);
-        action.setText(Messages.getString("ActionRegistryManager.addStub")); //$NON-NLS-1$
-        addEditPartAction((SelectionAction) action);
-
-        action = new AddStubAction(editor, AddStubAction.ADDDYNAMICSTUB);
-        action.setText(Messages.getString("ActionRegistryManager.addDynamicStub")); //$NON-NLS-1$
-        addEditPartAction((SelectionAction) action);
-
-        action = new AddStubAction(editor, AddStubAction.ADDPOINTCUTSTUB);
-        action.setText(Messages.getString("ActionRegistryManager.addPointcutStub")); //$NON-NLS-1$
-        addEditPartAction((SelectionAction) action);
+        
+        for(int i = 0; i< 10; i++) {
+            action = new AddStubAction(editor, i);
+            addEditPartAction((SelectionAction) action);
+        }
 
         action = new AddWaitingPlaceAction(editor, AddWaitingPlaceAction.ADDWP);
         action.setText(Messages.getString("ActionRegistryManager.addWaitingPlace")); //$NON-NLS-1$
