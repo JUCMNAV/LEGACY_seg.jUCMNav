@@ -7,5 +7,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/itext-2.0.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jaxb-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/meval.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsr173_1.0_api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
