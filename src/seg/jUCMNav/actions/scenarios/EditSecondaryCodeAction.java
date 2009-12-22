@@ -29,7 +29,16 @@ public class EditSecondaryCodeAction extends EditCodeAction {
             if (point.getSucc().size() == 0) {
                 obj = null;
             } else {
-                obj = (NodeConnection) point.getSucc().get(0);
+                NodeConnection nc = (NodeConnection) point.getSucc().get(0);
+                if (nc.getCondition()!=null)
+                {
+                    obj = nc.getCondition();
+                }
+                else
+                {
+                    obj = null;
+                }
+                
             }
         } else {
             obj = null;
