@@ -402,8 +402,6 @@ public class URNNamingHelper {
                             ((Stub) elem).setAopointcut(PointcutKind.REGULAR_LITERAL);
                             ((Stub) elem).setPointcut(false);
                         }
-                        else
-                            ((Stub) elem).setAopointcut(PointcutKind.NONE_LITERAL);
                     }
                 }
             }
