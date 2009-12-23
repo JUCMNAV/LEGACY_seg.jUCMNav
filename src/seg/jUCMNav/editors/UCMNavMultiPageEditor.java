@@ -554,7 +554,12 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
                 // we don't want to open it because our scenario warnings are associated to the IFile...
                 MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                         Messages.getString("UCMNavMultiPageEditor.Error"), Messages.getString("UCMNavMultiPageEditor.CannotUseFileOpen")); //$NON-NLS-1$ //$NON-NLS-2$
-                this.closeEditor(false);
+                try {
+                    this.closeEditor(false);
+                } catch (Exception ex) {
+
+                }
+
                 return;
 
             } else {
