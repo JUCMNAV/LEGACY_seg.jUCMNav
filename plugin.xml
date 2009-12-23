@@ -145,7 +145,7 @@
       <perspectiveExtension targetID="seg.jUCMNav.UCMEditorExecution">
          <viewShortcut id="seg.jUCMNav.views.ElementView"/>
          <viewShortcut id="seg.jUCMNav.views.StrategiesView"/>
-         <viewShortcut id="seg.jUCMNav.views.wizards.NewUcmFileWizard"/>
+         <newWizardShortcut id="seg.jUCMNav.views.wizards.NewUcmFileWizard"/>
          <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
          <viewShortcut id="org.eclipse.ui.views.ContentOutline"/>
          <viewShortcut id="org.eclipse.ui.views.PropertySheet"/>
@@ -465,7 +465,6 @@
    </extension>
    <extension
          id="seg.jUCMNav.UrnSearchResultPage"
-         name="URN Search Result Page"
          point="org.eclipse.search.searchResultViewPages">
 		 <viewPage
 		  id="org.eclipse.search.text.FileSearchResultPage"
