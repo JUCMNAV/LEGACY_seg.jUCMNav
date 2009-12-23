@@ -33,14 +33,14 @@ public class DeletePathNodeCommand extends CompoundCommand implements IDelayedBu
         this.pathNode = pn;
         this.editPartRegistry = editpartregistry;
         this.replaceWithEmptyPoint = false;
-        setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode"));
+        setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode")); //$NON-NLS-1$
     }
 
     public DeletePathNodeCommand(PathNode pn, java.util.Map editpartregistry, boolean replaceWithEmptyPoint) {
         this.pathNode = pn;
         this.editPartRegistry = editpartregistry;
         this.replaceWithEmptyPoint = replaceWithEmptyPoint;
-        setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode"));
+        setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode")); //$NON-NLS-1$
     }
 
     /**

@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 import urncore.Responsibility;
@@ -20,7 +21,7 @@ public class CreateResponsibilityCommand extends Command implements JUCMNavComma
     public CreateResponsibilityCommand(URNspec urn, Responsibility resp) {
         this.urn = urn;
         this.resp = resp;
-        setLabel("Create responsibility");
+        setLabel(Messages.getString("CreateResponsibilityCommand_CreateResponsibility")); //$NON-NLS-1$
     }
 
     /**

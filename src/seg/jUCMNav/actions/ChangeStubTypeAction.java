@@ -23,7 +23,7 @@ public class ChangeStubTypeAction extends URNSelectionAction {
 
     public static final String[] STUB_TYPES = new String[] { Messages.getString("ChangeStubTypeAction.Stub"), //$NON-NLS-1$
             Messages.getString("ChangeStubTypeAction.DynamicStub"), Messages.getString("ChangeStubTypeAction.PointcutStub"),  //$NON-NLS-1$ //$NON-NLS-2$
-            "Pointcut Replacement Stub", "Synchronizing Stub", "Blocking Stub", "Aspect Marker", "Entrance Aspect Marker", "Exit Aspect Marker", "Conditional Aspect Marker" };
+            Messages.getString("ChangeStubTypeAction.PointcutReplacementStub"), Messages.getString("ChangeStubTypeAction.SynchronizingStub"), Messages.getString("ChangeStubTypeAction.BlockingStub"), Messages.getString("ChangeStubTypeAction.AspectMarker"), Messages.getString("ChangeStubTypeAction.EntranceAspectMarker"), Messages.getString("ChangeStubTypeAction.ExitAspectMarker"), Messages.getString("ChangeStubTypeAction.ConditionalAspectMarker") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 
     protected int stubType;
     // 0: Static

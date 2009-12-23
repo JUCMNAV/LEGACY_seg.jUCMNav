@@ -90,7 +90,7 @@ public class ConditionEditPart extends LabelEditPart {
         LabelFigure tableFigure = (LabelFigure) getFigure();
         tableFigure.setVisible(true);
         // remove surrounding []
-        if (tableFigure.getEditableText().startsWith("[") && tableFigure.getEditableText().length() > 2)
+        if (tableFigure.getEditableText().startsWith("[") && tableFigure.getEditableText().length() > 2) //$NON-NLS-1$
             tableFigure.setEditableText(tableFigure.getEditableText().substring(1, tableFigure.getEditableText().length() - 1));
 
         refreshVisuals();

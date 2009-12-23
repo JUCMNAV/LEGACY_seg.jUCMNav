@@ -410,7 +410,7 @@ public abstract class RuleManagementPreferencePage extends PreferencePage implem
                         // The file already exists; asks for confirmation
                         MessageBox mb = new MessageBox(dlg.getParent(), SWT.ICON_WARNING | SWT.YES | SWT.NO);
                         mb.setText("Attention!"); //$NON-NLS-1$
-                        mb.setMessage(fileName + " " + Messages.getString("RuleManagementPreferencePage.AlreadyExists")); //$NON-NLS-1$
+                        mb.setMessage(fileName + " " + Messages.getString("RuleManagementPreferencePage.AlreadyExists")); //$NON-NLS-1$ //$NON-NLS-2$
 
                         // If they click Yes, we're done and we drop out. If
                         // they click No, we redisplay the File Dialog

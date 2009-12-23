@@ -19,6 +19,7 @@ import java.util.Vector;
 
 import com.primalworld.math.MathEvaluator;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urncore.IURNNode;
@@ -134,7 +135,7 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         MathEvaluator mathEvaluator = null;
         for (int i = 0; i < eMetaData.size(); i++) {
             formulaMetaData = (Metadata) eMetaData.get(i);
-            if (formulaMetaData.getName().equals("Formula")) {
+            if (formulaMetaData.getName().equals(Messages.getString("FormulaBasedGRLStrategyAlgorithm_Formula"))) { //$NON-NLS-1$
                 mathEvaluator = new MathEvaluator(formulaMetaData.getValue());
                 break;
             }

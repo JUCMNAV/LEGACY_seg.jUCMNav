@@ -54,7 +54,7 @@ public class AdvancedModeActionDelegate implements IEditorActionDelegate {
 
         if (!isEnabled) {
             PreferenceDialog pref = PreferencesUtil.createPreferenceDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "seg.jUCMNav.views.preferences.GeneralPreferencePage", new String[] { "seg.jUCMNav.views.preferences.GeneralPreferencePage" }, null);
+                    "seg.jUCMNav.views.preferences.GeneralPreferencePage", new String[] { "seg.jUCMNav.views.preferences.GeneralPreferencePage" }, null); //$NON-NLS-1$ //$NON-NLS-2$
             if (pref != null)
                 pref.open();
         }

@@ -8,6 +8,7 @@ import java.util.Vector;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.util.URNElementFinder;
@@ -259,7 +260,7 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
      * 
      */
     private void init() {
-        setLabel("Duplicate Path");
+        setLabel(Messages.getString("DuplicatePathCommand_DuplicatePath")); //$NON-NLS-1$
 
         if (urn == null && getMap() != null && getMap().getUrndefinition()!=null)
             urn = getMap().getUrndefinition().getUrnspec();
@@ -381,11 +382,11 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
 
         for (Iterator iterator = duplicatedNodeConnections.values().iterator(); iterator.hasNext();) {
             NodeConnection nc = (NodeConnection) iterator.next();
-            assert nc.getDiagram() == getMap() : "post nc not in model";
+            assert nc.getDiagram() == getMap() : "post nc not in model"; //$NON-NLS-1$
         }
         for (Iterator iterator = duplicatedNodes.values().iterator(); iterator.hasNext();) {
             PathNode pn = (PathNode) iterator.next();
-            assert pn.getDiagram() == getMap() : "post pn not in model";
+            assert pn.getDiagram() == getMap() : "post pn not in model"; //$NON-NLS-1$
         }
     }
 
@@ -403,16 +404,16 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
 
         for (Iterator iterator = duplicatedNodeConnections.values().iterator(); iterator.hasNext();) {
             NodeConnection nc = (NodeConnection) iterator.next();
-            assert nc.getDiagram() == null : "pre nc in model";
+            assert nc.getDiagram() == null : "pre nc in model"; //$NON-NLS-1$
         }
         for (Iterator iterator = duplicatedNodes.values().iterator(); iterator.hasNext();) {
             PathNode pn = (PathNode) iterator.next();
-            assert pn.getDiagram() == null : "pre pn in model";
+            assert pn.getDiagram() == null : "pre pn in model"; //$NON-NLS-1$
         }
         
         for (Iterator iterator = respThatMustBeCreatedBeforeExecution.iterator(); iterator.hasNext();) {
             Responsibility resp = (Responsibility) iterator.next();
-            assert URNElementFinder.findResponsibilityByName(urn, resp.getName())!=null : "pre resp is missing in model" + resp.getName();    
+            assert URNElementFinder.findResponsibilityByName(urn, resp.getName())!=null : "pre resp is missing in model" + resp.getName();     //$NON-NLS-1$
         }
         
     }

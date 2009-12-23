@@ -135,10 +135,10 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 showPage(ID_DEFINITIONS);
             }
         };
-        showDefinitionsAction.setId("Definitions");
+        showDefinitionsAction.setId("Definitions"); //$NON-NLS-1$
         showDefinitionsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/definitionsOutline16.gif")); //$NON-NLS-1$
-        showDefinitionsAction.setToolTipText("Definitions");
-        showDefinitionsAction.setText("Definitions");
+        showDefinitionsAction.setToolTipText(Messages.getString("UrnOutlinePage.Definitions")); //$NON-NLS-1$
+        showDefinitionsAction.setText(Messages.getString("UrnOutlinePage.Definitions")); //$NON-NLS-1$
         tbm.add(showDefinitionsAction);
 
         showConcernsAction = new Action() {
@@ -147,7 +147,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 showPage(ID_CONCERNS);
             }
         };
-        showConcernsAction.setId("UrnOutlinePage.ConcernOutline");
+        showConcernsAction.setId("UrnOutlinePage.ConcernOutline"); //$NON-NLS-1$
         showConcernsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/concernsOutline16.gif")); //$NON-NLS-1$
         showConcernsAction.setToolTipText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
         showConcernsAction.setText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
@@ -179,7 +179,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 DisplayPreferences.getInstance().setGlobalFilterEnabled(enableGlobalFilter.isChecked());
                 if (enableGlobalFilter.isChecked()) {
                     PreferenceDialog pref = PreferencesUtil.createPreferenceDialogOn(getSite().getShell(),
-                            "seg.jUCMNav.views.preferences.DisplayPreferencesPage", new String[] { "seg.jUCMNav.views.preferences.DisplayPreferencesPage" },
+                            "seg.jUCMNav.views.preferences.DisplayPreferencesPage", new String[] { "seg.jUCMNav.views.preferences.DisplayPreferencesPage" }, //$NON-NLS-1$ //$NON-NLS-2$
                             null);
                     if (pref != null)
                         pref.open();
@@ -188,8 +188,8 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         };
 
         enableGlobalFilter.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/filter16.gif")); //$NON-NLS-1$
-        enableGlobalFilter.setToolTipText("Filters certain elements out of the outline.");
-        enableGlobalFilter.setText("Filter outline");
+        enableGlobalFilter.setToolTipText(Messages.getString("UrnOutlinePage.FilterCertainElements")); //$NON-NLS-1$
+        enableGlobalFilter.setText(Messages.getString("UrnOutlinePage.FilterOutline")); //$NON-NLS-1$
         enableGlobalFilter.setChecked(DisplayPreferences.getInstance().isGlobalFilterEnabled());
         tbm.add(enableGlobalFilter);
 
@@ -494,14 +494,14 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         if (multieditor.getCurrentPage() != null) {
             boolean expand = false;
             if (multieditor.getCurrentPage().getModel() instanceof UCMmap) {
-                String root = Messages.getString("LabelTreeEditPart.ucmDefs");
+                String root = Messages.getString("LabelTreeEditPart.ucmDefs"); //$NON-NLS-1$
                 if (forceRefresh || definitionsViewer.getContents() == null || definitionsViewer.getContents().getModel() == null
                         || !definitionsViewer.getContents().getModel().equals(root)) {
                     definitionsViewer.setContents(root);
                     expand = true;
                 }
             } else {
-                String root = Messages.getString("LabelTreeEditPart.grlDefs");
+                String root = Messages.getString("LabelTreeEditPart.grlDefs"); //$NON-NLS-1$
                 if (forceRefresh || definitionsViewer.getContents() == null || definitionsViewer.getContents().getModel() == null
                         || !definitionsViewer.getContents().getModel().equals(root)) {
                     definitionsViewer.setContents(root);

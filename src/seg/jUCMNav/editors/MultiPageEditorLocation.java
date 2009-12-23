@@ -28,7 +28,7 @@ public class MultiPageEditorLocation extends NavigationLocation {
     protected MultiPageEditorLocation(IEditorPart editorPart) {
         super(editorPart);
         UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) editorPart;
-        this.text = editor != null ? editor.getTitle() : "";
+        this.text = editor != null ? editor.getTitle() : ""; //$NON-NLS-1$
 
         update(editor);
     }

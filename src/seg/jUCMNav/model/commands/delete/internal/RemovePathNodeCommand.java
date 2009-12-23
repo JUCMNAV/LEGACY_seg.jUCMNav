@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.delete.internal;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.IDelayedBuildCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
@@ -40,7 +41,7 @@ public class RemovePathNodeCommand extends CompoundCommand implements IDelayedBu
         this.pn = pn;
         this.editpartregistry = editpartregistry;
         this.replaceWithEmptyPoint = false;
-        setLabel("Remove PathNode");
+        setLabel(Messages.getString("RemovePathNodeCommand_RemovePathNode")); //$NON-NLS-1$
     }
 
     /**
@@ -56,7 +57,7 @@ public class RemovePathNodeCommand extends CompoundCommand implements IDelayedBu
         this.pn = pn;
         this.editpartregistry = editpartregistry;
         this.replaceWithEmptyPoint = replaceWithEmptyPoint;
-        setLabel("Remove PathNode");
+        setLabel(Messages.getString("RemovePathNodeCommand_RemovePathNode")); //$NON-NLS-1$
     }
 
     /**

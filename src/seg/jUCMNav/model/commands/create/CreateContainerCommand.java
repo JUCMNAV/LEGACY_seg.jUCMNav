@@ -4,6 +4,7 @@ import grl.Actor;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 import urncore.Component;
@@ -23,7 +24,7 @@ public class CreateContainerCommand extends Command implements JUCMNavCommand {
     public CreateContainerCommand(URNspec urn, IURNContainer container) {
         this.urn = urn;
         this.container = container;
-        setLabel("Create container");
+        setLabel(Messages.getString("CreateContainerCommand_CreateContainer")); //$NON-NLS-1$
     }
 
     /**

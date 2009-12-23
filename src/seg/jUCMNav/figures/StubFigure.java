@@ -215,7 +215,7 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
         stubSubTypeText.setLayoutManager(new SimpleTextLayout(stubSubTypeText));
         // TODO CONCERNS: should use default font?
         stubSubTypeText.setFont(new Font(null, "Verdana", 6, 0)); //$NON-NLS-1$
-        stubSubTypeText.setText("B");
+        stubSubTypeText.setText("B"); //$NON-NLS-1$
         blockPage.add(stubSubTypeText);
         // TODO CONCERNS: depends on font size!
         blockPage.setBounds(new Rectangle(19, 17, 10, 10));
@@ -228,7 +228,7 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
         stubRepText.setLayoutManager(new SimpleTextLayout(stubRepText));
         // TODO CONCERNS: should use default font?
         stubRepText.setFont(new Font(null, "Verdana", 6, 0)); //$NON-NLS-1$
-        stubRepText.setText("X");
+        stubRepText.setText("X"); //$NON-NLS-1$
         replicationPage.add(stubRepText);
         // TODO CONCERNS: depends on font size!
         replicationPage.setBounds(new Rectangle(19, 7, 10, 10));
@@ -314,7 +314,7 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
                 flowPage.setBounds(new Rectangle(DEFAULT_WIDTH / 2 - 5, DEFAULT_HEIGHT / 2 - 12, 20, 20));
                 xPanel.setVisible(true);
             } else if (synch && dynamic) {
-                stubTypeText.setText("S");
+                stubTypeText.setText("S"); //$NON-NLS-1$
                 Integer repCount = new Integer(repetitionCount);
 
                 if (blocking || repCount.intValue() > 1) {

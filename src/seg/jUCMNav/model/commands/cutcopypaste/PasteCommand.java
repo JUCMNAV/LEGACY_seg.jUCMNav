@@ -226,7 +226,7 @@ public class PasteCommand extends CompoundCommand {
                         IURNDiagram oldDiagram = (IURNDiagram) obj;
                         buildDiagram(oldDiagram);
                     } else
-                        System.out.println("TODO: Paste " + obj);
+                        System.out.println("TODO: Paste " + obj); //$NON-NLS-1$
                 }
 
                 list = getScenarioList(-1);

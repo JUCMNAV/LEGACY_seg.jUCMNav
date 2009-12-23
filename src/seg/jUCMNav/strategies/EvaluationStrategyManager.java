@@ -46,11 +46,11 @@ public class EvaluationStrategyManager {
     /**
      * Metadata name used to store run-time GRL numerical evaluations
      */
-    public static final String METADATA_NUMEVAL = "_numEval";
+    public static final String METADATA_NUMEVAL = "_numEval"; //$NON-NLS-1$
     /**
      * Metadata name used to store run-time GRL qualitative evaluations
      */
-    public static final String METADATA_QUALEVAL = "_qualEval";
+    public static final String METADATA_QUALEVAL = "_qualEval"; //$NON-NLS-1$
 
     private UCMNavMultiPageEditor multieditor;
     private ScrollingGraphicalViewer kpiViewer;

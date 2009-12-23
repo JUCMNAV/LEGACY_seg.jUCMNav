@@ -11,6 +11,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import urn.URNspec;
 import urncore.Component;
 import urncore.Responsibility;
@@ -25,7 +26,7 @@ public class DeleteUnreferencedDefinitionCommand extends CompoundCommand {
 
     public DeleteUnreferencedDefinitionCommand(URNspec spec) {
         this.urnspec = spec;
-        setLabel("Delete Unreferenced Definition");
+        setLabel(Messages.getString("DeleteUnreferencedDefinitionCommand_DeleteUnreferencedDefinition")); //$NON-NLS-1$
 
     }
 

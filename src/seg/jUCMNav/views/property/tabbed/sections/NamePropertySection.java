@@ -54,7 +54,7 @@ public class NamePropertySection extends AbstractStringPropertySection {
         }
         
         if(!result)
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Name already exists", "This name conflicts with an existing name.");
+            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("NamePropertySection.NameAlreadyExists"), Messages.getString("NamePropertySection.ThisNameConflicts")); //$NON-NLS-1$ //$NON-NLS-2$
         
         return result;
     }

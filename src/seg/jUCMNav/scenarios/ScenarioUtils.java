@@ -698,7 +698,7 @@ public class ScenarioUtils {
             } else {
                 if (expectedType == jUCMNavType.INTEGER) {
                     if (!checker.isValidInteger()) {
-                        return "Is not a valid integer.";
+                        return Messages.getString("ScenarioUtils.IsNotAValidInteger"); //$NON-NLS-1$
                     }
                 } else if (!checker.isValidCondition()) {
                     return Messages.getString("ScenarioUtils.IsNotAValidCondition"); //$NON-NLS-1$

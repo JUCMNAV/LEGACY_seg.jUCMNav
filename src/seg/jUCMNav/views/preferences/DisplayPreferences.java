@@ -66,9 +66,9 @@ public class DisplayPreferences {
     public static final String SORT_DEFAULT = "SORTDEF"; //$NON-NLS-1$
     public static final String SORT_ID = "SORTID"; //$NON-NLS-1$
     public static final String SORT_NAME = "SORTNAME"; //$NON-NLS-1$
-    public static final String PREF_ADVANCEDUCMKPI = "PREF_ADVANCEDKPI";
-    public static final String PREF_ADVANCEDUCMASPECTS = "PREF_ADVANCEDASPECTS";
-    public static final String PREF_ADVANCEDUCMPERF = "PREF_ADVANCEDPERF";
+    public static final String PREF_ADVANCEDUCMKPI = "PREF_ADVANCEDKPI"; //$NON-NLS-1$
+    public static final String PREF_ADVANCEDUCMASPECTS = "PREF_ADVANCEDASPECTS"; //$NON-NLS-1$
+    public static final String PREF_ADVANCEDUCMPERF = "PREF_ADVANCEDPERF"; //$NON-NLS-1$
 
     public Vector<String> advancedActions = new Vector<String>();
 

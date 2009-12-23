@@ -222,7 +222,7 @@ public class EObjectPropertySource implements IPropertySource2 {
         {
             // conditions have expressions
             pd = new CodePropertyDescriptor(propertyid, ((FailurePoint) getEditableValue()));
-        } else if (name.equals("description")) {
+        } else if (name.equals("description")) { //$NON-NLS-1$
             pd = new TextAreaPropertyDescriptor(propertyid, attr.getName());
         } else {
             pd = new TextPropertyDescriptor(propertyid, attr.getName());

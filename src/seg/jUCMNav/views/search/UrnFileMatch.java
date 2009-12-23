@@ -4,6 +4,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.search.internal.ui.text.FileMatch;
 import org.eclipse.search.internal.ui.text.LineElement;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import urncore.URNmodelElement;
 
@@ -17,13 +18,13 @@ public class UrnFileMatch extends FileMatch {
 
     private static String getDescription(IFile file, URNmodelElement modelElement) {
         String type = URNNamingHelper.getPrefix(modelElement.getClass());
-        if (type.equals("RespRef"))
-            type = "Responsibility Reference";
-        if (type.endsWith("Ref"))
-            type = type.substring(0, type.length() - 3) + " Reference";
-        if (type.endsWith("Def"))
-            type = type.substring(0, type.length() - 3) + " Definition";
-        return /* "(" + file.getName() + ") " + */"name=\"" + URNNamingHelper.getName(modelElement) + "\", type=\"" + type + "\"";
+        if (type.equals("RespRef")) //$NON-NLS-1$
+            type = Messages.getString("UrnFileMatch_ResponsibilityReference"); //$NON-NLS-1$
+        if (type.endsWith("Ref")) //$NON-NLS-1$
+            type = type.substring(0, type.length() - 3) + Messages.getString("UrnFileMatch_Reference"); //$NON-NLS-1$
+        if (type.endsWith("Def")) //$NON-NLS-1$
+            type = type.substring(0, type.length() - 3) + Messages.getString("UrnFileMatch_Definition"); //$NON-NLS-1$
+        return /* "(" + file.getName() + ") " + */"name=\"" + URNNamingHelper.getName(modelElement) + "\", type=\"" + type + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
     protected URNmodelElement modelElement;

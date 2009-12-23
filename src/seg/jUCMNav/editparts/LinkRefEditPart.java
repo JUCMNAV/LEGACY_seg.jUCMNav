@@ -312,7 +312,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
             String stereotypeInfo = UrnMetadata.getStereotypes(contrib);
             if (stereotypeLabel.getText() != stereotypeInfo) {
                 stereotypeLabel.setText(stereotypeInfo);
-                if (stereotypeInfo.equals("")) {
+                if (stereotypeInfo.equals("")) { //$NON-NLS-1$
                     stereotypeLabel.setVisible(false);
                 } else {
                     stereotypeLabel.setVisible(true);

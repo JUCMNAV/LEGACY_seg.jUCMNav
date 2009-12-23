@@ -130,7 +130,7 @@ public class UrnModelManager extends EmfModelManager {
     
     public Vector getDuplicateIDs(URNspec model) throws IOException
     {
-        File temp = File.createTempFile("jucmnav", "tmp");
+        File temp = File.createTempFile("jucmnav", "tmp"); //$NON-NLS-1$ //$NON-NLS-2$
         // if we don't clone, it makes it point to the new resource and empties the old one. 
         createURNspec(temp, (URNspec) EcoreUtil.copy(model));
         

@@ -240,11 +240,11 @@ public class CodeEditorPage extends WizardPage {
             setTitle(Messages.getString("CodeEditorPage.ResponsibilityEditor")); //$NON-NLS-1$
             setDescription(Messages.getString("CodeEditorPage.PleaseEnterResponsibility")); //$NON-NLS-1$
         } else if (isFailurePoint()) {
-            setTitle("Failure Expression Editor");
-            setDescription("Please enter the failure point's pseudo-code in the text box below.");
+            setTitle(Messages.getString("CodeEditorPage.FailureExpressionEditor")); //$NON-NLS-1$
+            setDescription(Messages.getString("CodeEditorPage.FailurePointPseudoCode")); //$NON-NLS-1$
         } else if (isNodeConnection()) {
-            setTitle("Threshold Editor");
-            setDescription("Please enter the threshold in the text box below. Must be an integer.");
+            setTitle(Messages.getString("CodeEditorPage.ThresholdEditor")); //$NON-NLS-1$
+            setDescription(Messages.getString("CodeEditorPage.ThresholdPseudoCode")); //$NON-NLS-1$
         } else {
             setDescription(Messages.getString("CodeEditorPage.PleaseEnterCondition")); //$NON-NLS-1$
             setTitle(Messages.getString("CodeEditorPage.ConditionEditor")); //$NON-NLS-1$
@@ -286,9 +286,9 @@ public class CodeEditorPage extends WizardPage {
             } else if (element instanceof NodeConnection)
             {
                 if (add)
-                    possibilities.add("Threshold");
+                    possibilities.add(Messages.getString("CodeEditorPage.Threshold")); //$NON-NLS-1$
                 else
-                    possibilities.setItem(i, "Threshold");
+                    possibilities.setItem(i, Messages.getString("CodeEditorPage.Threshold")); //$NON-NLS-1$
             }
 
         }

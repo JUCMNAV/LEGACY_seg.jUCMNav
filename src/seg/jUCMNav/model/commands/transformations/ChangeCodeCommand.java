@@ -39,9 +39,9 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
         else if (elem instanceof Initialization)
             setLabel(Messages.getString("ChangeCodeCommand.ChangeInitialization")); //$NON-NLS-1$
         else if (elem instanceof NodeConnection)
-            setLabel("Change threshold");
+            setLabel(Messages.getString("ChangeCodeCommand.ChangeThreshold")); //$NON-NLS-1$
         else if (elem instanceof FailurePoint)
-            setLabel("Change failure expression");
+            setLabel(Messages.getString("ChangeCodeCommand.ChangeFailureExpression")); //$NON-NLS-1$
     }
 
     public ChangeCodeCommand(EObject obj, String newcode, String newlabel, String newDescription) {

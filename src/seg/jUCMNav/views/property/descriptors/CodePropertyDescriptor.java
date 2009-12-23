@@ -88,7 +88,7 @@ public class CodePropertyDescriptor extends PropertyDescriptor {
      *            the node connection
      */
     public CodePropertyDescriptor(Object id, NodeConnection nc) {
-        super(id, "Threshold");
+        super(id, Messages.getString("CodePropertyDescriptor.Threshold")); //$NON-NLS-1$
         this.nc = nc;
         setLabelProvider(new LabelProvider() {
             public String getText(Object element) {

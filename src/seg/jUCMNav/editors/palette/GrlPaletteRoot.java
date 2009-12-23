@@ -160,7 +160,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
      * Add KPI entries to the palette
      */
     public void addKpi() {
-        if (!contains(Messages.getString("GrlPaletteRoot.kpiModel"))) {
+        if (!contains(Messages.getString("GrlPaletteRoot.kpiModel"))) { //$NON-NLS-1$
             ToolEntry entry;
             // Add KPI model elements and links
             PaletteDrawer kpiModelDrawer = new PaletteDrawer(Messages.getString("GrlPaletteRoot.kpiModel")); //$NON-NLS-1$
@@ -197,7 +197,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
      * Remove KPI entries from the palette if there's already one present
      */
     public void removeKpi() {
-        PaletteEntry kpi = getEntry(Messages.getString("GrlPaletteRoot.kpiModel"));
+        PaletteEntry kpi = getEntry(Messages.getString("GrlPaletteRoot.kpiModel")); //$NON-NLS-1$
         if (kpi != null)
             remove(kpi);
     }

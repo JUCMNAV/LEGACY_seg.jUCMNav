@@ -16,7 +16,7 @@ public class HyperlinkUtils {
     /**
      * Metadata name for hyperlinks
      */
-    public static String HYPERLINK = "hyperlink";
+    public static String HYPERLINK = "hyperlink"; //$NON-NLS-1$
 
     /**
      * Find the element abstracting from common references

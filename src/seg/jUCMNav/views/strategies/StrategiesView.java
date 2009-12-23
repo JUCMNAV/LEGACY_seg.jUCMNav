@@ -139,7 +139,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                 DisplayPreferences.getInstance().setGlobalFilterEnabled(enableGlobalFilter.isChecked());
                 if (enableGlobalFilter.isChecked()) {
                     PreferenceDialog pref = PreferencesUtil.createPreferenceDialogOn(getSite().getShell(),
-                            "seg.jUCMNav.views.preferences.DisplayPreferencesPage", new String[] { "seg.jUCMNav.views.preferences.DisplayPreferencesPage" },
+                            "seg.jUCMNav.views.preferences.DisplayPreferencesPage", new String[] { "seg.jUCMNav.views.preferences.DisplayPreferencesPage" }, //$NON-NLS-1$ //$NON-NLS-2$
                             null);
                     if (pref != null)
                         pref.open();
@@ -148,8 +148,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         };
 
         enableGlobalFilter.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/filter16.gif")); //$NON-NLS-1$
-        enableGlobalFilter.setToolTipText("Filters certain elements out of the outline.");
-        enableGlobalFilter.setText("Filter outline");
+        enableGlobalFilter.setToolTipText(Messages.getString("StrategiesView.FilterOut")); //$NON-NLS-1$
+        enableGlobalFilter.setText(Messages.getString("StrategiesView.FilterOutline")); //$NON-NLS-1$
         enableGlobalFilter.setChecked(DisplayPreferences.getInstance().isGlobalFilterEnabled());
 
         showId = new Action() {

@@ -372,9 +372,9 @@ public class MultiPageTabManager {
                 refreshPageNames();
                 if (item != dragItem) {
                     if (after)
-                        item.setText(item.getText().replace("-->", "").replace("<--", "") + "-->");
+                        item.setText(item.getText().replace("-->", "").replace("<--", "") + "-->"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                     else
-                        item.setText("<--" + item.getText().replace("-->", "").replace("<--", ""));
+                        item.setText("<--" + item.getText().replace("-->", "").replace("<--", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 }
             }
 

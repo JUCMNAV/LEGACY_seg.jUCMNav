@@ -6,6 +6,7 @@ import java.util.Vector;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.IDelayedBuildCompoundCommand;
 import seg.jUCMNav.model.commands.IGlobalStackCommand;
@@ -55,7 +56,7 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
 
         CreateMapCommand cmd = new CreateMapCommand(urn);
         setAddedMap(cmd.getMap());
-        getAddedMap().setName("Extracted UCM");
+        getAddedMap().setName(Messages.getString("RefactorIntoStubCommand_ExtractedUCM")); //$NON-NLS-1$
         add(cmd);
 
         URNspec clonedUrn = (URNspec) EcoreUtil.copy(this.urn);
@@ -142,7 +143,7 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
         EmptyPoint empty = (EmptyPoint) cmd3.getNewMiddleNode();
 
         setAddedStub((Stub) ModelCreationFactory.getNewObject(urn, Stub.class));
-        getAddedStub().setName("Extracted UCM");
+        getAddedStub().setName(Messages.getString("RefactorIntoStubCommand_ExtractedUCM")); //$NON-NLS-1$
         add(new ReplaceEmptyPointCommand(empty, getAddedStub()));
         add(new AddPluginCommand(getAddedStub(), getAddedMap()));
 

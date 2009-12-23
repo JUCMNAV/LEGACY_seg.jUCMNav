@@ -18,6 +18,7 @@ import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.ISearchResult;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.util.URNElementFinder;
 import urn.URNspec;
@@ -69,7 +70,7 @@ public class UrnSearchQuery implements ISearchQuery {
 
     public ISearchResult getSearchResult() {
         if (result == null)
-            result = new UrnSearchResult(this, "URN Search Results for '" + getLabel() + "'");
+            result = new UrnSearchResult(this, Messages.getString("UrnSearchQuery_URNSearchResults") + getLabel() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
         return result;
     }
 
@@ -82,7 +83,7 @@ public class UrnSearchQuery implements ISearchQuery {
     }
 
     public IStatus run(IProgressMonitor monitor) throws OperationCanceledException {
-        monitor.beginTask("", 1000);
+        monitor.beginTask("", 1000); //$NON-NLS-1$
 
         UrnSearchResult res = (UrnSearchResult) getSearchResult();
         res.removeAll();
@@ -99,7 +100,7 @@ public class UrnSearchQuery implements ISearchQuery {
 
         monitor.done();
 
-        return new Status(IStatus.OK, JUCMNavPlugin.PLUGIN_ID, 0, "", null);
+        return new Status(IStatus.OK, JUCMNavPlugin.PLUGIN_ID, 0, "", null); //$NON-NLS-1$
     }
 
     public void searchInContainer(IProgressMonitor monitor, IContainer project) {
@@ -120,7 +121,7 @@ public class UrnSearchQuery implements ISearchQuery {
     }
 
     public void searchInFile(IProgressMonitor monitor, IFile file) {
-        if (file.getFileExtension() != null && file.getFileExtension().equalsIgnoreCase("jucm")) {
+        if (file.getFileExtension() != null && file.getFileExtension().equalsIgnoreCase(Messages.getString("UrnSearchQuery_4"))) { //$NON-NLS-1$
 
             // load file.
             UrnModelManager manager = new UrnModelManager();

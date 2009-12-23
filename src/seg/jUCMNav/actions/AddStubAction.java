@@ -20,11 +20,11 @@ public class AddStubAction extends AddResponsibilityAction {
         
         setImageDescriptor(ChangeStubTypeAction.getImageDescriptorForStubType(stubType));
 
-        setText("Add " + ChangeStubTypeAction.STUB_TYPES[stubType]);
+        setText(Messages.getString("AddStubAction_Add") + ChangeStubTypeAction.STUB_TYPES[stubType]); //$NON-NLS-1$
     }
     
     public static String generateId(int id) {
-        return "seg.jUCMNav.AddStub" + id;
+        return "seg.jUCMNav.AddStub" + id; //$NON-NLS-1$
     }
 
     /**

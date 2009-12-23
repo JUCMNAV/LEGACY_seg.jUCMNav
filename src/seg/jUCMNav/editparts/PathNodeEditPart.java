@@ -91,7 +91,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     /**
      * Metadata name used to store run-time UCM path node hit count
      */
-    public static final String METADATA_HITS = "_hits";
+    public static final String METADATA_HITS = "_hits"; //$NON-NLS-1$
 
     // the pathgraph contain our node.
     private UCMmap diagram;

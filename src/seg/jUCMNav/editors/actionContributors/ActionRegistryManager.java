@@ -272,7 +272,7 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
 
         action = new RefactorIntoStubAction(editor);
-        action.setText("Refactor into Stub");
+        action.setText(Messages.getString("ActionRegistryManager.RefactorIntoStub")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddLabelAction(editor);
@@ -407,7 +407,7 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
 
         action = new DeleteUnreferencedDefinitionAction(editor);
-        action.setText("Delete Unreferenced Definitions");
+        action.setText(Messages.getString("ActionRegistryManager.DeleteUnreferencedDefinitions")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new DisconnectAction(editor);

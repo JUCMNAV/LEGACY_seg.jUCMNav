@@ -9,6 +9,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Shell;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import urncore.URNmodelElement;
 
@@ -22,9 +23,9 @@ public class DeletePreferences {
     public static final String PREF_DELDEFINITION = "PREF_DELDEFINITION"; //$NON-NLS-1$
     public static final String PREF_DELREFERENCE = "PREF_DELPREFERENCE"; //$NON-NLS-1$
 
-    public static final String PREF_ALWAYS = "Always";
-    public static final String PREF_NEVER = "Never";
-    public static final String PREF_PROMPT = "Prompt";
+    public static final String PREF_ALWAYS = Messages.getString("DeletePreferences_Always"); //$NON-NLS-1$
+    public static final String PREF_NEVER = Messages.getString("DeletePreferences_Never"); //$NON-NLS-1$
+    public static final String PREF_PROMPT = Messages.getString("DeletePreferences_Prompt"); //$NON-NLS-1$
 
     /**
      * Sets the default values in the preference store.
@@ -58,9 +59,9 @@ public class DeletePreferences {
             return false;
         } else {
             // Must prompt the user if he wants to delete the definition
-            MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(new Shell(), "Delete " + URNNamingHelper.getName(element)
-                    + " Definition", "There is no more reference associated with element " + URNNamingHelper.getName(element)
-                    + ".\n\nDo you want to delete the definition?", "Remember my decision", false, null, "DELETE_PREFERENCE");
+            MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(new Shell(), Messages.getString("DeletePreferences_Delete") + URNNamingHelper.getName(element) //$NON-NLS-1$
+                    + Messages.getString("DeletePreferences_Definition"), Messages.getString("DeletePreferences_NoMoreRefAssociated") + URNNamingHelper.getName(element) //$NON-NLS-1$ //$NON-NLS-2$
+                    + Messages.getString("DeletePreferences_DoYouWantToDelete"), Messages.getString("DeletePreferences_Remember"), false, null, "DELETE_PREFERENCE"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             if (dialog.getReturnCode() == IDialogConstants.YES_ID) {
                 if (dialog.getToggleState()) {
                     getPreferenceStore().setValue(PREF_DELDEFINITION, PREF_ALWAYS);
@@ -91,10 +92,10 @@ public class DeletePreferences {
             return false;
         } else {
             // Must prompt the user if he wants to delete the definition
-            MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(new Shell(), "Delete " + URNNamingHelper.getName(element)
-                    + " Definition and References", URNNamingHelper.getName(element)
-                    + " is associated with references.\n\nDo you want to delete the definition and references?", "Remember my decision", false, null,
-                    "DELETE_REFPREFERENCE");
+            MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(new Shell(), Messages.getString("DeletePreferences_DeleteSpace") + URNNamingHelper.getName(element) //$NON-NLS-1$
+                    + Messages.getString("DeletePreferences_DefAndRef"), URNNamingHelper.getName(element) //$NON-NLS-1$
+                    + Messages.getString("DeletePreferences_IsAssociatedWith"), Messages.getString("DeletePreferences_12"), false, null, //$NON-NLS-1$ //$NON-NLS-2$
+                    "DELETE_REFPREFERENCE"); //$NON-NLS-1$
             if (dialog.getReturnCode() == IDialogConstants.YES_ID) {
                 if (dialog.getToggleState()) {
                     getPreferenceStore().setValue(PREF_DELREFERENCE, PREF_ALWAYS);

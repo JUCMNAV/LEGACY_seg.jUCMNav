@@ -78,7 +78,7 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
     /** The palette root used to display the palette. */
     protected PaletteRoot paletteRoot;
 
-    public static final String keybindingExcludes = "hnxz";
+    public static final String keybindingExcludes = "hnxz"; //$NON-NLS-1$
 
     protected UrnDropTargetListener dropListener;
     protected UrnTemplateTransferDropTargetListener urnDropListener;
@@ -344,31 +344,31 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
             
             character = 'h'; // increase Qualitative Evaluation with key binding
             sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
-                    .getAction(SetQualitativeEvaluationAction.getId("Increase")));
+                    .getAction(SetQualitativeEvaluationAction.getId("Increase"))); //$NON-NLS-1$
             character = 'n'; // decrease Qualitative Evaluation with key binding
             sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
-                    .getAction(SetQualitativeEvaluationAction.getId("Decrease")));
+                    .getAction(SetQualitativeEvaluationAction.getId("Decrease"))); //$NON-NLS-1$
 
             int letter = (int) 'h'; // increase Numerical Evaluation with key binding
             sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
-                    SetNumericalEvaluationAction.getId("Increase")));
+                    SetNumericalEvaluationAction.getId("Increase"))); //$NON-NLS-1$
             letter = (int) 'n'; // decrease Numerical Evaluation with key binding
             sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
-                    SetNumericalEvaluationAction.getId("Decrease")));
+                    SetNumericalEvaluationAction.getId("Decrease"))); //$NON-NLS-1$
 
             character = 'x'; // increase Qualitative Importance with key binding
             sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
-                    .getAction(SetQualitativeImportanceAction.getId("Increase")));
+                    .getAction(SetQualitativeImportanceAction.getId("Increase"))); //$NON-NLS-1$
             character = 'z'; // decrease Qualitative Importance with key binding
             sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
-                    .getAction(SetQualitativeImportanceAction.getId("Decrease")));
+                    .getAction(SetQualitativeImportanceAction.getId("Decrease"))); //$NON-NLS-1$
 
             letter = (int) 'x'; // increase Numerical Importance with key binding
             sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
-                    SetNumericalImportanceAction.getId("Increase")));
+                    SetNumericalImportanceAction.getId("Increase"))); //$NON-NLS-1$
             letter = (int) 'z'; // decrease Numerical Importance with key binding
             sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
-                    SetNumericalImportanceAction.getId("Decrease")));
+                    SetNumericalImportanceAction.getId("Decrease"))); //$NON-NLS-1$
 
         }
         return sharedKeyHandler;

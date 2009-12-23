@@ -167,7 +167,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, true);
         targetEndpointLocator.setVDistance(5);
         targetEndpointLocator.setUDistance(30);
-        endLabel = new Label(Messages.getString("NodeConnectionEditPart.IN") + Integer.toString(index + 1)+ " "); //$NON-NLS-1$
+        endLabel = new Label(Messages.getString("NodeConnectionEditPart.IN") + Integer.toString(index + 1)+ " "); //$NON-NLS-1$ //$NON-NLS-2$
         endLabel.setForegroundColor(ColorManager.STUBLABEL);
         endLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
         connection.add(endLabel, targetEndpointLocator);
@@ -207,16 +207,16 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     private String getStartText() {
         int index = getLink().getSource().getSucc().indexOf(getLink());
 
-        String startText = Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1) + " "; //$NON-NLS-1$
+        String startText = Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1) + " "; //$NON-NLS-1$ //$NON-NLS-2$
         startText += getSuffix();
         return startText;
     }
 
     private String getSuffix() {
         if (getLink().getThreshold() != null && getLink().getThreshold().length() > 0)
-            return "[" + getLink().getThreshold().replaceAll("\n", "").replace("\r", "") + "] ";
+            return "[" + getLink().getThreshold().replaceAll("\n", "").replace("\r", "") + "] "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
         else
-            return "";
+            return ""; //$NON-NLS-1$
     }
 
     /**

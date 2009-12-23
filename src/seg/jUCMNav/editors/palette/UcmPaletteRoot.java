@@ -220,12 +220,12 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
         add(componentsDrawer);
 
         entry = new URNElementCreationEntry(
-                "Failure Point", "Create a Failure Point (l)", FailurePoint.class, new ModelCreationFactory(getURNspec(), FailurePoint.class),
-                JUCMNavPlugin.getImageDescriptor("icons/FailurePoint16.gif"), JUCMNavPlugin.getImageDescriptor("icons/FailurePoint24.gif"));
+                Messages.getString("UcmPaletteRoot.FailurePoint"), Messages.getString("UcmPaletteRoot.CreateFailurePoint"), FailurePoint.class, new ModelCreationFactory(getURNspec(), FailurePoint.class), //$NON-NLS-1$ //$NON-NLS-2$
+                JUCMNavPlugin.getImageDescriptor("icons/FailurePoint16.gif"), JUCMNavPlugin.getImageDescriptor("icons/FailurePoint24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
         keyboardMapping.put("l", entry); //$NON-NLS-1$
 
-        componentsDrawer = new PaletteDrawer("Stubs");
+        componentsDrawer = new PaletteDrawer(Messages.getString("UcmPaletteRoot.Stubs")); //$NON-NLS-1$
 
         entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.stub"), Messages.getString("UcmPaletteRoot.createStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
@@ -258,7 +258,7 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
         
         add(componentsDrawer);
         
-        componentsDrawer = new PaletteDrawer("Aspects");
+        componentsDrawer = new PaletteDrawer(Messages.getString("UcmPaletteRoot.Aspects")); //$NON-NLS-1$
         advancedItems.add(componentsDrawer);
         
         entry = new URNElementCreationEntry(
@@ -268,37 +268,37 @@ public class UcmPaletteRoot extends PaletteRoot implements Disposable {
         componentsDrawer.add(entry);
         keyboardMapping.put("c", entry); //$NON-NLS-1$
         
-        entry = new URNElementCreationEntry("Pointcut Replacement Stub", "Create a Pointcut Replacement Stub (v)", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 3),
-                JUCMNavPlugin.getImageDescriptor("icons/PointcutRepStub16.gif"), JUCMNavPlugin.getImageDescriptor("icons/PointcutRepStub24.gif"));
+        entry = new URNElementCreationEntry(Messages.getString("UcmPaletteRoot.PointcutReplacementStub"), Messages.getString("UcmPaletteRoot.CreatePointcutReplacementStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 3), //$NON-NLS-1$ //$NON-NLS-2$
+                JUCMNavPlugin.getImageDescriptor("icons/PointcutRepStub16.gif"), JUCMNavPlugin.getImageDescriptor("icons/PointcutRepStub24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
         keyboardMapping.put("v", entry); //$NON-NLS-1$
         
         entry = new URNElementCreationEntry(
-                "Aspect Marker", "Create Aspect marker (1)", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 6), ImageDescriptor
-                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarker16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarker24.gif"));
+                Messages.getString("UcmPaletteRoot.AspectMarker"), Messages.getString("UcmPaletteRoot.CreateAspectMarker"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 6), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
+                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarker16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarker24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
         keyboardMapping.put("1", entry); //$NON-NLS-1$
         
         entry = new URNElementCreationEntry(
-                "Entrance Aspect Marker", "Create Entrance Aspect marker (2)", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 7), ImageDescriptor
-                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarkerEntrance16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerEntrance24.gif"));
+                Messages.getString("UcmPaletteRoot.EntranceAspectMarker"), Messages.getString("UcmPaletteRoot.CreateEntranceAspectMarker"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 7), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
+                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarkerEntrance16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerEntrance24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
         keyboardMapping.put("2", entry); //$NON-NLS-1$
         
         entry = new URNElementCreationEntry(
-                "Exit Aspect Marker", "Create Exit Aspect marker (3)", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 8), ImageDescriptor
-                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarkerExit16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerExit24.gif"));
+                Messages.getString("UcmPaletteRoot.ExitAspectMarker"), Messages.getString("UcmPaletteRoot.CreateExitAspectMarker"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 8), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
+                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarkerExit16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerExit24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
         keyboardMapping.put("3", entry); //$NON-NLS-1$
         
         entry = new URNElementCreationEntry(
-                "Conditional Aspect Marker", "Create Conditional Aspect marker (4)", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 9), ImageDescriptor
-                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarkerCond16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerCond24.gif"));
+                Messages.getString("UcmPaletteRoot.ConditionAspectMarker"), Messages.getString("UcmPaletteRoot.CreateConditionAspectMarker"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 9), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
+                        .createFromFile(JUCMNavPlugin.class, "icons/aspectMarkerCond16.gif"), JUCMNavPlugin.getImageDescriptor("icons/aspectMarkerCond24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
         keyboardMapping.put("4", entry); //$NON-NLS-1$
         
         entry = new URNElementCreationEntry(
-                "Anything Pointcut", "Create Anything Pointcut (-)", Anything.class, new ModelCreationFactory(getURNspec(), Anything.class), JUCMNavPlugin.getImageDescriptor("icons/anything16.gif"), JUCMNavPlugin.getImageDescriptor("icons/anything24.gif"));
+                Messages.getString("UcmPaletteRoot.AnythingPointcut"), Messages.getString("UcmPaletteRoot.CreateAnythingPointcut"), Anything.class, new ModelCreationFactory(getURNspec(), Anything.class), JUCMNavPlugin.getImageDescriptor("icons/anything16.gif"), JUCMNavPlugin.getImageDescriptor("icons/anything24.gif")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         componentsDrawer.add(entry);
         keyboardMapping.put("-", entry); //$NON-NLS-1$
         

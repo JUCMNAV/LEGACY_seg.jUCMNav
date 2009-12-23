@@ -265,7 +265,7 @@ public class JUCMNavCommandTests extends TestCase {
         testfile = null;
         urnspec = null;
 
-        System.out.println("Memory: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 + "kb");
+        System.out.println("Memory: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 + "kb"); //$NON-NLS-1$ //$NON-NLS-2$
 
         /*
          * System.out.println("sleeping"); Thread.sleep(10000); System.out.println("next");
@@ -276,7 +276,7 @@ public class JUCMNavCommandTests extends TestCase {
     public void testAssertionsEnabled() {
         try {
             assert false;
-            fail("Assertions must be enabled via JVM flag -ea or -enableassertions");
+            fail("Assertions must be enabled via JVM flag -ea or -enableassertions"); //$NON-NLS-1$
         } catch (AssertionError exception) {
             // Ignore
         }
@@ -1212,8 +1212,8 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("Can't execute CutAnyPathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        assertTrue("The old node connection target should now be an EndPoint", nc.getTarget() instanceof EndPoint);
-        assertTrue("The EndPoint precedent node should now be a StartPoint", ((NodeConnection) end.getPred().get(0)).getSource() instanceof StartPoint);
+        assertTrue("The old node connection target should now be an EndPoint", nc.getTarget() instanceof EndPoint); //$NON-NLS-1$
+        assertTrue("The EndPoint precedent node should now be a StartPoint", ((NodeConnection) end.getPred().get(0)).getSource() instanceof StartPoint); //$NON-NLS-1$
 
         testExtendPathCommand();
     }
@@ -1239,8 +1239,8 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("Can't execute CutAnyPathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        assertTrue("The node connection target should now be an EndPoint", nc.getTarget() instanceof EndPoint);
-        assertTrue("The EndPoint precedent node should now be a StartPoint", ((NodeConnection) end.getPred().get(0)).getSource() instanceof StartPoint);
+        assertTrue("The node connection target should now be an EndPoint", nc.getTarget() instanceof EndPoint); //$NON-NLS-1$
+        assertTrue("The EndPoint precedent node should now be a StartPoint", ((NodeConnection) end.getPred().get(0)).getSource() instanceof StartPoint); //$NON-NLS-1$
     }
 
     /**

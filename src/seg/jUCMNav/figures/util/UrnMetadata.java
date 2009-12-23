@@ -8,6 +8,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.emf.ecore.EObject;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.MetadataHelper;
 import ucm.map.FailurePoint;
 import ucm.map.RespRef;
@@ -120,8 +121,8 @@ public class UrnMetadata {
         if (elem == null)
             return;
 
-        if (elem.getDescription() != null && !elem.getDescription().equals("")) {
-            toolTipText = toolTipText + " " + elem.getDescription() + " "; //$NON-NLS-1$ $NON-NLS-2$  
+        if (elem.getDescription() != null && !elem.getDescription().equals("")) { //$NON-NLS-1$
+            toolTipText = toolTipText + " " + elem.getDescription() + " "; //$NON-NLS-1$ //$NON-NLS-2$ $NON-NLS-2$  
             descOnly = true;
         }
 
@@ -150,7 +151,7 @@ public class UrnMetadata {
         while (it.hasNext()) {
             Metadata metadata = (Metadata) it.next();
             if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
-                metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
+                metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ $NON-NLS-2$ $NON-NLS-3$
             }
         }
 
@@ -160,7 +161,7 @@ public class UrnMetadata {
             while (it.hasNext()) {
                 Metadata metadata = (Metadata) it.next();
                 if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
-                    metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
+                    metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ $NON-NLS-2$ $NON-NLS-3$
                 }
             }
         }
@@ -196,7 +197,7 @@ public class UrnMetadata {
                         classname = link.getToElem().getClass().toString();
                         classname = classname.substring(classname.lastIndexOf(".") + 1, classname.length() - 4); //$NON-NLS-1$
                     }
-                    toolTipText = toolTipText + "\n   " + link.getType() + " to " + link.getToElem().getName() + " (" + classname + ") "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
+                    toolTipText = toolTipText + "\n   " + link.getType() + Messages.getString("UrnMetadata_To") + link.getToElem().getName() + " (" + classname + ") "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
                 }
             }
             it = elem.getToLinks().iterator();
@@ -211,7 +212,7 @@ public class UrnMetadata {
                     classname = link.getFromElem().getClass().toString();
                     classname = classname.substring(classname.lastIndexOf(".") + 1, classname.length() - 4); //$NON-NLS-1$
                 }
-                toolTipText = toolTipText + "\n   " + link.getType() + " from " + link.getFromElem().getName() + " (" + classname + ") "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
+                toolTipText = toolTipText + "\n   " + link.getType() + Messages.getString("UrnMetadata_From") + link.getFromElem().getName() + " (" + classname + ") "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
             }
         }
 

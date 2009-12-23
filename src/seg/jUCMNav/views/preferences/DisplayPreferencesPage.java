@@ -12,6 +12,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 
 /**
  * Keep the preferences for the outline view.
@@ -36,35 +37,35 @@ public class DisplayPreferencesPage extends FieldEditorPreferencePage implements
      * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
      */
     protected void createFieldEditors() {
-        StringFieldEditor author = new StringFieldEditor(DisplayPreferences.PREF_OUTLINE_FILTER, "Containing text:", getFieldEditorParent());
+        StringFieldEditor author = new StringFieldEditor(DisplayPreferences.PREF_OUTLINE_FILTER, Messages.getString("DisplayPreferencesPage_ContainingText"), getFieldEditorParent()); //$NON-NLS-1$
         addField(author);
 
         BooleanFieldEditor bef = null;
 
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWNODENUMBER, "Show node id numbers in outline. For instance: name (1234)",
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWNODENUMBER, Messages.getString("DisplayPreferencesPage_ShowNodeID"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(bef);
 
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWGRLS, "Show GRL-related elements in outline.", getFieldEditorParent());
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWGRLS, Messages.getString("DisplayPreferencesPage_ShowGRL"), getFieldEditorParent()); //$NON-NLS-1$
         addField(bef);
 
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWUCMS, "Show UCM-related elements in outline.", getFieldEditorParent());
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWUCMS, Messages.getString("DisplayPreferencesPage_ShowUCM"), getFieldEditorParent()); //$NON-NLS-1$
         addField(bef);
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWEMPTY, "Show UCM empty points and direction arrows in outline.",
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWEMPTY, Messages.getString("DisplayPreferencesPage_ShowEmptyPoint"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(bef);
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWFORKJOIN, "Show UCM forks and joins in outline.", getFieldEditorParent());
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWFORKJOIN, Messages.getString("DisplayPreferencesPage_ShowForkJoin"), getFieldEditorParent()); //$NON-NLS-1$
         addField(bef);
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWSTARTEND, "Show UCM start and end points in outline.", getFieldEditorParent());
-        addField(bef);
-
-        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWCONCERNS, "Show URN concerns in outline.", getFieldEditorParent());
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWSTARTEND, Messages.getString("DisplayPreferencesPage_ShowStartEnd"), getFieldEditorParent()); //$NON-NLS-1$
         addField(bef);
 
-        String[][] values = { { "Default (group by type, sort by name)", DisplayPreferences.SORT_DEFAULT }, { "Identifier", DisplayPreferences.SORT_ID },
-                { "Name", DisplayPreferences.SORT_NAME }, };
+        bef = new BooleanFieldEditor(DisplayPreferences.PREF_OUTLINE_SHOWCONCERNS, Messages.getString("DisplayPreferencesPage_ShowConcern"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(bef);
 
-        RadioGroupFieldEditor orientation = new RadioGroupFieldEditor(DisplayPreferences.PREF_OUTLINE_SORT, "Outline sort order", 1, values,
+        String[][] values = { { Messages.getString("DisplayPreferencesPage_Default"), DisplayPreferences.SORT_DEFAULT }, { Messages.getString("DisplayPreferencesPage_Identifier"), DisplayPreferences.SORT_ID }, //$NON-NLS-1$ //$NON-NLS-2$
+                { Messages.getString("DisplayPreferencesPage_Name"), DisplayPreferences.SORT_NAME }, }; //$NON-NLS-1$
+
+        RadioGroupFieldEditor orientation = new RadioGroupFieldEditor(DisplayPreferences.PREF_OUTLINE_SORT, Messages.getString("DisplayPreferencesPage_SortOrder"), 1, values, //$NON-NLS-1$
                 getFieldEditorParent());
         addField(orientation);
     }

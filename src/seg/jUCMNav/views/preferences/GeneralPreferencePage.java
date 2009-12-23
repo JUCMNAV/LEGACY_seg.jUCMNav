@@ -63,7 +63,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         addField(strict_codeeditor);
         
         Group g = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
-        g.setText("Advanced Mode");
+        g.setText(Messages.getString("GeneralPreferencePage.AdvancedMode")); //$NON-NLS-1$
         
         GridLayout layout = new GridLayout();
         layout.numColumns = 1;
@@ -80,7 +80,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 //        data.horizontalIndent = 5;
 //        c.setLayoutData(data);
 
-        BooleanFieldEditor advanced_jucmnav = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCM, "Enable the following advanced features:", c);
+        BooleanFieldEditor advanced_jucmnav = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCM, Messages.getString("GeneralPreferencePage.EnableTheFollowing"), c); //$NON-NLS-1$
         addField(advanced_jucmnav);
         
         c = new Composite(g, SWT.NONE);
@@ -89,13 +89,13 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         data.horizontalIndent = 20;
         c.setLayoutData(data);
         
-        BooleanFieldEditor advanced_KPI = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMKPI, "KPI", c);
+        BooleanFieldEditor advanced_KPI = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMKPI, Messages.getString("GeneralPreferencePage.KPI"), c); //$NON-NLS-1$
         addField(advanced_KPI);
         
-        BooleanFieldEditor advanced_Perf = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMPERF, "Performance Analysis", c);
+        BooleanFieldEditor advanced_Perf = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMPERF, Messages.getString("GeneralPreferencePage.PerfAnalysis"), c); //$NON-NLS-1$
         addField(advanced_Perf);
         
-        BooleanFieldEditor advanced_Aspects = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMASPECTS, "Aspects", c);
+        BooleanFieldEditor advanced_Aspects = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMASPECTS, Messages.getString("GeneralPreferencePage.Aspects"), c); //$NON-NLS-1$
         addField(advanced_Aspects);
     }
 

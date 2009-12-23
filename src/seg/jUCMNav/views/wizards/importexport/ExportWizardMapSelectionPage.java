@@ -230,11 +230,11 @@ public class ExportWizardMapSelectionPage extends WizardPage {
                 }
 
                 diagramName = ReportWizard.getDiagramName(diagram);
-                if (diagramName.contains("-Map"))
-                    filteredName = diagramName.substring(0, diagramName.indexOf("-Map") + 1)
+                if (diagramName.contains("-Map")) //$NON-NLS-1$
+                    filteredName = diagramName.substring(0, diagramName.indexOf("-Map") + 1) //$NON-NLS-1$
                             + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
                 else
-                    filteredName = diagramName.substring(0, diagramName.indexOf("-GRLGraph") + 1)
+                    filteredName = diagramName.substring(0, diagramName.indexOf("-GRLGraph") + 1) //$NON-NLS-1$
                             + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
 
                 listMaps.add(filteredName);

@@ -981,7 +981,7 @@ public class URNNamingHelper {
             KPIInformationElementRef ref = (KPIInformationElementRef) elem;
             return getName(ref.getDef());
         } else if (elem == null)
-            return "";
+            return ""; //$NON-NLS-1$
         else
             return elem.getName();
     }
@@ -1029,7 +1029,7 @@ public class URNNamingHelper {
                 } else if (connection.getSource() instanceof OrFork || connection.getSource() instanceof WaitingPlace) {
                     return Messages.getString("URNNamingHelper.Branch") + (connection.getSource().getSucc().indexOf(connection) + 1) + Messages.getString("URNNamingHelper.ColonSpace") + getNameFromExpression(expression); //$NON-NLS-1$ //$NON-NLS-2$
                 } else if (connection.getSource() instanceof FailurePoint) {
-                    return "Failure condition: " + getNameFromExpression(expression);
+                    return Messages.getString("URNNamingHelper.FailureCondition") + getNameFromExpression(expression); //$NON-NLS-1$
                 } else
                     name = getNameFromExpression(expression);
 

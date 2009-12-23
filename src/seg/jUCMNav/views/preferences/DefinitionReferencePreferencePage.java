@@ -7,6 +7,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 
 /**
  * Preference page for element definitions and references
@@ -36,10 +37,10 @@ public class DefinitionReferencePreferencePage extends FieldEditorPreferencePage
         String[][] values = { { DeletePreferences.PREF_ALWAYS, DeletePreferences.PREF_ALWAYS }, { DeletePreferences.PREF_NEVER, DeletePreferences.PREF_NEVER },
                 { DeletePreferences.PREF_PROMPT, DeletePreferences.PREF_PROMPT } };
         RadioGroupFieldEditor deleteDefinition = new RadioGroupFieldEditor(DeletePreferences.PREF_DELDEFINITION,
-                "Delete definition when deleting the last reference", 3, values, getFieldEditorParent());
+                Messages.getString("DefinitionReferencePreferencePage_DeleteDefinitionWhenDeletingLast"), 3, values, getFieldEditorParent()); //$NON-NLS-1$
         addField(deleteDefinition);
 
-        RadioGroupFieldEditor deleteReference = new RadioGroupFieldEditor(DeletePreferences.PREF_DELREFERENCE, "Allow to delete referenced definitions", 3,
+        RadioGroupFieldEditor deleteReference = new RadioGroupFieldEditor(DeletePreferences.PREF_DELREFERENCE, Messages.getString("DefinitionReferencePreferencePage_AllowDeleteReferencedDefinition"), 3, //$NON-NLS-1$
                 values, getFieldEditorParent());
         addField(deleteReference);
 

@@ -113,7 +113,7 @@ public class RuleEditDialog extends Dialog implements SelectionListener {
         // Metrics cannot edit this field
         if (this.getClass().getName().endsWith("MetricsRuleEditDialog")) //$NON-NLS-1$
         {
-            txtContext.setText("urn::URNspec");
+            txtContext.setText("urn::URNspec"); //$NON-NLS-1$
             txtContext.setEnabled(false);
         }
 

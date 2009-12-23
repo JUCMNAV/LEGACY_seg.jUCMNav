@@ -12,6 +12,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.util.URNNamingHelper;
@@ -226,11 +227,11 @@ public class SyntaxChecker {
 
             for (Iterator iterator = duplicates.iterator(); iterator.hasNext();) {
                 URNmodelElement o = (URNmodelElement) iterator.next();
-                errors.add(new TraversalWarning("Element has a duplicate ID: " + o.getId(), o, IMarker.SEVERITY_ERROR));
+                errors.add(new TraversalWarning(Messages.getString("SyntaxChecker_ElementAsADuplicateID") + o.getId(), o, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 
             }
         } catch (IOException ex) {
-            errors.add(new TraversalWarning("Unable to check for duplicates IDs." + ex.getMessage(), IMarker.SEVERITY_ERROR));
+            errors.add(new TraversalWarning(Messages.getString("SyntaxChecker_UnableToCheckForDuplicateIDs") + ex.getMessage(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
         }
 
     }
