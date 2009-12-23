@@ -24,9 +24,8 @@ public class AttachNewExtremitiesToStubCommand extends CompoundCommand {
     protected Vector alsoAttachThese;
     protected boolean built = false;
     protected boolean replaceFirst = false;
-
-    protected boolean firstIn = true;
-    protected boolean firstOut = true;
+    protected int inCount;
+    protected int outCount;
 
     /**
      * Between the time this command is created and its execution, the model has changed. we want to attach new start/end points in map to the stub.
@@ -43,9 +42,8 @@ public class AttachNewExtremitiesToStubCommand extends CompoundCommand {
         this.replaceFirst = replaceFirst;
         this.alsoAttachThese = alsoAttachThese;
         maxIdDuringCreation = Integer.parseInt(this.map.getUrndefinition().getUrnspec().getNextGlobalID());
-        this.firstIn = true;
-        this.firstOut = true;
-
+        inCount = 0;
+        outCount = 0;
     }
 
     public boolean canExecute() {
@@ -55,10 +53,9 @@ public class AttachNewExtremitiesToStubCommand extends CompoundCommand {
     public void execute() {
         if (!built) {
             /*
-            DeleteUselessStartNCEndCommand uselessCmd = new DeleteUselessStartNCEndCommand(map, null);
-            uselessCmd.setNextGlobalID(maxIdDuringCreation);
-            add(uselessCmd);
-            */
+             * DeleteUselessStartNCEndCommand uselessCmd = new DeleteUselessStartNCEndCommand(map, null); uselessCmd.setNextGlobalID(maxIdDuringCreation);
+             * add(uselessCmd);
+             */
 
             Vector toAttach = new Vector();
             for (Iterator iterator = map.getNodes().iterator(); iterator.hasNext();) {
@@ -75,52 +72,58 @@ public class AttachNewExtremitiesToStubCommand extends CompoundCommand {
             for (Iterator iterator = toAttach.iterator(); iterator.hasNext();) {
                 PathNode pn = (PathNode) iterator.next();
                 // attach branch unless both ends will be attached.
-                //if (!removeTinyBranch(toAttach, pn))
-                    attachBranch(firstIn, firstOut, pn);
+                // if (!removeTinyBranch(toAttach, pn))
+                attachBranch(pn);
             }
 
             if (alsoAttachThese != null) {
                 for (Iterator iterator2 = alsoAttachThese.iterator(); iterator2.hasNext();) {
                     PathNode pn = (PathNode) iterator2.next();
                     if (pn.getDiagram() != null) // if still exists.
-                        attachBranch(firstIn, firstOut, pn);
+                        attachBranch(pn);
                 }
             }
+
             built = true;
         }
         super.execute();
     }
 
-    private void attachBranch(boolean firstIn, boolean firstOut, PathNode pn) {
+    private void attachBranch(PathNode pn) {
         if (SafePathChecker.isSafeFusion(pn, stub)) {
-            //System.out.println("Attached: " + pn.getId());
+
+            // System.out.println("Attached: " + pn.getId());
             if (replaceFirst) {
 
                 // get rid of the first connection
-                if (this.firstIn && pn instanceof EndPoint) {
-                    NodeConnection nc = (NodeConnection ) stub.getPred().get(0);
-//                    if (nc.getSource() instanceof StartPoint)
-//                        add(new MergeStartEndCommand((UCMmap) stub.getDiagram(), (StartPoint) nc.getSource(), (EndPoint) pn, pn.getX(), pn.getY()));
-//                    else {
-                        add(new DeleteNodeConnectionCommand(nc, null));
-                        add(new AttachBranchCommand(pn, stub));
-//                    }
-                    this.firstIn = false;
-                } else if (this.firstOut && pn instanceof StartPoint) {
-                    NodeConnection nc = (NodeConnection ) stub.getSucc().get(0);
-//                    if (nc.getTarget() instanceof EndPoint)
-//                        add(new MergeStartEndCommand((UCMmap) stub.getDiagram(), (StartPoint) pn, (EndPoint) nc.getTarget(), pn.getX(), pn.getY()));
-//                    else {
-                        add(new DeleteNodeConnectionCommand(nc, null));
-                        add(new AttachBranchCommand(pn, stub));
-//                    }
-                    this.firstOut = false;
+                if (this.inCount == 0 && pn instanceof EndPoint) {
+                    NodeConnection nc = (NodeConnection) stub.getPred().get(0);
+                    // if (nc.getSource() instanceof StartPoint)
+                    // add(new MergeStartEndCommand((UCMmap) stub.getDiagram(), (StartPoint) nc.getSource(), (EndPoint) pn, pn.getX(), pn.getY()));
+                    // else {
+                    add(new DeleteNodeConnectionCommand(nc, null));
+                    add(new AttachBranchCommand(pn, stub));
+                    // }
+                } else if (this.outCount == 0 && pn instanceof StartPoint) {
+                    NodeConnection nc = (NodeConnection) stub.getSucc().get(0);
+                    // if (nc.getTarget() instanceof EndPoint)
+                    // add(new MergeStartEndCommand((UCMmap) stub.getDiagram(), (StartPoint) pn, (EndPoint) nc.getTarget(), pn.getX(), pn.getY()));
+                    // else {
+                    add(new DeleteNodeConnectionCommand(nc, null));
+                    add(new AttachBranchCommand(pn, stub));
+                    // }
                 } else {
                     add(new AttachBranchCommand(pn, stub));
                 }
             } else {
                 add(new AttachBranchCommand(pn, stub));
             }
+
+            if (pn instanceof StartPoint)
+                outCount++;
+            else if (pn instanceof EndPoint)
+                inCount++;
+
         }
     }
 
@@ -147,4 +150,5 @@ public class AttachNewExtremitiesToStubCommand extends CompoundCommand {
         return false;
 
     }
-}
+
+   }

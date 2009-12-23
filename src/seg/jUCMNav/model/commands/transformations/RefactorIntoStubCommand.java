@@ -156,9 +156,7 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
         add(new CutAnyPathIfStillExistsCommand(oldMap, pathsToCut));
         add(new DeleteUselessStartNCEndCommand(oldMap, null));
         add(new AttachNewExtremitiesToStubCommand(oldMap, getAddedStub(), toReAttach, true));
-
-        
-
+        add(new RefactorIntoStubBindingsCommand(getAddedStub()));
     }
 
     private void findDisconnectedBranches(Vector startingNodes, Vector toReAttach, CompoundCommand delete) {
