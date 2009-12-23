@@ -352,14 +352,19 @@ public class LabelEditPart extends ModelElementEditPart {
                                 labelFigure.setPrefixText(Messages.getString("LabelEditPart.parentprefix")); //$NON-NLS-1$
                             else
                                 labelFigure.setPrefixText("");//$NON-NLS-1$
-
                         }
-
                     }
                 } else if (modelElement instanceof RespRef) { // use definition
-                    Responsibility responsibility = ((RespRef) modelElement).getRespDef();
-                    if (responsibility != null)
+                    RespRef respRef = (RespRef) modelElement;
+                    Responsibility responsibility = respRef.getRespDef();
+                    if (responsibility != null) {
                         labelFigure.setSuffixText(UrnMetadata.getStereotypes(responsibility));
+                        
+                        if (responsibility.isContext())
+                            labelFigure.setPrefixText(Messages.getString("LabelEditPart.parentprefix")); //$NON-NLS-1$
+                        else
+                            labelFigure.setPrefixText("");//$NON-NLS-1$
+                    }
                 } else {
                     labelFigure.setSuffixText(UrnMetadata.getStereotypes(modelElement));
                 }

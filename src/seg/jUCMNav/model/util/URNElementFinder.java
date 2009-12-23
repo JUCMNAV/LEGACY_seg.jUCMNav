@@ -147,7 +147,7 @@ public class URNElementFinder {
         for (Iterator iter = c.iterator(); iter.hasNext();) {
             URNmodelElement element = (URNmodelElement) iter.next();
 
-            if (element.getName().equalsIgnoreCase(name))
+            if (URNNamingHelper.getName(element).equalsIgnoreCase(name))
                 return element;
         }
         return null;
@@ -266,6 +266,17 @@ public class URNElementFinder {
      */
     public static ComponentRef findComponentRef(UCMmap map, String id) {
         return (ComponentRef) find(map.getContRefs(), id);
+    }
+    
+    /**
+     * Given a map, find the component reference having the passed id or return null.
+     * 
+     * @param map
+     * @param id
+     * @return matching ref
+     */
+    public static ComponentRef findComponentRefByName(UCMmap map, String name) {
+        return (ComponentRef) findByName(map.getContRefs(), name);
     }
 
     /**

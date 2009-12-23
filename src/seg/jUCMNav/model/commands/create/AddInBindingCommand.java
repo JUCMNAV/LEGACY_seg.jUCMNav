@@ -28,6 +28,10 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
 
     private URNspec urnSpec;
 
+    private boolean delayedExecution = false;
+    private boolean aborted = false;
+    private int delayedIndex = 0;
+
     /**
      * @param plugin
      *            the concerned plugin binding
@@ -41,6 +45,25 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
         this.plugin = plugin;
         this.start = start;
         this.entry = entry;
+        this.delayedExecution = false;
+        setLabel(Messages.getString("AddInBinding.addnBinding")); //$NON-NLS-1$
+    }
+
+    /**
+     * @param plugin
+     *            the concerned plugin binding
+     * @param start
+     *            one of the plugin's start points
+     * @param index
+     *            the stub's entry connection index. will be checked at execution time.
+     */
+    public AddInBindingCommand(PluginBinding plugin, StartPoint start, int index) {
+        super();
+        this.plugin = plugin;
+        this.start = start;
+        // this.entry = entry;
+        this.delayedIndex = index;
+        this.delayedExecution = true;
         setLabel(Messages.getString("AddInBinding.addnBinding")); //$NON-NLS-1$
     }
 
@@ -49,7 +72,7 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        if (plugin != null && start != null && entry != null)
+        if (plugin != null && start != null && (entry != null || delayedExecution))
             return true;
         else
             return false;
@@ -64,6 +87,12 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
 
         in = (InBinding) ModelCreationFactory.getNewObject(urnSpec, InBinding.class);
 
+        if (delayedExecution) {
+            if (plugin.getStub().getPred().size() > delayedIndex)
+                entry = (NodeConnection) plugin.getStub().getPred().get(delayedIndex);
+            else
+                aborted = true;
+        }
         redo();
     }
 
@@ -72,6 +101,8 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
+        if (aborted)
+            return;
         testPreConditions();
 
         plugin.getIn().add(in);
@@ -86,6 +117,8 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
+        if (aborted)
+            return;
         testPostConditions();
 
         plugin.getIn().remove(in);

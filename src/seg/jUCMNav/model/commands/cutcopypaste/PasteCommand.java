@@ -27,8 +27,12 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddCommentCommand;
+import seg.jUCMNav.model.commands.create.AddComponentBindingCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
+import seg.jUCMNav.model.commands.create.AddInBindingCommand;
+import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
+import seg.jUCMNav.model.commands.create.AddRespRefBindingCommand;
 import seg.jUCMNav.model.commands.create.CreateContainerCommand;
 import seg.jUCMNav.model.commands.create.CreateEnumerationTypeCommand;
 import seg.jUCMNav.model.commands.create.CreateResponsibilityCommand;
@@ -50,17 +54,21 @@ import seg.jUCMNav.scenarios.SyntaxChecker;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.ComponentBinding;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.InBinding;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
+import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.ResponsibilityBinding;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
@@ -246,17 +254,15 @@ public class PasteCommand extends CompoundCommand {
 
     private void buildPathExtremity(Vector points) {
         int x = cursorLocation.x, y = cursorLocation.y;
-        
-        PathNode sp=null;
-        boolean isInclusive=false;
-        if (points.size()>=1)
-        {
+
+        PathNode sp = null;
+        boolean isInclusive = false;
+        if (points.size() >= 1) {
             sp = (PathNode) points.get(0);
         }
-        
-        if (points.size()==1 && (sp instanceof StartPoint || sp instanceof EndPoint))
-        {
-            isInclusive=true;
+
+        if (points.size() == 1 && (sp instanceof StartPoint || sp instanceof EndPoint)) {
+            isInclusive = true;
         }
 
         if (firstPlaced != null) {
@@ -276,7 +282,7 @@ public class PasteCommand extends CompoundCommand {
             cmd = new DuplicatePathCommand((UCMmap) insertionPoint, sp, x - sp.getX(), y - sp.getY());
         else
             cmd = new DuplicatePathCommand((UCMmap) insertionPoint, points, x - sp.getX(), y - sp.getY());
-        
+
         Vector currentImpactedNodes = cmd.getImpactedNodes();
         for (Iterator iterator = impactedNodes.iterator(); iterator.hasNext();) {
             PathNode pn = (PathNode) iterator.next();
@@ -487,7 +493,7 @@ public class PasteCommand extends CompoundCommand {
             if (found)
                 return true;
 
-            found = (insertionPoint instanceof UCMmap && (getFirstPathExtremity() != null || getFirstPathNode()!=null));
+            found = (insertionPoint instanceof UCMmap && (getFirstPathExtremity() != null || getFirstPathNode() != null));
             if (found)
                 return true;
 
@@ -533,7 +539,67 @@ public class PasteCommand extends CompoundCommand {
             if (map != null && map != targetMap) // don't allow plugin to self.
             {
                 Condition condition = (Condition) EcoreUtil.copy(binding.getPrecondition());
-                add(new AddPluginCommand(newStub, map, condition));
+                AddPluginCommand addPluginCommand = new AddPluginCommand(newStub, map, condition);
+                addPluginCommand.build(); // so we can access getPlugin.
+                add(addPluginCommand);
+                
+                // copy other fields. 
+                addPluginCommand.getPlugin().setProbability(binding.getProbability());
+                addPluginCommand.getPlugin().setReplicationFactor(binding.getReplicationFactor());
+                addPluginCommand.getPlugin().setTransaction(binding.isTransaction());
+                
+                // copy component bindings
+                for (Iterator iterator = binding.getComponents().iterator(); iterator.hasNext();) {
+                    ComponentBinding compBinding = (ComponentBinding) iterator.next();
+                    ComponentRef parentComp = compBinding.getParentComponent();
+                    ComponentRef childComp = compBinding.getPluginComponent();
+
+                    ComponentRef tgtParentComp = URNElementFinder.findComponentRefByName(targetMap, URNNamingHelper.getName(parentComp));
+                    if (tgtParentComp != null) {
+                        ComponentRef tgtChildComp = URNElementFinder.findComponentRefByName(map, URNNamingHelper.getName(childComp));
+                        if (tgtChildComp != null) {
+                            add(new AddComponentBindingCommand(addPluginCommand.getPlugin(), tgtParentComp, tgtChildComp));
+                        }
+                    }
+                }
+
+             // copy responsibility bindings
+                for (Iterator iterator = binding.getResponsibilities().iterator(); iterator.hasNext();) {
+                    ResponsibilityBinding respBinding = (ResponsibilityBinding) iterator.next();
+                    Responsibility parentResp = respBinding.getParentResp();
+                    RespRef childResp = respBinding.getPluginResp();
+
+                    Responsibility tgtParentResp = URNElementFinder.findResponsibilityByName(targetUrn, URNNamingHelper.getName(parentResp));
+                    if (tgtParentResp != null) {
+                        PathNode tgtChildResp = URNElementFinder.findPathNode(map, childResp.getId());
+                        if (tgtChildResp != null && tgtChildResp instanceof RespRef
+                                && URNNamingHelper.getName(tgtChildResp).equals(URNNamingHelper.getName(childResp))) {
+                            add(new AddRespRefBindingCommand(addPluginCommand.getPlugin(), tgtParentResp, (RespRef) tgtChildResp));
+                        }
+                    }
+                }
+
+                // copy in bindings
+                for (int j = 0; j < binding.getIn().size(); j++) {
+                    InBinding bind = (InBinding) binding.getIn().get(j);
+                    int connectionIndex = oldStub.getPred().indexOf(bind.getStubEntry());
+                    StartPoint child = bind.getStartPoint();
+                    PathNode tgtChild = URNElementFinder.findPathNode(map, child.getId());
+                    if (tgtChild != null && tgtChild instanceof StartPoint) {
+                        add(new AddInBindingCommand(addPluginCommand.getPlugin(), (StartPoint) tgtChild, connectionIndex));
+                    }
+                }
+
+                // copy out bindings
+                for (int j = 0; j < binding.getOut().size(); j++) {
+                    OutBinding bind = (OutBinding) binding.getOut().get(j);
+                    int connectionIndex = oldStub.getSucc().indexOf(bind.getStubExit());
+                    EndPoint child = bind.getEndPoint();
+                    PathNode tgtChild = URNElementFinder.findPathNode(map, child.getId());
+                    if (tgtChild != null && tgtChild instanceof EndPoint) {
+                        add(new AddOutBindingCommand(addPluginCommand.getPlugin(), (EndPoint) tgtChild, connectionIndex));
+                    }
+                }
             }
         }
     }
@@ -823,7 +889,7 @@ public class PasteCommand extends CompoundCommand {
         }
         return null;
     }
-    
+
     /***
      * Special case for responsibilities.
      * 
@@ -904,6 +970,7 @@ public class PasteCommand extends CompoundCommand {
         }
         return list;
     }
+
     protected Vector getPathNonExtremityList() {
         Vector list = new Vector();
         if (sourceIds != null && sourceUrn != null && targetUrn != null) {
@@ -918,7 +985,7 @@ public class PasteCommand extends CompoundCommand {
         }
         return list;
     }
-    
+
     protected Vector getSimpleList(int maxCount) {
         if (sourceIds != null && sourceUrn != null && targetUrn != null) {
             Vector results = new Vector();
