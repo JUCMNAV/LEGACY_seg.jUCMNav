@@ -238,7 +238,6 @@ public class ActionRegistryManager implements IDisposable {
 
             action = new SelectPaletteEntryAction(editor, (char) letter);
             addAction(action);
-            keyBindingService.registerAction(action);
         }
         
         for (int letter = (int) '0'; letter <= (int) '9'; letter++) {
@@ -247,7 +246,6 @@ public class ActionRegistryManager implements IDisposable {
 
             action = new SelectPaletteEntryAction(editor, (char) letter);
             addAction(action);
-            keyBindingService.registerAction(action);
         }
 
         char[] extraChars = new char[] { '>', '-', ' ' };
@@ -257,7 +255,6 @@ public class ActionRegistryManager implements IDisposable {
                 continue;
             action = new SelectPaletteEntryAction(editor, c);
             addAction(action);
-            keyBindingService.registerAction(action);
         }
 
         // Notice the following are calls to addEditPartAction().
