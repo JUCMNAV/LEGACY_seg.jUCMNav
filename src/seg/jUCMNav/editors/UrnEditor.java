@@ -326,12 +326,22 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
                 sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.CAPS_LOCK), getActionRegistry().getAction(
                         SelectPaletteEntryAction.getId((char) letter)));
             }
+            
+            for (int letter = (int) '0'; letter <= (int) '9'; letter++) {
+                if (keybindingExcludes.indexOf((char) letter) != -1) // reserve some keys for other uses
+                    continue;
+
+                sharedKeyHandler.put(KeyStroke.getReleased((char) letter, (char) letter, 0), getActionRegistry().getAction(
+                        SelectPaletteEntryAction.getId((char) letter)));
+            }            
 
             character = '>';
             sharedKeyHandler.put(KeyStroke.getReleased(character, '.', SWT.SHIFT), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
             character = ' ';
             sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
-
+            character = '-';
+            sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry().getAction(SelectPaletteEntryAction.getId(character)));
+            
             character = 'h'; // increase Qualitative Evaluation with key binding
             sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
                     .getAction(SetQualitativeEvaluationAction.getId("Increase")));

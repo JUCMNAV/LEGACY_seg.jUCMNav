@@ -391,6 +391,11 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
     }
 
     public void rotate(double angle) {
+        
+        // make it always point towards bottom
+        if (aspect==4 && Math.cos(angle)>0)
+            angle -= Math.PI;
+        
         if (aspect != 0) {
             this.angle = angle;
             Point center = new Point(getPreferredSize().width / 2, getPreferredSize().height / 2);

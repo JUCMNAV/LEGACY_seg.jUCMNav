@@ -238,14 +238,27 @@ public class ActionRegistryManager implements IDisposable {
 
             action = new SelectPaletteEntryAction(editor, (char) letter);
             addAction(action);
+            keyBindingService.registerAction(action);
+        }
+        
+        for (int letter = (int) '0'; letter <= (int) '9'; letter++) {
+            if (UrnEditor.keybindingExcludes.indexOf((char) letter) != -1) // reserve some keys for other uses
+                continue;
+
+            action = new SelectPaletteEntryAction(editor, (char) letter);
+            addAction(action);
+            keyBindingService.registerAction(action);
         }
 
-        char letter = '>';
-        action = new SelectPaletteEntryAction(editor, (char) letter);
-        addAction(action);
-        letter = ' ';
-        action = new SelectPaletteEntryAction(editor, (char) letter);
-        addAction(action);
+        char[] extraChars = new char[] { '>', '-', ' ' };
+        for (int i = 0; i < extraChars.length; i++) {
+            char c = extraChars[i];
+            if (UrnEditor.keybindingExcludes.indexOf(c) != -1) // reserve some keys for other uses
+                continue;
+            action = new SelectPaletteEntryAction(editor, c);
+            addAction(action);
+            keyBindingService.registerAction(action);
+        }
 
         // Notice the following are calls to addEditPartAction().
         // They need to know the current selection to work.
@@ -264,7 +277,7 @@ public class ActionRegistryManager implements IDisposable {
         action = new RefactorIntoStubAction(editor);
         action.setText("Refactor into Stub");
         addEditPartAction((SelectionAction) action);
-        
+
         action = new AddLabelAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addLabel")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
@@ -298,8 +311,8 @@ public class ActionRegistryManager implements IDisposable {
             // set text done in action.
             addEditPartAction((SelectionAction) action);
         }
-        
-        for(int i = 0; i< 10; i++) {
+
+        for (int i = 0; i < 10; i++) {
             action = new AddStubAction(editor, i);
             addEditPartAction((SelectionAction) action);
         }
