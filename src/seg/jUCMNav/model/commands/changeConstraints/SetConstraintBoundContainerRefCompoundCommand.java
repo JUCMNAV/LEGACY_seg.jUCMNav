@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.commands.changeConstraints;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
@@ -129,6 +130,9 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
 
         add(cmd);
 
+        Vector alreadyDone_bug677 = new Vector();
+        alreadyDone_bug677.addAll(v);
+        
         while (v.size() > 0) {
 
             URNmodelElement elem = (URNmodelElement) v.get(0);
@@ -136,7 +140,17 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
                 IURNContainerRef child = (IURNContainerRef) elem;
                 cmd = new SetConstraintContainerRefCommand(child, newX + (int) ((child.getX() - oldX) * factorW), newY
                         + (int) ((child.getY() - oldY) * factorH), (int) (child.getWidth() * factorW), (int) (child.getHeight() * factorH));
-                v.addAll(cmd.getOriginalChildren());
+                
+                for (Iterator iterator = cmd.getOriginalChildren().iterator(); iterator.hasNext();) {
+                    Object object = (Object) iterator.next();
+                    
+                    // infinite loops. 
+                    if (!alreadyDone_bug677.contains(object)) {
+                        v.add(object);
+                        alreadyDone_bug677.add(object);
+                    }
+                }
+                //v.addAll(cmd.getOriginalChildren());
                 add(cmd);
 
             } else if (elem instanceof IURNNode) {
