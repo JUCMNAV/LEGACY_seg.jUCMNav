@@ -55,6 +55,11 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
      * @see seg.jUCMNav.views.EObjectPropertySource#isAddable(org.eclipse.emf.ecore.EStructuralFeature)
      */
     protected boolean canAddFeature(EStructuralFeature attr) {
+
+        // If a responsibility as resp bindings, don't show the context property
+        if(resp != null && attr.getName() == "context" && resp.getParentBindings().size() > 0)
+            return false;
+        
         if (resp != null && (attr.getName().equals("name") || attr.getName().equals("id") || attr.getName().equals("description"))) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             // replace with that of RespRef with that of Responsibility
             return false;
@@ -80,7 +85,8 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
             while (it.hasNext()) {
                 EAttribute attr = (EAttribute) it.next();
 
-                addPropertyToDescriptor(descriptors, attr, resp.eClass());
+                if(canAddFeature(attr))
+                    addPropertyToDescriptor(descriptors, attr, resp.eClass());
             }
         }
         return (Vector) descriptors;

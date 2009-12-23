@@ -46,6 +46,7 @@ import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.Label;
 import urncore.Metadata;
+import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 /**
@@ -524,5 +525,15 @@ public class URNElementPropertySource extends EObjectPropertySource {
             object.eSet(feature, null);
         } else
             super.resetPropertyValue(id);
+    }
+
+    @Override
+    protected boolean canAddFeature(EStructuralFeature attr) {
+        
+        // If a responsibility as resp bindings, don't show the context property
+        if(object != null && object instanceof Responsibility && attr.getName() == "context" && ((Responsibility)object).getParentBindings().size() > 0)
+            return false;
+        
+        return super.canAddFeature(attr);
     }
 }
