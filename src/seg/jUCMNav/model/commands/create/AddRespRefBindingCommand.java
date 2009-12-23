@@ -58,6 +58,10 @@ public class AddRespRefBindingCommand extends Command implements JUCMNavCommand 
             return false;
     }
 
+    @Override
+    public boolean canUndo() {
+        return plugin.getResponsibilities().contains(binding);
+    }
     /**
      * 
      * @see org.eclipse.gef.commands.Command#execute()

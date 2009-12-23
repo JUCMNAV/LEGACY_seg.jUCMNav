@@ -22,6 +22,7 @@ public class DeleteRespBindingCommand extends Command implements JUCMNavCommand 
     private ResponsibilityBinding binding;
 
     private int index;
+    private boolean aborted=false;
 
     /**
      * @param binding
@@ -40,6 +41,8 @@ public class DeleteRespBindingCommand extends Command implements JUCMNavCommand 
         parent = binding.getParentResp();
         child = binding.getPluginResp();
 
+        if (plugin==null || parent==null || child==null)
+            aborted=true;
         redo();
     }
 
@@ -47,6 +50,7 @@ public class DeleteRespBindingCommand extends Command implements JUCMNavCommand 
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
+        if (aborted) return;
         index = plugin.getResponsibilities().indexOf(binding);
         plugin.getResponsibilities().remove(binding);
         binding.setParentResp(null);
@@ -58,6 +62,7 @@ public class DeleteRespBindingCommand extends Command implements JUCMNavCommand 
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
+        if (aborted) return;
         plugin.getResponsibilities().add(index, binding);
         binding.setParentResp(parent);
         binding.setPluginResp(child);
