@@ -36,12 +36,10 @@ public class UCMspecMHandler extends MHandler {
 			//scenarioGroups
 			processList(elem.getScenarioGroups(), elemZ.getScenarioGroups(), true);
 			// elemZ.getUcmMaps() handled by URNspecMHandler
-			processList(elem.getUrnspec().getUrndef().getComponentTypes(), elemZ.getComponentTypes(), true); // need
-																												// to
-																												// confirm
-			processList(elem.getUrnspec().getUrndef().getResponsibilities(), elemZ.getResponsibilities(), true); // Need
-																													// to
-																													// confirm
+			processList(elem.getUrnspec().getUrndef().getComponentTypes(), elemZ.getComponentTypes(), true); 
+			// need to confirm																											// to
+			processList(elem.getUrnspec().getUrndef().getResponsibilities(), elemZ.getResponsibilities(), true);
+            // need to confirm                                                                                                          // to
 
 			for (Object scenarioGroup : elem.getScenarioGroups()) {
 				for (Object scenarioDef : ((ucm.scenario.ScenarioGroup) scenarioGroup).getScenarios()) {
@@ -54,9 +52,7 @@ public class UCMspecMHandler extends MHandler {
 			processList(elem.getResources(), elemZ.getResources(), true); 
 			
 			//components
-			processList(elem.getUrnspec().getUrndef().getComponents(), elemZ.getComponents(), true); // Need
-																										// to
-																										// confirm
+			processList(elem.getUrnspec().getUrndef().getComponents(), elemZ.getComponents(), true);
 		}
 		return elemZ;
 	}
