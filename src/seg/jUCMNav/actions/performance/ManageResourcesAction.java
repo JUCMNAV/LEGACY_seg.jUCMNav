@@ -12,10 +12,9 @@ import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.wizards.performance.ManageResources;
 import ucm.map.ComponentRef;
-import ucm.map.RespRef;
+import ucm.performance.GeneralResource;
 import urn.URNspec;
 import urncore.Component;
-import urncore.Responsibility;
 
 /**
  * Opens the resource editor
@@ -47,21 +46,31 @@ public class ManageResourcesAction extends URNSelectionAction {
     protected boolean calculateEnabled() {
         if(!DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowPerformance())
             return false;
-        
+
         boolean enable = false;
 
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        obj = sel.getURNmodelElement();
 
-        if (obj instanceof ComponentRef) {
-            this.urn = ((Component) ((ComponentRef) obj).getContDef()).getUrndefinition().getUrnspec();
+        if (sel.getSelectionType() == SelectionHelper.URNSPEC) {
+            this.urn = sel.getUrnspec();
             enable = true;
         }
-        if (obj instanceof RespRef) {
-            this.urn = ((Responsibility) ((RespRef) obj).getRespDef()).getUrndefinition().getUrnspec();
-            enable = true;
-        }
+        else {
+            obj = sel.getURNmodelElement();
 
+            if (obj instanceof ComponentRef) {
+                this.urn = ((Component) ((ComponentRef) obj).getContDef()).getUrndefinition().getUrnspec();
+                enable = true;
+            }
+            if (obj instanceof Component) {
+                this.urn = ((Component) obj).getUrndefinition().getUrnspec();
+                enable = true;
+            }
+            if (obj instanceof GeneralResource) {
+                this.urn = ((GeneralResource) (obj)).getUcmspec().getUrnspec();
+                enable = true;
+            }
+        }
         return enable;
     }
 

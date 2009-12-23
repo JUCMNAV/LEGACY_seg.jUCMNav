@@ -26,13 +26,12 @@ public class DeleteUnreferencedDefinitionAction extends URNSelectionAction {
     }
 
     /**
-     * True if we the URNSpec, the UCM definitions or the GRL definitions
+     * True if we select the URNSpec, the UCM definitions or the GRL definitions
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         if (sel.getSelectionType() == SelectionHelper.URNSPEC) {
             return true;
-
         }
         return false;
     }
