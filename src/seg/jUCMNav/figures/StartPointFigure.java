@@ -39,9 +39,10 @@ public class StartPointFigure extends PathNodeFigure {
         int height = preferredSize.height;
 
         ellipse = new Ellipse();
-        ellipse.setBounds(new Rectangle(20, 20, 16, 16));
+        ellipse.setBounds(new Rectangle(13, 13, 16, 16));
         ellipse.setBackgroundColor(ColorManager.LINE);
         ellipse.setAntialias(SWT.ON);
+
         
         add(ellipse);
 

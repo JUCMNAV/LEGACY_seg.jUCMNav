@@ -24,6 +24,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import seg.jUCMNav.editparts.CommentEditPart;
 import seg.jUCMNav.editpolicies.layout.GrlGraphXYLayoutEditPolicy;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddCommentCommand;
@@ -353,6 +354,8 @@ public class PasteCommand extends CompoundCommand {
                 add(new AddContainerRefCommand(targetDiagram, newCompRef));
                 add(new SetConstraintBoundContainerRefCompoundCommand(newCompRef, newCompRef.getX(), newCompRef.getY(), newCompRef.getWidth(), newCompRef
                         .getHeight()));
+                
+                add(new ContainerRefBindChildCommand(newCompRef));
             }
         }
     }

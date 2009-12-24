@@ -8,6 +8,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.ParentFinder;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.URNmodelElement;
@@ -26,6 +27,16 @@ public class ContainerRefBindChildCommand extends Command implements JUCMNavComm
 
     private Vector children;
 
+    private boolean delayed=false;
+    
+    public ContainerRefBindChildCommand(IURNContainerRef parent)
+    {
+        this.delayed=true;
+        this.parent=parent;
+        children = new Vector();
+        setLabel(Messages.getString("ContainerRefBindChildCommand.bindContainerReference")); //$NON-NLS-1$
+    }
+    
     /**
      * 
      * @param parent
@@ -83,6 +94,10 @@ public class ContainerRefBindChildCommand extends Command implements JUCMNavComm
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
+        if (delayed && parent.getDiagram()!=null)
+        {
+            children = ParentFinder.findNewChildren(parent.getDiagram(), parent);
+        }
         redo();
     }
 

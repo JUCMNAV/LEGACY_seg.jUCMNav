@@ -150,8 +150,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             figure = new EndPointFigure();
         else if (getModel() instanceof Timer)
             figure = new TimerFigure();
-        else if (getModel() instanceof StartPoint || getModel() instanceof WaitingPlace)
+        else if (getModel() instanceof StartPoint || getModel() instanceof WaitingPlace) {
             figure = new StartPointFigure();
+        }
         else if (getModel() instanceof OrFork || getModel() instanceof OrJoin)
             figure = new OrForkJoinFigure();
         else if (getModel() instanceof AndFork || getModel() instanceof AndJoin)
