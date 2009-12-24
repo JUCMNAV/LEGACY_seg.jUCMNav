@@ -5,6 +5,7 @@ import grl.StrategiesGroup;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -24,13 +25,16 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.views.property.descriptors.CheckboxPropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.CodePropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.MetadataPropertyDescriptor;
+import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.FailurePoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.WaitingPlace;
@@ -41,6 +45,7 @@ import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
 import urn.URNspec;
+import urncore.Component;
 import urncore.Condition;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
@@ -104,24 +109,44 @@ public class URNElementPropertySource extends EObjectPropertySource {
             }
         } else if (type.getInstanceClass() == Metadata.class) {
             metadataDescriptor(descriptors, attr, propertyid);
-        }   
-        else if (getEditableValue() instanceof NodeConnection && attr.getName().equals("threshold")) //$NON-NLS-1$ 
+        } else if (getEditableValue() instanceof NodeConnection && attr.getName().equals("threshold")) //$NON-NLS-1$ 
         {
-            NodeConnection nc = (NodeConnection)getEditableValue();
-            // only show when following synch stub. 
-            if (nc.getSource() instanceof Stub)
-            {
+            NodeConnection nc = (NodeConnection) getEditableValue();
+            // only show when following synch stub.
+            if (nc.getSource() instanceof Stub) {
                 Stub stub = (Stub) nc.getSource();
                 if (stub.isSynchronization()) {
-                    //super.addPropertyToDescriptor(descriptors, attr, c);
+                    // super.addPropertyToDescriptor(descriptors, attr, c);
                     PropertyDescriptor pd = new CodePropertyDescriptor(propertyid, nc);
                     descriptors.add(pd);
                 }
-            
+
             }
-        }
-        else {
+        } else {
             super.addPropertyToDescriptor(descriptors, attr, c);
+        }
+
+        if (attr.getName().equals("context")) {
+            if (getEditableValue() instanceof Component) {
+                Vector v = (Vector) descriptors;
+                CheckboxPropertyDescriptor pd = (CheckboxPropertyDescriptor) v.get(v.size() - 1);
+
+                for (Iterator iterator = ((Component) getEditableValue()).getContRefs().iterator(); iterator.hasNext();) {
+                    ComponentRef ref = (ComponentRef) iterator.next();
+                    if (ref.getPluginBindings().size() != 0)
+                        pd.setReadOnly(true);
+                }
+            }
+            if (getEditableValue() instanceof Responsibility) {
+                Vector v = (Vector) descriptors;
+                CheckboxPropertyDescriptor pd = (CheckboxPropertyDescriptor) v.get(v.size() - 1);
+
+                for (Iterator iterator = ((Responsibility) getEditableValue()).getRespRefs().iterator(); iterator.hasNext();) {
+                    RespRef ref = (RespRef) iterator.next();
+                    if (ref.getPluginBindings().size() != 0)
+                        pd.setReadOnly(true);
+                }
+            }
         }
     }
 
@@ -459,6 +484,44 @@ public class URNElementPropertySource extends EObjectPropertySource {
             setReferencedObject(propertyid, feature, result);
         } else if (getEditableValue() instanceof Initialization && getFeatureType(feature).getInstanceClass() == String.class && value instanceof Boolean) {
             super.setPropertyValue(id, ((Boolean) value).toString());
+        } else if (feature.getName().equals("context")) {
+            if (getEditableValue() instanceof RespRef) {
+                RespRef ref = (RespRef) getEditableValue();
+                for (Iterator iterator = ref.getRespDef().getRespRefs().iterator(); iterator.hasNext();) {
+                    RespRef ref2 = (RespRef) iterator.next();
+                    if (ref2.getPluginBindings().size() != 0)
+                        return;
+                }
+            }
+
+            if (getEditableValue() instanceof Responsibility) {
+                Responsibility def = (Responsibility) getEditableValue();
+                for (Iterator iterator = def.getRespRefs().iterator(); iterator.hasNext();) {
+                    RespRef ref2 = (RespRef) iterator.next();
+                    if (ref2.getPluginBindings().size() != 0)
+                        return;
+                }
+            }
+
+            if (getEditableValue() instanceof ComponentRef) {
+                ComponentRef ref = (ComponentRef) getEditableValue();
+                for (Iterator iterator = ref.getContDef().getContRefs().iterator(); iterator.hasNext();) {
+                    ComponentRef ref2 = (ComponentRef) iterator.next();
+                    if (ref2.getPluginBindings().size() != 0)
+                        return;
+                }
+            }
+
+            if (getEditableValue() instanceof Component) {
+                Component def = (Component) getEditableValue();
+                for (Iterator iterator = def.getContRefs().iterator(); iterator.hasNext();) {
+                    ComponentRef ref2 = (ComponentRef) iterator.next();
+                    if (ref2.getPluginBindings().size() != 0)
+                        return;
+                }
+            }
+            // test
+            super.setPropertyValue(id, value);
         } else
             super.setPropertyValue(id, value);
     }
@@ -529,11 +592,11 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
     @Override
     protected boolean canAddFeature(EStructuralFeature attr) {
-        
+
         // If a responsibility as resp bindings, don't show the context property
-        if(object != null && object instanceof Responsibility && attr.getName() == "context" && ((Responsibility)object).getParentBindings().size() > 0)
-            return false;
-        
+        // if(object != null && object instanceof Responsibility && attr.getName() == "context" && ((Responsibility)object).getParentBindings().size() > 0)
+        // return false;
+
         return super.canAddFeature(attr);
     }
 }

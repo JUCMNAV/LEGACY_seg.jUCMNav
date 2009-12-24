@@ -17,6 +17,7 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.views.property.descriptors.CheckboxPropertyDescriptor;
 import ucm.map.RespRef;
 import urn.URNspec;
 import urncore.Responsibility;
@@ -57,8 +58,8 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
     protected boolean canAddFeature(EStructuralFeature attr) {
 
         // If a responsibility as resp bindings, don't show the context property
-        if(resp != null && attr.getName() == "context" && resp.getParentBindings().size() > 0)
-            return false;
+        //if(resp != null && attr.getName() == "context" && resp.getParentBindings().size() > 0)
+        //    return false;
         
         if (resp != null && (attr.getName().equals("name") || attr.getName().equals("id") || attr.getName().equals("description"))) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             // replace with that of RespRef with that of Responsibility
@@ -107,6 +108,17 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
             responsibilityDescriptor(descriptors, attr, propertyid);
         } else
             super.addPropertyToDescriptor(descriptors, attr, c);
+        
+        if (getEditableValue() instanceof RespRef && attr.getName().equals("context")) {
+            Vector v = (Vector) descriptors;
+            CheckboxPropertyDescriptor pd = (CheckboxPropertyDescriptor) v.get(v.size() - 1);
+
+            for (Iterator iterator = ((RespRef) getEditableValue()).getRespDef().getRespRefs().iterator(); iterator.hasNext();) {
+                RespRef ref = (RespRef) iterator.next();
+                if (ref.getPluginBindings().size() != 0)
+                    pd.setReadOnly(true);
+            }
+        }        
     }
 
     /**

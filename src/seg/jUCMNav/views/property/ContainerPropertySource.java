@@ -18,6 +18,8 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.views.property.descriptors.CheckboxPropertyDescriptor;
+import ucm.map.ComponentRef;
 import urn.URNspec;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
@@ -103,7 +105,19 @@ public class ContainerPropertySource extends URNElementPropertySource {
             componentElementDescriptor(descriptors, attr, propertyid);
         } else
             super.addPropertyToDescriptor(descriptors, attr, c);
+        
+        if (attr.getName().equalsIgnoreCase("context") && getEditableValue() instanceof ComponentRef) { //$NON-NLS-1$
+            Vector v = (Vector) descriptors;
+            CheckboxPropertyDescriptor pd = (CheckboxPropertyDescriptor) v.get(v.size() - 1);
+
+            for (Iterator iterator = ((ComponentRef) getEditableValue()).getContDef().getContRefs().iterator(); iterator.hasNext();) {
+                ComponentRef ref = (ComponentRef) iterator.next();
+                if (ref.getPluginBindings().size()!=0)
+                    pd.setReadOnly(true);
+            }
+        }
     }
+
 
     /**
      * @param descriptors

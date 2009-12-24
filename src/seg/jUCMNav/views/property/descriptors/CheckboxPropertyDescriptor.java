@@ -36,7 +36,8 @@ public class CheckboxPropertyDescriptor extends PropertyDescriptor {
         }
 
         editor.setReadOnly(readonly);
-
+        this.setReadOnly(true);
+        
         return editor;
     }
 
