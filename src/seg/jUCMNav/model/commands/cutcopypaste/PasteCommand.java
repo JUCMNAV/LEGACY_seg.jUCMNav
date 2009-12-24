@@ -25,6 +25,7 @@ import seg.jUCMNav.editparts.CommentEditPart;
 import seg.jUCMNav.editpolicies.layout.GrlGraphXYLayoutEditPolicy;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.MoveNodeCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddCommentCommand;
@@ -301,6 +302,17 @@ public class PasteCommand extends CompoundCommand {
 
         add(cmd);
 
+        HashMap duplicatedNodes = cmd.getDuplicatedNodes();
+        if (duplicatedNodes!=null) {
+            for (Iterator iterator = duplicatedNodes.values().iterator(); iterator.hasNext();) {
+                Object object = (Object) iterator.next();
+                if (object instanceof PathNode)
+                {
+                    PathNode pn = (PathNode) object;
+                    add(new MoveNodeCommand(pn, pn.getX(), pn.getY()));
+                }
+            }
+        }
         HashMap stubs = cmd.getBindingsThatMustBeCreatedAfterExecution();
         if (stubs != null && stubs.size() > 0) {
             for (Iterator iterator = stubs.keySet().iterator(); iterator.hasNext();) {
@@ -382,10 +394,15 @@ public class PasteCommand extends CompoundCommand {
         DividePathCommand cmd = null;
         if (insertionPoint instanceof EmptyPoint) {
             cmd = new DividePathCommand(newPathNode, (EmptyPoint) insertionPoint);
-        } else if (insertionPoint instanceof DirectionArrow)
+            cmd.chain(new MoveNodeCommand(newPathNode, ((PathNode) insertionPoint).getX(), ((PathNode) insertionPoint).getY()));
+        } else if (insertionPoint instanceof DirectionArrow) {
             cmd = new DividePathCommand(newPathNode, (DirectionArrow) insertionPoint);
-        else if (insertionPoint instanceof NodeConnection)
+            cmd.chain(new MoveNodeCommand(newPathNode, ((PathNode) insertionPoint).getX(), ((PathNode) insertionPoint).getY()));
+        }
+        else if (insertionPoint instanceof NodeConnection) {
             cmd = new DividePathCommand(newPathNode, (NodeConnection) insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y);
+            cmd.chain(new MoveNodeCommand(newPathNode, nodeConnectionMiddle.x, nodeConnectionMiddle.y));
+        }
 
         if (cmd != null && oldPn != null)
             cmd.cloneBranchesFrom(oldPn, targetMap);
@@ -401,11 +418,16 @@ public class PasteCommand extends CompoundCommand {
         }
 
         Command cmd = null;
-        if (insertionPoint instanceof PathNode)
+        if (insertionPoint instanceof PathNode) {
             cmd = new ReplaceEmptyPointCommand((PathNode) insertionPoint, newPathNode, cond);
-        else if (insertionPoint instanceof NodeConnection)
+            cmd.chain(new MoveNodeCommand(newPathNode, ((PathNode) insertionPoint).getX(), ((PathNode) insertionPoint).getY()));
+        }
+        else if (insertionPoint instanceof NodeConnection) {
             cmd = new SplitLinkCommand(targetMap, newPathNode, (NodeConnection) insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y, cond);
+            cmd.chain(new MoveNodeCommand(newPathNode, nodeConnectionMiddle.x, nodeConnectionMiddle.y));
+        }
 
+        
         if (cmd != null)
             add(cmd);
     }

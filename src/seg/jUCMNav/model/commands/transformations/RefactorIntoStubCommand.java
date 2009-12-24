@@ -12,6 +12,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.IDelayedBuildCompoundCommand;
 import seg.jUCMNav.model.commands.IGlobalStackCommand;
+import seg.jUCMNav.model.commands.changeConstraints.MoveNodeCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
@@ -83,6 +84,17 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
         DuplicatePathCommand cmd2 = new DuplicatePathCommand(this.urn, getAddedMap(), clonedStartingPoints, 0, 0);
         add(cmd2);
 
+        HashMap duplicatedNodes = cmd2.getDuplicatedNodes();
+        if (duplicatedNodes != null) {
+            for (Iterator iterator = duplicatedNodes.values().iterator(); iterator.hasNext();) {
+                Object object = (Object) iterator.next();
+                if (object instanceof PathNode) {
+                    PathNode pn = (PathNode) object;
+                    add(new MoveNodeCommand(pn, pn.getX(), pn.getY()));
+                }
+            }
+        }
+
         for (Iterator iterator = compRefs.iterator(); iterator.hasNext();) {
             ComponentRef cr = (ComponentRef) iterator.next();
             ComponentRef clonedCr = (ComponentRef) EcoreUtil.copy(cr);
@@ -97,19 +109,19 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
             if (!(pn instanceof StartPoint || pn instanceof EndPoint || pn instanceof Connect)) {
 
                 // if always true, we can get tiny loops out of stubs.
-                boolean replaceWithEmpty=pn.getSucc().size()==1 && pn.getPred().size()==1;
-                //boolean replaceWithEmpty = true;
-                //if (pn instanceof WaitingPlace && pn.getPred().size() > 1)
-                //    replaceWithEmpty = false;
-                
-                if (startingNodes.size()==1)
-                    replaceWithEmpty=false;
-                
-                // TODO: when we have bindings made, we should know which extra paths to get rid of.  
-                
+                boolean replaceWithEmpty = pn.getSucc().size() == 1 && pn.getPred().size() == 1;
+                // boolean replaceWithEmpty = true;
+                // if (pn instanceof WaitingPlace && pn.getPred().size() > 1)
+                // replaceWithEmpty = false;
+
+                if (startingNodes.size() == 1)
+                    replaceWithEmpty = false;
+
+                // TODO: when we have bindings made, we should know which extra paths to get rid of.
+
                 // when false, we get the cleanest model, but hardest to read because of overlapping paths
-                // when true, we get easier to read, but sometimes we get outside loops that are useless. 
-                // finding the right balance is hard. 
+                // when true, we get easier to read, but sometimes we get outside loops that are useless.
+                // finding the right balance is hard.
 
                 // assume we wanted to delete now, we just want to find what connects will be broken.
                 DeletePathNodeCommand preDelete = new DeletePathNodeCommand(pn, null, replaceWithEmpty);
@@ -122,26 +134,26 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
         }
 
         PathNode first = ((PathNode) startingNodes.get(0));
-        int x=0;
-        int y=0;
-        
+        int x = 0;
+        int y = 0;
+
         for (Iterator iterator = startingNodes.iterator(); iterator.hasNext();) {
             PathNode o = (PathNode) iterator.next();
-            x+=o.getX();
-            y+=o.getY();
+            x += o.getX();
+            y += o.getY();
         }
-        
-        x = x/startingNodes.size() - 100; // so that stub is in middle
-        y = y/startingNodes.size();
-        
+
+        x = x / startingNodes.size() - 100; // so that stub is in middle
+        y = y / startingNodes.size();
+
         UCMmap oldMap = (UCMmap) first.getDiagram();
-        //CreatePathCommand cmd3 = new CreatePathCommand(oldMap, first.getX() - 100, first.getY());
-        CreatePathCommand cmd3 = new CreatePathCommand(oldMap, x,y);
+        // CreatePathCommand cmd3 = new CreatePathCommand(oldMap, first.getX() - 100, first.getY());
+        CreatePathCommand cmd3 = new CreatePathCommand(oldMap, x, y);
         cmd3.createElements();
         add(cmd3);
 
-        //System.out.println("Created: " + cmd3.getStart().getId() + ", " + cmd3.getEnd().getId());
-        
+        // System.out.println("Created: " + cmd3.getStart().getId() + ", " + cmd3.getEnd().getId());
+
         EmptyPoint empty = (EmptyPoint) cmd3.getNewMiddleNode();
 
         setAddedStub((Stub) ModelCreationFactory.getNewObject(urn, Stub.class));
@@ -160,7 +172,7 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
         add(new DeleteUselessStartNCEndCommand(oldMap, null));
         add(new AttachNewExtremitiesToStubCommand(oldMap, getAddedStub(), toReAttach, true));
         add(new RefactorIntoStubBindingsCommand(getAddedStub()));
-        
+
         HashMap stubs = cmd2.getBindingsThatMustBeCreatedAfterExecution();
         if (stubs != null && stubs.size() > 0) {
             for (Iterator iterator = stubs.keySet().iterator(); iterator.hasNext();) {

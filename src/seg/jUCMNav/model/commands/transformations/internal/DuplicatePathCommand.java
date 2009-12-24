@@ -127,8 +127,8 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
             duplicatedNodeConnections.put(nc, clonedNc);
         }
 
-        clonedNc.setSource((PathNode) duplicatedNodes.get(nc.getSource()));
-        clonedNc.setTarget((PathNode) duplicatedNodes.get(nc.getTarget()));
+        clonedNc.setSource((PathNode) getDuplicatedNodes().get(nc.getSource()));
+        clonedNc.setTarget((PathNode) getDuplicatedNodes().get(nc.getTarget()));
         // would cause refresh issues
         // getMap().getConnections().add(clonedNc);
 
@@ -140,7 +140,7 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
      */
     private void clonePathNode(PathNode pn) {
 
-        if (duplicatedNodes.containsKey(pn))
+        if (getDuplicatedNodes().containsKey(pn))
             return;
 
         PathNode clonedPn = (PathNode) EcoreUtil.copy(pn);
@@ -151,7 +151,7 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
         // would cause refresh issues.
         // getMap().getNodes().add(clonedPn);
 
-        duplicatedNodes.put(pn, clonedPn);
+        getDuplicatedNodes().put(pn, clonedPn);
         
         if (pn instanceof RespRef) {
             // the caller will need to add these resps in the target model before executing this command inside a compoundcommand. 
@@ -169,7 +169,7 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
      * Go through the list of reachable path nodes and duplicate them and their associated connections. 
      */
     private void duplicateElements() {
-        duplicatedNodes = new HashMap();
+        setDuplicatedNodes(new HashMap());
         duplicatedNodeConnections = new HashMap();
         respThatMustBeCreatedBeforeExecution = new Vector();
         bindingsThatMustBeCreatedAfterExecution = new HashMap();
@@ -324,7 +324,7 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
-        if (urn == null || duplicatedNodes == null || duplicatedNodeConnections == null)
+        if (urn == null || getDuplicatedNodes() == null || duplicatedNodeConnections == null)
             return;
         testPreConditions();
 
@@ -338,14 +338,14 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
                 NodeConnection nc = (NodeConnection) iterator.next();
                 nc.setDiagram(getMap());
             }
-            for (Iterator iterator = duplicatedNodes.values().iterator(); iterator.hasNext();) {
+            for (Iterator iterator = getDuplicatedNodes().values().iterator(); iterator.hasNext();) {
                 PathNode pn = (PathNode) iterator.next();
                 pn.setDiagram(getMap());
             }
 
             for (Iterator iterator = vReachable.iterator(); iterator.hasNext();) {
                 PathNode src = (PathNode) iterator.next();
-                PathNode dest = (PathNode) duplicatedNodes.get(src);
+                PathNode dest = (PathNode) getDuplicatedNodes().get(src);
 
                 if (src instanceof RespRef && dest instanceof RespRef) {
                     RespRef srcref = (RespRef) src;
@@ -377,14 +377,14 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
         assert urn != null;
 
         assert startingPoints != null  && startingPoints.size()>0  : "post nothing to duplicate"; //$NON-NLS-1$
-        assert duplicatedNodes != null  && duplicatedNodeConnections!=null : "post problem with build"; //$NON-NLS-1$
+        assert getDuplicatedNodes() != null  && duplicatedNodeConnections!=null : "post problem with build"; //$NON-NLS-1$
         assert bindingsThatMustBeCreatedAfterExecution!=null && respThatMustBeCreatedBeforeExecution!=null : "post problem with external objects"; //$NON-NLS-1$ 
 
         for (Iterator iterator = duplicatedNodeConnections.values().iterator(); iterator.hasNext();) {
             NodeConnection nc = (NodeConnection) iterator.next();
             assert nc.getDiagram() == getMap() : "post nc not in model"; //$NON-NLS-1$
         }
-        for (Iterator iterator = duplicatedNodes.values().iterator(); iterator.hasNext();) {
+        for (Iterator iterator = getDuplicatedNodes().values().iterator(); iterator.hasNext();) {
             PathNode pn = (PathNode) iterator.next();
             assert pn.getDiagram() == getMap() : "post pn not in model"; //$NON-NLS-1$
         }
@@ -399,14 +399,14 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
         assert urn != null;
 
         assert startingPoints != null  && startingPoints.size()>0  : "pre nothing to duplicate"; //$NON-NLS-1$
-        assert duplicatedNodes != null  && duplicatedNodeConnections!=null : "pre problem with build"; //$NON-NLS-1$
+        assert getDuplicatedNodes() != null  && duplicatedNodeConnections!=null : "pre problem with build"; //$NON-NLS-1$
         assert bindingsThatMustBeCreatedAfterExecution!=null && respThatMustBeCreatedBeforeExecution!=null : "pre problem with external objects"; //$NON-NLS-1$ 
 
         for (Iterator iterator = duplicatedNodeConnections.values().iterator(); iterator.hasNext();) {
             NodeConnection nc = (NodeConnection) iterator.next();
             assert nc.getDiagram() == null : "pre nc in model"; //$NON-NLS-1$
         }
-        for (Iterator iterator = duplicatedNodes.values().iterator(); iterator.hasNext();) {
+        for (Iterator iterator = getDuplicatedNodes().values().iterator(); iterator.hasNext();) {
             PathNode pn = (PathNode) iterator.next();
             assert pn.getDiagram() == null : "pre pn in model"; //$NON-NLS-1$
         }
@@ -422,7 +422,7 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
-        if (urn == null || duplicatedNodes == null || duplicatedNodeConnections == null)
+        if (urn == null || getDuplicatedNodes() == null || duplicatedNodeConnections == null)
             return;
         testPostConditions();
 
@@ -430,7 +430,7 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
             // refresh issues.
             // getMap().getNodes().removeAll(duplicatedNodes.values());
             // getMap().getConnections().removeAll(duplicatedNodeConnections.values());
-            for (Iterator iterator = duplicatedNodes.values().iterator(); iterator.hasNext();) {
+            for (Iterator iterator = getDuplicatedNodes().values().iterator(); iterator.hasNext();) {
                 PathNode pn = (PathNode) iterator.next();
                 pn.setDiagram(null);
 
@@ -446,5 +446,13 @@ public class DuplicatePathCommand extends Command implements JUCMNavCommand {
         }
 
         testPreConditions();
+    }
+
+    public void setDuplicatedNodes(HashMap duplicatedNodes) {
+        this.duplicatedNodes = duplicatedNodes;
+    }
+
+    public HashMap getDuplicatedNodes() {
+        return duplicatedNodes;
     }
 }

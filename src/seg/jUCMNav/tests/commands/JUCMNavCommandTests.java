@@ -12,6 +12,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -41,6 +42,8 @@ import seg.jUCMNav.model.commands.create.ConnectCommand;
 import seg.jUCMNav.model.commands.create.CreateLabelCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
+import seg.jUCMNav.model.commands.cutcopypaste.CopyCommand;
+import seg.jUCMNav.model.commands.cutcopypaste.PasteCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteLabelCommand;
@@ -1339,4 +1342,35 @@ public class JUCMNavCommandTests extends TestCase {
 
     }
 
+    public void testCopyPasteCommand() {
+        testSplitLinkCommand();
+        
+        Vector v =new Vector();
+        v.add(((UrnEditor)editor.getActiveEditor()).getGraphicalViewer().getEditPartRegistry().get(this.resp));
+
+        Command cmd = new CopyCommand(urnspec, v, null);
+        assertTrue("Can't execute CopyCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        cmd = new PasteCommand(map, urnspec, map, new Point(50,50), new Point(50,50));
+        assertTrue("Can't execute PasteCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        cmd = new PasteCommand((NodeConnection)map.getConnections().get(0), urnspec, map, new Point(50,50), new Point(50,50));
+        assertTrue("Can't execute PasteCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        int count=0;
+        for (Iterator iterator = map.getNodes().iterator(); iterator.hasNext();) {
+            PathNode pn = (PathNode) iterator.next();
+            if (pn instanceof RespRef)
+            {
+                RespRef ref = (RespRef) pn;
+                if (ref.getRespDef()  == this.resp.getRespDef())
+                    count++;
+            }
+        }
+        assertEquals("Should have found three copies of RespRef.", 3, count);  //$NON-NLS-1$
+      
+    }
 }
