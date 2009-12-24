@@ -396,7 +396,13 @@ public class URNNamingHelper {
                 // look at all pathnodes
                 for (Iterator iterator = map.getNodes().iterator(); iterator.hasNext();) {
                     UCMmodelElement elem = (UCMmodelElement) iterator.next();
+                    boolean resetToEmptyName= (elem.getName()==null || elem.getName().length()==0) && (elem instanceof StartPoint || elem instanceof EndPoint || elem instanceof Stub);
+                    
                     findConflicts(htIDs, null, IDConflicts, null, urn, elem);
+                    
+                    if (resetToEmptyName) // bug 748
+                        elem.setName(""); //$NON-NLS-1$
+                    
                     if (elem instanceof Stub) {
                         if(((Stub) elem).isPointcut()) {
                             ((Stub) elem).setAopointcut(PointcutKind.REGULAR_LITERAL);
