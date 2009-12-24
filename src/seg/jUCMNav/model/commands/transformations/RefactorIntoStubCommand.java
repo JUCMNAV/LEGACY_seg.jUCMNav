@@ -1,9 +1,11 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
@@ -158,6 +160,18 @@ public class RefactorIntoStubCommand extends CompoundCommand implements ICreateE
         add(new DeleteUselessStartNCEndCommand(oldMap, null));
         add(new AttachNewExtremitiesToStubCommand(oldMap, getAddedStub(), toReAttach, true));
         add(new RefactorIntoStubBindingsCommand(getAddedStub()));
+        
+        HashMap stubs = cmd2.getBindingsThatMustBeCreatedAfterExecution();
+        if (stubs != null && stubs.size() > 0) {
+            for (Iterator iterator = stubs.keySet().iterator(); iterator.hasNext();) {
+                Stub oldStub = (Stub) iterator.next();
+                CopyStubPluginUtils util = new CopyStubPluginUtils();
+                Vector cmds = util.copyStubPlugins(urn, addedMap, (Stub) stubs.get(oldStub), oldStub);
+                for (Iterator iterator2 = cmds.iterator(); iterator2.hasNext();) {
+                    add((Command) iterator2.next());
+                }
+            }
+        }
     }
 
     private void findDisconnectedBranches(Vector startingNodes, Vector toReAttach, CompoundCommand delete) {
