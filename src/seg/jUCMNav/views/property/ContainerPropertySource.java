@@ -106,7 +106,7 @@ public class ContainerPropertySource extends URNElementPropertySource {
         } else
             super.addPropertyToDescriptor(descriptors, attr, c);
         
-        if (attr.getName().equalsIgnoreCase("context") && getEditableValue() instanceof ComponentRef) { //$NON-NLS-1$
+        if (attr.getName().equalsIgnoreCase("context") && getEditableValue() instanceof ComponentRef && ((ComponentRef) getEditableValue()).getContDef()!=null) { //$NON-NLS-1$
             Vector v = (Vector) descriptors;
             CheckboxPropertyDescriptor pd = (CheckboxPropertyDescriptor) v.get(v.size() - 1);
 

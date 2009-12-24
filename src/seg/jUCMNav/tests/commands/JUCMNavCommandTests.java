@@ -3,6 +3,7 @@ package seg.jUCMNav.tests.commands;
 import java.io.ByteArrayInputStream;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Vector;
 
 import junit.framework.TestCase;
 
@@ -57,6 +58,7 @@ import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
+import seg.jUCMNav.model.commands.transformations.RefactorIntoStubCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.TransmogrifyForkOrJoinCommand;
@@ -1307,6 +1309,33 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK).equals(url2));
         cs.redo();
         assertTrue(MetadataHelper.getMetaData(start, HyperlinkUtils.HYPERLINK) == null);
+
+    }
+    
+    public void testRefactorIntoStubCommand() {
+        testSplitLinkCommand();
+        Vector v =new Vector();
+        v.add(this.resp);
+        
+        Responsibility def = this.resp.getRespDef();
+        Command cmd = new RefactorIntoStubCommand(urnspec, v);
+        assertTrue("Can't execute RefactorIntoStubCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        assertEquals("Should now contain two maps.", urnspec.getUrndef().getSpecDiagrams().size(), 2);//$NON-NLS-1$
+        
+        assertTrue("RespRef should have been moved.", this.resp.getDiagram()==null); //$NON-NLS-1$
+        boolean found=false;
+        for (Iterator iterator =  ((UCMmap)urnspec.getUrndef().getSpecDiagrams().get(1)).getNodes().iterator(); iterator.hasNext();) {
+            PathNode pn = (PathNode) iterator.next();
+            if (pn instanceof RespRef)
+            {
+                RespRef ref = (RespRef) pn;
+                if (ref.getRespDef()==def)
+                    found=true;
+            }
+        }
+        assertTrue("RespRef should be in new diagram.",found); //$NON-NLS-1$
 
     }
 

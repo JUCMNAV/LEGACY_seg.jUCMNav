@@ -86,8 +86,8 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
             while (it.hasNext()) {
                 EAttribute attr = (EAttribute) it.next();
 
-                if(canAddFeature(attr))
-                    addPropertyToDescriptor(descriptors, attr, resp.eClass());
+                //if(canAddFeature(attr))
+                addPropertyToDescriptor(descriptors, attr, resp.eClass());
             }
         }
         return (Vector) descriptors;
