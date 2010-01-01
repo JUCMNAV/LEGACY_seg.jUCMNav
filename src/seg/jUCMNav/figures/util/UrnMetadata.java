@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import ucm.map.FailurePoint;
 import ucm.map.RespRef;
 import urn.URNlink;
@@ -73,7 +74,7 @@ public class UrnMetadata {
                 otherMetadataTypes = true;
         }
 
-        if (otherMetadataTypes)
+        if (otherMetadataTypes && GeneralPreferencePage.getMetadataIndVisible())
             stereotypes = stereotypes + METADATA_PRESENCE;
         return stereotypes;
     }

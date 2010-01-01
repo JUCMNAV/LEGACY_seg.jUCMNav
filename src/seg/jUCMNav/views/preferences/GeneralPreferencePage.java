@@ -26,6 +26,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 
     public static final String PREF_AUTHOR = "PREF_AUTHOR"; //$NON-NLS-1$
     public static final String PREF_STRICTCODEEDITOR = "PREF_STRICTCODEEDITOR"; //$NON-NLS-1$
+    public static final String PREF_METADATAINDVISIBLE = "PREF_METADATAINDVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLTEXTVISIBLE = "PREF_GRLTEXTVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLICONVISIBLE = "PREF_GRLICONVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLAUTOADDLINKS = "PREF_GRLAUTOADDLINKS"; //$NON-NLS-1$
@@ -49,6 +50,12 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         StringFieldEditor author = new StringFieldEditor(PREF_AUTHOR, Messages.getString("GeneralPreferencePage.author"), getFieldEditorParent()); //$NON-NLS-1$
         addField(author);
 
+        BooleanFieldEditor strict_codeeditor = new BooleanFieldEditor(PREF_STRICTCODEEDITOR,
+                Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(strict_codeeditor);
+        BooleanFieldEditor metadata_indicator = new BooleanFieldEditor(PREF_METADATAINDVISIBLE,
+                Messages.getString("GeneralPreferencePage.ShowMetadataIndicator"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(metadata_indicator);
         BooleanFieldEditor grl_iconvisible = new BooleanFieldEditor(PREF_GRLICONVISIBLE,
                 Messages.getString("GeneralPreferencePage.ShowGrlContribIcons"), getFieldEditorParent()); //$NON-NLS-1$
         addField(grl_iconvisible);
@@ -58,9 +65,6 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         BooleanFieldEditor grl_autoaddlinks = new BooleanFieldEditor(PREF_GRLAUTOADDLINKS,
                 Messages.getString("GeneralPreferencePage.AutoAddLinks"), getFieldEditorParent()); //$NON-NLS-1$
         addField(grl_autoaddlinks);
-        BooleanFieldEditor strict_codeeditor = new BooleanFieldEditor(PREF_STRICTCODEEDITOR,
-                Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
-        addField(strict_codeeditor);
         
         Group g = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
         g.setText(Messages.getString("GeneralPreferencePage.AdvancedMode")); //$NON-NLS-1$
@@ -75,10 +79,6 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         g.setLayoutData(data);
         
         Composite c = new Composite(g, SWT.NONE);
-//        data = new GridData();
-//        data.grabExcessHorizontalSpace = true;
-//        data.horizontalIndent = 5;
-//        c.setLayoutData(data);
 
         BooleanFieldEditor advanced_jucmnav = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCM, Messages.getString("GeneralPreferencePage.EnableTheFollowing"), c); //$NON-NLS-1$
         addField(advanced_jucmnav);
@@ -119,6 +119,13 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
      */
     public static boolean getStrictCodeEditor() {
         return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_STRICTCODEEDITOR);
+    }
+
+    /**
+     * @return boolean TRUE if metadata indicator should be visible.
+     */
+    public static boolean getMetadataIndVisible() {
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_METADATAINDVISIBLE);
     }
 
     /**
