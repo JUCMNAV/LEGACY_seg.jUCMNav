@@ -6,10 +6,10 @@ import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.resource.StringConverter;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import urncore.ComponentKind;
 
 /**
@@ -30,7 +30,7 @@ public class ComponentRefFigure extends RectangleFigure {
     public ComponentRefFigure() {
         setLineWidth(3);
         setKind(ComponentKind.TEAM);
-        setAntialias(SWT.ON); // recommended by @pushmatrix :)
+        setAntialias(GeneralPreferencePage.getAntialiasingPref()); // recommended by @pushmatrix :)
     }
 
     /**

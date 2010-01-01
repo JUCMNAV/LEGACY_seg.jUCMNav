@@ -6,10 +6,10 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Transform;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import seg.jUCMNav.figures.util.TransformationHelper;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 
 /**
  * This figure represent and EndPoint
@@ -51,7 +51,7 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
 
         mainFigure.setLineWidth(2);
         mainFigure.setPoints(edges);
-        mainFigure.setAntialias(SWT.ON);
+        mainFigure.setAntialias(GeneralPreferencePage.getAntialiasingPref());
         mainFigure.setForegroundColor(ColorManager.GRAY);
         mainFigure.setBackgroundColor(ColorManager.LINE);
         mainFigure.setFill(true);
@@ -64,7 +64,7 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
         linePts.addPoint(new Point(DEFAULT_WIDTH / 2 + barWidth-1, DEFAULT_HEIGHT - 1));
         line.setPoints(linePts);
         line.setLineWidth(2);
-        line.setAntialias(SWT.ON);
+        line.setAntialias(GeneralPreferencePage.getAntialiasingPref());
         line.setForegroundColor(ColorManager.WHITE);
         
         add(line);

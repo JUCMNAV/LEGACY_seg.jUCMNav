@@ -1,17 +1,13 @@
 package seg.jUCMNav.figures;
 
-import org.eclipse.draw2d.AbstractPointListShape;
 import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.Polyline;
-import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.draw2d.geometry.Transform;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.SimpleTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
@@ -20,6 +16,7 @@ import org.eclipse.swt.graphics.Font;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.figures.util.TransformationHelper;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 
 /**
  * Figure for stubs.
@@ -184,7 +181,7 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
         mainFigure.setPoints(edges);
         mainFigure.setBackgroundColor(ColorManager.FILL);
         mainFigure.setFill(true);
-        mainFigure.setAntialias(SWT.ON);
+        mainFigure.setAntialias(GeneralPreferencePage.getAntialiasingPref());
         
         int width = (DEFAULT_HEIGHT / 4);
         

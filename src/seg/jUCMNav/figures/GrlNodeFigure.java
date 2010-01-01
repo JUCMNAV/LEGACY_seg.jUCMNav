@@ -20,6 +20,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.figures.util.UrnMetadata;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 
 /**
  * This is a figure representing a GRL node. Extend this class to create GrlNode
@@ -70,7 +71,7 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure 
     public GrlNodeFigure() {
         super();
         autoResize = true;
-        setAntialias(SWT.ON);
+        setAntialias(GeneralPreferencePage.getAntialiasingPref());
 
         xylayout = new XYLayout();
         this.setLayoutManager(xylayout);

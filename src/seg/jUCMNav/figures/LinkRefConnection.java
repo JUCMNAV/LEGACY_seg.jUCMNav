@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.figures.util.NodeConnectionLocator;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 
 /**
  * This figure represent the connection between 2 GRL Node. It could be a contribution, decomposition, or dependency.
@@ -67,19 +68,19 @@ public class LinkRefConnection extends PolylineConnection {
     public LinkRefConnection() {
         super();
         setLineWidth(3);
-        setAntialias(SWT.ON);
+        setAntialias(GeneralPreferencePage.getAntialiasingPref());
 
         contribution = new PolylineDecoration();
         contribution.setTemplate(PolylineDecoration.TRIANGLE_TIP);
         contribution.setLineWidth(3);
         contribution.setScale(17, 7);
-        contribution.setAntialias(SWT.ON);
+        contribution.setAntialias(GeneralPreferencePage.getAntialiasingPref());
 
         line = new PolylineDecoration();
         line.setTemplate(LINE);
         line.setLineWidth(3);
         line.setScale(10, 10);
-        line.setAntialias(SWT.ON);
+        line.setAntialias(GeneralPreferencePage.getAntialiasingPref());
 
         depend = new PolygonDecoration();
         depend.setTemplate(DEPENDENCY_FIG);
@@ -87,7 +88,7 @@ public class LinkRefConnection extends PolylineConnection {
         depend.setFill(true);
         depend.setForegroundColor(ColorManager.LINE);
         depend.setScale(2, 2);
-        depend.setAntialias(SWT.ON);
+        depend.setAntialias(GeneralPreferencePage.getAntialiasingPref());
 
         this.type = TYPE_CONTRIBUTION;
         setConnectionVisual();

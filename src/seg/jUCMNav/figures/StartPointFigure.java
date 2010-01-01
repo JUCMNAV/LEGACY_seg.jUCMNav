@@ -14,6 +14,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+
 /**
  * This figure represent a StartPoint and Waiting Place!
  * 
@@ -41,7 +43,7 @@ public class StartPointFigure extends PathNodeFigure {
         ellipse = new Ellipse();
         ellipse.setBounds(new Rectangle(13, 13, 16, 16));
         ellipse.setBackgroundColor(ColorManager.LINE);
-        ellipse.setAntialias(SWT.ON);
+        ellipse.setAntialias(GeneralPreferencePage.getAntialiasingPref());
 
         
         add(ellipse);
@@ -73,7 +75,7 @@ public class StartPointFigure extends PathNodeFigure {
         
         lightning = new Polyline();
         lightning.setLineWidth(2);
-        lightning.setAntialias(SWT.ON);
+        lightning.setAntialias(GeneralPreferencePage.getAntialiasingPref());
         lightning.setPoints(pts);
         lightning.setVisible(false);
         

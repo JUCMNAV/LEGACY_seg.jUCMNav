@@ -9,8 +9,9 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Transform;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 
 public class FailurePointFigure extends PathNodeFigure implements IRotateable {
 
@@ -44,7 +45,7 @@ public class FailurePointFigure extends PathNodeFigure implements IRotateable {
         rect1.setPoints(line1);
         rect1.setBackgroundColor(ColorManager.BLACK);
         rect1.setLineWidth(2);
-        rect1.setAntialias(SWT.ON);
+        rect1.setAntialias(GeneralPreferencePage.getAntialiasingPref());
         lines.add(line1);
         rects.add(rect1);
         add(rect1);
@@ -56,7 +57,7 @@ public class FailurePointFigure extends PathNodeFigure implements IRotateable {
         rect2.setPoints(line2);
         rect2.setBackgroundColor(ColorManager.BLACK);
         rect2.setLineWidth(2);
-        rect2.setAntialias(SWT.ON);
+        rect2.setAntialias(GeneralPreferencePage.getAntialiasingPref());
         lines.add(line2);
         rects.add(rect2);
         add(rect2);
@@ -68,7 +69,7 @@ public class FailurePointFigure extends PathNodeFigure implements IRotateable {
         rect3.setPoints(line3);
         rect3.setBackgroundColor(ColorManager.BLACK);
         rect3.setLineWidth(2);
-        rect3.setAntialias(SWT.ON);
+        rect3.setAntialias(GeneralPreferencePage.getAntialiasingPref());
         lines.add(line3);
         rects.add(rect3);
         add(rect3);

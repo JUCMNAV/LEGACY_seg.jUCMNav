@@ -1,7 +1,8 @@
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.swt.SWT;
+
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 
 /**
  * Figure for a Direction Arrow. An arrow that can be rotated.
@@ -30,11 +31,11 @@ public class DirectionArrowFigure extends ResponsibilityFigure implements IRotat
 
         edge1.setLineWidth(3);
         edge1.setPoints(enpoints1);
-        edge1.setAntialias(SWT.ON);
+        edge1.setAntialias(GeneralPreferencePage.getAntialiasingPref());
 
         edge2.setLineWidth(3);
         edge2.setPoints(enpoints2);
-        edge2.setAntialias(SWT.ON);
+        edge2.setAntialias(GeneralPreferencePage.getAntialiasingPref());
 
         add(edge1);
         add(edge2);

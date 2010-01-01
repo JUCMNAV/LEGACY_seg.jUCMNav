@@ -16,6 +16,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.editpolicies.element.BeliefLinkComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.URNElementPropertySource;
 import urncore.IURNDiagram;
 
@@ -120,7 +121,7 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
 
         connection.setLineWidth(2);
         connection.setLineStyle(SWT.LINE_DASH);
-        connection.setAntialias(SWT.ON);
+        connection.setAntialias(GeneralPreferencePage.getAntialiasingPref());
         return connection;
     }
 
