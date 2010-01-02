@@ -98,7 +98,7 @@ public class SkeletonClassesGenerator extends TestCase {
 
 					Class c = Class.forName(myPackageName + ".impl." + className + "Impl");
 
-					pw.println("import seg.jUCMNav.importexport.z151.generated."+className+";");
+					pw.println("import seg.jUCMNav.importexport.z151.generated." + className + ";");
 					pw.println();
 
 					Class sc = c.getSuperclass();
@@ -114,7 +114,6 @@ public class SkeletonClassesGenerator extends TestCase {
 
 					if (sc != org.eclipse.emf.ecore.EObject.class)
 						pw.println("			elem = (" + dstPrefix + className + ") super.handle(elemZ, elem, isFullConstruction);");
-
 
 					for (Method method : c.getMethods()) {
 						String name = method.getName();
@@ -202,7 +201,7 @@ public class SkeletonClassesGenerator extends TestCase {
 					String z151 = jUCMNavHome + "\\src\\seg\\jUCMNav\\importexport\\z151\\xml\\Z151.xsd";
 					pw.println(this.getXMLdef(z151, className));
 
-					pw.println("import seg.jUCMNav.importexport.z151.generated."+className+";");
+					pw.println("import seg.jUCMNav.importexport.z151.generated." + className + ";");
 					pw.println();
 					Class c = Class.forName(myPackageName + "." + className);
 
@@ -230,7 +229,9 @@ public class SkeletonClassesGenerator extends TestCase {
 
 					for (Method method : c.getMethods()) {
 						String name = method.getName();
-						pw.println("			elemZ." + name + "();");
+						if (name.startsWith("get")) {
+							pw.println("			elemZ." + name + "();");
+						}
 					}
 					pw.println("		}");
 					pw.println("		return elemZ;");
