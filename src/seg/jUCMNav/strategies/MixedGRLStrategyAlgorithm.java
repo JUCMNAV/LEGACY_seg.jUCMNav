@@ -143,7 +143,8 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     if (decompositionValue > ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
                         decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
                     }
-                } else if (element.getDecompositionType().getValue() == DecompositionType.OR) {
+                } else if (element.getDecompositionType().getValue() == DecompositionType.OR || 
+                           element.getDecompositionType().getValue() == DecompositionType.XOR) {
                     if (decompositionValue < ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
                         decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
                     }

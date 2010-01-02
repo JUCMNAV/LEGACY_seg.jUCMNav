@@ -246,7 +246,8 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 } else {
                 	result = N;
                 }
-            } else if (element.getDecompositionType().getValue() == DecompositionType.OR) {
+            } else if (element.getDecompositionType().getValue() == DecompositionType.OR || 
+                       element.getDecompositionType().getValue() == DecompositionType.XOR) {
                 if (dns > 0) {
                     result = S;
                 } else if ((dnc > 0) || (dnu > 0)) {

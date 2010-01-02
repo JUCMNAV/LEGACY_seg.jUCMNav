@@ -20,12 +20,19 @@ public class ChangeDecompositionTypeCommand extends Command implements JUCMNavCo
     public ChangeDecompositionTypeCommand(IntentionalElementRef intElemRef) {
         this.intElemRef = intElemRef;
 
-        if (intElemRef.getDef().getDecompositionType().getValue() == DecompositionType.AND) {
+        switch (intElemRef.getDef().getDecompositionType().getValue()) {
+        case DecompositionType.AND :
             oldType = DecompositionType.AND;
             newType = DecompositionType.OR;
-        } else {
+            break;
+        case DecompositionType.OR :
             oldType = DecompositionType.OR;
+            newType = DecompositionType.XOR;
+            break;
+        case DecompositionType.XOR :
+            oldType = DecompositionType.XOR;
             newType = DecompositionType.AND;
+            break;      
         }
 
         setLabel(Messages.getString("ChangeDecompositionTypeCommand.ChangeDecompositionType")); //$NON-NLS-1$
@@ -67,7 +74,6 @@ public class ChangeDecompositionTypeCommand extends Command implements JUCMNavCo
      */
     public void testPreConditions() {
         assert intElemRef != null : "pre no element!"; //$NON-NLS-1$
-
     }
 
     /**

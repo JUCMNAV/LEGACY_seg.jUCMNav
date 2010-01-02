@@ -152,7 +152,7 @@ public class EvaluationStrategyManager {
     }
 
     /**
-     * This method returns the evaluation strategy algorithm if it is been prepared, if not it will sets it up
+     * This method returns the evaluation strategy algorithm if it has been prepared, if not it will set it up
      * 
      * @return the evaluation strategy algorithm
      * 

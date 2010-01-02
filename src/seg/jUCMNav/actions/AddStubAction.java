@@ -2,10 +2,8 @@ package seg.jUCMNav.actions;
 
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.util.StubKind;
 import ucm.map.PathNode;
 import ucm.map.Stub;
 import urn.URNspec;

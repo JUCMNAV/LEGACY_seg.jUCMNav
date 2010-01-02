@@ -153,7 +153,8 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                         decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
                     }
 
-                } else if (element.getDecompositionType().getValue() == DecompositionType.OR){
+                } else if (element.getDecompositionType().getValue() == DecompositionType.OR || 
+                           element.getDecompositionType().getValue() == DecompositionType.XOR){
                 	if (decompositionValue < -100){
                         decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
                         

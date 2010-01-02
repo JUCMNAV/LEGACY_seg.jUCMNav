@@ -1,5 +1,6 @@
 package seg.jUCMNav.actions;
 
+import grl.Decomposition;
 import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
@@ -42,7 +43,10 @@ public class ChangeDecompositionTypeAction extends URNSelectionAction {
         switch (sel.getSelectionType()) {
         case SelectionHelper.INTENTIONALELEMENTREF:
             selection = sel.getIntentionalelementref();
-            return true;
+            for (Object link: selection.getDef().getLinksDest()) {
+                if (link instanceof Decomposition)
+                    return true;
+            }
         default:
             return false;
         }
