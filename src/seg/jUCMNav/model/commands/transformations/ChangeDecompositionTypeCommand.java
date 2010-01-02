@@ -17,21 +17,18 @@ public class ChangeDecompositionTypeCommand extends Command implements JUCMNavCo
     private IntentionalElementRef intElemRef;
     private int oldType, newType;
 
-    public ChangeDecompositionTypeCommand(IntentionalElementRef intElemRef) {
+    public ChangeDecompositionTypeCommand(IntentionalElementRef intElemRef, int id) {
         this.intElemRef = intElemRef;
-
-        switch (intElemRef.getDef().getDecompositionType().getValue()) {
-        case DecompositionType.AND :
-            oldType = DecompositionType.AND;
+        oldType = intElemRef.getDef().getDecompositionType().getValue();
+        switch (id) {
+        case 0 : // AND
+            newType = DecompositionType.AND;
+            break;
+        case 1 : // OR
             newType = DecompositionType.OR;
             break;
-        case DecompositionType.OR :
-            oldType = DecompositionType.OR;
+        case 2 : // XOR
             newType = DecompositionType.XOR;
-            break;
-        case DecompositionType.XOR :
-            oldType = DecompositionType.XOR;
-            newType = DecompositionType.AND;
             break;      
         }
 

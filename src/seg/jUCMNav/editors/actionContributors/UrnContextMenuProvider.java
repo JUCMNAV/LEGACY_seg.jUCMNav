@@ -307,9 +307,18 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        action = getActionRegistry().getAction(ChangeDecompositionTypeAction.CHANGEDECOMPOSITIONTYPE);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+//        action = getActionRegistry().getAction(ChangeDecompositionTypeAction.CHANGEDECOMPOSITIONTYPE);
+//        if (action.isEnabled())
+//            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        actions = new IAction[3];
+        for (int i = 0; i <= 2; i++)
+            actions[i] = getActionRegistry().getAction(ChangeDecompositionTypeAction.generateId(i));
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("ActionRegistryManager.changeDecompositionType"), Messages.getString("ActionRegistryManager.changeDecompositionType"), JUCMNavPlugin.getImageDescriptor("icons/Decomposition16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+
 
         action = getActionRegistry().getAction(AddMapAction.ADDMAP);
         if (action.isEnabled())

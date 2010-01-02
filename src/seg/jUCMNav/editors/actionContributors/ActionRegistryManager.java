@@ -434,9 +434,14 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.addBelief")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
-        action = new ChangeDecompositionTypeAction(editor);
-        action.setText(Messages.getString("ActionRegistryManager.changeDecompositionType")); //$NON-NLS-1$
-        addEditPartAction((SelectionAction) action);
+        //action = new ChangeDecompositionTypeAction(editor);
+        //action.setText(Messages.getString("ActionRegistryManager.changeDecompositionType")); //$NON-NLS-1$
+        //addEditPartAction((SelectionAction) action);
+
+        for (int i = 0; i <= 2; i++) {
+            action = new ChangeDecompositionTypeAction(editor, i);
+            addEditPartAction((SelectionAction) action);
+        }
 
         for (int i = 0; i <= 7; i++) {
             action = new SetNumericalImportanceAction(editor, i);

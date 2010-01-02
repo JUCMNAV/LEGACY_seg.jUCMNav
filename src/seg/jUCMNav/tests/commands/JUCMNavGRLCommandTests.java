@@ -6,6 +6,7 @@ import grl.Belief;
 import grl.BeliefLink;
 import grl.Contribution;
 import grl.Decomposition;
+import grl.DecompositionType;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
@@ -333,25 +334,23 @@ public class JUCMNavGRLCommandTests extends TestCase {
 
         int oldType = destination.getDef().getDecompositionType().getValue();
 
-        // Change the decomposition type (from AND to OR to XOR)
-        Command cmd1 = new ChangeDecompositionTypeCommand(destination);
-        assertTrue("Can't execute ChangeDecompositionTypeCommand.", cmd1.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd1);
+        // Change the decomposition type (to AND)
+        Command cmd = new ChangeDecompositionTypeCommand(destination, 0);
+        assertTrue("Can't execute ChangeDecompositionTypeCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        assertTrue("ChangeDecompositionTypeCommand: type has not changed.", destination.getDef().getDecompositionType().getValue() == DecompositionType.AND); //$NON-NLS-1$
 
-        // Check that the decomposition type has changed
-        assertTrue("ChangeDecompositionTypeCommand: type has not changed.", oldType != destination.getDef().getDecompositionType().getValue()); //$NON-NLS-1$
+        // Change the decomposition type (to XOR)
+        cmd = new ChangeDecompositionTypeCommand(destination, 2);
+        assertTrue("Can't execute ChangeDecompositionTypeCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        assertTrue("ChangeDecompositionTypeCommand: type has not changed.", destination.getDef().getDecompositionType().getValue() == DecompositionType.XOR); //$NON-NLS-1$
 
-        // Change for the 2nd time (still different)
-        Command cmd2 = new ChangeDecompositionTypeCommand(destination);
-        assertTrue("Can't execute ChangeDecompositionTypeCommand.", cmd2.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd2);
-        assertTrue("ChangeDecompositionTypeCommand: type has not rechanged.", oldType != destination.getDef().getDecompositionType().getValue()); //$NON-NLS-1$
-
-        // Change for the 3rd time (back to original)
-        Command cmd3 = new ChangeDecompositionTypeCommand(destination);
-        assertTrue("Can't execute ChangeDecompositionTypeCommand.", cmd2.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd3);
-        assertTrue("ChangeDecompositionTypeCommand: type has not rechanged.", oldType == destination.getDef().getDecompositionType().getValue()); //$NON-NLS-1$
+        // Change the decomposition type (to OR)
+        cmd = new ChangeDecompositionTypeCommand(destination, 1);
+        assertTrue("Can't execute ChangeDecompositionTypeCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        assertTrue("ChangeDecompositionTypeCommand: type has not changed.", destination.getDef().getDecompositionType().getValue() == DecompositionType.OR); //$NON-NLS-1$
     }
 
     public void testContainerRefBindChildCommand() {
