@@ -15,14 +15,7 @@ import seg.jUCMNav.importexport.z151.generated.ObjectFactory;
 import seg.jUCMNav.importexport.z151.generated.URNspec;
 import seg.jUCMNav.importexport.z151.marshal.MHandler;
 import seg.jUCMNav.importexport.z151.marshal.URNspecMHandler;
-/**
- * Performs the sequence of operations to convert a URN specification into a CSM.
- *
- * @see seg.jUCMNav.importexport.csm.duplicate
- * @see seg.jUCMNav.importexport.csm.implicit
- * @see seg.jUCMNav.importexport.csm.one2one
- *
- */
+
 public class ExportZ151 implements IURNExport {
 
     private FileOutputStream fos = null;

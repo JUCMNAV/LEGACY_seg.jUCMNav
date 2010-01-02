@@ -18,10 +18,6 @@ import seg.jUCMNav.importexport.z151.generated.URNmodelElement;
 //  </xsd:sequence>
 //</xsd:complexType>
 
-/***
- * Done! but TODO Done!: concern: jUCMNav does not have concern, but Z151 has
- * concern -- Since it is optional, we do not set concern.
- ***/
 
 public abstract class URNmodelElementMHandler extends MHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
@@ -44,8 +40,7 @@ public abstract class URNmodelElementMHandler extends MHandler {
 				elemZ.setDesc(desc);
 			}
 			//elemZ.getConcern() handled by GRLGraphMHandler and UCMmapMHandler
-		}
-		// concern: jUCMNav does not have concern, but Z151 has concern 
+		}		
 		return elemZ;
 	}
 }

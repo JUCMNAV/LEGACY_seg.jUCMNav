@@ -51,7 +51,7 @@ public class IntentionalElementMHandler extends GRLLinkableElementMHandler {
 			csZ.setLineColor(elem.getLineColor());
 			csZ.setFilled(elem.isFilled());
 			elemZ.setStyle(csZ);
-			// elemZ.setActor() //handled by ActorMHandler. jUCMNav doesn't have this relation.
+			// elemZ.setActor() //handled by ActorMHandler. jUCMNav doesn't have this relation.			
 		}
 		return target = elemZ;
 	}
