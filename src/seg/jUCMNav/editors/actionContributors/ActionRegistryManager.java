@@ -65,8 +65,10 @@ import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.RefactorIntoStubAction;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
+import seg.jUCMNav.actions.SetNumericalContributionAction;
 import seg.jUCMNav.actions.SetNumericalEvaluationAction;
 import seg.jUCMNav.actions.SetNumericalImportanceAction;
+import seg.jUCMNav.actions.SetQualitativeContributionAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
@@ -460,6 +462,16 @@ public class ActionRegistryManager implements IDisposable {
 
         for (int i = 0; i <= 8; i++) {
             action = new SetQualitativeEvaluationAction(editor, i);
+            addEditPartAction((SelectionAction) action);
+        }
+
+        for (int i = 0; i <= 11; i++) {
+            action = new SetNumericalContributionAction(editor, i);
+            addEditPartAction((SelectionAction) action);
+        }
+
+        for (int i = 0; i <= 8; i++) {
+            action = new SetQualitativeContributionAction(editor, i);
             addEditPartAction((SelectionAction) action);
         }
 

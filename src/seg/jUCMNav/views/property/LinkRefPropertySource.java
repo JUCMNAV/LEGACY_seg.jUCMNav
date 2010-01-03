@@ -176,7 +176,7 @@ public class LinkRefPropertySource extends URNElementPropertySource {
      *            qualitative value for the contribution link
      * 
      */
-    private void syncElementLinkQuantitativeContribution(Contribution ele, ContributionType value) {
+    public static void syncElementLinkQuantitativeContribution(Contribution ele, ContributionType value) {
         int quantitativeContribution = ele.getQuantitativeContribution();
         String type = value.getName();
         if (ContributionType.MAKE_LITERAL.getName().equals(type) && quantitativeContribution < 100)
@@ -204,7 +204,7 @@ public class LinkRefPropertySource extends URNElementPropertySource {
      *            quantitative value for the contribution link
      * 
      */
-    private void syncElementLinkQualitativeContribution(Contribution ele, int newQuantitativeContribution) {
+    public static void syncElementLinkQualitativeContribution(Contribution ele, int newQuantitativeContribution) {
         ContributionType type = ele.getContribution();
         if (newQuantitativeContribution == 100 && !type.equals(ContributionType.MAKE_LITERAL))
             ele.setContribution(ContributionType.MAKE_LITERAL);

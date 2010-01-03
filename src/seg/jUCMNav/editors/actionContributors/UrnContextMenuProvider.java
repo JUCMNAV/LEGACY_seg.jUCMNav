@@ -50,8 +50,10 @@ import seg.jUCMNav.actions.GenerateReportAction;
 import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.RefactorIntoStubAction;
+import seg.jUCMNav.actions.SetNumericalContributionAction;
 import seg.jUCMNav.actions.SetNumericalEvaluationAction;
 import seg.jUCMNav.actions.SetNumericalImportanceAction;
+import seg.jUCMNav.actions.SetQualitativeContributionAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.SubmenuAction;
@@ -251,6 +253,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
 
         manager.add(new Separator(GROUP_UNCOMMON));
 
+        // IE Importance and Evaluation
         actions = new IAction[8];
         for (int i = 0; i <= 7; i++)
             actions[i] = getActionRegistry().getAction(SetNumericalImportanceAction.generateId(i));
@@ -287,6 +290,26 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
+        // Contributions
+        actions = new IAction[12];
+        for (int i = 0; i <= 11; i++)
+            actions[i] = getActionRegistry().getAction(SetNumericalContributionAction.generateId(i));
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.SetNumericalContribution"), Messages.getString("UrnContextMenuProvider.SetNumericalContribution"), JUCMNavPlugin.getImageDescriptor("icons/ContributionNum16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+
+        actions = new IAction[9];
+        for (int i = 0; i <= 8; i++)
+            actions[i] = getActionRegistry().getAction(SetQualitativeContributionAction.generateId(i));
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.SetQualitativeContribution"), Messages.getString("UrnContextMenuProvider.SetQualitativeContribution"), JUCMNavPlugin.getImageDescriptor("icons/ContributionQual16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+
+        
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -307,9 +330,6 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-//        action = getActionRegistry().getAction(ChangeDecompositionTypeAction.CHANGEDECOMPOSITIONTYPE);
-//        if (action.isEnabled())
-//            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
         actions = new IAction[3];
         for (int i = 0; i <= 2; i++)
             actions[i] = getActionRegistry().getAction(ChangeDecompositionTypeAction.generateId(i));
