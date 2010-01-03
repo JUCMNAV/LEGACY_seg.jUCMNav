@@ -57,7 +57,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 
         // Group for display options
         Group displayOptions = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
-        displayOptions.setText(Messages.getString("GeneralPreferencePage.GrlOptions")); //$NON-NLS-1$
+        displayOptions.setText(Messages.getString("GeneralPreferencePage.DisplayOptions")); //$NON-NLS-1$
         
         GridLayout layoutOptions = new GridLayout();
         layoutOptions.numColumns = 1;
@@ -73,7 +73,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         cOptions.setLayoutData(dataOptions);
         
         Label label1 = new Label(cOptions, SWT.LEFT);
-        label1.setText(Messages.getString("GeneralPreferencePage.GrlOptionsLabel")); //$NON-NLS-1$
+        label1.setText(Messages.getString("GeneralPreferencePage.DisplayOptionsLabel")); //$NON-NLS-1$
 
         BooleanFieldEditor metadata_indicator = new BooleanFieldEditor(PREF_METADATAINDVISIBLE,
                 Messages.getString("GeneralPreferencePage.ShowMetadataIndicator"), cOptions); //$NON-NLS-1$
