@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
@@ -40,6 +41,8 @@ public class ChangeQualitativeContributionCommand extends Command implements JUC
     Vector linkStates = new Vector();
 
     public ChangeQualitativeContributionCommand(List linkRefs, int id) {
+        setLabel(Messages.getString("UrnContextMenuProvider.SetQualitativeContribution")); //$NON-NLS-1$
+
         for (Iterator iter = linkRefs.iterator(); iter.hasNext();) {
 
             LinkRef currentLinkRef = (LinkRef) iter.next();

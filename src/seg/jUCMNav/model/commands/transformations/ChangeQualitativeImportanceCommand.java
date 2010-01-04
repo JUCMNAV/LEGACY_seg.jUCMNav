@@ -8,6 +8,7 @@ import grl.ImportanceType;
 import grl.IntentionalElementRef;
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
@@ -29,6 +30,8 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
     Vector intElementStates = new Vector();
 
     public ChangeQualitativeImportanceCommand(List intElemRefs, int id) {
+        setLabel(Messages.getString("UrnContextMenuProvider.SetQualitativeImportance")); //$NON-NLS-1$
+
         intElementStates = new Vector();
 
         for (Iterator iter = intElemRefs.iterator(); iter.hasNext();) {

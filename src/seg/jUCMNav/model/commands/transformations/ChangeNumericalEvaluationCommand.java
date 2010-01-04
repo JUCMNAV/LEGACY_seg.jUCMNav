@@ -7,6 +7,8 @@ import java.util.Vector;
 import grl.IntentionalElementRef;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
@@ -35,6 +37,8 @@ public class ChangeNumericalEvaluationCommand extends Command implements JUCMNav
     Vector intElementStates = new Vector();
 
     public ChangeNumericalEvaluationCommand(List intElemRefs, int id, int enteredValue, CommandStack stack) {
+        setLabel(Messages.getString("UrnContextMenuProvider.SetNumericalEvaluation")); //$NON-NLS-1$
+
         int enteredEval = 0;
         operation = id;
         commandStack = stack;

@@ -11,6 +11,7 @@ import java.util.Vector;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
@@ -41,6 +42,8 @@ public class ChangeNumericalContributionCommand extends Command implements JUCMN
     Vector linkStates = new Vector();
 
     public ChangeNumericalContributionCommand(List linkRefs, int id, int enteredValue, CommandStack stack) {
+        setLabel(Messages.getString("UrnContextMenuProvider.SetNumericalContribution")); //$NON-NLS-1$
+
         int enteredEval = 0;
         operation = id;
         commandStack = stack;

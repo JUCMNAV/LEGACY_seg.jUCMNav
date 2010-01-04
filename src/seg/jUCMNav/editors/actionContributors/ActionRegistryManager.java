@@ -48,6 +48,7 @@ import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ChangeColorAction;
 import seg.jUCMNav.actions.ChangeComponentTypeAction;
+import seg.jUCMNav.actions.ChangeCorrelationAction;
 import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
 import seg.jUCMNav.actions.ChangeStubTypeAction;
 import seg.jUCMNav.actions.ChangeWaitPlaceTypeAction;
@@ -436,10 +437,6 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.addBelief")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
-        //action = new ChangeDecompositionTypeAction(editor);
-        //action.setText(Messages.getString("ActionRegistryManager.changeDecompositionType")); //$NON-NLS-1$
-        //addEditPartAction((SelectionAction) action);
-
         for (int i = 0; i <= 2; i++) {
             action = new ChangeDecompositionTypeAction(editor, i);
             addEditPartAction((SelectionAction) action);
@@ -474,6 +471,10 @@ public class ActionRegistryManager implements IDisposable {
             action = new SetQualitativeContributionAction(editor, i);
             addEditPartAction((SelectionAction) action);
         }
+
+        action = new ChangeCorrelationAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.changeCorrelation")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
 
         action = new AddMapAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addMap")); //$NON-NLS-1$

@@ -9,7 +9,7 @@ import ucm.map.PointcutKind;
 import ucm.map.Stub;
 
 /**
- * Changes an element's color
+ * Changes the attributes of a UCM Stub
  * 
  * @author jkealey
  */

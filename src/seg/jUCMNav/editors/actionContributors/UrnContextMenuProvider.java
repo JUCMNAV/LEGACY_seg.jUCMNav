@@ -34,6 +34,7 @@ import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ChangeColorAction;
 import seg.jUCMNav.actions.ChangeComponentTypeAction;
+import seg.jUCMNav.actions.ChangeCorrelationAction;
 import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
 import seg.jUCMNav.actions.ChangeStubTypeAction;
 import seg.jUCMNav.actions.ChangeWaitPlaceTypeAction;
@@ -81,7 +82,7 @@ import seg.jUCMNav.views.preferences.DisplayPreferences;
 /**
  * This class builds the context menu used in our editor and views.
  * 
- * @author Etienne Tremblay, gunterm, pchen
+ * @author Etienne Tremblay, gunterm, pchen, damyot
  */
 public class UrnContextMenuProvider extends ContextMenuProvider {
 
@@ -309,6 +310,11 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
+        // GRL correlation
+        action = getActionRegistry().getAction(ChangeCorrelationAction.CHANGECORRELATION);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
         
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())

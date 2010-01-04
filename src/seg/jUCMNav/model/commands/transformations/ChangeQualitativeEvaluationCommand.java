@@ -9,6 +9,7 @@ import grl.QualitativeLabel;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
@@ -37,6 +38,8 @@ public class ChangeQualitativeEvaluationCommand extends Command implements JUCMN
     Vector intElementStates = new Vector();
 
     public ChangeQualitativeEvaluationCommand(List intElemRefs, int id) {
+        setLabel(Messages.getString("UrnContextMenuProvider.SetQualitativeEvaluation")); //$NON-NLS-1$
+
         esm = EvaluationStrategyManager.getInstance();
 
         for (Iterator iter = intElemRefs.iterator(); iter.hasNext();) {

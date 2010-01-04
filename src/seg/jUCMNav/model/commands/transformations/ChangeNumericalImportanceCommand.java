@@ -8,6 +8,8 @@ import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
@@ -35,6 +37,8 @@ public class ChangeNumericalImportanceCommand extends Command implements JUCMNav
     Vector intElementStates = new Vector();
 
     public ChangeNumericalImportanceCommand(List intElemRefs, int id, int enteredImportance, CommandStack stack) {
+        setLabel(Messages.getString("UrnContextMenuProvider.SetNumericalImportance")); //$NON-NLS-1$
+        
         operation = id;
         commandStack = stack;
 
