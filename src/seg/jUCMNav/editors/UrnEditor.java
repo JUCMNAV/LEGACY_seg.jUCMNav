@@ -39,8 +39,10 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
+import seg.jUCMNav.actions.SetNumericalContributionAction;
 import seg.jUCMNav.actions.SetNumericalEvaluationAction;
 import seg.jUCMNav.actions.SetNumericalImportanceAction;
+import seg.jUCMNav.actions.SetQualitativeContributionAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.palette.SelectPaletteEntryAction;
@@ -369,6 +371,20 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
             letter = (int) 'z'; // decrease Numerical Importance with key binding
             sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
                     SetNumericalImportanceAction.getId("Decrease"))); //$NON-NLS-1$
+
+            character = 'y'; // increase Qualitative Contribution with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
+                    .getAction(SetQualitativeContributionAction.getId("Increase"))); //$NON-NLS-1$
+            character = 'u'; // decrease Qualitative Contribution with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased(character, character, 0), getActionRegistry()
+                    .getAction(SetQualitativeContributionAction.getId("Decrease"))); //$NON-NLS-1$
+
+            letter = (int) 'y'; // increase Numerical Contribution with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
+                    SetNumericalContributionAction.getId("Increase"))); //$NON-NLS-1$
+            letter = (int) 'u'; // decrease Numerical Contribution with key binding
+            sharedKeyHandler.put(KeyStroke.getReleased((char) (letter - 32), (char) letter, SWT.SHIFT), getActionRegistry().getAction(
+                    SetNumericalContributionAction.getId("Decrease"))); //$NON-NLS-1$
 
         }
         return sharedKeyHandler;

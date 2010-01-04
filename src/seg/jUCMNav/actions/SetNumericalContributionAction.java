@@ -29,8 +29,8 @@ public class SetNumericalContributionAction extends URNSelectionAction {
         "0", "-25", "-50", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
         "-75", "-100", //$NON-NLS-1$ //$NON-NLS-2$  
         Messages.getString("SetEvaluation.Other"), //$NON-NLS-1$ 
-        Messages.getString("SetEvaluation.Increase"), //$NON-NLS-1$ 
-        Messages.getString("SetEvaluation.Decrease") }; //$NON-NLS-1$ 
+        Messages.getString("SetEvaluation.Increase") + "   (Shift+Y)", //$NON-NLS-1$ //$NON-NLS-2$ 
+        Messages.getString("SetEvaluation.Decrease") + "   (Shift+U)" }; //$NON-NLS-1$ //$NON-NLS-2$ 
 
     public SetNumericalContributionAction(IWorkbenchPart part, int id) {
         super(part);

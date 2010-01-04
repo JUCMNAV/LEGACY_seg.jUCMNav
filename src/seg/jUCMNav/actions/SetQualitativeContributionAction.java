@@ -26,8 +26,8 @@ public class SetQualitativeContributionAction extends URNSelectionAction {
     private int id;
     private static String[] values = { "Make", "Help", "Some Positive", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         "Unknown", "Some Negative", "Hurt", "Break", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        Messages.getString("SetEvaluation.Increase"), //$NON-NLS-1$ 
-        Messages.getString("SetEvaluation.Decrease")}; //$NON-NLS-1$ 
+        Messages.getString("SetEvaluation.Increase") + "   (y)", //$NON-NLS-1$ //$NON-NLS-2$ 
+        Messages.getString("SetEvaluation.Decrease") + "   (u)" }; //$NON-NLS-1$ //$NON-NLS-2$ 
 
     public SetQualitativeContributionAction(IWorkbenchPart part, int id) {
         super(part);
