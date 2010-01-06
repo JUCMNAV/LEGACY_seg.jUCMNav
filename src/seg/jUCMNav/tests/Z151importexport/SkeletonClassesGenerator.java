@@ -12,28 +12,25 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 public class SkeletonClassesGenerator extends TestCase {
-	static String jUCMNavHome = "C:\\Users\\Yan\\workspace\\seg.jUCMNav\\";
-	static String generatedHome = jUCMNavHome + "src\\seg\\jUCMNav\\tests\\Z151importexport\\generatedSkeletonClasses\\";
-
-	protected static String getHomeDirPath() throws IOException {
-		File currentDir = new File(".");
-		System.out.println("Finding seg.jUCMNav project root: " + currentDir.getCanonicalPath());
+	static String jUCMNavHome = getHomeDirPath() + "\\";
+	static String generatedHome = jUCMNavHome + "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\generatedSkeletonClasses\\";
+	
+	protected static String getHomeDirPath(){
+		File currentDir = new File(".");		
 		try {
+			System.out.println("Finding seg.jUCMNav project root: " + currentDir.getCanonicalPath());
 			return currentDir.getCanonicalPath();
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new IOException("The current directory doesn't exist");
+			System.err.println(e.getMessage());
 		}
+		return "";
 	}
 
 	/* This test case is to generate skeleton classes for unmarshalling */
 	public void testUNMarshalGenerator() {
-		try {
-			jUCMNavHome = getHomeDirPath() + "\\";
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//jUCMNavHome = getHomeDirPath() + "\\";
+		//generatedHome = jUCMNavHome + "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\generatedSkeletonClasses\\";
 		String srcDirPath = jUCMNavHome + "\\src\\grl\\";
 		String dstDirPath = generatedHome + "\\unmarshal\\grl\\";
 		String myPackageName = "grl";
@@ -161,13 +158,8 @@ public class SkeletonClassesGenerator extends TestCase {
 
 	/* This test case is to generate skeleton classes for marshalling */
 	public void testMarshalGenerator() {
-		try {
-			jUCMNavHome = getHomeDirPath() + "\\";
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		//jUCMNavHome = getHomeDirPath() + "\\";
+		//generatedHome = jUCMNavHome + "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\generatedSkeletonClasses\\";
 		String myPackageName = "seg.jUCMNav.importexport.z151.generated";
 		String srcDirPath = jUCMNavHome + "\\src\\seg\\jUCMNav\\importexport\\z151\\generated\\";
 		String dstDirPath = generatedHome + "\\marshal\\";
