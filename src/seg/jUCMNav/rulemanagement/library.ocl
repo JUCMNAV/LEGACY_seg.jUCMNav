@@ -274,6 +274,18 @@ def: getAllAndJoins():Sequence(ucm::map::AndJoin) =
 			-> collect(r|r.oclAsType(ucm::map::AndJoin))
 			-> asSequence()
 
+def: getAllAnythings():Sequence(ucm::map::Anything) =
+		self.urndef.specDiagrams->select(d|d.oclIsTypeOf(ucm::map::UCMmap)).nodes
+			-> select(r|r.oclIsTypeOf(ucm::map::Anything))
+			-> collect(r|r.oclAsType(ucm::map::Anything))
+			-> asSequence()
+
+def: getAllFailurePoints():Sequence(ucm::map::FailurePoint) =
+		self.urndef.specDiagrams->select(d|d.oclIsTypeOf(ucm::map::UCMmap)).nodes
+			-> select(r|r.oclIsTypeOf(ucm::map::FailurePoint))
+			-> collect(r|r.oclAsType(ucm::map::FailurePoint))
+			-> asSequence()
+
 -- Stubs/plug-ins
 def: getAllStubs():Sequence(ucm::map::Stub) =
 		self.urndef.specDiagrams->select(d|d.oclIsTypeOf(ucm::map::UCMmap)).nodes

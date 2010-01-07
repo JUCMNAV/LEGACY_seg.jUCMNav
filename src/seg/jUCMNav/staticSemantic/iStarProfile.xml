@@ -5,7 +5,7 @@
 		<Description>The destination of a Contribution must be a Softgoal</Description>
 		<Classification>grl::Contribution</Classification>
 		<Query>getAllContributions()</Query>
-		<Constraint>self.dest.oclIsTypeOf(grl::IntentionalElement) &#13;
+		<Constraint>self.dest.oclIsTypeOf(grl::IntentionalElement)&#13;
 and&#13;
 (self.dest.oclAsType(grl::IntentionalElement)).type=IntentionalElementType::Softgoal</Constraint>
 		<Utilities />

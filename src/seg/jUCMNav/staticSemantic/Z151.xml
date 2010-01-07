@@ -2,7 +2,7 @@
 <Rules>
 	<Rule>
 		<Name>IndicatorsNotExported</Name>
-		<Description>Z.151 Export: Indicator will not be exported</Description>
+		<Description>Z.151 Export: Indicator associations, attributes, and groups will not be exported</Description>
 		<Classification>grl::kpimodel::Indicator</Classification>
 		<Query>getAllIndicators()</Query>
 		<Constraint>false</Constraint>
@@ -10,11 +10,122 @@
 		<WarningOnly>true</WarningOnly>
 	</Rule>
 	<Rule>
+		<Name>RespBindingNotExported</Name>
+		<Description>Z.151 Export: Responsibility bindings in stub will not be exported</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>bindings.responsibilities -&gt; isEmpty()</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>SubActorsAsMetadata</Name>
+		<Description>Z.151 Export: Associations to children actor references will be converted to metadata</Description>
+		<Classification>grl::ActorRef</Classification>
+		<Query>getAllActorRefs()</Query>
+		<Constraint>children -&gt; isEmpty()</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>AspectStubsAsStubs</Name>
+		<Description>Z.151 Export: Aspect-related stub will be converted to stub with metadata</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>(aopointcut = PointcutKind::None) and (aspect = AspectKind::None)</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>AnythingAsEmptyPoint</Name>
+		<Description>Z.151 Export: Anything path node will be converted to empty point with metadata</Description>
+		<Classification>ucm::map::Anything</Classification>
+		<Query>getAllAnythings()</Query>
+		<Constraint>false</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>FailurePointAsEmptyPoint</Name>
+		<Description>Z.151 Export: Failure point will be converted to empty point with metadata</Description>
+		<Classification>ucm::map::FailurePoint</Classification>
+		<Query>getAllFailurePoints()</Query>
+		<Constraint>false</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>FailureSPasSP</Name>
+		<Description>Z.151 Export: Failure start point will be converted to start point with metadata</Description>
+		<Classification>ucm::map::StartPoint</Classification>
+		<Query>getAllStartPoints()</Query>
+		<Constraint>failureKind = FailureKind::None</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
 		<Name>OtherCompAsTeam</Name>
-		<Description>Z.151 Export: Component of kind Other will be converted to Team</Description>
+		<Description>Z.151 Export: Component of kind Other will be converted to Team with metadata</Description>
 		<Classification>urncore::Component</Classification>
 		<Query>getAllComponents()</Query>
 		<Constraint>self.kind &lt;&gt; urncore::ComponentKind::Other</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>DeprecatedOrientation</Name>
+		<Description>Deprecated: The "orientation" attribute should no longer be used in forks/joins</Description>
+		<Classification>ucm::map::PathNode</Classification>
+		<Query>getAllPathNodes()</Query>
+		<Constraint>if self.oclIsTypeOf(ucm::map::OrFork)&#13;
+then (self.oclAsType(ucm::map::OrFork).orientation = null or self.oclAsType(ucm::map::OrFork).orientation = '')&#13;
+else if self.oclIsTypeOf(ucm::map::OrJoin)&#13;
+     then (self.oclAsType(ucm::map::OrJoin).orientation = null or self.oclAsType(ucm::map::OrJoin).orientation = '')&#13;
+     else if self.oclIsTypeOf(ucm::map::AndFork)&#13;
+          then (self.oclAsType(ucm::map::AndFork).orientation = null or self.oclAsType(ucm::map::AndFork).orientation = '')&#13;
+          else if self.oclIsTypeOf(ucm::map::AndJoin)&#13;
+               then (self.oclAsType(ucm::map::AndJoin).orientation = null or self.oclAsType(ucm::map::AndJoin).orientation = '')&#13;
+               else true&#13;
+               endif&#13;
+          endif&#13;
+     endif&#13;
+endif</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>DeprecatedTransaction</Name>
+		<Description>Deprecated: The "transaction" attribute should no longer be used in plug-in bindings</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>bindings -&gt; forAll (b| not(b.transaction))</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>DeprecatedPointcut</Name>
+		<Description>Deprecated: The "pointcut" attribute should no longer be used in stubs. Use "aopointcut" instead.</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>not(pointcut)</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>DeprecatedPriority</Name>
+		<Description>Deprecated: The "priority" attribute should no longer be used in intentional elements. Use "importance" instead.</Description>
+		<Classification>grl::IntentionalElementRef</Classification>
+		<Query>getAllIntentionalElementRefs()</Query>
+		<Constraint>priority=Priority::None</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>DeprecatedCriticality</Name>
+		<Description>Deprecated: The "criticality" attribute should no longer be used in intentional elements. Use "importance" instead.</Description>
+		<Classification>grl::IntentionalElementRef</Classification>
+		<Query>getAllIntentionalElementRefs()</Query>
+		<Constraint>criticality=Criticality::None</Constraint>
 		<Utilities />
 		<WarningOnly>true</WarningOnly>
 	</Rule>
