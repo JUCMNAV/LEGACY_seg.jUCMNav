@@ -69,7 +69,7 @@ in&#13;
 	</Rule>
 	<Rule>
 		<Name>TracesLinksFromOrgToLegalActors</Name>
-		<Description>Legal: Traces URN links must go from the organization model to the legal model</Description>
+		<Description>Legal: "traces" URN links must go from the organization model to the legal model</Description>
 		<Classification>grl::Actor</Classification>
 		<Query>getAllActors()</Query>
 		<Constraint>self.getLinksToForType('traces')&#13;
@@ -82,7 +82,7 @@ in&#13;
 	</Rule>
 	<Rule>
 		<Name>TracesLinksFromOrgToLegalIEs</Name>
-		<Description>Legal: Traces URN links must go from the organization model to the legal model</Description>
+		<Description>Legal: "traces" URN links must go from the organization model to the legal model</Description>
 		<Classification>grl::IntentionalElement</Classification>
 		<Query>getAllIntentionalElements()</Query>
 		<Constraint>self.getLinksToForType('traces')&#13;

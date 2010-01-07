@@ -67,6 +67,21 @@ in   &#13;
 		<WarningOnly>false</WarningOnly>
 	</Rule>
 	<Rule>
+		<Name>GRLstrategyWithIncorrectXORinit</Name>
+		<Description>GRL strategy initializes more than one child of an XOR decomposition</Description>
+		<Classification>grl::EvaluationStrategy</Classification>
+		<Query>getAllEvaluationStrategies()</Query>
+		<Constraint>self.evaluations.intElement.linksSrc&#13;
+	-&gt; select(link | link.oclIsTypeOf(grl::Decomposition))&#13;
+	-&gt; collect(dec | dec.oclAsType(grl::Decomposition)).dest&#13;
+	-&gt; select(ie | ie.oclIsTypeOf(grl::IntentionalElement))&#13;
+	-&gt; collect(ie | ie.oclAsType(grl::IntentionalElement))&#13;
+	-&gt; select(ie | ie.decompositionType=DecompositionType::Xor)&#13;
+	-&gt; isUnique(ie:grl::IntentionalElement | ie.id)</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
 		<Name>GRLindicatorThresholdConsistency</Name>
 		<Description>Indicator threshold value must be between the target and worst values.</Description>
 		<Classification>grl:Evaluation</Classification>
@@ -77,6 +92,15 @@ in   &#13;
       (kpiEvalValueSet.thresholdValue &gt;= kpiEvalValueSet.targetValue and kpiEvalValueSet.thresholdValue &lt;= kpiEvalValueSet.worstValue) )</Constraint>
 		<Utilities />
 		<WarningOnly>false</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>GRLdependencyEvaluationConsistency</Name>
+		<Description>The depender of a GRL dependency should not have an evaluation value higher than its dependee's.</Description>
+		<Classification>grl::IntentionalElement</Classification>
+		<Query>getAllIntentionalElements()</Query>
+		<Constraint>self.dependers() -&gt; forAll (ie | self.getNumEval() &lt;= ie.getNumEval())</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
 	</Rule>
 	<Rule>
 		<Name>GRLindicatorIndicatorTooGood</Name>
@@ -138,5 +162,5 @@ in   &#13;
 	-&gt; notEmpty()</Constraint>
 		<Utilities />
 		<WarningOnly>true</WarningOnly>
-	</Rule>
+	</Rule>	
 </Rules>

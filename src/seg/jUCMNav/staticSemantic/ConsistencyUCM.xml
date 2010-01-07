@@ -145,4 +145,28 @@ self.getAncestors() -&gt; select(c|c.kind=urncore::ComponentKind::Object) -&gt; 
 		<Utilities />
 		<WarningOnly>false</WarningOnly> 
 	</Rule>
+	<Rule>
+		<Name>UCMstubAtMostOneElse</Name>
+		<Description>UCM stub must not have more than one plug-in with an "else" precondition</Description>
+		<Classification>ucm::map::Stub</Classification>
+		<Query>getAllStubs()</Query>
+		<Constraint>self.bindings.precondition
+	-&gt; select(pc | pc.expression.toLower() = 'else')&#13;
+	-&gt; size() &lt;= 1</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
+	<Rule>
+		<Name>UCMorForkAtMostOneElse</Name>
+		<Description>UCM Or-Fork must not have more than one branch with an "else" condition</Description>
+		<Classification>ucm::map::OrFork</Classification>
+		<Query>getAllOrForks()</Query>
+		<Constraint>self.succ
+	-&gt; select(r|r.oclIsTypeOf(ucm::map::NodeConnection))
+	-&gt; collect(r|r.oclAsType(ucm::map::NodeConnection))
+	-&gt; select(nc | nc.condition.expression.toLower() = 'else')&#13;
+	-&gt; size() &lt;= 1</Constraint>
+		<Utilities />
+		<WarningOnly>false</WarningOnly> 
+	</Rule>
 </Rules>
