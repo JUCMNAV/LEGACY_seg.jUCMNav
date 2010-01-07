@@ -13,6 +13,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
+import seg.jUCMNav.actions.AddAnythingAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddBranchOnStubAction;
@@ -20,6 +21,7 @@ import seg.jUCMNav.actions.AddConditionLabelAction;
 import seg.jUCMNav.actions.AddContainerRefAction;
 import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.AddEmptyPoint;
+import seg.jUCMNav.actions.AddFailurePointAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
@@ -156,7 +158,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        IAction[] actions = new IAction[25];
+        IAction[] actions = new IAction[26];
         actions[0] = getActionRegistry().getAction(AddOrForkAction.ADDORFORK);
         actions[1] = getActionRegistry().getAction(AddAndForkAction.ADDANDFORK);
         actions[2] = getActionRegistry().getAction(AddOrJoinAction.ADDORJOIN);
@@ -166,24 +168,27 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[6] = getActionRegistry().getAction(AddBranchOnStubAction.ADDBRANCH);
         actions[7] = getActionRegistry().getAction(AddBranchOnStubAction.ADDBRANCH2);
         actions[8] = getActionRegistry().getAction(DisconnectTimeoutPathAction.DISCONNECTTIMEOUTPATH);
-        actions[9] = getActionRegistry().getAction(CutPathAction.CUTPATH);
-        actions[10] = getActionRegistry().getAction(TransmogrifyOrForkOrJoinAction.TRANSMOGRIFYFORK);
-        actions[11] = getActionRegistry().getAction(TransmogrifyAndForkOrJoinAction.TRANSMOGRIFYJOIN);
-        actions[12] = getActionRegistry().getAction(AddStartPointAction.ADDSTART);
-        actions[13] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(0));
-        actions[14] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(1));
-        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect()) {
-            actions[15] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(2));
-            actions[16] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(3));
-            actions[17] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(4));
-            actions[18] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(5));
-            actions[19] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(6));
-            actions[20] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(7));
-            actions[21] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(8));
-            actions[22] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(9));
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled()) {
+            actions[9] = getActionRegistry().getAction(AddFailurePointAction.ADDFAILUREPOINT);
         }
-        actions[23] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(0));
-        actions[24] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(1));
+        actions[10] = getActionRegistry().getAction(CutPathAction.CUTPATH);
+        actions[11] = getActionRegistry().getAction(TransmogrifyOrForkOrJoinAction.TRANSMOGRIFYFORK);
+        actions[12] = getActionRegistry().getAction(TransmogrifyAndForkOrJoinAction.TRANSMOGRIFYJOIN);
+        actions[13] = getActionRegistry().getAction(AddStartPointAction.ADDSTART);
+        actions[14] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(0));
+        actions[15] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(1));
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect()) {
+            actions[16] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(2));
+            actions[17] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(3));
+            actions[18] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(4));
+            actions[19] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(5));
+            actions[20] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(6));
+            actions[21] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(7));
+            actions[22] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(8));
+            actions[23] = getActionRegistry().getAction(ChangeStubTypeAction.generateId(9));
+        }
+        actions[24] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(0));
+        actions[25] = getActionRegistry().getAction(ChangeWaitPlaceTypeAction.generateId(1));
 
         SubmenuAction submenu = new SubmenuAction(
                 actions,
@@ -192,7 +197,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
-        actions = new IAction[15];
+        actions = new IAction[16];
         actions[0] = getActionRegistry().getAction(AddResponsibilityAction.ADDRESPONSIBILITY);
         actions[1] = getActionRegistry().getAction(AddDirectionArrow.ADDDIRECTIONARROW);
         actions[2] = getActionRegistry().getAction(AddEmptyPoint.ADDEMPTYPOINT);
@@ -209,6 +214,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             actions[12] = getActionRegistry().getAction(AddStubAction.generateId(7));
             actions[13] = getActionRegistry().getAction(AddStubAction.generateId(8));
             actions[14] = getActionRegistry().getAction(AddStubAction.generateId(9));
+            actions[15] = getActionRegistry().getAction(AddAnythingAction.ADDANYTHING);
         }
 
         submenu = new SubmenuAction(
@@ -314,8 +320,8 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ChangeCorrelationAction.CHANGECORRELATION);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
-        
+
+
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);

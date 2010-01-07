@@ -27,6 +27,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
+import seg.jUCMNav.actions.AddAnythingAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddBranchOnStubAction;
@@ -34,6 +35,7 @@ import seg.jUCMNav.actions.AddConditionLabelAction;
 import seg.jUCMNav.actions.AddContainerRefAction;
 import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.AddEmptyPoint;
+import seg.jUCMNav.actions.AddFailurePointAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
@@ -323,6 +325,14 @@ public class ActionRegistryManager implements IDisposable {
 
         action = new AddWaitingPlaceAction(editor, AddWaitingPlaceAction.ADDTIMER);
         action.setText(Messages.getString("ActionRegistryManager.addTimer")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddAnythingAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addAnything")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new AddFailurePointAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addFailurePoint")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddConditionLabelAction(editor);
