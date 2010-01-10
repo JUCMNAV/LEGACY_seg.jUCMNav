@@ -1,9 +1,11 @@
 package seg.jUCMNav.tests.Z151importexport;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -21,12 +23,31 @@ import junit.framework.TestCase;
 
 public class Z151importexportTest extends TestCase {
 	static String jUCMNavHome = SkeletonClassesGenerator.getHomeDirPath();
-	static String expected = "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\expected";
-	static String actual = "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\actual";
-	public void testZ151(){
-		urn.URNspec urn = mockImport(jUCMNavHome+expected+"\\actor.z151");
-		mockExport(urn, jUCMNavHome+actual+"\\actor.z151");
-		
+	static String expected = "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\expected\\";
+	static String actual = "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\actual\\";
+	
+	public void testActor(){
+		String Z151file = "actor.z151";
+		compareTwoZ151File(Z151file);
+	}
+	
+//	public void testAO_Via_Verde_SPL(){
+//		String Z151file = "AO_Via_Verde_SPL.z151";
+//		compareTwoZ151File(Z151file);
+//	}
+
+	public boolean compareTwoZ151File(String Z151file){
+		String expectedPath =jUCMNavHome+expected+Z151file;
+		String actualPath= jUCMNavHome+actual+Z151file;
+		urn.URNspec urn = mockImport(expectedPath);
+		mockExport(urn, actualPath);
+		File expectedFile = new File(expectedPath);
+		File actualFile = new File(jUCMNavHome+actual+Z151file);
+		String expected =  ResolveIds(readFileAsString(expectedPath));
+		String actual =  ResolveIds(readFileAsString(actualPath));
+		System.out.println(expected);
+		this.assertEquals(expected, actual);
+		return true;
 	}
 	private urn.URNspec mockImport(String fileName) {
 		EObjectImplUMHandler mh = new URNspecUMHandler();
@@ -40,6 +61,7 @@ public class Z151importexportTest extends TestCase {
 			JAXBElement<seg.jUCMNav.importexport.z151.generated.URNspec> specFromFile = (JAXBElement<seg.jUCMNav.importexport.z151.generated.URNspec>) um
 					.unmarshal(fis);
 			urn = (urn.URNspec) mh.handle(specFromFile.getValue(), null, true);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,15 +107,41 @@ public class Z151importexportTest extends TestCase {
 		String idClosing = "</id>";
 		int count = 1;
 		int startIndex = urnspec.indexOf(idPrefix);
-		int endIndex = urnspec.indexOf(idClosing);
+		int endIndex;
 		while (startIndex != -1) {
-			String id = urnspec.substring(startIndex + "<id>".length(),
-					endIndex - "</id>".length());
+			endIndex = startIndex+ urnspec.substring(startIndex).indexOf(idClosing);
+			String id = urnspec.substring(startIndex + "<id>".length(),endIndex);
 			String newId = "RESOLVED_" + count++;
 			urnspec = urnspec.replaceAll(id, newId);
 			startIndex = urnspec.indexOf(idPrefix);
-			endIndex = urnspec.indexOf(idClosing);
 		}
 		return urnspec;
+	}
+	
+	private static String readFileAsString(String filePath) {
+		byte[] buffer = new byte[(int) new File(filePath).length()];
+		BufferedInputStream f;
+		try {
+			f = new BufferedInputStream(new FileInputStream(filePath));
+			try {
+				f.read(buffer);
+				f.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				try {
+					f.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return new String(buffer);
+		
 	}
 }

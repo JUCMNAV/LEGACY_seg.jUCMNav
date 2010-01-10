@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<URNspec>
+    <name>URNspec</name>
+    <ucmspec>
+        <scenarioGroups>
+            <id>5</id>
+            <name>ScenarioGroup5</name>
+            <scenarios>6</scenarios>
+        </scenarioGroups>
+        <scenarioDefs>
+            <id>6</id>
+            <name>ScenarioDef6</name>
+            <includedScenarios></includedScenarios>
+            <groups>5</groups>
+            <startPoints></startPoints>
+        </scenarioDefs>
+    </ucmspec>
+    <grlspec>
+        <actors>
+            <id>11</id>
+            <name>Actor11</name>
+            <actorRefs>12</actorRefs>
+            <style>
+                <lineColor>0,0,0</lineColor>
+                <fillColor>255,255,255</fillColor>
+                <filled>false</filled>
+            </style>
+        </actors>
+        <groups>
+            <id>3</id>
+            <name>StrategiesGroup3</name>
+            <strategies>4</strategies>
+        </groups>
+        <strategies>
+            <id>4</id>
+            <name>EvaluationStrategy4</name>
+            <metadata>
+                <name>jUCMNav EvaluationStrategy author</name>
+                <value>Yan</value>
+            </metadata>
+            <strategies>3</strategies>
+        </strategies>
+        <grlGraphs>
+            <id>2</id>
+            <name>GRLGraph2</name>
+            <contRefs>
+                <id>12</id>
+                <name>ActorRef12</name>
+                <label>
+                    <deltaX>0</deltaX>
+                    <deltaY>0</deltaY>
+                </label>
+                <actorDef>11</actorDef>
+                <pos>
+                    <x>324</x>
+                    <y>154</y>
+                </pos>
+                <size>
+                    <width>200</width>
+                    <height>200</height>
+                </size>
+            </contRefs>
+        </grlGraphs>
+    </grlspec>
+    <info>
+        <author>Yan</author>
+        <created>January 5, 2010 12:01:00 AM EST</created>
+        <modified>January 5, 2010 12:01:07 AM EST</modified>
+        <specVersion>2</specVersion>
+        <urnVersion>0.923</urnVersion>
+    </info>
+</URNspec>
