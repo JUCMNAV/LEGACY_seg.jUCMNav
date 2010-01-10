@@ -72,7 +72,7 @@ public class URNspecUMHandler extends EObjectImplUMHandler {
 			// elem.getName();
 			// elem.getDescription();
 			// elem.getClass();
-			elem.setNextGlobalID(""+(Integer.parseInt(globelId)+1)); //$NON-NLS-1$
+			elem.setNextGlobalID(""+(Integer.parseInt(globelId)+2)); //$NON-NLS-1$
 			urn = elem;
 		}
 		return elem;
