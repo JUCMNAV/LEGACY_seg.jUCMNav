@@ -31,7 +31,7 @@ public class BeliefLinkMHandler extends MHandler {
 		grl.BeliefLink elem = (grl.BeliefLink) obj;
 		String objId = this.getObjectId(elem);
 		ElementLink elemZ = (ElementLink) id2object.get(objId);
-		LinkRef linkRef = (LinkRef) id2object.get("jUCMNav_"+elem.hashCode()); //$NON-NLS-1$
+		LinkRef linkRef = (LinkRef) id2object.get("Z151_jUCMNav_grl.impl.LinkRefImpl"+elem.hashCode()); //$NON-NLS-1$
 		if (null == elemZ) {
 			if (null == target){
 				elemZ = of.createElementLink();
@@ -41,7 +41,7 @@ public class BeliefLinkMHandler extends MHandler {
 		}
 		if (linkRef == null) {
 			linkRef = of.createLinkRef();
-			id2object.put("jUCMNav_"+elem.hashCode(), linkRef); //$NON-NLS-1$
+			id2object.put("Z151_jUCMNav_grl.impl.LinkRefImpl"+elem.hashCode(), linkRef); //$NON-NLS-1$
 		}
 		if (isFullConstruction) {
 			elemZ.setId(objId);
@@ -55,7 +55,7 @@ public class BeliefLinkMHandler extends MHandler {
 			elemZ.setSrc(srcNode.getDef());
 			elemZ.setDest(dstNode.getDef());
 			
-			linkRef.setId("jUCMNav_"+elem.hashCode()); //$NON-NLS-1$
+			linkRef.setId("Z151_jUCMNav_grl.impl.LinkRefImpl"+elem.hashCode()); //$NON-NLS-1$
 			linkRef.setName(""); //$NON-NLS-1$
 			linkRef.setCurve(false);
 			linkRef.setLink(elemZ);
