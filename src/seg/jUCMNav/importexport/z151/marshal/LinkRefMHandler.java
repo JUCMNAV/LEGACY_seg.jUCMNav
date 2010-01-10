@@ -38,22 +38,7 @@ import seg.jUCMNav.importexport.z151.generated.LinkRef;
 //	 *   <li>{@link urncore.IURNConnection#getLabel <em>Label</em>}</li>
 //	 * </ul>
 //	 * </p>
-/*** Done! ***/
 
-/***
- * Done! But TODO Done!: Id: jUCMNav does not have an Id, but Z151 has ID -- use
- * hashcode to make up an ID Name: jUCMNav does not have Name, but Z151 has Name
- * -- use ID as Name as well metadata: jUCMNav does not have a metadata, but
- * Z151 has metadata -- Since it is optional, we do not set metadata toLinks:
- * jUCMNav does not have an toLinks, but Z151 has toLinks -- Since it is
- * optional, we do not set toLinks fromLinks: jUCMNav does not have an
- * fromLinks, but Z151 has fromLinks -- Since it is optional, we do not set
- * toLinks -- undecided //use elem.getTarget().getSucc() desc: jUCMNav does not
- * have a description, but Z151 has description -- Since it is optional, we do
- * not set description Concern: jUCMNav does not have a concern, but Z151 has
- * concern -- Since this is optional, we do not set concern.
- * 
- ***/
 
 public class LinkRefMHandler extends MHandler {
 	@Override
