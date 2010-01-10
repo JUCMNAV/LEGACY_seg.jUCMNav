@@ -14,8 +14,6 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 
-//DONE
-
 import seg.jUCMNav.importexport.z151.generated.Condition;
 import seg.jUCMNav.importexport.z151.generated.EndPoint;
 import seg.jUCMNav.importexport.z151.generated.Metadata;

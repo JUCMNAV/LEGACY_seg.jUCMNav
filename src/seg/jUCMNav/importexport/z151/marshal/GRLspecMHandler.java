@@ -27,7 +27,7 @@ import seg.jUCMNav.importexport.z151.generated.GRLspec;
 //</xsd:complexType>
 
 /***
- * Done!** But TODO: jUCMNav missing grlGraphs jUCMNav missing ConcreteGRLspec
+ * Done!** But TODO: jUCMNav missing ConcreteGRLspec
  */
 
 public class GRLspecMHandler extends MHandler {

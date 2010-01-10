@@ -1,20 +1,23 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-//  <!--  PluginBinding  -->
-//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-//  <xsd:complexType name="PluginBinding">
-//    <xsd:sequence>
-//      <xsd:element name="id" type="xsd:string"/>
-//      <xsd:element default="100" name="probability" type="xsd:nonNegativeInteger"/>
-//      <xsd:element name="replicationFactor" type="xsd:string"/>
-//      <xsd:element maxOccurs="unbounded" minOccurs="0" name="in" type="InBinding"/>
-//      <xsd:element maxOccurs="unbounded" minOccurs="0" name="out" type="OutBinding"/>
-//      <xsd:element name="plugin" type="xsd:IDREF"/> <!-- UCMmap -->
-//      <xsd:element minOccurs="0" name="precondition" type="Condition"/>
-//      <xsd:element maxOccurs="unbounded" minOccurs="0" name="components" type="ComponentBinding"/>
-//    </xsd:sequence>
-//  </xsd:complexType>
+//	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//	<!--  PluginBinding  -->
+//	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//	<xsd:complexType name="PluginBinding">
+//		<xsd:sequence>
+//			<xsd:element name="id" type="xsd:ID" />
+//			<xsd:element default="100" name="probability" type="xsd:nonNegativeInteger" />
+//			<xsd:element name="replicationFactor" type="xsd:string" />
+//			<xsd:element maxOccurs="unbounded" minOccurs="0" name="in"
+//				type="InBinding" />
+//			<xsd:element maxOccurs="unbounded" minOccurs="0" name="out"
+//				type="OutBinding" />
+//			<xsd:element name="plugin" type="xsd:IDREF" /> <!-- UCMmap -->
+//			<xsd:element minOccurs="0" name="precondition" type="Condition" />
+//			<xsd:element maxOccurs="unbounded" minOccurs="0" name="components"
+//				type="ComponentBinding" />
+//		</xsd:sequence>
+//	</xsd:complexType>
 
 import java.math.BigInteger;
 

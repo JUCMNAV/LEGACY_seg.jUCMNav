@@ -15,10 +15,6 @@ import seg.jUCMNav.importexport.z151.generated.CollapsedActorRef;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-/***
- * Done!
- * 
- */
 
 public class CollapsedActorRefMHandler extends GRLNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

@@ -16,7 +16,6 @@ import seg.jUCMNav.importexport.z151.generated.GRLLinkableElement;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-/*** Done! ***/
 
 public class GRLLinkableElementMHandler extends GRLmodelElementMHandler {
 

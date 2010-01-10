@@ -19,10 +19,6 @@ import seg.jUCMNav.importexport.z151.generated.Contribution;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-/***
- * Done! but TODO done!: correlation: jUCMNav has isCorrelation(). We use this
- * method instead of getter
- * ***/
 
 public class ContributionMHandler extends ElementLinkMHandler {
 

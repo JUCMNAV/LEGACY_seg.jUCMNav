@@ -21,7 +21,6 @@ import seg.jUCMNav.importexport.z151.generated.GRLGraph;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-/*** Done! ***/
 
 public class GRLGraphMHandler extends GRLmodelElementMHandler {
 

@@ -1,14 +1,15 @@
 package seg.jUCMNav.importexport.z151.unmarshal;
 
-//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-//  <!--  ComponentBinding  -->
-//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-//  <xsd:complexType name="ComponentBinding">
-//    <xsd:sequence>
-//	    <xsd:element name="parentComponent" type="xsd:IDREF"/> <!-- ComponentRef -->
-//      <xsd:element name="pluginComponent" type="xsd:IDREF"/> <!-- ComponentRef -->
-//    </xsd:sequence>
-//  </xsd:complexType>
+//<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//<!--  ComponentBinding  -->
+//<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//<xsd:complexType name="ComponentBinding">
+//	<xsd:sequence>
+//		<xsd:element name="id" type="xsd:ID" /> <!-- ADDED -->
+//		<xsd:element name="parentComponent" type="xsd:IDREF" /> <!-- ComponentRef -->
+//		<xsd:element name="pluginComponent" type="xsd:IDREF" /> <!-- ComponentRef -->
+//	</xsd:sequence>
+//</xsd:complexType>
 
 import seg.jUCMNav.importexport.z151.generated.ComponentBinding;
 import seg.jUCMNav.model.ModelCreationFactory;

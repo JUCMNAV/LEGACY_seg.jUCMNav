@@ -1,14 +1,15 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-//  <!--  InBinding  -->
-//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-//  <xsd:complexType name="InBinding">
-//    <xsd:sequence>
-//      <xsd:element name="startPoint" type="xsd:IDREF"/>  <!-- StartPoint -->
-//      <xsd:element name="stubEntry" type="xsd:IDREF"/>  <!-- NodeConnection -->
-//    </xsd:sequence>
-//  </xsd:complexType>
+//<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//<!--  InBinding  -->
+//<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//<xsd:complexType name="InBinding">
+//	<xsd:sequence>
+//		<xsd:element name="id" type="xsd:ID" /> <!-- ADDED because InBinding is not a URNmodelElement (no ID) -->
+//		<xsd:element name="startPoint" type="xsd:IDREF" />  <!-- StartPoint -->
+//		<xsd:element name="stubEntry" type="xsd:IDREF" />  <!-- NodeConnection -->
+//	</xsd:sequence>
+//</xsd:complexType>
 
 import seg.jUCMNav.importexport.z151.generated.InBinding;
 

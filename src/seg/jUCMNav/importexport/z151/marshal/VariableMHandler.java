@@ -1,18 +1,18 @@
 package seg.jUCMNav.importexport.z151.marshal;
 
-//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-//  <!--  Variable  -->
-//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-//  <xsd:complexType name="Variable">
-//    <xsd:complexContent>
-//      <xsd:extension base="UCMmodelElement">
-//        <xsd:sequence>
-//          <xsd:element default="Boolean" name="type" type="xsd:IDREF"/> <!-- DatatypeKind -->
-//          <xsd:element minOccurs="0" name="enumerationType" type="xsd:IDREF"/> <!-- EnumerationType -->
-//        </xsd:sequence>
-//      </xsd:extension>
-//    </xsd:complexContent>
-//  </xsd:complexType>
+//	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//	<!--  Variable  -->
+//	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//	<xsd:complexType name="Variable">
+//		<xsd:complexContent>
+//			<xsd:extension base="UCMmodelElement">
+//				<xsd:sequence>
+//					<xsd:element default="Boolean" name="type" type="DatatypeKind" /> <!-- DatatypeKind -->
+//					<xsd:element minOccurs="0" name="enumerationType" type="xsd:IDREF" /> <!-- EnumerationType -->
+//				</xsd:sequence>
+//			</xsd:extension>
+//		</xsd:complexContent>
+//	</xsd:complexType>
 
 import seg.jUCMNav.importexport.z151.generated.DatatypeKind;
 import seg.jUCMNav.importexport.z151.generated.EnumerationType;

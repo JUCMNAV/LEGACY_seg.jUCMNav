@@ -10,16 +10,16 @@ import seg.jUCMNav.importexport.z151.generated.URNmodelElement;
 //<!--  Concern  -->
 //<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 //<xsd:complexType name="Concern">
-//  <xsd:complexContent>
-//    <xsd:extension base="URNmodelElement">
-//      <xsd:sequence>
-//        <xsd:element minOccurs="0" name="condition" type="Condition" />  <!-- Condition -->
-//        <xsd:element maxOccurs="unbounded" minOccurs="0" name="elements" type="xsd:IDREF" />  <!-- URNmodelElement -->
-//      </xsd:sequence>
-//    </xsd:extension>
-//  </xsd:complexContent>
+//	<xsd:complexContent>
+//		<xsd:extension base="URNmodelElement">
+//			<xsd:sequence>
+//				<xsd:element minOccurs="0" name="condition" type="xsd:IDREF" />  <!-- Condition -->
+//				<xsd:element maxOccurs="unbounded" minOccurs="0" name="elements"
+//					type="xsd:IDREF" />  <!-- URNmodelElement -->
+//			</xsd:sequence>
+//		</xsd:extension>
+//	</xsd:complexContent>
 //</xsd:complexType>
-
 
 public class ConcernMHandler extends URNmodelElementMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {

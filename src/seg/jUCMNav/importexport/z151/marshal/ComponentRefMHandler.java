@@ -21,6 +21,7 @@ package seg.jUCMNav.importexport.z151.marshal;
 //    </xsd:complexContent>
 //  </xsd:complexType>
 //Z151 has size, but not from jUCMNav
+
 import java.math.BigInteger;
 import java.util.List;
 

@@ -24,8 +24,6 @@ import seg.jUCMNav.importexport.z151.generated.Size;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-/*** Done! ***/
-
 public class GRLNodeMHandler extends GRLmodelElementMHandler {
 
 	@Override

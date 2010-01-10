@@ -1,14 +1,15 @@
 package seg.jUCMNav.importexport.z151.unmarshal;
 
-//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-//  <!--  OutBinding  -->
-//  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-//  <xsd:complexType name="OutBinding">
-//    <xsd:sequence>
-//      <xsd:element name="endPoint" type="xsd:IDREF"/> <!-- EndPoint -->
-//      <xsd:element name="stubExit" type="xsd:IDREF"/> <!-- NodeConnection -->
-//    </xsd:sequence>
-//  </xsd:complexType>
+//<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//<!--  OutBinding  -->
+//<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+//<xsd:complexType name="OutBinding">
+//	<xsd:sequence>
+//		<xsd:element name="id" type="xsd:ID" /> <!-- ADDED because OutBinding is not a URNmodelElement (no ID) -->
+//		<xsd:element name="endPoint" type="xsd:IDREF" /> <!-- EndPoint -->
+//		<xsd:element name="stubExit" type="xsd:IDREF" /> <!-- NodeConnection -->
+//	</xsd:sequence>
+//</xsd:complexType>
 
 import seg.jUCMNav.importexport.z151.generated.EndPoint;
 import seg.jUCMNav.importexport.z151.generated.NodeConnection;

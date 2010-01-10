@@ -12,8 +12,6 @@ import seg.jUCMNav.importexport.z151.generated.Metadata;
 //  </xsd:sequence>
 //</xsd:complexType>
 
-/*** Done! ***/
-
 public class MetadataMHandler extends MHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		urncore.Metadata md = (urncore.Metadata) o;

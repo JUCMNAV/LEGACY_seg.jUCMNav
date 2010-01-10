@@ -16,8 +16,6 @@ import seg.jUCMNav.importexport.z151.generated.IntentionalElementRef;
 //</xsd:complexContent>
 //</xsd:complexType>
 
-/*** Done! ***/
-
 public class IntentionalElementRefMHandler extends GRLNodeMHandler {
 	public Object handle(Object o, Object target, boolean isFullConstruction) {
 		grl.IntentionalElementRef elem = (grl.IntentionalElementRef) o;

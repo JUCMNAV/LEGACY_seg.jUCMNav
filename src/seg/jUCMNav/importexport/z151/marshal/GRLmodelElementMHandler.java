@@ -11,8 +11,6 @@ import seg.jUCMNav.importexport.z151.generated.GRLmodelElement;
 //  </xsd:complexContent>
 //</xsd:complexType>
 
-/***Done!***/
-
 public class GRLmodelElementMHandler extends URNmodelElementMHandler{
 	@Override
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
