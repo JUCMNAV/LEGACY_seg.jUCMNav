@@ -66,17 +66,4 @@ public class LinkRefMHandler extends MHandler {
 		}
 		return elemZ;
 	}
-	public int hashCode(Object obj){
-		int hash = 7;
-		if (null!=obj){
-			urncore.IURNConnection elem = (urncore.IURNConnection) obj;
-			hash = 31 * hash + ((urncore.IURNNode) elem.getSource()).getX();
-			hash = 31 * hash + ((urncore.IURNNode) elem.getSource()).getY();
-			hash = 31 * hash + ((urncore.IURNNode) elem.getTarget()).getX();
-			hash = 31 * hash + ((urncore.IURNNode) elem.getTarget()).getY();
-		}else{
-			hash=0;
-		}
-		return hash;
-	}
 }
