@@ -63,11 +63,11 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
             angle -= Math.PI;
         while (angle < 0)
             angle += Math.PI;
-
+        
         int axis = 0;
         if ((angle >= 0 && angle <= Math.PI / 4) || (angle >= 0.75 * Math.PI && angle <= Math.PI))
             axis = 2; // vertical fork. look Y axis only.
-        else
+        else 
             axis = 1; // horizontal fork. look X axis only.
 
         // the rotated line.
@@ -87,19 +87,21 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
 
                 // put closest first
                 Collections.sort(v, new PathNodeDistanceComparator(new Point(pn.getX(), pn.getY()), axis));
+                //Collections.reverse(v);
 
                 // assign positions to closest until target
-                // for (int i = 0; i <= v.indexOf(nc.getTarget()); i++) {
-                // PathNode element = (PathNode) v.get(i);
-                // minPoint = getClosestPoint(list, new Point(element.getX(), element.getY()),axis);
-                // if (i != v.indexOf(nc.getTarget()))
-                // list.removePoint(minPoint);
-                // }
-
+                for (int i = 0; i <= v.indexOf(nc.getTarget()); i++) {
+                    PathNode element = (PathNode) v.get(i);
+                    minPoint = getClosestPoint(list, new Point(element.getX(), element.getY()), axis);
+                    if (i != v.indexOf(nc.getTarget()))
+                        list.removePoint(minPoint);
+                }
+                /*
                 if (axis != 1)
-                    minPoint = v.indexOf(nc.getTarget()) + 1;
+                    minPoint = v.indexOf(nc.getTarget()) + 1; // +1 to point to second point instead of first. 
                 else
-                    minPoint = v.size() - (v.indexOf(nc.getTarget()) + 1);
+                    minPoint = v.size() - (v.indexOf(nc.getTarget()) + 1) + 1; // +1 for second-to-last (size() +2 positions)
+                    */ 
 
             }
         } else if (pn instanceof AndJoin) { // ugly almost duplicated code.
@@ -114,19 +116,21 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
 
                 // put furthest first
                 Collections.sort(v, new PathNodeDistanceComparator(new Point(pn.getX(), pn.getY()), axis));
-
+                //Collections.reverse(v);
+                
                 // assign positions to closests until source
-                // for (int i = 0; i <= v.indexOf(nc.getSource()); i++) {
-                // PathNode element = (PathNode) v.get(i);
-                // minPoint = getClosestPoint(list, new Point(element.getX(), element.getY()),axis);
-                // if (i != v.indexOf(nc.getSource()))
-                // list.removePoint(minPoint);
-                // }
-
+                for (int i = 0; i <= v.indexOf(nc.getSource()); i++) {
+                    PathNode element = (PathNode) v.get(i);
+                    minPoint = getClosestPoint(list, new Point(element.getX(), element.getY()), axis);
+                    if (i != v.indexOf(nc.getSource()))
+                        list.removePoint(minPoint);
+                }
+                /*
                 if (axis != 1)
-                    minPoint = v.indexOf(nc.getSource()) + 1;
-                else
-                    minPoint = v.size() - (v.indexOf(nc.getSource()) + 1);
+                    minPoint = v.indexOf(nc.getSource()) + 1; // +1 to point to second point instead of first.
+                else 
+                    minPoint = v.size() - (v.indexOf(nc.getSource()) + 1) + 1; // +1 for second-to-last (size() +2 positions)
+                */ 
             }
         }
 
@@ -154,6 +158,7 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
         for (int index = 1; index < list.size() - 1; index++) {
             Point global = getGlobalPoint(list, figure, index);
             fromPoint = fromPoint.getCopy(); // clone
+            /*
             if (axis == 1) { // ignore y axis
                 fromPoint.y = 0;
                 global.y = 0;
@@ -161,7 +166,7 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
             {
                 fromPoint.x = 0;
                 global.x = 0;
-            }
+            }*/
             double dist = global.getDistance(new Point(fromPoint.x, fromPoint.y));
             if (dist < minDist) {
                 minDist = dist;

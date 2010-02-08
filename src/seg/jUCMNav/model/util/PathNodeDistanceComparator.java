@@ -61,9 +61,9 @@ public class PathNodeDistanceComparator implements Comparator, Serializable {
         Point p2 = new Point(pn2.getX(), pn2.getY());
 
         if (axis == 1)
-            return (from.x - p1.x) - (from.x - p2.x);
+            return Math.abs((from.x - p1.x) - (from.x - p2.x));
         else if (axis == 2)
-            return (from.y - p1.y) - (from.y - p2.y);
+            return Math.abs((from.y - p1.y) - (from.y - p2.y));
         else
             return Math.round((float) from.getDistance(p1) - (float) from.getDistance(p2));
 
