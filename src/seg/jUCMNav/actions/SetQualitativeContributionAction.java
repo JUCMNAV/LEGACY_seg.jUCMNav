@@ -24,8 +24,8 @@ public class SetQualitativeContributionAction extends URNSelectionAction {
     public static final String SET_QUALITATIVE_CONTRIBUTION = "seg.jUCMNav.SET_QUALITATIVE_CONTRIBUTION"; //$NON-NLS-1$
     private Vector linkRefs;
     private int id;
-    private static String[] values = { "Make", "Help", "Some Positive", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        "Unknown", "Some Negative", "Hurt", "Break", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+    private static String[] values = { "Make", "Some Positive", "Help", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        "Unknown", "Hurt", "Some Negative", "Break", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         Messages.getString("SetEvaluation.Increase") + "   (y)", //$NON-NLS-1$ //$NON-NLS-2$ 
         Messages.getString("SetEvaluation.Decrease") + "   (u)" }; //$NON-NLS-1$ //$NON-NLS-2$ 
 
