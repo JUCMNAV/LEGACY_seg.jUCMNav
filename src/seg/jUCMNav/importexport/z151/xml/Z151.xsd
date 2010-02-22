@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 	<!--
 		== XML Schema for the User Requirements Notation (ITU-T Rec. Z.151) ==
-		Version: 20080903
+		Version: 20100109
 	-->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	attributeFormDefault="unqualified" elementFormDefault="qualified">
