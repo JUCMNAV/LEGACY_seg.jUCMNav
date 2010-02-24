@@ -203,7 +203,7 @@ public class MultiPageTabManager {
         } else {
             e = (URNDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(((GrlEditor) editor.getCurrentPage()).getModel());
         }
-        // I don't know why we flush() but etremblay did it in his code
+        // If we don't flush, paint buffer not displayed on screen
         editor.getCurrentPage().getGraphicalViewer().flush();
 
         // select the background map

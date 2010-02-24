@@ -46,6 +46,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     private Map editpartregistry;
     private UCMmap pathgraph;
     private Notifier target;
+    private boolean isDuringRoute=false;
 
     /**
      * 
@@ -288,6 +289,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * Refresh all the connections; simply marks them as dirty in the connections HashMap.
      */
     public void refreshConnections() {
+        if (isDuringRoute) return; // can cause infinite loops. 
         connections = new HashMap(getPathgraph().getNodes().size());
         for (Iterator iter = getPathgraph().getConnections().iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
@@ -405,7 +407,9 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             return;
         }
         if (connections.get(spline.getLink()).equals(Boolean.FALSE)) {
+            isDuringRoute=true;
             drawSpline(spline);
+            isDuringRoute=false;
         }
     }
 
