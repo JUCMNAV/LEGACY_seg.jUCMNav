@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.EList;
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.URNReport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.map.ComponentRef;
@@ -54,6 +55,7 @@ import urncore.URNmodelElement;
  * 
  * @author pchen
  * @author amiga
+ * @author damyot
  * 
  */
 public class HTMLReport extends URNReport {
@@ -92,11 +94,11 @@ public class HTMLReport extends URNReport {
                 createIndexPages(htmlPath);
             }
 
-            // prepare the html menu item
+            // prepare the HTML menu item
             HTMLMenuItem htmlMenuItem = new HTMLMenuItem();
             htmlMenuItem.reset();
 
-            htmlMenuItem.setDiagramName(diagramName);
+            htmlMenuItem.setDiagramName(EscapeUtils.escapeHTML(diagramName));
             if (diagram instanceof GRLGraph) {
                 htmlMenuItem.setType(HTMLMenuItem.TYPE_GRL);
             } else {
@@ -108,7 +110,7 @@ public class HTMLReport extends URNReport {
             htmlMenuItem.setBaseY(-pane.getBounds().y);
             htmlMenuItem.setDiagram(diagram);
 
-            // export the html or this diagram
+            // export the HTML or this diagram
             export(diagram, htmlPath);
 
             // create the XML menu content
@@ -138,7 +140,7 @@ public class HTMLReport extends URNReport {
     // }
 
     /**
-     * Create index html pages used in exporting UCM/GRL maps to html pages.
+     * Create index HTML pages used in exporting UCM/GRL maps to html pages.
      * 
      * @param htmlPath
      *            the export directory
@@ -288,7 +290,7 @@ public class HTMLReport extends URNReport {
      * 
      * @param htmlPath
      *            the root target directory
-     * @return the path of exported html file
+     * @return the path of exported HTML file
      */
     private String createImgPath(String htmlPath, String diagramName) {
         String imgFilePath = ""; //$NON-NLS-1$
@@ -379,10 +381,10 @@ public class HTMLReport extends URNReport {
                 int left = 30;
 
                 sb
-                        .append("<div align=\"left\" style=\"top:" + top + "px; left:" + left + "px;\"><font size=\"+2\">" + diagramName.substring(diagramName.lastIndexOf("-") + 1) + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                        .append("<div align=\"left\" style=\"top:" + top + "px; left:" + left + "px;\"><font size=\"+2\">" + EscapeUtils.escapeHTML(diagramName.substring(diagramName.lastIndexOf("-") + 1)) + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                                 "</font><font size=\"+1\"><i>"
                                 + MapType(diagram)
-                                + "</i></font><br/><img src=\"img/" + diagramName + ".gif\" border=\"0\" style=\"top:" + top + "px; left:0px;\" usemap=\"#tooltips\" />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                                + "</i></font></br><img src=\"img/" + diagramName + ".gif\" border=\"0\" style=\"top:" + top + "px; left:0px;\" usemap=\"#tooltips\" />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 sb.append("<script language=\"JavaScript\">\n"); //$NON-NLS-1$
                 sb.append("<!--\n"); //$NON-NLS-1$
 
@@ -416,7 +418,7 @@ public class HTMLReport extends URNReport {
                                     // get plugin diagram file name
                                     String pluginDiagramName = ExportWizard.getDiagramName(childMap);
 
-                                    sb.append("[map('" + pluginDiagramName.substring(pluginDiagramName.lastIndexOf("-") + 1) + //$NON-NLS-1$ //$NON-NLS-2$
+                                    sb.append("[map('" + EscapeUtils.escapeHTML(pluginDiagramName.substring(pluginDiagramName.lastIndexOf("-") + 1)) + //$NON-NLS-1$ //$NON-NLS-2$
                                             "'), '" + pluginDiagramName + ".html', [thumbnails('" + pluginDiagramName + ".gif')]]\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
                                     if (bindIter.hasNext()) {
@@ -468,7 +470,7 @@ public class HTMLReport extends URNReport {
                 }
                 // end while
 
-                sb.append("//-->\n"); //$NON-NLS-1$
+                sb.append("-->\n"); //$NON-NLS-1$
                 sb.append("</script>\n"); //$NON-NLS-1$
             } else {
                 // System.out.println("No nodes existing.");
@@ -503,17 +505,17 @@ public class HTMLReport extends URNReport {
                         RespRef respRef = (RespRef) specNode;
                         Responsibility responsibility = respRef.getRespDef();
                         sb.append("<area shape=\"rect\" coords=\"" + (respRef.getX() - width / 2) + ", " + (respRef.getY() - height / 2) + ", "
-                                + (respRef.getX() + width / 2) + ", " + (respRef.getY() + height / 2) + "\" " + "title=\"" + responsibility.getName() + ": "
-                                + notNull(responsibility.getDescription()) + "\">\n");
+                                + (respRef.getX() + width / 2) + ", " + (respRef.getY() + height / 2) + "\" " + "title=\"" + EscapeUtils.escapeHTML(responsibility.getName()) + ": "
+                                + EscapeUtils.escapeHTML(notNull(responsibility.getDescription())) + "\">\n");
                     } else if (specNode instanceof StartPoint) {
                         StartPoint startPoint = (StartPoint) specNode;
                         sb.append("<area shape=\"circle\" coords=\"" + startPoint.getX() + ", " + startPoint.getY() + ", 10\" " + "title=\""
-                                + startPoint.getName() + ": " + notNull(startPoint.getDescription()) + "\">\n");
+                                + EscapeUtils.escapeHTML(startPoint.getName()) + ": " + EscapeUtils.escapeHTML(notNull(startPoint.getDescription())) + "\">\n");
                     } else if (specNode instanceof EndPoint) {
                         EndPoint endPoint = (EndPoint) specNode;
                         sb.append("<area shape=\"rect\" coords=\"" + (endPoint.getX() - width / 2) + ", " + (endPoint.getY() - height / 2) + ", "
-                                + (endPoint.getX() + width / 2) + ", " + (endPoint.getY() + height / 2) + "\" " + "title=\"" + endPoint.getName() + ": "
-                                + notNull(endPoint.getDescription()) + "\">\n");
+                                + (endPoint.getX() + width / 2) + ", " + (endPoint.getY() + height / 2) + "\" " + "title=\"" + EscapeUtils.escapeHTML(endPoint.getName()) + ": "
+                                + EscapeUtils.escapeHTML(notNull(endPoint.getDescription())) + "\">\n");
                     }
 
                 }
@@ -570,8 +572,8 @@ public class HTMLReport extends URNReport {
             IURNNode specNode = (IURNNode) iter.next();
             if (specNode instanceof RespRef) {
                 Responsibility responsibility = ((RespRef) specNode).getRespDef();
-                sb.append("<tr><td>" + responsibility.getName() + "</td><td>" + notNull(responsibility.getDescription()) + "&nbsp;</td><td>"
-                        + notNull(responsibility.getExpression()).replace("\r\n", "<br/>") + "&nbsp;</td>\n");
+                sb.append("<tr><td>" + EscapeUtils.escapeHTML(responsibility.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(responsibility.getDescription())) + "&nbsp;</td><td>"
+                        + EscapeUtils.escapeHTML(notNull(responsibility.getExpression())).replace("\r\n", "<br></br>") + "&nbsp;</td>\n");
                 InsertMetadataInTable(responsibility.getMetadata(), sb);
                 InsertURNLinks(responsibility.getToLinks(), sb);
                 sb.append("</tr>\n");
@@ -587,9 +589,9 @@ public class HTMLReport extends URNReport {
             sb.append("<td>");
             for (Iterator iter = metadata.iterator(); iter.hasNext();) {
                 Metadata mdata = (Metadata) iter.next();
-                sb.append("\"" + mdata.getName() + "\" = \"" + mdata.getValue() + "\"&nbsp;");
+                sb.append("\"" + EscapeUtils.escapeHTML(mdata.getName()) + "\" = \"" + EscapeUtils.escapeHTML(mdata.getValue()) + "\"&nbsp;");
                 if (iter.hasNext())
-                    sb.append("<br/>");
+                    sb.append("<br></br>");
             }
             sb.append("&nbsp;</td>\n");
         }
@@ -604,10 +606,10 @@ public class HTMLReport extends URNReport {
                 URNlink link = (URNlink) iter.next();
                 if (link.getFromElem() instanceof IntentionalElement) {
                     IntentionalElement ie = (IntentionalElement) link.getFromElem();
-                    sb.append(ie.getName() + " (" + ie.getType().getName() + ")");
+                    sb.append(EscapeUtils.escapeHTML(ie.getName()) + " (" + EscapeUtils.escapeHTML(ie.getType().getName()) + ")");
                 }
                 if (iter.hasNext())
-                    sb.append("<br/>");
+                    sb.append("<br></br>");
             }
             sb.append("&nbsp;</td>\n");
         }
@@ -639,8 +641,8 @@ public class HTMLReport extends URNReport {
             if (specNode instanceof StartPoint) {
                 sp = (StartPoint) specNode;
                 if (ReportUtils.notEmpty(sp.getPrecondition().getLabel()) || !sp.getMetadata().isEmpty()) {
-                    sb.append("<tr><td>" + sp.getName() + "</td><td>[" + sp.getPrecondition().getLabel() + "] ==> "
-                            + notNull(sp.getPrecondition().getExpression()) + "&nbsp;</td>\n");
+                    sb.append("<tr><td>" + EscapeUtils.escapeHTML(sp.getName()) + "</td><td>[" + EscapeUtils.escapeHTML(sp.getPrecondition().getLabel()) + "] ==&gt; "
+                            + EscapeUtils.escapeHTML(notNull(sp.getPrecondition().getExpression())) + "&nbsp;</td>\n");
                     InsertMetadataInTable(sp.getMetadata(), sb);
                     sb.append("</tr>\n");
                 }
@@ -680,8 +682,8 @@ public class HTMLReport extends URNReport {
             if (specNode instanceof EndPoint) {
                 ep = (EndPoint) specNode;
                 if (hasEndPointData(ep)) {
-                    sb.append("<tr><td>" + ep.getName() + "</td><td>[" + ep.getPostcondition().getLabel() + "] ==> "
-                            + notNull(ep.getPostcondition().getExpression()) + "&nbsp;</td>");
+                    sb.append("<tr><td>" + EscapeUtils.escapeHTML(ep.getName()) + "</td><td>[" + EscapeUtils.escapeHTML(ep.getPostcondition().getLabel()) + "] ==&gt; "
+                            + EscapeUtils.escapeHTML(notNull(ep.getPostcondition().getExpression())) + "&nbsp;</td>");
                     InsertMetadataInTable(ep.getMetadata(), sb);
                     sb.append("</tr>\n");
                 }
@@ -743,9 +745,9 @@ public class HTMLReport extends URNReport {
                                 sb.append("<td>");
                                 firstCondition = false;
                             } else
-                                sb.append("<br/>");
+                                sb.append("<br></br>");
                         }
-                        sb.append("[" + orCondition.getLabel() + "] ==> " + notNull(orCondition.getExpression()) + "(" + nc.getProbability() + ")");
+                        sb.append("[" + EscapeUtils.escapeHTML(orCondition.getLabel()) + "] ==&gt; " + EscapeUtils.escapeHTML(notNull(orCondition.getExpression())) + "(" + nc.getProbability() + ")");
                     }
                 }
 
@@ -803,7 +805,7 @@ public class HTMLReport extends URNReport {
                 else
                     stub_type = "Static Stub - ";
 
-                sb.append("<h3>" + stub_type + stub.getName() + "</h3><hr/>\n");
+                sb.append("<h3>" + stub_type + EscapeUtils.escapeHTML(stub.getName()) + "</h3><hr></hr>\n");
 
                 for (Iterator bindings = stub.getBindings().iterator(); bindings.hasNext();) {
 
@@ -811,7 +813,7 @@ public class HTMLReport extends URNReport {
 
                     String pluginDiagramName = ExportWizard.getDiagramName(binding.getPlugin());
 
-                    sb.append("<h4><center><a href=\"" + pluginDiagramName + ".html\">" + "Plugin Map - " + binding.getPlugin().getName()
+                    sb.append("<h4><center><a href=\"" + pluginDiagramName + ".html\">" + "Plugin Map - " + EscapeUtils.escapeHTML(binding.getPlugin().getName())
                             + "</a></center></h4>\n");
                     sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
 
@@ -828,7 +830,7 @@ public class HTMLReport extends URNReport {
                             stubEntryIndex = stub.getSucc().indexOf(inBinding.getStubEntry()) + 1;
                         }
 
-                        inputBuffer.append("IN " + stubEntryIndex + " <-> " + inBinding.getStartPoint().getName() + "<br/>");
+                        inputBuffer.append("IN " + stubEntryIndex + " &lt;-&gt; " + EscapeUtils.escapeHTML(inBinding.getStartPoint().getName()) + "<br></br>");
 
                     }
 
@@ -838,7 +840,7 @@ public class HTMLReport extends URNReport {
                         int stubExitIndex = 0;
                         stubExitIndex = stub.getSucc().indexOf(outBinding.getStubExit()) + 1;
 
-                        outputBuffer.append("OUT " + stubExitIndex + " <-> " + outBinding.getEndPoint().getName() + "<br/>");
+                        outputBuffer.append("OUT " + stubExitIndex + " <-> " + EscapeUtils.escapeHTML(outBinding.getEndPoint().getName()) + "<br></br>");
 
                     }
 
@@ -856,15 +858,15 @@ public class HTMLReport extends URNReport {
                     sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
 
                     if (ReportUtils.notEmpty(binding.getPrecondition().getLabel())) {
-                        sb.append("<tr><td>Label: </td><td>" + binding.getPrecondition().getLabel() + "</td></tr>");
+                        sb.append("<tr><td>Label: </td><td>" + EscapeUtils.escapeHTML(binding.getPrecondition().getLabel()) + "</td></tr>");
                     }
 
                     if (ReportUtils.notEmpty(binding.getPrecondition().getExpression())) {
-                        sb.append("<tr><td>Expression: </td><td>" + binding.getPrecondition().getExpression() + "</td></tr>");
+                        sb.append("<tr><td>Expression: </td><td>" + EscapeUtils.escapeHTML(binding.getPrecondition().getExpression()) + "</td></tr>");
                     }
 
                     if (ReportUtils.notEmpty(binding.getPrecondition().getDescription())) {
-                        sb.append("<tr><td>Description: </td><td>" + binding.getPrecondition().getDescription() + "</td></tr>");
+                        sb.append("<tr><td>Description: </td><td>" + EscapeUtils.escapeHTML(binding.getPrecondition().getDescription()) + "</td></tr>");
                     }
 
                     sb.append("<tr><td>Transaction: </td><td>" + binding.isTransaction() + "</td></tr>");
@@ -891,7 +893,7 @@ public class HTMLReport extends URNReport {
 
         if (ReportUtils.notEmpty(((UCMmap) diagram).getDescription())) {
             sb.append("</div>\n<div>\n<h2>Map Description</h2>\n");
-            sb.append("&nbsp;&nbsp;&nbsp;" + ((UCMmap) diagram).getDescription());
+            sb.append("&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(((UCMmap) diagram).getDescription()));
         }
 
         EList urnLinks = ((UCMmap) diagram).getToLinks();
@@ -903,7 +905,7 @@ public class HTMLReport extends URNReport {
                 URNlink link = (URNlink) iter.next();
                 if (link.getFromElem() instanceof IntentionalElement) {
                     IntentionalElement ie = (IntentionalElement) link.getFromElem();
-                    sb.append("&nbsp;&nbsp;&nbsp;" + ie.getName() + " (" + ie.getType().getName() + ")<br/>");
+                    sb.append("&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(ie.getName()) + " (" + EscapeUtils.escapeHTML(ie.getType().getName()) + ")<br></br>");
                 }
             }
         }
@@ -914,7 +916,7 @@ public class HTMLReport extends URNReport {
     private void OutputGRLDiagramInfo(IURNDiagram diagram, StringBuffer sb) {
         if (ReportUtils.notEmpty(((GRLGraph) diagram).getDescription())) {
             sb.append("</div>\n<div>\n<h2>Diagram Description</h2>\n");
-            sb.append("&nbsp;&nbsp;&nbsp;" + ((GRLGraph) diagram).getDescription());
+            sb.append("&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(((GRLGraph) diagram).getDescription()) );
         }
 
         InsertMetadata(((GRLGraph) diagram).getMetadata(), sb);
@@ -928,7 +930,7 @@ public class HTMLReport extends URNReport {
 
         for (Iterator iter = metadata.iterator(); iter.hasNext();) {
             Metadata mdata = (Metadata) iter.next();
-            sb.append("&nbsp;&nbsp;&nbsp;\"" + mdata.getName() + "\" = \"" + mdata.getValue() + "\"<br/>");
+            sb.append("&nbsp;&nbsp;&nbsp;\"" + EscapeUtils.escapeHTML(mdata.getName()) + "\" = \"" + EscapeUtils.escapeHTML(mdata.getValue()) + "\"<br></br>");
         }
     }
 
@@ -957,7 +959,7 @@ public class HTMLReport extends URNReport {
             if (currentElement instanceof Belief) {
                 Belief currentBelief = (Belief) currentElement;
                 if (hasGRLBeliefData(currentBelief)) {
-                    sb.append("<tr><td>" + currentBelief.getName() + "</td><td>" + notNull(currentBelief.getDescription()) + "</td>");
+                    sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentBelief.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(currentBelief.getDescription())) + "</td>");
                     InsertMetadataInTable(currentBelief.getMetadata(), sb);
                     sb.append("</tr>\n");
                 }
@@ -999,7 +1001,7 @@ public class HTMLReport extends URNReport {
                 IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
 
                 if (hasGRLIntentionalElementData(ie)) {
-                    sb.append("<tr><td>" + ie.getName() + "</td><td>" + notNull(ie.getDescription()) + "</td>");
+                    sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(ie.getDescription())) + "</td>");
                     InsertMetadataInTable(ie.getMetadata(), sb);
                     sb.append("</tr>\n");
                 }
@@ -1047,8 +1049,8 @@ public class HTMLReport extends URNReport {
                     String elementType = link.getToElem().getClass().getName();
                     elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                    sb.append("<tr><td>" + ie.getName() + "<i>(from)</i></td><td>" + notNull(link.getType()) + "</td><td>(" + "<i> to </i>" + elementType
-                            + ") " + link.getToElem().getName() + "</td>");
+                    sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "<i>(from)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> to </i>" + elementType
+                            + ") " + EscapeUtils.escapeHTML(link.getToElem().getName()) + "</td>");
                     InsertMetadataInTable(link.getMetadata(), sb);
                     sb.append("</tr>\n");
                 }
@@ -1059,8 +1061,8 @@ public class HTMLReport extends URNReport {
                     String elementType = link.getFromElem().getClass().getName();
                     elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                    sb.append("<tr><td>" + ie.getName() + "<i>(to)</i></td><td>" + notNull(link.getType()) + "</td><td>(" + "<i> from </i>" + elementType
-                            + ") " + link.getFromElem().getName() + "</td>");
+                    sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "<i>(to)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> from </i>" + elementType
+                            + ") " + EscapeUtils.escapeHTML(link.getFromElem().getName()) + "</td>");
                     InsertMetadataInTable(link.getMetadata(), sb);
                     sb.append("</tr>\n");
                 }
@@ -1103,8 +1105,8 @@ public class HTMLReport extends URNReport {
                 String elementType = link.getToElem().getClass().getName();
                 elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                sb.append("<tr><td>" + currentActor.getName() + "<i>(from)</i></td><td>" + notNull(link.getType()) + "</td><td>(" + "<i> to </i>" + elementType
-                        + " ) " + link.getToElem().getName() + "</td>");
+                sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentActor.getName()) + "<i>(from)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> to </i>" + elementType
+                        + " ) " + EscapeUtils.escapeHTML(link.getToElem().getName()) + "</td>");
                 InsertMetadataInTable(link.getMetadata(), sb);
                 sb.append("</tr>\n");
             }
@@ -1115,8 +1117,8 @@ public class HTMLReport extends URNReport {
                 String elementType = link.getFromElem().getClass().getName();
                 elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                sb.append("<tr><td>" + currentActor.getName() + "<i>(to)</i></td><td>" + notNull(link.getType()) + "</td><td>(" + "<i> from </i>" + elementType
-                        + ") " + link.getFromElem().getName() + "</td>");
+                sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentActor.getName()) + "<i>(to)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> from </i>" + elementType
+                        + ") " + EscapeUtils.escapeHTML(link.getFromElem().getName()) + "</td>");
                 InsertMetadataInTable(link.getMetadata(), sb);
                 sb.append("</tr>\n");
             }
@@ -1158,8 +1160,8 @@ public class HTMLReport extends URNReport {
                 String elementType = link.getToElem().getClass().getName();
                 elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                sb.append("<tr><td>" + currentComponent.getName() + "<i>(From)</i></td><td>" + notNull(link.getType()) + "</td><td>(" + "<i> to </i>"
-                        + elementType + " ) " + link.getToElem().getName() + "</td>");
+                sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentComponent.getName()) + "<i>(From)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> to </i>"
+                        + elementType + " ) " + EscapeUtils.escapeHTML(link.getToElem().getName()) + "</td>");
                 InsertMetadataInTable(link.getMetadata(), sb);
                 sb.append("</tr>\n");
             }
@@ -1170,8 +1172,8 @@ public class HTMLReport extends URNReport {
                 String elementType = link.getFromElem().getClass().getName();
                 elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                sb.append("<tr><td>" + currentComponent.getName() + "<i>(To)</i></td><td>" + notNull(link.getType()) + "</td><td>(" + "<i> from </i>"
-                        + elementType + ") " + link.getFromElem().getName() + "</td>");
+                sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentComponent.getName()) + "<i>(To)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> from </i>"
+                        + elementType + ") " + EscapeUtils.escapeHTML(link.getFromElem().getName()) + "</td>");
                 InsertMetadataInTable(link.getMetadata(), sb);
                 sb.append("</tr>\n");
             }
@@ -1231,5 +1233,5 @@ public class HTMLReport extends URNReport {
         // TODO Auto-generated method stub
         return 0;
     }
-
 }
+
