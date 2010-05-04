@@ -29,6 +29,7 @@ import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
 import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
 import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urn.URNspec;
 
 /**
@@ -203,8 +204,17 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 // Set the name and description
                 contrib.setName(attrs.getValue("name")); //$NON-NLS-1$
                 contrib.setDescription(attrs.getValue("description")); //$NON-NLS-1$
-                // Set the contribution type
+                // Set the contribution type, qualitative and quantitative
                 contrib.setContribution(ContributionType.get(attrs.getValue("contributiontype"))); //$NON-NLS-1$
+                String quantitativeContrib=attrs.getValue("quantitativeContribution");  //$NON-NLS-1$
+                if (quantitativeContrib != null)
+                    contrib.setQuantitativeContribution(Integer.parseInt(quantitativeContrib));
+                else
+                {
+                    // Older .grl file, without quantitative contribution. 
+                    // Use mapping from qualitative contribution.
+                    LinkRefPropertySource.syncElementLinkQuantitativeContribution(contrib, contrib.getContribution());
+                }
                 // Set the correlation
                 if (attrs.getValue("correlation") == "true") { //$NON-NLS-1$ //$NON-NLS-2$
                     contrib.setCorrelation(true);

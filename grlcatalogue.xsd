@@ -48,6 +48,7 @@
 		 <xs:attribute name="srcid" type="xs:positiveInteger" use="required"/>
 		 <xs:attribute name="destid" type="xs:positiveInteger" use="required"/>
 		 <xs:attribute name="contributiontype" type="xs:string" use="required"/>
+		 <xs:attribute name="quantitativeContribution" type="xs:integer" use="optional"/> <!-- New. Optional for backward compatibility. -->
 		 <xs:attribute name="correlation" type="xs:boolean" use="required"/>
 		 <xs:attribute name="name" type="xs:string" use="required"/>
 		 <xs:attribute name="description" type="xs:string" use="required"/>

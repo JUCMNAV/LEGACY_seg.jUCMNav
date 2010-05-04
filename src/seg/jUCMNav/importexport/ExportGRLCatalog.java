@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import seg.jUCMNav.extensionpoints.IURNExport;
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import urn.URNspec;
 
 /**
@@ -82,8 +83,8 @@ public class ExportGRLCatalog implements IURNExport {
             write(SOT);
             write("intentional-element"); //$NON-NLS-1$
             writeAttribute("id", element.getId()); //$NON-NLS-1$
-            writeAttribute("name", element.getName()); //$NON-NLS-1$
-            writeAttribute("description", element.getDescription()); //$NON-NLS-1$
+            writeAttribute("name", EscapeUtils.escapeXML(element.getName())); //$NON-NLS-1$
+            writeAttribute("description", EscapeUtils.escapeXML(element.getDescription())); //$NON-NLS-1$
             writeAttribute("type", element.getType().getName()); //$NON-NLS-1$
             writeAttribute("decompositiontype", element.getDecompositionType().getName()); //$NON-NLS-1$
             write("/"); //$NON-NLS-1$
@@ -113,23 +114,24 @@ public class ExportGRLCatalog implements IURNExport {
             write(SOT);
             if (link instanceof Decomposition) {
                 write("decomposition"); //$NON-NLS-1$
-                writeAttribute("name", link.getName()); //$NON-NLS-1$
-                writeAttribute("description", link.getDescription()); //$NON-NLS-1$
+                writeAttribute("name", EscapeUtils.escapeXML(link.getName())); //$NON-NLS-1$
+                writeAttribute("description", EscapeUtils.escapeXML(link.getDescription())); //$NON-NLS-1$
                 writeAttribute("srcid", link.getSrc().getId()); //$NON-NLS-1$
                 writeAttribute("destid", link.getDest().getId()); //$NON-NLS-1$
             } else if (link instanceof Dependency) {
                 write("dependency"); //$NON-NLS-1$
-                writeAttribute("name", link.getName()); //$NON-NLS-1$
-                writeAttribute("description", link.getDescription()); //$NON-NLS-1$
-                writeAttribute("dependeeid", link.getDest().getId()); //$NON-NLS-1$
-                writeAttribute("dependerid", link.getSrc().getId()); //$NON-NLS-1$
+                writeAttribute("name", EscapeUtils.escapeXML(link.getName())); //$NON-NLS-1$
+                writeAttribute("description", EscapeUtils.escapeXML(link.getDescription())); //$NON-NLS-1$
+                writeAttribute("dependerid", link.getDest().getId()); //$NON-NLS-1$
+                writeAttribute("dependeeid", link.getSrc().getId()); //$NON-NLS-1$
             } else if (link instanceof Contribution) {
                 write("contribution"); //$NON-NLS-1$
-                writeAttribute("name", link.getName()); //$NON-NLS-1$
-                writeAttribute("description", link.getDescription()); //$NON-NLS-1$
+                writeAttribute("name", EscapeUtils.escapeXML(link.getName())); //$NON-NLS-1$
+                writeAttribute("description", EscapeUtils.escapeXML(link.getDescription())); //$NON-NLS-1$
                 writeAttribute("srcid", link.getSrc().getId()); //$NON-NLS-1$
                 writeAttribute("destid", link.getDest().getId()); //$NON-NLS-1$
                 writeAttribute("contributiontype", ((Contribution) link).getContribution().getName()); //$NON-NLS-1$
+                writeAttribute("quantitativeContribution", Integer.toString(((Contribution) link).getQuantitativeContribution()) ); //$NON-NLS-1$
                 if (((Contribution) link).isCorrelation()) {
                     writeAttribute("correlation", "true"); //$NON-NLS-1$ //$NON-NLS-2$
                 } else {
@@ -176,9 +178,9 @@ public class ExportGRLCatalog implements IURNExport {
         // Write the root tag
         write(SOT);
         write("grl-catalog"); //$NON-NLS-1$
-        writeAttribute("catalog-name", urn.getName()); //$NON-NLS-1$
-        writeAttribute("description", urn.getDescription()); //$NON-NLS-1$
-        writeAttribute("author", urn.getAuthor()); //$NON-NLS-1$
+        writeAttribute("catalog-name", EscapeUtils.escapeXML(urn.getName())); //$NON-NLS-1$
+        writeAttribute("description", EscapeUtils.escapeXML(urn.getDescription())); //$NON-NLS-1$
+        writeAttribute("author", EscapeUtils.escapeXML(urn.getAuthor())); //$NON-NLS-1$
         write(EOT);
     }
 

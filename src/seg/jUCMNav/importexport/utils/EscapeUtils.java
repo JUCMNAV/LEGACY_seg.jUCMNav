@@ -16,71 +16,81 @@ public class EscapeUtils {
      *       remaining ones are often tolerated by browsers. Could be extended in the future.
      */
     public static final String escapeHTML(String s) {
-        StringBuffer sb = new StringBuffer();
-        int n = s.length();
-        for (int i = 0; i < n; i++) {
-            char c = s.charAt(i);
-            if (c<'?') { // might be a special character to escape, otherwise escapes quickly
-                switch (c) {
-                case '<':
-                    sb.append("&lt;");
-                    break;
-                case '>':
-                    sb.append("&gt;");
-                    break;
-                case '&':
-                    sb.append("&amp;");
-                    break;
-                case '"':
-                    sb.append("&quot;");
-                    break;
-                case '\'':
-                    sb.append("&apos;");
-                    break;
-                default:
-                    sb.append(c);
-                    break;
+        if (s == null)
+            return "";
+        else
+        {
+            StringBuffer sb = new StringBuffer();
+            int n = s.length();
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                if (c<'?') { // might be a special character to escape, otherwise escapes quickly
+                    switch (c) {
+                    case '<':
+                        sb.append("&lt;");
+                        break;
+                    case '>':
+                        sb.append("&gt;");
+                        break;
+                    case '&':
+                        sb.append("&amp;");
+                        break;
+                    case '"':
+                        sb.append("&quot;");
+                        break;
+                    case '\'':
+                        sb.append("&apos;");
+                        break;
+                    default:
+                        sb.append(c);
+                        break;
+                    }
                 }
+                else
+                    sb.append(c);
             }
-            else
-                sb.append(c);
+            return sb.toString();
         }
-        return sb.toString();
     }
-    
+
     /**
      * Convert a String to a new String where the XML special characters have been escaped
      */
     public static final String escapeXML(String s) {
-        StringBuffer sb = new StringBuffer();
-        int n = s.length();
-        for (int i = 0; i < n; i++) {
-            char c = s.charAt(i);
-            if (c<'?') { // might be a special character to escape, otherwise escapes quickly
-                switch (c) {
-                case '<':
-                    sb.append("&lt;");
-                    break;
-                case '>':
-                    sb.append("&gt;");
-                    break;
-                case '&':
-                    sb.append("&amp;");
-                    break;
-                case '"':
-                    sb.append("&quot;");
-                    break;
-                case '\'':
-                    sb.append("&apos;");
-                    break;
-                default:
-                    sb.append(c);
-                    break;
+        if (s == null)
+            return "";
+        else
+        {
+            StringBuffer sb = new StringBuffer();
+            int n = s.length();
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                if (c<'?') { // might be a special character to escape, otherwise escapes quickly
+                    switch (c) {
+                    case '<':
+                        sb.append("&lt;");
+                        break;
+                    case '>':
+                        sb.append("&gt;");
+                        break;
+                    case '&':
+                        sb.append("&amp;");
+                        break;
+                    case '"':
+                        sb.append("&quot;");
+                        break;
+                    case '\'':
+                        sb.append("&apos;");
+                        break;
+                    default:
+                        sb.append(c);
+                        break;
+                    }
                 }
+                else
+                    sb.append(c);
             }
-            else
-                sb.append(c);
+            return sb.toString();
         }
-        return sb.toString();
     }
 }
