@@ -1,5 +1,7 @@
 package seg.jUCMNav.importexport;
 
+import grl.Actor;
+import grl.ActorRef;
 import grl.Contribution;
 import grl.ContributionType;
 import grl.Decomposition;
@@ -12,6 +14,7 @@ import grl.IntentionalElementType;
 
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -25,12 +28,15 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import seg.jUCMNav.extensionpoints.IURNImport;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
+import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
 import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
 import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urn.URNspec;
+import urncore.IURNContainerRef;
 
 /**
  * This class import a GRL catalog from an xml file
@@ -43,6 +49,8 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
     private URNspec urn;
     private GRLGraph graph;
     private HashMap map;
+    private int state;
+    private ArrayList idList;
 
     private Vector autolayoutDiagrams;
 
@@ -79,6 +87,8 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
         this.urn = (URNspec) EcoreUtil.copy(urn);
         this.map = new HashMap();
         this.autolayoutDiagrams = autolayoutDiagrams;
+        this.state = -1;
+        this.idList = new ArrayList();
         // Use the default parser
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setValidating(true);
@@ -113,6 +123,13 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             // Create a new GRLGraph in the urnspec
             CreateGrlGraphCommand graphCmd = new CreateGrlGraphCommand(urn);
 
+            if (state == -1)
+                state=0;
+            else
+            {
+                throw new SAXException("Could not create a GrlGraph"); //$NON-NLS-1$
+            }
+
             if (graphCmd.canExecute()) {
                 graph = graphCmd.getDiagram();
                 graphCmd.execute();
@@ -126,6 +143,10 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 throw new SAXException("Could not create a GrlGraph"); //$NON-NLS-1$
             }
         } else if ("intentional-element".equals(qName)) { //$NON-NLS-1$
+            if (state != 1)
+            {
+                throw new SAXException("<intentional-element> not at the right place..."); //$NON-NLS-1$
+            }
             // Create the intentional element
             IntentionalElementType type = IntentionalElementType.get(attrs.getValue("type")); //$NON-NLS-1$
             IntentionalElementRef ref = (IntentionalElementRef) ModelCreationFactory.getNewObject(urn, IntentionalElementRef.class, type.getValue());
@@ -151,6 +172,10 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 throw new SAXException("Could not create IntentionalElementRef " + attrs.getValue("name")); //$NON-NLS-1$ //$NON-NLS-2$
             }
         } else if ("dependency".equals(qName)) { //$NON-NLS-1$
+            if (state != 2)
+            {
+                throw new SAXException("<dependency> not at the right place..."); //$NON-NLS-1$
+            }
             // Create a dependency between the 2 elements
             IntentionalElement dependee = (IntentionalElement) map.get(attrs.getValue("dependeeid")); //$NON-NLS-1$
             IntentionalElement depender = (IntentionalElement) map.get(attrs.getValue("dependerid")); //$NON-NLS-1$
@@ -170,6 +195,10 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 throw new SAXException("Could not create Dependency"); //$NON-NLS-1$
             }
         } else if ("decomposition".equals(qName)) { //$NON-NLS-1$
+            if (state != 2)
+            {
+                throw new SAXException("<decomposition> not at the right place..."); //$NON-NLS-1$
+            }
             // Create a decomposition between the 2 elements
             IntentionalElement src = (IntentionalElement) map.get(attrs.getValue("srcid")); //$NON-NLS-1$
             IntentionalElement dest = (IntentionalElement) map.get(attrs.getValue("destid")); //$NON-NLS-1$
@@ -189,6 +218,10 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 throw new SAXException("Could not create Decomposition"); //$NON-NLS-1$
             }
         } else if ("contribution".equals(qName)) { //$NON-NLS-1$
+            if (state != 2)
+            {
+                throw new SAXException("<contribution> not at the right place..."); //$NON-NLS-1$
+            }
             // Create a contribution between the 2 elements
             IntentionalElement src = (IntentionalElement) map.get(attrs.getValue("srcid")); //$NON-NLS-1$
             IntentionalElement dest = (IntentionalElement) map.get(attrs.getValue("destid")); //$NON-NLS-1$
@@ -222,8 +255,91 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                     contrib.setCorrelation(false);
                 }
             } else {
-                throw new SAXException("Could not create Decomposition"); //$NON-NLS-1$
+                throw new SAXException("Could not create Contribution"); //$NON-NLS-1$
             }
+        } else if ("actor".equals(qName)) { //$NON-NLS-1$
+            if (state != 3)
+            {
+                throw new SAXException("<actorContIE> not at the right place..."); //$NON-NLS-1$
+            }
+
+            // Create the actor
+            ActorRef ref = (ActorRef) ModelCreationFactory.getNewObject(urn, ActorRef.class);
+
+            AddContainerRefCommand elementCmd = new AddContainerRefCommand(graph, ref);
+            if (elementCmd.canExecute()) {
+                elementCmd.execute();
+                // Set the definition properties defined in the catalog
+                Actor actor = (Actor)ref.getContDef();
+                actor.setDescription(attrs.getValue("description")); //$NON-NLS-1$
+
+                if (URNNamingHelper.isNameValid(actor, attrs.getValue("name")).equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
+                    actor.setName(attrs.getValue("name")); //$NON-NLS-1$
+                } else {
+                    actor.setName(attrs.getValue("name")); //$NON-NLS-1$
+                    URNNamingHelper.resolveNamingConflict(urn, actor);
+                }
+
+                // Add the new element in the hashmap for reference from links
+                map.put(attrs.getValue("id"), actor); //$NON-NLS-1$
+            } else {
+                throw new SAXException("Could not create ActorRef " + attrs.getValue("name")); //$NON-NLS-1$ //$NON-NLS-2$
+            }
+        } else if ("actorContIE".equals(qName)) { //$NON-NLS-1$
+            if (state != 4)
+            {
+                throw new SAXException("<actorContIE> not at the right place..."); //$NON-NLS-1$
+            }
+
+            // Create a containment link from between the actor reference and the IE reference
+            Actor actor = (Actor) map.get(attrs.getValue("actor")); //$NON-NLS-1$
+            IntentionalElement ie = (IntentionalElement) map.get(attrs.getValue("ie")); //$NON-NLS-1$         
+
+            if (actor == null || ie == null) {
+                throw new SAXException("Invalid actor or IE id in containment link"); //$NON-NLS-1$
+            }
+
+            if (!idList.contains(attrs.getValue("ie"))) {
+                ContainerRefBindChildCommand linkCmd = new ContainerRefBindChildCommand((IURNContainerRef)actor.getContRefs().get(0), (IntentionalElementRef)ie.getRefs().get(0));
+                idList.add(attrs.getValue("ie"));
+                if (linkCmd.canExecute()) {
+                    linkCmd.execute();
+                } else {
+                    throw new SAXException("Could not create containment link"); //$NON-NLS-1$
+                }
+            }
+            // Else: skip... element already bound!
+
+        } else if ("element-def".equals(qName)) { //$NON-NLS-1$
+            if (state == 0)
+                state=1;
+            else
+            {
+                throw new SAXException("<element-def> not at the right place..."); //$NON-NLS-1$
+            }
+        } else if ("link-def".equals(qName)) { //$NON-NLS-1$
+            if (state == 1)
+                state=2;
+            else
+            {
+                throw new SAXException("<link-def> not at the right place..."); //$NON-NLS-1$
+            }
+        } else if ("actor-def".equals(qName)) { //$NON-NLS-1$
+            if (state == 2)
+                state=3;
+            else
+            {
+                throw new SAXException("<actor-def> not at the right place..."); //$NON-NLS-1$
+            }
+        } else if ("actor-IE-link-def".equals(qName)) { //$NON-NLS-1$
+            if (state == 3)
+                state=4;
+            else
+            {
+                throw new SAXException("<actor-IE-link-def> not at the right place..."); //$NON-NLS-1$
+            }
+        } else {
+            throw new SAXException("Could not parse element:" + qName); //$NON-NLS-1$
         }
     }
 }

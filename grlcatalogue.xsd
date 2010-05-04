@@ -3,10 +3,10 @@
  <xs:element name="grl-catalog">
   <xs:complexType>
    <xs:sequence>
+    <!-- Intentional Elements Definitions -->
 	<xs:element name="element-def">
 	 <xs:complexType>
 	  <xs:sequence>
-	   <!-- Intentional Elements List -->
 	   <xs:element maxOccurs="unbounded" minOccurs="0" name="intentional-element">
 	    <xs:complexType>
 		 <xs:attribute name="id" type="xs:positiveInteger" use="required"/>
@@ -16,11 +16,11 @@
 		 <xs:attribute name="description" type="xs:string" use="required"/>
 		</xs:complexType>
 	   </xs:element>
-       <!-- End of Intentional Elements List -->
 	  </xs:sequence>
      </xs:complexType>
     </xs:element>
-    <!-- Links definitions -->
+    <!-- End of Intentional Elements Definitions -->
+    <!-- GRL Links Definitions -->
     <xs:element name="link-def">
 	 <xs:complexType>
 	  <xs:sequence>
@@ -57,7 +57,36 @@
 	  </xs:sequence>
 	 </xs:complexType>
 	</xs:element>
-	<!-- End of Links definitions -->
+	<!-- End of GRL Link Definitions -->
+    <!-- Actor Definitions -->
+	<xs:element name="actor-def">
+	 <xs:complexType>
+	  <xs:sequence>
+	   <xs:element maxOccurs="unbounded" minOccurs="0" name="actor">
+	    <xs:complexType>
+		 <xs:attribute name="id" type="xs:positiveInteger" use="required"/>
+		 <xs:attribute name="name" type="xs:string" use="required"/>
+		 <xs:attribute name="description" type="xs:string" use="required"/>
+		</xs:complexType>
+	   </xs:element>
+	  </xs:sequence>
+     </xs:complexType>
+    </xs:element>
+    <!-- End of Actor Definitions -->
+	<!-- Actor-IE Containment Links -->
+	<xs:element name="actor-IE-link-def">
+	 <xs:complexType>
+	  <xs:sequence>
+	   <xs:element maxOccurs="unbounded" minOccurs="0" name="actorContIE">
+	    <xs:complexType>
+		 <xs:attribute name="actor" type="xs:positiveInteger" use="required"/>
+		 <xs:attribute name="ie" type="xs:positiveInteger" use="required"/>
+		</xs:complexType>
+	   </xs:element>
+	  </xs:sequence>
+     </xs:complexType>
+    </xs:element>
+    <!-- End of Actor-IE Containment Links -->
    </xs:sequence>
    <!-- GRL catalogue attributes -->
    <xs:attribute name="catalog-name" type="xs:string" use="required"/>

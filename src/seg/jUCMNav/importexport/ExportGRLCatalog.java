@@ -1,10 +1,13 @@
 package seg.jUCMNav.importexport;
 
+import grl.Actor;
+import grl.ActorRef;
 import grl.Contribution;
 import grl.Decomposition;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.util.Iterator;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.importexport.utils.EscapeUtils;
 import urn.URNspec;
+import urncore.IURNNode;
 
 /**
  * This class export the URN model into a GRL catalog
@@ -53,6 +57,8 @@ public class ExportGRLCatalog implements IURNExport {
             writeHeader(urn);
             writeElementDefList(urn);
             writeLinkDefList(urn);
+            writeActorDefList(urn);
+            writeActorIElinkList(urn);
             writeFooter();
         } catch (Exception e) {
             throw new InvocationTargetException(e);
@@ -67,6 +73,7 @@ public class ExportGRLCatalog implements IURNExport {
             }
         }
     }
+
 
     private void writeElementDefList(URNspec urn) throws IOException {
         // Starting tag
@@ -96,7 +103,6 @@ public class ExportGRLCatalog implements IURNExport {
         write(SOT);
         write("/element-def"); //$NON-NLS-1$
         write(EOT);
-
     }
 
     private void writeLinkDefList(URNspec urn) throws IOException {
@@ -147,6 +153,73 @@ public class ExportGRLCatalog implements IURNExport {
         write(SOT);
         write("/link-def"); //$NON-NLS-1$
         write(EOT);
+    }
+
+    private void writeActorDefList(URNspec urn) throws IOException {
+        // Starting tag
+        write(TAB);
+        write(SOT);
+        write("actor-def"); //$NON-NLS-1$
+        write(EOT);
+
+        // Create an xml element for each of the actors
+        for (Iterator it = urn.getGrlspec().getActors().iterator(); it.hasNext();) {
+            Actor actor = (Actor) it.next();
+            write(TAB);
+            write(TAB);
+            write(SOT);
+            write("actor"); //$NON-NLS-1$
+            writeAttribute("id", actor.getId()); //$NON-NLS-1$
+            writeAttribute("name", EscapeUtils.escapeXML(actor.getName())); //$NON-NLS-1$
+            writeAttribute("description", EscapeUtils.escapeXML(actor.getDescription())); //$NON-NLS-1$
+            write("/"); //$NON-NLS-1$
+            write(EOT);
+        }
+
+        // End tag
+        write(TAB);
+        write(SOT);
+        write("/actor-def"); //$NON-NLS-1$
+        write(EOT);
+
+    }
+
+    private void writeActorIElinkList(URNspec urn) throws IOException {
+        // Starting tag
+        write(TAB);
+        write(SOT);
+        write("actor-IE-link-def"); //$NON-NLS-1$
+        write(EOT);
+
+        // Create an xml element for each of the actor-IE containment links
+        for (Iterator it = urn.getGrlspec().getActors().iterator(); it.hasNext();) {
+            Actor actor = (Actor) it.next();
+            for (Iterator itAct = actor.getContRefs().iterator(); itAct.hasNext();) {
+                ActorRef actorRef = (ActorRef) itAct.next();
+                for (Iterator itIEref = actorRef.getNodes().iterator(); itIEref.hasNext();) {
+                    IURNNode node = (IURNNode) itIEref.next();
+                    if (node instanceof IntentionalElementRef)
+                    {
+                        IntentionalElementRef ieRef = (IntentionalElementRef) node;
+                        write(TAB);
+                        write(TAB);
+                        write(SOT);
+                        write("actorContIE"); //$NON-NLS-1$
+                        writeAttribute("actor", actor.getId()); //$NON-NLS-1$
+                        writeAttribute("ie", ieRef.getDef().getId()); //$NON-NLS-1$
+                        write("/"); //$NON-NLS-1$
+                        write(EOT);
+                    }
+                }
+            }
+        }
+
+        // End tag
+        write(TAB);
+        write(SOT);
+        write("/actor-IE-link-def"); //$NON-NLS-1$
+        write(EOT);
+
     }
 
     /**

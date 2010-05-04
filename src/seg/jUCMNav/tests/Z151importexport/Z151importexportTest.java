@@ -46,7 +46,7 @@ public class Z151importexportTest extends TestCase {
 		String expected =  ResolveIds(readFileAsString(expectedPath));
 		String actual =  ResolveIds(readFileAsString(actualPath));
 		System.out.println(expected);
-		this.assertEquals(expected, actual);
+		assertEquals(expected, actual);
 		return true;
 	}
 	private urn.URNspec mockImport(String fileName) {
