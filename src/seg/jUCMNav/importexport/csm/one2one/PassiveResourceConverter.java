@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import ucm.performance.PassiveResource;
 
 /**
@@ -23,13 +24,13 @@ public class PassiveResourceConverter implements AbstractConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
         String id = "id=\"" + "p" + passiveRes.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        String name = "name=\"" + passiveRes.getName() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String name = "name=\"" + EscapeUtils.escapeXML(passiveRes.getName()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String description;
         String multiplicity;
         String schedPolicy;
 
         if (passiveRes.getDescription() != null) {
-            description = "description=\"" + passiveRes.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+            description = "description=\"" + EscapeUtils.escapeXML(passiveRes.getDescription()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else
             description = ""; //$NON-NLS-1$
 
@@ -40,7 +41,7 @@ public class PassiveResourceConverter implements AbstractConverter {
         }
 
         if (passiveRes.getSchedPolicy() != null) {
-            schedPolicy = "schedPolicy=\"" + passiveRes.getSchedPolicy() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+            schedPolicy = "schedPolicy=\"" + EscapeUtils.escapeXML(passiveRes.getSchedPolicy()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
             schedPolicy = ""; //$NON-NLS-1$
         }

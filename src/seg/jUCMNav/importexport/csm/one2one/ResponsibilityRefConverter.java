@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import ucm.map.RespRef;
 import ucm.performance.Demand;
 
@@ -26,7 +27,7 @@ public class ResponsibilityRefConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String mandatory_attribute = "<Step id=\"h" + respRef.getId() + "\" " + "name=\"" + respRef.getRespDef().getName() + "\" " + "predecessor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        String mandatory_attribute = "<Step id=\"h" + respRef.getId() + "\" " + "name=\"" + EscapeUtils.escapeXML(respRef.getRespDef().getName()) + "\" " + "predecessor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 + source.toString().subSequence(1, (source.toString().length() - 1)) + "\" " + "successor=\"" //$NON-NLS-1$ //$NON-NLS-2$
                 + target.toString().subSequence(1, (target.toString().length() - 1)) + "\" "; //$NON-NLS-1$
         ps.print("            " + mandatory_attribute); //$NON-NLS-1$

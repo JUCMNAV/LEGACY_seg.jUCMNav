@@ -3,6 +3,7 @@ package seg.jUCMNav.importexport.csm.one2one;
 import java.io.PrintStream;
 import java.util.Iterator;
 
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import ucm.map.ComponentRef;
 import ucm.performance.ProcessingResource;
 import urncore.Component;
@@ -99,7 +100,7 @@ public class ComponentRefConverter {
 
         // object attributes --- host attribute to be implemanteds
         String id = ((Component) compRef.getContDef()).getId();
-        String name = ((Component) compRef.getContDef()).getName();
+        String name = EscapeUtils.escapeXML(((Component) compRef.getContDef()).getName());
         String comp_attributes = "<Component id=\"" + "c" + id + "\" " + "name=\"" + name + "\" " + comp_host + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
         String traceabilityLink = "traceabilityLink=\"" + compRef.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String close = "/>"; //$NON-NLS-1$

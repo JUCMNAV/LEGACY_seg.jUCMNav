@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import ucm.performance.ProcessingResource;
 
 /**
@@ -22,14 +23,14 @@ public class ProcessingResourceConverter implements AbstractConverter {
     // prints XML representation of object to output file -- implement this!!
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
         String id = "id=\"" + "r" + processingRes.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        String name = "name=\"" + processingRes.getName() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String name = "name=\"" + EscapeUtils.escapeXML(processingRes.getName()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String description;
         String opTime = "opTime=\"" + processingRes.getOpTime() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String multiplicity;
         String schedPolicy;
 
         if (processingRes.getDescription() != null) {
-            description = "description=\"" + processingRes.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+            description = "description=\"" + EscapeUtils.escapeXML(processingRes.getDescription()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else
             description = ""; //$NON-NLS-1$
 
@@ -40,7 +41,7 @@ public class ProcessingResourceConverter implements AbstractConverter {
         }
 
         if (processingRes.getSchedPolicy() != null) {
-            schedPolicy = "schedPolicy=\"" + processingRes.getSchedPolicy() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+            schedPolicy = "schedPolicy=\"" + EscapeUtils.escapeXML(processingRes.getSchedPolicy()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
             schedPolicy = ""; //$NON-NLS-1$
         }

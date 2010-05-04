@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import ucm.performance.ExternalOperation;
 
 /**
@@ -22,14 +23,14 @@ public class ExternalOperationConverter implements AbstractConverter {
     // prints XML representation of object to output file -- implement this!!
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
         String id = "id=\"" + "e" + externalOpn.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        String name = "name=\"" + externalOpn.getName() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String name = "name=\"" + EscapeUtils.escapeXML(externalOpn.getName()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String description;
         String opTime = "opTime=\"" + externalOpn.getOpTime() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String multiplicity;
         String schedPolicy;
 
         if (externalOpn.getDescription() != null) {
-            description = "description=\"" + externalOpn.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+            description = "description=\"" + EscapeUtils.escapeXML(externalOpn.getDescription()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else
             description = ""; //$NON-NLS-1$
 
@@ -40,7 +41,7 @@ public class ExternalOperationConverter implements AbstractConverter {
         }
 
         if (externalOpn.getSchedPolicy() != null) {
-            schedPolicy = "schedPolicy=\"" + externalOpn.getSchedPolicy() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+            schedPolicy = "schedPolicy=\"" + EscapeUtils.escapeXML(externalOpn.getSchedPolicy()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
             schedPolicy = ""; //$NON-NLS-1$
         }

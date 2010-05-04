@@ -53,6 +53,7 @@ import seg.jUCMNav.importexport.csm.one2one.ExternalOperationConverter;
 import seg.jUCMNav.importexport.csm.one2one.PassiveResourceConverter;
 import seg.jUCMNav.importexport.csm.one2one.PluginBindingConverter;
 import seg.jUCMNav.importexport.csm.one2one.ProcessingResourceConverter;
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
@@ -133,8 +134,8 @@ public class ExportCSM implements IURNExport {
         String CSM_header = "<CSM:CSMType " //$NON-NLS-1$
                 + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " //$NON-NLS-1$
                 + "xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" " //$NON-NLS-1$
-                + "name=\"" + urn.getName() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
-                + "description=\"" + ((urn.getDescription() == null) ? "" : urn.getDescription()) + "\" " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                + "name=\"" + EscapeUtils.escapeXML(urn.getName()) + "\" " //$NON-NLS-1$ //$NON-NLS-2$
+                + "description=\"" + ((urn.getDescription() == null) ? "" : EscapeUtils.escapeXML(urn.getDescription())) + "\" " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 + "author=\"" + urn.getAuthor() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
                 + "created=\"" + convertUcmDateToCsmDate(urn.getCreated()) + "\" " //$NON-NLS-1$ //$NON-NLS-2$
                 + "version=\"" + urn.getSpecVersion() + "\">"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -200,7 +201,7 @@ public class ExportCSM implements IURNExport {
      * @param pluginBinding
      *            CURRENTLY UNUSED
      * @param warnings
-     *            to advertise exportation problems
+     *            to advertise export problems
      */
     private void exportMap(UCMmap ucmMap, PrintStream ps, PluginBinding pluginBinding, Vector warnings) {
         String probability;
@@ -220,7 +221,7 @@ public class ExportCSM implements IURNExport {
         }
 
         // prepare header
-        String open_scenario_tag = "<Scenario " + "id=\"m" + ucmMap.getId() + name_extension + "\" " + "name=\"" + ucmMap.getName() + "\" " + "traceabilityLink=\"" + ucmMap.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+        String open_scenario_tag = "<Scenario " + "id=\"m" + ucmMap.getId() + name_extension + "\" " + "name=\"" + EscapeUtils.escapeXML(ucmMap.getName()) + "\" " + "traceabilityLink=\"" + ucmMap.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
         String close_attributes = ">"; //$NON-NLS-1$
 
         // prepare footer
@@ -231,7 +232,7 @@ public class ExportCSM implements IURNExport {
 
         // optional attributes
         if (ucmMap.getDescription() != null) {
-            String descr_attribute = "description=\"" + ucmMap.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+            String descr_attribute = "description=\"" + EscapeUtils.escapeXML(ucmMap.getDescription()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
             ps.print(descr_attribute);
         }
 
@@ -332,7 +333,7 @@ public class ExportCSM implements IURNExport {
                 }
                 steps = steps.trim();
 
-                String scenario_head = "<Scenario id=\"" + fake_stubId + "\" name=\"" + ucmMap.getName() + "_" + stub.getName() + "\" >"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                String scenario_head = "<Scenario id=\"" + fake_stubId + "\" name=\"" + EscapeUtils.escapeXML(ucmMap.getName()) + "_" + EscapeUtils.escapeXML(stub.getName()) + "\" >"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 ps.println(oneTab + scenario_head);
 
                 /*
@@ -360,7 +361,7 @@ public class ExportCSM implements IURNExport {
                 ps.println(twoTab + branch);
 
                 /*
-                 * identifying the sucessors (merge)
+                 * identifying the successors (merge)
                  */
                 String targetId = ""; //$NON-NLS-1$
                 if (stub.getBindings().size() != 0) {
@@ -374,7 +375,7 @@ public class ExportCSM implements IURNExport {
                     for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
                         PluginBinding binding = (PluginBinding) iter.next();
                         PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
-                        String step = "<Step id=\"" + fake_stubId + "_step_" + j + "\" " + "name=\"" + binding.getPlugin().getName() + "\" " + "predecessor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                        String step = "<Step id=\"" + fake_stubId + "_step_" + j + "\" " + "name=\"" + EscapeUtils.escapeXML(binding.getPlugin().getName()) + "\" " + "predecessor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
                                 + fake_stubId + "_branch\" " + "successor=\"" + targetId + "\" " + "probability=\"" + binding.getProbability() + "\" " + ">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
                         ps.println(twoTab + step);
 
@@ -424,7 +425,7 @@ public class ExportCSM implements IURNExport {
     }
 
     /**
-     * Sorting of CSMDupNodeList is totally optionnal, yet greatly appreciated by humans attempting to comprehend the XML generated document.
+     * Sorting of CSMDupNodeList is totally optional, yet greatly appreciated by humans attempting to comprehend the XML generated document.
      * 
      * @param connList
      *            used to visit the nodes
@@ -481,7 +482,7 @@ public class ExportCSM implements IURNExport {
     }
 
     /**
-     * Sorting of CSMDupConnectionList is totally optionnal, yet greatly appreciated by humans attempting to comprehend the XML generated document.
+     * Sorting of CSMDupConnectionList is totally optional, yet greatly appreciated by humans attempting to comprehend the XML generated document.
      * 
      * @param connList
      */
@@ -743,7 +744,7 @@ public class ExportCSM implements IURNExport {
         return targets;
     } // method
 
-    // Adds a Dummy responsability in between 2 steps
+    // Adds a Dummy responsibility in between 2 steps
     private void addDummy(CSMDupNodeList node_list, CSMDupConnectionList conn_list, Vector warnings) {
         boolean work_to_do = true;
 
@@ -801,7 +802,7 @@ public class ExportCSM implements IURNExport {
                     } else if (conn_list.existsConnectionForSource(target)) {
                         CSMDupConnection next_conn = conn_list.getConnectionForSource(target);
                         CSMDupNode next_target = next_conn.getCSMTarget();
-                        // preceeding node is a Step
+                        // Preceding node is a Step
                         if ((source.isPathNode() && ((source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB)))
                                 || ((source.getType() == CSMDupNode.RR) || (source.getType() == CSMDupNode.RA)) || (source.getType() == CSMDupNode.CSMSTEP)) {
                             // next node is a fake EndPoint
@@ -920,7 +921,7 @@ public class ExportCSM implements IURNExport {
      * @param curr_conn
      *            the Dummy Step will be inserted in place of this connection
      * @param source
-     *            node preceeding the Dummy Step
+     *            node preceding the Dummy Step
      * @param target
      *            node following the Dummy Step
      */

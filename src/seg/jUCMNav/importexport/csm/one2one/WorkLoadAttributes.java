@@ -2,6 +2,7 @@ package seg.jUCMNav.importexport.csm.one2one;
 
 import java.io.PrintStream;
 
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import ucm.performance.ArrivalProcess;
 import ucm.performance.Workload;
 
@@ -90,7 +91,7 @@ public class WorkLoadAttributes {
 
     public static void description(PrintStream ps, Workload work) {
         if (work.getDescription() != null) {
-            String print_description = "description=\"" + work.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+            String print_description = "description=\"" + EscapeUtils.escapeXML(work.getDescription()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
             ps.print(print_description);
         }
     }

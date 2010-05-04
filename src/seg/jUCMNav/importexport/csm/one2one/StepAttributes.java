@@ -2,6 +2,7 @@ package seg.jUCMNav.importexport.csm.one2one;
 
 import java.io.PrintStream;
 
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
@@ -68,7 +69,7 @@ public class StepAttributes {
     // prints description attribute
     public static void printDescription(PrintStream ps, PathNode pathnode) {
         if (pathnode.getDescription() != null) {
-            String description_attribute = "description=\"" + pathnode.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+            String description_attribute = "description=\"" + EscapeUtils.escapeXML(pathnode.getDescription()) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
             ps.print(description_attribute);
         }
     }

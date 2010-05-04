@@ -8,6 +8,7 @@ import java.util.Vector;
 import org.eclipse.core.resources.IMarker;
 
 import seg.jUCMNav.importexport.csm.Messages;
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import ucm.map.InBinding;
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
@@ -51,7 +52,7 @@ public class StubConverter implements AbstractConverter {
         String successorWithCommas = (String) target.toString().subSequence(1, (target.toString().length() - 1));
         String successor = successorWithCommas.replaceAll(",", ""); //$NON-NLS-1$ //$NON-NLS-2$
         if (stub.getSucc().size() > 1) {
-            // more than one (1) outging branch is not CSM-compliant
+            // more than one (1) outgoing branch is not CSM-compliant
             warnings
                     .add(new CsmExportWarning(
                             Messages.getString("StubConverter.Stub") + stub.getName() + Messages.getString("StubConverter.HasMoreThanOneSuccessor"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
@@ -68,7 +69,7 @@ public class StubConverter implements AbstractConverter {
             name = stub.isDynamic() ? stub.getName() : stub.getName() + "/" + ((PluginBinding) (stub.getBindings().get(0))).getPlugin().getName(); //$NON-NLS-1$
         }
 
-        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\" " + "name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\" " + "name=\"" + EscapeUtils.escapeXML(name) + "\" " + "predecessor=\"" + predecessor + "\" " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
                 + "successor=\"" + successor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         ps.print("            " + mandatory_attribute); //$NON-NLS-1$
 

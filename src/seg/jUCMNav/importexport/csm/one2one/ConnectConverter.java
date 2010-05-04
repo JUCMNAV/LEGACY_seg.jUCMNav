@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import seg.jUCMNav.importexport.utils.EscapeUtils;
 import ucm.map.Connect;
 
 /**
@@ -29,7 +30,7 @@ public class ConnectConverter implements AbstractConverter {
         String hostDemand = "hostDemand=\"0\" "; //$NON-NLS-1$
         // at the moment, jUCMNav does not permit to set the description of a
         // Connect
-        String description = ((connectNode.getDescription() != null)) ? "description=\"" + connectNode.getDescription() + "\" " : ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String description = ((connectNode.getDescription() != null)) ? EscapeUtils.escapeXML("description=\"" + connectNode.getDescription()) + "\" " : ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
         // object attributes
         String Object_attributes = "<Step id=\"" + "h" + connectNode.getId() + "\" name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
