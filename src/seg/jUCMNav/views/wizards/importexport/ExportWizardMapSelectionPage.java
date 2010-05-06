@@ -231,12 +231,16 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 
                 diagramName = ReportWizard.getDiagramName(diagram);
                 if (diagramName.contains("-Map")) //$NON-NLS-1$
-                    filteredName = diagramName.substring(0, diagramName.indexOf("-Map") + 1) //$NON-NLS-1$
-                            + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
+                {
+                    String[] splitName = diagramName.split("-Map[0-9]*");//$NON-NLS-1$
+                    filteredName = splitName[0] + splitName[1];
+                }
                 else
-                    filteredName = diagramName.substring(0, diagramName.indexOf("-GRLGraph") + 1) //$NON-NLS-1$
-                            + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
-
+                {
+                    String[] splitName = diagramName.split("-GRLGraph[0-9]*");//$NON-NLS-1$
+                    filteredName = splitName[0] + splitName[1];
+                }
+                
                 listMaps.add(filteredName);
             } else if (!v.contains(diagram.getUrndefinition().getUrnspec())) {
                 listMaps.add(ExportWizard.getFilePrefix(diagram));
