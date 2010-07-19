@@ -157,8 +157,8 @@ in   &#13;
 		<Query>getAllActors()</Query>
 		<Constraint>self.contRefs.nodes&#13;
 	-&gt; select(n | n.oclIsTypeOf(grl::IntentionalElementRef))&#13;
-	-&gt; collect(ie | ie.oclAsType(grl::IntentionalElementRef))&#13;
-	-&gt; select(ie | ie.getDef().importanceQuantitative > 0)&#13;
+	-&gt; collect(ier | ier.oclAsType(grl::IntentionalElementRef))&#13;
+	-&gt; select(ier | ier.getDef().importance &lt;&gt; grl::ImportanceType::None)&#13;
 	-&gt; notEmpty()</Constraint>
 		<Utilities />
 		<WarningOnly>true</WarningOnly>

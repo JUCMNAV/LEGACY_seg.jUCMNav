@@ -2,10 +2,15 @@
 <Rules>
 	<Rule>
 		<Name>GRLcontributionNoUnknown</Name>
-		<Description>There should not be unknown contributions in GRL models</Description>
+		<Description>There should not be unknown contributions in GRL models, except between two KPIs</Description>
 		<Classification>grl::Contribution</Classification>
 		<Query>getAllContributions()</Query>
-		<Constraint>self.contribution&lt;&gt;grl::ContributionType::Unknown</Constraint>
+		<Constraint>(self.contribution=grl::ContributionType::Unknown)&#13; 
+	implies&#13;
+	(self.dest&#13;
+		-&gt; select(ie | ie.oclIsTypeOf(grl::kpimodel::Indicator))&#13;
+		-&gt; size() = 1&#13;
+	)</Constraint>
 		<Utilities />
 		<WarningOnly>true</WarningOnly>
 	</Rule>
