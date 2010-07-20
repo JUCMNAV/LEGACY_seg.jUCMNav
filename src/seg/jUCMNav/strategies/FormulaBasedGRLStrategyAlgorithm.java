@@ -27,7 +27,7 @@ import urncore.Metadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
 /**
- * This class implement the default GRL evaluation algorithm.
+ * This class implement the default GRL quantitative evaluation algorithm, with KPI aggregation.
  * 
  * @author alireza pourshahid
  * 
@@ -131,12 +131,15 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         Evaluation eval = (Evaluation) evaluations.get(element);
 
         List eMetaData = element.getMetadata();
+        String formula="";
         Metadata formulaMetaData;
         MathEvaluator mathEvaluator = null;
+        
         for (int i = 0; i < eMetaData.size(); i++) {
             formulaMetaData = (Metadata) eMetaData.get(i);
             if (formulaMetaData.getName().equals(Messages.getString("FormulaBasedGRLStrategyAlgorithm_Formula"))) { //$NON-NLS-1$
-                mathEvaluator = new MathEvaluator(formulaMetaData.getValue());
+                formula = formulaMetaData.getValue();
+                mathEvaluator = new MathEvaluator(formula);
                 break;
             }
         }
@@ -188,7 +191,8 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 int quantitativeContrib = contrib.getQuantitativeContribution();
                 double srcNodeEvaluationValue = ((Evaluation) evaluations.get(link.getSrc())).getKpiEvalValueSet().getEvaluationValue();
                 // TODO: it might be better if we change this to use the name of the source node as opposed to link
-                // TODO: I have noticed if the name of the link does not match the variables used in the formula it can cause errors 
+                // TODO: I have noticed if the name of the link does not match the variables used in the formula it can cause errors.
+                //       This is partially caught now and displayed on Ststem.err, to prevent crashing (Daniel)
                 mathEvaluator.addVariable(contrib.getName(), srcNodeEvaluationValue);
 
             }
@@ -234,8 +238,15 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             double resultContrib;
             Double srcAfterFormula;
             srcAfterFormula = mathEvaluator.getValue();
-            resultContrib = srcAfterFormula.doubleValue();
-
+            
+            if (srcAfterFormula != null) {
+                resultContrib = srcAfterFormula.doubleValue();
+            }
+            else {
+                resultContrib = 0.0;
+                System.err.println("Incorrect formula '" + formula + "' in KPI '" + element.getName() + "'.");
+            }
+            
             eval.getKpiEvalValueSet().setEvaluationValue(resultContrib);
             EvaluationStrategyManager strategyManager = EvaluationStrategyManager.getInstance();
             strategyManager.calculateIndicatorEvalLevel(eval);

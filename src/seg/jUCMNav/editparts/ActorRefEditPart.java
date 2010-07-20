@@ -197,7 +197,8 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
             if (getParent() != null && ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                 // Calculate the actor evaluation
                 String evaluation = calculateEvaluation();
-                if (evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
+                if (evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED
+                                                                        || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA) {
                     evaluationLabel.setText(evaluation);
                 }
                 evaluationLabel.setLocation(getActorFigure().getLocation());

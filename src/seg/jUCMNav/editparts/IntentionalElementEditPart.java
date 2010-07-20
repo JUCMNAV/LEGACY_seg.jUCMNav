@@ -6,9 +6,11 @@ import grl.Evaluation;
 import grl.GrlPackage;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.kpimodel.Indicator;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -358,6 +360,11 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                                 lineColor = "160,0,0"; //$NON-NLS-1$
                             }
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DASH);
+                            if (elem.getType() == IntentionalElementType.INDICATOR_LITERAL) {
+                                // Special case for indicators... no dashed lines as they are always initialized.
+                                ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_SOLID);
+                            }
+                            
                         } else {
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_SOLID);
                         }
@@ -389,8 +396,9 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         String kpiText = "";//$NON-NLS-1$                       
                         if ((getNode()).getDef() != null && ((getNode()).getDef() instanceof Indicator)) {
                             if (null != evaluation.getKpiEvalValueSet()) {
-                                kpiText = Double.toString(evaluation.getKpiEvalValueSet().getEvaluationValue());
-                                kpiText = kpiText + evaluation.getKpiEvalValueSet().getUnit(); //$NON-NLS-1$
+                                double kpiValue = evaluation.getKpiEvalValueSet().getEvaluationValue();
+                                DecimalFormat df = new  DecimalFormat ("0.##"); //$NON-NLS-1$
+                                kpiText = df.format(kpiValue) + " " + evaluation.getKpiEvalValueSet().getUnit(); //$NON-NLS-1$
                                 kpiEvaluationValueLabel.setText(kpiText);
                                 Point kpiEvalPosition = getNodeFigure().getLocation();
                                 kpiEvalPosition.y = kpiEvalPosition.y - 28;
@@ -465,7 +473,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             // Handle importance annotation
             String importance = ""; //$NON-NLS-1$
             int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
-            if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE) {
+            if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE 
+                                                             || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA) {
                 if (getNode().getDef().getImportanceQuantitative() > 0) {
                     importance = "  (" + String.valueOf(getNode().getDef().getImportanceQuantitative()) + ")"; //$NON-NLS-1$ //$NON-NLS-2$  $NON-NLS-2$
                 }
