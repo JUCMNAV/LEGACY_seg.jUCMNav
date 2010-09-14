@@ -12,12 +12,14 @@ import ucm.map.StartPoint;
  * Removes pluginbinding's inbindings.
  * 
  * @author TremblaE
+ * @author gunterm (added support for aspect stub bindings)
  * 
  */
 public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
 
     private PluginBinding plugin;
-    private StartPoint start;
+	// for AoUCM, a start point or a node connection may be specified as start
+    private Object start;
     private InBinding in;
     private NodeConnection stubEntry;
     private int index;
@@ -37,6 +39,8 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
     public void execute() {
         plugin = in.getBinding();
         start = in.getStartPoint();
+        if (start == null)
+        	start = in.getPointcutExit();
         stubEntry = in.getStubEntry();
 
         redo();
@@ -51,7 +55,10 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
 
         index = plugin.getIn().indexOf(in);
         plugin.getIn().remove(in);
-        start.getInBindings().remove(in);
+        if (start instanceof StartPoint)
+        	((StartPoint) start).getInBindings().remove(in);
+        else
+        	((NodeConnection) start).getInBindingsPlugin().remove(in);
         stubEntry.getInBindings().remove(in);
 
         testPostConditions();
@@ -65,7 +72,10 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
         testPostConditions();
 
         plugin.getIn().add(index, in);
-        start.getInBindings().add(in);
+        if (start instanceof StartPoint)
+        	((StartPoint) start).getInBindings().add(in);
+        else
+        	((NodeConnection) start).getInBindingsPlugin().add(in);
         stubEntry.getInBindings().add(in);
 
         testPreConditions();
@@ -78,7 +88,7 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
     public void testPreConditions() {
         assert in != null : "Pre Inbindin is null"; //$NON-NLS-1$
 
-        assert in.getStartPoint() == start : "Pre Start point changed"; //$NON-NLS-1$
+        assert (in.getStartPoint() == start || in.getPointcutExit() == start): "Pre Start point/pointcut exit changed"; //$NON-NLS-1$
         assert in.getStubEntry() == stubEntry : "Pre stub entry changed"; //$NON-NLS-1$
         assert in.getBinding() == plugin : "Pre PluginBinding changed"; //$NON-NLS-1$
     }
@@ -90,6 +100,7 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
         assert in != null : "Post Inbinding is null"; //$NON-NLS-1$
 
         assert in.getStartPoint() == null : "Post Start point changed"; //$NON-NLS-1$
+        assert in.getPointcutExit() == null : "Post pointcut exit changed"; //$NON-NLS-1$
         assert in.getStubEntry() == null : "Post stub entry changed"; //$NON-NLS-1$
         assert in.getBinding() == null : "Post PluginBinding changed"; //$NON-NLS-1$
     }

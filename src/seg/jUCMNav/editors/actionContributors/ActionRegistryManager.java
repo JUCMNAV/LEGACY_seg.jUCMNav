@@ -78,6 +78,7 @@ import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
+import seg.jUCMNav.actions.concerns.ApplyConcernAction;
 import seg.jUCMNav.actions.concerns.ManageConcernsAction;
 import seg.jUCMNav.actions.cutcopypaste.CopyAction;
 import seg.jUCMNav.actions.cutcopypaste.CutAction;
@@ -607,6 +608,10 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.ManageConcern")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new ApplyConcernAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ApplyConcern")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
         action = new EditMetadataAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.editMetadata")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

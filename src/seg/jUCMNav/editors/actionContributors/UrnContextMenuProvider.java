@@ -64,6 +64,7 @@ import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
+import seg.jUCMNav.actions.concerns.ApplyConcernAction;
 import seg.jUCMNav.actions.concerns.ManageConcernsAction;
 import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
@@ -376,6 +377,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);
 
+        action = getActionRegistry().getAction(ApplyConcernAction.APPLYCONCERN);
+        if (action.isEnabled())
+            manager.appendToGroup(GROUP_UNCOMMON, action);
+        
         action = getActionRegistry().getAction(DeleteUnreferencedDefinitionAction.DELETEDEF);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);

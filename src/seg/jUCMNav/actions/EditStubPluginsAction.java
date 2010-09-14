@@ -6,12 +6,13 @@ import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.stub.StubBindingsDialog;
+import ucm.map.AspectKind;
 import ucm.map.Stub;
 
 /**
  * Opens the stub plugin dialog.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, gunterm
  */
 public class EditStubPluginsAction extends URNSelectionAction {
 
@@ -29,14 +30,15 @@ public class EditStubPluginsAction extends URNSelectionAction {
     }
 
     /**
-     * True if we've selected a stub.
+     * True if we've selected a stub that is not an aspect marker.
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.STUB:
             stub = sel.getStub();
-            return true;
+            if (stub.getAspect() == null || stub.getAspect().equals(AspectKind.NONE_LITERAL))
+            	return true;
         }
         return false;
     }
