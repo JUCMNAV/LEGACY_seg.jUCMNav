@@ -252,6 +252,13 @@ public class PointcutMatcher {
 			Mapping newMapping;
 			try {
 				if (matchNeighbor(pointcutElement, joinpoint)) {
+					// to avoid duplicate matches, the matched joinpoint of a pointcut start/end point must be on the same map as 
+					// the matched joinpoints of its neighbors
+					if (mapping.getPointcutElement().isPointcutStartOrEndPoint() || pointcutElement.getElement().isPointcutStartOrEndPoint()) {
+						if (!mapping.getJoinpoint().getElement().getDiagram().equals(joinpoint.getElement().getElement().getDiagram())) {
+							throw new MatchingFailedException();
+						}
+					}
 					// TODO @@@ alternative
 					newMapping = new Mapping((PointcutElement) pointcutElement.getElement(), (Joinpoint) joinpoint.getElement());
 					// if this is a mapping for the anything pointcut element, then it can only be the first one for the anything pointcut element
