@@ -24,8 +24,8 @@ public class BSpline {
             dx, dy, // The direction for the spline at each point
             Ax, Ay, Bi, B0, B1, B2, B3;
 
-    private int precision = 26; // Number of iteration to do between two points of the curve.
-
+    private int precision = 8; // Number of iteration to do between two points of the curve.
+    private double step = 0.145; // might have to adjust step slightly depending on precision to make it nice. 
     /**
      * Build an empty spline. Points will be passed later.
      */
@@ -42,6 +42,45 @@ public class BSpline {
         n = list.size();
         if (n <= 1)
             return; // We have to have two points or more to make a spline
+        
+        // avg total slope
+        int diffy = (list.getLastPoint().y - list.getFirstPoint().y);
+        int diffx = (list.getLastPoint().x - list.getFirstPoint().x);
+        
+        double slope = 999999; 
+        if (diffx!=0)
+            slope = (double)diffy / (double) diffx; 
+            
+        
+        boolean isRoughlySameSlope=true;
+        for (int i=1;i<list.size();i++)
+        {
+             double sensitivity = 5;
+             // slope between these two points. 
+             int localdiffy = list.getPoint(i).y - list.getPoint(i-1).y;
+             int localdiffx = list.getPoint(i).x - list.getPoint(i-1).x;
+             double localslope = 999999;
+             if (localdiffx!=0)
+                 localslope = (double)localdiffy / (double)localdiffx;
+             
+             double variance = Math.abs(Math.round(localslope) - Math.round(slope));
+             if (variance > sensitivity) {
+                     isRoughlySameSlope=false;
+                     break;
+             }
+        }
+        
+        if (isRoughlySameSlope)
+        {
+            precision=4;
+            step = 0.333;
+        } else
+        {
+            precision=10;
+            step = 0.1125;
+            //precision=8;
+            //step = 0.143;
+        }
         init(list);
     }
 
@@ -76,7 +115,7 @@ public class BSpline {
             B1[i] = 3 * t * t12;
             B2[i] = 3 * t2 * t1;
             B3[i] = t * t2;
-            t += .04;
+            t += step;
         }
 
         int i;
@@ -87,7 +126,6 @@ public class BSpline {
             Px[i] = point.x;
             Py[i] = point.y;
         }
-
         // dx, dy will determine the direction of the first and last connection
         // of the spline
         // If the nodes are in a straight line, we want the spline to be
