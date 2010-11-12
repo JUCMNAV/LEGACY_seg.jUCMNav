@@ -113,10 +113,12 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
             Vector v = (Vector) descriptors;
             CheckboxPropertyDescriptor pd = (CheckboxPropertyDescriptor) v.get(v.size() - 1);
 
-            for (Iterator iterator = ((RespRef) getEditableValue()).getRespDef().getRespRefs().iterator(); iterator.hasNext();) {
-                RespRef ref = (RespRef) iterator.next();
-                if (ref.getPluginBindings().size() != 0)
-                    pd.setReadOnly(true);
+            if (getEditableValue()!=null && ((RespRef) getEditableValue()).getRespDef() !=null) { // bug 778 - during batch deletes sometimes had error. refresh only
+                for (Iterator iterator = ((RespRef) getEditableValue()).getRespDef().getRespRefs().iterator(); iterator.hasNext();) {
+                    RespRef ref = (RespRef) iterator.next();
+                    if (ref.getPluginBindings().size() != 0)
+                        pd.setReadOnly(true);
+                }
             }
         }        
     }
