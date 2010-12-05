@@ -448,6 +448,7 @@ public class PasteCommand extends CompoundCommand {
             resetCloneId(newScenario);
             newScenario.getStartPoints().clear();
             newScenario.getEndPoints().clear();
+            newScenario.getInitializations().clear();
 
             DuplicateCommand duplicateCommand = new DuplicateCommand(newScenario, targetGroup, targetUrn);
             add(duplicateCommand);
