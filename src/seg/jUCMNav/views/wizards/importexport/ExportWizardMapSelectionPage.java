@@ -232,15 +232,30 @@ public class ExportWizardMapSelectionPage extends WizardPage {
                 diagramName = ReportWizard.getDiagramName(diagram);
                 if (diagramName.contains("-Map")) //$NON-NLS-1$
                 {
-                    String[] splitName = diagramName.split("-Map[0-9]*");//$NON-NLS-1$
-                    filteredName = splitName[0] + splitName[1];
+                    String[] splitName = diagramName.split("-Map[0-9]*-");//$NON-NLS-1$
+                    if (splitName.length > 1)
+                    {
+                        filteredName = splitName[0] + "-" + splitName[1];  //$NON-NLS-1$
+                    }
+                    else
+                    {
+                        // Should not happen, but to be on the same side...
+                        filteredName = diagramName;
+                    }
                 }
                 else
                 {
-                    String[] splitName = diagramName.split("-GRLGraph[0-9]*");//$NON-NLS-1$
-                    filteredName = splitName[0] + splitName[1];
-                }
-                
+                    String[] splitName = diagramName.split("-GRLGraph[0-9]*-");//$NON-NLS-1$
+                    if (splitName.length > 1)
+                    {
+                        filteredName = splitName[0] + "-" + splitName[1];  //$NON-NLS-1$
+                    }
+                    else
+                    {
+                        // Should not happen, but to be on the same side...
+                        filteredName = diagramName;
+                    }
+                }                
                 listMaps.add(filteredName);
             } else if (!v.contains(diagram.getUrndefinition().getUrnspec())) {
                 listMaps.add(ExportWizard.getFilePrefix(diagram));
