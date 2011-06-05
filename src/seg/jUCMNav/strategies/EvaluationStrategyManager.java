@@ -92,21 +92,16 @@ public class EvaluationStrategyManager {
         if (strategy == null) {
             return;
         }
-
         setupEvaluationAlgorithm();
-
+        long before = System.currentTimeMillis();
         algo.init(strategy, evaluations);
-
-        while (algo.hasNextNode()) {
-            IntentionalElement element = algo.nextNode();
-            String elementName = element.getName();
-            Evaluation eval = (Evaluation) evaluations.get(element);
-            int val = algo.getEvaluation(element);
-            eval.setEvaluation(val);
-            syncIntentionalElementQualitativeEvaluation(eval, val);
-            setEvaluationMetadata(element, eval);
+        if(algo.isConstraintSolverAlgorithm()) {
+        	processConstraintSolverAlgorithm();
+        }else {
+        	processNonConstraintSolverAlgorithm();
         }
-
+        long after = System.currentTimeMillis();
+        System.out.println("Time spent: " + (after - before) + " milloseconds");
         // Refresh all the diagrams if canRefresh set to true
         if (canRefresh && multieditor != null) {
             for (int i = 0; i < multieditor.getPageCount(); i++) {
@@ -132,7 +127,55 @@ public class EvaluationStrategyManager {
         }
     }
 
-    public synchronized int getActorEvaluation(Actor actor) {
+	private void processNonConstraintSolverAlgorithm() {
+		while (algo.hasNextNode()) {
+			IntentionalElement element = algo.nextNode();
+			String elementName = element.getName();
+			Evaluation eval = (Evaluation) evaluations.get(element);
+			int val = algo.getEvaluation(element);
+			eval.setEvaluation(val);
+			syncIntentionalElementQualitativeEvaluation(eval, val);
+			setEvaluationMetadata(element, eval);
+		}
+	}
+
+	private void processConstraintSolverAlgorithm() {
+		Hao2011Algorithm hao2011Algorithm = (Hao2011Algorithm) algo;
+		hao2011Algorithm.calculate();
+		while (hao2011Algorithm.hasNextNode()) {
+			IntentionalElement element = hao2011Algorithm.nextNode();
+			Evaluation eval = (Evaluation) evaluations.get(element);
+			int val = eval.getEvaluation();
+			syncIntentionalElementQualitativeEvaluation(eval, val);
+			//setEvaluationMetadata(element, eval);
+			setEvaluationMetadata(element, val, eval.getQualitativeEvaluation().toString());
+		}
+	}
+
+    private void setEvaluationMetadata(IntentionalElement element, int val, String qualEvalAsString) {
+        String numEvalAsString = Integer.toString(val);
+        Metadata metaNumerical = MetadataHelper.getMetaDataObj(element, METADATA_NUMEVAL);
+        if (metaNumerical != null) {
+            // Run-time metadata already exist for this element
+            metaNumerical.setValue(numEvalAsString);
+        } else {
+            // Add new run-time metadata for this element
+            URNspec urnSpec = element.getGrlspec().getUrnspec();
+            MetadataHelper.addMetaData(urnSpec, element, METADATA_NUMEVAL, numEvalAsString);
+        }
+
+        Metadata metaQuantitative = MetadataHelper.getMetaDataObj(element, METADATA_QUALEVAL);
+        if (metaQuantitative != null) {
+            // Run-time metadata already exist for this element
+            metaQuantitative.setValue(qualEvalAsString);
+        } else {
+            // Add new run-time metadata for this element
+            URNspec urnSpec = element.getGrlspec().getUrnspec();
+            MetadataHelper.addMetaData(urnSpec, element, METADATA_QUALEVAL, qualEvalAsString);
+        }
+    }
+
+	public synchronized int getActorEvaluation(Actor actor) {
         int actorEval = algo.getActorEvaluation(actor);
         setEvaluationMetadata(actor, actorEval);
         return actorEval;
@@ -178,6 +221,8 @@ public class EvaluationStrategyManager {
             algo = new QualitativeGRLStrategyAlgorithm();
         else if ((StrategyEvaluationPreferences.FORMULA_BASED_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
             algo = new FormulaBasedGRLStrategyAlgorithm();
+        else if((StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "").equals(algoChoice))
+        	algo = new Hao2011Algorithm();
         else
             algo = new DefaultGRLStrategyAlgorithm();
 

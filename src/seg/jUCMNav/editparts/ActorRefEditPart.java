@@ -198,12 +198,14 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 // Calculate the actor evaluation
                 String evaluation = calculateEvaluation();
                 if (evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED
-                                                                        || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA) {
+                                                                        || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA
+                                                                        || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER
+                														) {
                     evaluationLabel.setText(evaluation);
                 }
                 evaluationLabel.setLocation(getActorFigure().getLocation());
 
-                if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
+                if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
 
                     if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE)
                         evaluationLabel.setText(null);

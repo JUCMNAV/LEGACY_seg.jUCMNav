@@ -29,6 +29,8 @@ public interface IGRLStrategyAlgorithm {
     public final static int EVAL_QUANTITATIVE = 2;
     public final static int EVAL_MIXED = 3;
     public final static int EVAL_FORMULA = 4;
+    public final static int EVAL_CONSTRAINT_SOLVER = 5;
+    
 
     /**
      * Define the strategy to calculate the evaluation. Note that EvaluationStrategy are associated only to Evaluation defined by the user. To access the list
@@ -69,4 +71,6 @@ public interface IGRLStrategyAlgorithm {
      * @return int Constant referring to type of evaluation
      */
     public int getEvaluationType();
+    
+    public boolean isConstraintSolverAlgorithm();
 }

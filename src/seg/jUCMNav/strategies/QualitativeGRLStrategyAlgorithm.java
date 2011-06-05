@@ -405,4 +405,10 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 
     }
 
+	@Override
+	public boolean isConstraintSolverAlgorithm() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

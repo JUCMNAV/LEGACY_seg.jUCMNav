@@ -376,7 +376,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     String text = (evaluation.getStrategies() != null ? "(*)" : ""); //$NON-NLS-1$ //$NON-NLS-2$
 
                     if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE
-                            || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA) {
+                            || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                         String evalStr = String.valueOf(evaluation.getEvaluation());
                         text = evalStr + text; //$NON-NLS-1$		                
                     }
@@ -409,7 +409,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         }
                     }
 
-                    if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED) {
+                    if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                         // Set the label icon
                         if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.DENIED) {
                             evaluationImg = (JUCMNavPlugin.getImage("icons/denied.gif")); //$NON-NLS-1$
@@ -474,7 +474,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             String importance = ""; //$NON-NLS-1$
             int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
             if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE 
-                                                             || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA) {
+                                                             || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA
+                                                             || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                 if (getNode().getDef().getImportanceQuantitative() > 0) {
                     importance = "  (" + String.valueOf(getNode().getDef().getImportanceQuantitative()) + ")"; //$NON-NLS-1$ //$NON-NLS-2$  $NON-NLS-2$
                 }

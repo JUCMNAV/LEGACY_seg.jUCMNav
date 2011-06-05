@@ -322,4 +322,10 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         return IGRLStrategyAlgorithm.EVAL_MIXED;
     }
 
+	@Override
+	public boolean isConstraintSolverAlgorithm() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

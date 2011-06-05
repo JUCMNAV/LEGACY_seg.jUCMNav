@@ -324,7 +324,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
             if (!type.equals("Unknown")) { //$NON-NLS-1$
 
                 if (GeneralPreferencePage.getGrlTextVisible()) {
-                    if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE) {
+                    if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                         contributionLabel.setText("" + contrib.getQuantitativeContribution()); //$NON-NLS-1$
                     } else {
                         contributionLabel.setText(type);

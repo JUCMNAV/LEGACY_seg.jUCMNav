@@ -267,4 +267,10 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         return sumImportance;
     }
 
+	@Override
+	public boolean isConstraintSolverAlgorithm() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
