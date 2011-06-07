@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
+import junit.*;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;

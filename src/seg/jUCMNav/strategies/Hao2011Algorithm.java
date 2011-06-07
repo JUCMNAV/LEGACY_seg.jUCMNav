@@ -3,9 +3,7 @@ package seg.jUCMNav.strategies;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Contribution;
-import grl.Decomposition;
 import grl.DecompositionType;
-import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
@@ -20,15 +18,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 import java.util.Map.Entry;
 
+import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.model.util.MetadataHelper;
+import urncore.IURNNode;
 import JaCoP.constraints.Constraint;
 import JaCoP.constraints.Max;
 import JaCoP.constraints.Min;
 import JaCoP.constraints.Or;
 import JaCoP.constraints.SumWeight;
-import JaCoP.constraints.XdivYeqZ;
 import JaCoP.constraints.XeqC;
 import JaCoP.constraints.XeqY;
 import JaCoP.constraints.XlteqY;
@@ -38,19 +37,11 @@ import JaCoP.constraints.XplusYeqZ;
 import JaCoP.core.IntVar;
 import JaCoP.core.Store;
 import JaCoP.search.DepthFirstSearch;
-import JaCoP.search.IndomainMax;
 import JaCoP.search.IndomainMin;
-import JaCoP.search.InputOrderSelect;
 import JaCoP.search.MostConstrainedStatic;
 import JaCoP.search.Search;
 import JaCoP.search.SelectChoicePoint;
 import JaCoP.search.SimpleSelect;
-
-
-import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
-import seg.jUCMNav.model.util.MetadataHelper;
-import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
-import urncore.IURNNode;
 
 /**
  * This class implement the default GRL evaluation algorithm and using a 
@@ -224,7 +215,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
 					getStore().impose(new Or(new XeqC(variable,0), new XeqC(variable,100)));
 				}
 			}
-		}else {
+		} else {
 			getStore().impose(new XeqC(variable, evaluation));
 		}
 	}
@@ -263,8 +254,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
     		int evaluation = getEvaluations().get(anElement).getEvaluation();//TODO debug mode 
     		if(evaluation != 0) {
     			initializedElements.add(getConstraintVariable(anElement));
-    			
-    		}else {
+    		} else {
     			notInitializedElements.add(getConstraintVariable(anElement));
     		}
     	}
@@ -289,7 +279,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
     		setFoundSolution(false);
     		return;
     	}
-    	// TODO IndomianMin can be replaced with IndomainMax/IndomainMidian/etc......
+    	// TODO IndomainMin can be replaced with IndomainMax/IndomainMedian/etc......
 		SelectChoicePoint select = new SimpleSelect<IntVar>(fullList, new MostConstrainedStatic<IntVar>(), new IndomainMin()); 
 		
 		// set the flag that indicates whether we found solution(s)
