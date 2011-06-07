@@ -182,7 +182,9 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
 			}else {
 				getConstraints().add(new XeqY(contributionResult, getConstraintVariable(element)));
 			}
-			
+		}else {
+			if(andDecompositionElements.size() != 0 || orDecompositionElements.size() != 0)
+				getConstraints().add(new XeqY(minMaxResult, getConstraintVariable(element)));
 		}
 	}
 
