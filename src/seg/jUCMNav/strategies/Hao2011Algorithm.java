@@ -53,6 +53,7 @@ import JaCoP.search.SimpleSelect;
 public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
 
     private List<IntentionalElement> allElements; 
+    private List<IntentionalElement> strategyElements;     
     private Store store;
     private HashMap<String, IntVar> variables;
     private HashMap<IntentionalElement, Evaluation> evaluations;
@@ -64,6 +65,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
 
     public void init(EvaluationStrategy strategy, HashMap evaluations) {
         setAllElements(new ArrayList<IntentionalElement>());
+        setStrategyElements(new ArrayList<IntentionalElement>());
         setStore(new Store());
         setEvaluations(evaluations);
         setConstraints(new ArrayList<Constraint>());
@@ -71,6 +73,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
         reInitializeEvaluations();
         oneHundred = new IntVar(getStore(), "oneHundred", 100, 100); //$NON-NLS-1$
         minusOneHundred = new IntVar(getStore(), "minusOneHundred", -100, -100); //$NON-NLS-1$
+        initializeStrategyElements(strategy);
         initializeConstraintVariables(strategy);
         analyseElementAndLinks(strategy);
     }
@@ -208,7 +211,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
         }
         IntVar variable = getConstraintVariable(element);
         int evaluation = getEvaluations().get(element).getEvaluation();
-        if(evaluation == 0) { //TODO: 0 does not mean uninitialized...
+        if(!getStrategyElements().contains(element)) {
             // Leaf nodes are handled here
             if(andDecompositionElements.size() == 0 && orDecompositionElements.size() == 0 && dependencyElements.size() == 0  && contributionElements.size() == 0) {
                 // only Task type of intentional elements shall be enforced to 0 or 100
@@ -232,8 +235,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
     private void populateSolution() {
         for (int i = 0; i < getAllElements().size(); i++) {
             IntentionalElement anElement = getAllElements().get(i);
-            int evaluation = getEvaluations().get(anElement).getEvaluation();
-            if(evaluation == 0) { //TODO: 0 does not mean uninitialized...
+            if(!getStrategyElements().contains(anElement)) {
                 IntVar anVar = getConstraintVariable(anElement);
                 getEvaluations().get(anElement).setEvaluation(anVar.value());
             }
@@ -246,8 +248,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
         // Show conflicts on uninitialized values.
         for (int i = 0; i < getAllElements().size(); i++) {
             IntentionalElement anElement = getAllElements().get(i);
-            int evaluation = getEvaluations().get(anElement).getEvaluation();
-            if(evaluation == 0) { //TODO: 0 does not mean uninitialized...
+            if(!getStrategyElements().contains(anElement)) {
                 getEvaluations().get(anElement).setEvaluation(-101);
             }
         }
@@ -265,14 +266,13 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
         // put all the non-zero initial values into consideration
         for (int i = 0; i < numberOfElements; i++) {
             IntentionalElement anElement = getAllElements().get(i);
-            int evaluation = getEvaluations().get(anElement).getEvaluation();//TODO debug mode 
-            if(evaluation != 0) { //TODO: 0 does not mean uninitialized...
+            if(getStrategyElements().contains(anElement)) {
                 initializedElements.add(getConstraintVariable(anElement));
             } else {
                 notInitializedElements.add(getConstraintVariable(anElement));
             }
         }
-        // build the full list of constraint variables below, include both initialized and un-initialized ones
+        // build the full list of constraint variables below, include both initialized and uninitialized ones
         for (int i = 0; i < initializedElements.size(); i++) {
             fullList[i] = initializedElements.get(i);
         }
@@ -375,6 +375,14 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
         this.allElements = allElements;
     }
 
+    public List<IntentionalElement> getStrategyElements() {
+        return strategyElements;
+    }
+
+    public void setStrategyElements(List<IntentionalElement> strategyElements) {
+        this.strategyElements = strategyElements;
+    }
+
     public Store getStore() {
         return store;
     }
@@ -464,7 +472,6 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
         return getVariables().get(varId);
     }
 
-
     private void initializeConstraintVariables(EvaluationStrategy strategy) {
         Iterator elementIterator = strategy.getGrlspec().getIntElements().iterator();
         while (elementIterator.hasNext()) {
@@ -474,4 +481,13 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
             getVariables().put(varId, new IntVar(store, varId, -100, 100));
         }
     }
+
+    private void initializeStrategyElements(EvaluationStrategy strategy) {
+        Iterator elementIterator = strategy.getEvaluations().iterator();
+        while (elementIterator.hasNext()) {
+            Evaluation eval = (Evaluation) elementIterator.next();
+            getStrategyElements().add(eval.getIntElement());
+        }
+    }
+
 }
