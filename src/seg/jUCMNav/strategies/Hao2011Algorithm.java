@@ -195,6 +195,8 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
     private void categorizeElements(IntentionalElement element, List<IntentionalElement> andDecompositionElements, 
             List<IntentionalElement> orDecompositionElements, List<IntentionalElement> dependencyElements, List<IntentionalElement> contributionElements) {
         Iterator linksIterator = element.getLinksDest().iterator(); //Return the list of elementlink
+        List<IntentionalElement> dependencyRealSrc = new ArrayList<IntentionalElement>(); // List of real sources of dependency links
+
         while (linksIterator.hasNext()){
             ElementLink link = (ElementLink) linksIterator.next();
             if (isDecomposition(link)){
@@ -204,7 +206,10 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
                     orDecompositionElements.add((IntentionalElement) link.getSrc());
                 }
             } else if (isDependency(link)) {
-                dependencyElements.add((IntentionalElement) link.getSrc());
+                dependencyElements.add((IntentionalElement) link.getSrc()); 
+                // For historical reasons, Dependency links have their source and dest inverted
+                // This is needed to detect real leaf nodes in a GRL model.
+                dependencyRealSrc.add((IntentionalElement) link.getDest());
             } else if (isContribution(link)) {
                 contributionElements.add((IntentionalElement) link.getSrc());
             }
@@ -213,7 +218,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
         int evaluation = getEvaluations().get(element).getEvaluation();
         if(!getStrategyElements().contains(element)) {
             // Leaf nodes are handled here
-            if(andDecompositionElements.size() == 0 && orDecompositionElements.size() == 0 && dependencyElements.size() == 0  && contributionElements.size() == 0) {
+            if(andDecompositionElements.size() == 0 && orDecompositionElements.size() == 0 && dependencyRealSrc.size() == 0  && contributionElements.size() == 0) {
                 // only Task type of intentional elements shall be enforced to 0 or 100
                 if(IntentionalElementType.TASK == element.getType().getValue()) {
                     getStore().impose(new Or(new XeqC(variable,0), new XeqC(variable,100)));
