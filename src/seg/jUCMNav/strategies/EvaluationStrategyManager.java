@@ -221,6 +221,8 @@ public class EvaluationStrategyManager {
             algo = new QualitativeGRLStrategyAlgorithm();
         else if ((StrategyEvaluationPreferences.FORMULA_BASED_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
             algo = new FormulaBasedGRLStrategyAlgorithm();
+        else if ((StrategyEvaluationPreferences.CONDITIONAL_GRL_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
+            algo = new ConditionalBasedGRLStrategyAlgorithm();
         else if((StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "").equals(algoChoice))
         	algo = new Hao2011Algorithm();
         else

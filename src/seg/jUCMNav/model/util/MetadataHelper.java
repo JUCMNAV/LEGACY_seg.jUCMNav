@@ -5,6 +5,7 @@ import grl.IntentionalElement;
 
 import java.util.Iterator;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -118,6 +119,7 @@ public class MetadataHelper {
                 IntentionalElement ie = (IntentionalElement) iter2.next();
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_NUMEVAL);
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_QUALEVAL);
+                MetadataHelper.removeMetaData(ie, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"));
             }
             // Remove run-time evaluation metadata attached to path nodes
             for (Iterator iter3 = model.getUrndef().getSpecDiagrams().iterator(); iter3.hasNext();) {

@@ -376,7 +376,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     String text = (evaluation.getStrategies() != null ? "(*)" : ""); //$NON-NLS-1$ //$NON-NLS-2$
 
                     if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE
-                            || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
+                            || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION ) {
                         String evalStr = String.valueOf(evaluation.getEvaluation());
                         text = evalStr + text; //$NON-NLS-1$		                
                     }
@@ -407,6 +407,9 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                                 kpiEvaluationValueLabel.setVisible(true);
                             }
                         }
+                    }
+                    if (evalType == IGRLStrategyAlgorithm.EVAL_CONDITION) {
+                    	
                     }
 
                     if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {

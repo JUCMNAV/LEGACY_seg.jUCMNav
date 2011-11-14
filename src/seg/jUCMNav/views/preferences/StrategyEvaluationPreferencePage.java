@@ -46,6 +46,9 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
                 Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.MixedGRL"), (StrategyEvaluationPreferences.MIXED_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
         algos[StrategyEvaluationPreferences.FORMULA_BASED_ALGORITHM] = new String[] {
                 Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.FormulaBasedGRL"), (StrategyEvaluationPreferences.FORMULA_BASED_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
+        algos[StrategyEvaluationPreferences.CONDITIONAL_GRL_ALGORITHM] = new String[] {
+                Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.ConditionalGRLAlgorithm"), (StrategyEvaluationPreferences.CONDITIONAL_GRL_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
+     
         algos[StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM] = new String[] {
                 Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.HAO_2011_GRL_ALGORITHM"), (StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
         
