@@ -1,6 +1,7 @@
 package seg.jUCMNav.model.util;
 
 import grl.Actor;
+import grl.ElementLink;
 import grl.IntentionalElement;
 
 import java.util.Iterator;
@@ -120,6 +121,7 @@ public class MetadataHelper {
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_NUMEVAL);
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_QUALEVAL);
                 MetadataHelper.removeMetaData(ie, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"));
+                MetadataHelper.removeMetaData(ie, Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"));
             }
             // Remove run-time evaluation metadata attached to path nodes
             for (Iterator iter3 = model.getUrndef().getSpecDiagrams().iterator(); iter3.hasNext();) {
@@ -130,6 +132,11 @@ public class MetadataHelper {
                         MetadataHelper.removeMetaData(pn, PathNodeEditPart.METADATA_HITS);
                     }
                 }
+            }
+            // Remove run-time contribution metadata attached to contribution links
+            for (Iterator iter2 = model.getGrlspec().getLinks().iterator(); iter2.hasNext();) {
+                ElementLink ie = (ElementLink) iter2.next();
+                MetadataHelper.removeMetaData(ie, Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"));
             }
         }
     }

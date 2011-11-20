@@ -28,7 +28,7 @@ import seg.jUCMNav.Messages;
 /**
  * This class implement the default GRL evaluation algorithm.
  * 
- * @author Azalia Shamsaei	
+ * @author Azalia Shamsaei
  * 
  */
 public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
@@ -135,94 +135,95 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
         int decompositionValue = -10000;
         int dependencyValue = 10000;
         int[] contributionValues = new int[100];
-        /*evaluation values of the nodes connected to this node via contribution links*/
+        /* evaluation values of the nodes connected to this node via contribution links */
         int[] evaluationValues = new int[100];
-        /*contribution value of the contribution links connected to the node*/
+        /* contribution value of the contribution links connected to the node */
         int[] contributions = new int[100];
+        /* used to keep a reference to the contribution links to be able to add meta-data later on if required */
+        ElementLink[] contributionLinks = new ElementLink[100];
+        /* used to keep the contribution values that has to be ignored due to unsatisfied dependency */
         int[] ignoredContributionValue = new int[100];
         int contribArrayIt = 0;
         int ignoredContribArrayIt = 0;
         int consideredContribArrayIt = 0;
+        int sumContributions = 0;
 
-        
-        Iterator it = element.getLinksDest().iterator(); //Return the list of elementlink
-        while (it.hasNext()){
-        	System.out.print("gets to the while loop: \n");
-            ElementLink link = (ElementLink)it.next();
-            if (link instanceof Decomposition){
-            	if (element.getDecompositionType().getValue() == DecompositionType.AND){
-            		String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal");
-            		if ("No".equals(value)){
-            			if(!it.hasNext() && decompositionValue < -100)
-            				decompositionValue = 0; //case where all sources are tagged "N"
-            			else
-            				continue; 
-            		} 
-            		
-            		if (decompositionValue < -100){
-                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
-                    } else if (decompositionValue > ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
-                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
+        Iterator it = element.getLinksDest().iterator(); // Return the list of elementlink
+        while (it.hasNext()) {
+            ElementLink link = (ElementLink) it.next();
+            if (link instanceof Decomposition) {
+                if (element.getDecompositionType().getValue() == DecompositionType.AND) {
+                    String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal");
+                    if ("No".equals(value)) {
+                        if (!it.hasNext() && decompositionValue < -100)
+                            decompositionValue = 0; // case where all sources are tagged "N"
+                        else
+                            continue;
                     }
 
-                } else if (element.getDecompositionType().getValue() == DecompositionType.OR || 
-                           element.getDecompositionType().getValue() == DecompositionType.XOR){
-                	if (decompositionValue < -100){
-                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
-                        
-                	} else if (decompositionValue < ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
+                    if (decompositionValue < -100) {
+                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
+                    } else if (decompositionValue > ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
+                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
+                    }
+
+                } else if (element.getDecompositionType().getValue() == DecompositionType.OR
+                        || element.getDecompositionType().getValue() == DecompositionType.XOR) {
+                    if (decompositionValue < -100) {
                         decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
 
-                    } else if (decompositionValue < ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
-                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
+                    } else if (decompositionValue < ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
+                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
+
+                    } else if (decompositionValue < ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
+                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
                     }
                 }
             } else if (link instanceof Dependency) {
-            	System.out.print("gets to Dependency else if: \n");
                 if (dependencyValue > ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
-                    // && ((Evaluation)evaluations.get(link.getSrc())).getEvaluation() != 0){
                     dependencyValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
+                    MetadataHelper.removeMetaData(element, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"));
                 }
-                if(dependencyValue == 0){
-                	System.out.print("get to here dependencyValue: " + dependencyValue +"\n");
-                	URNspec urnSpec = element.getGrlspec().getUrnspec();
+                if (dependencyValue == 0) {
+                    URNspec urnSpec = element.getGrlspec().getUrnspec();
                     MetadataHelper.addMetaData(urnSpec, element, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), "");
                 }
             } else if (link instanceof Contribution) {
                 Contribution contrib = (Contribution) link;
-                
+                MetadataHelper.removeMetaData(link, Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"));
                 Metadata ignoreMetadata;
                 List eMetaData = link.getSrc().getMetadata();
                 boolean ignoreSrc = false;
                 for (int i = 0; i < eMetaData.size(); i++) {
-                	ignoreMetadata = (Metadata) eMetaData.get(i);
+                    ignoreMetadata = (Metadata) eMetaData.get(i);
                     if (ignoreMetadata.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"))) { //$NON-NLS-1$
-                    	ignoreSrc = true;
+                        ignoreSrc = true;
                         break;
                     }
                 }
-               
-                int quantitativeContrib = contrib.getQuantitativeContribution();
-                
-                
-                if(ignoreSrc){
-                	ignoredContributionValue[ignoredContribArrayIt] = quantitativeContrib;
-                	ignoredContribArrayIt++;
-                	System.out.print("Yes: " + ignoredContribArrayIt +"\n");
-                }else{
-                	contributions[contribArrayIt] = quantitativeContrib;
-	                int srcNode = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
-	                evaluationValues[contribArrayIt] = srcNode;
-	                consideredContribArrayIt++;
-	                
-	                double resultContrib;
-	                resultContrib = (quantitativeContrib * srcNode) / 100;
 
-	                if (resultContrib != 0) {
-	                    contributionValues[contribArrayIt] = (new Double(Math.round(resultContrib))).intValue();
-	                    contribArrayIt++;
-	                }
-	        
+                int quantitativeContrib = contrib.getQuantitativeContribution();
+
+                if (ignoreSrc) {
+                    ignoredContributionValue[ignoredContribArrayIt] = quantitativeContrib;
+                    ignoredContribArrayIt++;
+                } else {
+                    contributions[contribArrayIt] = quantitativeContrib;
+                    contributionLinks[contribArrayIt] = link;
+                    int srcNode = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
+                    evaluationValues[contribArrayIt] = srcNode;
+                    consideredContribArrayIt++;
+
+                    sumContributions = sumContributions + contributions[contribArrayIt];
+
+                    double resultContrib;
+                    resultContrib = (quantitativeContrib * srcNode) / 100;
+
+                    if (resultContrib != 0) {
+                        contributionValues[contribArrayIt] = (new Double(Math.round(resultContrib))).intValue();
+                        contribArrayIt++;
+                    }
+
                 }
 
             }
@@ -231,36 +232,40 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
 
             result = decompositionValue;
         }
-        if (ignoredContribArrayIt > 0 && consideredContribArrayIt > 0){
-        	System.out.print("We get in ignoredContribArrayIt: " + ignoredContribArrayIt +"\n");
-        	System.out.print("contribArrayIt: " + consideredContribArrayIt +"\n");
-        	int totalIgnoredContributionValue=0;
-        	 for (int i = 0; i < ignoredContribArrayIt; i++) {
-        		 totalIgnoredContributionValue = totalIgnoredContributionValue + ignoredContributionValue[i];
-        	 }
-        	 System.out.print("totalIgnoredContributionValue: " + totalIgnoredContributionValue +"\n");
-        	 int additionalContributionToRemainingNodes = totalIgnoredContributionValue/consideredContribArrayIt;
-        	 System.out.print("additionalContributionToRemainingNodes: " + additionalContributionToRemainingNodes +"\n");
-        	 
-        	 contributionValues = new int[100];
-        	 contribArrayIt = 0;
-        	 for (int j = 0; j < consideredContribArrayIt; j++) {
-        		 System.out.print("j: " + j +"\n");
-        		 System.out.print("contribArrayIt: " + consideredContribArrayIt +"\n");
-        		 contributions[j] = contributions[j] + additionalContributionToRemainingNodes;
-        		 System.out.print("contributions[j]: " + contributions[j] +"\n");
-	            double resultContrib;
-	            resultContrib = ( contributions[j] * evaluationValues[j]) / 100;
-	
-	            if (resultContrib != 0) {
-	                contributionValues[j] = (new Double(Math.round(resultContrib))).intValue();
-	                contribArrayIt++;
-	            }
-	            System.out.print("contributionValues[j]: " + contributionValues[j] +"\n");
-        	 }
-        	
-        } 
-        if(contribArrayIt > 0) {
+        if (ignoredContribArrayIt > 0 && consideredContribArrayIt > 0) {
+            int totalIgnoredContributionValue = 0;
+            for (int i = 0; i < ignoredContribArrayIt; i++) {
+                totalIgnoredContributionValue = totalIgnoredContributionValue + ignoredContributionValue[i];
+            }
+
+            int additionalContributionToRemainingNodes = totalIgnoredContributionValue;
+
+            contributionValues = new int[100];
+            contribArrayIt = 0;
+            for (int j = 0; j < consideredContribArrayIt; j++) {
+
+                contributions[j] = contributions[j] + (additionalContributionToRemainingNodes * contributions[j] / sumContributions);
+                
+                if(contributions[j]>100){
+                    contributions[j] = 100;
+                } else if (contributions[j] < -100){
+                    contributions[j] = -100;
+                }
+                URNspec urnSpec = element.getGrlspec().getUrnspec();
+                MetadataHelper.addMetaData(urnSpec, contributionLinks[j], Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"),
+                        Integer.toString(contributions[j]));
+
+                double resultContrib;
+                resultContrib = (contributions[j] * evaluationValues[j]) / 100;
+
+                if (resultContrib != 0) {
+                    contributionValues[j] = (new Double(Math.round(resultContrib))).intValue();
+                    contribArrayIt++;
+                }
+            }
+
+        }
+        if (contribArrayIt > 0) {
 
             boolean hasSatisfy = (result == 100);
             boolean hasDeny = (result == -100);
@@ -320,8 +325,8 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                     int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
                     int importance = element.getImportanceQuantitative();
 
-                    if (importance != 0 && !"No".equals(value)){
-                        sumEval += evaluation*importance;
+                    if (importance != 0 && !"No".equals(value)) {
+                        sumEval += evaluation * importance;
 
                         sumImportance += importance;
                     }
@@ -336,10 +341,9 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
         return sumImportance;
     }
 
-	@Override
-	public boolean isConstraintSolverAlgorithm() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+    @Override
+    public boolean isConstraintSolverAlgorithm() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
