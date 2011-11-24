@@ -121,7 +121,6 @@ public class MetadataHelper {
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_NUMEVAL);
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_QUALEVAL);
                 MetadataHelper.removeMetaData(ie, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"));
-                MetadataHelper.removeMetaData(ie, Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"));
             }
             // Remove run-time evaluation metadata attached to path nodes
             for (Iterator iter3 = model.getUrndef().getSpecDiagrams().iterator(); iter3.hasNext();) {
@@ -134,10 +133,12 @@ public class MetadataHelper {
                 }
             }
             // Remove run-time contribution metadata attached to contribution links
-            for (Iterator iter2 = model.getGrlspec().getLinks().iterator(); iter2.hasNext();) {
-                ElementLink ie = (ElementLink) iter2.next();
+
+            for (Iterator iter4 = model.getGrlspec().getLinks().iterator(); iter4.hasNext();) {
+                ElementLink ie = (ElementLink) iter4.next();
                 MetadataHelper.removeMetaData(ie, Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"));
             }
+
         }
     }
 

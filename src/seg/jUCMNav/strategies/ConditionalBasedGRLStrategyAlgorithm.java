@@ -138,7 +138,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
         /* evaluation values of the nodes connected to this node via contribution links */
         int[] evaluationValues = new int[100];
         /* contribution value of the contribution links connected to the node */
-        int[] contributions = new int[100];
+        int[] contributionLinksValues = new int[100];
         /* used to keep a reference to the contribution links to be able to add meta-data later on if required */
         ElementLink[] contributionLinks = new ElementLink[100];
         /* used to keep the contribution values that has to be ignored due to unsatisfied dependency */
@@ -146,7 +146,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
         int contribArrayIt = 0;
         int ignoredContribArrayIt = 0;
         int consideredContribArrayIt = 0;
-        int sumContributions = 0;
+        int sumConsideredContributionLinks = 0;
 
         Iterator it = element.getLinksDest().iterator(); // Return the list of elementlink
         while (it.hasNext()) {
@@ -208,16 +208,17 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                     ignoredContributionValue[ignoredContribArrayIt] = quantitativeContrib;
                     ignoredContribArrayIt++;
                 } else {
-                    contributions[contribArrayIt] = quantitativeContrib;
-                    contributionLinks[contribArrayIt] = link;
-                    int srcNode = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
-                    evaluationValues[contribArrayIt] = srcNode;
+                    contributionLinksValues[consideredContribArrayIt] = quantitativeContrib;
+                    contributionLinks[consideredContribArrayIt] = link;
+                    int srcNodeEvaluationValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
+                    evaluationValues[consideredContribArrayIt] = srcNodeEvaluationValue;
+
+                    sumConsideredContributionLinks = sumConsideredContributionLinks + contributionLinksValues[consideredContribArrayIt];
+                    
                     consideredContribArrayIt++;
 
-                    sumContributions = sumContributions + contributions[contribArrayIt];
-
                     double resultContrib;
-                    resultContrib = (quantitativeContrib * srcNode) / 100;
+                    resultContrib = (quantitativeContrib * srcNodeEvaluationValue) / 100;
 
                     if (resultContrib != 0) {
                         contributionValues[contribArrayIt] = (new Double(Math.round(resultContrib))).intValue();
@@ -232,7 +233,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
 
             result = decompositionValue;
         }
-        if (ignoredContribArrayIt > 0 && consideredContribArrayIt > 0) {
+        if (ignoredContribArrayIt > 0 && consideredContribArrayIt > 0 && sumConsideredContributionLinks > 0) {
             int totalIgnoredContributionValue = 0;
             for (int i = 0; i < ignoredContribArrayIt; i++) {
                 totalIgnoredContributionValue = totalIgnoredContributionValue + ignoredContributionValue[i];
@@ -243,30 +244,38 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
             contributionValues = new int[100];
             contribArrayIt = 0;
             for (int j = 0; j < consideredContribArrayIt; j++) {
-
-                contributions[j] = contributions[j] + (additionalContributionToRemainingNodes * contributions[j] / sumContributions);
+              
+               
+                contributionLinksValues[j] = contributionLinksValues[j] + (additionalContributionToRemainingNodes * contributionLinksValues[j] / sumConsideredContributionLinks);
+               
                 
-                if(contributions[j]>100){
-                    contributions[j] = 100;
-                } else if (contributions[j] < -100){
-                    contributions[j] = -100;
+                if(contributionLinksValues[j]>100){
+                    contributionLinksValues[j] = 100;
+                } else if (contributionLinksValues[j] < -100){
+                    contributionLinksValues[j] = -100;
                 }
-                URNspec urnSpec = element.getGrlspec().getUrnspec();
+                
+               URNspec urnSpec = element.getGrlspec().getUrnspec();
                 MetadataHelper.addMetaData(urnSpec, contributionLinks[j], Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"),
-                        Integer.toString(contributions[j]));
-
+                       Integer.toString(contributionLinksValues[j]));
+                
                 double resultContrib;
-                resultContrib = (contributions[j] * evaluationValues[j]) / 100;
+               
+               
+                resultContrib = (contributionLinksValues[j] * evaluationValues[j]) / 100;
+               
 
                 if (resultContrib != 0) {
-                    contributionValues[j] = (new Double(Math.round(resultContrib))).intValue();
+                   
+                    contributionValues[contribArrayIt] = (new Double(Math.round(resultContrib))).intValue();
+                    
                     contribArrayIt++;
                 }
             }
 
         }
         if (contribArrayIt > 0) {
-
+            
             boolean hasSatisfy = (result == 100);
             boolean hasDeny = (result == -100);
             int contribValue = 0;
@@ -277,8 +286,10 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                 if (contributionValues[i] == -100)
                     hasDeny = true;
                 contribValue += contributionValues[i];
+
             }
             result = result + contribValue;
+          
 
             if (result > 100 || result < -100) {
                 result = (result / Math.abs(result)) * 100;
