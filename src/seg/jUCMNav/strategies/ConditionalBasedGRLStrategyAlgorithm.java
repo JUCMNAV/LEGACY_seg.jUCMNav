@@ -9,15 +9,19 @@ import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
+import grl.GRLLinkableElement;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.importexport.z151.generated.IntentionalElementType;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urn.URNspec;
@@ -39,6 +43,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
      * @author Azalia Shamsaei
      * 
      */
+
     private static class EvaluationCalculation {
         public IntentionalElement element;
         public int linkCalc;
@@ -54,6 +59,8 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
     Vector evalReady;
     HashMap evaluationCalculation;
     HashMap evaluations;
+    List strategyMetaDataValue;
+    HashMap acceptStereotypes = new HashMap<String, String>();
 
     /*
      * (non-Javadoc)
@@ -61,6 +68,16 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
      * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#init(java.util.Vector)
      */
     public void init(EvaluationStrategy strategy, HashMap evaluations) {
+        MetadataHelper.cleanRunTimeMetadata(strategy.getGrlspec().getUrnspec());
+        List sMetaData = strategy.getMetadata();
+        Metadata acceptStereotype;
+        for (int i = 0; i < sMetaData.size(); i++) {
+            acceptStereotype = (Metadata) sMetaData.get(i);
+            if (acceptStereotype.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_acceptStereotype"))) { //$NON-NLS-1$                        
+                acceptStereotypes.put(acceptStereotype.getValue(), acceptStereotype.getValue());
+            }
+        }
+
         evalReady = new Vector();
         evaluationCalculation = new HashMap();
         this.evaluations = evaluations;
@@ -119,6 +136,41 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
      */
     public int getEvaluationType() {
         return IGRLStrategyAlgorithm.EVAL_QUANTITATIVE;
+    }
+    /**
+     * This method decideds if an element needs to be ignored or not
+     * if an element has ConditionalGRLStrategyAlgorithm_IgnoreNode defined as medata data it should be ignored regardless
+     * if an elemenet does not have any metadata it should never be ignored
+     * if an element has stereotype metadata then 
+     *          if the metadata matches the strategy accept sterotype list it should NOT be ignored
+     *          if the metadata doesnot match the strategy accept sterotype list it should be ignored  
+     * @param element
+     * @return
+     */
+    public boolean checkIgnoreElement(GRLLinkableElement element) {
+        List eMetaData = element.getMetadata();
+        Metadata elementMetadata;
+        boolean ignoreSrc = false;
+        boolean foundAcceptacceptStereotype = false;
+        int foundStereotype = 0;        
+        for (int i = 0; i < eMetaData.size(); i++) {
+            elementMetadata = (Metadata) eMetaData.get(i);            
+            if (elementMetadata.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"))) { //$NON-NLS-1$                        
+                ignoreSrc = true;
+                break;
+            }
+            if (acceptStereotypes.size() > 0 && !foundAcceptacceptStereotype) {                
+                if (elementMetadata.getName().startsWith("ST_") && !acceptStereotypes.containsKey(elementMetadata.getValue())) {
+                    foundStereotype++;
+                } else if (elementMetadata.getName().startsWith("ST_") && acceptStereotypes.containsKey(elementMetadata.getValue())) {
+                    foundStereotype++;
+                    foundAcceptacceptStereotype = true;
+                }
+            }
+        }
+        // if there is not stereotype the element won't be ignored 
+        foundAcceptacceptStereotype = (foundAcceptacceptStereotype || foundStereotype == 0);
+        return (ignoreSrc || !foundAcceptacceptStereotype );
     }
 
     /*
@@ -180,33 +232,39 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                     }
                 }
             } else if (link instanceof Dependency) {
-                if (dependencyValue > ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
-                    dependencyValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
-                    MetadataHelper.removeMetaData(element, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"));
+                IntentionalElement src = (IntentionalElement) link.getSrc();
+                if (dependencyValue > ((Evaluation) evaluations.get(src)).getEvaluation()) {
+                    dependencyValue = ((Evaluation) evaluations.get(src)).getEvaluation();
+
                 }
-                if (dependencyValue == 0) {
+               if (src.getType().getName().equals("Ressource")) {
+                    boolean ignoreSrc = false;
+                    ignoreSrc = checkIgnoreElement(src);
                     URNspec urnSpec = element.getGrlspec().getUrnspec();
-                    MetadataHelper.addMetaData(urnSpec, element, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), "");
+                    if (dependencyValue == 0 && !ignoreSrc) {
+                        MetadataHelper.addMetaData(urnSpec, element, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), "");
+                    }
+                    if (ignoreSrc) {
+                        MetadataHelper.addMetaData(urnSpec, src, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), "");
+                        dependencyValue = 10000;
+                    }
                 }
             } else if (link instanceof Contribution) {
                 Contribution contrib = (Contribution) link;
-                MetadataHelper.removeMetaData(link, Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"));
-                Metadata ignoreMetadata;
+                Metadata acceptStereotype;
+
                 List eMetaData = link.getSrc().getMetadata();
+
                 boolean ignoreSrc = false;
-                for (int i = 0; i < eMetaData.size(); i++) {
-                    ignoreMetadata = (Metadata) eMetaData.get(i);
-                    if (ignoreMetadata.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"))) { //$NON-NLS-1$
-                        ignoreSrc = true;
-                        break;
-                    }
-                }
+                ignoreSrc = checkIgnoreElement(link.getSrc());
 
                 int quantitativeContrib = contrib.getQuantitativeContribution();
 
                 if (ignoreSrc) {
                     ignoredContributionValue[ignoredContribArrayIt] = quantitativeContrib;
-                    ignoredContribArrayIt++;
+                    ignoredContribArrayIt++;                   
+                    URNspec urnSpec = element.getGrlspec().getUrnspec();
+                    MetadataHelper.addMetaData(urnSpec, link.getSrc(), Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), "");
                 } else {
                     contributionLinksValues[consideredContribArrayIt] = quantitativeContrib;
                     contributionLinks[consideredContribArrayIt] = link;
@@ -214,7 +272,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                     evaluationValues[consideredContribArrayIt] = srcNodeEvaluationValue;
 
                     sumConsideredContributionLinks = sumConsideredContributionLinks + contributionLinksValues[consideredContribArrayIt];
-                    
+
                     consideredContribArrayIt++;
 
                     double resultContrib;
@@ -244,38 +302,35 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
             contributionValues = new int[100];
             contribArrayIt = 0;
             for (int j = 0; j < consideredContribArrayIt; j++) {
-              
-               
-                contributionLinksValues[j] = contributionLinksValues[j] + (additionalContributionToRemainingNodes * contributionLinksValues[j] / sumConsideredContributionLinks);
-               
-                
-                if(contributionLinksValues[j]>100){
+
+                contributionLinksValues[j] = contributionLinksValues[j]
+                        + (additionalContributionToRemainingNodes * contributionLinksValues[j] / sumConsideredContributionLinks);
+
+                if (contributionLinksValues[j] > 100) {
                     contributionLinksValues[j] = 100;
-                } else if (contributionLinksValues[j] < -100){
+                } else if (contributionLinksValues[j] < -100) {
                     contributionLinksValues[j] = -100;
                 }
-                
-               URNspec urnSpec = element.getGrlspec().getUrnspec();
+
+                URNspec urnSpec = element.getGrlspec().getUrnspec();
                 MetadataHelper.addMetaData(urnSpec, contributionLinks[j], Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"),
-                       Integer.toString(contributionLinksValues[j]));
-                
+                        Integer.toString(contributionLinksValues[j]));
+
                 double resultContrib;
-               
-               
+
                 resultContrib = (contributionLinksValues[j] * evaluationValues[j]) / 100;
-               
 
                 if (resultContrib != 0) {
-                   
+
                     contributionValues[contribArrayIt] = (new Double(Math.round(resultContrib))).intValue();
-                    
+
                     contribArrayIt++;
                 }
             }
 
         }
         if (contribArrayIt > 0) {
-            
+
             boolean hasSatisfy = (result == 100);
             boolean hasDeny = (result == -100);
             int contribValue = 0;
@@ -289,7 +344,6 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
 
             }
             result = result + contribValue;
-          
 
             if (result > 100 || result < -100) {
                 result = (result / Math.abs(result)) * 100;
