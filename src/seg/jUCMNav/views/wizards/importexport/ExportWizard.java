@@ -2,6 +2,7 @@ package seg.jUCMNav.views.wizards.importexport;
 
 import grl.GRLGraph;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -167,7 +168,31 @@ public class ExportWizard extends Wizard implements IExportWizard {
     protected boolean doFinish(IProgressMonitor monitor) throws Exception {
         boolean b = ((ExportWizardMapSelectionPage) getPage(PAGE1)).finish();
         postHooks = new Vector();
+        
+        // determine if any files to be exported already exist and will be overwritten
+        // allow users option of specifying unique extensions
+        // given the export type, get the exporter id
 
+        int imgtype = ExportPreferenceHelper.getPreferenceStore().getInt(ExportPreferenceHelper.PREF_IMAGETYPE);
+        String id = UCMExportExtensionPointHelper.getExporterFromLabelIndex(imgtype);
+                
+        for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
+
+            // generate the path.
+            String diagramName = getDiagramName((IURNDiagram) iter.next());
+            Path genericPath = new Path(ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_PATH));
+            genericPath.append("/" + diagramName); //$NON-NLS-1$
+            genericPath.addFileExtension(UCMExportExtensionPointHelper.getFilenameExtension(id));
+
+            System.out.println( "name: " + diagramName + " genericPath: " + genericPath );
+            
+            
+            boolean exists = (new File( genericPath.toString() )).exists();
+        
+
+        }
+        
+        
         if (b) {
             // vector which will be filled with already exported URNspecs
             Vector v = new Vector();
@@ -201,8 +226,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
             // generate the path.
             String diagramName = getDiagramName(diagram);
             Path genericPath = new Path(ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_PATH));
-            genericPath = (Path) genericPath.append("/" + diagramName); //$NON-NLS-1$
-            genericPath = (Path) genericPath.addFileExtension(UCMExportExtensionPointHelper.getFilenameExtension(id));
+            genericPath.append("/" + diagramName); //$NON-NLS-1$
+            genericPath.addFileExtension(UCMExportExtensionPointHelper.getFilenameExtension(id));
 
             // get the simple editor
             UrnEditor editor = (UrnEditor) mapsToSpecificEditor.get(diagram);
