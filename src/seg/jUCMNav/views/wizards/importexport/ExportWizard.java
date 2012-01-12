@@ -2,7 +2,6 @@ package seg.jUCMNav.views.wizards.importexport;
 
 import grl.GRLGraph;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -24,6 +23,8 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IExportWizard;
@@ -62,6 +63,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
     protected static final String PAGE0 = Messages.getString("ExportWizard.ExportURNorUCM"); //$NON-NLS-1$
     protected static final String PAGE1 = Messages.getString("ExportImageWizard.exportImage"); //$NON-NLS-1$
+	public static int userChoice;
 
     /**
      * Removes illegal characters from filenames. Not sure if the complete list is here.
@@ -165,9 +167,10 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * Saves all images and closes opened editors.
      */
 
-    protected boolean doFinish(IProgressMonitor monitor) throws Exception {
+	protected boolean doFinish(IProgressMonitor monitor) throws Exception {
         boolean b = ((ExportWizardMapSelectionPage) getPage(PAGE1)).finish();
         postHooks = new Vector();
+        String differentiator = null;
         
         // determine if any files to be exported already exist and will be overwritten
         // allow users option of specifying unique extensions
@@ -176,45 +179,97 @@ public class ExportWizard extends Wizard implements IExportWizard {
         int imgtype = ExportPreferenceHelper.getPreferenceStore().getInt(ExportPreferenceHelper.PREF_IMAGETYPE);
         String id = UCMExportExtensionPointHelper.getExporterFromLabelIndex(imgtype);
                 
+        Vector<String> existingFiles = new Vector<String>();
+        
         for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
 
             // generate the path.
             String diagramName = getDiagramName((IURNDiagram) iter.next());
             Path genericPath = new Path(ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_PATH));
-            genericPath.append("/" + diagramName); //$NON-NLS-1$
-            genericPath.addFileExtension(UCMExportExtensionPointHelper.getFilenameExtension(id));
+            genericPath = (Path) genericPath.append("/" + diagramName); //$NON-NLS-1$
+            genericPath = (Path) genericPath.addFileExtension(UCMExportExtensionPointHelper.getFilenameExtension(id));
 
-            System.out.println( "name: " + diagramName + " genericPath: " + genericPath );
+            if( genericPath.toFile().exists()) {
+            	existingFiles.add( new String( genericPath.toString() ));
+            	System.out.println( "existing file name: " + diagramName + " genericPath: " + genericPath );
+            }
             
-            
-            boolean exists = (new File( genericPath.toString() )).exists();
+        }
         
+        if( !existingFiles.isEmpty() ){
+
+        	final String title = "Overwrite Existing File(s)";
+        	StringBuffer mb = new StringBuffer();
+        	mb.append( "The following file(s) already exist.\nDo you want to overwrite them or generate unique filenames ?\n\n" );
+
+        	for( String ef : existingFiles ){
+        		mb.append( ef );
+        		mb.append( "\n" );
+        	}
+
+        	final String message = new String( mb.toString() );
+        	System.out.println( message );
+        	final String[] labels = { "Overwrite File(s)", "Generate Unique Filename(s)" };
+
+        	// This will update the UI synchronously, e.g. the calling thread will wait
+        	// until the work is done
+
+        	final Shell shell = this.getShell();
+        	Display display = shell.getDisplay();
+
+        	display.syncExec(new Runnable() {
+        		public void run() {
+        			MessageDialog md = new MessageDialog( shell, title, MessageDialog.getDefaultImage(), message,
+        					MessageDialog.QUESTION, labels, 1 );
+        			md.create();
+        			userChoice = md.open();
+        		} 
+        	});
+
+        	System.out.println( "The user choice was: " + userChoice + "\n" );
 
         }
         
+        if( userChoice == 1 ){ // if user selected unique filenames
+        	
+        	int extension = 1;
+        	boolean unique = false;
+        	
+        	while( !unique ){
+        		
+        		
+        		
+        		
+        		
+        	}
+        	
+        	differentiator = "-" + extension;
+        }
         
         if (b) {
             // vector which will be filled with already exported URNspecs
             Vector v = new Vector();
 
-            for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
+            for (Iterator iter2 = mapsToExport.iterator(); iter2.hasNext();) {
                 if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
-                    ExportDiagram((IURNDiagram) iter.next());
+                    ExportDiagram((IURNDiagram) iter2.next(), differentiator);
                 } else
-                    ExportURN((IURNDiagram) iter.next(), v);
+                    ExportURN((IURNDiagram) iter2.next(), v);
 
                 monitor.worked(1);
             }
         }
+        
         return b;
-    }
+	}
+
 
     /**
      * Exports a diagram to a file. Uses mapsToExport to find the editor and the preference store to build the file name.
      * 
      * @param diagram
      */
-    protected void ExportDiagram(IURNDiagram diagram) throws Exception {
+    protected void ExportDiagram(IURNDiagram diagram, String differentiator ) throws Exception {
         FileOutputStream fos = null;
 
         try {
@@ -226,8 +281,10 @@ public class ExportWizard extends Wizard implements IExportWizard {
             // generate the path.
             String diagramName = getDiagramName(diagram);
             Path genericPath = new Path(ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_PATH));
-            genericPath.append("/" + diagramName); //$NON-NLS-1$
-            genericPath.addFileExtension(UCMExportExtensionPointHelper.getFilenameExtension(id));
+            genericPath = (Path) genericPath.append("/" + diagramName); //$NON-NLS-1$
+            if( differentiator != null)
+            	genericPath = (Path) genericPath.append( differentiator );
+            genericPath = (Path) genericPath.addFileExtension(UCMExportExtensionPointHelper.getFilenameExtension(id));
 
             // get the simple editor
             UrnEditor editor = (UrnEditor) mapsToSpecificEditor.get(diagram);
@@ -351,7 +408,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 // export the individual diagrams
                 for (Iterator iter = editor.getModel().getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
                     IURNDiagram element = (IURNDiagram) iter.next();
-                    ExportDiagram(element);
+                    ExportDiagram(element, null);
                 }
 
                 // set back the original preference so that the URN export is the same next time.
