@@ -224,8 +224,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
         		display.syncExec(new Runnable() {
         			public void run() {
-        				MessageDialog md = new MessageDialog( shell, title, MessageDialog.getDefaultImage(), message,
-        						MessageDialog.QUESTION, labels, 1 );
+        				MessageDialog md = new MessageDialog( shell, title, null, message, MessageDialog.QUESTION, labels, 1 );
         				md.create();
         				userChoice = md.open();
         			} 
@@ -246,7 +245,6 @@ public class ExportWizard extends Wizard implements IExportWizard {
         				else
         					extension++;
         			}
-
         			differentiator = extension;
         		}
         		else if( userChoice == CANCEL ){

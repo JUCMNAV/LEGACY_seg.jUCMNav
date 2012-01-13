@@ -151,7 +151,7 @@ public class RTFReportDiagram extends PDFReport {
             SWTGraphics graphics = new SWTGraphics(gc);
 
             // zoom for better resolution
-            graphics.scale(ReportUtils.ZOOMFACTOR);
+            graphics.scale(ReportUtils.ZOOMFACTOR); // temporary
 
             // if the bounds are in the negative x/y, we don't see them without a translation
             graphics.translate(-pane.getBounds().x, -pane.getBounds().y);

@@ -84,13 +84,13 @@ import urncore.IURNDiagram;
 /**
  * Test suite to test the commands in the GRL editor
  * 
- * @author Jean-François Roy
+ * @author Jean-Franï¿½ois Roy
  * 
  */
 public class JUCMNavGRLCommandTests extends TestCase {
 
     public static void main(String[] args) {
-        junit.awtui.TestRunner.run(JUCMNavGRLCommandTests.class);
+        junit.textui.TestRunner.run(JUCMNavGRLCommandTests.class);
     }
 
     private UCMNavMultiPageEditor editor;

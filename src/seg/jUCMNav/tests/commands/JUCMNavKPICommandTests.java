@@ -65,7 +65,7 @@ import urncore.IURNDiagram;
  */
 public class JUCMNavKPICommandTests extends TestCase {
     public static void main(String[] args) {
-        junit.awtui.TestRunner.run(JUCMNavKPICommandTests.class);
+        junit.textui.TestRunner.run(JUCMNavKPICommandTests.class);
     }
 
     private UCMNavMultiPageEditor editor;
