@@ -1,7 +1,10 @@
 package seg.jUCMNav.actions;
 
+import java.util.List;
+
 import grl.Actor;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -32,13 +35,11 @@ public class EditURNLinksAction extends URNSelectionAction {
         setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/urnlink.gif")); //$NON-NLS-1$
     }
 
-    /**
-     * True if we've selected an intentional element
-     */
     protected boolean calculateEnabled() {
-    	SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+    	List parts = getSelectedObjects();
+    	SelectionHelper sel = new SelectionHelper( parts );
 
-    	if( sel.getSelection().size() == 1 ){
+    	if( parts.size() == 1 ){
     		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
     			element = sel.getIntentionalelementref().getDef();
     			return true;
@@ -59,9 +60,10 @@ public class EditURNLinksAction extends URNSelectionAction {
     			Component comp = (Component) sel.getComponentref().getContDef();
     			element = comp;
     			return true;
-    		}
-    		else if( sel.getSelection().get(0) instanceof URNmodelElement ){
-    			element = (URNmodelElement) sel.getSelection().get(0);
+    		} else if( parts.get(0) instanceof EditPart ){
+    			EditPart ep = ((EditPart) parts.get(0));
+    			if( ep.getModel() instanceof URNmodelElement )
+    			element = (URNmodelElement) ep.getModel();
     			return true;
     		}
     		else

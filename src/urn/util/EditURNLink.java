@@ -194,8 +194,6 @@ public class EditURNLink {
 		final int OVERWRITE = 1;
 		int userChoice = OVERWRITE;
 
-		System.out.println("Start New Link selected.");
-		
 		if( fromElement != null ){
     		final String title = "Start Link Element already exists";
     		final String message = "An element has already been selected as a URN Link start\nCurrent Link Start:\t\""
@@ -226,8 +224,6 @@ public class EditURNLink {
 	private void EndNewLink( URNmodelElement element )
 	{
 		URNmodelElement toElement = element;
-
-        System.out.println("End New Link selected.");
 
         if (toElement != null) {
         	URNlink newLink = (URNlink) ModelCreationFactory.getNewObject(urn, URNlink.class);
