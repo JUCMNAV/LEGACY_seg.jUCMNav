@@ -6,7 +6,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.urnlinks.URNLinksDialog;
-import urn.URNlink;
+import urn.util.EditURNLink;
 import urncore.Component;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
@@ -14,7 +14,7 @@ import urncore.URNmodelElement;
 /**
  * This action open the URNLink dialog for the selected element
  * 
- * @author Jean-François Roy
+ * @author Jean-Franï¿½ois Roy
  * 
  */
 public class EditURNLinksAction extends URNSelectionAction {
@@ -36,37 +36,39 @@ public class EditURNLinksAction extends URNSelectionAction {
      * True if we've selected an intentional element
      */
     protected boolean calculateEnabled() {
-        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
-            element = sel.getIntentionalelementref().getDef();
-            return true;
-        } else if (sel.getSelectionType() == SelectionHelper.ACTORREF) {
-            element = (Actor) sel.getActorref().getContDef();
-            return true;
-        } else if (sel.getSelectionType() == SelectionHelper.ACTOR) {
-            element = sel.getActor();
-            return true;
-        } else if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENT) {
-            element = sel.getIntentionalElement();
-            return true;
-        } else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
-            Responsibility resp = sel.getRespRef().getRespDef();
-            if (resp.getToLinks().size() > 0) {
-                element = ((URNlink) resp.getToLinks().get(0)).getFromElem();
-                return true;
-            } else {
-                return false;
-            }
-        } else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
-            Component comp = (Component) sel.getComponentref().getContDef();
-            if (comp.getFromLinks().size() > 0) {
-                element = ((URNlink) comp.getFromLinks().get(0)).getToElem();
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
+    	SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+
+    	if( sel.getSelection().size() == 1 ){
+    		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
+    			element = sel.getIntentionalelementref().getDef();
+    			return true;
+    		} else if (sel.getSelectionType() == SelectionHelper.ACTORREF) {
+    			element = (Actor) sel.getActorref().getContDef();
+    			return true;
+    		} else if (sel.getSelectionType() == SelectionHelper.ACTOR) {
+    			element = sel.getActor();
+    			return true;
+    		} else if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENT) {
+    			element = sel.getIntentionalElement();
+    			return true;
+    		} else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
+    			Responsibility resp = sel.getRespRef().getRespDef();
+    			element = resp;
+    			return true;
+    		} else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
+    			Component comp = (Component) sel.getComponentref().getContDef();
+    			element = comp;
+    			return true;
+    		}
+    		else if( sel.getSelection().get(0) instanceof URNmodelElement ){
+    			element = (URNmodelElement) sel.getSelection().get(0);
+    			return true;
+    		}
+    		else
+    			return false;
+    	}
+    	else
+    		return false;
     }
 
     /**
@@ -74,8 +76,8 @@ public class EditURNLinksAction extends URNSelectionAction {
      * 
      */
     public void run() {
-        // TODO: should be launched by something else than constructor.
-        new URNLinksDialog(getCommandStack(), element);
+    	EditURNLink ul = new EditURNLink();
+        ul.EditLink( getCommandStack(), element );
     }
 
 }

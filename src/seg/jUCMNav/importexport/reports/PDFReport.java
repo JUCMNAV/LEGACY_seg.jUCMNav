@@ -4,6 +4,8 @@ import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
+import org.eclipse.swt.widgets.Shell;
+
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import urn.URNspec;
@@ -34,7 +36,7 @@ public class PDFReport extends Report {
      *            the report filename
      */
 
-    public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
+    public void export(URNspec urn, HashMap mapDiagrams, String filename, Shell shell) throws InvocationTargetException {
 
         // Create a report document with page size from preferences, 72 points per inch
         String sReportHeight = ReportGeneratorPreferences.getHeight();
@@ -61,7 +63,7 @@ public class PDFReport extends Report {
 
             // The diagram creation is specific for PDF files, inserted here
             if (!urndef.getSpecDiagrams().isEmpty()) {
-                PDFReportDiagram reportDiagrams = new PDFReportDiagram();
+                PDFReportDiagram reportDiagrams = new PDFReportDiagram( shell );
                 reportDiagrams.createPDFReportDiagramsAndDescription(document, urndef, mapDiagrams, pagesize);
 
             }

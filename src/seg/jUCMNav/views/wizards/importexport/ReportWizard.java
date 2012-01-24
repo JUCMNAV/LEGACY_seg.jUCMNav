@@ -84,7 +84,10 @@ public class ReportWizard extends ExportWizard {
 
             // get exporter
             IURNReport exporter = ReportExtensionPointHelper.getExporter(id);
-
+            
+            
+            
+//this.getShell();
             HashMap mapDiagrams = new HashMap();
 
             for (int i = 0; i < mapsToExport.size(); i++) {
@@ -95,7 +98,7 @@ public class ReportWizard extends ExportWizard {
             }
 
             // export diagrams from URN
-            exporter.export(editor.getModel(), mapDiagrams, genericPath.toOSString());
+            exporter.export(editor.getModel(), mapDiagrams, genericPath.toOSString(), this.getShell());
 
         } catch (InvocationTargetException e) {
             Throwable realException = e.getTargetException();

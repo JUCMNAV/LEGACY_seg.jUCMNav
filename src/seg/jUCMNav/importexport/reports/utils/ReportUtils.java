@@ -50,7 +50,7 @@ public class ReportUtils {
      * @param img
      *            the Image
      */
-    private static void imageSmartScale(Rectangle pagesize, int imageWidth, int imageHeight, Image img) {
+    public static void imageSmartScale(Rectangle pagesize, int imageWidth, int imageHeight, Image img) {
 
         // if the image boundaries are bigger than the page size, resize the image
         float pageWidth = pagesize.getWidth();
@@ -134,7 +134,7 @@ public class ReportUtils {
             GC gc = new GC(image);
             SWTGraphics graphics = new SWTGraphics(gc);
             // zoom for better resolution
-            graphics.scale(ReportUtils.ZOOMFACTOR);
+            graphics.scale(ReportUtils.ZOOMFACTOR*2);  // temporary
 
             // if the bounds are in the negative x/y, we don't see them without a translation
             graphics.translate(-pane.getBounds().x, -pane.getBounds().y);

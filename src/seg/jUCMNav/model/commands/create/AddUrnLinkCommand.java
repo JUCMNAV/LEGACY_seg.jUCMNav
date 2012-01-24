@@ -14,7 +14,7 @@ import urncore.URNmodelElement;
 /**
  * This class create a URNLink between a GRL element and a UCM element
  * 
- * @author Jean-François Roy
+ * @author Jean-Franï¿½ois Roy
  * 
  */
 public class AddUrnLinkCommand extends Command implements JUCMNavCommand {
@@ -93,7 +93,7 @@ public class AddUrnLinkCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urn != null && link != null && from != null && to != null : "pre null"; //$NON-NLS-1$
+        assert urn != null && link != null && from != null && to != null : "post null"; //$NON-NLS-1$
         assert urn.getUrnLinks().contains(link) : "pre urn contain link!"; //$NON-NLS-1$
         assert from.getFromLinks().contains(link) && to.getToLinks().contains(link) : "pre element contain link"; //$NON-NLS-1$
     }

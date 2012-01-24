@@ -6,9 +6,11 @@ import java.util.Iterator;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.importexport.ExportImageGIF;
@@ -167,6 +169,24 @@ public class RTFReportDiagram extends PDFReport {
             int imageHeight = bufferedImage.getHeight();
             int imageWidth = bufferedImage.getWidth();
 
+//            // copied from ReportUtils.insertRTFImage
+//            ImageLoader loader = new ImageLoader();
+////            loader.data = new ImageData[] { ExportImageGIF.downSample(image) };
+//            loader.data = new ImageData[] { ideaImageData };
+//            loader.save("tmpfile.gif", SWT.IMAGE_GIF); //$NON-NLS-1$
+//
+//            com.lowagie.text.Image rtfImage = com.lowagie.text.Image.getInstance("tmpfile.gif"); //$NON-NLS-1$
+//
+//            gc.dispose();
+//            image.dispose();
+//
+//            ReportUtils.imageSmartScale(pagesize, imageWidth, imageHeight, rtfImage);
+//            document.add(rtfImage);
+
+            
+            
+            
+            
             ReportUtils.insertRTFImage(document, pane, pagesize, imageWidth, imageHeight);
 
             gc.dispose();

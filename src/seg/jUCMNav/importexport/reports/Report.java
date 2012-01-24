@@ -11,6 +11,8 @@ import grl.GRLspec;
 
 import java.io.FileOutputStream;
 
+import org.eclipse.swt.widgets.Shell;
+
 import ucm.UCMspec;
 
 import urncore.URNdefinition;
@@ -150,7 +152,7 @@ public class Report extends URNReport {
      * 
      */
 
-    public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
+    public void export(URNspec urn, HashMap mapDiagrams, String filename, Shell shell) throws InvocationTargetException {
 
     }
 
