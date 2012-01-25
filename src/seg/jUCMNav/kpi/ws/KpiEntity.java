@@ -94,8 +94,6 @@ public class KpiEntity implements Serializable {
         if (!(obj instanceof KpiEntity))
             return false;
         KpiEntity other = (KpiEntity) obj;
-        if (obj == null)
-            return false;
         if (this == obj)
             return true;
         if (__equalsCalc != null) {
