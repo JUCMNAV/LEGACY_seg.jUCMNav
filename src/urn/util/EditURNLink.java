@@ -82,7 +82,10 @@ public class EditURNLink {
 	    item.setEnabled(false);
 	    MenuItem item4 = new MenuItem(menu, SWT.SEPARATOR);
 	    MenuItem item2 = new MenuItem(menu, SWT.PUSH);
-	    item2.setText( "Start New Link" );
+	    if( fromElement == null )
+	    	item2.setText( "Start New Link" );
+	    else
+	    	item2.setText( "Start New Link - current: \"" + fromElement.getName() + "\"" );
 	    
 	    item2.addListener( SWT.Selection, new Listener() {
 	        public void handleEvent(Event event) {
@@ -94,7 +97,7 @@ public class EditURNLink {
 	    	
 		    new MenuItem(menu, SWT.SEPARATOR);
 		    MenuItem item21 = new MenuItem(menu, SWT.PUSH);
-		    item21.setText( "End New Link" );
+		    item21.setText( "End New Link from \"" + fromElement.getName() + "\"" );
 	    	
 		    item21.addListener( SWT.Selection, new Listener() {
 		        public void handleEvent(Event event) {
@@ -183,8 +186,6 @@ public class EditURNLink {
 	    	}	    	    
 	    }
 	    
-//	    Point sp = shell.getLocation();
-//	    menu.setLocation( new Point(sp.x+350, sp.y+350));
 	    menu.setVisible(true);
 	}
 	
