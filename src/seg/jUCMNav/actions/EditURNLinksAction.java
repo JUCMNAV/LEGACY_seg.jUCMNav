@@ -3,6 +3,8 @@ package seg.jUCMNav.actions;
 import java.util.List;
 
 import grl.Actor;
+import grl.Contribution;
+import grl.ElementLink;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IWorkbenchPart;
@@ -25,6 +27,7 @@ public class EditURNLinksAction extends URNSelectionAction {
     public static final String EDITURNLINKS = "seg.jUCMNav.EditURNLinksAction"; //$NON-NLS-1$
 
     private URNmodelElement element;
+    private EditPart editPart;
 
     /**
      * @param part
@@ -40,6 +43,13 @@ public class EditURNLinksAction extends URNSelectionAction {
     	SelectionHelper sel = new SelectionHelper( parts );
 
     	if( parts.size() == 1 ){
+    		
+    		if( parts.get(0) instanceof EditPart ){
+    			editPart = ((EditPart) parts.get(0));
+    		}
+    		
+    		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
+    		
     		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
     			element = sel.getIntentionalelementref().getDef();
     			return true;
@@ -55,15 +65,17 @@ public class EditURNLinksAction extends URNSelectionAction {
     		} else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
     			Responsibility resp = sel.getRespRef().getRespDef();
     			element = resp;
+    			return true; 		
+    		} else if (sel.getSelectionType() == SelectionHelper.LINKREF) {
+    			ElementLink el = sel.getLinkref().getLink();
+    			element = el;
     			return true;
     		} else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
     			Component comp = (Component) sel.getComponentref().getContDef();
     			element = comp;
     			return true;
-    		} else if( parts.get(0) instanceof EditPart ){
-    			EditPart ep = ((EditPart) parts.get(0));
-    			if( ep.getModel() instanceof URNmodelElement )
-    			element = (URNmodelElement) ep.getModel();
+    		} else if( editPart.getModel() instanceof URNmodelElement ) {
+    			element = (URNmodelElement) editPart.getModel();
     			return true;
     		}
     		else
@@ -79,7 +91,7 @@ public class EditURNLinksAction extends URNSelectionAction {
      */
     public void run() {
     	EditURNLink ul = new EditURNLink();
-        ul.EditLink( getCommandStack(), element );
+        ul.EditLink( getCommandStack(), element, editPart );
     }
 
 }

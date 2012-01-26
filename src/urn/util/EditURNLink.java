@@ -1,11 +1,14 @@
 package urn.util;
 
 import grl.Actor;
+import grl.ElementLink;
 import grl.IntentionalElement;
 
 import java.util.Iterator;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -21,12 +24,15 @@ import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editors.UcmEditor;
+import seg.jUCMNav.editparts.UCMConnectionOnBottomRootEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
 import seg.jUCMNav.model.commands.create.AddUrnLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import urn.URNlink;
 import urn.URNspec;
+import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
@@ -35,11 +41,13 @@ public class EditURNLink {
 	
 	private static URNmodelElement fromElement = null;
 	private static URNmodelElement selectedElement = null;
+	private static EditPart fromEP = null;
+	private static EditPart selectedEP = null;
 	private static CommandStack commandStack;
     private static URNspec urn; // The urnspec of the current model
     
 	
-	public void EditLink( CommandStack cmdStack, URNmodelElement element )
+	public void EditLink( CommandStack cmdStack, URNmodelElement element, EditPart ep )
 	{
 		
 		class EditListener implements Listener {
@@ -74,6 +82,7 @@ public class EditURNLink {
 
 		commandStack = cmdStack;
 		selectedElement = element;
+		selectedEP = ep;
 		
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	    Menu menu = new Menu(shell, SWT.POP_UP);
@@ -124,7 +133,7 @@ public class EditURNLink {
 	    		String text = "(" + link.getType() + ") to \"" + link.getToElem().getName() + "\"";
 	    		ogLinks[i] = new MenuItem(menu, SWT.CASCADE);
 	    		ogLinks[i].setText( text );
-		    	ogLinks[i].setImage(JUCMNavPlugin.getImageDescriptor("icons/urnlink.gif").createImage()); //$NON-NLS-1$
+		    	ogLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
 	    		
 			    pulldownMenus[i] = new Menu(shell, SWT.DROP_DOWN);
 		    	
@@ -161,7 +170,7 @@ public class EditURNLink {
 	    		String text = "(" + link.getType() + ") from \"" + link.getFromElem().getName() + "\"";
 	    		icLinks[i] = new MenuItem(menu, SWT.CASCADE);
 	    		icLinks[i].setText( text );
-		    	icLinks[i].setImage(JUCMNavPlugin.getImageDescriptor("icons/urnlink-reversed.gif").createImage()); //$NON-NLS-1$
+		    	icLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink-reversed.gif")); //$NON-NLS-1$
     		
 			    pulldownMenus[i] = new Menu(shell, SWT.DROP_DOWN);
 		    	
@@ -185,25 +194,6 @@ public class EditURNLink {
 	
 	private void StartNewLink( URNmodelElement element )
 	{
-		final int CANCEL = 0;
-		final int OVERWRITE = 1;
-		int userChoice = OVERWRITE;
-
-		if( fromElement != null ){
-    		final String title = "Start Link Element already exists";
-    		final String message = "An element has already been selected as a URN Link start\nCurrent Link Start:\t\""
-    		+ fromElement.getName() + "\"";
-    		final String[] labels = { "Cancel Operation", "Set New Link Start" };
-    		
-    		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-			MessageDialog md = new MessageDialog( shell, title, null, message, MessageDialog.QUESTION, labels, 1 );
-			md.create();
-			userChoice = md.open();
-		}
-
-		if( userChoice == CANCEL)
-			return;
-
 		fromElement = element;
 		
         if (fromElement instanceof IntentionalElement) {
@@ -212,6 +202,8 @@ public class EditURNLink {
             urn = ((Actor) fromElement).getGrlspec().getUrnspec();
         } else if( fromElement instanceof IURNNode ){
         	urn = ((IURNNode) fromElement).getDiagram().getUrndefinition().getUrnspec();
+        } else if( fromElement instanceof ElementLink ){
+        	urn = ((ElementLink) fromElement).getGrlspec().getUrnspec();
         }
 
 	}
@@ -292,6 +284,46 @@ public class EditURNLink {
 	
 	private void NavigateLink( URNlink selectedLink )
 	{
+		//	     if (activeBindings.size() == 1 && getNode() instanceof StartPoint) {
+		//             // if only one plugin, open it.
+		//             InBinding binding = ((InBinding) activeBindings.get(0));
+		//             UCMmap map = (UCMmap) binding.getBinding().getStub().getDiagram();
+		//             if (map != null) {
+		//                 ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
+		//                 GraphicalViewer viewer = ((UcmEditor) ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().getCurrentPage())
+		//                         .getGraphicalViewer();
+		//                 viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+		//             }
+
+
+		URNmodelElement linkStart, linkEnd;
+
+		linkStart = selectedLink.getFromElem();
+		linkEnd = selectedLink.getToElem();
+
+		IURNDiagram startDiagram = null, endDiagram = null;
+
+		if( linkStart instanceof IURNNode ){
+			startDiagram = ((IURNNode) linkStart).getDiagram();
+		}
+
+		if( linkEnd instanceof IURNNode ){
+			endDiagram = ((IURNNode) linkEnd).getDiagram();
+		}
+
+		if( startDiagram == null || endDiagram == null ){
+			System.err.println( "NavigateLink: diagrams are null" );
+			return;
+		}
+
+		if( startDiagram != endDiagram ){ // switch diagrams
+			
+
+		} // highlight target element
+//		EditPart rootPart = 
+//		GraphicalViewer viewer = ((UcmEditor) ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().getCurrentPage())
+//				.getGraphicalViewer();
+//		viewer.select((EditPart) viewer.getEditPartRegistry().get( linkEnd ));
 
 	}
     /**
