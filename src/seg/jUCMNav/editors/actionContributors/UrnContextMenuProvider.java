@@ -402,9 +402,11 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GROUP_UNCOMMON, action);
 
         action = getActionRegistry().getAction(EditURNLinksAction.EDITURNLINKS);
-        if (action.isEnabled())
+        if (action.isEnabled()) {
             manager.appendToGroup(GROUP_UNCOMMON, action);
-
+            action.setToolTipText( "Opens a popup menu allowing users to view and edit URN Links for this element" );
+        }
+        
         action = getActionRegistry().getAction(EditCodeAction.EDITCODEACTION);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);

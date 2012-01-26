@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
@@ -78,14 +79,14 @@ public class EditURNLink {
 	    Menu menu = new Menu(shell, SWT.POP_UP);
 	
 	    MenuItem item = new MenuItem(menu, SWT.PUSH);
-	    item.setText("Edit URN Links -> \"" + selectedElement.getName() + "\"");
+	    item.setText("URN Links for \"" + selectedElement.getName() + "\"");
 	    item.setEnabled(false);
 	    MenuItem item4 = new MenuItem(menu, SWT.SEPARATOR);
 	    MenuItem item2 = new MenuItem(menu, SWT.PUSH);
 	    if( fromElement == null )
 	    	item2.setText( "Start New Link" );
 	    else
-	    	item2.setText( "Start New Link - current: \"" + fromElement.getName() + "\"" );
+	    	item2.setText( "Start New Link *" );
 	    
 	    item2.addListener( SWT.Selection, new Listener() {
 	        public void handleEvent(Event event) {
@@ -95,7 +96,6 @@ public class EditURNLink {
 	    
 	    if( fromElement != null && fromElement != selectedElement ){
 	    	
-		    new MenuItem(menu, SWT.SEPARATOR);
 		    MenuItem item21 = new MenuItem(menu, SWT.PUSH);
 		    item21.setText( "End New Link from \"" + fromElement.getName() + "\"" );
 	    	
@@ -111,10 +111,6 @@ public class EditURNLink {
 	    if( outgoingSize > 0 ){ 
 	    	
 	    	new MenuItem(menu, SWT.SEPARATOR);
-	    	MenuItem item3 = new MenuItem(menu, SWT.PUSH);
-	    	item3.setText("Outgoing Links");
-	    	item3.setEnabled(false);
-	    	new MenuItem(menu, SWT.SEPARATOR);
 
 	    	final MenuItem[] ogLinks = new MenuItem[outgoingSize];
 	    	final Menu[] pulldownMenus = new Menu[outgoingSize];
@@ -125,9 +121,10 @@ public class EditURNLink {
 
 	    	for (Iterator it = selectedElement.getFromLinks().iterator(); it.hasNext();) {
 	    		URNlink link = (URNlink) it.next();
-	    		String text = "|> (" + link.getType() + ") to \"" + link.getToElem().getName() + "\"";
+	    		String text = "(" + link.getType() + ") to \"" + link.getToElem().getName() + "\"";
 	    		ogLinks[i] = new MenuItem(menu, SWT.CASCADE);
 	    		ogLinks[i].setText( text );
+		    	ogLinks[i].setImage(JUCMNavPlugin.getImageDescriptor("icons/urnlink.gif").createImage()); //$NON-NLS-1$
 	    		
 			    pulldownMenus[i] = new Menu(shell, SWT.DROP_DOWN);
 		    	
@@ -150,10 +147,6 @@ public class EditURNLink {
 	    
 	    if( incomingSize > 0 ){    
 	    	new MenuItem(menu, SWT.SEPARATOR);
-	    	MenuItem item3 = new MenuItem(menu, SWT.PUSH);
-	    	item3.setText( "Incoming Links" );
-	    	item3.setEnabled(false);
-	    	new MenuItem(menu, SWT.SEPARATOR);
 
 	    	final MenuItem[] icLinks = new MenuItem[incomingSize];
 	    	final Menu[] pulldownMenus = new Menu[incomingSize];
@@ -165,10 +158,11 @@ public class EditURNLink {
 
 	    	for (Iterator it = selectedElement.getToLinks().iterator(); it.hasNext();) {
 	    		URNlink link = (URNlink) it.next();
-	    		String text = "<| (" + link.getType() + ") from \"" + link.getFromElem().getName() + "\"";
+	    		String text = "(" + link.getType() + ") from \"" + link.getFromElem().getName() + "\"";
 	    		icLinks[i] = new MenuItem(menu, SWT.CASCADE);
 	    		icLinks[i].setText( text );
-	    		
+		    	icLinks[i].setImage(JUCMNavPlugin.getImageDescriptor("icons/urnlink-reversed.gif").createImage()); //$NON-NLS-1$
+    		
 			    pulldownMenus[i] = new Menu(shell, SWT.DROP_DOWN);
 		    	
 			    pei[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
