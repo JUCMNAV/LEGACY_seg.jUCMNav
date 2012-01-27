@@ -63,13 +63,14 @@ public class CopyAction extends SelectionAction {
 
                 GC gc = new GC(image);
                 SWTGraphics graphics = new SWTGraphics(gc);
-                figure.paint(graphics);
                 graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
-                graphics.dispose();
-                gc.dispose();
+                figure.paint(graphics);
 
                 // TODO: Improve crop to make use of current selection.
                 screenshot = ReportUtils.cropImage(image.getImageData());
+                
+                graphics.dispose();
+                gc.dispose();
             }
         }
         return screenshot;
