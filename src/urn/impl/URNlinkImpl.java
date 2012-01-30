@@ -6,6 +6,11 @@
  */
 package urn.impl;
 
+import grl.Actor;
+import grl.ActorRef;
+import grl.IntentionalElementRef;
+import grl.LinkRef;
+
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -18,9 +23,13 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import org.eclipse.emf.ecore.util.InternalEList;
+
+import ucm.map.ComponentRef;
+import ucm.map.RespRef;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnPackage;
+import urncore.Component;
 import urncore.Metadata;
 import urncore.URNmodelElement;
 import urncore.UrncorePackage;
@@ -470,6 +479,31 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
         result.append(type);
         result.append(')');
         return result.toString();
+    }
+    
+    
+    public URNmodelElement getParentFromElem() {
+    	return( this.getParentElement( fromElem ));
+    }
+    
+    public URNmodelElement getParentToElem() {
+    	return( this.getParentElement( toElem ));    	
+    }
+
+    private URNmodelElement getParentElement( URNmodelElement element )
+    {
+    	if( element instanceof ActorRef )
+    		return( (Actor) (((ActorRef) element).getContDef()) );
+    	else if( element instanceof IntentionalElementRef )
+    		return( ((IntentionalElementRef) element).getDef() );
+    	else if( element instanceof RespRef )
+    		return( ((RespRef) element).getRespDef() );
+    	else if( element instanceof ComponentRef )
+    		return( (Component) (((ComponentRef) element).getContDef()) );
+//    	else if( element instanceof LinkRef )
+//    		return( ((LinkRef) element).getLink() );
+    	else
+    		return element;
     }
 
 } //URNlinkImpl

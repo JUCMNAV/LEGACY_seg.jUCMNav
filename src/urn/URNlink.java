@@ -157,5 +157,9 @@ public interface URNlink extends EObject {
      * @generated
      */
 	EList getMetadata();
+	
+    URNmodelElement getParentFromElem();
+    URNmodelElement getParentToElem();
+
 
 } // URNlink

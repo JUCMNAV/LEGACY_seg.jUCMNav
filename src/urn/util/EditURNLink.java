@@ -32,6 +32,7 @@ import seg.jUCMNav.model.commands.create.AddUrnLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import urn.URNlink;
 import urn.URNspec;
+import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.UCMmodelElement;
@@ -160,8 +161,8 @@ public class EditURNLink {
 	    	final MenuItem[] icLinks = new MenuItem[incomingSize];
 	    	final Menu[] pulldownMenus = new Menu[incomingSize];
 	    	final MenuItem[] pei = new MenuItem[incomingSize];
-	    	final MenuItem[] pni = new MenuItem[incomingSize];
 	    	final MenuItem[] pdi = new MenuItem[incomingSize];
+	    	final MenuItem[] pni = new MenuItem[incomingSize];
 	    	
 	    	int i = 0;
 
@@ -180,16 +181,30 @@ public class EditURNLink {
 		    	pdi[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
 		    	pdi[i].setText( "Delete Link" );
 		    	pdi[i].addListener( SWT.Selection, new DeleteListener( link));
-		    	pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
-		    	pni[i].setText( "Show Target" );
-		    	pni[i].addListener( SWT.Selection, new NavigateListener( link));
-
+		    	
+		    	if( this.IsNavigable( link )){
+		    		pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
+		    		pni[i].setText( "Show Target" );
+		    		pni[i].addListener( SWT.Selection, new NavigateListener( link ));
+		    	}
+		    	
 	    		icLinks[i].setMenu(pulldownMenus[i]);
 	    		i++;
 	    	}	    	    
 	    }
 	    
 	    menu.setVisible(true);
+	}
+	
+	private boolean IsNavigable( URNlink selectedLink )
+	{
+		if( !(selectedLink.getToElem() instanceof IURNNode || selectedLink.getToElem() instanceof IURNContainerRef) )
+			return false;
+		
+		if( !(selectedLink.getFromElem() instanceof IURNNode || selectedLink.getFromElem() instanceof IURNContainerRef) )
+			return false;
+		
+		return true;
 	}
 	
 	private void StartNewLink( URNmodelElement element )

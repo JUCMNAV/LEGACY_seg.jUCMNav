@@ -51,28 +51,34 @@ public class EditURNLinksAction extends URNSelectionAction {
     		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
     		
     		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
-    			element = sel.getIntentionalelementref().getDef();
+//    			element = sel.getIntentionalelementref().getDef();
+    			element = sel.getIntentionalelementref();
     			return true;
     		} else if (sel.getSelectionType() == SelectionHelper.ACTORREF) {
     			element = (Actor) sel.getActorref().getContDef();
     			return true;
-    		} else if (sel.getSelectionType() == SelectionHelper.ACTOR) {
-    			element = sel.getActor();
-    			return true;
-    		} else if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENT) {
-    			element = sel.getIntentionalElement();
-    			return true;
-    		} else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
-    			Responsibility resp = sel.getRespRef().getRespDef();
-    			element = resp;
+    		}
+//    		} else if (sel.getSelectionType() == SelectionHelper.ACTOR) {
+//    			element = sel.getActor();
+//    			return true;
+//    		} else if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENT) {
+//    			element = sel.getIntentionalElement();
+//    			return true;
+//    		} 
+    		else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
+//    			Responsibility resp = sel.getRespRef().getRespDef();
+//    			element = resp;
+    			element = sel.getRespRef();
     			return true; 		
     		} else if (sel.getSelectionType() == SelectionHelper.LINKREF) {
     			ElementLink el = sel.getLinkref().getLink();
     			element = el;
+//    			element = sel.getLinkref();
     			return true;
     		} else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
-    			Component comp = (Component) sel.getComponentref().getContDef();
-    			element = comp;
+//    			Component comp = (Component) sel.getComponentref().getContDef();
+//    			element = comp;
+    			element = sel.getComponentref();
     			return true;
     		} else if( editPart.getModel() instanceof URNmodelElement ) {
     			element = (URNmodelElement) editPart.getModel();
