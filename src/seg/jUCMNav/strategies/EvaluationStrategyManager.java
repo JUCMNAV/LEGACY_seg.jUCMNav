@@ -29,6 +29,7 @@ import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
 import seg.jUCMNav.model.commands.create.AddKPIInformationConfigCommand;
+import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urn.URNspec;
@@ -465,9 +466,11 @@ public class EvaluationStrategyManager {
      *            the element to apply the new value to
      * @param value
      *            the new quantitative evaluation value
+     * @param delete
+     *            Are we removing this evaluation or adding it?
      * 
      */
-    public synchronized void setIntentionalElementEvaluation(IntentionalElement element, int value) {
+    protected synchronized void setIntentionalElementEvaluation(IntentionalElement element, int value, boolean delete) {
         // The evaluation could only be between 100 and -100. Do nothing if it is not the case
         if (value <= IGRLStrategyAlgorithm.SATISFICED && value >= IGRLStrategyAlgorithm.UNDECIDED) {
             Evaluation eval = (Evaluation) evaluations.get(element);
@@ -477,12 +480,40 @@ public class EvaluationStrategyManager {
                 syncIntentionalElementQualitativeEvaluation(eval, value);
                 setEvaluationMetadata(element, eval);
             }
-            // If it is a new Evaluation entered by the user, link it with the strategy and intentionalElement
-            AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
-            execute(cmd);
+            if(!delete) {
+                // If it is a new Evaluation entered by the user, link it with the strategy and intentionalElement
+                AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
+                execute(cmd);
+            }
+            else {
+                DeleteEvaluationCommand cmd = new DeleteEvaluationCommand(eval);
+                execute(cmd);
+            }
 
             calculateEvaluation();
         }
+    }
+    
+    /**
+     * Sets the quantitative evaluation
+     * @param element
+     *              the element to apply the new value to
+     * @param value
+     *              the new quantitative evaluation value
+     */
+    public synchronized void setIntentionalElementEvaluation(IntentionalElement element, int value) {
+        setIntentionalElementEvaluation(element, value, false);
+    }
+    
+    /**
+     * Remove a quantitative evaluation
+     * @param element
+     *              the element to remove the evaluation
+     * @param oldValue
+     *              the value that was there before
+     */
+    public synchronized void removeIntentionalElementEvaluation(IntentionalElement element, int oldValue) {
+        setIntentionalElementEvaluation(element, oldValue, true);
     }
 
     private void execute(Command cmd) {

@@ -125,7 +125,7 @@ public class ChangeNumericalEvaluationCommand extends Command implements JUCMNav
 
         for (Iterator iter = intElementStates.iterator(); iter.hasNext();) {
             IElementState ies = (IElementState) iter.next();
-            esm.setIntentionalElementEvaluation(ies.intElemRef.getDef(), ies.oldEval);
+            esm.removeIntentionalElementEvaluation(ies.intElemRef.getDef(), ies.oldEval);
         }
 
         testPreConditions();
