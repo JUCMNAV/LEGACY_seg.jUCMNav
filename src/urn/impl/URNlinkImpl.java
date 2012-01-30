@@ -483,14 +483,14 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
     
     
     public URNmodelElement getParentFromElem() {
-    	return( this.getParentElement( fromElem ));
+    	return( getParentElement( fromElem ));
     }
     
     public URNmodelElement getParentToElem() {
-    	return( this.getParentElement( toElem ));    	
+    	return( getParentElement( toElem ));    	
     }
 
-    private URNmodelElement getParentElement( URNmodelElement element )
+    public static URNmodelElement getParentElement( URNmodelElement element )
     {
     	if( element instanceof ActorRef )
     		return( (Actor) (((ActorRef) element).getContDef()) );

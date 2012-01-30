@@ -46,9 +46,9 @@ public class EditURNLinksAction extends URNSelectionAction {
     		
     		if( parts.get(0) instanceof EditPart ){
     			editPart = ((EditPart) parts.get(0));
+        		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
     		}
     		
-    		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
     		
     		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
 //    			element = sel.getIntentionalelementref().getDef();

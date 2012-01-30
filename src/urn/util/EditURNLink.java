@@ -24,7 +24,10 @@ import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editors.GrlEditor;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
+import seg.jUCMNav.editparts.GrlConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.UCMConnectionOnBottomRootEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
@@ -32,6 +35,7 @@ import seg.jUCMNav.model.commands.create.AddUrnLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import urn.URNlink;
 import urn.URNspec;
+import urn.impl.URNlinkImpl;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
@@ -64,7 +68,7 @@ public class EditURNLink {
 		class DeleteListener implements Listener {
 			private URNlink link;
 			
-			DeleteListener( URNlink ul ){	link = ul; }
+			DeleteListener( URNlink ul ){ link = ul; }
 			
 			public void handleEvent(Event event) {
 				DeleteLink( link );
@@ -73,11 +77,12 @@ public class EditURNLink {
 		
 		class NavigateListener implements Listener {
 			private URNlink link;
+			private boolean outgoing;
 			
-			NavigateListener( URNlink ul ){	link = ul; }
+			NavigateListener( URNlink ul, boolean og ){	link = ul; outgoing = og; }
 			
 			public void handleEvent(Event event) {
-				NavigateLink( link );
+				NavigateLink( link, outgoing );
 			}
 		}
 
@@ -89,7 +94,7 @@ public class EditURNLink {
 	    Menu menu = new Menu(shell, SWT.POP_UP);
 	
 	    MenuItem item = new MenuItem(menu, SWT.PUSH);
-	    item.setText("URN Links for \"" + selectedElement.getName() + "\"");
+	    item.setText("URN Links for \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"");
 	    item.setEnabled(false);
 	    MenuItem item4 = new MenuItem(menu, SWT.SEPARATOR);
 	    MenuItem item2 = new MenuItem(menu, SWT.PUSH);
@@ -107,7 +112,7 @@ public class EditURNLink {
 	    if( fromElement != null && fromElement != selectedElement ){
 	    	
 		    MenuItem item21 = new MenuItem(menu, SWT.PUSH);
-		    item21.setText( "End New Link from \"" + fromElement.getName() + "\"" );
+		    item21.setText( "End New Link from \"" + URNlinkImpl.getParentElement( fromElement ).getName() + "\"" );
 	    	
 		    item21.addListener( SWT.Selection, new Listener() {
 		        public void handleEvent(Event event) {
@@ -131,7 +136,7 @@ public class EditURNLink {
 
 	    	for (Iterator it = selectedElement.getFromLinks().iterator(); it.hasNext();) {
 	    		URNlink link = (URNlink) it.next();
-	    		String text = "(" + link.getType() + ") to \"" + link.getToElem().getName() + "\"";
+	    		String text = "(" + link.getType() + ") to \"" + link.getParentToElem().getName() + "\"";
 	    		ogLinks[i] = new MenuItem(menu, SWT.CASCADE);
 	    		ogLinks[i].setText( text );
 		    	ogLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
@@ -143,10 +148,10 @@ public class EditURNLink {
 		    	pei[i].addListener( SWT.Selection, new EditListener( link ));
 		    	pdi[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
 		    	pdi[i].setText( "Delete Link" );
-		    	pdi[i].addListener( SWT.Selection, new DeleteListener( link));
+		    	pdi[i].addListener( SWT.Selection, new DeleteListener( link ));
 		    	pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
 		    	pni[i].setText( "Show Target" );
-		    	pni[i].addListener( SWT.Selection, new NavigateListener( link));
+		    	pni[i].addListener( SWT.Selection, new NavigateListener( link, true ));
 
 	    		ogLinks[i].setMenu(pulldownMenus[i]);
 	    		i++;
@@ -168,7 +173,7 @@ public class EditURNLink {
 
 	    	for (Iterator it = selectedElement.getToLinks().iterator(); it.hasNext();) {
 	    		URNlink link = (URNlink) it.next();
-	    		String text = "(" + link.getType() + ") from \"" + link.getFromElem().getName() + "\"";
+	    		String text = "(" + link.getType() + ") from \"" + link.getParentFromElem().getName() + "\"";
 	    		icLinks[i] = new MenuItem(menu, SWT.CASCADE);
 	    		icLinks[i].setText( text );
 		    	icLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink-reversed.gif")); //$NON-NLS-1$
@@ -184,8 +189,8 @@ public class EditURNLink {
 		    	
 		    	if( this.IsNavigable( link )){
 		    		pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
-		    		pni[i].setText( "Show Target" );
-		    		pni[i].addListener( SWT.Selection, new NavigateListener( link ));
+		    		pni[i].setText( "Show Source" );
+		    		pni[i].addListener( SWT.Selection, new NavigateListener( link, false ));
 		    	}
 		    	
 	    		icLinks[i].setMenu(pulldownMenus[i]);
@@ -213,6 +218,7 @@ public class EditURNLink {
 		
         if (fromElement instanceof IntentionalElement) {
             urn = ((IntentionalElement) fromElement).getGrlspec().getUrnspec();
+            //((IntentionalElement) fromElement).get
         } else if (fromElement instanceof Actor) {
             urn = ((Actor) fromElement).getGrlspec().getUrnspec();
         } else if( fromElement instanceof IURNNode ){
@@ -247,7 +253,6 @@ public class EditURNLink {
 		fromElement = null; // clear start link
 	}
 	
-	
 	private void EditLinkType( URNlink selectedLink )
 	{
 		String oldType = selectedLink.getType();
@@ -268,8 +273,6 @@ public class EditURNLink {
         if (cmd.canExecute()) {
             execute(cmd);
         }
-		
-		
 	}
 
 	private void DeleteLink( URNlink selectedLink )
@@ -297,7 +300,7 @@ public class EditURNLink {
 		}
 	}
 	
-	private void NavigateLink( URNlink selectedLink )
+	private void NavigateLink( URNlink selectedLink, boolean outgoing )
 	{
 		//	     if (activeBindings.size() == 1 && getNode() instanceof StartPoint) {
 		//             // if only one plugin, open it.
@@ -311,12 +314,12 @@ public class EditURNLink {
 		//             }
 
 
-		URNmodelElement linkStart, linkEnd;
+		URNmodelElement linkStart, linkEnd, oppositeEnd;
 
 		linkStart = selectedLink.getFromElem();
 		linkEnd = selectedLink.getToElem();
 
-		IURNDiagram startDiagram = null, endDiagram = null;
+		IURNDiagram startDiagram = null, endDiagram = null, oppositeDiagram;
 
 		if( linkStart instanceof IURNNode ){
 			startDiagram = ((IURNNode) linkStart).getDiagram();
@@ -331,16 +334,42 @@ public class EditURNLink {
 			return;
 		}
 
+		if( outgoing ) { // show target of an outgoing link
+			oppositeEnd = linkEnd;
+			oppositeDiagram = endDiagram;
+		} else { // show source of an incoming link
+			oppositeEnd = linkStart;
+			oppositeDiagram = startDiagram;
+		}
+		
+		UCMNavMultiPageEditor editor;
+		GraphicalViewer viewer;
+		
+		if( selectedEP.getRoot() instanceof UCMConnectionOnBottomRootEditPart ) {
+			editor = ((UCMConnectionOnBottomRootEditPart) selectedEP.getRoot()).getMultiPageEditor();
+			viewer = ((UcmEditor) editor.getCurrentPage()).getGraphicalViewer();
+		} else if( selectedEP.getRoot() instanceof GrlConnectionOnBottomRootEditPart ) {
+			editor = ((GrlConnectionOnBottomRootEditPart) selectedEP.getRoot()).getMultiPageEditor();
+			viewer = ((GrlEditor) editor.getCurrentPage()).getGraphicalViewer();
+		} else {
+			System.err.println( "EditPart not understood." );
+			return;			
+		}
 		if( startDiagram != endDiagram ){ // switch diagrams
-			
-
+			editor.setActivePage( oppositeDiagram );
 		} // highlight target element
-//		EditPart rootPart = 
-//		GraphicalViewer viewer = ((UcmEditor) ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().getCurrentPage())
-//				.getGraphicalViewer();
-//		viewer.select((EditPart) viewer.getEditPartRegistry().get( linkEnd ));
-
+		viewer.select((EditPart) viewer.getEditPartRegistry().get( oppositeEnd ));
 	}
+	
+	private IURNDiagram getDiagram( URNmodelElement element )
+	{
+		if( element instanceof IURNNode ){
+			return ((IURNNode) element).getDiagram();
+		}
+		return null;
+		
+	}
+	
     /**
      * Take a command and execute it in the command stack of the editor.
      * 
