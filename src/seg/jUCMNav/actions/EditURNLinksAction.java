@@ -26,7 +26,7 @@ public class EditURNLinksAction extends URNSelectionAction {
 
     public static final String EDITURNLINKS = "seg.jUCMNav.EditURNLinksAction"; //$NON-NLS-1$
 
-    private URNmodelElement element;
+    private URNmodelElement element, parentElement;
     private EditPart editPart;
 
     /**
@@ -51,11 +51,12 @@ public class EditURNLinksAction extends URNSelectionAction {
     		
     		
     		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
-//    			element = sel.getIntentionalelementref().getDef();
+    			parentElement = sel.getIntentionalelementref().getDef();
     			element = sel.getIntentionalelementref();
     			return true;
     		} else if (sel.getSelectionType() == SelectionHelper.ACTORREF) {
-    			element = (Actor) sel.getActorref().getContDef();
+    			parentElement = (Actor) sel.getActorref().getContDef();
+    			element = sel.getActorref();
     			return true;
     		}
 //    		} else if (sel.getSelectionType() == SelectionHelper.ACTOR) {
@@ -66,22 +67,24 @@ public class EditURNLinksAction extends URNSelectionAction {
 //    			return true;
 //    		} 
     		else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
-//    			Responsibility resp = sel.getRespRef().getRespDef();
-//    			element = resp;
+    			Responsibility resp = sel.getRespRef().getRespDef();
+    			parentElement = resp;
     			element = sel.getRespRef();
     			return true; 		
     		} else if (sel.getSelectionType() == SelectionHelper.LINKREF) {
     			ElementLink el = sel.getLinkref().getLink();
+    			parentElement = null;
     			element = el;
 //    			element = sel.getLinkref();
     			return true;
     		} else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
-//    			Component comp = (Component) sel.getComponentref().getContDef();
-//    			element = comp;
+    			Component comp = (Component) sel.getComponentref().getContDef();
+    			parentElement = comp;
     			element = sel.getComponentref();
     			return true;
     		} else if( editPart.getModel() instanceof URNmodelElement ) {
     			element = (URNmodelElement) editPart.getModel();
+    			parentElement = null;
     			return true;
     		}
     		else
@@ -97,7 +100,7 @@ public class EditURNLinksAction extends URNSelectionAction {
      */
     public void run() {
     	EditURNLink ul = new EditURNLink();
-        ul.EditLink( getCommandStack(), element, editPart );
+        ul.EditLink( getCommandStack(), element, parentElement, editPart );
     }
 
 }

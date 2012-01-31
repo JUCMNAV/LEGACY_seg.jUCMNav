@@ -46,13 +46,14 @@ public class EditURNLink {
 	
 	private static URNmodelElement fromElement = null;
 	private static URNmodelElement selectedElement = null;
-	private static EditPart fromEP = null;
-	private static EditPart selectedEP = null;
+	private static URNmodelElement selectedElementParent = null;
+	private static EditPart fromEditPart = null;
+	private static EditPart selectedEditPart = null;
 	private static CommandStack commandStack;
     private static URNspec urn; // The urnspec of the current model
     
 	
-	public void EditLink( CommandStack cmdStack, URNmodelElement element, EditPart ep )
+	public void EditLink( CommandStack cmdStack, URNmodelElement element, URNmodelElement parentElement, EditPart ep )
 	{
 		
 		class EditListener implements Listener {
@@ -88,26 +89,59 @@ public class EditURNLink {
 
 		commandStack = cmdStack;
 		selectedElement = element;
-		selectedEP = ep;
+		selectedElementParent = parentElement;
+		selectedEditPart = ep;
 		
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	    Menu menu = new Menu(shell, SWT.POP_UP);
 	
 	    MenuItem item = new MenuItem(menu, SWT.PUSH);
-	    item.setText("URN Links for \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"");
+	    
+	    String name;
+	    if( parentElement == null)
+	    	name = selectedElement.getName();
+	    else
+	    	name = selectedElementParent.getName();
+	    
+	    item.setText("URN Links for \"" + name + "\"");
 	    item.setEnabled(false);
 	    MenuItem item4 = new MenuItem(menu, SWT.SEPARATOR);
+	    
+	    // menu item for link from map object
 	    MenuItem item2 = new MenuItem(menu, SWT.PUSH);
-	    if( fromElement == null )
-	    	item2.setText( "Start New Link" );
+	    
+	    String startText;
+	    if( selectedElementParent != null )
+	    	startText = "Start New Link from " + className( selectedElement );
 	    else
-	    	item2.setText( "Start New Link *" );
+	    	startText = "Start New Link";
+	    
+	    if( fromElement == null )
+	    	item2.setText( startText );
+	    else
+	    	item2.setText( startText + " *" );
 	    
 	    item2.addListener( SWT.Selection, new Listener() {
 	        public void handleEvent(Event event) {
 	        	StartNewLink( selectedElement );
 	          }
 	        });
+	    
+	    if( selectedElementParent != null ){
+		    MenuItem item22 = new MenuItem(menu, SWT.PUSH);
+		    String startText1 = "Start New Link from " + className( selectedElementParent ) + " \"" + selectedElementParent.getName() + "\"";
+		    if( fromElement == null )
+		    	item22.setText( startText1 );
+		    else
+		    	item22.setText( startText1 + " *" );
+		    
+		    item22.addListener( SWT.Selection, new Listener() {
+		        public void handleEvent(Event event) {
+		        	StartNewLink( selectedElementParent );
+		          }
+		        });
+	    	
+	    }
 	    
 	    if( fromElement != null && fromElement != selectedElement ){
 	    	
@@ -201,6 +235,12 @@ public class EditURNLink {
 	    menu.setVisible(true);
 	}
 	
+	private String className( URNmodelElement element )
+	{
+	    String className = element.getClass().getSimpleName();
+	    return className.substring( 0, className.length()-4 );
+	}
+	
 	private boolean IsNavigable( URNlink selectedLink )
 	{
 		if( !(selectedLink.getToElem() instanceof IURNNode || selectedLink.getToElem() instanceof IURNContainerRef) )
@@ -218,7 +258,6 @@ public class EditURNLink {
 		
         if (fromElement instanceof IntentionalElement) {
             urn = ((IntentionalElement) fromElement).getGrlspec().getUrnspec();
-            //((IntentionalElement) fromElement).get
         } else if (fromElement instanceof Actor) {
             urn = ((Actor) fromElement).getGrlspec().getUrnspec();
         } else if( fromElement instanceof IURNNode ){
@@ -345,11 +384,11 @@ public class EditURNLink {
 		UCMNavMultiPageEditor editor;
 		GraphicalViewer viewer;
 		
-		if( selectedEP.getRoot() instanceof UCMConnectionOnBottomRootEditPart ) {
-			editor = ((UCMConnectionOnBottomRootEditPart) selectedEP.getRoot()).getMultiPageEditor();
+		if( selectedEditPart.getRoot() instanceof UCMConnectionOnBottomRootEditPart ) {
+			editor = ((UCMConnectionOnBottomRootEditPart) selectedEditPart.getRoot()).getMultiPageEditor();
 			viewer = ((UcmEditor) editor.getCurrentPage()).getGraphicalViewer();
-		} else if( selectedEP.getRoot() instanceof GrlConnectionOnBottomRootEditPart ) {
-			editor = ((GrlConnectionOnBottomRootEditPart) selectedEP.getRoot()).getMultiPageEditor();
+		} else if( selectedEditPart.getRoot() instanceof GrlConnectionOnBottomRootEditPart ) {
+			editor = ((GrlConnectionOnBottomRootEditPart) selectedEditPart.getRoot()).getMultiPageEditor();
 			viewer = ((GrlEditor) editor.getCurrentPage()).getGraphicalViewer();
 		} else {
 			System.err.println( "EditPart not understood." );
