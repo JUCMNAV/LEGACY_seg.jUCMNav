@@ -55,7 +55,8 @@ public class EditURNLinksAction extends URNSelectionAction {
     			element = sel.getIntentionalelementref();
     			return true;
     		} else if (sel.getSelectionType() == SelectionHelper.ACTORREF) {
-    			parentElement = (Actor) sel.getActorref().getContDef();
+    			Actor actor = (Actor) sel.getActorref().getContDef();
+    			parentElement = actor;
     			element = sel.getActorref();
     			return true;
     		}
