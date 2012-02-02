@@ -49,25 +49,15 @@ public class EditURNLinksAction extends URNSelectionAction {
         		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
     		}
     		
-    		
     		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
     			parentElement = sel.getIntentionalelementref().getDef();
     			element = sel.getIntentionalelementref();
     			return true;
-    		} else if (sel.getSelectionType() == SelectionHelper.ACTORREF) {
-    			Actor actor = (Actor) sel.getActorref().getContDef();
-    			parentElement = actor;
+    		} else if (sel.getSelectionType() == SelectionHelper.ACTOR) {
+    			parentElement = sel.getActor();
     			element = sel.getActorref();
     			return true;
-    		}
-//    		} else if (sel.getSelectionType() == SelectionHelper.ACTOR) {
-//    			element = sel.getActor();
-//    			return true;
-//    		} else if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENT) {
-//    			element = sel.getIntentionalElement();
-//    			return true;
-//    		} 
-    		else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
+    		} else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
     			Responsibility resp = sel.getRespRef().getRespDef();
     			parentElement = resp;
     			element = sel.getRespRef();
@@ -76,11 +66,9 @@ public class EditURNLinksAction extends URNSelectionAction {
     			ElementLink el = sel.getLinkref().getLink();
     			parentElement = null;
     			element = el;
-//    			element = sel.getLinkref();
     			return true;
     		} else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
-    			Component comp = (Component) sel.getComponentref().getContDef();
-    			parentElement = comp;
+    			parentElement = sel.getComponent();
     			element = sel.getComponentref();
     			return true;
     		} else if( editPart.getModel() instanceof URNmodelElement ) {
