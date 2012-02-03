@@ -2,6 +2,7 @@ package urn.util;
 
 import grl.Actor;
 import grl.ElementLink;
+import grl.GRLGraph;
 import grl.IntentionalElement;
 
 import java.util.Iterator;
@@ -33,12 +34,15 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
 import seg.jUCMNav.model.commands.create.AddUrnLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
+import ucm.map.UCMmap;
 import urn.URNlink;
 import urn.URNspec;
 import urn.impl.URNlinkImpl;
+import urncore.Component;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
+import urncore.Responsibility;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -194,8 +198,8 @@ public class EditURNLink {
     		// add outgoing links from selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements  
     		for (Iterator it = selectedElement.getFromLinks().iterator(); it.hasNext();) {
     			URNlink link = (URNlink) it.next();
-    			String text = "(" + link.getType() + ") to " + this.className( link.getToElem() )+ " \"" + link.getParentToElem().getName() 
-    					+ "\" from " + this.className( selectedElement );
+    			String text = "(" + link.getType() + ") to " + this.className( link.getToElem() )+ " \"" + link.getParentToElem().getName() + 
+    					"\" from " + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"";
     			ogLinks[i] = new MenuItem(menu, SWT.CASCADE);
     			ogLinks[i].setText( text );
     			ogLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
@@ -209,7 +213,7 @@ public class EditURNLink {
     			pdi[i].setText( "Delete Link" );
     			pdi[i].addListener( SWT.Selection, new DeleteListener( link ));
 
-    			if( this.IsNavigable( link )){
+    			if( this.IsNavigable( link.getToElem() )){
     				pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
     				pni[i].setText( "Show Target" );
     				pni[i].addListener( SWT.Selection, new NavigateListener( link, true ));
@@ -223,7 +227,7 @@ public class EditURNLink {
     			for (Iterator it = selectedElementParent.getFromLinks().iterator(); it.hasNext();) {
     				URNlink link = (URNlink) it.next();
     				String text = "(" + link.getType() + ") to " + this.className( link.getToElem() )+ " \"" + link.getParentToElem().getName() 
-    						+ "\" from " + this.className( selectedElementParent );
+    						+ "\" from " + this.className( selectedElementParent ) + " \"" + selectedElementParent.getName() + "\"";
     				ogLinks[i] = new MenuItem(menu, SWT.CASCADE);
     				ogLinks[i].setText( text );
     				ogLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
@@ -237,7 +241,7 @@ public class EditURNLink {
     				pdi[i].setText( "Delete Link" );
     				pdi[i].addListener( SWT.Selection, new DeleteListener( link ));
 
-    				if( this.IsNavigable( link )){
+    				if( this.IsNavigable( link.getToElem() )){
     					pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
     					pni[i].setText( "Show Target" );
     					pni[i].addListener( SWT.Selection, new NavigateListener( link, true ));
@@ -270,8 +274,8 @@ public class EditURNLink {
     		// add incoming links to selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements  
     		for (Iterator it = selectedElement.getToLinks().iterator(); it.hasNext();) {
     			URNlink link = (URNlink) it.next();
-    			String text = "(" + link.getType() + ") from " + this.className( link.getFromElem() )+ " \"" +
-    			link.getParentFromElem().getName() + "\" to " + this.className( selectedElement );
+    			String text = "(" + link.getType() + ") from " + this.className( link.getFromElem() )+ " \"" + link.getParentFromElem().getName()
+    					+ "\" to " + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"";
     			icLinks[i] = new MenuItem(menu, SWT.CASCADE);
     			icLinks[i].setText( text );
     			icLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink-reversed.gif")); //$NON-NLS-1$
@@ -285,7 +289,7 @@ public class EditURNLink {
     			pdi[i].setText( "Delete Link" );
     			pdi[i].addListener( SWT.Selection, new DeleteListener( link));
 
-    			if( this.IsNavigable( link )){
+    			if( this.IsNavigable( link.getFromElem() )){
     				pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
     				pni[i].setText( "Show Source" );
     				pni[i].addListener( SWT.Selection, new NavigateListener( link, false ));
@@ -300,7 +304,8 @@ public class EditURNLink {
     			for (Iterator it = selectedElementParent.getToLinks().iterator(); it.hasNext();) {
     				URNlink link = (URNlink) it.next();
     				String text = "(" + link.getType() + ") from " + this.className( link.getFromElem() )+ " \"" + 
-    				link.getParentFromElem().getName() + "\" to " + this.className( selectedElementParent );
+    				link.getParentFromElem().getName() + "\" to " + this.className( selectedElementParent ) + " \""
+    				+ selectedElementParent.getName() + "\"";
     				icLinks[i] = new MenuItem(menu, SWT.CASCADE);
     				icLinks[i].setText( text );
     				icLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink-reversed.gif")); //$NON-NLS-1$
@@ -314,7 +319,7 @@ public class EditURNLink {
     				pdi[i].setText( "Delete Link" );
     				pdi[i].addListener( SWT.Selection, new DeleteListener( link));
 
-    				if( this.IsNavigable( link )){
+    				if( this.IsNavigable( link.getFromElem() )){
     					pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
     					pni[i].setText( "Show Source" );
     					pni[i].addListener( SWT.Selection, new NavigateListener( link, false ));
@@ -331,18 +336,15 @@ public class EditURNLink {
 	private String className( URNmodelElement element )
 	{
 	    String className = element.getClass().getSimpleName();
-	    return className.substring( 0, className.length()-4 );
+	    return className.substring( 0, className.length()-4 );  // strip suffix 'Impl' from class name
 	}
 	
-	private boolean IsNavigable( URNlink selectedLink )
+	private boolean IsNavigable( URNmodelElement endpoint )
 	{
-		if( !(selectedLink.getToElem() instanceof IURNNode || selectedLink.getToElem() instanceof IURNContainerRef) )
-			return false;
+		if( endpoint instanceof IURNNode || endpoint instanceof IURNContainerRef )
+			return true;
 		
-		if( !(selectedLink.getFromElem() instanceof IURNNode || selectedLink.getFromElem() instanceof IURNContainerRef) )
-			return false;
-		
-		return true;
+		return false;
 	}
 	
 	private void StartNewLink( URNmodelElement element )
@@ -353,10 +355,16 @@ public class EditURNLink {
             urn = ((IntentionalElement) fromElement).getGrlspec().getUrnspec();
         } else if (fromElement instanceof Actor) {
             urn = ((Actor) fromElement).getGrlspec().getUrnspec();
-        } else if( fromElement instanceof IURNNode ){
+        } else if( fromElement instanceof IURNNode ){ // handles UCM, GRL Nodes
         	urn = ((IURNNode) fromElement).getDiagram().getUrndefinition().getUrnspec();
+        } else if(  fromElement instanceof IURNContainerRef ){ // handles ActorRef, ComponentRef
+        	urn = ((IURNContainerRef) fromElement).getDiagram().getUrndefinition().getUrnspec();
         } else if( fromElement instanceof ElementLink ){
         	urn = ((ElementLink) fromElement).getGrlspec().getUrnspec();
+        } else if( fromElement instanceof Responsibility ){
+        	urn = ((Responsibility) fromElement).getUrndefinition().getUrnspec();
+        }  else if( fromElement instanceof Component ){
+        	urn = ((Component) fromElement).getUrndefinition().getUrnspec();
         }
 
 	}
@@ -434,18 +442,6 @@ public class EditURNLink {
 	
 	private void NavigateLink( URNlink selectedLink, boolean outgoing )
 	{
-		//	     if (activeBindings.size() == 1 && getNode() instanceof StartPoint) {
-		//             // if only one plugin, open it.
-		//             InBinding binding = ((InBinding) activeBindings.get(0));
-		//             UCMmap map = (UCMmap) binding.getBinding().getStub().getDiagram();
-		//             if (map != null) {
-		//                 ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
-		//                 GraphicalViewer viewer = ((UcmEditor) ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().getCurrentPage())
-		//                         .getGraphicalViewer();
-		//                 viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
-		//             }
-
-
 		URNmodelElement linkStart, linkEnd, oppositeEnd;
 
 		linkStart = selectedLink.getFromElem();
@@ -455,15 +451,14 @@ public class EditURNLink {
 
 		if( linkStart instanceof IURNNode ){
 			startDiagram = ((IURNNode) linkStart).getDiagram();
+		} else if( linkStart instanceof IURNContainerRef ){
+			startDiagram = ((IURNContainerRef) linkStart).getDiagram();
 		}
 
 		if( linkEnd instanceof IURNNode ){
 			endDiagram = ((IURNNode) linkEnd).getDiagram();
-		}
-
-		if( startDiagram == null || endDiagram == null ){
-			System.err.println( "NavigateLink: diagrams are null" );
-			return;
+		} else if( linkEnd instanceof IURNContainerRef ){
+			endDiagram = ((IURNContainerRef) linkEnd).getDiagram();
 		}
 
 		if( outgoing ) { // show target of an outgoing link
@@ -474,34 +469,38 @@ public class EditURNLink {
 			oppositeDiagram = startDiagram;
 		}
 		
+		if( oppositeDiagram == null ){
+			System.err.println( "NavigateLink: Target diagram is null" );
+			return;
+		}		
+		
 		UCMNavMultiPageEditor editor;
-		GraphicalViewer viewer;
+		GraphicalViewer viewer = null;
 		
 		if( selectedEditPart.getRoot() instanceof UCMConnectionOnBottomRootEditPart ) {
 			editor = ((UCMConnectionOnBottomRootEditPart) selectedEditPart.getRoot()).getMultiPageEditor();
-			viewer = ((UcmEditor) editor.getCurrentPage()).getGraphicalViewer();
 		} else if( selectedEditPart.getRoot() instanceof GrlConnectionOnBottomRootEditPart ) {
 			editor = ((GrlConnectionOnBottomRootEditPart) selectedEditPart.getRoot()).getMultiPageEditor();
-			viewer = ((GrlEditor) editor.getCurrentPage()).getGraphicalViewer();
 		} else {
 			System.err.println( "EditPart not understood." );
 			return;			
 		}
+		
 		if( startDiagram != endDiagram ){ // switch diagrams
 			editor.setActivePage( oppositeDiagram );
-		} // highlight target element
-		viewer.select((EditPart) viewer.getEditPartRegistry().get( oppositeEnd ));
-	}
-	
-	private IURNDiagram getDiagram( URNmodelElement element )
-	{
-		if( element instanceof IURNNode ){
-			return ((IURNNode) element).getDiagram();
-		}
-		return null;
+		} 
 		
+		if( oppositeDiagram instanceof UCMmap ){
+			viewer = ((UcmEditor) editor.getCurrentPage()).getGraphicalViewer();			
+		} else if( oppositeDiagram instanceof GRLGraph ){
+			viewer = ((GrlEditor) editor.getCurrentPage()).getGraphicalViewer();			
+		}
+		
+		// highlight target element
+		if( viewer != null )
+			viewer.select((EditPart) viewer.getEditPartRegistry().get( oppositeEnd ));
 	}
-	
+		
     /**
      * Take a command and execute it in the command stack of the editor.
      * 
