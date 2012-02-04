@@ -333,11 +333,14 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 ((IntentionalElementPropertySource) getPropertySource()).setEvaluationStrategyView(true);
                 // Get the evaluation value
                 Evaluation evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(getNode().getDef());
-
+                boolean ignored = EvaluationStrategyManager.getInstance().isIgnored(getNode().getDef());
+                
                 if (evaluation != null) {
                     if (StrategyEvaluationPreferences.getFillElements()) {
                         String color, lineColor;
-                        if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE) {
+                        if( ignored ) { // set to light gray color
+                        	color = "169,169,169"; //$NON-NLS-1$
+                        } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE) {
                             color = "255,255,127"; //$NON-NLS-1$
                         } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT) {
                             color = "0,255,255"; //$NON-NLS-1$
@@ -368,6 +371,12 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         } else {
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_SOLID);
                         }
+                        
+                        if( ignored ){
+                        	lineColor = "69,69,69"; //$NON-NLS-1$
+                            ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DOT);                        	
+                        }
+                        
                         ((IntentionalElementFigure) figure).setColors(lineColor, color, true);
                     }
 

@@ -39,7 +39,7 @@ import urncore.Metadata;
  * This class is a singleton responsible to manage the current strategy. It does the evaluation calculation for IntentionalElement, create the Evaluation and
  * return the value of the evaluation given an IntentionalElement for the current strategy.
  * 
- * @author Jean-François Roy, pchen, sghanava
+ * @author Jean-Franï¿½ois Roy, pchen, sghanava
  * 
  */
 public class EvaluationStrategyManager {
@@ -267,6 +267,19 @@ public class EvaluationStrategyManager {
         return temp;
     }
 
+    public synchronized boolean isIgnored(IntentionalElement elem) {
+    	if( elem.getMetadata().size() > 0 ){
+    		for( Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
+    			Metadata md = (Metadata) iter.next();	
+    			if(md.getName().equalsIgnoreCase( "ST_Legal" )){
+    				if(md.getValue().equalsIgnoreCase( "No" ))
+    					return true;
+    			}
+    		}    		
+    	}
+    	return false;
+    }
+    
     public synchronized KPIInformationConfig getKPIInformationConfigObject(KPIInformationElement elem) {
         KPIInformationConfig temp = (KPIInformationConfig) kpiInformationConfigs.get(elem);
         // if the KPIInformationConfig is null, it is a new element and we need to create a new KPIInformationConfig
