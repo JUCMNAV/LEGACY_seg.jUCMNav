@@ -116,7 +116,7 @@ public class EditURNLink {
 
     	String startText;
     	if( selectedElementParent != null )
-    		startText = "Start New Link from " + className( selectedElement );
+    		startText = "Start New Link from " + this.className( selectedElement );
     	else
     		startText = "Start New Link";
 
@@ -134,7 +134,7 @@ public class EditURNLink {
     	// if applicable, menu item for Start Link from parent URN object Actor, Component, Responsibility, IntentionalElement, ...
     	if( selectedElementParent != null ){
     		MenuItem item22 = new MenuItem(menu, SWT.PUSH);
-    		String startText1 = "Start New Link from " + className( selectedElementParent ) + " \"" + selectedElementParent.getName() + "\"";
+    		String startText1 = "Start New Link from " + this.className( selectedElementParent ) + " \"" + selectedElementParent.getName() + "\"";
     		if( fromElement == null )
     			item22.setText( startText1 );
     		else
@@ -151,7 +151,7 @@ public class EditURNLink {
     	if( fromElement != null && fromElement != selectedElement ){
 
     		MenuItem item21 = new MenuItem(menu, SWT.PUSH);
-    		String endText = "End New Link from \"" + URNlinkImpl.getParentElement( fromElement ).getName() + "\"";
+    		String endText = "End New Link from " + this.className( fromElement )+ " \"" + URNlinkImpl.getParentElement( fromElement ).getName() + "\"";
 
     		if( selectedElementParent != null )
     			item21.setText( endText + " to " + this.className( selectedElement ) );
@@ -377,7 +377,8 @@ public class EditURNLink {
         	URNlink newLink = (URNlink) ModelCreationFactory.getNewObject(urn, URNlink.class);
     		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         	String title = "Enter URN Link Type";
-        	String message = "Creating URN Link from \"" + fromElement.getName() + "\" to \"" + toElement.getName()
+        	String message = "Creating URN Link from " + this.className( fromElement ) + " \"" + URNlinkImpl.getParentElement( fromElement ).getName() +
+        			"\" to " + this.className( toElement ) + " \"" + URNlinkImpl.getParentElement( toElement ).getName()
         			+ "\".\nPlease enter the URN Link Type.";
         	InputDialog typeInput = new InputDialog( shell, title, message, "", null);
         	if( typeInput.open() == SWT.CANCEL )
