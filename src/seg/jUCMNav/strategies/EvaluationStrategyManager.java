@@ -20,6 +20,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editparts.URNRootEditPart;
@@ -274,6 +275,8 @@ public class EvaluationStrategyManager {
     			if(md.getName().equalsIgnoreCase( "ST_Legal" )){
     				if(md.getValue().equalsIgnoreCase( "No" ))
     					return true;
+    			} else if( md.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode")) ) {
+    				return true;
     			}
     		}    		
     	}
