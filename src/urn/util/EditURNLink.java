@@ -34,6 +34,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
 import seg.jUCMNav.model.commands.create.AddUrnLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
+import seg.jUCMNav.views.wizards.URNlinkTypeSelectionDialog;
 import ucm.map.UCMmap;
 import urn.URNlink;
 import urn.URNspec;
@@ -167,7 +168,7 @@ public class EditURNLink {
     		if( selectedElementParent != null ){
 
     			MenuItem item23 = new MenuItem(menu, SWT.PUSH);
-    			item23.setText( "End New Link from \"" + URNlinkImpl.getParentElement( fromElement ).getName() + "\" to "
+    			item23.setText( "End New Link from " + this.className( fromElement ) + " \"" + URNlinkImpl.getParentElement( fromElement ).getName() + "\" to "
     					+ this.className( selectedElementParent ) );
 
     			item23.addListener( SWT.Selection, new Listener() {
@@ -371,19 +372,22 @@ public class EditURNLink {
 	
 	private void EndNewLink( URNmodelElement element )
 	{
+		String response;
 		URNmodelElement toElement = element;
 
         if (toElement != null) {
-        	URNlink newLink = (URNlink) ModelCreationFactory.getNewObject(urn, URNlink.class);
     		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        	String title = "Enter URN Link Type";
+        	String title = "Enter Link Type for New URN Link";
         	String message = "Creating URN Link from " + this.className( fromElement ) + " \"" + URNlinkImpl.getParentElement( fromElement ).getName() +
         			"\" to " + this.className( toElement ) + " \"" + URNlinkImpl.getParentElement( toElement ).getName()
         			+ "\".\nPlease enter the URN Link Type.";
-        	InputDialog typeInput = new InputDialog( shell, title, message, "", null);
-        	if( typeInput.open() == SWT.CANCEL )
+
+        	URNlinkTypeSelectionDialog typeInput = new URNlinkTypeSelectionDialog( shell, title, message, "", "Create New URN Link", "Cancel URN Link Creation" ); 
+    		
+        	if( (response = typeInput.open()) == null )
         		return;
-        	String response = typeInput.getValue();
+       	
+        	URNlink newLink = (URNlink) ModelCreationFactory.getNewObject(urn, URNlink.class);        	
         	newLink.setType( new String(response) );
             AddUrnLinkCommand cmd = new AddUrnLinkCommand(urn, newLink, fromElement, toElement);
             if (cmd.canExecute()) {
@@ -396,18 +400,23 @@ public class EditURNLink {
 	
 	private void EditLinkType( URNlink selectedLink )
 	{
+		String response;
+		
 		String oldType = selectedLink.getType();
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
     	String title = "Modify URN Link Type";
     	String message =  "Please modify the URN Link Type.";
-    	InputDialog typeInput = new InputDialog( shell, title, message, oldType, null);
-
-    	if( typeInput.open() == SWT.CANCEL )
+    	
+    	URNlinkTypeSelectionDialog typeInput = new URNlinkTypeSelectionDialog( shell, title, message, (oldType != null) ? oldType : "",
+    			"Accept", "Cancel Modify Link" ); 
+		
+    	if( (response = typeInput.open()) == null )
     		return;
     	
-    	String response = typeInput.getValue();
-		
-		if( response.compareTo( oldType ) == 0 )
+		System.out.println( "The selection was \"" + response + "\"." );
+
+    	
+		if( (oldType != null) && (response.compareTo( oldType ) == 0) )
 			return;
 		
         ModifyUrnLinkCommand cmd = new ModifyUrnLinkCommand( selectedLink, response );
