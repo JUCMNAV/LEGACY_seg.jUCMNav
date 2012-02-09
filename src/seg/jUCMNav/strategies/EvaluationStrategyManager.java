@@ -1,11 +1,13 @@
 package seg.jUCMNav.strategies;
 
 import grl.Actor;
+import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.ImportanceType;
 import grl.IntentionalElement;
+import grl.IntentionalElementType;
 import grl.QualitativeLabel;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
@@ -269,7 +271,22 @@ public class EvaluationStrategyManager {
     }
 
     public synchronized boolean isIgnored(IntentionalElement elem) {
-    	if( elem.getMetadata().size() > 0 ){
+    	if( this.hasSpecificMetadata( elem ) ) {
+    		return true;    					
+    	} else if( elem.getType() == IntentionalElementType.INDICATOR_LITERAL ){
+    		for( Iterator iter = elem.getLinksSrc().iterator(); iter.hasNext(); ) {
+    			ElementLink el = (ElementLink) iter.next();
+    			if( el.getDest() instanceof IntentionalElement ) {
+    				if( this.hasSpecificMetadata( (IntentionalElement) el.getDest() ))
+    					return true;
+    			}
+    		}
+    	}
+    	return false;
+    }
+    
+    private synchronized boolean hasSpecificMetadata(IntentionalElement elem) {
+    	if( elem.getMetadata().size() > 0 ) {
     		for( Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
     			Metadata md = (Metadata) iter.next();	
     			if(md.getName().equalsIgnoreCase( "ST_Legal" )){
@@ -280,7 +297,7 @@ public class EvaluationStrategyManager {
     			}
     		}    		
     	}
-    	return false;
+    	return false;    	
     }
     
     public synchronized KPIInformationConfig getKPIInformationConfigObject(KPIInformationElement elem) {

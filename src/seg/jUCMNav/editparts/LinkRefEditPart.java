@@ -42,7 +42,7 @@ import urncore.IURNDiagram;
 /**
  * Edit part associate with the LinkRef in GRL diagram
  * 
- * @author Jean-François Roy, sghanava
+ * @author Jean-Franï¿½ois Roy, sghanava
  * 
  */
 public class LinkRefEditPart extends AbstractConnectionEditPart {
@@ -286,6 +286,14 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
     protected void refreshVisuals() {
         refreshBendpoints();
 
+//        System.out.println("refreshVisuals() called for LinkRef between " + getLinkRef().getLink().getSrc().getName() + " and " +  getLinkRef().getLink().getDest().getName() );
+        
+        // reset the label colors
+        decompLabel.setForegroundColor(ColorManager.LINKREFLABEL);
+        contributionLabel.setForegroundColor(ColorManager.LINKREFLABEL);
+        stereotypeLabel.setForegroundColor(ColorManager.LINKREFLABEL);
+        getLinkRefFigure().setForegroundColor(ColorManager.LINE);
+        
         int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
 
         if (getLinkRef().getLink() instanceof Decomposition) {
@@ -308,6 +316,18 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
                 getLinkRefFigure().setType(LinkRefConnection.TYPE_CONTRIBUTION);
             }
 
+            // Check if link should be grayed out in strategy view
+            if( ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView() ) {
+            	if( getLinkRef().getLink().getDest() instanceof IntentionalElement ) {
+            		if( EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getDest() )) {
+            			decompLabel.setForegroundColor(ColorManager.GRAY);
+            			contributionLabel.setForegroundColor(ColorManager.GRAY);
+            			stereotypeLabel.setForegroundColor(ColorManager.GRAY);
+            	        getLinkRefFigure().setForegroundColor(ColorManager.GRAY);
+            		}
+            	}
+            }
+            
             // Set the stereotype Label
             String stereotypeInfo = UrnMetadata.getStereotypes(contrib);
             if (stereotypeLabel.getText() != stereotypeInfo) {

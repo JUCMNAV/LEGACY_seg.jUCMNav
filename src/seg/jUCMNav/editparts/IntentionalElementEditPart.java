@@ -1,5 +1,6 @@
 package seg.jUCMNav.editparts;
 
+import grl.Contribution;
 import grl.Decomposition;
 import grl.ElementLink;
 import grl.Evaluation;
@@ -267,8 +268,23 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         }
                     }
                 }
+            } 
+        }
+        
+        for (Iterator iter = getNode().getDef().getLinksSrc().iterator(); iter.hasNext();) {
+            ElementLink contrib = (ElementLink) iter.next();
+            if (contrib instanceof Contribution) {
+                for (Iterator iRef = contrib.getRefs().iterator(); iRef.hasNext();) {
+                    LinkRef ref = (LinkRef) iRef.next();
+                    LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
+                    if (refEditPart != null) {
+                        refEditPart.refreshVisuals();
+                    }
+                }
             }
         }
+        
+        
 
         // we want the top level editpart to refresh its children so that the largest components are always in the back.
         if (notification.getEventType() == Notification.SET && getParent() != null)
@@ -283,6 +299,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     protected void refreshVisuals() {
         if (evaluationLabel == null)
             return;
+        
+        evaluationLabel.setForegroundColor(ColorManager.LINE);
+
+        
         // The position of the current figure
         Point location = new Point(getNode().getX(), getNode().getY());
         // its size (the width of the elements should always be 2 the height of them
@@ -374,7 +394,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         
                         if( ignored ){
                         	lineColor = "69,69,69"; //$NON-NLS-1$
-                            ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DOT);                        	
+                            ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DOT);
+                            evaluationLabel.setForegroundColor(ColorManager.GRAY);
                         }
                         
                         ((IntentionalElementFigure) figure).setColors(lineColor, color, true);

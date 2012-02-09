@@ -46,7 +46,7 @@ public class EditURNLinksAction extends URNSelectionAction {
     		
     		if( parts.get(0) instanceof EditPart ){
     			editPart = ((EditPart) parts.get(0));
-        		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
+//        		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
     		}
     		
     		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
@@ -70,6 +70,10 @@ public class EditURNLinksAction extends URNSelectionAction {
     		} else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
     			parentElement = sel.getComponent();
     			element = sel.getComponentref();
+    			return true;
+    		} else if (sel.getSelectionType() == SelectionHelper.EVALUATIONSTRATEGY) {
+    			parentElement = null;
+    			element = sel.getEvaluationStrategy();
     			return true;
     		} else if( editPart.getModel() instanceof URNmodelElement ) {
     			element = (URNmodelElement) editPart.getModel();
