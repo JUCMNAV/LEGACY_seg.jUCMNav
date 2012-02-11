@@ -39,7 +39,7 @@ public interface SequenceElement extends ModelElement {
 	 * @see #setParentScenario(ScenarioDef)
 	 * @see ucmscenarios.UcmscenariosPackage#getSequenceElement_ParentScenario()
 	 * @see ucmscenarios.ScenarioDef#getChildren
-	 * @model opposite="children" required="true"
+	 * @model opposite="children"
 	 * @generated
 	 */
 	ScenarioDef getParentScenario();
@@ -67,7 +67,7 @@ public interface SequenceElement extends ModelElement {
 	 * @see #setSequence(Sequence)
 	 * @see ucmscenarios.UcmscenariosPackage#getSequenceElement_Sequence()
 	 * @see ucmscenarios.Sequence#getChildren
-	 * @model opposite="children" required="true"
+	 * @model opposite="children"
 	 * @generated
 	 */
 	Sequence getSequence();

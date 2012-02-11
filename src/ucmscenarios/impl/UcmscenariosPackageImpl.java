@@ -154,20 +154,10 @@ public class UcmscenariosPackageImpl extends EPackageImpl implements Ucmscenario
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this
-	 * model, and for any others upon which it depends.  Simple
-	 * dependencies are satisfied by calling this method on all
-	 * dependent packages before doing anything else.  This method drives
-	 * initialization for interdependent packages directly, in parallel
-	 * with this package, itself.
-	 * <p>Of this package and its interdependencies, all packages which
-	 * have not yet been registered by their URI values are first created
-	 * and registered.  The packages are then initialized in two steps:
-	 * meta-model objects for all of the packages are created before any
-	 * are initialized, since one package's meta-model objects may refer to
-	 * those of another.
-	 * <p>Invocation of this method will not affect any packages that have
-	 * already been initialized.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
+	 * 
+	 * <p>This method is used to initialize {@link UcmscenariosPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #eNS_URI
@@ -179,7 +169,7 @@ public class UcmscenariosPackageImpl extends EPackageImpl implements Ucmscenario
 		if (isInited) return (UcmscenariosPackage)EPackage.Registry.INSTANCE.getEPackage(UcmscenariosPackage.eNS_URI);
 
 		// Obtain or create and register package
-		UcmscenariosPackageImpl theUcmscenariosPackage = (UcmscenariosPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof UcmscenariosPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new UcmscenariosPackageImpl());
+		UcmscenariosPackageImpl theUcmscenariosPackage = (UcmscenariosPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof UcmscenariosPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new UcmscenariosPackageImpl());
 
 		isInited = true;
 
@@ -192,6 +182,9 @@ public class UcmscenariosPackageImpl extends EPackageImpl implements Ucmscenario
 		// Mark meta-data to indicate it can't be changed
 		theUcmscenariosPackage.freeze();
 
+  
+		// Update the registry and return the package
+		EPackage.Registry.INSTANCE.put(UcmscenariosPackage.eNS_URI, theUcmscenariosPackage);
 		return theUcmscenariosPackage;
 	}
 
@@ -747,7 +740,7 @@ public class UcmscenariosPackageImpl extends EPackageImpl implements Ucmscenario
 		initEReference(getScenarioGroup_Scenarios(), this.getScenarioDef(), this.getScenarioDef_Group(), "scenarios", null, 0, -1, ScenarioGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(sequenceEClass, Sequence.class, "Sequence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSequence_Parent(), this.getParallel(), this.getParallel_Children(), "parent", null, 1, 1, Sequence.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSequence_Parent(), this.getParallel(), this.getParallel_Children(), "parent", null, 0, 1, Sequence.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSequence_Children(), this.getSequenceElement(), this.getSequenceElement_Sequence(), "children", null, 1, -1, Sequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parallelEClass, Parallel.class, "Parallel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -761,8 +754,8 @@ public class UcmscenariosPackageImpl extends EPackageImpl implements Ucmscenario
 		initEReference(getInstance_Received(), this.getMessage(), this.getMessage_Target(), "received", null, 0, -1, Instance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(sequenceElementEClass, SequenceElement.class, "SequenceElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSequenceElement_ParentScenario(), this.getScenarioDef(), this.getScenarioDef_Children(), "parentScenario", null, 1, 1, SequenceElement.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSequenceElement_Sequence(), this.getSequence(), this.getSequence_Children(), "sequence", null, 1, 1, SequenceElement.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSequenceElement_ParentScenario(), this.getScenarioDef(), this.getScenarioDef_Children(), "parentScenario", null, 0, 1, SequenceElement.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSequenceElement_Sequence(), this.getSequence(), this.getSequence_Children(), "sequence", null, 0, 1, SequenceElement.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSequenceElement_Instance(), this.getInstance(), this.getInstance_Elements(), "instance", null, 0, 1, SequenceElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eventEClass, Event.class, "Event", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

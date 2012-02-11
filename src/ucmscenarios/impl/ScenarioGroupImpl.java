@@ -46,7 +46,7 @@ public class ScenarioGroupImpl extends ModelElementImpl implements ScenarioGroup
 	 * @generated
 	 * @ordered
 	 */
-	protected EList scenarios = null;
+	protected EList scenarios;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -72,7 +72,7 @@ public class ScenarioGroupImpl extends ModelElementImpl implements ScenarioGroup
 	 * @generated
 	 */
 	public ScenarioSpec getScenarioSpec() {
-		if (eContainerFeatureID != UcmscenariosPackage.SCENARIO_GROUP__SCENARIO_SPEC) return null;
+		if (eContainerFeatureID() != UcmscenariosPackage.SCENARIO_GROUP__SCENARIO_SPEC) return null;
 		return (ScenarioSpec)eContainer();
 	}
 
@@ -92,7 +92,7 @@ public class ScenarioGroupImpl extends ModelElementImpl implements ScenarioGroup
 	 * @generated
 	 */
 	public void setScenarioSpec(ScenarioSpec newScenarioSpec) {
-		if (newScenarioSpec != eInternalContainer() || (eContainerFeatureID != UcmscenariosPackage.SCENARIO_GROUP__SCENARIO_SPEC && newScenarioSpec != null)) {
+		if (newScenarioSpec != eInternalContainer() || (eContainerFeatureID() != UcmscenariosPackage.SCENARIO_GROUP__SCENARIO_SPEC && newScenarioSpec != null)) {
 			if (EcoreUtil.isAncestor(this, newScenarioSpec))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -157,7 +157,7 @@ public class ScenarioGroupImpl extends ModelElementImpl implements ScenarioGroup
 	 * @generated
 	 */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
+		switch (eContainerFeatureID()) {
 			case UcmscenariosPackage.SCENARIO_GROUP__SCENARIO_SPEC:
 				return eInternalContainer().eInverseRemove(this, UcmscenariosPackage.SCENARIO_SPEC__GROUPS, ScenarioSpec.class, msgs);
 		}

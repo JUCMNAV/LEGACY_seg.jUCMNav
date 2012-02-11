@@ -39,7 +39,7 @@ public class MessageImpl extends SequenceElementImpl implements Message {
 	 * @generated
 	 * @ordered
 	 */
-	protected Instance source = null;
+	protected Instance source;
 
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -49,7 +49,7 @@ public class MessageImpl extends SequenceElementImpl implements Message {
 	 * @generated
 	 * @ordered
 	 */
-	protected Instance target = null;
+	protected Instance target;
 
 	/**
 	 * <!-- begin-user-doc -->

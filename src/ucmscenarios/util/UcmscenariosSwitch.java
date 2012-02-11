@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import ucmscenarios.*;
 import ucmscenarios.Component;
 import ucmscenarios.Condition;
 import ucmscenarios.Event;
@@ -192,13 +193,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Scenario Spec</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Scenario Spec</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Scenario Spec</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Scenario Spec</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -207,13 +208,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Scenario Def</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Scenario Def</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Scenario Def</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Scenario Def</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -222,13 +223,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Component</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Component</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Component</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -237,13 +238,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Scenario Group</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Scenario Group</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Scenario Group</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Scenario Group</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -252,13 +253,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Sequence</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Sequence</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Sequence</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Sequence</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -267,13 +268,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Parallel</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Parallel</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Parallel</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Parallel</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -282,13 +283,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Instance</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Instance</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Instance</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Instance</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -297,13 +298,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Sequence Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Sequence Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Sequence Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Sequence Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -312,13 +313,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Event</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Event</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Event</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Event</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -327,13 +328,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Message</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Message</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Message</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Message</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -342,13 +343,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Model Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Model Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Model Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Model Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -357,13 +358,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Condition</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Condition</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Condition</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Condition</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -372,13 +373,13 @@ public class UcmscenariosSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

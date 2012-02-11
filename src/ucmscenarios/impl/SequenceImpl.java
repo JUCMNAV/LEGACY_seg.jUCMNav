@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -46,7 +47,7 @@ public class SequenceImpl extends SequenceElementImpl implements Sequence {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList children = null;
+	protected EList children;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -72,7 +73,7 @@ public class SequenceImpl extends SequenceElementImpl implements Sequence {
 	 * @generated
 	 */
 	public Parallel getParent() {
-		if (eContainerFeatureID != UcmscenariosPackage.SEQUENCE__PARENT) return null;
+		if (eContainerFeatureID() != UcmscenariosPackage.SEQUENCE__PARENT) return null;
 		return (Parallel)eContainer();
 	}
 
@@ -92,7 +93,7 @@ public class SequenceImpl extends SequenceElementImpl implements Sequence {
 	 * @generated
 	 */
 	public void setParent(Parallel newParent) {
-		if (newParent != eInternalContainer() || (eContainerFeatureID != UcmscenariosPackage.SEQUENCE__PARENT && newParent != null)) {
+		if (newParent != eInternalContainer() || (eContainerFeatureID() != UcmscenariosPackage.SEQUENCE__PARENT && newParent != null)) {
 			if (EcoreUtil.isAncestor(this, newParent))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -157,7 +158,7 @@ public class SequenceImpl extends SequenceElementImpl implements Sequence {
 	 * @generated
 	 */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
+		switch (eContainerFeatureID()) {
 			case UcmscenariosPackage.SEQUENCE__PARENT:
 				return eInternalContainer().eInverseRemove(this, UcmscenariosPackage.PARALLEL__CHILDREN, Parallel.class, msgs);
 		}

@@ -43,7 +43,7 @@ public class SequenceElementImpl extends ModelElementImpl implements SequenceEle
 	 * @generated
 	 * @ordered
 	 */
-	protected Instance instance = null;
+	protected Instance instance;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -69,7 +69,7 @@ public class SequenceElementImpl extends ModelElementImpl implements SequenceEle
 	 * @generated
 	 */
 	public ScenarioDef getParentScenario() {
-		if (eContainerFeatureID != UcmscenariosPackage.SEQUENCE_ELEMENT__PARENT_SCENARIO) return null;
+		if (eContainerFeatureID() != UcmscenariosPackage.SEQUENCE_ELEMENT__PARENT_SCENARIO) return null;
 		return (ScenarioDef)eContainer();
 	}
 
@@ -89,7 +89,7 @@ public class SequenceElementImpl extends ModelElementImpl implements SequenceEle
 	 * @generated
 	 */
 	public void setParentScenario(ScenarioDef newParentScenario) {
-		if (newParentScenario != eInternalContainer() || (eContainerFeatureID != UcmscenariosPackage.SEQUENCE_ELEMENT__PARENT_SCENARIO && newParentScenario != null)) {
+		if (newParentScenario != eInternalContainer() || (eContainerFeatureID() != UcmscenariosPackage.SEQUENCE_ELEMENT__PARENT_SCENARIO && newParentScenario != null)) {
 			if (EcoreUtil.isAncestor(this, newParentScenario))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -110,7 +110,7 @@ public class SequenceElementImpl extends ModelElementImpl implements SequenceEle
 	 * @generated
 	 */
 	public Sequence getSequence() {
-		if (eContainerFeatureID != UcmscenariosPackage.SEQUENCE_ELEMENT__SEQUENCE) return null;
+		if (eContainerFeatureID() != UcmscenariosPackage.SEQUENCE_ELEMENT__SEQUENCE) return null;
 		return (Sequence)eContainer();
 	}
 
@@ -130,7 +130,7 @@ public class SequenceElementImpl extends ModelElementImpl implements SequenceEle
 	 * @generated
 	 */
 	public void setSequence(Sequence newSequence) {
-		if (newSequence != eInternalContainer() || (eContainerFeatureID != UcmscenariosPackage.SEQUENCE_ELEMENT__SEQUENCE && newSequence != null)) {
+		if (newSequence != eInternalContainer() || (eContainerFeatureID() != UcmscenariosPackage.SEQUENCE_ELEMENT__SEQUENCE && newSequence != null)) {
 			if (EcoreUtil.isAncestor(this, newSequence))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -251,7 +251,7 @@ public class SequenceElementImpl extends ModelElementImpl implements SequenceEle
 	 * @generated
 	 */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
+		switch (eContainerFeatureID()) {
 			case UcmscenariosPackage.SEQUENCE_ELEMENT__PARENT_SCENARIO:
 				return eInternalContainer().eInverseRemove(this, UcmscenariosPackage.SCENARIO_DEF__CHILDREN, ScenarioDef.class, msgs);
 			case UcmscenariosPackage.SEQUENCE_ELEMENT__SEQUENCE:

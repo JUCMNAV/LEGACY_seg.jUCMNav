@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import ucmscenarios.*;
 import ucmscenarios.Component;
 import ucmscenarios.Condition;
 import ucmscenarios.Event;

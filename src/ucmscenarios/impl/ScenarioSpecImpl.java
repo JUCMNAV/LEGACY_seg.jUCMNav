@@ -129,7 +129,7 @@ public class ScenarioSpecImpl extends ModelElementImpl implements ScenarioSpec {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList components = null;
+	protected EList components;
 
 	/**
 	 * The cached value of the '{@link #getGroups() <em>Groups</em>}' containment reference list.
@@ -139,7 +139,7 @@ public class ScenarioSpecImpl extends ModelElementImpl implements ScenarioSpec {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList groups = null;
+	protected EList groups;
 
 	/**
 	 * <!-- begin-user-doc -->

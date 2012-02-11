@@ -415,7 +415,10 @@
          id="seg.jUCMNav.MarkerSupport"
          name="jUCMNav Marker Support"
          point="org.eclipse.ui.ide.markerSupport">
-      <markerTypeCategory name="seg.jUCMNav.WarningMarker"/>
+      <markerTypeCategory name="seg.jUCMNav.WarningMarker">
+            <!-- Next line added by Daniel to remove warning, but I'm really not sure if it's right! -->
+      		<markerTypeReference id="org.eclipse.core.resources.problemmarker"/>
+      </markerTypeCategory>
       <problemFilter
             enabled="true"
             id="seg.jUCMNav.problemFilter1"
@@ -664,5 +667,47 @@
 		            </input>
 	         </propertySection>
          </propertySections>
+   </extension>
+   <!-- Suggested bu Dominique Blouin in Bug #802, to be able to refer to URN -->
+   <!-- meta-model elements from the Eclipse EMF package registry -->
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="urn.UrnPackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"
+            uri="http:///urn.ecore">
+      </package>
+   </extension>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="urncore.UrncorePackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"
+            uri="http:///urncore.ecore">
+      </package>
+   </extension>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="grl.GrlPackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"
+            uri="http:///grl.ecore">
+      </package>
+   </extension>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="ucm.UcmPackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"
+            uri="http:///ucm.ecore">
+      </package>
+   </extension>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="ucmscenarios.UcmscenariosPackage"
+            genModel="src/seg/jUCMNav/emf/UCMscenarios.genmodel"
+            uri="http:///ucmscenarios.ecore">
+      </package>
    </extension>
 </plugin>

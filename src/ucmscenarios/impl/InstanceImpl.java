@@ -51,7 +51,7 @@ public class InstanceImpl extends ModelElementImpl implements Instance {
 	 * @generated
 	 * @ordered
 	 */
-	protected Component definition = null;
+	protected Component definition;
 
 	/**
 	 * The cached value of the '{@link #getElements() <em>Elements</em>}' reference list.
@@ -61,7 +61,7 @@ public class InstanceImpl extends ModelElementImpl implements Instance {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList elements = null;
+	protected EList elements;
 
 	/**
 	 * The cached value of the '{@link #getSent() <em>Sent</em>}' reference list.
@@ -71,7 +71,7 @@ public class InstanceImpl extends ModelElementImpl implements Instance {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList sent = null;
+	protected EList sent;
 
 	/**
 	 * The cached value of the '{@link #getReceived() <em>Received</em>}' reference list.
@@ -81,7 +81,7 @@ public class InstanceImpl extends ModelElementImpl implements Instance {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList received = null;
+	protected EList received;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -107,7 +107,7 @@ public class InstanceImpl extends ModelElementImpl implements Instance {
 	 * @generated
 	 */
 	public ScenarioDef getScenario() {
-		if (eContainerFeatureID != UcmscenariosPackage.INSTANCE__SCENARIO) return null;
+		if (eContainerFeatureID() != UcmscenariosPackage.INSTANCE__SCENARIO) return null;
 		return (ScenarioDef)eContainer();
 	}
 
@@ -127,7 +127,7 @@ public class InstanceImpl extends ModelElementImpl implements Instance {
 	 * @generated
 	 */
 	public void setScenario(ScenarioDef newScenario) {
-		if (newScenario != eInternalContainer() || (eContainerFeatureID != UcmscenariosPackage.INSTANCE__SCENARIO && newScenario != null)) {
+		if (newScenario != eInternalContainer() || (eContainerFeatureID() != UcmscenariosPackage.INSTANCE__SCENARIO && newScenario != null)) {
 			if (EcoreUtil.isAncestor(this, newScenario))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -290,7 +290,7 @@ public class InstanceImpl extends ModelElementImpl implements Instance {
 	 * @generated
 	 */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
+		switch (eContainerFeatureID()) {
 			case UcmscenariosPackage.INSTANCE__SCENARIO:
 				return eInternalContainer().eInverseRemove(this, UcmscenariosPackage.SCENARIO_DEF__INSTANCES, ScenarioDef.class, msgs);
 		}

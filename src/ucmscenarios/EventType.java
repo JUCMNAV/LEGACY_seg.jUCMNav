@@ -378,7 +378,7 @@ public final class EventType extends AbstractEnumerator {
 			case TIMER_RESET: return TIMER_RESET_LITERAL;
 			case TIMEOUT: return TIMEOUT_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

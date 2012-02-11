@@ -34,8 +34,8 @@
         eType="#//ScenarioDef" containment="true" eOpposite="#//ScenarioDef/group"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Sequence" eSuperTypes="#//SequenceElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-        eType="#//Parallel" transient="true" eOpposite="#//Parallel/children"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Parallel"
+        transient="true" eOpposite="#//Parallel/children"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" lowerBound="1"
         upperBound="-1" eType="#//SequenceElement" containment="true" eOpposite="#//SequenceElement/sequence"/>
   </eClassifiers>
@@ -56,10 +56,10 @@
         eType="#//Message" eOpposite="#//Message/target"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SequenceElement" eSuperTypes="#//ModelElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parentScenario" lowerBound="1"
-        eType="#//ScenarioDef" transient="true" eOpposite="#//ScenarioDef/children"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sequence" lowerBound="1"
-        eType="#//Sequence" transient="true" eOpposite="#//Sequence/children"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentScenario" eType="#//ScenarioDef"
+        transient="true" eOpposite="#//ScenarioDef/children"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sequence" eType="#//Sequence"
+        transient="true" eOpposite="#//Sequence/children"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="instance" eType="#//Instance"
         eOpposite="#//Instance/elements"/>
   </eClassifiers>

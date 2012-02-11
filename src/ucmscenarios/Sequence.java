@@ -39,7 +39,7 @@ public interface Sequence extends SequenceElement {
 	 * @see #setParent(Parallel)
 	 * @see ucmscenarios.UcmscenariosPackage#getSequence_Parent()
 	 * @see ucmscenarios.Parallel#getChildren
-	 * @model opposite="children" required="true"
+	 * @model opposite="children"
 	 * @generated
 	 */
 	Parallel getParent();
