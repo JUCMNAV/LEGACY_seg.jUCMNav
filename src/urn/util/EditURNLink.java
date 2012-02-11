@@ -7,15 +7,12 @@ import grl.IntentionalElement;
 
 import java.util.Iterator;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
@@ -24,7 +21,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.GrlEditor;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
@@ -44,7 +40,6 @@ import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.Responsibility;
-import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
 public class EditURNLink {
@@ -58,7 +53,7 @@ public class EditURNLink {
     private static URNspec urn; // The urnspec of the current model
     
 	
-    public void EditLink( CommandStack cmdStack, URNmodelElement element, URNmodelElement parentElement, EditPart ep )
+    public void editLink( CommandStack cmdStack, URNmodelElement element, URNmodelElement parentElement, EditPart ep )
     {
 
     	class EditListener implements Listener {
@@ -67,7 +62,7 @@ public class EditURNLink {
     		EditListener( URNlink ul ){	link = ul; }
 
     		public void handleEvent(Event event) {
-    			EditLinkType( link );
+    			editLinkType( link );
     		}
     	}
 
@@ -77,7 +72,7 @@ public class EditURNLink {
     		DeleteListener( URNlink ul ){ link = ul; }
 
     		public void handleEvent(Event event) {
-    			DeleteLink( link );
+    			deleteLink( link );
     		}
     	}
 
@@ -88,7 +83,7 @@ public class EditURNLink {
     		NavigateListener( URNlink ul, boolean og ){	link = ul; outgoing = og; }
 
     		public void handleEvent(Event event) {
-    			NavigateLink( link, outgoing );
+    			navigateLink( link, outgoing );
     		}
     	}
 
@@ -97,6 +92,8 @@ public class EditURNLink {
     	selectedElementParent = parentElement;
     	selectedEditPart = ep;
 
+    	this.setURNspec( selectedElement );
+    	
     	Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
     	Menu menu = new Menu(shell, SWT.POP_UP);
 
@@ -128,7 +125,7 @@ public class EditURNLink {
 
     	item2.addListener( SWT.Selection, new Listener() {
     		public void handleEvent(Event event) {
-    			StartNewLink( selectedElement );
+    			startNewLink( selectedElement );
     		}
     	});
 
@@ -143,7 +140,7 @@ public class EditURNLink {
 
     		item22.addListener( SWT.Selection, new Listener() {
     			public void handleEvent(Event event) {
-    				StartNewLink( selectedElementParent );
+    				startNewLink( selectedElementParent );
     			}
     		});
 
@@ -161,7 +158,7 @@ public class EditURNLink {
 
     		item21.addListener( SWT.Selection, new Listener() {
     			public void handleEvent(Event event) {
-    				EndNewLink( selectedElement );
+    				endNewLink( selectedElement );
     			}
     		});
 
@@ -173,7 +170,7 @@ public class EditURNLink {
 
     			item23.addListener( SWT.Selection, new Listener() {
     				public void handleEvent(Event event) {
-    					EndNewLink( selectedElementParent );
+    					endNewLink( selectedElementParent );
     				}
     			});
     		}
@@ -214,7 +211,7 @@ public class EditURNLink {
     			pdi[i].setText( "Delete Link" );
     			pdi[i].addListener( SWT.Selection, new DeleteListener( link ));
 
-    			if( this.IsNavigable( link.getToElem() )){
+    			if( this.isNavigable( link.getToElem() )){
     				pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
     				pni[i].setText( "Show Target" );
     				pni[i].addListener( SWT.Selection, new NavigateListener( link, true ));
@@ -242,7 +239,7 @@ public class EditURNLink {
     				pdi[i].setText( "Delete Link" );
     				pdi[i].addListener( SWT.Selection, new DeleteListener( link ));
 
-    				if( this.IsNavigable( link.getToElem() )){
+    				if( this.isNavigable( link.getToElem() )){
     					pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
     					pni[i].setText( "Show Target" );
     					pni[i].addListener( SWT.Selection, new NavigateListener( link, true ));
@@ -290,7 +287,7 @@ public class EditURNLink {
     			pdi[i].setText( "Delete Link" );
     			pdi[i].addListener( SWT.Selection, new DeleteListener( link));
 
-    			if( this.IsNavigable( link.getFromElem() )){
+    			if( this.isNavigable( link.getFromElem() )){
     				pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
     				pni[i].setText( "Show Source" );
     				pni[i].addListener( SWT.Selection, new NavigateListener( link, false ));
@@ -320,7 +317,7 @@ public class EditURNLink {
     				pdi[i].setText( "Delete Link" );
     				pdi[i].addListener( SWT.Selection, new DeleteListener( link));
 
-    				if( this.IsNavigable( link.getFromElem() )){
+    				if( this.isNavigable( link.getFromElem() )){
     					pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
     					pni[i].setText( "Show Source" );
     					pni[i].addListener( SWT.Selection, new NavigateListener( link, false ));
@@ -340,7 +337,7 @@ public class EditURNLink {
 	    return className.substring( 0, className.length()-4 );  // strip suffix 'Impl' from class name
 	}
 	
-	private boolean IsNavigable( URNmodelElement endpoint )
+	private boolean isNavigable( URNmodelElement endpoint )
 	{
 		if( endpoint instanceof IURNNode || endpoint instanceof IURNContainerRef )
 			return true;
@@ -348,29 +345,31 @@ public class EditURNLink {
 		return false;
 	}
 	
-	private void StartNewLink( URNmodelElement element )
+	private void startNewLink( URNmodelElement element )
 	{
 		fromElement = element;
 		
-        if (fromElement instanceof IntentionalElement) {
-            urn = ((IntentionalElement) fromElement).getGrlspec().getUrnspec();
-        } else if (fromElement instanceof Actor) {
-            urn = ((Actor) fromElement).getGrlspec().getUrnspec();
-        } else if( fromElement instanceof IURNNode ){ // handles UCM, GRL Nodes
-        	urn = ((IURNNode) fromElement).getDiagram().getUrndefinition().getUrnspec();
-        } else if(  fromElement instanceof IURNContainerRef ){ // handles ActorRef, ComponentRef
-        	urn = ((IURNContainerRef) fromElement).getDiagram().getUrndefinition().getUrnspec();
-        } else if( fromElement instanceof ElementLink ){
-        	urn = ((ElementLink) fromElement).getGrlspec().getUrnspec();
-        } else if( fromElement instanceof Responsibility ){
-        	urn = ((Responsibility) fromElement).getUrndefinition().getUrnspec();
-        }  else if( fromElement instanceof Component ){
-        	urn = ((Component) fromElement).getUrndefinition().getUrnspec();
-        }
-
+	}
+	private void setURNspec( URNmodelElement element )
+	{
+        if (element instanceof IntentionalElement) {
+            urn = ((IntentionalElement) element).getGrlspec().getUrnspec();
+        } else if (element instanceof Actor) {
+            urn = ((Actor) element).getGrlspec().getUrnspec();
+        } else if( element instanceof IURNNode ){ // handles UCM, GRL Nodes
+        	urn = ((IURNNode) element).getDiagram().getUrndefinition().getUrnspec();
+        } else if(  element instanceof IURNContainerRef ){ // handles ActorRef, ComponentRef
+        	urn = ((IURNContainerRef) element).getDiagram().getUrndefinition().getUrnspec();
+        } else if( element instanceof ElementLink ){
+        	urn = ((ElementLink) element).getGrlspec().getUrnspec();
+        } else if( element instanceof Responsibility ){
+        	urn = ((Responsibility) element).getUrndefinition().getUrnspec();
+        }  else if( element instanceof Component ){
+        	urn = ((Component) element).getUrndefinition().getUrnspec();
+        }		
 	}
 	
-	private void EndNewLink( URNmodelElement element )
+	private void endNewLink( URNmodelElement element )
 	{
 		String response;
 		URNmodelElement toElement = element;
@@ -382,7 +381,7 @@ public class EditURNLink {
         			"\" to " + this.className( toElement ) + " \"" + URNlinkImpl.getParentElement( toElement ).getName()
         			+ "\".\nPlease enter the URN Link Type.";
 
-        	URNlinkTypeSelectionDialog typeInput = new URNlinkTypeSelectionDialog( shell, title, message, "", "Create New URN Link", "Cancel URN Link Creation" ); 
+        	URNlinkTypeSelectionDialog typeInput = new URNlinkTypeSelectionDialog( shell, urn, title, message, "", "Create New URN Link", "Cancel URN Link Creation" ); 
     		
         	if( (response = typeInput.open()) == null )
         		return;
@@ -398,23 +397,22 @@ public class EditURNLink {
 		fromElement = null; // clear start link
 	}
 	
-	private void EditLinkType( URNlink selectedLink )
+	private void editLinkType( URNlink selectedLink )
 	{
 		String response;
 		
 		String oldType = selectedLink.getType();
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
     	String title = "Modify URN Link Type";
-    	String message =  "Please modify the URN Link Type.";
+    	String message = "Please modify the URN Link Type.";
     	
-    	URNlinkTypeSelectionDialog typeInput = new URNlinkTypeSelectionDialog( shell, title, message, (oldType != null) ? oldType : "",
+    	URNlinkTypeSelectionDialog typeInput = new URNlinkTypeSelectionDialog( shell, urn, title, message, (oldType != null) ? oldType : "",
     			"Accept", "Cancel Modify Link" ); 
 		
     	if( (response = typeInput.open()) == null )
     		return;
     	
-		System.out.println( "The selection was \"" + response + "\"." );
-
+//		System.out.println( "The selection was \"" + response + "\"." );
     	
 		if( (oldType != null) && (response.compareTo( oldType ) == 0) )
 			return;
@@ -425,7 +423,7 @@ public class EditURNLink {
         }
 	}
 
-	private void DeleteLink( URNlink selectedLink )
+	private void deleteLink( URNlink selectedLink )
 	{
 		final int CANCEL = 0;
 		final int DELETE = 1;
@@ -450,7 +448,7 @@ public class EditURNLink {
 		}
 	}
 	
-	private void NavigateLink( URNlink selectedLink, boolean outgoing )
+	private void navigateLink( URNlink selectedLink, boolean outgoing )
 	{
 		URNmodelElement linkStart, linkEnd, oppositeEnd;
 
@@ -480,7 +478,7 @@ public class EditURNLink {
 		}
 		
 		if( oppositeDiagram == null ){
-			System.err.println( "NavigateLink: Target diagram is null" );
+			System.err.println( "navigateLink: Target diagram is null" );
 			return;
 		}		
 		

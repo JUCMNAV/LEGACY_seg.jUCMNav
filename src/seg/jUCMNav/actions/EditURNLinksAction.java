@@ -46,7 +46,7 @@ public class EditURNLinksAction extends URNSelectionAction {
     		
     		if( parts.get(0) instanceof EditPart ){
     			editPart = ((EditPart) parts.get(0));
-//        		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
+        		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
     		}
     		
     		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
@@ -74,6 +74,7 @@ public class EditURNLinksAction extends URNSelectionAction {
     		} else if (sel.getSelectionType() == SelectionHelper.EVALUATIONSTRATEGY) {
     			parentElement = null;
     			element = sel.getEvaluationStrategy();
+    			System.out.println( "strategy selected name: " + element.getName());
     			return true;
     		} else if( editPart.getModel() instanceof URNmodelElement ) {
     			element = (URNmodelElement) editPart.getModel();
@@ -93,7 +94,7 @@ public class EditURNLinksAction extends URNSelectionAction {
      */
     public void run() {
     	EditURNLink ul = new EditURNLink();
-        ul.EditLink( getCommandStack(), element, parentElement, editPart );
+        ul.editLink( getCommandStack(), element, parentElement, editPart );
     }
 
 }

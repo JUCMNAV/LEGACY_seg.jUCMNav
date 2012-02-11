@@ -1,5 +1,7 @@
 package seg.jUCMNav.views.wizards;
 
+import java.util.Iterator;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -12,12 +14,17 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import seg.jUCMNav.model.ModelCreationFactory;
+import urn.URNspec;
+import urncore.Metadata;
 
 public class URNlinkTypeSelectionDialog extends Dialog {
 	
@@ -26,15 +33,20 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 	private Text typeEntry = null;
 	private Label listLabel = null;
 	private List typesList = null;
-	private String title, message, initialType, acceptLabel, cancelLabel;
+	private Button renameButton = null;
+	private Button deleteButton = null;
 	
+	private String title, message, initialType, acceptLabel, cancelLabel;
+    private URNspec urn; // The urnspec of the current model
+
 	final private int minWidth = 300, EXISTING_TYPE = 0, NEW_TYPE = 1;
 	private int currentMode;
 	public static String linkType = null;
 	
-	public URNlinkTypeSelectionDialog( Shell parent, String title, String message, String initialType, String acceptLabel, String cancelLabel )
+	public URNlinkTypeSelectionDialog( Shell parent, URNspec urn, String title, String message, String initialType, String acceptLabel, String cancelLabel )
 	{
 		super(parent);
+		this.urn = urn;
 		this.title = title;
 		this.message = message;
 		this.initialType = initialType;
@@ -48,18 +60,18 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		Point size;
 
 		String [] modes = { "Select existing URN Link Type", "Specify New URN Link Type" };
-		String [] types = { "Traceability", "Refinement", "Compliance" };
 		
         Shell parent = getParent();
         final Shell shell = new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL | SWT.CENTER | SWT.RESIZE);
 
         shell.setText(title);
         
-		FormLayout formLayout = new FormLayout();
-        formLayout.marginWidth = 3;
-        formLayout.marginHeight = 3;
-        shell.setLayout( formLayout );
+		FormLayout shellFormLayout = new FormLayout();
+        shellFormLayout.marginWidth = 3;
+        shellFormLayout.marginHeight = 3;
+        shell.setLayout( shellFormLayout );
         
+        // top level shell widgets
         Label messageLabel = new Label( shell, SWT.LEFT );
         messageLabel.setText(message);
         
@@ -106,26 +118,35 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		formData.right = new FormAttachment( 100, -5 );
 		typeEntry.setLayoutData( formData );
 
+		// Composite container for types list and children
+		Composite typesListComposite = new Composite( shell, SWT.BORDER );
 		
-		listLabel = new Label( shell, SWT.LEFT );
+		FormLayout nestedFormLayout = new FormLayout();
+		typesListComposite.setLayout(nestedFormLayout);
+
+		// forward reference to top level shell button for layout binding purposes
+		Button cancelButton = new Button(shell, SWT.PUSH);
+
+		listLabel = new Label( typesListComposite, SWT.LEFT );
 		listLabel.setText( "URN Link Types" );
 		
 		size = listLabel.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		formData = new FormData( size.x, size.y );
 		formData.left = new FormAttachment( 0, 5 );
-		formData.top = new FormAttachment( typeEntry, 5 );
+		formData.top = new FormAttachment( 0, 5 );
 		listLabel.setLayoutData( formData );
 		
-		typesList = new List( shell, SWT.SINGLE | SWT.BORDER );
-		typesList.setItems(types);
+		typesList = new List( typesListComposite, SWT.SINGLE | SWT.BORDER | SWT.SCROLL_LINE | SWT.V_SCROLL );
+		this.populateTypesList();
 
-		Button cancelButton = new Button(shell, SWT.PUSH);
-		
+		// forward reference to button at bottom of List for layout binding purposes
+		renameButton = new Button( typesListComposite, SWT.PUSH );
+
 		formData = new FormData( minWidth, 5*size.y );
 		formData.top = new FormAttachment( listLabel, 5 );
 		formData.left = new FormAttachment( 0, 5 );
 		formData.right = new FormAttachment( 100, -5 );
-		formData.bottom = new FormAttachment( cancelButton, -5 );
+		formData.bottom = new FormAttachment( renameButton, -5 );
 		typesList.setLayoutData( formData );
 		
 		typesList.addMouseListener( new MouseListener() {
@@ -136,7 +157,34 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 			public void mouseDown(MouseEvent e) {}
 			public void mouseUp(MouseEvent e) {}
 		});
+		
+		
+        renameButton.setText( "Rename Link Type" );
+		
+		size = renameButton.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		formData = new FormData( size.x+8, size.y );
+		formData.left = new FormAttachment( 0, 5 );
+		formData.bottom = new FormAttachment( 100, -5 );
+		renameButton.setLayoutData( formData );
+		
+        deleteButton = new Button( typesListComposite, SWT.PUSH );
+        deleteButton.setText( "Delete Link Type" );
+		
+		size = deleteButton.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		formData = new FormData( size.x+8, size.y );
+		formData.left = new FormAttachment( renameButton, 5 );
+		formData.bottom = new FormAttachment( 100, -5 );
+		deleteButton.setLayoutData( formData );
+		
+		size = typesListComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		formData = new FormData( size.x, size.y );
+		formData.left = new FormAttachment( 0, 5 );
+		formData.top = new FormAttachment( typeEntry, 5 );
+		formData.right = new FormAttachment( 100, -5 );
+		formData.bottom = new FormAttachment( cancelButton, -30 );
+		typesListComposite.setLayoutData( formData );
 
+        // top level shell widgets
         Button OK_Button = new Button(shell, SWT.PUSH);
         OK_Button.setText( acceptLabel );
 		
@@ -208,12 +256,16 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 			typeEntry.setEnabled( false );
 			listLabel.setEnabled( true );
 			typesList.setEnabled( true );
+			renameButton.setEnabled( true );
+			deleteButton.setEnabled( true );
 			break;
 		case NEW_TYPE:
 			entryLabel.setEnabled( true );
 			typeEntry.setEnabled( true );
 			listLabel.setEnabled( false );
 			typesList.setEnabled( false );
+			renameButton.setEnabled( false );
+			deleteButton.setEnabled( false );
 			break;
 		}
 	}
@@ -226,14 +278,44 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 			break;
 		case NEW_TYPE:
 			linkType = new String( typeEntry.getText() );
+			this.addNewLinkType();
 			break;
 		}		
 	}
 	
+	private void addNewLinkType()
+	{
+		if( urn == null ) return;
+
+		// check if new type already exists in types list
+		for( String existingType: typesList.getItems() ) {
+			if( linkType.contentEquals( existingType ))
+				return;	
+		}
+		
+		// add new Link Type to URNspec metadata
+		Metadata newType = (Metadata) ModelCreationFactory.getNewObject(urn, Metadata.class);
+		newType.setName( "UrnLinkType" );
+		newType.setValue( linkType );
+		urn.getMetadata().add( newType );
+	}
+	
+	private void populateTypesList()
+	{
+		if( urn == null ) return;
+
+		for( Iterator iter = urn.getMetadata().iterator(); iter.hasNext(); ) {
+			Metadata md = (Metadata) iter.next();
+			if( md.getName().contentEquals( "UrnLinkType" ))
+				typesList.add( md.getValue() );
+			
+		}
+	}
+	
 	public static void main(String[] args) {
 		
-		URNlinkTypeSelectionDialog testDialog = new URNlinkTypeSelectionDialog( new Shell(), "Specify URN Link Type", "Create New Link or Modify Existing Link's Type",
-				"", "Accept", "Cancel" );
+		URNlinkTypeSelectionDialog testDialog = new URNlinkTypeSelectionDialog( new Shell(), null, "Specify URN Link Type",
+				"Create New Link or Modify Existing Link's Type", "", "Accept", "Cancel" );
 		String response = testDialog.open();
 		System.out.println( "The selection was \"" + response + "\"." );
 	}
