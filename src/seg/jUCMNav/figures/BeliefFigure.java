@@ -45,10 +45,10 @@ public class BeliefFigure extends GrlNodeFigure {
      */
     protected void outlineShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
-        r.x += lineWidth / 2;
-        r.y += lineWidth / 2;
-        r.width -= lineWidth;
-        r.height -= lineWidth;
+        r.x += getLineWidth() / 2;
+        r.y += getLineWidth() / 2;
+        r.width -= getLineWidth();
+        r.height -= getLineWidth();
         graphics.drawOval(r);
     }
 
@@ -59,10 +59,10 @@ public class BeliefFigure extends GrlNodeFigure {
      */
     protected void fillShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
-        r.x += lineWidth / 2;
-        r.y += lineWidth / 2;
-        r.width -= lineWidth;
-        r.height -= lineWidth;
+        r.x += getLineWidth() / 2;
+        r.y += getLineWidth() / 2;
+        r.width -= getLineWidth();
+        r.height -= getLineWidth();
         graphics.fillOval(r);
 
     }

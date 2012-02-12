@@ -27,10 +27,10 @@ public class ActorFigure extends GrlNodeFigure {
     protected void outlineShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
 
-        r.x += lineWidth / 2;
-        r.y += lineWidth / 2;
-        r.width -= lineWidth;
-        r.height -= lineWidth;
+        r.x += getLineWidth() / 2;
+        r.y += getLineWidth() / 2;
+        r.width -= getLineWidth();
+        r.height -= getLineWidth();
 
         graphics.setLineStyle(SWT.LINE_DASH);
         int[] dashpattern = { 2, 2 };
@@ -47,10 +47,10 @@ public class ActorFigure extends GrlNodeFigure {
     protected void fillShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
 
-        r.x += lineWidth / 2;
-        r.y += lineWidth / 2;
-        r.width -= lineWidth;
-        r.height -= lineWidth;
+        r.x += getLineWidth() / 2;
+        r.y += getLineWidth() / 2;
+        r.width -= getLineWidth();
+        r.height -= getLineWidth();
 
         graphics.setLineStyle(SWT.LINE_DASH);
         int[] dashpattern = { 2, 2 };

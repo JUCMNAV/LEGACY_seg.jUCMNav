@@ -140,10 +140,14 @@ public class JUCMNavGRLCommandTests extends TestCase {
         // cs = new CommandStack();
         cs = editor.getDelegatingCommandStack();
 
-        // Delete the default UCM map
-        Command cmd = new DeleteMapCommand((UCMmap) urnspec.getUrndef().getSpecDiagrams().get(0));
-        assertTrue("Can't execute DeleteMapCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
+        // Delete the default UCM map, if present
+        Command cmd;
+        Object defaultMap = urnspec.getUrndef().getSpecDiagrams().get(0);
+        if (defaultMap instanceof UCMmap) {
+        	cmd = new DeleteMapCommand((UCMmap) defaultMap);
+        	assertTrue("Can't execute DeleteMapCommand.", cmd.canExecute()); //$NON-NLS-1$
+        	cs.execute(cmd);
+        }
 
         // Create a new GRLGraph
         cmd = new CreateGrlGraphCommand(urnspec);

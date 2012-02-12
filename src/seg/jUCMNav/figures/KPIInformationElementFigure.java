@@ -35,10 +35,10 @@ public class KPIInformationElementFigure extends GrlNodeFigure {
     }
 
     private void setupDimensionBounds(Rectangle r) {
-        r.x += lineWidth / 2;
-        r.y += lineWidth / 2;
-        r.width -= lineWidth;
-        r.height -= lineWidth;
+        r.x += getLineWidth() / 2;
+        r.y += getLineWidth() / 2;
+        r.width -= getLineWidth();
+        r.height -= getLineWidth();
     }
 
     protected void fillShape(Graphics graphics) {

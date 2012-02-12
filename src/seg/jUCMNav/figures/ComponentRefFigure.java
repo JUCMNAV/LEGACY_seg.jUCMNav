@@ -42,17 +42,17 @@ public class ComponentRefFigure extends RectangleFigure {
         Rectangle r = getBounds().getCopy();
         switch (kind) {
         case ComponentKind.OBJECT:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
+            r.x += getLineWidth() / 2;
+            r.y += getLineWidth() / 2;
+            r.width -= getLineWidth();
+            r.height -= getLineWidth();
             graphics.fillRoundRectangle(r, 50, 50);
             break;
         case ComponentKind.PROCESS:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
+            r.x += getLineWidth() / 2;
+            r.y += getLineWidth() / 2;
+            r.width -= getLineWidth();
+            r.height -= getLineWidth();
             PointList points = new PointList();
             points.addPoint(r.getTopRight());
             points.addPoint(r.getBottomRight().x - r.height / 10, r.getBottomRight().y);
@@ -92,17 +92,17 @@ public class ComponentRefFigure extends RectangleFigure {
         PointList points = new PointList();
         switch (kind) {
         case ComponentKind.OBJECT:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
+            r.x += getLineWidth() / 2;
+            r.y += getLineWidth() / 2;
+            r.width -= getLineWidth();
+            r.height -= getLineWidth();
             graphics.drawRoundRectangle(r, 50, 50);
             break;
         case ComponentKind.PROCESS:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
+            r.x += getLineWidth() / 2;
+            r.y += getLineWidth() / 2;
+            r.width -= getLineWidth();
+            r.height -= getLineWidth();
 
             points.addPoint(r.getTopRight());
             points.addPoint(r.getBottomRight().x - r.height / 10, r.getBottomRight().y);
@@ -113,10 +113,10 @@ public class ComponentRefFigure extends RectangleFigure {
             break;
         case ComponentKind.ACTOR:
             // draw rectangle
-            int x = r.x + lineWidth / 2;
-            int y = r.y + lineWidth / 2;
-            int w = r.width - lineWidth;
-            int h = r.height - lineWidth;
+            int x = r.x + getLineWidth() / 2;
+            int y = r.y + getLineWidth() / 2;
+            int w = r.width - getLineWidth();
+            int h = r.height - getLineWidth();
             graphics.drawRectangle(x, y, w, h);
 
             // offset figure

@@ -46,10 +46,10 @@ public class CommentFigure extends GrlNodeFigure {
     }
 
     private PointList buildPointList(Rectangle r, PointList second) {
-        int x = r.x + lineWidth / 2;
-        int y = r.y + lineWidth / 2;
-        int w = r.width - lineWidth;
-        int h = r.height - lineWidth;
+        int x = r.x + getLineWidth() / 2;
+        int y = r.y + getLineWidth() / 2;
+        int w = r.width - getLineWidth();
+        int h = r.height - getLineWidth();
         int kink = 15;
         if (w < 2 * kink)
             w = 2 * kink;
@@ -71,10 +71,10 @@ public class CommentFigure extends GrlNodeFigure {
     }
 
     private void setupDimensionBounds(Rectangle r) {
-        r.x += lineWidth / 2;
-        r.y += lineWidth / 2;
-        r.width -= lineWidth;
-        r.height -= lineWidth;
+        r.x += getLineWidth() / 2;
+        r.y += getLineWidth() / 2;
+        r.width -= getLineWidth();
+        r.height -= getLineWidth();
     }
 
     protected void fillShape(Graphics graphics) {

@@ -92,10 +92,10 @@ public class IntentionalElementFigure extends GrlNodeFigure {
     }
 
     private void setupBounds(Rectangle r) {
-        r.x += lineWidth / 2;
-        r.y += lineWidth / 2;
-        r.width -= lineWidth;
-        r.height -= lineWidth;
+        r.x += getLineWidth() / 2;
+        r.y += getLineWidth() / 2;
+        r.width -= getLineWidth();
+        r.height -= getLineWidth();
     }
 
     private void fillTaskPoints(Rectangle r, PointList points) {
