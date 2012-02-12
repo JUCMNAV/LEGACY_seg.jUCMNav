@@ -668,6 +668,8 @@
 	         </propertySection>
          </propertySections>
    </extension>
+   <!-- Suggested by Dominique Blouin in Bug #802, to be able to refer to URN -->
+   <!-- meta-model elements from the Eclipse EMF package registry -->
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
