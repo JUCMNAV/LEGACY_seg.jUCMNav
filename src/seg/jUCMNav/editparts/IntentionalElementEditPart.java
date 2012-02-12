@@ -25,6 +25,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.DragTracker;
@@ -254,38 +255,43 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 
         int featureId = notification.getFeatureID(GrlPackage.class);
         if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE || featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY
-                || featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY || featureId == GrlPackage.INTENTIONAL_ELEMENT__IMPORTANCE) {
-            EvaluationStrategyManager.getInstance().calculateEvaluation();
+        		|| featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY || featureId == GrlPackage.INTENTIONAL_ELEMENT__IMPORTANCE) {
+        	EvaluationStrategyManager.getInstance().calculateEvaluation();
 
-            for (Iterator iter = getNode().getDef().getLinksDest().iterator(); iter.hasNext();) {
-                ElementLink decomp = (ElementLink) iter.next();
-                if (decomp instanceof Decomposition) {
-                    for (Iterator iRef = decomp.getRefs().iterator(); iRef.hasNext();) {
-                        LinkRef ref = (LinkRef) iRef.next();
-                        LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
-                        if (refEditPart != null) {
-                            refEditPart.refreshVisuals();
-                        }
-                    }
-                }
-            } 
+        	EList linksDest = getNode().getDef().getLinksDest();
+        	if (linksDest != null){
+        		for (Iterator iter = linksDest.iterator(); iter.hasNext();) {
+        			ElementLink decomp = (ElementLink) iter.next();
+        			if (decomp instanceof Decomposition) {
+        				for (Iterator iRef = decomp.getRefs().iterator(); iRef.hasNext();) {
+        					LinkRef ref = (LinkRef) iRef.next();
+        					LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
+        					if (refEditPart != null) {
+        						refEditPart.refreshVisuals();
+        					}
+        				}
+        			}
+        		} 
+        	}
+
+
+        	EList linksSrc = getNode().getDef().getLinksSrc();
+        	if (linksSrc != null){
+        		for (Iterator iter = linksSrc.iterator(); iter.hasNext();) {
+        			ElementLink contrib = (ElementLink) iter.next();
+        			if (contrib instanceof Contribution) {
+        				for (Iterator iRef = contrib.getRefs().iterator(); iRef.hasNext();) {
+        					LinkRef ref = (LinkRef) iRef.next();
+        					LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
+        					if (refEditPart != null) {
+        						refEditPart.refreshVisuals();
+        					}
+        				}
+        			}
+        		}
+        	}
         }
         
-        for (Iterator iter = getNode().getDef().getLinksSrc().iterator(); iter.hasNext();) {
-            ElementLink contrib = (ElementLink) iter.next();
-            if (contrib instanceof Contribution) {
-                for (Iterator iRef = contrib.getRefs().iterator(); iRef.hasNext();) {
-                    LinkRef ref = (LinkRef) iRef.next();
-                    LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
-                    if (refEditPart != null) {
-                        refEditPart.refreshVisuals();
-                    }
-                }
-            }
-        }
-        
-        
-
         // we want the top level editpart to refresh its children so that the largest components are always in the back.
         if (notification.getEventType() == Notification.SET && getParent() != null)
             ((URNDiagramEditPart) getParent()).notifyChanged(notification);
