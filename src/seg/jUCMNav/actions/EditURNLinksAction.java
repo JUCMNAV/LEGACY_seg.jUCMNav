@@ -1,10 +1,8 @@
 package seg.jUCMNav.actions;
 
-import java.util.List;
-
-import grl.Actor;
-import grl.Contribution;
 import grl.ElementLink;
+
+import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IWorkbenchPart;
@@ -12,14 +10,13 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.urnlinks.URNLinksDialog;
 import urn.util.EditURNLink;
-import urncore.Component;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 /**
  * This action open the URNLink dialog for the selected element
  * 
- * @author Jean-Franï¿½ois Roy
+ * @author Jean-François Roy
  * 
  */
 public class EditURNLinksAction extends URNSelectionAction {

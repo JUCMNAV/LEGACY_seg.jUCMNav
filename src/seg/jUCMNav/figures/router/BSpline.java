@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
 
 /**
  * This class represent an interpolated B-Spline. Specify a point list representing the points on the curve and the class will be able to return a bspline going
@@ -241,7 +242,7 @@ public class BSpline {
      */
     private Point getPoint(Point point) {
         int index = getPoint(point.x, point.y);
-        return new Point(Px[index], Py[index]);
+        return new PrecisionPoint(Px[index], Py[index]);
     }
 
     /**

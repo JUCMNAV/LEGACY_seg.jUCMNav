@@ -13,21 +13,18 @@ import grl.GRLLinkableElement;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
-import seg.jUCMNav.importexport.z151.generated.IntentionalElementType;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urn.URNspec;
 import urncore.IURNNode;
 import urncore.Metadata;
-import seg.jUCMNav.Messages;
 
 /**
  * This class implement the default GRL evaluation algorithm.

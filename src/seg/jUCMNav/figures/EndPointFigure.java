@@ -5,6 +5,7 @@ import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.geometry.Transform;
 import org.eclipse.swt.graphics.Color;
 
@@ -97,7 +98,7 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
         PointList newEdges = TransformationHelper.rotatePoints(angle, edges, center);
         
         if (offset)
-            newEdges.translate(t.getTransformed(new Point(DEFAULT_WIDTH * (RESIZEFACTOR - 1) / 2, -DEFAULT_WIDTH * (RESIZEFACTOR - 1) / 2)));
+            newEdges.translate(t.getTransformed(new PrecisionPoint(DEFAULT_WIDTH * (RESIZEFACTOR - 1) / 2, -DEFAULT_WIDTH * (RESIZEFACTOR - 1) / 2)));
         
         return newEdges;
     }
