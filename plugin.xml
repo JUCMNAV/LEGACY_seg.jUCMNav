@@ -668,13 +668,11 @@
 	         </propertySection>
          </propertySections>
    </extension>
-   <!-- Suggested bu Dominique Blouin in Bug #802, to be able to refer to URN -->
-   <!-- meta-model elements from the Eclipse EMF package registry -->
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
             class="urn.UrnPackage"
-            genModel="src/seg/jUCMNav/emf/URN.genmodel"
+            genModel="archive:platform:/plugin/seg.jUCMNav/jUCMNav.jar!/seg/jUCMNav/emf/URN.genmodel"
             uri="http:///urn.ecore">
       </package>
    </extension>
@@ -682,7 +680,7 @@
          point="org.eclipse.emf.ecore.generated_package">
       <package
             class="urncore.UrncorePackage"
-            genModel="src/seg/jUCMNav/emf/URN.genmodel"
+            genModel="archive:platform:/plugin/seg.jUCMNav/jUCMNav.jar!/seg/jUCMNav/emf/URN.genmodel"
             uri="http:///urncore.ecore">
       </package>
    </extension>
@@ -690,7 +688,7 @@
          point="org.eclipse.emf.ecore.generated_package">
       <package
             class="grl.GrlPackage"
-            genModel="src/seg/jUCMNav/emf/URN.genmodel"
+            genModel="archive:platform:/plugin/seg.jUCMNav/jUCMNav.jar!/seg/jUCMNav/emf/URN.genmodel"
             uri="http:///grl.ecore">
       </package>
    </extension>
@@ -698,7 +696,7 @@
          point="org.eclipse.emf.ecore.generated_package">
       <package
             class="ucm.UcmPackage"
-            genModel="src/seg/jUCMNav/emf/URN.genmodel"
+            genModel="archive:platform:/plugin/seg.jUCMNav/jUCMNav.jar!/seg/jUCMNav/emf/URN.genmodel"
             uri="http:///ucm.ecore">
       </package>
    </extension>
@@ -706,7 +704,7 @@
          point="org.eclipse.emf.ecore.generated_package">
       <package
             class="ucmscenarios.UcmscenariosPackage"
-            genModel="src/seg/jUCMNav/emf/UCMscenarios.genmodel"
+            genModel="archive:platform:/plugin/seg.jUCMNav/jUCMNav.jar!/seg/jUCMNav/emf/UCMscenarios.genmodel"
             uri="http:///ucmscenarios.ecore">
       </package>
    </extension>
