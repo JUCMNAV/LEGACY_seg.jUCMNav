@@ -19,7 +19,6 @@ import java.util.Iterator;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.swt.widgets.Shell;
 
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.URNReport;
@@ -72,7 +71,7 @@ public class HTMLReport extends URNReport {
      * Export an HTML suite from this URNspec.
      * 
      */
-    public void export(URNspec urn, HashMap mapDiagrams, String filename, Shell shell) throws InvocationTargetException {
+    public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
         FileOutputStream imgFos = null;
         IFigure pane;
 
@@ -1234,5 +1233,6 @@ public class HTMLReport extends URNReport {
         // TODO Auto-generated method stub
         return 0;
     }
+
 }
 

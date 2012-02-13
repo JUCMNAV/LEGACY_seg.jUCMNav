@@ -24,9 +24,8 @@ public interface IURNReport {
      *            the list of diagrams to include in the report
      * @param filename
      *            the filename of the report
-     * @param shell 
      */
 
-    public void export(URNspec urn, HashMap mapDiagrams, String filename, Shell shell) throws InvocationTargetException;
+    public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException;
 
 }

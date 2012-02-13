@@ -1,16 +1,20 @@
 package seg.jUCMNav.importexport;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
@@ -49,7 +53,27 @@ public abstract class ExportImage implements IUseCaseMapExport {
 
     public void export(IFigure pane, String path) {
 
+    	
         FileOutputStream fos = null;
+        
+        boolean exists = false;
+        
+        final String IMAGES_LOCATION = "pages" + File.separator + "img" + File.separator; //$NON-NLS-1$
+        
+        if( !path.contains( IMAGES_LOCATION ) ) {
+        	exists = (new File( path )).exists();
+
+        	if( exists ){
+
+        		String title = "Graphics File Exists";
+        		String message = "The file \"" + path + "\" already exists. Do you want to overwrite ?";
+        		String[] labels = { "Overwrite File", "Create Unique Filename" };
+        		MessageDialog md = new MessageDialog( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title,
+        				MessageDialog.getImage( Dialog.DLG_IMG_QUESTION), message, MessageDialog.QUESTION, labels, 1 );
+        		int answer = md.open();
+        	}
+        }
+        
         try {
             fos = new FileOutputStream(path);
             export(pane, fos);

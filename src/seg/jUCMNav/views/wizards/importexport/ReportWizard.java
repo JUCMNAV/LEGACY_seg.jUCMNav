@@ -1,5 +1,8 @@
 package seg.jUCMNav.views.wizards.importexport;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -84,10 +87,7 @@ public class ReportWizard extends ExportWizard {
 
             // get exporter
             IURNReport exporter = ReportExtensionPointHelper.getExporter(id);
-            
-            
-            
-//this.getShell();
+
             HashMap mapDiagrams = new HashMap();
 
             for (int i = 0; i < mapsToExport.size(); i++) {
@@ -98,15 +98,17 @@ public class ReportWizard extends ExportWizard {
             }
 
             // export diagrams from URN
-            exporter.export(editor.getModel(), mapDiagrams, genericPath.toOSString(), this.getShell());
+            exporter.export(editor.getModel(), mapDiagrams, genericPath.toOSString());
 
         } catch (InvocationTargetException e) {
             Throwable realException = e.getTargetException();
             IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
+            System.out.println( getStackTrace(e) );
             ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
             return;
         } catch (Exception e) {
             IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
+            System.out.println( getStackTrace(e) );
             ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
             return;
 
@@ -114,6 +116,13 @@ public class ReportWizard extends ExportWizard {
 
     }
 
+    public static String getStackTrace(Throwable throwable) {
+    	  Writer writer = new StringWriter();
+    	  PrintWriter printWriter = new PrintWriter(writer);
+    	  throwable.printStackTrace(printWriter);
+    	  return writer.toString();
+    }
+    
     /**
      * This method is called when 'Finish' button is pressed in the wizard. We will create an operation and run it using wizard as execution context.
      */

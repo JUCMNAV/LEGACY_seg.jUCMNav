@@ -38,13 +38,7 @@ import com.lowagie.text.Table;
  */
 public class PDFReportDiagram extends PDFReport {
     protected int[] tableParams = { 1, 2, 0, 100 };
-    static Image image;
-    static Shell parent_shell;
     
-    public PDFReportDiagram( Shell shell ) {
-    	parent_shell = shell;
-    }
-
     public PDFReportDiagram() {
     }
     /**
@@ -153,69 +147,33 @@ public class PDFReportDiagram extends PDFReport {
             final int paneWidth = Math.round(pane.getSize().width * ReportUtils.ZOOMFACTOR);
             final int paneHeight = Math.round(pane.getSize().height * ReportUtils.ZOOMFACTOR);
             
-    		// This will update the UI synchronously, e.g. the calling thread will wait
-    		// until the work is done
+            Image image = new Image(Display.getCurrent(), paneWidth, paneHeight);
 
-//    		final Shell shell = getShell();
-    		Display display = parent_shell.getDisplay();
+            GC gc = new GC(image);
+            SWTGraphics graphics = new SWTGraphics(gc);
 
-    		display.syncExec(new Runnable() {
-    			public void run() {
-    	            image = new Image(Display.getCurrent(), paneWidth, paneHeight);
-    	            GC gc = new GC(image);
-    	            SWTGraphics graphics = new SWTGraphics(gc);
+            // zoom for better resolution
+            graphics.scale(ReportUtils.ZOOMFACTOR);
 
-    	            // zoom for better resolution
-    	            graphics.scale(ReportUtils.ZOOMFACTOR);
+            // if the bounds are in the negative x/y, we don't see them without a translation
+            graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
+            pane.paint(graphics);
 
-    	            // if the bounds are in the negative x/y, we don't see them without a translation
-    	            graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
-    	            pane.paint(graphics);
+            // downSample the image to an 8-bit palette, using the 256 most frequently used color
+            ImageData ideaImageData = ExportImageGIF.downSample(image);
 
-    	            // downSample the image to an 8-bit palette, using the 256 most frequently used color
-    	            ImageData ideaImageData = ExportImageGIF.downSample(image);
+            ImageData croppedImage = ReportUtils.cropImage(ideaImageData);
+            java.awt.Image awtImage = ReportUtils.SWTimageToAWTImage(croppedImage);
 
-    	            ImageData croppedImage = ReportUtils.cropImage(ideaImageData);
-    	            java.awt.Image awtImage = ReportUtils.SWTimageToAWTImage(croppedImage);
+            BufferedImage bufferedImage = (BufferedImage) awtImage;
+            int imageHeight = bufferedImage.getHeight();
+            int imageWidth = bufferedImage.getWidth();
 
-    	            BufferedImage bufferedImage = (BufferedImage) awtImage;
-    	            int imageHeight = bufferedImage.getHeight();
-    	            int imageWidth = bufferedImage.getWidth();
+            ReportUtils.insertImage(document, awtImage, pagesize, imageWidth, imageHeight);
 
-    	            ReportUtils.insertImage(document, awtImage, pagesize, imageWidth, imageHeight);
-
-    	            gc.dispose();
-    	            image.dispose();
-    	            awtImage.flush();
-    			} 
-    		});
-
-
-//            GC gc = new GC(image);
-//            SWTGraphics graphics = new SWTGraphics(gc);
-//
-//            // zoom for better resolution
-//            graphics.scale(ReportUtils.ZOOMFACTOR);
-//
-//            // if the bounds are in the negative x/y, we don't see them without a translation
-//            graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
-//            pane.paint(graphics);
-//
-//            // downSample the image to an 8-bit palette, using the 256 most frequently used color
-//            ImageData ideaImageData = ExportImageGIF.downSample(image);
-//
-//            ImageData croppedImage = ReportUtils.cropImage(ideaImageData);
-//            java.awt.Image awtImage = ReportUtils.SWTimageToAWTImage(croppedImage);
-//
-//            BufferedImage bufferedImage = (BufferedImage) awtImage;
-//            int imageHeight = bufferedImage.getHeight();
-//            int imageWidth = bufferedImage.getWidth();
-//
-//            ReportUtils.insertImage(document, awtImage, pagesize, imageWidth, imageHeight);
-//
-//            gc.dispose();
-//            image.dispose();
-//            awtImage.flush();
+            gc.dispose();
+            image.dispose();
+            awtImage.flush();
 
             boolean isLast = i == mapDiagrams.size() - 1;
 

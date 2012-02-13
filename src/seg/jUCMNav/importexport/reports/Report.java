@@ -1,20 +1,15 @@
 package seg.jUCMNav.importexport.reports;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-
-import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
-import urn.URNspec;
-
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 
 import java.io.FileOutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
-import org.eclipse.swt.widgets.Shell;
-
+import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import ucm.UCMspec;
-
+import urn.URNspec;
 import urncore.URNdefinition;
 
 import com.lowagie.text.Document;
@@ -121,7 +116,9 @@ public class Report extends URNReport {
             }
 
         } catch (Exception e) {
-            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+//        	System.out.println( "In Report.export: " + e.getMessage());
+        	final String errorString = e.getMessage();
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(errorString);
             e.printStackTrace();
 
         }
@@ -152,7 +149,7 @@ public class Report extends URNReport {
      * 
      */
 
-    public void export(URNspec urn, HashMap mapDiagrams, String filename, Shell shell) throws InvocationTargetException {
+    public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
 
     }
 

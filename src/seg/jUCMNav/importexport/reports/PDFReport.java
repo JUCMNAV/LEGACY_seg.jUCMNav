@@ -36,7 +36,7 @@ public class PDFReport extends Report {
      *            the report filename
      */
 
-    public void export(URNspec urn, HashMap mapDiagrams, String filename, Shell shell) throws InvocationTargetException {
+    public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
 
         // Create a report document with page size from preferences, 72 points per inch
         String sReportHeight = ReportGeneratorPreferences.getHeight();
@@ -63,7 +63,7 @@ public class PDFReport extends Report {
 
             // The diagram creation is specific for PDF files, inserted here
             if (!urndef.getSpecDiagrams().isEmpty()) {
-                PDFReportDiagram reportDiagrams = new PDFReportDiagram( shell );
+                PDFReportDiagram reportDiagrams = new PDFReportDiagram();
                 reportDiagrams.createPDFReportDiagramsAndDescription(document, urndef, mapDiagrams, pagesize);
 
             }
