@@ -355,6 +355,9 @@ public class SelectionHelper {
                 grlspec = group.getGrlspec();
                 urnspec = group.getGrlspec().getUrnspec();
             } else if (model instanceof EvaluationStrategy) {
+            	
+//            	System.out.println( "EvaluationStrategy found" );
+            	
                 strategy = (EvaluationStrategy) model;
                 group = strategy.getGroup();
                 grlspec = group.getGrlspec();

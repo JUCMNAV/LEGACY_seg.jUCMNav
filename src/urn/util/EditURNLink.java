@@ -100,7 +100,7 @@ public class EditURNLink {
     	MenuItem item = new MenuItem(menu, SWT.PUSH);
 
     	String name;
-    	if( parentElement == null)
+    	if( selectedElementParent == null)
     		name = selectedElement.getName();
     	else
     		name = selectedElementParent.getName();
@@ -112,11 +112,7 @@ public class EditURNLink {
     	// menu item for Start Link from selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements
     	MenuItem item2 = new MenuItem(menu, SWT.PUSH);
 
-    	String startText;
-    	if( selectedElementParent != null )
-    		startText = "Start New Link from " + this.className( selectedElement );
-    	else
-    		startText = "Start New Link";
+    	String startText = "Start New Link from " + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"";
 
     	if( fromElement == null )
     		item2.setText( startText );
@@ -149,7 +145,7 @@ public class EditURNLink {
     	if( fromElement != null && fromElement != selectedElement ){
 
     		MenuItem item21 = new MenuItem(menu, SWT.PUSH);
-    		String endText = "End New Link from " + this.className( fromElement )+ " \"" + URNlinkImpl.getParentElement( fromElement ).getName() + "\"";
+    		String endText = "End New Link from " + this.className( fromElement ) + " \"" + URNlinkImpl.getParentElement( fromElement ).getName() + "\"";
 
     		if( selectedElementParent != null )
     			item21.setText( endText + " to " + this.className( selectedElement ) );

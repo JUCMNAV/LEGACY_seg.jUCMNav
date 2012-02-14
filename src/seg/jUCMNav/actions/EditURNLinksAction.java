@@ -1,6 +1,7 @@
 package seg.jUCMNav.actions;
 
 import grl.ElementLink;
+import grl.EvaluationStrategy;
 
 import java.util.List;
 
@@ -44,6 +45,13 @@ public class EditURNLinksAction extends URNSelectionAction {
     		if( parts.get(0) instanceof EditPart ){
     			editPart = ((EditPart) parts.get(0));
         		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
+        		
+        		if( editPart.getModel() instanceof EvaluationStrategy ){
+        			parentElement = null;
+        			element = (EvaluationStrategy) editPart.getModel();
+        			System.out.println( "strategy selected 1 name: " + element.getName());
+        			return true;
+        		}
     		}
     		
     		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
@@ -71,7 +79,7 @@ public class EditURNLinksAction extends URNSelectionAction {
     		} else if (sel.getSelectionType() == SelectionHelper.EVALUATIONSTRATEGY) {
     			parentElement = null;
     			element = sel.getEvaluationStrategy();
-    			System.out.println( "strategy selected name: " + element.getName());
+    			System.out.println( "strategy selected 2 name: " + element.getName());
     			return true;
     		} else if( editPart.getModel() instanceof URNmodelElement ) {
     			element = (URNmodelElement) editPart.getModel();

@@ -5,13 +5,17 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
@@ -23,11 +27,14 @@ public class MetadataEntryDialog extends Dialog {
     String[] values;
     String[] labels;
 
+    private final int BUTTON_WIDTH = 10;
+    private final int LABEL_WIDTH = 0;
+    
     public MetadataEntryDialog(Shell _parent) {
         super(_parent);
 
         parent = _parent;
-        shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL);
+        shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL );
         GridLayout layout = new GridLayout();
         layout.numColumns = 2;
         shell.setLayout(layout);
@@ -43,6 +50,8 @@ public class MetadataEntryDialog extends Dialog {
     }
 
     private void createControlButtons() {
+		Point size;
+
         Composite buttonComp = new Composite(shell, SWT.NONE);
         GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
@@ -53,8 +62,10 @@ public class MetadataEntryDialog extends Dialog {
 
         Button okButton = new Button(buttonComp, SWT.PUSH);
         okButton.setText(Messages.getString("MetadataEditorPage.button_ok")); //$NON-NLS-1$
+		size = okButton.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+
         gridData = new GridData();
-        gridData.widthHint = 50;
+        gridData.widthHint = size.x + BUTTON_WIDTH;
         okButton.setLayoutData(gridData);
         okButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -64,8 +75,9 @@ public class MetadataEntryDialog extends Dialog {
 
         Button cancelButton = new Button(buttonComp, SWT.PUSH);
         cancelButton.setText(Messages.getString("MetadataEditorPage.button_cancel")); //$NON-NLS-1$
+		size = cancelButton.computeSize( SWT.DEFAULT, SWT.DEFAULT );
         gridData = new GridData();
-        gridData.widthHint = 50;
+        gridData.widthHint = size.x + BUTTON_WIDTH;
         cancelButton.setLayoutData(gridData);
         cancelButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -78,22 +90,26 @@ public class MetadataEntryDialog extends Dialog {
     }
 
     private void createTextWidgets() {
-        if (labels == null)
+		Point size;
+
+		if (labels == null)
             return;
 
         if (values == null)
             values = new String[labels.length];
 
         for (int i = 0; i < labels.length; i++) {
-            Label label = new Label(shell, SWT.LEFT);
+            Label label = new Label(shell, SWT.RIGHT);
             label.setText(labels[i] + ": "); //$NON-NLS-1$
+    		size = label.computeSize( SWT.DEFAULT, SWT.DEFAULT );
             GridData gridData = new GridData();
-            gridData.widthHint = 30;
+            gridData.widthHint = size.x + LABEL_WIDTH;
             label.setLayoutData(gridData);
 
             Text text = new Text(shell, SWT.BORDER);
             gridData = new GridData();
-            gridData.widthHint = 200;
+            gridData.widthHint = 320;
+            gridData.grabExcessHorizontalSpace = true;
             text.setLayoutData(gridData);
             if (values[i] != null) {
                 text.setText(values[i]);
@@ -156,12 +172,13 @@ public class MetadataEntryDialog extends Dialog {
         createTextWidgets();
         createControlButtons();
 
-        int width = 220;
+        int width = 340;
         int height = 125;
+        
         shell.setBounds(parent.getBounds().x + parent.getBounds().width / 3, parent.getBounds().y + parent.getBounds().height / 3, width, height);
-
         shell.pack();
         shell.open();
+
         Display display = shell.getDisplay();
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch())

@@ -22,8 +22,11 @@ import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -174,13 +177,13 @@ public class MetadataEditorPage extends WizardPage {
     public void createControl(Composite parent) {
 
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.metadata"); //$NON-NLS-1$
-
+        
         container = new Composite(parent, SWT.NULL);
         shell = container.getShell();
 
         GridLayout layout = new GridLayout();
         container.setLayout(layout);
-        layout.numColumns = 5;
+        layout.numColumns = 1;
         layout.verticalSpacing = 5;
 
         GridData gd;
@@ -223,7 +226,6 @@ public class MetadataEditorPage extends WizardPage {
             });
 
             gd = new GridData(GridData.FILL_HORIZONTAL);
-            gd.horizontalSpan = 5;
             gd.widthHint = 150;
             typeOfElements.setLayoutData(gd);
 
@@ -257,7 +259,6 @@ public class MetadataEditorPage extends WizardPage {
             });
 
             gd = new GridData(GridData.FILL_HORIZONTAL);
-            gd.horizontalSpan = 5;
             gd.widthHint = 250;
             possibilities.setLayoutData(gd);
         }
@@ -285,7 +286,6 @@ public class MetadataEditorPage extends WizardPage {
         }
 
         gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 5;
         if (inProperties)
             gd.heightHint = 100;
         else
@@ -294,8 +294,17 @@ public class MetadataEditorPage extends WizardPage {
         gd.grabExcessHorizontalSpace = true;
         metadataTable.setLayoutData(gd);
 
+        Composite buttonRow = new Composite( container, SWT.NULL );
+
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.grabExcessHorizontalSpace = true;
+        buttonRow.setLayoutData(gd);
+        RowLayout rowLayout = new RowLayout();
+        rowLayout.spacing = 7;
+        buttonRow.setLayout( rowLayout );
+        
         // Button to add new metadata.
-        buttonAdd = new Button(container, SWT.PUSH);
+        buttonAdd = new Button(buttonRow, SWT.PUSH);
         buttonAdd.setText(Messages.getString("MetadataEditorPage.button_addNewMetadata")); //$NON-NLS-1$
         buttonAdd.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -303,8 +312,11 @@ public class MetadataEditorPage extends WizardPage {
             }
         });
 
-        // Button to add new metadata.
-        buttonEdit = new Button(container, SWT.PUSH);
+        Point size = buttonAdd.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+        buttonAdd.setLayoutData( new RowData( size.x+10, size.y) );
+        
+        // Button to edit metadata.
+        buttonEdit = new Button(buttonRow, SWT.PUSH);
         buttonEdit.setText(Messages.getString("MetadataEditorPage.button_editMetadata")); //$NON-NLS-1$
         buttonEdit.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -315,8 +327,11 @@ public class MetadataEditorPage extends WizardPage {
             }
         });
 
+        size = buttonEdit.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+        buttonEdit.setLayoutData( new RowData( size.x+10, size.y) );
+        
         // Button to remove the selected metadata.
-        buttonRemove = new Button(container, SWT.PUSH);
+        buttonRemove = new Button(buttonRow, SWT.PUSH);
         buttonRemove.setText(Messages.getString("MetadataEditorPage.button_removeMetadata")); //$NON-NLS-1$
         buttonRemove.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -327,14 +342,20 @@ public class MetadataEditorPage extends WizardPage {
             }
         });
 
+        size = buttonRemove.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+        buttonRemove.setLayoutData( new RowData( size.x+10, size.y) );
+
         // Button to remove all metadata.
-        buttonRemoveAll = new Button(container, SWT.PUSH);
+        buttonRemoveAll = new Button(buttonRow, SWT.PUSH);
         buttonRemoveAll.setText(Messages.getString("MetadataEditorPage.button_removeAllMetadata")); //$NON-NLS-1$
         buttonRemoveAll.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 removeAllEntries();
             }
         });
+
+        size = buttonRemoveAll.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+        buttonRemoveAll.setLayoutData( new RowData( size.x+10, size.y) );
 
         updateUI();
     }
@@ -353,9 +374,15 @@ public class MetadataEditorPage extends WizardPage {
             }
         }
 
-        setTitle(Messages.getString("MetadataEditorPage.title")); //$NON-NLS-1$
+        this.setTitle(Messages.getString("MetadataEditorPage.title")); //$NON-NLS-1$
+        this.setDescription( "Edit the metadata for all URN elements." ); // description is needed to avoid buttons at bottom being cropped, SWT bug
 
-        setControl(container);
+//        Point size = container.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+//        System.out.println( "Container x: " + size.x + " y: " + size.y );
+//        container.setSize(size.x, size.y+100);
+
+        container.pack();
+        this.setControl( container ); 
         // metadataTable.forceFocus();
     }
 
