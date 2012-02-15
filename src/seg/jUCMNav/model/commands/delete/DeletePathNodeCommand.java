@@ -13,6 +13,7 @@ import seg.jUCMNav.model.commands.delete.internal.RemovePathNodeCommand;
 import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import urncore.Responsibility;
 
 /**
  * This command is only be called from the edit part.
@@ -85,9 +86,12 @@ public class DeletePathNodeCommand extends CompoundCommand implements IDelayedBu
         add(new RemovePathNodeCommand(pathNode, editPartRegistry, replaceWithEmptyPoint));
 
         // Verify if it is a responsibility and if the definition can be delete.
-        if (pathNode instanceof RespRef && ((RespRef) pathNode).getRespDef() != null
-                && (((RespRef) pathNode).getRespDef().getRespRefs().size() <= 1 && DeletePreferences.getDeleteDefinition(pathNode))) {
-            add(new DeleteResponsibilityCommand(((RespRef) pathNode).getRespDef()));
+        if (pathNode instanceof RespRef && ((RespRef) pathNode).getRespDef() != null)
+        {
+            Responsibility respDef = ((RespRef) pathNode).getRespDef();
+            if (respDef.getRespRefs().size() <= 1 && respDef.getParentBindings().size()==0 /* bug 764*/ && DeletePreferences.getDeleteDefinition(pathNode)) {
+                add(new DeleteResponsibilityCommand(respDef));
+            }
         }
 
     }

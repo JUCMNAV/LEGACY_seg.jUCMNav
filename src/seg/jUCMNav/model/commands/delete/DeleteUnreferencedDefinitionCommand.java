@@ -72,7 +72,7 @@ public class DeleteUnreferencedDefinitionCommand extends CompoundCommand {
 
         for (Iterator it = urnspec.getUrndef().getResponsibilities().iterator(); it.hasNext();) {
             Responsibility resp = (Responsibility) it.next();
-            if (resp.getRespRefs().size() == 0) {
+            if (resp.getRespRefs().size() == 0  && resp.getParentBindings().size()==0 /* bug 764*/ ) {
                 add(new DeleteResponsibilityCommand(resp));
             }
         }
