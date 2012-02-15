@@ -33,8 +33,13 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.jface.resource.StringConverter;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import ucm.UCMspec;
@@ -287,8 +292,10 @@ public class ModelCreationFactory implements CreationFactory {
                 result = urncorefactory.createComponentLabel();
             } else if (targetClass.equals(Comment.class)) {
                 result = urncorefactory.createComment();
-                ((Comment) result).setWidth(DEFAULT_UCM_COMPONENT_WIDTH);
-                ((Comment) result).setHeight(DEFAULT_UCM_COMPONENT_HEIGHT);
+                Comment comment = (Comment) result;
+                comment.setWidth(DEFAULT_UCM_COMPONENT_WIDTH);
+                comment.setHeight(DEFAULT_UCM_COMPONENT_HEIGHT);
+                comment.setFillColor(StringConverter.asString(ColorManager.FILL_COMMENTS.getRGB()));
             } else if (targetClass.equals(OrFork.class)) {
                 result = mapfactory.createOrFork();
             } else if (targetClass.equals(AndFork.class)) {
