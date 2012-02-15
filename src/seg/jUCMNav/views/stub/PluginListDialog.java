@@ -1,6 +1,7 @@
 package seg.jUCMNav.views.stub;
 
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
@@ -107,11 +108,22 @@ public class PluginListDialog extends ListDialog {
             GraphicalViewer viewer = ((UcmEditor) editor.getCurrentPage()).getGraphicalViewer();
             if (selectedItem instanceof InBinding) {
                 InBinding binding = (InBinding) selectedItem;
-                viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                Vector v = new Vector();
+                v.add(viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                v.add(viewer.getEditPartRegistry().get(binding.getStubEntry()));
+                StructuredSelection sel = new StructuredSelection(v);
+                viewer.setSelection(sel);
+                
+                //viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
 
             } else if (selectedItem instanceof OutBinding) {
                 OutBinding binding = (OutBinding) selectedItem;
-                viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                //viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                Vector v = new Vector();
+                v.add(viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                v.add(viewer.getEditPartRegistry().get(binding.getStubExit()));
+                StructuredSelection sel = new StructuredSelection(v);
+                viewer.setSelection(sel);
             }
 
         }

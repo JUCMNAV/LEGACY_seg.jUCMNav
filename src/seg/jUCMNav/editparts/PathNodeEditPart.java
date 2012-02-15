@@ -25,6 +25,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -361,7 +362,14 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                         ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
                         GraphicalViewer viewer = ((UcmEditor) ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().getCurrentPage())
                                 .getGraphicalViewer();
-                        viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+
+                        Vector v = new Vector();
+                        v.add(viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                        v.add(viewer.getEditPartRegistry().get(binding.getStubEntry()));
+                        StructuredSelection sel = new StructuredSelection(v);
+                        viewer.setSelection(sel);
+
+                        //viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
                     }
                 } else if (activeBindings.size() == 1 && getNode() instanceof EndPoint) {
                     // if only one plugin, open it.
@@ -371,7 +379,15 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                         ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
                         GraphicalViewer viewer = ((UcmEditor) ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().getCurrentPage())
                                 .getGraphicalViewer();
-                        viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                        
+                        Vector v = new Vector();
+                        v.add(viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                        v.add(viewer.getEditPartRegistry().get(binding.getStubExit()));
+                        StructuredSelection sel = new StructuredSelection(v);
+                        viewer.setSelection(sel);
+                        
+                        //viewer.select((EditPart) viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                        
                     }
                 } else if (activeBindings.size() > 1) {
                     // if multiple plugins, bring up selection window
