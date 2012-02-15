@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.Action;
@@ -364,7 +365,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             unregisterElements();
 
             multieditor = editor;
-            EvaluationStrategyManager.getInstance().setMultieditor(editor);
+            EvaluationStrategyManager.getInstance(editor).setMultieditor(editor);
 
             unregisterElements();
 
@@ -410,7 +411,27 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             viewer.setContents(multieditor);
 
             expandTree();
+            
+            if (EvaluationStrategyManager.getInstance(multieditor).getEvaluationStrategy()!=null)
+            {
+            	EditPart part = (EditPart) viewer.getEditPartRegistry().get(EvaluationStrategyManager.getInstance(multieditor).getEvaluationStrategy());
+            	if (part!=null) {
+            	    // causes a loop that invalides the selection - all we want to do is refresh the UI
+            		//viewer.select(part);
+            	}
+            }
         }
+        
+        // perform even if hasn't changed because our operation gets overridden by the main editor. 
+        if (multieditor!=null) { 
+            // bug 760; refresh selection after tab change.
+            for (int i = 0; i < multieditor.getPageCount(); i++) {
+                UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(currentView == ID_STRATEGY);
+            }  
+        }
+
+
     }
 
     private void expandTree() {
@@ -455,7 +476,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     EvaluationStrategy scen = ((EvaluationStategyTreeEditPart) obj).getEvaluationStrategy();
                     currentStrategy = scen;
                     if (currentView == ID_STRATEGY) {
-                        (EvaluationStrategyManager.getInstance()).setStrategy(scen);
+                        (EvaluationStrategyManager.getInstance(multieditor)).setStrategy(scen);
 
                         if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()
                                 && ScenarioUtils.getActiveScenario(multieditor.getModel()) != null) {
@@ -523,7 +544,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
             currentView = ID_DESIGN;
             if (currentStrategy != null) {
-                EvaluationStrategyManager.getInstance().setStrategy(null);
+                EvaluationStrategyManager.getInstance(multieditor).setStrategy(null);
 
                 if (multieditor != null)
                     for (int i = 0; i < multieditor.getPageCount(); i++) {
@@ -561,7 +582,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
 
             if (currentStrategy != null) {
-                EvaluationStrategyManager.getInstance().setStrategy(currentStrategy);
+                EvaluationStrategyManager.getInstance(multieditor).setStrategy(currentStrategy);
                 for (int i = 0; i < multieditor.getPageCount(); i++) {
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);

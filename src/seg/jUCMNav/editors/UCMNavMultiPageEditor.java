@@ -50,6 +50,7 @@ import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.OpenEditorQuickFix;
 import seg.jUCMNav.views.QuickFixer;
 import seg.jUCMNav.views.UCMPerspectiveFactory;
@@ -229,6 +230,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         }
         // clear memory cache
         ScenarioUtils.releaseEnvironment(model);
+        EvaluationStrategyManager.releaseEnvironment(this);
 
         if (file != null) {
 

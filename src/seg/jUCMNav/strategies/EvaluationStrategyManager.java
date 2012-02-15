@@ -21,6 +21,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
@@ -56,34 +57,72 @@ public class EvaluationStrategyManager {
      */
     public static final String METADATA_QUALEVAL = "_qualEval"; //$NON-NLS-1$
 
+
+    private static HashMap<UCMNavMultiPageEditor, EvaluationStrategyManager> strategyManagerInstances = null;
+ // just in case we're actually accessing it via some non UI thread during export and/or before the app loads. 
+    private static EvaluationStrategyManager noEditorStrategyManagerInstance = null;  
+
+    private boolean canRefresh;
     private UCMNavMultiPageEditor multieditor;
     private ScrollingGraphicalViewer kpiViewer;
     private TreeViewer kpiListViewer;
-
-    private static EvaluationStrategyManager soleInstance = null;
-    private boolean canRefresh;
-
-    public static synchronized EvaluationStrategyManager getInstance() {
-        if (soleInstance == null) {
-            soleInstance = new EvaluationStrategyManager();
-        }
-        soleInstance.canRefresh = true;
-        return soleInstance;
-    }
-
-    public static synchronized EvaluationStrategyManager getInstance(boolean canRefresh) {
-        if (soleInstance == null) {
-            soleInstance = new EvaluationStrategyManager();
-        }
-        soleInstance.canRefresh = canRefresh;
-        return soleInstance;
-    }
-
     private HashMap evaluations = new HashMap(); // HashMap to keep link between intentionalElement and the evaluation for a particular strategy
     private EvaluationStrategy strategy;
     private IGRLStrategyAlgorithm algo;
-
     private HashMap kpiInformationConfigs = new HashMap();
+    
+    public static synchronized EvaluationStrategyManager getInstance(UCMNavMultiPageEditor multieditor, boolean canRefresh) {
+    	
+    	if (strategyManagerInstances == null)
+    	{
+    		strategyManagerInstances = new HashMap<UCMNavMultiPageEditor, EvaluationStrategyManager>();
+    	}
+    	
+    	EvaluationStrategyManager soleInstance = null;
+    	
+		if (multieditor == null) {
+			if (PlatformUI.getWorkbench() != null
+					&& PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
+					&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+					&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+				multieditor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+			}
+		}
+
+		if (multieditor != null) {
+			if (strategyManagerInstances.get(multieditor) == null)
+				strategyManagerInstances.put(multieditor,
+						new EvaluationStrategyManager());
+			soleInstance = strategyManagerInstances.get(multieditor);
+		} else {
+			// fallback for non-UI threads (not even sure if this exists, but
+			// better be safe than sorry
+		    if (noEditorStrategyManagerInstance == null) noEditorStrategyManagerInstance = new EvaluationStrategyManager();
+			soleInstance = noEditorStrategyManagerInstance;
+		}
+
+		soleInstance.canRefresh = canRefresh;
+		return soleInstance;
+    }
+
+    public static synchronized EvaluationStrategyManager getInstance(UCMNavMultiPageEditor multieditor) {
+    	return getInstance(multieditor, true);
+    }
+    
+    public static synchronized EvaluationStrategyManager getInstance(boolean canRefresh) {
+        return getInstance(null, canRefresh);
+    }
+    public static synchronized EvaluationStrategyManager getInstance() {
+    	return getInstance(null, true);
+    }
+    
+    public static void releaseEnvironment(UCMNavMultiPageEditor editor)
+    {
+    	if (editor!=null && strategyManagerInstances.containsKey(editor)) {
+    		strategyManagerInstances.remove(editor);
+    	}
+    }
+
 
     /**
      * 
