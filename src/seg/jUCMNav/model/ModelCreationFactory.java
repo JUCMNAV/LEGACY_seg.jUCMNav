@@ -34,9 +34,6 @@ import java.util.Locale;
 
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.resource.StringConverter;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.figures.ColorManager;
