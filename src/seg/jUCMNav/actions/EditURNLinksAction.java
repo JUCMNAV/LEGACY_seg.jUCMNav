@@ -17,7 +17,7 @@ import urncore.URNmodelElement;
 /**
  * This action open the URNLink dialog for the selected element
  * 
- * @author Jean-François Roy
+ * @author Jean-Franï¿½ois Roy
  * 
  */
 public class EditURNLinksAction extends URNSelectionAction {
@@ -41,50 +41,71 @@ public class EditURNLinksAction extends URNSelectionAction {
     	SelectionHelper sel = new SelectionHelper( parts );
 
     	if( parts.size() == 1 ){
-    		
+
     		if( parts.get(0) instanceof EditPart ){
     			editPart = ((EditPart) parts.get(0));
-        		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
-        		
-        		if( editPart.getModel() instanceof EvaluationStrategy ){
-        			parentElement = null;
-        			element = (EvaluationStrategy) editPart.getModel();
-        			System.out.println( "strategy selected 1 name: " + element.getName());
-        			return true;
-        		}
+    			System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
+
+    			if( editPart.getModel() instanceof EvaluationStrategy ){
+    				parentElement = null;
+    				element = (EvaluationStrategy) editPart.getModel();
+    				System.out.println( "strategy selected 1 name: " + element.getName());
+    				return true;
+    			}
     		}
-    		
+
     		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
     			parentElement = sel.getIntentionalelementref().getDef();
     			element = sel.getIntentionalelementref();
-    			return true;
+    			if( element == null && parentElement == null )
+    				return false; // sanity check
+    			else
+    				return true;
     		} else if (sel.getSelectionType() == SelectionHelper.ACTOR) {
     			parentElement = sel.getActor();
     			element = sel.getActorref();
-    			return true;
+    			if( element == null && parentElement == null )
+    				return false; // sanity check
+    			else
+    				return true;
     		} else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
     			Responsibility resp = sel.getRespRef().getRespDef();
     			parentElement = resp;
     			element = sel.getRespRef();
-    			return true; 		
+    			if( element == null && parentElement == null )
+    				return false; // sanity check
+    			else
+    				return true; 		
     		} else if (sel.getSelectionType() == SelectionHelper.LINKREF) {
     			ElementLink el = sel.getLinkref().getLink();
     			parentElement = null;
     			element = el;
-    			return true;
+    			if( element == null && parentElement == null )
+    				return false; // sanity check
+    			else
+    				return true;
     		} else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
     			parentElement = sel.getComponent();
     			element = sel.getComponentref();
-    			return true;
+    			if( element == null && parentElement == null )
+    				return false; // sanity check
+    			else
+    				return true;
     		} else if (sel.getSelectionType() == SelectionHelper.EVALUATIONSTRATEGY) {
     			parentElement = null;
     			element = sel.getEvaluationStrategy();
     			System.out.println( "strategy selected 2 name: " + element.getName());
-    			return true;
+    			if( element == null && parentElement == null )
+    				return false; // sanity check
+    			else
+    				return true;
     		} else if( editPart.getModel() instanceof URNmodelElement ) {
     			element = (URNmodelElement) editPart.getModel();
     			parentElement = null;
-    			return true;
+    			if( element == null && parentElement == null )
+    				return false; // sanity check
+    			else
+    				return true;
     		}
     		else
     			return false;
@@ -98,6 +119,8 @@ public class EditURNLinksAction extends URNSelectionAction {
      * 
      */
     public void run() {
+    	if( element == null && parentElement == null )
+    		return; // sanity check
     	EditURNLink ul = new EditURNLink();
         ul.editLink( getCommandStack(), element, parentElement, editPart );
     }

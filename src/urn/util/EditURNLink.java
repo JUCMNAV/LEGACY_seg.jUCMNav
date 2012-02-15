@@ -92,7 +92,10 @@ public class EditURNLink {
     	selectedElementParent = parentElement;
     	selectedEditPart = ep;
 
-    	this.setURNspec( selectedElement );
+    	if( selectedElement != null )
+    		this.setURNspec( selectedElement );
+    	else
+    		this.setURNspec( selectedElementParent );
     	
     	Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
     	Menu menu = new Menu(shell, SWT.POP_UP);
@@ -109,22 +112,23 @@ public class EditURNLink {
     	item.setEnabled(false);
     	MenuItem item4 = new MenuItem(menu, SWT.SEPARATOR);
 
-    	// menu item for Start Link from selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements
-    	MenuItem item2 = new MenuItem(menu, SWT.PUSH);
+    	if( selectedElement != null ){
+    		// menu item for Start Link from selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements
+    		MenuItem item2 = new MenuItem(menu, SWT.PUSH);
+    		String startText = "Start New Link from " + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"";
 
-    	String startText = "Start New Link from " + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"";
+    		if( fromElement == null )
+    			item2.setText( startText );
+    		else
+    			item2.setText( startText + " *" );
 
-    	if( fromElement == null )
-    		item2.setText( startText );
-    	else
-    		item2.setText( startText + " *" );
-
-    	item2.addListener( SWT.Selection, new Listener() {
-    		public void handleEvent(Event event) {
-    			startNewLink( selectedElement );
-    		}
-    	});
-
+    		item2.addListener( SWT.Selection, new Listener() {
+    			public void handleEvent(Event event) {
+    				startNewLink( selectedElement );
+    			}
+    		});
+    	}
+    	
     	// if applicable, menu item for Start Link from parent URN object Actor, Component, Responsibility, IntentionalElement, ...
     	if( selectedElementParent != null ){
     		MenuItem item22 = new MenuItem(menu, SWT.PUSH);
@@ -144,20 +148,23 @@ public class EditURNLink {
     	// add menu items for End Link if a previous element has been selected as a link start
     	if( fromElement != null && fromElement != selectedElement ){
 
-    		MenuItem item21 = new MenuItem(menu, SWT.PUSH);
-    		String endText = "End New Link from " + this.className( fromElement ) + " \"" + URNlinkImpl.getParentElement( fromElement ).getName() + "\"";
+    		if( selectedElement != null ){
 
-    		if( selectedElementParent != null )
-    			item21.setText( endText + " to " + this.className( selectedElement ) );
-    		else
-    			item21.setText( endText );
+    			MenuItem item21 = new MenuItem(menu, SWT.PUSH);
+    			String endText = "End New Link from " + this.className( fromElement ) + " \"" + URNlinkImpl.getParentElement( fromElement ).getName() + "\"";
 
-    		item21.addListener( SWT.Selection, new Listener() {
-    			public void handleEvent(Event event) {
-    				endNewLink( selectedElement );
-    			}
-    		});
+    			if( selectedElementParent != null )
+    				item21.setText( endText + " to " + this.className( selectedElement ) );
+    			else
+    				item21.setText( endText );
 
+    			item21.addListener( SWT.Selection, new Listener() {
+    				public void handleEvent(Event event) {
+    					endNewLink( selectedElement );
+    				}
+    			});
+    		}
+    		
     		if( selectedElementParent != null ){
 
     			MenuItem item23 = new MenuItem(menu, SWT.PUSH);
@@ -172,8 +179,13 @@ public class EditURNLink {
     		}
     	}
     	// determine number of outgoing links
-    	int outgoingSize = selectedElement.getFromLinks().size();
-
+    	
+    	int outgoingSize = 0;
+    	
+    	if( selectedElement != null ) {
+    		outgoingSize = selectedElement.getFromLinks().size();
+    	}
+    	
     	if( selectedElementParent != null ){
     		outgoingSize += selectedElementParent.getFromLinks().size();
     	}
@@ -189,33 +201,35 @@ public class EditURNLink {
     		final MenuItem[] pni = new MenuItem[outgoingSize];
     		int i = 0;
 
-    		// add outgoing links from selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements  
-    		for (Iterator it = selectedElement.getFromLinks().iterator(); it.hasNext();) {
-    			URNlink link = (URNlink) it.next();
-    			String text = "(" + link.getType() + ") to " + this.className( link.getToElem() )+ " \"" + link.getParentToElem().getName() + 
-    					"\" from " + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"";
-    			ogLinks[i] = new MenuItem(menu, SWT.CASCADE);
-    			ogLinks[i].setText( text );
-    			ogLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
+    		if( selectedElement != null ){
+    			// add outgoing links from selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements  
+    			for (Iterator it = selectedElement.getFromLinks().iterator(); it.hasNext();) {
+    				URNlink link = (URNlink) it.next();
+    				String text = "(" + link.getType() + ") to " + this.className( link.getToElem() )+ " \"" + link.getParentToElem().getName() + 
+    						"\" from " + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"";
+    				ogLinks[i] = new MenuItem(menu, SWT.CASCADE);
+    				ogLinks[i].setText( text );
+    				ogLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
 
-    			pulldownMenus[i] = new Menu(shell, SWT.DROP_DOWN);
+    				pulldownMenus[i] = new Menu(shell, SWT.DROP_DOWN);
 
-    			pei[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
-    			pei[i].setText( "Modify Link Type" );
-    			pei[i].addListener( SWT.Selection, new EditListener( link ));
-    			pdi[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
-    			pdi[i].setText( "Delete Link" );
-    			pdi[i].addListener( SWT.Selection, new DeleteListener( link ));
+    				pei[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
+    				pei[i].setText( "Modify Link Type" );
+    				pei[i].addListener( SWT.Selection, new EditListener( link ));
+    				pdi[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
+    				pdi[i].setText( "Delete Link" );
+    				pdi[i].addListener( SWT.Selection, new DeleteListener( link ));
 
-    			if( this.isNavigable( link.getToElem() )){
-    				pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
-    				pni[i].setText( "Show Target" );
-    				pni[i].addListener( SWT.Selection, new NavigateListener( link, true ));
+    				if( this.isNavigable( link.getToElem() )){
+    					pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
+    					pni[i].setText( "Show Target" );
+    					pni[i].addListener( SWT.Selection, new NavigateListener( link, true ));
+    				}
+    				ogLinks[i].setMenu(pulldownMenus[i]);
+    				i++;
     			}
-    			ogLinks[i].setMenu(pulldownMenus[i]);
-    			i++;
     		}
-
+        	
     		if( selectedElementParent != null ){
     			// if applicable, add outgoing links from parent URN objects Actor, Component, Responsibility, IntentionalElement, ...
     			for (Iterator it = selectedElementParent.getFromLinks().iterator(); it.hasNext();) {
@@ -247,8 +261,12 @@ public class EditURNLink {
     	}
 
     	// determine number of incoming links
-    	int incomingSize = selectedElement.getToLinks().size();
+    	int incomingSize = 0;
 
+    	if( selectedElement != null ) {
+    		incomingSize = selectedElement.getToLinks().size();
+    	}
+    	
     	if( selectedElementParent != null ){
     		incomingSize += selectedElementParent.getToLinks().size();
     	}
@@ -265,34 +283,36 @@ public class EditURNLink {
 
     		int i = 0;
 
-    		// add incoming links to selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements  
-    		for (Iterator it = selectedElement.getToLinks().iterator(); it.hasNext();) {
-    			URNlink link = (URNlink) it.next();
-    			String text = "(" + link.getType() + ") from " + this.className( link.getFromElem() )+ " \"" + link.getParentFromElem().getName()
-    					+ "\" to " + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"";
-    			icLinks[i] = new MenuItem(menu, SWT.CASCADE);
-    			icLinks[i].setText( text );
-    			icLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink-reversed.gif")); //$NON-NLS-1$
+    		if( selectedElement != null ){
+    			// add incoming links to selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements  
+    			for (Iterator it = selectedElement.getToLinks().iterator(); it.hasNext();) {
+    				URNlink link = (URNlink) it.next();
+    				String text = "(" + link.getType() + ") from " + this.className( link.getFromElem() )+ " \"" + link.getParentFromElem().getName()
+    						+ "\" to " + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"";
+    				icLinks[i] = new MenuItem(menu, SWT.CASCADE);
+    				icLinks[i].setText( text );
+    				icLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink-reversed.gif")); //$NON-NLS-1$
 
-    			pulldownMenus[i] = new Menu(shell, SWT.DROP_DOWN);
+    				pulldownMenus[i] = new Menu(shell, SWT.DROP_DOWN);
 
-    			pei[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
-    			pei[i].setText( "Modify Link Type" );
-    			pei[i].addListener( SWT.Selection, new EditListener( link ));
-    			pdi[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
-    			pdi[i].setText( "Delete Link" );
-    			pdi[i].addListener( SWT.Selection, new DeleteListener( link));
+    				pei[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
+    				pei[i].setText( "Modify Link Type" );
+    				pei[i].addListener( SWT.Selection, new EditListener( link ));
+    				pdi[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
+    				pdi[i].setText( "Delete Link" );
+    				pdi[i].addListener( SWT.Selection, new DeleteListener( link));
 
-    			if( this.isNavigable( link.getFromElem() )){
-    				pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
-    				pni[i].setText( "Show Source" );
-    				pni[i].addListener( SWT.Selection, new NavigateListener( link, false ));
+    				if( this.isNavigable( link.getFromElem() )){
+    					pni[i] = new MenuItem( pulldownMenus[i], SWT.PUSH );
+    					pni[i].setText( "Show Source" );
+    					pni[i].addListener( SWT.Selection, new NavigateListener( link, false ));
+    				}
+
+    				icLinks[i].setMenu(pulldownMenus[i]);
+    				i++;
     			}
-
-    			icLinks[i].setMenu(pulldownMenus[i]);
-    			i++;
     		}
-
+    		
     		if( selectedElementParent != null ){
     			// if applicable, add incoming links to parent URN objects Actor, Component, Responsibility, IntentionalElement, ...
     			for (Iterator it = selectedElementParent.getToLinks().iterator(); it.hasNext();) {
