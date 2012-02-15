@@ -2,12 +2,10 @@ package seg.jUCMNav.editpolicies.directEditPolicy;
 
 import java.util.Vector;
 
-import org.eclipse.jface.fieldassist.SimpleContentProposalProvider;
-
 import seg.jUCMNav.model.util.URNElementFinder;
 import urn.URNspec;
 
-public class ActorProposalProvider extends SimpleContentProposalProvider {
+public class ActorProposalProvider extends NotThatSimpleContentProposalProvider {
 
     public ActorProposalProvider(URNspec urn) {
         super(null);

@@ -7,7 +7,7 @@ import org.eclipse.jface.fieldassist.SimpleContentProposalProvider;
 import seg.jUCMNav.model.util.URNElementFinder;
 import urn.URNspec;
 
-public class ResponsibilityProposalProvider extends SimpleContentProposalProvider {
+public class ResponsibilityProposalProvider extends NotThatSimpleContentProposalProvider {
 
     public ResponsibilityProposalProvider(URNspec urn) {
         super(null);
@@ -19,7 +19,6 @@ public class ResponsibilityProposalProvider extends SimpleContentProposalProvide
         for (int i = 0; i < v.size(); i++)
             proposals[i] = v.get(i).toString();
         setProposals(proposals);
-
     }
 
 }

@@ -7,7 +7,7 @@ import org.eclipse.jface.fieldassist.SimpleContentProposalProvider;
 import seg.jUCMNav.model.util.URNElementFinder;
 import urn.URNspec;
 
-public class IntentionalElementProposalProvider extends SimpleContentProposalProvider {
+public class IntentionalElementProposalProvider extends NotThatSimpleContentProposalProvider {
 
     public IntentionalElementProposalProvider(URNspec urn) {
         super(null);

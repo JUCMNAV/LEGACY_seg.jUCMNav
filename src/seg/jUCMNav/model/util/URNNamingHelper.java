@@ -936,29 +936,29 @@ public class URNNamingHelper {
                 message = Messages.getString("URNNamingHelper.invalidName"); //$NON-NLS-1$
             }
         }
-        if (!getName(elem).equalsIgnoreCase(name)) {
+        if (!getName(elem).equals(name)) /* bug 787 made this case-insensitive - partially */ {
             if (elem instanceof ComponentRef || elem instanceof Component) {
-                if (URNNamingHelper.doesComponentNameExists(urn, name)) {
+                if (URNNamingHelper.doesComponentNameExists(urn, name) && !getName(elem).equalsIgnoreCase(name)) {
                     message = Messages.getString("URNNamingHelper.compNameExist"); //$NON-NLS-1$
                 }
             } else if (elem instanceof ActorRef || elem instanceof Actor) {
-                if (URNNamingHelper.doesActorNameExists(urn, name)) {
+                if (URNNamingHelper.doesActorNameExists(urn, name) && !getName(elem).equalsIgnoreCase(name)) {
                     message = Messages.getString("URNNamingHelper.ActorNameAlreadyExists"); //$NON-NLS-1$
                 }
             } else if (elem instanceof RespRef || elem instanceof Responsibility) {
-                if (URNNamingHelper.doesResponsibilityNameExists(urn, name)) {
+                if (URNNamingHelper.doesResponsibilityNameExists(urn, name) && !getName(elem).equalsIgnoreCase(name)) {
                     message = Messages.getString("URNNamingHelper.respNameExist"); //$NON-NLS-1$
                 }
             } else if (elem instanceof IntentionalElementRef || elem instanceof IntentionalElement) {
-                if (URNNamingHelper.doesIntentionalElementNameExists(urn, name)) {
+                if (URNNamingHelper.doesIntentionalElementNameExists(urn, name) && !getName(elem).equalsIgnoreCase(name)) {
                     message = Messages.getString("URNNamingHelper.IntentionalElementNameAlreadyExists"); //$NON-NLS-1$
                 }
             } else if (elem instanceof KPIInformationElementRef || elem instanceof KPIInformationElement) {
-                if (URNNamingHelper.doesKPIInformationElementNameExists(urn, name)) {
+                if (URNNamingHelper.doesKPIInformationElementNameExists(urn, name) && !getName(elem).equalsIgnoreCase(name)) {
                     message = Messages.getString("URNNamingHelper.KPIInformationElementNameAlreadyExists"); //$NON-NLS-1$
                 }
             } else if (elem instanceof Variable) {
-                if (URNNamingHelper.doesVariableNameExist(urn, name)) {
+                if (URNNamingHelper.doesVariableNameExist(urn, name) && !getName(elem).equalsIgnoreCase(name)) {
                     message = Messages.getString("URNNamingHelper.VariableNameAlreadyExists"); //$NON-NLS-1$
                 }
             }

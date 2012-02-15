@@ -1,20 +1,15 @@
 package seg.jUCMNav.views.property.tabbed.sections;
 
-import grl.Actor;
-import grl.IntentionalElement;
-import grl.kpimodel.KPIInformationElement;
-
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
-import ucm.scenario.Variable;
 import urn.URNspec;
 import urn.UrnPackage;
-import urncore.Component;
-import urncore.Responsibility;
+import urncore.URNmodelElement;
 import urncore.UrncorePackage;
 
 public class NamePropertySection extends AbstractStringPropertySection {
@@ -33,6 +28,7 @@ public class NamePropertySection extends AbstractStringPropertySection {
     protected boolean isTextValid(String text) {
         boolean result = true;
         
+        /*
         if (eObject instanceof Responsibility) {
             result = !URNNamingHelper.doesResponsibilityNameExists(((Responsibility) eObject).getUrndefinition().getUrnspec(), text)
                       || ((Responsibility)eObject).getName().equals(text);
@@ -54,7 +50,30 @@ public class NamePropertySection extends AbstractStringPropertySection {
         }
         
         if(!result)
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("NamePropertySection.NameAlreadyExists"), Messages.getString("NamePropertySection.ThisNameConflicts")); //$NON-NLS-1$ //$NON-NLS-2$
+           MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("NamePropertySection.NameAlreadyExists"), Messages.getString("NamePropertySection.ThisNameConflicts")); //$NON-NLS-1$ //$NON-NLS-2$
+        */
+        if (!(eObject instanceof URNmodelElement)) return false;
+        
+        URNspec urn = null;
+        EObject parent = eObject; 
+        do {
+            if (parent instanceof URNspec) {
+                urn = (URNspec) parent;
+                break;
+            }
+            if (parent!=null)
+                parent = parent.eContainer();
+            
+        } while (parent != null);
+        
+       
+        String message = URNNamingHelper.isNameValid(urn, (URNmodelElement) eObject, text);
+
+        result = message.length() == 0;
+        
+        if (!result) {
+            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", message); //$NON-NLS-1$
+        }
         
         return result;
     }
