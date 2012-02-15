@@ -315,18 +315,6 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
             } else {
                 getLinkRefFigure().setType(LinkRefConnection.TYPE_CONTRIBUTION);
             }
-
-            // Check if link should be grayed out in strategy view
-            if( ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView() ) {
-            	if( getLinkRef().getLink().getDest() instanceof IntentionalElement ) {
-            		if( EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getDest() )) {
-            			decompLabel.setForegroundColor(ColorManager.GRAY);
-            			contributionLabel.setForegroundColor(ColorManager.GRAY);
-            			stereotypeLabel.setForegroundColor(ColorManager.GRAY);
-            	        getLinkRefFigure().setForegroundColor(ColorManager.GRAY);
-            		}
-            	}
-            }
             
             // Set the stereotype Label
             String stereotypeInfo = UrnMetadata.getStereotypes(contrib);
@@ -378,6 +366,20 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
             // Dependency depend = (Dependency)getLinkRef().getLink();
             getLinkRefFigure().setType(LinkRefConnection.TYPE_DEPENDENCY);
         }
+        
+        // Check if link should be grayed out in strategy view
+        if( ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView() ) {
+        	if( getLinkRef().getLink().getDest() instanceof IntentionalElement ) {
+        		if( EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getDest() )
+        				|| EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getSrc()) ) {
+        			decompLabel.setForegroundColor(ColorManager.GRAY);
+        			contributionLabel.setForegroundColor(ColorManager.GRAY);
+        			stereotypeLabel.setForegroundColor(ColorManager.GRAY);
+        	        getLinkRefFigure().setForegroundColor(ColorManager.GRAY);
+        		}
+        	}
+        }
+
         UrnMetadata.setToolTip(getLinkRef().getLink(), figure);
 
     }
