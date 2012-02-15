@@ -303,6 +303,26 @@ public class ScenarioUtils {
         getDefinedIncludedScenarios(def, scenarios);
         return scenarios;
     }
+    
+    /**
+     * For each ScenarioDef which is an explicit child of def, we return the index inside the vector returned by getDefinedIncludedScenarios
+     * 
+     * @param def the scenario
+     * @return the list of indexes in the getDefinedIncludedScenarios list. 
+     */
+    public static Vector getIndexesOfPrimaryDefinedIncludedScenarios(ScenarioDef def) {
+        Vector all = getDefinedIncludedScenarios(def);
+        Vector indexes = new Vector();
+        for (int i=0;i<def.getIncludedScenarios().size();i++)
+        {
+            // add the index of the scenario in this list. 
+            // given how we merge included scenarios (to avoid duplication), this list is non-obvious  
+            indexes.add(new Integer(all.indexOf(def.getIncludedScenarios().get(i))));
+        }
+        return indexes;
+    }
+    
+    
 
     /**
      * Get all the included scenarios (recursively)that are related to this scenario

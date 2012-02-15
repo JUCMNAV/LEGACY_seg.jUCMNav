@@ -2,6 +2,7 @@ package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.swt.graphics.Image;
@@ -10,6 +11,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.EvaluationStrategyComponentEditPolicy;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 
@@ -93,11 +95,27 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
      * @return Is this scenario inherited from another scenario?
      */
     public boolean isInherited() {
-        if (getParent().getModel() instanceof ScenarioGroup)
+        if (getParent()==null || getParent().getModel() instanceof ScenarioGroup)
             return false;
         else
-            return getParent().getChildren().indexOf(this) < ((ScenarioLabelTreeEditPart) getParent()).getModelChildren().size()
-                    - ((ScenarioDef) getParent().getParent().getModel()).getIncludedScenarios().size();
+        {
+            ScenarioDef def = ((ScenarioDef) getParent().getParent().getModel());
+            Vector indexes = ScenarioUtils.getIndexesOfPrimaryDefinedIncludedScenarios(def);
+            int index = getParent().getChildren().indexOf(this);
+            
+            boolean isInherited = true;
+            for (int i=0;i<indexes.size();i++)
+            {
+                if (((Integer)indexes.get(i)).intValue() == index)
+                    isInherited = false;
+            }
+            
+            // this is a hack because we don't seem to be listening to the selection anymore
+            // is only needed when we delete a scenario which is included elsewhere, then undo that deletion. 
+            checkForegroundColor(isInherited);
+            
+            return isInherited;
+        }
     }
 
     /**
@@ -105,13 +123,19 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
      */
     protected String getText() {
         if (widget != null && !widget.isDisposed()) {
-            if (isInherited())
+            checkForegroundColor(isInherited());
+        }
+
+        return super.getText();
+    }
+
+    private void checkForegroundColor(boolean isInherited) {
+        if (widget != null && !widget.isDisposed()) {
+            if (isInherited)
                 ((TreeItem) widget).setForeground(DARKGRAY);
             else
                 ((TreeItem) widget).setForeground(BLACK);
         }
-
-        return super.getText();
     }
 
 }
