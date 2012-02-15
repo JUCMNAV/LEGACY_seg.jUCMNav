@@ -55,6 +55,7 @@ public class KPIViewGRLGraphEditPart extends AbstractKPIViewEditPart {
     }
 
     private void findAllIndicators(IntentionalElement model, Map indicatorMap) {
+        if (model == null) return; // bug 780
         ElementLink[] elementLinks = (ElementLink[]) model.getLinksDest().toArray(new ElementLink[0]);
         if (elementLinks != null) {
             for (int i = 0; i < elementLinks.length; i++) {

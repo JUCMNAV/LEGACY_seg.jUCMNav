@@ -857,6 +857,7 @@ public class EvaluationStrategyManager {
      */
     private void setEvaluationMetadata(Actor actor, int actorEval) {
         String numEvalAsString = Integer.toString(actorEval);
+        if (getQualitativeEvaluationForQuantitativeValue(actorEval)==null)return;
         String qualEvalAsString = getQualitativeEvaluationForQuantitativeValue(actorEval).toString();
 
         Metadata metaNumerical = MetadataHelper.getMetaDataObj(actor, METADATA_NUMEVAL);
