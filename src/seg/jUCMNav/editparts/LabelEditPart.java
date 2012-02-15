@@ -3,6 +3,7 @@ package seg.jUCMNav.editparts;
 import grl.ActorRef;
 import grl.GrlPackage;
 import grl.IntentionalElementRef;
+import grl.LinkRef;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -373,19 +374,29 @@ public class LabelEditPart extends ModelElementEditPart {
             // If the element has a URNlink associated, show the link symbol
             if (modelElement instanceof URNmodelElement) {
                 URNmodelElement urnElem;
+                boolean linksPresent = false; 
+                
+                urnElem = (URNmodelElement) modelElement;
+                linksPresent = (urnElem != null && (urnElem.getToLinks().size() + urnElem.getFromLinks().size()) > 0);
+                
+                // If this is a reference, also check the definition (for the 5 URN elements that make this distinction).
                 if (modelElement instanceof RespRef) {
-                    urnElem = ((RespRef) modelElement).getRespDef();
+                	urnElem = ((RespRef) modelElement).getRespDef();                    
                 } else if (modelElement instanceof ComponentRef) {
                     urnElem = (URNmodelElement) ((ComponentRef) modelElement).getContDef();
                 } else if (modelElement instanceof ActorRef) {
                     urnElem = (URNmodelElement) ((ActorRef) modelElement).getContDef();
                 } else if (modelElement instanceof IntentionalElementRef) {
                     urnElem = (URNmodelElement) ((IntentionalElementRef) modelElement).getDef();
-                } else {
-                    urnElem = (URNmodelElement) modelElement;
-                }
+                } else if (modelElement instanceof LinkRef) {
+                    urnElem = (URNmodelElement) ((LinkRef) modelElement).getLink();
+                } 
 
-                if (urnElem != null && (urnElem.getToLinks().size() + urnElem.getFromLinks().size()) > 0) {
+                
+                linksPresent = linksPresent || (urnElem != null && (urnElem.getToLinks().size() + urnElem.getFromLinks().size()) > 0);
+
+
+                if (linksPresent) {
                     // If there is a link, add the icon if not already added
                     if (iconImg == null) {
                         iconImg = (JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
