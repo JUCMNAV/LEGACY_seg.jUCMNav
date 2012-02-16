@@ -436,15 +436,19 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 
     private void expandTree() {
         Tree tree = (Tree) viewer.getControl();
-        if (tree.getTopItem() != null) { // fix for crash on linux!
-            Object[] items = tree.getTopItem().getItems();
+        // expand first two levels. 
+        if (tree != null && tree.getItems() != null) {
+            TreeItem[] items = tree.getItems();
             for (int i = 0; i < items.length; i++) {
+                TreeItem[] items2 = items[i].getItems();
+                for (int j = 0; j < items2.length; j++) {
+                    ((TreeItem) items2[j]).setExpanded(true);
+                }
                 ((TreeItem) items[i]).setExpanded(true);
             }
-            tree.getTopItem().setExpanded(true);
         }
     }
-
+    
     /**
      * Passing the focus request to the viewer's control.
      */
