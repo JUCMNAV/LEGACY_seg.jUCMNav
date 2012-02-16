@@ -286,7 +286,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
     protected void refreshVisuals() {
         refreshBendpoints();
 
-       System.out.println("refreshVisuals() called for LinkRef between " + getLinkRef().getLink().getSrc().getName() + " and " +  getLinkRef().getLink().getDest().getName() );
+//       System.out.println("refreshVisuals() called for LinkRef between " + getLinkRef().getLink().getSrc().getName() + " and " +  getLinkRef().getLink().getDest().getName() );
         
         // reset the label colors
         decompLabel.setForegroundColor(ColorManager.LINKREFLABEL);

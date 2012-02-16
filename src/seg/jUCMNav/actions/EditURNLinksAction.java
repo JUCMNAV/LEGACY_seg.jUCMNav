@@ -28,6 +28,7 @@ public class EditURNLinksAction extends URNSelectionAction {
     private EditPart editPart;
 
     private final boolean DEBUG = false;
+//    private final boolean DEBUG = true;
     
     /**
      * @param part
