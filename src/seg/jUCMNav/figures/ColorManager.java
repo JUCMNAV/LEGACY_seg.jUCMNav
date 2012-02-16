@@ -28,6 +28,7 @@ public class ColorManager {
     public static final Color RED = new Color(null, 255, 0, 0);
     public static final Color WHITE = new Color(null, 255, 255, 255);
     public static final Color YELLOW = new Color(null, 255, 255, 0);
+    public static final Color AQUA = new Color(null, 0, 100, 100);
 
     public static Color LINE;
     public static Color SELECTED;

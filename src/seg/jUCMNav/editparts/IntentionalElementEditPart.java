@@ -36,6 +36,7 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -247,54 +248,50 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
-        if (getParent() == null)
-            return;
-        refreshTargetConnections();
-        refreshSourceConnections();
-        refreshVisuals();
+    	if (getParent() == null)
+    		return;
+    	refreshTargetConnections();
+    	refreshSourceConnections();
+    	refreshVisuals();
 
-        int featureId = notification.getFeatureID(GrlPackage.class);
-        if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE || featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY
-        		|| featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY || featureId == GrlPackage.INTENTIONAL_ELEMENT__IMPORTANCE) {
-        	EvaluationStrategyManager.getInstance().calculateEvaluation();
+    	int featureId = notification.getFeatureID(GrlPackage.class);
+    	if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE || featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY
+    			|| featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY || featureId == GrlPackage.INTENTIONAL_ELEMENT__IMPORTANCE) {
+    		EvaluationStrategyManager.getInstance().calculateEvaluation();
+    	}
 
-        	EList linksDest = getNode().getDef().getLinksDest();
-        	if (linksDest != null){
-        		for (Iterator iter = linksDest.iterator(); iter.hasNext();) {
-        			ElementLink decomp = (ElementLink) iter.next();
-        			if (decomp instanceof Decomposition) {
-        				for (Iterator iRef = decomp.getRefs().iterator(); iRef.hasNext();) {
-        					LinkRef ref = (LinkRef) iRef.next();
-        					LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
-        					if (refEditPart != null) {
-        						refEditPart.refreshVisuals();
-        					}
-        				}
-        			}
-        		} 
-        	}
+    	EList linksDest = getNode().getDef().getLinksDest();
+    	if (linksDest != null){
+    		for (Iterator iter = linksDest.iterator(); iter.hasNext();) {
+    			ElementLink link = (ElementLink) iter.next();
+    			for (Iterator iRef = link.getRefs().iterator(); iRef.hasNext();) {
+    				LinkRef ref = (LinkRef) iRef.next();
+    				LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
+    				if (refEditPart != null) {
+    					refEditPart.refreshVisuals();
+    				}
+    			}
+    		} 
+    	}
 
 
-        	EList linksSrc = getNode().getDef().getLinksSrc();
-        	if (linksSrc != null){
-        		for (Iterator iter = linksSrc.iterator(); iter.hasNext();) {
-        			ElementLink contrib = (ElementLink) iter.next();
-        			if (contrib instanceof Contribution) {
-        				for (Iterator iRef = contrib.getRefs().iterator(); iRef.hasNext();) {
-        					LinkRef ref = (LinkRef) iRef.next();
-        					LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
-        					if (refEditPart != null) {
-        						refEditPart.refreshVisuals();
-        					}
-        				}
-        			}
-        		}
-        	}
-        }
-        
-        // we want the top level editpart to refresh its children so that the largest components are always in the back.
-        if (notification.getEventType() == Notification.SET && getParent() != null)
-            ((URNDiagramEditPart) getParent()).notifyChanged(notification);
+    	EList linksSrc = getNode().getDef().getLinksSrc();
+    	if (linksSrc != null){
+    		for (Iterator iter = linksSrc.iterator(); iter.hasNext();) {
+    			ElementLink link = (ElementLink) iter.next();
+    			for (Iterator iRef = link.getRefs().iterator(); iRef.hasNext();) {
+    				LinkRef ref = (LinkRef) iRef.next();
+    				LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
+    				if (refEditPart != null) {
+    					refEditPart.refreshVisuals();
+    				}
+    			}
+    		}
+    	}
+
+    	// we want the top level editpart to refresh its children so that the largest components are always in the back.
+    	if (notification.getEventType() == Notification.SET && getParent() != null)
+    		((URNDiagramEditPart) getParent()).notifyChanged(notification);
     }
 
     /**
@@ -332,6 +329,9 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef()
                         .isFilled());
                 ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_SOLID);
+                if( getNode().getDef().getType() == IntentionalElementType.RESSOURCE_LITERAL ) {
+                    figure.setForegroundColor(ColorManager.AQUA);
+                }
                 ((IntentionalElementPropertySource) getPropertySource()).setEvaluationStrategyView(false);
                 if (elem.getFromLinks().size() + elem.getToLinks().size() > 0) {
                     evaluationLabel.setText(""); //$NON-NLS-1$
@@ -381,7 +381,12 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             }
                         }
 
-                        lineColor = "0,0,0"; //$NON-NLS-1$
+                        if( getNode().getDef().getType() == IntentionalElementType.RESSOURCE_LITERAL ) {
+                        	lineColor = "0,100,100"; //$NON-NLS-1$ Color AQUA
+                        } else {
+                        	lineColor = "0,0,0"; //$NON-NLS-1$
+                        }
+
                         if (evaluation.getStrategies() != null) {
                             if (!evaluation.getIntElement().getLinksDest().isEmpty()) {
                                 // This initial evaluation potentially overrides computed ones

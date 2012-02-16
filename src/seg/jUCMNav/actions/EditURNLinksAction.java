@@ -27,6 +27,8 @@ public class EditURNLinksAction extends URNSelectionAction {
     private URNmodelElement element, parentElement;
     private EditPart editPart;
 
+    private final boolean DEBUG = false;
+    
     /**
      * @param part
      */
@@ -44,12 +46,12 @@ public class EditURNLinksAction extends URNSelectionAction {
 
     		if( parts.get(0) instanceof EditPart ){
     			editPart = ((EditPart) parts.get(0));
-    			System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
+  			if( DEBUG) System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
 
     			if( editPart.getModel() instanceof EvaluationStrategy ){
     				parentElement = null;
     				element = (EvaluationStrategy) editPart.getModel();
-    				System.out.println( "strategy selected 1 name: " + element.getName());
+    				if( DEBUG) System.out.println( "strategy selected 1 name: " + element.getName());
     				return true;
     			}
     		}
@@ -94,7 +96,7 @@ public class EditURNLinksAction extends URNSelectionAction {
     		} else if (sel.getSelectionType() == SelectionHelper.EVALUATIONSTRATEGY) {
     			parentElement = null;
     			element = sel.getEvaluationStrategy();
-    			System.out.println( "strategy selected 2 name: " + element.getName());
+    			if( DEBUG) System.out.println( "strategy selected 2 name: " + element.getName());
     			if( element == null && parentElement == null )
     				return false; // sanity check
     			else

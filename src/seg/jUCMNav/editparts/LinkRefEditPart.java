@@ -286,7 +286,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
     protected void refreshVisuals() {
         refreshBendpoints();
 
-//        System.out.println("refreshVisuals() called for LinkRef between " + getLinkRef().getLink().getSrc().getName() + " and " +  getLinkRef().getLink().getDest().getName() );
+       System.out.println("refreshVisuals() called for LinkRef between " + getLinkRef().getLink().getSrc().getName() + " and " +  getLinkRef().getLink().getDest().getName() );
         
         // reset the label colors
         decompLabel.setForegroundColor(ColorManager.LINKREFLABEL);
@@ -369,7 +369,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
         
         // Check if link should be grayed out in strategy view
         if( ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView() ) {
-        	if( getLinkRef().getLink().getDest() instanceof IntentionalElement ) {
+        	if( getLinkRef().getLink().getDest() instanceof IntentionalElement || getLinkRef().getLink().getSrc() instanceof IntentionalElement) {
         		if( EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getDest() )
         				|| EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getSrc()) ) {
         			decompLabel.setForegroundColor(ColorManager.GRAY);
