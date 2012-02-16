@@ -369,15 +369,17 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
         
         // Check if link should be grayed out in strategy view
         if( ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView() ) {
+            if (getLinkRef()!=null && getLinkRef().getLink()!=null) {
         	if( getLinkRef().getLink().getDest() instanceof IntentionalElement || getLinkRef().getLink().getSrc() instanceof IntentionalElement) {
-        		if( EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getDest() )
-        				|| EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getSrc()) ) {
-        			decompLabel.setForegroundColor(ColorManager.GRAY);
-        			contributionLabel.setForegroundColor(ColorManager.GRAY);
-        			stereotypeLabel.setForegroundColor(ColorManager.GRAY);
-        	        getLinkRefFigure().setForegroundColor(ColorManager.GRAY);
-        		}
-        	}
+            		if( EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getDest() )
+            				|| EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getSrc()) ) {
+            			decompLabel.setForegroundColor(ColorManager.GRAY);
+            			contributionLabel.setForegroundColor(ColorManager.GRAY);
+            			stereotypeLabel.setForegroundColor(ColorManager.GRAY);
+            	        getLinkRefFigure().setForegroundColor(ColorManager.GRAY);
+            		}
+            	}
+            }
         }
 
         UrnMetadata.setToolTip(getLinkRef().getLink(), figure);
