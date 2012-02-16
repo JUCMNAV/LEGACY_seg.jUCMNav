@@ -337,6 +337,19 @@ public class EvaluationStrategyManager {
     		}    		
     	}
     	return false;    	
+    	
+    }
+    
+    public synchronized boolean isConditionResource(IntentionalElement elem) {
+    	if( elem.getType() == IntentionalElementType.RESSOURCE_LITERAL ) {
+    		for( Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
+    			Metadata md = (Metadata) iter.next();	
+    			if(md.getName().equalsIgnoreCase( "ST_CONDITIONTYPE" )){
+    				return true;
+    			}
+    		}
+    	}
+    	return false; 
     }
     
     public synchronized KPIInformationConfig getKPIInformationConfigObject(KPIInformationElement elem) {

@@ -329,7 +329,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef()
                         .isFilled());
                 ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_SOLID);
-                if( getNode().getDef().getType() == IntentionalElementType.RESSOURCE_LITERAL ) {
+                if( EvaluationStrategyManager.getInstance().isConditionResource( getNode().getDef() ) ) {
                     figure.setForegroundColor(ColorManager.AQUA);
                 }
                 ((IntentionalElementPropertySource) getPropertySource()).setEvaluationStrategyView(false);
@@ -381,7 +381,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             }
                         }
 
-                        if( getNode().getDef().getType() == IntentionalElementType.RESSOURCE_LITERAL ) {
+                        if( EvaluationStrategyManager.getInstance().isConditionResource( getNode().getDef() ) ) {
                         	lineColor = "0,100,100"; //$NON-NLS-1$ Color AQUA
                         } else {
                         	lineColor = "0,0,0"; //$NON-NLS-1$
