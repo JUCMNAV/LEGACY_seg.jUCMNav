@@ -28,6 +28,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.treeEditparts.LabelTreeEditPart;
 import ucm.UCMspec;
@@ -355,9 +356,7 @@ public class SelectionHelper {
                 grlspec = group.getGrlspec();
                 urnspec = group.getGrlspec().getUrnspec();
             } else if (model instanceof EvaluationStrategy) {
-            	
-//            	System.out.println( "EvaluationStrategy found" );
-            	
+//            	if( JUCMNavPlugin.isInDebug() )	System.out.println( "EvaluationStrategy found in SelectionHelper." );            	
                 strategy = (EvaluationStrategy) model;
                 group = strategy.getGroup();
                 grlspec = group.getGrlspec();
@@ -656,10 +655,10 @@ public class SelectionHelper {
             selectionType = LINKREF;
         else if (kpiModelLinkRef != null)
             selectionType = KPIMODELLINKREF;
-        else if (group != null)
-            selectionType = EVALUATIONGROUP;
         else if (strategy != null)
             selectionType = EVALUATIONSTRATEGY;
+        else if (group != null)
+            selectionType = EVALUATIONGROUP;
         else if (scenario != null)
             selectionType = SCENARIO;
         else if (scenariogroup != null)

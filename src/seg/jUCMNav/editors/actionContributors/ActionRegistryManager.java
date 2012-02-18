@@ -74,7 +74,7 @@ import seg.jUCMNav.actions.SetNumericalImportanceAction;
 import seg.jUCMNav.actions.SetQualitativeContributionAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
-//import seg.jUCMNav.actions.TagElementAction;
+import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
@@ -484,9 +484,9 @@ public class ActionRegistryManager implements IDisposable {
             addEditPartAction((SelectionAction) action);
         }
 
-//        action = new TagElementAction(editor);
-//        action.setText(Messages.getString("ActionRegistryManager.tagElement")); //$NON-NLS-1$
-//        addEditPartAction((SelectionAction) action);
+        action = new TagElementAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.tagElement")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
         
         action = new ChangeCorrelationAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.changeCorrelation")); //$NON-NLS-1$

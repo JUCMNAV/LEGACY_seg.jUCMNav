@@ -2,6 +2,7 @@ package seg.jUCMNav.actions;
 
 import grl.ElementLink;
 import grl.EvaluationStrategy;
+import grl.StrategiesGroup;
 
 import java.util.List;
 
@@ -40,89 +41,67 @@ public class EditURNLinksAction extends URNSelectionAction {
     	List parts = getSelectedObjects();
     	SelectionHelper sel = new SelectionHelper( parts );
 
-    	if( parts.size() == 1 ){
-
-    		if( parts.get(0) instanceof EditPart ){
-    			editPart = ((EditPart) parts.get(0));
-    			if( JUCMNavPlugin.isInDebug() ) System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
-
-    			if( editPart.getModel() instanceof EvaluationStrategy ){
-    				parentElement = null;
-    				element = (EvaluationStrategy) editPart.getModel();
-    				if( JUCMNavPlugin.isInDebug() ) System.out.println( "strategy selected 1 name: " + element.getName());
-    				return true;
-    			}
-    		}
-
-    		if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
-    			parentElement = sel.getIntentionalelementref().getDef();
-    			element = sel.getIntentionalelementref();
-    			if( element == null && parentElement == null )
-    				return false; // sanity check
-    			else
-    				return true;
-    		} else if (sel.getSelectionType() == SelectionHelper.ACTOR) {
-    			parentElement = sel.getActor();
-    			element = sel.getActorref();
-    			if( element == null && parentElement == null )
-    				return false; // sanity check
-    			else
-    				return true;
-    		} else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
-    			Responsibility resp = sel.getRespRef().getRespDef();
-    			parentElement = resp;
-    			element = sel.getRespRef();
-    			if( element == null && parentElement == null )
-    				return false; // sanity check
-    			else
-    				return true; 		
-    		} else if (sel.getSelectionType() == SelectionHelper.LINKREF) {
-    			ElementLink el = sel.getLinkref().getLink();
-    			parentElement = null;
-    			element = el;
-    			if( element == null && parentElement == null )
-    				return false; // sanity check
-    			else
-    				return true;
-    		} else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
-    			parentElement = sel.getComponent();
-    			element = sel.getComponentref();
-    			if( element == null && parentElement == null )
-    				return false; // sanity check
-    			else
-    				return true;
-    		} else if (sel.getSelectionType() == SelectionHelper.EVALUATIONSTRATEGY) {
-    			parentElement = null;
-    			element = sel.getEvaluationStrategy();
-    			if( JUCMNavPlugin.isInDebug() ) System.out.println( "strategy selected 2 name: " + element.getName());
-    			if( element == null && parentElement == null )
-    				return false; // sanity check
-    			else
-    				return true;
-    		} else if( editPart.getModel() instanceof URNmodelElement ) {
-    			element = (URNmodelElement) editPart.getModel();
-    			parentElement = null;
-    			if( element == null && parentElement == null )
-    				return false; // sanity check
-    			else
-    				return true;
-    		}
-    		else
-    			return false;
-    	}
+    	if( (parts.size() > 0) && (parts.get(0) instanceof EditPart) )
+    		editPart = ((EditPart) parts.get(0));
     	else
+    		return false;
+
+    	if( JUCMNavPlugin.isInDebug() ){
+    		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() );
+    	}
+
+    	if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
+    		parentElement = sel.getIntentionalelementref().getDef();
+    		element = sel.getIntentionalelementref();
+    		return this.verifySelection();
+    	} else if (sel.getSelectionType() == SelectionHelper.ACTOR) {
+    		parentElement = sel.getActor();
+    		element = sel.getActorref();
+    		return this.verifySelection();
+    	} else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {
+    		Responsibility resp = sel.getRespRef().getRespDef();
+    		parentElement = resp;
+    		element = sel.getRespRef();
+    		return this.verifySelection();
+    	} else if (sel.getSelectionType() == SelectionHelper.LINKREF) {
+    		ElementLink el = sel.getLinkref().getLink();
+    		parentElement = null;
+    		element = el;
+    		return this.verifySelection();
+    	} else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF) {
+    		parentElement = sel.getComponent();
+    		element = sel.getComponentref();
+    		return this.verifySelection();
+    	} else if (sel.getSelectionType() == SelectionHelper.EVALUATIONSTRATEGY) {
+    		EvaluationStrategy strategy = sel.getEvaluationStrategy();
+    		StrategiesGroup group = strategy.getGroup();
+    		element = strategy;
+    		parentElement = group;
+    		if( JUCMNavPlugin.isInDebug() ) System.out.println( "strategy selected name: " + element.getName());
+    		return this.verifySelection();
+    	} else if ( (element = sel.getURNmodelElement()) != null ) {
+    		parentElement = null;
+    		if( JUCMNavPlugin.isInDebug() ) {
+    			System.out.println( "element = sel.getURNmodelElement()) != null type: " + element.getClass().getSimpleName() + " \"" + element.getName() + "\"" 
+    		+ " sel.getSelectionType() = " + sel.getSelectionType() );
+    		}
+    		return true;
+    	} else
     		return false;
     }
 
-    /**
-     * Launches a {@link URNLinksDialog}
-     * 
-     */
+    private boolean verifySelection()
+    {
+		if( element == null && parentElement == null )
+			return false;
+		else
+			return true;
+    }
+    
     public void run() {
     	if( element == null && parentElement == null )
     		return; // sanity check
     	EditURNLink ul = new EditURNLink();
         ul.editLink( getCommandStack(), element, parentElement, editPart );
     }
-
 }
