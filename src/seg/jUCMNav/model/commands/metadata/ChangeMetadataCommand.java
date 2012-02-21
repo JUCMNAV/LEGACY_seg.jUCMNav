@@ -59,7 +59,7 @@ public class ChangeMetadataCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urnelem != null : "post no elemement to name!"; //$NON-NLS-1$
+        assert urnelem != null : "post no element to name!"; //$NON-NLS-1$
     }
 
     /*
@@ -68,7 +68,7 @@ public class ChangeMetadataCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urnelem != null : "pre no elemement to name!"; //$NON-NLS-1$
+        assert urnelem != null : "pre no element to name!"; //$NON-NLS-1$
 
     }
 

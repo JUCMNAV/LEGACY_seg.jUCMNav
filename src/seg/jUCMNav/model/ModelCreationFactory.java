@@ -704,7 +704,7 @@ public class ModelCreationFactory implements CreationFactory {
         indicatorGroup.setIsRedesignCategory(true);
         urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
 
-//        initializeStereotypeDefinitions( urnspec );
+        initializeStereotypeDefinitions( urnspec );
         
         result = urnspec;
         return result;

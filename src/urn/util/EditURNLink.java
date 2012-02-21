@@ -346,7 +346,7 @@ public class EditURNLink {
     	menu.setVisible(true);
     }
 	
-	public static String className( URNmodelElement element )
+	private String className( URNmodelElement element )
 	{
 	    String className = element.getClass().getSimpleName();
 	    return className.substring( 0, className.length()-4 );  // strip suffix 'Impl' from class name
@@ -365,7 +365,8 @@ public class EditURNLink {
 		fromElement = element;
 		
 	}
-	public static URNspec getURNspec( URNmodelElement element )
+	
+	private URNspec getURNspec( URNmodelElement element )
 	{
 		URNspec urnspec = null;
 		
