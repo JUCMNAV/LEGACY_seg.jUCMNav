@@ -65,8 +65,11 @@ public class MoveLinkRefBendpointCommand extends Command implements JUCMNavComma
      */
     public void redo() {
         testPreConditions();
-        link.getBendpoints().remove(oldBendpoint);
-        link.getBendpoints().add(index, newBendpoint);
+        if(link.getBendpoints().contains(oldBendpoint))
+        {
+            link.getBendpoints().remove(oldBendpoint);
+            link.getBendpoints().add(index, newBendpoint);
+        }
 
         testPostConditions();
     }
@@ -101,8 +104,11 @@ public class MoveLinkRefBendpointCommand extends Command implements JUCMNavComma
      */
     public void undo() {
         testPostConditions();
-        link.getBendpoints().remove(newBendpoint);
-        link.getBendpoints().add(index, oldBendpoint);
+        if(link.getBendpoints().contains(newBendpoint))
+        {
+            link.getBendpoints().remove(newBendpoint);
+            link.getBendpoints().add(index, oldBendpoint);
+        }
         testPreConditions();
     }
 }
