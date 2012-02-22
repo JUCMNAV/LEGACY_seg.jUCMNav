@@ -115,19 +115,20 @@ public class TagURNElements {
 	private void addTag( String name, String value )
 	{
         Metadata newMetadata;
+        String label = "Add Tag";
+        
         EList mdList = parentElement.getMetadata();
+        int newSize = mdList.size() + 1;
+        Metadata [] mdArray = (Metadata[]) mdList.toArray(new Metadata[newSize]);
         
 		if( JUCMNavPlugin.isInDebug() ) System.out.println( " addTag called name: \"" + name + "\" value:  \"" + value + "\"" );
 
         newMetadata = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
         newMetadata.setName( name );
         newMetadata.setValue( value );
+        mdArray[newSize-1] = newMetadata;
         
-        if( JUCMNavPlugin.isInDebug() ) System.out.println( "md size : " + mdList.size() );
-        mdList.add(newMetadata);
-        if( JUCMNavPlugin.isInDebug() ) System.out.println( "md size : " + mdList.size() );
-        
-        Command cmd = new ChangeMetadataCommand( parentElement, (Metadata[]) mdList.toArray(new Metadata[0]) );
+        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, label );
 	
         if (cmd.canExecute()) {
         	commandStack.execute(cmd);
@@ -136,25 +137,27 @@ public class TagURNElements {
 	
 	private void removeTag( String name, String value )
 	{
-		Metadata deletedMD = null;
+		int newSize, i = 0;
+        String label = "Remove Tag";
+
         EList mdList = parentElement.getMetadata();
-		
+        newSize = mdList.size() - 1;
+        Metadata [] mdArray = new Metadata[newSize];
+        
 		for( Iterator iter = mdList.iterator(); iter.hasNext();) {
-			Metadata md = (Metadata) iter.next();	
+			Metadata md = (Metadata) iter.next();
+			boolean tagMatches = false;
 			if(md.getName().equalsIgnoreCase( name )){
 				if( md.getValue().equalsIgnoreCase( value )) {
-					deletedMD = md;
-					break;
+					tagMatches = true;
 				}
 			}
+			if( !tagMatches ) {
+				mdArray[i++] = md;
+			}
 		}
-		
-		if( deletedMD == null )
-			return;
-		
-		mdList.remove( deletedMD );
-		
-        Command cmd = new ChangeMetadataCommand( parentElement, (Metadata[]) mdList.toArray(new Metadata[0]) );
+				
+        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, label );
     	
         if (cmd.canExecute()) {
         	commandStack.execute(cmd);

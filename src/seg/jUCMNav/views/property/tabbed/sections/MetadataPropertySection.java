@@ -40,7 +40,7 @@ public class MetadataPropertySection extends AbstractWizardPropertySection {
                         CompoundCommand cmd = new CompoundCommand();
                         for (Iterator iter = metadataMap.entrySet().iterator(); iter.hasNext();) {
                             Map.Entry entry = (Map.Entry) iter.next();
-                            cmd.add(new ChangeMetadataCommand((EObject) entry.getKey(), (Metadata[]) entry.getValue()));
+                            cmd.add(new ChangeMetadataCommand((EObject) entry.getKey(), (Metadata[]) entry.getValue(), null));
                         }
 
                         if (cmd.canExecute()) {

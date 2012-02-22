@@ -703,50 +703,9 @@ public class ModelCreationFactory implements CreationFactory {
         indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.flexibility")); //$NON-NLS-1$
         indicatorGroup.setIsRedesignCategory(true);
         urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
-
-        initializeStereotypeDefinitions( urnspec );
         
         result = urnspec;
         return result;
     }
 
-    private static void initializeStereotypeDefinitions( URNspec urnspec ) {
-    	// temporary method which populates a new URNspec with metadata for Stereotype Definitions
-    	
-		if( JUCMNavPlugin.isInDebug() ) System.out.println( "initializeStereotypeDefinitions called " );
-
-    	
-    	if( urnspec.getMetadata().size() > 0 ) {
-    		for( Iterator iter = urnspec.getMetadata().iterator(); iter.hasNext();) {
-    			Metadata md = (Metadata) iter.next();	
-    			if(md.getName().equalsIgnoreCase( "StereotypeDef" )){
-    					return;
-    			}
-    		}    		
-    	}
-    	
-//    	name="StereotypeDef", value="ST_CLASSTYPE,CLASS1,IntentionalElement"
-//    	name="StereotypeDef", value="ST_CLASSTYPE,CLASS2,IntentionalElement"
-//    	name="StereotypeDef", value="ST_CLASSTYPE,OTHER,IntentionalElement"
-//    	name="StereotypeDef", value="acceptStereotype,CLASS1,EvaluationStrategy"
-//    	name="StereotypeDef", value="acceptStereotype,CLASS2,EvaluationStrategy"
-//    	name="StereotypeDef", value="acceptStereotype,OTHER,EvaluationStrategy"
-
-    	String [] values = { "ST_CLASSTYPE,CLASS1,IntentionalElement", "ST_CLASSTYPE,CLASS2,IntentionalElement", "ST_CLASSTYPE,OTHER,IntentionalElement",
-    			"acceptStereotype,CLASS1,EvaluationStrategy", "acceptStereotype,CLASS2,EvaluationStrategy", "acceptStereotype,OTHER,EvaluationStrategy"
-    	};
-    	
-    	// populate with stereotypes
-        Metadata newMetadata;
-        
-        for( int i = 0; i < values.length; i++ ) {
-        	newMetadata = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
-        	newMetadata.setName("StereotypeDef");
-        	newMetadata.setValue(values[i]);
-        	urnspec.getMetadata().add(newMetadata);
-        }
-        
-		if( JUCMNavPlugin.isInDebug() ) System.out.println( "initializeStereotypeDefinitions urn metadata size: " + urnspec.getMetadata().size() );
-
-    }
 }

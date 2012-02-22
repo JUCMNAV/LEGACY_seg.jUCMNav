@@ -43,6 +43,7 @@ import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.AddResponsibilityAction;
 import seg.jUCMNav.actions.AddStartPointAction;
+import seg.jUCMNav.actions.AddStereotypeDefinitionsAction;
 import seg.jUCMNav.actions.AddStubAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.AddWaitingPlaceAction;
@@ -488,6 +489,10 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.tagElement")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
+        action = new AddStereotypeDefinitionsAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addStereotypeDefinitions")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
         action = new ChangeCorrelationAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.changeCorrelation")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

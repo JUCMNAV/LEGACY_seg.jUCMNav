@@ -31,6 +31,7 @@ public class TagElementAction extends URNSelectionAction {
 	public TagElementAction(IWorkbenchPart part) {
 		super(part);
 		setId(TAG_ELEMENT_ACTION);
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Metadata.gif")); //$NON-NLS-1$
 	}
 
     protected boolean calculateEnabled() {

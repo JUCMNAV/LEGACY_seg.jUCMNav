@@ -6,6 +6,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import urn.URNspec;
 import urncore.Metadata;
 import urncore.URNmodelElement;
 
@@ -15,15 +16,25 @@ import urncore.URNmodelElement;
  * @author pchen
  */
 public class ChangeMetadataCommand extends Command implements JUCMNavCommand {
-    private URNmodelElement urnelem;
+    private URNmodelElement urnelem = null;
+    private URNspec urnspec = null;
     private Metadata[] oldMetadataArray;
     private Metadata[] newMetadataArray;
 
-    public ChangeMetadataCommand(EObject obj, Metadata[] metadataArray) {
-        if (obj instanceof URNmodelElement) {
-            this.urnelem = (URNmodelElement) obj;
+    public ChangeMetadataCommand(EObject obj, Metadata[] metadataArray, String label) {
+        if ( (obj instanceof URNmodelElement) || (obj instanceof URNspec) ) {
+        	
+        	if(obj instanceof URNmodelElement)
+        		this.urnelem = (URNmodelElement) obj;
+        	else
+        		this.urnspec = (URNspec) obj;
+        	
             this.newMetadataArray = metadataArray;
-            setLabel(Messages.getString("ChangeMetadataCommand.ChangeURNmodelElementMetadata")); //$NON-NLS-1$
+            
+            if( label != null)
+            	setLabel( label );
+            else
+            	setLabel(Messages.getString("ChangeMetadataCommand.ChangeURNmodelElementMetadata")); //$NON-NLS-1$
         }
     }
 
@@ -31,7 +42,7 @@ public class ChangeMetadataCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        EList metadata = urnelem.getMetadata();
+        EList metadata = this.getMetadata();
         oldMetadataArray = (Metadata[]) metadata.toArray(new Metadata[0]);
         redo();
     }
@@ -44,7 +55,7 @@ public class ChangeMetadataCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
 
-        EList metadata = urnelem.getMetadata();
+        EList metadata = this.getMetadata();
         metadata.clear();
         for (int i = 0; i < newMetadataArray.length; i++) {
             metadata.add(newMetadataArray[i]);
@@ -59,7 +70,7 @@ public class ChangeMetadataCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urnelem != null : "post no element to name!"; //$NON-NLS-1$
+        assert urnelem != null || urnspec != null : "post no element to name!"; //$NON-NLS-1$
     }
 
     /*
@@ -68,8 +79,7 @@ public class ChangeMetadataCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urnelem != null : "pre no element to name!"; //$NON-NLS-1$
-
+        assert urnelem != null || urnspec != null : "pre no element to name!"; //$NON-NLS-1$
     }
 
     /**
@@ -78,12 +88,19 @@ public class ChangeMetadataCommand extends Command implements JUCMNavCommand {
     public void undo() {
         testPostConditions();
 
-        EList metadata = urnelem.getMetadata();
+        EList metadata = this.getMetadata();
         metadata.clear();
         for (int i = 0; i < oldMetadataArray.length; i++) {
             metadata.add(oldMetadataArray[i]);
         }
 
         testPreConditions();
+    }
+    
+    private EList getMetadata() {
+    	if( urnelem != null )
+    		return( urnelem.getMetadata() );
+    	else
+    		return( urnspec.getMetadata() );
     }
 }

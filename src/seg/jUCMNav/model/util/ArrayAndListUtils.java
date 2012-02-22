@@ -2,6 +2,8 @@ package seg.jUCMNav.model.util;
 
 import java.util.List;
 
+import urncore.Metadata;
+
 /**
  * A few utility methods for arrays and lists.
  * 
@@ -32,4 +34,22 @@ public class ArrayAndListUtils {
         }
         return result.toString();
     }
+
+	public static Metadata[] concatenateArrays(Metadata[] first, Metadata[] second) {
+		
+		int i = 0;
+		Metadata [] combined = new Metadata[ first.length + second.length ];
+		
+		for( int k = 0; k < first.length; k++) {
+			combined[i] = first[k];
+			i++;
+		}
+		
+		for( int k = 0; k < second.length; k++) {
+			combined[i] = second[k];
+			i++;
+		}
+		
+		return combined;
+	}
 }

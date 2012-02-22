@@ -40,24 +40,26 @@
                id="seg.jUCMNav">
             <separator name="ext"/>
          </menu>
+   <action
+         actionID="seg.jUCMNav.actions.AutoLayoutActionDelegate"
+         class="seg.jUCMNav.actions.AdvancedModeActionDelegate"
+         icon="icons/advanced.gif"
+         id="seg.jUCMNav.AdvancedMode"
+         label="jUCMNav Advanced Mode"
+         menubarPath="seg.jUCMNav/ext"
+         style="toggle"
+         toolbarPath="jUCMNav"
+         tooltip="Toggle jUCMNav&apos;s advanced mode. ">
+   </action>
          <action
-               actionID="seg.jUCMNav.actions.AddMapAction"
+               actionID="seg.jUCMNav.actions.AddStereotypeDefinitionsAction"
                class="seg.jUCMNav.actions.UCMActionDelegate"
-               icon="icons/ucm16.gif"
-               id="seg.jUCMNav.AddMap"
-               label="%AddUseCaseMap"
+               icon="src/seg/jUCMNav/icons/Metadata.gif"
+               id="seg.jUCMNav.AddStereotypeDefinitions"
+               label="%AddStereotypeDefinitions"
                menubarPath="seg.jUCMnav/ext"
                style="push"
-               tooltip="%AddUseCaseMap"/>
-         <action
-               actionID="seg.jUCMNav.actions.AddGrlGraphAction"
-               class="seg.jUCMNav.actions.UCMActionDelegate"
-               icon="icons/grl16.gif"
-               id="seg.jUCMNav.AddGrlGraph"
-               label="%AddGrlDiagram"
-               menubarPath="seg.jUCMnav/ext"
-               style="push"
-               tooltip="%AddGrlDiagram"/>
+               tooltip="%AddStereotypeDefinitions"/>
          <action
                actionID="seg.jUCMNav.actions.scenarios.VerifySyntaxActionDelegate"
                class="seg.jUCMNav.actions.scenarios.VerifySyntaxActionDelegate"
@@ -86,17 +88,24 @@
          style="push"
          tooltip="%CalculateMetrics">
    </action>
-   <action
-         actionID="seg.jUCMNav.actions.AutoLayoutActionDelegate"
-         class="seg.jUCMNav.actions.AdvancedModeActionDelegate"
-         icon="icons/advanced.gif"
-         id="seg.jUCMNav.AdvancedMode"
-         label="jUCMNav Advanced Mode"
-         menubarPath="seg.jUCMNav/ext"
-         style="toggle"
-         toolbarPath="jUCMNav"
-         tooltip="Toggle jUCMNav&apos;s advanced mode. ">
-   </action>
+         <action
+               actionID="seg.jUCMNav.actions.AddMapAction"
+               class="seg.jUCMNav.actions.UCMActionDelegate"
+               icon="icons/ucm16.gif"
+               id="seg.jUCMNav.AddMap"
+               label="%AddUseCaseMap"
+               menubarPath="seg.jUCMnav/ext"
+               style="push"
+               tooltip="%AddUseCaseMap"/>
+         <action
+               actionID="seg.jUCMNav.actions.AddGrlGraphAction"
+               class="seg.jUCMNav.actions.UCMActionDelegate"
+               icon="icons/grl16.gif"
+               id="seg.jUCMNav.AddGrlGraph"
+               label="%AddGrlDiagram"
+               menubarPath="seg.jUCMnav/ext"
+               style="push"
+               tooltip="%AddGrlDiagram"/>
                
       </editorContribution>
    </extension>
