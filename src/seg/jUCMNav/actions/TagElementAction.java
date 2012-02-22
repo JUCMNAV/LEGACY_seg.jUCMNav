@@ -21,6 +21,12 @@ import urncore.Metadata;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 
+/**
+ * Adds or removes stereotype tags to/from URN model elements.
+ * 
+ * @author amiga
+ */
+
 public class TagElementAction extends URNSelectionAction {
 
     public static final String TAG_ELEMENT_ACTION = "seg.jUCMNav.TagElementAction"; //$NON-NLS-1$
@@ -59,9 +65,6 @@ public class TagElementAction extends URNSelectionAction {
     			if(md.getName().equalsIgnoreCase( "StereotypeDef" )){
     				if( md.getValue().contains(className))
     					return true;
-    				else {
-    					if(  JUCMNavPlugin.isInDebug() ) System.out.println( "md.getValue(): " + md.getValue() + " class: " + className );
-    				}
     			}
     		}    		
     	}
@@ -109,5 +112,4 @@ public class TagElementAction extends URNSelectionAction {
         
         return urnspec;
 	}
-
 }

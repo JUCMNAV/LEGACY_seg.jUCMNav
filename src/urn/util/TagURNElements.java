@@ -14,12 +14,19 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.metadata.ChangeMetadataCommand;
 import urn.URNspec;
 import urn.impl.URNlinkImpl;
 import urncore.Metadata;
 import urncore.URNmodelElement;
+
+/**
+ * Adds or removes stereotype tags to/from URN model elements.
+ * 
+ * @author amiga
+ */
 
 public class TagURNElements {
 
@@ -115,20 +122,17 @@ public class TagURNElements {
 	private void addTag( String name, String value )
 	{
         Metadata newMetadata;
-        String label = "Add Tag";
         
         EList mdList = parentElement.getMetadata();
         int newSize = mdList.size() + 1;
         Metadata [] mdArray = (Metadata[]) mdList.toArray(new Metadata[newSize]);
         
-		if( JUCMNavPlugin.isInDebug() ) System.out.println( " addTag called name: \"" + name + "\" value:  \"" + value + "\"" );
-
         newMetadata = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
         newMetadata.setName( name );
         newMetadata.setValue( value );
         mdArray[newSize-1] = newMetadata;
         
-        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, label );
+        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, Messages.getString("TagURNElements.addTag") );
 	
         if (cmd.canExecute()) {
         	commandStack.execute(cmd);
@@ -138,7 +142,6 @@ public class TagURNElements {
 	private void removeTag( String name, String value )
 	{
 		int newSize, i = 0;
-        String label = "Remove Tag";
 
         EList mdList = parentElement.getMetadata();
         newSize = mdList.size() - 1;
@@ -157,7 +160,7 @@ public class TagURNElements {
 			}
 		}
 				
-        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, label );
+        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, Messages.getString("TagURNElements.removeTag") );
     	
         if (cmd.canExecute()) {
         	commandStack.execute(cmd);
@@ -169,5 +172,4 @@ public class TagURNElements {
 	    String className = element.getClass().getSimpleName();
 	    return className.substring( 0, className.length()-4 );  // strip suffix 'Impl' from class name
 	}
-
 }

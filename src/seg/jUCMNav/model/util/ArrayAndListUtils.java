@@ -11,6 +11,7 @@ import urncore.Metadata;
  * 
  */
 public class ArrayAndListUtils {
+	
     public static String arrayToString(Object[] a, String separator) {
         StringBuffer result = new StringBuffer();
         if (a.length > 0) {
@@ -35,20 +36,12 @@ public class ArrayAndListUtils {
         return result.toString();
     }
 
-	public static Metadata[] concatenateArrays(Metadata[] first, Metadata[] second) {
+	public static Metadata[] concatenateArrays( Metadata[] first, Metadata[] second ) {
 		
-		int i = 0;
 		Metadata [] combined = new Metadata[ first.length + second.length ];
 		
-		for( int k = 0; k < first.length; k++) {
-			combined[i] = first[k];
-			i++;
-		}
-		
-		for( int k = 0; k < second.length; k++) {
-			combined[i] = second[k];
-			i++;
-		}
+		System.arraycopy( first, 0, combined, 0, first.length );
+		System.arraycopy( second, 0, combined, first.length, second.length );
 		
 		return combined;
 	}

@@ -6,11 +6,18 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.metadata.ChangeMetadataCommand;
 import seg.jUCMNav.model.util.ArrayAndListUtils;
 import urn.URNspec;
 import urncore.Metadata;
+
+/**
+ * Adds stereotype definitions to a URN spec.
+ * 
+ * @author amiga
+ */
 
 public class AddStereotypeDefinitionsAction extends URNSelectionAction {
 
@@ -48,13 +55,9 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
         
         Metadata [] sdList = this.getStereotypeDefinitions(urnspec);
         Metadata [] mdList = (Metadata[]) urnspec.getMetadata().toArray(new Metadata[0]);
+        Metadata[] combinedList = ArrayAndListUtils.concatenateArrays( mdList, sdList );
         
-        Metadata[] combinedList = (Metadata[]) ArrayAndListUtils.concatenateArrays( mdList, sdList );
-
-        
-        String label = "Add Stereotype Definitions";
-        
-        Command cmd = new ChangeMetadataCommand( urnspec, combinedList, label );
+        Command cmd = new ChangeMetadataCommand( urnspec, combinedList, Messages.getString("ActionRegistryManager.addStereotypeDefinitions") );
         
         return cmd;
     }
@@ -74,8 +77,6 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
     }
     
     protected Metadata [] getStereotypeDefinitions( URNspec urnspec ) {    	
-//		if( JUCMNavPlugin.isInDebug() ) System.out.println( "addStereotypeDefinitions called " );
-    	 	
 //    	name="StereotypeDef", value="ST_CLASSTYPE,CLASS1,IntentionalElement"
 //    	name="StereotypeDef", value="ST_CLASSTYPE,CLASS2,IntentionalElement"
 //    	name="StereotypeDef", value="ST_CLASSTYPE,OTHER,IntentionalElement"
@@ -98,9 +99,6 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
         }
         
         return mdList;
-        
-//		if( JUCMNavPlugin.isInDebug() ) System.out.println( "addStereotypeDefinitions urn metadata size: " + urnspec.getMetadata().size() );
-
     }
 
 }
