@@ -436,8 +436,6 @@ public class EditURNLink {
     	if( (response = typeInput.open()) == null )
     		return;
     	
-//		System.out.println( "The selection was \"" + response + "\"." );
-    	
 		if( (oldType != null) && (response.compareTo( oldType ) == 0) )
 			return;
 		

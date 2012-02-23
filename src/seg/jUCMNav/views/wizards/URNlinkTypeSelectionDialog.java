@@ -3,6 +3,7 @@ package seg.jUCMNav.views.wizards;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -163,7 +164,6 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 			}
 		});
 		
-		
         renameButton.setText( "Rename Link Type" );
 		
 		size = renameButton.computeSize( SWT.DEFAULT, SWT.DEFAULT );
@@ -172,7 +172,18 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		formData.bottom = new FormAttachment( 100, -5 );
 		renameButton.setLayoutData( formData );
 		
-        deleteButton = new Button( typesListComposite, SWT.PUSH );
+		renameButton.addSelectionListener( new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				renameLinkType();
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});		
+
+		deleteButton = new Button( typesListComposite, SWT.PUSH );
         deleteButton.setText( "Delete Link Type" );
 		
 		size = deleteButton.computeSize( SWT.DEFAULT, SWT.DEFAULT );
@@ -182,17 +193,17 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		deleteButton.setLayoutData( formData );
 		
 		deleteButton.addSelectionListener( new SelectionListener() {
-		      public void widgetSelected(SelectionEvent e) {
-		    	  deleteLinkType();
-		      }
-				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-			});		
+			public void widgetSelected(SelectionEvent e) {
+				deleteLinkType();
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
 
-		this.populateTypesList();
+			}
+		});		
+
+		this.populateTypesList( true );
 		
 		size = typesListComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		formData = new FormData( size.x, size.y );
@@ -292,7 +303,11 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 	{
 		switch( currentMode ) {
 		case EXISTING_TYPE:
-			linkType = new String( (typesList.getSelection())[0] );
+			if( typesList.getSelectionCount() > 0 ) {
+				linkType = new String( (typesList.getSelection())[0] );
+			} else {
+				linkType = null;
+			}
 			break;
 		case NEW_TYPE:
 			linkType = new String( typeEntry.getText() );
@@ -317,7 +332,80 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		newType.setValue( linkType );
 		urn.getMetadata().add( newType );
 	}
-	
+
+	private void renameLinkType()
+	{
+		String title, message, editedType = null;
+		int existingCount;
+		
+		if( typesList.getSelectionCount() == 0 )
+			return;
+		
+		String linkType = typesList.getSelection()[0];
+		
+		// determine how many existing URN Links use this type
+		Vector<URNlink> existingLinks = new Vector<URNlink>();
+
+		for( Iterator iter = urn.getUrnLinks().iterator(); iter.hasNext(); ) {
+			URNlink currentLink = (URNlink) iter.next();
+			if( currentLink.getType() != null ) {
+				if( currentLink.getType().contentEquals(linkType) ) {
+					existingLinks.add(currentLink);
+				}
+			}
+		}
+
+		// allow user to edit existing Type
+		title = "Rename Link Type";
+		
+		if( (existingCount = existingLinks.size()) > 0 ) {
+			StringBuilder messageBuf = new StringBuilder();
+			messageBuf.append( "The selected Link Type \"" + linkType + "\" is referenced by " + existingCount + " URN Link" );
+			if( existingCount == 1 ) {
+				messageBuf.append( ". This reference will be renamed." );
+			} else {
+				messageBuf.append( "s. These references will be renamed." );
+			}
+			message = messageBuf.toString();
+		} else {
+			message = "Please rename the Link Type";
+		}
+
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		InputDialog typeInput = new InputDialog( shell, title, message, linkType, null);
+    	
+		if( typeInput.open() == SWT.CANCEL )
+    		return;
+    	
+    	if( (editedType = typeInput.getValue()) == null)
+    		return;
+    	
+		if( linkType.contentEquals(editedType) )
+			return; // no change to type string
+		
+		Metadata renamedTypeMD = null;
+
+		for( Iterator iter = urn.getMetadata().iterator(); iter.hasNext(); ) {
+			Metadata md = (Metadata) iter.next();
+			if( md.getName().contentEquals( "UrnLinkType" )) {
+				if( md.getValue().contentEquals(linkType)) {
+					renamedTypeMD = md;
+					break;
+				}
+			}
+		}
+
+		if( renamedTypeMD != null ) {
+			renamedTypeMD.setValue(editedType);
+		}
+		
+		for( URNlink el : existingLinks ) {
+			el.setType( editedType );
+		}
+		
+		this.populateTypesList( false );
+	}
+
 	private void deleteLinkType()
 	{
 		final int CANCEL = 0;
@@ -379,20 +467,36 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		if( deletedType != null ) {
 			urn.getMetadata().remove(deletedType);
 		}
-		this.populateTypesList();
+		this.populateTypesList( false );
 	}
 	
 	
 	
-	private void populateTypesList()
+	private void populateTypesList( boolean highlight )
 	{
+		int index = 0;
+		boolean select = false;
+		
 		if( urn == null ) return;
 		typesList.removeAll();
+
+		if( highlight ) {
+			if( (initialType != null) && !initialType.contentEquals("") ) {
+				select = true;
+			}
+		}
 		
 		for( Iterator iter = urn.getMetadata().iterator(); iter.hasNext(); ) {
 			Metadata md = (Metadata) iter.next();
-			if( md.getName().contentEquals( "UrnLinkType" ))
+			if( md.getName().contentEquals( "UrnLinkType" )) {
 				typesList.add( md.getValue() );
+				if( select ) {
+					if( md.getValue().contentEquals(initialType) ) {
+						typesList.select(index);
+					}
+				}
+				index++;
+			}
 			
 		}
 		
