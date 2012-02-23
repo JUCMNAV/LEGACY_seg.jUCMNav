@@ -1,7 +1,9 @@
 package seg.jUCMNav.views.wizards;
 
 import java.util.Iterator;
+import java.util.Vector;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -21,8 +23,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import urn.URNlink;
 import urn.URNspec;
 import urncore.Metadata;
 
@@ -137,7 +141,6 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		listLabel.setLayoutData( formData );
 		
 		typesList = new List( typesListComposite, SWT.SINGLE | SWT.BORDER | SWT.SCROLL_LINE | SWT.V_SCROLL );
-		this.populateTypesList();
 
 		// forward reference to button at bottom of List for layout binding purposes
 		renameButton = new Button( typesListComposite, SWT.PUSH );
@@ -155,7 +158,9 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		    	  shell.close();
 			}
 			public void mouseDown(MouseEvent e) {}
-			public void mouseUp(MouseEvent e) {}
+			public void mouseUp(MouseEvent e) {
+				
+			}
 		});
 		
 		
@@ -175,6 +180,19 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		formData.left = new FormAttachment( renameButton, 5 );
 		formData.bottom = new FormAttachment( 100, -5 );
 		deleteButton.setLayoutData( formData );
+		
+		deleteButton.addSelectionListener( new SelectionListener() {
+		      public void widgetSelected(SelectionEvent e) {
+		    	  deleteLinkType();
+		      }
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});		
+
+		this.populateTypesList();
 		
 		size = typesListComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		formData = new FormData( size.x, size.y );
@@ -300,16 +318,86 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		urn.getMetadata().add( newType );
 	}
 	
+	private void deleteLinkType()
+	{
+		final int CANCEL = 0;
+		final int SET_EMPTY = 1;
+		final int NO_CHANGE = 2;
+		int existingCount, userChoice = CANCEL;
+
+		if( typesList.getSelectionCount() == 0 )
+			return;
+		
+		String linkType = typesList.getSelection()[0];
+		
+		// determine how many existing URN Links use this type
+		Vector<URNlink> existingLinks = new Vector<URNlink>();
+
+		for( Iterator iter = urn.getUrnLinks().iterator(); iter.hasNext(); ) {
+			URNlink currentLink = (URNlink) iter.next();
+			if( currentLink.getType() != null ) {
+				if( currentLink.getType().contentEquals(linkType) ) {
+					existingLinks.add(currentLink);
+				}
+			}
+		}
+		
+		if( (existingCount = existingLinks.size()) > 0 ) {
+			// prompt use how to handle deletion of referenced links, provide Cancel option
+			
+			final String title = "Deletion of Referenced URN Link Type";
+			final String message = "The selected Link Type \"" + linkType + "\" is referenced by " + existingCount + " URN Link" + ((existingCount == 1) ? "" : "s") 
+					+ ". Do you wish to set these references to empty strings or leave them untouched ? Warning: This operation is not undoable";
+			final String[] labels = { "Cancel Delete", "Set to empty string", "Leave untouched" };
+
+			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog md = new MessageDialog( shell, title, null, message, MessageDialog.QUESTION, labels, CANCEL );
+			md.create();
+			userChoice = md.open();
+
+			if( userChoice == CANCEL) {
+				return;
+			} else if( userChoice == SET_EMPTY ) {
+				for( URNlink el : existingLinks ) {
+						el.setType( "" );
+				}				
+			}
+		}
+		
+		Metadata deletedType = null;
+
+		for( Iterator iter = urn.getMetadata().iterator(); iter.hasNext(); ) {
+			Metadata md = (Metadata) iter.next();
+			if( md.getName().contentEquals( "UrnLinkType" )) {
+				if( md.getValue().contentEquals(linkType)) {
+					deletedType = md;
+					break;
+				}
+			}
+		}
+
+		if( deletedType != null ) {
+			urn.getMetadata().remove(deletedType);
+		}
+		this.populateTypesList();
+	}
+	
+	
+	
 	private void populateTypesList()
 	{
 		if( urn == null ) return;
-
+		typesList.removeAll();
+		
 		for( Iterator iter = urn.getMetadata().iterator(); iter.hasNext(); ) {
 			Metadata md = (Metadata) iter.next();
 			if( md.getName().contentEquals( "UrnLinkType" ))
 				typesList.add( md.getValue() );
 			
 		}
+		
+//		renameButton.setEnabled( false );
+//		deleteButton.setEnabled( false );	
 	}
 	
 	public static void main(String[] args) {
