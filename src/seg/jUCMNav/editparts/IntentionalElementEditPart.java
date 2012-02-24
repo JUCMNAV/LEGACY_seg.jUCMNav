@@ -248,7 +248,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
-    	if (getParent() == null)
+    	if (getParent() == null || getNode().getDef() == null)
     		return;
     	refreshTargetConnections();
     	refreshSourceConnections();

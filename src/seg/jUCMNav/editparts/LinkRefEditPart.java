@@ -368,7 +368,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
         }
         
         // Check if link should be grayed out in strategy view
-        if( ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView() ) {
+        if( getRoot()!=null && ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView() ) {
             if (getLinkRef()!=null && getLinkRef().getLink()!=null) {
         	if( getLinkRef().getLink().getDest() instanceof IntentionalElement || getLinkRef().getLink().getSrc() instanceof IntentionalElement) {
             		if( EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getDest() )
