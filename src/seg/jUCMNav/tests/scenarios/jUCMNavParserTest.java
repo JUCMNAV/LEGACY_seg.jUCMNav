@@ -46,6 +46,9 @@ public class jUCMNavParserTest extends TestCase {
         env.registerInteger("i", 3); //$NON-NLS-1$
         env.registerInteger("j", 4); //$NON-NLS-1$
         env.registerInteger("k", 0); //$NON-NLS-1$
+        
+        // new in bug506
+        env.registerBoolean("initial", false);
 
         env.registerEnumeration("ApplicationStates", new String[] { "INITIAL", "WORKING", "DONE" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         env.registerEnumeration("AdmissionProcessStates", new String[] { "INITIAL", "REVIEWING", "INVITED", "DENIED" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
@@ -106,7 +109,7 @@ public class jUCMNavParserTest extends TestCase {
 
         if (!isResponsibility && !shouldFail && !shouldFailTypeCheck) {
             try {
-                boolean actualresult = ((Boolean) UcmExpressionEvaluator.evaluate(n, env)).booleanValue();
+                boolean actualresult = UcmExpressionEvaluator.evaluate(n, env).booleanValue();
                 System.out.println("Evaluates to: "); //$NON-NLS-1$
                 n.dumpEvaluation("", env); //$NON-NLS-1$
                 assertEquals(result, actualresult);
@@ -828,5 +831,16 @@ public class jUCMNavParserTest extends TestCase {
      * 
      * END OF RESPONSIBILITY TESTS
      */
+    
+    
+    // initial is now both a variable (bool) and an enumeration value
+    public void testHybridType1()
+    {
+        parseResponsibility("appState=INITIAL;"); // naming ambiguity //$NON-NLS-1$
+        assertEquals(env.getValue("appState"), env.getValue("INITIAL")); //$NON-NLS-1$ //$NON-NLS-2$
+
+        result = true;
+        parse("initial == false");
+    }
 
 }

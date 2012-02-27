@@ -15,6 +15,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.scenarios.evaluator.UcmExpressionValue;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.UCMspec;
@@ -134,26 +135,30 @@ public class UcmEnvironment implements Adapter, Cloneable {
     public jUCMNavType checkVariableExists(String var) {
         var = var.toLowerCase();
         Object type = declarations.get(var);
-        if (type == null || !(type instanceof jUCMNavType)) {
-            for (Iterator iter = enumerations.keySet().iterator(); iter.hasNext();) {
-                String enumName = (String) iter.next();
-                String[] values = (String[]) enumerations.get(enumName);
+  
+                
+        // removed for bug 506. 
+        //if (type == null || !(type instanceof jUCMNavType)) {
 
-                for (int i = 0; i < values.length; i++) {
-                    String val = values[i];
-                    if (val.equalsIgnoreCase(var)) {
-                        if (type == null)
-                            type = new jUCMNavType(jUCMNavType.ENUMERATION + enumName);
-                        else
-                            ((jUCMNavType) type).addEnumerationType(jUCMNavType.ENUMERATION + enumName);
-                    }
+        for (Iterator iter = enumerations.keySet().iterator(); iter.hasNext();) {
+            String enumName = (String) iter.next();
+            String[] values = (String[]) enumerations.get(enumName);
 
+            for (int i = 0; i < values.length; i++) {
+                String val = values[i];
+                if (val.equalsIgnoreCase(var)) {
+                    if (type == null)
+                        type = new jUCMNavType(jUCMNavType.ENUMERATION + enumName);
+                    else
+                        ((jUCMNavType) type).addEnumerationType(jUCMNavType.ENUMERATION + enumName);
                 }
-            }
-            if (type == null)
-                throw new IllegalArgumentException(Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.IsNotDefined")); //$NON-NLS-1$ //$NON-NLS-2$
 
+            }
         }
+        if (type == null)
+            throw new IllegalArgumentException(Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.IsNotDefined")); //$NON-NLS-1$ //$NON-NLS-2$
+
+        //}
         return (jUCMNavType) type;
     }
 
@@ -219,7 +224,7 @@ public class UcmEnvironment implements Adapter, Cloneable {
         var = var.toLowerCase();
         checkVariableDoesNotExist(var);
         declarations.put(var, jUCMNavType.BOOLEAN);
-        valuations.put(var, Boolean.valueOf(b));
+        valuations.put(var, new UcmExpressionValue(b));
     }
 
     /**
@@ -300,7 +305,7 @@ public class UcmEnvironment implements Adapter, Cloneable {
         checkEnumerationValueExists(enumName, value);
 
         declarations.put(var, new jUCMNavType(jUCMNavType.ENUMERATION + enumName));
-        valuations.put(var, value);
+        valuations.put(var, new UcmExpressionValue(value));
     }
 
     /**
@@ -325,7 +330,7 @@ public class UcmEnvironment implements Adapter, Cloneable {
         var = var.toLowerCase();
         checkVariableDoesNotExist(var);
         declarations.put(var, jUCMNavType.INTEGER);
-        valuations.put(var, new Integer(i));
+        valuations.put(var, new UcmExpressionValue(i));
     }
 
     /**
@@ -336,19 +341,57 @@ public class UcmEnvironment implements Adapter, Cloneable {
      * @return its valuation.
      */
     public Object getValue(String var) {
+        return getValue(var, false);
+    }
+    /**
+     * Returns the value of a variable in the environment.
+     * 
+     * @param var
+     *            the variable name
+     * @return its valuation.
+     */
+    public UcmExpressionValue getValue(String var, boolean returnUcmExpressionValue) {
         String lower = var.toLowerCase();
 
-        Object result = valuations.get(lower);
-        if (result == null) {
-            result = declarations.get(lower);
-
-            if (result != null) {// || result.toString().indexOf(jUCMNavType.ENUMERATION)>=0) {
-                throw new IllegalArgumentException(
-                        Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.HasNoValuation")); //$NON-NLS-1$ //$NON-NLS-2$
-            } else
-                result = lower;
+        UcmExpressionValue result = (UcmExpressionValue)valuations.get(lower);
+        
+        if (!returnUcmExpressionValue) {
+            if (result == null) {
+                Object result2 = declarations.get(lower);
+    
+                if (result2 != null) {// || result.toString().indexOf(jUCMNavType.ENUMERATION)>=0) {
+                    throw new IllegalArgumentException(
+                            Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.HasNoValuation")); //$NON-NLS-1$ //$NON-NLS-2$
+                } else
+                    result = new UcmExpressionValue(lower);
+            }
+            return result;
         }
-        return result;
+        else
+        {
+            UcmExpressionValue value  = UcmExpressionValue.loadFromObject(result);
+
+            // if we don't have a value by default. 
+            if (value.getSecondaryEnumerationValue() == null || value.getSecondaryEnumerationValue().length()==0)
+            {
+                boolean found = false;
+                for (Iterator it = enumerations.values().iterator(); it.hasNext();) {
+                    String[] enumValues = (String[]) it.next();
+                    for (int i = 0; i < enumValues.length; i++) {
+                        if (enumValues[i].equalsIgnoreCase(var))
+                            found = true;
+                    }
+                }
+                
+                if (!found)  {
+                    value.setSecondaryEnumerationValue(null); // ensure is null and not empty. 
+                }
+                else
+                    value.setSecondaryEnumerationValue(var); // could be both a var name and an enum value.
+            }
+         
+            return value;
+        }
     }
 
     /**
@@ -359,9 +402,13 @@ public class UcmEnvironment implements Adapter, Cloneable {
      * @param o
      *            the valuation
      */
-    public void setValue(String var, Object o) {
+    public void setValue(String var, UcmExpressionValue o) {
         var = var.toLowerCase();
-        valuations.put(var, o);
+        
+        if (o == null)
+            valuations.put(var, null);
+        else  
+            valuations.put(var, o);
     }
 
     /*
@@ -512,12 +559,12 @@ public class UcmEnvironment implements Adapter, Cloneable {
                 String name = var.getName().toLowerCase();
                 if (ScenarioUtils.sTypeBoolean.equals(var.getType())) {
                     if (oldValuations.containsKey(name))
-                        this.registerBoolean(name, ((Boolean) oldValuations.get(name)).booleanValue());
+                        this.registerBoolean(name, ((UcmExpressionValue) oldValuations.get(name)).booleanValue());
                     else
                         this.registerBoolean(name);
                 } else if (ScenarioUtils.sTypeInteger.equals(var.getType())) {
                     if (oldValuations.containsKey(name))
-                        this.registerInteger(name, ((Integer) oldValuations.get(name)).intValue());
+                        this.registerInteger(name, ((UcmExpressionValue) oldValuations.get(name)).intValue());
                     else
                         this.registerInteger(name);
                 } else {
@@ -528,7 +575,7 @@ public class UcmEnvironment implements Adapter, Cloneable {
 
                         if (oldValuations.containsKey(name)) {
                             try {
-                                this.registerEnumerationInstance(var.getEnumerationType().getId(), name, oldValuations.get(name).toString());
+                                this.registerEnumerationInstance(var.getEnumerationType().getId(), name, ((UcmExpressionValue)oldValuations.get(name)).getSecondaryEnumerationValue());
                             } catch (IllegalArgumentException ex) {
                                 // bug 698
                                 this.registerEnumerationInstance(var.getEnumerationType().getId(), name);

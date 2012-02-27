@@ -14,6 +14,7 @@ import seg.jUCMNav.model.util.modelexplore.QueryRequest;
 import seg.jUCMNav.model.util.modelexplore.QueryResponse;
 import seg.jUCMNav.scenarios.ScenarioTraversalListenerList;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.scenarios.evaluator.UcmExpressionValue;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
@@ -158,6 +159,7 @@ public abstract class AbstractScenarioTraversal extends AbstractQueryProcessor {
             throws TraversalException {
         try {
             Object result = ScenarioUtils.evaluate(cond, env);
+            
             _listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(result), isPreCondition);
             if (!expected.equals(result)) {
                 TraversalWarning warning = new TraversalWarning(errorMessage, cond.eContainer(), IMarker.SEVERITY_ERROR);

@@ -15,6 +15,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.algorithmInterfaces.IScenarioTraversalAlgorithm;
 import seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener;
 import seg.jUCMNav.scenarios.evaluator.UcmExpressionEvaluator;
+import seg.jUCMNav.scenarios.evaluator.UcmExpressionValue;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
@@ -107,7 +108,17 @@ public class ScenarioUtils {
                 toEvaluate = replaceElseFromCondition(cond);
             }
 
-            return evaluate(toEvaluate, env, false);
+            Object result = evaluate(toEvaluate, env, false);
+            if (result != null) {
+                if (result instanceof UcmExpressionValue)   {
+                    if (((UcmExpressionValue) result).getBaseValue() instanceof Boolean) {
+                        return (Boolean) ((UcmExpressionValue) result).getBaseValue();
+                    }
+                    else
+                        throw new IllegalArgumentException("Condition did not evaluate to a boolean value.");
+                }
+            }
+            return result;
         }
     }
 

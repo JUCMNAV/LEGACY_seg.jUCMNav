@@ -22,12 +22,12 @@ public class UcmExpressionEvaluator {
      *            the environment
      * @return the parsed result (Boolean, Integer, {@link jUCMNavType}, null)
      */
-    public static Object evaluate(SimpleNode root, UcmEnvironment env) {
+    public static UcmExpressionValue evaluate(SimpleNode root, UcmEnvironment env) {
         switch (root.getId()) {
         case jUCMNavParserTreeConstants.JJTSTART:
             return evaluate(((SimpleNode) root.jjtGetChild(0)), env);
         case jUCMNavParserTreeConstants.JJTIFSTATEMENT: {
-            boolean result = ((Boolean) evaluate(((SimpleNode) root.jjtGetChild(0)), env)).booleanValue();
+            boolean result = evaluate(((SimpleNode) root.jjtGetChild(0)), env).booleanValue();
 
             if (result)
                 evaluate(((SimpleNode) root.jjtGetChild(1)), env);
@@ -46,7 +46,7 @@ public class UcmExpressionEvaluator {
         }
         case jUCMNavParserTreeConstants.JJTASSIGNMENT: {
             SimpleNode node = ((SimpleNode) root.jjtGetChild(0));
-            Object value = evaluate(((SimpleNode) root.jjtGetChild(1)), env);
+            UcmExpressionValue value = evaluate(((SimpleNode) root.jjtGetChild(1)), env);
 
             // System.out.println("Setting " + node.getText() + " to " + value );
             env.setValue(node.getText(), value);
@@ -57,7 +57,7 @@ public class UcmExpressionEvaluator {
         case jUCMNavParserTreeConstants.JJTDISJUNCTION:
         case jUCMNavParserTreeConstants.JJTCONJUNCTION: {
 
-            boolean result = ((Boolean) evaluate(((SimpleNode) root.jjtGetChild(0)), env)).booleanValue();
+            boolean result = evaluate(((SimpleNode) root.jjtGetChild(0)), env).booleanValue();
             int operation = root.getId();
 
             for (int i = 1; i < root.jjtGetNumChildren(); i++) {
@@ -70,13 +70,13 @@ public class UcmExpressionEvaluator {
                     break;
                 }
                 default:
-                    boolean result2 = ((Boolean) evaluate(node, env)).booleanValue();
+                    boolean result2 = evaluate(node, env).booleanValue();
                     result = applyBooleanOperation(operation, result, result2);
                 }
 
             }
 
-            return Boolean.valueOf(result);
+            return new UcmExpressionValue(result);
         }
         case jUCMNavParserTreeConstants.JJTCOMPARISON: {
 
@@ -99,24 +99,24 @@ public class UcmExpressionEvaluator {
                     break;
                 }
                 default:
-                    boolean result2 = ((Boolean) evaluate(node, env)).booleanValue();
+                    boolean result2 = evaluate(node, env).booleanValue();
                     if (operation == jUCMNavParserTreeConstants.JJTEQUALITY)
                         result = (result == result2);
                     else
                         result = (result != result2);
                 }
             }
-            return Boolean.valueOf(result);
+            return new UcmExpressionValue(result);
         }
         case jUCMNavParserTreeConstants.JJTNEGATION: {
 
-            boolean result = ((Boolean) evaluate(((SimpleNode) root.jjtGetChild(0)), env)).booleanValue();
-            return Boolean.valueOf(!result);
+            boolean result = evaluate(((SimpleNode) root.jjtGetChild(0)), env).booleanValue();
+            return new UcmExpressionValue(!result);
         }
 
         case jUCMNavParserTreeConstants.JJTRELATIONALEXPRESSION: {
-            int value1 = ((Integer) evaluate(((SimpleNode) root.jjtGetChild(0)), env)).intValue();
-            int value2 = ((Integer) evaluate(((SimpleNode) root.jjtGetChild(2)), env)).intValue();
+            int value1 = evaluate(((SimpleNode) root.jjtGetChild(0)), env).intValue();
+            int value2 = evaluate(((SimpleNode) root.jjtGetChild(2)), env).intValue();
             int operation = ((SimpleNode) root.jjtGetChild(1)).getId();
             boolean result = false;
             switch (operation) {
@@ -140,7 +140,7 @@ public class UcmExpressionEvaluator {
                 throw new IllegalArgumentException(Messages.getString("UcmExpressionEvaluator.UnknownIntegerComparison")); //$NON-NLS-1$
             }
 
-            return Boolean.valueOf(result);
+            return new UcmExpressionValue(result);
         }
         case jUCMNavParserTreeConstants.JJTADDITIVEEXPRESSION: {
 
@@ -155,7 +155,7 @@ public class UcmExpressionEvaluator {
                     break;
                 }
                 default: {
-                    int result2 = ((Integer) evaluate(node, env)).intValue();
+                    int result2 = evaluate(node, env).intValue();
 
                     switch (operation) {
                     case -1: {
@@ -176,7 +176,7 @@ public class UcmExpressionEvaluator {
                 }
             }
 
-            return new Integer(result);
+            return new UcmExpressionValue(result);
         }
         case jUCMNavParserTreeConstants.JJTMULTIPLICATIVEEXPRESSION: {
 
@@ -195,21 +195,21 @@ public class UcmExpressionEvaluator {
                     break;
                 }
                 default: {
-                    int result2 = ((Integer) evaluate(node, env)).intValue();
+                    int result2 = evaluate(node, env).intValue();
 
                     result *= result2;
                 }
                 }
             }
 
-            return new Integer(result);
+            return new UcmExpressionValue(result);
         }
         case jUCMNavParserTreeConstants.JJTBOOLEANCONSTANT:
-            return Boolean.valueOf(root.getText());
+            return  new UcmExpressionValue(Boolean.valueOf(root.getText()).booleanValue());
         case jUCMNavParserTreeConstants.JJTINTEGERCONSTANT:
-            return Integer.valueOf(root.getText());
+            return  new UcmExpressionValue(Integer.valueOf(root.getText()).intValue());
         case jUCMNavParserTreeConstants.JJTIDENTIFIER:
-            return env.getValue(root.getText());
+            return (UcmExpressionValue) env.getValue(root.getText(), true);
         case jUCMNavParserTreeConstants.JJTEXCLUSIVEDISJUNCTION:
         case jUCMNavParserTreeConstants.JJTINCLUSIVEDISJUNCTION:
         case jUCMNavParserTreeConstants.JJTADDITION:
@@ -221,10 +221,10 @@ public class UcmExpressionEvaluator {
         case jUCMNavParserTreeConstants.JJTLOWERTHAN:
         case jUCMNavParserTreeConstants.JJTEQUALITY:
         case jUCMNavParserTreeConstants.JJTINEQUALITY:
-            return jUCMNavType.VOID;
+            return new UcmExpressionValue(jUCMNavType.VOID);
         default:
             System.out.println(Messages.getString("UcmExpressionEvaluator.ErrorUnimplemented")); //$NON-NLS-1$
-            return jUCMNavType.VOID;
+            return new UcmExpressionValue(jUCMNavType.VOID);
         }
 
     }

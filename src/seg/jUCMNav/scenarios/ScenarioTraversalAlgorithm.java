@@ -18,6 +18,7 @@ import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal.ScenarioTraversalQuery;
 import seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal.ScenarioTraversalResponse;
 import seg.jUCMNav.scenarios.algorithmInterfaces.IScenarioTraversalAlgorithm;
+import seg.jUCMNav.scenarios.evaluator.UcmExpressionValue;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
@@ -297,7 +298,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
                 IntentionalElement element = (IntentionalElement) iter.next();
                 Evaluation ev = EvaluationStrategyManager.getInstance().getEvaluationObject(element);
                 if (ev != null) {
-                    env.setValue(URNNamingHelper.getGrlVariableName(element), new Integer(ev.getEvaluation()));
+                    env.setValue(URNNamingHelper.getGrlVariableName(element), new UcmExpressionValue(ev.getEvaluation()));
                 }
             }
         }
@@ -365,21 +366,21 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
                 IntentionalElement element = (IntentionalElement) iter.next();
                 try {
 
-                    Integer i = (Integer) env.getValue(URNNamingHelper.getGrlVariableName(element));
+                    int  i = ((UcmExpressionValue) env.getValue(URNNamingHelper.getGrlVariableName(element), true)).intValue();
 
-                    if (i.intValue() < -100)
+                    if (i < -100)
                         i = new Integer(-100);
-                    else if (i.intValue() > 100)
+                    else if (i > 100)
                         i = new Integer(100);
 
                     // changes source model on existing variables only.
                     // Evaluation ev = EvaluationStrategyManager.getInstance().getEvaluationObject(element);
 
                     Evaluation original = EvaluationStrategyManager.getInstance().getEvaluationObject(element);
-                    if (original == null || original.getEvaluation() != i.intValue()) {
+                    if (original == null || original.getEvaluation() != i) {
                         // never changes source model - just UI changes.
                         Evaluation ev = (Evaluation) ModelCreationFactory.getNewObject(env.getUrn(), Evaluation.class);
-                        ev.setEvaluation(i.intValue());
+                        ev.setEvaluation(i);
                         EvaluationStrategyManager.getInstance().setEvaluationForElement(element, ev);
                     }
                 } catch (Exception ex) {

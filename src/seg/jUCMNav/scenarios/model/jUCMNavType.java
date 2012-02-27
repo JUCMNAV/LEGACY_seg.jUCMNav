@@ -24,7 +24,8 @@ public class jUCMNavType {
     public final static jUCMNavType INTEGER = new jUCMNavType(_INT);
     public final static String ENUMERATION = "#ENUM#"; //$NON-NLS-1$
 
-    private Object type;
+    private ArrayList enumerationList;
+    private String type;
 
     /**
      * Creates a new type. Should be used internally to create void, boolean or Integers. Can be used externally to create enumerations.
@@ -37,7 +38,7 @@ public class jUCMNavType {
         if (s.equals(_VOID) || s.equals(_BOOL) || s.equals(_INT)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             type = s;
         } else if (s.startsWith(ENUMERATION)) {
-            type = new ArrayList();
+            type = ENUMERATION;
             addEnumerationType(s);
         } else
             throw new IllegalArgumentException(Messages.getString("jUCMNavType.InvalidTypeSpecified")); //$NON-NLS-1$
@@ -56,7 +57,8 @@ public class jUCMNavType {
                 throw new IllegalArgumentException(Messages.getString("jUCMNavType.InvalidTypeSpecified")); //$NON-NLS-1$
             }
         }
-        type = al;
+        enumerationList = al;
+        type = ENUMERATION;
     }
 
     /**
@@ -78,35 +80,49 @@ public class jUCMNavType {
      * @return the list of enumerations.
      */
     private ArrayList getEnumerationList() {
-        return ((ArrayList) type);
+        if (enumerationList == null)
+            enumerationList = new ArrayList();
+        return enumerationList;//((ArrayList) type);
     }
 
+    /***
+     * In the past, we had three base types. INT, BOOL and ENUM. Now, because of bug 506, we allow 
+     * enumeration values to have the same name as a variable. Therefore, the base type is that
+     * of the variable, but we also record the potential enumeration. 
+     * @return
+     */
+    public boolean isPotentiallyAnEnumeration()
+    {
+        return type == ENUMERATION || getEnumerationList().size()>0;
+    }
+    
     /**
      * Compares two jUCMNavTypes to determine if they are equal or not. In the case of enumerations, returns true if they can be unified.
      */
     public boolean equals(Object obj) {
         if (obj instanceof jUCMNavType) {
-            Object otherType = ((jUCMNavType) obj).type;
-            if (type instanceof ArrayList || otherType instanceof ArrayList) {
+            jUCMNavType other = (jUCMNavType)obj;
+            String otherType = other.type;
+            if (this.isPotentiallyAnEnumeration() || other.isPotentiallyAnEnumeration()) {
                 ArrayList type1, type2;
-                if (type instanceof ArrayList && otherType instanceof String) {
+                if (this.isPotentiallyAnEnumeration() && !other.isPotentiallyAnEnumeration()) {
                     type1 = new ArrayList(getEnumerationList());
                     type2 = new ArrayList();
                     type2.add(otherType);
-                } else if (otherType instanceof ArrayList && type instanceof String) {
+                } else if (other.isPotentiallyAnEnumeration() && !this.isPotentiallyAnEnumeration()) {
                     type1 = new ArrayList();
                     type1.add(type);
-                    type2 = (ArrayList) otherType;
+                    type2 = other.getEnumerationList();
                 } else {
                     type1 = new ArrayList(getEnumerationList());
-                    type2 = (ArrayList) otherType;
+                    type2 = other.getEnumerationList();
                 }
                 type1.retainAll(type2);
 
                 // do they have anything in common when unified?
                 return type1.size() > 0;
             } else
-                return super.equals(obj);
+                return super.equals(obj); 
 
         } else
             return false;
@@ -133,7 +149,7 @@ public class jUCMNavType {
         else if (this == INTEGER)
             return "integer"; //$NON-NLS-1$
         else
-            // TODO: enumeration
-            return type.toString();
+            return enumerationList.toString();
+            //return type.toString();
     }
 }
