@@ -37,6 +37,7 @@ import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.MoveLinkRefBendpointCommand;
@@ -307,26 +308,6 @@ public class JUCMNavGRLCommandTests extends TestCase {
         cmd = new AddStandardElementLinkCommand(urnspec, ref.getDef(), decomposition);
         ((AddStandardElementLinkCommand) cmd).setTarget(destination.getDef());
         assertTrue("Can't execute AddStandardElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-    }
-
-    public void testAddUrnLinkCommand() {
-        testAddIntentionalElementRefCommand();
-
-        // Create a UCMmap with a component and link it with the element ref
-        Command cmd = new CreateMapCommand(urnspec);
-        UCMmap map = ((CreateMapCommand) cmd).getMap();
-        assertTrue("Can't execute CreateMapCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-
-        ComponentRef compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
-        cmd = new AddContainerRefCommand(map, compRef);
-        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-
-        urnlink = (URNlink) ModelCreationFactory.getNewObject(urnspec, URNlink.class);
-        cmd = new AddUrnLinkCommand(urnspec, urnlink, ref.getDef(), compRef);
-        assertTrue("Can't execute AddUrnLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -618,6 +599,26 @@ public class JUCMNavGRLCommandTests extends TestCase {
         cs.execute(cmd);
     }
 
+    public void testAddUrnLinkCommand() {
+        testAddIntentionalElementRefCommand();
+
+        // Create a UCMmap with a component and link it with the element ref
+        Command cmd = new CreateMapCommand(urnspec);
+        UCMmap map = ((CreateMapCommand) cmd).getMap();
+        assertTrue("Can't execute CreateMapCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        ComponentRef compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
+        cmd = new AddContainerRefCommand(map, compRef);
+        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        urnlink = (URNlink) ModelCreationFactory.getNewObject(urnspec, URNlink.class);
+        cmd = new AddUrnLinkCommand(urnspec, urnlink, ref.getDef(), compRef);
+        assertTrue("Can't execute AddUrnLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
+
     public void testDeleteURNlinkCommand() {
         testAddUrnLinkCommand();
 
@@ -626,6 +627,26 @@ public class JUCMNavGRLCommandTests extends TestCase {
         cs.execute(cmd);
     }
 
+    public void testModifyURNlinkCommand() {
+    	String oldType = "test old URN Link type";
+    	String newType = "test new URN Link type";
+    	
+        testAddUrnLinkCommand();
+        urnlink.setType(oldType);
+        
+        Command cmd = new ModifyUrnLinkCommand(urnlink, newType);
+        assertTrue( "Can't execute ModifyURNlinkCommand.", cmd.canExecute() ); //$NON-NLS-1$
+        
+        cs.execute(cmd);
+        assertTrue( "New URN Link type not set.", urnlink.getType().equals(newType));
+        
+        cs.undo();
+        assertTrue( "Can't undo Modify URN Link.", urnlink.getType().equals(oldType));
+        
+        cs.redo();
+        assertTrue( "Can't redo Modify URN Link.", urnlink.getType().equals(newType));
+        
+    }
     public void testMoveLinkRefBendpointCommand() {
         testAddLinkRefBendpointCommand();
 
