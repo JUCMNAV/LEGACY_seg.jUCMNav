@@ -88,7 +88,7 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
             URI newFile = (new File(this.newFilename)).toURI().normalize();
             URI workspaceFile = ResourcesPlugin.getWorkspace().getRoot().getLocationURI().normalize();
 
-            if (newFile.toString().startsWith(workspaceFile.toString())) {
+            if (newFile.toString().toLowerCase().startsWith(workspaceFile.toString().toLowerCase())) {
                 String path = newFile.toString().substring(workspaceFile.toString().length());
                 path = path.replaceAll("%20", " "); //$NON-NLS-1$ //$NON-NLS-2$
 
