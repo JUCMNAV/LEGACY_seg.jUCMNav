@@ -3,6 +3,7 @@ package seg.jUCMNav.model.util.modelexplore;
 import seg.jUCMNav.model.util.modelexplore.queries.ConnectionSplineFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.DeletionPathFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.EndPointFinder;
+import seg.jUCMNav.model.util.modelexplore.queries.ReachableGRLNodeFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ResponsibilityFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.StartPointFinder;
@@ -36,6 +37,8 @@ public class GraphExplorer {
     private static AbstractScenarioTraversal _defaultScenarioTraversal;
 
     private static ResponsibilityFinder _responsibilityFinder;
+    
+    private static ReachableGRLNodeFinder _reachableGRLNodeFinder;
 
     static {
         // instantiate
@@ -44,6 +47,7 @@ public class GraphExplorer {
         _rnFinder = new ReachableNodeFinder();
         _splineFinder = new ConnectionSplineFinder();
         _deletionPathFinder = new DeletionPathFinder();
+        _reachableGRLNodeFinder = new ReachableGRLNodeFinder();
 
         // TODO: load from extension point preferences
         _defaultScenarioTraversal = new DefaultScenarioTraversal();
@@ -57,7 +61,8 @@ public class GraphExplorer {
         _splineFinder.addChain(_deletionPathFinder);
         _deletionPathFinder.addChain(_defaultScenarioTraversal);
         _defaultScenarioTraversal.addChain(_responsibilityFinder);
-        _responsibilityFinder.addChain(null);
+        _responsibilityFinder.addChain(_reachableGRLNodeFinder);
+        _reachableGRLNodeFinder.addChain(null);
     }
 
     /**

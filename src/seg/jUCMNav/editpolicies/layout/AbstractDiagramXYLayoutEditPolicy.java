@@ -1,8 +1,16 @@
 package seg.jUCMNav.editpolicies.layout;
 
+import grl.GRLNode;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
@@ -14,6 +22,10 @@ import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommentCommand;
 import seg.jUCMNav.model.commands.create.AddCommentCommand;
+import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
+import seg.jUCMNav.model.util.modelexplore.queries.ReachableGRLNodeFinder;
+import seg.jUCMNav.model.util.modelexplore.queries.ReachableGRLNodeFinder.QFindReachableNodes;
+import seg.jUCMNav.model.util.modelexplore.queries.ReachableGRLNodeFinder.RReachableNodes;
 import ucm.map.PathNode;
 import urncore.Comment;
 import urncore.ComponentLabel;
@@ -124,9 +136,18 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
     protected Command handleMoveResizeContainerRef(EditPart child, Object constraint) {
         Rectangle rect = (Rectangle) constraint;
         IURNContainerRef compRef = (IURNContainerRef) child.getModel();
+        
+        List selected = getSelectedModel(child.getViewer());
+        
+        boolean multipleNodeMoved = false;
+        
+        for (Iterator i = compRef.getNodes().iterator(); i.hasNext();) {
+            GRLNode node = (GRLNode) i.next();
+            multipleNodeMoved |= isMultipleSelected(node, selected);
+        }
 
         SetConstraintBoundContainerRefCompoundCommand moveResize = new SetConstraintBoundContainerRefCompoundCommand(compRef, rect.getLocation().x, rect
-                .getLocation().y, rect.width, rect.height);
+                .getLocation().y, rect.width, rect.height, multipleNodeMoved);
 
         return moveResize;
     }
@@ -155,6 +176,44 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
         Comment node = (Comment) child.getModel();
 
         return new SetConstraintCommentCommand(node, rect.getLocation().x, rect.getLocation().y, rect.width, rect.height);
+    }
+
+    
+    protected List getSelectedModel(EditPartViewer viewer) {
+        List selectedNodes = new Vector();
+        
+        for (Iterator i = viewer.getSelectedEditParts().iterator(); i.hasNext();) {
+            EditPart selectedPart = (EditPart) i.next();
+            selectedNodes.add(selectedPart.getModel());
+        }
+        return selectedNodes;
+    }
+
+    /**
+     * For a given GRLNode, find if any of the selected nodes in the UI can be reached via connections from the initial GRLNode.
+     * This will affect how we move connection bendpoints in the model
+     * 
+     * @param node
+     * @param selectedNodes
+     * @return true if 
+     */
+    protected boolean isMultipleSelected(GRLNode node, List selectedNodes) {
+        HashSet ncs = new HashSet();
+        
+        QFindReachableNodes qReachableNodes = new ReachableGRLNodeFinder.QFindReachableNodes(node);
+        RReachableNodes rReachableNodes = (RReachableNodes) GraphExplorer.run(qReachableNodes);
+        Vector vReachable = rReachableNodes.getNodes();
+        
+        boolean contains = false;
+        
+        for (Iterator i = vReachable.iterator(); i.hasNext();) {
+            Object next = i.next();
+            contains |= (selectedNodes.contains(next) && next != node);
+            if(contains)
+                break;
+        }
+        
+        return contains;
     }
 
 }

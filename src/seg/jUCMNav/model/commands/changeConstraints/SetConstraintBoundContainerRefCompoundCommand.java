@@ -1,5 +1,7 @@
 package seg.jUCMNav.model.commands.changeConstraints;
 
+import grl.GRLNode;
+
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -29,6 +31,8 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
 
     // the parent and its children
     private IURNContainerRef compRef;
+    
+    private boolean multipleNodeMoved = false;
 
     /**
      * @param cr
@@ -43,9 +47,20 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
      *            the target height
      */
     public SetConstraintBoundContainerRefCompoundCommand(IURNContainerRef cr, int x, int y, int width, int height) {
+        init(cr, x, y, width, height);
+    }
+    
+    public SetConstraintBoundContainerRefCompoundCommand(IURNContainerRef cr, int x, int y, int width, int height, boolean multipleNodeMoved) {
+        this.multipleNodeMoved = multipleNodeMoved;
+        
+        init(cr, x, y, width, height);
+    }
+
+    protected void init(IURNContainerRef cr, int x, int y, int width, int height) {
         // must precede compRef because of factor calculation.
         setConstraints(x, y, width, height);
         setCompRef(cr);
+        
         setLabel(Messages.getString("SetConstraintBoundContainerRefCompoundCommand.changeCompConstraints")); //$NON-NLS-1$
     }
 
@@ -153,6 +168,10 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
                 //v.addAll(cmd.getOriginalChildren());
                 add(cmd);
 
+            } else if(elem instanceof GRLNode) {
+                IURNNode child = (IURNNode) elem;
+                
+                add(new SetConstraintGrlNodeCommand(child, newX + (int) ((child.getX() - oldX) * factorW), newY + (int) ((child.getY() - oldY) * factorH), multipleNodeMoved));
             } else if (elem instanceof IURNNode) {
                 IURNNode child = (IURNNode) elem;
 
