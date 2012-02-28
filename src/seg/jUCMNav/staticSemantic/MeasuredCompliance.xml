@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Rules>
+<Rule>
+<Name>GRLincomingContributionsNotMoreThan100</Name>
+<Description>Contributions to an intentional element must not sum up to a value higher than 100.</Description>
+<Classification>grl::IntentionalElement</Classification>
+<Query>getAllIntentionalElements()</Query>
+<Constraint>self.linksDest&#13;
+    -&gt; select(link | link.oclIsTypeOf(grl::Contribution))&#13;
+    -&gt; collect(link | link.oclAsType(grl::Contribution)).quantitativeContribution&#13;
+    -&gt;sum() &lt;= 100</Constraint>
+<Utilities/>
+<WarningOnly>false</WarningOnly>
+</Rule>
+<Rule>
+<Name>GRLconditionDependeeOfIE</Name>
+<Description>A GRL resource with a ST_CONDITIONTYPE medatada must be a dependee of an intentional element</Description>
+<Classification>grl::IntentionalElement</Classification>
+<Query>getAllIntentionalElements()</Query>
+<Constraint>(self.type=IntentionalElementType::Ressource and self.hasMetadata('ST_CONDITIONTYPE'))&#13;
+ implies&#13;
+	self.linksSrc &#13;
+	-&gt; select(link | link.oclIsTypeOf(grl::Dependency))&#13;
+	-&gt; collect(link | link.oclAsType(grl::Dependency)).dest&#13;
+	-&gt; select(le | le.oclIsTypeOf(grl::IntentionalElement))&#13;
+	-&gt; size() &gt; 0 &#13;
+</Constraint>
+<Utilities/>
+<WarningOnly>false</WarningOnly>
+</Rule>
+<Rule>
+<Name>GRLgoalsWithHyperlinks</Name>
+<Description>Goals should have a hyperlink</Description>
+<Classification>grl::IntentionalElement</Classification>
+<Query>getAllIntentionalElements()</Query>
+<Constraint>self.type=IntentionalElementType::Goal implies self.hasMetadata('hyperlink')</Constraint>
+<Utilities/>
+<WarningOnly>true</WarningOnly>
+</Rule>
+<Rule>
+<Name>GRLactorNoCLASSTYPE</Name>
+<Description>ST_CLASSTYPE stereotypes cannot be used on Actors</Description>
+<Classification>grl::Actor</Classification>
+<Query>getAllActors()</Query>
+<Constraint>not(self.hasMetadata('ST_CLASSTYPE'))</Constraint>
+<Utilities/>
+<WarningOnly>false</WarningOnly>
+</Rule>
+<Rule>
+<Name>GRLconditionNotADepender</Name>
+<Description>A GRL resource with a ST_CONDITIONTYPE medatada cannot depend on anything else</Description>
+<Classification>grl::IntentionalElement</Classification>
+<Query>getAllIntentionalElements()</Query>
+<Constraint>(self.type=IntentionalElementType::Ressource and self.hasMetadata('ST_CONDITIONTYPE'))&#13;
+implies&#13;
+	self.linksDest &#13;
+	-&gt; select(link | link.oclIsTypeOf(grl::Dependency))&#13;
+	-&gt; isEmpty()</Constraint>
+<Utilities/>
+<WarningOnly>false</WarningOnly>
+</Rule>
+</Rules>
+

@@ -76,6 +76,7 @@ public class StaticSemanticDefMgr extends RuleManagementDefinitionManager {
         defaultGroups.add(createDefaultGroup("URN Unused Elements", "UnusedElements.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
         defaultGroups.add(createDefaultGroup("URN Value Ranges", "Ranges.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
         defaultGroups.add(createDefaultGroup("Z.151 Import and Export", "Z151.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultGroups.add(createDefaultGroup("URN Measured Compliance Profile", "MeasuredCompliance.xml", all, StaticSemanticDefMgr.class)); //$NON-NLS-1$ //$NON-NLS-2$
         return defaultGroups;
     }
 
