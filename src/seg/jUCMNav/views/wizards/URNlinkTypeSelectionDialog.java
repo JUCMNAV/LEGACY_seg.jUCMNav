@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import urn.URNlink;
 import urn.URNspec;
@@ -63,7 +64,7 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		FormData formData;
 		Point size;
 
-		String [] modes = { "Select existing URN Link Type", "Specify New URN Link Type" };
+		String [] modes = { Messages.getString("URNlinkTypeSelectionDialog.SelectExistingURNLinkType"), Messages.getString("URNlinkTypeSelectionDialog.SpecifyNewURNLinkType") }; //$NON-NLS-1$ //$NON-NLS-2$
 		
         Shell parent = getParent();
         final Shell shell = new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL | SWT.CENTER | SWT.RESIZE);
@@ -106,7 +107,7 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		modeSelection.setLayoutData( formData );
 
 		entryLabel = new Label( shell, SWT.LEFT );
-		entryLabel.setText( "Please enter a new Link Type" );
+		entryLabel.setText( Messages.getString("URNlinkTypeSelectionDialog.PleaseEnterNewLinkType") ); //$NON-NLS-1$
 		
 		size = entryLabel.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		formData = new FormData( size.x, size.y );
@@ -132,7 +133,7 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		Button cancelButton = new Button(shell, SWT.PUSH);
 
 		listLabel = new Label( typesListComposite, SWT.LEFT );
-		listLabel.setText( "URN Link Types" );
+		listLabel.setText( Messages.getString("URNlinkTypeSelectionDialog.URNLinkTypes") ); //$NON-NLS-1$
 		
 		size = listLabel.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		formData = new FormData( size.x, size.y );
@@ -163,7 +164,7 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 			}
 		});
 		
-        renameButton.setText( "Rename Link Type" );
+        renameButton.setText( Messages.getString("URNlinkTypeSelectionDialog.RenameLinkType") ); //$NON-NLS-1$
 		
 		size = renameButton.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		formData = new FormData( size.x+8, size.y );
@@ -183,7 +184,7 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		});		
 
 		deleteButton = new Button( typesListComposite, SWT.PUSH );
-        deleteButton.setText( "Delete Link Type" );
+        deleteButton.setText( Messages.getString("URNlinkTypeSelectionDialog.DeleteLinkType") ); //$NON-NLS-1$
 		
 		size = deleteButton.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		formData = new FormData( size.x+8, size.y );
@@ -327,7 +328,7 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		
 		// add new Link Type to URNspec metadata
 		Metadata newType = (Metadata) ModelCreationFactory.getNewObject(urn, Metadata.class);
-		newType.setName( "UrnLinkType" );
+		newType.setName( Messages.getString("URNlinkTypeSelectionDialog.UrnLinkType") ); //$NON-NLS-1$
 		newType.setValue( linkType );
 		urn.getMetadata().add( newType );
 	}
@@ -355,19 +356,19 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		}
 
 		// allow user to edit existing Type
-		title = "Rename Link Type";
+		title = Messages.getString("URNlinkTypeSelectionDialog.RenameLinkType"); //$NON-NLS-1$
 		
 		if( (existingCount = existingLinks.size()) > 0 ) {
 			StringBuilder messageBuf = new StringBuilder();
-			messageBuf.append( "The selected Link Type \"" + linkType + "\" is referenced by " + existingCount + " URN Link" );
+			messageBuf.append( Messages.getString("URNlinkTypeSelectionDialog.IsSelectedLinkType") + linkType + Messages.getString("URNlinkTypeSelectionDialog.IsReferencedBy") + existingCount + Messages.getString("URNlinkTypeSelectionDialog.URNLink") ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			if( existingCount == 1 ) {
-				messageBuf.append( ". This reference will be renamed." );
+				messageBuf.append( Messages.getString("URNlinkTypeSelectionDialog.ThisReferenceWillBeRenamed") ); //$NON-NLS-1$
 			} else {
-				messageBuf.append( "s. These references will be renamed." );
+				messageBuf.append( Messages.getString("URNlinkTypeSelectionDialog.TheseReferencesWillBeRenamed") ); //$NON-NLS-1$
 			}
 			message = messageBuf.toString();
 		} else {
-			message = "Please rename the Link Type";
+			message = Messages.getString("URNlinkTypeSelectionDialog.PleaseRenameLinkType"); //$NON-NLS-1$
 		}
 
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
@@ -386,7 +387,7 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 
 		for( Iterator iter = urn.getMetadata().iterator(); iter.hasNext(); ) {
 			Metadata md = (Metadata) iter.next();
-			if( md.getName().contentEquals( "UrnLinkType" )) {
+			if( md.getName().contentEquals( "UrnLinkType" )) { //$NON-NLS-1$
 				if( md.getValue().contentEquals(linkType)) {
 					renamedTypeMD = md;
 					break;
@@ -432,10 +433,10 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		if( (existingCount = existingLinks.size()) > 0 ) {
 			// prompt use how to handle deletion of referenced links, provide Cancel option
 			
-			final String title = "Deletion of Referenced URN Link Type";
-			final String message = "The selected Link Type \"" + linkType + "\" is referenced by " + existingCount + " URN Link" + ((existingCount == 1) ? "" : "s") 
-					+ ". Do you wish to set these references to empty strings or leave them untouched ? Warning: This operation is not undoable";
-			final String[] labels = { "Cancel Delete", "Set to empty string", "Leave untouched" };
+			final String title = Messages.getString("URNlinkTypeSelectionDialog.DeletionOfReferenced"); //$NON-NLS-1$
+			final String message = Messages.getString("URNlinkTypeSelectionDialog.IsSelectedLinkType") + linkType + Messages.getString("URNlinkTypeSelectionDialog.IsReferencedBy") + existingCount + Messages.getString("URNlinkTypeSelectionDialog.URNLink") + ((existingCount == 1) ? "" : Messages.getString("URNlinkTypeSelectionDialog.PluralForm"))  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+					+ Messages.getString("URNlinkTypeSelectionDialog.DoYouWishToSetTheseReferencesToEmpty"); //$NON-NLS-1$
+			final String[] labels = { Messages.getString("URNlinkTypeSelectionDialog.CancelDelete"), Messages.getString("URNlinkTypeSelectionDialog.SetToEmptyStrings"), Messages.getString("URNlinkTypeSelectionDialog.LeaveUntouched") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			MessageDialog md = new MessageDialog( shell, title, null, message, MessageDialog.QUESTION, labels, CANCEL );
@@ -446,7 +447,7 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 				return;
 			} else if( userChoice == SET_EMPTY ) {
 				for( URNlink el : existingLinks ) {
-						el.setType( "" );
+						el.setType( "" ); //$NON-NLS-1$
 				}				
 			}
 		}
@@ -455,7 +456,7 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 
 		for( Iterator iter = urn.getMetadata().iterator(); iter.hasNext(); ) {
 			Metadata md = (Metadata) iter.next();
-			if( md.getName().contentEquals( "UrnLinkType" )) {
+			if( md.getName().contentEquals( "UrnLinkType" )) { //$NON-NLS-1$
 				if( md.getValue().contentEquals(linkType)) {
 					deletedType = md;
 					break;
@@ -480,14 +481,14 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 		typesList.removeAll();
 
 		if( highlight ) {
-			if( (initialType != null) && !initialType.contentEquals("") ) {
+			if( (initialType != null) && !initialType.contentEquals("") ) { //$NON-NLS-1$
 				select = true;
 			}
 		}
 		
 		for( Iterator iter = urn.getMetadata().iterator(); iter.hasNext(); ) {
 			Metadata md = (Metadata) iter.next();
-			if( md.getName().contentEquals( "UrnLinkType" )) {
+			if( md.getName().contentEquals( "UrnLinkType" )) { //$NON-NLS-1$
 				typesList.add( md.getValue() );
 				if( select ) {
 					if( md.getValue().contentEquals(initialType) ) {
@@ -505,10 +506,10 @@ public class URNlinkTypeSelectionDialog extends Dialog {
 	
 	public static void main(String[] args) {
 		
-		URNlinkTypeSelectionDialog testDialog = new URNlinkTypeSelectionDialog( new Shell(), null, "Specify URN Link Type",
-				"Create New Link or Modify Existing Link's Type", "", "Accept", "Cancel" );
+		URNlinkTypeSelectionDialog testDialog = new URNlinkTypeSelectionDialog( new Shell(), null, Messages.getString("URNlinkTypeSelectionDialog.SpecifyURNLinkType"), //$NON-NLS-1$
+				Messages.getString("URNlinkTypeSelectionDialog.CreateNewLinkOrModify"), "", Messages.getString("URNlinkTypeSelectionDialog.Accept"), Messages.getString("URNlinkTypeSelectionDialog.Cancel") ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		String response = testDialog.open();
-		System.out.println( "The selection was \"" + response + "\"." );
+		System.out.println( Messages.getString("URNlinkTypeSelectionDialog.TheSelectionWas") + response + "\"." ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 }

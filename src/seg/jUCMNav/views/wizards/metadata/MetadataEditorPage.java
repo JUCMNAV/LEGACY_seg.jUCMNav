@@ -375,7 +375,7 @@ public class MetadataEditorPage extends WizardPage {
         }
 
         this.setTitle(Messages.getString("MetadataEditorPage.title")); //$NON-NLS-1$
-        this.setDescription( "Edit the metadata for all URN elements." ); // description is needed to avoid buttons at bottom being cropped, SWT bug
+        this.setDescription( Messages.getString("MetadataEditorPage.EditMetadataForAllURNElements") ); // description is needed to avoid buttons at bottom being cropped, SWT bug //$NON-NLS-1$
         this.setControl( container ); 
     }
 

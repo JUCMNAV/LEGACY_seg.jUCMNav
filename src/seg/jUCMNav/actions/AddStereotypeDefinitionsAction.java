@@ -34,8 +34,8 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
 
     public static final String ADD_STEREOTYPE_DEFINITIONS = "seg.jUCMNav.AddStereotypeDefinitions"; //$NON-NLS-1$
 
-    private String [] values = { "ST_CLASSTYPE,CLASS1,IntentionalElement", "ST_CLASSTYPE,CLASS2,IntentionalElement", "ST_CLASSTYPE,OTHER,IntentionalElement",
-    		"acceptStereotype,CLASS1,EvaluationStrategy", "acceptStereotype,CLASS2,EvaluationStrategy", "acceptStereotype,OTHER,EvaluationStrategy"
+    private String [] values = { "ST_CLASSTYPE,CLASS1,IntentionalElement", "ST_CLASSTYPE,CLASS2,IntentionalElement", "ST_CLASSTYPE,OTHER,IntentionalElement", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    		"acceptStereotype,CLASS1,EvaluationStrategy", "acceptStereotype,CLASS2,EvaluationStrategy", "acceptStereotype,OTHER,EvaluationStrategy" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     };
 
 	public AddStereotypeDefinitionsAction(IWorkbenchPart part) {
@@ -89,18 +89,18 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
         	}
         	
 			StringBuilder messageBuf = new StringBuilder();
-			messageBuf.append( "A set of stereotype definitions already exists in the current model.\n\n" );
+			messageBuf.append( Messages.getString("AddStereotypeDefinitionsAction.DefinitionsAlreadyExist") ); //$NON-NLS-1$
         
 			for( Metadata em : existingMetadata ) {
-				messageBuf.append( "\t" + em.getValue() + "\n" );
+				messageBuf.append( "\t" + em.getValue() + "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			
-			messageBuf.append( "\nDo you wish to update these definitions ?");
+			messageBuf.append( Messages.getString("AddStereotypeDefinitionsAction.DoYouWishToUpdate")); //$NON-NLS-1$
 			
-			title = "Stereotype Definitions Exist";
+			title = Messages.getString("AddStereotypeDefinitionsAction.StereotypeDefinitionsExist"); //$NON-NLS-1$
 			message = messageBuf.toString();
 			
-			final String[] labels = { "Cancel", "Update Stereotype Definitions" };
+			final String[] labels = { Messages.getString("AddStereotypeDefinitionsAction.Cancel"), Messages.getString("AddStereotypeDefinitionsAction.UpdateStereotypeDefinitions") }; //$NON-NLS-1$ //$NON-NLS-2$
 
 			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			MessageDialog md = new MessageDialog( shell, title, null, message, MessageDialog.QUESTION, labels, UPDATE );
@@ -112,10 +112,10 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
 			}
 
             mdList = (Metadata[]) otherMetadata.toArray(new Metadata[0]);
-        	commandLabel = Messages.getString("ActionRegistryManager.updateStereotypeDefinitions");            
+        	commandLabel = Messages.getString("ActionRegistryManager.updateStereotypeDefinitions");             //$NON-NLS-1$
         } else {
         	mdList = (Metadata[]) urnspec.getMetadata().toArray(new Metadata[0]);
-        	commandLabel = Messages.getString("ActionRegistryManager.addStereotypeDefinitions");
+        	commandLabel = Messages.getString("ActionRegistryManager.addStereotypeDefinitions"); //$NON-NLS-1$
         }
         
         sdList = this.getStereotypeDefinitions(urnspec);        
@@ -148,7 +148,7 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
         Metadata newMetadata;
         for( int i = 0; i < values.length; i++ ) {
         	newMetadata = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
-        	newMetadata.setName("StereotypeDef");
+        	newMetadata.setName("StereotypeDef"); //$NON-NLS-1$
         	newMetadata.setValue(values[i]);
         	mdList[i] = newMetadata;
         }

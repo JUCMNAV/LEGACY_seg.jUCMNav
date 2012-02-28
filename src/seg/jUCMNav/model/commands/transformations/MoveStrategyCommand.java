@@ -5,6 +5,7 @@ import grl.StrategiesGroup;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
@@ -26,7 +27,7 @@ public class MoveStrategyCommand extends Command implements JUCMNavCommand {
         this.scenario = scenario;
         this.group = targetGroup;
         this.oldGroup = scenario.getGroup();
-        setLabel("Move scenario");
+        setLabel(Messages.getString("MoveStrategyCommand.MoveStrategy")); //$NON-NLS-1$
     }
 
     /**

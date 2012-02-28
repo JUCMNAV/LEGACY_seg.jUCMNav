@@ -11,6 +11,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
@@ -169,7 +170,7 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(EditURNLinksAction.EDITURNLINKS);
         if (action.isEnabled()) {
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
-            action.setToolTipText( "Opens a popup menu allowing users to view and edit URN Links for this element" );
+            action.setToolTipText( Messages.getString("StrategyContextMenuProvider.OpenMenuToEditURNLinks") ); //$NON-NLS-1$
         }
         
         action = getActionRegistry().getAction(TagElementAction.TAG_ELEMENT_ACTION);

@@ -305,7 +305,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
         setFoundSolution(label.labeling(store, select));
         if(isFoundSolution()) {
             for (int i=1; i<=label.getSolutionListener().solutionsNo(); i++){ 
-                System.out.print("Solution " + i + ": ");  //$NON-NLS-1$
+                System.out.print("Solution " + i + ": ");  //$NON-NLS-1$ //$NON-NLS-2$
                 for (int j=0; j<label.getSolution(i).length; j++) 
                     System.out.print(fullList[j].id + "=["+ label.getSolution(i)[j] +"] ");  //$NON-NLS-1$ //$NON-NLS-2$
                 System.out.println(); 

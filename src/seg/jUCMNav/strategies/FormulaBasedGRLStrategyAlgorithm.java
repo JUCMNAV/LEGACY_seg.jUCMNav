@@ -130,7 +130,7 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         Evaluation eval = (Evaluation) evaluations.get(element);
 
         List eMetaData = element.getMetadata();
-        String formula="";
+        String formula=""; //$NON-NLS-1$
         Metadata formulaMetaData;
         MathEvaluator mathEvaluator = null;
         
@@ -243,7 +243,7 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             }
             else {
                 resultContrib = 0.0;
-                System.err.println("Incorrect formula '" + formula + "' in KPI '" + element.getName() + "'.");
+                System.err.println("Incorrect formula '" + formula + "' in KPI '" + element.getName() + "'."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
             
             eval.getKpiEvalValueSet().setEvaluationValue(resultContrib);

@@ -17,7 +17,7 @@ public class EscapeUtils {
      */
     public static final String escapeHTML(String s) {
         if (s == null)
-            return "";
+            return ""; //$NON-NLS-1$
         else
         {
             StringBuffer sb = new StringBuffer();
@@ -27,19 +27,19 @@ public class EscapeUtils {
                 if (c<'?') { // might be a special character to escape, otherwise escapes quickly
                     switch (c) {
                     case '<':
-                        sb.append("&lt;");
+                        sb.append("&lt;"); //$NON-NLS-1$
                         break;
                     case '>':
-                        sb.append("&gt;");
+                        sb.append("&gt;"); //$NON-NLS-1$
                         break;
                     case '&':
-                        sb.append("&amp;");
+                        sb.append("&amp;"); //$NON-NLS-1$
                         break;
                     case '"':
-                        sb.append("&quot;");
+                        sb.append("&quot;"); //$NON-NLS-1$
                         break;
                     case '\'':
-                        sb.append("&apos;");
+                        sb.append("&apos;"); //$NON-NLS-1$
                         break;
                     default:
                         sb.append(c);
@@ -58,7 +58,7 @@ public class EscapeUtils {
      */
     public static final String escapeXML(String s) {
         if (s == null)
-            return "";
+            return ""; //$NON-NLS-1$
         else
         {
             StringBuffer sb = new StringBuffer();
@@ -68,19 +68,19 @@ public class EscapeUtils {
                 if (c<'?') { // might be a special character to escape, otherwise escapes quickly
                     switch (c) {
                     case '<':
-                        sb.append("&lt;");
+                        sb.append("&lt;"); //$NON-NLS-1$
                         break;
                     case '>':
-                        sb.append("&gt;");
+                        sb.append("&gt;"); //$NON-NLS-1$
                         break;
                     case '&':
-                        sb.append("&amp;");
+                        sb.append("&amp;"); //$NON-NLS-1$
                         break;
                     case '"':
-                        sb.append("&quot;");
+                        sb.append("&quot;"); //$NON-NLS-1$
                         break;
                     case '\'':
-                        sb.append("&apos;");
+                        sb.append("&apos;"); //$NON-NLS-1$
                         break;
                     default:
                         sb.append(c);

@@ -126,7 +126,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
             super.addPropertyToDescriptor(descriptors, attr, c);
         }
 
-        if (attr.getName().equals("context")) {
+        if (attr.getName().equals("context")) { //$NON-NLS-1$
             if (getEditableValue() instanceof Component) {
                 Vector v = (Vector) descriptors;
                 CheckboxPropertyDescriptor pd = (CheckboxPropertyDescriptor) v.get(v.size() - 1);
@@ -484,7 +484,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
             setReferencedObject(propertyid, feature, result);
         } else if (getEditableValue() instanceof Initialization && getFeatureType(feature).getInstanceClass() == String.class && value instanceof Boolean) {
             super.setPropertyValue(id, ((Boolean) value).toString());
-        } else if (feature.getName().equals("context")) {
+        } else if (feature.getName().equals("context")) { //$NON-NLS-1$
             if (getEditableValue() instanceof RespRef) {
                 RespRef ref = (RespRef) getEditableValue();
                 for (Iterator iterator = ref.getRespDef().getRespRefs().iterator(); iterator.hasNext();) {

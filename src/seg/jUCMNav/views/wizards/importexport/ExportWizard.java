@@ -201,20 +201,20 @@ public class ExportWizard extends Wizard implements IExportWizard {
         		differentiator = OVERWRITE;
         	} else {
 
-        		final String title = "Overwrite Existing Graphics File(s) ?";
+        		final String title = Messages.getString("ExportWizard.OverwriteExistingGraphicFiles"); //$NON-NLS-1$
         		StringBuffer mb = new StringBuffer();
-        		mb.append( "The following graphics file(s) already exist.\nDo you want to overwrite them or generate unique filenames ?\n\n" );
+        		mb.append( Messages.getString("ExportWizard.AlreadyExist") ); //$NON-NLS-1$
 
         		for( String ef : existingFiles ){
         			mb.append( ef );
-        			mb.append( "\n" );
+        			mb.append( "\n" ); //$NON-NLS-1$
         		}
 
         		final String message = new String( mb.toString() );
         		final int OVERWRITE_FILES = 0;
         		final int UNIQUE_FILES = 1;
         		final int CANCEL = 2;
-        		final String[] labels = { "Overwrite File(s)", "Generate Unique Filename(s)", "Cancel Export" };
+        		final String[] labels = { Messages.getString("ExportWizard.OverwriteFiles"), Messages.getString("ExportWizard.GenerateUniqueFilenames"), Messages.getString("ExportWizard.CancelExport") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
         		// This will update the UI synchronously, e.g. the calling thread will wait
         		// until the work is done
@@ -274,7 +274,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	{
     	for( String ef : existingFiles ){
         	int index = ef.lastIndexOf('.');
-        	String newFile = ef.substring( 0, index ) + "-v" + extension + ef.substring( index, ef.length() );
+        	String newFile = ef.substring( 0, index ) + "-v" + extension + ef.substring( index, ef.length() ); //$NON-NLS-1$
         	if( (new File( newFile )).exists() ){
         		return false;
         	}

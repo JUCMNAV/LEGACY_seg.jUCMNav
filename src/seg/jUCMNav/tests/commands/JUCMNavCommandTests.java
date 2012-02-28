@@ -1387,19 +1387,19 @@ public class JUCMNavCommandTests extends TestCase {
         cmd = new CreateScenarioGroupCommand(urnspec, group2);
         cs.execute(cmd);
 
-        assertTrue("New groups are empty", group1.getScenarios().size()==0 && group2.getScenarios().size()==0);
+        assertTrue("New groups are empty", group1.getScenarios().size()==0 && group2.getScenarios().size()==0); //$NON-NLS-1$
         
         CreateScenarioCommand cmd2 = new CreateScenarioCommand(urnspec, group1);
         cs.execute(cmd2);
         
         
-        assertNotNull("Scenario should have been created.", cmd2.getScenario());
-        assertEquals("New group should have one scenario", 1, group1.getScenarios().size());
+        assertNotNull("Scenario should have been created.", cmd2.getScenario()); //$NON-NLS-1$
+        assertEquals("New group should have one scenario", 1, group1.getScenarios().size()); //$NON-NLS-1$
         
         // move to 2nd group. 
         MoveScenarioCommand cmd3 = new MoveScenarioCommand(group2, cmd2.getScenario());
         cs.execute(cmd3);
-        assertTrue("Scenario should have been moved", group1.getScenarios().size()==0 && group2.getScenarios().size()==1);
+        assertTrue("Scenario should have been moved", group1.getScenarios().size()==0 && group2.getScenarios().size()==1); //$NON-NLS-1$
         
         
         

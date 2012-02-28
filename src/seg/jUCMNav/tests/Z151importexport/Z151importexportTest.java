@@ -23,11 +23,11 @@ import seg.jUCMNav.importexport.z151.unmarshal.URNspecUMHandler;
 
 public class Z151importexportTest extends TestCase {
 	static String jUCMNavHome = SkeletonClassesGenerator.getHomeDirPath();
-	static String expected = "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\expected\\";
-	static String actual = "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\actual\\";
+	static String expected = "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\expected\\"; //$NON-NLS-1$
+	static String actual = "\\src\\seg\\jUCMNav\\tests\\Z151importexport\\actual\\"; //$NON-NLS-1$
 	
 	public void testActor(){
-		String Z151file = "actor.z151";
+		String Z151file = "actor.z151"; //$NON-NLS-1$
 		compareTwoZ151File(Z151file);
 	}
 	
@@ -103,15 +103,15 @@ public class Z151importexportTest extends TestCase {
 	}
 
 	private String ResolveIds(String urnspec) {
-		String idPrefix = "<id>Z151_id_";
-		String idClosing = "</id>";
+		String idPrefix = "<id>Z151_id_"; //$NON-NLS-1$
+		String idClosing = "</id>"; //$NON-NLS-1$
 		int count = 1;
 		int startIndex = urnspec.indexOf(idPrefix);
 		int endIndex;
 		while (startIndex != -1) {
 			endIndex = startIndex+ urnspec.substring(startIndex).indexOf(idClosing);
-			String id = urnspec.substring(startIndex + "<id>".length(),endIndex);
-			String newId = "RESOLVED_" + count++;
+			String id = urnspec.substring(startIndex + "<id>".length(),endIndex); //$NON-NLS-1$
+			String newId = "RESOLVED_" + count++; //$NON-NLS-1$
 			urnspec = urnspec.replaceAll(id, newId);
 			startIndex = urnspec.indexOf(idPrefix);
 		}

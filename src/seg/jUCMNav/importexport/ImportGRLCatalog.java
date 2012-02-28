@@ -299,9 +299,9 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 throw new SAXException("Invalid actor or IE id in containment link"); //$NON-NLS-1$
             }
 
-            if (!idList.contains(attrs.getValue("ie"))) {
+            if (!idList.contains(attrs.getValue("ie"))) { //$NON-NLS-1$
                 ContainerRefBindChildCommand linkCmd = new ContainerRefBindChildCommand((IURNContainerRef)actor.getContRefs().get(0), (IntentionalElementRef)ie.getRefs().get(0));
-                idList.add(attrs.getValue("ie"));
+                idList.add(attrs.getValue("ie")); //$NON-NLS-1$
                 if (linkCmd.canExecute()) {
                     linkCmd.execute();
                 } else {

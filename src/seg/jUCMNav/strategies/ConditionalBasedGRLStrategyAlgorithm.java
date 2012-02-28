@@ -239,10 +239,10 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                     ignoreSrc = checkIgnoreElement(src);
                     URNspec urnSpec = element.getGrlspec().getUrnspec();
                     if (dependencyValue == 0 && !ignoreSrc) {
-                        MetadataHelper.addMetaData(urnSpec, element, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), ""); //$NON-NLS-1$ $NON-NLS-2$
+                        MetadataHelper.addMetaData(urnSpec, element, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), ""); //$NON-NLS-1$ //$NON-NLS-2$ $NON-NLS-2$
                     }
                     if (ignoreSrc) {
-                        MetadataHelper.addMetaData(urnSpec, src, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), ""); //$NON-NLS-1$ $NON-NLS-2$
+                        MetadataHelper.addMetaData(urnSpec, src, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), ""); //$NON-NLS-1$ //$NON-NLS-2$ $NON-NLS-2$
                         dependencyValue = 10000;
                     }
                 }
@@ -258,7 +258,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                     ignoredContributionValue[ignoredContribArrayIt] = quantitativeContrib;
                     ignoredContribArrayIt++;                   
                     URNspec urnSpec = element.getGrlspec().getUrnspec();
-                    MetadataHelper.addMetaData(urnSpec, link.getSrc(), Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), ""); //$NON-NLS-1$ $NON-NLS-2$
+                    MetadataHelper.addMetaData(urnSpec, link.getSrc(), Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), ""); //$NON-NLS-1$ //$NON-NLS-2$ $NON-NLS-2$
                 } else {
                     contributionLinksValues[consideredContribArrayIt] = quantitativeContrib;
                     contributionLinks[consideredContribArrayIt] = link;
@@ -307,7 +307,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                 }
 
                 URNspec urnSpec = element.getGrlspec().getUrnspec();
-                MetadataHelper.addMetaData(urnSpec, contributionLinks[j], Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"),
+                MetadataHelper.addMetaData(urnSpec, contributionLinks[j], Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"), //$NON-NLS-1$
                         Integer.toString(contributionLinksValues[j]));
 
                 double resultContrib;

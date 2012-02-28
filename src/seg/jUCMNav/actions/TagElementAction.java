@@ -53,16 +53,16 @@ public class TagElementAction extends URNSelectionAction {
 		
 		if(  JUCMNavPlugin.isInDebug() ) {
 			if( urnspec == null  ){
-				System.out.println( "No urnspec for element name: " + element.getName());
+				System.out.println( "No urnspec for element name: " + element.getName()); //$NON-NLS-1$
 			} else {
-				System.out.println( "urnspec.getMetadata().size() = " + urnspec.getMetadata().size() );
+				System.out.println( "urnspec.getMetadata().size() = " + urnspec.getMetadata().size() ); //$NON-NLS-1$
 			}
 		}
 		
     	if( (urnspec != null) && urnspec.getMetadata().size() > 0 ) {
     		for( Iterator iter = urnspec.getMetadata().iterator(); iter.hasNext();) {
     			Metadata md = (Metadata) iter.next();	
-    			if(md.getName().equalsIgnoreCase( "StereotypeDef" )){
+    			if(md.getName().equalsIgnoreCase( "StereotypeDef" )){ //$NON-NLS-1$
     				if( md.getValue().contains(className))
     					return true;
     			}

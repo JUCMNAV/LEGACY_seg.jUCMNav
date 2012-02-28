@@ -56,9 +56,9 @@ public class AddAspectStubsCommand extends CompoundCommand {
                	add(new AddInBindingCommand((Stub) pn, o));
                	// TODO visualization for now
                	if (o instanceof NodeConnection) {
-               		pn.setDescription("in to pointcut stub " + ((PathNode) ((NodeConnection) o).getSource()).getName());
+               		pn.setDescription(Messages.getString("AddAspectStubsCommand.InToPointcutStub") + ((PathNode) ((NodeConnection) o).getSource()).getName()); //$NON-NLS-1$
                	} else {
-               		pn.setDescription("in to " + ((StartPoint) o).getName() + "[" + ((StartPoint) o).getId() + "]"); 
+               		pn.setDescription(Messages.getString("AddAspectStubsCommand.InTo") + ((StartPoint) o).getName() + "[" + ((StartPoint) o).getId() + "]");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                	}            	
             }
             // add out-bindings for aspect stub
@@ -69,10 +69,10 @@ public class AddAspectStubsCommand extends CompoundCommand {
                	// TODO visualization for now
                	String desc = pn.getDescription();
                	if (o2 instanceof NodeConnection) {
-               		pn.setDescription(desc + "   -----   out from pointcut stub " + ((PathNode) ((NodeConnection) o2).getTarget()).getName());
+               		pn.setDescription(desc + Messages.getString("AddAspectStubsCommand.DashOutFromPointcutStub") + ((PathNode) ((NodeConnection) o2).getTarget()).getName()); //$NON-NLS-1$
                	}
                	else {
-               		pn.setDescription(desc + "   -----   out from " + ((EndPoint) o2).getName() + "[" + ((EndPoint) o2).getId() + "]");
+               		pn.setDescription(desc + Messages.getString("AddAspectStubsCommand.DashOutFrom") + ((EndPoint) o2).getName() + "[" + ((EndPoint) o2).getId() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                	}            	
             }
         }

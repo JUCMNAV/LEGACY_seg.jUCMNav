@@ -132,7 +132,7 @@ public class UCMAspectComposer {
 						if (pn2 instanceof Connect) {
 							// there is always one node after a connect
 							PathNode pn3 = ((PathNode) ((NodeConnection) pn2.getSucc().get(0)).getTarget());
-							if (pn3 instanceof StartPoint && ((StartPoint) pn3).getPrecondition().getLabel() == "") {
+							if (pn3 instanceof StartPoint && ((StartPoint) pn3).getPrecondition().getLabel() == "") { //$NON-NLS-1$
 								// found such end point - now create mappings for end/start point pair based on their neighbors
 								match.duplicateMappings(pn, pn3);							
 							}
@@ -366,26 +366,26 @@ public class UCMAspectComposer {
 	}
 
 	private static String capture(List<HashSet<PathNode>> result) {
-		String capture = "";
+		String capture = ""; //$NON-NLS-1$
 		for (int i = 0; i < result.size(); i++) {
-			capture += i+1 + ": ";
+			capture += i+1 + ": "; //$NON-NLS-1$
 			for (Iterator iter = result.get(i).iterator(); iter.hasNext();) {
 				URNmodelElement e = (URNmodelElement) iter.next();
-				capture += e.getName() + "[" + e.getId() +"]   ";
+				capture += e.getName() + "[" + e.getId() +"]   "; //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			capture += "     -----     ";
+			capture += "     -----     "; //$NON-NLS-1$
 		}
 		return capture;
 	}
 
 	private static String capture() {
-		String capture = "";
+		String capture = ""; //$NON-NLS-1$
 		for (int i = 0; i < inout.size(); i++) {
-			capture += i+1 + ": ";
+			capture += i+1 + ": "; //$NON-NLS-1$
 			PathNode pn = amms.get(inout.get(i)).getSecondMapping();
 			if (pn != null)
-				capture += pn.getName() + "[" + pn.getId() +"]   ";
-			capture += "     -----     ";
+				capture += pn.getName() + "[" + pn.getId() +"]   "; //$NON-NLS-1$ //$NON-NLS-2$
+			capture += "     -----     "; //$NON-NLS-1$
 		}
 		return capture;
 	}

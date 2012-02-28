@@ -144,7 +144,7 @@ public class EvaluationStrategyManager {
         	processNonConstraintSolverAlgorithm();
         }
         long after = System.currentTimeMillis();
-        System.out.println("Time spent: " + (after - before) + " milloseconds");
+        System.out.println("Time spent: " + (after - before) + " milloseconds"); //$NON-NLS-1$ //$NON-NLS-2$
         // Refresh all the diagrams if canRefresh set to true
         if (canRefresh && multieditor != null) {
             for (int i = 0; i < multieditor.getPageCount(); i++) {
@@ -266,7 +266,7 @@ public class EvaluationStrategyManager {
             algo = new FormulaBasedGRLStrategyAlgorithm();
         else if ((StrategyEvaluationPreferences.CONDITIONAL_GRL_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
             algo = new ConditionalBasedGRLStrategyAlgorithm();
-        else if((StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "").equals(algoChoice))
+        else if((StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
         	algo = new Hao2011Algorithm();
         else
             algo = new DefaultGRLStrategyAlgorithm();
@@ -328,10 +328,10 @@ public class EvaluationStrategyManager {
     	if( elem.getMetadata().size() > 0 ) {
     		for( Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
     			Metadata md = (Metadata) iter.next();	
-    			if(md.getName().equalsIgnoreCase( "ST_Legal" )){
-    				if(md.getValue().equalsIgnoreCase( "No" ))
+    			if(md.getName().equalsIgnoreCase( "ST_Legal" )){ //$NON-NLS-1$
+    				if(md.getValue().equalsIgnoreCase( "No" )) //$NON-NLS-1$
     					return true;
-    			} else if( md.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode")) ) {
+    			} else if( md.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode")) ) { //$NON-NLS-1$
     				return true;
     			}
     		}    		
@@ -344,7 +344,7 @@ public class EvaluationStrategyManager {
     	if( elem.getType() == IntentionalElementType.RESSOURCE_LITERAL ) {
     		for( Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
     			Metadata md = (Metadata) iter.next();	
-    			if(md.getName().equalsIgnoreCase( "ST_CONDITIONTYPE" )){
+    			if(md.getName().equalsIgnoreCase( "ST_CONDITIONTYPE" )){ //$NON-NLS-1$
     				return true;
     			}
     		}

@@ -8,6 +8,7 @@ import grl.IntentionalElementRef;
 
 import java.util.Iterator;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import urn.URNlink;
@@ -54,14 +55,14 @@ public class GRLDiagramSection extends PDFReportDiagram {
         if (!hasData)
             return;
 
-        insertDiagramSectionHeader(document, tableParams, "Beliefs");
+        insertDiagramSectionHeader(document, tableParams, Messages.getString("GRLDiagramSection.Beliefs")); //$NON-NLS-1$
 
         for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
             URNmodelElement currentElement = (URNmodelElement) iter.next();
             if (currentElement instanceof Belief) {
                 Belief currentBelief = (Belief) currentElement;
                 if (hasGRLBeliefData(currentBelief)) {
-                    ReportUtils.writeLineWithSeparator(document, currentBelief.getName(), ": ", notNull(currentBelief.getDescription()), descriptionFont, true);
+                    ReportUtils.writeLineWithSeparator(document, currentBelief.getName(), ": ", notNull(currentBelief.getDescription()), descriptionFont, true); //$NON-NLS-1$
                     insertMetadata(document, currentBelief.getMetadata());
                 }
             }
@@ -89,14 +90,14 @@ public class GRLDiagramSection extends PDFReportDiagram {
         if (!hasData)
             return;
 
-        insertDiagramSectionHeader(document, tableParams, "Intentional Elements");
+        insertDiagramSectionHeader(document, tableParams, Messages.getString("GRLDiagramSection.IntentionalElements")); //$NON-NLS-1$
 
         for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
             URNmodelElement currentElement = (URNmodelElement) iter.next();
             if (currentElement instanceof IntentionalElementRef) {
                 IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
                 if (hasGRLIntentionalElementData(ie)) {
-                    ReportUtils.writeLineWithSeparator(document, ie.getName(), ": ", notNull(ie.getDescription()), descriptionFont, true);
+                    ReportUtils.writeLineWithSeparator(document, ie.getName(), ": ", notNull(ie.getDescription()), descriptionFont, true); //$NON-NLS-1$
                     insertMetadata(document, ie.getMetadata());
                 }
             }
@@ -125,7 +126,7 @@ public class GRLDiagramSection extends PDFReportDiagram {
         if (!hasData)
             return;
 
-        insertDiagramSectionHeader(document, tableParams, "Intentional Element URN Links");
+        insertDiagramSectionHeader(document, tableParams, Messages.getString("GRLDiagramSection.IntentionalElementURNLinks")); //$NON-NLS-1$
 
         for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
             URNmodelElement currentElement = (URNmodelElement) iter.next();
@@ -138,9 +139,9 @@ public class GRLDiagramSection extends PDFReportDiagram {
                     String elementType = link.getToElem().getClass().getName();
                     elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                    ReportUtils.writeLineWithSeparator(document, ie.getName(), " ==> (", elementType + ")" + link.getToElem().getName(), descriptionFont, true);
+                    ReportUtils.writeLineWithSeparator(document, ie.getName(), " ==> (", elementType + ")" + link.getToElem().getName(), descriptionFont, true); //$NON-NLS-1$ //$NON-NLS-2$
                     if (ReportUtils.notEmpty(link.getType())) {
-                        ReportUtils.writeLineWithSeparator(document, "     Link Type", ": ", link.getType(), descriptionFont, true);
+                        ReportUtils.writeLineWithSeparator(document, Messages.getString("GRLDiagramSection.SpaceLinkType"), ": ", link.getType(), descriptionFont, true); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                     insertMetadata(document, link.getMetadata());
                 }
@@ -151,10 +152,10 @@ public class GRLDiagramSection extends PDFReportDiagram {
                     String elementType = link.getFromElem().getClass().getName();
                     elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                    ReportUtils.writeLineWithSeparator(document, ie.getName(), " <== (", elementType + ")" + link.getFromElem().getName(), descriptionFont,
+                    ReportUtils.writeLineWithSeparator(document, ie.getName(), " <== (", elementType + ")" + link.getFromElem().getName(), descriptionFont, //$NON-NLS-1$ //$NON-NLS-2$
                             true);
                     if (ReportUtils.notEmpty(link.getType())) {
-                        ReportUtils.writeLineWithSeparator(document, "     Link Type", ": ", link.getType(), descriptionFont, true);
+                        ReportUtils.writeLineWithSeparator(document, Messages.getString("GRLDiagramSection.SpaceLinkType"), ": ", link.getType(), descriptionFont, true); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                     insertMetadata(document, link.getMetadata());
                 }
@@ -180,7 +181,7 @@ public class GRLDiagramSection extends PDFReportDiagram {
         if (!hasURNlinks)
             return;
 
-        insertDiagramSectionHeader(document, tableParams, "Actor URN Links");
+        insertDiagramSectionHeader(document, tableParams, Messages.getString("GRLDiagramSection.ActorURNLinks")); //$NON-NLS-1$
 
         for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext();) {
             currentActorRef = (ActorRef) iter.next();
@@ -192,10 +193,10 @@ public class GRLDiagramSection extends PDFReportDiagram {
                 String elementType = link.getToElem().getClass().getName();
                 elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                ReportUtils.writeLineWithSeparator(document, currentActor.getName(), " ==> (", elementType + ") " + link.getToElem().getName(),
+                ReportUtils.writeLineWithSeparator(document, currentActor.getName(), " ==> (", elementType + ") " + link.getToElem().getName(), //$NON-NLS-1$ //$NON-NLS-2$
                         descriptionFont, true);
                 if (ReportUtils.notEmpty(link.getType()))
-                    ReportUtils.writeLineWithSeparator(document, "     Link Type", ": ", link.getType(), descriptionFont, true);
+                    ReportUtils.writeLineWithSeparator(document, Messages.getString("GRLDiagramSection.SpaceLinkType"), ": ", link.getType(), descriptionFont, true); //$NON-NLS-1$ //$NON-NLS-2$
 
                 insertMetadata(document, link.getMetadata());
             }
@@ -206,10 +207,10 @@ public class GRLDiagramSection extends PDFReportDiagram {
                 String elementType = link.getFromElem().getClass().getName();
                 elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                ReportUtils.writeLineWithSeparator(document, currentActor.getName(), " <== (", elementType + ") " + link.getFromElem().getName(),
+                ReportUtils.writeLineWithSeparator(document, currentActor.getName(), " <== (", elementType + ") " + link.getFromElem().getName(), //$NON-NLS-1$ //$NON-NLS-2$
                         descriptionFont, true);
                 if (ReportUtils.notEmpty(link.getType()))
-                    ReportUtils.writeLineWithSeparator(document, "     Link Type", ": ", link.getType(), descriptionFont, true);
+                    ReportUtils.writeLineWithSeparator(document, Messages.getString("GRLDiagramSection.SpaceLinkType"), ": ", link.getType(), descriptionFont, true); //$NON-NLS-1$ //$NON-NLS-2$
 
                 insertMetadata(document, link.getMetadata());
             }

@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.aourn.matcher.exceptions.ContradictoryMappingException;
 import seg.jUCMNav.aourn.matcher.exceptions.DuplicateMappingException;
 import ucm.map.Anything;
@@ -167,9 +168,9 @@ public class Match {
 		Mapping mappingForStartPoint = new Mapping(peStartPoint, mBeforeEndPoint.getJoinpoint());
 		// add them to the match (without checking for duplicates/contradictions since there will be some - not relevant anymore)
 		match.add(mappingForEndPoint);
-		MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Info", "Added mapping for end point [" + mappingForEndPoint.getPointcutElement().getId() + "] to " + mappingForEndPoint.getJoinpoint().getName() + "[" + mappingForEndPoint.getJoinpoint().getId() + "]!"); //$NON-NLS-1$ //$NON-NLS-2$		
+		MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("Match.Info"), Messages.getString("Match.AddedMappingForEndPoint") + mappingForEndPoint.getPointcutElement().getId() + Messages.getString("Match.CloseBracketTo") + mappingForEndPoint.getJoinpoint().getName() + "[" + mappingForEndPoint.getJoinpoint().getId() + "]!"); 		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		match.add(mappingForStartPoint);
-		MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Info", "Added mapping for start point [" + mappingForStartPoint.getPointcutElement().getId() + "] to " + mappingForStartPoint.getJoinpoint().getName() + "[" + mappingForStartPoint.getJoinpoint().getId() + "]!"); //$NON-NLS-1$ //$NON-NLS-2$
+		MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("Match.Info"), Messages.getString("Match.AddedMappingForStartPoint") + mappingForStartPoint.getPointcutElement().getId() + Messages.getString("Match.CloseBracketTo") + mappingForStartPoint.getJoinpoint().getName() + "[" + mappingForStartPoint.getJoinpoint().getId() + "]!");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	}
 	
 }

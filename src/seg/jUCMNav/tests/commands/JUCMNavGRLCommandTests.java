@@ -629,8 +629,8 @@ public class JUCMNavGRLCommandTests extends TestCase {
     }
 
     public void testModifyURNlinkCommand() {
-    	String oldType = "test old URN Link type";
-    	String newType = "test new URN Link type";
+    	String oldType = "test old URN Link type"; //$NON-NLS-1$
+    	String newType = "test new URN Link type"; //$NON-NLS-1$
     	
         testAddUrnLinkCommand();
         urnlink.setType(oldType);
@@ -639,13 +639,13 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue( "Can't execute ModifyURNlinkCommand.", cmd.canExecute() ); //$NON-NLS-1$
         
         cs.execute(cmd);
-        assertTrue( "New URN Link type not set.", urnlink.getType().equals(newType));
+        assertTrue( "New URN Link type not set.", urnlink.getType().equals(newType)); //$NON-NLS-1$
         
         cs.undo();
-        assertTrue( "Can't undo Modify URN Link.", urnlink.getType().equals(oldType));
+        assertTrue( "Can't undo Modify URN Link.", urnlink.getType().equals(oldType)); //$NON-NLS-1$
         
         cs.redo();
-        assertTrue( "Can't redo Modify URN Link.", urnlink.getType().equals(newType));
+        assertTrue( "Can't redo Modify URN Link.", urnlink.getType().equals(newType)); //$NON-NLS-1$
         
     }
     public void testMoveLinkRefBendpointCommand() {

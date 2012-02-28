@@ -115,7 +115,7 @@ public class ScenarioUtils {
                         return (Boolean) ((UcmExpressionValue) result).getBaseValue();
                     }
                     else
-                        throw new IllegalArgumentException("Condition did not evaluate to a boolean value.");
+                        throw new IllegalArgumentException(Messages.getString("ScenarioUtils.ConditionDidNotEvaluateToBoolean")); //$NON-NLS-1$
                 }
             }
             return result;

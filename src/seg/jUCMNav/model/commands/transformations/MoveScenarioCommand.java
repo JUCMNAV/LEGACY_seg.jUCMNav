@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
@@ -25,7 +26,7 @@ public class MoveScenarioCommand extends Command implements JUCMNavCommand {
         this.scenario = scenario;
         this.group = targetGroup;
         this.oldGroup = scenario.getGroup();
-        setLabel("Move scenario");
+        setLabel(Messages.getString("MoveScenarioCommand.MoveScenario")); //$NON-NLS-1$
     }
 
     /**

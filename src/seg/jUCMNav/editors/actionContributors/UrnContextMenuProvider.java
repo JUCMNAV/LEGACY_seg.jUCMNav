@@ -405,7 +405,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(EditURNLinksAction.EDITURNLINKS);
         if (action.isEnabled()) {
             manager.appendToGroup(GROUP_UNCOMMON, action);
-            action.setToolTipText( "Opens a popup menu allowing users to view and edit URN Links for this element" );
+            action.setToolTipText( Messages.getString("UrnContextMenuProvider.OpenMenuToViewEditURNLinks") ); //$NON-NLS-1$
         }
         
         action = getActionRegistry().getAction(EditCodeAction.EDITCODEACTION);

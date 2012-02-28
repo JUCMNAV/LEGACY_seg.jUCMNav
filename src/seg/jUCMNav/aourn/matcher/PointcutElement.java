@@ -58,12 +58,12 @@ public class PointcutElement extends MatchableElement {
 	
 	@Override
 	public boolean isPointcutStartPoint() {
-		return (getElement() instanceof StartPoint && getName().equals("") && (((StartPoint) getElement()).getPred().size() == 0));
+		return (getElement() instanceof StartPoint && getName().equals("") && (((StartPoint) getElement()).getPred().size() == 0)); //$NON-NLS-1$
 	}
 
 	@Override
 	public boolean isPointcutEndPoint() {
-		return (getElement() instanceof EndPoint && getName().equals("") && (((EndPoint) getElement()).getSucc().size() == 0));
+		return (getElement() instanceof EndPoint && getName().equals("") && (((EndPoint) getElement()).getSucc().size() == 0)); //$NON-NLS-1$
 	}
 	
 	@Override

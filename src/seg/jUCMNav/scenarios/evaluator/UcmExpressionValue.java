@@ -99,7 +99,7 @@ public class UcmExpressionValue {
 
     public String toString()
     {
-        String result = ""; 
+        String result = "";  //$NON-NLS-1$
         if (getBaseValue()!=null)
             result += getBaseValue().toString();
         
@@ -110,7 +110,7 @@ public class UcmExpressionValue {
                 result = getSecondaryEnumerationValue();
             }
             else
-                result += " [" + getSecondaryEnumerationValue() + "]";
+                result += " [" + getSecondaryEnumerationValue() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
         }
         
         return result;
@@ -131,7 +131,7 @@ public class UcmExpressionValue {
         else if (result instanceof UcmExpressionValue)
             return (UcmExpressionValue)result;
         else 
-            return new UcmExpressionValue("");
+            return new UcmExpressionValue(""); //$NON-NLS-1$
     }
     
 }

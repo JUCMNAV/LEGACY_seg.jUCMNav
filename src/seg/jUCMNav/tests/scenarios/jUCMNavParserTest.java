@@ -48,7 +48,7 @@ public class jUCMNavParserTest extends TestCase {
         env.registerInteger("k", 0); //$NON-NLS-1$
         
         // new in bug506
-        env.registerBoolean("initial", false);
+        env.registerBoolean("initial", false); //$NON-NLS-1$
 
         env.registerEnumeration("ApplicationStates", new String[] { "INITIAL", "WORKING", "DONE" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         env.registerEnumeration("AdmissionProcessStates", new String[] { "INITIAL", "REVIEWING", "INVITED", "DENIED" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
@@ -840,7 +840,7 @@ public class jUCMNavParserTest extends TestCase {
         assertEquals(env.getValue("appState"), env.getValue("INITIAL")); //$NON-NLS-1$ //$NON-NLS-2$
 
         result = true;
-        parse("initial == false");
+        parse("initial == false"); //$NON-NLS-1$
     }
 
 }

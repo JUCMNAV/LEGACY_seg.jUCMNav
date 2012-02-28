@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import urncore.IURNDiagram;
@@ -59,16 +60,16 @@ public abstract class ExportImage implements IUseCaseMapExport {
         
         boolean exists = false;
         
-        final String IMAGES_LOCATION = "pages" + File.separator + "img" + File.separator; //$NON-NLS-1$
+        final String IMAGES_LOCATION = "pages" + File.separator + "img" + File.separator; //$NON-NLS-1$ //$NON-NLS-2$
         
         if( !path.contains( IMAGES_LOCATION ) ) {
         	exists = (new File( path )).exists();
 
         	if( exists ){
 
-        		String title = "Graphics File Exists";
-        		String message = "The file \"" + path + "\" already exists. Do you want to overwrite ?";
-        		String[] labels = { "Overwrite File", "Create Unique Filename" };
+        		String title = Messages.getString("ExportImage.GraphicsFileExists"); //$NON-NLS-1$
+        		String message = Messages.getString("ExportImage.TheFileQuote") + path + Messages.getString("ExportImage.QuoteAlreadyExists"); //$NON-NLS-1$ //$NON-NLS-2$
+        		String[] labels = { Messages.getString("ExportImage.OverwriteFile"), Messages.getString("ExportImage.CreateUniqueFilename") }; //$NON-NLS-1$ //$NON-NLS-2$
         		
         		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         		MessageDialog md = new MessageDialog( shell, title,

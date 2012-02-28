@@ -132,7 +132,7 @@ public class MatchableElementFactory {
 						// the alternative neighbor for the element before the end point is the element after the stub (it replaces the end point)
 						MatchableNeighbor mnAfterStub = new MatchableNeighbor(afterStub.getElement(), true, false, false, joinpoint);
 						beforeEndPoint.replaceWithSemanticNeighbor(eJoinpoint, mnAfterStub);
-						MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Info", "Found stub " + pn.getName() + " [" + pn.getId() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+						MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Info", "Found stub " + pn.getName() + " [" + pn.getId() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					}
 				}
 			}
@@ -171,13 +171,13 @@ public class MatchableElementFactory {
 				if (pathNode instanceof Connect) {
 					// there is always one node after a connect
 					pathNode = ((PathNode) ((NodeConnection) pathNode.getSucc().get(0)).getTarget());
-					if (pathNode instanceof StartPoint && ((StartPoint) pathNode).getPrecondition().getLabel() == "") {
+					if (pathNode instanceof StartPoint && ((StartPoint) pathNode).getPrecondition().getLabel() == "") { //$NON-NLS-1$
 						 return true;
 					}
 				}
 			}
 		}
-		if (pathNode instanceof StartPoint && ((StartPoint) pathNode).getPrecondition().getLabel() == "") {
+		if (pathNode instanceof StartPoint && ((StartPoint) pathNode).getPrecondition().getLabel() == "") { //$NON-NLS-1$
 			// check if start point without a condition is connected to an end point; if yes, ignore them
 			// if an end point is connected to a start point, the Connect node is in between the two nodes
 			if (pathNode.getPred().size() > 0) {

@@ -79,14 +79,14 @@ public abstract class MatchableElement {
 				if (pn instanceof Connect) {
 					// there is always one node after a connect
 					pn = ((PathNode) ((NodeConnection) pn.getSucc().get(0)).getTarget());
-					if (pn instanceof StartPoint && ((StartPoint) pn).getPrecondition().getLabel() == "") {
+					if (pn instanceof StartPoint && ((StartPoint) pn).getPrecondition().getLabel() == "") { //$NON-NLS-1$
 						// there is always a node after a start point
 						 return ignoreWhitespace(((PathNode) ((NodeConnection) pn.getSucc().get(0)).getTarget()), true);
 					}
 				}
 			}
 		}
-		if (!forward && neighborPathNode instanceof StartPoint && ((StartPoint) neighborPathNode).getPrecondition().getLabel() == "") {
+		if (!forward && neighborPathNode instanceof StartPoint && ((StartPoint) neighborPathNode).getPrecondition().getLabel() == "") { //$NON-NLS-1$
 			// check if start point without a condition is connected to an end point; if yes, ignore them
 			// if an end point is connected to a start point, the Connect node is in between the two nodes
 			if (neighborPathNode.getPred().size() > 0) {
@@ -126,8 +126,8 @@ public abstract class MatchableElement {
 		// furthermore, if a label is specified but it is empty, then also a wildcard should be returned
 		//if ((element.getLabel() != null && element.getName() != "") || this instanceof Joinpoint) {
 		//if ((element.getLabel() == null || element.getName() == null || element.getName().equals("")) && this instanceof PointcutElement) {
-		if ((element.getLabel() == null || element.getName() == "") && this instanceof PointcutElement) {
-			return "*";
+		if ((element.getLabel() == null || element.getName() == "") && this instanceof PointcutElement) { //$NON-NLS-1$
+			return "*"; //$NON-NLS-1$
 		} else {
 			return element.getName();
 		}

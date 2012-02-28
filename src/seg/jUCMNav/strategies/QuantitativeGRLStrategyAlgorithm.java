@@ -139,8 +139,8 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             ElementLink link = (ElementLink)it.next();
             if (link instanceof Decomposition){
             	if (element.getDecompositionType().getValue() == DecompositionType.AND){
-            		String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal");
-            		if ("No".equals(value)){
+            		String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal"); //$NON-NLS-1$
+            		if ("No".equals(value)){ //$NON-NLS-1$
             			if(!it.hasNext() && decompositionValue < -100)
             				decompositionValue = 0; //case where all sources are tagged "N"
             			else
@@ -248,11 +248,11 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 if (node instanceof IntentionalElementRef) {
                     IntentionalElementRef elementRef = (IntentionalElementRef) node;
                     IntentionalElement element = elementRef.getDef();
-                    String value = MetadataHelper.getMetaData(element, "ST_Legal");
+                    String value = MetadataHelper.getMetaData(element, "ST_Legal"); //$NON-NLS-1$
                     int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
                     int importance = element.getImportanceQuantitative();
 
-                    if (importance != 0 && !"No".equals(value)){
+                    if (importance != 0 && !"No".equals(value)){ //$NON-NLS-1$
                         sumEval += evaluation*importance;
 
                         sumImportance += importance;

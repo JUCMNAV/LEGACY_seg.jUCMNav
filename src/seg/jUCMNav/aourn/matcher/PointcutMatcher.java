@@ -67,7 +67,7 @@ public class PointcutMatcher {
 			return true;
 		if (pointcutElement.getElement() instanceof Anything)
 			return true;
-		if (pointcutElement.getName().equals("*") || pointcutElement.getName().equals(joinpoint.getName())) {
+		if (pointcutElement.getName().equals("*") || pointcutElement.getName().equals(joinpoint.getName())) { //$NON-NLS-1$
 			if (pointcutElement.getElement().getClass() == joinpoint.getElement().getClass()) 
 				return true;
 		}

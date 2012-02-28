@@ -109,7 +109,7 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
         } else
             super.addPropertyToDescriptor(descriptors, attr, c);
         
-        if (getEditableValue() instanceof RespRef && attr.getName().equals("context")) {
+        if (getEditableValue() instanceof RespRef && attr.getName().equals("context")) { //$NON-NLS-1$
             Vector v = (Vector) descriptors;
             CheckboxPropertyDescriptor pd = (CheckboxPropertyDescriptor) v.get(v.size() - 1);
 

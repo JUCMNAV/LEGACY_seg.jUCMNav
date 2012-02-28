@@ -12,6 +12,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.aourn.composer.AspectMarkerMappings;
@@ -92,9 +93,9 @@ public class ApplyConcernAction extends URNSelectionAction {
         // TODO externalize strings
        	if (pointcutMap != null) {
        		List<PathNode> joinpoints = getJoinpoints(element, pointcutMap);
-            MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Found pointcut expression: " + pointcutMap.getName() + " [" + pointcutMap.getId() + "]     joinpoints: " + joinpoints.size() + " path nodes"); //$NON-NLS-1$ //$NON-NLS-2$
+            MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Found pointcut expression: " + pointcutMap.getName() + " [" + pointcutMap.getId() + Messages.getString("ApplyConcernAction.CloseBracketJoinPoints") + joinpoints.size() + Messages.getString("ApplyConcernAction.SpacePathNodes")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
             MatchList matchResult = new MatchList();
-            String capture = "";
+            String capture = ""; //$NON-NLS-1$
             try {
             	matchResult = PointcutMatcher.match(pointcutMap, joinpoints);
     	        if (matchResult.getMatchList().size() < 20)
@@ -102,16 +103,16 @@ public class ApplyConcernAction extends URNSelectionAction {
 	        } catch (MatchingFailedException e) {
 	        	// nothing to do
 			}
-        	MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Found " + matchResult.getMatchList().size() + " matches: " + capture); //$NON-NLS-1$ //$NON-NLS-2$
+        	MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Found " + matchResult.getMatchList().size() + Messages.getString("ApplyConcernAction.SpaceMatches") + capture); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             // if there are some matches, continue with the composition
             if (matchResult.getMatchList().size() > 0) {
                 List<AspectMarkerMappings> composeResult = new ArrayList<AspectMarkerMappings>();
-                capture = "";
+                capture = ""; //$NON-NLS-1$
                 try {
     				composeResult = UCMAspectComposer.compose((UCMmap) element, pointcutMap, matchResult);
     				if (composeResult.size() < 20)
     					capture = capture(composeResult);
-    		        MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Aspect markers to apply: " + composeResult.size() + "     " + capture); //$NON-NLS-1$ //$NON-NLS-2$
+    		        MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Aspect markers to apply: " + composeResult.size() + "     " + capture); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     		        if (composeResult.size() < 250) {
     		        	// perform the commands to update the model - one for each aspect marker that is being added
     		        	CompoundCommand cmd = new AddAspectStubsCommand(urn, composeResult);
@@ -206,31 +207,31 @@ public class ApplyConcernAction extends URNSelectionAction {
 	}
 
 	private String capture(MatchList result) {
-		String capture = "";
+		String capture = ""; //$NON-NLS-1$
 		if (result != null) {
 			for (Iterator iter = result.getMatchList().iterator(); iter.hasNext();) {
 				Match mappings = (Match) iter.next();
 				for (Iterator iterator = mappings.getMatch().iterator(); iterator.hasNext();) {
 					Mapping mapping = (Mapping) iterator.next();
 					if (mapping.getPointcutElement().getElement() == null)
-						capture += "null" + " --> " + mapping.getJoinpoint().getName() + "[" + mapping.getJoinpoint().getId() + "]     ";
+						capture += "null" + " --> " + mapping.getJoinpoint().getName() + "[" + mapping.getJoinpoint().getId() + "]     "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					else
-						capture += mapping.getPointcutElement().getName() + "[" + mapping.getPointcutElement().getId() + "] --> " + mapping.getJoinpoint().getName() + "[" + mapping.getJoinpoint().getId() + "]     ";
+						capture += mapping.getPointcutElement().getName() + "[" + mapping.getPointcutElement().getId() + "] --> " + mapping.getJoinpoint().getName() + "[" + mapping.getJoinpoint().getId() + "]     "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				}
-				capture += "-----     ";
+				capture += "-----     "; //$NON-NLS-1$
 			}
 		}
 		else
-			capture += "no match";
+			capture += Messages.getString("ApplyConcernAction.NoMatch"); //$NON-NLS-1$
 		return capture;
 	}
 
 	private static String capture(List<AspectMarkerMappings> result) {
-		String capture = "";
+		String capture = ""; //$NON-NLS-1$
 		for (int i = 0; i < result.size(); i++) {
 			PathNode joinpoint = (PathNode) result.get(i).getFirstMapping().get(0);
 			NodeConnection insertionPoint = (NodeConnection) result.get(i).getInsertionPoint();
-			capture += joinpoint.getName() + "[" + joinpoint.getId() + "] (insertion point: " + ((PathNode) insertionPoint.getSource()).getName() + "[" + ((PathNode) insertionPoint.getSource()).getId() + "]<-->" + ((PathNode) insertionPoint.getTarget()).getName() + "[" + ((PathNode) insertionPoint.getTarget()).getId() + "]     -----     ";
+			capture += joinpoint.getName() + "[" + joinpoint.getId() + Messages.getString("ApplyConcernAction.CloseBracketInsertionPoint") + ((PathNode) insertionPoint.getSource()).getName() + "[" + ((PathNode) insertionPoint.getSource()).getId() + "]<-->" + ((PathNode) insertionPoint.getTarget()).getName() + "[" + ((PathNode) insertionPoint.getTarget()).getId() + "]     -----     "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 		}
 		return capture;
 	}
