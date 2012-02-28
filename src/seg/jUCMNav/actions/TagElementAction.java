@@ -11,9 +11,9 @@ import java.util.Iterator;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.actions.metadata.TagURNElements;
 import urn.URNspec;
 import urn.impl.URNlinkImpl;
-import urn.util.TagURNElements;
 import urncore.Component;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
