@@ -135,12 +135,12 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
         return IGRLStrategyAlgorithm.EVAL_QUANTITATIVE;
     }
     /**
-     * This method decideds if an element needs to be ignored or not
-     * if an element has ConditionalGRLStrategyAlgorithm_IgnoreNode defined as medata data it should be ignored regardless
-     * if an elemenet does not have any metadata it should never be ignored
+     * This method decides whether an element needs to be ignored or not
+     * if an element has ConditionalGRLStrategyAlgorithm_IgnoreNode defined as metadata, it should be ignored regardless
+     * if an element does not have any metadata it should never be ignored
      * if an element has stereotype metadata then 
-     *          if the metadata matches the strategy accept sterotype list it should NOT be ignored
-     *          if the metadata doesnot match the strategy accept sterotype list it should be ignored  
+     *          if the metadata matches the strategy accept stereotype list it should NOT be ignored
+     *          if the metadata does not match the strategy accept stereotype list it should be ignored  
      * @param element
      * @return
      */
@@ -157,9 +157,9 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                 break;
             }
             if (acceptStereotypes.size() > 0 && !foundAcceptacceptStereotype) {                
-                if (elementMetadata.getName().startsWith("ST_") && !acceptStereotypes.containsKey(elementMetadata.getValue())) {
+                if (elementMetadata.getName().startsWith("ST_") && !acceptStereotypes.containsKey(elementMetadata.getValue())) { //$NON-NLS-1$
                     foundStereotype++;
-                } else if (elementMetadata.getName().startsWith("ST_") && acceptStereotypes.containsKey(elementMetadata.getValue())) {
+                } else if (elementMetadata.getName().startsWith("ST_") && acceptStereotypes.containsKey(elementMetadata.getValue())) { //$NON-NLS-1$
                     foundStereotype++;
                     foundAcceptacceptStereotype = true;
                 }
@@ -188,9 +188,9 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
         int[] evaluationValues = new int[100];
         /* contribution value of the contribution links connected to the node */
         int[] contributionLinksValues = new int[100];
-        /* used to keep a reference to the contribution links to be able to add meta-data later on if required */
+        /* used to keep a reference to the contribution links to be able to add metadata later on if required */
         ElementLink[] contributionLinks = new ElementLink[100];
-        /* used to keep the contribution values that has to be ignored due to unsatisfied dependency */
+        /* used to keep the contribution values that have to be ignored due to unsatisfied dependency */
         int[] ignoredContributionValue = new int[100];
         int contribArrayIt = 0;
         int ignoredContribArrayIt = 0;
@@ -202,8 +202,8 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
             ElementLink link = (ElementLink) it.next();
             if (link instanceof Decomposition) {
                 if (element.getDecompositionType().getValue() == DecompositionType.AND) {
-                    String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal");
-                    if ("No".equals(value)) {
+                    String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal"); //$NON-NLS-1$
+                    if ("No".equals(value)) { //$NON-NLS-1$
                         if (!it.hasNext() && decompositionValue < -100)
                             decompositionValue = 0; // case where all sources are tagged "N"
                         else
@@ -234,23 +234,20 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                     dependencyValue = ((Evaluation) evaluations.get(src)).getEvaluation();
 
                 }
-               if (src.getType().getName().equals("Ressource")) {
+               if (src.getType().getName().equals("Ressource")) { //$NON-NLS-1$
                     boolean ignoreSrc = false;
                     ignoreSrc = checkIgnoreElement(src);
                     URNspec urnSpec = element.getGrlspec().getUrnspec();
                     if (dependencyValue == 0 && !ignoreSrc) {
-                        MetadataHelper.addMetaData(urnSpec, element, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), "");
+                        MetadataHelper.addMetaData(urnSpec, element, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), ""); //$NON-NLS-1$ $NON-NLS-2$
                     }
                     if (ignoreSrc) {
-                        MetadataHelper.addMetaData(urnSpec, src, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), "");
+                        MetadataHelper.addMetaData(urnSpec, src, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), ""); //$NON-NLS-1$ $NON-NLS-2$
                         dependencyValue = 10000;
                     }
                 }
             } else if (link instanceof Contribution) {
                 Contribution contrib = (Contribution) link;
-                Metadata acceptStereotype;
-
-                List eMetaData = link.getSrc().getMetadata();
 
                 boolean ignoreSrc = false;
                 ignoreSrc = checkIgnoreElement(link.getSrc());
@@ -261,7 +258,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                     ignoredContributionValue[ignoredContribArrayIt] = quantitativeContrib;
                     ignoredContribArrayIt++;                   
                     URNspec urnSpec = element.getGrlspec().getUrnspec();
-                    MetadataHelper.addMetaData(urnSpec, link.getSrc(), Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), "");
+                    MetadataHelper.addMetaData(urnSpec, link.getSrc(), Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), ""); //$NON-NLS-1$ $NON-NLS-2$
                 } else {
                     contributionLinksValues[consideredContribArrayIt] = quantitativeContrib;
                     contributionLinks[consideredContribArrayIt] = link;
@@ -375,7 +372,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
 
         Iterator iter = actor.getContRefs().iterator();
         while (iter.hasNext()) {
-            // Parse through the node bind to this actor
+            // Parse through the nodes bound to this actor
             ActorRef ref = (ActorRef) iter.next();
             Iterator iterNode = ref.getNodes().iterator();
             while (iterNode.hasNext()) {
@@ -383,11 +380,11 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                 if (node instanceof IntentionalElementRef) {
                     IntentionalElementRef elementRef = (IntentionalElementRef) node;
                     IntentionalElement element = elementRef.getDef();
-                    String value = MetadataHelper.getMetaData(element, "ST_Legal");
+                    String value = MetadataHelper.getMetaData(element, "ST_Legal"); //$NON-NLS-1$
                     int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
                     int importance = element.getImportanceQuantitative();
 
-                    if (importance != 0 && !"No".equals(value)) {
+                    if (importance != 0 && !"No".equals(value)) { //$NON-NLS-1$
                         sumEval += evaluation * importance;
 
                         sumImportance += importance;
