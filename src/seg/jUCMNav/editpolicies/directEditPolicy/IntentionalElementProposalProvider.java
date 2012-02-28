@@ -2,8 +2,6 @@ package seg.jUCMNav.editpolicies.directEditPolicy;
 
 import java.util.Vector;
 
-import org.eclipse.jface.fieldassist.SimpleContentProposalProvider;
-
 import seg.jUCMNav.model.util.URNElementFinder;
 import urn.URNspec;
 

@@ -1,6 +1,7 @@
 package seg.jUCMNav.views.compositeList;
 
-import org.eclipse.jface.util.ListenerList;
+
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
 
@@ -12,7 +13,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public abstract class CompositeListItem extends Composite {
 
-    private ListenerList selectListeners = new ListenerList(3);
+    private ListenerList selectListeners = new ListenerList(ListenerList.IDENTITY);
     private boolean selected = false;
 
     /**

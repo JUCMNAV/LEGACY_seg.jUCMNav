@@ -1,9 +1,9 @@
 package seg.jUCMNav.actions;
 
+import grl.IntentionalElementRef;
+
 import java.util.Iterator;
 import java.util.Vector;
-
-import grl.IntentionalElementRef;
 
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;

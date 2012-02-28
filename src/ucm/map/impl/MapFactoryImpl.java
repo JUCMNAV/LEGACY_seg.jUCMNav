@@ -13,14 +13,18 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import ucm.map.*;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.Anything;
+import ucm.map.AspectKind;
+import ucm.map.ComponentBinding;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.FailureKind;
+import ucm.map.FailurePoint;
 import ucm.map.InBinding;
 import ucm.map.MapFactory;
 import ucm.map.MapPackage;
@@ -29,11 +33,14 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
+import ucm.map.PointcutKind;
 import ucm.map.RespRef;
+import ucm.map.ResponsibilityBinding;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
+import ucm.map.WaitKind;
 import ucm.map.WaitingPlace;
 
 /**

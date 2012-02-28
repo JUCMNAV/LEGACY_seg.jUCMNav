@@ -11,7 +11,6 @@ import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.GrlPackage;
 import grl.StrategiesGroup;
-
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KpimodelPackage;
 

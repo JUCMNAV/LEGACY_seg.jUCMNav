@@ -2,8 +2,8 @@ package seg.jUCMNav.editors;
 
 import grl.GRLGraph;
 
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.util.ListenerList;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -39,7 +39,7 @@ import urncore.URNmodelElement;
  */
 public class MultiPageTabManager {
 
-    private ListenerList pageListeners = new ListenerList(3);
+    private ListenerList pageListeners = new ListenerList(ListenerList.IDENTITY);
 
     /** the managed editor */
     private UCMNavMultiPageEditor editor;

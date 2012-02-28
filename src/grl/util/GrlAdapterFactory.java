@@ -6,19 +6,22 @@
  */
 package grl.util;
 
-import grl.*;
-
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
 import grl.BeliefLink;
+import grl.CollapsedActorRef;
 import grl.Contribution;
+import grl.ContributionChange;
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 import grl.Decomposition;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
+import grl.GRLLinkableElement;
 import grl.GRLNode;
 import grl.GRLspec;
 import grl.GrlPackage;

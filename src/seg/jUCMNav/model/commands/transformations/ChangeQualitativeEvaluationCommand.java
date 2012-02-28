@@ -1,11 +1,11 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import grl.IntentionalElementRef;
+import grl.QualitativeLabel;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-
-import grl.IntentionalElementRef;
-import grl.QualitativeLabel;
 
 import org.eclipse.gef.commands.Command;
 

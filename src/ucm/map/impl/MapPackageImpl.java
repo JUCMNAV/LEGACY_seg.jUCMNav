@@ -7,11 +7,8 @@
 package ucm.map.impl;
 
 import grl.GrlPackage;
-
 import grl.impl.GrlPackageImpl;
-
 import grl.kpimodel.KpimodelPackage;
-
 import grl.kpimodel.impl.KpimodelPackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -19,13 +16,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import ucm.UcmPackage;
-
 import ucm.impl.UcmPackageImpl;
-
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.Anything;
@@ -56,21 +50,13 @@ import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitKind;
 import ucm.map.WaitingPlace;
-
 import ucm.performance.PerformancePackage;
-
 import ucm.performance.impl.PerformancePackageImpl;
-
 import ucm.scenario.ScenarioPackage;
-
 import ucm.scenario.impl.ScenarioPackageImpl;
-
 import urn.UrnPackage;
-
 import urn.impl.UrnPackageImpl;
-
 import urncore.UrncorePackage;
-
 import urncore.impl.UrncorePackageImpl;
 
 /**

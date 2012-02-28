@@ -38,9 +38,7 @@ import grl.LinkRefBendpoint;
 import grl.Priority;
 import grl.QualitativeLabel;
 import grl.StrategiesGroup;
-
 import grl.kpimodel.KpimodelPackage;
-
 import grl.kpimodel.impl.KpimodelPackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;

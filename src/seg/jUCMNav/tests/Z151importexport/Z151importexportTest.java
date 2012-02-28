@@ -13,13 +13,13 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import junit.framework.TestCase;
 import seg.jUCMNav.importexport.z151.generated.ObjectFactory;
 import seg.jUCMNav.importexport.z151.generated.URNspec;
 import seg.jUCMNav.importexport.z151.marshal.MHandler;
 import seg.jUCMNav.importexport.z151.marshal.URNspecMHandler;
 import seg.jUCMNav.importexport.z151.unmarshal.EObjectImplUMHandler;
 import seg.jUCMNav.importexport.z151.unmarshal.URNspecUMHandler;
-import junit.framework.TestCase;
 
 public class Z151importexportTest extends TestCase {
 	static String jUCMNavHome = SkeletonClassesGenerator.getHomeDirPath();

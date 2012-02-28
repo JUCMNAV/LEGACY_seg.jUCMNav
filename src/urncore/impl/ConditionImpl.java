@@ -8,12 +8,9 @@ package urncore.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import ucm.map.EndPoint;
@@ -21,10 +18,8 @@ import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
-
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioPackage;
-
 import urncore.Concern;
 import urncore.Condition;
 import urncore.UrncorePackage;

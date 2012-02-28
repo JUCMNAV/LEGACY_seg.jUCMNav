@@ -1,11 +1,11 @@
 package seg.jUCMNav.model.commands.changeConstraints;
 
+import grl.LinkRef;
+import grl.LinkRefBendpoint;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import grl.LinkRef;
-import grl.LinkRefBendpoint;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.commands.Command;

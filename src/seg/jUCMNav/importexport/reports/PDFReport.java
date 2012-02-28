@@ -4,8 +4,6 @@ import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-import org.eclipse.swt.widgets.Shell;
-
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import urn.URNspec;

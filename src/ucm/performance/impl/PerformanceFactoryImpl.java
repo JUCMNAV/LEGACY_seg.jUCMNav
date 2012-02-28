@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import ucm.performance.*;
 import ucm.performance.ArrivalProcess;
 import ucm.performance.Demand;
 import ucm.performance.DeviceKind;
@@ -22,6 +21,7 @@ import ucm.performance.PassiveResource;
 import ucm.performance.PerformanceFactory;
 import ucm.performance.PerformancePackage;
 import ucm.performance.ProcessingResource;
+import ucm.performance.TimeUnit;
 import ucm.performance.Workload;
 
 /**

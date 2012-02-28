@@ -263,7 +263,7 @@ public class DividePathCommand extends CompoundCommand {
                         ReplaceEmptyPointCommand command = (ReplaceEmptyPointCommand) getCommands().get(j);
                         command.setOutgoingCondition(cond);
                     }
-                    break;
+                    break; // causes dead code above - but haven't investigated properly if we should just look at first node, or move this break into each if branch. 
                 }
             }
         } else if (i == 1) {

@@ -14,7 +14,6 @@ import seg.jUCMNav.model.util.modelexplore.QueryRequest;
 import seg.jUCMNav.model.util.modelexplore.QueryResponse;
 import seg.jUCMNav.scenarios.ScenarioTraversalListenerList;
 import seg.jUCMNav.scenarios.ScenarioUtils;
-import seg.jUCMNav.scenarios.evaluator.UcmExpressionValue;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.TraversalWarning;

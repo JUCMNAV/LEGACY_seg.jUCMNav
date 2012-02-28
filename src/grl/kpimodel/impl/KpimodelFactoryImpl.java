@@ -6,14 +6,21 @@
  */
 package grl.kpimodel.impl;
 
-import grl.kpimodel.*;
+import grl.kpimodel.Indicator;
+import grl.kpimodel.IndicatorGroup;
+import grl.kpimodel.KPIEvalValueSet;
+import grl.kpimodel.KPIInformationConfig;
+import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPIInformationElementRef;
+import grl.kpimodel.KPIModelLink;
+import grl.kpimodel.KPIModelLinkRef;
+import grl.kpimodel.KpimodelFactory;
+import grl.kpimodel.KpimodelPackage;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**

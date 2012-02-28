@@ -15,7 +15,6 @@ import grl.GRLspec;
 import grl.GrlPackage;
 import grl.IntentionalElement;
 import grl.StrategiesGroup;
-
 import grl.kpimodel.IndicatorGroup;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIModelLink;

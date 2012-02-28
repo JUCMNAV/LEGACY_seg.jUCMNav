@@ -19,13 +19,13 @@ package seg.jUCMNav.editors;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.draw2d.ScalableFigure;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.jface.util.ListenerList;
 
 import seg.jUCMNav.editparts.URNRootEditPart;
 
@@ -39,7 +39,7 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener {
     private ZoomManager currentZoomManager;
 
     /** listeners */
-    private ListenerList zoomListeners = new ListenerList(3);
+    private ListenerList zoomListeners = new ListenerList(ListenerList.IDENTITY);
 
     private UCMNavMultiPageEditor editor;
 

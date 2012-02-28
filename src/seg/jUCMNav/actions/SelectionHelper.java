@@ -28,7 +28,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.treeEditparts.LabelTreeEditPart;
 import ucm.UCMspec;

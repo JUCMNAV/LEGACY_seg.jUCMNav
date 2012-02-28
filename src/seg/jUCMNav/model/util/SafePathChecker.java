@@ -5,8 +5,8 @@ import java.util.Vector;
 
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.DeletionPathFinder;
-import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.DeletionPathFinder.QFindSpline;
+import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder.QFindReachableNodes;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;

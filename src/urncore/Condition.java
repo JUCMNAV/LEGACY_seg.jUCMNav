@@ -10,7 +10,6 @@ import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
-
 import ucm.scenario.ScenarioDef;
 
 /**

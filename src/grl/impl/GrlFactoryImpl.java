@@ -6,13 +6,15 @@
  */
 package grl.impl;
 
-import grl.*;
-
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
 import grl.BeliefLink;
+import grl.CollapsedActorRef;
 import grl.Contribution;
+import grl.ContributionChange;
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 import grl.ContributionType;
 import grl.Criticality;
 import grl.Decomposition;
@@ -26,12 +28,14 @@ import grl.GRLNode;
 import grl.GRLspec;
 import grl.GrlFactory;
 import grl.GrlPackage;
+import grl.ImportanceType;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
 import grl.Priority;
+import grl.QualitativeLabel;
 import grl.StrategiesGroup;
 
 import org.eclipse.emf.ecore.EClass;

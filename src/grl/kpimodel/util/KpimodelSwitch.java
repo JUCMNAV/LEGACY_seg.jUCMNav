@@ -9,8 +9,15 @@ package grl.kpimodel.util;
 import grl.GRLLinkableElement;
 import grl.GRLNode;
 import grl.IntentionalElement;
-
-import grl.kpimodel.*;
+import grl.kpimodel.Indicator;
+import grl.kpimodel.IndicatorGroup;
+import grl.kpimodel.KPIEvalValueSet;
+import grl.kpimodel.KPIInformationConfig;
+import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPIInformationElementRef;
+import grl.kpimodel.KPIModelLink;
+import grl.kpimodel.KPIModelLinkRef;
+import grl.kpimodel.KpimodelPackage;
 
 import java.util.List;
 

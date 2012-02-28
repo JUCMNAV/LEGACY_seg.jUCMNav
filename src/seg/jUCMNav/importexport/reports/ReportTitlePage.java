@@ -1,10 +1,20 @@
 package seg.jUCMNav.importexport.reports;
 
 import java.text.SimpleDateFormat;
+
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import urn.URNspec;
-import com.lowagie.text.*;
+
+import com.lowagie.text.Cell;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.Table;
 
 public class ReportTitlePage extends Report {
 

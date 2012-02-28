@@ -11,7 +11,6 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import ucm.performance.*;
 import ucm.performance.ActiveResource;
 import ucm.performance.Demand;
 import ucm.performance.ExternalOperation;

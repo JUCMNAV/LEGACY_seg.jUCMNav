@@ -17,14 +17,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import com.primalworld.math.MathEvaluator;
-
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urncore.IURNNode;
 import urncore.Metadata;
-import seg.jUCMNav.strategies.EvaluationStrategyManager;
+
+import com.primalworld.math.MathEvaluator;
 
 /**
  * This class implement the default GRL quantitative evaluation algorithm, with KPI aggregation.

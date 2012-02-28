@@ -7,17 +7,14 @@
 package grl.kpimodel.impl;
 
 import grl.impl.GRLNodeImpl;
-
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIInformationElementRef;
 import grl.kpimodel.KpimodelPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**

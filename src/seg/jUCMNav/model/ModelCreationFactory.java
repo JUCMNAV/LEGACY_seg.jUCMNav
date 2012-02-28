@@ -30,13 +30,11 @@ import grl.kpimodel.KpimodelFactory;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Locale;
 
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.resource.StringConverter;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.util.URNNamingHelper;

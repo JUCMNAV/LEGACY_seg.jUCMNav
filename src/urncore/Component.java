@@ -7,6 +7,7 @@
 package urncore;
 
 import org.eclipse.emf.common.util.EList;
+
 import ucm.performance.PassiveResource;
 import ucm.performance.ProcessingResource;
 

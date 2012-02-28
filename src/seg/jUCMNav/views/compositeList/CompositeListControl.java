@@ -3,7 +3,7 @@ package seg.jUCMNav.views.compositeList;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.eclipse.jface.util.ListenerList;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -37,7 +37,7 @@ public class CompositeListControl extends Composite implements ISelectionProvide
      * 
      * @see #selectionChanged(Object)
      */
-    private ListenerList selectListeners = new ListenerList(3);
+    private ListenerList selectListeners = new ListenerList(ListenerList.IDENTITY);
 
     /**
      * @param parent

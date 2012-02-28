@@ -7,6 +7,7 @@
 package ucm.map;
 
 import org.eclipse.emf.ecore.EObject;
+
 import urncore.Responsibility;
 
 /**

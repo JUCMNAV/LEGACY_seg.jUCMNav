@@ -42,6 +42,7 @@ import urncore.NodeLabel;
  */
 public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
+    
     /**
      * Handles moving/resizing of Graph children.
      * 

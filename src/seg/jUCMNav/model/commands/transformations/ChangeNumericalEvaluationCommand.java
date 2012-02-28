@@ -1,10 +1,11 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import grl.IntentionalElementRef;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import grl.IntentionalElementRef;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 

@@ -9,7 +9,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
-import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioLabelTreeEditPart;
 import seg.jUCMNav.model.commands.delete.DeleteIncludedScenarioCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioCommand;
 import seg.jUCMNav.model.commands.delete.DeleteStrategyCommand;

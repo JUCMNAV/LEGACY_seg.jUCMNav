@@ -1,6 +1,5 @@
 package seg.jUCMNav.tests.Z151importexport;
 
-import junit.framework.TestCase;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,6 +9,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+
+import junit.framework.TestCase;
 
 public class SkeletonClassesGenerator extends TestCase {
 	static String jUCMNavHome = getHomeDirPath() + "\\";

@@ -7,13 +7,14 @@ import java.io.IOException;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
@@ -68,8 +69,10 @@ public abstract class ExportImage implements IUseCaseMapExport {
         		String title = "Graphics File Exists";
         		String message = "The file \"" + path + "\" already exists. Do you want to overwrite ?";
         		String[] labels = { "Overwrite File", "Create Unique Filename" };
-        		MessageDialog md = new MessageDialog( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title,
-        				MessageDialog.getImage( Dialog.DLG_IMG_QUESTION), message, MessageDialog.QUESTION, labels, 1 );
+        		
+        		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        		MessageDialog md = new MessageDialog( shell, title,
+        		        shell.getDisplay().getSystemImage(SWT.ICON_QUESTION), message, MessageDialog.QUESTION, labels, 1 );
         		int answer = md.open();
         	}
         }

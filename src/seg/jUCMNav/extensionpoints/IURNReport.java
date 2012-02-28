@@ -3,8 +3,6 @@ package seg.jUCMNav.extensionpoints;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-import org.eclipse.swt.widgets.Shell;
-
 import urn.URNspec;
 
 /**

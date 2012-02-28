@@ -13,13 +13,14 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import urncore.*;
+import urncore.Comment;
 import urncore.Component;
 import urncore.ComponentKind;
 import urncore.ComponentLabel;
 import urncore.ComponentType;
 import urncore.Concern;
 import urncore.Condition;
+import urncore.ConnectionLabel;
 import urncore.Metadata;
 import urncore.NodeLabel;
 import urncore.Responsibility;

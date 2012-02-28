@@ -7,9 +7,7 @@
 package grl.kpimodel.impl;
 
 import grl.GrlPackage;
-
 import grl.impl.GrlPackageImpl;
-
 import grl.kpimodel.Indicator;
 import grl.kpimodel.IndicatorGroup;
 import grl.kpimodel.KPIEvalValueSet;
@@ -25,31 +23,19 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import ucm.UcmPackage;
-
 import ucm.impl.UcmPackageImpl;
-
 import ucm.map.MapPackage;
-
 import ucm.map.impl.MapPackageImpl;
-
 import ucm.performance.PerformancePackage;
-
 import ucm.performance.impl.PerformancePackageImpl;
-
 import ucm.scenario.ScenarioPackage;
-
 import ucm.scenario.impl.ScenarioPackageImpl;
-
 import urn.UrnPackage;
-
 import urn.impl.UrnPackageImpl;
-
 import urncore.UrncorePackage;
-
 import urncore.impl.UrncorePackageImpl;
 
 /**

@@ -10,7 +10,6 @@ import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GrlPackage;
 import grl.IntentionalElement;
-
 import grl.QualitativeLabel;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KpimodelPackage;

@@ -8,9 +8,7 @@ package urn.impl;
 
 import grl.GrlPackage;
 import grl.impl.GrlPackageImpl;
-
 import grl.kpimodel.KpimodelPackage;
-
 import grl.kpimodel.impl.KpimodelPackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;

@@ -1,10 +1,10 @@
 package seg.jUCMNav.actions;
 
-import java.util.Iterator;
-import java.util.Vector;
-
 import grl.ImportanceType;
 import grl.IntentionalElementRef;
+
+import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
