@@ -77,6 +77,10 @@ public class LabelEditPart extends ModelElementEditPart {
 
     // Image
     private Image iconImg;
+    
+    private final Image inLink = JUCMNavPlugin.getImage("icons/urnlink.gif");  //$NON-NLS-1$
+    private final Image outLink = JUCMNavPlugin.getImage("icons/urnlink-reversed.gif");  //$NON-NLS-1$
+    private final Image bidirLink = JUCMNavPlugin.getImage("icons/urnlink-bidir.gif");  //$NON-NLS-1$
 
     /**
      * Constructor infers the referenced model element for NodeLabels and ComponentLabels.
@@ -373,11 +377,9 @@ public class LabelEditPart extends ModelElementEditPart {
 
             // If the element has a URNlink associated, show the link symbol
             if (modelElement instanceof URNmodelElement) {
-                URNmodelElement urnElem;
-                boolean linksPresent = false; 
-                
-                urnElem = (URNmodelElement) modelElement;
-                linksPresent = (urnElem != null && (urnElem.getToLinks().size() + urnElem.getFromLinks().size()) > 0);
+                URNmodelElement urnElem =(URNmodelElement) modelElement;
+                boolean inLinksPresent = (urnElem != null && urnElem.getFromLinks().size() > 0);
+                boolean outLinksPresent = (urnElem != null && urnElem.getToLinks().size() > 0);
                 
                 // If this is a reference, also check the definition (for the 5 URN elements that make this distinction).
                 if (modelElement instanceof RespRef) {
@@ -393,15 +395,27 @@ public class LabelEditPart extends ModelElementEditPart {
                 } 
 
                 
-                linksPresent = linksPresent || (urnElem != null && (urnElem.getToLinks().size() + urnElem.getFromLinks().size()) > 0);
-
-
-                if (linksPresent) {
-                    // If there is a link, add the icon if not already added
-                    if (iconImg == null) {
-                        iconImg = (JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
+                inLinksPresent = inLinksPresent || (urnElem != null && urnElem.getFromLinks().size() > 0);
+                outLinksPresent = outLinksPresent || (urnElem != null && urnElem.getToLinks().size() > 0);
+                
+                if (inLinksPresent && outLinksPresent) {
+                    // Both in and out links are present
+                    if (iconImg != bidirLink) {
+                    	iconImg = bidirLink;
                         labelFigure.setIcon(iconImg);
                     }
+                } else if (inLinksPresent) {
+                    // in links are present
+                    if (iconImg != inLink) {
+                    	iconImg = inLink;
+                        labelFigure.setIcon(iconImg);
+                    }                                        
+                } else if (outLinksPresent) {
+                    // out links are present
+                    if (iconImg != outLink) {
+                    	iconImg = outLink;
+                        labelFigure.setIcon(iconImg);
+                    }                                        
                 } else {
                     // Remove the icon
                     if (iconImg != null) {

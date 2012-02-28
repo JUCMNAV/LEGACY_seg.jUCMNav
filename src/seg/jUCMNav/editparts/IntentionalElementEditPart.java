@@ -1,6 +1,5 @@
 package seg.jUCMNav.editparts;
 
-import grl.Contribution;
 import grl.Decomposition;
 import grl.ElementLink;
 import grl.Evaluation;
@@ -36,7 +35,6 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -58,7 +56,7 @@ import urncore.IURNNode;
 /**
  * EditPart for all IntentialElementRef. It listen for changes in the references and the definitions
  * 
- * @author Jean-Fran�ois Roy, sghanava
+ * @author Jean-Francois Roy, sghanava
  * 
  */
 public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeEditPart {
@@ -333,9 +331,9 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     figure.setForegroundColor(ColorManager.AQUA);
                 }
                 ((IntentionalElementPropertySource) getPropertySource()).setEvaluationStrategyView(false);
-                if (elem.getFromLinks().size() + elem.getToLinks().size() > 0) {
+                if (getNode().getFromLinks().size() + getNode().getToLinks().size() + elem.getFromLinks().size() + elem.getToLinks().size() > 0) {
                     evaluationLabel.setText(""); //$NON-NLS-1$
-                    evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
+                    setUrnLinkIcon(getNode(), elem);
                     Point position = getNodeFigure().getLocation();
                     position.y = position.y - 16;
                     position.x = position.x - 8;
@@ -472,10 +470,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         }
                         evaluationLabel.setIcon(evaluationImg);
                     } else {
-                        if (elem.getFromLinks().size() + elem.getToLinks().size() > 0)
-                            evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
-                        else
-                            evaluationLabel.setIcon(null);
+                        setUrnLinkIcon(getNode(), elem);
+
                     }
                 }
                 refreshConnections();
@@ -493,6 +489,28 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         // (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
 
+    /**
+     * Set the icon of the intentional element's label in case in has URN links.
+     * 
+     * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
+     */
+	private void setUrnLinkIcon(IntentionalElementRef ref, IntentionalElement elem) {
+		if (elem.getFromLinks().size() + ref.getFromLinks().size() > 0) {
+			if (elem.getToLinks().size() + ref.getToLinks().size() > 0)
+				evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink-bidir.gif")); //$NON-NLS-1$
+			else
+				evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
+		}
+		else 
+		{
+			if (elem.getToLinks().size() + ref.getToLinks().size() > 0)
+				evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink-reversed.gif")); //$NON-NLS-1$
+			else
+				evaluationLabel.setIcon(null);
+		}
+	}
+
+	
     /**
      * Refresh the successor edit parts.
      */

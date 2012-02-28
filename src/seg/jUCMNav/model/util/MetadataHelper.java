@@ -1,6 +1,7 @@
 package seg.jUCMNav.model.util;
 
 import grl.Actor;
+import grl.Contribution;
 import grl.ElementLink;
 import grl.IntentionalElement;
 
@@ -135,8 +136,9 @@ public class MetadataHelper {
             // Remove run-time contribution metadata attached to contribution links
 
             for (Iterator iter4 = model.getGrlspec().getLinks().iterator(); iter4.hasNext();) {
-                ElementLink ie = (ElementLink) iter4.next();
-                MetadataHelper.removeMetaData(ie, Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"));
+                ElementLink link = (ElementLink) iter4.next();
+                if (link instanceof Contribution)
+                	MetadataHelper.removeMetaData(link, Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution"));
             }
 
         }

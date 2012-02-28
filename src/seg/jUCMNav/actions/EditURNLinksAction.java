@@ -10,7 +10,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.views.urnlinks.URNLinksDialog;
 import urn.util.EditURNLink;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
@@ -18,7 +17,7 @@ import urncore.URNmodelElement;
 /**
  * This action open the URNLink dialog for the selected element
  * 
- * @author Jean-Fran�ois Roy
+ * @author Jean-Francois Roy
  * 
  */
 public class EditURNLinksAction extends URNSelectionAction {
