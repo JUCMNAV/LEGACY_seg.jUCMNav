@@ -1,8 +1,5 @@
 package seg.jUCMNav.editpolicies.layout;
 
-import grl.GRLNode;
-
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -22,10 +19,6 @@ import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommentCommand;
 import seg.jUCMNav.model.commands.create.AddCommentCommand;
-import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
-import seg.jUCMNav.model.util.modelexplore.queries.ReachableGRLNodeFinder;
-import seg.jUCMNav.model.util.modelexplore.queries.ReachableGRLNodeFinder.QFindReachableNodes;
-import seg.jUCMNav.model.util.modelexplore.queries.ReachableGRLNodeFinder.RReachableNodes;
 import ucm.map.PathNode;
 import urncore.Comment;
 import urncore.ComponentLabel;
@@ -140,7 +133,10 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
         
         List selected = getSelectedModel(child.getViewer());
         
-        boolean multipleNodeMoved = isMultipleSelected(compRef.getNodes(), selected);
+        List allNodesInComp = getAllComponentNodes(compRef);
+        selected.addAll(allNodesInComp);
+        
+        boolean multipleNodeMoved = isMultipleSelected(getAllComponentNodes(compRef), selected);
 
         SetConstraintBoundContainerRefCompoundCommand moveResize = new SetConstraintBoundContainerRefCompoundCommand(compRef, rect.getLocation().x, rect
                 .getLocation().y, rect.width, rect.height, multipleNodeMoved);
@@ -175,7 +171,6 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
 
         return new SetConstraintCommentCommand(node, rect.getLocation().x, rect.getLocation().y, rect.width, rect.height);
     }
-
     
     protected List getSelectedModel(EditPartViewer viewer) {
         List selectedNodes = new Vector();
@@ -185,5 +180,18 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
             selectedNodes.add(selectedPart.getModel());
         }
         return selectedNodes;
+    }
+    
+    protected List getAllComponentNodes(IURNContainerRef container)
+    {
+        List result = new Vector();
+        for (Iterator i = container.getChildren().iterator(); i.hasNext();) {
+            IURNContainerRef node = (IURNContainerRef)i.next();
+            result.addAll(getAllComponentNodes(node));
+        }
+        
+        result.addAll(container.getNodes());
+        
+        return result;
     }
 }

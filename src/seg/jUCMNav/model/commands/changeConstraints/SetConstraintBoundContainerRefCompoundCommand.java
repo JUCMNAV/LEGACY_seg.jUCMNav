@@ -3,6 +3,7 @@ package seg.jUCMNav.model.commands.changeConstraints;
 import grl.GRLNode;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
@@ -33,6 +34,8 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
     private IURNContainerRef compRef;
     
     private boolean multipleNodeMoved = false;
+    
+    private SetConstraintContainerRefCommand mainMoveCommand;
 
     /**
      * @param cr
@@ -124,6 +127,10 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
         newWidth = width;
         newHeight = height;
     }
+    
+    public List getOriginalChildren() {
+        return mainMoveCommand.getOriginalChildren();
+    }
 
     /**
      * Using the compRef's children (Nodes and ComponentRefs), build a set of commands to be executed to move/resize the children with the parent. Note: when
@@ -141,6 +148,7 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
 
         Vector v = new Vector();
         SetConstraintContainerRefCommand cmd = new SetConstraintContainerRefCommand(getCompRef(), newX, newY, newWidth, newHeight);
+        mainMoveCommand = cmd;
         v.addAll(cmd.getOriginalChildren());
 
         add(cmd);
@@ -153,10 +161,10 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
             URNmodelElement elem = (URNmodelElement) v.get(0);
             if (elem instanceof IURNContainerRef) {
                 IURNContainerRef child = (IURNContainerRef) elem;
-                cmd = new SetConstraintContainerRefCommand(child, newX + (int) ((child.getX() - oldX) * factorW), newY
-                        + (int) ((child.getY() - oldY) * factorH), (int) (child.getWidth() * factorW), (int) (child.getHeight() * factorH));
+                SetConstraintBoundContainerRefCompoundCommand cmd2 = new SetConstraintBoundContainerRefCompoundCommand(child, newX + (int) ((child.getX() - oldX) * factorW), newY
+                        + (int) ((child.getY() - oldY) * factorH), (int) (child.getWidth() * factorW), (int) (child.getHeight() * factorH), multipleNodeMoved);
                 
-                for (Iterator iterator = cmd.getOriginalChildren().iterator(); iterator.hasNext();) {
+                for (Iterator iterator = cmd2.getOriginalChildren().iterator(); iterator.hasNext();) {
                     Object object = (Object) iterator.next();
                     
                     // infinite loops. 
@@ -166,7 +174,7 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
                     }
                 }
                 //v.addAll(cmd.getOriginalChildren());
-                add(cmd);
+                add(cmd2);
 
             } else if(elem instanceof GRLNode) {
                 IURNNode child = (IURNNode) elem;
