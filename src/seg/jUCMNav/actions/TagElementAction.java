@@ -11,9 +11,9 @@ import java.util.Iterator;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.views.urnlinks.TagURNElements;
+import seg.jUCMNav.actions.metadata.TagURNElements;
+import seg.jUCMNav.model.util.URNElementFinder;
 import urn.URNspec;
-import urn.impl.URNlinkImpl;
 import urncore.Component;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
@@ -49,7 +49,7 @@ public class TagElementAction extends URNSelectionAction {
         }
         
 		urnspec = this.getURNspec( element );
-		String className = this.className( URNlinkImpl.getParentElement( element ));
+		String className = this.className( URNElementFinder.getParentElement( element ));
 		
 		if(  JUCMNavPlugin.isInDebug() ) {
 			if( urnspec == null  ){

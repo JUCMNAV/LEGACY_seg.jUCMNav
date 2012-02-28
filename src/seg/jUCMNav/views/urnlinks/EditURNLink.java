@@ -33,11 +33,11 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
 import seg.jUCMNav.model.commands.create.AddUrnLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
+import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.views.wizards.URNlinkTypeSelectionDialog;
 import ucm.map.UCMmap;
 import urn.URNlink;
 import urn.URNspec;
-import urn.impl.URNlinkImpl;
 import urncore.Component;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
@@ -118,7 +118,7 @@ public class EditURNLink {
     	if( selectedElement != null ){
     		// menu item for Start Link from selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements
     		MenuItem item2 = new MenuItem(menu, SWT.PUSH);
-    		item2.setText( Messages.getString("EditURNLink.StartNewLinkFrom") + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    		item2.setText( Messages.getString("EditURNLink.StartNewLinkFrom") + this.className( selectedElement ) + " \"" + URNElementFinder.getParentElement( selectedElement ).getName() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
     		item2.addListener( SWT.Selection, new Listener() {
     			public void handleEvent(Event event) {
@@ -145,7 +145,7 @@ public class EditURNLink {
     		if( selectedElement != null ){
 
     			MenuItem item21 = new MenuItem(menu, SWT.PUSH);
-    			String endText = Messages.getString("EditURNLink.EndNewLinkFrom") + this.className( fromElement ) + " \"" + URNlinkImpl.getParentElement( fromElement ).getName()  //$NON-NLS-1$ //$NON-NLS-2$
+    			String endText = Messages.getString("EditURNLink.EndNewLinkFrom") + this.className( fromElement ) + " \"" + URNElementFinder.getParentElement( fromElement ).getName()  //$NON-NLS-1$ //$NON-NLS-2$
     					+ Messages.getString("EditURNLink.QuoteTo") + this.className( selectedElement ); //$NON-NLS-1$
 
     			if( selectedElement instanceof EvaluationStrategy )
@@ -163,7 +163,7 @@ public class EditURNLink {
     		if( selectedElementParent != null ){
 
     			MenuItem item23 = new MenuItem(menu, SWT.PUSH);
-    			String endText = Messages.getString("EditURNLink.EndNewLinkFrom") + this.className( fromElement ) + " \"" + URNlinkImpl.getParentElement( fromElement ).getName() + Messages.getString("EditURNLink.QuoteTo") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    			String endText = Messages.getString("EditURNLink.EndNewLinkFrom") + this.className( fromElement ) + " \"" + URNElementFinder.getParentElement( fromElement ).getName() + Messages.getString("EditURNLink.QuoteTo") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     					+ this.className( selectedElementParent );
     			
     			if( selectedElementParent instanceof StrategiesGroup )
@@ -205,8 +205,8 @@ public class EditURNLink {
     			// add outgoing links from selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements  
     			for (Iterator it = selectedElement.getFromLinks().iterator(); it.hasNext();) {
     				URNlink link = (URNlink) it.next();
-    				String text = "(" + link.getType() + Messages.getString("EditURNLink.CloseParenthesisTo") + this.className( link.getToElem() )+ " \"" + link.getParentToElem().getName() +  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    						Messages.getString("EditURNLink.QuoteFrom") + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    				String text = "(" + link.getType() + Messages.getString("EditURNLink.CloseParenthesisTo") + this.className( link.getToElem() )+ " \"" + URNElementFinder.getParentElement( link.getToElem() ).getName() +  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    						Messages.getString("EditURNLink.QuoteFrom") + this.className( selectedElement ) + " \"" + URNElementFinder.getParentElement( selectedElement ).getName() + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     				ogLinks[i] = new MenuItem(menu, SWT.CASCADE);
     				ogLinks[i].setText( text );
     				ogLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
@@ -234,7 +234,7 @@ public class EditURNLink {
     			// if applicable, add outgoing links from parent URN objects Actor, Component, Responsibility, IntentionalElement, ...
     			for (Iterator it = selectedElementParent.getFromLinks().iterator(); it.hasNext();) {
     				URNlink link = (URNlink) it.next();
-    				String text = "(" + link.getType() + Messages.getString("EditURNLink.CloseParenthesisTo") + this.className( link.getToElem() )+ " \"" + link.getParentToElem().getName()  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    				String text = "(" + link.getType() + Messages.getString("EditURNLink.CloseParenthesisTo") + this.className( link.getToElem() )+ " \"" + URNElementFinder.getParentElement( link.getToElem() ).getName()  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     						+ Messages.getString("EditURNLink.QuoteFrom") + this.className( selectedElementParent ) + " \"" + selectedElementParent.getName() + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     				ogLinks[i] = new MenuItem(menu, SWT.CASCADE);
     				ogLinks[i].setText( text );
@@ -287,8 +287,8 @@ public class EditURNLink {
     			// add incoming links to selected diagram element, RespRef, ActorRef, ComponentRef, IntentionalElementRef, and all UCM map elements  
     			for (Iterator it = selectedElement.getToLinks().iterator(); it.hasNext();) {
     				URNlink link = (URNlink) it.next();
-    				String text = "(" + link.getType() + Messages.getString("EditURNLink.CloseParenthesisFrom") + this.className( link.getFromElem() )+ " \"" + link.getParentFromElem().getName() //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    						+ Messages.getString("EditURNLink.QuoteTo") + this.className( selectedElement ) + " \"" + URNlinkImpl.getParentElement( selectedElement ).getName() + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    				String text = "(" + link.getType() + Messages.getString("EditURNLink.CloseParenthesisFrom") + this.className( link.getFromElem() )+ " \"" + URNElementFinder.getParentElement( link.getFromElem() ).getName() //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    						+ Messages.getString("EditURNLink.QuoteTo") + this.className( selectedElement ) + " \"" + URNElementFinder.getParentElement( selectedElement ).getName() + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     				icLinks[i] = new MenuItem(menu, SWT.CASCADE);
     				icLinks[i].setText( text );
     				icLinks[i].setImage(JUCMNavPlugin.getImage("icons/urnlink-reversed.gif")); //$NON-NLS-1$
@@ -318,7 +318,7 @@ public class EditURNLink {
     			for (Iterator it = selectedElementParent.getToLinks().iterator(); it.hasNext();) {
     				URNlink link = (URNlink) it.next();
     				String text = "(" + link.getType() + Messages.getString("EditURNLink.CloseParenthesisFrom") + this.className( link.getFromElem() )+ " \"" +  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    				link.getParentFromElem().getName() + Messages.getString("EditURNLink.QuoteTo") + this.className( selectedElementParent ) + " \"" //$NON-NLS-1$ //$NON-NLS-2$
+    				URNElementFinder.getParentElement( link.getFromElem() ).getName() + Messages.getString("EditURNLink.QuoteTo") + this.className( selectedElementParent ) + " \"" //$NON-NLS-1$ //$NON-NLS-2$
     				+ selectedElementParent.getName() + "\""; //$NON-NLS-1$
     				icLinks[i] = new MenuItem(menu, SWT.CASCADE);
     				icLinks[i].setText( text );
@@ -402,8 +402,8 @@ public class EditURNLink {
         if (toElement != null) {
     		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         	String title = Messages.getString("EditURNLink.EnterLinkType"); //$NON-NLS-1$
-        	String message = Messages.getString("EditURNLink.CreatingURNLinkFrom") + this.className( fromElement ) + " \"" + URNlinkImpl.getParentElement( fromElement ).getName() + //$NON-NLS-1$ //$NON-NLS-2$
-        			Messages.getString("EditURNLink.QuoteTo") + this.className( toElement ) + " \"" + URNlinkImpl.getParentElement( toElement ).getName() //$NON-NLS-1$ //$NON-NLS-2$
+        	String message = Messages.getString("EditURNLink.CreatingURNLinkFrom") + this.className( fromElement ) + " \"" + URNElementFinder.getParentElement( fromElement ).getName() + //$NON-NLS-1$ //$NON-NLS-2$
+        			Messages.getString("EditURNLink.QuoteTo") + this.className( toElement ) + " \"" + URNElementFinder.getParentElement( toElement ).getName() //$NON-NLS-1$ //$NON-NLS-2$
         			+ Messages.getString("EditURNLink.PleaseEnterLinkType"); //$NON-NLS-1$
 
         	URNlinkTypeSelectionDialog typeInput = new URNlinkTypeSelectionDialog( shell, urnspec, title, message, "", Messages.getString("EditURNLink.CreateNewURNLink"), Messages.getString("EditURNLink.CancelURNLinkCreation") );  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

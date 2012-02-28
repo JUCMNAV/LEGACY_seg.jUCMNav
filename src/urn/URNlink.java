@@ -158,8 +158,4 @@ public interface URNlink extends EObject {
      */
 	EList getMetadata();
 	
-    URNmodelElement getParentFromElem();
-    URNmodelElement getParentToElem();
-
-
 } // URNlink

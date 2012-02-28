@@ -5,6 +5,7 @@ import grl.ActorRef;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 import grl.kpimodel.KPIInformationElement;
 
 import java.util.Collection;
@@ -16,6 +17,7 @@ import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
 import ucm.map.UCMmap;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
@@ -589,5 +591,21 @@ public class URNElementFinder {
         Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
         return v;
     }
+
+	public static URNmodelElement getParentElement( URNmodelElement element )
+	    {
+	    	if( element instanceof ActorRef )
+	    		return( (Actor) (((ActorRef) element).getContDef()) );
+	    	else if( element instanceof IntentionalElementRef )
+	    		return( ((IntentionalElementRef) element).getDef() );
+	    	else if( element instanceof RespRef )
+	    		return( ((RespRef) element).getRespDef() );
+	    	else if( element instanceof ComponentRef )
+	    		return( (Component) (((ComponentRef) element).getContDef()) );
+	//    	else if( element instanceof LinkRef )
+	//    		return( ((LinkRef) element).getLink() );
+	    	else
+	    		return element;
+	    }
 
 }

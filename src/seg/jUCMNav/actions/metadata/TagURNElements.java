@@ -1,4 +1,4 @@
-package seg.jUCMNav.views.urnlinks;
+package seg.jUCMNav.actions.metadata;
 
 import java.util.Iterator;
 
@@ -57,7 +57,7 @@ public class TagURNElements {
 
 	public void tagElement( CommandStack cmdStack, URNmodelElement element, URNspec urnspec )
 	{
-		if( JUCMNavPlugin.isInDebug() ) System.out.println( "Tag Element ... selected for element: " + element.getName()); //$NON-NLS-1$
+		if( JUCMNavPlugin.isInDebug() ) System.out.println( "Tag Element ... selected for element: " + element.getName());
 
 		this.element = element;
 		this.parentElement = URNElementFinder.getParentElement( element );
@@ -70,20 +70,20 @@ public class TagURNElements {
     	Menu menu = new Menu(shell, SWT.POP_UP);
 
     	MenuItem item = new MenuItem(menu, SWT.PUSH);
-    	item.setText(Messages.getString("TagURNElements.TagElement") + parentElement.getName() + "\""); //$NON-NLS-1$ //$NON-NLS-2$
+    	item.setText("Tag Element \"" + parentElement.getName() + "\"");
     	item.setEnabled(false);
     	MenuItem item2 = new MenuItem(menu, SWT.SEPARATOR);
 
 		for( Iterator iter = urnspec.getMetadata().iterator(); iter.hasNext();) {
 			Metadata md = (Metadata) iter.next();	
-			if(md.getName().equalsIgnoreCase( "StereotypeDef" )){ //$NON-NLS-1$
+			if(md.getName().equalsIgnoreCase( "StereotypeDef" )){
 				if( md.getValue().contains(className)) { // temporary using strings, need comparison using instanceof
 					
 					int index = md.getValue().indexOf( ',' );
 					String stName = md.getValue().substring( 0, index );
 					String stValue = md.getValue().substring( index+1, md.getValue().indexOf( ',', index+1));
 					this.processStDefinition( stName, stValue, menu);
-					if( JUCMNavPlugin.isInDebug() ) System.out.println( "name: \"" + stName + "\" value:  \"" + stValue + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					if( JUCMNavPlugin.isInDebug() ) System.out.println( "name: \"" + stName + "\" value:  \"" + stValue + "\"" );
 					
 				}
 			}
@@ -98,10 +98,10 @@ public class TagURNElements {
 		MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
 		
 		if( this.hasExistingStereotype(name, value)) { // add menu item to remove stereotype
-			menuItem.setText( Messages.getString("TagURNElements.Remove") + value ); //$NON-NLS-1$
+			menuItem.setText( "Remove " + value );
 			menuItem.addListener( SWT.Selection, new RemoveTagListener( name, value ));
 		} else { // add menu item to add stereotype
-			menuItem.setText( Messages.getString("TagURNElements.Add") + value ); //$NON-NLS-1$
+			menuItem.setText( "Add " + value );
 			menuItem.addListener( SWT.Selection, new AddTagListener( name, value ));
 		}
 	}
@@ -132,7 +132,7 @@ public class TagURNElements {
         newMetadata.setValue( value );
         mdArray[newSize-1] = newMetadata;
         
-        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, Messages.getString("TagURNElements.addTag") ); //$NON-NLS-1$
+        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, Messages.getString("TagURNElements.addTag") );
 	
         if (cmd.canExecute()) {
         	commandStack.execute(cmd);
@@ -160,7 +160,7 @@ public class TagURNElements {
 			}
 		}
 				
-        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, Messages.getString("TagURNElements.removeTag") ); //$NON-NLS-1$
+        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, Messages.getString("TagURNElements.removeTag") );
     	
         if (cmd.canExecute()) {
         	commandStack.execute(cmd);
