@@ -6,6 +6,7 @@ import grl.ElementLink;
 import grl.IntentionalElement;
 
 import java.util.Iterator;
+import java.util.Vector;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.PathNodeEditPart;
@@ -53,13 +54,17 @@ public class MetadataHelper {
      *            the name of the metadata to remove
      */
     public static void removeMetaData(URNmodelElement elem, String name) {
+        Vector v = new Vector();
         for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
             Metadata data = (Metadata) iter.next();
             if (data.getName() != null && data.getName().equals(name)) {
-                iter.remove();
-                // elem.getMetadata().remove(data);
+                v.add(data);
+                //iter.remove(); - sometimes crashed in infinite loop
+                // elem.getMetadata().remove(data); - assuming crashed because modified coll for iter.  
             }
         }
+        
+        elem.getMetadata().removeAll(v);
     }
 
     /**

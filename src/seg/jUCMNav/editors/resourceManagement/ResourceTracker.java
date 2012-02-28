@@ -114,9 +114,12 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
                                     for (int j = 0; j < edref.length; j++) {
                                         if (filename.equals(edref[j].getName())) {
                                             UCMNavMultiPageEditor multieditor = (UCMNavMultiPageEditor) edref[j].getEditor(false);
-                                            multieditor.setModel(multieditor.getFileManager()
-                                                    .create(((FileEditorInput) multieditor.getEditorInput()).getFile()));
-                                            multieditor.recreatePages();
+                                            
+                                            if (multieditor!=null) {
+                                                multieditor.setModel(multieditor.getFileManager()
+                                                        .create(((FileEditorInput) multieditor.getEditorInput()).getFile()));
+                                                multieditor.recreatePages();
+                                            }
                                         }
                                     }
                                 }
