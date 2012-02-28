@@ -225,4 +225,45 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
 
         return new SetConstraintGrlNodeCommand(node, rect.getLocation().x, rect.getLocation().y, multipleNodeMoved);
     }
+
+    @Override
+    protected boolean isMultipleSelected(List nodes, List selected) {
+        boolean multipleNodeMoved = false;
+        
+        for (Iterator i = nodes.iterator(); i.hasNext();) {
+            GRLNode node = (GRLNode) i.next();
+            multipleNodeMoved |= isMultipleSelected(node, selected);
+        }
+        
+        return multipleNodeMoved;
+    }
+
+
+    /**
+     * For a given GRLNode, find if any of the selected nodes in the UI can be reached via connections from the initial GRLNode.
+     * This will affect how we move connection bendpoints in the model
+     * 
+     * @param node
+     * @param selectedNodes
+     * @return true if 
+     */
+    protected boolean isMultipleSelected(GRLNode node, List selectedNodes) {
+        HashSet ncs = new HashSet();
+        
+        QFindReachableNodes qReachableNodes = new ReachableGRLNodeFinder.QFindReachableNodes(node);
+        RReachableNodes rReachableNodes = (RReachableNodes) GraphExplorer.run(qReachableNodes);
+        Vector vReachable = rReachableNodes.getNodes();
+        
+        boolean contains = false;
+        
+        for (Iterator i = vReachable.iterator(); i.hasNext();) {
+            Object next = i.next();
+            contains |= (selectedNodes.contains(next) && next != node);
+            if(contains)
+                break;
+        }
+        
+        return contains;
+    }
+
 }

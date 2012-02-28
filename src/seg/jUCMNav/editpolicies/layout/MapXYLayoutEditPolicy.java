@@ -199,4 +199,9 @@ public class MapXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
 
         return new SetConstraintCommand(node, location.x, location.y);
     }
+
+    @Override
+    protected boolean isMultipleSelected(List nodes, List selectedNodes) {
+        return false;
+    }
 }
