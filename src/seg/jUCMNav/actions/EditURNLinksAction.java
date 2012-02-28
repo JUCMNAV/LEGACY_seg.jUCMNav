@@ -10,7 +10,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import urn.util.EditURNLink;
+import seg.jUCMNav.views.urnlinks.EditURNLink;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 

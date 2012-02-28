@@ -1,4 +1,4 @@
-package urn.util;
+package seg.jUCMNav.views.urnlinks;
 
 import java.util.Iterator;
 
