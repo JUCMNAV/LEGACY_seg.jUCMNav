@@ -15,6 +15,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.preference.PreferenceDialog;
+import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -34,6 +35,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditDomain;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider;
+import seg.jUCMNav.editors.palette.UrnDropTargetListener;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.EvaluationStategyTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioDefTreeEditPart;
@@ -44,11 +46,14 @@ import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.JUCMNavRefreshableView;
+import seg.jUCMNav.views.dnd.UrnTemplateTransferDragSourceListener;
+import seg.jUCMNav.views.dnd.UrnTemplateTransferDropTargetListener;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.UCMspec;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
+import urn.URNspec;
 
 /**
  * 
@@ -73,12 +78,25 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 
     private int currentView;
 
+/*    private UrnDropTargetListener dropListener;*/
+    private UrnTemplateTransferDropTargetListener urnDropListener;
+
     /**
      * The constructor.
      */
     public StrategiesView() {
     }
 
+    protected TransferDropTargetListener getTransferDropTargetListener() {
+        // if we cached it, we'd share it amongst models. 
+        return new UrnDropTargetListener(viewer, ((URNspec)((UCMNavMultiPageEditor)viewer.getContents()).getModel()));
+    }
+
+    protected UrnTemplateTransferDropTargetListener getUrnTransferDropTargetListener() {
+        /*if (urnDropListener == null)
+            urnDropListener = new UrnTemplateTransferDropTargetListener(this);*/
+        return urnDropListener;
+    }
     /**
      * This is a callback that will allow us to create the viewer and initialize it.
      */
@@ -94,7 +112,9 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 
         viewer.createControl(parent);
         getSite().setSelectionProvider(viewer);
-
+        viewer.addDragSourceListener(new UrnTemplateTransferDragSourceListener(viewer));
+        viewer.addDropTargetListener(new UrnTemplateTransferDropTargetListener(viewer, null));
+        
         showDesignView = new Action() {
             public void run() {
                 // tree view
@@ -178,6 +198,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         manager.add(showDesignView);
 
         showPage(ID_DESIGN);
+        
     }
 
     /**
@@ -381,6 +402,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
 
             viewer.setEditDomain(new UrnEditDomain(multieditor));
+            viewer.getEditDomain().setCommandStack(multieditor.getDelegatingCommandStack());
             viewer.setEditPartFactory(new StrategyTreeEditPartFactory(multieditor.getModel()));
 
             // register them. other ways failed to add undo/redo, only added delete.

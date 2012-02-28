@@ -2,18 +2,23 @@ package seg.jUCMNav.views.dnd;
 
 import grl.Actor;
 import grl.ActorRef;
+import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIInformationElementRef;
 
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.requests.CreationFactory;
 
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
+import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyRootEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.ComponentRef;
 import ucm.map.RespRef;
+import ucm.scenario.ScenarioDef;
 import urn.URNspec;
 import urncore.Component;
 import urncore.Responsibility;
@@ -43,6 +48,16 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
         setTransfer(UrnTemplateTransfer.getInstance());
         // this.editor = editor;
         this.urn = editor.getModel().getUrndefinition().getUrnspec();
+    }
+    
+    public UrnTemplateTransferDropTargetListener(EditPartViewer viewer, URNspec urn) 
+    {
+        super(viewer);
+        setEnablementDeterminedByCommand(true);
+        setTransfer(UrnTemplateTransfer.getInstance());
+        // this.editor = editor;
+        this.urn = urn;
+
     }
 
     /**
@@ -106,6 +121,24 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
 
         }
 
+        // scenario tree view is a tad different. 
+        if (template instanceof ScenarioDef || template instanceof EvaluationStrategy) {
+            URNspec urn2 = urn;
+            
+            if (urn2 == null) {
+                StrategyRootEditPart part = (StrategyRootEditPart)(getViewer().getContents());
+                if (part!=null && part.getModel() instanceof UCMNavMultiPageEditor)
+                    urn2 = ((UCMNavMultiPageEditor) part.getModel()).getModel();
+            }
+            
+            if (template instanceof EvaluationStrategy) {
+                lastFactory = new ModelCreationFactory(urn2, EvaluationStrategy.class, template);
+            }
+            
+            if (template instanceof ScenarioDef) {
+                lastFactory = new ModelCreationFactory(urn2, ScenarioDef.class, template);
+            }
+        }
         return lastFactory;
     }
 

@@ -42,6 +42,8 @@ import seg.jUCMNav.model.commands.create.ConnectCommand;
 import seg.jUCMNav.model.commands.create.CreateLabelCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
+import seg.jUCMNav.model.commands.create.CreateScenarioCommand;
+import seg.jUCMNav.model.commands.create.CreateScenarioGroupCommand;
 import seg.jUCMNav.model.commands.cutcopypaste.CopyCommand;
 import seg.jUCMNav.model.commands.cutcopypaste.PasteCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentCommand;
@@ -61,6 +63,7 @@ import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
+import seg.jUCMNav.model.commands.transformations.MoveScenarioCommand;
 import seg.jUCMNav.model.commands.transformations.RefactorIntoStubCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
@@ -87,6 +90,7 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
+import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
 import urncore.Component;
 import urncore.IURNDiagram;
@@ -1371,6 +1375,33 @@ public class JUCMNavCommandTests extends TestCase {
             }
         }
         assertEquals("Should have found three copies of RespRef.", 3, count);  //$NON-NLS-1$
-      
+    }
+    
+    public void testMoveScenarioCommand()
+    {
+        ScenarioGroup group1 = (ScenarioGroup) ModelCreationFactory.getNewObject(urnspec, ScenarioGroup.class);       
+        CreateScenarioGroupCommand cmd = new CreateScenarioGroupCommand(urnspec, group1);
+        cs.execute(cmd);
+
+        ScenarioGroup group2 = (ScenarioGroup) ModelCreationFactory.getNewObject(urnspec, ScenarioGroup.class);       
+        cmd = new CreateScenarioGroupCommand(urnspec, group2);
+        cs.execute(cmd);
+
+        assertTrue("New groups are empty", group1.getScenarios().size()==0 && group2.getScenarios().size()==0);
+        
+        CreateScenarioCommand cmd2 = new CreateScenarioCommand(urnspec, group1);
+        cs.execute(cmd2);
+        
+        
+        assertNotNull("Scenario should have been created.", cmd2.getScenario());
+        assertEquals("New group should have one scenario", 1, group1.getScenarios().size());
+        
+        // move to 2nd group. 
+        MoveScenarioCommand cmd3 = new MoveScenarioCommand(group2, cmd2.getScenario());
+        cs.execute(cmd3);
+        assertTrue("Scenario should have been moved", group1.getScenarios().size()==0 && group2.getScenarios().size()==1);
+        
+        
+        
     }
 }

@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.dnd;
 
+import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.kpimodel.KPIInformationElement;
@@ -19,6 +20,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
 import seg.jUCMNav.views.outline.UrnTreeViewer;
 import ucm.map.RespRef;
+import ucm.scenario.ScenarioDef;
 import urn.URNspec;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
@@ -63,6 +65,8 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
                 return ((IntentionalElementRef) model).getDef();
             else if (model instanceof KPIInformationElementRef)
                 return ((KPIInformationElementRef) model).getDef();
+            else if (model instanceof ScenarioDef || model instanceof EvaluationStrategy)
+                return model;
         }
         return null;
     }
@@ -75,7 +79,7 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
         if (getViewer() instanceof UrnTreeViewer) {
             editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
             // ((UrnTreeViewer)getViewer()).getContents().getModel() you can get parent urn from this
-        } else
+        } else if (getViewer() instanceof OutlineRootEditPart)
             editor = ((UCMNavMultiPageEditor) ((OutlineRootEditPart) getViewer().getRootEditPart().getChildren().get(0)).getModel());
 
         if (editor != null) {

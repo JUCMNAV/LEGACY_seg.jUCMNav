@@ -342,11 +342,13 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(StrategiesGroup.class)) {
                 result = grlfactory.createStrategiesGroup();
             } else if (targetClass.equals(EvaluationStrategy.class)) {
+                if (definition!=null) return definition; // drag & drop of existing 
                 result = grlfactory.createEvaluationStrategy();
                 ((EvaluationStrategy) result).setAuthor(GeneralPreferencePage.getAuthor());
             } else if (targetClass.equals(ScenarioGroup.class)) {
                 result = ucmscenariofactory.createScenarioGroup();
             } else if (targetClass.equals(ScenarioDef.class)) {
+                if (definition!=null) return definition; // drag & drop of existing 
                 result = ucmscenariofactory.createScenarioDef();
             } else if (targetClass.equals(ScenarioStartPoint.class)) {
                 result = ucmscenariofactory.createScenarioStartPoint();

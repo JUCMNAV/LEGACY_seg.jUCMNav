@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.StrategiesGroupComponentEditPolicy;
+import seg.jUCMNav.editpolicies.layout.StrategiesGroupLayoutEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.util.DelegatingElementComparator;
 import ucm.scenario.ScenarioGroup;
@@ -38,6 +39,7 @@ public class ScenarioGroupTreeEditPart extends StrategyUrnModelElementTreeEditPa
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new StrategiesGroupComponentEditPolicy());
+        installEditPolicy(EditPolicy.LAYOUT_ROLE, new StrategiesGroupLayoutEditPolicy());
     }
 
     /**
