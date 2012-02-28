@@ -139,7 +139,7 @@ public class EditURNLink {
 
     	}
     	// add menu items for End Link if a previous element has been selected as a link start
-    	if( fromElement != null && fromElement != selectedElement ){
+    	if( (fromElement != null) && (fromElement != selectedElement) && (this.getURNspec( fromElement ) == urnspec) ){
 
     		if( selectedElement != null ){
 
