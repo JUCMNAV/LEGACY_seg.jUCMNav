@@ -46,7 +46,7 @@ public class EditURNLinksAction extends URNSelectionAction {
     		return false;
 
     	if( JUCMNavPlugin.isInDebug() ){
-    		System.out.println( "EditURNLinksAction: " + editPart.getModel().getClass().getName() ); //$NON-NLS-1$
+    		System.out.println( "EditURNLinksAction model: " + editPart.getModel().getClass().getName() + " EditPart: " + editPart.getClass().getSimpleName() ); //$NON-NLS-1$
     	}
 
     	if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {

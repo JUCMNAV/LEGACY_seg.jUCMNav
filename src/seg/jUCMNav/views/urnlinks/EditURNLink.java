@@ -513,8 +513,14 @@ public class EditURNLink {
 		} else if( selectedEditPart.getRoot() instanceof GrlConnectionOnBottomRootEditPart ) {
 			editor = ((GrlConnectionOnBottomRootEditPart) selectedEditPart.getRoot()).getMultiPageEditor();
 		} else {
-			System.err.println( "EditPart not understood." ); //$NON-NLS-1$
-			return;			
+			editor = this.getActiveEditor();
+			System.err.println( "EditPart not graphical class: " + selectedEditPart.getClass().getSimpleName() ); //$NON-NLS-1$
+//			return;			
+		}
+		
+		if( editor == null ) {
+			System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
+			return;
 		}
 		
 		if( startDiagram != endDiagram ){ // switch diagrams
@@ -531,7 +537,16 @@ public class EditURNLink {
 		if( viewer != null )
 			viewer.select((EditPart) viewer.getEditPartRegistry().get( oppositeEnd ));
 	}
-		
+
+	private UCMNavMultiPageEditor getActiveEditor() {
+        UCMNavMultiPageEditor editor = null;
+        if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+            editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+        }
+        return editor;
+    }
+
     /**
      * Take a command and execute it in the command stack of the editor.
      * 
