@@ -28,7 +28,10 @@ public class EditPartTypeMapper extends AbstractTypeMapper {
             LinkRefEditPart linkRefEditPart = (LinkRefEditPart) object;
             return linkRefEditPart.getLinkRef().getLink().getClass();
         } else if (object instanceof EditPart) {
-            return ((EditPart) object).getModel().getClass();
+            if (((EditPart)object).getModel() == null)
+                return object.getClass(); // bug 818 - rare but just to avoid errors - deleted items for which properties are shown 
+            else
+                return ((EditPart) object).getModel().getClass();
         } else if (object instanceof EObject) {
             return ((EObject) object).getClass();
         }

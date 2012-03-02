@@ -389,6 +389,13 @@ public class UcmEnvironment implements Adapter, Cloneable {
                 else
                     value.setSecondaryEnumerationValue(var); // could be both a var name and an enum value.
             }
+            
+            
+            if (value.getBaseValue() == null && value.getSecondaryEnumerationValue() == null) 
+            {
+                throw new IllegalArgumentException(
+                        Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.HasNoValuation")); //$NON-NLS-1$ //$NON-NLS-2$
+            }
          
             return value;
         }
