@@ -38,331 +38,331 @@ import urncore.UrncorePackage;
  */
 public class ResponsibilityBindingImpl extends EObjectImpl implements ResponsibilityBinding {
     /**
-     * The cached value of the '{@link #getPluginResp() <em>Plugin Resp</em>}' reference.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getPluginResp() <em>Plugin Resp</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getPluginResp()
-     * @generated
-     * @ordered
-     */
+	 * @see #getPluginResp()
+	 * @generated
+	 * @ordered
+	 */
     protected RespRef pluginResp;
 
     /**
-     * The cached value of the '{@link #getParentResp() <em>Parent Resp</em>}' reference.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getParentResp() <em>Parent Resp</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getParentResp()
-     * @generated
-     * @ordered
-     */
+	 * @see #getParentResp()
+	 * @generated
+	 * @ordered
+	 */
     protected Responsibility parentResp;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected ResponsibilityBindingImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.Literals.RESPONSIBILITY_BINDING;
-    }
+		return MapPackage.Literals.RESPONSIBILITY_BINDING;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public PluginBinding getBinding() {
-        if (eContainerFeatureID() != MapPackage.RESPONSIBILITY_BINDING__BINDING) return null;
-        return (PluginBinding)eContainer();
-    }
+		if (eContainerFeatureID() != MapPackage.RESPONSIBILITY_BINDING__BINDING) return null;
+		return (PluginBinding)eContainer();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetBinding(PluginBinding newBinding, NotificationChain msgs) {
-        msgs = eBasicSetContainer((InternalEObject)newBinding, MapPackage.RESPONSIBILITY_BINDING__BINDING, msgs);
-        return msgs;
-    }
+		msgs = eBasicSetContainer((InternalEObject)newBinding, MapPackage.RESPONSIBILITY_BINDING__BINDING, msgs);
+		return msgs;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setBinding(PluginBinding newBinding) {
-        if (newBinding != eInternalContainer() || (eContainerFeatureID() != MapPackage.RESPONSIBILITY_BINDING__BINDING && newBinding != null)) {
-            if (EcoreUtil.isAncestor(this, newBinding))
-                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-            NotificationChain msgs = null;
-            if (eInternalContainer() != null)
-                msgs = eBasicRemoveFromContainer(msgs);
-            if (newBinding != null)
-                msgs = ((InternalEObject)newBinding).eInverseAdd(this, MapPackage.PLUGIN_BINDING__RESPONSIBILITIES, PluginBinding.class, msgs);
-            msgs = basicSetBinding(newBinding, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__BINDING, newBinding, newBinding));
-    }
+		if (newBinding != eInternalContainer() || (eContainerFeatureID() != MapPackage.RESPONSIBILITY_BINDING__BINDING && newBinding != null)) {
+			if (EcoreUtil.isAncestor(this, newBinding))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newBinding != null)
+				msgs = ((InternalEObject)newBinding).eInverseAdd(this, MapPackage.PLUGIN_BINDING__RESPONSIBILITIES, PluginBinding.class, msgs);
+			msgs = basicSetBinding(newBinding, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__BINDING, newBinding, newBinding));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Responsibility getParentResp() {
-        if (parentResp != null && parentResp.eIsProxy()) {
-            InternalEObject oldParentResp = (InternalEObject)parentResp;
-            parentResp = (Responsibility)eResolveProxy(oldParentResp);
-            if (parentResp != oldParentResp) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP, oldParentResp, parentResp));
-            }
-        }
-        return parentResp;
-    }
+		if (parentResp != null && parentResp.eIsProxy()) {
+			InternalEObject oldParentResp = (InternalEObject)parentResp;
+			parentResp = (Responsibility)eResolveProxy(oldParentResp);
+			if (parentResp != oldParentResp) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP, oldParentResp, parentResp));
+			}
+		}
+		return parentResp;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Responsibility basicGetParentResp() {
-        return parentResp;
-    }
+		return parentResp;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetParentResp(Responsibility newParentResp, NotificationChain msgs) {
-        Responsibility oldParentResp = parentResp;
-        parentResp = newParentResp;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP, oldParentResp, newParentResp);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		Responsibility oldParentResp = parentResp;
+		parentResp = newParentResp;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP, oldParentResp, newParentResp);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setParentResp(Responsibility newParentResp) {
-        if (newParentResp != parentResp) {
-            NotificationChain msgs = null;
-            if (parentResp != null)
-                msgs = ((InternalEObject)parentResp).eInverseRemove(this, UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS, Responsibility.class, msgs);
-            if (newParentResp != null)
-                msgs = ((InternalEObject)newParentResp).eInverseAdd(this, UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS, Responsibility.class, msgs);
-            msgs = basicSetParentResp(newParentResp, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP, newParentResp, newParentResp));
-    }
+		if (newParentResp != parentResp) {
+			NotificationChain msgs = null;
+			if (parentResp != null)
+				msgs = ((InternalEObject)parentResp).eInverseRemove(this, UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS, Responsibility.class, msgs);
+			if (newParentResp != null)
+				msgs = ((InternalEObject)newParentResp).eInverseAdd(this, UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS, Responsibility.class, msgs);
+			msgs = basicSetParentResp(newParentResp, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP, newParentResp, newParentResp));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public RespRef getPluginResp() {
-        if (pluginResp != null && pluginResp.eIsProxy()) {
-            InternalEObject oldPluginResp = (InternalEObject)pluginResp;
-            pluginResp = (RespRef)eResolveProxy(oldPluginResp);
-            if (pluginResp != oldPluginResp) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP, oldPluginResp, pluginResp));
-            }
-        }
-        return pluginResp;
-    }
+		if (pluginResp != null && pluginResp.eIsProxy()) {
+			InternalEObject oldPluginResp = (InternalEObject)pluginResp;
+			pluginResp = (RespRef)eResolveProxy(oldPluginResp);
+			if (pluginResp != oldPluginResp) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP, oldPluginResp, pluginResp));
+			}
+		}
+		return pluginResp;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public RespRef basicGetPluginResp() {
-        return pluginResp;
-    }
+		return pluginResp;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetPluginResp(RespRef newPluginResp, NotificationChain msgs) {
-        RespRef oldPluginResp = pluginResp;
-        pluginResp = newPluginResp;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP, oldPluginResp, newPluginResp);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		RespRef oldPluginResp = pluginResp;
+		pluginResp = newPluginResp;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP, oldPluginResp, newPluginResp);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setPluginResp(RespRef newPluginResp) {
-        if (newPluginResp != pluginResp) {
-            NotificationChain msgs = null;
-            if (pluginResp != null)
-                msgs = ((InternalEObject)pluginResp).eInverseRemove(this, MapPackage.RESP_REF__PLUGIN_BINDINGS, RespRef.class, msgs);
-            if (newPluginResp != null)
-                msgs = ((InternalEObject)newPluginResp).eInverseAdd(this, MapPackage.RESP_REF__PLUGIN_BINDINGS, RespRef.class, msgs);
-            msgs = basicSetPluginResp(newPluginResp, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP, newPluginResp, newPluginResp));
-    }
+		if (newPluginResp != pluginResp) {
+			NotificationChain msgs = null;
+			if (pluginResp != null)
+				msgs = ((InternalEObject)pluginResp).eInverseRemove(this, MapPackage.RESP_REF__PLUGIN_BINDINGS, RespRef.class, msgs);
+			if (newPluginResp != null)
+				msgs = ((InternalEObject)newPluginResp).eInverseAdd(this, MapPackage.RESP_REF__PLUGIN_BINDINGS, RespRef.class, msgs);
+			msgs = basicSetPluginResp(newPluginResp, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP, newPluginResp, newPluginResp));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case MapPackage.RESPONSIBILITY_BINDING__BINDING:
-                if (eInternalContainer() != null)
-                    msgs = eBasicRemoveFromContainer(msgs);
-                return basicSetBinding((PluginBinding)otherEnd, msgs);
-            case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
-                if (pluginResp != null)
-                    msgs = ((InternalEObject)pluginResp).eInverseRemove(this, MapPackage.RESP_REF__PLUGIN_BINDINGS, RespRef.class, msgs);
-                return basicSetPluginResp((RespRef)otherEnd, msgs);
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                if (parentResp != null)
-                    msgs = ((InternalEObject)parentResp).eInverseRemove(this, UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS, Responsibility.class, msgs);
-                return basicSetParentResp((Responsibility)otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case MapPackage.RESPONSIBILITY_BINDING__BINDING:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetBinding((PluginBinding)otherEnd, msgs);
+			case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
+				if (pluginResp != null)
+					msgs = ((InternalEObject)pluginResp).eInverseRemove(this, MapPackage.RESP_REF__PLUGIN_BINDINGS, RespRef.class, msgs);
+				return basicSetPluginResp((RespRef)otherEnd, msgs);
+			case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+				if (parentResp != null)
+					msgs = ((InternalEObject)parentResp).eInverseRemove(this, UrncorePackage.RESPONSIBILITY__PARENT_BINDINGS, Responsibility.class, msgs);
+				return basicSetParentResp((Responsibility)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case MapPackage.RESPONSIBILITY_BINDING__BINDING:
-                return basicSetBinding(null, msgs);
-            case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
-                return basicSetPluginResp(null, msgs);
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                return basicSetParentResp(null, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case MapPackage.RESPONSIBILITY_BINDING__BINDING:
+				return basicSetBinding(null, msgs);
+			case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
+				return basicSetPluginResp(null, msgs);
+			case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+				return basicSetParentResp(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-        switch (eContainerFeatureID()) {
-            case MapPackage.RESPONSIBILITY_BINDING__BINDING:
-                return eInternalContainer().eInverseRemove(this, MapPackage.PLUGIN_BINDING__RESPONSIBILITIES, PluginBinding.class, msgs);
-        }
-        return super.eBasicRemoveFromContainerFeature(msgs);
-    }
+		switch (eContainerFeatureID()) {
+			case MapPackage.RESPONSIBILITY_BINDING__BINDING:
+				return eInternalContainer().eInverseRemove(this, MapPackage.PLUGIN_BINDING__RESPONSIBILITIES, PluginBinding.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case MapPackage.RESPONSIBILITY_BINDING__BINDING:
-                return getBinding();
-            case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
-                if (resolve) return getPluginResp();
-                return basicGetPluginResp();
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                if (resolve) return getParentResp();
-                return basicGetParentResp();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case MapPackage.RESPONSIBILITY_BINDING__BINDING:
+				return getBinding();
+			case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
+				if (resolve) return getPluginResp();
+				return basicGetPluginResp();
+			case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+				if (resolve) return getParentResp();
+				return basicGetParentResp();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case MapPackage.RESPONSIBILITY_BINDING__BINDING:
-                setBinding((PluginBinding)newValue);
-                return;
-            case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
-                setPluginResp((RespRef)newValue);
-                return;
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                setParentResp((Responsibility)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case MapPackage.RESPONSIBILITY_BINDING__BINDING:
+				setBinding((PluginBinding)newValue);
+				return;
+			case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
+				setPluginResp((RespRef)newValue);
+				return;
+			case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+				setParentResp((Responsibility)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case MapPackage.RESPONSIBILITY_BINDING__BINDING:
-                setBinding((PluginBinding)null);
-                return;
-            case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
-                setPluginResp((RespRef)null);
-                return;
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                setParentResp((Responsibility)null);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.RESPONSIBILITY_BINDING__BINDING:
+				setBinding((PluginBinding)null);
+				return;
+			case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
+				setPluginResp((RespRef)null);
+				return;
+			case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+				setParentResp((Responsibility)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case MapPackage.RESPONSIBILITY_BINDING__BINDING:
-                return getBinding() != null;
-            case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
-                return pluginResp != null;
-            case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
-                return parentResp != null;
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.RESPONSIBILITY_BINDING__BINDING:
+				return getBinding() != null;
+			case MapPackage.RESPONSIBILITY_BINDING__PLUGIN_RESP:
+				return pluginResp != null;
+			case MapPackage.RESPONSIBILITY_BINDING__PARENT_RESP:
+				return parentResp != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //ResponsibilityBindingImpl

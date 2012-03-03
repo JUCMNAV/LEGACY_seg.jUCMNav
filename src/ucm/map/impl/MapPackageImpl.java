@@ -67,1501 +67,1501 @@ import urncore.impl.UrncorePackageImpl;
  */
 public class MapPackageImpl extends EPackageImpl implements MapPackage {
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass andJoinEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass outBindingEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass inBindingEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass respRefEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass orJoinEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass orForkEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass connectEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass nodeConnectionEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass waitingPlaceEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass stubEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass pathNodeEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass endPointEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass startPointEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass ucMmapEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass pluginBindingEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass componentRefEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass timerEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass andForkEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass emptyPointEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass directionArrowEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass componentBindingEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass anythingEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass failurePointEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass responsibilityBindingEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EEnum waitKindEEnum = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EEnum aspectKindEEnum = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EEnum pointcutKindEEnum = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EEnum failureKindEEnum = null;
 
     /**
-     * Creates an instance of the model <b>Package</b>, registered with
-     * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
-     * package URI value.
-     * <p>Note: the correct way to create the package is via the static
-     * factory method {@link #init init()}, which also performs
-     * initialization of the package, or returns the registered package,
-     * if one already exists.
-     * <!-- begin-user-doc -->
+	 * Creates an instance of the model <b>Package</b>, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * <p>Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.eclipse.emf.ecore.EPackage.Registry
-     * @see ucm.map.MapPackage#eNS_URI
-     * @see #init()
-     * @generated
-     */
+	 * @see org.eclipse.emf.ecore.EPackage.Registry
+	 * @see ucm.map.MapPackage#eNS_URI
+	 * @see #init()
+	 * @generated
+	 */
     private MapPackageImpl() {
-        super(eNS_URI, MapFactory.eINSTANCE);
-    }
+		super(eNS_URI, MapFactory.eINSTANCE);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private static boolean isInited = false;
 
     /**
-     * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-     * 
-     * <p>This method is used to initialize {@link MapPackage#eINSTANCE} when that field is accessed.
-     * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
-     * <!-- begin-user-doc -->
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
+	 * 
+	 * <p>This method is used to initialize {@link MapPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #eNS_URI
-     * @see #createPackageContents()
-     * @see #initializePackageContents()
-     * @generated
-     */
+	 * @see #eNS_URI
+	 * @see #createPackageContents()
+	 * @see #initializePackageContents()
+	 * @generated
+	 */
     public static MapPackage init() {
-        if (isInited) return (MapPackage)EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI);
+		if (isInited) return (MapPackage)EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI);
 
-        // Obtain or create and register package
-        MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MapPackageImpl());
+		// Obtain or create and register package
+		MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MapPackageImpl());
 
-        isInited = true;
+		isInited = true;
 
-        // Obtain or create and register interdependencies
-        UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackage.eINSTANCE);
-        UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackage.eINSTANCE);
-        GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackage.eINSTANCE);
-        KpimodelPackageImpl theKpimodelPackage = (KpimodelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI) instanceof KpimodelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI) : KpimodelPackage.eINSTANCE);
-        UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackage.eINSTANCE);
-        PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
-        ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackage.eINSTANCE);
+		// Obtain or create and register interdependencies
+		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackage.eINSTANCE);
+		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackage.eINSTANCE);
+		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackage.eINSTANCE);
+		KpimodelPackageImpl theKpimodelPackage = (KpimodelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI) instanceof KpimodelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI) : KpimodelPackage.eINSTANCE);
+		UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackage.eINSTANCE);
+		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
+		ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackage.eINSTANCE);
 
-        // Create package meta-data objects
-        theMapPackage.createPackageContents();
-        theUrnPackage.createPackageContents();
-        theUrncorePackage.createPackageContents();
-        theGrlPackage.createPackageContents();
-        theKpimodelPackage.createPackageContents();
-        theUcmPackage.createPackageContents();
-        thePerformancePackage.createPackageContents();
-        theScenarioPackage.createPackageContents();
+		// Create package meta-data objects
+		theMapPackage.createPackageContents();
+		theUrnPackage.createPackageContents();
+		theUrncorePackage.createPackageContents();
+		theGrlPackage.createPackageContents();
+		theKpimodelPackage.createPackageContents();
+		theUcmPackage.createPackageContents();
+		thePerformancePackage.createPackageContents();
+		theScenarioPackage.createPackageContents();
 
-        // Initialize created meta-data
-        theMapPackage.initializePackageContents();
-        theUrnPackage.initializePackageContents();
-        theUrncorePackage.initializePackageContents();
-        theGrlPackage.initializePackageContents();
-        theKpimodelPackage.initializePackageContents();
-        theUcmPackage.initializePackageContents();
-        thePerformancePackage.initializePackageContents();
-        theScenarioPackage.initializePackageContents();
+		// Initialize created meta-data
+		theMapPackage.initializePackageContents();
+		theUrnPackage.initializePackageContents();
+		theUrncorePackage.initializePackageContents();
+		theGrlPackage.initializePackageContents();
+		theKpimodelPackage.initializePackageContents();
+		theUcmPackage.initializePackageContents();
+		thePerformancePackage.initializePackageContents();
+		theScenarioPackage.initializePackageContents();
 
-        // Mark meta-data to indicate it can't be changed
-        theMapPackage.freeze();
+		// Mark meta-data to indicate it can't be changed
+		theMapPackage.freeze();
 
   
-        // Update the registry and return the package
-        EPackage.Registry.INSTANCE.put(MapPackage.eNS_URI, theMapPackage);
-        return theMapPackage;
-    }
+		// Update the registry and return the package
+		EPackage.Registry.INSTANCE.put(MapPackage.eNS_URI, theMapPackage);
+		return theMapPackage;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getAndJoin() {
-        return andJoinEClass;
-    }
+		return andJoinEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getAndJoin_Orientation() {
-        return (EAttribute)andJoinEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)andJoinEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getOutBinding() {
-        return outBindingEClass;
-    }
+		return outBindingEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getOutBinding_Binding() {
-        return (EReference)outBindingEClass.getEStructuralFeatures().get(0);
-    }
+		return (EReference)outBindingEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getOutBinding_EndPoint() {
-        return (EReference)outBindingEClass.getEStructuralFeatures().get(1);
-    }
+		return (EReference)outBindingEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getOutBinding_StubExit() {
-        return (EReference)outBindingEClass.getEStructuralFeatures().get(2);
-    }
+		return (EReference)outBindingEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getOutBinding_PointcutEntry() {
-        return (EReference)outBindingEClass.getEStructuralFeatures().get(3);
-    }
+		return (EReference)outBindingEClass.getEStructuralFeatures().get(3);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getInBinding() {
-        return inBindingEClass;
-    }
+		return inBindingEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getInBinding_Binding() {
-        return (EReference)inBindingEClass.getEStructuralFeatures().get(0);
-    }
+		return (EReference)inBindingEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getInBinding_StartPoint() {
-        return (EReference)inBindingEClass.getEStructuralFeatures().get(1);
-    }
+		return (EReference)inBindingEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getInBinding_StubEntry() {
-        return (EReference)inBindingEClass.getEStructuralFeatures().get(2);
-    }
+		return (EReference)inBindingEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getInBinding_PointcutExit() {
-        return (EReference)inBindingEClass.getEStructuralFeatures().get(3);
-    }
+		return (EReference)inBindingEClass.getEStructuralFeatures().get(3);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getRespRef() {
-        return respRefEClass;
-    }
+		return respRefEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getRespRef_RepetitionCount() {
-        return (EAttribute)respRefEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)respRefEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getRespRef_HostDemand() {
-        return (EAttribute)respRefEClass.getEStructuralFeatures().get(1);
-    }
+		return (EAttribute)respRefEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getRespRef_RespDef() {
-        return (EReference)respRefEClass.getEStructuralFeatures().get(2);
-    }
+		return (EReference)respRefEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getRespRef_PluginBindings() {
-        return (EReference)respRefEClass.getEStructuralFeatures().get(3);
-    }
+		return (EReference)respRefEClass.getEStructuralFeatures().get(3);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getOrJoin() {
-        return orJoinEClass;
-    }
+		return orJoinEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getOrJoin_Orientation() {
-        return (EAttribute)orJoinEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)orJoinEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getOrFork() {
-        return orForkEClass;
-    }
+		return orForkEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getOrFork_Orientation() {
-        return (EAttribute)orForkEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)orForkEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getConnect() {
-        return connectEClass;
-    }
+		return connectEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getNodeConnection() {
-        return nodeConnectionEClass;
-    }
+		return nodeConnectionEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getNodeConnection_Probability() {
-        return (EAttribute)nodeConnectionEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)nodeConnectionEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getNodeConnection_Threshold() {
-        return (EAttribute)nodeConnectionEClass.getEStructuralFeatures().get(1);
-    }
+		return (EAttribute)nodeConnectionEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getNodeConnection_InBindings() {
-        return (EReference)nodeConnectionEClass.getEStructuralFeatures().get(2);
-    }
+		return (EReference)nodeConnectionEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getNodeConnection_OutBindings() {
-        return (EReference)nodeConnectionEClass.getEStructuralFeatures().get(3);
-    }
+		return (EReference)nodeConnectionEClass.getEStructuralFeatures().get(3);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getNodeConnection_Condition() {
-        return (EReference)nodeConnectionEClass.getEStructuralFeatures().get(4);
-    }
+		return (EReference)nodeConnectionEClass.getEStructuralFeatures().get(4);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getNodeConnection_OutBindingsPlugin() {
-        return (EReference)nodeConnectionEClass.getEStructuralFeatures().get(5);
-    }
+		return (EReference)nodeConnectionEClass.getEStructuralFeatures().get(5);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getNodeConnection_InBindingsPlugin() {
-        return (EReference)nodeConnectionEClass.getEStructuralFeatures().get(6);
-    }
+		return (EReference)nodeConnectionEClass.getEStructuralFeatures().get(6);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getWaitingPlace() {
-        return waitingPlaceEClass;
-    }
+		return waitingPlaceEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getWaitingPlace_WaitType() {
-        return (EAttribute)waitingPlaceEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)waitingPlaceEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getStub() {
-        return stubEClass;
-    }
+		return stubEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getStub_Dynamic() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)stubEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getStub_Shared() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(1);
-    }
+		return (EAttribute)stubEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getStub_RepetitionCount() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(2);
-    }
+		return (EAttribute)stubEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getStub_Pointcut() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(3);
-    }
+		return (EAttribute)stubEClass.getEStructuralFeatures().get(3);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getStub_Synchronization() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(4);
-    }
+		return (EAttribute)stubEClass.getEStructuralFeatures().get(4);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getStub_Blocking() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(5);
-    }
+		return (EAttribute)stubEClass.getEStructuralFeatures().get(5);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getStub_Aopointcut() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(6);
-    }
+		return (EAttribute)stubEClass.getEStructuralFeatures().get(6);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getStub_Aspect() {
-        return (EAttribute)stubEClass.getEStructuralFeatures().get(7);
-    }
+		return (EAttribute)stubEClass.getEStructuralFeatures().get(7);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getStub_Bindings() {
-        return (EReference)stubEClass.getEStructuralFeatures().get(8);
-    }
+		return (EReference)stubEClass.getEStructuralFeatures().get(8);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getPathNode() {
-        return pathNodeEClass;
-    }
+		return pathNodeEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getEndPoint() {
-        return endPointEClass;
-    }
+		return endPointEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getEndPoint_Local() {
-        return (EAttribute)endPointEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)endPointEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getEndPoint_OutBindings() {
-        return (EReference)endPointEClass.getEStructuralFeatures().get(1);
-    }
+		return (EReference)endPointEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getEndPoint_Postcondition() {
-        return (EReference)endPointEClass.getEStructuralFeatures().get(2);
-    }
+		return (EReference)endPointEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getEndPoint_ScenarioEndPoints() {
-        return (EReference)endPointEClass.getEStructuralFeatures().get(3);
-    }
+		return (EReference)endPointEClass.getEStructuralFeatures().get(3);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getStartPoint() {
-        return startPointEClass;
-    }
+		return startPointEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getStartPoint_Workload() {
-        return (EReference)startPointEClass.getEStructuralFeatures().get(0);
-    }
+		return (EReference)startPointEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getStartPoint_Local() {
-        return (EAttribute)startPointEClass.getEStructuralFeatures().get(1);
-    }
+		return (EAttribute)startPointEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getStartPoint_FailureKind() {
-        return (EAttribute)startPointEClass.getEStructuralFeatures().get(2);
-    }
+		return (EAttribute)startPointEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getStartPoint_InBindings() {
-        return (EReference)startPointEClass.getEStructuralFeatures().get(3);
-    }
+		return (EReference)startPointEClass.getEStructuralFeatures().get(3);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getStartPoint_Precondition() {
-        return (EReference)startPointEClass.getEStructuralFeatures().get(4);
-    }
+		return (EReference)startPointEClass.getEStructuralFeatures().get(4);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getStartPoint_ScenarioStartPoints() {
-        return (EReference)startPointEClass.getEStructuralFeatures().get(5);
-    }
+		return (EReference)startPointEClass.getEStructuralFeatures().get(5);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getUCMmap() {
-        return ucMmapEClass;
-    }
+		return ucMmapEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getUCMmap_Singleton() {
-        return (EAttribute)ucMmapEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)ucMmapEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getUCMmap_ParentStub() {
-        return (EReference)ucMmapEClass.getEStructuralFeatures().get(1);
-    }
+		return (EReference)ucMmapEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getPluginBinding() {
-        return pluginBindingEClass;
-    }
+		return pluginBindingEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getPluginBinding_Id() {
-        return (EAttribute)pluginBindingEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)pluginBindingEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getPluginBinding_Probability() {
-        return (EAttribute)pluginBindingEClass.getEStructuralFeatures().get(1);
-    }
+		return (EAttribute)pluginBindingEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getPluginBinding_Transaction() {
-        return (EAttribute)pluginBindingEClass.getEStructuralFeatures().get(2);
-    }
+		return (EAttribute)pluginBindingEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getPluginBinding_ReplicationFactor() {
-        return (EAttribute)pluginBindingEClass.getEStructuralFeatures().get(3);
-    }
+		return (EAttribute)pluginBindingEClass.getEStructuralFeatures().get(3);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getPluginBinding_In() {
-        return (EReference)pluginBindingEClass.getEStructuralFeatures().get(4);
-    }
+		return (EReference)pluginBindingEClass.getEStructuralFeatures().get(4);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getPluginBinding_Out() {
-        return (EReference)pluginBindingEClass.getEStructuralFeatures().get(5);
-    }
+		return (EReference)pluginBindingEClass.getEStructuralFeatures().get(5);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getPluginBinding_Stub() {
-        return (EReference)pluginBindingEClass.getEStructuralFeatures().get(6);
-    }
+		return (EReference)pluginBindingEClass.getEStructuralFeatures().get(6);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getPluginBinding_Plugin() {
-        return (EReference)pluginBindingEClass.getEStructuralFeatures().get(7);
-    }
+		return (EReference)pluginBindingEClass.getEStructuralFeatures().get(7);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getPluginBinding_Precondition() {
-        return (EReference)pluginBindingEClass.getEStructuralFeatures().get(8);
-    }
+		return (EReference)pluginBindingEClass.getEStructuralFeatures().get(8);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getPluginBinding_Components() {
-        return (EReference)pluginBindingEClass.getEStructuralFeatures().get(9);
-    }
+		return (EReference)pluginBindingEClass.getEStructuralFeatures().get(9);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getPluginBinding_Responsibilities() {
-        return (EReference)pluginBindingEClass.getEStructuralFeatures().get(10);
-    }
+		return (EReference)pluginBindingEClass.getEStructuralFeatures().get(10);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getComponentRef() {
-        return componentRefEClass;
-    }
+		return componentRefEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getComponentRef_Role() {
-        return (EAttribute)componentRefEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)componentRefEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getComponentRef_ReplicationFactor() {
-        return (EAttribute)componentRefEClass.getEStructuralFeatures().get(1);
-    }
+		return (EAttribute)componentRefEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getComponentRef_Anchored() {
-        return (EAttribute)componentRefEClass.getEStructuralFeatures().get(2);
-    }
+		return (EAttribute)componentRefEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getComponentRef_ParentBindings() {
-        return (EReference)componentRefEClass.getEStructuralFeatures().get(3);
-    }
+		return (EReference)componentRefEClass.getEStructuralFeatures().get(3);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getComponentRef_PluginBindings() {
-        return (EReference)componentRefEClass.getEStructuralFeatures().get(4);
-    }
+		return (EReference)componentRefEClass.getEStructuralFeatures().get(4);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getTimer() {
-        return timerEClass;
-    }
+		return timerEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getTimer_TimeoutPath() {
-        return (EReference)timerEClass.getEStructuralFeatures().get(0);
-    }
+		return (EReference)timerEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getAndFork() {
-        return andForkEClass;
-    }
+		return andForkEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getAndFork_Orientation() {
-        return (EAttribute)andForkEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)andForkEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getEmptyPoint() {
-        return emptyPointEClass;
-    }
+		return emptyPointEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getDirectionArrow() {
-        return directionArrowEClass;
-    }
+		return directionArrowEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getComponentBinding() {
-        return componentBindingEClass;
-    }
+		return componentBindingEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getComponentBinding_Binding() {
-        return (EReference)componentBindingEClass.getEStructuralFeatures().get(0);
-    }
+		return (EReference)componentBindingEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getComponentBinding_ParentComponent() {
-        return (EReference)componentBindingEClass.getEStructuralFeatures().get(1);
-    }
+		return (EReference)componentBindingEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getComponentBinding_PluginComponent() {
-        return (EReference)componentBindingEClass.getEStructuralFeatures().get(2);
-    }
+		return (EReference)componentBindingEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getAnything() {
-        return anythingEClass;
-    }
+		return anythingEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getFailurePoint() {
-        return failurePointEClass;
-    }
+		return failurePointEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getFailurePoint_Expression() {
-        return (EAttribute)failurePointEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)failurePointEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getResponsibilityBinding() {
-        return responsibilityBindingEClass;
-    }
+		return responsibilityBindingEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getResponsibilityBinding_Binding() {
-        return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(0);
-    }
+		return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getResponsibilityBinding_ParentResp() {
-        return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(2);
-    }
+		return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(2);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EReference getResponsibilityBinding_PluginResp() {
-        return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(1);
-    }
+		return (EReference)responsibilityBindingEClass.getEStructuralFeatures().get(1);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EEnum getWaitKind() {
-        return waitKindEEnum;
-    }
+		return waitKindEEnum;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EEnum getAspectKind() {
-        return aspectKindEEnum;
-    }
+		return aspectKindEEnum;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EEnum getPointcutKind() {
-        return pointcutKindEEnum;
-    }
+		return pointcutKindEEnum;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EEnum getFailureKind() {
-        return failureKindEEnum;
-    }
+		return failureKindEEnum;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public MapFactory getMapFactory() {
-        return (MapFactory)getEFactoryInstance();
-    }
+		return (MapFactory)getEFactoryInstance();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private boolean isCreated = false;
 
     /**
-     * Creates the meta-model objects for the package.  This method is
-     * guarded to have no affect on any invocation but its first.
-     * <!-- begin-user-doc -->
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void createPackageContents() {
-        if (isCreated) return;
-        isCreated = true;
+		if (isCreated) return;
+		isCreated = true;
 
-        // Create classes and their features
-        andJoinEClass = createEClass(AND_JOIN);
-        createEAttribute(andJoinEClass, AND_JOIN__ORIENTATION);
+		// Create classes and their features
+		andJoinEClass = createEClass(AND_JOIN);
+		createEAttribute(andJoinEClass, AND_JOIN__ORIENTATION);
 
-        outBindingEClass = createEClass(OUT_BINDING);
-        createEReference(outBindingEClass, OUT_BINDING__BINDING);
-        createEReference(outBindingEClass, OUT_BINDING__END_POINT);
-        createEReference(outBindingEClass, OUT_BINDING__STUB_EXIT);
-        createEReference(outBindingEClass, OUT_BINDING__POINTCUT_ENTRY);
+		outBindingEClass = createEClass(OUT_BINDING);
+		createEReference(outBindingEClass, OUT_BINDING__BINDING);
+		createEReference(outBindingEClass, OUT_BINDING__END_POINT);
+		createEReference(outBindingEClass, OUT_BINDING__STUB_EXIT);
+		createEReference(outBindingEClass, OUT_BINDING__POINTCUT_ENTRY);
 
-        inBindingEClass = createEClass(IN_BINDING);
-        createEReference(inBindingEClass, IN_BINDING__BINDING);
-        createEReference(inBindingEClass, IN_BINDING__START_POINT);
-        createEReference(inBindingEClass, IN_BINDING__STUB_ENTRY);
-        createEReference(inBindingEClass, IN_BINDING__POINTCUT_EXIT);
+		inBindingEClass = createEClass(IN_BINDING);
+		createEReference(inBindingEClass, IN_BINDING__BINDING);
+		createEReference(inBindingEClass, IN_BINDING__START_POINT);
+		createEReference(inBindingEClass, IN_BINDING__STUB_ENTRY);
+		createEReference(inBindingEClass, IN_BINDING__POINTCUT_EXIT);
 
-        respRefEClass = createEClass(RESP_REF);
-        createEAttribute(respRefEClass, RESP_REF__REPETITION_COUNT);
-        createEAttribute(respRefEClass, RESP_REF__HOST_DEMAND);
-        createEReference(respRefEClass, RESP_REF__RESP_DEF);
-        createEReference(respRefEClass, RESP_REF__PLUGIN_BINDINGS);
+		respRefEClass = createEClass(RESP_REF);
+		createEAttribute(respRefEClass, RESP_REF__REPETITION_COUNT);
+		createEAttribute(respRefEClass, RESP_REF__HOST_DEMAND);
+		createEReference(respRefEClass, RESP_REF__RESP_DEF);
+		createEReference(respRefEClass, RESP_REF__PLUGIN_BINDINGS);
 
-        orJoinEClass = createEClass(OR_JOIN);
-        createEAttribute(orJoinEClass, OR_JOIN__ORIENTATION);
+		orJoinEClass = createEClass(OR_JOIN);
+		createEAttribute(orJoinEClass, OR_JOIN__ORIENTATION);
 
-        orForkEClass = createEClass(OR_FORK);
-        createEAttribute(orForkEClass, OR_FORK__ORIENTATION);
+		orForkEClass = createEClass(OR_FORK);
+		createEAttribute(orForkEClass, OR_FORK__ORIENTATION);
 
-        connectEClass = createEClass(CONNECT);
+		connectEClass = createEClass(CONNECT);
 
-        nodeConnectionEClass = createEClass(NODE_CONNECTION);
-        createEAttribute(nodeConnectionEClass, NODE_CONNECTION__PROBABILITY);
-        createEAttribute(nodeConnectionEClass, NODE_CONNECTION__THRESHOLD);
-        createEReference(nodeConnectionEClass, NODE_CONNECTION__IN_BINDINGS);
-        createEReference(nodeConnectionEClass, NODE_CONNECTION__OUT_BINDINGS);
-        createEReference(nodeConnectionEClass, NODE_CONNECTION__CONDITION);
-        createEReference(nodeConnectionEClass, NODE_CONNECTION__OUT_BINDINGS_PLUGIN);
-        createEReference(nodeConnectionEClass, NODE_CONNECTION__IN_BINDINGS_PLUGIN);
+		nodeConnectionEClass = createEClass(NODE_CONNECTION);
+		createEAttribute(nodeConnectionEClass, NODE_CONNECTION__PROBABILITY);
+		createEAttribute(nodeConnectionEClass, NODE_CONNECTION__THRESHOLD);
+		createEReference(nodeConnectionEClass, NODE_CONNECTION__IN_BINDINGS);
+		createEReference(nodeConnectionEClass, NODE_CONNECTION__OUT_BINDINGS);
+		createEReference(nodeConnectionEClass, NODE_CONNECTION__CONDITION);
+		createEReference(nodeConnectionEClass, NODE_CONNECTION__OUT_BINDINGS_PLUGIN);
+		createEReference(nodeConnectionEClass, NODE_CONNECTION__IN_BINDINGS_PLUGIN);
 
-        waitingPlaceEClass = createEClass(WAITING_PLACE);
-        createEAttribute(waitingPlaceEClass, WAITING_PLACE__WAIT_TYPE);
+		waitingPlaceEClass = createEClass(WAITING_PLACE);
+		createEAttribute(waitingPlaceEClass, WAITING_PLACE__WAIT_TYPE);
 
-        stubEClass = createEClass(STUB);
-        createEAttribute(stubEClass, STUB__DYNAMIC);
-        createEAttribute(stubEClass, STUB__SHARED);
-        createEAttribute(stubEClass, STUB__REPETITION_COUNT);
-        createEAttribute(stubEClass, STUB__POINTCUT);
-        createEAttribute(stubEClass, STUB__SYNCHRONIZATION);
-        createEAttribute(stubEClass, STUB__BLOCKING);
-        createEAttribute(stubEClass, STUB__AOPOINTCUT);
-        createEAttribute(stubEClass, STUB__ASPECT);
-        createEReference(stubEClass, STUB__BINDINGS);
+		stubEClass = createEClass(STUB);
+		createEAttribute(stubEClass, STUB__DYNAMIC);
+		createEAttribute(stubEClass, STUB__SHARED);
+		createEAttribute(stubEClass, STUB__REPETITION_COUNT);
+		createEAttribute(stubEClass, STUB__POINTCUT);
+		createEAttribute(stubEClass, STUB__SYNCHRONIZATION);
+		createEAttribute(stubEClass, STUB__BLOCKING);
+		createEAttribute(stubEClass, STUB__AOPOINTCUT);
+		createEAttribute(stubEClass, STUB__ASPECT);
+		createEReference(stubEClass, STUB__BINDINGS);
 
-        pathNodeEClass = createEClass(PATH_NODE);
+		pathNodeEClass = createEClass(PATH_NODE);
 
-        endPointEClass = createEClass(END_POINT);
-        createEAttribute(endPointEClass, END_POINT__LOCAL);
-        createEReference(endPointEClass, END_POINT__OUT_BINDINGS);
-        createEReference(endPointEClass, END_POINT__POSTCONDITION);
-        createEReference(endPointEClass, END_POINT__SCENARIO_END_POINTS);
+		endPointEClass = createEClass(END_POINT);
+		createEAttribute(endPointEClass, END_POINT__LOCAL);
+		createEReference(endPointEClass, END_POINT__OUT_BINDINGS);
+		createEReference(endPointEClass, END_POINT__POSTCONDITION);
+		createEReference(endPointEClass, END_POINT__SCENARIO_END_POINTS);
 
-        startPointEClass = createEClass(START_POINT);
-        createEReference(startPointEClass, START_POINT__WORKLOAD);
-        createEAttribute(startPointEClass, START_POINT__LOCAL);
-        createEAttribute(startPointEClass, START_POINT__FAILURE_KIND);
-        createEReference(startPointEClass, START_POINT__IN_BINDINGS);
-        createEReference(startPointEClass, START_POINT__PRECONDITION);
-        createEReference(startPointEClass, START_POINT__SCENARIO_START_POINTS);
+		startPointEClass = createEClass(START_POINT);
+		createEReference(startPointEClass, START_POINT__WORKLOAD);
+		createEAttribute(startPointEClass, START_POINT__LOCAL);
+		createEAttribute(startPointEClass, START_POINT__FAILURE_KIND);
+		createEReference(startPointEClass, START_POINT__IN_BINDINGS);
+		createEReference(startPointEClass, START_POINT__PRECONDITION);
+		createEReference(startPointEClass, START_POINT__SCENARIO_START_POINTS);
 
-        ucMmapEClass = createEClass(UC_MMAP);
-        createEAttribute(ucMmapEClass, UC_MMAP__SINGLETON);
-        createEReference(ucMmapEClass, UC_MMAP__PARENT_STUB);
+		ucMmapEClass = createEClass(UC_MMAP);
+		createEAttribute(ucMmapEClass, UC_MMAP__SINGLETON);
+		createEReference(ucMmapEClass, UC_MMAP__PARENT_STUB);
 
-        pluginBindingEClass = createEClass(PLUGIN_BINDING);
-        createEAttribute(pluginBindingEClass, PLUGIN_BINDING__ID);
-        createEAttribute(pluginBindingEClass, PLUGIN_BINDING__PROBABILITY);
-        createEAttribute(pluginBindingEClass, PLUGIN_BINDING__TRANSACTION);
-        createEAttribute(pluginBindingEClass, PLUGIN_BINDING__REPLICATION_FACTOR);
-        createEReference(pluginBindingEClass, PLUGIN_BINDING__IN);
-        createEReference(pluginBindingEClass, PLUGIN_BINDING__OUT);
-        createEReference(pluginBindingEClass, PLUGIN_BINDING__STUB);
-        createEReference(pluginBindingEClass, PLUGIN_BINDING__PLUGIN);
-        createEReference(pluginBindingEClass, PLUGIN_BINDING__PRECONDITION);
-        createEReference(pluginBindingEClass, PLUGIN_BINDING__COMPONENTS);
-        createEReference(pluginBindingEClass, PLUGIN_BINDING__RESPONSIBILITIES);
+		pluginBindingEClass = createEClass(PLUGIN_BINDING);
+		createEAttribute(pluginBindingEClass, PLUGIN_BINDING__ID);
+		createEAttribute(pluginBindingEClass, PLUGIN_BINDING__PROBABILITY);
+		createEAttribute(pluginBindingEClass, PLUGIN_BINDING__TRANSACTION);
+		createEAttribute(pluginBindingEClass, PLUGIN_BINDING__REPLICATION_FACTOR);
+		createEReference(pluginBindingEClass, PLUGIN_BINDING__IN);
+		createEReference(pluginBindingEClass, PLUGIN_BINDING__OUT);
+		createEReference(pluginBindingEClass, PLUGIN_BINDING__STUB);
+		createEReference(pluginBindingEClass, PLUGIN_BINDING__PLUGIN);
+		createEReference(pluginBindingEClass, PLUGIN_BINDING__PRECONDITION);
+		createEReference(pluginBindingEClass, PLUGIN_BINDING__COMPONENTS);
+		createEReference(pluginBindingEClass, PLUGIN_BINDING__RESPONSIBILITIES);
 
-        componentRefEClass = createEClass(COMPONENT_REF);
-        createEAttribute(componentRefEClass, COMPONENT_REF__ROLE);
-        createEAttribute(componentRefEClass, COMPONENT_REF__REPLICATION_FACTOR);
-        createEAttribute(componentRefEClass, COMPONENT_REF__ANCHORED);
-        createEReference(componentRefEClass, COMPONENT_REF__PARENT_BINDINGS);
-        createEReference(componentRefEClass, COMPONENT_REF__PLUGIN_BINDINGS);
+		componentRefEClass = createEClass(COMPONENT_REF);
+		createEAttribute(componentRefEClass, COMPONENT_REF__ROLE);
+		createEAttribute(componentRefEClass, COMPONENT_REF__REPLICATION_FACTOR);
+		createEAttribute(componentRefEClass, COMPONENT_REF__ANCHORED);
+		createEReference(componentRefEClass, COMPONENT_REF__PARENT_BINDINGS);
+		createEReference(componentRefEClass, COMPONENT_REF__PLUGIN_BINDINGS);
 
-        timerEClass = createEClass(TIMER);
-        createEReference(timerEClass, TIMER__TIMEOUT_PATH);
+		timerEClass = createEClass(TIMER);
+		createEReference(timerEClass, TIMER__TIMEOUT_PATH);
 
-        andForkEClass = createEClass(AND_FORK);
-        createEAttribute(andForkEClass, AND_FORK__ORIENTATION);
+		andForkEClass = createEClass(AND_FORK);
+		createEAttribute(andForkEClass, AND_FORK__ORIENTATION);
 
-        emptyPointEClass = createEClass(EMPTY_POINT);
+		emptyPointEClass = createEClass(EMPTY_POINT);
 
-        directionArrowEClass = createEClass(DIRECTION_ARROW);
+		directionArrowEClass = createEClass(DIRECTION_ARROW);
 
-        componentBindingEClass = createEClass(COMPONENT_BINDING);
-        createEReference(componentBindingEClass, COMPONENT_BINDING__BINDING);
-        createEReference(componentBindingEClass, COMPONENT_BINDING__PARENT_COMPONENT);
-        createEReference(componentBindingEClass, COMPONENT_BINDING__PLUGIN_COMPONENT);
+		componentBindingEClass = createEClass(COMPONENT_BINDING);
+		createEReference(componentBindingEClass, COMPONENT_BINDING__BINDING);
+		createEReference(componentBindingEClass, COMPONENT_BINDING__PARENT_COMPONENT);
+		createEReference(componentBindingEClass, COMPONENT_BINDING__PLUGIN_COMPONENT);
 
-        anythingEClass = createEClass(ANYTHING);
+		anythingEClass = createEClass(ANYTHING);
 
-        failurePointEClass = createEClass(FAILURE_POINT);
-        createEAttribute(failurePointEClass, FAILURE_POINT__EXPRESSION);
+		failurePointEClass = createEClass(FAILURE_POINT);
+		createEAttribute(failurePointEClass, FAILURE_POINT__EXPRESSION);
 
-        responsibilityBindingEClass = createEClass(RESPONSIBILITY_BINDING);
-        createEReference(responsibilityBindingEClass, RESPONSIBILITY_BINDING__BINDING);
-        createEReference(responsibilityBindingEClass, RESPONSIBILITY_BINDING__PLUGIN_RESP);
-        createEReference(responsibilityBindingEClass, RESPONSIBILITY_BINDING__PARENT_RESP);
+		responsibilityBindingEClass = createEClass(RESPONSIBILITY_BINDING);
+		createEReference(responsibilityBindingEClass, RESPONSIBILITY_BINDING__BINDING);
+		createEReference(responsibilityBindingEClass, RESPONSIBILITY_BINDING__PLUGIN_RESP);
+		createEReference(responsibilityBindingEClass, RESPONSIBILITY_BINDING__PARENT_RESP);
 
-        // Create enums
-        waitKindEEnum = createEEnum(WAIT_KIND);
-        aspectKindEEnum = createEEnum(ASPECT_KIND);
-        pointcutKindEEnum = createEEnum(POINTCUT_KIND);
-        failureKindEEnum = createEEnum(FAILURE_KIND);
-    }
+		// Create enums
+		waitKindEEnum = createEEnum(WAIT_KIND);
+		aspectKindEEnum = createEEnum(ASPECT_KIND);
+		pointcutKindEEnum = createEEnum(POINTCUT_KIND);
+		failureKindEEnum = createEEnum(FAILURE_KIND);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private boolean isInitialized = false;
 
     /**
-     * Complete the initialization of the package and its meta-model.  This
-     * method is guarded to have no affect on any invocation but its first.
-     * <!-- begin-user-doc -->
+	 * Complete the initialization of the package and its meta-model.  This
+	 * method is guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void initializePackageContents() {
-        if (isInitialized) return;
-        isInitialized = true;
+		if (isInitialized) return;
+		isInitialized = true;
 
-        // Initialize package
-        setName(eNAME);
-        setNsPrefix(eNS_PREFIX);
-        setNsURI(eNS_URI);
+		// Initialize package
+		setName(eNAME);
+		setNsPrefix(eNS_PREFIX);
+		setNsURI(eNS_URI);
 
-        // Obtain other dependent packages
-        UrncorePackage theUrncorePackage = (UrncorePackage)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
-        ScenarioPackage theScenarioPackage = (ScenarioPackage)EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI);
-        PerformancePackage thePerformancePackage = (PerformancePackage)EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI);
+		// Obtain other dependent packages
+		UrncorePackage theUrncorePackage = (UrncorePackage)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
+		ScenarioPackage theScenarioPackage = (ScenarioPackage)EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI);
+		PerformancePackage thePerformancePackage = (PerformancePackage)EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI);
 
-        // Add supertypes to classes
-        andJoinEClass.getESuperTypes().add(this.getPathNode());
-        respRefEClass.getESuperTypes().add(this.getPathNode());
-        orJoinEClass.getESuperTypes().add(this.getPathNode());
-        orForkEClass.getESuperTypes().add(this.getPathNode());
-        connectEClass.getESuperTypes().add(this.getPathNode());
-        nodeConnectionEClass.getESuperTypes().add(theUrncorePackage.getIURNConnection());
-        waitingPlaceEClass.getESuperTypes().add(this.getPathNode());
-        stubEClass.getESuperTypes().add(this.getPathNode());
-        pathNodeEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
-        pathNodeEClass.getESuperTypes().add(theUrncorePackage.getIURNNode());
-        endPointEClass.getESuperTypes().add(this.getPathNode());
-        startPointEClass.getESuperTypes().add(this.getPathNode());
-        ucMmapEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
-        ucMmapEClass.getESuperTypes().add(theUrncorePackage.getIURNDiagram());
-        componentRefEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
-        componentRefEClass.getESuperTypes().add(theUrncorePackage.getIURNContainerRef());
-        timerEClass.getESuperTypes().add(this.getWaitingPlace());
-        andForkEClass.getESuperTypes().add(this.getPathNode());
-        emptyPointEClass.getESuperTypes().add(this.getPathNode());
-        directionArrowEClass.getESuperTypes().add(this.getPathNode());
-        anythingEClass.getESuperTypes().add(this.getPathNode());
-        failurePointEClass.getESuperTypes().add(this.getPathNode());
+		// Add supertypes to classes
+		andJoinEClass.getESuperTypes().add(this.getPathNode());
+		respRefEClass.getESuperTypes().add(this.getPathNode());
+		orJoinEClass.getESuperTypes().add(this.getPathNode());
+		orForkEClass.getESuperTypes().add(this.getPathNode());
+		connectEClass.getESuperTypes().add(this.getPathNode());
+		nodeConnectionEClass.getESuperTypes().add(theUrncorePackage.getIURNConnection());
+		waitingPlaceEClass.getESuperTypes().add(this.getPathNode());
+		stubEClass.getESuperTypes().add(this.getPathNode());
+		pathNodeEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
+		pathNodeEClass.getESuperTypes().add(theUrncorePackage.getIURNNode());
+		endPointEClass.getESuperTypes().add(this.getPathNode());
+		startPointEClass.getESuperTypes().add(this.getPathNode());
+		ucMmapEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
+		ucMmapEClass.getESuperTypes().add(theUrncorePackage.getIURNDiagram());
+		componentRefEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
+		componentRefEClass.getESuperTypes().add(theUrncorePackage.getIURNContainerRef());
+		timerEClass.getESuperTypes().add(this.getWaitingPlace());
+		andForkEClass.getESuperTypes().add(this.getPathNode());
+		emptyPointEClass.getESuperTypes().add(this.getPathNode());
+		directionArrowEClass.getESuperTypes().add(this.getPathNode());
+		anythingEClass.getESuperTypes().add(this.getPathNode());
+		failurePointEClass.getESuperTypes().add(this.getPathNode());
 
-        // Initialize classes and features; add operations and parameters
-        initEClass(andJoinEClass, AndJoin.class, "AndJoin", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getAndJoin_Orientation(), ecorePackage.getEString(), "orientation", null, 0, 1, AndJoin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		// Initialize classes and features; add operations and parameters
+		initEClass(andJoinEClass, AndJoin.class, "AndJoin", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAndJoin_Orientation(), ecorePackage.getEString(), "orientation", null, 0, 1, AndJoin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(outBindingEClass, OutBinding.class, "OutBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getOutBinding_Binding(), this.getPluginBinding(), this.getPluginBinding_Out(), "binding", null, 1, 1, OutBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getOutBinding_EndPoint(), this.getEndPoint(), this.getEndPoint_OutBindings(), "endPoint", null, 0, 1, OutBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getOutBinding_StubExit(), this.getNodeConnection(), this.getNodeConnection_OutBindings(), "stubExit", null, 1, 1, OutBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getOutBinding_PointcutEntry(), this.getNodeConnection(), this.getNodeConnection_OutBindingsPlugin(), "pointcutEntry", null, 0, 1, OutBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(outBindingEClass, OutBinding.class, "OutBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOutBinding_Binding(), this.getPluginBinding(), this.getPluginBinding_Out(), "binding", null, 1, 1, OutBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOutBinding_EndPoint(), this.getEndPoint(), this.getEndPoint_OutBindings(), "endPoint", null, 0, 1, OutBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOutBinding_StubExit(), this.getNodeConnection(), this.getNodeConnection_OutBindings(), "stubExit", null, 1, 1, OutBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOutBinding_PointcutEntry(), this.getNodeConnection(), this.getNodeConnection_OutBindingsPlugin(), "pointcutEntry", null, 0, 1, OutBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(inBindingEClass, InBinding.class, "InBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getInBinding_Binding(), this.getPluginBinding(), this.getPluginBinding_In(), "binding", null, 1, 1, InBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getInBinding_StartPoint(), this.getStartPoint(), this.getStartPoint_InBindings(), "startPoint", null, 0, 1, InBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getInBinding_StubEntry(), this.getNodeConnection(), this.getNodeConnection_InBindings(), "stubEntry", null, 1, 1, InBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getInBinding_PointcutExit(), this.getNodeConnection(), this.getNodeConnection_InBindingsPlugin(), "pointcutExit", null, 0, 1, InBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(inBindingEClass, InBinding.class, "InBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getInBinding_Binding(), this.getPluginBinding(), this.getPluginBinding_In(), "binding", null, 1, 1, InBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInBinding_StartPoint(), this.getStartPoint(), this.getStartPoint_InBindings(), "startPoint", null, 0, 1, InBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInBinding_StubEntry(), this.getNodeConnection(), this.getNodeConnection_InBindings(), "stubEntry", null, 1, 1, InBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInBinding_PointcutExit(), this.getNodeConnection(), this.getNodeConnection_InBindingsPlugin(), "pointcutExit", null, 0, 1, InBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(respRefEClass, RespRef.class, "RespRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getRespRef_RepetitionCount(), ecorePackage.getEString(), "repetitionCount", "1", 0, 1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getRespRef_HostDemand(), ecorePackage.getEString(), "hostDemand", null, 0, 1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getRespRef_RespDef(), theUrncorePackage.getResponsibility(), theUrncorePackage.getResponsibility_RespRefs(), "respDef", null, 1, 1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getRespRef_PluginBindings(), this.getResponsibilityBinding(), this.getResponsibilityBinding_PluginResp(), "pluginBindings", null, 0, -1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(respRefEClass, RespRef.class, "RespRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRespRef_RepetitionCount(), ecorePackage.getEString(), "repetitionCount", "1", 0, 1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRespRef_HostDemand(), ecorePackage.getEString(), "hostDemand", null, 0, 1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRespRef_RespDef(), theUrncorePackage.getResponsibility(), theUrncorePackage.getResponsibility_RespRefs(), "respDef", null, 1, 1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRespRef_PluginBindings(), this.getResponsibilityBinding(), this.getResponsibilityBinding_PluginResp(), "pluginBindings", null, 0, -1, RespRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(orJoinEClass, OrJoin.class, "OrJoin", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getOrJoin_Orientation(), ecorePackage.getEString(), "orientation", null, 0, 1, OrJoin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(orJoinEClass, OrJoin.class, "OrJoin", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getOrJoin_Orientation(), ecorePackage.getEString(), "orientation", null, 0, 1, OrJoin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(orForkEClass, OrFork.class, "OrFork", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getOrFork_Orientation(), ecorePackage.getEString(), "orientation", null, 0, 1, OrFork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(orForkEClass, OrFork.class, "OrFork", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getOrFork_Orientation(), ecorePackage.getEString(), "orientation", null, 0, 1, OrFork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(connectEClass, Connect.class, "Connect", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(connectEClass, Connect.class, "Connect", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        initEClass(nodeConnectionEClass, NodeConnection.class, "NodeConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getNodeConnection_Probability(), ecorePackage.getEDouble(), "probability", "1.0", 0, 1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getNodeConnection_Threshold(), ecorePackage.getEString(), "threshold", null, 0, 1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getNodeConnection_InBindings(), this.getInBinding(), this.getInBinding_StubEntry(), "inBindings", null, 0, -1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getNodeConnection_OutBindings(), this.getOutBinding(), this.getOutBinding_StubExit(), "outBindings", null, 0, -1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getNodeConnection_Condition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_NodeConnection(), "condition", null, 0, 1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getNodeConnection_OutBindingsPlugin(), this.getOutBinding(), this.getOutBinding_PointcutEntry(), "outBindingsPlugin", null, 0, -1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getNodeConnection_InBindingsPlugin(), this.getInBinding(), this.getInBinding_PointcutExit(), "inBindingsPlugin", null, 0, -1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(nodeConnectionEClass, NodeConnection.class, "NodeConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getNodeConnection_Probability(), ecorePackage.getEDouble(), "probability", "1.0", 0, 1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNodeConnection_Threshold(), ecorePackage.getEString(), "threshold", null, 0, 1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNodeConnection_InBindings(), this.getInBinding(), this.getInBinding_StubEntry(), "inBindings", null, 0, -1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNodeConnection_OutBindings(), this.getOutBinding(), this.getOutBinding_StubExit(), "outBindings", null, 0, -1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNodeConnection_Condition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_NodeConnection(), "condition", null, 0, 1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNodeConnection_OutBindingsPlugin(), this.getOutBinding(), this.getOutBinding_PointcutEntry(), "outBindingsPlugin", null, 0, -1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNodeConnection_InBindingsPlugin(), this.getInBinding(), this.getInBinding_PointcutExit(), "inBindingsPlugin", null, 0, -1, NodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(waitingPlaceEClass, WaitingPlace.class, "WaitingPlace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getWaitingPlace_WaitType(), this.getWaitKind(), "waitType", null, 0, 1, WaitingPlace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(waitingPlaceEClass, WaitingPlace.class, "WaitingPlace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getWaitingPlace_WaitType(), this.getWaitKind(), "waitType", null, 0, 1, WaitingPlace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(stubEClass, Stub.class, "Stub", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getStub_Dynamic(), ecorePackage.getEBoolean(), "dynamic", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getStub_Shared(), ecorePackage.getEBoolean(), "shared", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getStub_RepetitionCount(), ecorePackage.getEString(), "repetitionCount", "1", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getStub_Pointcut(), ecorePackage.getEBoolean(), "pointcut", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getStub_Synchronization(), ecorePackage.getEBoolean(), "synchronization", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getStub_Blocking(), ecorePackage.getEBoolean(), "blocking", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getStub_Aopointcut(), this.getPointcutKind(), "aopointcut", "None", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getStub_Aspect(), this.getAspectKind(), "aspect", "None", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getStub_Bindings(), this.getPluginBinding(), this.getPluginBinding_Stub(), "bindings", null, 0, -1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(stubEClass, Stub.class, "Stub", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getStub_Dynamic(), ecorePackage.getEBoolean(), "dynamic", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStub_Shared(), ecorePackage.getEBoolean(), "shared", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStub_RepetitionCount(), ecorePackage.getEString(), "repetitionCount", "1", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStub_Pointcut(), ecorePackage.getEBoolean(), "pointcut", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStub_Synchronization(), ecorePackage.getEBoolean(), "synchronization", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStub_Blocking(), ecorePackage.getEBoolean(), "blocking", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStub_Aopointcut(), this.getPointcutKind(), "aopointcut", "None", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStub_Aspect(), this.getAspectKind(), "aspect", "None", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStub_Bindings(), this.getPluginBinding(), this.getPluginBinding_Stub(), "bindings", null, 0, -1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(pathNodeEClass, PathNode.class, "PathNode", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(pathNodeEClass, PathNode.class, "PathNode", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        initEClass(endPointEClass, EndPoint.class, "EndPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getEndPoint_Local(), ecorePackage.getEBoolean(), "local", "false", 0, 1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getEndPoint_OutBindings(), this.getOutBinding(), this.getOutBinding_EndPoint(), "outBindings", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getEndPoint_Postcondition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_EndPoint(), "postcondition", null, 0, 1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getEndPoint_ScenarioEndPoints(), theScenarioPackage.getScenarioEndPoint(), theScenarioPackage.getScenarioEndPoint_EndPoint(), "scenarioEndPoints", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(endPointEClass, EndPoint.class, "EndPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getEndPoint_Local(), ecorePackage.getEBoolean(), "local", "false", 0, 1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEndPoint_OutBindings(), this.getOutBinding(), this.getOutBinding_EndPoint(), "outBindings", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEndPoint_Postcondition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_EndPoint(), "postcondition", null, 0, 1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEndPoint_ScenarioEndPoints(), theScenarioPackage.getScenarioEndPoint(), theScenarioPackage.getScenarioEndPoint_EndPoint(), "scenarioEndPoints", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(startPointEClass, StartPoint.class, "StartPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getStartPoint_Workload(), thePerformancePackage.getWorkload(), thePerformancePackage.getWorkload_StartPoint(), "workload", null, 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getStartPoint_Local(), ecorePackage.getEBoolean(), "local", "false", 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getStartPoint_FailureKind(), this.getFailureKind(), "failureKind", "None", 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getStartPoint_InBindings(), this.getInBinding(), this.getInBinding_StartPoint(), "inBindings", null, 0, -1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getStartPoint_Precondition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_StartPoint(), "precondition", null, 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getStartPoint_ScenarioStartPoints(), theScenarioPackage.getScenarioStartPoint(), theScenarioPackage.getScenarioStartPoint_StartPoint(), "scenarioStartPoints", null, 0, -1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(startPointEClass, StartPoint.class, "StartPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getStartPoint_Workload(), thePerformancePackage.getWorkload(), thePerformancePackage.getWorkload_StartPoint(), "workload", null, 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStartPoint_Local(), ecorePackage.getEBoolean(), "local", "false", 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStartPoint_FailureKind(), this.getFailureKind(), "failureKind", "None", 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStartPoint_InBindings(), this.getInBinding(), this.getInBinding_StartPoint(), "inBindings", null, 0, -1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStartPoint_Precondition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_StartPoint(), "precondition", null, 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStartPoint_ScenarioStartPoints(), theScenarioPackage.getScenarioStartPoint(), theScenarioPackage.getScenarioStartPoint_StartPoint(), "scenarioStartPoints", null, 0, -1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(ucMmapEClass, UCMmap.class, "UCMmap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getUCMmap_Singleton(), ecorePackage.getEBoolean(), "singleton", "true", 0, 1, UCMmap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getUCMmap_ParentStub(), this.getPluginBinding(), this.getPluginBinding_Plugin(), "parentStub", null, 0, -1, UCMmap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(ucMmapEClass, UCMmap.class, "UCMmap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUCMmap_Singleton(), ecorePackage.getEBoolean(), "singleton", "true", 0, 1, UCMmap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUCMmap_ParentStub(), this.getPluginBinding(), this.getPluginBinding_Plugin(), "parentStub", null, 0, -1, UCMmap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(pluginBindingEClass, PluginBinding.class, "PluginBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getPluginBinding_Id(), ecorePackage.getEString(), "id", null, 0, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getPluginBinding_Probability(), ecorePackage.getEDouble(), "probability", "1.0", 0, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getPluginBinding_Transaction(), ecorePackage.getEBoolean(), "transaction", "false", 0, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getPluginBinding_ReplicationFactor(), ecorePackage.getEInt(), "replicationFactor", "1", 0, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPluginBinding_In(), this.getInBinding(), this.getInBinding_Binding(), "in", null, 1, -1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPluginBinding_Out(), this.getOutBinding(), this.getOutBinding_Binding(), "out", null, 1, -1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPluginBinding_Stub(), this.getStub(), this.getStub_Bindings(), "stub", null, 0, 1, PluginBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPluginBinding_Plugin(), this.getUCMmap(), this.getUCMmap_ParentStub(), "plugin", null, 1, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPluginBinding_Precondition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_PluginBinding(), "precondition", null, 0, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPluginBinding_Components(), this.getComponentBinding(), this.getComponentBinding_Binding(), "components", null, 0, -1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPluginBinding_Responsibilities(), this.getResponsibilityBinding(), this.getResponsibilityBinding_Binding(), "responsibilities", null, 0, -1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(pluginBindingEClass, PluginBinding.class, "PluginBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPluginBinding_Id(), ecorePackage.getEString(), "id", null, 0, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPluginBinding_Probability(), ecorePackage.getEDouble(), "probability", "1.0", 0, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPluginBinding_Transaction(), ecorePackage.getEBoolean(), "transaction", "false", 0, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPluginBinding_ReplicationFactor(), ecorePackage.getEInt(), "replicationFactor", "1", 0, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPluginBinding_In(), this.getInBinding(), this.getInBinding_Binding(), "in", null, 1, -1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPluginBinding_Out(), this.getOutBinding(), this.getOutBinding_Binding(), "out", null, 1, -1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPluginBinding_Stub(), this.getStub(), this.getStub_Bindings(), "stub", null, 0, 1, PluginBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPluginBinding_Plugin(), this.getUCMmap(), this.getUCMmap_ParentStub(), "plugin", null, 1, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPluginBinding_Precondition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_PluginBinding(), "precondition", null, 0, 1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPluginBinding_Components(), this.getComponentBinding(), this.getComponentBinding_Binding(), "components", null, 0, -1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPluginBinding_Responsibilities(), this.getResponsibilityBinding(), this.getResponsibilityBinding_Binding(), "responsibilities", null, 0, -1, PluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(componentRefEClass, ComponentRef.class, "ComponentRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getComponentRef_Role(), ecorePackage.getEString(), "role", null, 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getComponentRef_ReplicationFactor(), ecorePackage.getEInt(), "replicationFactor", "1", 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getComponentRef_Anchored(), ecorePackage.getEBoolean(), "anchored", "false", 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getComponentRef_ParentBindings(), this.getComponentBinding(), this.getComponentBinding_ParentComponent(), "parentBindings", null, 0, -1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getComponentRef_PluginBindings(), this.getComponentBinding(), this.getComponentBinding_PluginComponent(), "pluginBindings", null, 0, -1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(componentRefEClass, ComponentRef.class, "ComponentRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getComponentRef_Role(), ecorePackage.getEString(), "role", null, 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponentRef_ReplicationFactor(), ecorePackage.getEInt(), "replicationFactor", "1", 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponentRef_Anchored(), ecorePackage.getEBoolean(), "anchored", "false", 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponentRef_ParentBindings(), this.getComponentBinding(), this.getComponentBinding_ParentComponent(), "parentBindings", null, 0, -1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponentRef_PluginBindings(), this.getComponentBinding(), this.getComponentBinding_PluginComponent(), "pluginBindings", null, 0, -1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(timerEClass, Timer.class, "Timer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getTimer_TimeoutPath(), this.getNodeConnection(), null, "timeoutPath", null, 0, 1, Timer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(timerEClass, Timer.class, "Timer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTimer_TimeoutPath(), this.getNodeConnection(), null, "timeoutPath", null, 0, 1, Timer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(andForkEClass, AndFork.class, "AndFork", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getAndFork_Orientation(), ecorePackage.getEString(), "orientation", null, 0, 1, AndFork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(andForkEClass, AndFork.class, "AndFork", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAndFork_Orientation(), ecorePackage.getEString(), "orientation", null, 0, 1, AndFork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(emptyPointEClass, EmptyPoint.class, "EmptyPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(emptyPointEClass, EmptyPoint.class, "EmptyPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        initEClass(directionArrowEClass, DirectionArrow.class, "DirectionArrow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(directionArrowEClass, DirectionArrow.class, "DirectionArrow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        initEClass(componentBindingEClass, ComponentBinding.class, "ComponentBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getComponentBinding_Binding(), this.getPluginBinding(), this.getPluginBinding_Components(), "binding", null, 1, 1, ComponentBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getComponentBinding_ParentComponent(), this.getComponentRef(), this.getComponentRef_ParentBindings(), "parentComponent", null, 1, 1, ComponentBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getComponentBinding_PluginComponent(), this.getComponentRef(), this.getComponentRef_PluginBindings(), "pluginComponent", null, 1, 1, ComponentBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(componentBindingEClass, ComponentBinding.class, "ComponentBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getComponentBinding_Binding(), this.getPluginBinding(), this.getPluginBinding_Components(), "binding", null, 1, 1, ComponentBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponentBinding_ParentComponent(), this.getComponentRef(), this.getComponentRef_ParentBindings(), "parentComponent", null, 1, 1, ComponentBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponentBinding_PluginComponent(), this.getComponentRef(), this.getComponentRef_PluginBindings(), "pluginComponent", null, 1, 1, ComponentBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(anythingEClass, Anything.class, "Anything", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(anythingEClass, Anything.class, "Anything", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-        initEClass(failurePointEClass, FailurePoint.class, "FailurePoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getFailurePoint_Expression(), ecorePackage.getEString(), "expression", null, 0, 1, FailurePoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(failurePointEClass, FailurePoint.class, "FailurePoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getFailurePoint_Expression(), ecorePackage.getEString(), "expression", null, 0, 1, FailurePoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(responsibilityBindingEClass, ResponsibilityBinding.class, "ResponsibilityBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getResponsibilityBinding_Binding(), this.getPluginBinding(), this.getPluginBinding_Responsibilities(), "binding", null, 1, 1, ResponsibilityBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getResponsibilityBinding_PluginResp(), this.getRespRef(), this.getRespRef_PluginBindings(), "pluginResp", null, 1, 1, ResponsibilityBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getResponsibilityBinding_ParentResp(), theUrncorePackage.getResponsibility(), theUrncorePackage.getResponsibility_ParentBindings(), "parentResp", null, 1, 1, ResponsibilityBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(responsibilityBindingEClass, ResponsibilityBinding.class, "ResponsibilityBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getResponsibilityBinding_Binding(), this.getPluginBinding(), this.getPluginBinding_Responsibilities(), "binding", null, 1, 1, ResponsibilityBinding.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResponsibilityBinding_PluginResp(), this.getRespRef(), this.getRespRef_PluginBindings(), "pluginResp", null, 1, 1, ResponsibilityBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResponsibilityBinding_ParentResp(), theUrncorePackage.getResponsibility(), theUrncorePackage.getResponsibility_ParentBindings(), "parentResp", null, 1, 1, ResponsibilityBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        // Initialize enums and add enum literals
-        initEEnum(waitKindEEnum, WaitKind.class, "WaitKind");
-        addEEnumLiteral(waitKindEEnum, WaitKind.TRANSIENT_LITERAL);
-        addEEnumLiteral(waitKindEEnum, WaitKind.PERSISTENT_LITERAL);
+		// Initialize enums and add enum literals
+		initEEnum(waitKindEEnum, WaitKind.class, "WaitKind");
+		addEEnumLiteral(waitKindEEnum, WaitKind.TRANSIENT_LITERAL);
+		addEEnumLiteral(waitKindEEnum, WaitKind.PERSISTENT_LITERAL);
 
-        initEEnum(aspectKindEEnum, AspectKind.class, "AspectKind");
-        addEEnumLiteral(aspectKindEEnum, AspectKind.NONE_LITERAL);
-        addEEnumLiteral(aspectKindEEnum, AspectKind.REGULAR_LITERAL);
-        addEEnumLiteral(aspectKindEEnum, AspectKind.ENTRANCE_LITERAL);
-        addEEnumLiteral(aspectKindEEnum, AspectKind.EXIT_LITERAL);
-        addEEnumLiteral(aspectKindEEnum, AspectKind.CONDITIONAL_LITERAL);
+		initEEnum(aspectKindEEnum, AspectKind.class, "AspectKind");
+		addEEnumLiteral(aspectKindEEnum, AspectKind.NONE_LITERAL);
+		addEEnumLiteral(aspectKindEEnum, AspectKind.REGULAR_LITERAL);
+		addEEnumLiteral(aspectKindEEnum, AspectKind.ENTRANCE_LITERAL);
+		addEEnumLiteral(aspectKindEEnum, AspectKind.EXIT_LITERAL);
+		addEEnumLiteral(aspectKindEEnum, AspectKind.CONDITIONAL_LITERAL);
 
-        initEEnum(pointcutKindEEnum, PointcutKind.class, "PointcutKind");
-        addEEnumLiteral(pointcutKindEEnum, PointcutKind.NONE_LITERAL);
-        addEEnumLiteral(pointcutKindEEnum, PointcutKind.REGULAR_LITERAL);
-        addEEnumLiteral(pointcutKindEEnum, PointcutKind.REPLACEMENT_LITERAL);
+		initEEnum(pointcutKindEEnum, PointcutKind.class, "PointcutKind");
+		addEEnumLiteral(pointcutKindEEnum, PointcutKind.NONE_LITERAL);
+		addEEnumLiteral(pointcutKindEEnum, PointcutKind.REGULAR_LITERAL);
+		addEEnumLiteral(pointcutKindEEnum, PointcutKind.REPLACEMENT_LITERAL);
 
-        initEEnum(failureKindEEnum, FailureKind.class, "FailureKind");
-        addEEnumLiteral(failureKindEEnum, FailureKind.FAILURE_LITERAL);
-        addEEnumLiteral(failureKindEEnum, FailureKind.ABORT_LITERAL);
-        addEEnumLiteral(failureKindEEnum, FailureKind.NONE_LITERAL);
-    }
+		initEEnum(failureKindEEnum, FailureKind.class, "FailureKind");
+		addEEnumLiteral(failureKindEEnum, FailureKind.FAILURE_LITERAL);
+		addEEnumLiteral(failureKindEEnum, FailureKind.ABORT_LITERAL);
+		addEEnumLiteral(failureKindEEnum, FailureKind.NONE_LITERAL);
+	}
 
 } //MapPackageImpl

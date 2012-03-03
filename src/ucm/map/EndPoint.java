@@ -35,94 +35,94 @@ import urncore.Condition;
  */
 public interface EndPoint extends PathNode {
     /**
-     * Returns the value of the '<em><b>Local</b></em>' attribute.
-     * The default value is <code>"false"</code>.
-     * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Local</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Local</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Local</em>' attribute.
-     * @see #setLocal(boolean)
-     * @see ucm.map.MapPackage#getEndPoint_Local()
-     * @model default="false"
-     * @generated
-     */
+	 * @return the value of the '<em>Local</em>' attribute.
+	 * @see #setLocal(boolean)
+	 * @see ucm.map.MapPackage#getEndPoint_Local()
+	 * @model default="false"
+	 * @generated
+	 */
     boolean isLocal();
 
     /**
-     * Sets the value of the '{@link ucm.map.EndPoint#isLocal <em>Local</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link ucm.map.EndPoint#isLocal <em>Local</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Local</em>' attribute.
-     * @see #isLocal()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Local</em>' attribute.
+	 * @see #isLocal()
+	 * @generated
+	 */
     void setLocal(boolean value);
 
     /**
-     * Returns the value of the '<em><b>Out Bindings</b></em>' reference list.
-     * The list contents are of type {@link ucm.map.OutBinding}.
-     * It is bidirectional and its opposite is '{@link ucm.map.OutBinding#getEndPoint <em>End Point</em>}'.
-     * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Out Bindings</b></em>' reference list.
+	 * The list contents are of type {@link ucm.map.OutBinding}.
+	 * It is bidirectional and its opposite is '{@link ucm.map.OutBinding#getEndPoint <em>End Point</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Out Bindings</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Out Bindings</em>' reference list.
-     * @see ucm.map.MapPackage#getEndPoint_OutBindings()
-     * @see ucm.map.OutBinding#getEndPoint
-     * @model type="ucm.map.OutBinding" opposite="endPoint"
-     * @generated
-     */
+	 * @return the value of the '<em>Out Bindings</em>' reference list.
+	 * @see ucm.map.MapPackage#getEndPoint_OutBindings()
+	 * @see ucm.map.OutBinding#getEndPoint
+	 * @model type="ucm.map.OutBinding" opposite="endPoint"
+	 * @generated
+	 */
     EList getOutBindings();
 
     /**
-     * Returns the value of the '<em><b>Postcondition</b></em>' containment reference.
-     * It is bidirectional and its opposite is '{@link urncore.Condition#getEndPoint <em>End Point</em>}'.
-     * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Postcondition</b></em>' containment reference.
+	 * It is bidirectional and its opposite is '{@link urncore.Condition#getEndPoint <em>End Point</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Postcondition</em>' containment reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Postcondition</em>' containment reference.
-     * @see #setPostcondition(Condition)
-     * @see ucm.map.MapPackage#getEndPoint_Postcondition()
-     * @see urncore.Condition#getEndPoint
-     * @model opposite="endPoint" containment="true"
-     * @generated
-     */
+	 * @return the value of the '<em>Postcondition</em>' containment reference.
+	 * @see #setPostcondition(Condition)
+	 * @see ucm.map.MapPackage#getEndPoint_Postcondition()
+	 * @see urncore.Condition#getEndPoint
+	 * @model opposite="endPoint" containment="true"
+	 * @generated
+	 */
     Condition getPostcondition();
 
     /**
-     * Sets the value of the '{@link ucm.map.EndPoint#getPostcondition <em>Postcondition</em>}' containment reference.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link ucm.map.EndPoint#getPostcondition <em>Postcondition</em>}' containment reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Postcondition</em>' containment reference.
-     * @see #getPostcondition()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Postcondition</em>' containment reference.
+	 * @see #getPostcondition()
+	 * @generated
+	 */
     void setPostcondition(Condition value);
 
     /**
-     * Returns the value of the '<em><b>Scenario End Points</b></em>' reference list.
-     * The list contents are of type {@link ucm.scenario.ScenarioEndPoint}.
-     * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioEndPoint#getEndPoint <em>End Point</em>}'.
-     * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Scenario End Points</b></em>' reference list.
+	 * The list contents are of type {@link ucm.scenario.ScenarioEndPoint}.
+	 * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioEndPoint#getEndPoint <em>End Point</em>}'.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Scenario End Points</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Scenario End Points</em>' reference list.
-     * @see ucm.map.MapPackage#getEndPoint_ScenarioEndPoints()
-     * @see ucm.scenario.ScenarioEndPoint#getEndPoint
-     * @model type="ucm.scenario.ScenarioEndPoint" opposite="endPoint"
-     * @generated
-     */
+	 * @return the value of the '<em>Scenario End Points</em>' reference list.
+	 * @see ucm.map.MapPackage#getEndPoint_ScenarioEndPoints()
+	 * @see ucm.scenario.ScenarioEndPoint#getEndPoint
+	 * @model type="ucm.scenario.ScenarioEndPoint" opposite="endPoint"
+	 * @generated
+	 */
 	EList getScenarioEndPoints();
 
 } // EndPoint

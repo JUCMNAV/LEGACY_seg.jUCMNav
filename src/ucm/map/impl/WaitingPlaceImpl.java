@@ -29,131 +29,131 @@ import ucm.map.WaitingPlace;
  */
 public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
     /**
-     * The default value of the '{@link #getWaitType() <em>Wait Type</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWaitType() <em>Wait Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getWaitType()
-     * @generated
-     * @ordered
-     */
+	 * @see #getWaitType()
+	 * @generated
+	 * @ordered
+	 */
     protected static final WaitKind WAIT_TYPE_EDEFAULT = WaitKind.TRANSIENT_LITERAL;
 
     /**
-     * The cached value of the '{@link #getWaitType() <em>Wait Type</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWaitType() <em>Wait Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getWaitType()
-     * @generated
-     * @ordered
-     */
+	 * @see #getWaitType()
+	 * @generated
+	 * @ordered
+	 */
     protected WaitKind waitType = WAIT_TYPE_EDEFAULT;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected WaitingPlaceImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.Literals.WAITING_PLACE;
-    }
+		return MapPackage.Literals.WAITING_PLACE;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public WaitKind getWaitType() {
-        return waitType;
-    }
+		return waitType;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void setWaitType(WaitKind newWaitType) {
-        WaitKind oldWaitType = waitType;
-        waitType = newWaitType == null ? WAIT_TYPE_EDEFAULT : newWaitType;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.WAITING_PLACE__WAIT_TYPE, oldWaitType, waitType));
-    }
+		WaitKind oldWaitType = waitType;
+		waitType = newWaitType == null ? WAIT_TYPE_EDEFAULT : newWaitType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.WAITING_PLACE__WAIT_TYPE, oldWaitType, waitType));
+	}
 
 				/**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case MapPackage.WAITING_PLACE__WAIT_TYPE:
-                return getWaitType();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case MapPackage.WAITING_PLACE__WAIT_TYPE:
+				return getWaitType();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case MapPackage.WAITING_PLACE__WAIT_TYPE:
-                setWaitType((WaitKind)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case MapPackage.WAITING_PLACE__WAIT_TYPE:
+				setWaitType((WaitKind)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case MapPackage.WAITING_PLACE__WAIT_TYPE:
-                setWaitType(WAIT_TYPE_EDEFAULT);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.WAITING_PLACE__WAIT_TYPE:
+				setWaitType(WAIT_TYPE_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case MapPackage.WAITING_PLACE__WAIT_TYPE:
-                return waitType != WAIT_TYPE_EDEFAULT;
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.WAITING_PLACE__WAIT_TYPE:
+				return waitType != WAIT_TYPE_EDEFAULT;
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (waitType: ");
-        result.append(waitType);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (waitType: ");
+		result.append(waitType);
+		result.append(')');
+		return result.toString();
+	}
 
 } //WaitingPlaceImpl

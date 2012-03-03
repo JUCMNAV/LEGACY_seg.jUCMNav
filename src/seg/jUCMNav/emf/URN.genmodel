@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Documents and Settings\Daniel\My Documents\work\jucmnav\URN_23.mdl</foreignModel>
+  <foreignModel>C:\Users\Daniel\Desktop\Metamodel 0.24\URN_24.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -282,12 +282,16 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/intElement"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/strategies"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/kpiEvalValueSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/evalRange"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/kpiNewEvalValue"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//EvaluationStrategy">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//EvaluationStrategy/author"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//EvaluationStrategy/evaluations"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationStrategy/group"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationStrategy/grlspec"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//EvaluationStrategy/includedStrategies"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//EvaluationStrategy/parentStrategies"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//EvaluationStrategy/kpiInfoConfig"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//GRLNode"/>
@@ -309,12 +313,15 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//ContributionContext/grlspec"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//ContributionContext/groups"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//ContributionContext/changes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//ContributionContext/parentContexts"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//ContributionContext/includedContexts"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//ContributionChange">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//ContributionChange/newContribution"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//ContributionChange/newQuantitativeContribution"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//ContributionChange/context"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//ContributionChange/contribution"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//ContributionChange/contribRange"/>
     </genClasses>
     <genClasses image="false" ecoreClass="grl.ecore#//GRLLinkableElement">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//GRLLinkableElement/linksDest"/>
@@ -322,6 +329,18 @@
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//CollapsedActorRef">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//CollapsedActorRef/actor"/>
+    </genClasses>
+    <genClasses ecoreClass="grl.ecore#//EvaluationRange">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//EvaluationRange/start"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//EvaluationRange/end"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//EvaluationRange/step"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationRange/eval"/>
+    </genClasses>
+    <genClasses ecoreClass="grl.ecore#//ContributionRange">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//ContributionRange/start"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//ContributionRange/end"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//ContributionRange/step"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//ContributionRange/change"/>
     </genClasses>
     <nestedGenPackages prefix="Kpimodel" basePackage="grl" disposableProviderFactory="true"
         ecorePackage="grl.ecore#//kpimodel">
@@ -375,6 +394,10 @@
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIInformationConfig/strategies"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIInformationConfig/kpiInfoElement"/>
+      </genClasses>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/KPINewEvalValue">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPINewEvalValue/evaluationValue"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPINewEvalValue/eval"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>

@@ -26,30 +26,30 @@ package grl;
 public interface CollapsedActorRef extends GRLNode {
 
 	/**
-     * Returns the value of the '<em><b>Actor</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link grl.Actor#getCollapsedRefs <em>Collapsed Refs</em>}'.
-     * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Actor</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link grl.Actor#getCollapsedRefs <em>Collapsed Refs</em>}'.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Actor</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Actor</em>' reference.
-     * @see #setActor(Actor)
-     * @see grl.GrlPackage#getCollapsedActorRef_Actor()
-     * @see grl.Actor#getCollapsedRefs
-     * @model opposite="collapsedRefs" required="true"
-     * @generated
-     */
+	 * @return the value of the '<em>Actor</em>' reference.
+	 * @see #setActor(Actor)
+	 * @see grl.GrlPackage#getCollapsedActorRef_Actor()
+	 * @see grl.Actor#getCollapsedRefs
+	 * @model opposite="collapsedRefs" required="true"
+	 * @generated
+	 */
 	Actor getActor();
 
 	/**
-     * Sets the value of the '{@link grl.CollapsedActorRef#getActor <em>Actor</em>}' reference.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link grl.CollapsedActorRef#getActor <em>Actor</em>}' reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Actor</em>' reference.
-     * @see #getActor()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Actor</em>' reference.
+	 * @see #getActor()
+	 * @generated
+	 */
 	void setActor(Actor value);
 } // CollapsedActorRef

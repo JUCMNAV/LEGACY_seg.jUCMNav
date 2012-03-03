@@ -138,6 +138,10 @@
         eType="#//EvaluationStrategy" transient="true" eOpposite="#//EvaluationStrategy/evaluations"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="kpiEvalValueSet" eType="#//kpimodel/KPIEvalValueSet"
         containment="true" eOpposite="#//kpimodel/KPIEvalValueSet/eval"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evalRange" eType="#//EvaluationRange"
+        containment="true" eOpposite="#//EvaluationRange/eval"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kpiNewEvalValue" eType="#//kpimodel/KPINewEvalValue"
+        containment="true" eOpposite="#//kpimodel/KPINewEvalValue/eval"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EvaluationStrategy" eSuperTypes="urncore.ecore#//GRLmodelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -147,6 +151,10 @@
         eOpposite="#//StrategiesGroup/strategies"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/strategies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedStrategies" upperBound="-1"
+        eType="#//EvaluationStrategy" eOpposite="#//EvaluationStrategy/parentStrategies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentStrategies" upperBound="-1"
+        eType="#//EvaluationStrategy" eOpposite="#//EvaluationStrategy/includedStrategies"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="kpiInfoConfig" upperBound="-1"
         eType="#//kpimodel/KPIInformationConfig" containment="true" eOpposite="#//kpimodel/KPIInformationConfig/strategies"/>
   </eClassifiers>
@@ -186,6 +194,10 @@
         eType="#//ContributionContextGroup" eOpposite="#//ContributionContextGroup/contribs"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changes" upperBound="-1"
         eType="#//ContributionChange" containment="true" eOpposite="#//ContributionChange/context"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentContexts" upperBound="-1"
+        eType="#//ContributionContext" eOpposite="#//ContributionContext/includedContexts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedContexts" upperBound="-1"
+        eType="#//ContributionContext" eOpposite="#//ContributionContext/parentContexts"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContributionChange">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="newContribution" eType="#//ContributionType"
@@ -196,6 +208,8 @@
         eType="#//ContributionContext" transient="true" eOpposite="#//ContributionContext/changes"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="contribution" lowerBound="1"
         eType="#//Contribution"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contribRange" eType="#//ContributionRange"
+        containment="true" eOpposite="#//ContributionRange/change"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ImportanceType">
     <eLiterals name="High"/>
@@ -213,6 +227,22 @@
   <eClassifiers xsi:type="ecore:EClass" name="CollapsedActorRef" eSuperTypes="#//GRLNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="actor" lowerBound="1" eType="#//Actor"
         eOpposite="#//Actor/collapsedRefs"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EvaluationRange">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="end" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="step" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eval" lowerBound="1" eType="#//Evaluation"
+        transient="true" eOpposite="#//Evaluation/evalRange"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContributionRange">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="end" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="step" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="change" lowerBound="1"
+        eType="#//ContributionChange" transient="true" eOpposite="#//ContributionChange/contribRange"/>
   </eClassifiers>
   <eSubpackages name="kpimodel" nsURI="http:///grl/kpimodel.ecore" nsPrefix="grl.kpimodel">
     <eClassifiers xsi:type="ecore:EClass" name="IndicatorGroup" eSuperTypes="urncore.ecore#//GRLmodelElement">
@@ -278,6 +308,12 @@
           eType="#//EvaluationStrategy" transient="true" eOpposite="#//EvaluationStrategy/kpiInfoConfig"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="kpiInfoElement" lowerBound="1"
           eType="#//kpimodel/KPIInformationElement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KPINewEvalValue">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluationValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+          defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="eval" lowerBound="1"
+          eType="#//Evaluation" transient="true" eOpposite="#//Evaluation/kpiNewEvalValue"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

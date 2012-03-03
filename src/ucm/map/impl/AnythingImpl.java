@@ -22,21 +22,21 @@ import ucm.map.MapPackage;
  */
 public class AnythingImpl extends PathNodeImpl implements Anything {
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected AnythingImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.Literals.ANYTHING;
-    }
+		return MapPackage.Literals.ANYTHING;
+	}
 
 } //AnythingImpl

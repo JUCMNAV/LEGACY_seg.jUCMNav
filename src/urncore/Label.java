@@ -27,55 +27,55 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Label extends EObject {
     /**
-     * Returns the value of the '<em><b>Delta X</b></em>' attribute.
-     * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Delta X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Delta X</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Delta X</em>' attribute.
-     * @see #setDeltaX(int)
-     * @see urncore.UrncorePackage#getLabel_DeltaX()
-     * @model
-     * @generated
-     */
+	 * @return the value of the '<em>Delta X</em>' attribute.
+	 * @see #setDeltaX(int)
+	 * @see urncore.UrncorePackage#getLabel_DeltaX()
+	 * @model
+	 * @generated
+	 */
     int getDeltaX();
 
     /**
-     * Sets the value of the '{@link urncore.Label#getDeltaX <em>Delta X</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link urncore.Label#getDeltaX <em>Delta X</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Delta X</em>' attribute.
-     * @see #getDeltaX()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Delta X</em>' attribute.
+	 * @see #getDeltaX()
+	 * @generated
+	 */
     void setDeltaX(int value);
 
     /**
-     * Returns the value of the '<em><b>Delta Y</b></em>' attribute.
-     * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Delta Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Delta Y</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Delta Y</em>' attribute.
-     * @see #setDeltaY(int)
-     * @see urncore.UrncorePackage#getLabel_DeltaY()
-     * @model
-     * @generated
-     */
+	 * @return the value of the '<em>Delta Y</em>' attribute.
+	 * @see #setDeltaY(int)
+	 * @see urncore.UrncorePackage#getLabel_DeltaY()
+	 * @model
+	 * @generated
+	 */
     int getDeltaY();
 
     /**
-     * Sets the value of the '{@link urncore.Label#getDeltaY <em>Delta Y</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link urncore.Label#getDeltaY <em>Delta Y</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Delta Y</em>' attribute.
-     * @see #getDeltaY()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Delta Y</em>' attribute.
+	 * @see #getDeltaY()
+	 * @generated
+	 */
     void setDeltaY(int value);
 
 } // Label

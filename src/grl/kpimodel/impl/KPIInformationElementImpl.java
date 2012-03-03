@@ -44,231 +44,231 @@ import urncore.impl.GRLmodelElementImpl;
  */
 public class KPIInformationElementImpl extends GRLmodelElementImpl implements KPIInformationElement {
     /**
-     * The cached value of the '{@link #getRefs() <em>Refs</em>}' reference list.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getRefs() <em>Refs</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getRefs()
-     * @generated
-     * @ordered
-     */
+	 * @see #getRefs()
+	 * @generated
+	 * @ordered
+	 */
     protected EList refs;
 
     /**
-     * The cached value of the '{@link #getKpiModelLinksSrc() <em>Kpi Model Links Src</em>}' reference list.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getKpiModelLinksSrc() <em>Kpi Model Links Src</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getKpiModelLinksSrc()
-     * @generated
-     * @ordered
-     */
+	 * @see #getKpiModelLinksSrc()
+	 * @generated
+	 * @ordered
+	 */
     protected EList kpiModelLinksSrc;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected KPIInformationElementImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return KpimodelPackage.Literals.KPI_INFORMATION_ELEMENT;
-    }
+		return KpimodelPackage.Literals.KPI_INFORMATION_ELEMENT;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getRefs() {
-        if (refs == null) {
-            refs = new EObjectWithInverseResolvingEList(KPIInformationElementRef.class, this, KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS, KpimodelPackage.KPI_INFORMATION_ELEMENT_REF__DEF);
-        }
-        return refs;
-    }
+		if (refs == null) {
+			refs = new EObjectWithInverseResolvingEList(KPIInformationElementRef.class, this, KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS, KpimodelPackage.KPI_INFORMATION_ELEMENT_REF__DEF);
+		}
+		return refs;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public GRLspec getGrlspec() {
-        if (eContainerFeatureID() != KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC) return null;
-        return (GRLspec)eContainer();
-    }
+		if (eContainerFeatureID() != KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC) return null;
+		return (GRLspec)eContainer();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetGrlspec(GRLspec newGrlspec, NotificationChain msgs) {
-        msgs = eBasicSetContainer((InternalEObject)newGrlspec, KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC, msgs);
-        return msgs;
-    }
+		msgs = eBasicSetContainer((InternalEObject)newGrlspec, KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC, msgs);
+		return msgs;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setGrlspec(GRLspec newGrlspec) {
-        if (newGrlspec != eInternalContainer() || (eContainerFeatureID() != KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC && newGrlspec != null)) {
-            if (EcoreUtil.isAncestor(this, newGrlspec))
-                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-            NotificationChain msgs = null;
-            if (eInternalContainer() != null)
-                msgs = eBasicRemoveFromContainer(msgs);
-            if (newGrlspec != null)
-                msgs = ((InternalEObject)newGrlspec).eInverseAdd(this, GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS, GRLspec.class, msgs);
-            msgs = basicSetGrlspec(newGrlspec, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC, newGrlspec, newGrlspec));
-    }
+		if (newGrlspec != eInternalContainer() || (eContainerFeatureID() != KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC && newGrlspec != null)) {
+			if (EcoreUtil.isAncestor(this, newGrlspec))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newGrlspec != null)
+				msgs = ((InternalEObject)newGrlspec).eInverseAdd(this, GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS, GRLspec.class, msgs);
+			msgs = basicSetGrlspec(newGrlspec, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC, newGrlspec, newGrlspec));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getKpiModelLinksSrc() {
-        if (kpiModelLinksSrc == null) {
-            kpiModelLinksSrc = new EObjectWithInverseResolvingEList(KPIModelLink.class, this, KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC, KpimodelPackage.KPI_MODEL_LINK__KPI_INFORMATION_ELEMENT_SRC);
-        }
-        return kpiModelLinksSrc;
-    }
+		if (kpiModelLinksSrc == null) {
+			kpiModelLinksSrc = new EObjectWithInverseResolvingEList(KPIModelLink.class, this, KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC, KpimodelPackage.KPI_MODEL_LINK__KPI_INFORMATION_ELEMENT_SRC);
+		}
+		return kpiModelLinksSrc;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
-                return ((InternalEList)getRefs()).basicAdd(otherEnd, msgs);
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
-                if (eInternalContainer() != null)
-                    msgs = eBasicRemoveFromContainer(msgs);
-                return basicSetGrlspec((GRLspec)otherEnd, msgs);
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
-                return ((InternalEList)getKpiModelLinksSrc()).basicAdd(otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
+				return ((InternalEList)getRefs()).basicAdd(otherEnd, msgs);
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetGrlspec((GRLspec)otherEnd, msgs);
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
+				return ((InternalEList)getKpiModelLinksSrc()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
-                return ((InternalEList)getRefs()).basicRemove(otherEnd, msgs);
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
-                return basicSetGrlspec(null, msgs);
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
-                return ((InternalEList)getKpiModelLinksSrc()).basicRemove(otherEnd, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
+				return ((InternalEList)getRefs()).basicRemove(otherEnd, msgs);
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
+				return basicSetGrlspec(null, msgs);
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
+				return ((InternalEList)getKpiModelLinksSrc()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-        switch (eContainerFeatureID()) {
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
-                return eInternalContainer().eInverseRemove(this, GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS, GRLspec.class, msgs);
-        }
-        return super.eBasicRemoveFromContainerFeature(msgs);
-    }
+		switch (eContainerFeatureID()) {
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
+				return eInternalContainer().eInverseRemove(this, GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS, GRLspec.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
-                return getRefs();
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
-                return getGrlspec();
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
-                return getKpiModelLinksSrc();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
+				return getRefs();
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
+				return getGrlspec();
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
+				return getKpiModelLinksSrc();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
-                getRefs().clear();
-                getRefs().addAll((Collection)newValue);
-                return;
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
-                setGrlspec((GRLspec)newValue);
-                return;
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
-                getKpiModelLinksSrc().clear();
-                getKpiModelLinksSrc().addAll((Collection)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
+				getRefs().clear();
+				getRefs().addAll((Collection)newValue);
+				return;
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
+				setGrlspec((GRLspec)newValue);
+				return;
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
+				getKpiModelLinksSrc().clear();
+				getKpiModelLinksSrc().addAll((Collection)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
-                getRefs().clear();
-                return;
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
-                setGrlspec((GRLspec)null);
-                return;
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
-                getKpiModelLinksSrc().clear();
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
+				getRefs().clear();
+				return;
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
+				setGrlspec((GRLspec)null);
+				return;
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
+				getKpiModelLinksSrc().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
-                return refs != null && !refs.isEmpty();
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
-                return getGrlspec() != null;
-            case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
-                return kpiModelLinksSrc != null && !kpiModelLinksSrc.isEmpty();
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__REFS:
+				return refs != null && !refs.isEmpty();
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC:
+				return getGrlspec() != null;
+			case KpimodelPackage.KPI_INFORMATION_ELEMENT__KPI_MODEL_LINKS_SRC:
+				return kpiModelLinksSrc != null && !kpiModelLinksSrc.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //KPIInformationElementImpl

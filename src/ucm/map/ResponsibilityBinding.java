@@ -30,87 +30,87 @@ import urncore.Responsibility;
  */
 public interface ResponsibilityBinding extends EObject {
     /**
-     * Returns the value of the '<em><b>Binding</b></em>' container reference.
-     * It is bidirectional and its opposite is '{@link ucm.map.PluginBinding#getResponsibilities <em>Responsibilities</em>}'.
-     * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Binding</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link ucm.map.PluginBinding#getResponsibilities <em>Responsibilities</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Binding</em>' container reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Binding</em>' container reference.
-     * @see #setBinding(PluginBinding)
-     * @see ucm.map.MapPackage#getResponsibilityBinding_Binding()
-     * @see ucm.map.PluginBinding#getResponsibilities
-     * @model opposite="responsibilities" required="true"
-     * @generated
-     */
+	 * @return the value of the '<em>Binding</em>' container reference.
+	 * @see #setBinding(PluginBinding)
+	 * @see ucm.map.MapPackage#getResponsibilityBinding_Binding()
+	 * @see ucm.map.PluginBinding#getResponsibilities
+	 * @model opposite="responsibilities" required="true"
+	 * @generated
+	 */
     PluginBinding getBinding();
 
     /**
-     * Sets the value of the '{@link ucm.map.ResponsibilityBinding#getBinding <em>Binding</em>}' container reference.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link ucm.map.ResponsibilityBinding#getBinding <em>Binding</em>}' container reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Binding</em>' container reference.
-     * @see #getBinding()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Binding</em>' container reference.
+	 * @see #getBinding()
+	 * @generated
+	 */
     void setBinding(PluginBinding value);
 
     /**
-     * Returns the value of the '<em><b>Parent Resp</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link urncore.Responsibility#getParentBindings <em>Parent Bindings</em>}'.
-     * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Parent Resp</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link urncore.Responsibility#getParentBindings <em>Parent Bindings</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Parent Resp</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Parent Resp</em>' reference.
-     * @see #setParentResp(Responsibility)
-     * @see ucm.map.MapPackage#getResponsibilityBinding_ParentResp()
-     * @see urncore.Responsibility#getParentBindings
-     * @model opposite="parentBindings" required="true"
-     * @generated
-     */
+	 * @return the value of the '<em>Parent Resp</em>' reference.
+	 * @see #setParentResp(Responsibility)
+	 * @see ucm.map.MapPackage#getResponsibilityBinding_ParentResp()
+	 * @see urncore.Responsibility#getParentBindings
+	 * @model opposite="parentBindings" required="true"
+	 * @generated
+	 */
     Responsibility getParentResp();
 
     /**
-     * Sets the value of the '{@link ucm.map.ResponsibilityBinding#getParentResp <em>Parent Resp</em>}' reference.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link ucm.map.ResponsibilityBinding#getParentResp <em>Parent Resp</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Parent Resp</em>' reference.
-     * @see #getParentResp()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Parent Resp</em>' reference.
+	 * @see #getParentResp()
+	 * @generated
+	 */
     void setParentResp(Responsibility value);
 
     /**
-     * Returns the value of the '<em><b>Plugin Resp</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link ucm.map.RespRef#getPluginBindings <em>Plugin Bindings</em>}'.
-     * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Plugin Resp</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ucm.map.RespRef#getPluginBindings <em>Plugin Bindings</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Plugin Resp</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Plugin Resp</em>' reference.
-     * @see #setPluginResp(RespRef)
-     * @see ucm.map.MapPackage#getResponsibilityBinding_PluginResp()
-     * @see ucm.map.RespRef#getPluginBindings
-     * @model opposite="pluginBindings" required="true"
-     * @generated
-     */
+	 * @return the value of the '<em>Plugin Resp</em>' reference.
+	 * @see #setPluginResp(RespRef)
+	 * @see ucm.map.MapPackage#getResponsibilityBinding_PluginResp()
+	 * @see ucm.map.RespRef#getPluginBindings
+	 * @model opposite="pluginBindings" required="true"
+	 * @generated
+	 */
     RespRef getPluginResp();
 
     /**
-     * Sets the value of the '{@link ucm.map.ResponsibilityBinding#getPluginResp <em>Plugin Resp</em>}' reference.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link ucm.map.ResponsibilityBinding#getPluginResp <em>Plugin Resp</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Plugin Resp</em>' reference.
-     * @see #getPluginResp()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Plugin Resp</em>' reference.
+	 * @see #getPluginResp()
+	 * @generated
+	 */
     void setPluginResp(RespRef value);
 
 } // ResponsibilityBinding
