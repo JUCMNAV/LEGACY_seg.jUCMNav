@@ -13,6 +13,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
@@ -21,6 +22,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -34,6 +36,7 @@ import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
 import seg.jUCMNav.model.commands.create.AddUrnLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import seg.jUCMNav.model.util.URNElementFinder;
+import seg.jUCMNav.views.outline.UrnOutlinePage;
 import seg.jUCMNav.views.wizards.URNlinkTypeSelectionDialog;
 import ucm.map.UCMmap;
 import urn.URNlink;
@@ -355,8 +358,18 @@ public class EditURNLink {
 	
 	private boolean isNavigable( URNmodelElement endpoint )
 	{
-		if( endpoint instanceof IURNNode || endpoint instanceof IURNContainerRef )
-			return true;
+		Class [] navigableClasses = { IURNNode.class, IURNContainerRef.class, IntentionalElement.class, Actor.class, Component.class, Responsibility.class,
+				IURNDiagram.class }; //, EvaluationStrategy.class, StrategiesGroup.class }; // disabled until implemented
+		
+		return(this.includesClass( endpoint, navigableClasses ));
+	}
+	
+	private boolean includesClass( URNmodelElement element, Class [] classList )
+	{
+		for( int i = 0; i < classList.length; i++ ) {
+			if( classList[i].isAssignableFrom( element.getClass() ) )
+				return true;
+		}
 		
 		return false;
 	}
@@ -364,7 +377,6 @@ public class EditURNLink {
 	private void startNewLink( URNmodelElement element )
 	{
 		fromElement = element;
-		
 	}
 	
 	private URNspec getURNspec( URNmodelElement element )
@@ -389,6 +401,10 @@ public class EditURNLink {
             urnspec = ((EvaluationStrategy) element).getGroup().getGrlspec().getUrnspec();
         } else if (element instanceof StrategiesGroup) {
             urnspec = ((StrategiesGroup) element).getGrlspec().getUrnspec();
+        } else if( element instanceof UCMmap ) {
+        	urnspec = ((UCMmap) element).getUrndefinition().getUrnspec();
+        } else if( element instanceof GRLGraph ) {
+        	urnspec = ((GRLGraph) element).getUrndefinition().getUrnspec();
         }
         
         return urnspec;
@@ -474,6 +490,11 @@ public class EditURNLink {
 	private void navigateLink( URNlink selectedLink, boolean outgoing )
 	{
 		URNmodelElement linkStart, linkEnd, oppositeEnd;
+		UCMNavMultiPageEditor editor;
+
+		Class [] outlineClasses = { IntentionalElement.class, Actor.class, Component.class, Responsibility.class };
+
+		Class [] strategyClasses = { EvaluationStrategy.class, StrategiesGroup.class };
 
 		linkStart = selectedLink.getFromElem();
 		linkEnd = selectedLink.getToElem();
@@ -499,40 +520,75 @@ public class EditURNLink {
 			oppositeEnd = linkStart;
 			oppositeDiagram = startDiagram;
 		}
-		
-		if( oppositeDiagram == null ){
+
+		if( oppositeEnd instanceof IURNDiagram ) {
+
+			if( (editor = this.getActiveEditor()) == null ) {
+				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
+				return;
+			}
+			
+			editor.setActivePage( (IURNDiagram) oppositeEnd );
+
+		} else if( this.includesClass( oppositeEnd, outlineClasses ) ) { // highlight elements in URN Outline tree view
+
+			if( (editor = this.getActiveEditor()) == null ) {
+				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
+				return;
+			}
+
+			UrnOutlinePage outline = (UrnOutlinePage) editor.getAdapter ( IContentOutlinePage.class );
+			TreeViewer outlineViewer = (TreeViewer) outline.getViewer();
+			EditPart oppositeEnd_EP = (EditPart) outlineViewer.getEditPartRegistry().get( oppositeEnd );
+
+			if( oppositeEnd_EP != null )
+				outlineViewer.select( oppositeEnd_EP );
+			else
+				System.err.println( "navigateLink: EditPart oppositeEnd_EP not found." );
+
+			return;
+
+		} else if( this.includesClass( oppositeEnd, strategyClasses ) ) { // highlight elements in Strategies tree view
+
+			if( (editor = this.getActiveEditor()) == null ) {
+				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
+				return;
+			}
+
+
+
+
+		} else if( oppositeDiagram == null ){
 			System.err.println( "navigateLink: Target diagram is null" ); //$NON-NLS-1$
 			return;
 		}		
-		
-		UCMNavMultiPageEditor editor;
+
 		GraphicalViewer viewer = null;
-		
+
 		if( selectedEditPart.getRoot() instanceof UCMConnectionOnBottomRootEditPart ) {
 			editor = ((UCMConnectionOnBottomRootEditPart) selectedEditPart.getRoot()).getMultiPageEditor();
 		} else if( selectedEditPart.getRoot() instanceof GrlConnectionOnBottomRootEditPart ) {
 			editor = ((GrlConnectionOnBottomRootEditPart) selectedEditPart.getRoot()).getMultiPageEditor();
 		} else {
 			editor = this.getActiveEditor();
-			System.err.println( "EditPart not graphical class: " + selectedEditPart.getClass().getSimpleName() ); //$NON-NLS-1$
-//			return;			
+			if( JUCMNavPlugin.isInDebug() ) System.out.println( "EditPart not graphical class: " + selectedEditPart.getClass().getSimpleName() ); //$NON-NLS-1$
 		}
-		
+
 		if( editor == null ) {
 			System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
 			return;
 		}
-		
+
 		if( startDiagram != endDiagram ){ // switch diagrams
 			editor.setActivePage( oppositeDiagram );
 		} 
-		
+
 		if( oppositeDiagram instanceof UCMmap ){
 			viewer = ((UcmEditor) editor.getCurrentPage()).getGraphicalViewer();			
 		} else if( oppositeDiagram instanceof GRLGraph ){
 			viewer = ((GrlEditor) editor.getCurrentPage()).getGraphicalViewer();			
 		}
-		
+
 		// highlight target element
 		if( viewer != null )
 			viewer.select((EditPart) viewer.getEditPartRegistry().get( oppositeEnd ));

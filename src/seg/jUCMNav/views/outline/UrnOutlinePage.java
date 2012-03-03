@@ -100,6 +100,9 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         this.definitionsViewer = new UrnTreeViewer();
         this.definitionPage = new ContentOutlinePage(definitionsViewer);
 
+        
+    	if( JUCMNavPlugin.isInDebug() ) System.err.println( "New UrnOutlinePage created " + this.toString() );
+
     }
 
     /**

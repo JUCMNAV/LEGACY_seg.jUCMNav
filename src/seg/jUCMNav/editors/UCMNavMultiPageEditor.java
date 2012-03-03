@@ -42,6 +42,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.actionContributors.ActionRegistryManager;
 import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
@@ -135,6 +136,8 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     /** To be notified of changes to the map names */
     private Notifier target;
 
+    private UrnOutlinePage soleUrnOutlinePage = null;
+    
     /**
      * We always want to be editing a URNspec
      */
@@ -342,9 +345,15 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             return getDelegatingZoomManager();
         else if (adapter == CommandStack.class)
             return getDelegatingCommandStack();
-        else if (getPageCount() == 0 && adapter == IContentOutlinePage.class)
-            return new UrnOutlinePage(this, new UrnTreeViewer());
-
+//        else if (getPageCount() == 0 && adapter == IContentOutlinePage.class) {
+//        	return new UrnOutlinePage(this, new UrnTreeViewer());
+//        }
+        else if( adapter == IContentOutlinePage.class ) {
+        	if( soleUrnOutlinePage == null ) {
+        		soleUrnOutlinePage = new UrnOutlinePage(this, new UrnTreeViewer());
+        	}
+        	return soleUrnOutlinePage;
+        }
         // delegate to open editor if possible
         if (getPageCount() > 0) {
             if (adapter == org.eclipse.ui.views.properties.IPropertySheetPage.class)
