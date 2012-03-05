@@ -54,12 +54,13 @@ import ucm.UCMspec;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
+import urncore.URNmodelElement;
 
 /**
  * 
  * The strategy/scenario design/execution view.
  * 
- * @author Jean-François Roy, jkealey
+ * @author Jean-Franï¿½ois Roy, jkealey
  * 
  */
 public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener, JUCMNavRefreshableView {
@@ -97,6 +98,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             urnDropListener = new UrnTemplateTransferDropTargetListener(this);*/
         return urnDropListener;
     }
+    
     /**
      * This is a callback that will allow us to create the viewer and initialize it.
      */
@@ -650,4 +652,14 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         expandTree();
     }
 
+    public void highlightTreeElement( URNmodelElement element) {
+    	EditPart ep = null;
+    	
+    	if( viewer == null) return;
+    	
+    	if( (ep = (EditPart) viewer.getEditPartRegistry().get(element)) != null ) {
+    		viewer.select( ep );
+    	}
+    }
+    
 }

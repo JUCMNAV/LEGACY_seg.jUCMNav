@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
@@ -37,8 +38,11 @@ import seg.jUCMNav.model.commands.create.AddUrnLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
+import seg.jUCMNav.views.strategies.StrategiesView;
 import seg.jUCMNav.views.wizards.URNlinkTypeSelectionDialog;
 import ucm.map.UCMmap;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioGroup;
 import urn.URNlink;
 import urn.URNspec;
 import urncore.Component;
@@ -359,7 +363,7 @@ public class EditURNLink {
 	private boolean isNavigable( URNmodelElement endpoint )
 	{
 		Class [] navigableClasses = { IURNNode.class, IURNContainerRef.class, IntentionalElement.class, Actor.class, Component.class, Responsibility.class,
-				IURNDiagram.class }; //, EvaluationStrategy.class, StrategiesGroup.class }; // disabled until implemented
+				IURNDiagram.class , EvaluationStrategy.class, StrategiesGroup.class, ScenarioDef.class, ScenarioGroup.class };
 		
 		return(this.includesClass( endpoint, navigableClasses ));
 	}
@@ -405,6 +409,10 @@ public class EditURNLink {
         	urnspec = ((UCMmap) element).getUrndefinition().getUrnspec();
         } else if( element instanceof GRLGraph ) {
         	urnspec = ((GRLGraph) element).getUrndefinition().getUrnspec();
+        } else if (element instanceof ScenarioDef) {
+            urnspec = ((ScenarioDef) element).getGroup().getUcmspec().getUrnspec();
+        } else if (element instanceof ScenarioGroup) {
+            urnspec = ((ScenarioGroup) element).getUcmspec().getUrnspec();
         }
         
         return urnspec;
@@ -491,10 +499,11 @@ public class EditURNLink {
 	{
 		URNmodelElement linkStart, linkEnd, oppositeEnd;
 		UCMNavMultiPageEditor editor;
+		IViewPart strategyVP;
+		
+		Class [] outlineTreeClasses = { IntentionalElement.class, Actor.class, Component.class, Responsibility.class };
 
-		Class [] outlineClasses = { IntentionalElement.class, Actor.class, Component.class, Responsibility.class };
-
-		Class [] strategyClasses = { EvaluationStrategy.class, StrategiesGroup.class };
+		Class [] strategyTreeClasses = { EvaluationStrategy.class, StrategiesGroup.class, ScenarioDef.class, ScenarioGroup.class };
 
 		linkStart = selectedLink.getFromElem();
 		linkEnd = selectedLink.getToElem();
@@ -530,7 +539,7 @@ public class EditURNLink {
 			
 			editor.setActivePage( (IURNDiagram) oppositeEnd );
 
-		} else if( this.includesClass( oppositeEnd, outlineClasses ) ) { // highlight elements in URN Outline tree view
+		} else if( this.includesClass( oppositeEnd, outlineTreeClasses ) ) { // highlight elements in URN Outline tree view
 
 			if( (editor = this.getActiveEditor()) == null ) {
 				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
@@ -548,15 +557,21 @@ public class EditURNLink {
 
 			return;
 
-		} else if( this.includesClass( oppositeEnd, strategyClasses ) ) { // highlight elements in Strategies tree view
+		} else if( this.includesClass( oppositeEnd, strategyTreeClasses ) ) { // highlight elements in Strategies tree view
 
 			if( (editor = this.getActiveEditor()) == null ) {
 				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
 				return;
 			}
 
-
-
+			if( (strategyVP = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )) == null ) {
+				System.err.println( "IViewPart for strategies view not found. Aborting URN Link Navigation" );
+				return;				
+			}
+			
+			if( strategyVP instanceof StrategiesView ) {
+				((StrategiesView) strategyVP).highlightTreeElement( oppositeEnd );
+			}
 
 		} else if( oppositeDiagram == null ){
 			System.err.println( "navigateLink: Target diagram is null" ); //$NON-NLS-1$
@@ -583,18 +598,24 @@ public class EditURNLink {
 			editor.setActivePage( oppositeDiagram );
 		} 
 
-		if( oppositeDiagram instanceof UCMmap ){
-			viewer = ((UcmEditor) editor.getCurrentPage()).getGraphicalViewer();			
-		} else if( oppositeDiagram instanceof GRLGraph ){
-			viewer = ((GrlEditor) editor.getCurrentPage()).getGraphicalViewer();			
-		}
-
 		// highlight target element
-		if( viewer != null )
+		if( (viewer = this.getViewer(oppositeDiagram, editor)) != null ) {
 			viewer.select((EditPart) viewer.getEditPartRegistry().get( oppositeEnd ));
+		}
 	}
 
-	private UCMNavMultiPageEditor getActiveEditor() {
+	private GraphicalViewer getViewer( IURNDiagram diagram, UCMNavMultiPageEditor editor )
+	{
+		if( diagram instanceof UCMmap ){
+			return ((UcmEditor) editor.getCurrentPage()).getGraphicalViewer();			
+		} else if( diagram instanceof GRLGraph ){
+			return ((GrlEditor) editor.getCurrentPage()).getGraphicalViewer();			
+		}
+		return null;
+	}
+	
+	private UCMNavMultiPageEditor getActiveEditor()
+	{
         UCMNavMultiPageEditor editor = null;
         if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
                 && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
