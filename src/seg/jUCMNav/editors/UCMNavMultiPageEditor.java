@@ -1,5 +1,7 @@
 package seg.jUCMNav.editors;
 
+import java.net.URI;
+
 import grl.GrlPackage;
 
 import org.eclipse.core.resources.IFile;
@@ -700,6 +702,11 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         }
     }
 
+    public URI getInputRawLocationUri(){
+    	IFile iFile = ((FileEditorInput) getEditorInput()).getFile();
+    	return iFile.getRawLocationURI();
+    }
+    
     /**
      * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
      */
