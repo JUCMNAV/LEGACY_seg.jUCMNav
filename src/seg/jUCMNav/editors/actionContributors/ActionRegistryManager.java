@@ -112,6 +112,9 @@ import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 import seg.jUCMNav.actions.scenarios.MoveAction;
 import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
+import seg.jUCMNav.actions.scenarios.SetComparisonStrategyAction;
+import seg.jUCMNav.actions.scenarios.StartStrategyDifferenceModeAction;
+import seg.jUCMNav.actions.scenarios.StopStrategyDifferenceModeAction;
 import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
@@ -658,6 +661,19 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.DeleteHyperlinkAction")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new StartStrategyDifferenceModeAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.StartStrategyDifferenceModeAction")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new StopStrategyDifferenceModeAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.StopStrategyDifferenceModeAction")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new SetComparisonStrategyAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.SetComparisonStrategyAction")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        
         // keep at bottom
         action = new EditStubPluginsAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.editStubPlugins")); //$NON-NLS-1$

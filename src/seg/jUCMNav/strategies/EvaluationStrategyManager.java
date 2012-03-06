@@ -63,11 +63,13 @@ public class EvaluationStrategyManager {
     private static EvaluationStrategyManager noEditorStrategyManagerInstance = null;  
 
     private boolean canRefresh;
+    private boolean differenceMode = false;
+    
     private UCMNavMultiPageEditor multieditor;
     private ScrollingGraphicalViewer kpiViewer;
     private TreeViewer kpiListViewer;
     private HashMap evaluations = new HashMap(); // HashMap to keep link between intentionalElement and the evaluation for a particular strategy
-    private EvaluationStrategy strategy;
+    private EvaluationStrategy strategy, strategy1 = null, strategy2 = null; // strategy1, strategy2 used in difference mode
     private IGRLStrategyAlgorithm algo;
     private HashMap kpiInformationConfigs = new HashMap();
     
@@ -894,4 +896,27 @@ public class EvaluationStrategyManager {
         }
     }
 
+    public void startDifferenceMode( EvaluationStrategy strategy ) {
+    	strategy1 = strategy;
+    	differenceMode = true;
+    }
+    
+    public void setComparisonStrategy( EvaluationStrategy strategy ) {
+    	strategy2 = strategy;
+    }
+
+    public void stopDifferenceMode() {
+    	strategy1 = null;
+    	strategy2 = null;
+    	differenceMode = false;
+    }
+    
+    public boolean isDifferenceMode() {
+    	return( differenceMode );
+    }
+    
+    public boolean isDifferenceMode( EvaluationStrategy strategy ) {
+    	return( differenceMode && strategy != null && strategy != strategy1 );
+    }
+    
 }

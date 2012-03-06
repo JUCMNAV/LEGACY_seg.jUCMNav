@@ -15,9 +15,9 @@ import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 /**
- * This action open the URNLink dialog for the selected element
+ * This action invokes the URN Links popup menu
  * 
- * @author Jean-Francois Roy
+ * @author amiga
  * 
  */
 public class EditURNLinksAction extends URNSelectionAction {

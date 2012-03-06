@@ -562,7 +562,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         if (id == ID_DESIGN) {
             showDesignView.setChecked(true);
             showStrategiesView.setChecked(false);
-
+            EvaluationStrategyManager.getInstance().stopDifferenceMode();
+            
             if (currentSelection != null) {
                 currentSelection.setSelected(false);
             }
@@ -652,7 +653,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         expandTree();
     }
 
-    public void highlightTreeElement( URNmodelElement element) {
+    public void highlightTreeElement( URNmodelElement element ) {
     	EditPart ep = null;
     	
     	if( viewer == null) return;
@@ -662,4 +663,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
     	}
     }
     
+    public boolean isStrategyView() {
+    	return( currentView == ID_STRATEGY );
+    }
 }

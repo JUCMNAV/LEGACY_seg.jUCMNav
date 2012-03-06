@@ -29,6 +29,9 @@ import seg.jUCMNav.actions.scenarios.EditCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 import seg.jUCMNav.actions.scenarios.MoveAction;
 import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
+import seg.jUCMNav.actions.scenarios.SetComparisonStrategyAction;
+import seg.jUCMNav.actions.scenarios.StartStrategyDifferenceModeAction;
+import seg.jUCMNav.actions.scenarios.StopStrategyDifferenceModeAction;
 import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 
 /**
@@ -174,6 +177,18 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         }
         
         action = getActionRegistry().getAction(TagElementAction.TAG_ELEMENT_ACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(SetComparisonStrategyAction.SET_COMPARISON_STRATEGY);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(StartStrategyDifferenceModeAction.START_STRATEGY_DIFF_MODE);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(StopStrategyDifferenceModeAction.STOP_STRATEGY_DIFF_MODE);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
     }
