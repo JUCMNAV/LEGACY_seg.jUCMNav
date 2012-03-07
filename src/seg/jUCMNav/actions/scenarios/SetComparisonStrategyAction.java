@@ -3,6 +3,8 @@ package seg.jUCMNav.actions.scenarios;
 import grl.EvaluationStrategy;
 
 import org.eclipse.ui.IWorkbenchPart;
+
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -23,8 +25,15 @@ public class SetComparisonStrategyAction extends URNSelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         
         if( sel.getSelectionType() == SelectionHelper.EVALUATIONSTRATEGY ) {
-    		strategy2 = sel.getStrategy();
-        	if( EvaluationStrategyManager.getInstance().isDifferenceMode( strategy2 ) ) {
+        	EvaluationStrategy strategy = sel.getStrategy();
+        	
+        	if( JUCMNavPlugin.isInDebug() ){
+        		if( strategy != null )
+        			System.out.println( "\nSetComparisonStrategyAction.calculateEnabled() strategy: " + sel.getStrategy().getName() ); //$NON-NLS-1$
+        	}
+
+        	if( EvaluationStrategyManager.getInstance().isDifferenceMode( strategy ) ) {
+        		strategy2 = strategy;
         		return true;
         	}
         }

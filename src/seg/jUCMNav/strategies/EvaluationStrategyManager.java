@@ -23,6 +23,7 @@ import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
@@ -69,6 +70,7 @@ public class EvaluationStrategyManager {
     private ScrollingGraphicalViewer kpiViewer;
     private TreeViewer kpiListViewer;
     private HashMap evaluations = new HashMap(); // HashMap to keep link between intentionalElement and the evaluation for a particular strategy
+    private HashMap comparisonEvaluations = new HashMap(); // HashMap to keep link between intentionalElement and the evaluation for the second strategy in difference mode
     private EvaluationStrategy strategy, strategy1 = null, strategy2 = null; // strategy1, strategy2 used in difference mode
     private IGRLStrategyAlgorithm algo;
     private HashMap kpiInformationConfigs = new HashMap();
@@ -134,19 +136,96 @@ public class EvaluationStrategyManager {
     }
 
     public synchronized void calculateEvaluation() {
+
+    	if( differenceMode && strategy1 != null && strategy2 != null && strategy2 != strategy1 ) { // calculate two evaluations and compute the difference
+    		
+        	if( JUCMNavPlugin.isInDebug() ){
+        		System.out.println( "calculateEvaluation() diff mode strategy1: " + strategy1.getName() + " strategy2: " + strategy2.getName() ); //$NON-NLS-1$
+        	}
+    		
+        	EvaluationStrategy currentStrategy = strategy;
+        	
+    		canRefresh = false; // turn off refresh until difference is computed
+    		strategy = strategy1;
+    		
+        	if( JUCMNavPlugin.isInDebug() ){
+        		System.out.println( "calculateEvaluation() diff mode first call "  ); //$NON-NLS-1$
+        	}
+
+    		calculateSingleEvaluation();
+    		
+        	if( JUCMNavPlugin.isInDebug() ){
+        		System.out.println( "calculateEvaluation() diff mode  first evaluations.keySet().size() = " +  evaluations.keySet().size() ); //$NON-NLS-1$
+        	}
+    		
+    		HashMap firstEvaluation = evaluations; // keep reference to original evaluations map
+    		evaluations = comparisonEvaluations; // use second HashMap for second strategy
+    		
+        	if( JUCMNavPlugin.isInDebug() ){
+        		System.out.println( "calculateEvaluation() diff mode second call "  ); //$NON-NLS-1$
+        	}
+
+        	strategy = strategy2;
+    		calculateSingleEvaluation();
+    		
+        	if( JUCMNavPlugin.isInDebug() ){
+        		System.out.println( "calculateEvaluation() diff mode second evaluations.keySet().size() = " +  evaluations.keySet().size() ); //$NON-NLS-1$
+        	}
+
+        	for( Iterator iter = evaluations.keySet().iterator(); iter.hasNext(); ) {
+    			
+    			IntentionalElement ie = (IntentionalElement) iter.next();
+    			Evaluation firstEval = (Evaluation) comparisonEvaluations.get( ie );
+    			Evaluation secondEval = (Evaluation) evaluations.get( ie );
+    			
+    			int diffValue = secondEval.getEvaluation() - firstEval.getEvaluation();
+    			
+            	if( JUCMNavPlugin.isInDebug() ){
+            		System.out.println( "calculateEvaluation() diff mode IntentionalElement: " + ie.getName() + " 2 eval: " +  secondEval.getEvaluation() + " 1 eval: " +  firstEval.getEvaluation()
+            				+ " diff: " + diffValue ); //$NON-NLS-1$
+            	}
+    			
+    			
+    			secondEval.setEvaluation( diffValue );
+    			syncIntentionalElementQualitativeEvaluation(secondEval, diffValue);
+    		}
+    		
+        	strategy = currentStrategy; // reset strategy
+    		canRefresh = true;
+    		refreshDiagrams();
+    		
+    	} else {
+    		calculateSingleEvaluation();
+    	}
+    }
+    
+    public synchronized void calculateSingleEvaluation() {
         if (strategy == null) {
             return;
         }
         setupEvaluationAlgorithm();
+        
+    	if( differenceMode && JUCMNavPlugin.isInDebug() ){
+    		System.out.println( "calculateSingleEvaluation() diff mode"  ); //$NON-NLS-1$
+    	}
+        
+        
         long before = System.currentTimeMillis();
         algo.init(strategy, evaluations);
         if(algo.isConstraintSolverAlgorithm()) {
         	processConstraintSolverAlgorithm();
-        }else {
+        } else {
         	processNonConstraintSolverAlgorithm();
         }
         long after = System.currentTimeMillis();
-        System.out.println("Time spent: " + (after - before) + " milloseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+        
+        System.out.flush();
+        
+        refreshDiagrams();
+    }
+
+    private synchronized void refreshDiagrams() {
         // Refresh all the diagrams if canRefresh set to true
         if (canRefresh && multieditor != null) {
             for (int i = 0; i < multieditor.getPageCount(); i++) {
@@ -171,7 +250,7 @@ public class EvaluationStrategyManager {
             }
         }
     }
-
+    
 	private void processNonConstraintSolverAlgorithm() {
 		while (algo.hasNextNode()) {
 			IntentionalElement element = algo.nextNode();
@@ -896,27 +975,42 @@ public class EvaluationStrategyManager {
         }
     }
 
-    public void startDifferenceMode( EvaluationStrategy strategy ) {
+    public synchronized void startDifferenceMode( EvaluationStrategy strategy ) {
     	strategy1 = strategy;
     	differenceMode = true;
     }
     
     public void setComparisonStrategy( EvaluationStrategy strategy ) {
-    	strategy2 = strategy;
+    	if( differenceMode && strategy != null && strategy1 != null && strategy != strategy1 ) {
+    		strategy2 = strategy;
+    		calculateEvaluation();
+    	}
     }
 
-    public void stopDifferenceMode() {
+    public synchronized void stopDifferenceMode() {
+    	strategy = strategy1;
     	strategy1 = null;
     	strategy2 = null;
     	differenceMode = false;
     }
     
-    public boolean isDifferenceMode() {
+    public synchronized boolean isDifferenceMode() {
     	return( differenceMode );
     }
     
     public boolean isDifferenceMode( EvaluationStrategy strategy ) {
-    	return( differenceMode && strategy != null && strategy != strategy1 );
+    	
+    	if( JUCMNavPlugin.isInDebug() ){
+    		if( strategy1 != null )
+    			System.out.println( "\n\nisDifferenceMode strategy1: " + strategy1.getName() ); //$NON-NLS-1$
+    		if( strategy2 != null )
+    			System.out.println( "isDifferenceMode " + " strategy2: " + strategy2.getName() ); //$NON-NLS-1$
+    		if( strategy != null )
+    			System.out.println( "isDifferenceMode strategy: " + strategy.getName() ); //$NON-NLS-1$
+    	}
+
+    	
+    	return( differenceMode && strategy != null && strategy != strategy1 && strategy != strategy2 );
     }
     
 }

@@ -51,13 +51,13 @@ public class TagElementAction extends URNSelectionAction {
 		urnspec = this.getURNspec( element );
 		String className = this.className( URNElementFinder.getParentElement( element ));
 		
-		if(  JUCMNavPlugin.isInDebug() ) {
-			if( urnspec == null  ){
-				System.out.println( "No urnspec for element name: " + element.getName()); //$NON-NLS-1$
-			} else {
-				System.out.println( "urnspec.getMetadata().size() = " + urnspec.getMetadata().size() ); //$NON-NLS-1$
-			}
-		}
+//		if(  JUCMNavPlugin.isInDebug() ) {
+//			if( urnspec == null  ){
+//				System.out.println( "No urnspec for element name: " + element.getName()); //$NON-NLS-1$
+//			} else {
+//				System.out.println( "urnspec.getMetadata().size() = " + urnspec.getMetadata().size() ); //$NON-NLS-1$
+//			}
+//		}
 		
     	if( (urnspec != null) && urnspec.getMetadata().size() > 0 ) {
     		for( Iterator iter = urnspec.getMetadata().iterator(); iter.hasNext();) {

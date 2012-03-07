@@ -45,9 +45,9 @@ public class EditURNLinksAction extends URNSelectionAction {
     	else
     		return false;
 
-    	if( JUCMNavPlugin.isInDebug() ){
-    		System.out.println( "EditURNLinksAction model: " + editPart.getModel().getClass().getName() + " EditPart: " + editPart.getClass().getSimpleName() ); //$NON-NLS-1$
-    	}
+//    	if( JUCMNavPlugin.isInDebug() ){
+//    		System.out.println( "EditURNLinksAction model: " + editPart.getModel().getClass().getName() + " EditPart: " + editPart.getClass().getSimpleName() ); //$NON-NLS-1$
+//    	}
 
     	if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
     		parentElement = sel.getIntentionalelementref().getDef();
@@ -76,14 +76,14 @@ public class EditURNLinksAction extends URNSelectionAction {
     		StrategiesGroup group = strategy.getGroup();
     		element = strategy;
     		parentElement = group;
-    		if( JUCMNavPlugin.isInDebug() ) System.out.println( "strategy selected name: " + element.getName()); //$NON-NLS-1$
+//    		if( JUCMNavPlugin.isInDebug() ) System.out.println( "strategy selected name: " + element.getName()); //$NON-NLS-1$
     		return this.verifySelection();
     	} else if ( (element = sel.getURNmodelElement()) != null ) {
     		parentElement = null;
-    		if( JUCMNavPlugin.isInDebug() ) {
-    			System.out.println( "element = sel.getURNmodelElement()) != null type: " + element.getClass().getSimpleName() + " \"" + element.getName() + "\""  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    		+ " sel.getSelectionType() = " + sel.getSelectionType() ); //$NON-NLS-1$
-    		}
+//    		if( JUCMNavPlugin.isInDebug() ) {
+//    			System.out.println( "element = sel.getURNmodelElement()) != null type: " + element.getClass().getSimpleName() + " \"" + element.getName() + "\""  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+//    		+ " sel.getSelectionType() = " + sel.getSelectionType() ); //$NON-NLS-1$
+//    		}
     		return true;
     	} else
     		return false;
