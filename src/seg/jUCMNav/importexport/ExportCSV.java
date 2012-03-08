@@ -11,6 +11,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
+
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import urn.URNspec;
@@ -24,7 +29,8 @@ import urn.URNspec;
 public class ExportCSV implements IURNExport {
 
     public static final String COMMA = ","; //$NON-NLS-1$
-    public static final String END_LINE = "\n"; //$NON-NLS-1$
+    public static final String QUOTE = "\""; //$NON-NLS-1$
+    public static final String END_LINE = "\r\n"; //$NON-NLS-1$ // need Windows or RFC 4180 CRLF format for new lines
 
     private FileOutputStream fos = null;
 
@@ -82,20 +88,17 @@ public class ExportCSV implements IURNExport {
      * @throws IOException
      */
     private void writeHeader(URNspec urn) throws IOException {
-        write("Name, Description, Author");//$NON-NLS-1$    
-        // Write the actors name in the header
+        write("\"Strategy Name\", Description, Author");//$NON-NLS-1$    
+        // Write the actors names in the header
         for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
             Actor actor = (Actor) iter.next();
-            write(COMMA);
-            write(actor.getName());
-            write(" (A)"); //$NON-NLS-1$
+            write( COMMA + QUOTE + actor.getName() + " (A)" + QUOTE ); //$NON-NLS-1$
         }
 
-        // Write the intentional element name in the header
+        // Write the intentional element names in the header
         for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
             IntentionalElement element = (IntentionalElement) iter.next();
-            write(COMMA);
-            write(element.getName());
+            write( COMMA + QUOTE + element.getName() + QUOTE );
         }
         write(END_LINE);
     }
@@ -108,26 +111,46 @@ public class ExportCSV implements IURNExport {
      * @throws IOException
      */
     private void writeStrategies(URNspec urn) throws IOException {
-        for (Iterator iter = urn.getGrlspec().getStrategies().iterator(); iter.hasNext();) {
-            EvaluationStrategy strategy = (EvaluationStrategy) iter.next();
+    	for (Iterator iter = urn.getGrlspec().getStrategies().iterator(); iter.hasNext();) {
+    		EvaluationStrategy strategy = (EvaluationStrategy) iter.next();
 
-            // Name
-            write(strategy.getName());
+    		// Name
+    		write( QUOTE + strategy.getName() + QUOTE );
 
-            // Description
-            write(COMMA);
-            String desc = strategy.getDescription();
-            if (desc == null) {
-                desc = new String(""); //$NON-NLS-1$
-            }
-            write(desc.replace(',', ';')); // Replace commas with semicolons
+    		// Description
+    		write(COMMA);
+    		String desc = strategy.getDescription();
+    		if (desc == null) {
+    			desc = new String(""); //$NON-NLS-1$
+    		}
+    		write( QUOTE + desc.replace(',', ';') + QUOTE ); // Replace commas with semicolons
 
-            // Author
-            write(COMMA);
-            write(strategy.getAuthor());
-            writeEvaluations(strategy);
-            write(END_LINE);
-        }
+    		// Author
+    		write(COMMA);
+    		write( QUOTE + strategy.getAuthor() + QUOTE );
+
+
+//    		if( Display.getCurrent() == null ) {
+//    			System.err.println( "Thread is non-UI." );
+//    		}
+
+    		// a syncExec block is needed to avoid Eclipse threading errors as calculating Evaluations attempts to update the graphical display
+    		// which can't be done from the non-UI wizard thread
+    		final EvaluationStrategy currentStrategy = strategy;
+
+    		Display.getDefault().syncExec(new Runnable() {
+    			public void run() {
+    				try {
+    					writeEvaluations(currentStrategy);
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    			}
+    		});
+
+    		write(END_LINE);
+    	}
     }
 
     /**
@@ -138,14 +161,21 @@ public class ExportCSV implements IURNExport {
      * @throws IOException
      */
     private void writeEvaluations(EvaluationStrategy strategy) throws IOException {
-        EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
-        EvaluationStrategyManager.getInstance(false).calculateEvaluation();
+    	
+    	EvaluationStrategyManager esm = EvaluationStrategyManager.getInstance(false);
+    	
+    	if( esm == null) {
+    		System.err.println( "EvaluationStrategyManager can't be created." );
+    	}
+    	
+        esm.setStrategy(strategy);
+        esm.calculateEvaluation();
 
         // Write evaluation for actors
         for (Iterator iter = strategy.getGrlspec().getActors().iterator(); iter.hasNext();) {
             Actor actor = (Actor) iter.next();
 
-            int evaluation = EvaluationStrategyManager.getInstance(false).getActorEvaluation(actor);
+            int evaluation = esm.getActorEvaluation(actor);
 
             write(COMMA + evaluation);
         }
@@ -154,7 +184,7 @@ public class ExportCSV implements IURNExport {
         for (Iterator iter = strategy.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
             IntentionalElement element = (IntentionalElement) iter.next();
 
-            Evaluation evaluation = EvaluationStrategyManager.getInstance(false).getEvaluationObject(element);
+            Evaluation evaluation = esm.getEvaluationObject(element);
 
             if (evaluation.getStrategies() != null) {
                 write(COMMA + evaluation.getEvaluation() + "*"); //$NON-NLS-1$
