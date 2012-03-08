@@ -3,6 +3,7 @@ package seg.jUCMNav.views.strategies;
 import grl.EvaluationStrategy;
 
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
@@ -665,5 +666,27 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
     
     public boolean isStrategyView() {
     	return( currentView == ID_STRATEGY );
+    }
+    
+    public void highlightStrategies( EvaluationStrategy strategy1, EvaluationStrategy strategy2 ) {
+    	EditPart sep1 = null, sep2 = null;
+    	
+    	if( viewer == null) return;
+    	
+    	sep1 = (EditPart) viewer.getEditPartRegistry().get( strategy1 );
+    	sep2 = (EditPart) viewer.getEditPartRegistry().get( strategy2 );
+    	
+    	if( sep1 == null | sep2 == null ) return;
+    	
+    	Vector<EditPart> v = new Vector<EditPart>();
+        v.add( sep1 );
+        v.add( sep2 );
+        StructuredSelection sel = new StructuredSelection(v);
+        viewer.setSelection(sel);
+        
+    	if( JUCMNavPlugin.isInDebug() ){
+    		System.out.println( "strategies highlighted " ); //$NON-NLS-1$
+    	}
+
     }
 }

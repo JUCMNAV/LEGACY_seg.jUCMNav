@@ -26,19 +26,15 @@ public class SetComparisonStrategyAction extends URNSelectionAction {
         
         if( sel.getSelectionType() == SelectionHelper.EVALUATIONSTRATEGY ) {
         	EvaluationStrategy strategy = sel.getStrategy();
-        	
-        	if( JUCMNavPlugin.isInDebug() ){
-        		if( strategy != null )
-        			System.out.println( "\nSetComparisonStrategyAction.calculateEnabled() strategy: " + sel.getStrategy().getName() ); //$NON-NLS-1$
-        	}
 
         	if( EvaluationStrategyManager.getInstance().isDifferenceMode( strategy ) ) {
         		strategy2 = strategy;
-        		return true;
+        		run();
+//        		return true;
         	}
         }
         
-        return false;
+        return false; // as Action is executed immediately if valid
     }
 
     public void run()

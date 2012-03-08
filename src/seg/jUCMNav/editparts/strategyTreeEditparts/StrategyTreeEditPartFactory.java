@@ -23,7 +23,7 @@ import urncore.Condition;
 /**
  * This EditPartFactory is associate with the Strategy view
  * 
- * @author Jean-François Roy
+ * @author Jean-Franï¿½ois Roy
  * 
  */
 public class StrategyTreeEditPartFactory implements EditPartFactory {

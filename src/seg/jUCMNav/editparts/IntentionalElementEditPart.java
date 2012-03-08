@@ -115,7 +115,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         evaluationLabel.setVisible(false);
 
-        evaluationLabel.setSize(60, 16);
+        evaluationLabel.setSize(70, 16);  // resized from 60, 16
 
         kpiEvaluationValueLabel = new Label();
         kpiEvaluationValueLabel.setForegroundColor(ColorManager.BLUE);
@@ -356,7 +356,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 // Set strategy view to true
                 ((IntentionalElementPropertySource) getPropertySource()).setEvaluationStrategyView(true);
                 // Get the evaluation value
-                Evaluation evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(getNode().getDef());
+                Evaluation evaluation = EvaluationStrategyManager.getInstance().getDisplayEvaluationObject(getNode().getDef());
                 boolean ignored = EvaluationStrategyManager.getInstance().isIgnored(getNode().getDef());
                 
                 if (evaluation != null) {
@@ -417,9 +417,12 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE
                             || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION ) {
                         String evalStr = String.valueOf(evaluation.getEvaluation());
-                        text = evalStr + text; //$NON-NLS-1$		                
+                        text = evalStr + text; //$NON-NLS-1$
+                        if( EvaluationStrategyManager.getInstance().displayDifferenceMode() ) {
+                        	text = '<' + text + '>'; // add angle brackets to signify strategy difference mode
+                        }
                     }
-
+//                    evaluationLabel.setFont(f)
                     evaluationLabel.setText(text);
 
                     Point position = getNodeFigure().getLocation();

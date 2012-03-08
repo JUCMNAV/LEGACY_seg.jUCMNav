@@ -37,6 +37,7 @@ import seg.jUCMNav.model.commands.create.AddKPIInformationConfigCommand;
 import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
+import seg.jUCMNav.views.strategies.StrategiesView;
 import urn.URNspec;
 import urncore.Metadata;
 
@@ -69,8 +70,8 @@ public class EvaluationStrategyManager {
     private UCMNavMultiPageEditor multieditor;
     private ScrollingGraphicalViewer kpiViewer;
     private TreeViewer kpiListViewer;
-    private HashMap evaluations = new HashMap(); // HashMap to keep link between intentionalElement and the evaluation for a particular strategy
-    private HashMap comparisonEvaluations = new HashMap(); // HashMap to keep link between intentionalElement and the evaluation for the second strategy in difference mode
+    private HashMap evaluations = new HashMap(); // HashMap to keep link between IntentionalElement and the Evaluation for a particular strategy
+    private HashMap<IntentionalElement, Evaluation> comparisonEvaluations = null; // HashMap to keep link between IntentionalElement and the Evaluation for the first strategy in difference mode
     private EvaluationStrategy strategy, strategy1 = null, strategy2 = null; // strategy1, strategy2 used in difference mode
     private IGRLStrategyAlgorithm algo;
     private HashMap kpiInformationConfigs = new HashMap();
@@ -136,79 +137,10 @@ public class EvaluationStrategyManager {
     }
 
     public synchronized void calculateEvaluation() {
-
-    	if( differenceMode && strategy1 != null && strategy2 != null && strategy2 != strategy1 ) { // calculate two evaluations and compute the difference
-    		
-        	if( JUCMNavPlugin.isInDebug() ){
-        		System.out.println( "calculateEvaluation() diff mode strategy1: " + strategy1.getName() + " strategy2: " + strategy2.getName() ); //$NON-NLS-1$
-        	}
-    		
-        	EvaluationStrategy currentStrategy = strategy;
-        	
-    		canRefresh = false; // turn off refresh until difference is computed
-    		strategy = strategy1;
-    		
-        	if( JUCMNavPlugin.isInDebug() ){
-        		System.out.println( "calculateEvaluation() diff mode first call "  ); //$NON-NLS-1$
-        	}
-
-    		calculateSingleEvaluation();
-    		
-        	if( JUCMNavPlugin.isInDebug() ){
-        		System.out.println( "calculateEvaluation() diff mode  first evaluations.keySet().size() = " +  evaluations.keySet().size() ); //$NON-NLS-1$
-        	}
-    		
-    		HashMap firstEvaluation = evaluations; // keep reference to original evaluations map
-    		evaluations = comparisonEvaluations; // use second HashMap for second strategy
-    		
-        	if( JUCMNavPlugin.isInDebug() ){
-        		System.out.println( "calculateEvaluation() diff mode second call "  ); //$NON-NLS-1$
-        	}
-
-        	strategy = strategy2;
-    		calculateSingleEvaluation();
-    		
-        	if( JUCMNavPlugin.isInDebug() ){
-        		System.out.println( "calculateEvaluation() diff mode second evaluations.keySet().size() = " +  evaluations.keySet().size() ); //$NON-NLS-1$
-        	}
-
-        	for( Iterator iter = evaluations.keySet().iterator(); iter.hasNext(); ) {
-    			
-    			IntentionalElement ie = (IntentionalElement) iter.next();
-    			Evaluation firstEval = (Evaluation) comparisonEvaluations.get( ie );
-    			Evaluation secondEval = (Evaluation) evaluations.get( ie );
-    			
-    			int diffValue = secondEval.getEvaluation() - firstEval.getEvaluation();
-    			
-            	if( JUCMNavPlugin.isInDebug() ){
-            		System.out.println( "calculateEvaluation() diff mode IntentionalElement: " + ie.getName() + " 2 eval: " +  secondEval.getEvaluation() + " 1 eval: " +  firstEval.getEvaluation()
-            				+ " diff: " + diffValue ); //$NON-NLS-1$
-            	}
-    			
-    			
-    			secondEval.setEvaluation( diffValue );
-    			syncIntentionalElementQualitativeEvaluation(secondEval, diffValue);
-    		}
-    		
-        	strategy = currentStrategy; // reset strategy
-    		canRefresh = true;
-    		refreshDiagrams();
-    		
-    	} else {
-    		calculateSingleEvaluation();
-    	}
-    }
-    
-    public synchronized void calculateSingleEvaluation() {
         if (strategy == null) {
             return;
         }
         setupEvaluationAlgorithm();
-        
-    	if( differenceMode && JUCMNavPlugin.isInDebug() ){
-    		System.out.println( "calculateSingleEvaluation() diff mode"  ); //$NON-NLS-1$
-    	}
-        
         
         long before = System.currentTimeMillis();
         algo.init(strategy, evaluations);
@@ -219,8 +151,6 @@ public class EvaluationStrategyManager {
         }
         long after = System.currentTimeMillis();
         System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
-        
-        System.out.flush();
         
         refreshDiagrams();
     }
@@ -378,6 +308,24 @@ public class EvaluationStrategyManager {
         } else
             return ""; //$NON-NLS-1$
 
+    }
+    
+    public synchronized Evaluation getDisplayEvaluationObject(IntentionalElement elem) {
+
+    	if( differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1
+    			&& comparisonEvaluations != null && comparisonEvaluations.containsKey(elem) ) {
+    		// determine if difference mode is valid and contains a previous evaluation for element
+    		
+    		Evaluation diffEval = (Evaluation) ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
+    		
+    		int firstValue = comparisonEvaluations.get( elem ).getEvaluation();
+    		int secondValue = ((Evaluation) evaluations.get(elem)).getEvaluation();
+    		
+    		diffEval.setEvaluation( secondValue - firstValue );
+    		return diffEval;
+    	} else {
+    		return getEvaluationObject( elem );
+    	}
     }
 
     public synchronized Evaluation getEvaluationObject(IntentionalElement elem) {
@@ -978,12 +926,33 @@ public class EvaluationStrategyManager {
     public synchronized void startDifferenceMode( EvaluationStrategy strategy ) {
     	strategy1 = strategy;
     	differenceMode = true;
+    	
+    	comparisonEvaluations = new HashMap<IntentionalElement, Evaluation>();
+    	
+    	for( Iterator iter = evaluations.keySet().iterator(); iter.hasNext(); ) {
+			IntentionalElement ie = (IntentionalElement) iter.next();
+			Evaluation eval = (Evaluation) evaluations.get( ie );
+			comparisonEvaluations.put( ie, eval );
+    	}
+    	
+    	if( JUCMNavPlugin.isInDebug() ){
+    		if( strategy != null )
+    			System.out.println( "startDifferenceMode strategy: \"" + strategy.getName() + "\" comparisonEvaluations.size():" +  comparisonEvaluations.size() ); //$NON-NLS-1$
+    	}
+    	
     }
     
-    public void setComparisonStrategy( EvaluationStrategy strategy ) {
+    public synchronized void setComparisonStrategy( EvaluationStrategy strategy ) {
+    	StrategiesView strategiesView;
+    	
     	if( differenceMode && strategy != null && strategy1 != null && strategy != strategy1 ) {
     		strategy2 = strategy;
     		calculateEvaluation();
+			if( (strategiesView = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )) == null ) {
+				System.err.println( "Strategies view not found." );
+				return;				
+			}			
+			strategiesView.highlightStrategies( strategy1, strategy2 );
     	}
     }
 
@@ -992,25 +961,20 @@ public class EvaluationStrategyManager {
     	strategy1 = null;
     	strategy2 = null;
     	differenceMode = false;
+    	comparisonEvaluations = null;
+		calculateEvaluation();
     }
     
     public synchronized boolean isDifferenceMode() {
     	return( differenceMode );
     }
     
-    public boolean isDifferenceMode( EvaluationStrategy strategy ) {
-    	
-    	if( JUCMNavPlugin.isInDebug() ){
-    		if( strategy1 != null )
-    			System.out.println( "\n\nisDifferenceMode strategy1: " + strategy1.getName() ); //$NON-NLS-1$
-    		if( strategy2 != null )
-    			System.out.println( "isDifferenceMode " + " strategy2: " + strategy2.getName() ); //$NON-NLS-1$
-    		if( strategy != null )
-    			System.out.println( "isDifferenceMode strategy: " + strategy.getName() ); //$NON-NLS-1$
-    	}
-
-    	
+    public synchronized boolean isDifferenceMode( EvaluationStrategy strategy ) {
     	return( differenceMode && strategy != null && strategy != strategy1 && strategy != strategy2 );
+    }
+    
+    public synchronized boolean displayDifferenceMode() {
+    	return( differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1 );
     }
     
 }
