@@ -21,6 +21,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -924,6 +925,8 @@ public class EvaluationStrategyManager {
     }
 
     public synchronized void startDifferenceMode( EvaluationStrategy strategy ) {
+    	StrategiesView strategiesView;
+
     	strategy1 = strategy;
     	differenceMode = true;
     	
@@ -933,13 +936,17 @@ public class EvaluationStrategyManager {
 			IntentionalElement ie = (IntentionalElement) iter.next();
 			Evaluation eval = (Evaluation) evaluations.get( ie );
 			comparisonEvaluations.put( ie, eval );
+			URNspec urnSpec = ie.getGrlspec().getUrnspec();
+			MetadataHelper.addMetaData( urnSpec, ie, "Evaluation", Integer.toString(eval.getEvaluation()) ); // add temporary metadata for current evaluation
     	}
     	
-    	if( JUCMNavPlugin.isInDebug() ){
-    		if( strategy != null )
-    			System.out.println( "startDifferenceMode strategy: \"" + strategy.getName() + "\" comparisonEvaluations.size():" +  comparisonEvaluations.size() ); //$NON-NLS-1$
-    	}
-    	
+		if( (strategiesView = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )) == null ) {
+			System.err.println( "Strategies view not found." );
+			return;				
+		}			
+
+    	IActionBars bars = strategiesView.getViewSite().getActionBars();
+    	bars.getStatusLineManager().setMessage( "Strategy Difference Mode - base strategy: \"" + strategy1.getName() + "\"" );
     }
     
     public synchronized void setComparisonStrategy( EvaluationStrategy strategy ) {
@@ -957,12 +964,31 @@ public class EvaluationStrategyManager {
     }
 
     public synchronized void stopDifferenceMode() {
+    	StrategiesView strategiesView;
+
     	strategy = strategy1;
     	strategy1 = null;
     	strategy2 = null;
     	differenceMode = false;
-    	comparisonEvaluations = null;
+    	
+    	if( comparisonEvaluations != null ) {
+    		// remove temporary metadata 
+    		for( IntentionalElement ie : comparisonEvaluations.keySet() ) {
+    			MetadataHelper.removeMetaData( ie, "Evaluation" );
+    		}
+    		comparisonEvaluations = null;
+    	}
+    	
 		calculateEvaluation();
+
+		if( (strategiesView = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )) == null ) {
+			System.err.println( "Strategies view not found." );
+			return;				
+		}			
+
+    	IActionBars bars = strategiesView.getViewSite().getActionBars();
+    	bars.getStatusLineManager().setMessage( "" );
+
     }
     
     public synchronized boolean isDifferenceMode() {
