@@ -17,10 +17,12 @@ public class ReportGeneratorPreferences {
     // TODO change default color
     public final static String DEFAULT_REPORT_COLOR = "white"; //$NON-NLS-1$
     public final static double DEFAULT_REPORT_WIDTH = 8.5;
+    public final static int DEFAULT_NUMBER_CSV_COLUMNS = 7;
     public final static String PREF_REPORT_HEIGHT = "seg.jUCMNav.ReportPreference.Height"; //$NON-NLS-1$
     public final static String PREF_REPORT_ORIENTATION = "seg.jUCMNav.ReportPreference.Orientation"; //$NON-NLS-1$
     public final static String PREF_REPORT_COLOR = "seg.jUCMNav.ReportPreference.Color";//$NON-NLS-1$
     public final static String PREF_REPORT_WIDTH = "seg.jUCMNav.ReportPreference.Width"; //$NON-NLS-1$
+    public final static String PREF_NUMBER_CSV_COLUMNS = "seg.jUCMNav.ReportPreference.NumberCSV_Columns"; //$NON-NLS-1$
 
     public final static boolean DEFAULT_UCM_SHOW_DESC = true;
     public final static boolean DEFAULT_UCM_SHOW_RESPONSIBILITY = true;
@@ -72,6 +74,7 @@ public class ReportGeneratorPreferences {
                 ReportGeneratorPreferences.DEFAULT_GRL_SHOW_INTENTIONAL_ELEMENTS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_BELIEFS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_BELIEFS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_SHOW_URN_LINKS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_URN_LINKS);
+        getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_NUMBER_CSV_COLUMNS, ReportGeneratorPreferences.DEFAULT_NUMBER_CSV_COLUMNS);
     }
 
     /**
@@ -106,6 +109,9 @@ public class ReportGeneratorPreferences {
         return getPreferenceStore().getString(PREF_REPORT_WIDTH);
     }
 
+    public static String getNumberCSV_Columns() {
+        return getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS);    	
+    }
     /**
      * 
      * @param height
@@ -122,6 +128,23 @@ public class ReportGeneratorPreferences {
         }
 
         getPreferenceStore().setValue(PREF_REPORT_HEIGHT, s);
+    }
+
+    public static void setNumberCSVcolumns(String numberCSVcolumns) {
+        String s;
+        // want to make sure it is convertible.
+        try {
+            int i = Integer.parseInt(numberCSVcolumns);
+            if( i < 5 || i > 12 ) {
+            	s = "7"; //$NON-NLS-1$
+            } else {
+            	s = Integer.toString(i);
+            }
+        } catch (Exception e) {
+            s = "7"; //$NON-NLS-1$
+        }
+
+        getPreferenceStore().setValue(PREF_NUMBER_CSV_COLUMNS, s);
     }
 
     /**

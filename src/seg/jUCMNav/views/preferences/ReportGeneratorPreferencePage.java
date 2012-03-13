@@ -46,6 +46,11 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
                 .getString("ReportGeneratorPreferencePage.height"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(height);
+        
+        StringFieldEditor numberCSVcolumns = new StringFieldEditor(ReportGeneratorPreferences.PREF_NUMBER_CSV_COLUMNS, Messages
+                .getString("ReportGeneratorPreferencePage.numberCSVcolumns"), //$NON-NLS-1$
+                getFieldEditorParent());
+        addField(numberCSVcolumns);
 
         String[][] values = { { Messages.getString("ReportGeneratorPreferencePage.topdown"), "TB" }, //$NON-NLS-1$ //$NON-NLS-2$
                 { Messages.getString("ReportGeneratorPreferencePage.leftright"), "LR" } }; //$NON-NLS-1$ //$NON-NLS-2$

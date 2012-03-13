@@ -13,8 +13,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.swt.widgets.Display;
+
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.wizards.importexport.ExportPreferenceHelper;
 import urn.URNspec;
@@ -34,7 +36,9 @@ public class ExportCSV implements IURNExport {
     private FileOutputStream fos = null;
     private GRLLinkableElement elements [];
     private int totalElements;
-    private final int COLUMN_WIDTH = 7;
+    private final int DEFAULT_COLUMN_WIDTH = 7;
+    private final int MIN_COLUMN_WIDTH = 5;
+    private final int MAX_COLUMN_WIDTH = 12;
     
     /*
      * (non-Javadoc)
@@ -121,6 +125,7 @@ public class ExportCSV implements IURNExport {
     
     	boolean finished = false;
     	
+        int columnWidth;        
     	int actorCount = urn.getGrlspec().getActors().size();
     	int elementCount = urn.getGrlspec().getIntElements().size();
     	
@@ -139,10 +144,20 @@ public class ExportCSV implements IURNExport {
             elements[i++] = element;
         }
         
+        try {
+			columnWidth = Integer.parseInt( ReportGeneratorPreferences.getNumberCSV_Columns() );
+			
+			if( columnWidth < MIN_COLUMN_WIDTH || columnWidth > MAX_COLUMN_WIDTH ) {
+				columnWidth = DEFAULT_COLUMN_WIDTH;				
+			}
+		} catch (NumberFormatException e) {
+			columnWidth = DEFAULT_COLUMN_WIDTH;
+		}
+        
         while( !finished ) {
-        	finished = writeHeaderLine( index, COLUMN_WIDTH );
-        	writeStrategies( urn, index, COLUMN_WIDTH );
-        	index += COLUMN_WIDTH;
+        	finished = writeHeaderLine( index, columnWidth );
+        	writeStrategies( urn, index, columnWidth );
+        	index += columnWidth;
         }
     }
     
@@ -197,10 +212,6 @@ public class ExportCSV implements IURNExport {
     		// Name
     		writeQuoted( strategy.getName() );
 
-//    		if( Display.getCurrent() == null ) {
-//    			System.err.println( "Thread is non-UI." );
-//    		}
-
     		// a syncExec block is needed to avoid Eclipse threading errors as calculating Evaluations attempts to update the graphical display
     		// which can't be done from the non-UI wizard thread
     		final EvaluationStrategy currentStrategy = strategy;
@@ -232,11 +243,6 @@ public class ExportCSV implements IURNExport {
     	
     	EvaluationStrategyManager esm = EvaluationStrategyManager.getInstance(false);
     	
-    	if( esm == null) {
-    		System.err.println( "EvaluationStrategyManager can't be created." );
-    		return;
-    	}
-    	
         esm.setStrategy(strategy);
         esm.calculateEvaluation();
 
@@ -267,29 +273,5 @@ public class ExportCSV implements IURNExport {
               }
         	}
         }
-        
-        
-//        for (Iterator iter = strategy.getGrlspec().getActors().iterator(); iter.hasNext();) {
-//            Actor actor = (Actor) iter.next();
-//
-//            int evaluation = esm.getActorEvaluation(actor);
-//
-//            write(COMMA + evaluation);
-//        }
-//
-//        
-//        for (Iterator iter = strategy.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
-//            IntentionalElement element = (IntentionalElement) iter.next();
-//
-//            Evaluation evaluation = esm.getEvaluationObject(element);
-//
-//            if (evaluation.getStrategies() != null) {
-//                write(COMMA + evaluation.getEvaluation() + "*"); //$NON-NLS-1$
-//            } else {
-//                write(COMMA + evaluation.getEvaluation()); //$NON-NLS-1$
-//            }
-//        }
-
-    
     }
 }
