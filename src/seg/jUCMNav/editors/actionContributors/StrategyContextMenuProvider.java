@@ -27,6 +27,7 @@ import seg.jUCMNav.actions.scenarios.AddVariableAction;
 import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
+import seg.jUCMNav.actions.scenarios.IncludeStrategyAction;
 import seg.jUCMNav.actions.scenarios.MoveAction;
 import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
 import seg.jUCMNav.actions.scenarios.SetComparisonStrategyAction;
@@ -136,6 +137,10 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        action = getActionRegistry().getAction(IncludeStrategyAction.INCLUDESTRATEGY);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
         action = getActionRegistry().getAction(AddStartEndPointAction.ADDSTARTPOINT);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);

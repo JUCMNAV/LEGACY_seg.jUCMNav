@@ -9,12 +9,16 @@ import grl.ImportanceType;
 import grl.IntentionalElement;
 import grl.IntentionalElementType;
 import grl.QualitativeLabel;
+import grl.StrategiesGroup;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KPIInformationElement;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
@@ -1007,5 +1011,134 @@ public class EvaluationStrategyManager {
     	
     	return sv;
     }
+
+    /**
+     * Returns all strategies that we may include into the given parent. Will not cause any circular references.
+     * 
+     * @param parent
+     *            the parent strategy
+     * @return the list of possible children.
+     */
+    public static List getPossibleIncludedStrategies(EvaluationStrategy parent) {
+        List list = getPossibleIncludedStrategiesNonRecursive(parent);
+
+        ArrayList toRemove = new ArrayList();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+            EvaluationStrategy child = (EvaluationStrategy) iter.next();
+            if (!getPossibleIncludedStrategiesNonRecursive(child).contains(parent))
+                toRemove.add(child);
+        }
+        for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+            EvaluationStrategy element = (EvaluationStrategy) iter.next();
+            if (list.contains(element))
+                list.remove(element);
+        }
+        return list;
+    }
+
+    /**
+     * Gets the list of strategy that it would be possible to include, without recursing. Used in a context where recursion would cause an infinite loop.
+     * 
+     * @param parent
+     *            the strategy
+     * @return the list of possible {@link EvaluationStrategy}
+     */
+    private static List getPossibleIncludedStrategiesNonRecursive(EvaluationStrategy parent) {
+        if (parent.getGroup() == null)
+            return new ArrayList();
+        URNspec urn = parent.getGroup().getGrlspec().getUrnspec();
+        List list = getAllStrategies(urn);
+
+        removeIncludedStrategies(list, parent);
+        return list;
+
+    }
+
+
+    /**
+     * Returns a list of all EvaluationStrategies in all groups.
+     * 
+     * @param urn
+     *            the root urnspec
+     * @return the list of strategies
+     */
+    public static List getAllStrategies(URNspec urn) {
+        ArrayList list = new ArrayList();
+        for (Iterator iter = urn.getGrlspec().getGroups().iterator(); iter.hasNext();) {
+            StrategiesGroup group = (StrategiesGroup) iter.next();
+
+            for (Iterator iterator = group.getStrategies().iterator(); iterator.hasNext();) {
+                EvaluationStrategy strategy = (EvaluationStrategy) iterator.next();
+                list.add(strategy);
+            }
+        }
+        return list;
+    }
     
+    /**
+     * Recursively removes all the included strategies from the given list.
+     * 
+     * @param list
+     *            list of EvaluationStrategies
+     * @param parent
+     *            the root evaluationstrategy from which we remove the children. we also remove the parent from the list.
+     */
+    private static void removeIncludedStrategies(List list, EvaluationStrategy parent) {
+        for (Iterator iter = parent.getIncludedStrategies().iterator(); iter.hasNext();) {
+            EvaluationStrategy child = (EvaluationStrategy) iter.next();
+            removeIncludedStrategies(list, child);
+        }
+
+        if (list.contains(parent))
+            list.remove(parent);
+    }
+    
+    /**
+     * Get all the included strategies (recursively)that are related to this strategy
+     * 
+     * @param def
+     *            the strategy
+     * @return the list of {@link EvaluationStrategy}
+     */
+    public static Vector getDefinedIncludedStrategies(EvaluationStrategy def) {
+        Vector strategies = new Vector();
+        getDefinedIncludedStrategies(def, strategies);
+        return strategies;
+    }
+    
+
+    /**
+     * Get all the included strategies (recursively)that are related to this strategy
+     * 
+     * @param def
+     *            the strategy
+     * @param scenarios
+     *            where to insert the found {@link EvaluationStrategy}s
+     */
+    private static void getDefinedIncludedStrategies(EvaluationStrategy def, Vector scenarios) {
+        for (Iterator iter = def.getIncludedStrategies().iterator(); iter.hasNext();) {
+            EvaluationStrategy strategy = (EvaluationStrategy) iter.next();
+            getDefinedIncludedStrategies(strategy, scenarios);
+            if (!scenarios.contains(strategy))
+                scenarios.add(strategy);
+        }
+    }
+    
+    /**
+     * For each EvaluationManager which is an explicit child of def, we return the index inside the vector returned by getDefinedIncludedStrategies
+     * 
+     * @param def the strategy
+     * @return the list of indexes in the getDefinedIncludedStrategies list. 
+     */
+    public static Vector getIndexesOfPrimaryDefinedIncludedStrategies(EvaluationStrategy def) {
+        Vector all = getDefinedIncludedStrategies(def);
+        Vector indexes = new Vector();
+        for (int i=0;i<def.getIncludedStrategies().size();i++)
+        {
+            // add the index of the strategy in this list. 
+            // given how we merge included strategy (to avoid duplication), this list is non-obvious  
+            indexes.add(new Integer(all.indexOf(def.getIncludedStrategies().get(i))));
+        }
+        return indexes;
+    }
 }

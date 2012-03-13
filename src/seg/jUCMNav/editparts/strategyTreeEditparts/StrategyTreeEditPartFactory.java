@@ -78,7 +78,11 @@ public class StrategyTreeEditPartFactory implements EditPartFactory {
         } else if (model instanceof Condition) {
             return new ConditionTreeEditPart((Condition) model);
         } else if (model instanceof String)
-            return new ScenarioLabelTreeEditPart(model, (ScenarioDef) context.getModel());
+            if (context.getModel() instanceof EvaluationStrategy)
+                return new StrategyLabelTreeEditPart(model, (EvaluationStrategy) context.getModel());
+            else
+                return new ScenarioLabelTreeEditPart(model, (ScenarioDef) context.getModel());
+                
         else {
             return null;
         }

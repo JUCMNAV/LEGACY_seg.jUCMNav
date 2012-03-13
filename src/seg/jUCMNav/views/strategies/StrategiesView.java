@@ -141,11 +141,12 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         refreshTreeView = new Action() {
             public void run() {
                 // tree view
-                if (viewer != null && viewer.getRootEditPart().getChildren().size() > 0) {
+                /*if (viewer != null && viewer.getRootEditPart().getChildren().size() > 0) {
                     StrategyRootEditPart root = ((StrategyRootEditPart) viewer.getRootEditPart().getChildren().get(0));
                     if (root.getModel() != null && ((UCMNavMultiPageEditor) root.getModel()).getModel() != null)
                         root.refreshScenarioTreeView(((UCMNavMultiPageEditor) root.getModel()).getModel().getUcmspec());
-                }
+                }*/
+                refreshView(); // will force rebuilding of children, not just visual refresh of elements.  
 
                 showPage(currentView);
             }

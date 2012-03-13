@@ -11,6 +11,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.ScenarioDef;
+import urncore.URNmodelElement;
 
 /**
  * Editpart for textual strings that are children of Scenarios.
@@ -22,17 +23,19 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
     /**
      * The parent.
      */
-    private ScenarioDef root;
-
+    private URNmodelElement root;
+    protected URNmodelElement getRootElement() { return root; }
+    protected void setRootElement(URNmodelElement val) { this.root = val;  }
+    
     /**
      * @param model
      *            the child
      * @param root
      *            the scenario
      */
-    public ScenarioLabelTreeEditPart(Object model, ScenarioDef root) {
+    public ScenarioLabelTreeEditPart(Object model, URNmodelElement root) {
         super(model);
-        this.root = root;
+        setRootElement(root);
     }
 
     /**
@@ -40,7 +43,7 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
      */
     public void activate() {
         if (!isActive()) {
-            (root).eAdapters().add(this);
+            getRootElement().eAdapters().add(this);
         }
 
         setFlag(FLAG_ACTIVE, true);
@@ -60,7 +63,7 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
      */
     public void deactivate() {
         if (isActive()) {
-            (root).eAdapters().remove(this);
+            getRootElement().eAdapters().remove(this);
         }
         List c = getChildren();
         for (int i = 0; i < c.size(); i++) {
@@ -85,20 +88,24 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
      * @return the list of scenario children depending on the folder type. uses {@link ScenarioUtils}.
      */
     public List getModelChildren() {
+         
         ArrayList list = new ArrayList();
-        if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.IncludedScenarios"))) { //$NON-NLS-1$
-            list.addAll(ScenarioUtils.getDefinedIncludedScenarios(root));
-        } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.StartPoints"))) { //$NON-NLS-1$
-            list.addAll(ScenarioUtils.getDefinedStartPoints(root));
-        } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Preconditions"))) { //$NON-NLS-1$
-            list.addAll(ScenarioUtils.getDefinedPreconditions(root));
-        } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Initializations"))) { //$NON-NLS-1$
-            list.addAll(ScenarioUtils.getDefinedInitializations(root));
-        } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.EndPoints"))) { //$NON-NLS-1$
-            list.addAll(ScenarioUtils.getDefinedEndPoints(root));
-        } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Postconditions"))) { //$NON-NLS-1$
-            list.addAll(ScenarioUtils.getDefinedPostconditions(root));
-        }
+        if (getRootElement() instanceof ScenarioDef) {
+            ScenarioDef def = (ScenarioDef) getRootElement();
+            if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.IncludedScenarios"))) { //$NON-NLS-1$
+                list.addAll(ScenarioUtils.getDefinedIncludedScenarios(def));
+            } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.StartPoints"))) { //$NON-NLS-1$
+                list.addAll(ScenarioUtils.getDefinedStartPoints(def));
+            } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Preconditions"))) { //$NON-NLS-1$
+                list.addAll(ScenarioUtils.getDefinedPreconditions(def));
+            } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Initializations"))) { //$NON-NLS-1$
+                list.addAll(ScenarioUtils.getDefinedInitializations(def));
+            } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.EndPoints"))) { //$NON-NLS-1$
+                list.addAll(ScenarioUtils.getDefinedEndPoints(def));
+            } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Postconditions"))) { //$NON-NLS-1$
+                list.addAll(ScenarioUtils.getDefinedPostconditions(def));
+            }
+            }
 
         return list;
     }

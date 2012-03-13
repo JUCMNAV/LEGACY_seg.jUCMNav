@@ -110,6 +110,7 @@ import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
+import seg.jUCMNav.actions.scenarios.IncludeStrategyAction;
 import seg.jUCMNav.actions.scenarios.MoveAction;
 import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
 import seg.jUCMNav.actions.scenarios.SetComparisonStrategyAction;
@@ -581,6 +582,10 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.IncludeScenario")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new IncludeStrategyAction(editor);
+        action.setText("Include Strategy");
+        addEditPartAction((SelectionAction) action);
+        
         action = new AddStartEndPointAction(editor, true);
         action.setText(Messages.getString("ActionRegistryManager.AddStartPoint")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

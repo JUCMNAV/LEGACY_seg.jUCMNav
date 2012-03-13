@@ -10,9 +10,11 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 import seg.jUCMNav.model.commands.delete.DeleteIncludedScenarioCommand;
+import seg.jUCMNav.model.commands.delete.DeleteIncludedStrategyCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioCommand;
 import seg.jUCMNav.model.commands.delete.DeleteStrategyCommand;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import ucm.scenario.ScenarioDef;
 
 /**
@@ -29,10 +31,29 @@ public class EvaluationStrategyComponentEditPolicy extends ComponentEditPolicy {
     protected Command getDeleteCommand(GroupRequest request) {
         Object obj = getHost().getModel();
         if (obj instanceof EvaluationStrategy) {
-
             EvaluationStrategy strategy = (EvaluationStrategy) obj;
-            DeleteStrategyCommand deleteCommand = new DeleteStrategyCommand(strategy);
-            return deleteCommand;
+            if (getHost().getParent().getModel() instanceof String) {
+                // included scenario.
+                EditPart parentPart = (EditPart) getHost().getParent().getParent();
+                EvaluationStrategy parent = (EvaluationStrategy) parentPart.getModel();
+                
+                Vector indexes = EvaluationStrategyManager.getIndexesOfPrimaryDefinedIncludedStrategies(parent);
+                int index = getHost().getParent().getChildren().indexOf(getHost());
+                
+                for (int i=0;i<indexes.size();i++)
+                {
+                    if (((Integer)indexes.get(i)).intValue() == index)
+                    {
+                        return new DeleteIncludedStrategyCommand(parent, strategy);
+                    }
+                }
+                // ignore included scenarios. 
+                return null;
+            } 
+            else {
+                DeleteStrategyCommand deleteCommand = new DeleteStrategyCommand(strategy);
+                return deleteCommand;
+            }
         } else if (obj instanceof ScenarioDef) {
             ScenarioDef scenario = (ScenarioDef) obj;
             if (getHost().getParent().getModel() instanceof String) {
