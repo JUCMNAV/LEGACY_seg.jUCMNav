@@ -30,6 +30,7 @@ import seg.jUCMNav.figures.ActorFigure;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 
 /**
@@ -261,7 +262,9 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
      * @return the evaluation to be displayed in the label.
      */
     public String calculateEvaluation() {
-        return String.valueOf(EvaluationStrategyManager.getInstance().getActorEvaluation(((Actor) getActorRef().getContDef())));
+        int val = EvaluationStrategyManager.getInstance().getActorEvaluation(((Actor) getActorRef().getContDef()));
+        val = StrategyEvaluationPreferences.getValueToVisualize(val);
+        return String.valueOf(val);
     }
 
 }

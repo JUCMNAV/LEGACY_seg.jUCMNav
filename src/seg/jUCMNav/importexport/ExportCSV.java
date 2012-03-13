@@ -15,6 +15,7 @@ import java.util.Iterator;
 import org.eclipse.swt.widgets.Display;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.wizards.importexport.ExportPreferenceHelper;
 import urn.URNspec;
 
@@ -256,10 +257,13 @@ public class ExportCSV implements IURNExport {
               IntentionalElement element = (IntentionalElement) elements[j];
               Evaluation evaluation = esm.getEvaluationObject(element);
 
+              int val = evaluation.getEvaluation();
+              val = StrategyEvaluationPreferences.getValueToVisualize(val);
+
               if (evaluation.getStrategies() != null) {
-                  write(COMMA + evaluation.getEvaluation() + "*"); //$NON-NLS-1$
+                  write(COMMA + val + "*"); //$NON-NLS-1$
               } else {
-                  write(COMMA + evaluation.getEvaluation()); //$NON-NLS-1$
+                  write(COMMA + val); //$NON-NLS-1$
               }
         	}
         }

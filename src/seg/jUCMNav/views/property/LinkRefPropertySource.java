@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urn.URNspec;
 
 /**
@@ -72,6 +73,9 @@ public class LinkRefPropertySource extends URNElementPropertySource {
             result = element.eGet(feature);
         else
             result = object.eGet(feature);
+        
+        if (result instanceof Integer && propertyid.getFeature().getName() == "quantitativeContribution")
+            result = new Integer(StrategyEvaluationPreferences.getValueToVisualize(((Integer)result).intValue()));
         return result;
     }
 
@@ -151,6 +155,8 @@ public class LinkRefPropertySource extends URNElementPropertySource {
      */
     private synchronized void setElementLinkQuantitativeContribution(ElementLink link, int value) {
         Contribution ele = (Contribution) link;
+        value = StrategyEvaluationPreferences.getModelValueFromVisualization(value);
+
         // Change the value in the evaluation
         if (value < -100)
             value = -100;

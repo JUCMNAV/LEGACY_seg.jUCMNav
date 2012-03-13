@@ -63,9 +63,9 @@ public class ChangeNumericalContributionCommand extends Command implements JUCMN
             else if (id == USER_ENTRY) // new value entered through user dialog
                 ls.newNcontrib = enteredValue;
             else if (id == INCREASE) // increase evaluation
-                ls.newNcontrib = ls.oldNcontrib + 1;
+                ls.newNcontrib = ls.oldNcontrib + enteredValue;
             else if (id == DECREASE) // decrease evaluation if possible
-                ls.newNcontrib = ls.oldNcontrib - 1;
+                ls.newNcontrib = ls.oldNcontrib - enteredValue;
 
         }
 

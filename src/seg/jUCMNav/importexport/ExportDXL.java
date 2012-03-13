@@ -25,6 +25,7 @@ import java.util.Iterator;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.map.ComponentRef;
 import ucm.map.PluginBinding;
@@ -377,7 +378,10 @@ public class ExportDXL implements IURNExport {
             //            write("(E)"); //$NON-NLS-1$
             // write(QUOTES_COMMA);
 
-            String temp = QUOTES + eval.getEvaluation() + QUOTES_END_ELEM;
+            int val = eval.getEvaluation();
+            val = StrategyEvaluationPreferences.getValueToVisualize(val);
+
+            String temp = QUOTES + val + QUOTES_END_ELEM;
             write(temp);
         }
 

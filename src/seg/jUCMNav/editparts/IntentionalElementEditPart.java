@@ -416,7 +416,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 
                     if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE
                             || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION ) {
-                        String evalStr = String.valueOf(evaluation.getEvaluation());
+                        int val = evaluation.getEvaluation();
+                        val = StrategyEvaluationPreferences.getValueToVisualize(val);
+
+                        String evalStr = String.valueOf(val);
                         text = evalStr + text; //$NON-NLS-1$
                         if( EvaluationStrategyManager.getInstance().displayDifferenceMode() ) {
                         	text = '<' + text + '>'; // add angle brackets to signify strategy difference mode

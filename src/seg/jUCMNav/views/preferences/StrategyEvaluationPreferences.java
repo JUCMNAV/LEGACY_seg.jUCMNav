@@ -14,6 +14,7 @@ public class StrategyEvaluationPreferences {
 
     public final static int DEFAULT_TOLERANCE = 10;
     public final static boolean DEFAULT_EVALFILLED = true;
+    public final static boolean DEFAULT_VISUALIZEASPOSITIVERANGE = false;
 
     public final static int QUANTITATIVE_ALGORITHM = 0;
     public final static int QUALITATIVE_ALGORITHM = 1;
@@ -29,6 +30,7 @@ public class StrategyEvaluationPreferences {
     public static final String PREF_ALGORITHM = "PREF_ALGORITHM"; //$NON-NLS-1$    
     public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$
     public static final String PREF_EVALFILLED = "PREF_EVALFILLED"; //$NON-NLS-1$
+    public static final String PREF_VISUALIZEASPOSITIVERANGE = "PREF_VISUALIZEASPOSITIVERANGE"; //$NON-NLS-1$
 	
 	
 
@@ -47,6 +49,7 @@ public class StrategyEvaluationPreferences {
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_ALGORITHM, StrategyEvaluationPreferences.DEFAULT_GRL_ALGORITHM + ""); //$NON-NLS-1$
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_TOLERANCE, StrategyEvaluationPreferences.DEFAULT_TOLERANCE);
         getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_EVALFILLED, StrategyEvaluationPreferences.DEFAULT_EVALFILLED);
+        getPreferenceStore().setDefault(StrategyEvaluationPreferences.PREF_VISUALIZEASPOSITIVERANGE, StrategyEvaluationPreferences.DEFAULT_VISUALIZEASPOSITIVERANGE);
     }
 
     /**
@@ -65,6 +68,14 @@ public class StrategyEvaluationPreferences {
         return getPreferenceStore().getBoolean(PREF_EVALFILLED);
     }
 
+    /**
+     * 
+     * @return should we visualize -100 to 100 as a positive range (0 to 100)?
+     */
+    public static boolean getVisualizeAsPositiveRange() {
+        return getPreferenceStore().getBoolean(PREF_VISUALIZEASPOSITIVERANGE);
+    }
+    
     /**
      * 
      * @return the grl strategy evaluation algorithm
@@ -100,4 +111,42 @@ public class StrategyEvaluationPreferences {
         getPreferenceStore().setValue(PREF_ALGORITHM, b);
     }
 
+    /**
+     * 
+     * @param b
+     *            should we visualize -100 to 100 as a positive range (0 to 100)?
+     */
+    public static void setVisualizeAsPositiveRange(boolean b) {
+        getPreferenceStore().setValue(PREF_VISUALIZEASPOSITIVERANGE, b);
+    }
+    
+    /**
+     * If we should visualize our internal ranges [-100 to 100] as [0, 100], converts a value from the former to the latter. 
+     * 
+     * @param modelValue
+     * @return
+     */
+    public static int getValueToVisualize(int modelValue)
+    {
+        if (!getVisualizeAsPositiveRange())
+            return modelValue;
+        else
+            
+            return (int)Math.round(((double)(modelValue + 100))/2); 
+    }
+    
+    /**
+     * If we should visualize our ranges [-100 to 100] as [0, 100], converts a value from the latter to the former. 
+     * 
+     * @param viewValue
+     * @return
+     */
+    public static int getModelValueFromVisualization(int viewValue)
+    {
+        if (!getVisualizeAsPositiveRange())
+            return viewValue;
+        else
+            
+            return viewValue * 2 - 100; 
+    }
 }

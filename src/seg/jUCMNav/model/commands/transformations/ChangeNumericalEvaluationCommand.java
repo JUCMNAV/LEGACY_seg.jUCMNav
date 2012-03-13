@@ -59,9 +59,9 @@ public class ChangeNumericalEvaluationCommand extends Command implements JUCMNav
             else if (id == USER_ENTRY) // new value entered through user dialog
                 ies.newEval = enteredValue;
             else if (id == INCREASE) // increase evaluation
-                ies.newEval = ies.oldEval + 1;
+                ies.newEval = ies.oldEval + enteredValue;
             else if (id == DECREASE) // decrease evaluation if possible
-                ies.newEval = ies.oldEval - 1;
+                ies.newEval = ies.oldEval - enteredValue;
         }
 
         if ((id == INCREASE) || (id == DECREASE)) { // increase or decrease operation, check if undo merging is needed
@@ -124,6 +124,7 @@ public class ChangeNumericalEvaluationCommand extends Command implements JUCMNav
         // if ( oldEval == Evaluation.EVALUATION_UNDEFINED )
         // esm.setEvaluationForElement( intElemRef.getDef(), null );
 
+        
         for (Iterator iter = intElementStates.iterator(); iter.hasNext();) {
             IElementState ies = (IElementState) iter.next();
             esm.removeIntentionalElementEvaluation(ies.intElemRef.getDef(), ies.oldEval);

@@ -39,6 +39,7 @@ import seg.jUCMNav.model.commands.delete.DeleteAllLinkRefCommand;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.descriptors.CustomTextPropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.IndicatorGroupPropertyDescriptor;
 import urn.URNspec;
@@ -244,13 +245,23 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      */
     private void evaluationDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         if (attr.getName() == "evaluation") { //$NON-NLS-1$
-            TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, "evaluationLevel (100 to -100)"); //$NON-NLS-1$
+            String name = "Evaluation Level (-100 to 100)";
+            if (StrategyEvaluationPreferences.getVisualizeAsPositiveRange())
+                name = name.replace("-100", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+            TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, name); 
 
             ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
                 public String isValid(Object value) {
                     int intValue = -1;
                     try {
                         intValue = Integer.parseInt((String) value);
+                        if (StrategyEvaluationPreferences.getVisualizeAsPositiveRange())
+                        {
+                            if (intValue < 0 || intValue>100) return "Not In Range";//$NON-NLS-1$ 
+                        }
+                        else if (intValue < -100 || intValue>100)
+                            return "Not In Range";//$NON-NLS-1$
+                        
                         return null;
                     } catch (NumberFormatException exc) {
                         return "Not Number"; //$NON-NLS-1$
@@ -269,7 +280,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 QualitativeLabel tmp = (QualitativeLabel) vIter.next();
                 values[i++] = tmp.getName();
             }
-            ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "qualitativeEvaluation", values); //$NON-NLS-1$
+            ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "qualitativeEvaluation", values);  //$NON-NLS-1$
 
             pd.setCategory("Strategy"); //$NON-NLS-1$
             descriptors.add(pd);
@@ -406,6 +417,10 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             result = EvaluationStrategyManager.getInstance().getEvaluationStrategy().eGet(feature);
         } else if (propertyid.getEClass().getName() == "Evaluation") { //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).eGet(feature);
+            if (result instanceof Integer)
+            {
+                result = new Integer(StrategyEvaluationPreferences.getValueToVisualize(((Integer)result).intValue()));
+            }
         } else if (propertyid.getEClass().getName() == "KPIEvalValueSet") { //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).getKpiEvalValueSet().eGet(feature);
         } else
@@ -476,7 +491,9 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             // The feature should be a int
             if (feature.getEType().getInstanceClass() == int.class) {
                 Integer temp = new Integer(Integer.parseInt((String) value));
-                EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def, temp.intValue());
+                int val = temp.intValue();
+                val = StrategyEvaluationPreferences.getModelValueFromVisualization(val);
+                EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def, val);
             } else if (feature.getEType().getInstanceClass() == QualitativeLabel.class) {
                 QualitativeLabel label = QualitativeLabel.get(((Integer) value).intValue());
                 EvaluationStrategyManager.getInstance().setIntentionalElementQualitativeEvaluation(def, label);

@@ -13,6 +13,7 @@ import java.util.Iterator;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import ucm.UCMspec;
 import urncore.URNdefinition;
 
@@ -286,6 +287,8 @@ public class ReportStrategies extends ReportDataDictionary {
                     Evaluation evaluation = EvaluationStrategyManager.getInstance(false).getEvaluationObject(element);
 
                     int evalValue = evaluation.getEvaluation();
+                    evalValue = StrategyEvaluationPreferences.getValueToVisualize(evalValue);
+
                     Cell evaluationCell = new Cell(evalValue + "");
                     evaluationCell.setColspan(strategyCellWidth);
                     if (evalValue == 0) {

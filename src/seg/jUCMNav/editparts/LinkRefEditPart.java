@@ -36,6 +36,7 @@ import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
 
@@ -333,7 +334,9 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
 
                 if (GeneralPreferencePage.getGrlTextVisible()) {
                     if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
-                        contributionLabel.setText("" + contrib.getQuantitativeContribution()); //$NON-NLS-1$
+                        int val = contrib.getQuantitativeContribution();
+                        val = StrategyEvaluationPreferences.getValueToVisualize(val);
+                        contributionLabel.setText("" + val); //$NON-NLS-1$
                     } else {
                         contributionLabel.setText(type);
                     }
