@@ -233,6 +233,7 @@ public class ExportCSV implements IURNExport {
     	
     	if( esm == null) {
     		System.err.println( "EvaluationStrategyManager can't be created." );
+    		return;
     	}
     	
         esm.setStrategy(strategy);
