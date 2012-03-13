@@ -427,7 +427,7 @@ public class EvaluationStrategyManager {
         // Create a new hash map for the KPIInformationConfig this strategy
         kpiInformationConfigs = new HashMap();
 
-        if (strategy != null) {
+        if (strategy != null && strategy.getGrlspec()!=null) {
             // Go through all the intentionalElement and create a new Evaluation object if no one exist for this strategy
             GRLspec grl = strategy.getGrlspec();
             Iterator it = grl.getIntElements().iterator();

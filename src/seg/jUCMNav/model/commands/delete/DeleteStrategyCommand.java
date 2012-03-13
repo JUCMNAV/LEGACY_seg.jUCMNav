@@ -17,7 +17,7 @@ import seg.jUCMNav.model.commands.delete.internal.RemoveEvaluationStrategyComman
 /**
  * This command delete a strategy. It generate command to delete all evaluations, and all kpiinformationconfigs and delete the strategy after.
  * 
- * @author Jean-François Roy, pchen
+ * @author Jean-François Roy, pchen, jkealey
  * 
  */
 public class DeleteStrategyCommand extends CompoundCommand {
@@ -33,6 +33,15 @@ public class DeleteStrategyCommand extends CompoundCommand {
         for (Iterator iter = strategy.getKpiInfoConfig().iterator(); iter.hasNext();) {
             KPIInformationConfig config = (KPIInformationConfig) iter.next();
             add(new DeleteKPIInformationConfigCommand(config));
+        }
+        
+        for (Iterator iter = strategy.getIncludedStrategies().iterator(); iter.hasNext();) {
+            EvaluationStrategy child = (EvaluationStrategy) iter.next();
+            add(new DeleteIncludedStrategyCommand(strategy, child));
+        }
+        for (Iterator iter = strategy.getParentStrategies().iterator(); iter.hasNext();) {
+            EvaluationStrategy parent = (EvaluationStrategy) iter.next();
+            add(new DeleteIncludedStrategyCommand(parent, strategy));
         }
 
         add(new RemoveEvaluationStrategyCommand(strategy));

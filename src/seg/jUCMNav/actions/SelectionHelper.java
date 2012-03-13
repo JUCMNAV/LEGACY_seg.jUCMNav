@@ -358,8 +358,10 @@ public class SelectionHelper {
 //            	if( JUCMNavPlugin.isInDebug() )	System.out.println( "EvaluationStrategy found in SelectionHelper." );            	
                 strategy = (EvaluationStrategy) model;
                 group = strategy.getGroup();
-                grlspec = group.getGrlspec();
-                urnspec = group.getGrlspec().getUrnspec();
+                if (group!=null) {
+                    grlspec = group.getGrlspec();
+                    urnspec = group.getGrlspec().getUrnspec();
+                }
             } else if (model instanceof IndicatorGroup) {
                 indicatorGroup = (IndicatorGroup) model;
                 grlspec = indicatorGroup.getGrlspec();
