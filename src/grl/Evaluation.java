@@ -229,6 +229,6 @@ public interface Evaluation extends EObject {
 	 */
 	void setKpiNewEvalValue(KPINewEvalValue value);
 
-				public final static int EVALUATION_UNDEFINED = -9999;
+	public final static int EVALUATION_UNDEFINED = -9999;
     
 } // Evaluation

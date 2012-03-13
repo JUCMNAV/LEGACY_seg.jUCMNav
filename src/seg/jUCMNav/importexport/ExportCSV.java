@@ -3,6 +3,7 @@ package seg.jUCMNav.importexport;
 import grl.Actor;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
+import grl.GRLLinkableElement;
 import grl.IntentionalElement;
 
 import java.io.FileOutputStream;
@@ -12,12 +13,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
-
-import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.wizards.importexport.ExportPreferenceHelper;
 import urn.URNspec;
 
 /**
@@ -33,7 +31,10 @@ public class ExportCSV implements IURNExport {
     public static final String END_LINE = "\r\n"; //$NON-NLS-1$ // need Windows or RFC 4180 CRLF format for new lines
 
     private FileOutputStream fos = null;
-
+    private GRLLinkableElement elements [];
+    private int totalElements;
+    private final int COLUMN_WIDTH = 7;
+    
     /*
      * (non-Javadoc)
      * 
@@ -52,8 +53,8 @@ public class ExportCSV implements IURNExport {
         try {
             fos = new FileOutputStream(filename);
 
-            writeHeader(urn);
-            writeStrategies(urn);
+            writeStrategyInfo(urn);
+            writeStrategyEvaluations(urn);
         } catch (Exception e) {
             throw new InvocationTargetException(e);
         } finally {
@@ -75,32 +76,109 @@ public class ExportCSV implements IURNExport {
      *            the string to write
      * @throws IOException
      */
-    public void write(String s) throws IOException {
+    private void write(String s) throws IOException {
         if (s != null && s.length() > 0) {
             fos.write(s.getBytes());
         }
     }
 
+    private void writeQuoted(String s) throws IOException {
+    	write( QUOTE + s + QUOTE ); 
+    }
+    
+    private String quote(String s) {
+    	return QUOTE + s + QUOTE;
+    }
+    
+    private void writeStrategyInfo(URNspec urn) throws IOException {
+    	String description;
+    	
+    	write( quote("GRL Strategies for") + COMMA + quote( ExportPreferenceHelper.getFilenamePrefix() ) + END_LINE + END_LINE + END_LINE);
+    	
+        write("\"Strategy Name\", Author, Description" + END_LINE);//$NON-NLS-1$    
+
+    	for (Iterator iter = urn.getGrlspec().getStrategies().iterator(); iter.hasNext();) {
+    		EvaluationStrategy strategy = (EvaluationStrategy) iter.next();
+
+    		// Name
+    		writeQuoted( strategy.getName() );
+
+    		// Author
+    		write( COMMA + quote(strategy.getAuthor()) );
+
+    		// Description
+    		if ((description = strategy.getDescription()) == null) {
+    			description = new String(""); //$NON-NLS-1$
+    		}
+    		write( COMMA + quote(description.replace(',', ';')) + END_LINE ); // Replace commas with semicolons
+    	}
+    	
+        write(END_LINE + END_LINE);
+    }
+    
+    private void writeStrategyEvaluations(URNspec urn) throws IOException {
+    
+    	boolean finished = false;
+    	
+    	int actorCount = urn.getGrlspec().getActors().size();
+    	int elementCount = urn.getGrlspec().getIntElements().size();
+    	
+    	totalElements = actorCount + elementCount;
+    	int index = 0, i = 0;
+    	
+    	elements = new GRLLinkableElement[totalElements];
+    	
+        for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
+            Actor actor = (Actor) iter.next();
+            elements[i++] = actor;
+        }    	
+    	
+        for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+            IntentionalElement element = (IntentionalElement) iter.next();
+            elements[i++] = element;
+        }
+        
+        while( !finished ) {
+        	finished = writeHeaderLine( index, COLUMN_WIDTH );
+        	writeStrategies( urn, index, COLUMN_WIDTH );
+        	index += COLUMN_WIDTH;
+        }
+    }
+    
     /**
      * 
      * @param urn
      *            URNspec
+     * @return 
      * @throws IOException
      */
-    private void writeHeader(URNspec urn) throws IOException {
-        write("\"Strategy Name\", Description, Author");//$NON-NLS-1$    
-        // Write the actors names in the header
-        for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
-            Actor actor = (Actor) iter.next();
-            write( COMMA + QUOTE + actor.getName() + " (A)" + QUOTE ); //$NON-NLS-1$
+    private boolean writeHeaderLine( int index, int columnWidth ) throws IOException {
+    	
+    	boolean finished = false;
+    	
+        write("\"Strategy Name\"");//$NON-NLS-1$    
+        
+        int stopPoint;
+        
+        if( index + columnWidth >= totalElements ) {
+        	stopPoint = totalElements;
+        	finished = true;
+        } else {
+        	stopPoint = index + columnWidth;
         }
-
-        // Write the intentional element names in the header
-        for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
-            IntentionalElement element = (IntentionalElement) iter.next();
-            write( COMMA + QUOTE + element.getName() + QUOTE );
+        
+        for( int j = index; j < stopPoint; j++ ) {
+        	if( elements[j] instanceof Actor ) { // Write the actors names in the header
+              Actor actor = (Actor) elements[j];
+              write( COMMA + QUOTE + actor.getName() + " (A)" + QUOTE ); //$NON-NLS-1$        		
+        	} else { // Write the Intentional Element names in the header
+              IntentionalElement element = (IntentionalElement) elements[j];
+              write( COMMA + QUOTE + element.getName() + QUOTE );        		
+        	}
         }
-        write(END_LINE);
+        
+        write(END_LINE);        
+        return finished;
     }
 
     /**
@@ -110,25 +188,13 @@ public class ExportCSV implements IURNExport {
      *            urnspec
      * @throws IOException
      */
-    private void writeStrategies(URNspec urn) throws IOException {
+    private void writeStrategies( URNspec urn, final int index, final int columnWidth ) throws IOException {
+    	
     	for (Iterator iter = urn.getGrlspec().getStrategies().iterator(); iter.hasNext();) {
     		EvaluationStrategy strategy = (EvaluationStrategy) iter.next();
 
     		// Name
-    		write( QUOTE + strategy.getName() + QUOTE );
-
-    		// Description
-    		write(COMMA);
-    		String desc = strategy.getDescription();
-    		if (desc == null) {
-    			desc = new String(""); //$NON-NLS-1$
-    		}
-    		write( QUOTE + desc.replace(',', ';') + QUOTE ); // Replace commas with semicolons
-
-    		// Author
-    		write(COMMA);
-    		write( QUOTE + strategy.getAuthor() + QUOTE );
-
+    		writeQuoted( strategy.getName() );
 
 //    		if( Display.getCurrent() == null ) {
 //    			System.err.println( "Thread is non-UI." );
@@ -141,9 +207,8 @@ public class ExportCSV implements IURNExport {
     		Display.getDefault().syncExec(new Runnable() {
     			public void run() {
     				try {
-    					writeEvaluations(currentStrategy);
+    					writeEvaluations(currentStrategy, index, columnWidth);
     				} catch (IOException e) {
-    					// TODO Auto-generated catch block
     					e.printStackTrace();
     				}
     			}
@@ -151,6 +216,8 @@ public class ExportCSV implements IURNExport {
 
     		write(END_LINE);
     	}
+    	
+		write(END_LINE + END_LINE);    	
     }
 
     /**
@@ -160,7 +227,7 @@ public class ExportCSV implements IURNExport {
      *            EvaluationStrategy
      * @throws IOException
      */
-    private void writeEvaluations(EvaluationStrategy strategy) throws IOException {
+    private void writeEvaluations(EvaluationStrategy strategy, int index, int columnWidth) throws IOException {
     	
     	EvaluationStrategyManager esm = EvaluationStrategyManager.getInstance(false);
     	
@@ -171,26 +238,53 @@ public class ExportCSV implements IURNExport {
         esm.setStrategy(strategy);
         esm.calculateEvaluation();
 
-        // Write evaluation for actors
-        for (Iterator iter = strategy.getGrlspec().getActors().iterator(); iter.hasNext();) {
-            Actor actor = (Actor) iter.next();
-
-            int evaluation = esm.getActorEvaluation(actor);
-
-            write(COMMA + evaluation);
+        int stopPoint;
+        
+        if( index + columnWidth >= totalElements ) {
+        	stopPoint = totalElements;
+        } else {
+        	stopPoint = index + columnWidth;
         }
+        
+        for( int j = index; j < stopPoint; j++ ) {
+        	if( elements[j] instanceof Actor ) { // Write evaluation for actors
+              Actor actor = (Actor) elements[j];
+              int evaluation = esm.getActorEvaluation(actor);
+              write(COMMA + evaluation);
+        	} else { // Write evaluation for intentional elements
+              IntentionalElement element = (IntentionalElement) elements[j];
+              Evaluation evaluation = esm.getEvaluationObject(element);
 
-        // Write evaluation for intentional elements
-        for (Iterator iter = strategy.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
-            IntentionalElement element = (IntentionalElement) iter.next();
-
-            Evaluation evaluation = esm.getEvaluationObject(element);
-
-            if (evaluation.getStrategies() != null) {
-                write(COMMA + evaluation.getEvaluation() + "*"); //$NON-NLS-1$
-            } else {
-                write(COMMA + evaluation.getEvaluation()); //$NON-NLS-1$
-            }
+              if (evaluation.getStrategies() != null) {
+                  write(COMMA + evaluation.getEvaluation() + "*"); //$NON-NLS-1$
+              } else {
+                  write(COMMA + evaluation.getEvaluation()); //$NON-NLS-1$
+              }
+        	}
         }
+        
+        
+//        for (Iterator iter = strategy.getGrlspec().getActors().iterator(); iter.hasNext();) {
+//            Actor actor = (Actor) iter.next();
+//
+//            int evaluation = esm.getActorEvaluation(actor);
+//
+//            write(COMMA + evaluation);
+//        }
+//
+//        
+//        for (Iterator iter = strategy.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+//            IntentionalElement element = (IntentionalElement) iter.next();
+//
+//            Evaluation evaluation = esm.getEvaluationObject(element);
+//
+//            if (evaluation.getStrategies() != null) {
+//                write(COMMA + evaluation.getEvaluation() + "*"); //$NON-NLS-1$
+//            } else {
+//                write(COMMA + evaluation.getEvaluation()); //$NON-NLS-1$
+//            }
+//        }
+
+    
     }
 }

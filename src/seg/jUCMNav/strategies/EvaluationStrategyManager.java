@@ -24,7 +24,6 @@ import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
@@ -955,11 +954,10 @@ public class EvaluationStrategyManager {
     	if( differenceMode && strategy != null && strategy1 != null && strategy != strategy1 ) {
     		strategy2 = strategy;
     		calculateEvaluation();
-			if( (strategiesView = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )) == null ) {
-				System.err.println( "Strategies view not found." );
-				return;				
+
+    		if( (strategiesView = getStrategiesView()) != null ) {
+				strategiesView.highlightStrategies( strategy1, strategy2 );
 			}			
-			strategiesView.highlightStrategies( strategy1, strategy2 );
     	}
     }
 
@@ -981,14 +979,10 @@ public class EvaluationStrategyManager {
     	
 		calculateEvaluation();
 
-		if( (strategiesView = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )) == null ) {
-			System.err.println( "Strategies view not found." );
-			return;				
+		if( (strategiesView = getStrategiesView()) != null ) {
+	    	IActionBars bars = strategiesView.getViewSite().getActionBars();
+	    	bars.getStatusLineManager().setMessage( "" );
 		}			
-
-    	IActionBars bars = strategiesView.getViewSite().getActionBars();
-    	bars.getStatusLineManager().setMessage( "" );
-
     }
     
     public synchronized boolean isDifferenceMode() {
@@ -1001,6 +995,17 @@ public class EvaluationStrategyManager {
     
     public synchronized boolean displayDifferenceMode() {
     	return( differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1 );
+    }
+    
+    private synchronized StrategiesView getStrategiesView() {
+    	StrategiesView sv = null;
+    	
+        if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" ) != null) {
+            sv = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" );
+        }
+    	
+    	return sv;
     }
     
 }
