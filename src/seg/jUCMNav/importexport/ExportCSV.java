@@ -147,7 +147,7 @@ public class ExportCSV implements IURNExport {
         try {
 			columnWidth = Integer.parseInt( ReportGeneratorPreferences.getNumberCSV_Columns() );
 			
-			if( columnWidth < MIN_COLUMN_WIDTH || columnWidth > MAX_COLUMN_WIDTH ) {
+			if( columnWidth < MIN_COLUMN_WIDTH ) {
 				columnWidth = DEFAULT_COLUMN_WIDTH;				
 			}
 		} catch (NumberFormatException e) {

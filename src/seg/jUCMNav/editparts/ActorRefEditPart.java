@@ -36,7 +36,7 @@ import seg.jUCMNav.views.property.ContainerPropertySource;
 /**
  * Edit part for the Actor Ref, who listen for changes in both ref and def
  * 
- * @author Jean-François Roy, sghanava
+ * @author Jean-Franï¿½ois Roy, sghanava
  * 
  */
 public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
@@ -263,6 +263,9 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
      */
     public String calculateEvaluation() {
         int val = EvaluationStrategyManager.getInstance().getActorEvaluation(((Actor) getActorRef().getContDef()));
+        
+//		if( JUCMNavPlugin.isInDebug() ) System.out.println( "Actor \"" + ((Actor) getActorRef().getContDef()).getName() + "\" evaluation = " + val ); //$NON-NLS-1$
+        
         val = StrategyEvaluationPreferences.getValueToVisualize(val);
         return String.valueOf(val);
     }

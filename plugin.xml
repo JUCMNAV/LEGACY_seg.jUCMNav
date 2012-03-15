@@ -413,6 +413,13 @@
             name="%GRLCatalog"
             useStream="true"/>
       <importer
+            class="seg.jUCMNav.importexport.ImportGRLStrategies"
+            extension="csv"
+            id="seg.jUCMNav.ImportGRLStrategies"
+            importInSelectedFile="true"
+            name="%GRLStrategies"
+            useStream="true"/>
+      <importer
             class="seg.jUCMNav.importexport.z151.ImportZ151"
             extension="z151"
             id="seg.jUCMNav.ImportZ151"

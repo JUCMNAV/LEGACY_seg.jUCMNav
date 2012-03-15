@@ -265,6 +265,11 @@ public class ImportWizardFileSelectionPage extends WizardPage {
             return;
         }
 
+        if( fileName.endsWith(".csv")) { // project folder not needed for csv import
+            updateStatus(null);
+            return;
+        }
+        
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(new Path(container));
         if (resource == null || !resource.exists() || !(resource instanceof IContainer) || resource instanceof IWorkspaceRoot) {
@@ -318,7 +323,9 @@ public class ImportWizardFileSelectionPage extends WizardPage {
      */
     public boolean finish() {
         ImportPreferenceHelper.setPath(sFileName);
-        ImportPreferenceHelper.setProject(sContainer);
+        if( sFileName.endsWith(".csv")) { // project folder not needed for csv import
+        	ImportPreferenceHelper.setProject(sContainer);
+        }
         ImportPreferenceHelper.setType(iTypeSelectionIndex);
         ImportPreferenceHelper.setAutoLayout(bAutolayout);
 

@@ -76,6 +76,7 @@ public class EvaluationStrategyManager {
     private TreeViewer kpiListViewer;
     private HashMap evaluations = new HashMap(); // HashMap to keep link between IntentionalElement and the Evaluation for a particular strategy
     private HashMap<IntentionalElement, Evaluation> comparisonEvaluations = null; // HashMap to keep link between IntentionalElement and the Evaluation for the first strategy in difference mode
+    private HashMap<Actor, Integer> comparisonActorEvaluations = null; // HashMap to store Actor evaluations  for the first strategy in difference mode
     private EvaluationStrategy strategy, strategy1 = null, strategy2 = null; // strategy1, strategy2 used in difference mode
     private IGRLStrategyAlgorithm algo;
     private HashMap kpiInformationConfigs = new HashMap();
@@ -427,7 +428,7 @@ public class EvaluationStrategyManager {
         // Create a new hash map for the KPIInformationConfig this strategy
         kpiInformationConfigs = new HashMap();
 
-        if (strategy != null && strategy.getGrlspec()!=null) {
+        if (strategy != null) {
             // Go through all the intentionalElement and create a new Evaluation object if no one exist for this strategy
             GRLspec grl = strategy.getGrlspec();
             Iterator it = grl.getIntElements().iterator();
@@ -934,7 +935,8 @@ public class EvaluationStrategyManager {
     	differenceMode = true;
     	
     	comparisonEvaluations = new HashMap<IntentionalElement, Evaluation>();
-    	
+    	comparisonActorEvaluations = new HashMap<Actor, Integer>();
+    	 
     	for( Iterator iter = evaluations.keySet().iterator(); iter.hasNext(); ) {
 			IntentionalElement ie = (IntentionalElement) iter.next();
 			Evaluation eval = (Evaluation) evaluations.get( ie );
@@ -1011,7 +1013,7 @@ public class EvaluationStrategyManager {
     	
     	return sv;
     }
-
+    
     /**
      * Returns all strategies that we may include into the given parent. Will not cause any circular references.
      * 
