@@ -85,7 +85,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         evaluationLabel = new Label();
         evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
 
-        evaluationLabel.setSize(58, 16);
+        evaluationLabel.setSize(78, 16);  // increased from 58,16
         evaluationImg = (JUCMNavPlugin.getImage("icons/Actor16.gif")); //$NON-NLS-1$
         evaluationLabel.setIcon(evaluationImg);
         evaluationLabel.setText(""); //$NON-NLS-1$
@@ -262,12 +262,13 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
      * @return the evaluation to be displayed in the label.
      */
     public String calculateEvaluation() {
-        int val = EvaluationStrategyManager.getInstance().getActorEvaluation(((Actor) getActorRef().getContDef()));
-        
-//		if( JUCMNavPlugin.isInDebug() ) System.out.println( "Actor \"" + ((Actor) getActorRef().getContDef()).getName() + "\" evaluation = " + val ); //$NON-NLS-1$
-        
-        val = StrategyEvaluationPreferences.getValueToVisualize(val);
-        return String.valueOf(val);
+    	int val = EvaluationStrategyManager.getInstance().getDisplayActorEvaluation(((Actor) getActorRef().getContDef()));
+    	val = StrategyEvaluationPreferences.getValueToVisualize(val);
+    	if( EvaluationStrategyManager.getInstance().displayDifferenceMode() ) {
+    		return  '<' + String.valueOf(val) + '>'; // add angle brackets to signify strategy difference mode
+    	} else {
+    		return String.valueOf(val);
+    	}
     }
 
 }

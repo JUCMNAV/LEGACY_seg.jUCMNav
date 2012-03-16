@@ -19,13 +19,14 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 
 /**
  * This is a figure representing a GRL node. Extend this class to create GrlNode
  * 
- * @author Jean-François Roy
+ * @author Jean-Franï¿½ois Roy
  * 
  */
 public abstract class GrlNodeFigure extends Shape implements LabelElementFigure {
@@ -163,9 +164,11 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure 
 
         if (fillColor == null || fillColor.length() == 0) {
             setBackgroundColor(ColorManager.FILL);
-        } else
+        } else {
+//        	if( JUCMNavPlugin.isInDebug() ) System.out.println( "fillColor: " + fillColor );
             setBackgroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(fillColor)));
-
+        }
+        
         if (lineColor == null || lineColor.length() == 0) {
             setForegroundColor(ColorManager.LINE);
         } else

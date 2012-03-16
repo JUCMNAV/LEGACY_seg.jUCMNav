@@ -371,7 +371,12 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
                             color = "192,192,192"; //$NON-NLS-1$
                         } else {
-                            int partial = (Math.abs((Math.abs(evaluation.getEvaluation()) - IGRLStrategyAlgorithm.SATISFICED)) * 160 / IGRLStrategyAlgorithm.SATISFICED) + 96;
+                        	int evalValue = evaluation.getEvaluation();
+                            if( EvaluationStrategyManager.getInstance().displayDifferenceMode() ) {
+                            	evalValue /= 2;
+                            }
+                            int partial = (Math.abs((Math.abs(evalValue) - IGRLStrategyAlgorithm.SATISFICED)) * 160 / IGRLStrategyAlgorithm.SATISFICED) + 96;
+                            partial = limit( partial );
                             if (evaluation.getEvaluation() < IGRLStrategyAlgorithm.NONE) {
                                 color = "255," + partial + ",96"; //$NON-NLS-1$ //$NON-NLS-2$
                             } else {
@@ -495,6 +500,15 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         // (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
 
+    private int limit( int value ) {
+    	if( value < 0 ) {
+    		value = 0;
+    	} else if( value > 255 ) {
+    		value = 255;
+    	}
+    	return value;
+    }
+    
     /**
      * Set the icon of the intentional element's label in case in has URN links.
      * 

@@ -685,9 +685,9 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         StructuredSelection sel = new StructuredSelection(v);
         viewer.setSelection(sel);
         
-    	if( JUCMNavPlugin.isInDebug() ){
-    		System.out.println( "strategies highlighted " ); //$NON-NLS-1$
-    	}
+//    	if( JUCMNavPlugin.isInDebug() ){
+//    		System.out.println( "strategies highlighted " ); //$NON-NLS-1$
+//    	}
 
     }
 }

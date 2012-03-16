@@ -28,6 +28,7 @@ import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
@@ -76,6 +77,7 @@ public class EvaluationStrategyManager {
     private TreeViewer kpiListViewer;
     private HashMap evaluations = new HashMap(); // HashMap to keep link between IntentionalElement and the Evaluation for a particular strategy
     private HashMap<IntentionalElement, Evaluation> comparisonEvaluations = null; // HashMap to keep link between IntentionalElement and the Evaluation for the first strategy in difference mode
+    private HashMap<Actor, Integer> currentActorEvaluations = new HashMap<Actor, Integer>(); // HashMap to store current Actor evaluations
     private HashMap<Actor, Integer> comparisonActorEvaluations = null; // HashMap to store Actor evaluations  for the first strategy in difference mode
     private EvaluationStrategy strategy, strategy1 = null, strategy2 = null; // strategy1, strategy2 used in difference mode
     private IGRLStrategyAlgorithm algo;
@@ -237,9 +239,24 @@ public class EvaluationStrategyManager {
 	public synchronized int getActorEvaluation(Actor actor) {
         int actorEval = algo.getActorEvaluation(actor);
         setEvaluationMetadata(actor, actorEval);
+        currentActorEvaluations.put( actor, new Integer(actorEval) );
         return actorEval;
     }
 
+	public synchronized int getDisplayActorEvaluation(Actor actor) {
+	
+		int currentEval = getActorEvaluation(actor);
+		
+    	if( differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1
+    			&& comparisonActorEvaluations != null && comparisonActorEvaluations.containsKey(actor) ) {
+    		// determine if difference mode is valid and contains a previous evaluation for element
+    		int firstEval = comparisonActorEvaluations.get(actor);
+    		return( currentEval - firstEval );
+    	} else {
+    		return currentEval;
+    	}
+	}
+	
     public synchronized int getEvaluation(IntentionalElement elem) {
         Evaluation temp = (Evaluation) evaluations.get(elem);
         if (temp == null && strategy != null && strategy.getGrlspec() != null && strategy.getGrlspec().getUrnspec() != null) {
@@ -945,6 +962,8 @@ public class EvaluationStrategyManager {
 			MetadataHelper.addMetaData( urnSpec, ie, "Evaluation", Integer.toString(eval.getEvaluation()) ); // add temporary metadata for current evaluation
     	}
     	
+    	comparisonActorEvaluations = (HashMap<Actor, Integer>) currentActorEvaluations.clone();  // store Actor evaluations for current strategy
+    	
 		if( (strategiesView = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )) == null ) {
 			System.err.println( "Strategies view not found." );
 			return;				
@@ -982,6 +1001,7 @@ public class EvaluationStrategyManager {
     		}
     		comparisonEvaluations = null;
     	}
+    	comparisonActorEvaluations = null;
     	
 		calculateEvaluation();
 
@@ -1000,6 +1020,12 @@ public class EvaluationStrategyManager {
     }
     
     public synchronized boolean displayDifferenceMode() {
+    	
+//    	if( differenceMode && JUCMNavPlugin.isInDebug() ) {
+//    		if( strategy1 != null ) System.out.println( "displayDifferenceMode()\nstrategy1: " + strategy1.getName() );
+//    		if( strategy2 != null ) System.out.println( "strategy2: " + strategy2.getName() );
+//    		if( strategy != null ) System.out.println( "strategy: " + strategy.getName() );
+//    	}
     	return( differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1 );
     }
     
