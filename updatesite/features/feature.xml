@@ -6,19 +6,18 @@
       provider-name="usecasemaps.org"
       os="linux,win32"
       ws="gtk,motif,win32">
-
    <install-handler/>
 
    <description url="http://www.softwareengineering.ca/jucmnav/">
-jUCMNav is a graphical Use Case Map modelling tool for Eclipse.
+      jUCMNav is an Eclipse-based graphical modelling and analysis tool for the User Requirements Notation.
    </description>
 
    <copyright url="http://www.usecasemaps.org">
-(c) 2004-2005 usecasemaps.org
+      (c) 2004-2012 usecasemaps.org
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
-Eclipse Public License 1.0 (EPL)
+      Eclipse Public License 1.0 (EPL)
    </license>
 
    <requires>
