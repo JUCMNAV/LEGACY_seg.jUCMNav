@@ -22,6 +22,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.swt.widgets.Display;
+
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -43,6 +45,8 @@ import urncore.Responsibility;
 
 /**
  * Export DXL Script to be run in Telelogic DOORS
+ *
+ * @see DXL Reference http://publib.boulder.ibm.com/infocenter/rsdp/v1r0m0/topic/com.ibm.help.download.doors.doc/pdf/dxl_reference_manual.pdf
  * 
  * @author Yongdae Kim, jkealey, jfroy
  * 
@@ -115,6 +119,30 @@ public class ExportDXL implements IURNExport {
             fos.write(s.getBytes());
         }
     }
+    
+    /**
+     * Write the escaped string to the file output stream.
+     * 
+     * @param s
+     *            the string to write
+     * @throws IOException
+     */
+    public void escapeAndWrite(String s) throws IOException
+    {
+        write(escape(s));
+    }
+    
+    /**
+     * Replaces invalid characters in the string.  
+     * @param s
+     */
+    public String escape(String s)
+    {
+        if (s!=null) {
+             s = s.replace("\\", "\\\\").replace("\"", "\\\"");
+        }
+        return s;
+    }
 
     /**
      * Writes the information about actors such as id, name, type, and description
@@ -136,12 +164,12 @@ public class ExportDXL implements IURNExport {
 
             // Name
             write(QUOTES);
-            write(actor.getName());
+            escapeAndWrite(actor.getName());
             write(QUOTES_COMMA);
 
             // Description
             write(QUOTES);
-            write(actor.getDescription());
+            escapeAndWrite(actor.getDescription());
             write(QUOTES);
 
             write(END_ELEM);
@@ -194,14 +222,14 @@ public class ExportDXL implements IURNExport {
 
             // Name
             write(QUOTES);
-            write(actor.getName());
+            escapeAndWrite(actor.getName());
             write(QUOTES_COMMA);
 
             // Parent Actor
             write(QUOTES);
             if (actorRef.getParent() != null) {
                 Actor parActor = (Actor) actorRef.getParent().getContDef();
-                write(parActor.getName());
+                escapeAndWrite(parActor.getName());
             }
             write(QUOTES_END_ELEM);
         }
@@ -227,18 +255,18 @@ public class ExportDXL implements IURNExport {
 
             // Name
             write(QUOTES);
-            write(element.getName());
+            escapeAndWrite(element.getName());
             write(QUOTES_COMMA);
 
             ComponentKind kind = (element).getKind();
             String kindString = kind.getName();
             write(QUOTES);
-            write(kindString);
+            escapeAndWrite(kindString);
             write(QUOTES_COMMA);
 
             // Description
             write(QUOTES);
-            write(element.getDescription());
+            escapeAndWrite(element.getDescription());
             write(QUOTES_COMMA);
 
             // DeviceID
@@ -305,18 +333,18 @@ public class ExportDXL implements IURNExport {
 
             // Name
             write(QUOTES);
-            write(component.getName());
+            escapeAndWrite(component.getName());
             write(QUOTES_COMMA);
 
             // ComponentRole
             write(QUOTES);
-            write(compRef.getRole());
+            escapeAndWrite(compRef.getRole());
             write(QUOTES_COMMA);
             // ParentComponent
             write(QUOTES);
             if (compRef.getParent() != null) {
                 Component parComp = (Component) compRef.getParent().getContDef();
-                write(parComp.getName());
+                escapeAndWrite(parComp.getName());
             }
             write(QUOTES_END_ELEM);
         }
@@ -438,7 +466,7 @@ public class ExportDXL implements IURNExport {
                 // Name
                 String graphName = grlgraph.getName();
                 write(QUOTES);
-                write(graphName);
+                escapeAndWrite(graphName);
                 write(QUOTES_COMMA);
 
                 // GraphFileName
@@ -458,12 +486,12 @@ public class ExportDXL implements IURNExport {
 
                 // Diagram Title
                 write(QUOTES);
-                write(graphName);
+                escapeAndWrite(graphName);
                 write(QUOTES_COMMA);
 
                 // Description
                 write(QUOTES);
-                write(grlgraph.getDescription());
+                escapeAndWrite(grlgraph.getDescription());
                 write(QUOTES_END_ELEM);
 
                 // Write the element in the graph
@@ -523,7 +551,7 @@ public class ExportDXL implements IURNExport {
 
             // Name
             write(QUOTES);
-            write(link.getName());
+            escapeAndWrite(link.getName());
             write(QUOTES_COMMA);
 
             if (link instanceof Decomposition) {
@@ -541,7 +569,7 @@ public class ExportDXL implements IURNExport {
 
                 // Contribution Type
                 write(QUOTES);
-                write(((Contribution) link).getContribution().getName());
+                escapeAndWrite(((Contribution) link).getContribution().getName());
                 write(QUOTES_COMMA);
 
                 // Correlation
@@ -558,7 +586,7 @@ public class ExportDXL implements IURNExport {
 
             // Description
             write(QUOTES);
-            write(link.getDescription());
+            escapeAndWrite(link.getDescription());
             write(QUOTES_COMMA);
 
             // Source
@@ -593,24 +621,24 @@ public class ExportDXL implements IURNExport {
 
             // Name
             write(QUOTES);
-            write(element.getName());
+            escapeAndWrite(element.getName());
             write(QUOTES_COMMA);
 
             // Type
             IntentionalElementType type = element.getType();
             write(QUOTES);
-            write(type.getName());
+            escapeAndWrite(type.getName());
             write(QUOTES_COMMA);
 
             // Description
             write(QUOTES);
-            write(element.getDescription());
+            escapeAndWrite(element.getDescription());
             write(QUOTES_COMMA);
 
             // ProcessorDemand
             DecompositionType decompType = element.getDecompositionType();
             write(QUOTES);
-            write(decompType.getName());
+            escapeAndWrite(decompType.getName());
             write(QUOTES_END_ELEM);
         }
         write("\n"); //$NON-NLS-1$
@@ -663,22 +691,22 @@ public class ExportDXL implements IURNExport {
 
                 // Name
                 write(QUOTES);
-                write(intElement.getName());
+                escapeAndWrite(intElement.getName());
                 write(QUOTES_COMMA);
 
                 // Description
                 write(QUOTES);
-                write(intElement.getDescription());
+                escapeAndWrite(intElement.getDescription());
                 write(QUOTES_COMMA);
 
                 // Priority
                 write(QUOTES);
-                write(elementRef.getPriority().getName());
+                escapeAndWrite(elementRef.getPriority().getName());
                 write(QUOTES_COMMA);
 
                 // Criticality
                 write(QUOTES);
-                write(elementRef.getCriticality().getName());
+                escapeAndWrite(elementRef.getCriticality().getName());
                 write(QUOTES_END_ELEM);
             } else if (specNode instanceof Belief) {
                 Belief belief = (Belief) specNode;
@@ -720,17 +748,17 @@ public class ExportDXL implements IURNExport {
 
                 // Name
                 write(QUOTES);
-                write(belief.getName());
+                escapeAndWrite(belief.getName());
                 write(QUOTES_COMMA);
 
                 // Description
                 write(QUOTES);
-                write(belief.getDescription());
+                escapeAndWrite(belief.getDescription());
                 write(QUOTES_COMMA);
 
                 // Author
                 write(QUOTES);
-                write(belief.getAuthor());
+                escapeAndWrite(belief.getAuthor());
                 write(QUOTES_END_ELEM);
             }
         }
@@ -796,7 +824,7 @@ public class ExportDXL implements IURNExport {
                 // Name
                 String mapName = ucmmap.getName();
                 write(QUOTES);
-                write(mapName);
+                escapeAndWrite(mapName);
                 write(QUOTES_COMMA);
 
                 // MapFileName
@@ -811,17 +839,17 @@ public class ExportDXL implements IURNExport {
                 bitmapFilename = bitmapFilename.concat(".bmp"); //$NON-NLS-1$
 
                 write(QUOTES);
-                write(bitmapFilename);
+                escapeAndWrite(bitmapFilename);
                 write(QUOTES_COMMA);
 
                 // MapTitle
                 write(QUOTES);
-                write(mapName);
+                escapeAndWrite(mapName);
                 write(QUOTES_COMMA);
 
                 // Description
                 write(QUOTES);
-                write(ucmmap.getDescription());
+                escapeAndWrite(ucmmap.getDescription());
                 write(QUOTES_END_ELEM);
 
                 // Nodes (respRef, stub)
@@ -856,18 +884,18 @@ public class ExportDXL implements IURNExport {
 
             // Name
             write(QUOTES);
-            write(resp.getName());
+            escapeAndWrite(resp.getName());
             write(QUOTES_COMMA);
 
             // Description
             write(QUOTES);
-            write(resp.getDescription());
+            escapeAndWrite(resp.getDescription());
             write(QUOTES_COMMA);
 
             // ProcessorDemand
             String size = "" + resp.getDemands().size(); //$NON-NLS-1$
             write(QUOTES);
-            write(size);
+            escapeAndWrite(size);
             write(QUOTES_END_ELEM);
         }
         write("\n"); //$NON-NLS-1$
@@ -920,12 +948,12 @@ public class ExportDXL implements IURNExport {
 
                 // Name
                 write(QUOTES);
-                write(res.getName());
+                escapeAndWrite(res.getName());
                 write(QUOTES_COMMA);
 
                 // Description
                 write(QUOTES);
-                write(res.getDescription());
+                escapeAndWrite(res.getDescription());
                 write(QUOTES_END_ELEM);
             }
         }
@@ -980,20 +1008,35 @@ public class ExportDXL implements IURNExport {
 
             // Name
             write(QUOTES);
-            write(strategy.getName());
+            escapeAndWrite(strategy.getName());
             write(QUOTES_COMMA);
 
             // Description
             write(QUOTES);
-            write(strategy.getDescription());
+            escapeAndWrite(strategy.getDescription());
             write(QUOTES_COMMA);
 
             // Author
             write(QUOTES);
-            write(strategy.getAuthor());
+            escapeAndWrite(strategy.getAuthor());
             write(QUOTES_END_ELEM);
 
-            writeEvaluations(strategy);
+            // a syncExec block is needed to avoid Eclipse threading errors as calculating Evaluations attempts to update the graphical display
+            // which can't be done from the non-UI wizard thread
+            // writeEvaluations(strategy);
+            final EvaluationStrategy currentStrategy = strategy;
+
+            Display.getDefault().syncExec(new Runnable() {
+                public void run() {
+                    try {
+                        writeEvaluations(currentStrategy);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            
+            
             write("\n"); //$NON-NLS-1$
         }
     }
@@ -1029,7 +1072,7 @@ public class ExportDXL implements IURNExport {
 
                 // Name
                 write(QUOTES);
-                write(stub.getName());
+                escapeAndWrite(stub.getName());
                 write(QUOTES_COMMA);
 
                 // StubType

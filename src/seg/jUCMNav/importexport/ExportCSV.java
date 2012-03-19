@@ -40,6 +40,16 @@ public class ExportCSV implements IURNExport {
     private final int MIN_COLUMN_WIDTH = 5;
     private final int MAX_COLUMN_WIDTH = 12;
     
+    private String escape(String s)
+    {
+        if (s!=null)
+        {
+            s = s.replace("\"", "\"\"");
+        }
+        return s;
+    }
+
+    
     /*
      * (non-Javadoc)
      * 
@@ -88,11 +98,15 @@ public class ExportCSV implements IURNExport {
     }
 
     private void writeQuoted(String s) throws IOException {
-    	write( QUOTE + s + QUOTE ); 
+    	write( quote(s) ); 
     }
     
     private String quote(String s) {
     	return QUOTE + s + QUOTE;
+    }
+    
+    private void writeEscapedAndQuoted(String s) throws IOException {
+        write( quote(escape(s)) ); 
     }
     
     private void writeStrategyInfo(URNspec urn) throws IOException {
@@ -106,16 +120,17 @@ public class ExportCSV implements IURNExport {
     		EvaluationStrategy strategy = (EvaluationStrategy) iter.next();
 
     		// Name
-    		writeQuoted( strategy.getName() );
+    		writeEscapedAndQuoted( strategy.getName() );
 
     		// Author
-    		write( COMMA + quote(strategy.getAuthor()) );
+    		write (COMMA);
+    		writeEscapedAndQuoted( strategy.getAuthor());
 
     		// Description
     		if ((description = strategy.getDescription()) == null) {
     			description = new String(""); //$NON-NLS-1$
     		}
-    		write( COMMA + quote(description.replace(',', ';')) + END_LINE ); // Replace commas with semicolons
+    		write( COMMA + quote(escape(description).replace(',', ';')) + END_LINE ); // Replace commas with semicolons
     	}
     	
         write(END_LINE + END_LINE);
@@ -186,10 +201,10 @@ public class ExportCSV implements IURNExport {
         for( int j = index; j < stopPoint; j++ ) {
         	if( elements[j] instanceof Actor ) { // Write the actors names in the header
               Actor actor = (Actor) elements[j];
-              write( COMMA + QUOTE + actor.getName() + " (A)" + QUOTE ); //$NON-NLS-1$        		
+              write( COMMA + quote(escape( actor.getName() + " (A)") )); //$NON-NLS-1$        		
         	} else { // Write the Intentional Element names in the header
               IntentionalElement element = (IntentionalElement) elements[j];
-              write( COMMA + QUOTE + element.getName() + QUOTE );        		
+              write( COMMA + quote(escape(element.getName())));        		
         	}
         }
         
@@ -210,7 +225,7 @@ public class ExportCSV implements IURNExport {
     		EvaluationStrategy strategy = (EvaluationStrategy) iter.next();
 
     		// Name
-    		writeQuoted( strategy.getName() );
+    		writeEscapedAndQuoted( strategy.getName() );
 
     		// a syncExec block is needed to avoid Eclipse threading errors as calculating Evaluations attempts to update the graphical display
     		// which can't be done from the non-UI wizard thread
