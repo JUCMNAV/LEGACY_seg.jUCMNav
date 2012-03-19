@@ -80,7 +80,7 @@ public class UrnSearchPage extends DialogPage implements ISearchPage {
     private boolean fIsRegExSearch;
     private boolean fSearchDerived;
 
-    private Combo fPattern;
+    private Combo fPattern, fScope;
     private Button fIsCaseSensitiveCheckbox;
     private Combo fExtensions;
     private Button fIsRegExCheckbox;
@@ -207,9 +207,11 @@ public class UrnSearchPage extends DialogPage implements ISearchPage {
 
     private ISearchQuery newQuery() throws CoreException {
         SearchPatternData data = getPatternData();
+        iSearchScope = fScope.getSelectionIndex(); // persist selection
+
         // TextSearchPageInput input = new TextSearchPageInput(data.textPattern, data.isCaseSensitive, data.isRegExSearch, createTextSearchScope());
         // return TextSearchQueryProvider.getPreferred().createQuery(input);
-        return new UrnSearchQuery(data.textPattern);
+        return new UrnSearchQuery(data.textPattern, iSearchScope);
     }
 
     public boolean performAction() {
@@ -425,6 +427,7 @@ public class UrnSearchPage extends DialogPage implements ISearchPage {
         return true;
     }
 
+    protected static int iSearchScope = 0; 
     private void addTextPatternControls(Composite group) {
         // grid layout with 2 columns
 
@@ -451,10 +454,25 @@ public class UrnSearchPage extends DialogPage implements ISearchPage {
             }
         });
         fPattern.setFont(group.getFont());
-        GridData data = new GridData(GridData.FILL, GridData.FILL, true, false, 1, 1);
+        GridData data = new GridData(GridData.FILL, GridData.FILL, true, false, 2, 1);
         data.widthHint = convertWidthInCharsToPixels(50);
         fPattern.setLayoutData(data);
-
+        
+        label = new Label(group, SWT.LEAD);
+        label.setText("Search scope: ");
+        label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        label.setFont(group.getFont());
+        
+        // scope combo
+        fScope = new Combo(group, SWT.DROP_DOWN | SWT.BORDER  | SWT.READ_ONLY );
+        fScope.setFont(group.getFont());
+        data = new GridData(GridData.FILL, GridData.FILL, true, false, 2, 1);
+        data.widthHint = convertWidthInCharsToPixels(50);
+        String[] items = new String[] { "Search the whole workspace", "Search currently open files only" };
+        fScope.setItems(items);
+        fScope.select(iSearchScope);
+        fScope.setLayoutData(data);
+        
         fIsCaseSensitiveCheckbox = new Button(group, SWT.CHECK);
         fIsCaseSensitiveCheckbox.setText(SearchMessages.SearchPage_caseSensitive);
         fIsCaseSensitiveCheckbox.setSelection(fIsCaseSensitive);

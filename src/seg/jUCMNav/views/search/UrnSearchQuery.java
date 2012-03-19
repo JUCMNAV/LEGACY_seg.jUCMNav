@@ -16,6 +16,12 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.ISearchResult;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -33,22 +39,28 @@ import urncore.URNmodelElement;
 public class UrnSearchQuery implements ISearchQuery {
     protected String name;
     protected UrnSearchResult result;
-
+    protected int scope;
+    
     protected IResource source;
+    
+    public final static int SCOPE_ALL_WORKSPACE =0;
+    public final static int SCOPE_OPEN_ONLY =1;
 
     /**
      * Searches in all workspace for name.
      * 
      * @param name
      */
-    public UrnSearchQuery(String name) {
+    public UrnSearchQuery(String name, int scope) {
         this.name = name;
+        this.scope = scope;
 
     }
 
-    public UrnSearchQuery(String name, IResource source) {
+    public UrnSearchQuery(String name, int scope, IResource source) {
         this.name = name;
         this.source = source;
+        this.scope = scope;
 
     }
 
@@ -121,6 +133,37 @@ public class UrnSearchQuery implements ISearchQuery {
     }
 
     public void searchInFile(IProgressMonitor monitor, IFile file) {
+        if (this.scope == SCOPE_OPEN_ONLY) 
+        {
+            boolean found = false;
+            if (PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getWorkbenchWindows() != null) {
+                IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+                for (int i = 0; i < windows.length; i++) {
+                    IWorkbenchWindow window = windows[i];
+                    if (window.getActivePage() != null) {
+
+                        IWorkbenchPage page = window.getActivePage();
+                        if (page != null) {
+                            IEditorReference[] edref = page.getEditorReferences();
+                            for (int j = 0; j < edref.length; j++) {
+                                IEditorReference editor = edref[j];
+                                try {
+                                    if (editor.getEditorInput() instanceof IFileEditorInput) {
+                                        IFileEditorInput input = (IFileEditorInput) editor.getEditorInput();
+                                        if (input.getFile().getFullPath().toString().equalsIgnoreCase(file.getFullPath().toString()))
+                                            found = true;
+                                    }
+                                } catch (PartInitException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (!found)
+                                return;
+                        }
+                    }
+                }
+            }
+        }
         if (file.getFileExtension() != null && file.getFileExtension().equalsIgnoreCase(Messages.getString("UrnSearchQuery_4"))) { //$NON-NLS-1$
 
             // load file.
