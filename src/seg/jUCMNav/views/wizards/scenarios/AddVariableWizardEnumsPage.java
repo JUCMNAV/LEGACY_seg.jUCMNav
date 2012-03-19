@@ -250,16 +250,21 @@ public class AddVariableWizardEnumsPage extends WizardPage {
         Vector v = new Vector();
         for (int i = 0; i < values.length; i++) {
             if (values[i].trim().length() > 0)
-                v.add(URNNamingHelper.cleanVariableName(values[i].trim()).toUpperCase());
+                v.add(URNNamingHelper.cleanVariableName(values[i].trim()));//.toUpperCase());
         }
 
         boolean err = v.size() == 0;
         if (err)
             updateStatus(Messages.getString("AddVariableWizardEnumsPage.PleaseEnterAtLeastOneValue")); //$NON-NLS-1$
         else {
+            
+            Vector v2 = new Vector();
+            for (Object s : v) {
+                v2.add(s.toString().toUpperCase());
+            }
             // verify uniqueness
             for (int i = 0; i < v.size() / 2; i++) {
-                if (v.lastIndexOf(v.get(i)) != i)
+                if (v2.lastIndexOf(v.get(i).toString().toUpperCase()) != i)
                     err = true;
             }
 

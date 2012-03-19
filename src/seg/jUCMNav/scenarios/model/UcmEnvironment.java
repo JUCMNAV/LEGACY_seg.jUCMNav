@@ -173,7 +173,7 @@ public class UcmEnvironment implements Adapter, Cloneable {
      */
     public void checkEnumerationValueExists(String enumName, String value) {
         enumName = enumName.toLowerCase();
-        value = value.toUpperCase();
+        //value = value.toUpperCase();
         String[] values = (String[]) enumerations.get(enumName);
         boolean found = false;
         for (int i = 0; i < values.length; i++) {
