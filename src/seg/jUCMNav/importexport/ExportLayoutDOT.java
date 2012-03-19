@@ -10,7 +10,6 @@ import org.eclipse.draw2d.IFigure;
 
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
 import seg.jUCMNav.views.preferences.AutoLayoutPreferences;
-import ucm.map.UCMmap;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
@@ -127,14 +126,14 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
      */
     public void export(IURNDiagram diagram, FileOutputStream fos) {
         id = 0;
-        if (diagram instanceof UCMmap) {
-            String contents = convertUCMToDot(diagram);
-            try {
-                fos.write(contents.getBytes());
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+        //if (diagram instanceof UCMmap) {
+        String contents = convertUCMToDot(diagram);
+        try {
+            fos.write(contents.getBytes());
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
+        //}
     }
 
     public void export(IURNDiagram diagram, String path) {
