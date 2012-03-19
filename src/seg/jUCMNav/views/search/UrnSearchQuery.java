@@ -45,6 +45,7 @@ public class UrnSearchQuery implements ISearchQuery {
     
     public final static int SCOPE_ALL_WORKSPACE =0;
     public final static int SCOPE_OPEN_ONLY =1;
+    public final static int SCOPE_ACTIVE_ONLY =2;
 
     /**
      * Searches in all workspace for name.
@@ -162,6 +163,26 @@ public class UrnSearchQuery implements ISearchQuery {
                         }
                     }
                 }
+            }
+        }
+        else if (this.scope == SCOPE_ACTIVE_ONLY)
+        {
+            boolean found=false;
+            if (PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getWorkbenchWindows() != null) {
+                IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+                for (int i = 0; i < windows.length; i++) {
+                    IWorkbenchWindow window = windows[i];
+                    if (window.getActivePage() != null) {
+                        IWorkbenchPage page = window.getActivePage();
+                        if (page.getActiveEditor()!=null && page.getActiveEditor().getEditorInput() instanceof IFileEditorInput)
+                        {
+                            IFileEditorInput input = (IFileEditorInput) page.getActiveEditor().getEditorInput();
+                            if (input.getFile().getFullPath().toString().equalsIgnoreCase(file.getFullPath().toString()))
+                                found = true;
+                        }
+                    }
+                }
+                if (!found) return;
             }
         }
         if (file.getFileExtension() != null && file.getFileExtension().equalsIgnoreCase(Messages.getString("UrnSearchQuery_4"))) { //$NON-NLS-1$

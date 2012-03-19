@@ -468,7 +468,7 @@ public class UrnSearchPage extends DialogPage implements ISearchPage {
         fScope.setFont(group.getFont());
         data = new GridData(GridData.FILL, GridData.FILL, true, false, 2, 1);
         data.widthHint = convertWidthInCharsToPixels(50);
-        String[] items = new String[] { "Search the whole workspace", "Search currently open files only" };
+        String[] items = new String[] { "Search the whole workspace", "Search currently open files only", "Search the current file only" };
         fScope.setItems(items);
         fScope.select(iSearchScope);
         fScope.setLayoutData(data);
