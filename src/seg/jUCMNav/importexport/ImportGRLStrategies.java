@@ -14,20 +14,34 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.extensionpoints.IURNImport;
+import seg.jUCMNav.model.util.StrategyEvaluationChange;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.wizards.importexport.ExportPreferenceHelper;
+import seg.jUCMNav.views.wizards.importexport.ImportWizard;
 import urn.URNspec;
+
+/**
+ * This class imports GRL strategy evaluations from a .csv file
+ * 
+ * @author amiga
+ * 
+ */
 
 public class ImportGRLStrategies implements IURNImport  {
 
 	private URNspec urnSpec;
 	EvaluationStrategyManager esm;
 	private HashMap<Integer, IntentionalElement> elementIndexes = new HashMap<Integer, IntentionalElement>(); // mapping between column indexes and Intentional Elements for current section
+	Vector<StrategyEvaluationChange> changedElements = new Vector<StrategyEvaluationChange>();
 	static int currentValue = 0;
-
+	
 	@Override
 	public URNspec importURN(FileInputStream fis, Vector autolayoutDiagrams)
 			throws InvocationTargetException {
@@ -49,9 +63,7 @@ public class ImportGRLStrategies implements IURNImport  {
 		urnSpec = (URNspec) EcoreUtil.copy(urn);
     	esm = EvaluationStrategyManager.getInstance(false);
 
-		System.out.println("importURN(FileInputStream fis, URNspec urn, Vector autolayoutDiagrams) called.");
-
-		int i = 1;
+//		int i = 1;
 		
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
@@ -69,13 +81,26 @@ public class ImportGRLStrategies implements IURNImport  {
 				}
 				
 				
-				System.out.println ( i++ + ": " + strLine);
+//				System.out.println ( i++ + ": " + strLine);
 			}
 			fis.close();
 		} catch (Exception e) {//Catch exception if any
 			System.err.println("Error: " + e.getMessage());
 		}
 
+		if( changedElements.isEmpty() ) {
+			this.displayMessage();
+		} else {  // create command to change all evaluations as a group
+
+			System.out.println ( "\n\nChanged Evaluations (" + changedElements.size() + "):" );
+			for( StrategyEvaluationChange sec : changedElements ) {
+				System.out.println ( "\t\tstrategy \"" + sec.getStrategy().getName() + "\" element: \"" + sec.getIntentionalElement().getName() + "\" new value = " 
+						+ sec.getNewEvaluation() + " current value = " + sec.getOldEvaluation() );
+			}
+
+		}
+		
+		
         // Sanitize urnspec to resolve naming conflict
         URNNamingHelper.sanitizeURNspec(this.urnSpec);
 
@@ -93,9 +118,11 @@ public class ImportGRLStrategies implements IURNImport  {
 			if( !columns[i].endsWith(" (A)") ) { // ignore Actor names as their evaluations can't be set
 				for( Iterator iter = urnSpec.getGrlspec().getIntElements().iterator(); iter.hasNext(); ) {
 					IntentionalElement element = (IntentionalElement) iter.next();
-					if( columns[i].contains( element.getName() )) {
+					String name = columns[i].substring( 1, columns[i].length()-1 ); // remove brackets
+					if( name.contentEquals( element.getName() )) {
 						elementIndexes.put( new Integer(i), element);
-						System.out.println ( "element: \"" + element.getName() + "\" found at column " + i );
+//						System.out.println ( "element: \"" + element.getName() + "\" found at column " + i );
+						break;
 					}
 				}
 			}
@@ -114,12 +141,15 @@ public class ImportGRLStrategies implements IURNImport  {
 			if( strLine.contentEquals(""))
 				return; // blank lines signify end of current section
 			
+			// need to handle lines of just commas output by some spreadsheets
+			
 			String [] columns = strLine.split(",");
-
+			
 			for( Iterator iter = urnSpec.getGrlspec().getStrategies().iterator(); iter.hasNext(); ) {
 				EvaluationStrategy currentStrategy = (EvaluationStrategy) iter.next();
-				if( columns[0].contains( currentStrategy.getName() )) {
-					System.out.println ( "Strategy: \"" + currentStrategy.getName() + "\" found." );
+				String name = columns[0].substring( 1, columns[0].length()-1 ); // remove brackets
+				if( name.contentEquals( currentStrategy.getName() )) {
+//					System.out.println ( "Strategy: \"" + currentStrategy.getName() + "\" found." );
 					strategy = currentStrategy;
 					break;
 				}
@@ -159,21 +189,34 @@ public class ImportGRLStrategies implements IURNImport  {
 						}
 					});
 
-					if( value != currentValue ) { // evaluation value in .csv file differs from that in current model
-						
-						System.out.println ( "For strategy \"" + strategy.getName() + "\" element: \"" + element.getName() + "\" new value = " + value + " current value = " + currentValue );
-
-						
+					if( value != currentValue ) { // evaluation value in .csv file differs from that in current model						
+						changedElements.add( new StrategyEvaluationChange( strategy, element, value, currentValue ) );
 					}
 				}
 			}
 
+			columns = null;
 		}
 
 
 	}
 	
-	
+	private void displayMessage() {
+		
+		final String title = "No New Evaluations Exist";
+		final String message = "All of the Intentional Element evaluations in the file \"" + ImportWizard.getFilename() + "\" match those in the current model "
+		+ ExportPreferenceHelper.getFilenamePrefix() + ". There is nothing to do. No import will be performed.";
+		final String [] labels = { "OK" };
+		
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+				MessageDialog md = new MessageDialog( shell, title, null, message, MessageDialog.INFORMATION, labels, 0 );
+				md.create();
+				md.open();
+			}
+		});
+	}
 	
 	@Override
 	public URNspec importURN(String filename, URNspec urn,

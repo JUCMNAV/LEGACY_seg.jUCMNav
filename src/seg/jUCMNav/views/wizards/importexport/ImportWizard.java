@@ -38,7 +38,7 @@ import urncore.IURNDiagram;
 /**
  * *
  * 
- * @author jkealey, Jean-François Roy
+ * @author jkealey, Jean-Franï¿½ois Roy
  * 
  */
 public class ImportWizard extends Wizard implements IImportWizard {
@@ -74,6 +74,12 @@ public class ImportWizard extends Wizard implements IImportWizard {
      */
     private Vector autolayoutDiagrams;
 
+    private static String filename;  // the filename of the imported file
+    
+    public static String getFilename() {
+    	return filename;
+    }
+    
     /**
      * Initialize preferences.
      */
@@ -122,6 +128,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
                 FileInputStream fis;
                 try {
                     fis = new FileInputStream(new File(path));
+                    filename = path;
                     // If import type is URN, import the file in this urn
                     if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN && urn != null) {
                         newurn = importer.importURN(fis, urn, autolayoutDiagrams);
