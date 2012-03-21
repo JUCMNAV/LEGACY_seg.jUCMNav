@@ -16,7 +16,7 @@ import urn.URNspec;
 /**
  * Creates a new strategy.
  * 
- * @author Jean-François Roy
+ * @author Jean-Franï¿½ois Roy
  * 
  */
 public class CreateStrategyCommand extends Command implements JUCMNavCommand {
@@ -71,7 +71,7 @@ public class CreateStrategyCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
         assert urn != null && strategy != null && group != null : "pre not null"; //$NON-NLS-1$
-        assert !group.getStrategies().contains(strategy) : "pre strategy not in model"; //$NON-NLS-1$
+        assert !group.getStrategies().contains(strategy) : "pre strategy in model"; //$NON-NLS-1$
     }
 
     /*
