@@ -282,9 +282,9 @@ public class ExportCSV implements IURNExport {
               val = StrategyEvaluationPreferences.getValueToVisualize(val);
 
               if (evaluation.getStrategies() != null) {
-                  write(COMMA + val + "*"); //$NON-NLS-1$
+                  write(COMMA + val);
               } else {
-                  write(COMMA + val); //$NON-NLS-1$
+                  write(COMMA + val + "#"); //$NON-NLS-1$
               }
         	}
         }

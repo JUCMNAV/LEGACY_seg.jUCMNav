@@ -673,7 +673,7 @@ public class EvaluationStrategyManager {
      *            quantitative value for the intentional element
      * 
      */
-    private void syncIntentionalElementQualitativeEvaluation(Evaluation eval, int value) {
+    public void syncIntentionalElementQualitativeEvaluation(Evaluation eval, int value) {
         QualitativeLabel label = eval.getQualitativeEvaluation();
 
         QualitativeLabel toSet = getQualitativeEvaluationForQuantitativeValue(value);
