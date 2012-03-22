@@ -28,7 +28,6 @@ import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
@@ -114,6 +113,9 @@ public class EvaluationStrategyManager {
 		}
 
 		soleInstance.canRefresh = canRefresh;
+		
+		// cancel difference mode in all other managers
+		
 		return soleInstance;
     }
 

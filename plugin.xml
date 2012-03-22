@@ -69,6 +69,16 @@
                menubarPath="seg.jUCMnav/ext"
                style="push"
                tooltip="%VerifySyntax"/>
+
+         <action
+               actionID="seg.jUCMNav.actions.SwitchModelLanguageDelegate"
+               class="seg.jUCMNav.actions.SwitchModelLanguageDelegate"
+               id="seg.jUCMNav.actions.SwitchModelLanguageDelegate"
+               label="%SwitchModelLanguage"
+               menubarPath="seg.jUCMnav/ext"
+               style="push"
+               tooltip="%SwitchLanguage"/>
+
 		 <action
                actionID="seg.jUCMNav.actions.staticSemantic.VerifyStaticSemanticDelegate"
                class="seg.jUCMNav.actions.staticSemantic.VerifyStaticSemanticDelegate"

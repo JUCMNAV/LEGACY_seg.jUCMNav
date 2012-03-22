@@ -216,7 +216,7 @@ public class ImportGRLStrategies implements IURNImport  {
 			
 			if( !this.isGroupNameUnique(name)) {
 				int i = 1;
-				while( !this.isGroupNameUnique( name + "-" + i ))
+				while( !this.isGroupNameUnique( name + "_" + i ))
 					i++;
 				name = name + "-" + i;
 			}
