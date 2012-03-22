@@ -1033,10 +1033,10 @@ public class EvaluationStrategyManager {
     	StrategiesView sv = null;
     	
         if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
-                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" ) != null) {
-            sv = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" );
+                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference( "seg.jUCMNav.views.StrategiesView" ) != null) {
+            sv = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference( "seg.jUCMNav.views.StrategiesView" ).getView(false);
         }
-    	
+        
     	return sv;
     }
     
