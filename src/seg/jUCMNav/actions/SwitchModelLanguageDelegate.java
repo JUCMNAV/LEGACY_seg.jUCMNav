@@ -48,22 +48,22 @@ public class SwitchModelLanguageDelegate implements IEditorActionDelegate {
 		
 		TreeIterator tree = EcoreUtil.getAllContents( urnSpec, false );
 		
-		int i = 0, j = 0, k = 0;
+//		int i = 0, j = 0, k = 0;
 		
 		while( tree.hasNext() ) {
 			Object obj;
-			k++;
+//			k++;
 			if( (obj = tree.next()) instanceof URNmodelElement ) {
 				URNmodelElement element = (URNmodelElement) obj;
-				j++;
+//				j++;
 				
 				if( !this.includesClass(element, excludedClasses)) {
 					this.switchElementLanguage(element);
-					System.out.println( i++ + ": class: " + element.getClass().getSimpleName() + " name: " + element.getName() );
+//					System.out.println( i++ + ": class: " + element.getClass().getSimpleName() + " name: " + element.getName() );
 				}
 			}
 		}
-		System.out.println( "Total # elements = " + k + " Total # of URNmodelElement = " + j + " # named elements = " + i );
+//		System.out.println( "Total # elements = " + k + " Total # of URNmodelElement = " + j + " # named elements = " + i );
 	}
 	
 	private void switchElementLanguage( URNmodelElement element )
