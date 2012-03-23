@@ -3,6 +3,7 @@ package seg.jUCMNav.model.commands.cutcopypaste;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
+import grl.ContributionChange;
 import grl.ContributionContext;
 import grl.ContributionContextGroup;
 import grl.Evaluation;
@@ -35,6 +36,7 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerR
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddCommentCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
+import seg.jUCMNav.model.commands.create.AddContributionChangeCommand;
 import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
 import seg.jUCMNav.model.commands.create.CreateContainerCommand;
 import seg.jUCMNav.model.commands.create.CreateEnumerationTypeCommand;
@@ -574,7 +576,14 @@ public class PasteCommand extends CompoundCommand {
 
             ContributionContext duplicate = (ContributionContext) duplicateCommand.getDuplicate();
             for (int i = 0; i < old.getChanges().size(); i++) {
-                // TODO: implement
+                ContributionChange oldChange = (ContributionChange) old.getChanges().get(i);
+                ContributionChange change = (ContributionChange)EcoreUtil.copy(oldChange);
+                change.setContribution(null);
+                resetCloneId(newContext);
+                if (oldChange.getContribution()!=null) {
+                    AddContributionChangeCommand cmd = new AddContributionChangeCommand(duplicate, oldChange.getContribution(), change);
+                    add(cmd);
+                }
             }
             for (int i = 0; i < old.getIncludedContexts().size(); i++) {
                 ContributionContext oldChild = (ContributionContext) old.getIncludedContexts().get(i);

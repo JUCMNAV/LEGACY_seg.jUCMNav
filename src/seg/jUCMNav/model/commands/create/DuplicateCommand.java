@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.model.commands.create;
 
+import grl.ContributionChange;
 import grl.ContributionContext;
 import grl.ContributionContextGroup;
 import grl.Evaluation;
@@ -325,7 +326,14 @@ public class DuplicateCommand extends CompoundCommand {
 
             add(cmd);
             for (Iterator iter = context.getChanges().iterator(); iter.hasNext();) {
-                // TODO: implement/
+                ContributionChange oldChange = (ContributionChange) iter.next();
+                ContributionChange change = (ContributionChange) ModelCreationFactory.getNewObject(urn, ContributionChange.class);
+                change.setNewContribution(oldChange.getNewContribution());
+                change.setNewQuantitativeContribution(oldChange.getNewQuantitativeContribution());
+                if (oldChange.getContribution() != null) {
+                    AddContributionChangeCommand cmd2 = new AddContributionChangeCommand(newContext, oldChange.getContribution(), change);
+                    add(cmd2);
+                }
             }
             for (Iterator iter = context.getIncludedContexts().iterator(); iter.hasNext();) {
                 ContributionContext contrib = (ContributionContext) iter.next();

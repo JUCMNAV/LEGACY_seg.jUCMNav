@@ -75,7 +75,7 @@ public class ContributionContextGroupListTreeEditPart extends StrategyUrnModelEl
      * @return the label for the folder containing the groups 
      */
     protected String getText() {
-        return "Contribution overrides";
+        return "Contribution Overrides";
     }
 
     /**
