@@ -11,6 +11,7 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import ucm.map.RespRef;
 import urncore.ComponentLabel;
 import urncore.Condition;
+import urncore.ConnectionLabel;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.NodeLabel;
@@ -56,7 +57,8 @@ public class LabelPropertySource extends URNElementPropertySource {
                 referencePS = new URNElementPropertySource(((Condition) obj).getStartPoint());
             else if (((Condition) obj).getEndPoint() != null)
                 referencePS = new URNElementPropertySource(((Condition) obj).getEndPoint());
-
+        } else if(obj instanceof ConnectionLabel) {
+            new URNElementPropertySource(((ConnectionLabel) obj).getConnection());
         }
     }
 

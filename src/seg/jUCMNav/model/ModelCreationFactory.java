@@ -93,6 +93,7 @@ import urncore.ComponentKind;
 import urncore.ComponentLabel;
 import urncore.Concern;
 import urncore.Condition;
+import urncore.ConnectionLabel;
 import urncore.GRLmodelElement;
 import urncore.IURNNode;
 import urncore.Metadata;
@@ -390,6 +391,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createResponsibilityBinding();
             } else if (targetClass.equals(Anything.class)) {
                 result = mapfactory.createAnything();
+            } else if(targetClass.equals(ConnectionLabel.class)) {
+                result = urncorefactory.createConnectionLabel();
             } else {
                 // complex creations
                 if (targetClass.equals(UCMmap.class)) {

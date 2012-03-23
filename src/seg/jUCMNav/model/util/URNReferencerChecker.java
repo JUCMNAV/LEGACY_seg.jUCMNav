@@ -1,5 +1,9 @@
 package seg.jUCMNav.model.util;
 
+import grl.Contribution;
+import grl.GRLGraph;
+import grl.LinkRef;
+
 import java.util.Iterator;
 
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -13,6 +17,8 @@ import urn.URNspec;
 import urncore.Component;
 import urncore.ComponentKind;
 import urncore.Condition;
+import urncore.ConnectionLabel;
+import urncore.IURNConnection;
 import urncore.IURNDiagram;
 import urncore.Responsibility;
 
@@ -64,6 +70,21 @@ public class URNReferencerChecker {
                             PluginBinding plug = (PluginBinding) i.next();
                             if (plug.getPrecondition() == null)
                                 plug.setPrecondition((Condition) ModelCreationFactory.getNewObject(urn, Condition.class));
+                        }
+                    }
+                }
+            } else if (g instanceof GRLGraph) {
+                GRLGraph grlGraph = (GRLGraph)g;
+                for (Iterator i = grlGraph.getConnections().iterator(); i.hasNext();) {
+                    IURNConnection con = (IURNConnection) i.next();
+                    if(con instanceof LinkRef) {
+                        LinkRef ref = (LinkRef)con;
+                        if(ref.getLink() instanceof Contribution) {
+                            if(ref.getLabel() == null) {
+                                ConnectionLabel labelTarget = (ConnectionLabel)ModelCreationFactory.getNewObject(urn, ConnectionLabel.class);
+                                
+                                ref.setLabel(labelTarget);
+                            }
                         }
                     }
                 }

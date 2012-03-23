@@ -40,6 +40,7 @@ import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
+import urncore.UrncorePackage;
 
 /**
  * Edit part associate with the LinkRef in GRL diagram
@@ -49,63 +50,8 @@ import urncore.IURNDiagram;
  */
 public class LinkRefEditPart extends AbstractConnectionEditPart {
 
-    /**
-     * Because GEF's AbstractConnectionEditPart has methods conflicting with EMF's Adapter, we needed an internal class to act as a listener.
-     * 
-     */
-    private class ElementLinkAdapter implements Adapter {
-        private Notifier target;
-
-        public ElementLinkAdapter(Notifier target) {
-            this.target = target;
-        }
-
-        /**
-         * @see org.eclipse.emf.common.notify.Adapter#getTarget()
-         */
-        public Notifier getTarget() {
-            return target;
-        }
-
-        /**
-         * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
-         */
-        public boolean isAdapterForType(Object type) {
-            return type.equals(getModel().getClass());
-        }
-
-        /**
-         * When connection's condition is changed, refresh map and path graph.
-         */
-        public void notifyChanged(Notification notification) {
-
-            int type = notification.getEventType();
-            int featureId = notification.getFeatureID(GrlPackage.class);
-            if (type == Notification.ADD || type == Notification.REMOVE) {
-                if (featureId == GrlPackage.LINK_REF__BENDPOINTS) {
-                    refreshVisuals();
-                }
-                if (featureId == GrlPackage.ELEMENT_LINK) {
-                    EvaluationStrategyManager.getInstance().calculateEvaluation();
-                }
-            } else if (type == Notification.SET) { // If a modification to the properties have been done
-                if (featureId == GrlPackage.ELEMENT_LINK) {
-                    EvaluationStrategyManager.getInstance().calculateEvaluation();
-                }
-                refreshVisuals();
-            }
-        }
-
-        /**
-         * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
-         */
-        public void setTarget(Notifier newTarget) {
-            target = newTarget;
-        }
-    }
-
-    ElementLinkAdapter adapter;
-    private IURNDiagram diagram;
+    Adapter adapter;
+    private final IURNDiagram diagram;
     protected IPropertySource propertySource = null;
 
     private Image img;
@@ -114,12 +60,57 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
     /**
      * The Edit Part for LinkRefs
      */
-    public LinkRefEditPart(LinkRef link, IURNDiagram diagram) {
+    public LinkRefEditPart(LinkRef link, final IURNDiagram diagram) {
         super();
         setModel(link);
         this.diagram = diagram;
+        final LinkRefEditPart part = this;
+        
+        adapter = new Adapter()
+        {
+            @Override
+            public void notifyChanged(Notification notification) {
+                int type = notification.getEventType();
+                int featureId = notification.getFeatureID(GrlPackage.class);
+                if (type == Notification.ADD || type == Notification.REMOVE) {
+                    if (featureId == GrlPackage.LINK_REF__BENDPOINTS) {
+                        refreshVisuals();
+                    }
+                    if (featureId == GrlPackage.ELEMENT_LINK) {
+                        EvaluationStrategyManager.getInstance().calculateEvaluation();
+                    }
+                } else if (type == Notification.SET) { // If a modification to the properties have been done
+                    if (featureId == GrlPackage.ELEMENT_LINK) {
+                        EvaluationStrategyManager.getInstance().calculateEvaluation();
+                    }
+                    refreshVisuals();
+                }
+                if(featureId == UrncorePackage.IURN_CONNECTION__LABEL) {
+                    Object grlGraphEditPart = part.getViewer().getEditPartRegistry().get(diagram);
+                    if (grlGraphEditPart != null)
+                        ((GrlGraphEditPart) grlGraphEditPart).notifyChanged(notification);
+                }
+            }
 
-        adapter = new ElementLinkAdapter((Notifier) getModel());
+            /**
+             * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+             */
+            public Notifier getTarget() {
+                return null;
+            }
+
+            /**
+             * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+             */
+            public boolean isAdapterForType(Object type) {
+                return type.equals(getModel().getClass());
+            }
+            /**
+             * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+             */
+            public void setTarget(Notifier newTarget) {
+            }
+        };
     }
 
     /**
@@ -329,51 +320,9 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
                 }
             }
 
-            // Set the contribution Label
-            //String type = contrib.getContribution().getName();
-            String type = EvaluationStrategyManager.getInstance().getActiveContribution(contrib).getName();
-            if (!type.equals("Unknown")) { //$NON-NLS-1$
-
-                if (GeneralPreferencePage.getGrlTextVisible()) {
-                    if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
-                        //int val = contrib.getQuantitativeContribution();
-                        int val = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
-                        val = StrategyEvaluationPreferences.getValueToVisualize(val);
-                        contributionLabel.setText("" + val); //$NON-NLS-1$
-                    } else {
-                        contributionLabel.setText(type);
-                    }
-
-                    ContributionChange change = EvaluationStrategyManager.getInstance().findApplicableContributionChange(contrib, true);
-                    if (change != null && change.getContext() == EvaluationStrategyManager.getInstance().getContributionContext())
-                        contributionLabel.setText(contributionLabel.getText() + "**"); // two stars to mean locally changed.
-                    else if (change != null)
-                        contributionLabel.setText(contributionLabel.getText() + "*"); // star to mean inherited change.
-                } else {
-                    contributionLabel.setText(""); //$NON-NLS-1$
-                }
-
-                // Set the icon
-                if (type.equals("Make")) { //$NON-NLS-1$
-                    img = (JUCMNavPlugin.getImage("icons/Make.gif")); //$NON-NLS-1$
-                } else if (type.equals("Help")) { //$NON-NLS-1$
-                    img = (JUCMNavPlugin.getImage("icons/Help.gif")); //$NON-NLS-1$
-                } else if (type.equals("SomePositive")) { //$NON-NLS-1$
-                    img = (JUCMNavPlugin.getImage("icons/SomePositive.gif")); //$NON-NLS-1$
-                } else if (type.equals("SomeNegative")) { //$NON-NLS-1$
-                    img = (JUCMNavPlugin.getImage("icons/SomeNegative.gif")); //$NON-NLS-1$
-                } else if (type.equals("Hurt")) { //$NON-NLS-1$
-                    img = (JUCMNavPlugin.getImage("icons/Hurt.gif")); //$NON-NLS-1$
-                } else if (type.equals("Break")) { //$NON-NLS-1$
-                    img = (JUCMNavPlugin.getImage("icons/Break.gif")); //$NON-NLS-1$
-                }
-                if (img != null && GeneralPreferencePage.getGrlIconVisible()) {
-                    contributionLabel.setIcon(img);
-                }
-                contributionLabel.setVisible(true);
-            } else {
-                contributionLabel.setVisible(false);
-            }
+            ConnectionLabelEditPart labelPart = (ConnectionLabelEditPart)getViewer().getEditPartRegistry().get(getLinkRef().getLabel());
+            if(labelPart != null)
+                labelPart.refreshVisuals();
         } else if (getLinkRef().getLink() instanceof Dependency) {
             // Dependency depend = (Dependency)getLinkRef().getLink();
             getLinkRefFigure().setType(LinkRefConnection.TYPE_DEPENDENCY);

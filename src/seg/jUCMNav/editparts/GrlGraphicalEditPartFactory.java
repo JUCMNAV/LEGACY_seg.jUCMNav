@@ -13,6 +13,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
 import urncore.Comment;
+import urncore.ConnectionLabel;
 import urncore.Label;
 
 /**
@@ -50,9 +51,13 @@ public class GrlGraphicalEditPartFactory implements EditPartFactory {
             return new BeliefEditPart((Belief) model);
         } else if (model instanceof ActorRef) {
             return new ActorRefEditPart((ActorRef) model);
-        } else if (model instanceof Label) {
+        } 
+        else if (model instanceof ConnectionLabel)
+            return new ConnectionLabelEditPart((ConnectionLabel)model);
+        else if (model instanceof Label) {
             return new LabelEditPart((Label) model);
-        } else if (model instanceof LinkRef) {
+        } 
+        else if (model instanceof LinkRef) {
             return new LinkRefEditPart((LinkRef) model, graph);
         } else if (model instanceof KPIModelLinkRef) {
             return new KPIModelLinkRefEditPart((KPIModelLinkRef) model, graph);

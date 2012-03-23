@@ -106,7 +106,8 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
             return handleMoveResizeContainerRef(child, constraint);
         } else if (child.getModel() instanceof Comment) {
             return handleMoveResizeComment(child, constraint);
-        } else {
+        }
+        else {
             System.out.println("Unknown model element"); //$NON-NLS-1$
             return null;
         }

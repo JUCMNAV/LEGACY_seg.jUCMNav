@@ -17,6 +17,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemoveElementLinkCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveLinkRefCommand;
+import urncore.ConnectionLabel;
 
 /**
  * Delete a LinkRef and all the LinkRefBendpoint associate to it. If it is the last linkref in the GRLGraphs, delete also the definition.
@@ -28,6 +29,7 @@ public class DeleteLinkRefCommand extends CompoundCommand {
 
     LinkRef linkref;
     ElementLink link;
+    ConnectionLabel label;
 
     /**
      * @param ref

@@ -1,5 +1,8 @@
 package seg.jUCMNav.model.commands.delete;
 
+import grl.Contribution;
+import grl.LinkRef;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
@@ -9,6 +12,7 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import urncore.ComponentLabel;
 import urncore.Condition;
+import urncore.ConnectionLabel;
 import urncore.IURNContainerRef;
 import urncore.Label;
 import urncore.NodeLabel;
@@ -34,9 +38,7 @@ public class DeleteLabelCommand extends Command {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        if (!(label instanceof Condition))
-            return label != null && modelElement != null;
-        else {
+        if (label instanceof Condition) {
             boolean b = label != null && modelElement != null;
             if (label instanceof Condition && modelElement instanceof StartPoint)
                 return b && ((StartPoint) modelElement).getPrecondition() != null;
@@ -46,8 +48,14 @@ public class DeleteLabelCommand extends Command {
                 return b && ((NodeConnection) modelElement).getCondition() != null;
             else
                 return false;
+        } else if (label instanceof ConnectionLabel) {
+            ConnectionLabel conLabel = (ConnectionLabel)label;
+            if(conLabel.getConnection() instanceof LinkRef && ((LinkRef)conLabel.getConnection()).getLink() instanceof Contribution) {
+                return false;
+            }
         }
 
+        return label != null && modelElement != null;
     }
 
     /**

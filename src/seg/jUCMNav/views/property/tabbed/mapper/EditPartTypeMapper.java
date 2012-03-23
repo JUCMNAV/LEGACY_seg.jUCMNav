@@ -1,6 +1,7 @@
 package seg.jUCMNav.views.property.tabbed.mapper;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractTypeMapper;
 
@@ -20,6 +21,8 @@ public class EditPartTypeMapper extends AbstractTypeMapper {
         if (object instanceof LabelEditPart) {
             LabelEditPart labelEditPart = (LabelEditPart) object;
             if (labelEditPart instanceof ConditionEditPart)
+                return mapType(labelEditPart.getModelObj());
+            if(labelEditPart instanceof ConnectionEditPart)
                 return mapType(labelEditPart.getModelObj());
             if (labelEditPart.getModelObj().eContainer() != null)
                 return labelEditPart.getModelObj().eContainer().getClass();

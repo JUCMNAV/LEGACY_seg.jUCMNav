@@ -24,6 +24,8 @@ import seg.jUCMNav.figures.LabelFigure;
 import ucm.map.NodeConnection;
 import urncore.ComponentLabel;
 import urncore.Condition;
+import urncore.ConnectionLabel;
+import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.Label;
@@ -71,8 +73,13 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
                 return ((Condition) lbl).getEndPoint();
             else
                 return null;
-        } else
-            return null;
+        } 
+        else if (lbl instanceof ConnectionLabel) {
+            if (((ConnectionLabel) lbl).getConnection() != null)
+                return ((ConnectionLabel) lbl).getConnection();
+        }
+        
+        return null;
     }
 
     /**
@@ -143,7 +150,9 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
                 } catch (Exception ex) {
                     pt2 = pt;
                 }
-
+            } else if(getReference() instanceof IURNConnection) {
+                IURNConnection nc = (IURNConnection)getReference();
+                pt2 = pt;
             }
 
             if (pt2 == null)

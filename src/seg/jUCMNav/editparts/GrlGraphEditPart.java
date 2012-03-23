@@ -14,6 +14,7 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
 import seg.jUCMNav.editpolicies.layout.GrlGraphXYLayoutEditPolicy;
+import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 
@@ -65,6 +66,14 @@ public class GrlGraphEditPart extends URNDiagramEditPart {
                 list.add(component.getLabel());
             }
         }
+
+        for (Iterator i = getDiagram().getConnections().iterator(); i.hasNext();) {
+            IURNConnection con = (IURNConnection) i.next();
+            if (con.getLabel() != null) {
+                list.add(con.getLabel());
+            }
+        }
+        
 
         return list;
     }

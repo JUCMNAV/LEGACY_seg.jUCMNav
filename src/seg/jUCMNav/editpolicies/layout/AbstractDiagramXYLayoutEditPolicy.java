@@ -1,5 +1,8 @@
 package seg.jUCMNav.editpolicies.layout;
 
+import grl.Contribution;
+import grl.LinkRef;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -14,7 +17,7 @@ import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 import seg.jUCMNav.editparts.LabelEditPart;
-import seg.jUCMNav.editparts.PathNodeEditPart;
+import seg.jUCMNav.editparts.ModelElementEditPart;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommentCommand;
@@ -23,6 +26,7 @@ import ucm.map.PathNode;
 import urncore.Comment;
 import urncore.ComponentLabel;
 import urncore.Condition;
+import urncore.ConnectionLabel;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
@@ -80,7 +84,7 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
                 x = component.getX() - ((Rectangle) constraint).x;
                 y = component.getY() - ((Rectangle) constraint).y - dim.height;
 
-            } else if (label instanceof Condition || label instanceof NodeLabel) {
+            } else if (label instanceof Condition || label instanceof NodeLabel || label instanceof ConnectionLabel) {
                 // get middle of node
                 IURNNode node = null;
                 if (label instanceof Condition) {
@@ -90,6 +94,11 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
                     } else if (condition.getEndPoint() != null) {
                         node = condition.getEndPoint();
                     }
+                } else if (label instanceof ConnectionLabel) {
+                    LinkRef ref = (LinkRef)((ConnectionLabel) label).getConnection();
+                    if(ref.getLink() instanceof Contribution) {
+                        node = ref.getTarget();
+                    }
                 } else
                     node = (PathNode) (((LabelEditPart) child).getURNmodelElement());
 
@@ -97,7 +106,7 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
                     x = 0;
                     y = 0;
                 } else {
-                    int height = ((PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
+                    int height = ((ModelElementEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
                     x = node.getX() - ((Rectangle) constraint).x - (dim.width / 2);
                     y = node.getY() - ((Rectangle) constraint).y - (dim.height + height / 2);
                 }

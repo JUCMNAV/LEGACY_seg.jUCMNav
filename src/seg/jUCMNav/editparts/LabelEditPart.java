@@ -123,6 +123,8 @@ public class LabelEditPart extends ModelElementEditPart {
             } else if (modelElement instanceof RespRef && ((RespRef) modelElement).getRespDef() != null) {
                 resp = ((RespRef) modelElement).getRespDef();
                 resp.eAdapters().add(this);
+            } else if(modelElement instanceof LinkRef && ((LinkRef)modelElement).getLink() != null) {
+                ((LinkRef)modelElement).getLink().eAdapters().add(this);
             }
         }
         super.activate();
@@ -189,6 +191,8 @@ public class LabelEditPart extends ModelElementEditPart {
             } else if (modelElement instanceof RespRef && resp != null) {
                 resp.eAdapters().remove(this);
                 resp = null;
+            } else if(modelElement instanceof LinkRef && ((LinkRef)modelElement).getLink() != null) {
+                ((LinkRef)modelElement).getLink().eAdapters().remove(this);
             }
         }
         super.deactivate();

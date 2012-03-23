@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.model.commands.create;
 
+import grl.Contribution;
 import grl.ElementLink;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
@@ -12,6 +13,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import urncore.ConnectionLabel;
 import urncore.IURNDiagram;
 
 /**
@@ -27,6 +29,8 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
     ElementLink link;
 
     LinkRef linkref;
+    
+    ConnectionLabel labelTarget;
 
     /**
      * 
@@ -54,6 +58,10 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         linkref = (LinkRef) ModelCreationFactory.getNewObject(graph.getUrndefinition().getUrnspec(), LinkRef.class);
+        if(link instanceof Contribution) {
+            labelTarget = (ConnectionLabel)ModelCreationFactory.getNewObject(graph.getUrndefinition().getUrnspec(), ConnectionLabel.class);
+        }
+        
         redo();
     }
 
@@ -67,6 +75,9 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
 
         linkref.setSource(source);
         linkref.setTarget(destination);
+        
+        if(link instanceof Contribution)
+            linkref.setLabel(labelTarget);
 
         testPostConditions();
     }
@@ -114,6 +125,9 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
         linkref.setTarget(null);
         linkref.setLink(null);
         linkref.setDiagram(null);
+        
+        if(link instanceof Contribution)
+            linkref.setLabel(null);
 
         testPreConditions();
     }
