@@ -736,4 +736,15 @@
             uri="http:///ucmscenarios.ecore">
       </package>
    </extension>
+	<extension
+    	point="org.eclipse.core.contenttype.contentTypes">
+	  	<file-association
+	      content-type="org.eclipse.emf.compare.ui.contenttype.ModelContentType"
+	      file-extensions="jucm"
+	      file-names="*"/>
+		<file-association
+	      content-type="org.eclipse.emf.compare.ui.contenttype.ModelContentType"
+	      file-extensions="jucmscenarios"
+	      file-names="*"/>
+      </extension>   
 </plugin>
