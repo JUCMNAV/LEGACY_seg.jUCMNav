@@ -33,24 +33,6 @@ import com.primalworld.math.MathEvaluator;
  */
 public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 
-    /**
-     * Data container object used by the propagation mechanism.
-     * 
-     * @author Alireza Pourshahid
-     * 
-     */
-    private static class EvaluationCalculation {
-        public IntentionalElement element;
-        public int linkCalc;
-        public int totalLinkDest;
-
-        public EvaluationCalculation(IntentionalElement element, int totalLink) {
-            this.element = element;
-            this.totalLinkDest = totalLink;
-            linkCalc = 0;
-        }
-    }
-
     Vector evalReady;
     HashMap evaluationCalculation;
     HashMap evaluations;    
@@ -65,16 +47,7 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         evaluationCalculation = new HashMap();
         this.evaluations = evaluations;
 
-        Iterator it = strategy.getGrlspec().getIntElements().iterator();
-        while (it.hasNext()) {
-            IntentionalElement element = (IntentionalElement) it.next();
-            if (element.getLinksDest().size() == 0 || ((Evaluation) evaluations.get(element)).getStrategies() != null) {
-                evalReady.add(element);
-            } else {
-                EvaluationCalculation calculation = new EvaluationCalculation(element, element.getLinksDest().size());
-                evaluationCalculation.put(element, calculation);
-            }
-        }
+        StrategyAlgorithmImplementationHelper.defaultInit(strategy,  evaluations, evalReady, evaluationCalculation);
     }
 
     /*

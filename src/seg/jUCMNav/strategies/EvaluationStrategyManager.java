@@ -444,6 +444,32 @@ public class EvaluationStrategyManager {
 
     }
 
+    protected synchronized HashMap getRecursiveEvaluations(EvaluationStrategy strategy, HashMap v)
+    {
+        for (Iterator iterator = strategy.getIncludedStrategies().iterator(); iterator.hasNext();) {
+            EvaluationStrategy ev = (EvaluationStrategy) iterator.next();
+            getRecursiveEvaluations(ev, v);
+        }
+        for (Iterator iterator = strategy.getEvaluations().iterator(); iterator.hasNext();) {
+            Evaluation ev  = (Evaluation) iterator.next();
+            v.put(ev.getIntElement(), ev);
+        }
+        return v;
+    }
+    
+    protected synchronized HashMap getRecursiveKPIInformationConfig(EvaluationStrategy strategy, HashMap v)
+    {
+        for (Iterator iterator = strategy.getIncludedStrategies().iterator(); iterator.hasNext();) {
+            EvaluationStrategy ev = (EvaluationStrategy) iterator.next();
+            getRecursiveKPIInformationConfig(ev, v);
+        }
+        for (Iterator iterator = strategy.getKpiInfoConfig().iterator(); iterator.hasNext();) {
+            KPIInformationConfig ev  = (KPIInformationConfig) iterator.next();
+            v.put(ev.getKpiInfoElement(), ev);
+        }
+        return v;
+    }
+    
     public synchronized void setStrategy(EvaluationStrategy strategy) {
         this.strategy = strategy;
 
@@ -456,18 +482,14 @@ public class EvaluationStrategyManager {
         if (strategy != null) {
             // Go through all the intentionalElement and create a new Evaluation object if no one exist for this strategy
             GRLspec grl = strategy.getGrlspec();
+            HashMap recursiveEvaluations = new HashMap();
+            getRecursiveEvaluations(strategy,  recursiveEvaluations);
+
             Iterator it = grl.getIntElements().iterator();
             while (it.hasNext()) {
                 IntentionalElement elem = (IntentionalElement) it.next();
                 // Verify if an evaluation exist for this strategy. This could create performance problem!!!!
-                Iterator sc = strategy.getEvaluations().iterator();
-                Evaluation eval = null;
-                while (sc.hasNext() && eval == null) {
-                    Evaluation temp = (Evaluation) sc.next();
-                    if (temp.getIntElement() == elem) {
-                        eval = temp;
-                    }
-                }
+                Evaluation eval = (Evaluation) recursiveEvaluations.get(elem);
                 if (eval == null) {
                     eval = (Evaluation) ModelCreationFactory.getNewObject(grl.getUrnspec(), Evaluation.class);
                 }
@@ -476,18 +498,12 @@ public class EvaluationStrategyManager {
 
             // Go through all the KPIInformationElement and create a new KPIInformationConfig object if no one exist for this strategy
             grl = strategy.getGrlspec();
+            HashMap recursiveKPIInformationConfig = new HashMap();
+            getRecursiveKPIInformationConfig(strategy,  recursiveKPIInformationConfig);
             it = grl.getKpiInformationElements().iterator();
             while (it.hasNext()) {
                 KPIInformationElement elem = (KPIInformationElement) it.next();
-                // Verify if an KPIInformationConfig exist for this strategy. This could create performance problem!!!!
-                Iterator sc = strategy.getKpiInfoConfig().iterator();
-                KPIInformationConfig config = null;
-                while (sc.hasNext() && config == null) {
-                    KPIInformationConfig temp = (KPIInformationConfig) sc.next();
-                    if (temp.getKpiInfoElement() == elem) {
-                        config = temp;
-                    }
-                }
+                KPIInformationConfig config = (KPIInformationConfig) recursiveKPIInformationConfig.get(elem);
                 if (config == null) {
                     config = (KPIInformationConfig) ModelCreationFactory.getNewObject(grl.getUrnspec(), KPIInformationConfig.class);
                 }
