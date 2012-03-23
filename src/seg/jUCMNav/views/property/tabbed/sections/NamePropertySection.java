@@ -12,7 +12,7 @@ import urn.UrnPackage;
 import urncore.URNmodelElement;
 import urncore.UrncorePackage;
 
-public class NamePropertySection extends AbstractStringPropertySection {
+public class NamePropertySection extends AbstractMultiLineStringPropertySection {
 
     protected EAttribute getFeature() {
         if (eObject instanceof URNspec)
