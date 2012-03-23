@@ -211,7 +211,8 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 }
             } else if (link instanceof Contribution) {
                 Contribution contrib = (Contribution) link;
-                int contValue = contrib.getContribution().getValue();
+                //int contValue = contrib.getContribution().getValue();
+                int contValue = EvaluationStrategyManager.getInstance().getActiveContribution(contrib).getValue();
                 QualitativeLabel srcNode = ((Evaluation) evaluations.get(link.getSrc())).getQualitativeEvaluation();
                 int qualValue = srcNode.getValue();
 

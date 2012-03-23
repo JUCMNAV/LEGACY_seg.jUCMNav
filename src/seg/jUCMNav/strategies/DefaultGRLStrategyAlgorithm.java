@@ -149,7 +149,8 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 }
             } else if (link instanceof Contribution) {
                 Contribution contrib = (Contribution) link;
-                if (contrib.getContribution().getValue() != ContributionType.UNKNOWN) {
+                int value = EvaluationStrategyManager.getInstance().getActiveContribution(contrib).getValue(); 
+                if (value != ContributionType.UNKNOWN) {
                     int srcNode = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
                     // The source node value is between -100 and 100. For the contribution calculation,
                     // denied value correspond to 0. The value should be between 0 and 100 and the source evaluation should not be 0.
@@ -157,7 +158,7 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                         srcNode = 50 + srcNode / 2;
 
                         double resultContrib;
-                        switch (contrib.getContribution().getValue()) {
+                        switch (value) {
                         case ContributionType.MAKE:
                             resultContrib = srcNode;
                             break;

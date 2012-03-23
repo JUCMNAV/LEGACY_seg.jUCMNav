@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.dnd;
 
+import grl.ContributionContext;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
@@ -65,7 +66,7 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
                 return ((IntentionalElementRef) model).getDef();
             else if (model instanceof KPIInformationElementRef)
                 return ((KPIInformationElementRef) model).getDef();
-            else if (model instanceof ScenarioDef || model instanceof EvaluationStrategy)
+            else if (model instanceof ScenarioDef || model instanceof EvaluationStrategy || model instanceof ContributionContext)
                 return model;
         }
         return null;

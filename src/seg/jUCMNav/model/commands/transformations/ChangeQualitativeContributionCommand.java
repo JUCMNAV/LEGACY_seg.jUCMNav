@@ -1,6 +1,8 @@
 package seg.jUCMNav.model.commands.transformations;
 
 import grl.Contribution;
+import grl.ContributionChange;
+import grl.ContributionContext;
 import grl.ContributionType;
 import grl.LinkRef;
 
@@ -36,6 +38,9 @@ public class ChangeQualitativeContributionCommand extends Command implements JUC
         LinkRef linkRef;
         ContributionType oldQcontrib, newQcontrib;
         int oldNcontrib;
+        ContributionContext activeContext;
+        ContributionChange change;
+
     }
 
     Vector linkStates = new Vector();
@@ -49,8 +54,13 @@ public class ChangeQualitativeContributionCommand extends Command implements JUC
             LinkState ls = new LinkState();
 
             ls.linkRef = currentLinkRef;
-            ls.oldQcontrib = ((Contribution) currentLinkRef.getLink()).getContribution();
-            ls.oldNcontrib = ((Contribution) currentLinkRef.getLink()).getQuantitativeContribution();
+            Contribution contrib = (Contribution) currentLinkRef.getLink();
+            //ls.oldQcontrib = ((Contribution) currentLinkRef.getLink()).getContribution();
+            ls.oldQcontrib = EvaluationStrategyManager.getInstance().getActiveContribution(contrib);
+            //ls.oldNcontrib = ((Contribution) currentLinkRef.getLink()).getQuantitativeContribution();
+            ls.oldNcontrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
+            ls.change = EvaluationStrategyManager.getInstance().findApplicableContributionChange(contrib, false);
+            ls.activeContext = EvaluationStrategyManager.getInstance().getContributionContext();
             linkStates.add(ls);
 
             if (id < INCREASE) // input from sub-menu
@@ -72,7 +82,8 @@ public class ChangeQualitativeContributionCommand extends Command implements JUC
         for (Iterator iter = linkStates.iterator(); iter.hasNext();) {
             LinkState ls = (LinkState) iter.next();
             Contribution contrib = (Contribution) ls.linkRef.getLink();
-            contrib.setContribution(ls.newQcontrib);
+            //contrib.setContribution(ls.newQcontrib);
+            EvaluationStrategyManager.getInstance().setActiveContribution(ls.activeContext, contrib, ls.newQcontrib);
             LinkRefPropertySource.syncElementLinkQuantitativeContribution (contrib, ls.newQcontrib);
         }
         EvaluationStrategyManager.getInstance().calculateEvaluation(); //Refresh strategy, if any
@@ -102,8 +113,21 @@ public class ChangeQualitativeContributionCommand extends Command implements JUC
 
         for (Iterator iter = linkStates.iterator(); iter.hasNext();) {
             LinkState ls = (LinkState) iter.next();
-            ((Contribution) ls.linkRef.getLink()).setContribution(ls.oldQcontrib);
-            ((Contribution) ls.linkRef.getLink()).setQuantitativeContribution(ls.oldNcontrib);
+            Contribution contrib = (Contribution) ls.linkRef.getLink();
+            //((Contribution) ls.linkRef.getLink()).setContribution(ls.oldQcontrib);
+            EvaluationStrategyManager.getInstance().setActiveContribution(ls.activeContext, contrib, ls.oldQcontrib);
+            //((Contribution) ls.linkRef.getLink()).setQuantitativeContribution(ls.oldNcontrib);
+            EvaluationStrategyManager.getInstance().setActiveQuantitativeContribution(ls.activeContext, contrib, ls.oldNcontrib);
+            
+            if (ls.change == null) // if we had no change before, we need to delete our newly added one.  
+            {
+                ContributionChange change = EvaluationStrategyManager.findApplicableContributionChange(ls.activeContext, contrib, false);
+                if (change!=null) {
+                    change.setContribution(null);
+                    change.setContext(null);
+                    if (contrib!=null)contrib.setQuantitativeContribution(contrib.getQuantitativeContribution()); // forces refreshes.
+                }
+            }
         }
         EvaluationStrategyManager.getInstance().calculateEvaluation(); //Refresh strategy, if any
 

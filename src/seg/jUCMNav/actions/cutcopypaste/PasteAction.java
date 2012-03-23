@@ -68,6 +68,11 @@ public class PasteAction extends URNSelectionAction {
                 return sel.getMap();
             case SelectionHelper.SCENARIOGROUP:
                 return sel.getScenarioGroup();
+            case SelectionHelper.EVALUATIONGROUP:
+                return sel.getStrategiesGroup();
+            case SelectionHelper.CONTRIBUTIONCONTEXTGROUP:
+                return sel.getContributionContextGroup();
+
             }
 
             return sel.getUrnspec();

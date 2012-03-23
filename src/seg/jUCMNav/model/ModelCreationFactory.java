@@ -5,6 +5,9 @@ import grl.ActorRef;
 import grl.Belief;
 import grl.BeliefLink;
 import grl.Contribution;
+import grl.ContributionChange;
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 import grl.Decomposition;
 import grl.Dependency;
 import grl.Evaluation;
@@ -341,6 +344,13 @@ public class ModelCreationFactory implements CreationFactory {
                 result = grlfactory.createLinkRefBendpoint();
             } else if (targetClass.equals(StrategiesGroup.class)) {
                 result = grlfactory.createStrategiesGroup();
+            } else if (targetClass.equals(ContributionContextGroup.class)) {
+                result = grlfactory.createContributionContextGroup();
+            } else if (targetClass.equals(ContributionContext.class)) {
+                if (definition!=null) return definition; // drag & drop of existing
+                result = grlfactory.createContributionContext();
+            } else if (targetClass.equals(ContributionChange.class)) {
+                result = grlfactory.createContributionChange();
             } else if (targetClass.equals(EvaluationStrategy.class)) {
                 if (definition!=null) return definition; // drag & drop of existing 
                 result = grlfactory.createEvaluationStrategy();

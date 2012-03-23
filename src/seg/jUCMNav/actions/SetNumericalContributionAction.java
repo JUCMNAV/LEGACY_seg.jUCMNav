@@ -14,6 +14,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalContributionCommand;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
 
@@ -75,7 +76,8 @@ public class SetNumericalContributionAction extends URNSelectionAction {
             if (id < ChangeNumericalContributionCommand.INCREASE) // operation is not increase or decrease, skip further tests
                 continue;           
 
-            int oldContrib = ((Contribution) lr.getLink()).getQuantitativeContribution();
+            //int oldContrib = ((Contribution) lr.getLink()).getQuantitativeContribution();
+            int oldContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution((Contribution) lr.getLink());
 
             if (id == ChangeNumericalContributionCommand.INCREASE) { // increase operation, verify if possible
                 if (oldContrib == (StrategyEvaluationPreferences.getVisualizeAsPositiveRange() ? 99 : 100))
@@ -103,7 +105,8 @@ public class SetNumericalContributionAction extends URNSelectionAction {
             String currentContrib = ""; //$NON-NLS-1$
 
             if (linkRefs.size() <= 1) {
-                int val = ((Contribution) ((LinkRef) (linkRefs.get(0))).getLink()).getQuantitativeContribution();
+                //int val = ((Contribution) ((LinkRef) (linkRefs.get(0))).getLink()).getQuantitativeContribution();
+                int val = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution((Contribution) ((LinkRef) (linkRefs.get(0))).getLink());
                 val = StrategyEvaluationPreferences.getValueToVisualize(val);
                 currentContrib = Integer.toString(val);
             }

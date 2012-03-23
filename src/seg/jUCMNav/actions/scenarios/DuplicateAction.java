@@ -1,5 +1,7 @@
 package seg.jUCMNav.actions.scenarios;
 
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 import grl.EvaluationStrategy;
 import grl.StrategiesGroup;
 
@@ -32,6 +34,8 @@ public class DuplicateAction extends IncludeScenarioAction {
     private ScenarioGroup group;
     private EvaluationStrategy strategy;
     private StrategiesGroup group2;
+    private ContributionContext context;
+    private ContributionContextGroup group3;
 
     /**
      * @param part
@@ -47,7 +51,7 @@ public class DuplicateAction extends IncludeScenarioAction {
      */
     protected boolean calculateEnabled() {
         initScenario();
-        return scenario != null || child != null || group != null || strategy != null || group2 != null;
+        return scenario != null || child != null || group != null || strategy != null || group2 != null || context != null || group3 != null;
     }
 
     /**
@@ -60,13 +64,16 @@ public class DuplicateAction extends IncludeScenarioAction {
         group = null;
         strategy = null;
         group2 = null;
+        context = null;
+        group3 = null;
         List list = getSelectedObjects();
         if (list.size() == 0 || list.size() > 1 || !(list.get(0) instanceof EditPart) || !(((EditPart) list.get(0)).getModel() instanceof EObject))
             return;
 
         child = (EObject) ((EditPart) list.get(0)).getModel();
         if (!(child instanceof ScenarioStartPoint || child instanceof ScenarioEndPoint || child instanceof Condition || child instanceof ScenarioGroup
-                || child instanceof ScenarioDef || child instanceof EvaluationStrategy || child instanceof StrategiesGroup))
+                || child instanceof ScenarioDef || child instanceof EvaluationStrategy || child instanceof StrategiesGroup
+                || child instanceof ContributionContext || child instanceof ContributionContextGroup))
             child = null;
 
         if (child != null) {
@@ -108,10 +115,24 @@ public class DuplicateAction extends IncludeScenarioAction {
             } else if (child instanceof StrategiesGroup) {
                 this.group2 = (StrategiesGroup) child;
                 this.child = null;
+            } else if (child instanceof ContributionContext) {
+                this.context = (ContributionContext) child;
+                this.child = null;
+            } else if (child instanceof ContributionContextGroup) {
+                this.group3 = (ContributionContextGroup) child;
+                this.child = null;
+
             } else {
                 EditPart part = (EditPart) list.get(0);
-                if (part.getParent() != null && part.getParent().getParent() != null && part.getParent().getParent().getModel() instanceof ScenarioDef)
-                    scenario = (ScenarioDef) part.getParent().getParent().getModel();
+                if (part.getParent() != null && part.getParent().getParent() != null) {
+                    if (part.getParent().getParent().getModel() instanceof ScenarioDef) {
+                        scenario = (ScenarioDef) part.getParent().getParent().getModel();
+                    } else if (part.getParent().getParent().getModel() instanceof EvaluationStrategy) {
+                        strategy = (EvaluationStrategy) part.getParent().getParent().getModel();
+                    } else if (part.getParent().getParent().getModel() instanceof ContributionContext) {
+                        context = (ContributionContext) part.getParent().getParent().getModel();
+                    }
+                }
             }
         }
 
@@ -138,6 +159,10 @@ public class DuplicateAction extends IncludeScenarioAction {
             command = new DuplicateCommand(strategy);
         else if (group2 != null)
             command = new DuplicateCommand(group2);
+        else if (context != null)
+            command = new DuplicateCommand(context);
+        else if (group3 != null)
+            command = new DuplicateCommand(group3);
 
         if (command != null)
             cs.execute(command);

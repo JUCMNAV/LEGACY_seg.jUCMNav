@@ -172,7 +172,8 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 }
             } else if (link instanceof Contribution) {
                 Contribution contrib = (Contribution) link;
-                int quantitativeContrib = contrib.getQuantitativeContribution();
+                //int quantitativeContrib = contrib.getQuantitativeContribution();
+                int quantitativeContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
                 int srcNode = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
 
                 double resultContrib;

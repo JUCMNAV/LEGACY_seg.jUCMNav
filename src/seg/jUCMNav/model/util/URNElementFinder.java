@@ -2,10 +2,14 @@ package seg.jUCMNav.model.util;
 
 import grl.Actor;
 import grl.ActorRef;
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
+import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.StrategiesGroup;
 import grl.kpimodel.KPIInformationElement;
 
 import java.util.Collection;
@@ -79,6 +83,10 @@ public class URNElementFinder {
         if ((o = findScenario(urn, id)) != null)
             return o;
         if ((o = findScenarioGroup(urn, id)) != null)
+            return o;
+        if ((o = findStrategy(urn, id)) != null)
+            return o;
+        if ((o = findStrategyGroup(urn, id)) != null)
             return o;
         if ((o = findActor(urn, id)) != null) // faster
             return o;
@@ -331,7 +339,9 @@ public class URNElementFinder {
                 || ((grlmodelElement = (GRLmodelElement) find(urn.getGrlspec().getKpiInformationElements(), id)) != null)
                 || ((grlmodelElement = (GRLmodelElement) find(urn.getGrlspec().getKpiModelLinks(), id)) != null)
                 || ((grlmodelElement = (GRLmodelElement) find(urn.getGrlspec().getLinks(), id)) != null)
-                || ((grlmodelElement = (GRLmodelElement) find(urn.getGrlspec().getStrategies(), id)) != null)) {
+                || ((grlmodelElement = (GRLmodelElement) find(urn.getGrlspec().getStrategies(), id)) != null)
+                || ((grlmodelElement = (GRLmodelElement) find(urn.getGrlspec().getContributionContexts(), id)) != null)
+                || ((grlmodelElement = (GRLmodelElement) find(urn.getGrlspec().getContributionGroups(), id)) != null)) {
             return grlmodelElement;
         } else {
             return null;
@@ -489,7 +499,63 @@ public class URNElementFinder {
     public static ScenarioGroup findScenarioGroup(URNspec urn, String id) {
         return (ScenarioGroup) find(urn.getUcmspec().getScenarioGroups(), id);
     }
+    
 
+    /**
+     * Given a URN spec, find the EvaluationStrategy having the passed id or return null.
+     * 
+     * @param urn
+     * @param id
+     * @return matching strategy
+     */
+    public static EvaluationStrategy findStrategy(URNspec urn, String id) {
+        Vector v = new Vector();
+        for (Iterator iter = urn.getGrlspec().getGroups().iterator(); iter.hasNext();) {
+            StrategiesGroup group = (StrategiesGroup) iter.next();
+            v.addAll(group.getStrategies());
+        }
+        return (EvaluationStrategy) find(v, id);
+    }
+    
+
+    /**
+     * Given a URN spec, find the ContributionContext group having the passed id or return null.
+     * 
+     * @param urn
+     * @param id
+     * @return matching ContributionContext group
+     */
+    public static ContributionContextGroup findContributionContextGroup(URNspec urn, String id) {
+        return (ContributionContextGroup) find(urn.getGrlspec().getGroups(), id);
+    }
+
+    /**
+     * Given a URN spec, find the ContributionContext having the passed id or return null.
+     * 
+     * @param urn
+     * @param id
+     * @return matching ContributionContext
+     */
+    public static ContributionContext findContributionContext(URNspec urn, String id) {
+        Vector v = new Vector();
+        for (Iterator iter = urn.getGrlspec().getContributionGroups().iterator(); iter.hasNext();) {
+            ContributionContextGroup group = (ContributionContextGroup) iter.next();
+            v.addAll(group.getContribs());
+        }
+        return (ContributionContext) find(v, id);
+    }
+    
+
+    /**
+     * Given a URN spec, find the strategy group having the passed id or return null.
+     * 
+     * @param urn
+     * @param id
+     * @return matching strategy group
+     */
+    public static StrategiesGroup findStrategyGroup(URNspec urn, String id) {
+        return (StrategiesGroup) find(urn.getGrlspec().getGroups(), id);
+    }
     /**
      * Given a URN spec, find the variable having the passed id or return null.
      * 

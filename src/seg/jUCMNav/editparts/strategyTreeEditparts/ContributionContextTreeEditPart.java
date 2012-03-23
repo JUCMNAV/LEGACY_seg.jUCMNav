@@ -1,7 +1,7 @@
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
-import grl.EvaluationStrategy;
-import grl.StrategiesGroup;
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +17,20 @@ import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
 /**
- * TreeEditPart for Strategy in the strategies view
+ * TreeEditPart for Contribution Context in the strategies view
  * 
- * @author Jean-François Roy
+ * @author jkealey
  * 
  */
-public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEditPart {
+public class ContributionContextTreeEditPart extends StrategyUrnModelElementTreeEditPart {
+
+    public static final String INCLUDED_CONTRIBUTION_CONTEXTS = "Included Contribution Contexts";
+    public static final String CONTRIBUTION_CHANGES = "Contribution Changes";
 
     /**
      * @param model
      */
-    public EvaluationStategyTreeEditPart(EvaluationStrategy model) {
+    public ContributionContextTreeEditPart(ContributionContext model) {
         super(model);
     }
 
@@ -42,12 +45,12 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
      * 
      * @return the evaluation strategy
      */
-    public EvaluationStrategy getEvaluationStrategy() {
-        return (EvaluationStrategy) getModel();
+    public ContributionContext getContributionContext() {
+        return (ContributionContext) getModel();
     }
 
     /**
-     * @return the icon for an evaluation strategy.
+     * @return the icon for an contribution context
      */
     protected Image getImage() {
         if (super.getImage() == null) {
@@ -59,7 +62,8 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
   
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        list.add("Included Strategies");
+        list.add(CONTRIBUTION_CHANGES);
+        list.add(INCLUDED_CONTRIBUTION_CONTEXTS);
         return list;
     }
 
@@ -79,18 +83,18 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
     }
     
     /**
-     * Is this scenario inherited from another scenario? This depends on the edit part and not the model instance; the model instance is not duplicated, the
+     * Is this context  inherited from another context? This depends on the edit part and not the model instance; the model instance is not duplicated, the
      * edit part is.
      * 
      * @return Is this scenario inherited from another scenario?
      */
     public boolean isInherited() {
-        if (getParent()==null || getParent().getModel() instanceof StrategiesGroup)
+        if (getParent()==null || getParent().getModel() instanceof ContributionContextGroup)
             return false;
         else
         {
-            EvaluationStrategy def = ((EvaluationStrategy) getParent().getParent().getModel());
-            Vector indexes = EvaluationStrategyManager.getIndexesOfPrimaryDefinedIncludedStrategies(def);
+            ContributionContext def = ((ContributionContext) getParent().getParent().getModel());
+            Vector indexes = EvaluationStrategyManager.getIndexesOfPrimaryDefinedIncludedContributionContexts(def);
             int index = getParent().getChildren().indexOf(this);
             
             boolean isInherited = true;
@@ -99,12 +103,12 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
                 if (((Integer)indexes.get(i)).intValue() == index)
                     isInherited = false;
             }
-            
             // this is a hack because we don't seem to be listening to the selection anymore
             // is only needed when we delete a scenario which is included elsewhere, then undo that deletion. 
             checkForegroundColor(isInherited);
             
             return isInherited;
+            
         }
     }
     

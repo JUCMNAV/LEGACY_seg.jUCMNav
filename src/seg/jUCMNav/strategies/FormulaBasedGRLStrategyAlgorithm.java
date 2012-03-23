@@ -174,7 +174,8 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 }
             } else if (link instanceof Contribution && null == mathEvaluator) {
                 Contribution contrib = (Contribution) link;
-                int quantitativeContrib = contrib.getQuantitativeContribution();
+                //int quantitativeContrib = contrib.getQuantitativeContribution();
+                int quantitativeContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
                 int srcNode = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
 
                 double resultContrib;
@@ -187,7 +188,8 @@ public class FormulaBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 }
             } else if (link instanceof Contribution && null != mathEvaluator) {
                 Contribution contrib = (Contribution) link;
-                int quantitativeContrib = contrib.getQuantitativeContribution();
+                //int quantitativeContrib = contrib.getQuantitativeContribution();
+                int quantitativeContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
                 double srcNodeEvaluationValue = ((Evaluation) evaluations.get(link.getSrc())).getKpiEvalValueSet().getEvaluationValue();
                 // TODO: it might be better if we change this to use the name of the source node as opposed to link
                 // TODO: I have noticed if the name of the link does not match the variables used in the formula it can cause errors.

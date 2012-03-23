@@ -3,10 +3,15 @@ package seg.jUCMNav.model.commands.cutcopypaste;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
+import grl.Evaluation;
+import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.StrategiesGroup;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIInformationElementRef;
 
@@ -30,14 +35,17 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerR
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddCommentCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
+import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
 import seg.jUCMNav.model.commands.create.CreateContainerCommand;
 import seg.jUCMNav.model.commands.create.CreateEnumerationTypeCommand;
 import seg.jUCMNav.model.commands.create.CreateResponsibilityCommand;
 import seg.jUCMNav.model.commands.create.CreateVariableCommand;
 import seg.jUCMNav.model.commands.create.CreateVariableInitializationCommand;
 import seg.jUCMNav.model.commands.create.DuplicateCommand;
+import seg.jUCMNav.model.commands.create.IncludeContributionContextCommand;
 import seg.jUCMNav.model.commands.create.IncludePathNodeInScenarioCommand;
 import seg.jUCMNav.model.commands.create.IncludeScenarioCommand;
+import seg.jUCMNav.model.commands.create.IncludeStrategyCommand;
 import seg.jUCMNav.model.commands.transformations.CopyStubPluginUtils;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.DuplicateMapCommand;
@@ -243,6 +251,42 @@ public class PasteCommand extends CompoundCommand {
                         buildScenarioGroup(oldScenarioGroup);
                     }
                 }
+
+                list = getStrategyList(-1);
+                for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+                    EObject obj = (EObject) iterator.next();
+                    if (obj instanceof EvaluationStrategy && insertionPoint instanceof StrategiesGroup) {
+                        EvaluationStrategy old = (EvaluationStrategy) obj;
+                        buildStrategy(old, (StrategiesGroup) insertionPoint);
+                    }
+                }
+
+                list = getStrategyGroupList(-1);
+                for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+                    EObject obj = (EObject) iterator.next();
+                    if (obj instanceof StrategiesGroup) {
+                        StrategiesGroup old = (StrategiesGroup) obj;
+                        buildStrategyGroup(old);
+                    }
+                }
+                
+                list = getContributionContextList(-1);
+                for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+                    EObject obj = (EObject) iterator.next();
+                    if (obj instanceof ContributionContext && insertionPoint instanceof ContributionContextGroup) {
+                        ContributionContext old = (ContributionContext) obj;
+                        buildContributionContext(old, (ContributionContextGroup) insertionPoint);
+                    }
+                }
+
+                list = getContributionContextGroupList(-1);
+                for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+                    EObject obj = (EObject) iterator.next();
+                    if (obj instanceof ContributionContextGroup) {
+                        ContributionContextGroup old = (ContributionContextGroup) obj;
+                        buildContributionContextGroup(old);
+                    }
+                }                
             }
         }
 
@@ -303,11 +347,10 @@ public class PasteCommand extends CompoundCommand {
         add(cmd);
 
         HashMap duplicatedNodes = cmd.getDuplicatedNodes();
-        if (duplicatedNodes!=null) {
+        if (duplicatedNodes != null) {
             for (Iterator iterator = duplicatedNodes.values().iterator(); iterator.hasNext();) {
                 Object object = (Object) iterator.next();
-                if (object instanceof PathNode)
-                {
+                if (object instanceof PathNode) {
                     PathNode pn = (PathNode) object;
                     add(new MoveNodeCommand(pn, pn.getX(), pn.getY()));
                 }
@@ -364,9 +407,9 @@ public class PasteCommand extends CompoundCommand {
             for (Iterator iterator = compRefList.iterator(); iterator.hasNext();) {
                 IURNContainerRef newCompRef = (IURNContainerRef) iterator.next();
                 add(new AddContainerRefCommand(targetDiagram, newCompRef));
-                add(new SetConstraintBoundContainerRefCompoundCommand(newCompRef, newCompRef.getX(), newCompRef.getY(), newCompRef.getWidth(), newCompRef
-                        .getHeight()));
-                
+                add(new SetConstraintBoundContainerRefCompoundCommand(newCompRef, newCompRef.getX(), newCompRef.getY(), newCompRef.getWidth(),
+                        newCompRef.getHeight()));
+
                 add(new ContainerRefBindChildCommand(newCompRef));
             }
         }
@@ -398,8 +441,7 @@ public class PasteCommand extends CompoundCommand {
         } else if (insertionPoint instanceof DirectionArrow) {
             cmd = new DividePathCommand(newPathNode, (DirectionArrow) insertionPoint);
             cmd.chain(new MoveNodeCommand(newPathNode, ((PathNode) insertionPoint).getX(), ((PathNode) insertionPoint).getY()));
-        }
-        else if (insertionPoint instanceof NodeConnection) {
+        } else if (insertionPoint instanceof NodeConnection) {
             cmd = new DividePathCommand(newPathNode, (NodeConnection) insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y);
             cmd.chain(new MoveNodeCommand(newPathNode, nodeConnectionMiddle.x, nodeConnectionMiddle.y));
         }
@@ -421,13 +463,11 @@ public class PasteCommand extends CompoundCommand {
         if (insertionPoint instanceof PathNode) {
             cmd = new ReplaceEmptyPointCommand((PathNode) insertionPoint, newPathNode, cond);
             cmd.chain(new MoveNodeCommand(newPathNode, ((PathNode) insertionPoint).getX(), ((PathNode) insertionPoint).getY()));
-        }
-        else if (insertionPoint instanceof NodeConnection) {
+        } else if (insertionPoint instanceof NodeConnection) {
             cmd = new SplitLinkCommand(targetMap, newPathNode, (NodeConnection) insertionPoint, nodeConnectionMiddle.x, nodeConnectionMiddle.y, cond);
             cmd.chain(new MoveNodeCommand(newPathNode, nodeConnectionMiddle.x, nodeConnectionMiddle.y));
         }
 
-        
         if (cmd != null)
             add(cmd);
     }
@@ -490,6 +530,63 @@ public class PasteCommand extends CompoundCommand {
         }
     }
 
+    private void buildStrategy(EvaluationStrategy old, StrategiesGroup targetGroup) {
+        if (targetGroup != null) {
+            // create a shallow copy to break references to stuff we don't know exists.
+            EvaluationStrategy newStrategy = (EvaluationStrategy) EcoreUtil.copy(old);
+            resetCloneId(newStrategy);
+            newStrategy.getKpiInfoConfig().clear();
+            newStrategy.getEvaluations().clear();
+
+            DuplicateCommand duplicateCommand = new DuplicateCommand(newStrategy, targetGroup, targetUrn);
+            add(duplicateCommand);
+
+            EvaluationStrategy duplicate = (EvaluationStrategy) duplicateCommand.getDuplicate();
+            for (int i = 0; i < old.getEvaluations().size(); i++) {
+                Evaluation oldEval = (Evaluation) old.getEvaluations().get(i);
+                GRLmodelElement elem = (GRLmodelElement) URNElementFinder.findGRLmodelElement(targetUrn, oldEval.getIntElement().getId());
+                if (elem != null && elem instanceof IntentionalElement) {
+                    Evaluation eval = (Evaluation) ModelCreationFactory.getNewObject(targetUrn, Evaluation.class);
+                    add(new AddEvaluationCommand(eval, (IntentionalElement) elem, duplicate));
+                }
+            }
+            for (int i = 0; i < old.getIncludedStrategies().size(); i++) {
+                EvaluationStrategy oldChild = (EvaluationStrategy) old.getIncludedStrategies().get(i);
+                EvaluationStrategy newChild = URNElementFinder.findStrategy(targetUrn, oldChild.getId());
+                if (newChild != null) {
+                    IncludeStrategyCommand inc = new IncludeStrategyCommand(duplicate, newChild, true);
+                    add(inc);
+                }
+            }
+        }
+    }
+    
+    private void buildContributionContext(ContributionContext old, ContributionContextGroup targetGroup) {
+        if (targetGroup != null) {
+            // create a shallow copy to break references to stuff we don't know exists.
+            ContributionContext newContext = (ContributionContext) EcoreUtil.copy(old);
+            resetCloneId(newContext);
+            newContext.getIncludedContexts().clear();
+            newContext.getChanges().clear();
+
+            DuplicateCommand duplicateCommand = new DuplicateCommand(newContext, targetGroup, targetUrn);
+            add(duplicateCommand);
+
+            ContributionContext duplicate = (ContributionContext) duplicateCommand.getDuplicate();
+            for (int i = 0; i < old.getChanges().size(); i++) {
+                // TODO: implement
+            }
+            for (int i = 0; i < old.getIncludedContexts().size(); i++) {
+                ContributionContext oldChild = (ContributionContext) old.getIncludedContexts().get(i);
+                ContributionContext newChild = URNElementFinder.findContributionContext(targetUrn, oldChild.getId());
+                if (newChild != null) {
+                    IncludeContributionContextCommand inc = new IncludeContributionContextCommand(duplicate, newChild, true);
+                    add(inc);
+                }
+            }
+        }
+    }
+
     private void buildScenarioGroup(ScenarioGroup oldScenarioGroup) {
         if (insertionPoint instanceof URNspec) {
             ScenarioGroup newScenarioGroup = (ScenarioGroup) EcoreUtil.copy(oldScenarioGroup);
@@ -504,6 +601,43 @@ public class PasteCommand extends CompoundCommand {
             for (Iterator iterator = oldScenarioGroup.getScenarios().iterator(); iterator.hasNext();) {
                 ScenarioDef oldScenario = (ScenarioDef) iterator.next();
                 buildScenario(oldScenario, duplicate);
+            }
+        }
+    }
+
+    private void buildStrategyGroup(StrategiesGroup oldGroup) {
+        if (insertionPoint instanceof URNspec) {
+            StrategiesGroup newGroup = (StrategiesGroup) EcoreUtil.copy(oldGroup);
+            resetCloneId(newGroup);
+
+            newGroup.getStrategies().clear();
+            DuplicateCommand duplicateCommand = new DuplicateCommand(newGroup, targetUrn);
+            add(duplicateCommand);
+
+            StrategiesGroup duplicate = (StrategiesGroup) duplicateCommand.getDuplicate();
+
+            for (Iterator iterator = oldGroup.getStrategies().iterator(); iterator.hasNext();) {
+                EvaluationStrategy oldStrategy = (EvaluationStrategy) iterator.next();
+                buildStrategy(oldStrategy, duplicate);
+            }
+        }
+    }
+    
+
+    private void buildContributionContextGroup(ContributionContextGroup oldGroup) {
+        if (insertionPoint instanceof URNspec) {
+            ContributionContextGroup newGroup = (ContributionContextGroup) EcoreUtil.copy(oldGroup);
+            resetCloneId(newGroup);
+
+            newGroup.getContribs().clear();
+            DuplicateCommand duplicateCommand = new DuplicateCommand(newGroup, targetUrn);
+            add(duplicateCommand);
+
+            ContributionContextGroup duplicate = (ContributionContextGroup) duplicateCommand.getDuplicate();
+
+            for (Iterator iterator = oldGroup.getContribs().iterator(); iterator.hasNext();) {
+                ContributionContext oldContext = (ContributionContext) iterator.next();
+                buildContributionContext(oldContext, duplicate);
             }
         }
     }
@@ -538,7 +672,23 @@ public class PasteCommand extends CompoundCommand {
             if (found)
                 return true;
 
+            found = insertionPoint instanceof StrategiesGroup && getFirstStrategy() != null;
+            if (found)
+                return true;
+            
+            found = insertionPoint instanceof ContributionContextGroup && getFirstContributionContext() != null;
+            if (found)
+                return true;
+
             found = insertionPoint instanceof URNspec && getFirstScenarioGroup() != null;
+            if (found)
+                return true;
+
+            found = insertionPoint instanceof URNspec && getFirstStrategyGroup() != null;
+            if (found)
+                return true;
+            
+            found = insertionPoint instanceof URNspec && getFirstContributionContextGroup() != null;
             if (found)
                 return true;
 
@@ -547,8 +697,6 @@ public class PasteCommand extends CompoundCommand {
         } else
             return false;
     }
-
-    
 
     public void execute() {
         build();
@@ -888,6 +1036,39 @@ public class PasteCommand extends CompoundCommand {
             return (EObject) v.get(0);
     }
 
+    protected EObject getFirstStrategy() {
+        Vector v = getStrategyList(1);
+        if (v == null || v.size() == 0)
+            return null;
+        else
+            return (EObject) v.get(0);
+    }
+
+    protected EObject getFirstStrategyGroup() {
+        Vector v = getStrategyGroupList(1);
+        if (v == null || v.size() == 0)
+            return null;
+        else
+            return (EObject) v.get(0);
+    }
+
+    protected EObject getFirstContributionContext() {
+        Vector v = getContributionContextList(1);
+        if (v == null || v.size() == 0)
+            return null;
+        else
+            return (EObject) v.get(0);
+    }
+
+    protected EObject getFirstContributionContextGroup() {
+        Vector v = getContributionContextGroupList(1);
+        if (v == null || v.size() == 0)
+            return null;
+        else
+            return (EObject) v.get(0);
+    }
+
+    
     protected PathNode getFirstPathExtremity() {
         if (sourceIds != null && sourceUrn != null && targetUrn != null) {
             for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
@@ -994,6 +1175,93 @@ public class PasteCommand extends CompoundCommand {
         }
         return null;
     }
+
+    protected Vector getStrategyList(int maxCount) {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            Vector results = new Vector();
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                // search for the old id in the old model.
+                Object obj = URNElementFinder.find(sourceUrn, id);
+
+                if (obj instanceof EvaluationStrategy) {
+                    results.add(obj);
+                } else if (obj instanceof StrategiesGroup) {
+                    for (int i = 0; i < ((StrategiesGroup) obj).getStrategies().size(); i++)
+                        results.add(((StrategiesGroup) obj).getStrategies().get(i));
+                }
+                if (results.size() >= maxCount && maxCount > 0)
+                    break;
+            }
+            return results;
+        }
+        return null;
+    }
+
+    protected Vector getStrategyGroupList(int maxCount) {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            Vector results = new Vector();
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                // search for the old id in the old model.
+                Object obj = URNElementFinder.find(sourceUrn, id);
+
+                if (obj instanceof StrategiesGroup) {
+                    results.add(obj);
+                }
+                if (results.size() >= maxCount && maxCount > 0)
+                    break;
+            }
+            return results;
+        }
+        return null;
+    }
+    
+    protected Vector getContributionContextList(int maxCount) {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            Vector results = new Vector();
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                // search for the old id in the old model.
+                Object obj = URNElementFinder.find(sourceUrn, id);
+
+                if (obj instanceof ContributionContext) {
+                    results.add(obj);
+                } else if (obj instanceof ContributionContextGroup) {
+                    for (int i = 0; i < ((ContributionContextGroup) obj).getContribs().size(); i++)
+                        results.add(((ContributionContextGroup) obj).getContribs().get(i));
+                }
+                if (results.size() >= maxCount && maxCount > 0)
+                    break;
+            }
+            return results;
+        }
+        return null;
+    }
+
+    protected Vector getContributionContextGroupList(int maxCount) {
+        if (sourceIds != null && sourceUrn != null && targetUrn != null) {
+            Vector results = new Vector();
+            for (Iterator iterator = sourceIds.iterator(); iterator.hasNext();) {
+                String id = iterator.next().toString();
+
+                // search for the old id in the old model.
+                Object obj = URNElementFinder.find(sourceUrn, id);
+
+                if (obj instanceof ContributionContextGroup) {
+                    results.add(obj);
+                }
+                if (results.size() >= maxCount && maxCount > 0)
+                    break;
+            }
+            return results;
+        }
+        return null;
+    }
+
 
     protected boolean IsPastablePathNode(Object obj) {
         return obj instanceof PathNode && !(obj instanceof EndPoint) && !(obj instanceof StartPoint) && !(obj instanceof Connect);

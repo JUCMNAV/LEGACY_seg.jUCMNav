@@ -1,6 +1,11 @@
 package seg.jUCMNav.strategies;
 
 import grl.Actor;
+import grl.Contribution;
+import grl.ContributionChange;
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
+import grl.ContributionType;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
@@ -79,6 +84,7 @@ public class EvaluationStrategyManager {
     private HashMap<Actor, Integer> currentActorEvaluations = new HashMap<Actor, Integer>(); // HashMap to store current Actor evaluations
     private HashMap<Actor, Integer> comparisonActorEvaluations = null; // HashMap to store Actor evaluations  for the first strategy in difference mode
     private EvaluationStrategy strategy, strategy1 = null, strategy2 = null; // strategy1, strategy2 used in difference mode
+    private ContributionContext contributionContext = null;
     private IGRLStrategyAlgorithm algo;
     private HashMap kpiInformationConfigs = new HashMap();
     
@@ -498,6 +504,15 @@ public class EvaluationStrategyManager {
                 ((KPIRootEditPart) ep).refreshIndicatorTreeEditPart(ep);
             }
         }
+    }
+    
+    public synchronized ContributionContext getContributionContext() {
+        return contributionContext;
+   }
+    
+    public synchronized void setContributionContext(ContributionContext context) {
+        this.contributionContext = context;
+        setStrategy(strategy);
     }
 
     /**
@@ -1043,6 +1058,135 @@ public class EvaluationStrategyManager {
     }
     
     /**
+     * Returns all contribution contexts that we may include into the given parent. Will not cause any circular references.
+     * 
+     * @param parent
+     *            the parent strategy
+     * @return the list of possible children.
+     */
+    public static List getPossibleIncludedContributionContexts(ContributionContext parent) {
+        List list = getPossibleIncludedContributionContextsNonRecursive(parent);
+
+        ArrayList toRemove = new ArrayList();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+            ContributionContext child = (ContributionContext) iter.next();
+            if (!getPossibleIncludedContributionContextsNonRecursive(child).contains(parent))
+                toRemove.add(child);
+        }
+        for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+            ContributionContext element = (ContributionContext) iter.next();
+            if (list.contains(element))
+                list.remove(element);
+        }
+        return list;
+    }
+
+    /**
+     * Gets the list of contribution context that it would be possible to include, without recursing. Used in a context where recursion would cause an infinite loop.
+     * 
+     * @param parent
+     *            the strategy
+     * @return the list of possible {@link EvaluationStrategy}
+     */
+    private static List getPossibleIncludedContributionContextsNonRecursive(ContributionContext parent) {
+        if (parent.getGroups().size() == 0 || parent.getGrlspec() == null)
+            return new ArrayList();
+        URNspec urn = ((ContributionContextGroup)parent.getGroups().get(0)).getGrlspec().getUrnspec();
+        List list = getAllContributionContexts(urn);
+
+        removeIncludedContributionContexts(list, parent);
+        return list;
+    }
+
+
+    /**
+     * Returns a list of all ContributionContexts in all groups.
+     * 
+     * @param urn
+     *            the root urnspec
+     * @return the list of contribution contexts
+     */
+    public static List getAllContributionContexts(URNspec urn) {
+        ArrayList list = new ArrayList();
+        for (Iterator iter = urn.getGrlspec().getContributionGroups().iterator(); iter.hasNext();) {
+            ContributionContextGroup group = (ContributionContextGroup) iter.next();
+
+            for (Iterator iterator = group.getContribs().iterator(); iterator.hasNext();) {
+                ContributionContext contrib = (ContributionContext) iterator.next();
+                list.add(contrib);
+            }
+        }
+        return list;
+    }
+    
+    /**
+     * Recursively removes all the included contribution contexts from the given list.
+     * 
+     * @param list
+     *            list of ContributionContext
+     * @param parent
+     *            the root ContributionContext from which we remove the children. we also remove the parent from the list.
+     */
+    private static void removeIncludedContributionContexts(List list, ContributionContext parent) {
+        for (Iterator iter = parent.getIncludedContexts().iterator(); iter.hasNext();) {
+            ContributionContext child = (ContributionContext) iter.next();
+            removeIncludedContributionContexts(list, child);
+        }
+
+        if (list.contains(parent))
+            list.remove(parent);
+    }
+    
+    /**
+     * Get all the included contribution contexts (recursively)that are related to this contribution context
+     * 
+     * @param def
+     *            the strategy
+     * @return the list of {@link ContributionContext}
+     */
+    public static Vector getDefinedIncludedContributionContexts(ContributionContext def) {
+        Vector contexts = new Vector();
+        getDefinedIncludedContributionContexts(def, contexts);
+        return contexts;
+    }
+    
+
+    /**
+     * Get all the included contribution contexts (recursively)that are related to this strategy
+     * 
+     * @param def
+     *            the contribution context
+     * @param contribs
+     *            where to insert the found {@link ContributionContext}s
+     */
+    private static void getDefinedIncludedContributionContexts(ContributionContext def, Vector contribs) {
+        for (Iterator iter = def.getIncludedContexts().iterator(); iter.hasNext();) {
+            ContributionContext contrib = (ContributionContext) iter.next();
+            getDefinedIncludedContributionContexts(contrib, contribs);
+            if (!contribs.contains(contrib))
+                contribs.add(contrib);
+        }
+    }
+    
+    /**
+     * For each EvaluationManager which is an explicit child of def, we return the index inside the vector returned by getDefinedIncludedContributionContexts
+     * 
+     * @param def the context
+     * @return the list of indexes in the getDefinedIncludedContributionContext list. 
+     */
+    public static Vector getIndexesOfPrimaryDefinedIncludedContributionContexts(ContributionContext def) {
+        Vector all = getDefinedIncludedContributionContexts(def);
+        Vector indexes = new Vector();
+        for (int i=0;i<def.getIncludedContexts().size();i++)
+        {
+            // add the index of the contribution context in this list. 
+            // given how we merge included contribution context (to avoid duplication), this list is non-obvious  
+            indexes.add(new Integer(all.indexOf(def.getIncludedContexts().get(i))));
+        }
+        return indexes;
+    }
+    
+    /**
      * Returns all strategies that we may include into the given parent. Will not cause any circular references.
      * 
      * @param parent
@@ -1170,5 +1314,118 @@ public class EvaluationStrategyManager {
             indexes.add(new Integer(all.indexOf(def.getIncludedStrategies().get(i))));
         }
         return indexes;
+    }    
+    
+    public ContributionChange findApplicableContributionChange(Contribution contrib, boolean recurse)
+    {
+       return findApplicableContributionChange(contributionContext, contrib, recurse);
+    }
+    public static ContributionChange findApplicableContributionChange(ContributionContext context, Contribution contrib, boolean recurse)
+    {
+        if (context == null || contrib == null)
+            return null;
+        ContributionChange result = null;
+
+        // recursively look at includes.
+        if (recurse) {
+            for (int i = 0; i < context.getIncludedContexts().size(); i++) {
+                ContributionContext include = (ContributionContext) context.getIncludedContexts().get(i);
+                ContributionChange childChange = findApplicableContributionChange(include, contrib, recurse);
+                if (childChange != null)
+                    result = childChange; // always apply last found, except if not found.
+            }
+        }
+
+        // override with local changes, if any are found.
+        for (int i = 0; i < context.getChanges().size(); i++) {
+            ContributionChange change = (ContributionChange) context.getChanges().get(i);
+            if (change.getContribution() == contrib)
+                result = change;
+        }
+        return result;
+    }
+    
+    public int getActiveQuantitativeContribution(Contribution contribution)
+    {
+        if (contribution != null) {
+            if (contributionContext != null) {
+                ContributionChange change = findApplicableContributionChange(contributionContext, contribution, true);
+                if (change != null)
+                    return change.getNewQuantitativeContribution();
+            }
+            return contribution.getQuantitativeContribution();
+        } else
+            return 0;
+        
+    }
+    public ContributionType getActiveContribution(Contribution contribution)
+    {
+        if (contribution != null) {
+            if (contributionContext != null) {
+                ContributionChange change = findApplicableContributionChange(contributionContext, contribution, true);
+                if (change != null)
+                    return change.getNewContribution();
+            }
+            return contribution.getContribution();
+        }
+        else
+            return ContributionType.UNKNOWN_LITERAL;
+            
+    }
+    public void setActiveQuantitativeContribution(ContributionContext contributionContext, Contribution contribution, int value)
+    {
+        if (contribution != null)
+        {
+            if (contributionContext != null) {
+                ContributionChange change = findApplicableContributionChange(contributionContext, contribution, false);
+                if (change != null) {
+                    change.setNewQuantitativeContribution(value);
+                    // force a refresh of the GUI even if value does not change
+                    contribution.setQuantitativeContribution(contribution.getQuantitativeContribution());
+
+                    return;
+                }
+                else if (contribution.getGrlspec()!=null)
+                {
+                    ContributionChange newChange = (ContributionChange)ModelCreationFactory.getNewObject(contribution.getGrlspec().getUrnspec(), ContributionChange.class);
+                    newChange.setNewQuantitativeContribution(value); // other field will be set separately by existing code. 
+                    newChange.setContribution(contribution);
+                    newChange.setContext(contributionContext);
+                    
+                    // force a refresh of the GUI even if value does not change
+                    contribution.setQuantitativeContribution(contribution.getQuantitativeContribution());
+                    return;
+                }
+            }
+            contribution.setQuantitativeContribution(value);
+        }
+    }
+    public void setActiveContribution(ContributionContext contributionContext, Contribution contribution, ContributionType type)
+    {
+        if (contribution != null)
+        {
+            if (contributionContext != null) {
+                ContributionChange change = findApplicableContributionChange(contributionContext, contribution, false);
+                if (change != null) {
+                    change.setNewContribution(type);
+                    // force a refresh of the GUI even if value does not change
+                    contribution.setContribution(contribution.getContribution());
+
+                    return;
+                } else if (contribution.getGrlspec() != null) {
+                    ContributionChange newChange = (ContributionChange) ModelCreationFactory.getNewObject(contribution.getGrlspec().getUrnspec(),
+                            ContributionChange.class);
+                    newChange.setNewContribution(type); // other field will be set separately by existing code.
+                    newChange.setContext(contributionContext);
+                    newChange.setContribution(contribution);
+
+                    
+                    // force a refresh of the GUI even if value does not change
+                    contribution.setContribution(contribution.getContribution());
+                    return;
+                }
+            }            
+            contribution.setContribution(type);
+        }
     }
 }

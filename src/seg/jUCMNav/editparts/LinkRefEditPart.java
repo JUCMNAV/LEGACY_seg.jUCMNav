@@ -1,6 +1,7 @@
 package seg.jUCMNav.editparts;
 
 import grl.Contribution;
+import grl.ContributionChange;
 import grl.Decomposition;
 import grl.DecompositionType;
 import grl.Dependency;
@@ -329,17 +330,25 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
             }
 
             // Set the contribution Label
-            String type = contrib.getContribution().getName();
+            //String type = contrib.getContribution().getName();
+            String type = EvaluationStrategyManager.getInstance().getActiveContribution(contrib).getName();
             if (!type.equals("Unknown")) { //$NON-NLS-1$
 
                 if (GeneralPreferencePage.getGrlTextVisible()) {
                     if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
-                        int val = contrib.getQuantitativeContribution();
+                        //int val = contrib.getQuantitativeContribution();
+                        int val = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
                         val = StrategyEvaluationPreferences.getValueToVisualize(val);
                         contributionLabel.setText("" + val); //$NON-NLS-1$
                     } else {
                         contributionLabel.setText(type);
                     }
+
+                    ContributionChange change = EvaluationStrategyManager.getInstance().findApplicableContributionChange(contrib, true);
+                    if (change != null && change.getContext() == EvaluationStrategyManager.getInstance().getContributionContext())
+                        contributionLabel.setText(contributionLabel.getText() + "**"); // two stars to mean locally changed.
+                    else if (change != null)
+                        contributionLabel.setText(contributionLabel.getText() + "*"); // star to mean inherited change.
                 } else {
                     contributionLabel.setText(""); //$NON-NLS-1$
                 }

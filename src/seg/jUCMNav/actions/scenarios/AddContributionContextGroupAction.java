@@ -3,7 +3,7 @@
  */
 package seg.jUCMNav.actions.scenarios;
 
-import grl.StrategiesGroup;
+import grl.ContributionContextGroup;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -12,27 +12,28 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
-import seg.jUCMNav.editparts.strategyTreeEditparts.GRLspecStrategyTreeEditPart;
+import seg.jUCMNav.editparts.strategyTreeEditparts.ContributionContextGroupListTreeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.CreateContributionContextGroupCommand;
 import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
 
 /**
- * Creates a new strategies group.
+ * Creates a new contribution context group.
  * 
- * @author Jean-François Roy
+ * @author jkealey
  * 
  */
-public class AddStrategiesGroupAction extends URNSelectionAction {
+public class AddContributionContextGroupAction extends URNSelectionAction {
 
-    public static final String ADDSTRATEGIESGROUP = "Add Strategies Group"; //$NON-NLS-1$
+    public static final String ADDCONTRIBUTIONCONTEXTGROUP = "Add Contribution Context Group"; //$NON-NLS-1$
 
     /**
      * @param part
      */
-    public AddStrategiesGroupAction(IWorkbenchPart part) {
+    public AddContributionContextGroupAction(IWorkbenchPart part) {
         super(part);
 
-        setId(ADDSTRATEGIESGROUP);
+        setId(ADDCONTRIBUTIONCONTEXTGROUP);
         setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/folder16.gif")); //$NON-NLS-1$
     }
 
@@ -41,7 +42,7 @@ public class AddStrategiesGroupAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && sel.getGRLspec() != null && (getSelectedObjects().size()>0 && getSelectedObjects().get(0) instanceof GRLspecStrategyTreeEditPart);
+        return sel.getUrnspec() != null && sel.getGRLspec() != null && (getSelectedObjects().size()>0 && getSelectedObjects().get(0) instanceof ContributionContextGroupListTreeEditPart);
     }
 
     /**
@@ -49,8 +50,8 @@ public class AddStrategiesGroupAction extends URNSelectionAction {
      */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        StrategiesGroup group = (StrategiesGroup) ModelCreationFactory.getNewObject(sel.getUrnspec(), StrategiesGroup.class);
-        CreateStrategiesGroupCommand create = new CreateStrategiesGroupCommand(sel.getUrnspec(), group);
+        ContributionContextGroup group = (ContributionContextGroup) ModelCreationFactory.getNewObject(sel.getUrnspec(), ContributionContextGroup.class);
+        CreateContributionContextGroupCommand create = new CreateContributionContextGroupCommand(sel.getUrnspec(), group);
 
         return create;
     }

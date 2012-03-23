@@ -23,10 +23,10 @@ import ucm.scenario.ScenarioStartPoint;
  * 
  * @author jkealey
  */
-public class MoveAction extends URNSelectionAction {
+public class MoveScenarioAction extends URNSelectionAction {
 
-    public static final String MOVEUPACTION = "seg.jUCMNav.MOVEUPACTION"; //$NON-NLS-1$
-    public static final String MOVEDOWNACTION = "seg.jUCMNav.MOVEDOWNACTION"; //$NON-NLS-1$
+    public static final String MOVEUPACTION = "seg.jUCMNav.MOVEUPACTION_SCENARIOS"; //$NON-NLS-1$
+    public static final String MOVEDOWNACTION = "seg.jUCMNav.MOVEDOWNACTION_SCENARIOS"; //$NON-NLS-1$
 
     protected ScenarioDef scenario;
     protected EObject obj;
@@ -38,7 +38,7 @@ public class MoveAction extends URNSelectionAction {
      * @param isMoveUp
      *            if true, is the move up action, otherwise the move down aciton.
      */
-    public MoveAction(IWorkbenchPart part, boolean isMoveUp) {
+    public MoveScenarioAction(IWorkbenchPart part, boolean isMoveUp) {
         super(part);
         this.isMoveUp = isMoveUp;
 

@@ -14,6 +14,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeQualitativeContributionCommand;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
 /**
  * 
@@ -75,7 +76,8 @@ public class SetQualitativeContributionAction extends URNSelectionAction {
             if (id < ChangeQualitativeContributionCommand.INCREASE) // operation is not increase or decrease, skip further tests
                 continue;
 
-            ContributionType oldQContrib = ((Contribution) lr.getLink()).getContribution();
+            //ContributionType oldQContrib = ((Contribution) lr.getLink()).getContribution();
+            ContributionType oldQContrib = EvaluationStrategyManager.getInstance().getActiveContribution((Contribution)lr.getLink());
 
             if (id == ChangeQualitativeContributionCommand.INCREASE) { // increase operation, verify if possible
                 if (oldQContrib == ContributionType.MAKE_LITERAL)

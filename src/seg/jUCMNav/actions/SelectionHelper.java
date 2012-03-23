@@ -4,6 +4,9 @@ import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
 import grl.Contribution;
+import grl.ContributionChange;
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 import grl.Decomposition;
 import grl.Dependency;
 import grl.ElementLink;
@@ -149,6 +152,9 @@ public class SelectionHelper {
     public static final int CONTRIBUTION = 215;
     public static final int DECOMPOSITION = 216;
     public static final int DEPENDENCY = 217;
+    public static final int CONTRIBUTIONCONTEXTGROUP = 218;
+    public static final int CONTRIBUTIONCONTEXT = 219;
+    public static final int CONTRIBUTIONCHANGE= 220; 
 
     // Concerns
     public static final int CONCERN = 300;
@@ -206,6 +212,9 @@ public class SelectionHelper {
     private Contribution contribution;
     private Decomposition decomposition;
     private Dependency dependency;
+    private ContributionContextGroup contributionContextGroup;
+    private ContributionContext contributionContext;
+    private ContributionChange contributionChange;
 
     // internal variables for Concern and others
     private Concern concern;
@@ -366,6 +375,31 @@ public class SelectionHelper {
                 indicatorGroup = (IndicatorGroup) model;
                 grlspec = indicatorGroup.getGrlspec();
                 urnspec = indicatorGroup.getGrlspec().getUrnspec();
+            } else if (model instanceof ContributionContextGroup) {
+                contributionContextGroup = (ContributionContextGroup) model;
+                grlspec = contributionContextGroup.getGrlspec();
+                urnspec = grlspec.getUrnspec();
+            } else if (model instanceof ContributionContext) {
+                contributionContext = (ContributionContext) model;
+                if (contributionContext.getGroups().size()>0) {
+                    contributionContextGroup = (ContributionContextGroup) contributionContext.getGroups().get(0); // TODO: only one?
+                    if (contributionContextGroup!=null) {
+                        grlspec = contributionContextGroup.getGrlspec();
+                        urnspec = grlspec.getUrnspec();
+                    }
+                }
+            } else if (model instanceof ContributionChange) {
+                contributionChange = (ContributionChange) model;
+                if (contributionChange.getContext() != null) {
+                    contributionContext = contributionChange.getContext();
+                    if (contributionContext.getGroups().size() > 0) {
+                        contributionContextGroup = (ContributionContextGroup) contributionContext.getGroups().get(0); // TODO: only one?
+                        if (contributionContextGroup != null) {
+                            grlspec = contributionContextGroup.getGrlspec();
+                            urnspec = grlspec.getUrnspec();
+                        }
+                    }
+                }
             }
         }
 
@@ -666,6 +700,12 @@ public class SelectionHelper {
             selectionType = SCENARIOGROUP;
         else if (initialization != null)
             selectionType = INITIALIZATION;
+        else if (contributionChange!=null)
+            selectionType = CONTRIBUTIONCHANGE;
+        else if (contributionContext != null)
+            selectionType = CONTRIBUTIONCONTEXT;
+        else if (contributionContextGroup != null)
+            selectionType = CONTRIBUTIONCONTEXTGROUP;
         else if (grlgraph != null)
             selectionType = GRLGRAPH;
         else if (concern != null)
@@ -937,5 +977,29 @@ public class SelectionHelper {
 
     public GRLspec getGrlspec() {
         return grlspec;
+    }
+
+    public ContributionContextGroup getContributionContextGroup() {
+        return contributionContextGroup;
+    }
+
+    public void setContributionContextGroup(ContributionContextGroup contributionContextGroup) {
+        this.contributionContextGroup = contributionContextGroup;
+    }
+
+    public ContributionContext getContributionContext() {
+        return contributionContext;
+    }
+
+    public void setContributionContext(ContributionContext contributionContext) {
+        this.contributionContext = contributionContext;
+    }
+
+    public ContributionChange getContributionChange() {
+        return contributionChange;
+    }
+
+    public void setContributionChange(ContributionChange contributionChange) {
+        this.contributionChange = contributionChange;
     }
 }

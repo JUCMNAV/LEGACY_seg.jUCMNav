@@ -119,7 +119,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 addPropertyToDescriptor(descriptors, attr, def.eClass());
             }
         }
-        if (strategyView) {
+        if (strategyView && EvaluationStrategyManager.getInstance().getEvaluationStrategy()!=null) {
             // get the strategy attribute
             EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();
             it = strategy.eClass().getEAllAttributes().iterator();

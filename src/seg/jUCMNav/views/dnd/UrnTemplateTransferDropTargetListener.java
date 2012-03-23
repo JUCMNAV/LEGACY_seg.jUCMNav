@@ -2,6 +2,7 @@ package seg.jUCMNav.views.dnd;
 
 import grl.Actor;
 import grl.ActorRef;
+import grl.ContributionContext;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
@@ -122,7 +123,7 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
         }
 
         // scenario tree view is a tad different. 
-        if (template instanceof ScenarioDef || template instanceof EvaluationStrategy) {
+        if (template instanceof ScenarioDef || template instanceof EvaluationStrategy || template instanceof ContributionContext) {
             URNspec urn2 = urn;
             
             if (urn2 == null) {
@@ -137,6 +138,10 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
             
             if (template instanceof ScenarioDef) {
                 lastFactory = new ModelCreationFactory(urn2, ScenarioDef.class, template);
+            }
+            
+            if (template instanceof ContributionContext) {
+                lastFactory = new ModelCreationFactory(urn2, ContributionContext.class, template);
             }
         }
         return lastFactory;

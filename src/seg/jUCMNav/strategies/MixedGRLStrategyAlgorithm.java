@@ -156,11 +156,12 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 }
             } else if (link instanceof Contribution) {
                 Contribution contrib = (Contribution) link;
-                if (contrib.getContribution().getValue() != ContributionType.UNKNOWN) {
+                int value = EvaluationStrategyManager.getInstance().getActiveContribution(contrib).getValue();
+                if (value != ContributionType.UNKNOWN) {
                     int srcNode = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
                     if (srcNode != 0) {
                         double resultContrib;
-                        switch (contrib.getContribution().getValue()) {
+                        switch (value) {
                         case ContributionType.MAKE:
                             resultContrib = srcNode;
                             break;

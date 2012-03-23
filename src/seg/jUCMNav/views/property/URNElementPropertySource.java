@@ -1,5 +1,7 @@
 package seg.jUCMNav.views.property;
 
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 import grl.EvaluationStrategy;
 import grl.StrategiesGroup;
 
@@ -96,6 +98,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
             scenarioGroupDescriptor(descriptors, propertyid);
         } else if (type.getInstanceClass() == StrategiesGroup.class && getEditableValue() instanceof EvaluationStrategy) {
             strategyGroupDescriptor(descriptors, propertyid);
+        } else if (type.getInstanceClass() == ContributionContextGroup.class && getEditableValue() instanceof ContributionContext) {
+            contributionContextGroupDescriptor(descriptors, propertyid);
         } else if (getEditableValue() instanceof Initialization && attr.getName().equals("value")) { //$NON-NLS-1$
             Initialization init = (Initialization) getEditableValue();
             if (init.getVariable() != null && init.getVariable().getType().equals(ScenarioUtils.sTypeInteger))
@@ -320,6 +324,34 @@ public class URNElementPropertySource extends EObjectPropertySource {
         descriptors.add(pd);
 
     }
+    
+    /**
+     * Creates a drop down list for contribution context groups.
+     * 
+     * @param descriptors
+     * @param propertyid
+     */
+    private void contributionContextGroupDescriptor(Collection descriptors, PropertyID propertyid) {
+        if (((ContributionContext) getEditableValue()).getGroups().size() ==0 || ((ContributionContextGroup)((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec() == null)
+            return;
+        URNspec urn = ((ContributionContextGroup)((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec().getUrnspec();
+        Vector list;
+        list = new Vector(urn.getGrlspec().getContributionGroups());
+        Collections.sort(list, new EObjectClassNameComparator());
+
+        String[] values = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+
+            values[i] = EObjectClassNameComparator.getSortableElementName((ContributionContextGroup) list.get(i));
+            if (values[i] == null)
+                values[i] = Messages.getString("URNElementPropertySource.unnamed"); //$NON-NLS-1$
+        }
+
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "group", values); //$NON-NLS-1$
+        pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy")); //$NON-NLS-1$
+        descriptors.add(pd);
+
+    }
 
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
         if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IURNContainerRef.class
@@ -400,6 +432,15 @@ public class URNElementPropertySource extends EObjectPropertySource {
                 if (list.get(i).equals(((EvaluationStrategy) getEditableValue()).getGroup()))
                     result = new Integer(i);
             }
+        } else if (getFeatureType(feature).getInstanceClass() == ContributionContextGroup.class && getEditableValue() instanceof ContributionContext && ((ContributionContext) getEditableValue()).getGroups().size()>0 ) {
+            URNspec urn = ((ContributionContextGroup)((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec().getUrnspec();
+            Vector list = new Vector(urn.getGrlspec().getContributionGroups());
+
+            Collections.sort(list, new EObjectClassNameComparator());
+            for (int i = 0; i < list.size(); i++) {
+                if (((ContributionContext) getEditableValue()).getGroups().size()>0 && list.get(i).equals(((ContributionContext) getEditableValue()).getGroups().get(0)))
+                    result = new Integer(i);
+            }            
         } else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization) getEditableValue()).getVariable().getEnumerationType() != null && ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues() != null) { //$NON-NLS-1$)
             String[] values = ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues().split(","); //$NON-NLS-1$
             String value = super.returnPropertyValue(feature, result) != null ? super.returnPropertyValue(feature, result).toString() : ""; //$NON-NLS-1$
@@ -482,6 +523,12 @@ public class URNElementPropertySource extends EObjectPropertySource {
             Collections.sort(list, new EObjectClassNameComparator());
             result = list.get(((Integer) value).intValue());
             setReferencedObject(propertyid, feature, result);
+        } else if (getFeatureType(feature).getInstanceClass() == ContributionContextGroup.class && getEditableValue() instanceof ContributionContext && ((ContributionContext) getEditableValue()).getGroups().size()>0) {
+            Vector list = new Vector(((ContributionContextGroup)((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec().getContributionGroups());
+            Collections.sort(list, new EObjectClassNameComparator());
+            result = list.get(((Integer) value).intValue());
+            ((ContributionContext)getEditableValue()).getGroups().set(0,result);
+            //setReferencedObject(propertyid, feature, result);            
         } else if (getEditableValue() instanceof Initialization && getFeatureType(feature).getInstanceClass() == String.class && value instanceof Boolean) {
             super.setPropertyValue(id, ((Boolean) value).toString());
         } else if (feature.getName().equals("context")) { //$NON-NLS-1$

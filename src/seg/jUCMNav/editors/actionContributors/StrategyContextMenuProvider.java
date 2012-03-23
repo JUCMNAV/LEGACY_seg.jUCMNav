@@ -17,6 +17,8 @@ import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
+import seg.jUCMNav.actions.scenarios.AddContributionContextAction;
+import seg.jUCMNav.actions.scenarios.AddContributionContextGroupAction;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
@@ -26,9 +28,12 @@ import seg.jUCMNav.actions.scenarios.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.scenarios.AddVariableAction;
 import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
+import seg.jUCMNav.actions.scenarios.IncludeContributionContextAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 import seg.jUCMNav.actions.scenarios.IncludeStrategyAction;
-import seg.jUCMNav.actions.scenarios.MoveAction;
+import seg.jUCMNav.actions.scenarios.MoveContributionContextAction;
+import seg.jUCMNav.actions.scenarios.MoveScenarioAction;
+import seg.jUCMNav.actions.scenarios.MoveStrategyAction;
 import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
 import seg.jUCMNav.actions.scenarios.SetComparisonStrategyAction;
 import seg.jUCMNav.actions.scenarios.StartStrategyDifferenceModeAction;
@@ -85,6 +90,14 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        action = getActionRegistry().getAction(AddContributionContextGroupAction.ADDCONTRIBUTIONCONTEXTGROUP);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(AddContributionContextAction.ADDCONTRIBUTIONCONTEXT);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
         action = getActionRegistry().getAction(AddEvaluationStrategyAction.ADDEVALUATIONSTRATEGY);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -121,14 +134,30 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        action = getActionRegistry().getAction(MoveAction.MOVEUPACTION);
+        action = getActionRegistry().getAction(MoveScenarioAction.MOVEUPACTION);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        action = getActionRegistry().getAction(MoveAction.MOVEDOWNACTION);
+        action = getActionRegistry().getAction(MoveScenarioAction.MOVEDOWNACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(MoveStrategyAction.MOVEUPACTION);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        action = getActionRegistry().getAction(MoveStrategyAction.MOVEDOWNACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(MoveContributionContextAction.MOVEUPACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(MoveContributionContextAction.MOVEDOWNACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
         action = getActionRegistry().getAction(VariableInitializationsAction.VARIABLEINITIALIZATIONS);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -138,6 +167,10 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(IncludeStrategyAction.INCLUDESTRATEGY);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(IncludeContributionContextAction.INCLUDECONTRIBUTIONCONTEXT);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
         

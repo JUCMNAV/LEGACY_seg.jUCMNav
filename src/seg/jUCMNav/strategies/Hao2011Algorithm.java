@@ -150,7 +150,8 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
                 while (linksIterator.hasNext()) {
                     ElementLink aLink = (ElementLink) linksIterator.next();
                     if(isContribution(aLink) && element.equals(aLink.getDest())){
-                        contributionConstantList[i] = ((Contribution) aLink).getQuantitativeContribution();
+                        //contributionConstantList[i] = ((Contribution) aLink).getQuantitativeContribution();
+                        contributionConstantList[i] = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution((Contribution) aLink);
                     }
                 }
             }

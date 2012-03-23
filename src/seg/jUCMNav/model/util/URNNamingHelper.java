@@ -3,6 +3,8 @@ package seg.jUCMNav.model.util;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
+import grl.Contribution;
+import grl.ContributionChange;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLspec;
@@ -27,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import ucm.UCMspec;
 import ucm.map.Anything;
 import ucm.map.ComponentRef;
@@ -967,6 +970,16 @@ public class URNNamingHelper {
         return message;
     }
 
+    public static String getName(ContributionChange change) {
+        Contribution contrib = change.getContribution();
+        if (contrib == null)
+            return ""; //$NON-NLS-1$
+        else {
+            int val = change.getNewQuantitativeContribution();
+            val = StrategyEvaluationPreferences.getValueToVisualize(val);
+            return getName(contrib.getSrc()) + " (" + change.getNewContribution().getName() + "/" + val + ") " + getName(contrib.getDest()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        }
+    }
     /**
      * Returns the name of the definition if this is a reference, and its direct name otherwise.
      * 
@@ -987,7 +1000,14 @@ public class URNNamingHelper {
         } else if (elem instanceof KPIInformationElementRef) {
             KPIInformationElementRef ref = (KPIInformationElementRef) elem;
             return getName(ref.getDef());
-        } else if (elem == null)
+        } else if (elem instanceof Contribution)
+        {
+            Contribution contrib = (Contribution)elem;
+            int val = contrib.getQuantitativeContribution();
+            val = StrategyEvaluationPreferences.getValueToVisualize(val);
+            return getName(contrib.getSrc()) + " (" + contrib.getContribution().getName() + "/" + val + ") " + getName(contrib.getDest());   
+        }
+         if (elem == null)
             return ""; //$NON-NLS-1$
         else
             return elem.getName();

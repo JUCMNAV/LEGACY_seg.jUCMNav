@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urn.URNspec;
 
@@ -131,10 +132,13 @@ public class LinkRefPropertySource extends URNElementPropertySource {
      * 
      */
     private synchronized void setElementLinkQualitativeContribution(ElementLink link, ContributionType type) {
+        EvaluationStrategyManager m = EvaluationStrategyManager.getInstance();
         // Change the value in the evaluation
         Contribution ele = (Contribution) link;
-        if (type != ele.getContribution()) {
-            ele.setContribution(type);
+        ContributionType val = m.getActiveContribution(ele);
+        if (type != val) {
+            //ele.setContribution(type);
+            m.setActiveContribution(m.getContributionContext(), ele,  type);
             syncElementLinkQuantitativeContribution(ele, type);
         }
         // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
@@ -154,16 +158,20 @@ public class LinkRefPropertySource extends URNElementPropertySource {
      * 
      */
     private synchronized void setElementLinkQuantitativeContribution(ElementLink link, int value) {
+        EvaluationStrategyManager m = EvaluationStrategyManager.getInstance();
         Contribution ele = (Contribution) link;
         value = StrategyEvaluationPreferences.getModelValueFromVisualization(value);
 
+        int oldValue = m.getActiveQuantitativeContribution(ele);
+        
         // Change the value in the evaluation
         if (value < -100)
             value = -100;
         else if (value > 100)
             value = 100;
-        if (value != ele.getQuantitativeContribution()) {
-            ele.setQuantitativeContribution(value);
+        if (value != oldValue) {
+            //ele.setQuantitativeContribution(value);
+            m.setActiveQuantitativeContribution(m.getContributionContext(), ele,  value);
             syncElementLinkQualitativeContribution(ele, value);
         }
         // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
@@ -183,22 +191,25 @@ public class LinkRefPropertySource extends URNElementPropertySource {
      * 
      */
     public static void syncElementLinkQuantitativeContribution(Contribution ele, ContributionType value) {
-        int quantitativeContribution = ele.getQuantitativeContribution();
+        EvaluationStrategyManager m = EvaluationStrategyManager.getInstance();
+        //int quantitativeContribution = ele.getQuantitativeContribution();
+        int quantitativeContribution = m.getActiveQuantitativeContribution(ele);
         String type = value.getName();
+        
         if (ContributionType.MAKE_LITERAL.getName().equals(type) && quantitativeContribution < 100)
-            ele.setQuantitativeContribution(100);
+            m.setActiveQuantitativeContribution(m.getContributionContext(), ele,100); //ele.setQuantitativeContribution(100);
         else if (ContributionType.SOME_POSITIVE_LITERAL.getName().equals(type) && (quantitativeContribution == 100 || quantitativeContribution < 50))
-            ele.setQuantitativeContribution(75);
+            m.setActiveQuantitativeContribution(m.getContributionContext(), ele,75); //ele.setQuantitativeContribution(75);
         else if (ContributionType.HELP_LITERAL.getName().equals(type) && (quantitativeContribution >= 50 || quantitativeContribution <= 0))
-            ele.setQuantitativeContribution(25);
+            m.setActiveQuantitativeContribution(m.getContributionContext(), ele,25); //ele.setQuantitativeContribution(25);
         else if (ContributionType.SOME_NEGATIVE_LITERAL.getName().equals(type) && (quantitativeContribution == -100 || quantitativeContribution > -50))
-            ele.setQuantitativeContribution(-75);
+            m.setActiveQuantitativeContribution(m.getContributionContext(), ele,-75); //ele.setQuantitativeContribution(-75);
         else if (ContributionType.HURT_LITERAL.getName().equals(type) && (quantitativeContribution <= -50 || quantitativeContribution >= 0))
-            ele.setQuantitativeContribution(-25);
+            m.setActiveQuantitativeContribution(m.getContributionContext(), ele,-25); //ele.setQuantitativeContribution(-25);
         else if (ContributionType.BREAK_LITERAL.getName().equals(type) && quantitativeContribution > -100)
-            ele.setQuantitativeContribution(-100);
+            m.setActiveQuantitativeContribution(m.getContributionContext(), ele,-100); //ele.setQuantitativeContribution(-100);
         else if (ContributionType.UNKNOWN_LITERAL.getName().equals(type) && quantitativeContribution != 0)
-            ele.setQuantitativeContribution(0);
+            m.setActiveQuantitativeContribution(m.getContributionContext(), ele,0); //ele.setQuantitativeContribution(0);
     }
 
     /**
@@ -211,20 +222,23 @@ public class LinkRefPropertySource extends URNElementPropertySource {
      * 
      */
     public static void syncElementLinkQualitativeContribution(Contribution ele, int newQuantitativeContribution) {
-        ContributionType type = ele.getContribution();
+        EvaluationStrategyManager m = EvaluationStrategyManager.getInstance();
+        //ContributionType type = ele.getContribution();
+        ContributionType type = m.getActiveContribution(ele);
+        
         if (newQuantitativeContribution == 100 && !type.equals(ContributionType.MAKE_LITERAL))
-            ele.setContribution(ContributionType.MAKE_LITERAL);
+            m.setActiveContribution(m.getContributionContext(), ele, ContributionType.MAKE_LITERAL); //ele.setContribution(ContributionType.MAKE_LITERAL);
         else if (newQuantitativeContribution >= 50 && newQuantitativeContribution < 100 && !type.equals(ContributionType.SOME_POSITIVE_LITERAL))
-            ele.setContribution(ContributionType.SOME_POSITIVE_LITERAL);
+            m.setActiveContribution(m.getContributionContext(), ele, ContributionType.SOME_POSITIVE_LITERAL); //ele.setContribution(ContributionType.SOME_POSITIVE_LITERAL);
         else if (newQuantitativeContribution > 0 && newQuantitativeContribution < 50 && !type.equals(ContributionType.HELP_LITERAL))
-            ele.setContribution(ContributionType.HELP_LITERAL);
+            m.setActiveContribution(m.getContributionContext(), ele, ContributionType.HELP_LITERAL); //ele.setContribution(ContributionType.HELP_LITERAL);
         else if (newQuantitativeContribution > -50 && newQuantitativeContribution < 0 && !type.equals(ContributionType.HURT_LITERAL))
-            ele.setContribution(ContributionType.HURT_LITERAL);
+            m.setActiveContribution(m.getContributionContext(), ele, ContributionType.HURT_LITERAL); //ele.setContribution(ContributionType.HURT_LITERAL);
         else if (newQuantitativeContribution > -100 && newQuantitativeContribution <= -50 && !type.equals(ContributionType.SOME_NEGATIVE_LITERAL))
-            ele.setContribution(ContributionType.SOME_NEGATIVE_LITERAL);
+            m.setActiveContribution(m.getContributionContext(), ele, ContributionType.SOME_NEGATIVE_LITERAL); //ele.setContribution(ContributionType.SOME_NEGATIVE_LITERAL);
         else if (newQuantitativeContribution == -100 && !type.equals(ContributionType.BREAK_LITERAL))
-            ele.setContribution(ContributionType.BREAK_LITERAL);
+            m.setActiveContribution(m.getContributionContext(), ele, ContributionType.BREAK_LITERAL); //ele.setContribution(ContributionType.BREAK_LITERAL);
         else if (newQuantitativeContribution == 0 && !type.equals(ContributionType.UNKNOWN_LITERAL))
-            ele.setContribution(ContributionType.UNKNOWN_LITERAL);
+            m.setActiveContribution(m.getContributionContext(), ele, ContributionType.UNKNOWN_LITERAL); //ele.setContribution(ContributionType.UNKNOWN_LITERAL);
     }
 }

@@ -3,8 +3,13 @@
  */
 package seg.jUCMNav.model.commands.delete;
 
+import grl.Contribution;
+import grl.ContributionChange;
+import grl.ContributionContext;
 import grl.ElementLink;
 import grl.LinkRef;
+
+import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -57,6 +62,17 @@ public class DeleteElementLinkCommand extends CompoundCommand {
         for (int i = 0; i < link.getRefs().size(); i++) {
             LinkRef ref = (LinkRef) link.getRefs().get(i);
             add(new DeleteLinkRefCommand(ref));
+        }
+        
+        if (link instanceof Contribution && link.getGrlspec() != null) {
+            for (Iterator iterator = link.getGrlspec().getContributionContexts().iterator(); iterator.hasNext();) {
+                ContributionContext context = (ContributionContext) iterator.next();
+                for (Iterator iterator2 = context.getChanges().iterator(); iterator2.hasNext();) {
+                    ContributionChange change = (ContributionChange) iterator2.next();
+                    if (change.getContribution() == (Contribution) link)
+                        add(new DeleteContributionChangeCommand(change));
+                }
+            }
         }
         add(new RemoveElementLinkCommand(link));
     }

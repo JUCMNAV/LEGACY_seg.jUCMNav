@@ -105,7 +105,6 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
             if (element instanceof GrlGraphEditPart) {
                 element.refreshVisuals();
             }
-
         }
     }
 

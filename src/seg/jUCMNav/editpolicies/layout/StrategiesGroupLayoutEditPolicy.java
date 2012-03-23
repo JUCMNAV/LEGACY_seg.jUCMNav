@@ -1,5 +1,7 @@
 package seg.jUCMNav.editpolicies.layout;
 
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 import grl.EvaluationStrategy;
 import grl.StrategiesGroup;
 
@@ -10,6 +12,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
+import seg.jUCMNav.model.commands.transformations.MoveContributionContextCommand;
 import seg.jUCMNav.model.commands.transformations.MoveScenarioCommand;
 import seg.jUCMNav.model.commands.transformations.MoveStrategyCommand;
 import ucm.scenario.ScenarioDef;
@@ -50,6 +53,13 @@ public class StrategiesGroupLayoutEditPolicy extends LayoutEditPolicy {
             if (obj instanceof EvaluationStrategy) {
                 EvaluationStrategy def = (EvaluationStrategy)obj;
                 return new MoveStrategyCommand(group, def);
+            }
+        }  else  if (newObjectType == ContributionContext.class && getHost()!=null && getHost().getTargetEditPart(request)!=null && getHost().getTargetEditPart(request).getModel() instanceof ContributionContextGroup){
+            ContributionContextGroup group = (ContributionContextGroup) getHost().getTargetEditPart(request).getModel();
+            Object obj = request.getNewObject();
+            if (obj instanceof ContributionContext) {
+                ContributionContext def = (ContributionContext)obj;
+                return new MoveContributionContextCommand(group, def);
             }
         }
 

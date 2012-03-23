@@ -252,7 +252,8 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                 boolean ignoreSrc = false;
                 ignoreSrc = checkIgnoreElement(link.getSrc());
 
-                int quantitativeContrib = contrib.getQuantitativeContribution();
+                //int quantitativeContrib = contrib.getQuantitativeContribution();
+                int quantitativeContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
 
                 if (ignoreSrc) {
                     ignoredContributionValue[ignoredContribArrayIt] = quantitativeContrib;

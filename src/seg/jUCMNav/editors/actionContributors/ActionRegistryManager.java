@@ -98,6 +98,8 @@ import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.palette.SelectPaletteEntryAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
+import seg.jUCMNav.actions.scenarios.AddContributionContextAction;
+import seg.jUCMNav.actions.scenarios.AddContributionContextGroupAction;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
@@ -109,9 +111,12 @@ import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
 import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
+import seg.jUCMNav.actions.scenarios.IncludeContributionContextAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 import seg.jUCMNav.actions.scenarios.IncludeStrategyAction;
-import seg.jUCMNav.actions.scenarios.MoveAction;
+import seg.jUCMNav.actions.scenarios.MoveContributionContextAction;
+import seg.jUCMNav.actions.scenarios.MoveScenarioAction;
+import seg.jUCMNav.actions.scenarios.MoveStrategyAction;
 import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
 import seg.jUCMNav.actions.scenarios.SetComparisonStrategyAction;
 import seg.jUCMNav.actions.scenarios.StartStrategyDifferenceModeAction;
@@ -537,7 +542,15 @@ public class ActionRegistryManager implements IDisposable {
         action = new AddStrategiesGroupAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addEvaluationGroup")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
+        
+        action = new AddContributionContextGroupAction(editor);
+        action.setText("Add Contribution Context Group");
+        addEditPartAction((SelectionAction) action);
 
+        action = new AddContributionContextAction(editor);
+        action.setText("Add Contribution Context");
+        addEditPartAction((SelectionAction) action);
+        
         action = new AddIndicatorGroupAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addIndicatorGroup")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
@@ -585,6 +598,10 @@ public class ActionRegistryManager implements IDisposable {
         action = new IncludeStrategyAction(editor);
         action.setText("Include Strategy");
         addEditPartAction((SelectionAction) action);
+
+        action = new IncludeContributionContextAction(editor);
+        action.setText("Include Contribution Context");
+        addEditPartAction((SelectionAction) action);
         
         action = new AddStartEndPointAction(editor, true);
         action.setText(Messages.getString("ActionRegistryManager.AddStartPoint")); //$NON-NLS-1$
@@ -606,14 +623,30 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.InitializeVariables")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
-        action = new MoveAction(editor, true);
+        action = new MoveScenarioAction(editor, true);
         action.setText(Messages.getString("ActionRegistryManager.MoveUp")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
-        action = new MoveAction(editor, false);
+        action = new MoveScenarioAction(editor, false);
         action.setText(Messages.getString("ActionRegistryManager.MoveDown")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
+        
+        action = new MoveStrategyAction(editor, true);
+        action.setText(Messages.getString("ActionRegistryManager.MoveUp")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
 
+        action = new MoveStrategyAction(editor, false);
+        action.setText(Messages.getString("ActionRegistryManager.MoveDown")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new MoveContributionContextAction(editor, true);
+        action.setText(Messages.getString("ActionRegistryManager.MoveUp")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new MoveContributionContextAction(editor, false);
+        action.setText(Messages.getString("ActionRegistryManager.MoveDown")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);        
+        
         action = new DuplicateAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.Duplicate")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

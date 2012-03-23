@@ -3,6 +3,8 @@
  */
 package seg.jUCMNav.model.commands.create;
 
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.StrategiesGroup;
@@ -34,23 +36,30 @@ import urncore.Metadata;
  */
 public class DuplicateCommand extends CompoundCommand {
 
+    public static void copyMetadata(URNspec urn, EList newMetadata, EList srcMetadata) {
+        for (int i = 0; i < srcMetadata.size(); i++) {
+            Metadata tempMetadataElem = (Metadata) ModelCreationFactory.getNewObject(urn, Metadata.class);
+            tempMetadataElem.setName(((Metadata) srcMetadata.get(i)).getName());
+            tempMetadataElem.setValue(((Metadata) srcMetadata.get(i)).getValue());
+
+            newMetadata.add(tempMetadataElem);
+        }
+    }
     private ScenarioGroup group;
+    
     private ScenarioDef scenario;
     private EvaluationStrategy strategy;
+    
     private StrategiesGroup group2;
+    private ContributionContext context;
+    
+    private ContributionContextGroup group3;
     private EObject child;
+
     private URNspec urn;
 
     // created by this command.
     private EObject duplicate;
-
-    public EObject getDuplicate() {
-        return duplicate;
-    }
-
-    public void setDuplicate(EObject duplicate) {
-        this.duplicate = duplicate;
-    }
 
     public DuplicateCommand(EvaluationStrategy strategy) {
         this.strategy = strategy;
@@ -70,32 +79,30 @@ public class DuplicateCommand extends CompoundCommand {
         init();
     }
 
-    public DuplicateCommand(StrategiesGroup group) {
-        this.group2 = group;
-        if (group2 != null)
-            this.urn = group2.getGrlspec().getUrnspec();
-
+    public DuplicateCommand(ContributionContext context) {
+        this.context = context;
+        if (context.getGroups().size()>0) {
+            this.group3 = (ContributionContextGroup) context.getGroups().get(0);
+            this.urn = this.group3.getGrlspec().getUrnspec();
+        }
         init();
     }
 
+    public DuplicateCommand(ContributionContext context, ContributionContextGroup group, URNspec urn) {
+        this.context = context;
+        if (group != null) {
+            this.group3 = group;
+            this.urn = urn;
+        }
+        init();
+    }
+    
+    
     public DuplicateCommand(ScenarioDef scenario) {
         this.scenario = scenario;
         this.group = scenario.getGroup();
         if (this.group != null)
             this.urn = group.getUcmspec().getUrnspec();
-        init();
-    }
-
-    public DuplicateCommand(ScenarioGroup group) {
-        this.group = group;
-        if (this.group != null)
-            this.urn = group.getUcmspec().getUrnspec();
-        init();
-    }
-
-    public DuplicateCommand(ScenarioGroup group, URNspec urn) {
-        this.group = group;
-        this.urn = urn;
         init();
     }
 
@@ -130,6 +137,52 @@ public class DuplicateCommand extends CompoundCommand {
 
         this.urn = urn;
         init();
+    }
+
+    public DuplicateCommand(ScenarioGroup group) {
+        this.group = group;
+        if (this.group != null)
+            this.urn = group.getUcmspec().getUrnspec();
+        init();
+    }
+
+    public DuplicateCommand(ScenarioGroup group, URNspec urn) {
+        this.group = group;
+        this.urn = urn;
+        init();
+    }
+    
+    
+    public DuplicateCommand(StrategiesGroup group) {
+        this.group2 = group;
+        if (group2 != null)
+            this.urn = group2.getGrlspec().getUrnspec();
+
+        init();
+    }
+
+    public DuplicateCommand(StrategiesGroup group, URNspec urn) {
+        this.group2 = group;
+        this.urn = urn;
+        init();
+    }
+
+    public DuplicateCommand(ContributionContextGroup group) {
+        this.group3 = group;
+        if (this.group3 != null)
+            this.urn = this.group3.getGrlspec().getUrnspec();
+        init();
+    }
+
+    public DuplicateCommand(ContributionContextGroup group, URNspec urn) {
+        this.group3 = group;
+        this.urn = urn;
+        init();
+    }
+    
+    
+    public EObject getDuplicate() {
+        return duplicate;
     }
 
     private void init() {
@@ -212,6 +265,10 @@ public class DuplicateCommand extends CompoundCommand {
             copyMetadata(urn, newMetadata, this.strategy.getMetadata());
 
             add(cmd);
+            for (Iterator iter = this.strategy.getIncludedStrategies().iterator(); iter.hasNext();) {
+                EvaluationStrategy child = (EvaluationStrategy) iter.next();
+                add(new IncludeStrategyCommand(newStrategy, child, true));
+            }
             for (Iterator iter = strategy.getEvaluations().iterator(); iter.hasNext();) {
                 Evaluation eval = (Evaluation) iter.next();
                 Evaluation newEval = (Evaluation) ModelCreationFactory.getNewObject(urn, Evaluation.class);
@@ -255,17 +312,47 @@ public class DuplicateCommand extends CompoundCommand {
                 EvaluationStrategy strategy = (EvaluationStrategy) iter.next();
                 add(new DuplicateCommand(strategy, newGroup, urn));
             }
+        } else if (this.context != null) {
+            CreateContributionContextCommand cmd = new CreateContributionContextCommand(urn, group3);
+            ContributionContext newContext = cmd.getContributionContext();
+            duplicate = newContext;
+            newContext.setName(this.context.getName() + "-Dup"); //$NON-NLS-1$
+            newContext.setDescription(this.context.getDescription());
+
+            EList newMetadata = newContext.getMetadata();
+            newMetadata.clear();
+            copyMetadata(urn, newMetadata, this.context.getMetadata());
+
+            add(cmd);
+            for (Iterator iter = context.getChanges().iterator(); iter.hasNext();) {
+                // TODO: implement/
+            }
+            for (Iterator iter = context.getIncludedContexts().iterator(); iter.hasNext();) {
+                ContributionContext contrib = (ContributionContext) iter.next();
+                add(new IncludeContributionContextCommand(newContext, contrib, true));
+            }
+        } else if (this.group3 != null) {
+            ContributionContextGroup newGroup = (ContributionContextGroup) ModelCreationFactory.getNewObject(urn, ContributionContextGroup.class);
+            duplicate = newGroup;
+            newGroup.setName(group3.getName() + "-Dup"); //$NON-NLS-1$
+            newGroup.setDescription(group3.getDescription());
+
+            EList newMetadata = newGroup.getMetadata();
+            newMetadata.clear();
+            copyMetadata(urn, newMetadata, group3.getMetadata());
+
+            CreateContributionContextGroupCommand cmd = new CreateContributionContextGroupCommand(urn, newGroup);
+            add(cmd);
+
+            for (Iterator iter = group3.getContribs().iterator(); iter.hasNext();) {
+                ContributionContext contrib = (ContributionContext) iter.next();
+                add(new DuplicateCommand(contrib, newGroup, urn));
+            }
         }
     }
 
-    public static void copyMetadata(URNspec urn, EList newMetadata, EList srcMetadata) {
-        for (int i = 0; i < srcMetadata.size(); i++) {
-            Metadata tempMetadataElem = (Metadata) ModelCreationFactory.getNewObject(urn, Metadata.class);
-            tempMetadataElem.setName(((Metadata) srcMetadata.get(i)).getName());
-            tempMetadataElem.setValue(((Metadata) srcMetadata.get(i)).getValue());
-
-            newMetadata.add(tempMetadataElem);
-        }
+    public void setDuplicate(EObject duplicate) {
+        this.duplicate = duplicate;
     }
 
 }

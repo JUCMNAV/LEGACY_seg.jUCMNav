@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.editpolicies.element;
 
+import grl.ContributionContextGroup;
 import grl.StrategiesGroup;
 
 import org.eclipse.gef.commands.Command;
@@ -37,6 +38,14 @@ public class StrategiesGroupComponentEditPolicy extends ComponentEditPolicy {
 
             ScenarioGroup group = (ScenarioGroup) obj;
             if (group.getScenarios().size() == 0) {
+                DeleteStrategiesGroupCommand deleteCommand = new DeleteStrategiesGroupCommand(group);
+                return deleteCommand;
+            } else
+                return null;
+        }  else if (obj instanceof ContributionContextGroup) {
+
+            ContributionContextGroup group = (ContributionContextGroup) obj;
+            if (group.getContribs().size() == 0) {
                 DeleteStrategiesGroupCommand deleteCommand = new DeleteStrategiesGroupCommand(group);
                 return deleteCommand;
             } else

@@ -1,5 +1,7 @@
 package seg.jUCMNav.views.strategies;
 
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 import grl.EvaluationStrategy;
 
 import java.util.Iterator;
@@ -38,10 +40,10 @@ import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider;
 import seg.jUCMNav.editors.palette.UrnDropTargetListener;
 import seg.jUCMNav.editparts.URNRootEditPart;
-import seg.jUCMNav.editparts.strategyTreeEditparts.EvaluationStategyTreeEditPart;
+import seg.jUCMNav.editparts.strategyTreeEditparts.ContributionContextTreeEditPart;
+import seg.jUCMNav.editparts.strategyTreeEditparts.EvaluationStrategyTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioDefTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioGroupTreeEditPart;
-import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyRootEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyTreeEditPartFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
@@ -72,9 +74,12 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 
     private UCMNavMultiPageEditor multieditor;
     private EvaluationStrategy currentStrategy;
-    private EvaluationStategyTreeEditPart currentSelection;
+    private EvaluationStrategyTreeEditPart currentSelection;
     private ScenarioDef currentScenario;
     private ScenarioDefTreeEditPart currentScenarioSelection;
+    
+    private ContributionContext currentContributionContext;
+    private ContributionContextTreeEditPart currentContributionContextSelection; 
 
     private IAction showDesignView, showStrategiesView, refreshTreeView, showId, enableGlobalFilter;
 
@@ -325,8 +330,13 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
         }
         showPage(ID_DESIGN);
+        
+        currentScenario = null;
+        currentScenarioSelection = null;
         currentStrategy = null;
         currentSelection = null;
+        currentContributionContext = null;
+        currentContributionContextSelection = null;
     }
 
     /*
@@ -495,41 +505,33 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         if ((event.getSource() instanceof TreeViewer) && (multieditor != null)) {
             for (Iterator j = sel.iterator(); j.hasNext();) {
                 Object obj = j.next();
-                if (obj instanceof EvaluationStategyTreeEditPart) {
+                if (obj instanceof EvaluationStrategyTreeEditPart) {
                     if (currentSelection != null) {
                         currentSelection.setSelected(false);
                     }
-                    currentSelection = (EvaluationStategyTreeEditPart) obj;
+                    currentSelection = (EvaluationStrategyTreeEditPart) obj;
                     if (currentView == ID_STRATEGY) {
                         currentSelection.setSelected(true);
                     }
-                    EvaluationStrategy scen = ((EvaluationStategyTreeEditPart) obj).getEvaluationStrategy();
+                    EvaluationStrategy scen = ((EvaluationStrategyTreeEditPart) obj).getEvaluationStrategy();
                     currentStrategy = scen;
                     if (currentView == ID_STRATEGY) {
                         (EvaluationStrategyManager.getInstance(multieditor)).setStrategy(scen);
-
-                        if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()
-                                && ScenarioUtils.getActiveScenario(multieditor.getModel()) != null) {
-                            // refresh scenario too.
-                            if (ScenarioUtils.getActiveScenario(multieditor.getModel()) instanceof ScenarioDef)
-                                ScenarioUtils.setActiveScenario((ScenarioDef) ScenarioUtils.getActiveScenario(multieditor.getModel()));
-                            else if (ScenarioUtils.getActiveScenario(multieditor.getModel()) instanceof ScenarioGroup)
-                                ScenarioUtils.setActiveScenario((ScenarioGroup) ScenarioUtils.getActiveScenario(multieditor.getModel()));
-                            else if (ScenarioUtils.getActiveScenario(multieditor.getModel()) instanceof UCMspec)
-                                ScenarioUtils.setActiveScenario((UCMspec) ScenarioUtils.getActiveScenario(multieditor.getModel()));
-
-                        }
-
-                        for (int i = 0; i < multieditor.getPageCount(); i++) {
-                            UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);
-
-                            if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()
-                                    && ScenarioUtils.getActiveScenario(multieditor.getModel()) != null) {
-                                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
-                            }
-                        }
-
+                        refreshScenarioIfNeeded();
+                    }
+                } else if (obj instanceof ContributionContextTreeEditPart) {
+                    if (currentContributionContextSelection != null) {
+                        currentContributionContextSelection.setSelected(false);
+                    }
+                    currentContributionContextSelection = (ContributionContextTreeEditPart) obj;
+                    if (currentView == ID_STRATEGY) {
+                        currentContributionContextSelection.setSelected(true);
+                    }
+                    ContributionContext context = ((ContributionContextTreeEditPart) obj).getContributionContext();
+                    currentContributionContext = context;
+                    if (currentView == ID_STRATEGY) {
+                        (EvaluationStrategyManager.getInstance(multieditor)).setContributionContext(context);
+                        refreshScenarioIfNeeded();
                     }
                 } else if (obj instanceof ScenarioDefTreeEditPart && ((ScenarioDefTreeEditPart) obj).getParent() instanceof ScenarioGroupTreeEditPart) {
                     if (currentScenarioSelection != null) {
@@ -549,9 +551,31 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                         }
                     }
                 }
-
             }
         }
+    }
+
+    private void refreshScenarioIfNeeded() {
+        if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()
+                && ScenarioUtils.getActiveScenario(multieditor.getModel()) != null) {
+            // refresh scenario too.
+            if (ScenarioUtils.getActiveScenario(multieditor.getModel()) instanceof ScenarioDef)
+                ScenarioUtils.setActiveScenario((ScenarioDef) ScenarioUtils.getActiveScenario(multieditor.getModel()));
+            else if (ScenarioUtils.getActiveScenario(multieditor.getModel()) instanceof ScenarioGroup)
+                ScenarioUtils.setActiveScenario((ScenarioGroup) ScenarioUtils.getActiveScenario(multieditor.getModel()));
+            else if (ScenarioUtils.getActiveScenario(multieditor.getModel()) instanceof UCMspec)
+                ScenarioUtils.setActiveScenario((UCMspec) ScenarioUtils.getActiveScenario(multieditor.getModel()));
+        }
+
+        for (int i = 0; i < multieditor.getPageCount(); i++) {
+            UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);
+
+            if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()
+                    && ScenarioUtils.getActiveScenario(multieditor.getModel()) != null) {
+                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
+            }
+        }        
     }
 
     /**
@@ -568,27 +592,34 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             
             if (currentSelection != null) {
                 currentSelection.setSelected(false);
+                currentSelection = null; // forget it so that we can start anew
             }
 
             if (currentScenarioSelection != null) {
                 currentScenarioSelection.setSelected(false);
+                currentScenarioSelection = null; // forget it so that we can start anew
             }
+            if (currentContributionContextSelection != null) {
+                currentContributionContextSelection.setSelected(false);
+                currentContributionContextSelection = null; // forget it so that we can start anew
+            }
+            
             currentView = ID_DESIGN;
+            if (currentContributionContext != null) {
+                EvaluationStrategyManager.getInstance(multieditor).setContributionContext(null);
+                enableStrategyView(); // refresh issue. 
+                disableStrategyView();
+                currentContributionContext  = null; // forget it so that we can start anew
+            }
             if (currentStrategy != null) {
                 EvaluationStrategyManager.getInstance(multieditor).setStrategy(null);
-
-                if (multieditor != null)
-                    for (int i = 0; i < multieditor.getPageCount(); i++) {
-                        UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                        ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(false);
-                    }
+                disableStrategyView();
+                currentStrategy = null; // forget it so that we can start anew
             }
             if (currentScenario != null && multieditor != null) {
                 ScenarioUtils.clearActiveScenario(multieditor.getModel());
-                for (int i = 0; i < multieditor.getPageCount(); i++) {
-                    UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);
-                }
+                currentScenario = null; // forget it so that we can start anew
+                disableStrategyView(); 
             }
 
             // Removes the metadata for GRL evaluations and UCM executions
@@ -605,19 +636,28 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             if (currentScenarioSelection != null) {
                 currentScenarioSelection.setSelected(true);
             }
+            if (currentContributionContextSelection != null) {
+                currentContributionContextSelection.setSelected(true);
+            }
 
             currentView = ID_STRATEGY;
+            
+            if (currentContributionContext != null && (currentContributionContext.getGroups().size()==0 || ((ContributionContextGroup)currentContributionContext.getGroups().get(0)).getGrlspec() == null)) {
+                // was deleted
+                currentContributionContext = null;
+            }
+            if (currentContributionContext != null) {
+                EvaluationStrategyManager.getInstance(multieditor).setContributionContext(currentContributionContext);
+            }
+            
             if (currentStrategy != null && (currentStrategy.getGroup() == null || currentStrategy.getGroup().getGrlspec() == null)) {
                 // was deleted
                 currentStrategy = null;
             }
-
+            
             if (currentStrategy != null) {
                 EvaluationStrategyManager.getInstance(multieditor).setStrategy(currentStrategy);
-                for (int i = 0; i < multieditor.getPageCount(); i++) {
-                    UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);
-                }
+                enableStrategyView();
             }
 
             if (currentScenario != null && (currentScenario.getGroup() == null || currentScenario.getGroup().getUcmspec() == null)) {
@@ -626,10 +666,25 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
             if (currentScenario != null) {
                 ScenarioUtils.setActiveScenario(currentScenario);
-                for (int i = 0; i < multieditor.getPageCount(); i++) {
-                    UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
-                }
+                enableStrategyView();
+            }
+        }
+    }
+
+    private void enableStrategyView() {
+        if (multieditor!=null) {
+            for (int i = 0; i < multieditor.getPageCount(); i++) {
+                UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);
+            }
+        }
+    }
+
+    private void disableStrategyView() {
+        if (multieditor != null) {
+            for (int i = 0; i < multieditor.getPageCount(); i++) {
+                UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(false);
             }
         }
     }

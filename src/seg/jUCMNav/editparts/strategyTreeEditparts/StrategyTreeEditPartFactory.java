@@ -1,5 +1,8 @@
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
+import grl.ContributionChange;
+import grl.ContributionContext;
+import grl.ContributionContextGroup;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.StrategiesGroup;
@@ -60,7 +63,7 @@ public class StrategyTreeEditPartFactory implements EditPartFactory {
         } else if (model instanceof ScenarioGroup) {
             return new ScenarioGroupTreeEditPart((ScenarioGroup) model);
         } else if (model instanceof EvaluationStrategy) {
-            return new EvaluationStategyTreeEditPart((EvaluationStrategy) model);
+            return new EvaluationStrategyTreeEditPart((EvaluationStrategy) model);
         } else if (model instanceof ScenarioDef) {
             return new ScenarioDefTreeEditPart((ScenarioDef) model);
         } else if (model instanceof Variable) {
@@ -70,19 +73,30 @@ public class StrategyTreeEditPartFactory implements EditPartFactory {
         } else if (model instanceof Initialization) {
             return new VariableInitializationTreeEditPart((Initialization) model);
         } else if (model instanceof EList) {
-            return new VariableListTreeEditPart(urn.getUcmspec(), urn.getUcmspec().getEnumerationTypes() == model);
+            if (model == urn.getGrlspec().getContributionGroups())
+                return new ContributionContextGroupListTreeEditPart(urn.getGrlspec());
+            else
+                return new VariableListTreeEditPart(urn.getUcmspec(), urn.getUcmspec().getEnumerationTypes() == model);
         } else if (model instanceof ScenarioStartPoint) {
             return new ScenarioPathNodeTreeEditPart((ScenarioStartPoint) model);
         } else if (model instanceof ScenarioEndPoint) {
             return new ScenarioPathNodeTreeEditPart((ScenarioEndPoint) model);
         } else if (model instanceof Condition) {
             return new ConditionTreeEditPart((Condition) model);
+        } else if (model instanceof ContributionContextGroup) {
+            return new ContributionContextGroupTreeEditPart((ContributionContextGroup) model);
+        } else if (model instanceof ContributionContext) {
+            return new ContributionContextTreeEditPart((ContributionContext) model);
+        } else if (model instanceof ContributionChange) {
+            return new ContributionChangeTreeEditPart((ContributionChange)model);
         } else if (model instanceof String)
             if (context.getModel() instanceof EvaluationStrategy)
                 return new StrategyLabelTreeEditPart(model, (EvaluationStrategy) context.getModel());
+            else if (context.getModel() instanceof ContributionContext)
+                return new ContributionContextLabelTreeEditPart(model, (ContributionContext) context.getModel());
             else
                 return new ScenarioLabelTreeEditPart(model, (ScenarioDef) context.getModel());
-                
+
         else {
             return null;
         }
