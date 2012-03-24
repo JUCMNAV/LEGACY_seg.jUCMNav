@@ -6,6 +6,14 @@ import grl.LinkRef;
 
 import java.util.Iterator;
 
+import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.ConnectionEndpointLocator;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.RectangleFigure;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
+
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
@@ -82,8 +90,33 @@ public class URNReferencerChecker {
                         if(ref.getLink() instanceof Contribution) {
                             if(ref.getLabel() == null) {
                                 ConnectionLabel labelTarget = (ConnectionLabel)ModelCreationFactory.getNewObject(urn, ConnectionLabel.class);
+                              
+                              
+                                int varY = ref.getTarget().getY() - ref.getSource().getY();
+                                int varX = ref.getTarget().getX() - ref.getSource().getX();
                                 
+                                // very cheap algo - could be improved. 
+                                if (varX>=0 && varY>=0 || Math.abs(varX)<50)
+                                {
+                                    labelTarget.setDeltaX((int)(varX*0.1));
+                                    labelTarget.setDeltaY((int)(varY*0.1));
+                                }
+                                else if (varX>=0 && varY<0)
+                                {
+                                    labelTarget.setDeltaX((int)(varX*0.1));
+                                    labelTarget.setDeltaY((int)(varY*0.1)-50);
+                                }   
+                                else if (varX<0 && varY>=0)
+                                {
+                                    labelTarget.setDeltaX((int)(varX*0.1)-150);
+                                    labelTarget.setDeltaY((int)(varY*0.1)-25);
+                                }  else
+                                {
+                                    labelTarget.setDeltaX((int)(varX*0.1)-150);
+                                    labelTarget.setDeltaY((int)(varY*0.1)-50);
+                                }
                                 ref.setLabel(labelTarget);
+                                
                             }
                         }
                     }

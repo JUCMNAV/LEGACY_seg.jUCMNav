@@ -63,7 +63,7 @@ public class ConnectionLabelEditPart extends LabelEditPart {
                         height = part.getFigure().getBounds().getCopy().height;
                     
                     int x = node.getX() - label.getDeltaX() - (labelDimension.width / 2);
-                    int y = node.getY() - label.getDeltaY() - (labelDimension.height + height / 2);
+                    int y = node.getY() - label.getDeltaY() - (labelDimension.height);
                     location = new Point(x, y);
                 }
             }
