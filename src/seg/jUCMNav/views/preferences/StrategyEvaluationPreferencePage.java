@@ -64,7 +64,7 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
                 .getString("GeneralPreferencePage.GrlStrategiesElementFilled"), getFieldEditorParent()); //$NON-NLS-1$
         addField(eval_filled);
         
-        BooleanFieldEditor visualize_as_positive = new BooleanFieldEditor(StrategyEvaluationPreferences.PREF_VISUALIZEASPOSITIVERANGE, "Visualize [-100,100] value ranges as [0,100]", getFieldEditorParent()); 
+        BooleanFieldEditor visualize_as_positive = new BooleanFieldEditor(StrategyEvaluationPreferences.PREF_VISUALIZEASPOSITIVERANGE, "Visualize [-100,100] evaluation ranges as [0,100]? (affects new models only)", getFieldEditorParent()); 
         addField(visualize_as_positive);
 
     }

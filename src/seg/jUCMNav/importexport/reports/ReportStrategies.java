@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.Display;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import ucm.UCMspec;
 import urncore.URNdefinition;
 
@@ -311,7 +310,7 @@ public class ReportStrategies extends ReportDataDictionary {
                 	
 
                     int evalValue = evaluation.getEvaluation();
-                    evalValue = StrategyEvaluationPreferences.getValueToVisualize(evalValue);
+                    //evalValue = StrategyEvaluationPreferences.getValueToVisualize(evalValue);
 
                     Cell evaluationCell = new Cell(evalValue + "");
                     evaluationCell.setColspan(strategyCellWidth);

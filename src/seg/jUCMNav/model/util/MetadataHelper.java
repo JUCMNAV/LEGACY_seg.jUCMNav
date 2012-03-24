@@ -26,6 +26,28 @@ public class MetadataHelper {
      * 
      * @param urnspec
      *            the urnspec containing everything
+     * @param name
+     *            the name of the metadata to add
+     * @param value
+     *            the value to add
+     */
+    public static void addMetaData(URNspec urnspec, String name, String value) {
+        Metadata md = getMetaDataObj(urnspec, name);
+        if (md == null) {
+            Metadata data = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
+            data.setName(name);
+            data.setValue(value);
+            urnspec.getMetadata().add(data);
+        } else {
+            md.setValue(value);
+        }
+    }
+    
+    /**
+     * Adds metadata to an element. Modifies if the name already exists.
+     * 
+     * @param urnspec
+     *            the urnspec containing everything
      * @param elem
      *            the element
      * @param name
@@ -66,6 +88,26 @@ public class MetadataHelper {
         
         elem.getMetadata().removeAll(v);
     }
+    
+    /**
+     * Removes all metadata of specified name from an element.
+     * 
+     * @param elem
+     *            the element
+     * @param name
+     *            the name of the metadata to remove
+     */
+    public static void removeMetaData(URNspec elem, String name) {
+        Vector v = new Vector();
+        for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
+            Metadata data = (Metadata) iter.next();
+            if (data.getName() != null && data.getName().equals(name)) {
+                v.add(data);
+            }
+        }
+        
+        elem.getMetadata().removeAll(v);
+    }
 
     /**
      * Returns an element's metadata.
@@ -86,6 +128,27 @@ public class MetadataHelper {
 
         return null;
     }
+    
+
+    /**
+     * Returns an element's metadata.
+     * 
+     * @param elem
+     *            the element
+     * @param name
+     *            the name of the metadata
+     * @return the value of the metadata
+     */
+    public static String getMetaData(URNspec urn, String name) {
+
+        for (Iterator iter = urn.getMetadata().iterator(); iter.hasNext();) {
+            Metadata data = (Metadata) iter.next();
+            if (data.getName() != null && data.getName().equals(name))
+                return data.getValue();
+        }
+
+        return null;
+    }
 
     /**
      * Returns an element's metadata object
@@ -97,6 +160,26 @@ public class MetadataHelper {
      * @return the metadata object
      */
     public static Metadata getMetaDataObj(URNmodelElement elem, String name) {
+
+        for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
+            Metadata data = (Metadata) iter.next();
+            if (data.getName() != null && data.getName().equals(name))
+                return data;
+        }
+
+        return null;
+    }
+    
+    /**
+     * Returns an element's metadata object
+     * 
+     * @param elem
+     *            the element
+     * @param name
+     *            the name of the metadata
+     * @return the metadata object
+     */
+    public static Metadata getMetaDataObj(URNspec elem, String name) {
 
         for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
             Metadata data = (Metadata) iter.next();

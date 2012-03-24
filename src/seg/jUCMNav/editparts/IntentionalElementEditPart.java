@@ -50,6 +50,7 @@ import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
+import urn.URNspec;
 import urncore.IURNConnection;
 import urncore.IURNNode;
 
@@ -361,23 +362,31 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 
                 if (evaluation != null) {
                     if (StrategyEvaluationPreferences.getFillElements()) {
-                        String color, lineColor;
+                       String color, lineColor;
                         if( ignored ) { // set to light gray color
                         	color = "169,169,169"; //$NON-NLS-1$
-                        } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE) {
-                            color = "255,255,127"; //$NON-NLS-1$
+                        /*} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE) {
+                            color = "255,255,127"; //$NON-NLS-1$*/
                         } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT) {
                             color = "0,255,255"; //$NON-NLS-1$
                         } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
                             color = "192,192,192"; //$NON-NLS-1$
                         } else {
                         	int evalValue = evaluation.getEvaluation();
+                            URNspec urn = null;
+                            if (getNode()!=null && getNode().getDef()!=null && getNode().getDef().getGrlspec()!=null)
+                                urn = getNode().getDef().getGrlspec().getUrnspec();
+                            // if 0,100, convert back to -100,100 to have the right color. 
+                            evalValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn,  evalValue);
+
+                            
                             if( EvaluationStrategyManager.getInstance().displayDifferenceMode() ) {
                             	evalValue /= 2;
                             }
                             int partial = (Math.abs((Math.abs(evalValue) - IGRLStrategyAlgorithm.SATISFICED)) * 160 / IGRLStrategyAlgorithm.SATISFICED) + 96;
                             partial = limit( partial );
-                            if (evaluation.getEvaluation() < IGRLStrategyAlgorithm.NONE) {
+                            
+                            if (evalValue < IGRLStrategyAlgorithm.NONE) {
                                 color = "255," + partial + ",96"; //$NON-NLS-1$ //$NON-NLS-2$
                             } else {
                                 color = partial + ",255,96"; //$NON-NLS-1$
@@ -422,7 +431,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE
                             || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION ) {
                         int val = evaluation.getEvaluation();
-                        val = StrategyEvaluationPreferences.getValueToVisualize(val);
+                        //val = StrategyEvaluationPreferences.getValueToVisualize(val);
 
                         String evalStr = String.valueOf(val);
                         text = evalStr + text; //$NON-NLS-1$

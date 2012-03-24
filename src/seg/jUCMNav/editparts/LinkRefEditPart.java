@@ -37,7 +37,6 @@ import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
-import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
 import urncore.UrncorePackage;

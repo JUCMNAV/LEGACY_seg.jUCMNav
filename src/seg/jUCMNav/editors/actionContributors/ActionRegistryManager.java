@@ -76,6 +76,7 @@ import seg.jUCMNav.actions.SetQualitativeContributionAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.TagElementAction;
+import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
@@ -435,6 +436,10 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.DeleteUnreferencedDefinitions")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new ToggleEvaluationRangeAction(editor);
+        action.setText("Toggle Evaluation Range");
+        addEditPartAction((SelectionAction) action);
+        
         action = new DisconnectAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.disconnectElements")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

@@ -51,7 +51,7 @@ public class SetNumericalEvaluationAction extends URNSelectionAction {
         // doing this here instead of the constructor just because it will refresh properly after we change the preferences.
         try {
             int val = Integer.parseInt(values[id].replace("+", ""));
-            val = StrategyEvaluationPreferences.getValueToVisualize(val);
+            val = StrategyEvaluationPreferences.getEquivalentValueIn0To100RangeIfApplicable(getUrnspec(), val);
 
             if (val > 0)
                 setText("+" + Integer.toString(val));
@@ -76,10 +76,10 @@ public class SetNumericalEvaluationAction extends URNSelectionAction {
             int oldEval = EvaluationStrategyManager.getInstance().getEvaluation(ier.getDef());
 
             if (id == ChangeNumericalEvaluationCommand.INCREASE) { // increase operation, verify if possible
-                if (oldEval >=  (StrategyEvaluationPreferences.getVisualizeAsPositiveRange() ? 99 : 100))
+                if (oldEval >=  100)
                     return false; // can't increase from 100
             } else if (id == ChangeNumericalEvaluationCommand.DECREASE) { // decrease operation, verify if possible
-                if (oldEval <= (StrategyEvaluationPreferences.getVisualizeAsPositiveRange() ? -99 : -100))
+                if (oldEval <= (StrategyEvaluationPreferences.getVisualizeAsPositiveRange(getUrnspec()) ? 0 : -100))
                     return false; // can't decrease from -100
             }
         }
@@ -96,19 +96,19 @@ public class SetNumericalEvaluationAction extends URNSelectionAction {
 
     public void run() {
         if (id < ChangeNumericalEvaluationCommand.USER_ENTRY || id >= ChangeNumericalEvaluationCommand.INCREASE)
-            execute(new ChangeNumericalEvaluationCommand(intElementRefs, id, StrategyEvaluationPreferences.getVisualizeAsPositiveRange() ? 2: 1, getCommandStack()));
+            execute(new ChangeNumericalEvaluationCommand(intElementRefs, id, 1, getCommandStack()));
         else if (id == ChangeNumericalEvaluationCommand.USER_ENTRY) {
             String currentEval = ""; //$NON-NLS-1$
 
             if (intElementRefs.size() <= 1) {
                 int val = EvaluationStrategyManager.getInstance().getEvaluation(((IntentionalElementRef) (intElementRefs.get(0))).getDef());
-                val = StrategyEvaluationPreferences.getValueToVisualize(val);
+                //val = StrategyEvaluationPreferences.getValueToVisualize(val);
                 currentEval = Integer.toString(val);
             }
             Integer userEntry = enterEvaluation(currentEval);
             if (userEntry != null) {
                 int enteredValue = userEntry.intValue();
-                enteredValue = StrategyEvaluationPreferences.getModelValueFromVisualization(enteredValue);
+                //enteredValue = StrategyEvaluationPreferences.getModelValueFromVisualization(getUrnspec(), enteredValue);
                 execute(new ChangeNumericalEvaluationCommand(intElementRefs, id, enteredValue, getCommandStack()));
             }
         }
@@ -118,7 +118,7 @@ public class SetNumericalEvaluationAction extends URNSelectionAction {
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         IntegerInputRangeDialog dialog = new IntegerInputRangeDialog(shell);
 
-        if (StrategyEvaluationPreferences.getVisualizeAsPositiveRange()) {
+        if (StrategyEvaluationPreferences.getVisualizeAsPositiveRange(getUrnspec())) {
             return (dialog.open(Messages.getString("SetEvaluation.WindowEval").replace("-100", "0"), //$NON-NLS-1$
                     Messages.getString("SetEvaluation.TextEval"), //$NON-NLS-1$ 
                     currentEval, 0, 100));

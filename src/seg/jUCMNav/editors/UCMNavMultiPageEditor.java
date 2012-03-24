@@ -1,11 +1,12 @@
 package seg.jUCMNav.editors;
 
-import java.net.URI;
-
 import grl.GrlPackage;
+
+import java.net.URI;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Adapter;
@@ -44,7 +45,6 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.actionContributors.ActionRegistryManager;
 import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
@@ -612,7 +612,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             // ignore
         } catch (WorkbenchException e) {
             // ignore
+        } catch (AssertionFailedException e) {
+            // ignore
         }
+        
     }
 
     /**

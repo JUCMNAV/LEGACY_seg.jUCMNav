@@ -1,6 +1,7 @@
 package seg.jUCMNav.editparts;
 
 import grl.Contribution;
+import grl.ContributionChange;
 import grl.LinkRef;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -16,7 +17,6 @@ import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
-import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import urncore.ConnectionLabel;
 import urncore.IURNConnection;
@@ -124,14 +124,22 @@ public class ConnectionLabelEditPart extends LabelEditPart {
             String type = contrib.getContribution().getName();
             if (!type.equals("Unknown")) { //$NON-NLS-1$
 
+
                 if (GeneralPreferencePage.getGrlTextVisible()) {
                     if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
-                        int val = contrib.getQuantitativeContribution();
-                        val = StrategyEvaluationPreferences.getValueToVisualize(val);
+                        //int val = contrib.getQuantitativeContribution();
+                        int val = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
+                        //val = StrategyEvaluationPreferences.getValueToVisualize(val); 
                         labelFigure.setText("" + val); //$NON-NLS-1$
                     } else {
                         labelFigure.setText(type);
                     }
+
+                    ContributionChange change = EvaluationStrategyManager.getInstance().findApplicableContributionChange(contrib, true);
+                    if (change != null && change.getContext() == EvaluationStrategyManager.getInstance().getContributionContext())
+                        labelFigure.setText(labelFigure.getText() + "(**)"); //$NON-NLS-1$ // two stars to mean locally changed.
+                    else if (change != null)
+                        labelFigure.setText(labelFigure.getText() + "(*)"); //$NON-NLS-1$ // star to mean inherited change.
                 } else {
                     labelFigure.setText(""); //$NON-NLS-1$
                 }

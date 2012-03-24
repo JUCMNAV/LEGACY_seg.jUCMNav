@@ -367,7 +367,7 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     ImportanceType importance = element.getImportance();
 
 
-                    QualitativeLabel ql = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue(evaluation);
+                    QualitativeLabel ql = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue(element.getGrlspec().getUrnspec(), evaluation);
                     int ci = importanceMap[importance.getValue()][ql.getValue()];
                     sums[ci]++;
                     total++;

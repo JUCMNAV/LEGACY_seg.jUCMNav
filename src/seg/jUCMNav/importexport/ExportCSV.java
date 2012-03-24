@@ -279,7 +279,7 @@ public class ExportCSV implements IURNExport {
               Evaluation evaluation = esm.getEvaluationObject(element);
 
               int val = evaluation.getEvaluation();
-              val = StrategyEvaluationPreferences.getValueToVisualize(val);
+              //val = StrategyEvaluationPreferences.getValueToVisualize(val);
 
               if (evaluation.getStrategies() != null) {
                   write(COMMA + val);

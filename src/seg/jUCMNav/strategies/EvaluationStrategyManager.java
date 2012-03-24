@@ -709,14 +709,23 @@ public class EvaluationStrategyManager {
     public void syncIntentionalElementQualitativeEvaluation(Evaluation eval, int value) {
         QualitativeLabel label = eval.getQualitativeEvaluation();
 
-        QualitativeLabel toSet = getQualitativeEvaluationForQuantitativeValue(value);
+        URNspec urn = null;
+        if (eval.getIntElement()!=null && eval.getIntElement().getGrlspec()!=null)
+            urn = eval.getIntElement().getGrlspec().getUrnspec();
+        else if (multieditor!=null)
+            urn = multieditor.getModel();
+        
+        QualitativeLabel toSet = getQualitativeEvaluationForQuantitativeValue(urn, value);
 
         if (!label.equals(toSet))
             eval.setQualitativeEvaluation(toSet);
 
     }
 
-    public static QualitativeLabel getQualitativeEvaluationForQuantitativeValue(int value) {
+    public static QualitativeLabel getQualitativeEvaluationForQuantitativeValue(URNspec urn, int value) {
+        value = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn, value);
+
+        
         if (value == IGRLStrategyAlgorithm.SATISFICED)
             return QualitativeLabel.SATISFIED_LITERAL;
         else if (value > IGRLStrategyAlgorithm.NONE && value < IGRLStrategyAlgorithm.SATISFICED)
@@ -769,23 +778,34 @@ public class EvaluationStrategyManager {
         String type = eval.getQualitativeEvaluation().getName();
         int evaluation = eval.getEvaluation();
 
+        URNspec urn = null;
+        if (eval.getIntElement()!=null && eval.getIntElement().getGrlspec()!=null)
+            urn = eval.getIntElement().getGrlspec().getUrnspec();
+        else if (multieditor!=null)
+            urn = multieditor.getModel();
+        
+        evaluation = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn, evaluation);
+        
+        int result = 0;
         if (QualitativeLabel.SATISFIED_LITERAL.getName().equals(type) && evaluation < IGRLStrategyAlgorithm.SATISFICED)
-            eval.setEvaluation(IGRLStrategyAlgorithm.SATISFICED);
+            result =IGRLStrategyAlgorithm.SATISFICED;
         else if (QualitativeLabel.WEAKLY_SATISFIED_LITERAL.getName().equals(type)
                 && (evaluation <= IGRLStrategyAlgorithm.NONE || evaluation == IGRLStrategyAlgorithm.SATISFICED))
-            eval.setEvaluation(IGRLStrategyAlgorithm.WSATISFICED);
+            result =IGRLStrategyAlgorithm.WSATISFICED;
         else if (QualitativeLabel.WEAKLY_DENIED_LITERAL.getName().equals(type)
                 && (evaluation >= IGRLStrategyAlgorithm.NONE || evaluation == IGRLStrategyAlgorithm.DENIED))
-            eval.setEvaluation(IGRLStrategyAlgorithm.WDENIED);
+            result =IGRLStrategyAlgorithm.WDENIED;
         else if (QualitativeLabel.DENIED_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.DENIED)
-            eval.setEvaluation(IGRLStrategyAlgorithm.DENIED);
+            result =IGRLStrategyAlgorithm.DENIED;
         else if (QualitativeLabel.NONE_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.NONE)
-            eval.setEvaluation(IGRLStrategyAlgorithm.NONE);
+            result =IGRLStrategyAlgorithm.NONE;
         else if (QualitativeLabel.CONFLICT_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.CONFLICT)
-            eval.setEvaluation(IGRLStrategyAlgorithm.CONFLICT);
+            result =IGRLStrategyAlgorithm.CONFLICT;
         else if (QualitativeLabel.UNKNOWN_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.UNDECIDED)
-            eval.setEvaluation(IGRLStrategyAlgorithm.UNDECIDED);
+            result =IGRLStrategyAlgorithm.UNDECIDED;
 
+        result = StrategyEvaluationPreferences.getEquivalentValueIn0To100RangeIfApplicable(urn, result);
+        eval.setEvaluation(result);
     }
 
     /*
@@ -953,9 +973,18 @@ public class EvaluationStrategyManager {
      * Sets _numEval and _qualEval metadata for the actor
      */
     private void setEvaluationMetadata(Actor actor, int actorEval) {
+        
+
+        URNspec urn = null;
+        if (actor.getGrlspec()!=null)
+            urn = actor.getGrlspec().getUrnspec();
+        else if (multieditor!=null)
+            urn = multieditor.getModel();
+        
+
         String numEvalAsString = Integer.toString(actorEval);
-        if (getQualitativeEvaluationForQuantitativeValue(actorEval)==null)return;
-        String qualEvalAsString = getQualitativeEvaluationForQuantitativeValue(actorEval).toString();
+        if (getQualitativeEvaluationForQuantitativeValue(urn, actorEval)==null)return;
+        String qualEvalAsString = getQualitativeEvaluationForQuantitativeValue(urn,actorEval).toString();
 
         Metadata metaNumerical = MetadataHelper.getMetaDataObj(actor, METADATA_NUMEVAL);
         if (metaNumerical != null) {

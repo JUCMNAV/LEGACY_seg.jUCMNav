@@ -976,7 +976,7 @@ public class URNNamingHelper {
             return ""; //$NON-NLS-1$
         else {
             int val = change.getNewQuantitativeContribution();
-            val = StrategyEvaluationPreferences.getValueToVisualize(val);
+            //val = StrategyEvaluationPreferences.getValueToVisualize(val);
             return getName(contrib.getSrc()) + " (" + change.getNewContribution().getName() + "/" + val + ") " + getName(contrib.getDest()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
     }
@@ -1004,7 +1004,7 @@ public class URNNamingHelper {
         {
             Contribution contrib = (Contribution)elem;
             int val = contrib.getQuantitativeContribution();
-            val = StrategyEvaluationPreferences.getValueToVisualize(val);
+            //val = StrategyEvaluationPreferences.getValueToVisualize(val);
             return getName(contrib.getSrc()) + " (" + contrib.getContribution().getName() + "/" + val + ") " + getName(contrib.getDest());   
         }
          if (elem == null)

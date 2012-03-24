@@ -40,8 +40,10 @@ import org.eclipse.jface.resource.StringConverter;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.figures.ColorManager;
+import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import ucm.UCMspec;
 import ucm.UcmFactory;
 import ucm.map.AndFork;
@@ -716,6 +718,9 @@ public class ModelCreationFactory implements CreationFactory {
         indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.flexibility")); //$NON-NLS-1$
         indicatorGroup.setIsRedesignCategory(true);
         urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
+        
+        // set default value. 
+        StrategyEvaluationRangeHelper.setCurrentRange(urnspec, StrategyEvaluationPreferences.getVisualizeAsPositiveRange(null));
         
         result = urnspec;
         return result;

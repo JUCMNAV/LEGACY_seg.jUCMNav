@@ -12,6 +12,8 @@ import org.eclipse.gef.commands.CommandStack;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
+import urn.URNspec;
 
 /**
  * 
@@ -54,8 +56,14 @@ public class ChangeNumericalEvaluationCommand extends Command implements JUCMNav
             ies.oldEval = esm.getEvaluation(currentIERef.getDef());
             intElementStates.add(ies);
 
-            if (id < USER_ENTRY) // input from sub-menu +100 -> -100
+            if (id < USER_ENTRY) { // input from sub-menu +100 -> -100 
                 ies.newEval = values[id];
+                URNspec urn = null;
+                if (ies.intElemRef.getDef()!=null && ies.intElemRef.getDef().getGrlspec()!=null)
+                    urn = ies.intElemRef.getDef().getGrlspec().getUrnspec();
+                
+                ies.newEval = StrategyEvaluationPreferences.getEquivalentValueIn0To100RangeIfApplicable(urn, ies.newEval);
+            }
             else if (id == USER_ENTRY) // new value entered through user dialog
                 ies.newEval = enteredValue;
             else if (id == INCREASE) // increase evaluation

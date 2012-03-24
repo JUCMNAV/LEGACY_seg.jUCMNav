@@ -407,7 +407,7 @@ public class ExportDXL implements IURNExport {
             // write(QUOTES_COMMA);
 
             int val = eval.getEvaluation();
-            val = StrategyEvaluationPreferences.getValueToVisualize(val);
+            //val = StrategyEvaluationPreferences.getValueToVisualize(val);
 
             String temp = QUOTES + val + QUOTES_END_ELEM;
             write(temp);

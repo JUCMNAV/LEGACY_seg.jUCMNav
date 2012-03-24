@@ -11,6 +11,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.util.ICreateElementCommand;
+import urn.URNspec;
 
 /**
  * Superclass for our selection actions to remove redundant code.
@@ -63,12 +64,27 @@ public abstract class URNSelectionAction extends SelectionAction {
 
     protected void autoDirectEdit(Command cmd) {
         if (cmd instanceof ICreateElementCommand) {
-            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) this.getWorkbenchPart().getSite().getPage().getActiveEditor();
+            UCMNavMultiPageEditor editor = getEditor();
             EditPartViewer viewer = editor.getCurrentPage().getGraphicalViewer();
             Object part = (EditPart) viewer.getEditPartRegistry().get(((ICreateElementCommand) cmd).getNewModelElement());
 
             if (part instanceof EditPart)
                 ((EditPart) part).performRequest(directEditRequest);
         }
+    }
+
+    protected UCMNavMultiPageEditor getEditor() {
+        if (this.getWorkbenchPart()!=null && this.getWorkbenchPart().getSite()!=null && this.getWorkbenchPart().getSite().getPage()!=null && this.getWorkbenchPart().getSite().getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) this.getWorkbenchPart().getSite().getPage().getActiveEditor();
+            return editor;
+        }
+        return null;
+    }
+
+    protected URNspec getUrnspec() {
+        if (getEditor() != null) {
+            return getEditor().getModel();
+        }
+        return null;
     }
 }

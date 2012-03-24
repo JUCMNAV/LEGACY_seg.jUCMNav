@@ -30,8 +30,8 @@ import seg.jUCMNav.figures.ActorFigure;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.ContainerPropertySource;
+import urn.URNspec;
 
 /**
  * Edit part for the Actor Ref, who listen for changes in both ref and def
@@ -212,7 +212,12 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                         evaluationLabel.setText(null);
                     int evalInt = Integer.parseInt(evaluation);
                     // Set the label icon
-                    QualitativeLabel ql = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue((evalInt));
+
+                    URNspec urn = null;
+                    if (getActorRef().getContDef() instanceof Actor && ((Actor) getActorRef().getContDef()).getGrlspec() !=null) 
+                        urn = ((Actor) getActorRef().getContDef()).getGrlspec().getUrnspec();
+                    
+                    QualitativeLabel ql = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue(urn, evalInt);
                     switch (ql.getValue()) {
                     case QualitativeLabel.DENIED:
                         evaluationImg = (JUCMNavPlugin.getImage("icons/Actor-D-24x16.gif")); //$NON-NLS-1$
@@ -263,7 +268,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
      */
     public String calculateEvaluation() {
     	int val = EvaluationStrategyManager.getInstance().getDisplayActorEvaluation(((Actor) getActorRef().getContDef()));
-    	val = StrategyEvaluationPreferences.getValueToVisualize(val);
+    	//val = StrategyEvaluationPreferences.getValueToVisualize(val);
     	if( EvaluationStrategyManager.getInstance().displayDifferenceMode() ) {
     		return  '<' + String.valueOf(val) + '>'; // add angle brackets to signify strategy difference mode
     	} else {

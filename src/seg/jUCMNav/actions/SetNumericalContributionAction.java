@@ -49,11 +49,13 @@ public class SetNumericalContributionAction extends URNSelectionAction {
      * We need to have a link reference selected.
      */
     protected boolean calculateEnabled() {
+        boolean isPositiveRange = StrategyEvaluationPreferences.getVisualizeAsPositiveRange(getUrnspec());
+        isPositiveRange = false; // disabled for contributions
         
         // doing this here instead of the constructor just because it will refresh properly after we change the preferences.
         try {
             int val = Integer.parseInt(values[id].replace("+", ""));
-            val = StrategyEvaluationPreferences.getValueToVisualize(val);
+            //val = StrategyEvaluationPreferences.getValueToVisualize(val);
             
             if (val>0)
                 setText("+" + Integer.toString(val));
@@ -80,10 +82,10 @@ public class SetNumericalContributionAction extends URNSelectionAction {
             int oldContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution((Contribution) lr.getLink());
 
             if (id == ChangeNumericalContributionCommand.INCREASE) { // increase operation, verify if possible
-                if (oldContrib == (StrategyEvaluationPreferences.getVisualizeAsPositiveRange() ? 99 : 100))
+                if (oldContrib ==  (isPositiveRange ? 99 : 100))
                     return false; // can't increase from 100
             } else if (id == ChangeNumericalContributionCommand.DECREASE) { // decrease operation, verify if possible
-                if (oldContrib <= (StrategyEvaluationPreferences.getVisualizeAsPositiveRange() ? -99 : -100))
+                if (oldContrib <= (isPositiveRange ? 0 : -100))
                     return false; // can't decrease from -100
             }
         }
@@ -99,38 +101,42 @@ public class SetNumericalContributionAction extends URNSelectionAction {
     }
 
     public void run() {
+        boolean isPositiveRange = StrategyEvaluationPreferences.getVisualizeAsPositiveRange(getUrnspec());
+        isPositiveRange = false; // disabled for contributions
         if (id < ChangeNumericalContributionCommand.USER_ENTRY || id >= ChangeNumericalContributionCommand.INCREASE)
-            execute(new ChangeNumericalContributionCommand(linkRefs, id, (StrategyEvaluationPreferences.getVisualizeAsPositiveRange() ? 2 : 1), getCommandStack()));
+            execute(new ChangeNumericalContributionCommand(linkRefs, id, 1, getCommandStack()));
         else if (id == ChangeNumericalContributionCommand.USER_ENTRY) {
             String currentContrib = ""; //$NON-NLS-1$
 
             if (linkRefs.size() <= 1) {
                 //int val = ((Contribution) ((LinkRef) (linkRefs.get(0))).getLink()).getQuantitativeContribution();
                 int val = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution((Contribution) ((LinkRef) (linkRefs.get(0))).getLink());
-                val = StrategyEvaluationPreferences.getValueToVisualize(val);
+                //val = StrategyEvaluationPreferences.getValueToVisualize(val);
                 currentContrib = Integer.toString(val);
             }
             
             Integer userEntry = enterContribution(currentContrib);
             if (userEntry != null) {
                 int enteredValue = userEntry.intValue();
-                enteredValue = StrategyEvaluationPreferences.getModelValueFromVisualization(enteredValue);
+                //enteredValue = StrategyEvaluationPreferences.getModelValueFromVisualization(enteredValue);
                 execute(new ChangeNumericalContributionCommand(linkRefs, id, enteredValue, getCommandStack()));
             }
         }
     }
 
     private Integer enterContribution(String currentContrib) {
+        boolean isPositiveRange = StrategyEvaluationPreferences.getVisualizeAsPositiveRange(getUrnspec());
+        isPositiveRange = false; // disabled for contributions
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         IntegerInputRangeDialog dialog = new IntegerInputRangeDialog(shell);
 
-        if (StrategyEvaluationPreferences.getVisualizeAsPositiveRange()) {
+        if (isPositiveRange) {
             return (dialog.open(Messages.getString("SetContribution.WindowEval").replace("-100", "0"), //$NON-NLS-1$
                     Messages.getString("SetContribution.TextEval"), //$NON-NLS-1$ 
                     currentContrib, 0, 100));
         } else
-            return (dialog.open(Messages.getString("SetEvaluation.WindowEval"), //$NON-NLS-1$
-                    Messages.getString("SetEvaluation.TextEval"), //$NON-NLS-1$ 
+            return (dialog.open(Messages.getString("SetContribution.WindowEval"), //$NON-NLS-1$
+                    Messages.getString("SetContribution.TextEval"), //$NON-NLS-1$ 
                     currentContrib, -100, 100));
     }
 

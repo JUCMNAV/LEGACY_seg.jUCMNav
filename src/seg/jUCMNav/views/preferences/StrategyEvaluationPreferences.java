@@ -3,6 +3,9 @@ package seg.jUCMNav.views.preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
+import urn.URNspec;
 
 /**
  * Encapsulates load/save of the strategy evaluation properties.
@@ -31,6 +34,7 @@ public class StrategyEvaluationPreferences {
     public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$
     public static final String PREF_EVALFILLED = "PREF_EVALFILLED"; //$NON-NLS-1$
     public static final String PREF_VISUALIZEASPOSITIVERANGE = "PREF_VISUALIZEASPOSITIVERANGE"; //$NON-NLS-1$
+    
 	
 	
 
@@ -72,8 +76,13 @@ public class StrategyEvaluationPreferences {
      * 
      * @return should we visualize -100 to 100 as a positive range (0 to 100)?
      */
-    public static boolean getVisualizeAsPositiveRange() {
-        return getPreferenceStore().getBoolean(PREF_VISUALIZEASPOSITIVERANGE);
+    public static boolean getVisualizeAsPositiveRange(URNspec urn) {
+        if (urn == null)
+            return getPreferenceStore().getBoolean(PREF_VISUALIZEASPOSITIVERANGE);
+        else
+        {
+            return StrategyEvaluationRangeHelper.getCurrentRange(urn);
+        }
     }
     
     /**
@@ -126,9 +135,9 @@ public class StrategyEvaluationPreferences {
      * @param modelValue
      * @return
      */
-    public static int getValueToVisualize(int modelValue)
+    public static int getEquivalentValueIn0To100RangeIfApplicable(URNspec urn, int modelValue)
     {
-        if (!getVisualizeAsPositiveRange())
+        if (!getVisualizeAsPositiveRange(urn) || modelValue == IGRLStrategyAlgorithm.CONFLICT || modelValue == IGRLStrategyAlgorithm.UNDECIDED)
             return modelValue;
         else
             
@@ -141,11 +150,11 @@ public class StrategyEvaluationPreferences {
      * @param viewValue
      * @return
      */
-    public static int getModelValueFromVisualization(int viewValue)
+    public static int getEquivalentValueInFullRangeIfApplicable(URNspec urn, int viewValue)
     {
-        if (!getVisualizeAsPositiveRange())
+        if (!getVisualizeAsPositiveRange(urn) || viewValue == IGRLStrategyAlgorithm.CONFLICT || viewValue == IGRLStrategyAlgorithm.UNDECIDED)
             return viewValue;
-        else
+        else 
             
             return viewValue * 2 - 100; 
     }

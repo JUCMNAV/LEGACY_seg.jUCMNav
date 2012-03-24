@@ -61,6 +61,7 @@ import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.SubmenuAction;
 import seg.jUCMNav.actions.TagElementAction;
+import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
@@ -383,6 +384,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GROUP_UNCOMMON, action);
         
         action = getActionRegistry().getAction(DeleteUnreferencedDefinitionAction.DELETEDEF);
+        if (action.isEnabled())
+            manager.appendToGroup(GROUP_UNCOMMON, action);
+        
+        action = getActionRegistry().getAction(ToggleEvaluationRangeAction.TOGGLEEVALUATIONRANGE);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);
 
