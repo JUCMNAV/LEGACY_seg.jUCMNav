@@ -1,5 +1,7 @@
 package seg.jUCMNav.importexport.reports.utils;
 
+import java.io.IOException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
@@ -27,12 +29,18 @@ public class jUCMNavErrorDialog {
      *            the error message coming from the exception
      * 
      */
-    public jUCMNavErrorDialog(String errorMessage) {
-        MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
+    public jUCMNavErrorDialog(final String errorMessage) {
+    	
+    	// need syncExec as it is called from non-UI wizard threads
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+		        MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
 
-        messageBox.setText("Warning"); //$NON-NLS-1$
-        messageBox.setMessage(errorMessage);
-        messageBox.open();
+		        messageBox.setText("Warning"); //$NON-NLS-1$
+		        messageBox.setMessage(errorMessage);
+		        messageBox.open();
+			}
+		});
     }
 
 }

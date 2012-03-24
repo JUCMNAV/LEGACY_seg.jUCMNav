@@ -139,6 +139,9 @@ public class PDFReportDiagram extends PDFReport {
      */
 
     public void insertDiagram(final Document document, HashMap mapDiagrams, IURNDiagram diagram, URNdefinition urndef, int i, final Rectangle pagesize) {
+    	
+//    	return; // try outputting report without diagrams
+    	
         try {
             // get the high level IFigure to be saved.
             final IFigure pane = (IFigure) mapDiagrams.get(diagram);
@@ -146,7 +149,12 @@ public class PDFReportDiagram extends PDFReport {
             final int paneWidth = Math.round(pane.getSize().width * ReportUtils.ZOOMFACTOR);
             final int paneHeight = Math.round(pane.getSize().height * ReportUtils.ZOOMFACTOR);
             
-            Image image = new Image(Display.getCurrent(), paneWidth, paneHeight);
+    		Display.getDefault().syncExec(new Runnable() {
+    			public void run() {
+
+            
+//            Image image = new Image(Display.getCurrent(), paneWidth, paneHeight);
+            Image image = new Image(Display.getDefault(), paneWidth, paneHeight);
 
             GC gc = new GC(image);
             SWTGraphics graphics = new SWTGraphics(gc);
@@ -173,6 +181,9 @@ public class PDFReportDiagram extends PDFReport {
             gc.dispose();
             image.dispose();
             awtImage.flush();
+
+    			}
+    		});
 
             boolean isLast = i == mapDiagrams.size() - 1;
 

@@ -38,7 +38,7 @@ public class ReportUtils {
      * For setting up resolution. 1.0 = 100% zoom. Export speed slows down by the square of this value...
      * 
      */
-    public final static float ZOOMFACTOR = 1.5f;
+    public final static float ZOOMFACTOR = 1.0f;  // changed from 1.5
 
     /**
      * @param pagesize

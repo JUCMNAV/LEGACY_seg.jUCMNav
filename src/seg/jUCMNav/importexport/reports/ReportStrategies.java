@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.swt.widgets.Display;
+
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -31,6 +33,8 @@ import com.lowagie.text.Table;
  * 
  */
 public class ReportStrategies extends ReportDataDictionary {
+
+	private static Evaluation evaluation = null;
 
     public ReportStrategies() {
 
@@ -56,7 +60,13 @@ public class ReportStrategies extends ReportDataDictionary {
             if (!grlspec.getStrategies().isEmpty()) {
                 document.add(Chunk.NEWLINE);
                 writeStrategies(document, grlspec, pagesize);
-                EvaluationStrategyManager.getInstance(false).setStrategy(null); // Avoid NPE when adding IEs after reporting
+                
+            	Display.getDefault().syncExec(new Runnable() {
+            		public void run() {
+                        EvaluationStrategyManager.getInstance(false).setStrategy(null); // Avoid NPE when adding IEs after reporting
+            		}
+            	});
+
             }
         } catch (Exception e) {
             jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
@@ -272,19 +282,33 @@ public class ReportStrategies extends ReportDataDictionary {
      *            the number of cells the strategy has to fill
      */
 
-    protected void writeEvaluation(Table table, EvaluationStrategy strategy, IntentionalElement intentionalElement, int strategyCellWidth) throws IOException {
-        EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
-        EvaluationStrategyManager.getInstance(false).calculateEvaluation();
+    protected void writeEvaluation(Table table, final EvaluationStrategy strategy, IntentionalElement intentionalElement, int strategyCellWidth) throws IOException {
+    	
+    	Display.getDefault().syncExec(new Runnable() {
+    		public void run() {
 
+    			EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
+    			EvaluationStrategyManager.getInstance(false).calculateEvaluation();
+    		}
+    	});
+
+    	
         // Write evaluation for intentional elements
         boolean evaluationFound = false;
         if (evaluationFound == false) {
 
             for (Iterator iter = strategy.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
-                IntentionalElement element = (IntentionalElement) iter.next();
+                final IntentionalElement element = (IntentionalElement) iter.next();
 
                 if (element.getId() == intentionalElement.getId()) {
-                    Evaluation evaluation = EvaluationStrategyManager.getInstance(false).getEvaluationObject(element);
+                	
+                	Display.getDefault().syncExec(new Runnable() {
+                		public void run() {
+                            evaluation = EvaluationStrategyManager.getInstance(false).getEvaluationObject(element);
+                		}
+                	});
+
+                	
 
                     int evalValue = evaluation.getEvaluation();
                     evalValue = StrategyEvaluationPreferences.getValueToVisualize(evalValue);

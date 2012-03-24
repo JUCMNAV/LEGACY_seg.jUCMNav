@@ -38,11 +38,18 @@ public class PDFReport extends Report {
 
         // Create a report document with page size from preferences, 72 points per inch
         String sReportHeight = ReportGeneratorPreferences.getHeight();
-        fHeight = Float.parseFloat(sReportHeight) * 72;
         String sReportWidth = ReportGeneratorPreferences.getWidth();
-        fWidth = Float.parseFloat(sReportWidth) * 72;
-        pagesize = new Rectangle(fWidth, fHeight);
 
+        try {
+			fHeight = Float.parseFloat(sReportHeight) * 72;
+			fWidth = Float.parseFloat(sReportWidth) * 72;
+		} catch (NumberFormatException e1) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e1.getMessage());
+			e1.printStackTrace();
+		}
+        
+        pagesize = new Rectangle(fWidth, fHeight);
+        
         Document document = new Document(pagesize);
 
         try {
@@ -53,7 +60,7 @@ public class PDFReport extends Report {
             // set pdf version and open the pdf document stream
             writer.setPdfVersion(PdfWriter.PDF_VERSION_1_6);
             writer.setViewerPreferences(PdfWriter.PageModeFullScreen);
-
+            
             document.open();
 
             // call Report.export to create the generic sections
