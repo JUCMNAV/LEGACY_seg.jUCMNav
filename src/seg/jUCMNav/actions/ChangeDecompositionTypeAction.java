@@ -47,7 +47,7 @@ public class ChangeDecompositionTypeAction extends URNSelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.INTENTIONALELEMENTREF:
-            selection = sel.getIntentionalelementref();
+            selection = sel.getIntentionalElementRef();
             for (Object link: selection.getDef().getLinksDest()) {
                 if (link instanceof Decomposition)
                     return true;

@@ -8,6 +8,7 @@ import grl.ContributionContextGroup;
 import grl.ContributionType;
 import grl.ElementLink;
 import grl.Evaluation;
+import grl.EvaluationRange;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.ImportanceType;
@@ -67,7 +68,11 @@ public class EvaluationStrategyManager {
      * Metadata name used to store run-time GRL qualitative evaluations
      */
     public static final String METADATA_QUALEVAL = "_qualEval"; //$NON-NLS-1$
-
+    
+    /**
+     * Metadata name used to store the run-time evaluations when a range is executed. 
+     */
+    public static final String METADATA_RANGEVALUES = "_rangeNumEvals"; //$NON-NLS-1$
 
     private static HashMap<UCMNavMultiPageEditor, EvaluationStrategyManager> strategyManagerInstances = null;
  // just in case we're actually accessing it via some non UI thread during export and/or before the app loads. 
@@ -151,23 +156,84 @@ public class EvaluationStrategyManager {
 
     }
 
+    public synchronized void calculateEvaluations(URNspec urn, EvaluationRange range)
+    {
+        if (strategy==null || range == null || range.getStep() == 0 || (range.getEnd() - range.getStart()) * range.getStep() < 0)
+            return;
+        
+        HashMap results = new HashMap();
+        long before = System.currentTimeMillis();
+
+        for (Iterator iterator = urn.getGrlspec().getIntElements().iterator(); iterator.hasNext();) {
+            IntentionalElement ie = (IntentionalElement) iterator.next();
+            MetadataHelper.removeMetaData(ie,  METADATA_RANGEVALUES);
+            MetadataHelper.addMetaData(urn, ie, METADATA_RANGEVALUES, "" );
+        }
+
+        
+        for(int i=range.getStart();i<=range.getEnd();i+=range.getStep())
+        {
+            range.getEval().setEvaluation(i);
+            calculateEvaluationExecute();
+            
+            for (Iterator iterator = evaluations.keySet().iterator(); iterator.hasNext();) {
+                IntentionalElement ie = (IntentionalElement) iterator.next();
+                EvaluationRange r = (EvaluationRange) results.get(ie);
+                if (r == null) r = (EvaluationRange) ModelCreationFactory.getNewObject(urn, EvaluationRange.class);
+                results.put(ie,  r);
+                
+                Evaluation ev = (Evaluation) evaluations.get(ie);
+                
+                // if we have found a larger range, change it.  
+                if (r.getStart() > ev.getEvaluation())
+                {
+                    r.setStart(ev.getEvaluation());
+                }
+                if (r.getEnd() < ev.getEvaluation())
+                {
+                    r.setEnd(ev.getEvaluation());
+                }    
+                
+                if (ev.getStrategies() == null) // only do it for temporarily created ranges - do not override existing ones. 
+                {
+                    ev.setEvalRange(r);
+                }
+                results.put(ie, r);
+                
+                String val = MetadataHelper.getMetaData(ie, METADATA_RANGEVALUES);
+                if (val == null) val = "";
+                MetadataHelper.addMetaData(urn, ie, METADATA_RANGEVALUES, val + i + "=" +  ev.getEvaluation() + ";" );
+            }
+        }
+        
+        long after = System.currentTimeMillis();
+        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+        
+        refreshDiagrams();        
+    }
     public synchronized void calculateEvaluation() {
         if (strategy == null) {
             return;
         }
+        long before = System.currentTimeMillis();
+
+        calculateEvaluationExecute();
+        
+        long after = System.currentTimeMillis();
+        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+        
+        refreshDiagrams();
+    }
+
+    private void calculateEvaluationExecute() {
         setupEvaluationAlgorithm();
         
-        long before = System.currentTimeMillis();
         algo.init(strategy, evaluations);
         if(algo.isConstraintSolverAlgorithm()) {
         	processConstraintSolverAlgorithm();
         } else {
         	processNonConstraintSolverAlgorithm();
         }
-        long after = System.currentTimeMillis();
-        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
-        
-        refreshDiagrams();
     }
 
     private synchronized void refreshDiagrams() {

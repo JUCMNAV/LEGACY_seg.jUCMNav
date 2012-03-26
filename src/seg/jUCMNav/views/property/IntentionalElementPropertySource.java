@@ -4,6 +4,7 @@
 package seg.jUCMNav.views.property;
 
 import grl.Evaluation;
+import grl.EvaluationRange;
 import grl.EvaluationStrategy;
 import grl.ImportanceType;
 import grl.IntentionalElement;
@@ -41,6 +42,7 @@ import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.descriptors.CustomTextPropertyDescriptor;
+import seg.jUCMNav.views.property.descriptors.EvaluationRangePropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.IndicatorGroupPropertyDescriptor;
 import urn.URNspec;
 import urncore.IURNNode;
@@ -138,6 +140,22 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 EAttribute attr = (EAttribute) it.next();
                 addPropertyToDescriptor(descriptors, attr, temp.eClass());
             }
+            
+            // add the groups properties for Indicator
+            if (temp.getStrategies()!=null && temp.getEvalRange()!=null) {
+                EStructuralFeature attr = temp.eClass().getEStructuralFeature("evalRange"); //$NON-NLS-1$
+                addPropertyToDescriptor(descriptors, attr, temp.getEvalRange().eClass());
+            }
+                 
+            /*
+            if (temp.getStrategies()!=null) {
+                EvaluationRange range = temp.getEvalRange();
+                it = range.eClass().getEAllAttributes().iterator();
+                if (attr.getName() == "evalRange" && temp.getStrategies()!=null)
+                    addPropertyToDescriptor(descriptors, attr, temp.getStrategies().eClass());
+            }
+                 */
+            
 
             // Add KPIEvalValueSet to Indicator
             if (def instanceof Indicator) {
@@ -169,6 +187,8 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             strategyDescriptor(descriptors, attr, propertyid);
         } else if (c.getInstanceClass() == Evaluation.class) {
             evaluationDescriptor(descriptors, attr, propertyid);
+        } else if (type.getInstanceClass() == EvaluationRange.class) {
+            evaluationRangeDescriptor(descriptors, attr, propertyid);
         } else if (c.getInstanceClass() == KPIEvalValueSet.class) {
             kpiEvalValueSetDescriptor(descriptors, attr, propertyid);
         } else if (type.getInstanceClass() == IndicatorGroup.class) {
@@ -177,6 +197,25 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             super.addPropertyToDescriptor(descriptors, attr, c);
         }
     }
+    
+
+    /**
+     * @param descriptors
+     * @param propertyid
+     */
+    private void evaluationRangeDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+        PropertyDescriptor pd = null;
+        String name = attr.getName().toLowerCase();
+        if (name.indexOf("evalrange") >= 0 && def!=null) { //$NON-NLS-1$
+            Evaluation ev = EvaluationStrategyManager.getInstance().getEvaluationObject(def);
+            pd = new EvaluationRangePropertyDescriptor(propertyid, ev);
+        } else {
+            pd = new TextPropertyDescriptor(propertyid, attr.getName());
+        }
+        pd.setCategory("Strategy"); //$NON-NLS-1$
+        descriptors.add(pd);
+    }
+
 
     /**
      * @param descriptors
@@ -418,6 +457,8 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             result = def.eGet(feature);
         else if (propertyid.getEClass().getName() == "EvaluationStrategy") { //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationStrategy().eGet(feature);
+        } else if (propertyid.getEClass().getName() == "EvaluationRange") { //$NON-NLS-1$
+            result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).eGet(feature);
         } else if (propertyid.getEClass().getName() == "Evaluation") { //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).eGet(feature);
             /*if (result instanceof Integer)

@@ -25,7 +25,7 @@ public class HyperlinkUtils {
         URNmodelElement element = null;
 
         if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
-            element = sel.getIntentionalelementref().getDef();
+            element = sel.getIntentionalElementRef().getDef();
         } else if (sel.getSelectionType() == SelectionHelper.ACTORREF) {
             element = (Actor) sel.getActorref().getContDef();
         } else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF) {

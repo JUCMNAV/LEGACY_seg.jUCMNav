@@ -39,7 +39,7 @@ public class AddBeliefAction extends URNSelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.INTENTIONALELEMENTREF:
-            selection = sel.getIntentionalelementref();
+            selection = sel.getIntentionalElementRef();
             return true;
         }
         return false;

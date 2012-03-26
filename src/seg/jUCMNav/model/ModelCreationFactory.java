@@ -8,9 +8,11 @@ import grl.Contribution;
 import grl.ContributionChange;
 import grl.ContributionContext;
 import grl.ContributionContextGroup;
+import grl.ContributionRange;
 import grl.Decomposition;
 import grl.Dependency;
 import grl.Evaluation;
+import grl.EvaluationRange;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLspec;
@@ -395,6 +397,10 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createAnything();
             } else if(targetClass.equals(ConnectionLabel.class)) {
                 result = urncorefactory.createConnectionLabel();
+            } else if(targetClass.equals(EvaluationRange.class)) {
+                result = grlfactory.createEvaluationRange();
+            } else if(targetClass.equals(ContributionRange.class)) {
+                result = grlfactory.createContributionRange();
             } else {
                 // complex creations
                 if (targetClass.equals(UCMmap.class)) {

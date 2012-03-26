@@ -851,7 +851,7 @@ public class SelectionHelper {
         return intentionalelement;
     }
 
-    public IntentionalElementRef getIntentionalelementref() {
+    public IntentionalElementRef getIntentionalElementRef() {
         return intentionalelementref;
     }
 
@@ -929,10 +929,6 @@ public class SelectionHelper {
 
     public Responsibility getRespdef() {
         return respdef;
-    }
-
-    public IntentionalElement getIntentionalelement() {
-        return intentionalelement;
     }
 
     public KPIInformationElementRef getKpiInformationElementRef() {

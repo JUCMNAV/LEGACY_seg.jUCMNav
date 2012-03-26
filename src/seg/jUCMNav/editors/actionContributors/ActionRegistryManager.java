@@ -111,6 +111,7 @@ import seg.jUCMNav.actions.scenarios.AddVariableAction;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
 import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
+import seg.jUCMNav.actions.scenarios.EditEvaluationRangeAction;
 import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeContributionContextAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
@@ -670,6 +671,10 @@ public class ActionRegistryManager implements IDisposable {
         
         action = new EditMetadataAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.editMetadata")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new EditEvaluationRangeAction(editor);
+        action.setText("Edit Evaluation Range");
         addEditPartAction((SelectionAction) action);
 
         action = new EditIndicatorGroupsAction(editor);

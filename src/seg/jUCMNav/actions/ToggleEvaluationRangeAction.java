@@ -7,7 +7,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.model.commands.transformations.SetEvaluationRangeCommand;
+import seg.jUCMNav.model.commands.transformations.SetDesiredEvaluationRangeCommand;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import urn.URNspec;
 
@@ -47,7 +47,7 @@ public class ToggleEvaluationRangeAction extends URNSelectionAction {
         SelectionHelper selection = new SelectionHelper(getSelectedObjects());
         if (selection.getSelectionType() == SelectionHelper.URNSPEC) {
             URNspec urn = selection.getUrnspec();
-            return new SetEvaluationRangeCommand(urn);
+            return new SetDesiredEvaluationRangeCommand(urn);
         } else {
             return null;
         }

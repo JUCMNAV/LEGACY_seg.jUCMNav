@@ -1,43 +1,69 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import grl.Evaluation;
+import grl.EvaluationRange;
+
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import urn.URNspec;
 
 /**
- * Changes a URN model's range from [0,100] to [-100,100] and back again.
+ * Changes an Evaluation's EvaluationRange.
  * 
  * @author jkealey
  */
 public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand {
+
     private URNspec urn;
+    private boolean previouslyExisted = false;
+    private int start = 0;
+    private int end = 0;
+    private int step = 1;
+    private int oldStart = 0;
+    private int oldEnd = 0;
+    private int oldStep = 1;    
+    private Evaluation evaluation;
 
-    private boolean use0to100EvaluationRange = false;
+    private EvaluationRange range;
 
-    private boolean olduse0to100EvaluationRange = false;
+    private boolean shouldDelete = false;
 
-    
     /**
-     * Toggle the value. 
+     * Deletes the range associated with this ev.
+     * 
      * @param urn
+     *            the URn containing ev
+     * @param ev
+     *            the evaluation for which the range needs to be deleted.
      */
-    public SetEvaluationRangeCommand(URNspec urn)
-    {
+    public SetEvaluationRangeCommand(URNspec urn, Evaluation ev) {
         this.urn = urn;
-        this.use0to100EvaluationRange = !StrategyEvaluationRangeHelper.getCurrentRange(urn); 
+        this.evaluation = ev;
+        this.shouldDelete = true;
+
         setLabel("Set Evaluation Range");
     }
-    /**
-     * Set the value. 
-     * @param urn
-     * @param use0to100EvaluationRange
-     */
-    public SetEvaluationRangeCommand(URNspec urn, boolean use0to100EvaluationRange) {
-        this.urn = urn;
-        this.use0to100EvaluationRange = use0to100EvaluationRange;
 
+    /**
+     * Set this evaluation to this specified range.
+     * 
+     * @param urn
+     *            the URN containing ev
+     * @param ev
+     *            the evaluation for which the range needs to be set.
+     * @param start
+     * @param end
+     * @param step
+     */
+    public SetEvaluationRangeCommand(URNspec urn, Evaluation ev, int start, int end, int step) {
+        this.urn = urn;
+        this.evaluation = ev;
+        this.start = start;
+        this.end = end;
+        this.step = step;
+        this.shouldDelete = false;
         setLabel("Set Evaluation Range");
     }
 
@@ -45,16 +71,31 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        olduse0to100EvaluationRange = StrategyEvaluationRangeHelper.getCurrentRange(urn);
+
+        if (evaluation.getEvalRange() != null) {
+            range = evaluation.getEvalRange();
+            previouslyExisted = true;
+        } else {
+            if (!shouldDelete)
+                range = (EvaluationRange) ModelCreationFactory.getNewObject(urn, EvaluationRange.class);
+            else
+                range = null;
+            previouslyExisted = false;
+        }
 
         redo();
     }
 
+    public Evaluation getEvaluation() {
+        return evaluation;
+    }
+
+    public EvaluationRange getRange() {
+        return range;
+    }
+
     public URNspec getUrn() {
         return urn;
-    }
-    public boolean isUse0to100EvaluationRange() {
-        return use0to100EvaluationRange;
     }
 
     /*
@@ -65,17 +106,27 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
     public void redo() {
         testPreConditions();
 
-        StrategyEvaluationRangeHelper.setCurrentRange(urn, use0to100EvaluationRange);
+        if (range != null) {
+            range.setStart(start);
+            range.setEnd(end);
+            range.setStep(step);
+        }
 
+        evaluation.setEvalRange(range);
+        
         testPostConditions();
+    }
+
+    public void setEvaluation(Evaluation evaluation) {
+        this.evaluation = evaluation;
+    }
+
+    public void setRange(EvaluationRange range) {
+        this.range = range;
     }
 
     public void setUrn(URNspec urn) {
         this.urn = urn;
-    }
-
-    public void setUse0to100EvaluationRange(boolean use0to100EvaluationRange) {
-        this.use0to100EvaluationRange = use0to100EvaluationRange;
     }
 
     /*
@@ -84,7 +135,7 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urn != null : "post is null!"; //$NON-NLS-1$
+        assert urn != null  && evaluation != null : "post is null!"; //$NON-NLS-1$
     }
 
     /*
@@ -93,7 +144,7 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urn != null : "pre is null"; //$NON-NLS-1$
+        assert urn != null && evaluation != null  : "pre is null"; //$NON-NLS-1$
 
     }
 
@@ -102,7 +153,19 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
      */
     public void undo() {
         testPostConditions();
-        StrategyEvaluationRangeHelper.setCurrentRange(urn,  olduse0to100EvaluationRange);
+        if (!previouslyExisted)
+        {
+            evaluation.setEvalRange(null);
+        }
+        else {
+            if (range != null) {
+                range.setStart(oldStart);
+                range.setEnd(oldEnd);
+                range.setStep(oldStep);
+            }
+            evaluation.setEvalRange(range);
+        }
+
         testPreConditions();
     }
 

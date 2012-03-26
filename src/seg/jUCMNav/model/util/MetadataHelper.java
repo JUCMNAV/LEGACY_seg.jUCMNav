@@ -218,6 +218,7 @@ public class MetadataHelper {
                 IntentionalElement ie = (IntentionalElement) iter2.next();
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_NUMEVAL);
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_QUALEVAL);
+                MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_RANGEVALUES);
                 MetadataHelper.removeMetaData(ie, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode")); //$NON-NLS-1$
             }
             // Remove run-time evaluation metadata attached to path nodes
@@ -249,6 +250,6 @@ public class MetadataHelper {
      * @return true if the metadata was inserted at run-time
      */
     public static boolean isRuntimeMetadata(String name) {
-        return (name == EvaluationStrategyManager.METADATA_NUMEVAL || name == EvaluationStrategyManager.METADATA_QUALEVAL || name == PathNodeEditPart.METADATA_HITS);
+        return (name == EvaluationStrategyManager.METADATA_NUMEVAL || name == EvaluationStrategyManager.METADATA_RANGEVALUES  || name == EvaluationStrategyManager.METADATA_QUALEVAL || name == PathNodeEditPart.METADATA_HITS);
     }
 }

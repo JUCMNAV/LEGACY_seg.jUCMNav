@@ -19,6 +19,7 @@ import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.ScalableFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -58,7 +59,7 @@ import urncore.IURNNode;
 /**
  * EditPart for all IntentialElementRef. It listen for changes in the references and the definitions
  * 
- * @author Jean-Francois Roy, sghanava
+ * @author Jean-Francois Roy, sghanava, jkealey
  * 
  */
 public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeEditPart {
@@ -117,8 +118,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         evaluationLabel.setVisible(false);
 
-        evaluationLabel.setSize(70, 16);  // resized from 60, 16
-
+        evaluationLabel.setSize(100, 16);  // resized from 60, 16
+        evaluationLabel.setTextAlignment(PositionConstants.LEFT);
         kpiEvaluationValueLabel = new Label();
         kpiEvaluationValueLabel.setForegroundColor(ColorManager.BLUE);
         kpiEvaluationValueLabel.setVisible(false);
@@ -432,10 +433,17 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         //val = StrategyEvaluationPreferences.getValueToVisualize(val);
 
                         String evalStr = String.valueOf(val);
+                        
+                        if (evaluation.getEvalRange()!=null)
+                        {
+                            evalStr = evalStr + " [" + evaluation.getEvalRange().getStart() + "-" + evaluation.getEvalRange().getEnd() + "] ";
+                        }
+
                         text = evalStr + text; //$NON-NLS-1$
                         if( EvaluationStrategyManager.getInstance().displayDifferenceMode() ) {
                         	text = '<' + text + '>'; // add angle brackets to signify strategy difference mode
                         }
+                        
                     }
 //                    evaluationLabel.setFont(f)
                     evaluationLabel.setText(text);

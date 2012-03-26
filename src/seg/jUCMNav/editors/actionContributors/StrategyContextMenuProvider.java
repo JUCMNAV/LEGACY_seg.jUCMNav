@@ -28,6 +28,7 @@ import seg.jUCMNav.actions.scenarios.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.scenarios.AddVariableAction;
 import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
+import seg.jUCMNav.actions.scenarios.EditEvaluationRangeAction;
 import seg.jUCMNav.actions.scenarios.IncludeContributionContextAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 import seg.jUCMNav.actions.scenarios.IncludeStrategyAction;
@@ -207,6 +208,10 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(EditMetadataAction.EDITMETADATAACTION);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(EditEvaluationRangeAction.EDITEVALUATIONRANGEACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);        
         
         action = getActionRegistry().getAction(EditURNLinksAction.EDITURNLINKS);
         if (action.isEnabled()) {

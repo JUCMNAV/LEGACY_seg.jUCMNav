@@ -80,7 +80,7 @@ public class ChangeColorAction extends URNSelectionAction {
             comm = new ChangeColorCommand(sel.getActorref(), COLOR_CHART[colorId]);
             return comm;
         case SelectionHelper.INTENTIONALELEMENTREF:
-            comm = new ChangeColorCommand(sel.getIntentionalelementref(), COLOR_CHART[colorId]);
+            comm = new ChangeColorCommand(sel.getIntentionalElementRef(), COLOR_CHART[colorId]);
             return comm;
         default:
             return null;

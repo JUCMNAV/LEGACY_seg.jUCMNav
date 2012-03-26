@@ -41,7 +41,7 @@ public class DeleteEvaluationAction extends URNSelectionAction {
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
-            IntentionalElementRef selection = sel.getIntentionalelementref();
+            IntentionalElementRef selection = sel.getIntentionalElementRef();
             EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();
             if (strategy != null) {
                 evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(selection.getDef());
