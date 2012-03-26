@@ -129,6 +129,15 @@ public class MetadataHelper {
         return null;
     }
     
+    public static int getIntMetaData(URNmodelElement elem, String name, int def) {
+        Integer i = new Integer(def);
+        
+        try {
+            i = new Integer(getMetaData(elem, name));
+        } catch(Exception e) { return def; }
+        
+        return i.intValue();
+    }
 
     /**
      * Returns an element's metadata.

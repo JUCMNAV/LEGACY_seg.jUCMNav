@@ -156,7 +156,7 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
             node = (Belief) request.getNewObject();
             create = new AddBeliefCommand(getGraph(), (Belief) node);
         }
-        SetConstraintCommand move = new SetConstraintCommand(node, constraint.x, constraint.y);
+        SetConstraintGrlNodeCommand move = new SetConstraintGrlNodeCommand(node, constraint.x, constraint.y, constraint.width, constraint.height, false);
 
         // after creation, move and resize the node;
         if (create != null)
@@ -224,7 +224,7 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
         
         boolean multipleNodeMoved = isMultipleSelected(node, getSelectedModel(part.getViewer()));
 
-        return new SetConstraintGrlNodeCommand(node, rect.getLocation().x, rect.getLocation().y, multipleNodeMoved);
+        return new SetConstraintGrlNodeCommand(node, rect.getLocation().x, rect.getLocation().y, rect.width, rect.height, multipleNodeMoved);
     }
 
     @Override

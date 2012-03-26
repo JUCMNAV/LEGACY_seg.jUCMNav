@@ -19,7 +19,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 
@@ -219,5 +218,13 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure 
             setConstraint(flowPage, r);
             setSize(r.width + 2 * LABEL_PADDING_X, r.height + 2 * LABEL_PADDING_Y);
         }
+    }
+
+    public boolean isAutoResize() {
+        return autoResize;
+    }
+
+    public void setAutoResize(boolean autoResize) {
+        this.autoResize = autoResize;
     }
 }

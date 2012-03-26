@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.ConnectionEditPart;
@@ -23,6 +21,7 @@ import seg.jUCMNav.editpolicies.feedback.GrlNodeFeedbackEditPolicy;
 import seg.jUCMNav.figures.BeliefFigure;
 import seg.jUCMNav.figures.GrlNodeFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
+import seg.jUCMNav.model.util.MetadataHelper;
 import urncore.IURNNode;
 
 /**
@@ -157,15 +156,13 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
      * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
      */
-    protected void refreshVisuals() {
-        // The position of the current figure
-        Point location = new Point(getBelief().getX(), getBelief().getY());
-        // its size (the width of the elements should always be 2 the height of them
-        Dimension size = getNodeFigure().getSize().getCopy(); // new Dimension(getBelief().getWidth(), getBelief().getHeight());
-        Rectangle bounds = new Rectangle(location, size);
-        figure.setBounds(bounds);
-        figure.setLocation(location);
-
+    protected void refreshVisuals() {        
+        int width = MetadataHelper.getIntMetaData(getBelief(), "_width", 0);
+        int height = MetadataHelper.getIntMetaData(getBelief(), "_height", 0);
+        
+        ((GrlNodeFigure)figure).setAutoResize(width == 0 || height == 0);
+        ((GrlNodeFigure)figure).setBounds(new Rectangle(getBelief().getX(), getBelief().getY(), width, height));
+        
         setText();
 
         // Set the tool tip

@@ -178,8 +178,10 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
 
             } else if(elem instanceof GRLNode) {
                 IURNNode child = (IURNNode) elem;
+                int x = newX + (int) ((child.getX() - oldX) * factorW);
+                int y = newY + (int) ((child.getY() - oldY) * factorH);
                 
-                add(new SetConstraintGrlNodeCommand(child, newX + (int) ((child.getX() - oldX) * factorW), newY + (int) ((child.getY() - oldY) * factorH), multipleNodeMoved));
+                add(new SetConstraintGrlNodeCommand(child, x, y, multipleNodeMoved));
             } else if (elem instanceof IURNNode) {
                 IURNNode child = (IURNNode) elem;
 

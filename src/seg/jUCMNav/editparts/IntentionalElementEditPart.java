@@ -20,7 +20,6 @@ import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.ScalableFigure;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
@@ -45,8 +44,10 @@ import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.GrlNodeFeedbackEditPolicy;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.ColorManager;
+import seg.jUCMNav.figures.GrlNodeFigure;
 import seg.jUCMNav.figures.IntentionalElementFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
@@ -303,15 +304,12 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             return;
         
         evaluationLabel.setForegroundColor(ColorManager.LINE);
-
         
-        // The position of the current figure
-        Point location = new Point(getNode().getX(), getNode().getY());
-        // its size (the width of the elements should always be 2 the height of them
-        Dimension size = getNodeFigure().getSize().getCopy();
-        Rectangle bounds = new Rectangle(location, size);
-        figure.setBounds(bounds);
-        figure.setLocation(location);
+        int width = MetadataHelper.getIntMetaData(getNode(), "_width", 0);
+        int height = MetadataHelper.getIntMetaData(getNode(), "_height", 0);
+        
+        ((GrlNodeFigure)figure).setAutoResize(width == 0 || height == 0);
+        ((GrlNodeFigure)figure).setBounds(new Rectangle(getNode().getX(), getNode().getY(), width, height));
 
         setText();
 

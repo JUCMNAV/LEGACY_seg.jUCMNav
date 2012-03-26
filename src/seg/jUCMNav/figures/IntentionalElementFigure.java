@@ -31,6 +31,7 @@ public class IntentionalElementFigure extends GrlNodeFigure {
      */
     public IntentionalElementFigure() {
         super();
+        autoResize = false;
         setType(IntentionalElementType.SOFTGOAL);
         decompositionTarget = new DecompositionAnchor(this, DecompositionAnchor.TYPE_TARGET);
 

@@ -36,6 +36,7 @@ public class BeliefFigure extends GrlNodeFigure {
         setLineWidth(2);
         setLineStyle(Graphics.LINE_SOLID);
         setAntialias(GeneralPreferencePage.getAntialiasingPref());
+        autoResize = false;
     }
 
     /*
