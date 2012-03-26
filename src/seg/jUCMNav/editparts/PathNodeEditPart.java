@@ -53,6 +53,7 @@ import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.PointcutBorderDetector;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.stub.PluginListDialog;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
@@ -664,7 +665,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 
         // hide empty points when not in view all elements mode.
         if (getModel() instanceof EmptyPoint) {
-            ((IFigure) getFigure().getChildren().get(0)).setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+            //((IFigure) getFigure().getChildren().get(0)).setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+            ((IFigure) getFigure().getChildren().get(0)).setVisible(GeneralPreferencePage.getUcmEmptyPointVisible());
         }
         // should we offset it so that it doesn't overlap another element?
         if (getModel() instanceof EndPoint) {

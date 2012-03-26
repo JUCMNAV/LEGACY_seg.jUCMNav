@@ -32,6 +32,7 @@ import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.util.NodeConnectionLocator;
 import seg.jUCMNav.figures.util.StubConnectionEndpointLocator;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.URNElementPropertySource;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
@@ -373,7 +374,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
         // hide in print mode.
         if (startLabel != null) {
-            boolean hide = ((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() >= 2;
+            //boolean hide = ((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() >= 2;
+            boolean hide = !GeneralPreferencePage.getUcmStubLabelVisible();
             startLabel.setVisible(!hide);
             startLabel.setText(getStartText());
 
@@ -385,7 +387,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
         // hide in print mode.
         if (endLabel != null) {
-            endLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
+            //endLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
+            endLabel.setVisible(GeneralPreferencePage.getUcmStubLabelVisible());
         }
 
         if (ScenarioUtils.getActiveScenario(getLink()) != null && ScenarioUtils.getTraversalHitCount(getLink()) > 0) {

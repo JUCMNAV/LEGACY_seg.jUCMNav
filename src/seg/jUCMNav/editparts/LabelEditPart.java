@@ -35,6 +35,7 @@ import seg.jUCMNav.editpolicies.layout.PathNodeXYLayoutEditPolicy;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.util.JUCMNavFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.LabelPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
@@ -449,7 +450,8 @@ public class LabelEditPart extends ModelElementEditPart {
             // For UCM, we only show empty points (and their labels) when the mode is 0.
             if (modelElement instanceof EmptyPoint) {
                 if (getParent() != null) {
-                    labelFigure.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+                    //labelFigure.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+                    labelFigure.setVisible(GeneralPreferencePage.getUcmEmptyPointVisible());
                 }
             }
 

@@ -171,7 +171,11 @@ public class ConnectionLabelEditPart extends LabelEditPart {
                 if (img != null && GeneralPreferencePage.getGrlIconVisible()) {
                     labelFigure.setIcon(img);
                 }
+                else
+                    labelFigure.setIcon(null);
+                
                 labelFigure.setVisible(true);
+                
             } else {
                 labelFigure.setVisible(false);
             }

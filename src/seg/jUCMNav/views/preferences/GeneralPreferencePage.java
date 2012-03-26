@@ -10,11 +10,16 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UrnEditor;
+import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.figures.ColorManager;
 
 /**
@@ -32,7 +37,11 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_GRLTEXTVISIBLE = "PREF_GRLTEXTVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLICONVISIBLE = "PREF_GRLICONVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLAUTOADDLINKS = "PREF_GRLAUTOADDLINKS"; //$NON-NLS-1$
-
+    public static final String PREF_GRLSATISFACTIONICONVISIBLE = "PREF_GRLSATISFACTIONICONVISIBLE"; //$NON-NLS-1$
+    public static final String PREF_GRLSATISFACTIONTEXTVISIBLE = "PREF_GRLSATISFACTIONTEXTVISIBLE"; //$NON-NLS-1$
+    public static final String PREF_UCMEMPTYPOINTVISIBLE = "PREF_UCMEMPTYPOINTVISIBLE"; //$NON-NLS-1$
+    public static final String PREF_UCMSTUBLABELVISIBLE = "PREF_UCMSTUBLABELVISIBLE"; //$NON-NLS-1$
+    
     // Preferences for new .jucm files
     public static final String PREF_NEWGRL = "PREF_NEWGRL"; //$NON-NLS-1$
     public static final String PREF_NEWUCM = "PREF_NEWUCM"; //$NON-NLS-1$
@@ -75,29 +84,27 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         Label label1 = new Label(cOptions, SWT.LEFT);
         label1.setText(Messages.getString("GeneralPreferencePage.DisplayOptionsLabel")); //$NON-NLS-1$
 
-        BooleanFieldEditor metadata_indicator = new BooleanFieldEditor(PREF_METADATAINDVISIBLE,
+        BooleanFieldEditor field  = new BooleanFieldEditor(PREF_METADATAINDVISIBLE,
                 Messages.getString("GeneralPreferencePage.ShowMetadataIndicator"), cOptions); //$NON-NLS-1$
-        addField(metadata_indicator);
-        BooleanFieldEditor antialising = new BooleanFieldEditor(PREF_ANTIALIASING,
-                Messages.getString("GeneralPreferencePage.UseAntiAliasing"), cOptions); //$NON-NLS-1$
-        addField(antialising);
+        addField(field);
 
-        BooleanFieldEditor grl_iconvisible = new BooleanFieldEditor(PREF_GRLICONVISIBLE,
+
+        field = new BooleanFieldEditor(PREF_GRLICONVISIBLE,
                 Messages.getString("GeneralPreferencePage.ShowGrlContribIcons"), cOptions); //$NON-NLS-1$
-        addField(grl_iconvisible);
-        BooleanFieldEditor grl_textvisible = new BooleanFieldEditor(PREF_GRLTEXTVISIBLE,
+        addField(field);
+        field = new BooleanFieldEditor(PREF_GRLTEXTVISIBLE,
                 Messages.getString("GeneralPreferencePage.ShowGrlContribText"), cOptions); //$NON-NLS-1$
-        addField(grl_textvisible);
-        BooleanFieldEditor grl_autoaddlinks = new BooleanFieldEditor(PREF_GRLAUTOADDLINKS,
-                Messages.getString("GeneralPreferencePage.AutoAddLinks"), cOptions); //$NON-NLS-1$
-        addField(grl_autoaddlinks);
-
-        // UCM Strict Editor        
-        BooleanFieldEditor strict_codeeditor = new BooleanFieldEditor(PREF_STRICTCODEEDITOR,
-                Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
-        addField(strict_codeeditor);
+        addField(field);
         
-
+        field = new BooleanFieldEditor(PREF_GRLSATISFACTIONICONVISIBLE, "View GRL satisfaction level icons", cOptions);
+        addField(field);
+        field = new BooleanFieldEditor(PREF_GRLSATISFACTIONTEXTVISIBLE, "View GRL satisfaction level text", cOptions);
+        addField(field);        
+        field = new BooleanFieldEditor(PREF_UCMEMPTYPOINTVISIBLE, "View UCM empty points", cOptions);
+        addField(field);        
+        field = new BooleanFieldEditor(PREF_UCMSTUBLABELVISIBLE, "View UCM stub labels", cOptions);
+        addField(field);        
+     
         // Group for advanced mode        
         Group g = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
         g.setText(Messages.getString("GeneralPreferencePage.AdvancedMode")); //$NON-NLS-1$
@@ -128,6 +135,23 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         
         BooleanFieldEditor advanced_Aspects = new BooleanFieldEditor(DisplayPreferences.PREF_ADVANCEDUCMASPECTS, Messages.getString("GeneralPreferencePage.Aspects"), c); //$NON-NLS-1$
         addField(advanced_Aspects);
+        
+        
+        
+        // MISC
+        
+        field = new BooleanFieldEditor(PREF_ANTIALIASING,
+                Messages.getString("GeneralPreferencePage.UseAntiAliasing"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(field);
+        
+        BooleanFieldEditor grl_autoaddlinks = new BooleanFieldEditor(PREF_GRLAUTOADDLINKS,
+                Messages.getString("GeneralPreferencePage.AutoAddLinks"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(grl_autoaddlinks);
+
+        // UCM Strict Editor        
+        BooleanFieldEditor strict_codeeditor = new BooleanFieldEditor(PREF_STRICTCODEEDITOR,
+                Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(strict_codeeditor);
     }
 
     /**
@@ -181,6 +205,35 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     }
 
     /**
+     * @return boolean TRUE if GRL satisfaction icons should be visible.
+     */
+    public static boolean getGrlSatisfactionIconVisible() {
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_GRLSATISFACTIONICONVISIBLE);
+    }
+    
+    /**
+     * @return boolean TRUE if GRL satisfaction text should be visible.
+     */
+    public static boolean getGrlSatisfactionTextVisible() {
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_GRLSATISFACTIONTEXTVISIBLE);
+    }
+    
+    /**
+     * @return boolean TRUE if UCM empty points should be visible.
+     */
+    public static boolean getUcmEmptyPointVisible() {
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_UCMEMPTYPOINTVISIBLE);
+    }
+    
+    /**
+     * @return boolean TRUE if UCM direction arrows should be visible.
+     */
+    public static boolean getUcmStubLabelVisible() {
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_UCMSTUBLABELVISIBLE);
+    }
+    
+    
+    /**
      * @return boolean TRUE if GRL links should be added automatically when an intentional element is dragged from the Outline and dropped on a model.
      */
     public static boolean getGrlAutoAddLinks() {
@@ -218,12 +271,32 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public boolean performOk() {
 
         boolean b = super.performOk();
+
+        if (!getGrlIconVisible()&& !getGrlTextVisible())
+            JUCMNavPlugin.getDefault().getPreferenceStore().setValue(PREF_GRLICONVISIBLE, true); // bug 507 wants at least one visible. 
+        
+        if (!getGrlSatisfactionIconVisible()&& !getGrlSatisfactionTextVisible())
+            JUCMNavPlugin.getDefault().getPreferenceStore().setValue(PREF_GRLSATISFACTIONICONVISIBLE, true); // bug 507 wants at least one visible. 
+            
         ColorManager.refresh();
         if (JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_ANTIALIASING))
             antialising_pref = SWT.ON;
         else
             antialising_pref = SWT.OFF;
 
+        try {
+            IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            if (part instanceof UCMNavMultiPageEditor) {
+                UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) part;
+                for (int i = 0; i < editor.getPageCount(); i++) {
+                    UrnEditor u = (UrnEditor) editor.getEditor(i);
+                    URNRootEditPart root = ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart());
+                    root.setMode(root.getMode()); // forces refresh using old mode.
+                }
+            }
+        } catch (Exception ex) {
+                // don't care if no editor open.  
+        }
         return b;
     }
 }

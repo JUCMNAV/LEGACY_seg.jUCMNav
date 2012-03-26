@@ -50,7 +50,7 @@
                tooltip="%SwitchLanguage">
          </action>
    <action
-         actionID="seg.jUCMNav.actions.AutoLayoutActionDelegate"
+         actionID="seg.jUCMNav.actions.AdvancedModeActionDelegate"
          class="seg.jUCMNav.actions.AdvancedModeActionDelegate"
          icon="icons/advanced.gif"
          id="seg.jUCMNav.AdvancedMode"
@@ -59,7 +59,7 @@
          style="toggle"
          toolbarPath="jUCMNav"
          tooltip="Toggle jUCMNav&apos;s advanced mode. ">
-   </action>
+   </action>   
          <action
                actionID="seg.jUCMNav.actions.AddStereotypeDefinitionsAction"
                class="seg.jUCMNav.actions.UCMActionDelegate"
@@ -115,6 +115,17 @@
                menubarPath="seg.jUCMnav/ext"
                style="push"
                tooltip="%AddGrlDiagram"/>
+   <action
+         actionID="seg.jUCMNav.actions.GeneralPreferencesActionDelegate"
+         class="seg.jUCMNav.actions.GeneralPreferencesActionDelegate"
+         icon="icons/icon16.gif"
+         id="seg.jUCMNav.GeneralPreferences"
+         label="Edit jUCMNav Preferences"
+         menubarPath="seg.jUCMNav/ext"
+         style="push"
+         toolbarPath="jUCMNav"
+         tooltip="Edit jUCMNav&apos;s preferences. ">
+   </action>
                
       </editorContribution>
    </extension>
