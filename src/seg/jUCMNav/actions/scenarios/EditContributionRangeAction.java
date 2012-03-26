@@ -1,7 +1,7 @@
 package seg.jUCMNav.actions.scenarios;
 
-import grl.Evaluation;
-import grl.IntentionalElement;
+import grl.Contribution;
+import grl.ContributionChange;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -13,17 +13,17 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import seg.jUCMNav.views.wizards.strategies.EditEvaluationRangeWizard;
+import seg.jUCMNav.views.wizards.strategies.EditContributionRangeWizard;
 import urn.URNspec;
 
 /**
- * Opens the evaluation range editor. 
+ * Opens the contribution range editor. 
  * 
  * @author editor
  */
-public class EditEvaluationRangeAction extends URNSelectionAction {
+public class EditContributionRangeAction extends URNSelectionAction {
 
-    public static final String EDITEVALUATIONRANGEACTION = "seg.jUCMNav.EditEvaluationRangeAction"; //$NON-NLS-1$
+    public static final String EDITCONTRIBUTIONRANGEACTION = "seg.jUCMNav.EditContributionRangeAction"; //$NON-NLS-1$
 
     private EObject obj;
     private URNspec urn;
@@ -34,9 +34,9 @@ public class EditEvaluationRangeAction extends URNSelectionAction {
      * @param part
      *            the UCMNavMultiPageEditor
      */
-    public EditEvaluationRangeAction(IWorkbenchPart part) {
+    public EditContributionRangeAction(IWorkbenchPart part) {
         super(part);
-        setId(EDITEVALUATIONRANGEACTION);
+        setId(EDITCONTRIBUTIONRANGEACTION);
         setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Metadata.gif")); //$NON-NLS-1$
     }
 
@@ -44,19 +44,20 @@ public class EditEvaluationRangeAction extends URNSelectionAction {
      * True if we've selected something with an evaluation.
      */
     protected boolean calculateEnabled() {
-        return getSelectedEvaluation() != null;
+        return getSelectedContributionChange() != null;
     }
 
-    private Evaluation getSelectedEvaluation() {
+    private ContributionChange getSelectedContributionChange() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        IntentionalElement ie = sel.getIntentionalElement();
-        obj = ie;
+        Contribution contrib = sel.getContribution();
+        obj = null;
         urn = sel.getUrnspec();
-        if (urn!=null && ie!=null) {
-            Evaluation ev  = EvaluationStrategyManager.getInstance().getEvaluationObject(ie);
-            //EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();
-            if (ev!=null && ev.getStrategies()!= null)// && ev.getStrategies() == strategy)
-                return ev;
+        if (urn!=null && contrib!=null) {
+            ContributionChange c  = EvaluationStrategyManager.getInstance().findApplicableContributionChange(contrib, true);
+            if (c!=null) {
+                obj = c;
+                return c;
+            }
 
         }
         return null;
@@ -69,9 +70,9 @@ public class EditEvaluationRangeAction extends URNSelectionAction {
      */
     public void run() {
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        EditEvaluationRangeWizard wizard = new EditEvaluationRangeWizard(urn);
+        EditContributionRangeWizard wizard = new EditContributionRangeWizard(urn);
 
-        wizard.init(PlatformUI.getWorkbench(), getSelectedEvaluation());
+        wizard.init(PlatformUI.getWorkbench(), getSelectedContributionChange());
         WizardDialog dialog = new WizardDialog(shell, wizard);
         dialog.open();
 

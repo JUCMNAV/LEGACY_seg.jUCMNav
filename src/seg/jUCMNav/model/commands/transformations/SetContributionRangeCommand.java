@@ -1,7 +1,7 @@
 package seg.jUCMNav.model.commands.transformations;
 
-import grl.Evaluation;
-import grl.EvaluationRange;
+import grl.ContributionChange;
+import grl.ContributionRange;
 
 import org.eclipse.gef.commands.Command;
 
@@ -10,11 +10,11 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
 /**
- * Changes an Evaluation's EvaluationRange.
+ * Changes a ContributionChange's ContributionRange.
  * 
  * @author jkealey
  */
-public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand {
+public class SetContributionRangeCommand extends Command implements JUCMNavCommand {
 
     private URNspec urn;
     private boolean previouslyExisted = false;
@@ -24,47 +24,47 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
     private int oldStart = 0;
     private int oldEnd = 0;
     private int oldStep = 1;
-    private Evaluation evaluation;
+    private ContributionChange change;
 
-    private EvaluationRange range;
+    private ContributionRange range;
 
     private boolean shouldDelete = false;
 
     /**
-     * Deletes the range associated with this ev.
+     * Deletes the range associated with this ContributionChange.
      * 
      * @param urn
-     *            the URn containing ev
-     * @param ev
-     *            the evaluation for which the range needs to be deleted.
+     *            the URn containing the contribution
+     * @param contribution
+     *            the Contribution Change for which the range needs to be deleted.
      */
-    public SetEvaluationRangeCommand(URNspec urn, Evaluation ev) {
+    public SetContributionRangeCommand(URNspec urn, ContributionChange change) {
         this.urn = urn;
-        this.evaluation = ev;
+        this.change = change;
         this.shouldDelete = true;
 
-        setLabel("Set Evaluation Range");
+        setLabel("Set Contribution Range");
     }
 
     /**
-     * Set this evaluation to this specified range.
+     * Set this Contribution to this specified range.
      * 
      * @param urn
-     *            the URN containing ev
-     * @param ev
-     *            the evaluation for which the range needs to be set.
+     *            the URN containing contribution
+     * @param change
+     *            the Contribution for which the range needs to be set.
      * @param start
      * @param end
      * @param step
      */
-    public SetEvaluationRangeCommand(URNspec urn, Evaluation ev, int start, int end, int step) {
+    public SetContributionRangeCommand(URNspec urn, ContributionChange change, int start, int end, int step) {
         this.urn = urn;
-        this.evaluation = ev;
+        this.change = change;
         this.start = start;
         this.end = end;
         this.step = step;
         this.shouldDelete = false;
-        setLabel("Set Evaluation Range");
+        setLabel("Set Contribution Range");
     }
 
     /**
@@ -72,13 +72,12 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
      */
     public void execute() {
 
-        if (evaluation.getEvalRange() != null) {
-            range = evaluation.getEvalRange();
-
+        if (change.getContribRange() != null) {
+            range = change.getContribRange();
             previouslyExisted = true;
         } else {
             if (!shouldDelete)
-                range = (EvaluationRange) ModelCreationFactory.getNewObject(urn, EvaluationRange.class);
+                range = (ContributionRange) ModelCreationFactory.getNewObject(urn, ContributionRange.class);
             else
                 range = null;
             previouslyExisted = false;
@@ -87,11 +86,11 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
         redo();
     }
 
-    public Evaluation getEvaluation() {
-        return evaluation;
+    public ContributionChange getContribution() {
+        return change;
     }
 
-    public EvaluationRange getRange() {
+    public ContributionRange getRange() {
         return range;
     }
 
@@ -106,27 +105,26 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
      */
     public void redo() {
         testPreConditions();
-
         if (shouldDelete)
-            evaluation.setEvalRange(null);
+            change.setContribRange(null);
         else {
+
             if (range != null) {
                 range.setStart(start);
                 range.setEnd(end);
                 range.setStep(step);
             }
-
-            evaluation.setEvalRange(range);
+            change.setContribRange(range);
         }
 
         testPostConditions();
     }
 
-    public void setEvaluation(Evaluation evaluation) {
-        this.evaluation = evaluation;
+    public void setContribution(ContributionChange change) {
+        this.change = change;
     }
 
-    public void setRange(EvaluationRange range) {
+    public void setRange(ContributionRange range) {
         this.range = range;
     }
 
@@ -140,7 +138,7 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urn != null && evaluation != null : "post is null!"; //$NON-NLS-1$
+        assert urn != null && change != null : "post is null!"; //$NON-NLS-1$
     }
 
     /*
@@ -149,7 +147,7 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urn != null && evaluation != null : "pre is null"; //$NON-NLS-1$
+        assert urn != null && change != null : "pre is null"; //$NON-NLS-1$
 
     }
 
@@ -159,7 +157,7 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
     public void undo() {
         testPostConditions();
         if (!previouslyExisted) {
-            evaluation.setEvalRange(null);
+            change.setContribRange(null);
         } else {
             if (!shouldDelete) {
                 if (range != null) {
@@ -168,7 +166,7 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
                     range.setStep(oldStep);
                 }
             }
-            evaluation.setEvalRange(range);
+            change.setContribRange(range);
         }
 
         testPreConditions();

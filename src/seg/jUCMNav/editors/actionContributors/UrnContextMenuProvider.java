@@ -79,8 +79,11 @@ import seg.jUCMNav.actions.kpi.EditIndicatorGroupsAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
+import seg.jUCMNav.actions.scenarios.DeleteContributionRangeAction;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
+import seg.jUCMNav.actions.scenarios.DeleteEvaluationRangeAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
+import seg.jUCMNav.actions.scenarios.EditContributionRangeAction;
 import seg.jUCMNav.actions.scenarios.EditEvaluationRangeAction;
 import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
@@ -138,6 +141,14 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 
+        action = getActionRegistry().getAction(DeleteEvaluationRangeAction.DELETEEVALUATIONRANGE);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+        
+        action = getActionRegistry().getAction(DeleteContributionRangeAction.DELETECONTRIBUTIONRANGE);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);   
+        
         action = getActionRegistry().getAction(AddLabelAction.ADDLABEL);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -433,6 +444,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(EditEvaluationRangeAction.EDITEVALUATIONRANGEACTION);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);        
+        
+        action = getActionRegistry().getAction(EditContributionRangeAction.EDITCONTRIBUTIONRANGEACTION);
+        if (action.isEnabled())
+            manager.appendToGroup(GROUP_UNCOMMON, action);     
         
         action = getActionRegistry().getAction(TagElementAction.TAG_ELEMENT_ACTION);
         if (action.isEnabled())

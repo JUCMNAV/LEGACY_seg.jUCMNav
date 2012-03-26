@@ -108,9 +108,12 @@ import seg.jUCMNav.actions.scenarios.AddScenarioGroupAction;
 import seg.jUCMNav.actions.scenarios.AddStartEndPointAction;
 import seg.jUCMNav.actions.scenarios.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.scenarios.AddVariableAction;
+import seg.jUCMNav.actions.scenarios.DeleteContributionRangeAction;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
+import seg.jUCMNav.actions.scenarios.DeleteEvaluationRangeAction;
 import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
+import seg.jUCMNav.actions.scenarios.EditContributionRangeAction;
 import seg.jUCMNav.actions.scenarios.EditEvaluationRangeAction;
 import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeContributionContextAction;
@@ -286,6 +289,14 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.deleteUserEvaluation")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new DeleteEvaluationRangeAction(editor);
+        action.setText("Delete Evaluation Range");
+        addEditPartAction((SelectionAction) action);
+        
+        action = new DeleteContributionRangeAction(editor);
+        action.setText("Delete Contribution Range");
+        addEditPartAction((SelectionAction) action);
+        
         action = new CutPathAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.cutPath")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
@@ -677,6 +688,10 @@ public class ActionRegistryManager implements IDisposable {
         action.setText("Edit Evaluation Range");
         addEditPartAction((SelectionAction) action);
 
+        action = new EditContributionRangeAction(editor);
+        action.setText("Edit Contribution Range");
+        addEditPartAction((SelectionAction) action);
+        
         action = new EditIndicatorGroupsAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.editIndicatorGroup")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

@@ -2,6 +2,7 @@ package seg.jUCMNav.editparts;
 
 import grl.Contribution;
 import grl.ContributionChange;
+import grl.ContributionRange;
 import grl.LinkRef;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -129,17 +130,26 @@ public class ConnectionLabelEditPart extends LabelEditPart {
                     if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                         //int val = contrib.getQuantitativeContribution();
                         int val = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
-                        //val = StrategyEvaluationPreferences.getValueToVisualize(val); 
+                        //val = StrategyEvaluationPreferences.getValueToVisualize(val);
+                        
+                        
                         labelFigure.setText("" + val); //$NON-NLS-1$
                     } else {
                         labelFigure.setText(type);
                     }
 
                     ContributionChange change = EvaluationStrategyManager.getInstance().findApplicableContributionChange(contrib, true);
-                    if (change != null && change.getContext() == EvaluationStrategyManager.getInstance().getContributionContext())
-                        labelFigure.setText(labelFigure.getText() + "(**)"); //$NON-NLS-1$ // two stars to mean locally changed.
-                    else if (change != null)
-                        labelFigure.setText(labelFigure.getText() + "(*)"); //$NON-NLS-1$ // star to mean inherited change.
+                    if (change!=null) {
+                        if (change.getContribRange()!=null)
+                        {
+                            ContributionRange range = change.getContribRange();
+                            labelFigure.setText(labelFigure.getText() + " [" + range.getStart() + "-" + range.getEnd() + "]" ); //$NON-NLS-1$  //$NON-NLS-2$ //$NON-NLS-3$  
+                        }
+                        if (change.getContext() == EvaluationStrategyManager.getInstance().getContributionContext())
+                            labelFigure.setText(labelFigure.getText() + "(**)"); //$NON-NLS-1$ // two stars to mean locally changed.
+                        else 
+                            labelFigure.setText(labelFigure.getText() + "(*)"); //$NON-NLS-1$ // star to mean inherited change.
+                    }
                 } else {
                     labelFigure.setText(""); //$NON-NLS-1$
                 }

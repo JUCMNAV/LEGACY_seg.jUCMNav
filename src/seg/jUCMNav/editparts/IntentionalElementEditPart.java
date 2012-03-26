@@ -434,7 +434,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 
                         String evalStr = String.valueOf(val);
                         
-                        if (evaluation.getEvalRange()!=null)
+                        if (evaluation.getEvalRange()!=null && (evaluation.getStrategies() == null || evaluation.getStrategies() == EvaluationStrategyManager.getInstance().getEvaluationStrategy()) )
                         {
                             evalStr = evalStr + " [" + evaluation.getEvalRange().getStart() + "-" + evaluation.getEvalRange().getEnd() + "] ";
                         }

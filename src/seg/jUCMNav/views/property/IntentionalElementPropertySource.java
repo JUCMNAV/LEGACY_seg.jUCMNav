@@ -141,8 +141,8 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 addPropertyToDescriptor(descriptors, attr, temp.eClass());
             }
             
-            // add the groups properties for Indicator
-            if (temp.getStrategies()!=null && temp.getEvalRange()!=null) {
+            // add the properties properties for the range
+            if (temp.getStrategies()!=null && temp.getEvalRange()!=null && temp.getStrategies()==strategy) {
                 EStructuralFeature attr = temp.eClass().getEStructuralFeature("evalRange"); //$NON-NLS-1$
                 addPropertyToDescriptor(descriptors, attr, temp.getEvalRange().eClass());
             }

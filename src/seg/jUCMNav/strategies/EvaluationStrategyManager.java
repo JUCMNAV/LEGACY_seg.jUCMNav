@@ -5,6 +5,7 @@ import grl.Contribution;
 import grl.ContributionChange;
 import grl.ContributionContext;
 import grl.ContributionContextGroup;
+import grl.ContributionRange;
 import grl.ContributionType;
 import grl.ElementLink;
 import grl.Evaluation;
@@ -47,6 +48,7 @@ import seg.jUCMNav.model.commands.create.AddKPIInformationConfigCommand;
 import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
+import seg.jUCMNav.views.property.LinkRefPropertySource;
 import seg.jUCMNav.views.strategies.StrategiesView;
 import urn.URNspec;
 import urncore.Metadata;
@@ -68,86 +70,84 @@ public class EvaluationStrategyManager {
      * Metadata name used to store run-time GRL qualitative evaluations
      */
     public static final String METADATA_QUALEVAL = "_qualEval"; //$NON-NLS-1$
-    
+
     /**
-     * Metadata name used to store the run-time evaluations when a range is executed. 
+     * Metadata name used to store the run-time evaluations when a range is executed.
      */
     public static final String METADATA_RANGEVALUES = "_rangeNumEvals"; //$NON-NLS-1$
 
     private static HashMap<UCMNavMultiPageEditor, EvaluationStrategyManager> strategyManagerInstances = null;
- // just in case we're actually accessing it via some non UI thread during export and/or before the app loads. 
-    private static EvaluationStrategyManager noEditorStrategyManagerInstance = null;  
+    // just in case we're actually accessing it via some non UI thread during export and/or before the app loads.
+    private static EvaluationStrategyManager noEditorStrategyManagerInstance = null;
 
     private boolean canRefresh;
     private boolean differenceMode = false;
-    
+
     private UCMNavMultiPageEditor multieditor;
     private ScrollingGraphicalViewer kpiViewer;
     private TreeViewer kpiListViewer;
     private HashMap evaluations = new HashMap(); // HashMap to keep link between IntentionalElement and the Evaluation for a particular strategy
-    private HashMap<IntentionalElement, Evaluation> comparisonEvaluations = null; // HashMap to keep link between IntentionalElement and the Evaluation for the first strategy in difference mode
+    private HashMap<IntentionalElement, Evaluation> comparisonEvaluations = null; // HashMap to keep link between IntentionalElement and the Evaluation for the
+                                                                                  // first strategy in difference mode
     private HashMap<Actor, Integer> currentActorEvaluations = new HashMap<Actor, Integer>(); // HashMap to store current Actor evaluations
-    private HashMap<Actor, Integer> comparisonActorEvaluations = null; // HashMap to store Actor evaluations  for the first strategy in difference mode
+    private HashMap<Actor, Integer> comparisonActorEvaluations = null; // HashMap to store Actor evaluations for the first strategy in difference mode
     private EvaluationStrategy strategy, strategy1 = null, strategy2 = null; // strategy1, strategy2 used in difference mode
     private ContributionContext contributionContext = null;
     private IGRLStrategyAlgorithm algo;
     private HashMap kpiInformationConfigs = new HashMap();
-    
+
     public static synchronized EvaluationStrategyManager getInstance(UCMNavMultiPageEditor multieditor, boolean canRefresh) {
-    	
-    	if (strategyManagerInstances == null)
-    	{
-    		strategyManagerInstances = new HashMap<UCMNavMultiPageEditor, EvaluationStrategyManager>();
-    	}
-    	
-    	EvaluationStrategyManager soleInstance = null;
-    	
-		if (multieditor == null) {
-			if (PlatformUI.getWorkbench() != null
-					&& PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
-					&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
-					&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
-				multieditor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-			}
-		}
 
-		if (multieditor != null) {
-			if (strategyManagerInstances.get(multieditor) == null)
-				strategyManagerInstances.put(multieditor,
-						new EvaluationStrategyManager());
-			soleInstance = strategyManagerInstances.get(multieditor);
-		} else {
-			// fallback for non-UI threads (not even sure if this exists, but
-			// better be safe than sorry
-		    if (noEditorStrategyManagerInstance == null) noEditorStrategyManagerInstance = new EvaluationStrategyManager();
-			soleInstance = noEditorStrategyManagerInstance;
-		}
+        if (strategyManagerInstances == null) {
+            strategyManagerInstances = new HashMap<UCMNavMultiPageEditor, EvaluationStrategyManager>();
+        }
 
-		soleInstance.canRefresh = canRefresh;
-		
-		// cancel difference mode in all other managers
-		
-		return soleInstance;
+        EvaluationStrategyManager soleInstance = null;
+
+        if (multieditor == null) {
+            if (PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
+                    && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+                    && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+                multieditor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            }
+        }
+
+        if (multieditor != null) {
+            if (strategyManagerInstances.get(multieditor) == null)
+                strategyManagerInstances.put(multieditor, new EvaluationStrategyManager());
+            soleInstance = strategyManagerInstances.get(multieditor);
+        } else {
+            // fallback for non-UI threads (not even sure if this exists, but
+            // better be safe than sorry
+            if (noEditorStrategyManagerInstance == null)
+                noEditorStrategyManagerInstance = new EvaluationStrategyManager();
+            soleInstance = noEditorStrategyManagerInstance;
+        }
+
+        soleInstance.canRefresh = canRefresh;
+
+        // cancel difference mode in all other managers
+
+        return soleInstance;
     }
 
     public static synchronized EvaluationStrategyManager getInstance(UCMNavMultiPageEditor multieditor) {
-    	return getInstance(multieditor, true);
+        return getInstance(multieditor, true);
     }
-    
+
     public static synchronized EvaluationStrategyManager getInstance(boolean canRefresh) {
         return getInstance(null, canRefresh);
     }
+
     public static synchronized EvaluationStrategyManager getInstance() {
-    	return getInstance(null, true);
-    }
-    
-    public static void releaseEnvironment(UCMNavMultiPageEditor editor)
-    {
-    	if (editor!=null && strategyManagerInstances.containsKey(editor)) {
-    		strategyManagerInstances.remove(editor);
-    	}
+        return getInstance(null, true);
     }
 
+    public static void releaseEnvironment(UCMNavMultiPageEditor editor) {
+        if (editor != null && strategyManagerInstances.containsKey(editor)) {
+            strategyManagerInstances.remove(editor);
+        }
+    }
 
     /**
      * 
@@ -156,61 +156,94 @@ public class EvaluationStrategyManager {
 
     }
 
-    public synchronized void calculateEvaluations(URNspec urn, EvaluationRange range)
-    {
-        if (strategy==null || range == null || range.getStep() == 0 || (range.getEnd() - range.getStart()) * range.getStep() < 0)
+    public synchronized void calculateEvaluations(URNspec urn, EvaluationRange range) {
+        if (strategy == null || range == null || range.getStep() == 0 || (range.getEnd() - range.getStart()) * range.getStep() < 0)
             return;
-        
+
         HashMap results = new HashMap();
         long before = System.currentTimeMillis();
 
-        for (Iterator iterator = urn.getGrlspec().getIntElements().iterator(); iterator.hasNext();) {
-            IntentionalElement ie = (IntentionalElement) iterator.next();
-            MetadataHelper.removeMetaData(ie,  METADATA_RANGEVALUES);
-            MetadataHelper.addMetaData(urn, ie, METADATA_RANGEVALUES, "" );
-        }
+        clearCalculationValues(urn);
 
-        
-        for(int i=range.getStart();i<=range.getEnd();i+=range.getStep())
-        {
+        for (int i = range.getStart(); (range.getEnd() >= range.getStart() &&  i <= range.getEnd()) || (range.getEnd() < range.getStart() && i >= range.getEnd()); i += range.getStep()) {
             range.getEval().setEvaluation(i);
             calculateEvaluationExecute();
-            
-            for (Iterator iterator = evaluations.keySet().iterator(); iterator.hasNext();) {
-                IntentionalElement ie = (IntentionalElement) iterator.next();
-                EvaluationRange r = (EvaluationRange) results.get(ie);
-                if (r == null) r = (EvaluationRange) ModelCreationFactory.getNewObject(urn, EvaluationRange.class);
-                results.put(ie,  r);
-                
-                Evaluation ev = (Evaluation) evaluations.get(ie);
-                
-                // if we have found a larger range, change it.  
-                if (r.getStart() > ev.getEvaluation())
-                {
-                    r.setStart(ev.getEvaluation());
-                }
-                if (r.getEnd() < ev.getEvaluation())
-                {
-                    r.setEnd(ev.getEvaluation());
-                }    
-                
-                if (ev.getStrategies() == null) // only do it for temporarily created ranges - do not override existing ones. 
-                {
-                    ev.setEvalRange(r);
-                }
-                results.put(ie, r);
-                
-                String val = MetadataHelper.getMetaData(ie, METADATA_RANGEVALUES);
-                if (val == null) val = "";
-                MetadataHelper.addMetaData(urn, ie, METADATA_RANGEVALUES, val + i + "=" +  ev.getEvaluation() + ";" );
-            }
+
+            recordCalculationValues(urn, results, i);
         }
-        
+
         long after = System.currentTimeMillis();
         System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
-        
-        refreshDiagrams();        
+
+        refreshDiagrams();
     }
+
+    private void clearCalculationValues(URNspec urn) {
+        for (Iterator iterator = urn.getGrlspec().getIntElements().iterator(); iterator.hasNext();) {
+            IntentionalElement ie = (IntentionalElement) iterator.next();
+            MetadataHelper.removeMetaData(ie, METADATA_RANGEVALUES);
+            MetadataHelper.addMetaData(urn, ie, METADATA_RANGEVALUES, "");
+        }
+    }
+
+    public synchronized void calculateEvaluations(URNspec urn, ContributionRange range) {
+        if (strategy == null || range == null || range.getStep() == 0 || (range.getEnd() - range.getStart()) * range.getStep() < 0)
+            return;
+
+        HashMap results = new HashMap();
+        long before = System.currentTimeMillis();
+
+        clearCalculationValues(urn);
+
+        for (int i = range.getStart(); (range.getEnd() >= range.getStart() &&  i <= range.getEnd()) || (range.getEnd() < range.getStart() && i >= range.getEnd()); i += range.getStep()) {
+            range.getChange().setNewQuantitativeContribution(i);
+            LinkRefPropertySource.syncElementLinkQualitativeContribution(range.getChange().getContribution(), i);
+            calculateEvaluationExecute();
+
+            recordCalculationValues(urn, results, i);
+        }
+
+        long after = System.currentTimeMillis();
+        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+
+        refreshDiagrams();
+    }
+    
+    private void recordCalculationValues(URNspec urn, HashMap results, int i) {
+        for (Iterator iterator = evaluations.keySet().iterator(); iterator.hasNext();) {
+            IntentionalElement ie = (IntentionalElement) iterator.next();
+            EvaluationRange r = (EvaluationRange) results.get(ie);
+            if (r == null) {
+                r = (EvaluationRange) ModelCreationFactory.getNewObject(urn, EvaluationRange.class);
+                r.setEnd(-100);
+                r.setStart(100); // so that is overridden with better values below.                     
+            }
+            results.put(ie, r);
+
+            Evaluation ev = (Evaluation) evaluations.get(ie);
+
+            // if we have found a larger range, change it.
+            if (r.getStart() > ev.getEvaluation()) {
+                r.setStart(ev.getEvaluation());
+            }
+            if (r.getEnd() < ev.getEvaluation()) {
+                r.setEnd(ev.getEvaluation());
+            }
+
+            if (ev.getStrategies() == null) // only do it for temporarily created ranges - do not override existing ones.
+            {
+                ev.setEvalRange(r);
+            }
+            results.put(ie, r);
+
+            String val = MetadataHelper.getMetaData(ie, METADATA_RANGEVALUES);
+            if (val == null)
+                val = "";
+            MetadataHelper.addMetaData(urn, ie, METADATA_RANGEVALUES, val + i + "=" + ev.getEvaluation() + ";");
+        }
+    }
+
+
     public synchronized void calculateEvaluation() {
         if (strategy == null) {
             return;
@@ -218,21 +251,21 @@ public class EvaluationStrategyManager {
         long before = System.currentTimeMillis();
 
         calculateEvaluationExecute();
-        
+
         long after = System.currentTimeMillis();
         System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
-        
+
         refreshDiagrams();
     }
 
     private void calculateEvaluationExecute() {
         setupEvaluationAlgorithm();
-        
+
         algo.init(strategy, evaluations);
-        if(algo.isConstraintSolverAlgorithm()) {
-        	processConstraintSolverAlgorithm();
+        if (algo.isConstraintSolverAlgorithm()) {
+            processConstraintSolverAlgorithm();
         } else {
-        	processNonConstraintSolverAlgorithm();
+            processNonConstraintSolverAlgorithm();
         }
     }
 
@@ -261,31 +294,31 @@ public class EvaluationStrategyManager {
             }
         }
     }
-    
-	private void processNonConstraintSolverAlgorithm() {
-		while (algo.hasNextNode()) {
-			IntentionalElement element = algo.nextNode();
-			String elementName = element.getName();
-			Evaluation eval = (Evaluation) evaluations.get(element);
-			int val = algo.getEvaluation(element);
-			eval.setEvaluation(val);
-			syncIntentionalElementQualitativeEvaluation(eval, val);
-			setEvaluationMetadata(element, eval);
-		}
-	}
 
-	private void processConstraintSolverAlgorithm() {
-		Hao2011Algorithm hao2011Algorithm = (Hao2011Algorithm) algo;
-		hao2011Algorithm.calculate();
-		while (hao2011Algorithm.hasNextNode()) {
-			IntentionalElement element = hao2011Algorithm.nextNode();
-			Evaluation eval = (Evaluation) evaluations.get(element);
-			int val = eval.getEvaluation();
-			syncIntentionalElementQualitativeEvaluation(eval, val);
-			//setEvaluationMetadata(element, eval);
-			setEvaluationMetadata(element, val, eval.getQualitativeEvaluation().toString());
-		}
-	}
+    private void processNonConstraintSolverAlgorithm() {
+        while (algo.hasNextNode()) {
+            IntentionalElement element = algo.nextNode();
+            String elementName = element.getName();
+            Evaluation eval = (Evaluation) evaluations.get(element);
+            int val = algo.getEvaluation(element);
+            eval.setEvaluation(val);
+            syncIntentionalElementQualitativeEvaluation(eval, val);
+            setEvaluationMetadata(element, eval);
+        }
+    }
+
+    private void processConstraintSolverAlgorithm() {
+        Hao2011Algorithm hao2011Algorithm = (Hao2011Algorithm) algo;
+        hao2011Algorithm.calculate();
+        while (hao2011Algorithm.hasNextNode()) {
+            IntentionalElement element = hao2011Algorithm.nextNode();
+            Evaluation eval = (Evaluation) evaluations.get(element);
+            int val = eval.getEvaluation();
+            syncIntentionalElementQualitativeEvaluation(eval, val);
+            // setEvaluationMetadata(element, eval);
+            setEvaluationMetadata(element, val, eval.getQualitativeEvaluation().toString());
+        }
+    }
 
     private void setEvaluationMetadata(IntentionalElement element, int val, String qualEvalAsString) {
         String numEvalAsString = Integer.toString(val);
@@ -310,27 +343,27 @@ public class EvaluationStrategyManager {
         }
     }
 
-	public synchronized int getActorEvaluation(Actor actor) {
+    public synchronized int getActorEvaluation(Actor actor) {
         int actorEval = algo.getActorEvaluation(actor);
         setEvaluationMetadata(actor, actorEval);
-        currentActorEvaluations.put( actor, new Integer(actorEval) );
+        currentActorEvaluations.put(actor, new Integer(actorEval));
         return actorEval;
     }
 
-	public synchronized int getDisplayActorEvaluation(Actor actor) {
-	
-		int currentEval = getActorEvaluation(actor);
-		
-    	if( differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1
-    			&& comparisonActorEvaluations != null && comparisonActorEvaluations.containsKey(actor) ) {
-    		// determine if difference mode is valid and contains a previous evaluation for element
-    		int firstEval = comparisonActorEvaluations.get(actor);
-    		return( currentEval - firstEval );
-    	} else {
-    		return currentEval;
-    	}
-	}
-	
+    public synchronized int getDisplayActorEvaluation(Actor actor) {
+
+        int currentEval = getActorEvaluation(actor);
+
+        if (differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1 && comparisonActorEvaluations != null
+                && comparisonActorEvaluations.containsKey(actor)) {
+            // determine if difference mode is valid and contains a previous evaluation for element
+            int firstEval = comparisonActorEvaluations.get(actor);
+            return (currentEval - firstEval);
+        } else {
+            return currentEval;
+        }
+    }
+
     public synchronized int getEvaluation(IntentionalElement elem) {
         Evaluation temp = (Evaluation) evaluations.get(elem);
         if (temp == null && strategy != null && strategy.getGrlspec() != null && strategy.getGrlspec().getUrnspec() != null) {
@@ -373,8 +406,8 @@ public class EvaluationStrategyManager {
             algo = new FormulaBasedGRLStrategyAlgorithm();
         else if ((StrategyEvaluationPreferences.CONDITIONAL_GRL_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
             algo = new ConditionalBasedGRLStrategyAlgorithm();
-        else if((StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
-        	algo = new Hao2011Algorithm();
+        else if ((StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
+            algo = new Hao2011Algorithm();
         else
             algo = new DefaultGRLStrategyAlgorithm();
 
@@ -405,23 +438,23 @@ public class EvaluationStrategyManager {
             return ""; //$NON-NLS-1$
 
     }
-    
+
     public synchronized Evaluation getDisplayEvaluationObject(IntentionalElement elem) {
 
-    	if( differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1
-    			&& comparisonEvaluations != null && comparisonEvaluations.containsKey(elem) ) {
-    		// determine if difference mode is valid and contains a previous evaluation for element
-    		
-    		Evaluation diffEval = (Evaluation) ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
-    		
-    		int firstValue = comparisonEvaluations.get( elem ).getEvaluation();
-    		int secondValue = ((Evaluation) evaluations.get(elem)).getEvaluation();
-    		
-    		diffEval.setEvaluation( secondValue - firstValue );
-    		return diffEval;
-    	} else {
-    		return getEvaluationObject( elem );
-    	}
+        if (differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1 && comparisonEvaluations != null
+                && comparisonEvaluations.containsKey(elem)) {
+            // determine if difference mode is valid and contains a previous evaluation for element
+
+            Evaluation diffEval = (Evaluation) ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
+
+            int firstValue = comparisonEvaluations.get(elem).getEvaluation();
+            int secondValue = ((Evaluation) evaluations.get(elem)).getEvaluation();
+
+            diffEval.setEvaluation(secondValue - firstValue);
+            return diffEval;
+        } else {
+            return getEvaluationObject(elem);
+        }
     }
 
     public synchronized Evaluation getEvaluationObject(IntentionalElement elem) {
@@ -435,48 +468,48 @@ public class EvaluationStrategyManager {
     }
 
     public synchronized boolean isIgnored(IntentionalElement elem) {
-    	if( this.hasSpecificMetadata( elem ) ) {
-    		return true;    					
-    	} else if( elem.getType() == IntentionalElementType.INDICATOR_LITERAL ){
-    		for( Iterator iter = elem.getLinksSrc().iterator(); iter.hasNext(); ) {
-    			ElementLink el = (ElementLink) iter.next();
-    			if( el.getDest() instanceof IntentionalElement ) {
-    				if( this.hasSpecificMetadata( (IntentionalElement) el.getDest() ))
-    					return true;
-    			}
-    		}
-    	}
-    	return false;
+        if (this.hasSpecificMetadata(elem)) {
+            return true;
+        } else if (elem.getType() == IntentionalElementType.INDICATOR_LITERAL) {
+            for (Iterator iter = elem.getLinksSrc().iterator(); iter.hasNext();) {
+                ElementLink el = (ElementLink) iter.next();
+                if (el.getDest() instanceof IntentionalElement) {
+                    if (this.hasSpecificMetadata((IntentionalElement) el.getDest()))
+                        return true;
+                }
+            }
+        }
+        return false;
     }
-    
+
     private synchronized boolean hasSpecificMetadata(IntentionalElement elem) {
-    	if( elem.getMetadata().size() > 0 ) {
-    		for( Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
-    			Metadata md = (Metadata) iter.next();	
-    			if(md.getName().equalsIgnoreCase( "ST_Legal" )){ //$NON-NLS-1$
-    				if(md.getValue().equalsIgnoreCase( "No" )) //$NON-NLS-1$
-    					return true;
-    			} else if( md.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode")) ) { //$NON-NLS-1$
-    				return true;
-    			}
-    		}    		
-    	}
-    	return false;    	
-    	
+        if (elem.getMetadata().size() > 0) {
+            for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
+                Metadata md = (Metadata) iter.next();
+                if (md.getName().equalsIgnoreCase("ST_Legal")) { //$NON-NLS-1$
+                    if (md.getValue().equalsIgnoreCase("No")) //$NON-NLS-1$
+                        return true;
+                } else if (md.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"))) { //$NON-NLS-1$
+                    return true;
+                }
+            }
+        }
+        return false;
+
     }
-    
+
     public synchronized boolean isConditionResource(IntentionalElement elem) {
-    	if( elem.getType() == IntentionalElementType.RESSOURCE_LITERAL ) {
-    		for( Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
-    			Metadata md = (Metadata) iter.next();	
-    			if(md.getName().equalsIgnoreCase( "ST_CONDITIONTYPE" )){ //$NON-NLS-1$
-    				return true;
-    			}
-    		}
-    	}
-    	return false; 
+        if (elem.getType() == IntentionalElementType.RESSOURCE_LITERAL) {
+            for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
+                Metadata md = (Metadata) iter.next();
+                if (md.getName().equalsIgnoreCase("ST_CONDITIONTYPE")) { //$NON-NLS-1$
+                    return true;
+                }
+            }
+        }
+        return false;
     }
-    
+
     public synchronized KPIInformationConfig getKPIInformationConfigObject(KPIInformationElement elem) {
         KPIInformationConfig temp = (KPIInformationConfig) kpiInformationConfigs.get(elem);
         // if the KPIInformationConfig is null, it is a new element and we need to create a new KPIInformationConfig
@@ -510,32 +543,30 @@ public class EvaluationStrategyManager {
 
     }
 
-    protected synchronized HashMap getRecursiveEvaluations(EvaluationStrategy strategy, HashMap v)
-    {
+    protected synchronized HashMap getRecursiveEvaluations(EvaluationStrategy strategy, HashMap v) {
         for (Iterator iterator = strategy.getIncludedStrategies().iterator(); iterator.hasNext();) {
             EvaluationStrategy ev = (EvaluationStrategy) iterator.next();
             getRecursiveEvaluations(ev, v);
         }
         for (Iterator iterator = strategy.getEvaluations().iterator(); iterator.hasNext();) {
-            Evaluation ev  = (Evaluation) iterator.next();
+            Evaluation ev = (Evaluation) iterator.next();
             v.put(ev.getIntElement(), ev);
         }
         return v;
     }
-    
-    protected synchronized HashMap getRecursiveKPIInformationConfig(EvaluationStrategy strategy, HashMap v)
-    {
+
+    protected synchronized HashMap getRecursiveKPIInformationConfig(EvaluationStrategy strategy, HashMap v) {
         for (Iterator iterator = strategy.getIncludedStrategies().iterator(); iterator.hasNext();) {
             EvaluationStrategy ev = (EvaluationStrategy) iterator.next();
             getRecursiveKPIInformationConfig(ev, v);
         }
         for (Iterator iterator = strategy.getKpiInfoConfig().iterator(); iterator.hasNext();) {
-            KPIInformationConfig ev  = (KPIInformationConfig) iterator.next();
+            KPIInformationConfig ev = (KPIInformationConfig) iterator.next();
             v.put(ev.getKpiInfoElement(), ev);
         }
         return v;
     }
-    
+
     public synchronized void setStrategy(EvaluationStrategy strategy) {
         this.strategy = strategy;
 
@@ -549,7 +580,7 @@ public class EvaluationStrategyManager {
             // Go through all the intentionalElement and create a new Evaluation object if no one exist for this strategy
             GRLspec grl = strategy.getGrlspec();
             HashMap recursiveEvaluations = new HashMap();
-            getRecursiveEvaluations(strategy,  recursiveEvaluations);
+            getRecursiveEvaluations(strategy, recursiveEvaluations);
 
             Iterator it = grl.getIntElements().iterator();
             while (it.hasNext()) {
@@ -565,7 +596,7 @@ public class EvaluationStrategyManager {
             // Go through all the KPIInformationElement and create a new KPIInformationConfig object if no one exist for this strategy
             grl = strategy.getGrlspec();
             HashMap recursiveKPIInformationConfig = new HashMap();
-            getRecursiveKPIInformationConfig(strategy,  recursiveKPIInformationConfig);
+            getRecursiveKPIInformationConfig(strategy, recursiveKPIInformationConfig);
             it = grl.getKpiInformationElements().iterator();
             while (it.hasNext()) {
                 KPIInformationElement elem = (KPIInformationElement) it.next();
@@ -587,11 +618,11 @@ public class EvaluationStrategyManager {
             }
         }
     }
-    
+
     public synchronized ContributionContext getContributionContext() {
         return contributionContext;
-   }
-    
+    }
+
     public synchronized void setContributionContext(ContributionContext context) {
         this.contributionContext = context;
         setStrategy(strategy);
@@ -715,12 +746,11 @@ public class EvaluationStrategyManager {
                 syncIntentionalElementQualitativeEvaluation(eval, value);
                 setEvaluationMetadata(element, eval);
             }
-            if(!delete) {
+            if (!delete) {
                 // If it is a new Evaluation entered by the user, link it with the strategy and intentionalElement
                 AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
                 execute(cmd);
-            }
-            else {
+            } else {
                 DeleteEvaluationCommand cmd = new DeleteEvaluationCommand(eval);
                 execute(cmd);
             }
@@ -728,24 +758,26 @@ public class EvaluationStrategyManager {
             calculateEvaluation();
         }
     }
-    
+
     /**
      * Sets the quantitative evaluation
+     * 
      * @param element
-     *              the element to apply the new value to
+     *            the element to apply the new value to
      * @param value
-     *              the new quantitative evaluation value
+     *            the new quantitative evaluation value
      */
     public synchronized void setIntentionalElementEvaluation(IntentionalElement element, int value) {
         setIntentionalElementEvaluation(element, value, false);
     }
-    
+
     /**
      * Remove a quantitative evaluation
+     * 
      * @param element
-     *              the element to remove the evaluation
+     *            the element to remove the evaluation
      * @param oldValue
-     *              the value that was there before
+     *            the value that was there before
      */
     public synchronized void removeIntentionalElementEvaluation(IntentionalElement element, int oldValue) {
         setIntentionalElementEvaluation(element, oldValue, true);
@@ -776,11 +808,11 @@ public class EvaluationStrategyManager {
         QualitativeLabel label = eval.getQualitativeEvaluation();
 
         URNspec urn = null;
-        if (eval.getIntElement()!=null && eval.getIntElement().getGrlspec()!=null)
+        if (eval.getIntElement() != null && eval.getIntElement().getGrlspec() != null)
             urn = eval.getIntElement().getGrlspec().getUrnspec();
-        else if (multieditor!=null)
+        else if (multieditor != null)
             urn = multieditor.getModel();
-        
+
         QualitativeLabel toSet = getQualitativeEvaluationForQuantitativeValue(urn, value);
 
         if (!label.equals(toSet))
@@ -791,7 +823,6 @@ public class EvaluationStrategyManager {
     public static QualitativeLabel getQualitativeEvaluationForQuantitativeValue(URNspec urn, int value) {
         value = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn, value);
 
-        
         if (value == IGRLStrategyAlgorithm.SATISFICED)
             return QualitativeLabel.SATISFIED_LITERAL;
         else if (value > IGRLStrategyAlgorithm.NONE && value < IGRLStrategyAlgorithm.SATISFICED)
@@ -845,30 +876,30 @@ public class EvaluationStrategyManager {
         int evaluation = eval.getEvaluation();
 
         URNspec urn = null;
-        if (eval.getIntElement()!=null && eval.getIntElement().getGrlspec()!=null)
+        if (eval.getIntElement() != null && eval.getIntElement().getGrlspec() != null)
             urn = eval.getIntElement().getGrlspec().getUrnspec();
-        else if (multieditor!=null)
+        else if (multieditor != null)
             urn = multieditor.getModel();
-        
+
         evaluation = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn, evaluation);
-        
+
         int result = 0;
         if (QualitativeLabel.SATISFIED_LITERAL.getName().equals(type) && evaluation < IGRLStrategyAlgorithm.SATISFICED)
-            result =IGRLStrategyAlgorithm.SATISFICED;
+            result = IGRLStrategyAlgorithm.SATISFICED;
         else if (QualitativeLabel.WEAKLY_SATISFIED_LITERAL.getName().equals(type)
                 && (evaluation <= IGRLStrategyAlgorithm.NONE || evaluation == IGRLStrategyAlgorithm.SATISFICED))
-            result =IGRLStrategyAlgorithm.WSATISFICED;
+            result = IGRLStrategyAlgorithm.WSATISFICED;
         else if (QualitativeLabel.WEAKLY_DENIED_LITERAL.getName().equals(type)
                 && (evaluation >= IGRLStrategyAlgorithm.NONE || evaluation == IGRLStrategyAlgorithm.DENIED))
-            result =IGRLStrategyAlgorithm.WDENIED;
+            result = IGRLStrategyAlgorithm.WDENIED;
         else if (QualitativeLabel.DENIED_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.DENIED)
-            result =IGRLStrategyAlgorithm.DENIED;
+            result = IGRLStrategyAlgorithm.DENIED;
         else if (QualitativeLabel.NONE_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.NONE)
-            result =IGRLStrategyAlgorithm.NONE;
+            result = IGRLStrategyAlgorithm.NONE;
         else if (QualitativeLabel.CONFLICT_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.CONFLICT)
-            result =IGRLStrategyAlgorithm.CONFLICT;
+            result = IGRLStrategyAlgorithm.CONFLICT;
         else if (QualitativeLabel.UNKNOWN_LITERAL.getName().equals(type) && evaluation != IGRLStrategyAlgorithm.UNDECIDED)
-            result =IGRLStrategyAlgorithm.UNDECIDED;
+            result = IGRLStrategyAlgorithm.UNDECIDED;
 
         result = StrategyEvaluationPreferences.getEquivalentValueIn0To100RangeIfApplicable(urn, result);
         eval.setEvaluation(result);
@@ -1039,18 +1070,17 @@ public class EvaluationStrategyManager {
      * Sets _numEval and _qualEval metadata for the actor
      */
     private void setEvaluationMetadata(Actor actor, int actorEval) {
-        
 
         URNspec urn = null;
-        if (actor.getGrlspec()!=null)
+        if (actor.getGrlspec() != null)
             urn = actor.getGrlspec().getUrnspec();
-        else if (multieditor!=null)
+        else if (multieditor != null)
             urn = multieditor.getModel();
-        
 
         String numEvalAsString = Integer.toString(actorEval);
-        if (getQualitativeEvaluationForQuantitativeValue(urn, actorEval)==null)return;
-        String qualEvalAsString = getQualitativeEvaluationForQuantitativeValue(urn,actorEval).toString();
+        if (getQualitativeEvaluationForQuantitativeValue(urn, actorEval) == null)
+            return;
+        String qualEvalAsString = getQualitativeEvaluationForQuantitativeValue(urn, actorEval).toString();
 
         Metadata metaNumerical = MetadataHelper.getMetaDataObj(actor, METADATA_NUMEVAL);
         if (metaNumerical != null) {
@@ -1073,101 +1103,103 @@ public class EvaluationStrategyManager {
         }
     }
 
-    public synchronized void startDifferenceMode( EvaluationStrategy strategy ) {
-    	StrategiesView strategiesView;
+    public synchronized void startDifferenceMode(EvaluationStrategy strategy) {
+        StrategiesView strategiesView;
 
-    	strategy1 = strategy;
-    	differenceMode = true;
-    	
-    	comparisonEvaluations = new HashMap<IntentionalElement, Evaluation>();
-    	comparisonActorEvaluations = new HashMap<Actor, Integer>();
-    	 
-    	for( Iterator iter = evaluations.keySet().iterator(); iter.hasNext(); ) {
-			IntentionalElement ie = (IntentionalElement) iter.next();
-			Evaluation eval = (Evaluation) evaluations.get( ie );
-			comparisonEvaluations.put( ie, eval );
-			URNspec urnSpec = ie.getGrlspec().getUrnspec();
-			MetadataHelper.addMetaData( urnSpec, ie, "Evaluation", Integer.toString(eval.getEvaluation()) ); // add temporary metadata for current evaluation
-    	}
-    	
-    	comparisonActorEvaluations = (HashMap<Actor, Integer>) currentActorEvaluations.clone();  // store Actor evaluations for current strategy
-    	
-		if( (strategiesView = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )) == null ) {
-			System.err.println( "Strategies view not found." );
-			return;				
-		}			
+        strategy1 = strategy;
+        differenceMode = true;
 
-    	IActionBars bars = strategiesView.getViewSite().getActionBars();
-    	bars.getStatusLineManager().setMessage( "Strategy Difference Mode - base strategy: \"" + strategy1.getName() + "\"" );
+        comparisonEvaluations = new HashMap<IntentionalElement, Evaluation>();
+        comparisonActorEvaluations = new HashMap<Actor, Integer>();
+
+        for (Iterator iter = evaluations.keySet().iterator(); iter.hasNext();) {
+            IntentionalElement ie = (IntentionalElement) iter.next();
+            Evaluation eval = (Evaluation) evaluations.get(ie);
+            comparisonEvaluations.put(ie, eval);
+            URNspec urnSpec = ie.getGrlspec().getUrnspec();
+            MetadataHelper.addMetaData(urnSpec, ie, "Evaluation", Integer.toString(eval.getEvaluation())); // add temporary metadata for current evaluation
+        }
+
+        comparisonActorEvaluations = (HashMap<Actor, Integer>) currentActorEvaluations.clone(); // store Actor evaluations for current strategy
+
+        if ((strategiesView = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+                .findView("seg.jUCMNav.views.StrategiesView")) == null) {
+            System.err.println("Strategies view not found.");
+            return;
+        }
+
+        IActionBars bars = strategiesView.getViewSite().getActionBars();
+        bars.getStatusLineManager().setMessage("Strategy Difference Mode - base strategy: \"" + strategy1.getName() + "\"");
     }
-    
-    public synchronized void setComparisonStrategy( EvaluationStrategy strategy ) {
-    	StrategiesView strategiesView;
-    	
-    	if( differenceMode && strategy != null && strategy1 != null && strategy != strategy1 ) {
-    		strategy2 = strategy;
-    		calculateEvaluation();
 
-    		if( (strategiesView = getStrategiesView()) != null ) {
-				strategiesView.highlightStrategies( strategy1, strategy2 );
-			}			
-    	}
+    public synchronized void setComparisonStrategy(EvaluationStrategy strategy) {
+        StrategiesView strategiesView;
+
+        if (differenceMode && strategy != null && strategy1 != null && strategy != strategy1) {
+            strategy2 = strategy;
+            calculateEvaluation();
+
+            if ((strategiesView = getStrategiesView()) != null) {
+                strategiesView.highlightStrategies(strategy1, strategy2);
+            }
+        }
     }
 
     public synchronized void stopDifferenceMode() {
-    	StrategiesView strategiesView;
+        StrategiesView strategiesView;
 
-    	strategy = strategy1;
-    	strategy1 = null;
-    	strategy2 = null;
-    	differenceMode = false;
-    	
-    	if( comparisonEvaluations != null ) {
-    		// remove temporary metadata 
-    		for( IntentionalElement ie : comparisonEvaluations.keySet() ) {
-    			MetadataHelper.removeMetaData( ie, "Evaluation" );
-    		}
-    		comparisonEvaluations = null;
-    	}
-    	comparisonActorEvaluations = null;
-    	
-		calculateEvaluation();
+        strategy = strategy1;
+        strategy1 = null;
+        strategy2 = null;
+        differenceMode = false;
 
-		if( (strategiesView = getStrategiesView()) != null ) {
-	    	IActionBars bars = strategiesView.getViewSite().getActionBars();
-	    	bars.getStatusLineManager().setMessage( "" );
-		}			
-    }
-    
-    public synchronized boolean isDifferenceMode() {
-    	return( differenceMode );
-    }
-    
-    public synchronized boolean isDifferenceMode( EvaluationStrategy strategy ) {
-    	return( differenceMode && strategy != null && strategy != strategy1 && strategy != strategy2 );
-    }
-    
-    public synchronized boolean displayDifferenceMode() {
-    	
-//    	if( differenceMode && JUCMNavPlugin.isInDebug() ) {
-//    		if( strategy1 != null ) System.out.println( "displayDifferenceMode()\nstrategy1: " + strategy1.getName() );
-//    		if( strategy2 != null ) System.out.println( "strategy2: " + strategy2.getName() );
-//    		if( strategy != null ) System.out.println( "strategy: " + strategy.getName() );
-//    	}
-    	return( differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1 );
-    }
-    
-    private synchronized StrategiesView getStrategiesView() {
-    	StrategiesView sv = null;
-    	
-        if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
-                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference( "seg.jUCMNav.views.StrategiesView" ) != null) {
-            sv = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference( "seg.jUCMNav.views.StrategiesView" ).getView(false);
+        if (comparisonEvaluations != null) {
+            // remove temporary metadata
+            for (IntentionalElement ie : comparisonEvaluations.keySet()) {
+                MetadataHelper.removeMetaData(ie, "Evaluation");
+            }
+            comparisonEvaluations = null;
         }
-        
-    	return sv;
+        comparisonActorEvaluations = null;
+
+        calculateEvaluation();
+
+        if ((strategiesView = getStrategiesView()) != null) {
+            IActionBars bars = strategiesView.getViewSite().getActionBars();
+            bars.getStatusLineManager().setMessage("");
+        }
     }
-    
+
+    public synchronized boolean isDifferenceMode() {
+        return (differenceMode);
+    }
+
+    public synchronized boolean isDifferenceMode(EvaluationStrategy strategy) {
+        return (differenceMode && strategy != null && strategy != strategy1 && strategy != strategy2);
+    }
+
+    public synchronized boolean displayDifferenceMode() {
+
+        // if( differenceMode && JUCMNavPlugin.isInDebug() ) {
+        // if( strategy1 != null ) System.out.println( "displayDifferenceMode()\nstrategy1: " + strategy1.getName() );
+        // if( strategy2 != null ) System.out.println( "strategy2: " + strategy2.getName() );
+        // if( strategy != null ) System.out.println( "strategy: " + strategy.getName() );
+        // }
+        return (differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1);
+    }
+
+    private synchronized StrategiesView getStrategiesView() {
+        StrategiesView sv = null;
+
+        if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.StrategiesView") != null) {
+            sv = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.StrategiesView")
+                    .getView(false);
+        }
+
+        return sv;
+    }
+
     /**
      * Returns all contribution contexts that we may include into the given parent. Will not cause any circular references.
      * 
@@ -1193,7 +1225,8 @@ public class EvaluationStrategyManager {
     }
 
     /**
-     * Gets the list of contribution context that it would be possible to include, without recursing. Used in a context where recursion would cause an infinite loop.
+     * Gets the list of contribution context that it would be possible to include, without recursing. Used in a context where recursion would cause an infinite
+     * loop.
      * 
      * @param parent
      *            the strategy
@@ -1202,13 +1235,12 @@ public class EvaluationStrategyManager {
     private static List getPossibleIncludedContributionContextsNonRecursive(ContributionContext parent) {
         if (parent.getGroups().size() == 0 || parent.getGrlspec() == null)
             return new ArrayList();
-        URNspec urn = ((ContributionContextGroup)parent.getGroups().get(0)).getGrlspec().getUrnspec();
+        URNspec urn = ((ContributionContextGroup) parent.getGroups().get(0)).getGrlspec().getUrnspec();
         List list = getAllContributionContexts(urn);
 
         removeIncludedContributionContexts(list, parent);
         return list;
     }
-
 
     /**
      * Returns a list of all ContributionContexts in all groups.
@@ -1229,7 +1261,7 @@ public class EvaluationStrategyManager {
         }
         return list;
     }
-    
+
     /**
      * Recursively removes all the included contribution contexts from the given list.
      * 
@@ -1247,7 +1279,7 @@ public class EvaluationStrategyManager {
         if (list.contains(parent))
             list.remove(parent);
     }
-    
+
     /**
      * Get all the included contribution contexts (recursively)that are related to this contribution context
      * 
@@ -1260,7 +1292,6 @@ public class EvaluationStrategyManager {
         getDefinedIncludedContributionContexts(def, contexts);
         return contexts;
     }
-    
 
     /**
      * Get all the included contribution contexts (recursively)that are related to this strategy
@@ -1278,25 +1309,25 @@ public class EvaluationStrategyManager {
                 contribs.add(contrib);
         }
     }
-    
+
     /**
      * For each EvaluationManager which is an explicit child of def, we return the index inside the vector returned by getDefinedIncludedContributionContexts
      * 
-     * @param def the context
-     * @return the list of indexes in the getDefinedIncludedContributionContext list. 
+     * @param def
+     *            the context
+     * @return the list of indexes in the getDefinedIncludedContributionContext list.
      */
     public static Vector getIndexesOfPrimaryDefinedIncludedContributionContexts(ContributionContext def) {
         Vector all = getDefinedIncludedContributionContexts(def);
         Vector indexes = new Vector();
-        for (int i=0;i<def.getIncludedContexts().size();i++)
-        {
-            // add the index of the contribution context in this list. 
-            // given how we merge included contribution context (to avoid duplication), this list is non-obvious  
+        for (int i = 0; i < def.getIncludedContexts().size(); i++) {
+            // add the index of the contribution context in this list.
+            // given how we merge included contribution context (to avoid duplication), this list is non-obvious
             indexes.add(new Integer(all.indexOf(def.getIncludedContexts().get(i))));
         }
         return indexes;
     }
-    
+
     /**
      * Returns all strategies that we may include into the given parent. Will not cause any circular references.
      * 
@@ -1339,7 +1370,6 @@ public class EvaluationStrategyManager {
 
     }
 
-
     /**
      * Returns a list of all EvaluationStrategies in all groups.
      * 
@@ -1359,7 +1389,7 @@ public class EvaluationStrategyManager {
         }
         return list;
     }
-    
+
     /**
      * Recursively removes all the included strategies from the given list.
      * 
@@ -1377,7 +1407,7 @@ public class EvaluationStrategyManager {
         if (list.contains(parent))
             list.remove(parent);
     }
-    
+
     /**
      * Get all the included strategies (recursively)that are related to this strategy
      * 
@@ -1390,7 +1420,6 @@ public class EvaluationStrategyManager {
         getDefinedIncludedStrategies(def, strategies);
         return strategies;
     }
-    
 
     /**
      * Get all the included strategies (recursively)that are related to this strategy
@@ -1408,31 +1437,30 @@ public class EvaluationStrategyManager {
                 scenarios.add(strategy);
         }
     }
-    
+
     /**
      * For each EvaluationManager which is an explicit child of def, we return the index inside the vector returned by getDefinedIncludedStrategies
      * 
-     * @param def the strategy
-     * @return the list of indexes in the getDefinedIncludedStrategies list. 
+     * @param def
+     *            the strategy
+     * @return the list of indexes in the getDefinedIncludedStrategies list.
      */
     public static Vector getIndexesOfPrimaryDefinedIncludedStrategies(EvaluationStrategy def) {
         Vector all = getDefinedIncludedStrategies(def);
         Vector indexes = new Vector();
-        for (int i=0;i<def.getIncludedStrategies().size();i++)
-        {
-            // add the index of the strategy in this list. 
-            // given how we merge included strategy (to avoid duplication), this list is non-obvious  
+        for (int i = 0; i < def.getIncludedStrategies().size(); i++) {
+            // add the index of the strategy in this list.
+            // given how we merge included strategy (to avoid duplication), this list is non-obvious
             indexes.add(new Integer(all.indexOf(def.getIncludedStrategies().get(i))));
         }
         return indexes;
-    }    
-    
-    public ContributionChange findApplicableContributionChange(Contribution contrib, boolean recurse)
-    {
-       return findApplicableContributionChange(contributionContext, contrib, recurse);
     }
-    public static ContributionChange findApplicableContributionChange(ContributionContext context, Contribution contrib, boolean recurse)
-    {
+
+    public ContributionChange findApplicableContributionChange(Contribution contrib, boolean recurse) {
+        return findApplicableContributionChange(contributionContext, contrib, recurse);
+    }
+
+    public static ContributionChange findApplicableContributionChange(ContributionContext context, Contribution contrib, boolean recurse) {
         if (context == null || contrib == null)
             return null;
         ContributionChange result = null;
@@ -1455,9 +1483,8 @@ public class EvaluationStrategyManager {
         }
         return result;
     }
-    
-    public int getActiveQuantitativeContribution(Contribution contribution)
-    {
+
+    public int getActiveQuantitativeContribution(Contribution contribution) {
         if (contribution != null) {
             if (contributionContext != null) {
                 ContributionChange change = findApplicableContributionChange(contributionContext, contribution, true);
@@ -1467,10 +1494,10 @@ public class EvaluationStrategyManager {
             return contribution.getQuantitativeContribution();
         } else
             return 0;
-        
+
     }
-    public ContributionType getActiveContribution(Contribution contribution)
-    {
+
+    public ContributionType getActiveContribution(Contribution contribution) {
         if (contribution != null) {
             if (contributionContext != null) {
                 ContributionChange change = findApplicableContributionChange(contributionContext, contribution, true);
@@ -1478,15 +1505,13 @@ public class EvaluationStrategyManager {
                     return change.getNewContribution();
             }
             return contribution.getContribution();
-        }
-        else
+        } else
             return ContributionType.UNKNOWN_LITERAL;
-            
+
     }
-    public void setActiveQuantitativeContribution(ContributionContext contributionContext, Contribution contribution, int value)
-    {
-        if (contribution != null)
-        {
+
+    public void setActiveQuantitativeContribution(ContributionContext contributionContext, Contribution contribution, int value) {
+        if (contribution != null) {
             if (contributionContext != null) {
                 ContributionChange change = findApplicableContributionChange(contributionContext, contribution, false);
                 if (change != null) {
@@ -1495,14 +1520,13 @@ public class EvaluationStrategyManager {
                     contribution.setQuantitativeContribution(contribution.getQuantitativeContribution());
 
                     return;
-                }
-                else if (contribution.getGrlspec()!=null)
-                {
-                    ContributionChange newChange = (ContributionChange)ModelCreationFactory.getNewObject(contribution.getGrlspec().getUrnspec(), ContributionChange.class);
-                    newChange.setNewQuantitativeContribution(value); // other field will be set separately by existing code. 
+                } else if (contribution.getGrlspec() != null) {
+                    ContributionChange newChange = (ContributionChange) ModelCreationFactory.getNewObject(contribution.getGrlspec().getUrnspec(),
+                            ContributionChange.class);
+                    newChange.setNewQuantitativeContribution(value); // other field will be set separately by existing code.
                     newChange.setContribution(contribution);
                     newChange.setContext(contributionContext);
-                    
+
                     // force a refresh of the GUI even if value does not change
                     contribution.setQuantitativeContribution(contribution.getQuantitativeContribution());
                     return;
@@ -1511,10 +1535,9 @@ public class EvaluationStrategyManager {
             contribution.setQuantitativeContribution(value);
         }
     }
-    public void setActiveContribution(ContributionContext contributionContext, Contribution contribution, ContributionType type)
-    {
-        if (contribution != null)
-        {
+
+    public void setActiveContribution(ContributionContext contributionContext, Contribution contribution, ContributionType type) {
+        if (contribution != null) {
             if (contributionContext != null) {
                 ContributionChange change = findApplicableContributionChange(contributionContext, contribution, false);
                 if (change != null) {
@@ -1530,12 +1553,11 @@ public class EvaluationStrategyManager {
                     newChange.setContext(contributionContext);
                     newChange.setContribution(contribution);
 
-                    
                     // force a refresh of the GUI even if value does not change
                     contribution.setContribution(contribution.getContribution());
                     return;
                 }
-            }            
+            }
             contribution.setContribution(type);
         }
     }
