@@ -24,7 +24,6 @@ import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.editparts.GrlNodeEditPart;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintGrlNodeCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;

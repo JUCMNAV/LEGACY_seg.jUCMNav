@@ -27,6 +27,7 @@ public class SetConstraintGrlNodeCommand extends CompoundCommand {
     protected int x, y, height, width;
     protected int oldX, oldY, oldHeight, oldWidth;
     protected boolean multipleNodeMoved;
+    protected boolean addedSize = false;
 
     public SetConstraintGrlNodeCommand(IURNNode node, int x, int y, boolean multipleNodeMoved) {
         this(node, x, y, -1, -1, multipleNodeMoved);
@@ -106,6 +107,9 @@ public class SetConstraintGrlNodeCommand extends CompoundCommand {
         String _width = MetadataHelper.getMetaData((URNmodelElement) node, "_width");
         String _height = MetadataHelper.getMetaData((URNmodelElement) node, "_height");
         
+        if(_width == null || _height == null)
+            addedSize = true;
+        
         this.oldWidth = (new Integer(_width != null ? _width : "0")).intValue();
         this.oldHeight = (new Integer(_height != null ? _height : "0")).intValue();
         
@@ -123,7 +127,12 @@ public class SetConstraintGrlNodeCommand extends CompoundCommand {
 
     @Override
     public void undo() {
-        changeDimension(oldWidth, oldHeight);
+        if(!addedSize)
+            changeDimension(oldWidth, oldHeight);
+        else {
+            MetadataHelper.removeMetaData((URNmodelElement) node, "_width");
+            MetadataHelper.removeMetaData((URNmodelElement) node, "_height");
+        }
 
         super.undo();
     }
