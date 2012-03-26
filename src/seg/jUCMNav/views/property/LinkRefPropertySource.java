@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-import seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.descriptors.ContributionRangePropertyDescriptor;
@@ -110,7 +109,7 @@ public class LinkRefPropertySource extends URNElementPropertySource {
             if (propertyid.getEClass().getName().equals("ContributionRange"))
                 result = EvaluationStrategyManager.getInstance().findApplicableContributionChange((Contribution) element, false);
             else
-                result = element.eGet(feature);
+            result = element.eGet(feature);
         } else
             result = object.eGet(feature);
 
