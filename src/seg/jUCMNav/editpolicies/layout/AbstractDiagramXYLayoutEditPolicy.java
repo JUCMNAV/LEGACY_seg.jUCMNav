@@ -108,7 +108,7 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
                 } else {
                     int height = ((ModelElementEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
                     x = node.getX() - ((Rectangle) constraint).x - (dim.width / 2);
-                    y = node.getY() - ((Rectangle) constraint).y - (dim.height + height / 2);
+                    y = node.getY() - ((Rectangle) constraint).y - (dim.height);
                 }
 
             } else {
