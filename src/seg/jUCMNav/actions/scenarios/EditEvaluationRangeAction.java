@@ -37,7 +37,7 @@ public class EditEvaluationRangeAction extends URNSelectionAction {
     public EditEvaluationRangeAction(IWorkbenchPart part) {
         super(part);
         setId(EDITEVALUATIONRANGEACTION);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Metadata.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/StrategyRangeEval16.gif")); //$NON-NLS-1$
     }
 
     /**

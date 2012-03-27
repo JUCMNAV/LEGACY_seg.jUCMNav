@@ -37,7 +37,7 @@ public class IncludeContributionContextAction extends URNSelectionAction {
     public IncludeContributionContextAction(IWorkbenchPart part) {
         super(part);
         setId(INCLUDECONTRIBUTIONCONTEXT);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grlstrat16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ContributionContext16.gif")); //$NON-NLS-1$
     }
 
     /**

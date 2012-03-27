@@ -32,7 +32,7 @@ public class AddContributionContextAction extends URNSelectionAction {
         super(part);
 
         setId(ADDCONTRIBUTIONCONTEXT);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grlstrat16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ContributionContext16.gif")); //$NON-NLS-1$
     }
 
     /**

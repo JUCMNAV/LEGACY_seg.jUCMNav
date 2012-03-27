@@ -37,7 +37,7 @@ public class EditContributionRangeAction extends URNSelectionAction {
     public EditContributionRangeAction(IWorkbenchPart part) {
         super(part);
         setId(EDITCONTRIBUTIONRANGEACTION);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Metadata.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/ContributionRange16.gif")); //$NON-NLS-1$
     }
 
     /**
