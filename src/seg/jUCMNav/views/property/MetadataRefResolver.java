@@ -23,7 +23,7 @@ import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 public class MetadataRefResolver {
-
+    
     public IStructuredSelection adjustSelection(ISelection selection, EObject defaultSelected) {
         if (selection == null) {
             Vector v = new Vector();

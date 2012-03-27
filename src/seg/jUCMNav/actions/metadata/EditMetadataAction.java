@@ -30,6 +30,7 @@ public class EditMetadataAction extends URNSelectionAction {
      */
     public EditMetadataAction(IWorkbenchPart part) {
         super(part);
+        
         setId(EDITMETADATAACTION);
         setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Metadata.gif")); //$NON-NLS-1$
     }

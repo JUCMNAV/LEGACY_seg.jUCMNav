@@ -3,6 +3,7 @@ package seg.jUCMNav.views.property.tabbed.sections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
@@ -24,12 +25,14 @@ public class MetadataPropertySection extends AbstractWizardPropertySection {
 
     protected MetadataRefResolver resolver = new MetadataRefResolver();
     private EObject currentObj;
+    private EObject initialObject;
 
     protected IWizardPage createPage(Composite parent) {
         IStructuredSelection sel = resolver.adjustSelection(propertySheetPage.getSelection(), eObject);
         EObject obj = resolver.getRealObject(eObject);
+        initialObject = getUnresolvedSelection(propertySheetPage.getSelection());
 
-        final MetadataEditorPage page = new MetadataEditorPage(sel, obj);
+        final MetadataEditorPage page = new MetadataEditorPage(sel, obj, initialObject != obj ? initialObject : null);
         page.setInProperties(true);
         page.addMetadataListener(new IMetadataListener() {
             public void metadataChanged() {
@@ -60,19 +63,32 @@ public class MetadataPropertySection extends AbstractWizardPropertySection {
         super.setInput(part, selection);
 
         currentObj = resolver.getRealObject(eObject);
+        initialObject = getUnresolvedSelection(selection);
 
-        ((MetadataEditorPage) page).setData(resolver.adjustSelection(null, eObject), currentObj);
-        ((MetadataEditorPage) page).updateUI();
+        ((MetadataEditorPage) page).setData(resolver.adjustSelection(null, eObject), currentObj, initialObject != currentObj ? initialObject : null);
+        ((MetadataEditorPage) page).updateUI(true);
     }
 
     public void refresh() {
         super.refresh();
 
-        ((MetadataEditorPage) page).setData(resolver.adjustSelection(null, eObject), currentObj);
-        ((MetadataEditorPage) page).updateUI();
+        ((MetadataEditorPage) page).setData(resolver.adjustSelection(null, eObject), currentObj, initialObject != currentObj ? initialObject : null);
+        ((MetadataEditorPage) page).updateUI(false);
     }
 
     public String getLabelText() {
         return ""; //$NON-NLS-1$
+    }
+    
+    protected EObject getUnresolvedSelection(ISelection selection) {
+        if(selection == null)
+            return null;
+        
+        Vector list = new Vector();
+        list = buildObjectList(selection, false);
+        if (list.size() > 0) {
+            return (EObject) list.get(0);
+        } else
+            return null;
     }
 }

@@ -34,6 +34,7 @@ public class MetadataEditor extends Wizard {
     private ISelection selection;
     private EObject defaultSelected;
     private MetadataRefResolver resolver = new MetadataRefResolver();
+    private EObject eObject;
 
     /**
      * The workbench page in which we are working
@@ -53,7 +54,7 @@ public class MetadataEditor extends Wizard {
      * Adding the page to the wizard.
      */
     public void addPages() {
-        page = new MetadataEditorPage(selection, defaultSelected);
+        page = new MetadataEditorPage(selection, defaultSelected, eObject != defaultSelected ? eObject : null);
         addPage(page);
     }
 
@@ -97,7 +98,9 @@ public class MetadataEditor extends Wizard {
      * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
      */
     public void init(IWorkbench workbench, IStructuredSelection selection, EObject defaultSelected) {
+
         this.selection = selection;
+        this.eObject = defaultSelected;
         this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
 
         this.defaultSelected = resolver.getRealObject(defaultSelected);

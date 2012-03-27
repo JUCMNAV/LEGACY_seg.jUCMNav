@@ -87,32 +87,38 @@ public abstract class AbstractGEFPropertySection extends AbstractPropertySection
         if (!(selection instanceof IStructuredSelection)) {
             return;
         }
-        buildObjectList(selection);
+        eObjectList = buildObjectList(selection);
         if (eObjectList.size() > 0) {
             eObject = (EObject) eObjectList.get(0);
         } else
             eObject = null;
 
     }
-
-    private void buildObjectList(ISelection selection) {
-        eObjectList = new Vector();
+    
+    protected Vector buildObjectList(ISelection selection, boolean resolve) {
+        Vector result = new Vector();
 
         Iterator it = ((IStructuredSelection) selection).toList().iterator();
         while (it.hasNext()) {
             Object obj = it.next();
             if (obj instanceof EditPart) {
                 EObject e = (EObject) ((EditPart) obj).getModel();
-                obj = getDataForSection(e);
+                obj = resolve ? getDataForSection(e) : e;
 
                 if (obj != null)
-                    eObjectList.add(obj);
+                    result.add(obj);
             } else if (obj instanceof EObject) {
-                obj = getDataForSection(obj);
+                obj = resolve ? getDataForSection(obj) : obj;
                 if (obj != null)
-                    eObjectList.add(obj);
+                    result.add(obj);
             }
         }
+        
+        return result;
+    }
+
+    protected Vector buildObjectList(ISelection selection) {
+        return buildObjectList(selection, true);
     }
 
     public abstract String getLabelText();

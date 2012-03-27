@@ -34,6 +34,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -43,6 +45,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import urn.URNlink;
 import urn.URNspec;
 import urncore.Metadata;
 import urncore.URNmodelElement;
@@ -59,16 +62,18 @@ public class MetadataEditorPage extends WizardPage {
     private static final String[] columnNames = { Messages.getString("MetadataEditorPage.column1"), Messages.getString("MetadataEditorPage.column2") }; //$NON-NLS-1$ //$NON-NLS-2$
 
     private ISelection selection;
-    private URNmodelElement urnelem;
     private URNspec urn;
     private Label typeLabel;
     private Label elementLabel;
     private Combo typeOfElements;
     private Combo possibilities;
+    private TabFolder folder;
 
     private Vector allPossibilities;
     private Vector selectedPossibilities;
     private EObject defaultSelected;
+    private EObject firstSelection;
+    private EObject ref;
     private HashMap metadataMap;
     private String[] copyBuffer;
 
@@ -134,20 +139,35 @@ public class MetadataEditorPage extends WizardPage {
      * @param selection
      * @param defaultSelected
      */
-    public MetadataEditorPage(ISelection selection, EObject defaultSelected) {
+    public MetadataEditorPage(ISelection selection, EObject defaultSelected, EObject ref) {
         super("wizardPage"); //$NON-NLS-1$
 
         this.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
-        setData(selection, defaultSelected);
+        setData(selection, defaultSelected, ref);
     }
 
-    public void setData(ISelection selection, EObject defaultSelected) {
+    public void setData(ISelection selection, EObject defaultSelected, EObject ref) {
         this.selection = selection;
-        this.defaultSelected = defaultSelected;
+        this.firstSelection = defaultSelected;
+        
+        setSelectedObject(defaultSelected, ref);
+        
+        this.ref = ref;
         this.metadataMap = new HashMap();
         this.allPossibilities = new Vector();
         this.selectedPossibilities = new Vector();
+    }
+
+    protected void setSelectedObject(EObject defaultSelected, EObject ref) {
+        if(ref != null && (folder != null ? folder.getSelectionIndex() == 1 : false) && hasMetadata(ref))
+            this.defaultSelected = ref;
+        else
+            this.defaultSelected = defaultSelected;
+    }
+    
+    protected boolean hasMetadata(Object obj) {
+        return obj instanceof URNspec || obj instanceof URNlink || obj instanceof URNmodelElement;
     }
 
     private void checkButtonStatus() {
@@ -160,7 +180,7 @@ public class MetadataEditorPage extends WizardPage {
             buttonRemove.setEnabled(false);
         }
 
-        if (urnelem != null) {
+        if (defaultSelected != null) {
             buttonAdd.setEnabled(true);
             buttonRemoveAll.setEnabled(true);
         } else {
@@ -169,6 +189,8 @@ public class MetadataEditorPage extends WizardPage {
             buttonEdit.setEnabled(false);
             buttonRemove.setEnabled(false);
         }
+        
+        folder.setVisible(ref != null && hasMetadata(ref));
     }
 
     /**
@@ -207,13 +229,12 @@ public class MetadataEditorPage extends WizardPage {
                             EObject o = (EObject) selectedPossibilities.get(0);
                             if (o != defaultSelected) {
                                 defaultSelected = o;
+                                ref = null;
+                                
                                 setupMetadata(o);
-
-                                urnelem = (URNmodelElement) defaultSelected;
                             }
                         } else {
                             defaultSelected = null;
-                            urnelem = null;
                         }
                     }
 
@@ -243,9 +264,8 @@ public class MetadataEditorPage extends WizardPage {
                         EObject o = (EObject) selectedPossibilities.get(possibilities.getSelectionIndex());
                         if (o != defaultSelected) {
                             defaultSelected = o;
+                            ref = null;
                             setupMetadata(o);
-
-                            urnelem = (URNmodelElement) defaultSelected;
                         }
                     }
 
@@ -262,6 +282,35 @@ public class MetadataEditorPage extends WizardPage {
             gd.widthHint = 250;
             possibilities.setLayoutData(gd);
         }
+        
+        folder = new TabFolder(container, SWT.NULL);
+
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.widthHint = 250;
+        gd.heightHint = -5;
+        folder.setLayoutData(gd);
+        
+        folder.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                if(metadataTable != null)
+                {
+                  metadataTable.removeAll();
+                  
+                  setSelectedObject(firstSelection, ref);
+                  setupMetadata(defaultSelected);
+                
+                  checkButtonStatus();
+                }
+            }
+            
+        });
+        
+        TabItem definitionTab = new TabItem(folder, SWT.NULL);
+        definitionTab.setText("Definition");
+        
+        TabItem referenceTab = new TabItem(folder, SWT.NULL);
+        referenceTab.setText("Reference");
 
         // Table to contain metadata entries
         metadataTable = new Table(container, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
@@ -357,10 +406,10 @@ public class MetadataEditorPage extends WizardPage {
         size = buttonRemoveAll.computeSize( SWT.DEFAULT, SWT.DEFAULT );
         buttonRemoveAll.setLayoutData( new RowData( size.x+10, size.y) );
 
-        updateUI();
+        updateUI(false);
     }
 
-    public void updateUI() {
+    public void updateUI(boolean firstLoad) {
         initialize();
 
         initTypeOfElementsLabels();
@@ -376,7 +425,12 @@ public class MetadataEditorPage extends WizardPage {
 
         this.setTitle(Messages.getString("MetadataEditorPage.title")); //$NON-NLS-1$
         this.setDescription( Messages.getString("MetadataEditorPage.EditMetadataForAllURNElements") ); // description is needed to avoid buttons at bottom being cropped, SWT bug //$NON-NLS-1$
-        this.setControl( container ); 
+        this.setControl( container );
+        
+        checkButtonStatus();
+        
+        if(firstLoad)
+            folder.setSelection(0);
     }
 
     /**
@@ -452,7 +506,7 @@ public class MetadataEditorPage extends WizardPage {
                 MenuItem[] items = menu.getItems();
                 int scount = metadataTable.getSelectionCount();
 
-                if (urnelem != null) {
+                if (defaultSelected != null) {
                     items[0].setEnabled(true); // new
                     items[2].setEnabled(scount > 0); // edit
                     items[3].setEnabled(scount > 0); // copy
@@ -617,16 +671,14 @@ public class MetadataEditorPage extends WizardPage {
             if (defaultSelected == null) {
                 defaultSelected = (EObject) ssel.getFirstElement();
             }
+            
+            setSelectedObject(firstSelection, ref);
 
             setupMetadata(defaultSelected);
 
-            if (defaultSelected instanceof URNmodelElement) {
-                urnelem = (URNmodelElement) defaultSelected;
-            }
-
             EObject o;
-            if (urnelem != null) {
-                o = urnelem.eContainer();
+            if (defaultSelected != null) {
+                o = defaultSelected.eContainer();
 
                 while (o != null) {
                     if (o instanceof URNspec) {
@@ -644,16 +696,21 @@ public class MetadataEditorPage extends WizardPage {
 
         if (!metadataTable.isDisposed()) {
             if (obj != null && obj instanceof URNmodelElement) {
-                urnelem = (URNmodelElement) obj;
-
                 // put urnelem into metadata table
                 metadataTable.removeAll();
 
                 Metadata[] metadataArray;
-                if (metadataMap.get(urnelem) != null) {
-                    metadataArray = (Metadata[]) metadataMap.get(urnelem);
+                if (metadataMap.get(obj) != null) {
+                    metadataArray = (Metadata[]) metadataMap.get(obj);
                 } else {
-                    EList metadataList = urnelem.getMetadata();
+                    EList metadataList = null;
+                    if(obj instanceof URNlink)
+                        metadataList = ((URNlink)obj).getMetadata();
+                    else if(obj instanceof URNmodelElement)
+                        metadataList = ((URNmodelElement)obj).getMetadata();
+                    else if(obj instanceof URNspec)
+                        metadataList = ((URNspec)obj).getMetadata();
+                    
                     metadataArray = (Metadata[]) metadataList.toArray(new Metadata[0]);
                 }
 
@@ -734,7 +791,7 @@ public class MetadataEditorPage extends WizardPage {
      */
     private void metadataChanged() {
         Metadata[] metadataFromTable = getMetadataFromTable();
-        metadataMap.put(urnelem, metadataFromTable);
+        metadataMap.put(defaultSelected, metadataFromTable);
 
         notifyChanged();
     }
@@ -758,15 +815,6 @@ public class MetadataEditorPage extends WizardPage {
         refreshPossibilityLabels();
         if (possibilities != null)
             possibilities.setEnabled(isPageComplete());
-    }
-
-    /**
-     * Returns the urn model element for which the pseudo-code is being edited.
-     * 
-     * @return the urn model element being edited.
-     */
-    public URNmodelElement getURNmodelElement() {
-        return urnelem;
     }
 
     /**
