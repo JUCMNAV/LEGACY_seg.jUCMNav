@@ -436,7 +436,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         
                         if (evaluation.getEvalRange()!=null && (evaluation.getStrategies() == null || evaluation.getStrategies() == EvaluationStrategyManager.getInstance().getEvaluationStrategy()) )
                         {
-                            evalStr = evalStr + " [" + evaluation.getEvalRange().getStart() + "-" + evaluation.getEvalRange().getEnd() + "] ";
+                            evalStr = evalStr + " [" + evaluation.getEvalRange().getStart() + ".." + evaluation.getEvalRange().getEnd() + "] ";
                         }
 
                         text = evalStr + text; //$NON-NLS-1$

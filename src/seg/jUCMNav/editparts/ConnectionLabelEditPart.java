@@ -143,7 +143,7 @@ public class ConnectionLabelEditPart extends LabelEditPart {
                         if (change.getContribRange()!=null)
                         {
                             ContributionRange range = change.getContribRange();
-                            labelFigure.setText(labelFigure.getText() + " [" + range.getStart() + "-" + range.getEnd() + "]" ); //$NON-NLS-1$  //$NON-NLS-2$ //$NON-NLS-3$  
+                            labelFigure.setText(labelFigure.getText() + " [" + range.getStart() + ".." + range.getEnd() + "]" ); //$NON-NLS-1$  //$NON-NLS-2$ //$NON-NLS-3$  
                         }
                         if (change.getContext() == EvaluationStrategyManager.getInstance().getContributionContext())
                             labelFigure.setText(labelFigure.getText() + "(**)"); //$NON-NLS-1$ // two stars to mean locally changed.
