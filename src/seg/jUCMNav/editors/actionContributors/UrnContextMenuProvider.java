@@ -336,6 +336,14 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        action = getActionRegistry().getAction(EditEvaluationRangeAction.EDITEVALUATIONRANGEACTION);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);        
+        
+        action = getActionRegistry().getAction(EditContributionRangeAction.EDITCONTRIBUTIONRANGEACTION);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);   
+        
 
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())
@@ -440,14 +448,6 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(EditMetadataAction.EDITMETADATAACTION);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);
-        
-        action = getActionRegistry().getAction(EditEvaluationRangeAction.EDITEVALUATIONRANGEACTION);
-        if (action.isEnabled())
-            manager.appendToGroup(GROUP_UNCOMMON, action);        
-        
-        action = getActionRegistry().getAction(EditContributionRangeAction.EDITCONTRIBUTIONRANGEACTION);
-        if (action.isEnabled())
-            manager.appendToGroup(GROUP_UNCOMMON, action);     
         
         action = getActionRegistry().getAction(TagElementAction.TAG_ELEMENT_ACTION);
         if (action.isEnabled())

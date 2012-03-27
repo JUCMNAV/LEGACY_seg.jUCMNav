@@ -685,11 +685,11 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
         
         action = new EditEvaluationRangeAction(editor);
-        action.setText("Edit Evaluation Range");
+        action.setText("Edit Evaluation Range ...");
         addEditPartAction((SelectionAction) action);
 
         action = new EditContributionRangeAction(editor);
-        action.setText("Edit Contribution Range");
+        action.setText("Edit Contribution Range ...");
         addEditPartAction((SelectionAction) action);
         
         action = new EditIndicatorGroupsAction(editor);
