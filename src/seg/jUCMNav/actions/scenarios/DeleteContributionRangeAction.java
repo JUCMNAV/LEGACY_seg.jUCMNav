@@ -35,7 +35,7 @@ public class DeleteContributionRangeAction extends URNSelectionAction {
     public DeleteContributionRangeAction(IWorkbenchPart part) {
         super(part);
         setId(DELETECONTRIBUTIONRANGE);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnstratscenon16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ContributionRangeDelete16.gif")); //$NON-NLS-1$
     }
 
     protected void autoDirectEdit(Command cmd) {

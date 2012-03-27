@@ -32,7 +32,7 @@ public class DeleteEvaluationAction extends URNSelectionAction {
     public DeleteEvaluationAction(IWorkbenchPart part) {
         super(part);
         setId(DELETEEVALUATION);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnstratscenon16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/StrategyEvalDelete16.gif")); //$NON-NLS-1$
     }
 
     /**

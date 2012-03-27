@@ -44,6 +44,7 @@
                actionID="seg.jUCMNav.actions.SwitchModelLanguageDelegate"
                class="seg.jUCMNav.actions.SwitchModelLanguageDelegate"
                id="seg.jUCMNav.actions.SwitchModelLanguageDelegate"
+               icon="icons/SwitchModelLanguage.gif"
                label="%SwitchModelLanguage"
                menubarPath="seg.jUCMnav/ext"
                style="push"
