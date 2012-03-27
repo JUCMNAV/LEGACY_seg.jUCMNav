@@ -30,6 +30,7 @@ import seg.jUCMNav.figures.ActorFigure;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 import urn.URNspec;
 
@@ -202,7 +203,10 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                                                                         || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA
                                                                         || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER
                 														) {
-                    evaluationLabel.setText(evaluation);
+                    if (GeneralPreferencePage.getGrlSatisfactionTextVisible())
+                        evaluationLabel.setText(evaluation);
+                    else
+                        evaluationLabel.setText(""); //$NON-NLS-1$
                 }
                 evaluationLabel.setLocation(getActorFigure().getLocation());
 
@@ -245,7 +249,11 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 }
 
             }
-            evaluationLabel.setIcon(evaluationImg);
+            
+            if (GeneralPreferencePage.getGrlSatisfactionIconVisible())
+                evaluationLabel.setIcon(evaluationImg);
+            else
+                evaluationLabel.setIcon(null);
             evaluationLabel.setLocation(getActorFigure().getLocation());
 
         } catch (NullPointerException e) {

@@ -50,6 +50,7 @@ import seg.jUCMNav.figures.IntentionalElementFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
 import urn.URNspec;
@@ -446,7 +447,11 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         
                     }
 //                    evaluationLabel.setFont(f)
-                    evaluationLabel.setText(text);
+                    if (GeneralPreferencePage.getGrlSatisfactionTextVisible())
+                        evaluationLabel.setText(text);
+                    else 
+                        evaluationLabel.setText("");//$NON-NLS-1$
+                    
 
                     Point position = getNodeFigure().getLocation();
                     position.y = position.y - 16;
@@ -494,7 +499,12 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
                             evaluationImg = (JUCMNavPlugin.getImage("icons/undecided.gif")); //$NON-NLS-1$
                         }
-                        evaluationLabel.setIcon(evaluationImg);
+                        if (evaluationImg != null && GeneralPreferencePage.getGrlSatisfactionIconVisible()) {
+                            evaluationLabel.setIcon(evaluationImg);
+                        }
+                        else
+                            evaluationLabel.setIcon(null);
+                        
                     } else {
                         setUrnLinkIcon(getNode(), elem);
 
