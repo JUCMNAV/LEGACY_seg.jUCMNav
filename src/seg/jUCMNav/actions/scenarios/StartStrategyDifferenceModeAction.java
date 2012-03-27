@@ -5,6 +5,7 @@ import org.eclipse.ui.PlatformUI;
 
 import grl.EvaluationStrategy;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -25,6 +26,7 @@ public class StartStrategyDifferenceModeAction extends URNSelectionAction {
 	public StartStrategyDifferenceModeAction(IWorkbenchPart part) {
 		super(part);
 		setId(START_STRATEGY_DIFF_MODE);
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/StrategyDifferenceMode.gif")); //$NON-NLS-1$
 	}
 
     protected boolean calculateEnabled()

@@ -380,7 +380,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             evalValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn,  evalValue);
 
                             
-                            if( EvaluationStrategyManager.getInstance().displayDifferenceMode() ) {
+                            if( EvaluationStrategyManager.getInstance().displayDifferenceMode() && !StrategyEvaluationPreferences.getVisualizeAsPositiveRange(urn)) {
                             	evalValue /= 2;
                             }
                             int partial = (Math.abs((Math.abs(evalValue) - IGRLStrategyAlgorithm.SATISFICED)) * 160 / IGRLStrategyAlgorithm.SATISFICED) + 96;

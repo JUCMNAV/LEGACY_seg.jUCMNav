@@ -38,6 +38,8 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
     		"acceptStereotype,CLASS1,EvaluationStrategy", "acceptStereotype,CLASS2,EvaluationStrategy", "acceptStereotype,OTHER,EvaluationStrategy" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     };
 
+    private String [] linkTypes = { "Traceability", "Refinement", "Compliance" };
+    
 	public AddStereotypeDefinitionsAction(IWorkbenchPart part) {
 		super(part);
         setId(ADD_STEREOTYPE_DEFINITIONS);
