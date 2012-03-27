@@ -152,8 +152,9 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
             }
 
             if (getGraphicalViewer().getContextMenu() != null) {
-                getGraphicalViewer().getContextMenu().dispose();
+                //getGraphicalViewer().getContextMenu().dispose();
                 getGraphicalViewer().setContextMenu(null);
+                
             }
             if (getGraphicalViewer().getEditDomain() instanceof UrnEditDomain) {
                 UrnEditDomain domain = (UrnEditDomain) getGraphicalViewer().getEditDomain();

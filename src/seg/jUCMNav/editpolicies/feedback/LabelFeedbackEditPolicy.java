@@ -1,6 +1,7 @@
 package seg.jUCMNav.editpolicies.feedback;
 
 import grl.ActorRef;
+import grl.LinkRef;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Polyline;
@@ -17,10 +18,12 @@ import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.swt.SWT;
 
 import seg.jUCMNav.editparts.LabelEditPart;
+import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.LabelFigure;
+import seg.jUCMNav.figures.LinkRefConnection;
 import ucm.map.NodeConnection;
 import urncore.ComponentLabel;
 import urncore.Condition;
@@ -151,8 +154,13 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
                     pt2 = pt;
                 }
             } else if(getReference() instanceof IURNConnection) {
-                IURNConnection nc = (IURNConnection)getReference();
                 pt2 = pt;
+                if (getReference() instanceof LinkRef) {
+                    LinkRef nc = (LinkRef)getReference();
+                    LinkRefEditPart part = ((LinkRefEditPart) getHost().getViewer().getEditPartRegistry().get(nc));
+                    LinkRefConnection conn = ((LinkRefConnection)part.getConnectionFigure());
+                    pt2 = conn.getEnd();
+                }
             }
 
             if (pt2 == null)
