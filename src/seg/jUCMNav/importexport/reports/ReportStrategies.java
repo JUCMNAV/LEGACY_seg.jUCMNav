@@ -1,11 +1,14 @@
 package seg.jUCMNav.importexport.reports;
 
+import grl.Actor;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.StrategiesGroup;
 
+import java.awt.Color;
+import java.lang.Math;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,6 +37,10 @@ import com.lowagie.text.Table;
 public class ReportStrategies extends ReportDataDictionary {
 
 	private static Evaluation evaluation = null;
+	private EvaluationStrategyManager esm = EvaluationStrategyManager.getInstance(false);
+	private Color white = new java.awt.Color(255, 255, 255);
+    private final int STRATEGY_CELL_WIDTH = 2;
+    private final int MAX_STRATEGIES_PER_PAGE = 17;
 
     public ReportStrategies() {
 
@@ -62,7 +69,7 @@ public class ReportStrategies extends ReportDataDictionary {
                 
             	Display.getDefault().syncExec(new Runnable() {
             		public void run() {
-                        EvaluationStrategyManager.getInstance(false).setStrategy(null); // Avoid NPE when adding IEs after reporting
+                        esm.setStrategy(null); // Avoid NPE when adding IEs after reporting
             		}
             	});
 
@@ -84,12 +91,13 @@ public class ReportStrategies extends ReportDataDictionary {
      *            the strategies we need to evaluate
      */
 
-    private void writeStrategiesLegend(Document document, HashMap strategies) {
+    private void writeStrategiesLegend(Document document, HashMap strategies, StrategiesGroup evalGroup ) {
 
         try {
 
             // document.add(Chunk.NEXTPAGE);
-            document.add(new Paragraph("Strategy Legend", descriptionBoldFont));
+        	String title = "Strategy Legend for Group \"" + evalGroup.getName() + "\""; 
+            document.add(new Paragraph(title, descriptionBoldFont));
 
             for (int i = 1; i <= strategies.size(); i++) {
                 // name and description
@@ -135,12 +143,10 @@ public class ReportStrategies extends ReportDataDictionary {
                     if (!evalGroup.getStrategies().isEmpty()) {
                         // maximum number of strategies per page is 17
                         int nbOfColumns = 40;
-                        int maxStratPerPage = 17;
                         int intElementColumnWidth = 6;
                         int strategiesWidth = nbOfColumns - intElementColumnWidth;
 
-                        int strategyCellWidth = 2;
-                        float nbOfStrategyColumns = strategiesWidth / strategyCellWidth;
+                        float nbOfStrategyColumns = strategiesWidth / STRATEGY_CELL_WIDTH;
 
                         strategies = new HashMap();
 
@@ -153,13 +159,13 @@ public class ReportStrategies extends ReportDataDictionary {
                             columnNo++;
                         }
                         float nbOfStrategies = strategies.size();
-                        int nbOfPages = (int) (java.lang.Math.round(nbOfStrategies / maxStratPerPage)) + 1;
+                        int nbOfPages = (int) (Math.round(nbOfStrategies / MAX_STRATEGIES_PER_PAGE)) + 1;
 
-                        writeStrategiesLegend(document, strategies);
+                        writeStrategiesLegend(document, strategies, evalGroup );
 
                         // process strategies per page
                         boolean newpage = false;
-                        int lastCellOfPage = maxStratPerPage;
+                        int lastCellOfPage = MAX_STRATEGIES_PER_PAGE;
                         int lastCellAdded = 1;
                         int pageNo = 1;
 
@@ -172,7 +178,7 @@ public class ReportStrategies extends ReportDataDictionary {
                             // create the table for strategy evaluations, there will be one table per strategy group
                             Table table = new Table(nbOfColumns);
                             table.setBorderWidth(1);
-                            table.setBorderColor(new java.awt.Color(255, 255, 255));
+                            table.setBorderColor(white);
                             table.setPadding(3);
                             table.setSpacing(0);
                             table.setWidth(100);
@@ -196,36 +202,48 @@ public class ReportStrategies extends ReportDataDictionary {
 
                             // Second line - first cell: empty with the width of the intentional element column
                             Cell emptyCell2 = new Cell("");
-                            emptyCell2.setBorderColor(new java.awt.Color(255, 255, 255));
+                            emptyCell2.setBorderColor(white);
                             emptyCell2.setColspan(intElementColumnWidth);
                             table.addCell(emptyCell2);
 
                             // Second line - strategy number header. This number represents a strategy as documented in the legend. One number per
                             // column/strategy.
-                            for (int column = lastCellAdded; (column <= (maxStratPerPage * pageNo) && column <= nbOfStrategies); column++) {
+                            for (int column = lastCellAdded; (column <= (MAX_STRATEGIES_PER_PAGE * pageNo) && column <= nbOfStrategies); column++) {
                                 Cell strategyNo = new Cell(column + "");
                                 strategyNo.setBorderColor(new java.awt.Color(0, 0, 0));
-                                strategyNo.setColspan(strategyCellWidth);
+                                strategyNo.setColspan(STRATEGY_CELL_WIDTH);
 
                                 table.addCell(strategyNo);
                                 lastCellOfPage = column;
                             }
 
-                            // if the number of strategies is less than total number of columns, fill in the rest with empty cells
-                            for (float i2 = (lastCellOfPage) + 1; i2 <= maxStratPerPage * pageNo; i2++) {
-                                Cell emptyStrat = new Cell("");
-                                emptyStrat.setBorderColor(new java.awt.Color(255, 255, 255));
-                                emptyStrat.setColspan(strategyCellWidth);
+                            this.fillEmptySpace( table, lastCellOfPage, pageNo );
 
-                                table.addCell(emptyStrat);
-                            }
+                            // add Actors in first column, one per row
 
-                            // add intentional elements in first column, one per row
-                            for (Iterator iter = grlspec.getIntElements().iterator(); iter.hasNext();) {
+                            for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
+                            
+                            	Actor actor = (Actor) iter.next();
+                                Cell actorCell = new Cell( actor.getName() + " (A)" );
+                                actorCell.setColspan(intElementColumnWidth);
+                                table.addCell(actorCell);
+                            	
+                                // column 1 contains strategy 1, column 2 -> strategy 2, ...
+                                for (int column = lastCellAdded; column <= lastCellOfPage; column++) {
+                                    // for each strategy (i.e. bcolumn), get evaluation for the intentionalElement of the row
+                                    Integer hashKey = new Integer(column);
+                                    EvaluationStrategy currentStrategy = (EvaluationStrategy) strategies.get(hashKey);
+                                    int evalValue = -99;
+                                    this.writeEvaluation(table, evalValue );
+                                }
+                                
+                                this.fillEmptySpace( table, lastCellOfPage, pageNo );
+                            }                            
 
-                                int stratEvaluation = 0;
+                            // add Intentional Elements in first column, one per row
+                            for (Iterator iter11 = grlspec.getIntElements().iterator(); iter11.hasNext();) {
 
-                                IntentionalElement intElement = (IntentionalElement) iter.next();
+                                IntentionalElement intElement = (IntentionalElement) iter11.next();
                                 Cell intElementCell = new Cell(intElement.getName());
                                 intElementCell.setColspan(intElementColumnWidth);
                                 table.addCell(intElementCell);
@@ -235,19 +253,12 @@ public class ReportStrategies extends ReportDataDictionary {
                                     // for each strategy (i.e. bcolumn), get evaluation for the intentionalElement of the row
                                     Integer hashKey = new Integer(column);
                                     EvaluationStrategy currentStrategy = (EvaluationStrategy) strategies.get(hashKey);
-                                    writeEvaluation(table, currentStrategy, intElement, strategyCellWidth);
+                                    int evalValue = this.getEvaluation( currentStrategy, intElement );
+                                    this.writeEvaluation(table, evalValue );
 
                                 }
 
-                                // if the number of evaluations/strategies is less than total number of columns, fill in the rest with empty cells
-                                for (float i2 = (lastCellOfPage) + 1; i2 <= maxStratPerPage * pageNo; i2++) {
-                                    // for (float i3 = nbOfStrategies + 1; i3 <= lastCellOfPage; i3++) {
-                                    Cell emptyStrat = new Cell("");
-                                    emptyStrat.setBorderColor(new java.awt.Color(255, 255, 255));
-                                    emptyStrat.setColspan(strategyCellWidth);
-                                    table.addCell(emptyStrat);
-                                }
-
+                                this.fillEmptySpace( table, lastCellOfPage, pageNo );                                
                             }
                             document.add(table);
 
@@ -268,6 +279,35 @@ public class ReportStrategies extends ReportDataDictionary {
         }
     }
 
+    private void fillEmptySpace( Table table, int lastCellOfPage, int pageNo ) {
+        // if the number of evaluations/strategies is less than total number of columns, fill in the rest with empty cells
+        for (float i2 = (lastCellOfPage) + 1; i2 <= MAX_STRATEGIES_PER_PAGE * pageNo; i2++) {
+            // for (float i3 = nbOfStrategies + 1; i3 <= lastCellOfPage; i3++) {
+            Cell emptyStrat = new Cell("");
+            emptyStrat.setBorderColor(white);
+            emptyStrat.setColspan(STRATEGY_CELL_WIDTH);
+            table.addCell(emptyStrat);
+        }
+    }
+    
+    
+    protected int getEvaluation( final EvaluationStrategy strategy, IntentionalElement intentionalElement ) {
+
+    	final IntentionalElement element = (IntentionalElement) intentionalElement;
+
+    	Display.getDefault().syncExec(new Runnable() {
+    		public void run() {
+
+    			esm.setStrategy(strategy);
+    			esm.calculateEvaluation();
+    			evaluation = esm.getEvaluationObject(element);
+    		}
+    	});
+
+    	return evaluation.getEvaluation();
+    }
+    
+    
     /**
      * creates the data dictionary section in the report
      * 
@@ -277,60 +317,27 @@ public class ReportStrategies extends ReportDataDictionary {
      *            the strategy we are evaluating
      * @param intentionalElement
      *            the intentionalElement we are referencing
-     * @param strategyCellWidth
-     *            the number of cells the strategy has to fill
      */
 
-    protected void writeEvaluation(Table table, final EvaluationStrategy strategy, IntentionalElement intentionalElement, int strategyCellWidth) throws IOException {
-    	
-    	Display.getDefault().syncExec(new Runnable() {
-    		public void run() {
+    protected void writeEvaluation(Table table, int evalValue ) throws IOException {
 
-    			EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
-    			EvaluationStrategyManager.getInstance(false).calculateEvaluation();
-    		}
-    	});
+    	//evalValue = StrategyEvaluationPreferences.getValueToVisualize(evalValue);
 
-    	
-        // Write evaluation for intentional elements
-        boolean evaluationFound = false;
-        if (evaluationFound == false) {
+    	Cell evaluationCell = new Cell(evalValue + "");
+    	evaluationCell.setColspan(STRATEGY_CELL_WIDTH);
+    	if (evalValue == 0) {
+    		evaluationCell.setBackgroundColor(new java.awt.Color(255, 255, 151));
+    	} else if (evalValue == -100) {
+    		evaluationCell.setBackgroundColor(new java.awt.Color(252, 169, 171));
+    	} else if (evalValue > -100 && evalValue < 0) {
+    		evaluationCell.setBackgroundColor(new java.awt.Color(253, 233, 234));
+    	} else if (evalValue == 100) {
+    		evaluationCell.setBackgroundColor(new java.awt.Color(210, 249, 172));
+    	} else if (evalValue > 0 && evalValue < 100) {
+    		evaluationCell.setBackgroundColor(new java.awt.Color(240, 253, 227));
+    	}
 
-            for (Iterator iter = strategy.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
-                final IntentionalElement element = (IntentionalElement) iter.next();
-
-                if (element.getId() == intentionalElement.getId()) {
-                	
-                	Display.getDefault().syncExec(new Runnable() {
-                		public void run() {
-                            evaluation = EvaluationStrategyManager.getInstance(false).getEvaluationObject(element);
-                		}
-                	});
-
-                	
-
-                    int evalValue = evaluation.getEvaluation();
-                    //evalValue = StrategyEvaluationPreferences.getValueToVisualize(evalValue);
-
-                    Cell evaluationCell = new Cell(evalValue + "");
-                    evaluationCell.setColspan(strategyCellWidth);
-                    if (evalValue == 0) {
-                        evaluationCell.setBackgroundColor(new java.awt.Color(255, 255, 151));
-                    } else if (evalValue == -100) {
-                        evaluationCell.setBackgroundColor(new java.awt.Color(252, 169, 171));
-                    } else if (evalValue > -100 && evalValue < 0) {
-                        evaluationCell.setBackgroundColor(new java.awt.Color(253, 233, 234));
-                    } else if (evalValue == 100) {
-                        evaluationCell.setBackgroundColor(new java.awt.Color(210, 249, 172));
-                    } else if (evalValue > 0 && evalValue < 100) {
-                        evaluationCell.setBackgroundColor(new java.awt.Color(240, 253, 227));
-                    }
-
-                    table.addCell(evaluationCell);
-                    evaluationFound = true;
-
-                }
-            }
-        }
+    	table.addCell(evaluationCell);
     }
+    
 }
