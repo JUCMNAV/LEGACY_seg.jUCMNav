@@ -35,6 +35,7 @@ public class EvaluationStrategyMHandler extends GRLmodelElementMHandler {
 			// Key Differences between Z.151 and jUCMNav
 			// 7.5.2: EvaluationStrategy in Z.151 may be associated to many
 			// StrategiesGroup in Z.151, but to only one in jUCMNav.
+			// Also, jUCMNav supports strategy inclusion, but not Z.151
 			List<JAXBElement<Object>> gJAXBelementZ = elemZ.getGroup();
 			StrategiesGroup gZ;
 			gZ = (StrategiesGroup) process(elem.getGroup(), null, false);

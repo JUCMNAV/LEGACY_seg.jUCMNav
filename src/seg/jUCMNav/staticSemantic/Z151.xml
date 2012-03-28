@@ -1,11 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Rules>
 	<Rule>
+		<Name>IncludedStrategiesNotExported</Name>
+		<Description>Z.151 Export: Strategies included in others will not be exported</Description>
+		<Classification>grl::EvaluationStrategy</Classification>
+		<Query>getAllEvaluationStrategies()</Query>
+		<Constraint>parentStrategies -&gt; isEmpty()</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>EvaluationRangeNotExported</Name>
+		<Description>Z.151 Export: Strategy evaluation ranges will not be exported</Description>
+		<Classification>grl::EvaluationStrategy</Classification>
+		<Query>getAllEvaluationStrategies()</Query>
+		<Constraint>evaluations -&gt; forAll (e | e.evalRange = null)</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
 		<Name>IndicatorsNotExported</Name>
 		<Description>Z.151 Export: Indicator associations, attributes, and groups will not be exported</Description>
 		<Classification>grl::kpimodel::Indicator</Classification>
 		<Query>getAllIndicators()</Query>
 		<Constraint>false</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>DimensionsNotExported</Name>
+		<Description>Z.151 Export: Dimensions and their KPI model links will not be exported</Description>
+		<Classification>grl::kpimodel::KPIInformationElement</Classification>
+		<Query>getAllKPIInformationElements()</Query>
+		<Constraint>false</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>ContributionOverridesNotExported</Name>
+		<Description>Z.151 Export: Contribution overrides (context groups, contexts and changes) will not be exported</Description>
+		<Classification>grl::ContributionContextGroup</Classification>
+		<Query>getAllContributionContextGroups()</Query>
+		<Constraint>contribs -&gt; isEmpty()</Constraint>
+		<Utilities />
+		<WarningOnly>true</WarningOnly>
+	</Rule>
+	<Rule>
+		<Name>KPINewEvalValueNotExported</Name>
+		<Description>Z.151 Export: Indicator new/overriding values in evaluation strategies will not be exported</Description>
+		<Classification>grl::Evaluation</Classification>
+		<Query>getAllEvaluations()</Query>
+		<Constraint>kpiNewEvalValue -&gt; isEmpty()</Constraint>
 		<Utilities />
 		<WarningOnly>true</WarningOnly>
 	</Rule>

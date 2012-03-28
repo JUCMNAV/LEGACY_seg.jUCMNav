@@ -18,6 +18,7 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 import seg.jUCMNav.importexport.z151.generated.URNspec;
 import seg.jUCMNav.model.ModelCreationFactory;
 import urncore.URNdefinition;
+import seg.jUCMNav.model.util.MetadataHelper;
 
 public class URNspecUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {
@@ -69,6 +70,14 @@ public class URNspecUMHandler extends EObjectImplUMHandler {
 			// elem.getUcmspec();
 			// elem.getUrndef();
 			processList(elemZ.getUrnLinks(), elem.getUrnLinks(), true);
+			
+			// if there is many metadata named _Use0to100EvaluationRange, keep the last one
+			String value = MetadataHelper.getLastMetaData(elem, "_Use0to100EvaluationRange");
+			if (value !=null) {
+				MetadataHelper.removeMetaData(elem, "_Use0to100EvaluationRange"); // removes them all
+				MetadataHelper.addMetaData(elem, "_Use0to100EvaluationRange", value);
+			}
+			
 			// elem.getName();
 			// elem.getDescription();
 			// elem.getClass();

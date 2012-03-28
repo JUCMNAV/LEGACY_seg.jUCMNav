@@ -44,6 +44,9 @@ public class EvaluationMHandler extends MHandler {
 			elemZ.setEvaluation(new BigInteger(Integer.toString(elem.getEvaluation())));
 			elemZ.setQualitativeEvaluation(getQualitativeEvaluation(elem.getQualitativeEvaluation()));
 			elemZ.setIntElement((IntentionalElement) process(elem.getIntElement(), null, false));
+			// Key difference with Z.151: jUCMNav supports evaluation ranges. 
+			// Can't add them to Z.151 evaluations as metadata because 
+			// Evaluation is not a URNmodelElement 
 		}
 		return elemZ;
 	}

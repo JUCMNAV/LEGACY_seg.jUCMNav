@@ -90,7 +90,7 @@ public class MetadataHelper {
     }
     
     /**
-     * Removes all metadata of specified name from an element.
+     * Removes all metadata of specified name from the URNspec.
      * 
      * @param elem
      *            the element
@@ -140,7 +140,7 @@ public class MetadataHelper {
     }
 
     /**
-     * Returns an element's metadata.
+     * Returns a URNSpec's metadata.
      * 
      * @param elem
      *            the element
@@ -159,6 +159,27 @@ public class MetadataHelper {
         return null;
     }
 
+    /**
+     * Returns a URNSpec's last metadata.
+     * 
+     * @param elem
+     *            the element
+     * @param name
+     *            the name of the metadata
+     * @return the value of the last metadata with that name, if any
+     */
+    public static String getLastMetaData(URNspec urn, String name) {
+
+    	String value = null;
+    	
+        for (Iterator iter = urn.getMetadata().iterator(); iter.hasNext();) {
+            Metadata data = (Metadata) iter.next();
+            if (data.getName() != null && data.getName().equals(name))
+                value = data.getValue();
+        }
+
+        return value;
+    }
     /**
      * Returns an element's metadata object
      * 
@@ -180,7 +201,7 @@ public class MetadataHelper {
     }
     
     /**
-     * Returns an element's metadata object
+     * Returns a URNSpec's metadata object
      * 
      * @param elem
      *            the element
