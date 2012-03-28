@@ -1188,13 +1188,13 @@ public class EvaluationStrategyManager {
         return (differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1);
     }
 
-    private synchronized StrategiesView getStrategiesView() {
+    public synchronized StrategiesView getStrategiesView() {
         StrategiesView sv = null;
 
         if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
                 && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.StrategiesView") != null) {
-            sv = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.StrategiesView")
-                    .getView(false);
+            sv = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+            		.findViewReference("seg.jUCMNav.views.StrategiesView").getView(false);
         }
 
         return sv;

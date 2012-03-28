@@ -20,7 +20,10 @@ import org.eclipse.swt.widgets.Display;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
+import seg.jUCMNav.views.strategies.StrategiesView;
 import ucm.UCMspec;
+import urn.URNspec;
 import urncore.URNdefinition;
 
 import com.lowagie.text.Cell;
@@ -45,7 +48,8 @@ public class ReportStrategies extends ReportDataDictionary {
 	private Color white = new java.awt.Color(255, 255, 255);
     private final int STRATEGY_CELL_WIDTH = 2;
     private final int MAX_STRATEGIES_PER_PAGE = 17;
-
+    private URNspec urnSpec;
+    
     private HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
     
     public ReportStrategies() {
@@ -68,6 +72,24 @@ public class ReportStrategies extends ReportDataDictionary {
      */
     public void createReportStrategies(Document document, UCMspec ucmspec, GRLspec grlspec, URNdefinition urndef, Rectangle pagesize) {
 
+//    	final StrategiesView sv;
+    	boolean designView = false;
+    	
+        urnSpec = grlspec.getUrnspec();
+
+//        Display.getDefault().syncExec(new Runnable() {
+//        	public void run() {
+//        		StrategiesView sv;
+//        		if( (sv = esm.getStrategiesView()) != null ) {
+//        			if( !sv.isStrategyView() ) {
+//        				designView = true;
+//        				sv.enableStrategyView();
+//        				System.out.println( "\n\nDesign view enabled." );
+//        			}	
+//        		}
+//        	}
+//        });
+        
         try {
             if (!grlspec.getStrategies().isEmpty()) {
                 document.add(Chunk.NEWLINE);
@@ -85,7 +107,12 @@ public class ReportStrategies extends ReportDataDictionary {
             e.printStackTrace();
 
         }
-
+        
+//        if( designView ) {
+//        	sv.disableStrategyView();
+//        	System.out.println( "\n\nDesign view disabled." );
+//        }
+        
     }
 
     /**
@@ -341,6 +368,9 @@ public class ReportStrategies extends ReportDataDictionary {
     protected void writeEvaluation(Table table, int evalValue ) throws IOException {
 
     	//evalValue = StrategyEvaluationPreferences.getValueToVisualize(evalValue);
+
+        // if 0,100, convert back to -100,100 to have the right color. 
+        evalValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable( urnSpec,  evalValue );
 
     	Cell evaluationCell = new Cell(evalValue + "");
     	evaluationCell.setColspan(STRATEGY_CELL_WIDTH);

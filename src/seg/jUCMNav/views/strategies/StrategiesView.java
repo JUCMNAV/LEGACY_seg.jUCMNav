@@ -671,7 +671,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         }
     }
 
-    private void enableStrategyView() {
+    public void enableStrategyView() {
         if (multieditor!=null) {
             for (int i = 0; i < multieditor.getPageCount(); i++) {
                 UrnEditor u = (UrnEditor) multieditor.getEditor(i);
@@ -680,7 +680,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         }
     }
 
-    private void disableStrategyView() {
+    public void disableStrategyView() {
         if (multieditor != null) {
             for (int i = 0; i < multieditor.getPageCount(); i++) {
                 UrnEditor u = (UrnEditor) multieditor.getEditor(i);
