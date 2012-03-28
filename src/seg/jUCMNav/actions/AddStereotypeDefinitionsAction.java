@@ -157,4 +157,13 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
         
         return mdList;
     }
+    
+    protected void addUrnLinkTypes( URNspec urnspec )
+    {
+        for( int i = 0; i < linkTypes.length; i++ ) {
+
+        	
+        	
+        }
+    }
 }

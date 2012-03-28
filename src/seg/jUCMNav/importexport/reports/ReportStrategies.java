@@ -3,6 +3,7 @@ package seg.jUCMNav.importexport.reports;
 import grl.Actor;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
+import grl.GRLLinkableElement;
 import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.StrategiesGroup;
@@ -10,6 +11,7 @@ import grl.StrategiesGroup;
 import java.awt.Color;
 import java.lang.Math;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -31,17 +33,21 @@ import com.lowagie.text.Table;
 /**
  * implements the creation the the report strategies and evaluation section
  * 
- * @author dessure
+ * @author dessure, amiga
  * 
  */
 public class ReportStrategies extends ReportDataDictionary {
 
 	private static Evaluation evaluation = null;
+	private static int evalValue = 0;
 	private EvaluationStrategyManager esm = EvaluationStrategyManager.getInstance(false);
+	private static HashMap<GRLLinkableElement, Integer> strategyEvaluations;
 	private Color white = new java.awt.Color(255, 255, 255);
     private final int STRATEGY_CELL_WIDTH = 2;
     private final int MAX_STRATEGIES_PER_PAGE = 17;
 
+    private HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
+    
     public ReportStrategies() {
 
     }
@@ -129,16 +135,15 @@ public class ReportStrategies extends ReportDataDictionary {
 
     private void writeStrategies(Document document, GRLspec grlspec, Rectangle pagesize) {
 
+        HashMap  evaluations;
+        HashMap<Integer, EvaluationStrategy> strategies;
+    	
         try {
-            HashMap strategyGroups, strategies, evaluations;
-
             if (!grlspec.getGroups().isEmpty()) {
 
-                strategyGroups = new HashMap();
                 for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
 
                     StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
-                    strategyGroups.put(evalGroup.getId(), evalGroup);
 
                     if (!evalGroup.getStrategies().isEmpty()) {
                         // maximum number of strategies per page is 17
@@ -148,7 +153,7 @@ public class ReportStrategies extends ReportDataDictionary {
 
                         float nbOfStrategyColumns = strategiesWidth / STRATEGY_CELL_WIDTH;
 
-                        strategies = new HashMap();
+                        strategies = new HashMap<Integer, EvaluationStrategy>();
 
                         // create a hashmap containing strategies (one per column), key is column number starting with 1
                         int columnNo = 1;
@@ -163,6 +168,8 @@ public class ReportStrategies extends ReportDataDictionary {
 
                         writeStrategiesLegend(document, strategies, evalGroup );
 
+                        this.calculateAllEvaluations( strategies.values(), grlspec ); // build evaluations table
+                        
                         // process strategies per page
                         boolean newpage = false;
                         int lastCellOfPage = MAX_STRATEGIES_PER_PAGE;
@@ -230,10 +237,9 @@ public class ReportStrategies extends ReportDataDictionary {
                             	
                                 // column 1 contains strategy 1, column 2 -> strategy 2, ...
                                 for (int column = lastCellAdded; column <= lastCellOfPage; column++) {
-                                    // for each strategy (i.e. bcolumn), get evaluation for the intentionalElement of the row
-                                    Integer hashKey = new Integer(column);
-                                    EvaluationStrategy currentStrategy = (EvaluationStrategy) strategies.get(hashKey);
-                                    int evalValue = -99;
+                                    // for each strategy (i.e. bcolumn), get evaluation for the Actor of the row
+                                    EvaluationStrategy currentStrategy = strategies.get(column);
+                                    int evalValue = evalTable.get(currentStrategy).get(actor);
                                     this.writeEvaluation(table, evalValue );
                                 }
                                 
@@ -250,10 +256,9 @@ public class ReportStrategies extends ReportDataDictionary {
 
                                 // column 1 contains strategy 1, column 2 -> strategy 2, ...
                                 for (int column = lastCellAdded; column <= lastCellOfPage; column++) {
-                                    // for each strategy (i.e. bcolumn), get evaluation for the intentionalElement of the row
-                                    Integer hashKey = new Integer(column);
-                                    EvaluationStrategy currentStrategy = (EvaluationStrategy) strategies.get(hashKey);
-                                    int evalValue = this.getEvaluation( currentStrategy, intElement );
+                                    // for each strategy (i.e. bcolumn), get evaluation for the IntentionalElement of the row
+                                    EvaluationStrategy currentStrategy = strategies.get(column);
+                                    int evalValue = evalTable.get(currentStrategy).get(intElement);
                                     this.writeEvaluation(table, evalValue );
 
                                 }
@@ -279,6 +284,42 @@ public class ReportStrategies extends ReportDataDictionary {
         }
     }
 
+    private void calculateAllEvaluations( Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {
+
+    	evalTable.clear();
+
+    	for( final EvaluationStrategy strategy : strategies ) {
+
+    		strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
+
+    		Display.getDefault().syncExec(new Runnable() {
+    			public void run() {
+
+    				esm.setStrategy(strategy);
+    				esm.calculateEvaluation();
+
+    				for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
+
+    					final Actor actor = (Actor) iter.next();
+
+    					evalValue = esm.getActorEvaluation(actor);
+    					strategyEvaluations.put( actor, evalValue );
+    				}    		
+
+    				for (Iterator iter = grlspec.getIntElements().iterator(); iter.hasNext();) {
+
+    					final IntentionalElement element = (IntentionalElement) iter.next();
+
+    					evalValue = esm.getEvaluation(element);
+    					strategyEvaluations.put( element, evalValue );
+    				}
+    			}
+    		});
+
+    		evalTable.put(strategy, strategyEvaluations); // add map of this strategy's evaluations to the table
+    	}
+    }
+    
     private void fillEmptySpace( Table table, int lastCellOfPage, int pageNo ) {
         // if the number of evaluations/strategies is less than total number of columns, fill in the rest with empty cells
         for (float i2 = (lastCellOfPage) + 1; i2 <= MAX_STRATEGIES_PER_PAGE * pageNo; i2++) {
@@ -289,34 +330,12 @@ public class ReportStrategies extends ReportDataDictionary {
             table.addCell(emptyStrat);
         }
     }
-    
-    
-    protected int getEvaluation( final EvaluationStrategy strategy, IntentionalElement intentionalElement ) {
-
-    	final IntentionalElement element = (IntentionalElement) intentionalElement;
-
-    	Display.getDefault().syncExec(new Runnable() {
-    		public void run() {
-
-    			esm.setStrategy(strategy);
-    			esm.calculateEvaluation();
-    			evaluation = esm.getEvaluationObject(element);
-    		}
-    	});
-
-    	return evaluation.getEvaluation();
-    }
-    
-    
+        
     /**
      * creates the data dictionary section in the report
      * 
      * @param table
      *            the in which to insert the evaluations
-     * @param strategy
-     *            the strategy we are evaluating
-     * @param intentionalElement
-     *            the intentionalElement we are referencing
      */
 
     protected void writeEvaluation(Table table, int evalValue ) throws IOException {
