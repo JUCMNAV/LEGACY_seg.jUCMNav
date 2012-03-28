@@ -3,6 +3,7 @@ package seg.jUCMNav.importexport.reports;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
@@ -36,7 +37,9 @@ import com.lowagie.text.Table;
  * 
  */
 public class PDFReportDiagram extends PDFReport {
+	
     protected int[] tableParams = { 1, 2, 0, 100 };
+    protected String [] excludedMetadata = { "AltName", "AltDescription", "_numEval", "_qualEval" };
     
     public PDFReportDiagram() {
     }
@@ -257,15 +260,18 @@ public class PDFReportDiagram extends PDFReport {
     }
 
     public void insertDiagramMetadata(Document document, URNmodelElement element) {
-        if (element.getMetadata().isEmpty())
-            return;
+
+        if( !this.isMetadataMeaningful( element.getMetadata() ))
+        	return;
 
         insertDiagramSectionHeader(document, tableParams, "Metadata");
 
         for (Iterator iter = element.getMetadata().iterator(); iter.hasNext();) {
-            Metadata mdata = (Metadata) iter.next();
-            ReportUtils.writeLineWithSeparator(document, "\"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true);
-        }
+        	Metadata mdata = (Metadata) iter.next();
+            if( this.isMetadataMeaningful(mdata.getName())) {
+                ReportUtils.writeLineWithSeparator(document, "\"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true);            	
+            }
+        }        
     }
 
     protected void insertDiagramSectionHeader(Document document, int[] tableParams, String description) {
@@ -290,24 +296,52 @@ public class PDFReportDiagram extends PDFReport {
     }
 
     protected void insertMetadata(Document document, EList metadata) {
+    	
         Metadata mdata;
-
-        if (metadata.isEmpty())
-            return;
-
-        if (metadata.size() == 1) {
-            mdata = (Metadata) metadata.get(0);
+        
+        if( !this.isMetadataMeaningful(metadata))
+        	return;
+        
+        Vector<Metadata> mdList = new Vector<Metadata>();
+        
+        for (Iterator iter = metadata.iterator(); iter.hasNext();) {
+            mdata = (Metadata) iter.next();
+            if( this.isMetadataMeaningful(mdata.getName()))
+            	mdList.add(mdata);
+        }        
+        
+        if (mdList.size() == 1) {
+            mdata = (Metadata) mdList.get(0);
             ReportUtils.writeLineWithSeparator(document, "     Metadata:  \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true);
         } else {
             ReportUtils.writeLineWithSeparator(document, "     Metadata\n", null, null, descriptionFont, false);
 
-            for (Iterator iter = metadata.iterator(); iter.hasNext();) {
-                mdata = (Metadata) iter.next();
-                ReportUtils.writeLineWithSeparator(document, "          \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"\n", descriptionFont, false);
+            for( Metadata md : mdList ) {
+                ReportUtils.writeLineWithSeparator(document, "          \"" + md.getName(), "\" = \"", md.getValue() + "\"\n", descriptionFont, false);            	
             }
         }
     }
 
+    protected boolean isMetadataMeaningful( EList metadata ) {
+        for (Iterator iter = metadata.iterator(); iter.hasNext();) {
+        	Metadata mdata = (Metadata) iter.next();
+            if( this.isMetadataMeaningful(mdata.getName())) {
+            	return true;
+            }
+        }        
+        
+        return false;
+    }
+    
+    protected boolean isMetadataMeaningful( String mdName ) {
+    	for( int i = 0; i < excludedMetadata.length; i++ ) {
+    		if( excludedMetadata[i].contentEquals( mdName ))
+    				return false;
+    	}
+    	
+    	return true;
+    }
+    
     protected String notNull(String s) {
         if (s == null)
             return "";
