@@ -128,6 +128,22 @@ def: getAllEvaluations():Sequence(grl::Evaluation) =
 
 def: getAllStrategiesGroups():Sequence(grl::StrategiesGroup) = 
 		self.grlspec.groups -> asSequence()
+		
+def: getAllEvaluationRanges():Sequence(grl::EvaluationRange) = 
+		self.grlspec.strategies.evaluations.evalRange -> asSequence()
+		
+-- Contribution Overrides
+def: getAllContributionContexts():Sequence(grl::ContributionContext) = 
+		self.grlspec.contributionContexts -> asSequence()
+
+def: getAllContributionContextGroups():Sequence(grl::ContributionContextGroup) = 
+		self.grlspec.contributionGroups -> asSequence()
+
+def: getAllContributionChanges():Sequence(grl::ContributionChange) = 
+		self.grlspec.contributionContexts.changes -> asSequence()
+
+def: getAllContributionRanges():Sequence(grl::ContributionRange) = 
+		self.grlspec.contributionContexts.changes.contribRange -> asSequence()
 
 -- Key Performance Indicators
 def: getAllIndicators():Sequence(grl::kpimodel::Indicator) = 
@@ -162,6 +178,8 @@ def: getAllKPIInformationConfigs():Sequence(grl::kpimodel::KPIInformationConfig)
 def: getAllKPIEvalValueSets():Sequence(grl::kpimodel::KPIEvalValueSet) = 
 		self.grlspec.strategies.evaluations.kpiEvalValueSet -> asSequence()
 
+def: getAllKPINewEvalValues():Sequence(grl::kpimodel::KPINewEvalValue) = 
+		self.grlspec.strategies.evaluations.kpiNewEvalValue -> asSequence()
 
 ----------------------------------------------------------------------
 -- UCM Helper functions
