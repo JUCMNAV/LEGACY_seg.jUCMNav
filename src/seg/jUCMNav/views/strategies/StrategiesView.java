@@ -69,8 +69,8 @@ import urncore.URNmodelElement;
 public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener, JUCMNavRefreshableView {
     private TreeViewer viewer;
 
-    static final int ID_DESIGN = 0;
-    static final int ID_STRATEGY = 1;
+    public static final int ID_DESIGN = 0;
+    public static final int ID_STRATEGY = 1;
 
     private UCMNavMultiPageEditor multieditor;
     private EvaluationStrategy currentStrategy;
@@ -339,6 +339,10 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         currentContributionContextSelection = null;
     }
 
+    public void setStrategy( EvaluationStrategy strategy ) {
+    	currentStrategy = strategy;
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -555,7 +559,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         }
     }
 
-    private void refreshScenarioIfNeeded() {
+    public void refreshScenarioIfNeeded() {
         if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()
                 && ScenarioUtils.getActiveScenario(multieditor.getModel()) != null) {
             // refresh scenario too.
@@ -578,13 +582,25 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         }        
     }
 
+    public void cancelStrategyMode() {
+        for (int i = 0; i < multieditor.getPageCount(); i++) {
+            UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(false);
+
+            if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()
+                    && ScenarioUtils.getActiveScenario(multieditor.getModel()) != null) {
+                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);
+            }
+        }            	
+    }
+    
     /**
      * Change the view of the model
      * 
      * @param id
      *            parameter indicating which view to display, passed when an appropriate button is pressed in the workbench
      */
-    protected void showPage(int id) {
+    public void showPage(int id) {
         if (id == ID_DESIGN) {
             showDesignView.setChecked(true);
             showStrategiesView.setChecked(false);
@@ -671,7 +687,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         }
     }
 
-    public void enableStrategyView() {
+    private void enableStrategyView() {
         if (multieditor!=null) {
             for (int i = 0; i < multieditor.getPageCount(); i++) {
                 UrnEditor u = (UrnEditor) multieditor.getEditor(i);
@@ -680,7 +696,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         }
     }
 
-    public void disableStrategyView() {
+    private void disableStrategyView() {
         if (multieditor != null) {
             for (int i = 0; i < multieditor.getPageCount(); i++) {
                 UrnEditor u = (UrnEditor) multieditor.getEditor(i);

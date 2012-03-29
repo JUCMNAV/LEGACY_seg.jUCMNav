@@ -39,7 +39,16 @@ import com.lowagie.text.Table;
 public class PDFReportDiagram extends PDFReport {
 	
     protected int[] tableParams = { 1, 2, 0, 100 };
-    protected String [] excludedMetadata = { "AltName", "AltDescription", "_numEval", "_qualEval" };
+    protected static String [] excludedMDnames = { "AltName", "AltDescription", "_numEval", "_qualEval" };
+    protected static HashMap<String, Object> excludedMetadata = null;
+
+    static {
+		excludedMetadata = new HashMap<String, Object>();
+
+		for( int i = 0; i < excludedMDnames.length; i++ ) {
+			excludedMetadata.put( excludedMDnames[i], null );
+		}
+    }
     
     public PDFReportDiagram() {
     }
@@ -57,6 +66,7 @@ public class PDFReportDiagram extends PDFReport {
      */
 
     public void createPDFReportDiagramsAndDescription(Document document, URNdefinition urndef, HashMap mapDiagrams, Rectangle pagesize) {
+
         try {
             document.add(Chunk.NEXTPAGE);
             int i = 0;
@@ -142,8 +152,6 @@ public class PDFReportDiagram extends PDFReport {
      */
 
     public void insertDiagram(final Document document, HashMap mapDiagrams, IURNDiagram diagram, URNdefinition urndef, int i, final Rectangle pagesize) {
-    	
-//    	return; // try outputting report without diagrams
     	
         try {
             // get the high level IFigure to be saved.
@@ -268,7 +276,7 @@ public class PDFReportDiagram extends PDFReport {
 
         for (Iterator iter = element.getMetadata().iterator(); iter.hasNext();) {
         	Metadata mdata = (Metadata) iter.next();
-            if( this.isMetadataMeaningful(mdata.getName())) {
+            if( isMetadataMeaningful(mdata.getName())) {
                 ReportUtils.writeLineWithSeparator(document, "\"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true);            	
             }
         }        
@@ -306,7 +314,7 @@ public class PDFReportDiagram extends PDFReport {
         
         for (Iterator iter = metadata.iterator(); iter.hasNext();) {
             mdata = (Metadata) iter.next();
-            if( this.isMetadataMeaningful(mdata.getName()))
+            if( isMetadataMeaningful(mdata.getName()))
             	mdList.add(mdata);
         }        
         
@@ -325,7 +333,7 @@ public class PDFReportDiagram extends PDFReport {
     protected boolean isMetadataMeaningful( EList metadata ) {
         for (Iterator iter = metadata.iterator(); iter.hasNext();) {
         	Metadata mdata = (Metadata) iter.next();
-            if( this.isMetadataMeaningful(mdata.getName())) {
+            if( isMetadataMeaningful(mdata.getName()) ) {
             	return true;
             }
         }        
@@ -333,13 +341,8 @@ public class PDFReportDiagram extends PDFReport {
         return false;
     }
     
-    protected boolean isMetadataMeaningful( String mdName ) {
-    	for( int i = 0; i < excludedMetadata.length; i++ ) {
-    		if( excludedMetadata[i].contentEquals( mdName ))
-    				return false;
-    	}
-    	
-    	return true;
+    public static boolean isMetadataMeaningful( String name ) {
+    	return !excludedMetadata.containsKey( name );
     }
     
     protected String notNull(String s) {

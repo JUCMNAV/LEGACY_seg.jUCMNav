@@ -50,6 +50,9 @@ public class ReportStrategies extends ReportDataDictionary {
     private final int MAX_STRATEGIES_PER_PAGE = 17;
     private URNspec urnSpec;
     
+	private static StrategiesView sv = null;
+	private static boolean designView = false;
+
     private HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
     
     public ReportStrategies() {
@@ -72,23 +75,26 @@ public class ReportStrategies extends ReportDataDictionary {
      */
     public void createReportStrategies(Document document, UCMspec ucmspec, GRLspec grlspec, URNdefinition urndef, Rectangle pagesize) {
 
-//    	final StrategiesView sv;
-    	boolean designView = false;
-    	
+		designView = false;
         urnSpec = grlspec.getUrnspec();
 
-//        Display.getDefault().syncExec(new Runnable() {
-//        	public void run() {
-//        		StrategiesView sv;
-//        		if( (sv = esm.getStrategiesView()) != null ) {
-//        			if( !sv.isStrategyView() ) {
-//        				designView = true;
-//        				sv.enableStrategyView();
-//        				System.out.println( "\n\nDesign view enabled." );
-//        			}	
-//        		}
-//        	}
-//        });
+        final EvaluationStrategy firstStrategy = getFirstStrategy( grlspec );
+        
+        if( firstStrategy != null ) { // skip mode switch if design does not contain strategies
+        	Display.getDefault().syncExec(new Runnable() {
+        		public void run() {
+        			if( (sv = esm.getStrategiesView()) != null ) {
+        				if( !sv.isStrategyView() ) {
+        					designView = true;
+        					esm.setStrategy(firstStrategy);
+        					sv.setStrategy(firstStrategy);
+        					sv.showPage(StrategiesView.ID_STRATEGY);
+        					sv.refreshScenarioIfNeeded();
+         				}	
+        			}
+        		}
+        	});
+        }
         
         try {
             if (!grlspec.getStrategies().isEmpty()) {
@@ -108,13 +114,29 @@ public class ReportStrategies extends ReportDataDictionary {
 
         }
         
-//        if( designView ) {
-//        	sv.disableStrategyView();
-//        	System.out.println( "\n\nDesign view disabled." );
-//        }
+        if( designView ) {
+        	Display.getDefault().syncExec(new Runnable() {
+        		public void run() {
+        			sv.setStrategy(null);
+        			sv.showPage(StrategiesView.ID_DESIGN);
+        			sv.cancelStrategyMode();
+        		}
+        	});
+        }
         
     }
 
+    private EvaluationStrategy getFirstStrategy(GRLspec grlspec) {
+        for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
+            StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
+            for (Iterator iter2 = evalGroup.getStrategies().iterator(); iter2.hasNext();) {
+                EvaluationStrategy strategy = (EvaluationStrategy) iter2.next();
+                return strategy;
+            }
+        }
+        return null;
+    }
+    
     /**
      * creates the data dictionary section in the report
      * 
@@ -370,19 +392,19 @@ public class ReportStrategies extends ReportDataDictionary {
     	//evalValue = StrategyEvaluationPreferences.getValueToVisualize(evalValue);
 
         // if 0,100, convert back to -100,100 to have the right color. 
-        evalValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable( urnSpec,  evalValue );
+        int colorValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable( urnSpec,  evalValue );
 
     	Cell evaluationCell = new Cell(evalValue + "");
     	evaluationCell.setColspan(STRATEGY_CELL_WIDTH);
-    	if (evalValue == 0) {
+    	if (colorValue == 0) {
     		evaluationCell.setBackgroundColor(new java.awt.Color(255, 255, 151));
-    	} else if (evalValue == -100) {
+    	} else if (colorValue == -100) {
     		evaluationCell.setBackgroundColor(new java.awt.Color(252, 169, 171));
-    	} else if (evalValue > -100 && evalValue < 0) {
+    	} else if (colorValue > -100 && colorValue < 0) {
     		evaluationCell.setBackgroundColor(new java.awt.Color(253, 233, 234));
-    	} else if (evalValue == 100) {
+    	} else if (colorValue == 100) {
     		evaluationCell.setBackgroundColor(new java.awt.Color(210, 249, 172));
-    	} else if (evalValue > 0 && evalValue < 100) {
+    	} else if (colorValue > 0 && colorValue < 100) {
     		evaluationCell.setBackgroundColor(new java.awt.Color(240, 253, 227));
     	}
 
