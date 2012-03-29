@@ -62,6 +62,17 @@ public class HTMLReport extends URNReport {
     public static final String PAGES_LOCATION = "pages" + File.separator; //$NON-NLS-1$
     public static final String IMAGES_LOCATION = PAGES_LOCATION + "img" + File.separator; //$NON-NLS-1$
 
+    protected static String [] excludedMDnames = { "AltName", "AltDescription", "_numEval", "_qualEval" };
+    protected static HashMap<String, Object> excludedMetadata = null;
+
+    static {
+		excludedMetadata = new HashMap<String, Object>();
+
+		for( int i = 0; i < excludedMDnames.length; i++ ) {
+			excludedMetadata.put( excludedMDnames[i], null );
+		}
+    }
+
     public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
         // not used
 
@@ -583,18 +594,25 @@ public class HTMLReport extends URNReport {
     }
 
     private void InsertMetadataInTable(EList metadata, StringBuffer sb) {
-        if (metadata.isEmpty()) {
-            sb.append("<td></td>");
-        } else {
-            sb.append("<td>");
-            for (Iterator iter = metadata.iterator(); iter.hasNext();) {
-                Metadata mdata = (Metadata) iter.next();
-                sb.append("\"" + EscapeUtils.escapeHTML(mdata.getName()) + "\" = \"" + EscapeUtils.escapeHTML(mdata.getValue()) + "\"&nbsp;");
-                if (iter.hasNext())
-                    sb.append("<br></br>");
-            }
-            sb.append("&nbsp;</td>\n");
-        }
+
+    	boolean firstLine = true;
+    	
+    	if (!this.isMetadataMeaningful(metadata)) {
+    		sb.append("<td></td>");
+    	} else {
+    		sb.append("<td>");
+    		for (Iterator iter = metadata.iterator(); iter.hasNext();) {
+    			Metadata mdata = (Metadata) iter.next();
+    			if( isMetadataMeaningful(mdata.getName())) {
+    				if( !firstLine ) {
+    					sb.append("<br></br>");
+    				}
+    				sb.append("\"" + EscapeUtils.escapeHTML(mdata.getName()) + "\" = \"" + EscapeUtils.escapeHTML(mdata.getValue()) + "\"&nbsp;");
+    				firstLine = false;
+    			}
+    		}
+    		sb.append("&nbsp;</td>\n");
+    	}
     }
 
     private void InsertURNLinks(EList urnLinks, StringBuffer sb) {
@@ -640,7 +658,7 @@ public class HTMLReport extends URNReport {
             IURNNode specNode = (IURNNode) iter.next();
             if (specNode instanceof StartPoint) {
                 sp = (StartPoint) specNode;
-                if (ReportUtils.notEmpty(sp.getPrecondition().getLabel()) || !sp.getMetadata().isEmpty()) {
+                if (ReportUtils.notEmpty(sp.getPrecondition().getLabel()) || isMetadataMeaningful( sp.getMetadata() )) {
                     sb.append("<tr><td>" + EscapeUtils.escapeHTML(sp.getName()) + "</td><td>[" + EscapeUtils.escapeHTML(sp.getPrecondition().getLabel()) + "] ==&gt; "
                             + EscapeUtils.escapeHTML(notNull(sp.getPrecondition().getExpression())) + "&nbsp;</td>\n");
                     InsertMetadataInTable(sp.getMetadata(), sb);
@@ -653,7 +671,7 @@ public class HTMLReport extends URNReport {
     }
 
     private boolean hasStartPointData(StartPoint sp) {
-        return (ReportUtils.notEmpty(sp.getPrecondition().getLabel()) || !sp.getMetadata().isEmpty());
+        return (ReportUtils.notEmpty(sp.getPrecondition().getLabel()) || isMetadataMeaningful( sp.getMetadata() ));
     }
 
     private void OutputEndPointData(IURNDiagram diagram, StringBuffer sb) {
@@ -694,7 +712,7 @@ public class HTMLReport extends URNReport {
     }
 
     private boolean hasEndPointData(EndPoint ep) {
-        return (ReportUtils.notEmpty(ep.getPostcondition().getLabel()) || !ep.getMetadata().isEmpty());
+        return (ReportUtils.notEmpty(ep.getPostcondition().getLabel()) || isMetadataMeaningful( ep.getMetadata() ));
     }
 
     private void OutputOrForkGuards(IURNDiagram diagram, StringBuffer sb) {
@@ -766,7 +784,7 @@ public class HTMLReport extends URNReport {
     }
 
     private boolean hasOrForkData(OrFork orFork) {
-        if (!orFork.getMetadata().isEmpty()) {
+        if (isMetadataMeaningful( orFork.getMetadata() )) {
             return true;
         }
         for (Iterator iter1 = orFork.getSucc().iterator(); iter1.hasNext();) {
@@ -874,7 +892,7 @@ public class HTMLReport extends URNReport {
                     sb.append("</tbody></table></td>\n</tbody></table></br>\n");
                 }
 
-                if (!stub.getMetadata().isEmpty()) {
+                if (isMetadataMeaningful( stub.getMetadata() )) {
                     sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
                     sb.append("<tr><td><b>Metadata</b></td>\n");
                     InsertMetadataInTable(stub.getMetadata(), sb);
@@ -923,15 +941,18 @@ public class HTMLReport extends URNReport {
     }
 
     private void InsertMetadata(EList metadata, StringBuffer sb) {
-        if (metadata.isEmpty())
-            return;
 
-        sb.append("</div>\n<div>\n<h2>Metadata</h2>\n");
+    	if (!this.isMetadataMeaningful(metadata))
+    		return;
 
-        for (Iterator iter = metadata.iterator(); iter.hasNext();) {
-            Metadata mdata = (Metadata) iter.next();
-            sb.append("&nbsp;&nbsp;&nbsp;\"" + EscapeUtils.escapeHTML(mdata.getName()) + "\" = \"" + EscapeUtils.escapeHTML(mdata.getValue()) + "\"<br></br>");
-        }
+    	sb.append("</div>\n<div>\n<h2>Metadata</h2>\n");
+
+    	for (Iterator iter = metadata.iterator(); iter.hasNext();) {
+    		Metadata mdata = (Metadata) iter.next();
+    		if( isMetadataMeaningful(mdata.getName())) {
+    			sb.append("&nbsp;&nbsp;&nbsp;\"" + EscapeUtils.escapeHTML(mdata.getName()) + "\" = \"" + EscapeUtils.escapeHTML(mdata.getValue()) + "\"<br></br>");
+    		}
+    	}
     }
 
     private void OutputGRLBeliefs(IURNDiagram diagram, StringBuffer sb) {
@@ -970,7 +991,7 @@ public class HTMLReport extends URNReport {
     }
 
     private boolean hasGRLBeliefData(Belief belief) {
-        return (ReportUtils.notEmpty(belief.getDescription()) || !belief.getMetadata().isEmpty());
+        return (ReportUtils.notEmpty(belief.getDescription()) || isMetadataMeaningful( belief.getMetadata() ));
     }
 
     private void OutputGRLIntentionalElements(IURNDiagram diagram, StringBuffer sb) {
@@ -1012,7 +1033,7 @@ public class HTMLReport extends URNReport {
     }
 
     private boolean hasGRLIntentionalElementData(IntentionalElement ie) {
-        return (ReportUtils.notEmpty(ie.getDescription()) || !ie.getMetadata().isEmpty());
+        return (ReportUtils.notEmpty(ie.getDescription()) || isMetadataMeaningful( ie.getMetadata() ));
     }
 
     private void OutputIntentionalElementURNlinks(IURNDiagram diagram, StringBuffer sb) {
@@ -1232,6 +1253,21 @@ public class HTMLReport extends URNReport {
     public int getType() {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    protected boolean isMetadataMeaningful( EList metadata ) {
+        for (Iterator iter = metadata.iterator(); iter.hasNext();) {
+        	Metadata mdata = (Metadata) iter.next();
+            if( isMetadataMeaningful(mdata.getName()) ) {
+            	return true;
+            }
+        }        
+        
+        return false;
+    }
+    
+    public static boolean isMetadataMeaningful( String name ) {
+    	return !excludedMetadata.containsKey( name );
     }
 
 }
