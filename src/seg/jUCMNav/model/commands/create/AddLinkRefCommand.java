@@ -60,6 +60,8 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
         linkref = (LinkRef) ModelCreationFactory.getNewObject(graph.getUrndefinition().getUrnspec(), LinkRef.class);
         if(link instanceof Contribution) {
             labelTarget = (ConnectionLabel)ModelCreationFactory.getNewObject(graph.getUrndefinition().getUrnspec(), ConnectionLabel.class);
+            labelTarget.setDeltaX(30);
+            labelTarget.setDeltaY(-30);
         }
         
         redo();

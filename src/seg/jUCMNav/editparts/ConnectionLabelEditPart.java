@@ -5,23 +5,21 @@ import grl.ContributionChange;
 import grl.ContributionRange;
 import grl.LinkRef;
 
+import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.RoutingListener;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.LabelFigure;
+import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
-import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import urncore.ConnectionLabel;
 import urncore.IURNConnection;
-import urncore.IURNNode;
 import urncore.Label;
 
 /**
@@ -31,6 +29,7 @@ import urncore.Label;
  */
 public class ConnectionLabelEditPart extends LabelEditPart {
     private Image img;
+    private RoutingListener routingListener;
     
     public ConnectionLabelEditPart(ConnectionLabel model) {
         super(model);
@@ -39,6 +38,28 @@ public class ConnectionLabelEditPart extends LabelEditPart {
         if (model.getConnection() != null)
             modelElement = model.getConnection();
 
+    }
+
+    @Override
+    public void activate() {
+        LinkRefEditPart nc = (LinkRefEditPart) getViewer().getEditPartRegistry().get(getConnection());
+        
+        routingListener = new RoutingListener.Stub(){
+            public void postRoute(Connection connection) {
+                refreshVisuals();
+            }
+        };
+        
+        ((LinkRefConnection)nc.getConnectionFigure()).addRoutingListener(routingListener);
+        super.activate();
+    }
+
+    @Override
+    public void deactivate() {
+        LinkRefEditPart nc = (LinkRefEditPart) getViewer().getEditPartRegistry().get(getConnection());
+        
+        ((LinkRefConnection)nc.getConnectionFigure()).removeRoutingListener(routingListener);
+        super.deactivate();
     }
 
     /**
@@ -55,23 +76,63 @@ public class ConnectionLabelEditPart extends LabelEditPart {
         if (getURNmodelElement() instanceof IURNConnection && label != null && labelDimension != null) {
             LinkRefEditPart nc = (LinkRefEditPart) getViewer().getEditPartRegistry().get(getConnection());
             if (nc != null) {
-                IURNNode node = ((LinkRef)getConnection()).getTarget();
-                if(node != null) {
-                    ConnectionLabel lbl = (ConnectionLabel) getModel();
-                    ModelElementEditPart part = (ModelElementEditPart) this.getRoot().getViewer().getEditPartRegistry().get(node);
-                    int height = 0;
-                    if(part != null)
-                        height = part.getFigure().getBounds().getCopy().height;
-                    
-                    int x = node.getX() - label.getDeltaX() - (labelDimension.width / 2);
-                    int y = node.getY() - label.getDeltaY() - (labelDimension.height);
-                    location = new Point(x, y);
-                }
+                /**
+                 * The position of a ConnectionLabel is calculated perpendicularly to the connection.  In fact perpendicular to the last segment of the connection if the connection has bendpoints.
+                 * If we consider the last segment of the connection as the vector A, then deltaY is added in the direction of vector A.
+                 * DeltaX is added in the direction of the normal of A.
+                 * 
+                 * We simply use vector addition to get the final position x, y of the label.
+                 * 
+                 * See AbstractDiagramXYLayoutEditPolicy to see how we get the deltaX, deltaY when the user moves the label
+                 */
+                
+                PointList points = nc.getConnectionFigure().getPoints();
+                Point last = points.getLastPoint();
+                Point preLast = points.getPoint(points.size()-2);
+                
+                Dimension normal = new Dimension(last.x - preLast.x, last.y - preLast.y);
+                double normalL = length(normal.width, normal.height);
+                
+                double alpha = Math.asin(normal.height / normalL);
+                int quadrant = calculateQuadrant(normal);
+                
+                if(quadrant == 2)
+                    alpha = Math.PI - alpha;
+                else if(quadrant == 3)
+                    alpha = Math.PI - alpha;
+                
+                double b1 = label.getDeltaY() * Math.cos(alpha) + label.getDeltaX()*Math.sin(alpha) - labelDimension.width / 2;
+                double b2 = label.getDeltaY() * Math.sin(alpha) - label.getDeltaX()*Math.cos(alpha) - labelDimension.height / 2;
+                
+                location = new Point((int)b1 + last.x, (int)b2 + last.y);
             }
             return location;
         }
         
         return super.calculateModelElementPosition(label, labelDimension);
+    }
+    
+    private double dotProduct(double p1x, double p1y, double p2x, double p2y) {
+        return p1x*p2x + p1y*p2y;
+    }
+    
+    private double length(double px, double py) {
+        return Math.sqrt(Math.pow(px,2) + Math.pow(py, 2));
+    }
+    
+    private int calculateQuadrant(Dimension vect) {
+        if(vect.height > 0) {
+            if(vect.width > 0)
+                return 1;
+            else
+                return 2;
+        } else
+        {
+            if(vect.width > 0)
+                return 4;
+            else
+                return 3;
+        }
     }
 
     /**
@@ -81,21 +142,6 @@ public class ConnectionLabelEditPart extends LabelEditPart {
      */
     public IURNConnection getConnection() {
         return (IURNConnection) getURNmodelElement();
-    }
-
-    /**
-     * Opens the direct edit manager.
-     * 
-     */
-    protected void performDirectEdit() {
-        // open condition editor
-        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        CodeEditor wizard = new CodeEditor();
-
-        wizard.init(PlatformUI.getWorkbench(), null, (EObject) getModel());
-        WizardDialog dialog = new WizardDialog(shell, wizard);
-        dialog.open();
-
     }
 
     /**

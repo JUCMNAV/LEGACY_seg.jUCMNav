@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
@@ -17,6 +19,7 @@ import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 import seg.jUCMNav.editparts.LabelEditPart;
+import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.editparts.ModelElementEditPart;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
@@ -73,7 +76,7 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
         // Adjust the coordinates with the coordinates of the figure too
         // since the x,y coordinates is the center of the figure.
         Dimension dim = ((LabelEditPart) child).getLabelFigure().getPreferredSize().getCopy();
-        int x, y;
+        int x = 0, y = 0;
 
         // to prevent double moving
         if (((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
@@ -97,15 +100,48 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
                 } else if (label instanceof ConnectionLabel) {
                     LinkRef ref = (LinkRef)((ConnectionLabel) label).getConnection();
                     if(ref.getLink() instanceof Contribution) {
-                        node = ref.getTarget();
+                        LinkRefEditPart nc = (LinkRefEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(ref);
+                        if (nc != null) {
+                            /**
+                             * Here the user is moving the label and dropped it in a position defined in constraint.
+                             * We want to find what is the deltaX and deltaY from the last point of the connection.
+                             * 
+                             * The position of a ConnectionLabel is calculated perpendicularly to the connection.  In fact perpendicular to the last segment of the connection if the connection has bendpoints.
+                             * If we consider the last segment of the connection as the vector A, then deltaY is added in the direction of vector A.
+                             * DeltaX is added in the direction of the normal of A.
+                             * 
+                             * Consider vector B which starts at the last point of the connection and has deltaX and deltaY as his (x,y) components.  We are searching vector B here (deltaX, deltaY).
+                             * 
+                             * We use the vector projection of B on A to find deltaY
+                             * We use the vector projection of B on the normal of A to find deltaX
+                             */
+                            PointList points = nc.getConnectionFigure().getPoints();
+                            Point last = points.getLastPoint();
+                            Point preLast = points.getPoint(points.size()-2);
+                            
+                            Dimension normal = new Dimension(last.x - preLast.x, last.y - preLast.y);
+                            
+                            Rectangle p = (Rectangle) constraint;
+                            
+                            double aX = (double)normal.width; double aY = (double)normal.height;
+                            
+                            double bX = p.x + (p.width/2) - last.x, bY = p.y + (p.height/2) - last.y;
+                            
+                            double lengthA = length(aX, aY);
+                            
+                            y = (int) (aY * Math.abs(dotProduct(aX, aY, bX, bY) / Math.pow(lengthA, 2)));
+                            x = (int) (Math.abs(dotProduct(-aY, aX, bX, bY) / lengthA));
+                            
+                            if(last.x > p.x)
+                                x = -x;
+                            if(last.y > p.y)
+                                y = -y;
+                        }
                     }
                 } else
                     node = (PathNode) (((LabelEditPart) child).getURNmodelElement());
 
-                if (node == null) {
-                    x = 0;
-                    y = 0;
-                } else {
+                if (node != null) {
                     int height = ((ModelElementEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
                     x = node.getX() - ((Rectangle) constraint).x - (dim.width / 2);
                     y = node.getY() - ((Rectangle) constraint).y - (dim.height);
@@ -125,6 +161,14 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
         locationCommand.setNewPosition(x, y);
 
         return locationCommand;
+    }
+    
+    protected double dotProduct(double p1x, double p1y, double p2x, double p2y) {
+        return p1x*p2x + p1y*p2y;
+    }
+    
+    protected double length(double px, double py) {
+        return Math.sqrt(Math.pow(Math.abs(px),2) + Math.pow(Math.abs(py), 2));
     }
 
     /**

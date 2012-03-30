@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
+import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionEndpointLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -178,6 +179,10 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
 
         return connection;
     }
+    
+    public Connection getConnectionFigure() {
+        return (Connection)getFigure();
+    }
 
     /**
      * Removes the adapter.
@@ -314,10 +319,6 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
                     stereotypeLabel.setVisible(true);
                 }
             }
-
-            ConnectionLabelEditPart labelPart = (ConnectionLabelEditPart)getViewer().getEditPartRegistry().get(getLinkRef().getLabel());
-            if(labelPart != null)
-                labelPart.refreshVisuals();
         } else if (getLinkRef().getLink() instanceof Dependency) {
             // Dependency depend = (Dependency)getLinkRef().getLink();
             getLinkRefFigure().setType(LinkRefConnection.TYPE_DEPENDENCY);
@@ -340,5 +341,23 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
 
         UrnMetadata.setToolTip(getLinkRef().getLink(), figure);
 
+    }
+
+    @Override
+    public void refresh() {
+        // TODO Auto-generated method stub
+        super.refresh();
+    }
+
+    @Override
+    protected void refreshSourceAnchor() {
+        // TODO Auto-generated method stub
+        super.refreshSourceAnchor();
+    }
+
+    @Override
+    protected void refreshTargetAnchor() {
+        // TODO Auto-generated method stub
+        super.refreshTargetAnchor();
     }
 }
