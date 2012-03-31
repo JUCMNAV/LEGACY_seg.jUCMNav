@@ -681,11 +681,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
         if (exporter instanceof IURNExportCustomizedLabel) {
         	String customizedLabel=((IURNExportCustomizedLabel)exporter).customizedLabel();
-        	exportWizardMapSelectionPage.setLblFilenamePrefixText(customizedLabel);
+        	exportWizardMapSelectionPage.updateLblFilenamePrefixText(customizedLabel);
         }
         else
         {
-        	exportWizardMapSelectionPage.setLblFilenamePrefixTextToDefault();
+        	exportWizardMapSelectionPage.updateLblFilenamePrefixTextToDefault();
         }
     }
     

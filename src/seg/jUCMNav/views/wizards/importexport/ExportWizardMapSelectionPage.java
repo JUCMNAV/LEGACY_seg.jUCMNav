@@ -70,7 +70,10 @@ public class ExportWizardMapSelectionPage extends WizardPage {
     private Label lblFilenamePrefix;
     private Text txtFilenamePrefix;
     
+    private Composite composite;
+    
     private SelectionListener exportTypeSelectionListner;
+    
 
     /**
      * @param pageName
@@ -104,7 +107,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         };
 
         // create the composite to hold the widgets
-        Composite composite = new Composite(parent, SWT.NONE);
+        composite = new Composite(parent, SWT.NONE);
 
         // create the desired layout for this wizard page
         GridLayout gl = new GridLayout(4, false);
@@ -206,7 +209,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         listMaps.setLayoutData(data);
 
         setControl(composite);
-
+        
         refresh();
         verifyPage();
         
@@ -421,12 +424,18 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 //*********************************************************
 //CustomizedLabel
 //*********************************************************/
-    public void setLblFilenamePrefixText(String text){
+    public void updateLblFilenamePrefixText(String text){
     	lblFilenamePrefix.setText(text);
+    	composite.layout();
     }
     
-    public void setLblFilenamePrefixTextToDefault(){
-    	lblFilenamePrefix.setText(Messages.getString("ExportWizardMapSelectionPage.filenamePrefix")); //$NON-NLS-1$
+    public void updateLblFilenamePrefixTextToDefault(){
+    	setLblFilenamePrefixTextToDefault();
+    	composite.layout();
+    }
+    
+    private void setLblFilenamePrefixTextToDefault(){
+    	lblFilenamePrefix.setText(Messages.getString("ExportWizardMapSelectionPage.filenamePrefix")); //$NON-NLS-1$	
     }
     
     public int getTypeSelectionIndex(){
