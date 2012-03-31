@@ -3,9 +3,14 @@ package seg.jUCMNav.importexport.html;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
+import grl.Evaluation;
+import grl.EvaluationStrategy;
 import grl.GRLGraph;
+import grl.GRLLinkableElement;
+import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.StrategiesGroup;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -14,18 +19,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.URNReport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.utils.EscapeUtils;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
+import seg.jUCMNav.views.strategies.StrategiesView;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
+import ucm.UCMspec;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
@@ -40,6 +51,10 @@ import ucm.map.UCMmap;
 import ucm.map.impl.PluginBindingImpl;
 import ucm.map.impl.RespRefImpl;
 import ucm.map.impl.StubImpl;
+import ucm.scenario.EnumerationType;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioGroup;
+import ucm.scenario.Variable;
 import urn.URNlink;
 import urn.URNspec;
 import urncore.Component;
@@ -64,6 +79,18 @@ public class HTMLReport extends URNReport {
 
     protected static String [] excludedMDnames = { "AltName", "AltDescription", "_numEval", "_qualEval" };
     protected static HashMap<String, Object> excludedMetadata = null;
+    public static final int UCM_DEFINITIONS = 0;
+    public static final int GRL_DEFINITIONS = 1;
+
+	private static Evaluation evaluation = null;
+	private static int evalValue = 0;
+	private EvaluationStrategyManager esm = EvaluationStrategyManager.getInstance(false);
+
+    private static HashMap<GRLLinkableElement, Integer> strategyEvaluations;
+    private HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
+
+	private static StrategiesView sv = null;
+	private static boolean designView = false;
 
     static {
 		excludedMetadata = new HashMap<String, Object>();
@@ -86,6 +113,25 @@ public class HTMLReport extends URNReport {
         FileOutputStream imgFos = null;
         IFigure pane;
 
+        final EvaluationStrategy firstStrategy = getFirstStrategy( urn.getGrlspec() );
+        
+        if( firstStrategy != null ) { // skip mode switch if design does not contain strategies
+        	Display.getDefault().syncExec(new Runnable() {
+        		public void run() {
+        			if( (sv = esm.getStrategiesView()) != null ) {
+        				if( !sv.isStrategyView() ) {
+        					designView = true;
+        					esm.setStrategy(firstStrategy);
+        					sv.setStrategy(firstStrategy);
+        					sv.showPage(StrategiesView.ID_STRATEGY);
+        					sv.refreshScenarioIfNeeded();
+         				}	
+        			}
+        		}
+        	});
+        }
+
+        
         for (int i = 0; i < urn.getUrndef().getSpecDiagrams().size(); i++) {
             IURNDiagram diagram = (IURNDiagram) urn.getUrndef().getSpecDiagrams().get(i);
 
@@ -130,25 +176,34 @@ public class HTMLReport extends URNReport {
 
             // write the content of menu to XML file
             if (isLast) {
-                // exportMSCScenarios( urn, mapDiagrams, filename );
+            	exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_DEFINITIONS);
+            	exportGlobalDefinitions(urn, htmlPath, HTMLReport.GRL_DEFINITIONS);
                 htmlMenuParser.writeToFile();
                 htmlMenuParser.resetDocument();
             }
         }
+        
+        if( designView ) {
+        	Display.getDefault().syncExec(new Runnable() {
+        		public void run() {
+        			sv.setStrategy(null);
+        			sv.showPage(StrategiesView.ID_DESIGN);
+        			sv.cancelStrategyMode();
+        		}
+        	});
+        }
     }
 
-    // private void exportMSCScenarios( URNspec urn, HashMap mapDiagrams, String filename ) throws InvocationTargetException
-    // {
-    // ExportMSC mscExporter = new ExportMSC();
-
-    // if ( !mscExporter.scenarioDefExists(urn) )
-    // return;
-
-    //	filename = filename.substring( 0, filename.length()-"html".length() ) + "jucmscenarios"; //$NON-NLS-1$ //$NON-NLS-2$
-
-    // mscExporter.export( urn, mapDiagrams, filename );
-
-    // }
+    private EvaluationStrategy getFirstStrategy(GRLspec grlspec) {
+        for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
+            StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
+            for (Iterator iter2 = evalGroup.getStrategies().iterator(); iter2.hasNext();) {
+                EvaluationStrategy strategy = (EvaluationStrategy) iter2.next();
+                return strategy;
+            }
+        }
+        return null;
+    }
 
     /**
      * Create index HTML pages used in exporting UCM/GRL maps to html pages.
@@ -391,11 +446,10 @@ public class HTMLReport extends URNReport {
                 int top = 20;
                 int left = 30;
 
-                sb
-                        .append("<div align=\"left\" style=\"top:" + top + "px; left:" + left + "px;\"><font size=\"+2\">" + EscapeUtils.escapeHTML(diagramName.substring(diagramName.lastIndexOf("-") + 1)) + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-                                "</font><font size=\"+1\"><i>"
-                                + MapType(diagram)
-                                + "</i></font></br><img src=\"img/" + diagramName + ".gif\" border=\"0\" style=\"top:" + top + "px; left:0px;\" usemap=\"#tooltips\" />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                sb.append("<div align=\"left\" style=\"top:" + top + "px; left:" + left + "px;\"><font size=\"+2\">" + EscapeUtils.escapeHTML(diagramName.substring(diagramName.lastIndexOf("-") + 1)) + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                		"</font><font size=\"+1\"><i>"
+                		+ MapType(diagram)
+                		+ "</i></font></br><img src=\"img/" + diagramName + ".gif\" border=\"0\" style=\"top:" + top + "px; left:0px;\" usemap=\"#tooltips\" />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 sb.append("<script language=\"JavaScript\">\n"); //$NON-NLS-1$
                 sb.append("<!--\n"); //$NON-NLS-1$
 
@@ -566,6 +620,87 @@ public class HTMLReport extends URNReport {
 
     }
 
+    private void exportGlobalDefinitions(URNspec urn, String directory, int type) throws InvocationTargetException {
+
+    	BufferedOutputStream bos = null;
+        FileOutputStream fos = null;
+
+        String pageName = null;
+        
+        try {
+            StringBuffer sb = new StringBuffer();
+            sb.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"); //$NON-NLS-1$
+            sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"); //$NON-NLS-1$
+            sb.append("<head>\n"); //$NON-NLS-1$
+            sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"); //$NON-NLS-1$
+            sb.append("<title>URN Model</title>\n"); //$NON-NLS-1$
+            // Basic style
+            sb.append("<style>\n"); //$NON-NLS-1$
+            sb.append("body {\n"); //$NON-NLS-1$
+            sb.append("font: 11px Arial,Tahoma,Verdana,Geneva,Helvetica,sans-serif;\n"); //$NON-NLS-1$
+            sb.append("}\n"); //$NON-NLS-1$
+            sb.append("</style>\n"); //$NON-NLS-1$
+            sb.append("</head>\n"); //$NON-NLS-1$
+            sb.append("<body>\n"); //$NON-NLS-1$
+
+            if( type == UCM_DEFINITIONS ) {
+            	outputUCM_Definitions(urn, sb);
+            	pageName = "UCM_Definitions";
+            	
+            } else { // GRL_DEFINITIONS
+            	outputGRL_Definitions(urn, sb);
+            	pageName = "GRL_Definitions";
+            }
+             
+            sb.append("</div>\n"); //$NON-NLS-1$
+            sb.append("</body>\n"); //$NON-NLS-1$
+            sb.append("</html>\n"); //$NON-NLS-1$
+
+            fos = new FileOutputStream(directory + PAGES_LOCATION + pageName + ".html"); //$NON-NLS-1$
+            bos = new BufferedOutputStream(fos);
+
+            bos.write(sb.toString().getBytes(), 0, sb.length());
+            sb = null; // help garbage collector
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        } finally {
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        
+        // prepare the HTML menu item
+//        HTMLMenuItem htmlMenuItem = new HTMLMenuItem();
+//        htmlMenuItem.reset();
+//
+//        htmlMenuItem.setDiagramName(EscapeUtils.escapeHTML( pageName.replace( "_", " Global ")));
+//        if( type == UCM_DEFINITIONS ) {
+//            htmlMenuItem.setType(HTMLMenuItem.TYPE_UCM_DEF);
+//        } else { // GRL_DEFINITIONS
+//            htmlMenuItem.setType(HTMLMenuItem.TYPE_GRL_DEF);
+//        }
+////        htmlMenuItem.setLeafText(pageName.substring(pageName.lastIndexOf("-") + 1)); //$NON-NLS-1$
+//        htmlMenuItem.setLink(pageName + ".html"); //$NON-NLS-1$
+//
+//        // create the XML menu content
+//        HTMLMenuParser htmlMenuParser = HTMLMenuParser.getParser(directory);
+//        htmlMenuParser.addMenu(htmlMenuItem);
+
+    }
+    
     private void OutputResponsibilityReferences(IURNDiagram diagram, StringBuffer sb) {
         // Describe table for responsibility references
 
@@ -575,8 +710,7 @@ public class HTMLReport extends URNReport {
         if (!hasNodeType(diagram.getNodes(), RespRefImpl.class))
             return;
 
-        sb
-                .append("</div>\n<div>\n<h2>Responsibilities</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+        sb.append("</div>\n<div>\n<h2>Responsibilities</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
         sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Pseudo-code</b></td><td><b>Metadata</b></td><td><b>URN Links</b></td></tr>\n");
 
         for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
@@ -691,8 +825,7 @@ public class HTMLReport extends URNReport {
         if (!hasData)
             return;
 
-        sb
-                .append("</div>\n<div>\n<h2>End Points</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+        sb.append("</div>\n<div>\n<h2>End Points</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
         sb.append("<tr><td><b>Name</b></td><td><b>Postcondition</b></td><td><b>Metadata</b></td></tr>\n");
 
         for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
@@ -737,8 +870,7 @@ public class HTMLReport extends URNReport {
         if (!hasData)
             return;
 
-        sb
-                .append("</div>\n<div>\n<h2>Or Fork Description</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+        sb.append("</div>\n<div>\n<h2>Or Fork Description</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
         sb.append("<tr><td><b>Guard Conditions</b></td><td><b>Metadata</b></td></tr>\n");
 
         for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
@@ -1270,5 +1402,224 @@ public class HTMLReport extends URNReport {
     	return !excludedMetadata.containsKey( name );
     }
 
+    private void outputUCM_Definitions(URNspec urn, StringBuffer sb) {
+    	
+    	UCMspec ucmspec = urn.getUcmspec();
+    	
+        sb.append("<h1>UCM Definitions</h1>\n");
+    	outputVariables(ucmspec, sb);    
+    	outputEnumerationTypes(ucmspec, sb);    
+    	outputScenarios(ucmspec, sb);    
+    }
+    
+    private void outputVariables(UCMspec ucmspec, StringBuffer sb) {
+
+    	int i = 1;
+    	sb.append("</div>\n<div>\n<h2>Variables</h2>\n");
+
+    	for (Iterator iter = ucmspec.getVariables().iterator(); iter.hasNext();) {
+
+    		Variable var = (Variable) iter.next();
+    		String varName = var.getName();
+    		String varType = var.getType();
+    		String varDescription = var.getDescription();
+
+    		sb.append("&nbsp;&nbsp;&nbsp;" + i++ + ". " + EscapeUtils.escapeHTML(var.getName()) );
+    		
+    		if (var.getEnumerationType() != null) { // the variable type is enumeration
+    			sb.append( "(Enum " + var.getEnumerationType().getName() + ")" );
+    		} else {
+    			sb.append( "(" + varType + ")" );
+    		}
+    		
+			if( ReportUtils.notEmpty(var.getDescription()) ) {
+				sb.append( ": " + EscapeUtils.escapeHTML(var.getDescription()) );
+			}
+			sb.append( "<br></br>\n" );
+    	}
+    }
+    
+    private void outputEnumerationTypes(UCMspec ucmspec, StringBuffer sb) {
+    	
+    	int i = 1;
+        sb.append("</div>\n<div>\n<h2>Enumeration Types</h2>\n");
+    	
+        for (Iterator iter = ucmspec.getEnumerationTypes().iterator(); iter.hasNext();) {
+            EnumerationType enumType = (EnumerationType) iter.next();
+
+            if (enumType.getValues() != null) {            	
+    			sb.append("&nbsp;&nbsp;&nbsp;" + i++ + ". " + EscapeUtils.escapeHTML(enumType.getName()) + ": " + enumType.getValues().replace( ",", ", ") );
+            }
+        }
+    }
+    
+    private void outputScenarios(UCMspec ucmspec, StringBuffer sb) {
+
+    	int i = 1, j = 1;
+    	sb.append("</div>\n<div>\n<h2>UCM Scenario Groups</h2>\n");
+
+    	for (Iterator iter = ucmspec.getScenarioGroups().iterator(); iter.hasNext();) {
+    		ScenarioGroup group = (ScenarioGroup) iter.next();
+    		sb.append("</div>\n<div>\n<h3>" + i++ + ". " + group.getName() + ":</h3>\n");
+    		j = 1;
+    		for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
+    			// create a list for the scenario group
+    			ScenarioDef scenario = (ScenarioDef) iterator.next();
+    			sb.append("&nbsp;&nbsp;&nbsp;" + j++ + ". " + EscapeUtils.escapeHTML(scenario.getName()) );
+    			if( ReportUtils.notEmpty(scenario.getDescription()) ) {
+    				sb.append( ": " + EscapeUtils.escapeHTML(scenario.getDescription()) );
+    			}
+    			sb.append( "<br></br>\n" );
+    		}
+    	}	
+    }
+
+    private void outputGRL_Definitions(URNspec urn, StringBuffer sb) {
+
+    	GRLspec grlspec = urn.getGrlspec();
+    	
+        sb.append("<h1>GRL Definitions</h1>\n");
+        outputStrategies( grlspec, sb );
+    }
+
+    private void outputStrategies(GRLspec grlspec, StringBuffer sb) {
+
+    	HashMap<Integer, EvaluationStrategy> strategies;
+
+    	sb.append("</div>\n<div>\n<h2>Evaluation Strategies</h2>\n");
+
+    	for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
+
+    		StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
+
+    		if (!evalGroup.getStrategies().isEmpty()) {
+
+    			strategies = new HashMap<Integer, EvaluationStrategy>();
+
+    			// create a hashmap containing strategies (one per column), key is column number starting with 1
+    			int columnNo = 1;
+    			for (Iterator iter2 = evalGroup.getStrategies().iterator(); iter2.hasNext();) {
+    				EvaluationStrategy strategy = (EvaluationStrategy) iter2.next();
+    				strategies.put(columnNo, strategy);
+    				columnNo++;
+    			}
+
+    			outputStrategiesLegend( strategies, evalGroup, sb );
+    			this.calculateAllEvaluations( strategies.values(), grlspec ); // build evaluations table
+
+    			/***************************************************************************************************************************************
+    			 * Create the header row
+    			 */
+    	        sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+ 
+    	        sb.append("<tr><td><b>Element Name</b></td>");
+    	        
+    	    	for( Integer index : strategies.keySet() ) {
+    	    		sb.append("<td><b>" + index + "</b></td>");
+    	    	}	
+    	        
+    	        sb.append("</tr>\n");
+    	        
+    			// add Actors in first column, one per row
+    			for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
+
+    				Actor actor = (Actor) iter.next();
+        	        sb.append("<tr><td>" + actor.getName() + " (A)" + "</td>");
+        	        
+        	    	for( Integer index : strategies.keySet() ) {
+                        EvaluationStrategy currentStrategy = strategies.get(index);
+                        int evalValue = evalTable.get(currentStrategy).get(actor);
+        	    		sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + evalValue + "</b></td>");
+        	    	}	
+        	        
+        	        sb.append("</tr>\n");   				
+     			}     
+
+    			// add Intentional Elements in first column, one per row
+    			for (Iterator iter11 = grlspec.getIntElements().iterator(); iter11.hasNext();) {
+
+    				IntentionalElement intElement = (IntentionalElement) iter11.next();
+        	        sb.append("<tr><td>" + intElement.getName() + "</td>");
+        	        
+        	    	for( Integer index : strategies.keySet() ) {
+                        EvaluationStrategy currentStrategy = strategies.get(index);
+                        int evalValue = evalTable.get(currentStrategy).get(intElement);
+        	    		sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + evalValue + "</b></td>");
+        	    	}	
+        	        
+        	        sb.append("</tr>\n");
+    			}
+
+       	        sb.append("</tbody></table></br>\n");
+    		}
+    	}
+
+    }
+
+    private void outputStrategiesLegend( HashMap<Integer, EvaluationStrategy> strategies, StrategiesGroup evalGroup, StringBuffer sb ) {
+    	
+		sb.append("</div>\n<div>\n<h3>Strategy Legend for Group \"" +  evalGroup.getName() + "\"</h3>\n");
+
+    	for( Integer index : strategies.keySet() ) {
+    		sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + "<br></br>\n");
+    	}	
+    }
+    
+    private void calculateAllEvaluations( Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {
+
+    	evalTable.clear();
+
+    	for( final EvaluationStrategy strategy : strategies ) {
+
+    		strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
+
+    		Display.getDefault().syncExec(new Runnable() {
+    			public void run() {
+
+    				esm.setStrategy(strategy);
+    				esm.calculateEvaluation();
+
+    				for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
+
+    					final Actor actor = (Actor) iter.next();
+
+    					evalValue = esm.getActorEvaluation(actor);
+    					strategyEvaluations.put( actor, evalValue );
+    				}    		
+
+    				for (Iterator iter = grlspec.getIntElements().iterator(); iter.hasNext();) {
+
+    					final IntentionalElement element = (IntentionalElement) iter.next();
+
+    					evalValue = esm.getEvaluation(element);
+    					strategyEvaluations.put( element, evalValue );
+    				}
+    			}
+    		});
+
+    		evalTable.put(strategy, strategyEvaluations); // add map of this strategy's evaluations to the table
+    	}
+    }
+
+    private String getBackgroundColor( int evalValue, URNspec urnSpec ) {
+    	
+        // if 0,100, convert back to -100,100 to have the right color.
+    	String hexColor = null;
+        int colorValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable( urnSpec,  evalValue );
+
+    	if (colorValue == 0) {
+    		hexColor = "#FFFF97"; // Color(255, 255, 151)
+    	} else if (colorValue == -100) {
+    		hexColor = "#FCA9AB"; // Color(252, 169, 171)
+    	} else if (colorValue > -100 && colorValue < 0) {
+    		hexColor = "#FDE9EA"; // Color(253, 233, 234)
+    	} else if (colorValue == 100) {
+    		hexColor = "#D2F9AC"; // Color(210, 249, 172)
+    	} else if (colorValue > 0 && colorValue < 100) {
+    		hexColor = "F0FDE3"; // Color(240, 253, 227)
+    	}
+
+    	return hexColor;
+    }
 }
 
