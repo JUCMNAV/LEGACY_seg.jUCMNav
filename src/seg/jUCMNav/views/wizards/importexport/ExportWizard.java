@@ -24,6 +24,8 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorDescriptor;
@@ -42,6 +44,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.extensionpoints.IURNExport;
+import seg.jUCMNav.extensionpoints.IURNExportCustomizedLabel;
 import seg.jUCMNav.extensionpoints.IURNExportPrePostHooks;
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
 import seg.jUCMNav.importexport.UCMExportExtensionPointHelper;
@@ -119,6 +122,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
     protected Vector selectedDiagrams;
 
     protected Vector postHooks;
+    
+    private ExportWizardMapSelectionPage exportWizardMapSelectionPage;
 
     /**
      * Initialize preferences.
@@ -140,7 +145,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
      */
     public void addPages() {
         addPage(new ExportWizardTypeSelectionPage(PAGE0));
-        addPage(new ExportWizardMapSelectionPage(PAGE1, mapsToExport, mapsToEditor));
+        exportWizardMapSelectionPage=new ExportWizardMapSelectionPage(PAGE1, mapsToExport, mapsToEditor,createExportTypeSelectionChangedListner());        		
+        addPage(exportWizardMapSelectionPage);
     }
 
     /**
@@ -666,5 +672,41 @@ public class ExportWizard extends Wizard implements IExportWizard {
     public void addSelectedDiagram(IURNDiagram d) {
         getSelectedDiagrams().add(d);
     }
+    
+//*********************************************************
+//CustomizedLabel
+//*********************************************************/
+    private void onExportTypeSelectionChanged(){
+        IURNExport exporter = getExporter();
 
+        if (exporter instanceof IURNExportCustomizedLabel) {
+        	String customizedLabel=((IURNExportCustomizedLabel)exporter).customizedLabel();
+        	exportWizardMapSelectionPage.setLblFilenamePrefixText(customizedLabel);
+        }
+        else
+        {
+        	exportWizardMapSelectionPage.setLblFilenamePrefixTextToDefault();
+        }
+    }
+    
+    private IURNExport getExporter(){
+    	return URNExportExtensionPointHelper.getExporter(getExporterId());
+    }
+    
+    private String getExporterId(){
+        int imgtype = exportWizardMapSelectionPage.getTypeSelectionIndex();
+        return URNExportExtensionPointHelper.getExporterFromLabelIndex(imgtype);
+    }
+    
+    private SelectionListener createExportTypeSelectionChangedListner(){
+		return new SelectionListener() {
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {}
+	
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				onExportTypeSelectionChanged();
+			}
+		};
+    }
 }

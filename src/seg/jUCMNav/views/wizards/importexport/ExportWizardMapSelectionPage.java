@@ -69,6 +69,8 @@ public class ExportWizardMapSelectionPage extends WizardPage {
     // component for the filename
     private Label lblFilenamePrefix;
     private Text txtFilenamePrefix;
+    
+    private SelectionListener exportTypeSelectionListner;
 
     /**
      * @param pageName
@@ -76,14 +78,14 @@ public class ExportWizardMapSelectionPage extends WizardPage {
      * @param mapsToEditor
      * 
      */
-    protected ExportWizardMapSelectionPage(String pageName, Vector mapsToExport, HashMap mapsToEditor) {
+    protected ExportWizardMapSelectionPage(String pageName, Vector mapsToExport, HashMap mapsToEditor,SelectionListener exportTypeSelectionListner) {
         super(pageName);
         setDescription(Messages.getString("ExportImageWizardPage.pleaseSelectFormatAndDirectory")); //$NON-NLS-1$
         setTitle(Messages.getString("ExportImageWizardPage.exportImageWizard")); //$NON-NLS-1$
 
         this.mapsToEditor = mapsToEditor;
         this.mapsToExport = mapsToExport;
-
+        this.exportTypeSelectionListner = exportTypeSelectionListner;
     }
 
     /**
@@ -156,6 +158,8 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         lblType.setLayoutData(data);
 
         cboImageType = new Combo(composite, SWT.READ_ONLY);
+        
+        cboImageType.addSelectionListener(this.exportTypeSelectionListner); 
 
         data = new GridData();
         data.horizontalSpan = 3;
@@ -163,7 +167,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         cboImageType.setLayoutData(data);
 
         lblFilenamePrefix = new Label(composite, SWT.NONE);
-        lblFilenamePrefix.setText(Messages.getString("ExportWizardMapSelectionPage.filenamePrefix")); //$NON-NLS-1$
+        setLblFilenamePrefixTextToDefault();
         data = new GridData();
         data.horizontalSpan = 1;
         data.horizontalAlignment = GridData.FILL;
@@ -205,6 +209,8 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 
         refresh();
         verifyPage();
+        
+        this.exportTypeSelectionListner.widgetSelected(null);
     }
 
     /**
@@ -316,7 +322,6 @@ public class ExportWizardMapSelectionPage extends WizardPage {
             }
         }
         fillTypeDropDown();
-
     }
 
     /**
@@ -412,4 +417,19 @@ public class ExportWizardMapSelectionPage extends WizardPage {
                 && cboImageType.getSelectionIndex() >= 0);
     }
 
+    
+//*********************************************************
+//CustomizedLabel
+//*********************************************************/
+    public void setLblFilenamePrefixText(String text){
+    	lblFilenamePrefix.setText(text);
+    }
+    
+    public void setLblFilenamePrefixTextToDefault(){
+    	lblFilenamePrefix.setText(Messages.getString("ExportWizardMapSelectionPage.filenamePrefix")); //$NON-NLS-1$
+    }
+    
+    public int getTypeSelectionIndex(){
+    	return cboImageType.getSelectionIndex();
+    }
 }
