@@ -36,8 +36,6 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
     protected void createFieldEditors() {
         // Initialize all field editors.
         String[][] algos = new String[StrategyEvaluationPreferences.NUM_ALGORITHMS][1];
-        algos[StrategyEvaluationPreferences.ROY_2006_GRL_ALGORITHM] = new String[] {
-                Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.ROY_2006_GRL_ALGORITHM"), (StrategyEvaluationPreferences.ROY_2006_GRL_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
         algos[StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM] = new String[] {
                 Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.QualitativeGRL"), (StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
         algos[StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM] = new String[] {

@@ -431,7 +431,6 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE
                             || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION ) {
                         int val = evaluation.getEvaluation();
-                        //val = StrategyEvaluationPreferences.getValueToVisualize(val);
 
                         String evalStr = String.valueOf(val);
                         
@@ -446,7 +445,6 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         }
                         
                     }
-//                    evaluationLabel.setFont(f)
                     if (GeneralPreferencePage.getGrlSatisfactionTextVisible())
                         evaluationLabel.setText(text);
                     else 

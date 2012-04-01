@@ -22,13 +22,12 @@ public class StrategyEvaluationPreferences {
     public final static int QUANTITATIVE_ALGORITHM = 0;
     public final static int QUALITATIVE_ALGORITHM = 1;
     public final static int MIXED_ALGORITHM = 2;
-    public final static int ROY_2006_GRL_ALGORITHM = 3;
-    public final static int FORMULA_BASED_ALGORITHM = 4;
-    public final static int CONSTRAINT_SOLVER_ALGORITHM = 5;
-    public final static int CONDITIONAL_GRL_ALGORITHM = 6;
+    public final static int FORMULA_BASED_ALGORITHM = 3;
+    public final static int CONSTRAINT_SOLVER_ALGORITHM = 4;
+    public final static int CONDITIONAL_GRL_ALGORITHM = 5;
 
     public final static int DEFAULT_GRL_ALGORITHM = 0; // this should always be 0
-    public final static int NUM_ALGORITHMS = 7;
+    public final static int NUM_ALGORITHMS = 6;
 
     public static final String PREF_ALGORITHM = "PREF_ALGORITHM"; //$NON-NLS-1$    
     public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$
