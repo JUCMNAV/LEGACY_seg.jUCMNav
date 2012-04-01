@@ -84,7 +84,6 @@ public class HTMLReport extends URNReport {
 
 	private static Evaluation evaluation = null;
 	private static int evalValue = 0;
-	private EvaluationStrategyManager esm = EvaluationStrategyManager.getInstance(false);
 
     private static HashMap<GRLLinkableElement, Integer> strategyEvaluations;
     private HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
@@ -118,10 +117,10 @@ public class HTMLReport extends URNReport {
         if( firstStrategy != null ) { // skip mode switch if design does not contain strategies
         	Display.getDefault().syncExec(new Runnable() {
         		public void run() {
-        			if( (sv = esm.getStrategiesView()) != null ) {
+        			if( (sv = EvaluationStrategyManager.getInstance(false).getStrategiesView()) != null ) {
         				if( !sv.isStrategyView() ) {
         					designView = true;
-        					esm.setStrategy(firstStrategy);
+        					EvaluationStrategyManager.getInstance(false).setStrategy(firstStrategy);
         					sv.setStrategy(firstStrategy);
         					sv.showPage(StrategiesView.ID_STRATEGY);
         					sv.refreshScenarioIfNeeded();
@@ -1565,42 +1564,36 @@ public class HTMLReport extends URNReport {
     	}	
     }
     
-    private void calculateAllEvaluations( Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {
+    private void calculateAllEvaluations( final Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {
 
     	evalTable.clear();
 
-    	for( final EvaluationStrategy strategy : strategies ) {
+    	Display.getDefault().syncExec(new Runnable() {
+    		public void run() {
 
-    		strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
+    			for( EvaluationStrategy strategy : strategies ) {
 
-    		Display.getDefault().syncExec(new Runnable() {
-    			public void run() {
-
-    				esm.setStrategy(strategy);
-    				esm.calculateEvaluation();
-
-    				for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
-
-    					final Actor actor = (Actor) iter.next();
-
-    					evalValue = esm.getActorEvaluation(actor);
-    					strategyEvaluations.put( actor, evalValue );
-    				}    		
+    				strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
+    				EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
 
     				for (Iterator iter = grlspec.getIntElements().iterator(); iter.hasNext();) {
-
-    					final IntentionalElement element = (IntentionalElement) iter.next();
-
-    					evalValue = esm.getEvaluation(element);
+    					IntentionalElement element = (IntentionalElement) iter.next();
+    					evalValue = EvaluationStrategyManager.getInstance(false).getEvaluation(element);
     					strategyEvaluations.put( element, evalValue );
     				}
+
+    				for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
+    					Actor actor = (Actor) iter.next();
+    					evalValue = EvaluationStrategyManager.getInstance(false).getActorEvaluation(actor);
+    					strategyEvaluations.put( actor, evalValue );
+    				}
+
+    				evalTable.put(strategy, strategyEvaluations); // add map of this strategy's evaluations to the table
     			}
-    		});
-
-    		evalTable.put(strategy, strategyEvaluations); // add map of this strategy's evaluations to the table
-    	}
+    		}
+    	});
     }
-
+    
     private String getBackgroundColor( int evalValue, URNspec urnSpec ) {
     	
         // if 0,100, convert back to -100,100 to have the right color.

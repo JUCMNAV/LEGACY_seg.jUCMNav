@@ -43,7 +43,6 @@ public class ReportStrategies extends ReportDataDictionary {
 
 	private static Evaluation evaluation = null;
 	private static int evalValue = 0;
-	private EvaluationStrategyManager esm = EvaluationStrategyManager.getInstance(false);
 	private static HashMap<GRLLinkableElement, Integer> strategyEvaluations;
 	private Color white = new java.awt.Color(255, 255, 255);
     private final int STRATEGY_CELL_WIDTH = 2;
@@ -54,6 +53,8 @@ public class ReportStrategies extends ReportDataDictionary {
 	private static boolean designView = false;
 
     private HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
+    
+    StringBuffer sb = new StringBuffer(); // debugging
     
     public ReportStrategies() {
 
@@ -72,8 +73,9 @@ public class ReportStrategies extends ReportDataDictionary {
      *            the urn definition used to retrieve elements
      * @param pagesize
      *            the size of the report page
+     * @throws IOException 
      */
-    public void createReportStrategies(Document document, UCMspec ucmspec, GRLspec grlspec, URNdefinition urndef, Rectangle pagesize) {
+    public void createReportStrategies(Document document, UCMspec ucmspec, GRLspec grlspec, URNdefinition urndef, Rectangle pagesize) throws IOException {
 
 		designView = false;
         urnSpec = grlspec.getUrnspec();
@@ -83,10 +85,10 @@ public class ReportStrategies extends ReportDataDictionary {
         if( firstStrategy != null ) { // skip mode switch if design does not contain strategies
         	Display.getDefault().syncExec(new Runnable() {
         		public void run() {
-        			if( (sv = esm.getStrategiesView()) != null ) {
+        			if( (sv = EvaluationStrategyManager.getInstance(false).getStrategiesView()) != null ) {
         				if( !sv.isStrategyView() ) {
         					designView = true;
-        					esm.setStrategy(firstStrategy);
+        					EvaluationStrategyManager.getInstance(false).setStrategy(firstStrategy);
         					sv.setStrategy(firstStrategy);
         					sv.showPage(StrategiesView.ID_STRATEGY);
         					sv.refreshScenarioIfNeeded();
@@ -103,7 +105,7 @@ public class ReportStrategies extends ReportDataDictionary {
                 
             	Display.getDefault().syncExec(new Runnable() {
             		public void run() {
-                        esm.setStrategy(null); // Avoid NPE when adding IEs after reporting
+                        EvaluationStrategyManager.getInstance(false).setStrategy(null); // Avoid NPE when adding IEs after reporting
             		}
             	});
 
@@ -123,7 +125,6 @@ public class ReportStrategies extends ReportDataDictionary {
         		}
         	});
         }
-        
     }
 
     private EvaluationStrategy getFirstStrategy(GRLspec grlspec) {
@@ -309,7 +310,6 @@ public class ReportStrategies extends ReportDataDictionary {
                                     EvaluationStrategy currentStrategy = strategies.get(column);
                                     int evalValue = evalTable.get(currentStrategy).get(intElement);
                                     this.writeEvaluation(table, evalValue );
-
                                 }
 
                                 this.fillEmptySpace( table, lastCellOfPage, pageNo );                                
@@ -333,40 +333,34 @@ public class ReportStrategies extends ReportDataDictionary {
         }
     }
 
-    private void calculateAllEvaluations( Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {
+    private void calculateAllEvaluations( final Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {
 
     	evalTable.clear();
 
-    	for( final EvaluationStrategy strategy : strategies ) {
+    	Display.getDefault().syncExec(new Runnable() {
+    		public void run() {
 
-    		strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
+    			for( EvaluationStrategy strategy : strategies ) {
 
-    		Display.getDefault().syncExec(new Runnable() {
-    			public void run() {
-
-    				esm.setStrategy(strategy);
-    				esm.calculateEvaluation();
-
-    				for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
-
-    					final Actor actor = (Actor) iter.next();
-
-    					evalValue = esm.getActorEvaluation(actor);
-    					strategyEvaluations.put( actor, evalValue );
-    				}    		
+    				strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
+    				EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
 
     				for (Iterator iter = grlspec.getIntElements().iterator(); iter.hasNext();) {
-
-    					final IntentionalElement element = (IntentionalElement) iter.next();
-
-    					evalValue = esm.getEvaluation(element);
+    					IntentionalElement element = (IntentionalElement) iter.next();
+    					evalValue = EvaluationStrategyManager.getInstance(false).getEvaluation(element);
     					strategyEvaluations.put( element, evalValue );
     				}
-    			}
-    		});
 
-    		evalTable.put(strategy, strategyEvaluations); // add map of this strategy's evaluations to the table
-    	}
+    				for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
+    					Actor actor = (Actor) iter.next();
+    					evalValue = EvaluationStrategyManager.getInstance(false).getActorEvaluation(actor);
+    					strategyEvaluations.put( actor, evalValue );
+    				}
+
+    				evalTable.put(strategy, strategyEvaluations); // add map of this strategy's evaluations to the table
+    			}
+    		}
+    	});
     }
     
     private void fillEmptySpace( Table table, int lastCellOfPage, int pageNo ) {
