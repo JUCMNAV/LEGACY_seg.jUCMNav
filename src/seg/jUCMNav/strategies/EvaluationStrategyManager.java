@@ -47,6 +47,7 @@ import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
 import seg.jUCMNav.model.commands.create.AddKPIInformationConfigCommand;
 import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import seg.jUCMNav.views.strategies.StrategiesView;
@@ -57,7 +58,7 @@ import urncore.Metadata;
  * This class is a singleton responsible to manage the current strategy. It does the evaluation calculation for IntentionalElement, create the Evaluation and
  * return the value of the evaluation given an IntentionalElement for the current strategy.
  * 
- * @author Jean-Fran�ois Roy, pchen, sghanava
+ * @author Jean-Francois Roy, pchen, sghanava
  * 
  */
 public class EvaluationStrategyManager {
@@ -79,6 +80,7 @@ public class EvaluationStrategyManager {
     private static HashMap<UCMNavMultiPageEditor, EvaluationStrategyManager> strategyManagerInstances = null;
     // just in case we're actually accessing it via some non UI thread during export and/or before the app loads.
     private static EvaluationStrategyManager noEditorStrategyManagerInstance = null;
+    private static int minRange=-100; // for 0..100 range feature
 
     private boolean canRefresh;
     private boolean differenceMode = false;
@@ -95,6 +97,8 @@ public class EvaluationStrategyManager {
     private ContributionContext contributionContext = null;
     private IGRLStrategyAlgorithm algo;
     private HashMap kpiInformationConfigs = new HashMap();
+    
+
 
     public static synchronized EvaluationStrategyManager getInstance(UCMNavMultiPageEditor multieditor, boolean canRefresh) {
 
@@ -160,6 +164,9 @@ public class EvaluationStrategyManager {
         if (strategy == null || range == null || range.getStep() == 0 || (range.getEnd() - range.getStart()) * range.getStep() < 0)
             return;
 
+        // determines whether -100 or 0 should be used as a minimum scale.
+        minRange = -100 * (StrategyEvaluationRangeHelper.getCurrentRange(urn) ? 0 : 1);
+
         HashMap results = new HashMap();
         long before = System.currentTimeMillis();
 
@@ -215,7 +222,7 @@ public class EvaluationStrategyManager {
             EvaluationRange r = (EvaluationRange) results.get(ie);
             if (r == null) {
                 r = (EvaluationRange) ModelCreationFactory.getNewObject(urn, EvaluationRange.class);
-                r.setEnd(-100);
+                r.setEnd(minRange);
                 r.setStart(100); // so that is overridden with better values below.                     
             }
             results.put(ie, r);
@@ -737,7 +744,7 @@ public class EvaluationStrategyManager {
      * 
      */
     protected synchronized void setIntentionalElementEvaluation(IntentionalElement element, int value, boolean delete) {
-        // The evaluation could only be between 100 and -100. Do nothing if it is not the case
+        // The evaluation could only be between 100 and minRange (0 or -100, depending on the scale). Do nothing if it is not the case
         if (value <= IGRLStrategyAlgorithm.SATISFICED && value >= IGRLStrategyAlgorithm.UNDECIDED) {
             Evaluation eval = (Evaluation) evaluations.get(element);
             // Change the value in the evaluation
@@ -995,31 +1002,34 @@ public class EvaluationStrategyManager {
         double evalLevel;
 
         if (kpiEval.getTargetValue() < kpiEval.getWorstValue()) {
-            if (kpiEval.getEvaluationValue() <= kpiEval.getTargetValue()) {
-                evalLevel = 100;
-            } else if (kpiEval.getEvaluationValue() >= kpiEval.getWorstValue()) {
-                evalLevel = -100;
-            } else if (kpiEval.getEvaluationValue() < kpiEval.getThresholdValue()) {
-                evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
-                        / Math.abs(kpiEval.getTargetValue() - kpiEval.getThresholdValue()) * 100;
-            } else {
-                evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
-                        / Math.abs(kpiEval.getThresholdValue() - kpiEval.getWorstValue()) * -100;
-            }
+        	if (kpiEval.getEvaluationValue() <= kpiEval.getTargetValue()) {
+        		evalLevel = 100;
+        	} else if (kpiEval.getEvaluationValue() >= kpiEval.getWorstValue()) {
+        		evalLevel = -100;
+        	} else if (kpiEval.getEvaluationValue() < kpiEval.getThresholdValue()) {
+        		evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
+        				/ Math.abs(kpiEval.getTargetValue() - kpiEval.getThresholdValue()) * 100;
+        	} else {
+        		evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
+        				/ Math.abs(kpiEval.getThresholdValue() - kpiEval.getWorstValue()) * -100;
+        	}
         } else {
-            if (kpiEval.getEvaluationValue() >= kpiEval.getTargetValue()) {
-                evalLevel = 100;
-            } else if (kpiEval.getEvaluationValue() <= kpiEval.getWorstValue()) {
-                evalLevel = -100;
-            } else if (kpiEval.getEvaluationValue() >= kpiEval.getThresholdValue()) {
-                evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
-                        / Math.abs(kpiEval.getTargetValue() - kpiEval.getThresholdValue()) * 100;
-            } else {
-                evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
-                        / Math.abs(kpiEval.getThresholdValue() - kpiEval.getWorstValue()) * -100;
-            }
+        	if (kpiEval.getEvaluationValue() >= kpiEval.getTargetValue()) {
+        		evalLevel = 100;
+        	} else if (kpiEval.getEvaluationValue() <= kpiEval.getWorstValue()) {
+        		evalLevel = -100;
+        	} else if (kpiEval.getEvaluationValue() >= kpiEval.getThresholdValue()) {
+        		evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
+        				/ Math.abs(kpiEval.getTargetValue() - kpiEval.getThresholdValue()) * 100 ;
+        	} else {
+        		evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
+        				/ Math.abs(kpiEval.getThresholdValue() - kpiEval.getWorstValue()) * -100;
+        	}
         }
 
+        if (minRange==0) // Convert to new 0..100 range
+        	evalLevel = evalLevel / 2 + 50;
+        
         eval.setEvaluation((int) evalLevel);
     }
 
@@ -1378,6 +1388,8 @@ public class EvaluationStrategyManager {
      * @return the list of strategies
      */
     public static List getAllStrategies(URNspec urn) {
+        minRange = -100 * (StrategyEvaluationRangeHelper.getCurrentRange(urn) ? 0 : 1);
+
         ArrayList list = new ArrayList();
         for (Iterator iter = urn.getGrlspec().getGroups().iterator(); iter.hasNext();) {
             StrategiesGroup group = (StrategiesGroup) iter.next();
@@ -1409,7 +1421,7 @@ public class EvaluationStrategyManager {
     }
 
     /**
-     * Get all the included strategies (recursively)that are related to this strategy
+     * Get all the included strategies (recursively) that are related to this strategy
      * 
      * @param def
      *            the strategy
@@ -1422,7 +1434,7 @@ public class EvaluationStrategyManager {
     }
 
     /**
-     * Get all the included strategies (recursively)that are related to this strategy
+     * Get all the included strategies (recursively) that are related to this strategy
      * 
      * @param def
      *            the strategy

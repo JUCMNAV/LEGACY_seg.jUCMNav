@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public interface IGRLStrategyAlgorithm {
 
-    // Values for minimal value for denied, weakly denied, unknown, weakly satisficed and satisficed
+    // Values for minimal value for denied, weakly denied, unknown, weakly satisficed and satisficed, on a standard -100..00 scale
     public final static int DENIED = -100;
     public final static int WDENIED = -50;
     public final static int WSATISFICED = 50;
