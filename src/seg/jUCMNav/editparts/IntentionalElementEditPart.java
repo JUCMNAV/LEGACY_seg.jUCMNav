@@ -604,7 +604,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
             if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE 
                                                              || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA
-                                                             || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
+                                                             || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER
+                                                             || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION) {
                 if (getNode().getDef().getImportanceQuantitative() > 0) {
                     importance = "  (" + String.valueOf(getNode().getDef().getImportanceQuantitative()) + ")"; //$NON-NLS-1$ //$NON-NLS-2$  $NON-NLS-2$
                 }

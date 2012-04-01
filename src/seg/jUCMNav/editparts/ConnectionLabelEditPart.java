@@ -173,7 +173,7 @@ public class ConnectionLabelEditPart extends LabelEditPart {
 
 
                 if (GeneralPreferencePage.getGrlTextVisible()) {
-                    if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
+                    if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION) {
                         //int val = contrib.getQuantitativeContribution();
                         int val = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
                         //val = StrategyEvaluationPreferences.getValueToVisualize(val);
