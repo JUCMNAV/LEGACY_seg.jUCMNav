@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public interface IGRLStrategyAlgorithm {
 
-    // Values for minimal value for denied, weakly denied, unknown, weakly satisficed and satisficed, on a standard -100..00 scale
+    // Minimal quantitative values for qualitative values, on a standard -100..100 scale
     public final static int DENIED = -100;
     public final static int WDENIED = -50;
     public final static int WSATISFICED = 50;
@@ -24,7 +24,16 @@ public interface IGRLStrategyAlgorithm {
     public final static int UNDECIDED = -102;
     public final static int NONE = 0;
 
-    // Values for qualitative, quantitative and mixed grl strategy algorithms
+    // Minimal quantitative values for qualitative values, on a 0..100 scale
+    public final static int DENIED_0 = 0;
+    public final static int WDENIED_0 = 25;
+    public final static int WSATISFICED_0 = 75;
+    public final static int SATISFICED_0 = 100;
+    public final static int CONFLICT_0 = -101;
+    public final static int UNDECIDED_0 = -102;
+    public final static int NONE_0 = 50;
+
+    // Values for the various GRL strategy algorithms
     public final static int EVAL_QUALITATIVE = 1;
     public final static int EVAL_QUANTITATIVE = 2;
     public final static int EVAL_MIXED = 3;
