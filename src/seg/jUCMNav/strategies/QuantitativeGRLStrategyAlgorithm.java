@@ -111,9 +111,8 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         int[] contributionValues = new int[100];
         int contribArrayIt = 0;
 
-        
-        Iterator it = element.getLinksDest().iterator(); //Return the list of elementlink
-        while (it.hasNext()){
+        Iterator it = element.getLinksDest().iterator(); // Return the list of elementlink
+        while (it.hasNext()) {
             ElementLink link = (ElementLink)it.next();
             if (link instanceof Decomposition){
             	if (element.getDecompositionType().getValue() == DecompositionType.AND){
@@ -145,12 +144,10 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 }
             } else if (link instanceof Dependency) {
                 if (dependencyValue > ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
-                    // && ((Evaluation)evaluations.get(link.getSrc())).getEvaluation() != 0){
                     dependencyValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
                 }
             } else if (link instanceof Contribution) {
                 Contribution contrib = (Contribution) link;
-                //int quantitativeContrib = contrib.getQuantitativeContribution();
                 int quantitativeContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
                 int srcNode = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
 
@@ -162,13 +159,10 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 if (resultContrib != 0) {
                     contributionValues[contribArrayIt] = (new Double(Math.round(resultContrib))).intValue();
                     contribArrayIt++;
-
                 }
-
             }
         }
         if (decompositionValue >= minRange) {
-
             result = decompositionValue;
         }
         if (contributionValues.length > 0) {
@@ -235,8 +229,7 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     int importance = element.getImportanceQuantitative();
 
                     if (importance != 0 && !"No".equals(value)){ //$NON-NLS-1$
-                        sumEval += evaluation*importance;
-
+                        sumEval += evaluation * importance;
                         sumImportance += importance;
                     }
 

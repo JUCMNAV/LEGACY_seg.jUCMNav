@@ -18,6 +18,8 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urncore.IURNNode;
 
@@ -32,6 +34,7 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     Vector evalReady;
     HashMap evaluationCalculation;
     HashMap evaluations;
+    int minRange;
 
     /*
      * (non-Javadoc)
@@ -42,6 +45,9 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         evalReady = new Vector();
         evaluationCalculation = new HashMap();
         this.evaluations = evaluations;
+        // determines whether -100 or 0 should be used as a minimum scale.
+        minRange = -100 * (StrategyEvaluationRangeHelper.getCurrentRange(strategy.getGrlspec().getUrnspec()) ? 0 : 1);
+
         StrategyAlgorithmImplementationHelper.defaultInit(strategy,  evaluations, evalReady, evaluationCalculation);
     }
 
@@ -107,23 +113,37 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 
         Iterator it = element.getLinksDest().iterator(); // Return the list of elementlink
         while (it.hasNext()) {
-            ElementLink link = (ElementLink) it.next();
-            if (link instanceof Decomposition) {
-                if (decompositionValue < -100) {
-                    decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
-                } else if (element.getDecompositionType().getValue() == DecompositionType.AND) {
-                    if (decompositionValue > ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
-                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
+            ElementLink link = (ElementLink)it.next();
+            if (link instanceof Decomposition){
+            	if (element.getDecompositionType().getValue() == DecompositionType.AND){
+            		String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal"); //$NON-NLS-1$
+            		if ("No".equals(value)){ //$NON-NLS-1$
+            			if(!it.hasNext() && decompositionValue < minRange)
+            				decompositionValue = 0; //case where all sources are tagged "N"
+            			else
+            				continue; 
+            		} 
+            		
+            		if (decompositionValue < minRange){
+                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
+                    } else if (decompositionValue > ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
+                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
                     }
+
                 } else if (element.getDecompositionType().getValue() == DecompositionType.OR || 
-                           element.getDecompositionType().getValue() == DecompositionType.XOR) {
-                    if (decompositionValue < ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
+                           element.getDecompositionType().getValue() == DecompositionType.XOR){
+                	if (decompositionValue < minRange){
+                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
+                        
+                	} else if (decompositionValue < ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
                         decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
+
+                    } else if (decompositionValue < ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
+                        decompositionValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
                     }
                 }
             } else if (link instanceof Dependency) {
                 if (dependencyValue > ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
-                    // && ((Evaluation)evaluations.get(link.getSrc())).getEvaluation() != 0){
                     dependencyValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
                 }
             } else if (link instanceof Contribution) {
@@ -164,26 +184,29 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 }
             }
         }
-        if (decompositionValue >= -100) {
+        if (decompositionValue >= minRange) {
             result = decompositionValue;
         }
         if (contributionValues.length > 0) {
 
             boolean hasSatisfy = (result == 100);
-            boolean hasDeny = (result == -100);
+            boolean hasDeny = (result == minRange);
             int contribValue = 0;
 
             for (int i = 0; i < contribArrayIt; i++) {
                 if (contributionValues[i] == 100)
                     hasSatisfy = true;
-                if (contributionValues[i] == -100)
+                if (contributionValues[i] == minRange)
                     hasDeny = true;
                 contribValue += contributionValues[i];
             }
             result = result + contribValue;
 
-            if (result > 100 || result < -100) {
-                result = (result / Math.abs(result)) * 100;
+            if (result > 100) {
+            	result = 100;
+            }
+            else if (result < minRange) {
+                result = minRange;
             }
 
             if (result >= (100 - StrategyEvaluationPreferences.getTolerance()) && !hasSatisfy) {
@@ -191,11 +214,11 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     result = Math.max(decompositionValue, 100 - StrategyEvaluationPreferences.getTolerance());
                 else
                     result = Math.max(result, 100 - StrategyEvaluationPreferences.getTolerance());
-            } else if (result <= (-100 + StrategyEvaluationPreferences.getTolerance()) && !hasDeny) {
-                if ((contribValue) < 0 && (decompositionValue > -10000)) // Need to consider that there might be no decomposition
-                    result = Math.min(decompositionValue, -100 + StrategyEvaluationPreferences.getTolerance());
+            } else if (result <= (minRange + StrategyEvaluationPreferences.getTolerance()) && !hasDeny) {
+                if ((contribValue) < 0 && (decompositionValue > 100 * minRange)) // Need to consider that there might be no decomposition
+                    result = Math.min(decompositionValue, minRange + StrategyEvaluationPreferences.getTolerance());
                 else
-                    result = Math.min(result, -100 + StrategyEvaluationPreferences.getTolerance());
+                    result = Math.min(result, minRange + StrategyEvaluationPreferences.getTolerance());
             }
         }
         if ((dependencyValue <= 100) && (result > dependencyValue)) {
@@ -223,9 +246,11 @@ public class MixedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 if (node instanceof IntentionalElementRef) {
                     IntentionalElementRef elementRef = (IntentionalElementRef) node;
                     IntentionalElement element = elementRef.getDef();
+                    String value = MetadataHelper.getMetaData(element, "ST_Legal"); //$NON-NLS-1$
                     int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
                     int importance = element.getImportanceQuantitative();
-                    if (importance != 0) {
+
+                    if (importance != 0 && !"No".equals(value)){ //$NON-NLS-1$
                         sumEval += evaluation * importance;
                         sumImportance += importance;
                     }
