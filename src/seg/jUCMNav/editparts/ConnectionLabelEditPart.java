@@ -96,9 +96,7 @@ public class ConnectionLabelEditPart extends LabelEditPart {
                 double alpha = Math.asin(normal.height / normalL);
                 int quadrant = calculateQuadrant(normal);
                 
-                if(quadrant == 2)
-                    alpha = Math.PI - alpha;
-                else if(quadrant == 3)
+                if(quadrant == 2 || quadrant == 3)
                     alpha = Math.PI - alpha;
                 
                 double b1 = label.getDeltaY() * Math.cos(alpha) + label.getDeltaX()*Math.sin(alpha) - labelDimension.width / 2;

@@ -129,13 +129,8 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
                             
                             double lengthA = length(aX, aY);
                             
-                            y = (int) (aY * Math.abs(dotProduct(aX, aY, bX, bY) / Math.pow(lengthA, 2)));
-                            x = (int) (Math.abs(dotProduct(-aY, aX, bX, bY) / lengthA));
-                            
-                            if(last.x > p.x)
-                                x = -x;
-                            if(last.y > p.y)
-                                y = -y;
+                            y = (int) (dotProduct(aX, aY, bX, bY) / lengthA);
+                            x = (int) (dotProduct(aY, -aX, bX, bY) / lengthA);
                         }
                     }
                 } else
