@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.editparts.ModelElementEditPart;
+import seg.jUCMNav.figures.util.JUCMNavFigure;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommentCommand;
@@ -137,9 +138,10 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
                     node = (PathNode) (((LabelEditPart) child).getURNmodelElement());
 
                 if (node != null) {
-                    int height = ((ModelElementEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
-                    x = node.getX() - ((Rectangle) constraint).x - (dim.width / 2);
-                    y = node.getY() - ((Rectangle) constraint).y - (dim.height);
+                    int height = JUCMNavFigure.getDimension(node).height / 2;
+                    Rectangle rect = (Rectangle) constraint;
+                    x = node.getX() - rect.x - (dim.width / 2);
+                    y = node.getY() - rect.y - (dim.height) - height;
                 }
 
             } else {
