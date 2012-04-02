@@ -168,7 +168,7 @@ public class EvaluationStrategyManager {
         minRange = -100 * (StrategyEvaluationRangeHelper.getCurrentRange(urn) ? 0 : 1);
 
         HashMap results = new HashMap();
-        long before = System.currentTimeMillis();
+//        long before = System.currentTimeMillis();
 
         clearCalculationValues(urn);
 
@@ -179,8 +179,8 @@ public class EvaluationStrategyManager {
             recordCalculationValues(urn, results, i);
         }
 
-        long after = System.currentTimeMillis();
-        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+//        long after = System.currentTimeMillis();
+//        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
 
         refreshDiagrams();
     }
@@ -198,7 +198,7 @@ public class EvaluationStrategyManager {
             return;
 
         HashMap results = new HashMap();
-        long before = System.currentTimeMillis();
+//        long before = System.currentTimeMillis();
 
         clearCalculationValues(urn);
 
@@ -210,8 +210,8 @@ public class EvaluationStrategyManager {
             recordCalculationValues(urn, results, i);
         }
 
-        long after = System.currentTimeMillis();
-        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+//        long after = System.currentTimeMillis();
+//        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
 
         refreshDiagrams();
     }
@@ -255,12 +255,12 @@ public class EvaluationStrategyManager {
         if (strategy == null) {
             return;
         }
-        long before = System.currentTimeMillis();
+//        long before = System.currentTimeMillis();
 
         calculateEvaluationExecute();
 
-        long after = System.currentTimeMillis();
-        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+//        long after = System.currentTimeMillis();
+//        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
 
         refreshDiagrams();
     }
