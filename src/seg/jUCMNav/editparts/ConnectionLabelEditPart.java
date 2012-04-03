@@ -58,7 +58,8 @@ public class ConnectionLabelEditPart extends LabelEditPart {
     public void deactivate() {
         LinkRefEditPart nc = (LinkRefEditPart) getViewer().getEditPartRegistry().get(getConnection());
         
-        ((LinkRefConnection)nc.getConnectionFigure()).removeRoutingListener(routingListener);
+        if(nc != null)
+            ((LinkRefConnection)nc.getConnectionFigure()).removeRoutingListener(routingListener);
         super.deactivate();
     }
 
