@@ -98,7 +98,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
 
         // transfer name/description
         // don't transfer name if wasn't default.
-        if (!_oldNode.getName().equals(URNNamingHelper.getPrefix(_oldNode.getClass())))
+        if (!_oldNode.getName().startsWith(URNNamingHelper.getPrefix(_oldNode.getClass())))
             _newNode.setName(_oldNode.getName());
 
         _newNode.setDescription(_oldNode.getDescription());
