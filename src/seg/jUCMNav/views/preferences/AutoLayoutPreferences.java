@@ -15,7 +15,7 @@ public class AutoLayoutPreferences {
     public final static String DEFAULTDOTPATH = "c:\\program files\\ATT\\GraphViz\\bin\\dot.exe"; //$NON-NLS-1$
     public final static String DEFAULTNONWINDOWSDOTPATH = ""; //$NON-NLS-1$
     public final static double DEFAULTHEIGHT = 11;
-    public final static String DEFAULTORIENTATION = "TD"; //$NON-NLS-1$
+    public final static String DEFAULTORIENTATION = "TB"; //$NON-NLS-1$
     public final static double DEFAULTWIDTH = 8.5;
     public final static boolean DEFAULTEMPTYPOINTS = true;
     public final static String PREF_DOTPATH = "seg.jUCMNav.AutoLayout.DotPath"; //$NON-NLS-1$

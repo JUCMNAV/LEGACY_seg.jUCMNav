@@ -13,7 +13,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 public class ReportGeneratorPreferences {
 
     public final static double DEFAULT_REPORT_HEIGHT = 11;
-    public final static String DEFAULT_REPORT_ORIENTATION = "TD"; //$NON-NLS-1$
+    public final static String DEFAULT_REPORT_ORIENTATION = "TB"; //$NON-NLS-1$
     // TODO change default color
     public final static String DEFAULT_REPORT_COLOR = "white"; //$NON-NLS-1$
     public final static double DEFAULT_REPORT_WIDTH = 8.5;
