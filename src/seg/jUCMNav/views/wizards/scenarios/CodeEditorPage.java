@@ -338,6 +338,12 @@ public class CodeEditorPage extends WizardPage {
         }
 
         initVariables();
+        try {
+            ScenarioUtils.getEnvironment(urn).refresh(); // bug 825. 
+        } catch (Exception ex)
+        {
+        
+        }
     }
 
     private void setupText(Object obj) {

@@ -550,7 +550,7 @@ public class UcmEnvironment implements Adapter, Cloneable {
      * Gets rid of all stored data and reloads them from the associated URNspec
      * 
      */
-    private void refresh() {
+    public void refresh() {
         if (this.urn == null) {
             declarations.clear();
             enumerations.clear();
