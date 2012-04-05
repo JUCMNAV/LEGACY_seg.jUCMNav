@@ -10,6 +10,7 @@ import grl.GRLNode;
 import grl.IntentionalElementRef;
 
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
@@ -21,14 +22,14 @@ import seg.jUCMNav.Messages;
  * 
  * This command could have performance problem for large GRLGraph (but should not be call a lot)
  * 
- * @author Jean-François Roy
+ * @author Jean-François Roy, jkealey
  * 
  */
 public class CreateAllLinkRefCommand extends CompoundCommand {
 
     protected IntentionalElementRef element;
     protected GRLGraph graph;
-
+    protected Vector limitToTheseNodes;
     /**
      * @param element
      *            The IntentionalElementReference
@@ -56,6 +57,22 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
         this.graph = graph;
     }
 
+    /**
+     * Used in copy paste. 
+     * 
+     * @param graph
+     * @param element
+     * @param limitToTheseNodes list of nodes for which links should be created. 
+     */
+    public CreateAllLinkRefCommand(GRLGraph graph, IntentionalElementRef element, Vector limitToTheseNodes) {
+        setLabel(Messages.getString("CreateAllLinkRefCommand.createAllLinkRefs")); //$NON-NLS-1$
+
+        // init(element, graph);
+        this.element = element;
+        this.graph = graph;
+        this.limitToTheseNodes = limitToTheseNodes;
+    }
+    
     public boolean canExecute() {
         return true;
     }
@@ -72,7 +89,7 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
     private void init(IntentionalElementRef element, GRLGraph graph) {
         for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();) {
             GRLNode grlnode = (GRLNode) iter.next();
-            if (grlnode instanceof IntentionalElementRef) {
+            if (grlnode instanceof IntentionalElementRef && (limitToTheseNodes==null || limitToTheseNodes.contains(grlnode)) ) {
                 IntentionalElementRef current = (IntentionalElementRef) grlnode;
 
                 // Verify that no LinkRef exist between the two element

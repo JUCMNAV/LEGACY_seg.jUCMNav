@@ -12,6 +12,7 @@ import grl.kpimodel.KPIInformationElementRef;
 import grl.kpimodel.KPIModelLink;
 
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
@@ -30,6 +31,7 @@ public class CreateAllKPIModelLinkRefCommand extends CompoundCommand {
 
     protected GRLNode element;
     protected GRLGraph graph;
+    protected Vector limitToTheseNodes;
 
     /**
      * @param element
@@ -72,6 +74,22 @@ public class CreateAllKPIModelLinkRefCommand extends CompoundCommand {
         this.element = element;
         this.graph = graph;
     }
+    
+    /**
+     * Used in copy paste
+     * 
+     * @param graph
+     * @param element
+     * @param limitToTheseNodes list of nodes for which links should be created. 
+     */
+    public CreateAllKPIModelLinkRefCommand(GRLGraph graph, KPIInformationElementRef element, Vector limitToTheseNodes) {
+        setLabel(Messages.getString("CreateAllKPIModelLinkRefCommand.createAllKPIModelLinkRefs")); //$NON-NLS-1$
+
+        // init(element, graph);
+        this.element = element;
+        this.graph = graph;
+        this.limitToTheseNodes = limitToTheseNodes;
+    }
 
     /**
      * Used when creating from outline.
@@ -85,6 +103,22 @@ public class CreateAllKPIModelLinkRefCommand extends CompoundCommand {
         // init(element, graph);
         this.element = element;
         this.graph = graph;
+    }
+    
+    /**
+     * Used in copy paste. 
+     * 
+     * @param graph
+     * @param element
+     * @param limitToTheseNodes list of nodes for which links should be created. 
+     */
+    public CreateAllKPIModelLinkRefCommand(GRLGraph graph, IntentionalElementRef element, Vector limitToTheseNodes) {
+        setLabel(Messages.getString("CreateAllKPIModelLinkRefCommand.createAllKPIModelLinkRefs")); //$NON-NLS-1$
+
+        // init(element, graph);
+        this.element = element;
+        this.graph = graph;
+        this.limitToTheseNodes = limitToTheseNodes;
     }
 
     public boolean canExecute() {
@@ -106,7 +140,7 @@ public class CreateAllKPIModelLinkRefCommand extends CompoundCommand {
     private void init(KPIInformationElementRef element, GRLGraph graph) {
         for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();) {
             GRLNode grlnode = (GRLNode) iter.next();
-            if (grlnode instanceof IntentionalElementRef) {
+            if (grlnode instanceof IntentionalElementRef && (limitToTheseNodes==null || limitToTheseNodes.contains(grlnode))) {
                 IntentionalElementRef current = (IntentionalElementRef) grlnode;
 
                 // Verify that no KPIModelLinkRef exist between the two elements
@@ -128,7 +162,7 @@ public class CreateAllKPIModelLinkRefCommand extends CompoundCommand {
     private void init(IntentionalElementRef element, GRLGraph graph) {
         for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();) {
             GRLNode grlnode = (GRLNode) iter.next();
-            if (grlnode instanceof KPIInformationElementRef) {
+            if (grlnode instanceof IntentionalElementRef && (limitToTheseNodes==null || limitToTheseNodes.contains(grlnode))) {
                 KPIInformationElementRef current = (KPIInformationElementRef) grlnode;
 
                 // Verify that no KPIModelLinkRef exist between the two elements

@@ -165,14 +165,21 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
     }
 
     public static Command buildCreateKPIInformationElementCommand(GRLGraph graph, KPIInformationElementRef info) {
+        return  buildCreateKPIInformationElementCommand(graph, info, null);
+    }
+    public static Command buildCreateKPIInformationElementCommand(GRLGraph graph, KPIInformationElementRef info, Vector forceAutoAddLinksToTheseElements ) {
         Command create;
         create = new AddKPIInformationElementRefCommand(graph, info);
 
-        if (GeneralPreferencePage.getGrlAutoAddLinks()) {
+        if (GeneralPreferencePage.getGrlAutoAddLinks())
+            forceAutoAddLinksToTheseElements = null; // copy all, don't filter in this case. 
+
+        
+        if (forceAutoAddLinksToTheseElements!=null || GeneralPreferencePage.getGrlAutoAddLinks()) {
             if (info.getDef().getKpiModelLinksSrc().size() > 0) {
                 // dragged existing element from outline.
 
-                CreateAllKPIModelLinkRefCommand createCmd = new CreateAllKPIModelLinkRefCommand(graph, info);
+                CreateAllKPIModelLinkRefCommand createCmd = new CreateAllKPIModelLinkRefCommand(graph, info, forceAutoAddLinksToTheseElements );
                 if (createCmd.canExecute())
                     create = create.chain(createCmd);
 
@@ -181,15 +188,21 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
         return create;
     }
 
-    public static Command buildCreateGrlNodeCommand(GRLGraph graph, IntentionalElementRef node) {
+    public static Command buildCreateGrlNodeCommand(GRLGraph graph, IntentionalElementRef node)
+    {
+        return buildCreateGrlNodeCommand(graph, node, null);
+    }
+    public static Command buildCreateGrlNodeCommand(GRLGraph graph, IntentionalElementRef node, Vector forceAutoAddLinksToTheseElements) {
         Command create;
         create = new AddIntentionalElementRefCommand(graph, node);
 
-        if (GeneralPreferencePage.getGrlAutoAddLinks()) {
+        if (GeneralPreferencePage.getGrlAutoAddLinks())
+            forceAutoAddLinksToTheseElements = null; // copy all, don't filter in this case. 
+        if (forceAutoAddLinksToTheseElements!=null || GeneralPreferencePage.getGrlAutoAddLinks()) {
             if ((node).getDef().getLinksSrc().size() + (node).getDef().getLinksDest().size() > 0) {
                 // dragged existing element from outline.
 
-                CreateAllLinkRefCommand createCmd = new CreateAllLinkRefCommand(graph, node);
+                CreateAllLinkRefCommand createCmd = new CreateAllLinkRefCommand(graph, node, forceAutoAddLinksToTheseElements);
                 if (createCmd.canExecute())
                     create = create.chain(createCmd);
 
@@ -198,7 +211,7 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
             if (node instanceof Indicator && ((Indicator) (node).getDef()).getKpiModelLinksDest().size() > 0) {
                 // dragged existing element from outline.
 
-                CreateAllKPIModelLinkRefCommand createCmd = new CreateAllKPIModelLinkRefCommand(graph, node);
+                CreateAllKPIModelLinkRefCommand createCmd = new CreateAllKPIModelLinkRefCommand(graph, node, forceAutoAddLinksToTheseElements);
                 if (createCmd.canExecute())
                     create = create.chain(createCmd);
 

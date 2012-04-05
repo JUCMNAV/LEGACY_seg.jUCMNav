@@ -378,11 +378,11 @@ public class PasteCommand extends CompoundCommand {
             EObject obj = (EObject) iterator.next();
 
             if (obj instanceof IntentionalElementRef) {
-                add(GrlGraphXYLayoutEditPolicy.buildCreateGrlNodeCommand(targetGraph, (IntentionalElementRef) obj));
+                add(GrlGraphXYLayoutEditPolicy.buildCreateGrlNodeCommand(targetGraph, (IntentionalElementRef) obj, list /* bug 822 - force creation*/));
             } else if (obj instanceof Belief) {
                 add(new AddBeliefCommand(targetGraph, (Belief) obj));
             } else if (obj instanceof KPIInformationElementRef) {
-                add(GrlGraphXYLayoutEditPolicy.buildCreateKPIInformationElementCommand(targetGraph, (KPIInformationElementRef) obj));
+                add(GrlGraphXYLayoutEditPolicy.buildCreateKPIInformationElementCommand(targetGraph, (KPIInformationElementRef) obj, list));
             }
         }
     }
