@@ -166,7 +166,8 @@ public class LabelEditPart extends ModelElementEditPart {
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
-        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
+        if (!(this instanceof ConnectionLabelEditPart)) // bug 829. 
+                installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
         installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
 
         // to support selecting the label even with palette tool open.
