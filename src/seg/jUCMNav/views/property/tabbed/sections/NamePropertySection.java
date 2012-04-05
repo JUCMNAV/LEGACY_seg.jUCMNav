@@ -7,8 +7,11 @@ import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import ucm.map.RespRef;
+import ucm.map.Stub;
 import urn.URNspec;
 import urn.UrnPackage;
+import urncore.Responsibility;
 import urncore.URNmodelElement;
 import urncore.UrncorePackage;
 
@@ -76,5 +79,18 @@ public class NamePropertySection extends AbstractMultiLineStringPropertySection 
         }
         
         return result;
+    }
+    
+    protected Object getFeatureValue(String newText) {
+        String newline = System.getProperty("line.separator", "\n"); 
+        if (eObject instanceof Responsibility || eObject instanceof RespRef || eObject instanceof Stub) 
+        {
+            while (newText.endsWith(newline))
+                newText = newText.substring(0, newText.length() - newline.length());
+            
+            return newText; // multiline is allowed, but remove trailing newline.  
+        }
+        else
+            return newText.replaceAll(System.getProperty("line.separator"), " "); // single line. 
     }
 }
