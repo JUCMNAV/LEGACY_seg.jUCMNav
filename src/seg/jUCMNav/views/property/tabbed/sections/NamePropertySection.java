@@ -91,6 +91,6 @@ public class NamePropertySection extends AbstractMultiLineStringPropertySection 
             return newText; // multiline is allowed, but remove trailing newline.  
         }
         else
-            return newText.replaceAll(System.getProperty("line.separator"), " "); // single line. 
+            return newText.replaceAll(newline, " "); // single line. 
     }
 }
