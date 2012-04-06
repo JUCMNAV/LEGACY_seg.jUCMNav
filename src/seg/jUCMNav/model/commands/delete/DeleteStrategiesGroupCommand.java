@@ -45,7 +45,7 @@ public class DeleteStrategiesGroupCommand extends Command implements JUCMNavComm
     
     public DeleteStrategiesGroupCommand(ContributionContextGroup group) {
         this.group = group;
-        setLabel("Delete Contribution Context Group");
+        setLabel(Messages.getString("DeleteStrategiesGroupCommand.DeleteContributionContextGroup")); //$NON-NLS-1$
     }
 
     private ScenarioGroup getScenarioGroup() {

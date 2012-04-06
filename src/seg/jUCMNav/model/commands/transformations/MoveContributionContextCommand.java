@@ -5,6 +5,7 @@ import grl.ContributionContextGroup;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
@@ -26,7 +27,7 @@ public class MoveContributionContextCommand extends Command implements JUCMNavCo
         this.contrib = contrib;
         this.group = targetGroup;
         this.oldGroup = (ContributionContextGroup) contrib.getGroups().get(0); // TODO: Should metamodel be changed? 
-        setLabel("Move contribution context");
+        setLabel(Messages.getString("MoveContributionContextCommand.MoveContributionCommand")); //$NON-NLS-1$
     }
 
     /**

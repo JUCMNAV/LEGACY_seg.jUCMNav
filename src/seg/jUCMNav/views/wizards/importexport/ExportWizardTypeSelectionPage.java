@@ -73,7 +73,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
         Label lblUCMInformation = new Label(composite, SWT.NONE);
         iUCMCount = UCMExportExtensionPointHelper.getExportLabels().length;
         String ucm = getUcmExportStrings();
-        lblUCMInformation.setText(Messages.getString("ExportWizardTypeSelectionPage.ExportUCMTo") + ucm + "\n"); //$NON-NLS-3$ //$NON-NLS-3$ //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-2$
+        lblUCMInformation.setText(Messages.getString("ExportWizardTypeSelectionPage.ExportUCMTo") + ucm + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
         radios[1] = new Button(composite, SWT.RADIO);
         radios[1].setSelection(ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN);

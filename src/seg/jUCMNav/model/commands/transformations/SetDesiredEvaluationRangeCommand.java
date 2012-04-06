@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import urn.URNspec;
@@ -27,7 +28,7 @@ public class SetDesiredEvaluationRangeCommand extends Command implements JUCMNav
     {
         this.urn = urn;
         this.use0to100EvaluationRange = !StrategyEvaluationRangeHelper.getCurrentRange(urn); 
-        setLabel("Set Evaluation Range");
+        setLabel(Messages.getString("SetDesiredEvaluationRangeCommand.SetEvaluationRange")); //$NON-NLS-1$
     }
     /**
      * Set the value. 
@@ -38,7 +39,7 @@ public class SetDesiredEvaluationRangeCommand extends Command implements JUCMNav
         this.urn = urn;
         this.use0to100EvaluationRange = use0to100EvaluationRange;
 
-        setLabel("Set Evaluation Range");
+        setLabel(Messages.getString("SetDesiredEvaluationRangeCommand.SetEvaluationRange")); //$NON-NLS-1$
     }
 
     /**

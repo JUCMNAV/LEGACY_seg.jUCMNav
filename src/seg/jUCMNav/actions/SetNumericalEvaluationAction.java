@@ -50,11 +50,11 @@ public class SetNumericalEvaluationAction extends URNSelectionAction {
     protected boolean calculateEnabled() {
         // doing this here instead of the constructor just because it will refresh properly after we change the preferences.
         try {
-            int val = Integer.parseInt(values[id].replace("+", ""));
+            int val = Integer.parseInt(values[id].replace("+", "")); //$NON-NLS-1$ //$NON-NLS-2$
             val = StrategyEvaluationPreferences.getEquivalentValueIn0To100RangeIfApplicable(getUrnspec(), val);
 
             if (val > 0)
-                setText("+" + Integer.toString(val));
+                setText("+" + Integer.toString(val)); //$NON-NLS-1$
             else
                 setText(Integer.toString(val));
 
@@ -119,7 +119,7 @@ public class SetNumericalEvaluationAction extends URNSelectionAction {
         IntegerInputRangeDialog dialog = new IntegerInputRangeDialog(shell);
 
         if (StrategyEvaluationPreferences.getVisualizeAsPositiveRange(getUrnspec())) {
-            return (dialog.open(Messages.getString("SetEvaluation.WindowEval").replace("-100", "0"), //$NON-NLS-1$
+            return (dialog.open(Messages.getString("SetEvaluation.WindowEval").replace("-100", "0"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     Messages.getString("SetEvaluation.TextEval"), //$NON-NLS-1$ 
                     currentEval, 0, 100));
         } else

@@ -17,6 +17,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.create.IncludeContributionContextCommand;
 
@@ -40,7 +41,7 @@ public class IncludeContributionContext extends Wizard {
     public IncludeContributionContext() {
         super();
         setNeedsProgressMonitor(true);
-        this.setWindowTitle("Include Contribution Contexts");
+        this.setWindowTitle(Messages.getString("IncludeContributionContext.IncludeContributionContexts")); //$NON-NLS-1$
 
     }
 

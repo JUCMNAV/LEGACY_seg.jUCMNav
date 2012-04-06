@@ -96,13 +96,13 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
                 Messages.getString("GeneralPreferencePage.ShowGrlContribText"), cOptions); //$NON-NLS-1$
         addField(field);
         
-        field = new BooleanFieldEditor(PREF_GRLSATISFACTIONICONVISIBLE, "View GRL satisfaction level icons", cOptions);
+        field = new BooleanFieldEditor(PREF_GRLSATISFACTIONICONVISIBLE, Messages.getString("GeneralPreferencePage.ViewSatisfactionLevelIcons"), cOptions); //$NON-NLS-1$
         addField(field);
-        field = new BooleanFieldEditor(PREF_GRLSATISFACTIONTEXTVISIBLE, "View GRL satisfaction level text", cOptions);
+        field = new BooleanFieldEditor(PREF_GRLSATISFACTIONTEXTVISIBLE, Messages.getString("GeneralPreferencePage.ViewSatisfactionLevelText"), cOptions); //$NON-NLS-1$
         addField(field);        
-        field = new BooleanFieldEditor(PREF_UCMEMPTYPOINTVISIBLE, "View UCM empty points", cOptions);
+        field = new BooleanFieldEditor(PREF_UCMEMPTYPOINTVISIBLE, Messages.getString("GeneralPreferencePage.ViewEmptyPoints"), cOptions); //$NON-NLS-1$
         addField(field);        
-        field = new BooleanFieldEditor(PREF_UCMSTUBLABELVISIBLE, "View UCM stub labels", cOptions);
+        field = new BooleanFieldEditor(PREF_UCMSTUBLABELVISIBLE, Messages.getString("GeneralPreferencePage.ViewStubLabels"), cOptions); //$NON-NLS-1$
         addField(field);        
      
         // Group for advanced mode        

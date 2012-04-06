@@ -307,10 +307,10 @@ public class MetadataEditorPage extends WizardPage {
         });
         
         TabItem definitionTab = new TabItem(folder, SWT.NULL);
-        definitionTab.setText("Definition");
+        definitionTab.setText(Messages.getString("MetadataEditorPage.Definition")); //$NON-NLS-1$
         
         TabItem referenceTab = new TabItem(folder, SWT.NULL);
-        referenceTab.setText("Reference");
+        referenceTab.setText(Messages.getString("MetadataEditorPage.Reference")); //$NON-NLS-1$
 
         // Table to contain metadata entries
         metadataTable = new Table(container, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);

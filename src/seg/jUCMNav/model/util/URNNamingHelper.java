@@ -1005,7 +1005,7 @@ public class URNNamingHelper {
             Contribution contrib = (Contribution)elem;
             int val = contrib.getQuantitativeContribution();
             //val = StrategyEvaluationPreferences.getValueToVisualize(val);
-            return getName(contrib.getSrc()) + " (" + contrib.getContribution().getName() + "/" + val + ") " + getName(contrib.getDest());   
+            return getName(contrib.getSrc()) + " (" + contrib.getContribution().getName() + "/" + val + ") " + getName(contrib.getDest());    //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
          if (elem == null)
             return ""; //$NON-NLS-1$

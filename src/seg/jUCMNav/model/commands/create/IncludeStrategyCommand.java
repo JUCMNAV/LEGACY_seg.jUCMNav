@@ -7,6 +7,7 @@ import grl.EvaluationStrategy;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
@@ -28,7 +29,7 @@ public class IncludeStrategyCommand extends Command implements JUCMNavCommand {
     public IncludeStrategyCommand(EvaluationStrategy parent, EvaluationStrategy child) {
         this.parent = parent;
         this.child = child;
-        setLabel("Include Strategy");
+        setLabel(Messages.getString("IncludeStrategyCommand.IncludeStrategy")); //$NON-NLS-1$
     }
 
     /**
@@ -37,7 +38,7 @@ public class IncludeStrategyCommand extends Command implements JUCMNavCommand {
     public IncludeStrategyCommand(EvaluationStrategy parent, EvaluationStrategy child, boolean isInCompoundCommand) {
         this.parent = parent;
         this.child = child;
-        setLabel("Include Strategy");
+        setLabel(Messages.getString("IncludeStrategyCommand.IncludeStrategy")); //$NON-NLS-1$
         this.isInCompoundCommand = isInCompoundCommand;
     }
 

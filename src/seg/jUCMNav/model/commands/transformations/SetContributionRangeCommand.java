@@ -5,6 +5,7 @@ import grl.ContributionRange;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
@@ -43,7 +44,7 @@ public class SetContributionRangeCommand extends Command implements JUCMNavComma
         this.change = change;
         this.shouldDelete = true;
 
-        setLabel("Set Contribution Range");
+        setLabel(Messages.getString("SetContributionRangeCommand.SetContributionRange")); //$NON-NLS-1$
     }
 
     /**
@@ -64,7 +65,7 @@ public class SetContributionRangeCommand extends Command implements JUCMNavComma
         this.end = end;
         this.step = step;
         this.shouldDelete = false;
-        setLabel("Set Contribution Range");
+        setLabel(Messages.getString("SetContributionRangeCommand.SetContributionRange")); //$NON-NLS-1$
     }
 
     /**

@@ -5,6 +5,7 @@ import grl.EvaluationStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
@@ -30,7 +31,7 @@ public class StrategyLabelTreeEditPart extends ScenarioLabelTreeEditPart {
      */
     public List getModelChildren() {
         ArrayList list = new ArrayList();
-        if (getLabel().equals("Included Strategies")) {
+        if (getLabel().equals(Messages.getString("StrategyLabelTreeEditPart.IncludedStrategies"))) { //$NON-NLS-1$
             list.addAll(EvaluationStrategyManager.getDefinedIncludedStrategies((EvaluationStrategy)getRootElement()));
         } 
         return list;

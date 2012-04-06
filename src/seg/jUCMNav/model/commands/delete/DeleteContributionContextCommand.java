@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemoveContributionContextCommand;
 
 /**
@@ -21,7 +22,7 @@ import seg.jUCMNav.model.commands.delete.internal.RemoveContributionContextComma
 public class DeleteContributionContextCommand extends CompoundCommand {
 
     public DeleteContributionContextCommand(ContributionContext context) {
-        setLabel("Delete Contribution Context");
+        setLabel(Messages.getString("DeleteContributionContextCommand.DeleteContributionContext")); //$NON-NLS-1$
 
         for (Iterator iter = context.getChanges().iterator(); iter.hasNext();) {
             ContributionChange change = (ContributionChange) iter.next();

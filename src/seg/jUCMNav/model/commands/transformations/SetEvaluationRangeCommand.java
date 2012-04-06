@@ -5,6 +5,7 @@ import grl.EvaluationRange;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
@@ -43,7 +44,7 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
         this.evaluation = ev;
         this.shouldDelete = true;
 
-        setLabel("Set Evaluation Range");
+        setLabel(Messages.getString("SetEvaluationRangeCommand.SetEvaluationRange")); //$NON-NLS-1$
     }
 
     /**
@@ -64,7 +65,7 @@ public class SetEvaluationRangeCommand extends Command implements JUCMNavCommand
         this.end = end;
         this.step = step;
         this.shouldDelete = false;
-        setLabel("Set Evaluation Range");
+        setLabel(Messages.getString("SetEvaluationRangeCommand.SetEvaluationRange")); //$NON-NLS-1$
     }
 
     /**

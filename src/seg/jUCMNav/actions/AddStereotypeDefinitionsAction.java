@@ -38,6 +38,7 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
     		"acceptStereotype,CLASS1,EvaluationStrategy", "acceptStereotype,CLASS2,EvaluationStrategy", "acceptStereotype,OTHER,EvaluationStrategy" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     };
 
+    // did not externalize this yet, because don't know if these are constants or GUI strings. 
     private String [] linkTypes = { "Traceability", "Refinement", "Compliance" };
     
 	public AddStereotypeDefinitionsAction(IWorkbenchPart part) {

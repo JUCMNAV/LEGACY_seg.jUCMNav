@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -152,7 +153,7 @@ public class ReportStrategies extends ReportDataDictionary {
         try {
 
             // document.add(Chunk.NEXTPAGE);
-        	String title = "Strategy Legend for Group \"" + evalGroup.getName() + "\""; 
+        	String title = Messages.getString("ReportStrategies.StrategyLegendForGroupQuote") + evalGroup.getName() + Messages.getString("ReportStrategies.StrategyLegendForGroupEndQuote");  //$NON-NLS-1$ //$NON-NLS-2$
             document.add(new Paragraph(title, descriptionBoldFont));
 
             for (int i = 1; i <= strategies.size(); i++) {
@@ -161,8 +162,8 @@ public class ReportStrategies extends ReportDataDictionary {
                 EvaluationStrategy strategy = (EvaluationStrategy) strategies.get(i2);
 
                 String strategyName = strategy.getName();
-                String columnNo = i + "";
-                ReportUtils.writeLineWithSeparator(document, columnNo, ":", strategyName, descriptionFont, true);
+                String columnNo = i + ""; //$NON-NLS-1$
+                ReportUtils.writeLineWithSeparator(document, columnNo, ":", strategyName, descriptionFont, true); //$NON-NLS-1$
             }
 
         } catch (Exception e) {
@@ -246,19 +247,19 @@ public class ReportStrategies extends ReportDataDictionary {
                              */
                             // First Line of Table
                             // First line - first cell: empty with the width of the intentional element column
-                            Cell emptyCell = new Cell("");
+                            Cell emptyCell = new Cell(""); //$NON-NLS-1$
                             emptyCell.setBorderColor(new java.awt.Color(0, 0, 0));
                             emptyCell.setColspan(intElementColumnWidth);
                             table.addCell(emptyCell);
 
                             // First line - second cell: contains the strategy evaluation header title. Width equals all strategy columns.
-                            Cell cell = new Cell("Strategy Evaluations");
+                            Cell cell = new Cell(Messages.getString("ReportStrategies.StrategyEvaluations")); //$NON-NLS-1$
                             cell.setHeader(true);
                             cell.setColspan(strategiesWidth);
                             table.addCell(cell);
 
                             // Second line - first cell: empty with the width of the intentional element column
-                            Cell emptyCell2 = new Cell("");
+                            Cell emptyCell2 = new Cell(""); //$NON-NLS-1$
                             emptyCell2.setBorderColor(white);
                             emptyCell2.setColspan(intElementColumnWidth);
                             table.addCell(emptyCell2);
@@ -266,7 +267,7 @@ public class ReportStrategies extends ReportDataDictionary {
                             // Second line - strategy number header. This number represents a strategy as documented in the legend. One number per
                             // column/strategy.
                             for (int column = lastCellAdded; (column <= (MAX_STRATEGIES_PER_PAGE * pageNo) && column <= nbOfStrategies); column++) {
-                                Cell strategyNo = new Cell(column + "");
+                                Cell strategyNo = new Cell(column + ""); //$NON-NLS-1$
                                 strategyNo.setBorderColor(new java.awt.Color(0, 0, 0));
                                 strategyNo.setColspan(STRATEGY_CELL_WIDTH);
 
@@ -281,7 +282,7 @@ public class ReportStrategies extends ReportDataDictionary {
                             for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
                             
                             	Actor actor = (Actor) iter.next();
-                                Cell actorCell = new Cell( actor.getName() + " (A)" );
+                                Cell actorCell = new Cell( actor.getName() + " (A)" ); //$NON-NLS-1$
                                 actorCell.setColspan(intElementColumnWidth);
                                 table.addCell(actorCell);
                             	
@@ -367,7 +368,7 @@ public class ReportStrategies extends ReportDataDictionary {
         // if the number of evaluations/strategies is less than total number of columns, fill in the rest with empty cells
         for (float i2 = (lastCellOfPage) + 1; i2 <= MAX_STRATEGIES_PER_PAGE * pageNo; i2++) {
             // for (float i3 = nbOfStrategies + 1; i3 <= lastCellOfPage; i3++) {
-            Cell emptyStrat = new Cell("");
+            Cell emptyStrat = new Cell(""); //$NON-NLS-1$
             emptyStrat.setBorderColor(white);
             emptyStrat.setColspan(STRATEGY_CELL_WIDTH);
             table.addCell(emptyStrat);
@@ -388,7 +389,7 @@ public class ReportStrategies extends ReportDataDictionary {
         // if 0,100, convert back to -100,100 to have the right color. 
         int colorValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable( urnSpec,  evalValue );
 
-    	Cell evaluationCell = new Cell(evalValue + "");
+    	Cell evaluationCell = new Cell(evalValue + ""); //$NON-NLS-1$
     	evaluationCell.setColspan(STRATEGY_CELL_WIDTH);
     	if (colorValue == 0) {
     		evaluationCell.setBackgroundColor(new java.awt.Color(255, 255, 151));

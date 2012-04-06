@@ -39,7 +39,7 @@ public class IncludeContributionContextPage extends WizardPage {
     private Vector children;
     private List contexts;
     
-    private String _description = "Please choose the contribution contexts to be included"; 
+    private String _description = Messages.getString("IncludeContributionContextPage.PleaseChooseContributionContextToInclude");  //$NON-NLS-1$
 
     /**
      * The selection contains a contribution context for which we want to include another context. Loaded in {@link #initialize()}.
@@ -51,7 +51,7 @@ public class IncludeContributionContextPage extends WizardPage {
 
         this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
-        setTitle("Include Contribution Context");
+        setTitle(Messages.getString("IncludeContributionContextPage.IncludeContributionContext")); //$NON-NLS-1$
         setDescription(_description);
 
         // loaded in initialize()

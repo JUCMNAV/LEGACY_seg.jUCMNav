@@ -74,7 +74,7 @@ public class NamePropertySection extends AbstractMultiLineStringPropertySection 
     }
 
     protected Object getFeatureValue(String newText) {
-        String newline = System.getProperty("line.separator", "\n");
+        String newline = System.getProperty("line.separator", "\n"); //$NON-NLS-1$ //$NON-NLS-2$
         // remove trailing.
         while (newText.endsWith(newline))
             newText = newText.substring(0, newText.length() - newline.length());
@@ -82,6 +82,6 @@ public class NamePropertySection extends AbstractMultiLineStringPropertySection 
         if (eObject instanceof Responsibility || eObject instanceof RespRef || eObject instanceof Stub) {
             return newText; // multiline is allowed, but remove trailing newline.
         } else
-            return newText.replaceAll(newline, " "); // single line.
+            return newText.replaceAll(newline, " "); // single line. //$NON-NLS-1$
     }
 }

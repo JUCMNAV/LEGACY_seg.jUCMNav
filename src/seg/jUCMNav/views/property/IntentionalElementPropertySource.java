@@ -284,7 +284,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      */
     private void evaluationDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         if (attr.getName() == "evaluation") { //$NON-NLS-1$
-            String name = "Evaluation Level (-100 to 100)";
+            String name = Messages.getString("IntentionalElementPropertySource.EvaluationLevel"); //$NON-NLS-1$
             
             URNspec urn = def.getGrlspec().getUrnspec();
             if (StrategyEvaluationPreferences.getVisualizeAsPositiveRange(urn))

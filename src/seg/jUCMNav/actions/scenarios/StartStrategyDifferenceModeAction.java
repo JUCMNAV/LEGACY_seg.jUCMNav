@@ -39,7 +39,7 @@ public class StartStrategyDifferenceModeAction extends URNSelectionAction {
         		return false;
         	}
 
-        	if( ((StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )).isStrategyView()) {
+        	if( ((StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )).isStrategyView()) { //$NON-NLS-1$
         		if( (strategy1 = sel.getStrategy()) != null ) {
         			return true;
         		}

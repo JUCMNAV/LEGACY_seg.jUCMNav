@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IURNImport;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.URNNamingHelper;
@@ -63,15 +64,15 @@ public class ImportGRLStrategies implements IURNImport  {
 
 			while( (strLine = br.readLine()) != null) {
 				
-				if( strLine.contentEquals(""))
+				if( strLine.contentEquals("")) //$NON-NLS-1$
 					continue; // skip blank lines
 				
-				if( strLine.replace(",", "").contentEquals(""))
+				if( strLine.replace(",", "").contentEquals("")) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					continue; // skip 'blank' lines composed solely of commas output by some spreadsheets in CSV mode
 
-				String [] columns = strLine.split(",");
+				String [] columns = strLine.split(","); //$NON-NLS-1$
 				
-				if( unquote(columns[0]).contentEquals("Strategy Name") && !columns[1].contentEquals(" Author") ) {
+				if( unquote(columns[0]).contentEquals(Messages.getString("ImportGRLStrategies.StrategyName")) && !columns[1].contentEquals(Messages.getString("ImportGRLStrategies.SpceAuthor")) ) { //$NON-NLS-1$ //$NON-NLS-2$
 					this.processSectionHeader( strLine, br );
 				}
 								
@@ -79,7 +80,7 @@ public class ImportGRLStrategies implements IURNImport  {
 			}
 			fis.close();
 		} catch (Exception e) {//Catch exception if any
-			System.err.println("Error: " + e.getMessage());
+			System.err.println("Error: " + e.getMessage()); //$NON-NLS-1$
 		}
 
 		if( !nonexistentIElements.isEmpty() || !unconvertibleValues.isEmpty() ) {
@@ -99,7 +100,7 @@ public class ImportGRLStrategies implements IURNImport  {
 	}
 
 	private String unquote( String s ) {
-		if( s.startsWith("\"") && s.endsWith("\"")) {
+		if( s.startsWith("\"") && s.endsWith("\"")) { //$NON-NLS-1$ //$NON-NLS-2$
 			return s.substring( 1, s.length()-1 ); // remove brackets
 		} else {
 			return s;
@@ -108,14 +109,14 @@ public class ImportGRLStrategies implements IURNImport  {
 	
 	private void processSectionHeader( String headerLine, BufferedReader br ) throws IOException {
 
-		String [] columns = headerLine.split(",");
+		String [] columns = headerLine.split(","); //$NON-NLS-1$
 		elementIndexes.clear();
 		String name = null;
 		
 //		System.out.println ( "Processing header line: " + headerLine );
 		
 		for( int i = 1; i < columns.length; i++ ) {
-			if( !(columns[i].endsWith(" (A)")  || columns[i].contentEquals("")) ) { // ignore Actor names as their evaluations can't be set
+			if( !(columns[i].endsWith(" (A)")  || columns[i].contentEquals("")) ) { // ignore Actor names as their evaluations can't be set //$NON-NLS-1$ //$NON-NLS-2$
 				boolean elementFound = false;
 				for( Iterator iter = urnSpec.getGrlspec().getIntElements().iterator(); iter.hasNext(); ) {
 					IntentionalElement element = (IntentionalElement) iter.next();
@@ -143,14 +144,14 @@ public class ImportGRLStrategies implements IURNImport  {
 		
 		while( (strLine = br.readLine()) != null) {
 
-			if( strLine.contentEquals(""))
+			if( strLine.contentEquals("")) //$NON-NLS-1$
 				return; // blank lines signify end of current section
 			
 			// need to handle lines of just commas output by some spreadsheets
-			if( strLine.replace(",", "").contentEquals(""))
+			if( strLine.replace(",", "").contentEquals("")) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				return; // skip 'blank' lines composed solely of commas output by some spreadsheets in CSV mode
 
-			String [] columns = strLine.split(",");
+			String [] columns = strLine.split(","); //$NON-NLS-1$
 
 			String strategyName = unquote(columns[0]); // remove brackets if existing
 
@@ -171,10 +172,10 @@ public class ImportGRLStrategies implements IURNImport  {
 			int value = 0;
 			
 			for( int i = 1; i < columns.length; i++ ) {
-				if( columns[i].contentEquals("") )
+				if( columns[i].contentEquals("") ) //$NON-NLS-1$
 					break; // no more meaningful data on line
 				if( elementIndexes.containsKey( i )) {
-					if( columns[i].endsWith("#")) { // computed evaluation, ignore
+					if( columns[i].endsWith("#")) { // computed evaluation, ignore //$NON-NLS-1$
 						continue; 						
 					} else {
 						valueString = columns[i];
@@ -212,18 +213,18 @@ public class ImportGRLStrategies implements IURNImport  {
 			
 			String path = ImportWizard.getFilename();
 			String basename = path.substring( path.lastIndexOf( File.separatorChar )+1, path.lastIndexOf('.'));
-			String name = "Import-" + basename;
+			String name = Messages.getString("ImportGRLStrategies.ImportDash") + basename; //$NON-NLS-1$
 			
 			if( !this.isGroupNameUnique(name)) {
 				int i = 1;
-				while( !this.isGroupNameUnique( name + "_" + i ))
+				while( !this.isGroupNameUnique( name + "_" + i )) //$NON-NLS-1$
 					i++;
-				name = name + "-" + i;
+				name = name + "-" + i; //$NON-NLS-1$
 			}
 			
 			strategiesGroup = (StrategiesGroup) ModelCreationFactory.getNewObject(urnSpec, StrategiesGroup.class);
 			strategiesGroup.setName( name );
-			strategiesGroup.setDescription( "Evaluation Strategies imported from file " + ImportWizard.getFilename() );
+			strategiesGroup.setDescription( Messages.getString("ImportGRLStrategies.EvaluationStrategiesImportedFromFIle") + ImportWizard.getFilename() ); //$NON-NLS-1$
 			urnSpec.getGrlspec().getGroups().add(strategiesGroup);
 //			System.out.println( "Strategy group created: " + strategiesGroup.getName() );
 
@@ -249,35 +250,35 @@ public class ImportGRLStrategies implements IURNImport  {
 		String title;
 		
 		if( !nonexistentIElements.isEmpty() ) {
-			sb.append("The following Intentional Elements in the file \"" + ImportWizard.getFilename() + "\" don't exist in the current model.\n\n");
+			sb.append(Messages.getString("ImportGRLStrategies.FollowingIEInFile") + ImportWizard.getFilename() + Messages.getString("ImportGRLStrategies.DontExistInCurrentModel")); //$NON-NLS-1$ //$NON-NLS-2$
 
 			for( String missing : nonexistentIElements ) {
-				sb.append( "\t\"" + missing + "\"\n" );
+				sb.append( "\t\"" + missing + "\"\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			sb.append( "\n" );
+			sb.append( "\n" ); //$NON-NLS-1$
 		}
 		
 		if( !unconvertibleValues.isEmpty() ) {
-			sb.append("The following values " );
+			sb.append(Messages.getString("ImportGRLStrategies.FollowingValues") ); //$NON-NLS-1$
 			if( nonexistentIElements.isEmpty() ) {
-				sb.append("in the file \"" + ImportWizard.getFilename() + "\" "); // output filename only if needed
+				sb.append(Messages.getString("ImportGRLStrategies.InTheFileQuote") + ImportWizard.getFilename() + Messages.getString("ImportGRLStrategies.InTheFileEndQuote")); // output filename only if needed //$NON-NLS-1$ //$NON-NLS-2$
 			}			
-			sb.append("could not be converted to integers. They were ignored.\n" );
+			sb.append(Messages.getString("ImportGRLStrategies.CouldNotBeConvertedToIntegers") ); //$NON-NLS-1$
 			
 			for( String formatError : unconvertibleValues ) {
-				sb.append( "\t(" + formatError + ")" );
+				sb.append( "\t(" + formatError + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 		
 		if(!nonexistentIElements.isEmpty() ) {
-			title = "Intentional Elements Not Found";
+			title = Messages.getString("ImportGRLStrategies.IENotFound"); //$NON-NLS-1$
 		} else {
-			title = "Input Values Not Understood";
+			title = Messages.getString("ImportGRLStrategies.InputValuesNotUnderstood"); //$NON-NLS-1$
 		}
 		
 		final String dialogTitle = title;
 		final String message = sb.toString();
-		final String [] labels = { "OK" };
+		final String [] labels = { Messages.getString("ImportGRLStrategies.OK") }; //$NON-NLS-1$
 		
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {

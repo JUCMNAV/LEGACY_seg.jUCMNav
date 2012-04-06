@@ -15,6 +15,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalEvaluationCommand;
 import seg.jUCMNav.model.commands.transformations.SetEvaluationRangeCommand;
@@ -45,7 +46,7 @@ public class EditEvaluationRangeWizard extends Wizard {
     public EditEvaluationRangeWizard(URNspec urn) {
         super();
         setNeedsProgressMonitor(true);
-        this.setWindowTitle("Edit Evaluation Range");
+        this.setWindowTitle(Messages.getString("EditEvaluationRangeWizard.EditEvaluationRange")); //$NON-NLS-1$
         this.urn = urn;
     }
 

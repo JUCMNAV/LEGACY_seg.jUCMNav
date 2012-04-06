@@ -157,8 +157,8 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
      * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {        
-        int width = MetadataHelper.getIntMetaData(getBelief(), "_width", 0);
-        int height = MetadataHelper.getIntMetaData(getBelief(), "_height", 0);
+        int width = MetadataHelper.getIntMetaData(getBelief(), "_width", 0); //$NON-NLS-1$
+        int height = MetadataHelper.getIntMetaData(getBelief(), "_height", 0); //$NON-NLS-1$
         
         ((GrlNodeFigure)figure).setAutoResize(width == 0 || height == 0);
         ((GrlNodeFigure)figure).setBounds(new Rectangle(getBelief().getX(), getBelief().getY(), width, height));

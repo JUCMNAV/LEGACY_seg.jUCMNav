@@ -2,6 +2,7 @@ package seg.jUCMNav.importexport.reports;
 
 import java.text.SimpleDateFormat;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import urn.URNspec;
@@ -27,18 +28,18 @@ public class ReportTitlePage extends Report {
         try {
             // jUCMNav title
             Font font = new Font(Font.HELVETICA, 36, Font.BOLD);
-            Paragraph projectName = new Paragraph("  jUCMNav Report  ", font);
+            Paragraph projectName = new Paragraph(Messages.getString("ReportTitlePage.jUCMNavReport"), font); //$NON-NLS-1$
             projectName.setAlignment(Element.ALIGN_CENTER);
             document.add(projectName);
 
             document.add(Chunk.NEWLINE);
 
             // Load jUCMNav image by returning the runtime of the class of the object and retrieve its resources
-            Image image = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/LogoFinalLarge.gif"));
+            Image image = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/LogoFinalLarge.gif")); //$NON-NLS-1$
             image.setAlignment(Image.MIDDLE);
             document.add(image);
 
-            Paragraph appURL = new Paragraph("http://www.softwareengineering.ca/jucmnav/");
+            Paragraph appURL = new Paragraph("http://www.softwareengineering.ca/jucmnav/"); //$NON-NLS-1$
             appURL.setAlignment(Element.ALIGN_CENTER);
             document.add(appURL);
 
@@ -54,33 +55,33 @@ public class ReportTitlePage extends Report {
             Table specsTable = ReportUtils.createTable(2, 2, 0, 70);
 
             // URN title
-            Chunk titleLabel = new Chunk("Title:", specsFont);
+            Chunk titleLabel = new Chunk(Messages.getString("ReportTitlePage.Title"), specsFont); //$NON-NLS-1$
             Chunk titleValue = new Chunk(CheckforEmpty(urn.getName()));
 
             // URN description
-            Chunk descriptionLabel = new Chunk("Description:", specsFont);
+            Chunk descriptionLabel = new Chunk(Messages.getString("ReportTitlePage.Description"), specsFont); //$NON-NLS-1$
             Chunk descriptionValue = new Chunk(CheckforEmpty(urn.getDescription()));
 
             // URN author
-            Chunk authorLabel = new Chunk("Author:", specsFont);
+            Chunk authorLabel = new Chunk(Messages.getString("ReportTitlePage.Author"), specsFont); //$NON-NLS-1$
             Chunk authorValue = new Chunk(CheckforEmpty(urn.getAuthor()));
 
             // URN creation date
-            Chunk creationLabel = new Chunk("Creation Date:", specsFont);
+            Chunk creationLabel = new Chunk(Messages.getString("ReportTitlePage.CreationDate"), specsFont); //$NON-NLS-1$
             Chunk creationValue = new Chunk(CheckforEmpty(urn.getCreated()));
 
             // URN modification date/time
-            Chunk modLabel = new Chunk("Modification Date:", specsFont);
+            Chunk modLabel = new Chunk(Messages.getString("ReportTitlePage.ModificaitonDate"), specsFont); //$NON-NLS-1$
             Chunk modValue = new Chunk(CheckforEmpty(urn.getModified()));
 
             // URN current date/time
-            SimpleDateFormat format = new SimpleDateFormat("MMMMM d, yyyy HH:mm:ss aaa z");
+            SimpleDateFormat format = new SimpleDateFormat(Messages.getString("ReportTitlePage.DateFormat")); //$NON-NLS-1$
             String date = format.format(new java.util.Date());
-            Chunk dateLabel = new Chunk("Report Generation Date:", specsFont);
+            Chunk dateLabel = new Chunk(Messages.getString("ReportTitlePage.ReportGenerationDate"), specsFont); //$NON-NLS-1$
             Chunk dateValue = new Chunk(date);
 
             // URN specification version
-            Chunk specLabel = new Chunk("Specification Version:", specsFont);
+            Chunk specLabel = new Chunk(Messages.getString("ReportTitlePage.SpecificationVersion"), specsFont); //$NON-NLS-1$
             Chunk specValue = new Chunk(CheckforEmpty(urn.getSpecVersion()));
 
             // Create each table cell
@@ -156,7 +157,7 @@ public class ReportTitlePage extends Report {
 
         // check if the string being passed in is empty
         if (emptyString == null || emptyString.length() == 0) {
-            return "";
+            return ""; //$NON-NLS-1$
         } else {
             return emptyString;
         }

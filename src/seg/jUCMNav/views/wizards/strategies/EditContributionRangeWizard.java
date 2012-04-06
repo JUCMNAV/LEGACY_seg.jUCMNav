@@ -15,6 +15,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalContributionCommand;
 import seg.jUCMNav.model.commands.transformations.SetContributionRangeCommand;
@@ -45,7 +46,7 @@ public class EditContributionRangeWizard extends Wizard {
     public EditContributionRangeWizard(URNspec urn) {
         super();
         setNeedsProgressMonitor(true);
-        this.setWindowTitle("Edit Contribution Range");
+        this.setWindowTitle(Messages.getString("EditContributionRangeWizard.EditContributionRange")); //$NON-NLS-1$
         this.urn = urn;
     }
 

@@ -7,6 +7,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.transformations.SetDesiredEvaluationRangeCommand;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import urn.URNspec;
@@ -35,9 +36,9 @@ public class ToggleEvaluationRangeAction extends URNSelectionAction {
             URNspec urn = sel.getUrnspec();
             boolean b = StrategyEvaluationRangeHelper.getCurrentRange(urn);
             if (b)
-                setText("Change this model's GRL evaluation range to [-100,100]");
+                setText(Messages.getString("ToggleEvaluationRangeAction.ChangeRangeToMinus100To100")); //$NON-NLS-1$
             else
-                setText("Change this model's GRL evaluation range to [0,100]");
+                setText(Messages.getString("ToggleEvaluationRangeAction.ChangeRangeTo0to100")); //$NON-NLS-1$
             return true;
         }
         return false;

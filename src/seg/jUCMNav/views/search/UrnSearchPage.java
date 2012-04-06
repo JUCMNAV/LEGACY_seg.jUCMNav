@@ -341,7 +341,7 @@ public class UrnSearchPage extends DialogPage implements ISearchPage {
     }
 
     private String[] getExtensions() {
-        return new String[] { "jucm" };
+        return new String[] { "jucm" }; //$NON-NLS-1$
     }
 
     private boolean isCaseSensitive() {
@@ -459,7 +459,7 @@ public class UrnSearchPage extends DialogPage implements ISearchPage {
         fPattern.setLayoutData(data);
         
         label = new Label(group, SWT.LEAD);
-        label.setText("Search scope: ");
+        label.setText(UrnSearchPageStrings.SEARCHSCOPE);
         label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
         label.setFont(group.getFont());
         
@@ -468,7 +468,7 @@ public class UrnSearchPage extends DialogPage implements ISearchPage {
         fScope.setFont(group.getFont());
         data = new GridData(GridData.FILL, GridData.FILL, true, false, 2, 1);
         data.widthHint = convertWidthInCharsToPixels(50);
-        String[] items = new String[] { "Search the whole workspace", "Search currently open files only", "Search the current file only" };
+        String[] items = UrnSearchPageStrings.ITEMS;
         fScope.setItems(items);
         fScope.select(iSearchScope);
         fScope.setLayoutData(data);

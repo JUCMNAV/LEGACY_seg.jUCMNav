@@ -24,7 +24,7 @@ public class EvaluationRangePropertyDescriptor extends PropertyDescriptor {
      * @param urnelem
      */
     public EvaluationRangePropertyDescriptor(Object id, Evaluation ev) {
-        super(id, "Evaluation Range");
+        super(id, Messages.getString("EvaluationRangePropertyDescriptor.EvaluationRange")); //$NON-NLS-1$
         this.evaluation = ev;
         setLabelProvider(new LabelProvider() {
             public String getText(Object element) {

@@ -533,7 +533,7 @@ public class EditURNLink {
 		if( oppositeEnd instanceof IURNDiagram ) {
 
 			if( (editor = this.getActiveEditor()) == null ) {
-				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
+				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" ); //$NON-NLS-1$
 				return;
 			}
 			
@@ -542,7 +542,7 @@ public class EditURNLink {
 		} else if( this.includesClass( oppositeEnd, outlineTreeClasses ) ) { // highlight elements in URN Outline tree view
 
 			if( (editor = this.getActiveEditor()) == null ) {
-				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
+				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" ); //$NON-NLS-1$
 				return;
 			}
 
@@ -553,19 +553,19 @@ public class EditURNLink {
 			if( oppositeEnd_EP != null )
 				outlineViewer.select( oppositeEnd_EP );
 			else
-				System.err.println( "navigateLink: EditPart oppositeEnd_EP not found." );
+				System.err.println( "navigateLink: EditPart oppositeEnd_EP not found." ); //$NON-NLS-1$
 
 			return;
 
 		} else if( this.includesClass( oppositeEnd, strategyTreeClasses ) ) { // highlight elements in Strategies tree view
 
 			if( (editor = this.getActiveEditor()) == null ) {
-				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
+				System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" ); //$NON-NLS-1$
 				return;
 			}
 
-			if( (strategyVP = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )) == null ) {
-				System.err.println( "IViewPart for strategies view not found. Aborting URN Link Navigation" );
+			if( (strategyVP = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "seg.jUCMNav.views.StrategiesView" )) == null ) { //$NON-NLS-1$
+				System.err.println( "IViewPart for strategies view not found. Aborting URN Link Navigation" ); //$NON-NLS-1$
 				return;				
 			}
 			
@@ -590,7 +590,7 @@ public class EditURNLink {
 		}
 
 		if( editor == null ) {
-			System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" );
+			System.err.println( "UCMNavMultiPageEditor not found. Aborting URN Link Navigation" ); //$NON-NLS-1$
 			return;
 		}
 

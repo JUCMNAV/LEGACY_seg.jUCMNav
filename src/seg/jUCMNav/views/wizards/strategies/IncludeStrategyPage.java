@@ -38,7 +38,7 @@ public class IncludeStrategyPage extends WizardPage {
     private Vector children;
     private List strategies;
     
-    private String _description = "Please choose the strategies to be included"; 
+    private String _description = Messages.getString("IncludeStrategyPage.PleaseChooseStrategies");  //$NON-NLS-1$
 
     /**
      * The selection contains a strategy definition for which we want to include another strategy. Loaded in {@link #initialize()}.
@@ -50,7 +50,7 @@ public class IncludeStrategyPage extends WizardPage {
 
         this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
-        setTitle("Include Strategy");
+        setTitle(Messages.getString("IncludeStrategyPage.IncludeStrategy")); //$NON-NLS-1$
         setDescription(_description);
 
         // loaded in initialize()

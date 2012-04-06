@@ -106,14 +106,14 @@ public class LinkRefPropertySource extends URNElementPropertySource {
 
         // if this attribute comes from the referenced object
         if (propertyid.getEClass() != object.eClass()) {
-            if (propertyid.getEClass().getName().equals("ContributionRange"))
+            if (propertyid.getEClass().getName().equals("ContributionRange")) //$NON-NLS-1$
                 result = EvaluationStrategyManager.getInstance().findApplicableContributionChange((Contribution) element, false);
             else
             result = element.eGet(feature);
         } else
             result = object.eGet(feature);
 
-        if (result instanceof Integer && propertyid.getFeature().getName() == "quantitativeContribution") {
+        if (result instanceof Integer && propertyid.getFeature().getName() == "quantitativeContribution") { //$NON-NLS-1$
             int val = ((Integer) result).intValue();
             // val = StrategyEvaluationPreferences.getValueToVisualize(val);
             result = new Integer(val);

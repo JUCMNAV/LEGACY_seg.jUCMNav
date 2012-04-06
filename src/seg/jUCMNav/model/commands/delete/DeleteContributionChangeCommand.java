@@ -6,6 +6,7 @@ import grl.ContributionContext;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
@@ -22,7 +23,7 @@ public class DeleteContributionChangeCommand extends Command implements JUCMNavC
 
     public DeleteContributionChangeCommand(ContributionChange change) {
         this.change = change;
-        setLabel("Delete Contribution Change");
+        setLabel(Messages.getString("DeleteContributionChangeCommand.DeleteContributionChange")); //$NON-NLS-1$
     }
 
     /**

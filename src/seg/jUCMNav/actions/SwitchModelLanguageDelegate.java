@@ -70,21 +70,21 @@ public class SwitchModelLanguageDelegate implements IEditorActionDelegate {
 	{
 		String altName = null, altDescription = null;
 		
-		if( (altName = MetadataHelper.getMetaData(element, "AltName")) == null ) {
-			MetadataHelper.addMetaData( urnSpec, element, "AltName", element.getName() ); // create new initial AltName metadata
+		if( (altName = MetadataHelper.getMetaData(element, "AltName")) == null ) { //$NON-NLS-1$
+			MetadataHelper.addMetaData( urnSpec, element, "AltName", element.getName() ); // create new initial AltName metadata //$NON-NLS-1$
 		} else { // switch the strings in AltName and element.name
 			String temp = element.getName();
 			element.setName(altName);
-			Metadata mdata = MetadataHelper.getMetaDataObj( element, "AltName");
+			Metadata mdata = MetadataHelper.getMetaDataObj( element, "AltName"); //$NON-NLS-1$
 			mdata.setValue(temp);
 		}
 		
-		if( (altDescription = MetadataHelper.getMetaData(element, "AltDescription")) == null ) {
-			MetadataHelper.addMetaData( urnSpec, element, "AltDescription", element.getDescription() ); // create new initial AltDescription metadata
+		if( (altDescription = MetadataHelper.getMetaData(element, "AltDescription")) == null ) { //$NON-NLS-1$
+			MetadataHelper.addMetaData( urnSpec, element, "AltDescription", element.getDescription() ); // create new initial AltDescription metadata //$NON-NLS-1$
 		} else { // switch the strings in AltDescription and element.description
 			String temp = element.getDescription();
 			element.setDescription(altDescription);
-			Metadata mdata = MetadataHelper.getMetaDataObj( element, "AltDescription");
+			Metadata mdata = MetadataHelper.getMetaDataObj( element, "AltDescription"); //$NON-NLS-1$
 			mdata.setValue(temp);
 		}		
 	}

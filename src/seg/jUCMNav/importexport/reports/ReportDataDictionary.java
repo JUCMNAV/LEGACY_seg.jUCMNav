@@ -6,6 +6,7 @@ import grl.IntentionalElement;
 
 import java.util.Iterator;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import ucm.UCMspec;
@@ -105,7 +106,7 @@ public class ReportDataDictionary extends Report {
 
     public void writeScenarioGroups(Document document, UCMspec ucmspec) {
         try {
-            document.add(new Paragraph("UCM Scenario Groups documentation", header1Font));
+            document.add(new Paragraph(Messages.getString("ReportDataDictionary.UCMScenarioGroupsDocumentation"), header1Font)); //$NON-NLS-1$
 
             for (Iterator iter = ucmspec.getScenarioGroups().iterator(); iter.hasNext();) {
                 ScenarioGroup group = (ScenarioGroup) iter.next();
@@ -115,7 +116,7 @@ public class ReportDataDictionary extends Report {
                     // create list for this scenario group
                     String sScenarioGroupName = new String(group.getName());
                     List list1 = new List(List.ORDERED);
-                    list1.add(new ListItem(sScenarioGroupName + ":"));
+                    list1.add(new ListItem(sScenarioGroupName + ":")); //$NON-NLS-1$
                     document.add(list1);
 
                     if (group.getScenarios() != null) {
@@ -126,7 +127,7 @@ public class ReportDataDictionary extends Report {
                             ScenarioDef scen = (ScenarioDef) iterator.next();
                             list2.setIndentationLeft(10);
                             list2.add(new ListItem(ReportUtils
-                                    .getParagraphWithSeparator(document, scen.getName(), ": ", scen.getDescription(), descriptionFont)));
+                                    .getParagraphWithSeparator(document, scen.getName(), ": ", scen.getDescription(), descriptionFont))); //$NON-NLS-1$
                         }
                         document.add(list2);
                     }
@@ -153,7 +154,7 @@ public class ReportDataDictionary extends Report {
     public void writeVariables(Document document, UCMspec ucmspec) {
 
         try {
-            document.add(new Paragraph("Variables", header1Font));
+            document.add(new Paragraph(Messages.getString("ReportDataDictionary.Variables"), header1Font)); //$NON-NLS-1$
             List list1 = new List(List.ORDERED);
             for (Iterator iter = ucmspec.getVariables().iterator(); iter.hasNext();) {
 
@@ -168,10 +169,10 @@ public class ReportDataDictionary extends Report {
                     if (var.getEnumerationType() != null) {
                         // the variable type is enumeration
                         String enumType = var.getEnumerationType().getName();
-                        list1.add(new ListItem(ReportUtils.getParagraphWithSeparator(document, var.getName() + " (Enum " + enumType + ")", ": ", var
+                        list1.add(new ListItem(ReportUtils.getParagraphWithSeparator(document, var.getName() + Messages.getString("ReportDataDictionary.ParEnum") + enumType + Messages.getString("ReportDataDictionary.ParEnumClose"), ": ", var //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                 .getDescription(), descriptionFont)));
                     } else
-                        list1.add(new ListItem(ReportUtils.getParagraphWithSeparator(document, var.getName() + " (" + varType + ")", ": ",
+                        list1.add(new ListItem(ReportUtils.getParagraphWithSeparator(document, var.getName() + " (" + varType + ")", ": ", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                 var.getDescription(), descriptionFont)));
                 }
             }
@@ -196,7 +197,7 @@ public class ReportDataDictionary extends Report {
     public void writeEnumerationTypes(Document document, UCMspec ucmspec) {
 
         try {
-            document.add(new Paragraph("Enumeration Types", header1Font));
+            document.add(new Paragraph(Messages.getString("ReportDataDictionary.EnumerationTypes"), header1Font)); //$NON-NLS-1$
             List list1 = new List(List.ORDERED);
             list1.setIndentationLeft(10);
             for (Iterator iter = ucmspec.getEnumerationTypes().iterator(); iter.hasNext();) {
@@ -204,16 +205,16 @@ public class ReportDataDictionary extends Report {
                 // generate report documentation for variables
                 EnumerationType enumType = (EnumerationType) iter.next();
                 String enumTypeName = enumType.getName();
-                String enumString = new String("");
+                String enumString = new String(""); //$NON-NLS-1$
 
                 if (enumType.getValues() != null) {
                     Chunk chunk1 = new Chunk(enumTypeName, descriptionFont);
-                    String[] enumValues = enumType.getValues().split(",");
+                    String[] enumValues = enumType.getValues().split(","); //$NON-NLS-1$
                     if (enumValues[0] != null) {
                         if (enumValues[0].length() == 0) {
                             enumString = enumString + enumTypeName;
                         } else {
-                            enumString = enumString + enumTypeName + ": ";
+                            enumString = enumString + enumTypeName + ": "; //$NON-NLS-1$
                         }
                     } else {
                         enumString = enumString + enumTypeName;
@@ -223,7 +224,7 @@ public class ReportDataDictionary extends Report {
 
                         // checks if last element
                         if (!(i == enumValues.length - 1)) {
-                            enumString = enumString + ", ";
+                            enumString = enumString + ", "; //$NON-NLS-1$
                         }
                     }
 
@@ -251,7 +252,7 @@ public class ReportDataDictionary extends Report {
     public void writeIntElements(Document document, GRLspec grlspec) {
 
         try {
-            document.add(new Paragraph("Intentional Elements", header1Font));
+            document.add(new Paragraph(Messages.getString("ReportDataDictionary.IntentionalElements"), header1Font)); //$NON-NLS-1$
             List list1 = new List(List.ORDERED);
             list1.setIndentationLeft(10);
             for (Iterator iter = grlspec.getIntElements().iterator(); iter.hasNext();) {
@@ -259,7 +260,7 @@ public class ReportDataDictionary extends Report {
                 // generate report documentation for intentional elements (name, description, criticality, priority)
                 IntentionalElement intElement = (IntentionalElement) iter.next();
                 list1.add(new ListItem(ReportUtils
-                        .getParagraphWithSeparator(document, intElement.getName(), ": ", intElement.getDescription(), descriptionFont)));
+                        .getParagraphWithSeparator(document, intElement.getName(), ": ", intElement.getDescription(), descriptionFont))); //$NON-NLS-1$
             }
             document.add(list1);
         } catch (Exception e) {
@@ -281,7 +282,7 @@ public class ReportDataDictionary extends Report {
     public void writeActors(Document document, GRLspec grlspec) {
 
         try {
-            document.add(new Paragraph("Actors", header1Font));
+            document.add(new Paragraph(Messages.getString("ReportDataDictionary.Actors"), header1Font)); //$NON-NLS-1$
             List list1 = new List(List.ORDERED);
             list1.setIndentationLeft(10);
 
@@ -289,7 +290,7 @@ public class ReportDataDictionary extends Report {
 
                 // generate report documentation for actors(name, description)
                 Actor actor = (Actor) iter.next();
-                list1.add(new ListItem(ReportUtils.getParagraphWithSeparator(document, actor.getName(), ": ", actor.getDescription(), descriptionFont)));
+                list1.add(new ListItem(ReportUtils.getParagraphWithSeparator(document, actor.getName(), ": ", actor.getDescription(), descriptionFont))); //$NON-NLS-1$
             }
             document.add(list1);
         } catch (Exception e) {
@@ -311,13 +312,13 @@ public class ReportDataDictionary extends Report {
     public void writeResponsibilities(Document document, URNdefinition urndef) {
 
         try {
-            document.add(new Paragraph("Responsibilities", header1Font));
+            document.add(new Paragraph(Messages.getString("ReportDataDictionary.Responsibilities"), header1Font)); //$NON-NLS-1$
             List list1 = new List(List.ORDERED);
             list1.setIndentationLeft(10);
 
             for (Iterator iter = urndef.getResponsibilities().iterator(); iter.hasNext();) {
                 Responsibility responsibility = (Responsibility) iter.next();
-                list1.add(new ListItem(ReportUtils.getParagraphWithSeparator(document, responsibility.getName(), ": ", responsibility.getDescription(),
+                list1.add(new ListItem(ReportUtils.getParagraphWithSeparator(document, responsibility.getName(), ": ", responsibility.getDescription(), //$NON-NLS-1$
                         descriptionFont)));
             }
             document.add(list1);
@@ -340,14 +341,14 @@ public class ReportDataDictionary extends Report {
     public void writeComponents(Document document, URNdefinition urndef) {
 
         try {
-            document.add(new Paragraph("Components", header1Font));
+            document.add(new Paragraph(Messages.getString("ReportDataDictionary.Components"), header1Font)); //$NON-NLS-1$
             List list1 = new List(List.ORDERED);
             list1.setIndentationLeft(10);
 
             for (Iterator iter = urndef.getComponents().iterator(); iter.hasNext();) {
                 Component component = (Component) iter.next();
                 list1
-                        .add(new ListItem(ReportUtils.getParagraphWithSeparator(document, component.getName(), ": ", component.getDescription(),
+                        .add(new ListItem(ReportUtils.getParagraphWithSeparator(document, component.getName(), ": ", component.getDescription(), //$NON-NLS-1$
                                 descriptionFont)));
             }
             document.add(list1);

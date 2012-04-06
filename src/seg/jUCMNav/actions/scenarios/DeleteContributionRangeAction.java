@@ -25,7 +25,7 @@ import urn.URNspec;
  */
 public class DeleteContributionRangeAction extends URNSelectionAction {
 
-    public static final String DELETECONTRIBUTIONRANGE = "DeleteContributionRange";
+    public static final String DELETECONTRIBUTIONRANGE = "DeleteContributionRange"; //$NON-NLS-1$
     private ContributionRange range;
     private URNspec urn;
 

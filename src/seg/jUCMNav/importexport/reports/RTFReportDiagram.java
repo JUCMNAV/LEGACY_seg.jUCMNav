@@ -11,6 +11,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
@@ -197,7 +198,7 @@ public class RTFReportDiagram extends PDFReport {
             int figureNo = i + 1;
             Table headerTable = ReportUtils.createTable(1, 1, 0, 100);
 
-            Chunk name = new Chunk("Figure " + figureNo + " - " + element.getName(), figureLegendFont);
+            Chunk name = new Chunk(Messages.getString("RTFReportDiagram.Figure") + figureNo + " - " + element.getName(), figureLegendFont); //$NON-NLS-1$ //$NON-NLS-2$
             Cell nameCell = new Cell(name);
             nameCell.setColspan(1);
             nameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -226,7 +227,7 @@ public class RTFReportDiagram extends PDFReport {
 
             Table table = ReportUtils.createTable(1, 2, 0, 100);
 
-            Chunk chunk = new Chunk("Description ", descriptionBoldFont);
+            Chunk chunk = new Chunk(Messages.getString("RTFReportDiagram.Description"), descriptionBoldFont); //$NON-NLS-1$
             Cell descriptionCell = new Cell(chunk);
             descriptionCell.setColspan(1);
             descriptionCell.setHorizontalAlignment(Element.ALIGN_LEFT);

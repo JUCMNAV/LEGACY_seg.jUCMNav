@@ -7,6 +7,7 @@ import grl.ContributionContext;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
@@ -28,7 +29,7 @@ public class IncludeContributionContextCommand extends Command implements JUCMNa
     public IncludeContributionContextCommand(ContributionContext parent, ContributionContext child) {
         this.parent = parent;
         this.child = child;
-        setLabel("Include Contribution Context");
+        setLabel(Messages.getString("IncludeContributionContextCommand.IncludeContributionContext")); //$NON-NLS-1$
     }
 
     /**
@@ -37,7 +38,7 @@ public class IncludeContributionContextCommand extends Command implements JUCMNa
     public IncludeContributionContextCommand(ContributionContext parent, ContributionContext child, boolean isInCompoundCommand) {
         this.parent = parent;
         this.child = child;
-        setLabel("Include Contribution Context");
+        setLabel(Messages.getString("IncludeContributionContextCommand.IncludeContributionContext")); //$NON-NLS-1$
         this.isInCompoundCommand = isInCompoundCommand;
     }
 

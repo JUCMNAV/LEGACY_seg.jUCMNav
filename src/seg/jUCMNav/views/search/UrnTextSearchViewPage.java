@@ -106,11 +106,11 @@ public class UrnTextSearchViewPage extends AbstractTextSearchViewPage {
             HashMap attributes = new HashMap(2);
             // attributes.put(IMarker.CHAR_START, new Integer (offset));
             // attributes.put(IMarker.CHAR_END, new Integer (offset + length));
-            attributes.put("EObject", match.getId());
+            attributes.put("EObject", match.getId()); //$NON-NLS-1$
             marker.setAttributes(attributes);
             IDE.gotoMarker(editor, marker);
         } catch (CoreException e) {
-            throw new PartInitException("Error", e);
+            throw new PartInitException("Error", e); //$NON-NLS-1$
         } finally {
             if (marker != null)
                 try {

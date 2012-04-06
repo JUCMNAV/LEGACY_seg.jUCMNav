@@ -290,11 +290,11 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
 
         action = new DeleteEvaluationRangeAction(editor);
-        action.setText("Delete Evaluation Range");
+        action.setText(Messages.getString("ActionRegistryManager.DeleteEvaluationRange")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new DeleteContributionRangeAction(editor);
-        action.setText("Delete Contribution Range");
+        action.setText(Messages.getString("ActionRegistryManager.DeleteContributionRange")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new CutPathAction(editor);
@@ -449,7 +449,7 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
 
         action = new ToggleEvaluationRangeAction(editor);
-        action.setText("Toggle Evaluation Range");
+        action.setText(Messages.getString("ActionRegistryManager.ToggleEvaluationRange")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new DisconnectAction(editor);
@@ -561,11 +561,11 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
         
         action = new AddContributionContextGroupAction(editor);
-        action.setText("Add Contribution Context Group");
+        action.setText(Messages.getString("ActionRegistryManager.AddContributionContextGroup")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddContributionContextAction(editor);
-        action.setText("Add Contribution Context");
+        action.setText(Messages.getString("ActionRegistryManager.AddContributionContext")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddIndicatorGroupAction(editor);
@@ -613,11 +613,11 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
 
         action = new IncludeStrategyAction(editor);
-        action.setText("Include Strategy");
+        action.setText(Messages.getString("ActionRegistryManager.IncludeStrategy")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new IncludeContributionContextAction(editor);
-        action.setText("Include Contribution Context");
+        action.setText(Messages.getString("ActionRegistryManager.IncludeContributionContext")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddStartEndPointAction(editor, true);
@@ -685,11 +685,11 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
         
         action = new EditEvaluationRangeAction(editor);
-        action.setText("Edit Evaluation Range ...");
+        action.setText(Messages.getString("ActionRegistryManager.EditEvaulationRange")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new EditContributionRangeAction(editor);
-        action.setText("Edit Contribution Range ...");
+        action.setText(Messages.getString("ActionRegistryManager.EditContributionRange")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new EditIndicatorGroupsAction(editor);

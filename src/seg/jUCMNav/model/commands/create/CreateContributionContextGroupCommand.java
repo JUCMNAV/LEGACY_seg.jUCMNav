@@ -7,6 +7,7 @@ import grl.ContributionContextGroup;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
@@ -27,7 +28,7 @@ public class CreateContributionContextGroupCommand extends Command implements JU
     public CreateContributionContextGroupCommand(URNspec urn, ContributionContextGroup group) {
         this.urn = urn;
         this.group = group;
-        setLabel("Create Contribution Context Group");
+        setLabel(Messages.getString("CreateContributionContextGroupCommand.CreateContributionContextGroup")); //$NON-NLS-1$
     }
 
     /**

@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.EvaluationStrategyComponentEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -59,7 +60,7 @@ public class EvaluationStrategyTreeEditPart extends StrategyUrnModelElementTreeE
   
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        list.add("Included Strategies");
+        list.add(Messages.getString("EvaluationStrategyTreeEditPart.IncludedStrategies")); //$NON-NLS-1$
         return list;
     }
 

@@ -24,7 +24,7 @@ public class ContributionRangePropertyDescriptor extends PropertyDescriptor {
      * @param urnelem
      */
     public ContributionRangePropertyDescriptor(Object id, ContributionChange c) {
-        super(id, "Contribution Range");
+        super(id, Messages.getString("ContributionRangePropertyDescriptor.ContributionRange")); //$NON-NLS-1$
         this.change = c;
         setLabelProvider(new LabelProvider() {
             public String getText(Object element) {

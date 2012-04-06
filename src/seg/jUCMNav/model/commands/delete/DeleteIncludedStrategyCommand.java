@@ -7,6 +7,7 @@ import grl.EvaluationStrategy;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
@@ -27,7 +28,7 @@ public class DeleteIncludedStrategyCommand extends Command implements JUCMNavCom
     public DeleteIncludedStrategyCommand(EvaluationStrategy parent, EvaluationStrategy child) {
         this.parent = parent;
         this.child = child;
-        setLabel("Removed included strategy");
+        setLabel(Messages.getString("DeleteIncludedStrategyCommand.RemoveIncludedStrategy")); //$NON-NLS-1$
 
     }
 

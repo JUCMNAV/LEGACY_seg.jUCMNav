@@ -1,5 +1,6 @@
 package seg.jUCMNav.importexport.reports;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 
 import com.lowagie.text.Chunk;
@@ -29,10 +30,10 @@ public class ReportHeader extends Report {
      */
     public void createReportHeader(Document document, String filename) {
         try {
-            Chunk headerText = new Chunk("jUCMNav - " + filename, headerFont);
+            Chunk headerText = new Chunk("jUCMNav - " + filename, headerFont); //$NON-NLS-1$
             HeaderFooter header = new HeaderFooter(new Phrase(headerText), false);
-            Chunk footerPage = new Chunk("Page ", footerFont);
-            HeaderFooter footer = new HeaderFooter(new Phrase(footerPage), new Phrase("."));
+            Chunk footerPage = new Chunk(Messages.getString("ReportHeader.Page"), footerFont); //$NON-NLS-1$
+            HeaderFooter footer = new HeaderFooter(new Phrase(footerPage), new Phrase(".")); //$NON-NLS-1$
             document.setHeader(header);
             document.setFooter(footer);
         } catch (Exception e) {

@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
@@ -44,7 +45,7 @@ public class ExportCSV implements IURNExport {
     {
         if (s!=null)
         {
-            s = s.replace("\"", "\"\"");
+            s = s.replace("\"", "\"\""); //$NON-NLS-1$ //$NON-NLS-2$
         }
         return s;
     }
@@ -112,7 +113,7 @@ public class ExportCSV implements IURNExport {
     private void writeStrategyInfo(URNspec urn) throws IOException {
     	String description;
     	
-    	write( quote("GRL Strategies for") + COMMA + quote( ExportPreferenceHelper.getFilenamePrefix() ) + END_LINE + END_LINE + END_LINE);
+    	write( quote(Messages.getString("ExportCSV.GRLStrategiesFor")) + COMMA + quote( ExportPreferenceHelper.getFilenamePrefix() ) + END_LINE + END_LINE + END_LINE); //$NON-NLS-1$
     	
         write("\"Strategy Name\", Author, Description" + END_LINE);//$NON-NLS-1$    
 

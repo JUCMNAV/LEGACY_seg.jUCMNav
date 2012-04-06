@@ -8,6 +8,7 @@ import grl.ContributionContextGroup;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
@@ -31,7 +32,7 @@ public class CreateContributionContextCommand extends Command implements JUCMNav
         this.urn = urn;
         this.group = group;
         contrib = (ContributionContext) ModelCreationFactory.getNewObject(urn, ContributionContext.class);
-        setLabel("Create Contribution Context");
+        setLabel(Messages.getString("CreateContributionContextCommand.CreateContributionContext")); //$NON-NLS-1$
     }
 
     /**

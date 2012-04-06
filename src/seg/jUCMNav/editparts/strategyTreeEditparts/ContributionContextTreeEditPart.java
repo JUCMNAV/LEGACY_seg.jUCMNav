@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.EvaluationStrategyComponentEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -24,8 +25,8 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
  */
 public class ContributionContextTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
-    public static final String INCLUDED_CONTRIBUTION_CONTEXTS = "Included Contribution Contexts";
-    public static final String CONTRIBUTION_CHANGES = "Contribution Changes";
+    public static final String INCLUDED_CONTRIBUTION_CONTEXTS = Messages.getString("ContributionContextTreeEditPart.IncludedContributionContexts"); //$NON-NLS-1$
+    public static final String CONTRIBUTION_CHANGES = Messages.getString("ContributionContextTreeEditPart.ContributionChanges"); //$NON-NLS-1$
 
     /**
      * @param model

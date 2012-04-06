@@ -17,6 +17,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.create.IncludeStrategyCommand;
 
@@ -40,7 +41,7 @@ public class IncludeStrategy extends Wizard {
     public IncludeStrategy() {
         super();
         setNeedsProgressMonitor(true);
-        this.setWindowTitle("Include Strategies");
+        this.setWindowTitle(Messages.getString("IncludeStrategy.IncludeSTrategies")); //$NON-NLS-1$
 
     }
 

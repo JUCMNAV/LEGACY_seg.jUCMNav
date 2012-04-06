@@ -139,7 +139,7 @@ public class ExportDXL implements IURNExport {
     public String escape(String s)
     {
         if (s!=null) {
-             s = s.replace("\\", "\\\\").replace("\"", "\\\"");
+             s = s.replace("\\", "\\\\").replace("\"", "\\\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         }
         return s;
     }

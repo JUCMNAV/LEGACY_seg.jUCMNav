@@ -24,7 +24,7 @@ import urn.URNspec;
  */
 public class DeleteEvaluationRangeAction extends URNSelectionAction {
 
-    public static final String DELETEEVALUATIONRANGE = "DeleteEvaluationRange";
+    public static final String DELETEEVALUATIONRANGE = "DeleteEvaluationRange"; //$NON-NLS-1$
     private EvaluationRange range;
     private URNspec urn;
 

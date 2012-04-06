@@ -11,6 +11,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
@@ -34,7 +35,7 @@ public class AddContributionChangeCommand extends Command implements JUCMNavComm
         this.parent = parent;
         this.change = change;
         this.contribution = contribution;
-        setLabel("Add Contribution Change");
+        setLabel(Messages.getString("AddContributionChangeCommand.AddContributionChange")); //$NON-NLS-1$
     }
 
 

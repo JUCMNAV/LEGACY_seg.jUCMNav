@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.DelegatingElementComparator;
 
 /**
@@ -75,7 +76,7 @@ public class ContributionContextGroupListTreeEditPart extends StrategyUrnModelEl
      * @return the label for the folder containing the groups 
      */
     protected String getText() {
-        return "Contribution Overrides";
+        return Messages.getString("ContributionContextGroupListTreeEditPart.ContributionOverrides"); //$NON-NLS-1$
     }
 
     /**

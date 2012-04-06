@@ -56,8 +56,8 @@ public class EditEvaluationRangePage extends WizardPage {
         this.urn = urn;
         this.workbenchPage = workbenchPage;
 
-        setTitle("Edit Evaluation Range");
-        setDescription("Enter the range's start value, end value and the step increment to go from one to the other.");
+        setTitle(Messages.getString("EditEvaluationRangePage.EditEvaluationRange")); //$NON-NLS-1$
+        setDescription(Messages.getString("EditEvaluationRangePage.EnterRangeValues")); //$NON-NLS-1$
 
     }
 
@@ -83,7 +83,7 @@ public class EditEvaluationRangePage extends WizardPage {
         container.setLayout(containerLayout);
 
         Label startLabel = new Label(container, SWT.NULL);
-        startLabel.setText("Start");
+        startLabel.setText(Messages.getString("EditEvaluationRangePage.Start")); //$NON-NLS-1$
 
         startValue = new Text(container, SWT.BORDER);
         startValue.setText("0"); //$NON-NLS-1$
@@ -98,7 +98,7 @@ public class EditEvaluationRangePage extends WizardPage {
         });
 
         Label endLabel = new Label(container, SWT.NULL);
-        endLabel.setText("End");
+        endLabel.setText(Messages.getString("EditEvaluationRangePage.End")); //$NON-NLS-1$
 
         endValue = new Text(container, SWT.BORDER);
         endValue.setText("0"); //$NON-NLS-1$
@@ -113,7 +113,7 @@ public class EditEvaluationRangePage extends WizardPage {
         });
 
         Label stepLabel = new Label(container, SWT.NULL);
-        stepLabel.setText("Step");
+        stepLabel.setText(Messages.getString("EditEvaluationRangePage.Step")); //$NON-NLS-1$
 
         stepValue = new Text(container, SWT.BORDER);
         stepValue.setText("0"); //$NON-NLS-1$
@@ -141,13 +141,13 @@ public class EditEvaluationRangePage extends WizardPage {
     private void dialogChanged() {
         if (!updating) {
             if (isValidInteger(startValue.getText()) != null) { //$NON-NLS-1$
-                setErrorMessage("Start value must be an integer.");
+                setErrorMessage(Messages.getString("EditEvaluationRangePage.StartMustBeInteger")); //$NON-NLS-1$
                 containsErrors = true;
             } else if (isValidInteger(endValue.getText()) != null) { //$NON-NLS-1$
-                setErrorMessage("End value must be an integer.");
+                setErrorMessage(Messages.getString("EditEvaluationRangePage.EndMustBeInteger")); //$NON-NLS-1$
                 containsErrors = true;
             } else if (isValidInteger(stepValue.getText()) != null) { //$NON-NLS-1$
-                setErrorMessage("End value must be an integer.");
+                setErrorMessage(Messages.getString("EditEvaluationRangePage.StepValueMustBeInteger")); //$NON-NLS-1$
                 containsErrors = true;
             } else {
 
@@ -156,7 +156,7 @@ public class EditEvaluationRangePage extends WizardPage {
                 int step = Integer.parseInt(stepValue.getText());
 
                 if (step == 0 || (end - start) * step < 0) {
-                    setErrorMessage("Given this step, the end value will never be reached. Please correct the entered values.");
+                    setErrorMessage(Messages.getString("EditEvaluationRangePage.GivenStepEndNotReached")); //$NON-NLS-1$
                     containsErrors = true;
                 } else {
                     setErrorMessage(null);
@@ -192,9 +192,9 @@ public class EditEvaluationRangePage extends WizardPage {
      */
     private void initialize() {
         if (evaluation == null || evaluation.getEvalRange() == null) {
-            startValue.setText("0");
-            endValue.setText("100");
-            stepValue.setText("5");
+            startValue.setText("0"); //$NON-NLS-1$
+            endValue.setText("100"); //$NON-NLS-1$
+            stepValue.setText("5"); //$NON-NLS-1$
         } else {
             startValue.setText(Integer.toString(evaluation.getEvalRange().getStart()));
             endValue.setText(Integer.toString(evaluation.getEvalRange().getEnd()));
@@ -213,7 +213,7 @@ public class EditEvaluationRangePage extends WizardPage {
             intValue = Integer.parseInt(value.toString());
             
             if (Math.abs(intValue) > 100 )
-                return "Value should be in the [-100,100] range.";
+                return Messages.getString("EditEvaluationRangePage.ValueShouldBeInRange"); //$NON-NLS-1$
             return null;
         } catch (NumberFormatException e) {
             return Messages.getString("EObjectPropertySource.notValidNumber"); //$NON-NLS-1$

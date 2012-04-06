@@ -9,6 +9,7 @@ import grl.GRLspec;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
@@ -28,7 +29,7 @@ public class RemoveContributionContextCommand extends Command implements JUCMNav
      */
     public RemoveContributionContextCommand(ContributionContext strategy) {
         this.context = strategy;
-        setLabel("Remove Contribution Context");
+        setLabel(Messages.getString("RemoveContributionContextCommand.RemoveContributionContext")); //$NON-NLS-1$
     }
 
     /**

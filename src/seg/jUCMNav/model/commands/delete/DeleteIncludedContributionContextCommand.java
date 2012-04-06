@@ -7,6 +7,7 @@ import grl.ContributionContext;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
@@ -27,7 +28,7 @@ public class DeleteIncludedContributionContextCommand extends Command implements
     public DeleteIncludedContributionContextCommand(ContributionContext parent, ContributionContext child) {
         this.parent = parent;
         this.child = child;
-        setLabel("Removed included contribution context");
+        setLabel(Messages.getString("DeleteIncludedContributionContextCommand.RemoveIncludedContributionContext")); //$NON-NLS-1$
 
     }
 

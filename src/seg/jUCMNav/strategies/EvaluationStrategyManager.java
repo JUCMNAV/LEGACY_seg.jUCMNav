@@ -189,7 +189,7 @@ public class EvaluationStrategyManager {
         for (Iterator iterator = urn.getGrlspec().getIntElements().iterator(); iterator.hasNext();) {
             IntentionalElement ie = (IntentionalElement) iterator.next();
             MetadataHelper.removeMetaData(ie, METADATA_RANGEVALUES);
-            MetadataHelper.addMetaData(urn, ie, METADATA_RANGEVALUES, "");
+            MetadataHelper.addMetaData(urn, ie, METADATA_RANGEVALUES, ""); //$NON-NLS-1$
         }
     }
 
@@ -245,8 +245,8 @@ public class EvaluationStrategyManager {
 
             String val = MetadataHelper.getMetaData(ie, METADATA_RANGEVALUES);
             if (val == null)
-                val = "";
-            MetadataHelper.addMetaData(urn, ie, METADATA_RANGEVALUES, val + i + "=" + ev.getEvaluation() + ";");
+                val = ""; //$NON-NLS-1$
+            MetadataHelper.addMetaData(urn, ie, METADATA_RANGEVALUES, val + i + "=" + ev.getEvaluation() + ";"); //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
 
@@ -1127,19 +1127,19 @@ public class EvaluationStrategyManager {
             Evaluation eval = (Evaluation) evaluations.get(ie);
             comparisonEvaluations.put(ie, eval);
             URNspec urnSpec = ie.getGrlspec().getUrnspec();
-            MetadataHelper.addMetaData(urnSpec, ie, "Evaluation", Integer.toString(eval.getEvaluation())); // add temporary metadata for current evaluation
+            MetadataHelper.addMetaData(urnSpec, ie, Messages.getString("EvaluationStrategyManager.Evaluation"), Integer.toString(eval.getEvaluation())); // add temporary metadata for current evaluation //$NON-NLS-1$
         }
 
         comparisonActorEvaluations = (HashMap<Actor, Integer>) currentActorEvaluations.clone(); // store Actor evaluations for current strategy
 
         if ((strategiesView = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                .findView("seg.jUCMNav.views.StrategiesView")) == null) {
-            System.err.println("Strategies view not found.");
+                .findView("seg.jUCMNav.views.StrategiesView")) == null) { //$NON-NLS-1$
+            System.err.println("Strategies view not found."); //$NON-NLS-1$
             return;
         }
 
         IActionBars bars = strategiesView.getViewSite().getActionBars();
-        bars.getStatusLineManager().setMessage("Strategy Difference Mode - base strategy: \"" + strategy1.getName() + "\"");
+        bars.getStatusLineManager().setMessage(Messages.getString("EvaluationStrategyManager.StrategyDifferenceModeBaseStrategy") + strategy1.getName() + "\""); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     public synchronized void setComparisonStrategy(EvaluationStrategy strategy) {
@@ -1166,7 +1166,7 @@ public class EvaluationStrategyManager {
         if (comparisonEvaluations != null) {
             // remove temporary metadata
             for (IntentionalElement ie : comparisonEvaluations.keySet()) {
-                MetadataHelper.removeMetaData(ie, "Evaluation");
+                MetadataHelper.removeMetaData(ie, Messages.getString("EvaluationStrategyManager.Evaluation")); //$NON-NLS-1$
             }
             comparisonEvaluations = null;
         }
@@ -1176,7 +1176,7 @@ public class EvaluationStrategyManager {
 
         if ((strategiesView = getStrategiesView()) != null) {
             IActionBars bars = strategiesView.getViewSite().getActionBars();
-            bars.getStatusLineManager().setMessage("");
+            bars.getStatusLineManager().setMessage(""); //$NON-NLS-1$
         }
     }
 
@@ -1202,9 +1202,9 @@ public class EvaluationStrategyManager {
         StrategiesView sv = null;
 
         if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
-                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.StrategiesView") != null) {
+                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.StrategiesView") != null) { //$NON-NLS-1$
             sv = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-            		.findViewReference("seg.jUCMNav.views.StrategiesView").getView(false);
+            		.findViewReference("seg.jUCMNav.views.StrategiesView").getView(false); //$NON-NLS-1$
         }
 
         return sv;

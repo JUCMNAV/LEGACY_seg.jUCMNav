@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
@@ -39,7 +40,7 @@ import com.lowagie.text.Table;
 public class PDFReportDiagram extends PDFReport {
 	
     protected int[] tableParams = { 1, 2, 0, 100 };
-    protected static String [] excludedMDnames = { "AltName", "AltDescription", "_numEval", "_qualEval" };
+    protected static String [] excludedMDnames = { "AltName", "AltDescription", "_numEval", "_qualEval" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     protected static HashMap<String, Object> excludedMetadata = null;
 
     static {
@@ -219,7 +220,7 @@ public class PDFReportDiagram extends PDFReport {
         try {
             Table headerTable = ReportUtils.createTable(1, 1, 0, 100);
 
-            Chunk name = new Chunk("Figure " + figureNo + " - " + element.getName(), figureLegendFont);
+            Chunk name = new Chunk(Messages.getString("PDFReportDiagram.Figure") + figureNo + " - " + element.getName(), figureLegendFont); //$NON-NLS-1$ //$NON-NLS-2$
             Cell nameCell = new Cell(name);
             nameCell.setColspan(1);
             nameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -248,7 +249,7 @@ public class PDFReportDiagram extends PDFReport {
 
             Table table = ReportUtils.createTable(1, 2, 0, 100);
 
-            Chunk chunk = new Chunk("Description ", descriptionBoldFont);
+            Chunk chunk = new Chunk(Messages.getString("PDFReportDiagram.Description"), descriptionBoldFont); //$NON-NLS-1$
             Cell descriptionCell = new Cell(chunk);
             descriptionCell.setColspan(1);
             descriptionCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -272,12 +273,12 @@ public class PDFReportDiagram extends PDFReport {
         if( !this.isMetadataMeaningful( element.getMetadata() ))
         	return;
 
-        insertDiagramSectionHeader(document, tableParams, "Metadata");
+        insertDiagramSectionHeader(document, tableParams, Messages.getString("PDFReportDiagram.Metadata")); //$NON-NLS-1$
 
         for (Iterator iter = element.getMetadata().iterator(); iter.hasNext();) {
         	Metadata mdata = (Metadata) iter.next();
             if( isMetadataMeaningful(mdata.getName())) {
-                ReportUtils.writeLineWithSeparator(document, "\"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true);            	
+                ReportUtils.writeLineWithSeparator(document, "\"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true);            	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
         }        
     }
@@ -320,12 +321,12 @@ public class PDFReportDiagram extends PDFReport {
         
         if (mdList.size() == 1) {
             mdata = (Metadata) mdList.get(0);
-            ReportUtils.writeLineWithSeparator(document, "     Metadata:  \"" + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true);
+            ReportUtils.writeLineWithSeparator(document, Messages.getString("PDFReportDiagram.TabMetadataColon") + mdata.getName(), "\" = \"", mdata.getValue() + "\"", descriptionFont, true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         } else {
-            ReportUtils.writeLineWithSeparator(document, "     Metadata\n", null, null, descriptionFont, false);
+            ReportUtils.writeLineWithSeparator(document, Messages.getString("PDFReportDiagram.TabMetadataNewline"), null, null, descriptionFont, false); //$NON-NLS-1$
 
             for( Metadata md : mdList ) {
-                ReportUtils.writeLineWithSeparator(document, "          \"" + md.getName(), "\" = \"", md.getValue() + "\"\n", descriptionFont, false);            	
+                ReportUtils.writeLineWithSeparator(document, "          \"" + md.getName(), "\" = \"", md.getValue() + "\"\n", descriptionFont, false);            	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
         }
     }
@@ -347,7 +348,7 @@ public class PDFReportDiagram extends PDFReport {
     
     protected String notNull(String s) {
         if (s == null)
-            return "";
+            return ""; //$NON-NLS-1$
         else
             return s;
     }
