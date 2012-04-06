@@ -9,7 +9,6 @@ import grl.IntentionalElement;
 import grl.StrategiesGroup;
 
 import java.awt.Color;
-import java.lang.Math;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;

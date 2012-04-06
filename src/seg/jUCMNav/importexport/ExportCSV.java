@@ -18,7 +18,6 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
-import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.wizards.importexport.ExportPreferenceHelper;
 import urn.URNspec;
 

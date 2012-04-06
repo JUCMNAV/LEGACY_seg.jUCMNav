@@ -1,7 +1,5 @@
 package seg.jUCMNav.importexport.reports.utils;
 
-import java.io.IOException;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;

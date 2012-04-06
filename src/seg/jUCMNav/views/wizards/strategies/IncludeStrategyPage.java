@@ -18,7 +18,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -61,7 +60,7 @@ public class IncludeStrategyPage extends WizardPage {
      * Creates the page.
      */
     public void createControl(Composite parent) {
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_includestrategy"); //$NON-NLS-1$
+        //PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.scenario_includestrategy"); //$NON-NLS-1$
         children = new Vector();
         Composite container = new Composite(parent, SWT.NULL);
 

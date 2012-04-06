@@ -4,7 +4,6 @@ import grl.EvaluationStrategy;
 
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;

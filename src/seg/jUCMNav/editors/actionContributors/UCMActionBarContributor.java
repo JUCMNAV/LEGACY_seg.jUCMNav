@@ -12,8 +12,6 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
-import seg.jUCMNav.Messages;
-
 /**
  * This class define all the modification we should make to the workbench when we are editing an UCM.
  * 

@@ -1,9 +1,9 @@
 package seg.jUCMNav.actions.scenarios;
 
+import grl.EvaluationStrategy;
+
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-
-import grl.EvaluationStrategy;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;

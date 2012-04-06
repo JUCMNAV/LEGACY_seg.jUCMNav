@@ -17,8 +17,8 @@ package seg.jUCMNav.importexport.z151.unmarshal;
 
 import seg.jUCMNav.importexport.z151.generated.URNspec;
 import seg.jUCMNav.model.ModelCreationFactory;
-import urncore.URNdefinition;
 import seg.jUCMNav.model.util.MetadataHelper;
+import urncore.URNdefinition;
 
 public class URNspecUMHandler extends EObjectImplUMHandler {
 	public Object handle(Object obj, Object target, boolean isFullConstruction) {

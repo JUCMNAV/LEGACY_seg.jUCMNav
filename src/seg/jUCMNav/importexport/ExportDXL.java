@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.Display;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.map.ComponentRef;
 import ucm.map.PluginBinding;

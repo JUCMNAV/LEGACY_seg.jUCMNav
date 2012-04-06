@@ -20,7 +20,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 
 import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.LinkRefEditPart;
-import seg.jUCMNav.editparts.ModelElementEditPart;
 import seg.jUCMNav.figures.util.JUCMNavFigure;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;

@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import ucm.UCMspec;
 import ucm.map.Anything;
 import ucm.map.ComponentRef;

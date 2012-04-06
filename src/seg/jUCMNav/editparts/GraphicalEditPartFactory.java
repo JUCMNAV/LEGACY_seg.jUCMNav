@@ -13,7 +13,6 @@ import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urncore.Comment;
 import urncore.Condition;
-import urncore.ConnectionLabel;
 import urncore.Label;
 
 /**

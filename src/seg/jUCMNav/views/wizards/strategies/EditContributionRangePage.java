@@ -14,7 +14,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -74,7 +73,7 @@ public class EditContributionRangePage extends WizardPage {
      */
     public void createControl(Composite parent) {
 
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.edit_ContributionChangeRange"); //$NON-NLS-1$
+        //PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "seg.jUCMNav.edit_ContributionChangeRange"); //$NON-NLS-1$
 
         container = new Composite(parent, SWT.NULL);
         shell = container.getShell();
