@@ -50,7 +50,8 @@ public class ConnectionLabelEditPart extends LabelEditPart {
             }
         };
         
-        ((LinkRefConnection)nc.getConnectionFigure()).addRoutingListener(routingListener);
+        if (nc!=null)
+            ((LinkRefConnection)nc.getConnectionFigure()).addRoutingListener(routingListener);
         super.activate();
     }
 
