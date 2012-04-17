@@ -24,7 +24,7 @@ import urn.URNspec;
 /**
  * Export the GRL strategies in the csv (comma-separated values)
  * 
- * @author jfroy
+ * @author jfroy, amiga
  * 
  */
 public class ExportCSV implements IURNExport {

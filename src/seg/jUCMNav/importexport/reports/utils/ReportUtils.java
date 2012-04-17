@@ -449,7 +449,7 @@ public class ReportUtils {
         boolean exists = false;
 
         if (s != null)
-            exists = (s != ""); //$NON-NLS-1$
+            exists = (s.replaceAll("\\s+", "") != ""); //$NON-NLS-1$
         return exists;
     }
 }

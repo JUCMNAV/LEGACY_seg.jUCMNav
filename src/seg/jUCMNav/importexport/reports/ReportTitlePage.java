@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
+import seg.jUCMNav.views.wizards.importexport.ExportPreferenceHelper;
 import urn.URNspec;
 
 import com.lowagie.text.Cell;
@@ -56,7 +57,7 @@ public class ReportTitlePage extends Report {
 
             // URN title
             Chunk titleLabel = new Chunk(Messages.getString("ReportTitlePage.Title"), specsFont); //$NON-NLS-1$
-            Chunk titleValue = new Chunk(CheckforEmpty(urn.getName()));
+            Chunk titleValue = new Chunk(CheckforEmpty(ExportPreferenceHelper.getFilenamePrefix().replace( ".jucm", "")));
 
             // URN description
             Chunk descriptionLabel = new Chunk(Messages.getString("ReportTitlePage.Description"), specsFont); //$NON-NLS-1$

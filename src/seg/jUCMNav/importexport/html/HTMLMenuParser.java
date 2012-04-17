@@ -50,18 +50,18 @@ public class HTMLMenuParser {
 	private Document xmlDocument = null;
 	private ArrayList selectedMaps = new ArrayList();
 
-	private static String xmlFileName = "tree.xml"; //$NON-NLS-1$
-	private static String TREE = "tree"; //$NON-NLS-1$
-	private static String BRANCH = "branch"; //$NON-NLS-1$
-	private static String BRANCH_ID = "id"; //$NON-NLS-1$
-	private static String BRANCH_LINK = "branchlink"; //$NON-NLS-1$
-	private static String BRANCH_TEXT = "branchText"; //$NON-NLS-1$
+	private final static String xmlFileName = "tree.xml"; //$NON-NLS-1$
+	private final static String TREE = "tree"; //$NON-NLS-1$
+	private final static String BRANCH = "branch"; //$NON-NLS-1$
+	private final static String BRANCH_ID = "id"; //$NON-NLS-1$
+	private final static String BRANCH_LINK = "branchlink"; //$NON-NLS-1$
+	private final static String BRANCH_TEXT = "branchText"; //$NON-NLS-1$
 
-	private static String LEAF = "leaf"; //$NON-NLS-1$
-	private static String LEAF_TEXT = "leafText"; //$NON-NLS-1$
-	private static String LINK = "link"; //$NON-NLS-1$
-	private static String BASE_X = "baseX"; //$NON-NLS-1$
-	private static String BASE_Y = "baseY"; //$NON-NLS-1$
+	private final static String LEAF = "leaf"; //$NON-NLS-1$
+	private final static String LEAF_TEXT = "leafText"; //$NON-NLS-1$
+	private final static String LINK = "link"; //$NON-NLS-1$
+	private final static String BASE_X = "baseX"; //$NON-NLS-1$
+	private final static String BASE_Y = "baseY"; //$NON-NLS-1$
 
 	/**
 	 * Initialize HTMLMenuParser
@@ -384,17 +384,17 @@ public class HTMLMenuParser {
 			xformer.transform(source, result);
 
 			// Insert XML code for the UCM/GRL definitions at the end. This is a hack...
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String line = "", oldtext = "";  //$NON-NLS-1$  //$NON-NLS-2$
-			while((line = reader.readLine()) != null)
-			{
-				oldtext += line + "\r\n";  //$NON-NLS-1$
-			}
-			reader.close();
-			String newtext = oldtext.replaceAll("</tree>", "\t<branch baseX=\"0\" baseY=\"0\" branchLink=\"notRedirect\" id=\"DEF\">\r\n\t\t<branchText>Definitions</branchText>\r\n\t\t<leaf><leafText>UCM Definitions</leafText><link>UCM_Definitions.html</link><baseX>215</baseX><baseY>2</baseY></leaf>\r\n\t\t<leaf><leafText>GRL Definitions</leafText><link>GRL_Definitions.html</link><baseX>215</baseX><baseY>2</baseY></leaf>\r\n\t</branch>\r\n</tree>");  //$NON-NLS-1$  //$NON-NLS-2$
-			FileWriter writer = new FileWriter(xmlFullPath);
-			writer.write(newtext);
-			writer.close();
+//			BufferedReader reader = new BufferedReader(new FileReader(file));
+//			String line = "", oldtext = "";  //$NON-NLS-1$  //$NON-NLS-2$
+//			while((line = reader.readLine()) != null)
+//			{
+//				oldtext += line + "\r\n";  //$NON-NLS-1$
+//			}
+//			reader.close();
+//			String newtext = oldtext.replaceAll("</tree>", "\t<branch baseX=\"0\" baseY=\"0\" branchLink=\"notRedirect\" id=\"DEF\">\r\n\t\t<branchText>Definitions</branchText>\r\n\t\t<leaf><leafText>UCM Definitions</leafText><link>UCM_Definitions.html</link><baseX>215</baseX><baseY>2</baseY></leaf>\r\n\t\t<leaf><leafText>GRL Definitions</leafText><link>GRL_Definitions.html</link><baseX>215</baseX><baseY>2</baseY></leaf>\r\n\t</branch>\r\n</tree>");  //$NON-NLS-1$  //$NON-NLS-2$
+//			FileWriter writer = new FileWriter(xmlFullPath);
+//			writer.write(newtext);
+//			writer.close();
 			file.delete();
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
@@ -402,8 +402,8 @@ public class HTMLMenuParser {
 			e.printStackTrace();
 		} catch (TransformerException e) {
 			e.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
 		}
 	}
 

@@ -38,6 +38,7 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.strategies.StrategiesView;
+import seg.jUCMNav.views.wizards.importexport.ExportPreferenceHelper;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.UCMspec;
 import ucm.map.ComponentRef;
@@ -348,11 +349,14 @@ public class HTMLReport extends URNReport {
 			}
 			reader.close();
 
-			String newtext = oldtext.replaceAll("TITLE", urn.getName());  //$NON-NLS-1$
+			String newtext = oldtext.replaceAll("TITLE", ExportPreferenceHelper.getFilenamePrefix().replace( ".jucm", ""));  //$NON-NLS-1$
 			newtext = newtext.replaceAll("DATE", urn.getModified());  //$NON-NLS-1$
 			newtext = newtext.replaceAll("VERSION", urn.getSpecVersion());  //$NON-NLS-1$
-			if (urn.getDescription() != null)
+			if (urn.getDescription() != null) {
 				newtext = newtext.replaceAll("DESCRIPTION", urn.getDescription());  //$NON-NLS-1$
+			} else {
+				newtext = newtext.replaceAll("DESCRIPTION", "N/A");  //$NON-NLS-1$  //$NON-NLS-2$
+			}
 			FileWriter writer = new FileWriter(mainFile);
 			writer.write(newtext);
 			writer.close();
