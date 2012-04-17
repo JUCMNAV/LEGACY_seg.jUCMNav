@@ -1,10 +1,8 @@
 package seg.jUCMNav.importexport.html;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -376,7 +374,8 @@ public class HTMLMenuParser {
 
 		// prepare the output file
 		try {
-			File file = new File(xmlFullPath+"temp"); //$NON-NLS-1$
+//			File file = new File(xmlFullPath+"temp"); //$NON-NLS-1$
+			File file = new File(xmlFullPath);
 			Result result = new StreamResult(file);
 
 			// Write the DOM document to the file
@@ -395,7 +394,7 @@ public class HTMLMenuParser {
 //			FileWriter writer = new FileWriter(xmlFullPath);
 //			writer.write(newtext);
 //			writer.close();
-			file.delete();
+//			file.delete();
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		} catch (TransformerFactoryConfigurationError e) {
