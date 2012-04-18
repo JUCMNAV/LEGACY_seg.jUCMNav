@@ -271,7 +271,7 @@ public class MetadataHelper {
      * @return true if the metadata was inserted at run-time
      */
     public static boolean isRuntimeMetadata(String name) {
-        return name!=null || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_NUMEVAL) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_RANGEVALUES)
-                || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_QUALEVAL) || name.equalsIgnoreCase(PathNodeEditPart.METADATA_HITS);
+        return name!=null && (name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_NUMEVAL) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_RANGEVALUES)
+                || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_QUALEVAL) || name.equalsIgnoreCase(PathNodeEditPart.METADATA_HITS));
     }
 }
