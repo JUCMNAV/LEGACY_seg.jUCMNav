@@ -596,7 +596,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      */
     private void setText() {
         if (getNode().getDef() != null) {
-            String stereotypes = UrnMetadata.getStereotypes(getNode().getDef());
+            String stereotypes = UrnMetadata.getAllStereotypes( getNode(), getNode().getDef());
             String name = getNode().getDef().getName();
 
             // Handle importance annotation

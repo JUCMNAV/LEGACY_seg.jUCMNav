@@ -42,6 +42,10 @@ public class TagElementAction extends URNSelectionAction {
 
     protected boolean calculateEnabled() {
 
+    	boolean hasParent = false;
+    	URNmodelElement parentElement = null;
+    	String parentClassName = null;
+    	
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         element = sel.getURNmodelElement();
         if (element == null) {
@@ -49,22 +53,25 @@ public class TagElementAction extends URNSelectionAction {
         }
         
 		urnspec = this.getURNspec( element );
-		String className = this.className( URNElementFinder.getParentElement( element ));
+		String className = this.className( element );
+		parentElement = URNElementFinder.getParentElement( element );
 		
-//		if(  JUCMNavPlugin.isInDebug() ) {
-//			if( urnspec == null  ){
-//				System.out.println( "No urnspec for element name: " + element.getName()); //$NON-NLS-1$
-//			} else {
-//				System.out.println( "urnspec.getMetadata().size() = " + urnspec.getMetadata().size() ); //$NON-NLS-1$
-//			}
-//		}
+		if( element != parentElement ) {
+			hasParent = true;
+			parentClassName = this.className( parentElement );
+		}
 		
     	if( (urnspec != null) && urnspec.getMetadata().size() > 0 ) {
     		for( Iterator iter = urnspec.getMetadata().iterator(); iter.hasNext();) {
     			Metadata md = (Metadata) iter.next();	
     			if(md.getName().equalsIgnoreCase( "StereotypeDef" )){ //$NON-NLS-1$
-    				if( md.getValue().contains(className))
+    				String tagClassName = this.getTagClassName( md.getValue() );
+    				if( tagClassName.equals(className) ) { // temporary using strings, need comparison using instanceof
     					return true;
+    				}
+    				else if( hasParent && tagClassName.equals(parentClassName) ) {
+    					return true;
+    				}
     			}
     		}    		
     	}
@@ -72,6 +79,10 @@ public class TagElementAction extends URNSelectionAction {
         return false;
     }
     
+	private String getTagClassName( String value ) {
+		return( value.substring( value.lastIndexOf(',')+1 ));
+	}
+
     public void run() {
     	if( element == null || urnspec == null )
     		return; // sanity check

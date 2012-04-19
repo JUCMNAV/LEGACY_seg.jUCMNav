@@ -33,7 +33,7 @@ public class UrnMetadata {
     /**
      * Metadata indicator added to text labels
      */
-    public static final String METADATA_PRESENCE = " ¶"; //$NON-NLS-1$
+    public static final String METADATA_PRESENCE = " ï¿½"; //$NON-NLS-1$
 
     /**
      * Checks whether a metadata of the URN element has a specific value for the given name.
@@ -69,7 +69,7 @@ public class UrnMetadata {
             if (name.toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
                 // Could be added to extract the kind of stereotype, but takes too much real estate.
                 // name = name.substring(STEREOTYPE_PREFIX.length());
-                stereotypes = stereotypes + " «" + metadata.getValue() + "»"; //$NON-NLS-1$  //$NON-NLS-2$
+                stereotypes = stereotypes + " ï¿½" + metadata.getValue() + "ï¿½"; //$NON-NLS-1$  //$NON-NLS-2$
             } else if (!MetadataHelper.isRuntimeMetadata(name))
                 otherMetadataTypes = true;
         }
@@ -79,6 +79,34 @@ public class UrnMetadata {
         return stereotypes;
     }
 
+    public static String getAllStereotypes( URNmodelElement reference, URNmodelElement parent ) {
+
+    	StringBuilder sb = new StringBuilder();
+    	
+    	if( UrnMetadata.getElementStereotypes( reference, sb) || UrnMetadata.getElementStereotypes( parent, sb) ) {
+    		sb.append( METADATA_PRESENCE );
+    	}
+    	
+    	return sb.toString();
+    }
+    
+    private static boolean getElementStereotypes( URNmodelElement element, StringBuilder sb ) {
+        boolean otherMetadataTypes = false; // Indicates whether there are metadata elements that are not stereotypes
+ 	
+    	for( Iterator it = element.getMetadata().iterator(); it.hasNext(); ) {
+            Metadata metadata = (Metadata) it.next();
+            String name = metadata.getName();
+
+            if (name.toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
+                sb.append( " ï¿½" + metadata.getValue() + "ï¿½" ); //$NON-NLS-1$  //$NON-NLS-2$
+            } else if (!MetadataHelper.isRuntimeMetadata(name)) {
+                otherMetadataTypes = true;
+            }
+    	}
+	
+        return (otherMetadataTypes && GeneralPreferencePage.getMetadataIndVisible());
+    }    
+    
     /**
      * Removes stereotype names and metadata indicators from a string.
      */
@@ -91,11 +119,11 @@ public class UrnMetadata {
             name = name.substring(0, sub);
         else {
             // Removes stereotypes at the end of the name
-            sub = name.indexOf(" «"); //$NON-NLS-1$
+            sub = name.indexOf(" ï¿½"); //$NON-NLS-1$
             if (sub > -1)
                 name = name.substring(0, sub);
             else {
-                // Removes ¶ at the end of the name
+                // Removes ï¿½ at the end of the name
                 sub = name.indexOf(METADATA_PRESENCE);
                 if (sub > -1)
                     name = name.substring(0, sub);

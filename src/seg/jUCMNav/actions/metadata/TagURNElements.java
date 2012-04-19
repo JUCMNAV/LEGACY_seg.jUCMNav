@@ -35,37 +35,50 @@ public class TagURNElements {
 	private CommandStack commandStack;
 	private URNspec urnspec;
 	
+	final int FALSE = 0;
+	final int TRUE = 1;
+	
 	class AddTagListener implements Listener {
 		private String name, value;
+		private URNmodelElement element;
 		
-		AddTagListener( String stn, String stv ) { name = stn; value = stv; }
+		AddTagListener( String stn, String stv, URNmodelElement elem ) { name = stn; value = stv; element = elem; }
 		
 		public void handleEvent(Event event) {
-			addTag( name, value );
+			addTag( name, value, element );
 		}
 	}
 	
 	class RemoveTagListener implements Listener {
 		private String name, value;
+		private URNmodelElement element;
 		
-		RemoveTagListener( String stn, String stv ) { name = stn; value = stv; }
+		RemoveTagListener( String stn, String stv, URNmodelElement elem ) { name = stn; value = stv; element = elem; }
 		
 		public void handleEvent(Event event) {
-			removeTag( name, value );
+			removeTag( name, value, element );
 		}
 	}
 
-	public void tagElement( CommandStack cmdStack, URNmodelElement element, URNspec urnspec )
+	public void tagElement( CommandStack cmdStack, URNmodelElement selectedElement, URNspec urnspec )
 	{
-		if( JUCMNavPlugin.isInDebug() ) System.out.println( "Tag Element ... selected for element: " + element.getName()); //$NON-NLS-1$
+    	int reference = FALSE;
+		boolean hasParent = false;
+    	String className, parentClassName = null;
+    	URNmodelElement tagElement = null;
+    	
+		this.element = selectedElement;
+		className = this.className( element );
 
-		this.element = element;
 		this.parentElement = URNElementFinder.getParentElement( element );
 		this.urnspec = urnspec;
     	commandStack = cmdStack;
 
-		String className = this.className( parentElement );
-
+		if( element != parentElement ) {
+			hasParent = true;
+			parentClassName = this.className( parentElement );
+		}
+		
     	Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
     	Menu menu = new Menu(shell, SWT.POP_UP);
 
@@ -77,38 +90,52 @@ public class TagURNElements {
 		for( Iterator iter = urnspec.getMetadata().iterator(); iter.hasNext();) {
 			Metadata md = (Metadata) iter.next();	
 			if(md.getName().equalsIgnoreCase( "StereotypeDef" )){ //$NON-NLS-1$
-				if( md.getValue().contains(className)) { // temporary using strings, need comparison using instanceof
-					
+				tagElement = null;
+				String tagClassName = this.getTagClassName( md.getValue() );
+				if( JUCMNavPlugin.isInDebug() ) System.out.println( "In TagURNElements tagClassName: " + tagClassName + " className: " + className + " parentClassName: " + parentClassName ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+				if( tagClassName.equals(className) ) {
+					tagElement = element;
+					reference = TRUE;
+				} else if(  hasParent && tagClassName.equals(parentClassName) ) {
+					tagElement = parentElement;
+					reference = FALSE;
+				}
+				
+				if( tagElement != null ) { // temporary using strings, need comparison using instanceof
 					int index = md.getValue().indexOf( ',' );
 					String stName = md.getValue().substring( 0, index );
 					String stValue = md.getValue().substring( index+1, md.getValue().indexOf( ',', index+1));
-					this.processStDefinition( stName, stValue, menu);
+					this.processStDefinition( stName, stValue, tagElement, menu, reference );
 					if( JUCMNavPlugin.isInDebug() ) System.out.println( "name: \"" + stName + "\" value:  \"" + stValue + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-					
 				}
 			}
 		}
 
     	menu.setVisible(true);
-
 	}
 	
-	private void processStDefinition( String name, String value, Menu menu )
+	private String getTagClassName( String value ) {
+		return( value.substring( value.lastIndexOf(',')+1 ));
+	}
+	
+	private void processStDefinition( String name, String value, URNmodelElement element, Menu menu, int reference )
 	{
+		String [] suffixes = { "Definition", "Reference" };
 		MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
 		
-		if( this.hasExistingStereotype(name, value)) { // add menu item to remove stereotype
-			menuItem.setText( Messages.getString("TagURNElements.Remove") + value ); //$NON-NLS-1$
-			menuItem.addListener( SWT.Selection, new RemoveTagListener( name, value ));
+		if( this.hasExistingStereotype( name, value, element )) { // add menu item to remove stereotype
+			menuItem.setText( Messages.getString("TagURNElements.Remove") + value + " from " + suffixes[reference] ); //$NON-NLS-1$
+			menuItem.addListener( SWT.Selection, new RemoveTagListener( name, value, element ));
 		} else { // add menu item to add stereotype
-			menuItem.setText( Messages.getString("TagURNElements.Add") + value ); //$NON-NLS-1$
-			menuItem.addListener( SWT.Selection, new AddTagListener( name, value ));
+			menuItem.setText( Messages.getString("TagURNElements.Add") + value + " to " + suffixes[reference] ); //$NON-NLS-1$
+			menuItem.addListener( SWT.Selection, new AddTagListener( name, value, element ));
 		}
 	}
 	
-	private boolean hasExistingStereotype( String name, String value )
+	private boolean hasExistingStereotype( String name, String value, URNmodelElement element )
 	{
-		for( Iterator iter = parentElement.getMetadata().iterator(); iter.hasNext();) {
+		for( Iterator iter = element.getMetadata().iterator(); iter.hasNext();) {
 			Metadata md = (Metadata) iter.next();	
 			if(md.getName().equalsIgnoreCase( name )){
 				if( md.getValue().equalsIgnoreCase( value ))
@@ -119,11 +146,11 @@ public class TagURNElements {
 		return false;
 	}
 	
-	private void addTag( String name, String value )
+	private void addTag( String name, String value, URNmodelElement element )
 	{
         Metadata newMetadata;
         
-        EList mdList = parentElement.getMetadata();
+        EList mdList = element.getMetadata();
         int newSize = mdList.size() + 1;
         Metadata [] mdArray = (Metadata[]) mdList.toArray(new Metadata[newSize]);
         
@@ -132,18 +159,18 @@ public class TagURNElements {
         newMetadata.setValue( value );
         mdArray[newSize-1] = newMetadata;
         
-        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, Messages.getString("TagURNElements.addTag") ); //$NON-NLS-1$
+        Command cmd = new ChangeMetadataCommand( element, mdArray, Messages.getString("TagURNElements.addTag") ); //$NON-NLS-1$
 	
         if (cmd.canExecute()) {
         	commandStack.execute(cmd);
         }
 	}
 	
-	private void removeTag( String name, String value )
+	private void removeTag( String name, String value, URNmodelElement element )
 	{
 		int newSize, i = 0;
 
-        EList mdList = parentElement.getMetadata();
+        EList mdList = element.getMetadata();
         newSize = mdList.size() - 1;
         Metadata [] mdArray = new Metadata[newSize];
         
@@ -160,7 +187,7 @@ public class TagURNElements {
 			}
 		}
 				
-        Command cmd = new ChangeMetadataCommand( parentElement, mdArray, Messages.getString("TagURNElements.removeTag") ); //$NON-NLS-1$
+        Command cmd = new ChangeMetadataCommand( element, mdArray, Messages.getString("TagURNElements.removeTag") ); //$NON-NLS-1$
     	
         if (cmd.canExecute()) {
         	commandStack.execute(cmd);
