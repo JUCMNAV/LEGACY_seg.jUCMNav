@@ -171,26 +171,29 @@ public class MetadataEditorPage extends WizardPage {
     }
 
     private void checkButtonStatus() {
-        TableItem[] items = metadataTable.getSelection();
-        if (items.length > 0) {
-            buttonEdit.setEnabled(true);
-            buttonRemove.setEnabled(true);
-        } else {
-            buttonEdit.setEnabled(false);
-            buttonRemove.setEnabled(false);
-        }
+        TableItem[] items = null;
+        if (!metadataTable.isDisposed()) {
+            items = metadataTable.getSelection();
+            if (items != null && items.length > 0) {
+                buttonEdit.setEnabled(true);
+                buttonRemove.setEnabled(true);
+            } else {
+                buttonEdit.setEnabled(false);
+                buttonRemove.setEnabled(false);
+            }
 
-        if (defaultSelected != null) {
-            buttonAdd.setEnabled(true);
-            buttonRemoveAll.setEnabled(true);
-        } else {
-            buttonAdd.setEnabled(false);
-            buttonRemoveAll.setEnabled(false);
-            buttonEdit.setEnabled(false);
-            buttonRemove.setEnabled(false);
+            if (defaultSelected != null) {
+                buttonAdd.setEnabled(true);
+                buttonRemoveAll.setEnabled(true);
+            } else {
+                buttonAdd.setEnabled(false);
+                buttonRemoveAll.setEnabled(false);
+                buttonEdit.setEnabled(false);
+                buttonRemove.setEnabled(false);
+            }
+
+            folder.setVisible(ref != null && hasMetadata(ref));
         }
-        
-        folder.setVisible(ref != null && hasMetadata(ref));
     }
 
     /**
