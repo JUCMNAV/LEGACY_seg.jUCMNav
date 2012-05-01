@@ -34,6 +34,7 @@ public class UrnMetadata {
      * Metadata indicator added to text labels
      */
     public static final String METADATA_PRESENCE = " ¶"; //$NON-NLS-1$
+    public static final String METADATA_PRESENCE_NOSPACE = "¶"; //$NON-NLS-1$
 
     /**
      * Checks whether a metadata of the URN element has a specific value for the given name.
@@ -69,7 +70,7 @@ public class UrnMetadata {
             if (name.toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
                 // Could be added to extract the kind of stereotype, but takes too much real estate.
                 // name = name.substring(STEREOTYPE_PREFIX.length());
-                stereotypes = stereotypes + " ï¿½" + metadata.getValue() + "ï¿½"; //$NON-NLS-1$  //$NON-NLS-2$
+                stereotypes = stereotypes + METADATA_PRESENCE + metadata.getValue() + METADATA_PRESENCE_NOSPACE; 
             } else if (!MetadataHelper.isRuntimeMetadata(name))
                 otherMetadataTypes = true;
         }
@@ -98,7 +99,7 @@ public class UrnMetadata {
             String name = metadata.getName();
 
             if (name.toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
-                sb.append( " ï¿½" + metadata.getValue() + "ï¿½" ); //$NON-NLS-1$  //$NON-NLS-2$
+                sb.append( METADATA_PRESENCE + metadata.getValue() + METADATA_PRESENCE_NOSPACE ); //$NON-NLS-1$  //$NON-NLS-2$
             } else if (!MetadataHelper.isRuntimeMetadata(name)) {
                 otherMetadataTypes = true;
             }
@@ -119,11 +120,11 @@ public class UrnMetadata {
             name = name.substring(0, sub);
         else {
             // Removes stereotypes at the end of the name
-            sub = name.indexOf(" ï¿½"); //$NON-NLS-1$
+            sub = name.indexOf(METADATA_PRESENCE); //$NON-NLS-1$
             if (sub > -1)
                 name = name.substring(0, sub);
             else {
-                // Removes ï¿½ at the end of the name
+                // Removes ¶ at the end of the name
                 sub = name.indexOf(METADATA_PRESENCE);
                 if (sub > -1)
                     name = name.substring(0, sub);
