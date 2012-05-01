@@ -33,7 +33,7 @@ public class UrnMetadata {
     /**
      * Metadata indicator added to text labels
      */
-    public static final String METADATA_PRESENCE = " ï¿½"; //$NON-NLS-1$
+    public static final String METADATA_PRESENCE = " ¶"; //$NON-NLS-1$
 
     /**
      * Checks whether a metadata of the URN element has a specific value for the given name.
