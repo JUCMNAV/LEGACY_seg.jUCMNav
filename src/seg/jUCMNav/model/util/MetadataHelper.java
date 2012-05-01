@@ -21,6 +21,9 @@ import urncore.URNmodelElement;
 
 public class MetadataHelper {
 
+    public static final String WIDTH = "_width";
+    public static final String HEIGHT = "_height";
+    
     /**
      * Adds metadata to an element. Modifies if the name already exists.
      * 
@@ -272,6 +275,7 @@ public class MetadataHelper {
      */
     public static boolean isRuntimeMetadata(String name) {
         return name!=null && (name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_NUMEVAL) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_RANGEVALUES)
-                || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_QUALEVAL) || name.equalsIgnoreCase(PathNodeEditPart.METADATA_HITS));
+                || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_QUALEVAL) || name.equalsIgnoreCase(PathNodeEditPart.METADATA_HITS)
+                        || name.equalsIgnoreCase(WIDTH) || name.equalsIgnoreCase(HEIGHT)  );
     }
 }

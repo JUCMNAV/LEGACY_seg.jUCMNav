@@ -94,8 +94,8 @@ public class SetConstraintGrlNodeCommand extends CompoundCommand {
 
     protected void changeDimension(int width, int height) {
         if (width > 0 && height > 0) {
-            MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(), (URNmodelElement) node, "_width", (new Integer(width)).toString()); //$NON-NLS-1$
-            MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(), (URNmodelElement) node, "_height", (new Integer(height)).toString()); //$NON-NLS-1$
+            MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(), (URNmodelElement) node, MetadataHelper.WIDTH, (new Integer(width)).toString()); //$NON-NLS-1$
+            MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(), (URNmodelElement) node, MetadataHelper.HEIGHT, (new Integer(height)).toString()); //$NON-NLS-1$
         }
     }
 
@@ -104,8 +104,8 @@ public class SetConstraintGrlNodeCommand extends CompoundCommand {
         this.oldX = node.getX();
         this.oldY = node.getY();
         
-        String _width = MetadataHelper.getMetaData((URNmodelElement) node, "_width"); //$NON-NLS-1$
-        String _height = MetadataHelper.getMetaData((URNmodelElement) node, "_height"); //$NON-NLS-1$
+        String _width = MetadataHelper.getMetaData((URNmodelElement) node, MetadataHelper.WIDTH); //$NON-NLS-1$
+        String _height = MetadataHelper.getMetaData((URNmodelElement) node,  MetadataHelper.HEIGHT); //$NON-NLS-1$
         
         if(_width == null || _height == null)
             addedSize = true;
@@ -130,8 +130,8 @@ public class SetConstraintGrlNodeCommand extends CompoundCommand {
         if(!addedSize)
             changeDimension(oldWidth, oldHeight);
         else {
-            MetadataHelper.removeMetaData((URNmodelElement) node, "_width"); //$NON-NLS-1$
-            MetadataHelper.removeMetaData((URNmodelElement) node, "_height"); //$NON-NLS-1$
+            MetadataHelper.removeMetaData((URNmodelElement) node,  MetadataHelper.WIDTH); //$NON-NLS-1$
+            MetadataHelper.removeMetaData((URNmodelElement) node,  MetadataHelper.HEIGHT); //$NON-NLS-1$
         }
 
         super.undo();

@@ -308,8 +308,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         
         evaluationLabel.setForegroundColor(ColorManager.LINE);
         
-        int width = MetadataHelper.getIntMetaData(getNode(), "_width", 0); //$NON-NLS-1$
-        int height = MetadataHelper.getIntMetaData(getNode(), "_height", 0); //$NON-NLS-1$
+        int width = MetadataHelper.getIntMetaData(getNode(), MetadataHelper.WIDTH, 0); //$NON-NLS-1$
+        int height = MetadataHelper.getIntMetaData(getNode(), MetadataHelper.HEIGHT, 0); //$NON-NLS-1$
         
         ((GrlNodeFigure)figure).setAutoResize(width == 0 || height == 0);
         ((GrlNodeFigure)figure).setBounds(new Rectangle(getNode().getX(), getNode().getY(), width, height));
