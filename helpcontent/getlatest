@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #clean up existing
-rm *.html *.png *.PNG *.jpg *.JPG *.gif *.GIF *.htm *.css *.js *.bidon
+rm *.html *.png *.PNG *.jpg *.JPG *.gif *.GIF *.htm *.css *.js *.bidon *.ico
 
 #get page, prereqs, etc and convert links
 wget -p -k -nd -E -e "robots=off" http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain
@@ -13,7 +13,8 @@ mv ./Help*.html ./helponline_TMP.html
 grep -iv "<base" ./helponline_TMP.html > ./helponline2_TMP.html 
 
 #make table of content's links local links
-sed 's/http:\/\/cserg0.site.uottawa.ca\/twiki\/bin\/view\/ProjetSEG\/HelpOnLine//' < helponline2_TMP.html > helponline.html 
+#sed 's/http:\/\/cserg0.site.uottawa.ca\/twiki\/bin\/view\/ProjetSEG\/HelpOnLine//' < helponline2_TMP.html > helponline.html 
+sed 's/HelpOnLine\@skin\=plain.html//' < helponline2_TMP.html > helponline.html 
 
 #cleanup
 rm *_TMP* 
