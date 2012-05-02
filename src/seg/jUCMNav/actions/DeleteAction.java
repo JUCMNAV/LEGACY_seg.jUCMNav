@@ -53,7 +53,6 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
                 result.add(o);
             }
         }
-
         return result;
 
     }

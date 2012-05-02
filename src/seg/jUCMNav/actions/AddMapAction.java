@@ -43,6 +43,10 @@ public class AddMapAction extends URNSelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 
         CreateMapCommand create = new CreateMapCommand(sel.getUrnspec());
+        if (sel.getUrnspec()!=null && sel.getMap()!=null)
+            create.setIndex(sel.getUrnspec().getUrndef().getSpecDiagrams().indexOf(sel.getMap())+1);
+        else if (sel.getUrnspec()!=null && sel.getGrlgraph()!=null)
+            create.setIndex(sel.getUrnspec().getUrndef().getSpecDiagrams().indexOf(sel.getGrlgraph())+1);
 
         if (create.canExecute()) {
             DisplayPreferences.getInstance().setShowUCMS(true);

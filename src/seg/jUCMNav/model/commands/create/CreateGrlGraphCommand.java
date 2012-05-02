@@ -25,6 +25,7 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand, IG
     private URNspec urn;
     private GRLGraph graph;
     private int oldCount;
+    private int index=-1;
 
     public CreateGrlGraphCommand(URNspec urn) {
         this.urn = urn;
@@ -59,7 +60,11 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand, IG
      */
     public void redo() {
         testPreConditions();
-        urn.getUrndef().getSpecDiagrams().add(graph);
+        if (getIndex() >= 0 && getIndex() <= urn.getUrndef().getSpecDiagrams().size())
+            urn.getUrndef().getSpecDiagrams().add(index, graph);
+        else
+            urn.getUrndef().getSpecDiagrams().add(graph);
+
         testPostConditions();
     }
 
@@ -97,5 +102,13 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand, IG
 
     public IURNDiagram getAffectedDiagram() {
         return getDiagram();
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

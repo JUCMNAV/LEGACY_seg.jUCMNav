@@ -21,6 +21,8 @@ public class CreateMapCommand extends Command implements JUCMNavCommand, IGlobal
     private URNspec urn;
     private int oldCount;
 
+    private int index = -1;
+
     public CreateMapCommand(URNspec urn) {
         this.urn = urn;
 
@@ -57,7 +59,11 @@ public class CreateMapCommand extends Command implements JUCMNavCommand, IGlobal
      */
     public void redo() {
         testPreConditions();
-        urn.getUrndef().getSpecDiagrams().add(map);
+        if (getIndex() >= 0 && getIndex() <= urn.getUrndef().getSpecDiagrams().size())
+            urn.getUrndef().getSpecDiagrams().add(index, map);
+        else
+            urn.getUrndef().getSpecDiagrams().add(map);
+
         testPostConditions();
     }
 
@@ -91,5 +97,13 @@ public class CreateMapCommand extends Command implements JUCMNavCommand, IGlobal
 
     public IURNDiagram getAffectedDiagram() {
         return getMap();
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }
