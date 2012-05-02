@@ -242,7 +242,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      * @param propertyid
      */
     private void intentionalElementDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (((IntentionalElementRef) getEditableValue()).getDiagram().getUrndefinition() == null)
+        if (getEditableValue() == null || ((IntentionalElementRef) getEditableValue()).getDiagram() == null || ((IntentionalElementRef) getEditableValue()).getDiagram().getUrndefinition() == null)
             return;
         URNspec urn = ((IntentionalElementRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
         Vector list = new Vector(urn.getGrlspec().getIntElements());

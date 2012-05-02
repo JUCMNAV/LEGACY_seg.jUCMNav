@@ -2,6 +2,7 @@ package seg.jUCMNav.actions;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -11,6 +12,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
+import seg.jUCMNav.editparts.ConnectionLabelEditPart;
 import seg.jUCMNav.model.commands.delete.DeleteUselessStartNCEndCommand;
 import ucm.map.UCMmap;
 import ucm.scenario.ScenarioDef;
@@ -35,24 +37,46 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
         setLazyEnablementCalculation(false);
     }
 
+    protected boolean calculateEnabled() {
+        Command cmd = createDeleteCommand(getSelectedObjectsForDeletion());
+        if (cmd == null)
+            return false;
+        return cmd.canExecute();
+    }
+    
+    public List getSelectedObjectsForDeletion() {
+        List list = getSelectedObjects();
+        Vector result = new Vector();
+        for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+            Object o = (Object) iterator.next();
+            if (!(o instanceof ConnectionLabelEditPart)) {
+                result.add(o);
+            }
+        }
+
+        return result;
+
+    }
+
     /**
      * Performs the delete action on the selected objects.
      */
     public void run() {
         URNspec urn = ((UCMNavMultiPageEditor) getWorkbenchPart()).getModel();
         Command cmd = createDeleteSmallPaths();
-        if (getSelectedObjects().size() > 0) {
+        List objects = getSelectedObjectsForDeletion();
+        if (objects.size() > 0) {
             boolean result = true;
-            if (containsScenario(getSelectedObjects())) {
+            if (containsScenario(objects)) {
                 result = MessageDialog.openConfirm(getWorkbenchPart().getSite().getShell(),
                         Messages.getString("DeleteAction_0"), Messages.getString("DeleteAction_1")); //$NON-NLS-1$ //$NON-NLS-2$
             }
 
             if (result) {
                 if (cmd == null || !cmd.canExecute())
-                    execute(createDeleteCommand(getSelectedObjects()));
+                    execute(createDeleteCommand(objects));
                 else
-                    execute(createDeleteCommand(getSelectedObjects()).chain(cmd));
+                    execute(createDeleteCommand(objects).chain(cmd));
             }
         } else {
             if (cmd != null && cmd.canExecute())

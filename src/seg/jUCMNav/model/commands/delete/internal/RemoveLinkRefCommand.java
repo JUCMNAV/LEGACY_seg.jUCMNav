@@ -111,10 +111,10 @@ public class RemoveLinkRefCommand extends Command implements JUCMNavCommand {
         }
         
         testPostConditions();
-        graph.getConnections().add(linkref);
         link.getRefs().add(linkref);
         linkref.setSource(source);
         linkref.setTarget(target);
+        graph.getConnections().add(linkref);
         testPreConditions();
     }
 }
