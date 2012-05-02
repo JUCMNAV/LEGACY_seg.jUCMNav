@@ -8,6 +8,8 @@ import grl.IntentionalElement;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -223,6 +225,16 @@ public class MetadataHelper {
         return null;
     }
 
+    public static void duplicateMetadata(URNmodelElement from, URNmodelElement onto)
+    {
+        if (from != null && onto != null) {
+            for (Iterator iterator = from.getMetadata().iterator(); iterator.hasNext();) {
+                Metadata data = (Metadata) iterator.next();
+                Metadata clone = (Metadata) EcoreUtil.copy(data);
+                onto.getMetadata().add(clone);
+            }
+        }
+    }
     /**
      * Removes the run-time metadata elements created during GRL evaluation and/or UCM execution
      * 

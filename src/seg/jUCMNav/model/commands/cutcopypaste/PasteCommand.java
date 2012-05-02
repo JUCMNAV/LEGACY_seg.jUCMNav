@@ -55,6 +55,7 @@ import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.internal.DuplicatePathCommand;
 import seg.jUCMNav.model.util.Clipboard;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
@@ -157,6 +158,7 @@ public class PasteCommand extends CompoundCommand {
                 if (def != null) {
                     factory = new ModelCreationFactory(targetUrn, RespRef.class, def);
                     newPathNode = (RespRef) factory.getNewObject();
+                    MetadataHelper.duplicateMetadata(oldPn,  newPathNode);
                 } else if (oldPn != null) {
                     newPathNode = (PathNode) EcoreUtil.copy(oldPn);
                     if (newPathNode instanceof Stub) {
@@ -815,6 +817,7 @@ public class PasteCommand extends CompoundCommand {
                         if (factory != null) {
                             IURNContainerRef newCompRef = (IURNContainerRef) factory.getNewObject();
                             setNewContainerConstraints(newCompRef, ref);
+                            MetadataHelper.duplicateMetadata((URNmodelElement)ref,  (URNmodelElement)newCompRef);
 
                             if (firstPlaced == null) // leave null for first added, then set it.
                             {
@@ -927,6 +930,7 @@ public class PasteCommand extends CompoundCommand {
                         if (factory != null) {
                             GRLNode newNode = (GRLNode) factory.getNewObject();
                             setNewGRLConstraints(newNode, ref);
+                            MetadataHelper.duplicateMetadata((URNmodelElement)ref,  (URNmodelElement)newNode);
 
                             if (firstPlaced == null) // leave null for first added, then set it.
                             {
