@@ -205,6 +205,7 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
             setReferencedObject(propertyid, feature, result);
             resp = ((RespRef) object).getRespDef();
         } else if (feature.getName() == "name") { //$NON-NLS-1$
+            value = value.toString().trim();
             String message = URNNamingHelper.isNameValid(urn, (RespRef) object, value.toString());
 
             if (message.length() == 0) {

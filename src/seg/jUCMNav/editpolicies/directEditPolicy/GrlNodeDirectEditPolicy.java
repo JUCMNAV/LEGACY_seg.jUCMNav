@@ -32,7 +32,10 @@ public class GrlNodeDirectEditPolicy extends DirectEditPolicy {
     protected Command getDirectEditCommand(DirectEditRequest request) {
         GRLNode node = (GRLNode) getHost().getModel();
 
-        ChangeGrlNodeNameCommand cmd = new ChangeGrlNodeNameCommand(node, (String) request.getCellEditor().getValue());
+        String value = (String) request.getCellEditor().getValue();
+        value = value.trim();
+                
+        ChangeGrlNodeNameCommand cmd = new ChangeGrlNodeNameCommand(node, value);
         return cmd;
     }
 
@@ -43,6 +46,7 @@ public class GrlNodeDirectEditPolicy extends DirectEditPolicy {
      */
     protected void showCurrentEditValue(DirectEditRequest request) {
         String value = (String) request.getCellEditor().getValue();
+        value = value.trim();
         GrlNodeEditPart lblPart = (GrlNodeEditPart) getHost();
         lblPart.handleNameChange(value);
     }
@@ -55,6 +59,7 @@ public class GrlNodeDirectEditPolicy extends DirectEditPolicy {
 
         CellEditor cellEditor = request.getCellEditor();
         oldValue = (String) cellEditor.getValue();
+        oldValue = oldValue.trim();
     }
 
     /**

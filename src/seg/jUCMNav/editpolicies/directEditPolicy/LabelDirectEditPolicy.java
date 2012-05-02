@@ -26,7 +26,9 @@ public class LabelDirectEditPolicy extends DirectEditPolicy {
     protected Command getDirectEditCommand(DirectEditRequest request) {
         Label lbl = (Label) getHost().getModel();
 
-        ChangeLabelNameCommand cmd = new ChangeLabelNameCommand(lbl, (String) request.getCellEditor().getValue());
+        String value = (String) request.getCellEditor().getValue();
+        value = value.trim();
+        ChangeLabelNameCommand cmd = new ChangeLabelNameCommand(lbl, value);
         return cmd;
     }
 
@@ -35,6 +37,7 @@ public class LabelDirectEditPolicy extends DirectEditPolicy {
      */
     protected void showCurrentEditValue(DirectEditRequest request) {
         String value = (String) request.getCellEditor().getValue();
+        value = value.trim();
         LabelEditPart lblPart = (LabelEditPart) getHost();
         lblPart.handleNameChange(value);
     }
@@ -47,6 +50,7 @@ public class LabelDirectEditPolicy extends DirectEditPolicy {
 
         CellEditor cellEditor = request.getCellEditor();
         oldValue = (String) cellEditor.getValue();
+        oldValue = oldValue.trim();
     }
 
     /**

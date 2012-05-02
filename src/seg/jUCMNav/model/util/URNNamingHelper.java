@@ -931,6 +931,11 @@ public class URNNamingHelper {
     public static String isNameValid(URNspec urn, URNmodelElement elem, String name) {
         String message = ""; //$NON-NLS-1$
 
+        if (name!=null) 
+            name = name.trim();
+        else 
+            name = ""; //$NON-NLS-1$
+        
         if (elem instanceof IURNContainerRef || elem instanceof RespRef || elem instanceof Responsibility || elem instanceof IntentionalElementRef
                 || elem instanceof IntentionalElement || elem instanceof KPIInformationElementRef || elem instanceof KPIInformationElement
                 || elem instanceof IURNContainer) {

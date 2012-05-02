@@ -62,6 +62,8 @@ public class NamePropertySection extends AbstractMultiLineStringPropertySection 
 
         } while (parent != null);
 
+        if (text!=null)
+            text = text.trim();
         String message = URNNamingHelper.isNameValid(urn, (URNmodelElement) eObject, text);
 
         result = message.length() == 0;
@@ -79,6 +81,7 @@ public class NamePropertySection extends AbstractMultiLineStringPropertySection 
         while (newText.endsWith(newline))
             newText = newText.substring(0, newText.length() - newline.length());
 
+        newText = newText.trim();
         if (eObject instanceof Responsibility || eObject instanceof RespRef || eObject instanceof Stub) {
             return newText; // multiline is allowed, but remove trailing newline.
         } else

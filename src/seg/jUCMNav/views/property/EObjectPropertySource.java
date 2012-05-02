@@ -416,6 +416,8 @@ public class EObjectPropertySource implements IPropertySource2 {
         } else
             result = value;
 
+        if (feature.getName().equals("name") && result instanceof String)
+            result = result.toString().trim();
         setReferencedObject(propertyid, feature, result);
     }
 

@@ -564,6 +564,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             }
 
         } else if (feature.getName() == "name") { //$NON-NLS-1$
+            value = value.toString().trim();
             String message = URNNamingHelper.isNameValid(urn, (URNmodelElement) object, value.toString());
 
             if (message.length() == 0) {

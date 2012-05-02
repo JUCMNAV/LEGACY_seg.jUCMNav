@@ -57,6 +57,7 @@ public class VariablePropertySource extends URNElementPropertySource {
 
         if (feature.getName() == "name") { //$NON-NLS-1$
             value = URNNamingHelper.cleanVariableName(value.toString());
+            value = value.toString().trim();
             String message = URNNamingHelper.isNameValid(urn, (Variable) object, value.toString());
 
             if (message.length() == 0) {
