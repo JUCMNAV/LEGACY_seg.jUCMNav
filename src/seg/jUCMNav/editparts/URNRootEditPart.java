@@ -47,6 +47,9 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
      */
     public URNRootEditPart(UCMNavMultiPageEditor editor) {
         super();
+        double zoomLevels[] = { 0.1, 0.25, .5, .75, 1.0, 1.5, 2.0, 2.5, 3, 4 };
+        getZoomManager().setZoomLevels(zoomLevels);
+        
         multiPageEditor = editor;
         if (EvaluationStrategyManager.getInstance().getEvaluationStrategy() != null) {
             strategyView = true;
