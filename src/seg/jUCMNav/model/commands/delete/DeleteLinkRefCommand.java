@@ -72,7 +72,7 @@ public class DeleteLinkRefCommand extends CompoundCommand {
         }
 
         add(new RemoveLinkRefCommand(linkref));
-        if (link != null && link.getRefs().size() <= 1 && link.getGrlspec() != null) {
+        if (!DeletionContext.isPerformingCutAction() && link != null && link.getRefs().size() <= 1 && link.getGrlspec() != null) {
             if (link instanceof Contribution) {
                 for (Iterator iterator = link.getGrlspec().getContributionContexts().iterator(); iterator.hasNext();) {
                     ContributionContext context = (ContributionContext) iterator.next();

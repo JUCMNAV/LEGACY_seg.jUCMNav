@@ -10,6 +10,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.DeleteAction;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.model.commands.cutcopypaste.CopyCommand;
+import seg.jUCMNav.model.commands.delete.DeletionContext;
 
 public class CutAction extends DeleteAction {
 
@@ -32,7 +33,13 @@ public class CutAction extends DeleteAction {
             cmd.execute();
         }
 
-        super.run();
+        try {
+            DeletionContext.setPerformingCutAction(true);
+            super.run();
+        } finally
+        {
+            DeletionContext.setPerformingCutAction(false);
+        }
     }
 
 }

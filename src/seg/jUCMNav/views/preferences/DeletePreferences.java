@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.commands.delete.DeletionContext;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import urncore.URNmodelElement;
 
@@ -45,13 +46,14 @@ public class DeletePreferences {
     }
 
     /**
-     * Verify if the definition associated with the element should be delete.
+     * Verify if the definition associated with the element should be deleted.
      * 
      * @param element
      *            The element to delete
      * @return TRUE if the definition should be delete.
      */
     public static boolean getDeleteDefinition(URNmodelElement element) {
+        if (DeletionContext.isPerformingCutAction() || DeletionContext.isPerformingPasteAction()) return false;
         String currentPrefValue = getPreferenceStore().getString(PREF_DELDEFINITION);
         if (currentPrefValue.equals(PREF_ALWAYS)) {
             return true;
@@ -85,6 +87,7 @@ public class DeletePreferences {
      * @return TRUE if the references should be delete.
      */
     public static boolean getDeleteReference(URNmodelElement element) {
+        if (DeletionContext.isPerformingCutAction() || DeletionContext.isPerformingPasteAction()) return false;
         String currentPrefValue = getPreferenceStore().getString(PREF_DELREFERENCE);
         if (currentPrefValue.equals(PREF_ALWAYS)) {
             return true;

@@ -13,6 +13,7 @@ import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.cutcopypaste.PasteCommand;
+import seg.jUCMNav.model.commands.delete.DeletionContext;
 import ucm.map.NodeConnection;
 import urn.URNspec;
 import urncore.IURNDiagram;
@@ -79,6 +80,16 @@ public class PasteAction extends URNSelectionAction {
         }
 
         return null;
+    }
+    
+    public void run() {
+        try {
+            DeletionContext.setPerformingPasteAction(true);
+            super.run();
+        } finally
+        {
+            DeletionContext.setPerformingPasteAction(false);
+        }
     }
 
 }
