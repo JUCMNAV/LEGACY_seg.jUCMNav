@@ -33,8 +33,8 @@ public class UrnMetadata {
     /**
      * Metadata indicator added to text labels
      */
-    public static final String METADATA_PRESENCE = " ¶"; //$NON-NLS-1$
-    public static final String METADATA_PRESENCE_NOSPACE = "¶"; //$NON-NLS-1$
+    public static final String METADATA_PRESENCE = " ï¿½"; //$NON-NLS-1$
+    public static final String METADATA_PRESENCE_NOSPACE = "ï¿½"; //$NON-NLS-1$
 
     /**
      * Checks whether a metadata of the URN element has a specific value for the given name.
@@ -124,7 +124,7 @@ public class UrnMetadata {
             if (sub > -1)
                 name = name.substring(0, sub);
             else {
-                // Removes ¶ at the end of the name
+                // Removes ï¿½ at the end of the name
                 sub = name.indexOf(METADATA_PRESENCE);
                 if (sub > -1)
                     name = name.substring(0, sub);
@@ -176,11 +176,11 @@ public class UrnMetadata {
             }
         }
 
-        // Consider only non-stereotype metadata.
+        // Consider only non-stereotype metadata and remove AltName and AltDescription.
         Iterator it = elem.getMetadata().iterator();
         while (it.hasNext()) {
             Metadata metadata = (Metadata) it.next();
-            if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
+            if ( UrnMetadata.isMetadataMeaningful( metadata.getName() )) {
                 metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ $NON-NLS-2$ $NON-NLS-3$
             }
         }
@@ -251,5 +251,15 @@ public class UrnMetadata {
         } else {
             fig.setToolTip(new Label(toolTipText));
         }
+    }
+    
+    private static boolean isMetadataMeaningful( String name ) {
+    	
+    	if( name.toUpperCase().startsWith(STEREOTYPE_PREFIX) )
+    		return false;
+    	else if( name.contentEquals( "AltName" ) || name.contentEquals( "AltDescription" ) )
+    		return false;
+    	
+    	return true;
     }
 }

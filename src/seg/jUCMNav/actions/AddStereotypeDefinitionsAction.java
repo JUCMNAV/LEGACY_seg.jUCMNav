@@ -35,7 +35,8 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
     public static final String ADD_STEREOTYPE_DEFINITIONS = "seg.jUCMNav.AddStereotypeDefinitions"; //$NON-NLS-1$
 
     private String [] values = { "ST_CLASSTYPE,CLASS1,IntentionalElement", "ST_CLASSTYPE,CLASS2,IntentionalElement", "ST_CLASSTYPE,OTHER,IntentionalElement", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    		"acceptStereotype,CLASS1,EvaluationStrategy", "acceptStereotype,CLASS2,EvaluationStrategy", "acceptStereotype,OTHER,EvaluationStrategy" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    		"acceptStereotype,CLASS1,EvaluationStrategy", "acceptStereotype,CLASS2,EvaluationStrategy", "acceptStereotype,OTHER,EvaluationStrategy", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    		"ST_CLASSTYPE,GUNTER,IntentionalElementRef" //$NON-NLS-1$
     };
 
     // did not externalize this yet, because don't know if these are constants or GUI strings. 
