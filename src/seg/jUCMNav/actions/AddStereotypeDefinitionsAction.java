@@ -17,30 +17,27 @@ import urn.URNspec;
 import urncore.Metadata;
 
 /**
- * Adds stereotype definitions to a URN spec.
+ * Adds default stereotype definitions to a URN spec.
  * 
  * @author amiga
  */
-
-//name="StereotypeDef", value="ST_CLASSTYPE,CLASS1,IntentionalElement"
-//name="StereotypeDef", value="ST_CLASSTYPE,CLASS2,IntentionalElement"
-//name="StereotypeDef", value="ST_CLASSTYPE,OTHER,IntentionalElement"
-//name="StereotypeDef", value="acceptStereotype,CLASS1,EvaluationStrategy"
-//name="StereotypeDef", value="acceptStereotype,CLASS2,EvaluationStrategy"
-//name="StereotypeDef", value="acceptStereotype,OTHER,EvaluationStrategy"
-
 
 public class AddStereotypeDefinitionsAction extends URNSelectionAction {
 
     public static final String ADD_STEREOTYPE_DEFINITIONS = "seg.jUCMNav.AddStereotypeDefinitions"; //$NON-NLS-1$
 
-    private String [] values = { "ST_CLASSTYPE,CLASS1,IntentionalElement", "ST_CLASSTYPE,CLASS2,IntentionalElement", "ST_CLASSTYPE,OTHER,IntentionalElement", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    		"acceptStereotype,CLASS1,EvaluationStrategy", "acceptStereotype,CLASS2,EvaluationStrategy", "acceptStereotype,OTHER,EvaluationStrategy", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    		"ST_CLASSTYPE,GUNTER,IntentionalElementRef" //$NON-NLS-1$
+    // Do not externalize these strings. 
+    private String [] values = { 
+    		"ST_CLASSTYPE,CLASS1,IntentionalElement", //$NON-NLS-1$
+    		"ST_CLASSTYPE,CLASS2,IntentionalElement", //$NON-NLS-1$
+    		"ST_CLASSTYPE,OTHER,IntentionalElement", //$NON-NLS-1$ 
+    		"acceptStereotype,CLASS1,EvaluationStrategy", //$NON-NLS-1$
+    		"acceptStereotype,CLASS2,EvaluationStrategy", //$NON-NLS-1$
+    		"acceptStereotype,OTHER,EvaluationStrategy" //$NON-NLS-1$
     };
 
-    // did not externalize this yet, because don't know if these are constants or GUI strings. 
-    private String [] linkTypes = { "Traceability", "Refinement", "Compliance" };
+    // Do not externalize these strings. 
+    private String [] linkTypes = { "Traceability", "Refinement", "Compliance" }; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
     
 	public AddStereotypeDefinitionsAction(IWorkbenchPart part) {
 		super(part);
@@ -116,7 +113,7 @@ public class AddStereotypeDefinitionsAction extends URNSelectionAction {
 			}
 
             mdList = (Metadata[]) otherMetadata.toArray(new Metadata[0]);
-        	commandLabel = Messages.getString("ActionRegistryManager.updateStereotypeDefinitions");             //$NON-NLS-1$
+        	commandLabel = Messages.getString("ActionRegistryManager.updateStereotypeDefinitions"); //$NON-NLS-1$
         } else {
         	mdList = (Metadata[]) urnspec.getMetadata().toArray(new Metadata[0]);
         	commandLabel = Messages.getString("ActionRegistryManager.addStereotypeDefinitions"); //$NON-NLS-1$

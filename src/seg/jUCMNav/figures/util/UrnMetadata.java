@@ -33,8 +33,10 @@ public class UrnMetadata {
     /**
      * Metadata indicator added to text labels
      */
-    public static final String METADATA_PRESENCE = " �"; //$NON-NLS-1$
-    public static final String METADATA_PRESENCE_NOSPACE = "�"; //$NON-NLS-1$
+    public static final String METADATA_PRESENCE = " \u2029"; //$NON-NLS-1$
+    public static final String METADATA_PRESENCE_NOSPACE = "\u2029"; //$NON-NLS-1$
+    public static final String STEREOTYPE_OPEN = " \u00AB"; //$NON-NLS-1$
+    public static final String STEREOTYPE_CLOSE = "\u00BB"; //$NON-NLS-1$
 
     /**
      * Checks whether a metadata of the URN element has a specific value for the given name.
@@ -69,8 +71,7 @@ public class UrnMetadata {
 
             if (name.toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
                 // Could be added to extract the kind of stereotype, but takes too much real estate.
-                // name = name.substring(STEREOTYPE_PREFIX.length());
-                stereotypes = stereotypes + METADATA_PRESENCE + metadata.getValue() + METADATA_PRESENCE_NOSPACE; 
+                stereotypes = stereotypes + STEREOTYPE_OPEN + metadata.getValue() + STEREOTYPE_CLOSE; 
             } else if (!MetadataHelper.isRuntimeMetadata(name))
                 otherMetadataTypes = true;
         }
@@ -99,7 +100,7 @@ public class UrnMetadata {
             String name = metadata.getName();
 
             if (name.toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
-                sb.append( METADATA_PRESENCE + metadata.getValue() + METADATA_PRESENCE_NOSPACE ); //$NON-NLS-1$  //$NON-NLS-2$
+                sb.append( STEREOTYPE_OPEN + metadata.getValue() + STEREOTYPE_CLOSE ); 
             } else if (!MetadataHelper.isRuntimeMetadata(name)) {
                 otherMetadataTypes = true;
             }
@@ -120,11 +121,11 @@ public class UrnMetadata {
             name = name.substring(0, sub);
         else {
             // Removes stereotypes at the end of the name
-            sub = name.indexOf(METADATA_PRESENCE); //$NON-NLS-1$
+            sub = name.indexOf(STEREOTYPE_CLOSE); //$NON-NLS-1$
             if (sub > -1)
                 name = name.substring(0, sub);
             else {
-                // Removes � at the end of the name
+                // Removes paragraph mark at the end of the name
                 sub = name.indexOf(METADATA_PRESENCE);
                 if (sub > -1)
                     name = name.substring(0, sub);
@@ -181,7 +182,7 @@ public class UrnMetadata {
         while (it.hasNext()) {
             Metadata metadata = (Metadata) it.next();
             if ( UrnMetadata.isMetadataMeaningful( metadata.getName() )) {
-                metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ $NON-NLS-2$ $NON-NLS-3$
+                metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
             }
         }
 
@@ -191,7 +192,7 @@ public class UrnMetadata {
             while (it.hasNext()) {
                 Metadata metadata = (Metadata) it.next();
                 if (!metadata.getName().toUpperCase().startsWith(STEREOTYPE_PREFIX)) {
-                    metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ $NON-NLS-2$ $NON-NLS-3$
+                    metadataText = metadataText + "\n    " + metadata.getName() + "=" + metadata.getValue() + " "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
                 }
             }
         }
@@ -227,7 +228,7 @@ public class UrnMetadata {
                         classname = link.getToElem().getClass().toString();
                         classname = classname.substring(classname.lastIndexOf(".") + 1, classname.length() - 4); //$NON-NLS-1$
                     }
-                    toolTipText = toolTipText + "\n   " + link.getType() + Messages.getString("UrnMetadata_To") + link.getToElem().getName() + " (" + classname + ") "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
+                    toolTipText = toolTipText + "\n   " + link.getType() + Messages.getString("UrnMetadata_To") + link.getToElem().getName() + " (" + classname + ") "; //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
                 }
             }
             it = elem.getToLinks().iterator();
@@ -257,7 +258,7 @@ public class UrnMetadata {
     	
     	if( name.toUpperCase().startsWith(STEREOTYPE_PREFIX) )
     		return false;
-    	else if( name.contentEquals( "AltName" ) || name.contentEquals( "AltDescription" ) )
+    	else if( name.contentEquals( "AltName" ) || name.contentEquals( "AltDescription" ) ) //$NON-NLS-1$ $NON-NLS-2$
     		return false;
     	
     	return true;
