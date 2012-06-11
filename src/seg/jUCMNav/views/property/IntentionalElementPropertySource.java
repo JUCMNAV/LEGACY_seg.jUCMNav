@@ -466,7 +466,11 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 result = new Integer(StrategyEvaluationPreferences.getValueToVisualize(((Integer)result).intValue()));
             }*/
         } else if (propertyid.getEClass().getName() == "KPIEvalValueSet") { //$NON-NLS-1$
-            result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).getKpiEvalValueSet().eGet(feature);
+            Evaluation eval = EvaluationStrategyManager.getInstance().getEvaluationObject(def);
+            if (eval != null && eval.getKpiEvalValueSet() != null)
+            {
+            	result = eval.getKpiEvalValueSet().eGet(feature);
+            }
         } else
             result = object.eGet(feature);
         return result;

@@ -949,6 +949,7 @@ public class EvaluationStrategyManager {
     }
 
     public synchronized void setKPIEvalValueSet(IntentionalElement element, EStructuralFeature feature, double value) {
+        // TODO: For some reason, when the Properties view is maximized, "evaluations" becomes empty!
         Evaluation eval = (Evaluation) evaluations.get(element);
         KPIEvalValueSet kpiEval = eval.getKpiEvalValueSet();
 
