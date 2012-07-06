@@ -112,6 +112,15 @@ public class KpimodelAdapterFactory extends AdapterFactoryImpl {
 			public Object caseKPINewEvalValue(KPINewEvalValue object) {
 				return createKPINewEvalValueAdapter();
 			}
+			public Object caseKPIConversion(KPIConversion object) {
+				return createKPIConversionAdapter();
+			}
+			public Object caseQualitativeMappings(QualitativeMappings object) {
+				return createQualitativeMappingsAdapter();
+			}
+			public Object caseQualToQuanMapping(QualToQuanMapping object) {
+				return createQualToQuanMappingAdapter();
+			}
 			public Object caseURNmodelElement(URNmodelElement object) {
 				return createURNmodelElementAdapter();
 			}
@@ -274,6 +283,48 @@ public class KpimodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createKPINewEvalValueAdapter() {
+		return null;
+	}
+
+				/**
+	 * Creates a new adapter for an object of class '{@link grl.kpimodel.KPIConversion <em>KPI Conversion</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see grl.kpimodel.KPIConversion
+	 * @generated
+	 */
+	public Adapter createKPIConversionAdapter() {
+		return null;
+	}
+
+				/**
+	 * Creates a new adapter for an object of class '{@link grl.kpimodel.QualitativeMappings <em>Qualitative Mappings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see grl.kpimodel.QualitativeMappings
+	 * @generated
+	 */
+	public Adapter createQualitativeMappingsAdapter() {
+		return null;
+	}
+
+				/**
+	 * Creates a new adapter for an object of class '{@link grl.kpimodel.QualToQuanMapping <em>Qual To Quan Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see grl.kpimodel.QualToQuanMapping
+	 * @generated
+	 */
+	public Adapter createQualToQuanMappingAdapter() {
 		return null;
 	}
 

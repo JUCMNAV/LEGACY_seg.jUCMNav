@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link grl.Evaluation#getEvaluation <em>Evaluation</em>}</li>
  *   <li>{@link grl.Evaluation#getQualitativeEvaluation <em>Qualitative Evaluation</em>}</li>
+ *   <li>{@link grl.Evaluation#isExceeds <em>Exceeds</em>}</li>
  *   <li>{@link grl.Evaluation#getIntElement <em>Int Element</em>}</li>
  *   <li>{@link grl.Evaluation#getStrategies <em>Strategies</em>}</li>
  *   <li>{@link grl.Evaluation#getKpiEvalValueSet <em>Kpi Eval Value Set</em>}</li>
@@ -90,6 +91,33 @@ public interface Evaluation extends EObject {
 	 * @generated
 	 */
 	void setQualitativeEvaluation(QualitativeLabel value);
+
+				/**
+	 * Returns the value of the '<em><b>Exceeds</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Exceeds</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Exceeds</em>' attribute.
+	 * @see #setExceeds(boolean)
+	 * @see grl.GrlPackage#getEvaluation_Exceeds()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isExceeds();
+
+				/**
+	 * Sets the value of the '{@link grl.Evaluation#isExceeds <em>Exceeds</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Exceeds</em>' attribute.
+	 * @see #isExceeds()
+	 * @generated
+	 */
+	void setExceeds(boolean value);
 
 				/**
 	 * Returns the value of the '<em><b>Int Element</b></em>' reference.

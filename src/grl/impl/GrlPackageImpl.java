@@ -488,6 +488,15 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
     /**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGRLspec_KPIConversion() {
+		return (EReference)grLspecEClass.getEStructuralFeatures().get(11);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -605,11 +614,29 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
     /**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActor_Importance() {
+		return (EAttribute)actorEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActor_ImportanceQuantitative() {
+		return (EAttribute)actorEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
     public EReference getActor_Grlspec() {
-		return (EReference)actorEClass.getEStructuralFeatures().get(0);
+		return (EReference)actorEClass.getEStructuralFeatures().get(2);
 	}
 
     /**
@@ -618,7 +645,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	public EReference getActor_IncludedActors() {
-		return (EReference)actorEClass.getEStructuralFeatures().get(1);
+		return (EReference)actorEClass.getEStructuralFeatures().get(3);
 	}
 
 				/**
@@ -627,7 +654,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	public EReference getActor_IncludingActor() {
-		return (EReference)actorEClass.getEStructuralFeatures().get(2);
+		return (EReference)actorEClass.getEStructuralFeatures().get(4);
 	}
 
 				/**
@@ -636,7 +663,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	public EReference getActor_CollapsedRefs() {
-		return (EReference)actorEClass.getEStructuralFeatures().get(3);
+		return (EReference)actorEClass.getEStructuralFeatures().get(5);
 	}
 
 				/**
@@ -848,19 +875,19 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getEvaluation_IntElement() {
-		return (EReference)evaluationEClass.getEStructuralFeatures().get(2);
+	public EAttribute getEvaluation_Exceeds() {
+		return (EAttribute)evaluationEClass.getEStructuralFeatures().get(2);
 	}
 
-    /**
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getEvaluation_Strategies() {
+    public EReference getEvaluation_IntElement() {
 		return (EReference)evaluationEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -869,8 +896,17 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getEvaluation_KpiEvalValueSet() {
+    public EReference getEvaluation_Strategies() {
 		return (EReference)evaluationEClass.getEStructuralFeatures().get(4);
+	}
+
+    /**
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 */
+    public EReference getEvaluation_KpiEvalValueSet() {
+		return (EReference)evaluationEClass.getEStructuralFeatures().get(5);
 	}
 
     /**
@@ -879,7 +915,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	public EReference getEvaluation_EvalRange() {
-		return (EReference)evaluationEClass.getEStructuralFeatures().get(5);
+		return (EReference)evaluationEClass.getEStructuralFeatures().get(6);
 	}
 
 				/**
@@ -888,7 +924,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	public EReference getEvaluation_KpiNewEvalValue() {
-		return (EReference)evaluationEClass.getEStructuralFeatures().get(6);
+		return (EReference)evaluationEClass.getEStructuralFeatures().get(7);
 	}
 
 				/**
@@ -1417,6 +1453,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		createEReference(grLspecEClass, GR_LSPEC__KPI_INFORMATION_ELEMENTS);
 		createEReference(grLspecEClass, GR_LSPEC__KPI_MODEL_LINKS);
 		createEReference(grLspecEClass, GR_LSPEC__INDICATOR_GROUP);
+		createEReference(grLspecEClass, GR_LSPEC__KPI_CONVERSION);
 
 		beliefEClass = createEClass(BELIEF);
 		createEAttribute(beliefEClass, BELIEF__AUTHOR);
@@ -1433,6 +1470,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__REFS);
 
 		actorEClass = createEClass(ACTOR);
+		createEAttribute(actorEClass, ACTOR__IMPORTANCE);
+		createEAttribute(actorEClass, ACTOR__IMPORTANCE_QUANTITATIVE);
 		createEReference(actorEClass, ACTOR__GRLSPEC);
 		createEReference(actorEClass, ACTOR__INCLUDED_ACTORS);
 		createEReference(actorEClass, ACTOR__INCLUDING_ACTOR);
@@ -1469,6 +1508,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		evaluationEClass = createEClass(EVALUATION);
 		createEAttribute(evaluationEClass, EVALUATION__EVALUATION);
 		createEAttribute(evaluationEClass, EVALUATION__QUALITATIVE_EVALUATION);
+		createEAttribute(evaluationEClass, EVALUATION__EXCEEDS);
 		createEReference(evaluationEClass, EVALUATION__INT_ELEMENT);
 		createEReference(evaluationEClass, EVALUATION__STRATEGIES);
 		createEReference(evaluationEClass, EVALUATION__KPI_EVAL_VALUE_SET);
@@ -1613,6 +1653,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEReference(getGRLspec_KpiInformationElements(), theKpimodelPackage.getKPIInformationElement(), theKpimodelPackage.getKPIInformationElement_Grlspec(), "kpiInformationElements", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGRLspec_KpiModelLinks(), theKpimodelPackage.getKPIModelLink(), theKpimodelPackage.getKPIModelLink_Grlspec(), "kpiModelLinks", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGRLspec_IndicatorGroup(), theKpimodelPackage.getIndicatorGroup(), theKpimodelPackage.getIndicatorGroup_Grlspec(), "indicatorGroup", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGRLspec_KPIConversion(), theKpimodelPackage.getKPIConversion(), theKpimodelPackage.getKPIConversion_Grlspec(), "KPIConversion", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(beliefEClass, Belief.class, "Belief", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBelief_Author(), ecorePackage.getEString(), "author", null, 0, 1, Belief.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1629,6 +1670,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEReference(getIntentionalElement_Refs(), this.getIntentionalElementRef(), this.getIntentionalElementRef_Def(), "refs", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(actorEClass, Actor.class, "Actor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getActor_Importance(), this.getImportanceType(), "importance", "None", 0, 1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActor_ImportanceQuantitative(), ecorePackage.getEInt(), "importanceQuantitative", "0", 0, 1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_Grlspec(), this.getGRLspec(), this.getGRLspec_Actors(), "grlspec", null, 1, 1, Actor.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_IncludedActors(), this.getActor(), this.getActor_IncludingActor(), "includedActors", null, 0, -1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_IncludingActor(), this.getActor(), this.getActor_IncludedActors(), "includingActor", null, 0, 1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1665,6 +1708,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEClass(evaluationEClass, Evaluation.class, "Evaluation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEvaluation_Evaluation(), ecorePackage.getEInt(), "evaluation", "0", 0, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEvaluation_QualitativeEvaluation(), this.getQualitativeLabel(), "qualitativeEvaluation", "None", 0, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEvaluation_Exceeds(), ecorePackage.getEBoolean(), "exceeds", "false", 0, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluation_IntElement(), this.getIntentionalElement(), null, "intElement", null, 1, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluation_Strategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_Evaluations(), "strategies", null, 1, 1, Evaluation.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluation_KpiEvalValueSet(), theKpimodelPackage.getKPIEvalValueSet(), theKpimodelPackage.getKPIEvalValueSet_Eval(), "kpiEvalValueSet", null, 0, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

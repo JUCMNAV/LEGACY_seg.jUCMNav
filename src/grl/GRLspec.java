@@ -30,6 +30,7 @@ import urn.URNspec;
  *   <li>{@link grl.GRLspec#getKpiInformationElements <em>Kpi Information Elements</em>}</li>
  *   <li>{@link grl.GRLspec#getKpiModelLinks <em>Kpi Model Links</em>}</li>
  *   <li>{@link grl.GRLspec#getIndicatorGroup <em>Indicator Group</em>}</li>
+ *   <li>{@link grl.GRLspec#getKPIConversion <em>KPI Conversion</em>}</li>
  * </ul>
  * </p>
  *
@@ -245,5 +246,23 @@ public interface GRLspec extends EObject {
 	 * @generated
 	 */
     EList getIndicatorGroup();
+
+				/**
+	 * Returns the value of the '<em><b>KPI Conversion</b></em>' containment reference list.
+	 * The list contents are of type {@link grl.kpimodel.KPIConversion}.
+	 * It is bidirectional and its opposite is '{@link grl.kpimodel.KPIConversion#getGrlspec <em>Grlspec</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>KPI Conversion</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>KPI Conversion</em>' containment reference list.
+	 * @see grl.GrlPackage#getGRLspec_KPIConversion()
+	 * @see grl.kpimodel.KPIConversion#getGrlspec
+	 * @model type="grl.kpimodel.KPIConversion" opposite="grlspec" containment="true"
+	 * @generated
+	 */
+	EList getKPIConversion();
 
 } // GRLspec

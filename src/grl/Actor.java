@@ -18,6 +18,8 @@ import urncore.IURNContainer;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link grl.Actor#getImportance <em>Importance</em>}</li>
+ *   <li>{@link grl.Actor#getImportanceQuantitative <em>Importance Quantitative</em>}</li>
  *   <li>{@link grl.Actor#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.Actor#getIncludedActors <em>Included Actors</em>}</li>
  *   <li>{@link grl.Actor#getIncludingActor <em>Including Actor</em>}</li>
@@ -31,6 +33,63 @@ import urncore.IURNContainer;
  */
 public interface Actor extends GRLLinkableElement, IURNContainer {
     /**
+	 * Returns the value of the '<em><b>Importance</b></em>' attribute.
+	 * The default value is <code>"None"</code>.
+	 * The literals are from the enumeration {@link grl.ImportanceType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Importance</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Importance</em>' attribute.
+	 * @see grl.ImportanceType
+	 * @see #setImportance(ImportanceType)
+	 * @see grl.GrlPackage#getActor_Importance()
+	 * @model default="None"
+	 * @generated
+	 */
+	ImportanceType getImportance();
+
+	/**
+	 * Sets the value of the '{@link grl.Actor#getImportance <em>Importance</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Importance</em>' attribute.
+	 * @see grl.ImportanceType
+	 * @see #getImportance()
+	 * @generated
+	 */
+	void setImportance(ImportanceType value);
+
+	/**
+	 * Returns the value of the '<em><b>Importance Quantitative</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Importance Quantitative</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Importance Quantitative</em>' attribute.
+	 * @see #setImportanceQuantitative(int)
+	 * @see grl.GrlPackage#getActor_ImportanceQuantitative()
+	 * @model default="0"
+	 * @generated
+	 */
+	int getImportanceQuantitative();
+
+	/**
+	 * Sets the value of the '{@link grl.Actor#getImportanceQuantitative <em>Importance Quantitative</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Importance Quantitative</em>' attribute.
+	 * @see #getImportanceQuantitative()
+	 * @generated
+	 */
+	void setImportanceQuantitative(int value);
+
+				/**
 	 * Returns the value of the '<em><b>Grlspec</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link grl.GRLspec#getActors <em>Actors</em>}'.
 	 * <!-- begin-user-doc -->

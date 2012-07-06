@@ -872,22 +872,40 @@ public interface KpimodelPackage extends EPackage {
     int KPI_EVAL_VALUE_SET__UNIT = 4;
 
     /**
+	 * The feature id for the '<em><b>Qualitative Evaluation Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_EVAL_VALUE_SET__QUALITATIVE_EVALUATION_VALUE = 5;
+
+				/**
 	 * The feature id for the '<em><b>Eval</b></em>' container reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int KPI_EVAL_VALUE_SET__EVAL = 5;
+    int KPI_EVAL_VALUE_SET__EVAL = 6;
 
     /**
+	 * The feature id for the '<em><b>Kpi Conv</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_EVAL_VALUE_SET__KPI_CONV = 7;
+
+				/**
 	 * The number of structural features of the '<em>KPI Eval Value Set</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int KPI_EVAL_VALUE_SET_FEATURE_COUNT = 6;
+    int KPI_EVAL_VALUE_SET_FEATURE_COUNT = 8;
 
     /**
 	 * The meta object id for the '{@link grl.kpimodel.impl.KPIInformationConfigImpl <em>KPI Information Config</em>}' class.
@@ -981,6 +999,271 @@ public interface KpimodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int KPI_NEW_EVAL_VALUE_FEATURE_COUNT = 2;
+
+
+				/**
+	 * The meta object id for the '{@link grl.kpimodel.impl.KPIConversionImpl <em>KPI Conversion</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see grl.kpimodel.impl.KPIConversionImpl
+	 * @see grl.kpimodel.impl.KpimodelPackageImpl#getKPIConversion()
+	 * @generated
+	 */
+	int KPI_CONVERSION = 9;
+
+				/**
+	 * The feature id for the '<em><b>From Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_CONVERSION__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
+
+				/**
+	 * The feature id for the '<em><b>To Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_CONVERSION__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
+
+				/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_CONVERSION__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
+
+				/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_CONVERSION__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
+
+				/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_CONVERSION__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+				/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_CONVERSION__METADATA = UrncorePackage.GR_LMODEL_ELEMENT__METADATA;
+
+				/**
+	 * The feature id for the '<em><b>Inconcern</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_CONVERSION__INCONCERN = UrncorePackage.GR_LMODEL_ELEMENT__INCONCERN;
+
+				/**
+	 * The feature id for the '<em><b>Kpi Eval Value Set</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_CONVERSION__KPI_EVAL_VALUE_SET = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+				/**
+	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_CONVERSION__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+				/**
+	 * The number of structural features of the '<em>KPI Conversion</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KPI_CONVERSION_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+				/**
+	 * The meta object id for the '{@link grl.kpimodel.impl.QualitativeMappingsImpl <em>Qualitative Mappings</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see grl.kpimodel.impl.QualitativeMappingsImpl
+	 * @see grl.kpimodel.impl.KpimodelPackageImpl#getQualitativeMappings()
+	 * @generated
+	 */
+	int QUALITATIVE_MAPPINGS = 10;
+
+				/**
+	 * The feature id for the '<em><b>From Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS__FROM_LINKS = KPI_CONVERSION__FROM_LINKS;
+
+				/**
+	 * The feature id for the '<em><b>To Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS__TO_LINKS = KPI_CONVERSION__TO_LINKS;
+
+				/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS__ID = KPI_CONVERSION__ID;
+
+				/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS__NAME = KPI_CONVERSION__NAME;
+
+				/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS__DESCRIPTION = KPI_CONVERSION__DESCRIPTION;
+
+				/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS__METADATA = KPI_CONVERSION__METADATA;
+
+				/**
+	 * The feature id for the '<em><b>Inconcern</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS__INCONCERN = KPI_CONVERSION__INCONCERN;
+
+				/**
+	 * The feature id for the '<em><b>Kpi Eval Value Set</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS__KPI_EVAL_VALUE_SET = KPI_CONVERSION__KPI_EVAL_VALUE_SET;
+
+				/**
+	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS__GRLSPEC = KPI_CONVERSION__GRLSPEC;
+
+				/**
+	 * The feature id for the '<em><b>Mapping</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS__MAPPING = KPI_CONVERSION_FEATURE_COUNT + 0;
+
+				/**
+	 * The number of structural features of the '<em>Qualitative Mappings</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUALITATIVE_MAPPINGS_FEATURE_COUNT = KPI_CONVERSION_FEATURE_COUNT + 1;
+
+				/**
+	 * The meta object id for the '{@link grl.kpimodel.impl.QualToQuanMappingImpl <em>Qual To Quan Mapping</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see grl.kpimodel.impl.QualToQuanMappingImpl
+	 * @see grl.kpimodel.impl.KpimodelPackageImpl#getQualToQuanMapping()
+	 * @generated
+	 */
+	int QUAL_TO_QUAN_MAPPING = 11;
+
+				/**
+	 * The feature id for the '<em><b>Real World Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUAL_TO_QUAN_MAPPING__REAL_WORLD_LABEL = 0;
+
+				/**
+	 * The feature id for the '<em><b>Evaluation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUAL_TO_QUAN_MAPPING__EVALUATION = 1;
+
+				/**
+	 * The feature id for the '<em><b>Qualitative Evaluation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUAL_TO_QUAN_MAPPING__QUALITATIVE_EVALUATION = 2;
+
+				/**
+	 * The feature id for the '<em><b>Exceeds</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUAL_TO_QUAN_MAPPING__EXCEEDS = 3;
+
+				/**
+	 * The number of structural features of the '<em>Qual To Quan Mapping</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUAL_TO_QUAN_MAPPING_FEATURE_COUNT = 4;
 
 
 				/**
@@ -1263,6 +1546,17 @@ public interface KpimodelPackage extends EPackage {
     EAttribute getKPIEvalValueSet_Unit();
 
     /**
+	 * Returns the meta object for the attribute '{@link grl.kpimodel.KPIEvalValueSet#getQualitativeEvaluationValue <em>Qualitative Evaluation Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Qualitative Evaluation Value</em>'.
+	 * @see grl.kpimodel.KPIEvalValueSet#getQualitativeEvaluationValue()
+	 * @see #getKPIEvalValueSet()
+	 * @generated
+	 */
+	EAttribute getKPIEvalValueSet_QualitativeEvaluationValue();
+
+				/**
 	 * Returns the meta object for the container reference '{@link grl.kpimodel.KPIEvalValueSet#getEval <em>Eval</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1274,6 +1568,17 @@ public interface KpimodelPackage extends EPackage {
     EReference getKPIEvalValueSet_Eval();
 
     /**
+	 * Returns the meta object for the reference '{@link grl.kpimodel.KPIEvalValueSet#getKpiConv <em>Kpi Conv</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Kpi Conv</em>'.
+	 * @see grl.kpimodel.KPIEvalValueSet#getKpiConv()
+	 * @see #getKPIEvalValueSet()
+	 * @generated
+	 */
+	EReference getKPIEvalValueSet_KpiConv();
+
+				/**
 	 * Returns the meta object for class '{@link grl.kpimodel.KPIInformationConfig <em>KPI Information Config</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1358,6 +1663,113 @@ public interface KpimodelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getKPINewEvalValue_Eval();
+
+				/**
+	 * Returns the meta object for class '{@link grl.kpimodel.KPIConversion <em>KPI Conversion</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>KPI Conversion</em>'.
+	 * @see grl.kpimodel.KPIConversion
+	 * @generated
+	 */
+	EClass getKPIConversion();
+
+				/**
+	 * Returns the meta object for the reference list '{@link grl.kpimodel.KPIConversion#getKpiEvalValueSet <em>Kpi Eval Value Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Kpi Eval Value Set</em>'.
+	 * @see grl.kpimodel.KPIConversion#getKpiEvalValueSet()
+	 * @see #getKPIConversion()
+	 * @generated
+	 */
+	EReference getKPIConversion_KpiEvalValueSet();
+
+				/**
+	 * Returns the meta object for the container reference '{@link grl.kpimodel.KPIConversion#getGrlspec <em>Grlspec</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Grlspec</em>'.
+	 * @see grl.kpimodel.KPIConversion#getGrlspec()
+	 * @see #getKPIConversion()
+	 * @generated
+	 */
+	EReference getKPIConversion_Grlspec();
+
+				/**
+	 * Returns the meta object for class '{@link grl.kpimodel.QualitativeMappings <em>Qualitative Mappings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Qualitative Mappings</em>'.
+	 * @see grl.kpimodel.QualitativeMappings
+	 * @generated
+	 */
+	EClass getQualitativeMappings();
+
+				/**
+	 * Returns the meta object for the containment reference list '{@link grl.kpimodel.QualitativeMappings#getMapping <em>Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Mapping</em>'.
+	 * @see grl.kpimodel.QualitativeMappings#getMapping()
+	 * @see #getQualitativeMappings()
+	 * @generated
+	 */
+	EReference getQualitativeMappings_Mapping();
+
+				/**
+	 * Returns the meta object for class '{@link grl.kpimodel.QualToQuanMapping <em>Qual To Quan Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Qual To Quan Mapping</em>'.
+	 * @see grl.kpimodel.QualToQuanMapping
+	 * @generated
+	 */
+	EClass getQualToQuanMapping();
+
+				/**
+	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualToQuanMapping#getRealWorldLabel <em>Real World Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Real World Label</em>'.
+	 * @see grl.kpimodel.QualToQuanMapping#getRealWorldLabel()
+	 * @see #getQualToQuanMapping()
+	 * @generated
+	 */
+	EAttribute getQualToQuanMapping_RealWorldLabel();
+
+				/**
+	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualToQuanMapping#getEvaluation <em>Evaluation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Evaluation</em>'.
+	 * @see grl.kpimodel.QualToQuanMapping#getEvaluation()
+	 * @see #getQualToQuanMapping()
+	 * @generated
+	 */
+	EAttribute getQualToQuanMapping_Evaluation();
+
+				/**
+	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualToQuanMapping#getQualitativeEvaluation <em>Qualitative Evaluation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Qualitative Evaluation</em>'.
+	 * @see grl.kpimodel.QualToQuanMapping#getQualitativeEvaluation()
+	 * @see #getQualToQuanMapping()
+	 * @generated
+	 */
+	EAttribute getQualToQuanMapping_QualitativeEvaluation();
+
+				/**
+	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualToQuanMapping#isExceeds <em>Exceeds</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Exceeds</em>'.
+	 * @see grl.kpimodel.QualToQuanMapping#isExceeds()
+	 * @see #getQualToQuanMapping()
+	 * @generated
+	 */
+	EAttribute getQualToQuanMapping_Exceeds();
 
 				/**
 	 * Returns the factory that creates the instances of the model.
@@ -1604,6 +2016,14 @@ public interface KpimodelPackage extends EPackage {
         EAttribute KPI_EVAL_VALUE_SET__UNIT = eINSTANCE.getKPIEvalValueSet_Unit();
 
         /**
+		 * The meta object literal for the '<em><b>Qualitative Evaluation Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute KPI_EVAL_VALUE_SET__QUALITATIVE_EVALUATION_VALUE = eINSTANCE.getKPIEvalValueSet_QualitativeEvaluationValue();
+
+								/**
 		 * The meta object literal for the '<em><b>Eval</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -1612,6 +2032,14 @@ public interface KpimodelPackage extends EPackage {
         EReference KPI_EVAL_VALUE_SET__EVAL = eINSTANCE.getKPIEvalValueSet_Eval();
 
         /**
+		 * The meta object literal for the '<em><b>Kpi Conv</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference KPI_EVAL_VALUE_SET__KPI_CONV = eINSTANCE.getKPIEvalValueSet_KpiConv();
+
+								/**
 		 * The meta object literal for the '{@link grl.kpimodel.impl.KPIInformationConfigImpl <em>KPI Information Config</em>}' class.
 		 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -1678,6 +2106,92 @@ public interface KpimodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference KPI_NEW_EVAL_VALUE__EVAL = eINSTANCE.getKPINewEvalValue_Eval();
+
+								/**
+		 * The meta object literal for the '{@link grl.kpimodel.impl.KPIConversionImpl <em>KPI Conversion</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see grl.kpimodel.impl.KPIConversionImpl
+		 * @see grl.kpimodel.impl.KpimodelPackageImpl#getKPIConversion()
+		 * @generated
+		 */
+		EClass KPI_CONVERSION = eINSTANCE.getKPIConversion();
+
+								/**
+		 * The meta object literal for the '<em><b>Kpi Eval Value Set</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference KPI_CONVERSION__KPI_EVAL_VALUE_SET = eINSTANCE.getKPIConversion_KpiEvalValueSet();
+
+								/**
+		 * The meta object literal for the '<em><b>Grlspec</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference KPI_CONVERSION__GRLSPEC = eINSTANCE.getKPIConversion_Grlspec();
+
+								/**
+		 * The meta object literal for the '{@link grl.kpimodel.impl.QualitativeMappingsImpl <em>Qualitative Mappings</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see grl.kpimodel.impl.QualitativeMappingsImpl
+		 * @see grl.kpimodel.impl.KpimodelPackageImpl#getQualitativeMappings()
+		 * @generated
+		 */
+		EClass QUALITATIVE_MAPPINGS = eINSTANCE.getQualitativeMappings();
+
+								/**
+		 * The meta object literal for the '<em><b>Mapping</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference QUALITATIVE_MAPPINGS__MAPPING = eINSTANCE.getQualitativeMappings_Mapping();
+
+								/**
+		 * The meta object literal for the '{@link grl.kpimodel.impl.QualToQuanMappingImpl <em>Qual To Quan Mapping</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see grl.kpimodel.impl.QualToQuanMappingImpl
+		 * @see grl.kpimodel.impl.KpimodelPackageImpl#getQualToQuanMapping()
+		 * @generated
+		 */
+		EClass QUAL_TO_QUAN_MAPPING = eINSTANCE.getQualToQuanMapping();
+
+								/**
+		 * The meta object literal for the '<em><b>Real World Label</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute QUAL_TO_QUAN_MAPPING__REAL_WORLD_LABEL = eINSTANCE.getQualToQuanMapping_RealWorldLabel();
+
+								/**
+		 * The meta object literal for the '<em><b>Evaluation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute QUAL_TO_QUAN_MAPPING__EVALUATION = eINSTANCE.getQualToQuanMapping_Evaluation();
+
+								/**
+		 * The meta object literal for the '<em><b>Qualitative Evaluation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute QUAL_TO_QUAN_MAPPING__QUALITATIVE_EVALUATION = eINSTANCE.getQualToQuanMapping_QualitativeEvaluation();
+
+								/**
+		 * The meta object literal for the '<em><b>Exceeds</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute QUAL_TO_QUAN_MAPPING__EXCEEDS = eINSTANCE.getQualToQuanMapping_Exceeds();
 
     }
 

@@ -11,6 +11,7 @@ import grl.CollapsedActorRef;
 import grl.GRLspec;
 import grl.GrlPackage;
 
+import grl.ImportanceType;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -38,6 +39,8 @@ import urncore.UrncorePackage;
  *   <li>{@link grl.impl.ActorImpl#getFillColor <em>Fill Color</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#isFilled <em>Filled</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getContRefs <em>Cont Refs</em>}</li>
+ *   <li>{@link grl.impl.ActorImpl#getImportance <em>Importance</em>}</li>
+ *   <li>{@link grl.impl.ActorImpl#getImportanceQuantitative <em>Importance Quantitative</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getIncludedActors <em>Included Actors</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getIncludingActor <em>Including Actor</em>}</li>
@@ -119,6 +122,46 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
     protected EList contRefs;
 
     /**
+	 * The default value of the '{@link #getImportance() <em>Importance</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImportance()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final ImportanceType IMPORTANCE_EDEFAULT = ImportanceType.NONE_LITERAL;
+
+				/**
+	 * The cached value of the '{@link #getImportance() <em>Importance</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImportance()
+	 * @generated
+	 * @ordered
+	 */
+	protected ImportanceType importance = IMPORTANCE_EDEFAULT;
+
+				/**
+	 * The default value of the '{@link #getImportanceQuantitative() <em>Importance Quantitative</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImportanceQuantitative()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int IMPORTANCE_QUANTITATIVE_EDEFAULT = 0;
+
+				/**
+	 * The cached value of the '{@link #getImportanceQuantitative() <em>Importance Quantitative</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImportanceQuantitative()
+	 * @generated
+	 * @ordered
+	 */
+	protected int importanceQuantitative = IMPORTANCE_QUANTITATIVE_EDEFAULT;
+
+				/**
 	 * The cached value of the '{@link #getIncludedActors() <em>Included Actors</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -242,6 +285,48 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ImportanceType getImportance() {
+		return importance;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setImportance(ImportanceType newImportance) {
+		ImportanceType oldImportance = importance;
+		importance = newImportance == null ? IMPORTANCE_EDEFAULT : newImportance;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR__IMPORTANCE, oldImportance, importance));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getImportanceQuantitative() {
+		return importanceQuantitative;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setImportanceQuantitative(int newImportanceQuantitative) {
+		int oldImportanceQuantitative = importanceQuantitative;
+		importanceQuantitative = newImportanceQuantitative;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR__IMPORTANCE_QUANTITATIVE, oldImportanceQuantitative, importanceQuantitative));
+	}
+
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -440,6 +525,10 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 				return isFilled() ? Boolean.TRUE : Boolean.FALSE;
 			case GrlPackage.ACTOR__CONT_REFS:
 				return getContRefs();
+			case GrlPackage.ACTOR__IMPORTANCE:
+				return getImportance();
+			case GrlPackage.ACTOR__IMPORTANCE_QUANTITATIVE:
+				return new Integer(getImportanceQuantitative());
 			case GrlPackage.ACTOR__GRLSPEC:
 				return getGrlspec();
 			case GrlPackage.ACTOR__INCLUDED_ACTORS:
@@ -472,6 +561,12 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 			case GrlPackage.ACTOR__CONT_REFS:
 				getContRefs().clear();
 				getContRefs().addAll((Collection)newValue);
+				return;
+			case GrlPackage.ACTOR__IMPORTANCE:
+				setImportance((ImportanceType)newValue);
+				return;
+			case GrlPackage.ACTOR__IMPORTANCE_QUANTITATIVE:
+				setImportanceQuantitative(((Integer)newValue).intValue());
 				return;
 			case GrlPackage.ACTOR__GRLSPEC:
 				setGrlspec((GRLspec)newValue);
@@ -510,6 +605,12 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 			case GrlPackage.ACTOR__CONT_REFS:
 				getContRefs().clear();
 				return;
+			case GrlPackage.ACTOR__IMPORTANCE:
+				setImportance(IMPORTANCE_EDEFAULT);
+				return;
+			case GrlPackage.ACTOR__IMPORTANCE_QUANTITATIVE:
+				setImportanceQuantitative(IMPORTANCE_QUANTITATIVE_EDEFAULT);
+				return;
 			case GrlPackage.ACTOR__GRLSPEC:
 				setGrlspec((GRLspec)null);
 				return;
@@ -541,6 +642,10 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 				return filled != FILLED_EDEFAULT;
 			case GrlPackage.ACTOR__CONT_REFS:
 				return contRefs != null && !contRefs.isEmpty();
+			case GrlPackage.ACTOR__IMPORTANCE:
+				return importance != IMPORTANCE_EDEFAULT;
+			case GrlPackage.ACTOR__IMPORTANCE_QUANTITATIVE:
+				return importanceQuantitative != IMPORTANCE_QUANTITATIVE_EDEFAULT;
 			case GrlPackage.ACTOR__GRLSPEC:
 				return getGrlspec() != null;
 			case GrlPackage.ACTOR__INCLUDED_ACTORS:
@@ -604,6 +709,10 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 		result.append(fillColor);
 		result.append(", filled: ");
 		result.append(filled);
+		result.append(", importance: ");
+		result.append(importance);
+		result.append(", importanceQuantitative: ");
+		result.append(importanceQuantitative);
 		result.append(')');
 		return result.toString();
 	}

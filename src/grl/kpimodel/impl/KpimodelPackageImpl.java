@@ -10,6 +10,7 @@ import grl.GrlPackage;
 import grl.impl.GrlPackageImpl;
 import grl.kpimodel.Indicator;
 import grl.kpimodel.IndicatorGroup;
+import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KPIInformationElement;
@@ -20,6 +21,8 @@ import grl.kpimodel.KPINewEvalValue;
 import grl.kpimodel.KpimodelFactory;
 import grl.kpimodel.KpimodelPackage;
 
+import grl.kpimodel.QualToQuanMapping;
+import grl.kpimodel.QualitativeMappings;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -108,6 +111,27 @@ public class KpimodelPackageImpl extends EPackageImpl implements KpimodelPackage
 	 * @generated
 	 */
 	private EClass kpiNewEvalValueEClass = null;
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass kpiConversionEClass = null;
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass qualitativeMappingsEClass = null;
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass qualToQuanMappingEClass = null;
 
 				/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -429,14 +453,32 @@ public class KpimodelPackageImpl extends EPackageImpl implements KpimodelPackage
 
     /**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getKPIEvalValueSet_QualitativeEvaluationValue() {
+		return (EAttribute)kpiEvalValueSetEClass.getEStructuralFeatures().get(5);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
     public EReference getKPIEvalValueSet_Eval() {
-		return (EReference)kpiEvalValueSetEClass.getEStructuralFeatures().get(5);
+		return (EReference)kpiEvalValueSetEClass.getEStructuralFeatures().get(6);
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getKPIEvalValueSet_KpiConv() {
+		return (EReference)kpiEvalValueSetEClass.getEStructuralFeatures().get(7);
+	}
+
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -510,6 +552,96 @@ public class KpimodelPackageImpl extends EPackageImpl implements KpimodelPackage
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getKPIConversion() {
+		return kpiConversionEClass;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getKPIConversion_KpiEvalValueSet() {
+		return (EReference)kpiConversionEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getKPIConversion_Grlspec() {
+		return (EReference)kpiConversionEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getQualitativeMappings() {
+		return qualitativeMappingsEClass;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getQualitativeMappings_Mapping() {
+		return (EReference)qualitativeMappingsEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getQualToQuanMapping() {
+		return qualToQuanMappingEClass;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getQualToQuanMapping_RealWorldLabel() {
+		return (EAttribute)qualToQuanMappingEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getQualToQuanMapping_Evaluation() {
+		return (EAttribute)qualToQuanMappingEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getQualToQuanMapping_QualitativeEvaluation() {
+		return (EAttribute)qualToQuanMappingEClass.getEStructuralFeatures().get(2);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getQualToQuanMapping_Exceeds() {
+		return (EAttribute)qualToQuanMappingEClass.getEStructuralFeatures().get(3);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -568,7 +700,9 @@ public class KpimodelPackageImpl extends EPackageImpl implements KpimodelPackage
 		createEAttribute(kpiEvalValueSetEClass, KPI_EVAL_VALUE_SET__WORST_VALUE);
 		createEAttribute(kpiEvalValueSetEClass, KPI_EVAL_VALUE_SET__EVALUATION_VALUE);
 		createEAttribute(kpiEvalValueSetEClass, KPI_EVAL_VALUE_SET__UNIT);
+		createEAttribute(kpiEvalValueSetEClass, KPI_EVAL_VALUE_SET__QUALITATIVE_EVALUATION_VALUE);
 		createEReference(kpiEvalValueSetEClass, KPI_EVAL_VALUE_SET__EVAL);
+		createEReference(kpiEvalValueSetEClass, KPI_EVAL_VALUE_SET__KPI_CONV);
 
 		kpiInformationConfigEClass = createEClass(KPI_INFORMATION_CONFIG);
 		createEAttribute(kpiInformationConfigEClass, KPI_INFORMATION_CONFIG__LEVEL_OF_DIMENSION);
@@ -579,6 +713,19 @@ public class KpimodelPackageImpl extends EPackageImpl implements KpimodelPackage
 		kpiNewEvalValueEClass = createEClass(KPI_NEW_EVAL_VALUE);
 		createEAttribute(kpiNewEvalValueEClass, KPI_NEW_EVAL_VALUE__EVALUATION_VALUE);
 		createEReference(kpiNewEvalValueEClass, KPI_NEW_EVAL_VALUE__EVAL);
+
+		kpiConversionEClass = createEClass(KPI_CONVERSION);
+		createEReference(kpiConversionEClass, KPI_CONVERSION__KPI_EVAL_VALUE_SET);
+		createEReference(kpiConversionEClass, KPI_CONVERSION__GRLSPEC);
+
+		qualitativeMappingsEClass = createEClass(QUALITATIVE_MAPPINGS);
+		createEReference(qualitativeMappingsEClass, QUALITATIVE_MAPPINGS__MAPPING);
+
+		qualToQuanMappingEClass = createEClass(QUAL_TO_QUAN_MAPPING);
+		createEAttribute(qualToQuanMappingEClass, QUAL_TO_QUAN_MAPPING__REAL_WORLD_LABEL);
+		createEAttribute(qualToQuanMappingEClass, QUAL_TO_QUAN_MAPPING__EVALUATION);
+		createEAttribute(qualToQuanMappingEClass, QUAL_TO_QUAN_MAPPING__QUALITATIVE_EVALUATION);
+		createEAttribute(qualToQuanMappingEClass, QUAL_TO_QUAN_MAPPING__EXCEEDS);
 	}
 
     /**
@@ -615,6 +762,8 @@ public class KpimodelPackageImpl extends EPackageImpl implements KpimodelPackage
 		kpiInformationElementRefEClass.getESuperTypes().add(theGrlPackage.getGRLNode());
 		kpiModelLinkEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
 		kpiModelLinkRefEClass.getESuperTypes().add(theUrncorePackage.getIURNConnection());
+		kpiConversionEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
+		qualitativeMappingsEClass.getESuperTypes().add(this.getKPIConversion());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(indicatorGroupEClass, IndicatorGroup.class, "IndicatorGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -649,7 +798,9 @@ public class KpimodelPackageImpl extends EPackageImpl implements KpimodelPackage
 		initEAttribute(getKPIEvalValueSet_WorstValue(), ecorePackage.getEDouble(), "worstValue", "0", 0, 1, KPIEvalValueSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getKPIEvalValueSet_EvaluationValue(), ecorePackage.getEDouble(), "evaluationValue", "0", 0, 1, KPIEvalValueSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getKPIEvalValueSet_Unit(), ecorePackage.getEString(), "unit", "", 0, 1, KPIEvalValueSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getKPIEvalValueSet_QualitativeEvaluationValue(), ecorePackage.getEString(), "qualitativeEvaluationValue", "", 0, 1, KPIEvalValueSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getKPIEvalValueSet_Eval(), theGrlPackage.getEvaluation(), theGrlPackage.getEvaluation_KpiEvalValueSet(), "eval", null, 1, 1, KPIEvalValueSet.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getKPIEvalValueSet_KpiConv(), this.getKPIConversion(), this.getKPIConversion_KpiEvalValueSet(), "kpiConv", null, 0, 1, KPIEvalValueSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(kpiInformationConfigEClass, KPIInformationConfig.class, "KPIInformationConfig", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getKPIInformationConfig_LevelOfDimension(), ecorePackage.getEString(), "levelOfDimension", null, 0, 1, KPIInformationConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -660,6 +811,19 @@ public class KpimodelPackageImpl extends EPackageImpl implements KpimodelPackage
 		initEClass(kpiNewEvalValueEClass, KPINewEvalValue.class, "KPINewEvalValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getKPINewEvalValue_EvaluationValue(), ecorePackage.getEDouble(), "evaluationValue", "0", 0, 1, KPINewEvalValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getKPINewEvalValue_Eval(), theGrlPackage.getEvaluation(), theGrlPackage.getEvaluation_KpiNewEvalValue(), "eval", null, 1, 1, KPINewEvalValue.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(kpiConversionEClass, KPIConversion.class, "KPIConversion", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getKPIConversion_KpiEvalValueSet(), this.getKPIEvalValueSet(), this.getKPIEvalValueSet_KpiConv(), "kpiEvalValueSet", null, 0, -1, KPIConversion.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getKPIConversion_Grlspec(), theGrlPackage.getGRLspec(), theGrlPackage.getGRLspec_KPIConversion(), "grlspec", null, 1, 1, KPIConversion.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(qualitativeMappingsEClass, QualitativeMappings.class, "QualitativeMappings", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getQualitativeMappings_Mapping(), this.getQualToQuanMapping(), null, "mapping", null, 0, -1, QualitativeMappings.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(qualToQuanMappingEClass, QualToQuanMapping.class, "QualToQuanMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getQualToQuanMapping_RealWorldLabel(), ecorePackage.getEString(), "realWorldLabel", null, 0, 1, QualToQuanMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getQualToQuanMapping_Evaluation(), ecorePackage.getEInt(), "evaluation", null, 0, 1, QualToQuanMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getQualToQuanMapping_QualitativeEvaluation(), theGrlPackage.getQualitativeLabel(), "qualitativeEvaluation", null, 0, 1, QualToQuanMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getQualToQuanMapping_Exceeds(), ecorePackage.getEBoolean(), "exceeds", null, 0, 1, QualToQuanMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 	}
 
 } //KpimodelPackageImpl

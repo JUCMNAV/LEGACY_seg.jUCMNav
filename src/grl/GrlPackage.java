@@ -172,13 +172,22 @@ public interface GrlPackage extends EPackage {
     int GR_LSPEC__INDICATOR_GROUP = 10;
 
     /**
+	 * The feature id for the '<em><b>KPI Conversion</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GR_LSPEC__KPI_CONVERSION = 11;
+
+				/**
 	 * The number of structural features of the '<em>GR Lspec</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC_FEATURE_COUNT = 11;
+    int GR_LSPEC_FEATURE_COUNT = 12;
 
     /**
 	 * The meta object id for the '{@link grl.impl.GRLNodeImpl <em>GRL Node</em>}' class.
@@ -888,13 +897,31 @@ public interface GrlPackage extends EPackage {
     int ACTOR__CONT_REFS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 3;
 
     /**
+	 * The feature id for the '<em><b>Importance</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__IMPORTANCE = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 4;
+
+				/**
+	 * The feature id for the '<em><b>Importance Quantitative</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__IMPORTANCE_QUANTITATIVE = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 5;
+
+				/**
 	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int ACTOR__GRLSPEC = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 4;
+    int ACTOR__GRLSPEC = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 6;
 
     /**
 	 * The feature id for the '<em><b>Included Actors</b></em>' reference list.
@@ -903,7 +930,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR__INCLUDED_ACTORS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 5;
+	int ACTOR__INCLUDED_ACTORS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 7;
 
 				/**
 	 * The feature id for the '<em><b>Including Actor</b></em>' reference.
@@ -912,7 +939,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR__INCLUDING_ACTOR = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 6;
+	int ACTOR__INCLUDING_ACTOR = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 8;
 
 				/**
 	 * The feature id for the '<em><b>Collapsed Refs</b></em>' reference list.
@@ -921,7 +948,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR__COLLAPSED_REFS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 7;
+	int ACTOR__COLLAPSED_REFS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 9;
 
 				/**
 	 * The number of structural features of the '<em>Actor</em>' class.
@@ -930,7 +957,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ACTOR_FEATURE_COUNT = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 8;
+    int ACTOR_FEATURE_COUNT = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 10;
 
     /**
 	 * The meta object id for the '{@link grl.impl.GRLGraphImpl <em>GRL Graph</em>}' class.
@@ -2022,13 +2049,22 @@ public interface GrlPackage extends EPackage {
 	int EVALUATION__QUALITATIVE_EVALUATION = 1;
 
 				/**
+	 * The feature id for the '<em><b>Exceeds</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVALUATION__EXCEEDS = 2;
+
+				/**
 	 * The feature id for the '<em><b>Int Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int EVALUATION__INT_ELEMENT = 2;
+    int EVALUATION__INT_ELEMENT = 3;
 
     /**
 	 * The feature id for the '<em><b>Strategies</b></em>' container reference.
@@ -2037,7 +2073,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int EVALUATION__STRATEGIES = 3;
+    int EVALUATION__STRATEGIES = 4;
 
     /**
 	 * The feature id for the '<em><b>Kpi Eval Value Set</b></em>' containment reference.
@@ -2046,7 +2082,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int EVALUATION__KPI_EVAL_VALUE_SET = 4;
+    int EVALUATION__KPI_EVAL_VALUE_SET = 5;
 
     /**
 	 * The feature id for the '<em><b>Eval Range</b></em>' containment reference.
@@ -2055,7 +2091,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EVALUATION__EVAL_RANGE = 5;
+	int EVALUATION__EVAL_RANGE = 6;
 
 				/**
 	 * The feature id for the '<em><b>Kpi New Eval Value</b></em>' containment reference.
@@ -2064,7 +2100,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EVALUATION__KPI_NEW_EVAL_VALUE = 6;
+	int EVALUATION__KPI_NEW_EVAL_VALUE = 7;
 
 				/**
 	 * The number of structural features of the '<em>Evaluation</em>' class.
@@ -2073,7 +2109,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int EVALUATION_FEATURE_COUNT = 7;
+    int EVALUATION_FEATURE_COUNT = 8;
 
     /**
 	 * The meta object id for the '{@link grl.impl.EvaluationStrategyImpl <em>Evaluation Strategy</em>}' class.
@@ -3181,6 +3217,17 @@ public interface GrlPackage extends EPackage {
     EReference getGRLspec_IndicatorGroup();
 
     /**
+	 * Returns the meta object for the containment reference list '{@link grl.GRLspec#getKPIConversion <em>KPI Conversion</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>KPI Conversion</em>'.
+	 * @see grl.GRLspec#getKPIConversion()
+	 * @see #getGRLspec()
+	 * @generated
+	 */
+	EReference getGRLspec_KPIConversion();
+
+				/**
 	 * Returns the meta object for class '{@link grl.Belief <em>Belief</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3321,6 +3368,28 @@ public interface GrlPackage extends EPackage {
     EClass getActor();
 
     /**
+	 * Returns the meta object for the attribute '{@link grl.Actor#getImportance <em>Importance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Importance</em>'.
+	 * @see grl.Actor#getImportance()
+	 * @see #getActor()
+	 * @generated
+	 */
+	EAttribute getActor_Importance();
+
+				/**
+	 * Returns the meta object for the attribute '{@link grl.Actor#getImportanceQuantitative <em>Importance Quantitative</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Importance Quantitative</em>'.
+	 * @see grl.Actor#getImportanceQuantitative()
+	 * @see #getActor()
+	 * @generated
+	 */
+	EAttribute getActor_ImportanceQuantitative();
+
+				/**
 	 * Returns the meta object for the container reference '{@link grl.Actor#getGrlspec <em>Grlspec</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3607,6 +3676,17 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getEvaluation_QualitativeEvaluation();
+
+				/**
+	 * Returns the meta object for the attribute '{@link grl.Evaluation#isExceeds <em>Exceeds</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Exceeds</em>'.
+	 * @see grl.Evaluation#isExceeds()
+	 * @see #getEvaluation()
+	 * @generated
+	 */
+	EAttribute getEvaluation_Exceeds();
 
 				/**
 	 * Returns the meta object for the reference '{@link grl.Evaluation#getIntElement <em>Int Element</em>}'.
@@ -4359,6 +4439,14 @@ public interface GrlPackage extends EPackage {
         EReference GR_LSPEC__INDICATOR_GROUP = eINSTANCE.getGRLspec_IndicatorGroup();
 
         /**
+		 * The meta object literal for the '<em><b>KPI Conversion</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GR_LSPEC__KPI_CONVERSION = eINSTANCE.getGRLspec_KPIConversion();
+
+								/**
 		 * The meta object literal for the '{@link grl.impl.BeliefImpl <em>Belief</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4469,6 +4557,22 @@ public interface GrlPackage extends EPackage {
 		EClass ACTOR = eINSTANCE.getActor();
 
         /**
+		 * The meta object literal for the '<em><b>Importance</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTOR__IMPORTANCE = eINSTANCE.getActor_Importance();
+
+								/**
+		 * The meta object literal for the '<em><b>Importance Quantitative</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTOR__IMPORTANCE_QUANTITATIVE = eINSTANCE.getActor_ImportanceQuantitative();
+
+								/**
 		 * The meta object literal for the '<em><b>Grlspec</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4701,6 +4805,14 @@ public interface GrlPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EVALUATION__QUALITATIVE_EVALUATION = eINSTANCE.getEvaluation_QualitativeEvaluation();
+
+								/**
+		 * The meta object literal for the '<em><b>Exceeds</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EVALUATION__EXCEEDS = eINSTANCE.getEvaluation_Exceeds();
 
 								/**
 		 * The meta object literal for the '<em><b>Int Element</b></em>' reference feature.

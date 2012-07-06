@@ -16,6 +16,7 @@ import grl.GrlPackage;
 import grl.IntentionalElement;
 import grl.StrategiesGroup;
 import grl.kpimodel.IndicatorGroup;
+import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIModelLink;
 import grl.kpimodel.KpimodelPackage;
@@ -54,6 +55,7 @@ import urn.UrnPackage;
  *   <li>{@link grl.impl.GRLspecImpl#getKpiInformationElements <em>Kpi Information Elements</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getKpiModelLinks <em>Kpi Model Links</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getIndicatorGroup <em>Indicator Group</em>}</li>
+ *   <li>{@link grl.impl.GRLspecImpl#getKPIConversion <em>KPI Conversion</em>}</li>
  * </ul>
  * </p>
  *
@@ -161,6 +163,16 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
     protected EList indicatorGroup;
 
     /**
+	 * The cached value of the '{@link #getKPIConversion() <em>KPI Conversion</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getKPIConversion()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList kpiConversion;
+
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -344,6 +356,18 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getKPIConversion() {
+		if (kpiConversion == null) {
+			kpiConversion = new EObjectContainmentWithInverseEList(KPIConversion.class, this, GrlPackage.GR_LSPEC__KPI_CONVERSION, KpimodelPackage.KPI_CONVERSION__GRLSPEC);
+		}
+		return kpiConversion;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case GrlPackage.GR_LSPEC__URNSPEC:
@@ -370,6 +394,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
 				return ((InternalEList)getKpiModelLinks()).basicAdd(otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__INDICATOR_GROUP:
 				return ((InternalEList)getIndicatorGroup()).basicAdd(otherEnd, msgs);
+			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
+				return ((InternalEList)getKPIConversion()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -403,6 +429,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
 				return ((InternalEList)getKpiModelLinks()).basicRemove(otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__INDICATOR_GROUP:
 				return ((InternalEList)getIndicatorGroup()).basicRemove(otherEnd, msgs);
+			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
+				return ((InternalEList)getKPIConversion()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -449,6 +477,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
 				return getKpiModelLinks();
 			case GrlPackage.GR_LSPEC__INDICATOR_GROUP:
 				return getIndicatorGroup();
+			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
+				return getKPIConversion();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -503,6 +533,10 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
 				getIndicatorGroup().clear();
 				getIndicatorGroup().addAll((Collection)newValue);
 				return;
+			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
+				getKPIConversion().clear();
+				getKPIConversion().addAll((Collection)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -547,6 +581,9 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
 			case GrlPackage.GR_LSPEC__INDICATOR_GROUP:
 				getIndicatorGroup().clear();
 				return;
+			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
+				getKPIConversion().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -580,6 +617,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
 				return kpiModelLinks != null && !kpiModelLinks.isEmpty();
 			case GrlPackage.GR_LSPEC__INDICATOR_GROUP:
 				return indicatorGroup != null && !indicatorGroup.isEmpty();
+			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
+				return kpiConversion != null && !kpiConversion.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -76,6 +76,8 @@ public class KpimodelFactoryImpl extends EFactoryImpl implements KpimodelFactory
 			case KpimodelPackage.KPI_EVAL_VALUE_SET: return createKPIEvalValueSet();
 			case KpimodelPackage.KPI_INFORMATION_CONFIG: return createKPIInformationConfig();
 			case KpimodelPackage.KPI_NEW_EVAL_VALUE: return createKPINewEvalValue();
+			case KpimodelPackage.QUALITATIVE_MAPPINGS: return createQualitativeMappings();
+			case KpimodelPackage.QUAL_TO_QUAN_MAPPING: return createQualToQuanMapping();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -169,6 +171,26 @@ public class KpimodelFactoryImpl extends EFactoryImpl implements KpimodelFactory
 	public KPINewEvalValue createKPINewEvalValue() {
 		KPINewEvalValueImpl kpiNewEvalValue = new KPINewEvalValueImpl();
 		return kpiNewEvalValue;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public QualitativeMappings createQualitativeMappings() {
+		QualitativeMappingsImpl qualitativeMappings = new QualitativeMappingsImpl();
+		return qualitativeMappings;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public QualToQuanMapping createQualToQuanMapping() {
+		QualToQuanMappingImpl qualToQuanMapping = new QualToQuanMappingImpl();
+		return qualToQuanMapping;
 	}
 
 				/**

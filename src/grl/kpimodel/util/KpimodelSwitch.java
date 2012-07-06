@@ -173,6 +173,29 @@ public class KpimodelSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case KpimodelPackage.KPI_CONVERSION: {
+				KPIConversion kpiConversion = (KPIConversion)theEObject;
+				Object result = caseKPIConversion(kpiConversion);
+				if (result == null) result = caseGRLmodelElement(kpiConversion);
+				if (result == null) result = caseURNmodelElement(kpiConversion);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case KpimodelPackage.QUALITATIVE_MAPPINGS: {
+				QualitativeMappings qualitativeMappings = (QualitativeMappings)theEObject;
+				Object result = caseQualitativeMappings(qualitativeMappings);
+				if (result == null) result = caseKPIConversion(qualitativeMappings);
+				if (result == null) result = caseGRLmodelElement(qualitativeMappings);
+				if (result == null) result = caseURNmodelElement(qualitativeMappings);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case KpimodelPackage.QUAL_TO_QUAN_MAPPING: {
+				QualToQuanMapping qualToQuanMapping = (QualToQuanMapping)theEObject;
+				Object result = caseQualToQuanMapping(qualToQuanMapping);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -309,6 +332,51 @@ public class KpimodelSwitch {
 	 * @generated
 	 */
 	public Object caseKPINewEvalValue(KPINewEvalValue object) {
+		return null;
+	}
+
+				/**
+	 * Returns the result of interpreting the object as an instance of '<em>KPI Conversion</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>KPI Conversion</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseKPIConversion(KPIConversion object) {
+		return null;
+	}
+
+				/**
+	 * Returns the result of interpreting the object as an instance of '<em>Qualitative Mappings</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Qualitative Mappings</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseQualitativeMappings(QualitativeMappings object) {
+		return null;
+	}
+
+				/**
+	 * Returns the result of interpreting the object as an instance of '<em>Qual To Quan Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Qual To Quan Mapping</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseQualToQuanMapping(QualToQuanMapping object) {
 		return null;
 	}
 

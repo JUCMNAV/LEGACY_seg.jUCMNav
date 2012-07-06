@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <ul>
  *   <li>{@link grl.impl.EvaluationImpl#getEvaluation <em>Evaluation</em>}</li>
  *   <li>{@link grl.impl.EvaluationImpl#getQualitativeEvaluation <em>Qualitative Evaluation</em>}</li>
+ *   <li>{@link grl.impl.EvaluationImpl#isExceeds <em>Exceeds</em>}</li>
  *   <li>{@link grl.impl.EvaluationImpl#getIntElement <em>Int Element</em>}</li>
  *   <li>{@link grl.impl.EvaluationImpl#getStrategies <em>Strategies</em>}</li>
  *   <li>{@link grl.impl.EvaluationImpl#getKpiEvalValueSet <em>Kpi Eval Value Set</em>}</li>
@@ -83,6 +84,26 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
 	 * @ordered
 	 */
 	protected QualitativeLabel qualitativeEvaluation = QUALITATIVE_EVALUATION_EDEFAULT;
+
+				/**
+	 * The default value of the '{@link #isExceeds() <em>Exceeds</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isExceeds()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean EXCEEDS_EDEFAULT = false;
+
+				/**
+	 * The cached value of the '{@link #isExceeds() <em>Exceeds</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isExceeds()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean exceeds = EXCEEDS_EDEFAULT;
 
 				/**
 	 * The cached value of the '{@link #getIntElement() <em>Int Element</em>}' reference.
@@ -182,6 +203,27 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
 		qualitativeEvaluation = newQualitativeEvaluation == null ? QUALITATIVE_EVALUATION_EDEFAULT : newQualitativeEvaluation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__QUALITATIVE_EVALUATION, oldQualitativeEvaluation, qualitativeEvaluation));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isExceeds() {
+		return exceeds;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExceeds(boolean newExceeds) {
+		boolean oldExceeds = exceeds;
+		exceeds = newExceeds;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__EXCEEDS, oldExceeds, exceeds));
 	}
 
 				/**
@@ -462,6 +504,8 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
 				return new Integer(getEvaluation());
 			case GrlPackage.EVALUATION__QUALITATIVE_EVALUATION:
 				return getQualitativeEvaluation();
+			case GrlPackage.EVALUATION__EXCEEDS:
+				return isExceeds() ? Boolean.TRUE : Boolean.FALSE;
 			case GrlPackage.EVALUATION__INT_ELEMENT:
 				if (resolve) return getIntElement();
 				return basicGetIntElement();
@@ -489,6 +533,9 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
 				return;
 			case GrlPackage.EVALUATION__QUALITATIVE_EVALUATION:
 				setQualitativeEvaluation((QualitativeLabel)newValue);
+				return;
+			case GrlPackage.EVALUATION__EXCEEDS:
+				setExceeds(((Boolean)newValue).booleanValue());
 				return;
 			case GrlPackage.EVALUATION__INT_ELEMENT:
 				setIntElement((IntentionalElement)newValue);
@@ -522,6 +569,9 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
 			case GrlPackage.EVALUATION__QUALITATIVE_EVALUATION:
 				setQualitativeEvaluation(QUALITATIVE_EVALUATION_EDEFAULT);
 				return;
+			case GrlPackage.EVALUATION__EXCEEDS:
+				setExceeds(EXCEEDS_EDEFAULT);
+				return;
 			case GrlPackage.EVALUATION__INT_ELEMENT:
 				setIntElement((IntentionalElement)null);
 				return;
@@ -552,6 +602,8 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
 				return evaluation != EVALUATION_EDEFAULT;
 			case GrlPackage.EVALUATION__QUALITATIVE_EVALUATION:
 				return qualitativeEvaluation != QUALITATIVE_EVALUATION_EDEFAULT;
+			case GrlPackage.EVALUATION__EXCEEDS:
+				return exceeds != EXCEEDS_EDEFAULT;
 			case GrlPackage.EVALUATION__INT_ELEMENT:
 				return intElement != null;
 			case GrlPackage.EVALUATION__STRATEGIES:
@@ -579,6 +631,8 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
 		result.append(evaluation);
 		result.append(", qualitativeEvaluation: ");
 		result.append(qualitativeEvaluation);
+		result.append(", exceeds: ");
+		result.append(exceeds);
 		result.append(')');
 		return result.toString();
 	}

@@ -23,7 +23,9 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link grl.kpimodel.KPIEvalValueSet#getWorstValue <em>Worst Value</em>}</li>
  *   <li>{@link grl.kpimodel.KPIEvalValueSet#getEvaluationValue <em>Evaluation Value</em>}</li>
  *   <li>{@link grl.kpimodel.KPIEvalValueSet#getUnit <em>Unit</em>}</li>
+ *   <li>{@link grl.kpimodel.KPIEvalValueSet#getQualitativeEvaluationValue <em>Qualitative Evaluation Value</em>}</li>
  *   <li>{@link grl.kpimodel.KPIEvalValueSet#getEval <em>Eval</em>}</li>
+ *   <li>{@link grl.kpimodel.KPIEvalValueSet#getKpiConv <em>Kpi Conv</em>}</li>
  * </ul>
  * </p>
  *
@@ -168,6 +170,33 @@ public interface KPIEvalValueSet extends EObject {
     void setUnit(String value);
 
     /**
+	 * Returns the value of the '<em><b>Qualitative Evaluation Value</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Qualitative Evaluation Value</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Qualitative Evaluation Value</em>' attribute.
+	 * @see #setQualitativeEvaluationValue(String)
+	 * @see grl.kpimodel.KpimodelPackage#getKPIEvalValueSet_QualitativeEvaluationValue()
+	 * @model default=""
+	 * @generated
+	 */
+	String getQualitativeEvaluationValue();
+
+				/**
+	 * Sets the value of the '{@link grl.kpimodel.KPIEvalValueSet#getQualitativeEvaluationValue <em>Qualitative Evaluation Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Qualitative Evaluation Value</em>' attribute.
+	 * @see #getQualitativeEvaluationValue()
+	 * @generated
+	 */
+	void setQualitativeEvaluationValue(String value);
+
+				/**
 	 * Returns the value of the '<em><b>Eval</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link grl.Evaluation#getKpiEvalValueSet <em>Kpi Eval Value Set</em>}'.
 	 * <!-- begin-user-doc -->
@@ -194,5 +223,33 @@ public interface KPIEvalValueSet extends EObject {
 	 * @generated
 	 */
     void setEval(Evaluation value);
+
+				/**
+	 * Returns the value of the '<em><b>Kpi Conv</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link grl.kpimodel.KPIConversion#getKpiEvalValueSet <em>Kpi Eval Value Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Kpi Conv</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Kpi Conv</em>' reference.
+	 * @see #setKpiConv(KPIConversion)
+	 * @see grl.kpimodel.KpimodelPackage#getKPIEvalValueSet_KpiConv()
+	 * @see grl.kpimodel.KPIConversion#getKpiEvalValueSet
+	 * @model opposite="kpiEvalValueSet"
+	 * @generated
+	 */
+	KPIConversion getKpiConv();
+
+				/**
+	 * Sets the value of the '{@link grl.kpimodel.KPIEvalValueSet#getKpiConv <em>Kpi Conv</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Kpi Conv</em>' reference.
+	 * @see #getKpiConv()
+	 * @generated
+	 */
+	void setKpiConv(KPIConversion value);
 
 } // KPIEvalValueSet

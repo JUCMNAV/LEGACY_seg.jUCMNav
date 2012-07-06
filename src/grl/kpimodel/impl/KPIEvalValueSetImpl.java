@@ -8,6 +8,7 @@ package grl.kpimodel.impl;
 
 import grl.Evaluation;
 import grl.GrlPackage;
+import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KpimodelPackage;
 
@@ -31,7 +32,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link grl.kpimodel.impl.KPIEvalValueSetImpl#getWorstValue <em>Worst Value</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPIEvalValueSetImpl#getEvaluationValue <em>Evaluation Value</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPIEvalValueSetImpl#getUnit <em>Unit</em>}</li>
+ *   <li>{@link grl.kpimodel.impl.KPIEvalValueSetImpl#getQualitativeEvaluationValue <em>Qualitative Evaluation Value</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPIEvalValueSetImpl#getEval <em>Eval</em>}</li>
+ *   <li>{@link grl.kpimodel.impl.KPIEvalValueSetImpl#getKpiConv <em>Kpi Conv</em>}</li>
  * </ul>
  * </p>
  *
@@ -139,6 +142,36 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
     protected String unit = UNIT_EDEFAULT;
 
     /**
+	 * The default value of the '{@link #getQualitativeEvaluationValue() <em>Qualitative Evaluation Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getQualitativeEvaluationValue()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String QUALITATIVE_EVALUATION_VALUE_EDEFAULT = "";
+
+				/**
+	 * The cached value of the '{@link #getQualitativeEvaluationValue() <em>Qualitative Evaluation Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getQualitativeEvaluationValue()
+	 * @generated
+	 * @ordered
+	 */
+	protected String qualitativeEvaluationValue = QUALITATIVE_EVALUATION_VALUE_EDEFAULT;
+
+				/**
+	 * The cached value of the '{@link #getKpiConv() <em>Kpi Conv</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getKpiConv()
+	 * @generated
+	 * @ordered
+	 */
+	protected KPIConversion kpiConv;
+
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -263,6 +296,27 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
 
     /**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getQualitativeEvaluationValue() {
+		return qualitativeEvaluationValue;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setQualitativeEvaluationValue(String newQualitativeEvaluationValue) {
+		String oldQualitativeEvaluationValue = qualitativeEvaluationValue;
+		qualitativeEvaluationValue = newQualitativeEvaluationValue;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.KPI_EVAL_VALUE_SET__QUALITATIVE_EVALUATION_VALUE, oldQualitativeEvaluationValue, qualitativeEvaluationValue));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -304,6 +358,66 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
 
     /**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public KPIConversion getKpiConv() {
+		if (kpiConv != null && kpiConv.eIsProxy()) {
+			InternalEObject oldKpiConv = (InternalEObject)kpiConv;
+			kpiConv = (KPIConversion)eResolveProxy(oldKpiConv);
+			if (kpiConv != oldKpiConv) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, KpimodelPackage.KPI_EVAL_VALUE_SET__KPI_CONV, oldKpiConv, kpiConv));
+			}
+		}
+		return kpiConv;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public KPIConversion basicGetKpiConv() {
+		return kpiConv;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetKpiConv(KPIConversion newKpiConv, NotificationChain msgs) {
+		KPIConversion oldKpiConv = kpiConv;
+		kpiConv = newKpiConv;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, KpimodelPackage.KPI_EVAL_VALUE_SET__KPI_CONV, oldKpiConv, newKpiConv);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setKpiConv(KPIConversion newKpiConv) {
+		if (newKpiConv != kpiConv) {
+			NotificationChain msgs = null;
+			if (kpiConv != null)
+				msgs = ((InternalEObject)kpiConv).eInverseRemove(this, KpimodelPackage.KPI_CONVERSION__KPI_EVAL_VALUE_SET, KPIConversion.class, msgs);
+			if (newKpiConv != null)
+				msgs = ((InternalEObject)newKpiConv).eInverseAdd(this, KpimodelPackage.KPI_CONVERSION__KPI_EVAL_VALUE_SET, KPIConversion.class, msgs);
+			msgs = basicSetKpiConv(newKpiConv, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.KPI_EVAL_VALUE_SET__KPI_CONV, newKpiConv, newKpiConv));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -313,6 +427,10 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetEval((Evaluation)otherEnd, msgs);
+			case KpimodelPackage.KPI_EVAL_VALUE_SET__KPI_CONV:
+				if (kpiConv != null)
+					msgs = ((InternalEObject)kpiConv).eInverseRemove(this, KpimodelPackage.KPI_CONVERSION__KPI_EVAL_VALUE_SET, KPIConversion.class, msgs);
+				return basicSetKpiConv((KPIConversion)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -326,6 +444,8 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
 		switch (featureID) {
 			case KpimodelPackage.KPI_EVAL_VALUE_SET__EVAL:
 				return basicSetEval(null, msgs);
+			case KpimodelPackage.KPI_EVAL_VALUE_SET__KPI_CONV:
+				return basicSetKpiConv(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -360,8 +480,13 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
 				return new Double(getEvaluationValue());
 			case KpimodelPackage.KPI_EVAL_VALUE_SET__UNIT:
 				return getUnit();
+			case KpimodelPackage.KPI_EVAL_VALUE_SET__QUALITATIVE_EVALUATION_VALUE:
+				return getQualitativeEvaluationValue();
 			case KpimodelPackage.KPI_EVAL_VALUE_SET__EVAL:
 				return getEval();
+			case KpimodelPackage.KPI_EVAL_VALUE_SET__KPI_CONV:
+				if (resolve) return getKpiConv();
+				return basicGetKpiConv();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -388,8 +513,14 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
 			case KpimodelPackage.KPI_EVAL_VALUE_SET__UNIT:
 				setUnit((String)newValue);
 				return;
+			case KpimodelPackage.KPI_EVAL_VALUE_SET__QUALITATIVE_EVALUATION_VALUE:
+				setQualitativeEvaluationValue((String)newValue);
+				return;
 			case KpimodelPackage.KPI_EVAL_VALUE_SET__EVAL:
 				setEval((Evaluation)newValue);
+				return;
+			case KpimodelPackage.KPI_EVAL_VALUE_SET__KPI_CONV:
+				setKpiConv((KPIConversion)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -417,8 +548,14 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
 			case KpimodelPackage.KPI_EVAL_VALUE_SET__UNIT:
 				setUnit(UNIT_EDEFAULT);
 				return;
+			case KpimodelPackage.KPI_EVAL_VALUE_SET__QUALITATIVE_EVALUATION_VALUE:
+				setQualitativeEvaluationValue(QUALITATIVE_EVALUATION_VALUE_EDEFAULT);
+				return;
 			case KpimodelPackage.KPI_EVAL_VALUE_SET__EVAL:
 				setEval((Evaluation)null);
+				return;
+			case KpimodelPackage.KPI_EVAL_VALUE_SET__KPI_CONV:
+				setKpiConv((KPIConversion)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -441,8 +578,12 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
 				return evaluationValue != EVALUATION_VALUE_EDEFAULT;
 			case KpimodelPackage.KPI_EVAL_VALUE_SET__UNIT:
 				return UNIT_EDEFAULT == null ? unit != null : !UNIT_EDEFAULT.equals(unit);
+			case KpimodelPackage.KPI_EVAL_VALUE_SET__QUALITATIVE_EVALUATION_VALUE:
+				return QUALITATIVE_EVALUATION_VALUE_EDEFAULT == null ? qualitativeEvaluationValue != null : !QUALITATIVE_EVALUATION_VALUE_EDEFAULT.equals(qualitativeEvaluationValue);
 			case KpimodelPackage.KPI_EVAL_VALUE_SET__EVAL:
 				return getEval() != null;
+			case KpimodelPackage.KPI_EVAL_VALUE_SET__KPI_CONV:
+				return kpiConv != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -466,6 +607,8 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
 		result.append(evaluationValue);
 		result.append(", unit: ");
 		result.append(unit);
+		result.append(", qualitativeEvaluationValue: ");
+		result.append(qualitativeEvaluationValue);
 		result.append(')');
 		return result.toString();
 	}

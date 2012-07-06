@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Users\Daniel\Desktop\Metamodel 0.24\URN_24.mdl</foreignModel>
+  <foreignModel>C:\Users\Daniel\Desktop\Metamodel0.24\URN_25.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -231,6 +231,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/kpiInformationElements"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/kpiModelLinks"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/indicatorGroup"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/KPIConversion"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//Belief">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Belief/author"/>
@@ -247,6 +248,8 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//IntentionalElement/refs"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//Actor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Actor/importance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Actor/importanceQuantitative"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//Actor/grlspec"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//Actor/includedActors"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//Actor/includingActor"/>
@@ -279,6 +282,7 @@
     <genClasses ecoreClass="grl.ecore#//Evaluation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Evaluation/evaluation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Evaluation/qualitativeEvaluation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Evaluation/exceeds"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/intElement"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/strategies"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/kpiEvalValueSet"/>
@@ -386,7 +390,10 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIEvalValueSet/worstValue"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIEvalValueSet/evaluationValue"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIEvalValueSet/unit"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIEvalValueSet/qualitativeEvaluationValue"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIEvalValueSet/eval"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIEvalValueSet/kpiConv"/>
       </genClasses>
       <genClasses ecoreClass="grl.ecore#//kpimodel/KPIInformationConfig">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIInformationConfig/levelOfDimension"/>
@@ -398,6 +405,21 @@
       <genClasses ecoreClass="grl.ecore#//kpimodel/KPINewEvalValue">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPINewEvalValue/evaluationValue"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPINewEvalValue/eval"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="grl.ecore#//kpimodel/KPIConversion">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIConversion/kpiEvalValueSet"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIConversion/grlspec"/>
+      </genClasses>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/QualitativeMappings">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/QualitativeMappings/mapping"/>
+      </genClasses>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/QualToQuanMapping">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualToQuanMapping/realWorldLabel"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualToQuanMapping/evaluation"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualToQuanMapping/qualitativeEvaluation"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualToQuanMapping/exceeds"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>
