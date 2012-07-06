@@ -118,8 +118,8 @@ public class KpimodelAdapterFactory extends AdapterFactoryImpl {
 			public Object caseQualitativeMappings(QualitativeMappings object) {
 				return createQualitativeMappingsAdapter();
 			}
-			public Object caseQualToQuanMapping(QualToQuanMapping object) {
-				return createQualToQuanMappingAdapter();
+			public Object caseQualitativeMapping(QualitativeMapping object) {
+				return createQualitativeMappingAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {
 				return createURNmodelElementAdapter();
@@ -315,16 +315,16 @@ public class KpimodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 				/**
-	 * Creates a new adapter for an object of class '{@link grl.kpimodel.QualToQuanMapping <em>Qual To Quan Mapping</em>}'.
+	 * Creates a new adapter for an object of class '{@link grl.kpimodel.QualitativeMapping <em>Qualitative Mapping</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see grl.kpimodel.QualToQuanMapping
+	 * @see grl.kpimodel.QualitativeMapping
 	 * @generated
 	 */
-	public Adapter createQualToQuanMappingAdapter() {
+	public Adapter createQualitativeMappingAdapter() {
 		return null;
 	}
 

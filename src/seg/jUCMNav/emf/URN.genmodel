@@ -415,11 +415,11 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference grl.ecore#//kpimodel/QualitativeMappings/mapping"/>
       </genClasses>
-      <genClasses ecoreClass="grl.ecore#//kpimodel/QualToQuanMapping">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualToQuanMapping/realWorldLabel"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualToQuanMapping/evaluation"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualToQuanMapping/qualitativeEvaluation"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualToQuanMapping/exceeds"/>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/QualitativeMapping">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualitativeMapping/realWorldLabel"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualitativeMapping/evaluation"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualitativeMapping/qualitativeEvaluation"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/QualitativeMapping/exceeds"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>

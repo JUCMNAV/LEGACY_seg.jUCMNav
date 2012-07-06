@@ -190,9 +190,9 @@ public class KpimodelSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING: {
-				QualToQuanMapping qualToQuanMapping = (QualToQuanMapping)theEObject;
-				Object result = caseQualToQuanMapping(qualToQuanMapping);
+			case KpimodelPackage.QUALITATIVE_MAPPING: {
+				QualitativeMapping qualitativeMapping = (QualitativeMapping)theEObject;
+				Object result = caseQualitativeMapping(qualitativeMapping);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -366,17 +366,17 @@ public class KpimodelSwitch {
 	}
 
 				/**
-	 * Returns the result of interpreting the object as an instance of '<em>Qual To Quan Mapping</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Qualitative Mapping</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Qual To Quan Mapping</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Qualitative Mapping</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseQualToQuanMapping(QualToQuanMapping object) {
+	public Object caseQualitativeMapping(QualitativeMapping object) {
 		return null;
 	}
 

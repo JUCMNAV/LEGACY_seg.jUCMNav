@@ -27,7 +27,7 @@ import org.eclipse.emf.common.util.EList;
 public interface QualitativeMappings extends KPIConversion {
 	/**
 	 * Returns the value of the '<em><b>Mapping</b></em>' containment reference list.
-	 * The list contents are of type {@link grl.kpimodel.QualToQuanMapping}.
+	 * The list contents are of type {@link grl.kpimodel.QualitativeMapping}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Mapping</em>' containment reference list isn't clear,
@@ -36,7 +36,7 @@ public interface QualitativeMappings extends KPIConversion {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Mapping</em>' containment reference list.
 	 * @see grl.kpimodel.KpimodelPackage#getQualitativeMappings_Mapping()
-	 * @model type="grl.kpimodel.QualToQuanMapping" containment="true"
+	 * @model type="grl.kpimodel.QualitativeMapping" containment="true"
 	 * @generated
 	 */
 	EList getMapping();

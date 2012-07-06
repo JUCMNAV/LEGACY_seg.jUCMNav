@@ -7,7 +7,7 @@
 package grl.kpimodel.impl;
 
 import grl.kpimodel.KpimodelPackage;
-import grl.kpimodel.QualToQuanMapping;
+import grl.kpimodel.QualitativeMapping;
 import grl.kpimodel.QualitativeMappings;
 
 import java.util.Collection;
@@ -71,7 +71,7 @@ public class QualitativeMappingsImpl extends KPIConversionImpl implements Qualit
 	 */
 	public EList getMapping() {
 		if (mapping == null) {
-			mapping = new EObjectContainmentEList(QualToQuanMapping.class, this, KpimodelPackage.QUALITATIVE_MAPPINGS__MAPPING);
+			mapping = new EObjectContainmentEList(QualitativeMapping.class, this, KpimodelPackage.QUALITATIVE_MAPPINGS__MAPPING);
 		}
 		return mapping;
 	}

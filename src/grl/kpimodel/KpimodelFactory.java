@@ -116,13 +116,13 @@ public interface KpimodelFactory extends EFactory {
 	QualitativeMappings createQualitativeMappings();
 
 				/**
-	 * Returns a new object of class '<em>Qual To Quan Mapping</em>'.
+	 * Returns a new object of class '<em>Qualitative Mapping</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Qual To Quan Mapping</em>'.
+	 * @return a new object of class '<em>Qualitative Mapping</em>'.
 	 * @generated
 	 */
-	QualToQuanMapping createQualToQuanMapping();
+	QualitativeMapping createQualitativeMapping();
 
 				/**
 	 * Returns the package supported by this factory.

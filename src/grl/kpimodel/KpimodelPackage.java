@@ -1211,14 +1211,14 @@ public interface KpimodelPackage extends EPackage {
 	int QUALITATIVE_MAPPINGS_FEATURE_COUNT = KPI_CONVERSION_FEATURE_COUNT + 1;
 
 				/**
-	 * The meta object id for the '{@link grl.kpimodel.impl.QualToQuanMappingImpl <em>Qual To Quan Mapping</em>}' class.
+	 * The meta object id for the '{@link grl.kpimodel.impl.QualitativeMappingImpl <em>Qualitative Mapping</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see grl.kpimodel.impl.QualToQuanMappingImpl
-	 * @see grl.kpimodel.impl.KpimodelPackageImpl#getQualToQuanMapping()
+	 * @see grl.kpimodel.impl.QualitativeMappingImpl
+	 * @see grl.kpimodel.impl.KpimodelPackageImpl#getQualitativeMapping()
 	 * @generated
 	 */
-	int QUAL_TO_QUAN_MAPPING = 11;
+	int QUALITATIVE_MAPPING = 11;
 
 				/**
 	 * The feature id for the '<em><b>Real World Label</b></em>' attribute.
@@ -1227,7 +1227,7 @@ public interface KpimodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int QUAL_TO_QUAN_MAPPING__REAL_WORLD_LABEL = 0;
+	int QUALITATIVE_MAPPING__REAL_WORLD_LABEL = 0;
 
 				/**
 	 * The feature id for the '<em><b>Evaluation</b></em>' attribute.
@@ -1236,7 +1236,7 @@ public interface KpimodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int QUAL_TO_QUAN_MAPPING__EVALUATION = 1;
+	int QUALITATIVE_MAPPING__EVALUATION = 1;
 
 				/**
 	 * The feature id for the '<em><b>Qualitative Evaluation</b></em>' attribute.
@@ -1245,7 +1245,7 @@ public interface KpimodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int QUAL_TO_QUAN_MAPPING__QUALITATIVE_EVALUATION = 2;
+	int QUALITATIVE_MAPPING__QUALITATIVE_EVALUATION = 2;
 
 				/**
 	 * The feature id for the '<em><b>Exceeds</b></em>' attribute.
@@ -1254,17 +1254,16 @@ public interface KpimodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int QUAL_TO_QUAN_MAPPING__EXCEEDS = 3;
+	int QUALITATIVE_MAPPING__EXCEEDS = 3;
 
 				/**
-	 * The number of structural features of the '<em>Qual To Quan Mapping</em>' class.
+	 * The number of structural features of the '<em>Qualitative Mapping</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int QUAL_TO_QUAN_MAPPING_FEATURE_COUNT = 4;
-
+	int QUALITATIVE_MAPPING_FEATURE_COUNT = 4;
 
 				/**
 	 * Returns the meta object for class '{@link grl.kpimodel.IndicatorGroup <em>Indicator Group</em>}'.
@@ -1718,58 +1717,58 @@ public interface KpimodelPackage extends EPackage {
 	EReference getQualitativeMappings_Mapping();
 
 				/**
-	 * Returns the meta object for class '{@link grl.kpimodel.QualToQuanMapping <em>Qual To Quan Mapping</em>}'.
+	 * Returns the meta object for class '{@link grl.kpimodel.QualitativeMapping <em>Qualitative Mapping</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Qual To Quan Mapping</em>'.
-	 * @see grl.kpimodel.QualToQuanMapping
+	 * @return the meta object for class '<em>Qualitative Mapping</em>'.
+	 * @see grl.kpimodel.QualitativeMapping
 	 * @generated
 	 */
-	EClass getQualToQuanMapping();
+	EClass getQualitativeMapping();
 
 				/**
-	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualToQuanMapping#getRealWorldLabel <em>Real World Label</em>}'.
+	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualitativeMapping#getRealWorldLabel <em>Real World Label</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Real World Label</em>'.
-	 * @see grl.kpimodel.QualToQuanMapping#getRealWorldLabel()
-	 * @see #getQualToQuanMapping()
+	 * @see grl.kpimodel.QualitativeMapping#getRealWorldLabel()
+	 * @see #getQualitativeMapping()
 	 * @generated
 	 */
-	EAttribute getQualToQuanMapping_RealWorldLabel();
+	EAttribute getQualitativeMapping_RealWorldLabel();
 
 				/**
-	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualToQuanMapping#getEvaluation <em>Evaluation</em>}'.
+	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualitativeMapping#getEvaluation <em>Evaluation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Evaluation</em>'.
-	 * @see grl.kpimodel.QualToQuanMapping#getEvaluation()
-	 * @see #getQualToQuanMapping()
+	 * @see grl.kpimodel.QualitativeMapping#getEvaluation()
+	 * @see #getQualitativeMapping()
 	 * @generated
 	 */
-	EAttribute getQualToQuanMapping_Evaluation();
+	EAttribute getQualitativeMapping_Evaluation();
 
 				/**
-	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualToQuanMapping#getQualitativeEvaluation <em>Qualitative Evaluation</em>}'.
+	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualitativeMapping#getQualitativeEvaluation <em>Qualitative Evaluation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Qualitative Evaluation</em>'.
-	 * @see grl.kpimodel.QualToQuanMapping#getQualitativeEvaluation()
-	 * @see #getQualToQuanMapping()
+	 * @see grl.kpimodel.QualitativeMapping#getQualitativeEvaluation()
+	 * @see #getQualitativeMapping()
 	 * @generated
 	 */
-	EAttribute getQualToQuanMapping_QualitativeEvaluation();
+	EAttribute getQualitativeMapping_QualitativeEvaluation();
 
 				/**
-	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualToQuanMapping#isExceeds <em>Exceeds</em>}'.
+	 * Returns the meta object for the attribute '{@link grl.kpimodel.QualitativeMapping#isExceeds <em>Exceeds</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Exceeds</em>'.
-	 * @see grl.kpimodel.QualToQuanMapping#isExceeds()
-	 * @see #getQualToQuanMapping()
+	 * @see grl.kpimodel.QualitativeMapping#isExceeds()
+	 * @see #getQualitativeMapping()
 	 * @generated
 	 */
-	EAttribute getQualToQuanMapping_Exceeds();
+	EAttribute getQualitativeMapping_Exceeds();
 
 				/**
 	 * Returns the factory that creates the instances of the model.
@@ -2152,14 +2151,14 @@ public interface KpimodelPackage extends EPackage {
 		EReference QUALITATIVE_MAPPINGS__MAPPING = eINSTANCE.getQualitativeMappings_Mapping();
 
 								/**
-		 * The meta object literal for the '{@link grl.kpimodel.impl.QualToQuanMappingImpl <em>Qual To Quan Mapping</em>}' class.
+		 * The meta object literal for the '{@link grl.kpimodel.impl.QualitativeMappingImpl <em>Qualitative Mapping</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see grl.kpimodel.impl.QualToQuanMappingImpl
-		 * @see grl.kpimodel.impl.KpimodelPackageImpl#getQualToQuanMapping()
+		 * @see grl.kpimodel.impl.QualitativeMappingImpl
+		 * @see grl.kpimodel.impl.KpimodelPackageImpl#getQualitativeMapping()
 		 * @generated
 		 */
-		EClass QUAL_TO_QUAN_MAPPING = eINSTANCE.getQualToQuanMapping();
+		EClass QUALITATIVE_MAPPING = eINSTANCE.getQualitativeMapping();
 
 								/**
 		 * The meta object literal for the '<em><b>Real World Label</b></em>' attribute feature.
@@ -2167,7 +2166,7 @@ public interface KpimodelPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute QUAL_TO_QUAN_MAPPING__REAL_WORLD_LABEL = eINSTANCE.getQualToQuanMapping_RealWorldLabel();
+		EAttribute QUALITATIVE_MAPPING__REAL_WORLD_LABEL = eINSTANCE.getQualitativeMapping_RealWorldLabel();
 
 								/**
 		 * The meta object literal for the '<em><b>Evaluation</b></em>' attribute feature.
@@ -2175,7 +2174,7 @@ public interface KpimodelPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute QUAL_TO_QUAN_MAPPING__EVALUATION = eINSTANCE.getQualToQuanMapping_Evaluation();
+		EAttribute QUALITATIVE_MAPPING__EVALUATION = eINSTANCE.getQualitativeMapping_Evaluation();
 
 								/**
 		 * The meta object literal for the '<em><b>Qualitative Evaluation</b></em>' attribute feature.
@@ -2183,7 +2182,7 @@ public interface KpimodelPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute QUAL_TO_QUAN_MAPPING__QUALITATIVE_EVALUATION = eINSTANCE.getQualToQuanMapping_QualitativeEvaluation();
+		EAttribute QUALITATIVE_MAPPING__QUALITATIVE_EVALUATION = eINSTANCE.getQualitativeMapping_QualitativeEvaluation();
 
 								/**
 		 * The meta object literal for the '<em><b>Exceeds</b></em>' attribute feature.
@@ -2191,7 +2190,7 @@ public interface KpimodelPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute QUAL_TO_QUAN_MAPPING__EXCEEDS = eINSTANCE.getQualToQuanMapping_Exceeds();
+		EAttribute QUALITATIVE_MAPPING__EXCEEDS = eINSTANCE.getQualitativeMapping_Exceeds();
 
     }
 

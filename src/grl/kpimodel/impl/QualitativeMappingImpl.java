@@ -9,7 +9,7 @@ package grl.kpimodel.impl;
 import grl.QualitativeLabel;
 
 import grl.kpimodel.KpimodelPackage;
-import grl.kpimodel.QualToQuanMapping;
+import grl.kpimodel.QualitativeMapping;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -20,21 +20,21 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Qual To Quan Mapping</b></em>'.
+ * An implementation of the model object '<em><b>Qualitative Mapping</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link grl.kpimodel.impl.QualToQuanMappingImpl#getRealWorldLabel <em>Real World Label</em>}</li>
- *   <li>{@link grl.kpimodel.impl.QualToQuanMappingImpl#getEvaluation <em>Evaluation</em>}</li>
- *   <li>{@link grl.kpimodel.impl.QualToQuanMappingImpl#getQualitativeEvaluation <em>Qualitative Evaluation</em>}</li>
- *   <li>{@link grl.kpimodel.impl.QualToQuanMappingImpl#isExceeds <em>Exceeds</em>}</li>
+ *   <li>{@link grl.kpimodel.impl.QualitativeMappingImpl#getRealWorldLabel <em>Real World Label</em>}</li>
+ *   <li>{@link grl.kpimodel.impl.QualitativeMappingImpl#getEvaluation <em>Evaluation</em>}</li>
+ *   <li>{@link grl.kpimodel.impl.QualitativeMappingImpl#getQualitativeEvaluation <em>Qualitative Evaluation</em>}</li>
+ *   <li>{@link grl.kpimodel.impl.QualitativeMappingImpl#isExceeds <em>Exceeds</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapping {
+public class QualitativeMappingImpl extends EObjectImpl implements QualitativeMapping {
 	/**
 	 * The default value of the '{@link #getRealWorldLabel() <em>Real World Label</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -120,7 +120,7 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected QualToQuanMappingImpl() {
+	protected QualitativeMappingImpl() {
 		super();
 	}
 
@@ -130,7 +130,7 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return KpimodelPackage.Literals.QUAL_TO_QUAN_MAPPING;
+		return KpimodelPackage.Literals.QUALITATIVE_MAPPING;
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 		String oldRealWorldLabel = realWorldLabel;
 		realWorldLabel = newRealWorldLabel;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.QUAL_TO_QUAN_MAPPING__REAL_WORLD_LABEL, oldRealWorldLabel, realWorldLabel));
+			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.QUALITATIVE_MAPPING__REAL_WORLD_LABEL, oldRealWorldLabel, realWorldLabel));
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 		int oldEvaluation = evaluation;
 		evaluation = newEvaluation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.QUAL_TO_QUAN_MAPPING__EVALUATION, oldEvaluation, evaluation));
+			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.QUALITATIVE_MAPPING__EVALUATION, oldEvaluation, evaluation));
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 		QualitativeLabel oldQualitativeEvaluation = qualitativeEvaluation;
 		qualitativeEvaluation = newQualitativeEvaluation == null ? QUALITATIVE_EVALUATION_EDEFAULT : newQualitativeEvaluation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.QUAL_TO_QUAN_MAPPING__QUALITATIVE_EVALUATION, oldQualitativeEvaluation, qualitativeEvaluation));
+			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.QUALITATIVE_MAPPING__QUALITATIVE_EVALUATION, oldQualitativeEvaluation, qualitativeEvaluation));
 	}
 
 	/**
@@ -214,7 +214,7 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 		boolean oldExceeds = exceeds;
 		exceeds = newExceeds;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.QUAL_TO_QUAN_MAPPING__EXCEEDS, oldExceeds, exceeds));
+			eNotify(new ENotificationImpl(this, Notification.SET, KpimodelPackage.QUALITATIVE_MAPPING__EXCEEDS, oldExceeds, exceeds));
 	}
 
 	/**
@@ -224,13 +224,13 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__REAL_WORLD_LABEL:
+			case KpimodelPackage.QUALITATIVE_MAPPING__REAL_WORLD_LABEL:
 				return getRealWorldLabel();
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__EVALUATION:
+			case KpimodelPackage.QUALITATIVE_MAPPING__EVALUATION:
 				return new Integer(getEvaluation());
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__QUALITATIVE_EVALUATION:
+			case KpimodelPackage.QUALITATIVE_MAPPING__QUALITATIVE_EVALUATION:
 				return getQualitativeEvaluation();
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__EXCEEDS:
+			case KpimodelPackage.QUALITATIVE_MAPPING__EXCEEDS:
 				return isExceeds() ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -243,16 +243,16 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 	 */
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__REAL_WORLD_LABEL:
+			case KpimodelPackage.QUALITATIVE_MAPPING__REAL_WORLD_LABEL:
 				setRealWorldLabel((String)newValue);
 				return;
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__EVALUATION:
+			case KpimodelPackage.QUALITATIVE_MAPPING__EVALUATION:
 				setEvaluation(((Integer)newValue).intValue());
 				return;
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__QUALITATIVE_EVALUATION:
+			case KpimodelPackage.QUALITATIVE_MAPPING__QUALITATIVE_EVALUATION:
 				setQualitativeEvaluation((QualitativeLabel)newValue);
 				return;
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__EXCEEDS:
+			case KpimodelPackage.QUALITATIVE_MAPPING__EXCEEDS:
 				setExceeds(((Boolean)newValue).booleanValue());
 				return;
 		}
@@ -266,16 +266,16 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 	 */
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__REAL_WORLD_LABEL:
+			case KpimodelPackage.QUALITATIVE_MAPPING__REAL_WORLD_LABEL:
 				setRealWorldLabel(REAL_WORLD_LABEL_EDEFAULT);
 				return;
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__EVALUATION:
+			case KpimodelPackage.QUALITATIVE_MAPPING__EVALUATION:
 				setEvaluation(EVALUATION_EDEFAULT);
 				return;
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__QUALITATIVE_EVALUATION:
+			case KpimodelPackage.QUALITATIVE_MAPPING__QUALITATIVE_EVALUATION:
 				setQualitativeEvaluation(QUALITATIVE_EVALUATION_EDEFAULT);
 				return;
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__EXCEEDS:
+			case KpimodelPackage.QUALITATIVE_MAPPING__EXCEEDS:
 				setExceeds(EXCEEDS_EDEFAULT);
 				return;
 		}
@@ -289,13 +289,13 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 	 */
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__REAL_WORLD_LABEL:
+			case KpimodelPackage.QUALITATIVE_MAPPING__REAL_WORLD_LABEL:
 				return REAL_WORLD_LABEL_EDEFAULT == null ? realWorldLabel != null : !REAL_WORLD_LABEL_EDEFAULT.equals(realWorldLabel);
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__EVALUATION:
+			case KpimodelPackage.QUALITATIVE_MAPPING__EVALUATION:
 				return evaluation != EVALUATION_EDEFAULT;
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__QUALITATIVE_EVALUATION:
+			case KpimodelPackage.QUALITATIVE_MAPPING__QUALITATIVE_EVALUATION:
 				return qualitativeEvaluation != QUALITATIVE_EVALUATION_EDEFAULT;
-			case KpimodelPackage.QUAL_TO_QUAN_MAPPING__EXCEEDS:
+			case KpimodelPackage.QUALITATIVE_MAPPING__EXCEEDS:
 				return exceeds != EXCEEDS_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
@@ -322,4 +322,4 @@ public class QualToQuanMappingImpl extends EObjectImpl implements QualToQuanMapp
 		return result.toString();
 	}
 
-} //QualToQuanMappingImpl
+} //QualitativeMappingImpl
