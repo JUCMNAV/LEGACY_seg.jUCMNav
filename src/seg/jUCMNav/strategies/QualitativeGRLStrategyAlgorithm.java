@@ -40,7 +40,7 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     private static int N = QualitativeLabel.NONE;
 
     private static int[][] contribTable1 = {
-    // M, H+, s+, u, s-, H-, B
+            // M, H+, s+, u, s-, H-, B
             { D, WD, WD, N, WS, WS, S }, // D
             { WD, WD, WD, N, WS, WS, WS }, // WD
             { WS, WS, WS, N, WD, WD, WD }, // WS
@@ -68,7 +68,6 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             { N, N, N, N, N, N, N }, // none
     };
 
-
     Vector evalReady;
     HashMap evaluationCalculation;
     HashMap evaluations;
@@ -83,7 +82,7 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         evaluationCalculation = new HashMap();
         this.evaluations = evaluations;
 
-        StrategyAlgorithmImplementationHelper.defaultInit(strategy,  evaluations, evalReady, evaluationCalculation);
+        StrategyAlgorithmImplementationHelper.defaultInit(strategy, evaluations, evalReady, evaluationCalculation);
     }
 
     /*
@@ -170,8 +169,8 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 QualitativeLabel decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getQualitativeEvaluation();
                 int qval = decompositionValue.getValue();
                 String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal"); //$NON-NLS-1$
-                if(element.getDecompositionType().getValue() == DecompositionType.AND && "No".equals(value)) //$NON-NLS-1$
-                	continue;
+                if (element.getDecompositionType().getValue() == DecompositionType.AND && "No".equals(value)) //$NON-NLS-1$
+                    continue;
                 decomSums[qval]++;
 
             } else if (link instanceof Dependency) {
@@ -185,7 +184,7 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 }
             } else if (link instanceof Contribution) {
                 Contribution contrib = (Contribution) link;
-                //int contValue = contrib.getContribution().getValue();
+                // int contValue = contrib.getContribution().getValue();
                 int contValue = EvaluationStrategyManager.getInstance().getActiveContribution(contrib).getValue();
                 QualitativeLabel srcNode = ((Evaluation) evaluations.get(link.getSrc())).getQualitativeEvaluation();
                 int qualValue = srcNode.getValue();
@@ -219,10 +218,9 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 } else if (dns > 0) {
                     result = S;
                 } else {
-                	result = N;
+                    result = N;
                 }
-            } else if (element.getDecompositionType().getValue() == DecompositionType.OR || 
-                       element.getDecompositionType().getValue() == DecompositionType.XOR) {
+            } else if (element.getDecompositionType().getValue() == DecompositionType.OR || element.getDecompositionType().getValue() == DecompositionType.XOR) {
                 if (dns > 0) {
                     result = S;
                 } else if ((dnc > 0) || (dnu > 0)) {
@@ -359,13 +357,12 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     IntentionalElementRef elementRef = (IntentionalElementRef) node;
                     IntentionalElement element = elementRef.getDef();
                     String value = MetadataHelper.getMetaData(element, "ST_Legal"); //$NON-NLS-1$
-                    if ("No".equals(value)){ //$NON-NLS-1$
-                    	continue;
+                    if ("No".equals(value)) { //$NON-NLS-1$
+                        continue;
                     }
                     int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
 
                     ImportanceType importance = element.getImportance();
-
 
                     QualitativeLabel ql = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue(element.getGrlspec().getUrnspec(), evaluation);
                     int ci = importanceMap[importance.getValue()][ql.getValue()];
@@ -380,10 +377,10 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 
     }
 
-	@Override
-	public boolean isConstraintSolverAlgorithm() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean isConstraintSolverAlgorithm() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 }

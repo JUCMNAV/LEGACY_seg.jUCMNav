@@ -1,44 +1,32 @@
 package seg.jUCMNav.strategies;
 
-import grl.Actor;
-import grl.ActorRef;
 import grl.Contribution;
 import grl.Decomposition;
-import grl.DecompositionType;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLLinkableElement;
 import grl.IntentionalElement;
-import grl.IntentionalElementRef;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.MetadataHelper;
-import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
-import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import urn.URNspec;
-import urncore.IURNNode;
 import urncore.Metadata;
 
 /**
- * This class implement the default GRL evaluation algorithm.
+ * This class implement the conditional GRL evaluation algorithm.
  * 
  * @author Azalia Shamsaei
  * 
  */
-public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
+public class ConditionalBasedGRLStrategyAlgorithm extends FormulaBasedGRLStrategyAlgorithm {
 
-    Vector evalReady;
-    HashMap evaluationCalculation;
-    HashMap evaluations;
-    int minRange;
     List strategyMetaDataValue;
     HashMap acceptStereotypes = new HashMap<String, String>();
 
@@ -51,55 +39,15 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
         MetadataHelper.cleanRunTimeMetadata(strategy.getGrlspec().getUrnspec());
         List sMetaData = strategy.getMetadata();
         Metadata acceptStereotype;
+        // could be multiple ones, so not using MetadataHelper
         for (int i = 0; i < sMetaData.size(); i++) {
             acceptStereotype = (Metadata) sMetaData.get(i);
-            if (acceptStereotype.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_acceptStereotype"))) { //$NON-NLS-1$                        
-                acceptStereotypes.put(acceptStereotype.getValue(), acceptStereotype.getValue());
+            if (acceptStereotype.getName().equalsIgnoreCase(Messages.getString("ConditionalGRLStrategyAlgorithm_acceptStereotype"))) { //$NON-NLS-1$                        
+                acceptStereotypes.put(acceptStereotype.getValue().toUpperCase(), acceptStereotype.getValue());
             }
         }
 
-        evalReady = new Vector();
-        evaluationCalculation = new HashMap();
-        this.evaluations = evaluations;
-        // determines whether -100 or 0 should be used as a minimum scale.
-        minRange = -100 * (StrategyEvaluationRangeHelper.getCurrentRange(strategy.getGrlspec().getUrnspec()) ? 0 : 1);
-
-        StrategyAlgorithmImplementationHelper.defaultInit(strategy,  evaluations, evalReady, evaluationCalculation);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#hasNextNode()
-     */
-    public boolean hasNextNode() {
-        if (evalReady.size() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#nextNode()
-     */
-    public IntentionalElement nextNode() {
-        IntentionalElement intElem = (IntentionalElement) evalReady.remove(0);
-
-        for (Iterator j = intElem.getLinksSrc().iterator(); j.hasNext();) {
-            // TODO Need to make sure this GRLLinkableElement is really an IntentionalElement
-            IntentionalElement temp = (IntentionalElement) ((ElementLink) j.next()).getDest();
-            if (evaluationCalculation.containsKey(temp)) {
-                EvaluationCalculation calc = (EvaluationCalculation) evaluationCalculation.get(temp);
-                calc.linkCalc += 1;
-                if (calc.linkCalc >= calc.totalLinkDest) {
-                    evaluationCalculation.remove(temp);
-                    evalReady.add(calc.element);
-                }
-            }
-        }
-        return intElem;
+        super.init(strategy, evaluations);
     }
 
     /*
@@ -110,40 +58,44 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
     public int getEvaluationType() {
         return IGRLStrategyAlgorithm.EVAL_CONDITION;
     }
+
     /**
-     * This method decides whether an element needs to be ignored or not
-     * if an element has ConditionalGRLStrategyAlgorithm_IgnoreNode defined as metadata, it should be ignored regardless
-     * if an element does not have any metadata it should never be ignored
-     * if an element has stereotype metadata then 
-     *          if the metadata matches the strategy accept stereotype list it should NOT be ignored
-     *          if the metadata does not match the strategy accept stereotype list it should be ignored  
+     * This method decides whether an element needs to be ignored or not if an element has ConditionalGRLStrategyAlgorithm_IgnoreNode defined as metadata, it
+     * should be ignored regardless if an element does not have any metadata it should never be ignored if an element has stereotype metadata then if the
+     * metadata matches the strategy accept stereotype list it should NOT be ignored if the metadata does not match the strategy accept stereotype list it
+     * should be ignored
+     * 
      * @param element
      * @return
      */
     public boolean checkIgnoreElement(GRLLinkableElement element) {
         List eMetaData = element.getMetadata();
         Metadata elementMetadata;
-        boolean ignoreSrc = false;
         boolean foundAcceptacceptStereotype = false;
-        int foundStereotype = 0;        
-        for (int i = 0; i < eMetaData.size(); i++) {
-            elementMetadata = (Metadata) eMetaData.get(i);            
-            if (elementMetadata.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"))) { //$NON-NLS-1$                        
-                ignoreSrc = true;
-                break;
-            }
-            if (acceptStereotypes.size() > 0 && !foundAcceptacceptStereotype) {                
-                if (elementMetadata.getName().startsWith("ST_") && !acceptStereotypes.containsKey(elementMetadata.getValue())) { //$NON-NLS-1$
-                    foundStereotype++;
-                } else if (elementMetadata.getName().startsWith("ST_") && acceptStereotypes.containsKey(elementMetadata.getValue())) { //$NON-NLS-1$
-                    foundStereotype++;
-                    foundAcceptacceptStereotype = true;
+        int foundStereotype = 0;
+        if (MetadataHelper.getMetaData(element, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode")) != null) //$NON-NLS-1$
+        {
+            return true;
+        } else {
+            for (int i = 0; i < eMetaData.size(); i++) {
+                elementMetadata = (Metadata) eMetaData.get(i);
+                if (acceptStereotypes.size() > 0 && !foundAcceptacceptStereotype) {
+                    String val = elementMetadata.getValue();
+                    if (val != null)
+                        val.toUpperCase();
+                    boolean isAcceptedStereotype = acceptStereotypes.containsKey(val);
+                    if (elementMetadata.getName().toUpperCase().startsWith("ST_")) {
+                        foundStereotype++;
+                        if (isAcceptedStereotype)
+                            foundAcceptacceptStereotype = true;
+                    }
                 }
             }
         }
-        // if there is not stereotype the element won't be ignored 
+
+        // if there is not stereotype the element won't be ignored
         foundAcceptacceptStereotype = (foundAcceptacceptStereotype || foundStereotype == 0);
-        return (ignoreSrc || !foundAcceptacceptStereotype );
+        return !foundAcceptacceptStereotype;
     }
 
     /*
@@ -177,40 +129,12 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
         while (it.hasNext()) {
             ElementLink link = (ElementLink) it.next();
             if (link instanceof Decomposition) {
-                if (element.getDecompositionType().getValue() == DecompositionType.AND) {
-                    String value = MetadataHelper.getMetaData(link.getSrc(), "ST_Legal"); //$NON-NLS-1$
-                    if ("No".equals(value)) { //$NON-NLS-1$
-                        if (!it.hasNext() && decompositionValue < minRange)
-                            decompositionValue = 0; // case where all sources are tagged "N"
-                        else
-                            continue;
-                    }
-
-                    if (decompositionValue < minRange) {
-                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
-                    } else if (decompositionValue > ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
-                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
-                    }
-
-                } else if (element.getDecompositionType().getValue() == DecompositionType.OR
-                        || element.getDecompositionType().getValue() == DecompositionType.XOR) {
-                    if (decompositionValue < minRange) {
-                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
-
-                    } else if (decompositionValue < ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
-                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
-
-                    } else if (decompositionValue < ((Evaluation) evaluations.get(link.getSrc())).getEvaluation()) {
-                        decompositionValue = ((Evaluation) evaluations.get(link.getSrc())).getEvaluation();
-                    }
-                }
+                decompositionValue = evaluateDecomposition(element, decompositionValue, it, link);
             } else if (link instanceof Dependency) {
-                IntentionalElement src = (IntentionalElement) link.getSrc();
-                if (dependencyValue > ((Evaluation) evaluations.get(src)).getEvaluation()) {
-                    dependencyValue = ((Evaluation) evaluations.get(src)).getEvaluation();
+                dependencyValue = evaluateDependency(dependencyValue, link);
 
-                }
-               if (src.getType().getName().equals("Ressource")) { //$NON-NLS-1$
+                IntentionalElement src = (IntentionalElement) link.getSrc();
+                if (src.getType().getName().equals("Ressource")) { //$NON-NLS-1$
                     boolean ignoreSrc = false;
                     ignoreSrc = checkIgnoreElement(src);
                     URNspec urnSpec = element.getGrlspec().getUrnspec();
@@ -228,12 +152,11 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                 boolean ignoreSrc = false;
                 ignoreSrc = checkIgnoreElement(link.getSrc());
 
-                //int quantitativeContrib = contrib.getQuantitativeContribution();
                 int quantitativeContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
 
                 if (ignoreSrc) {
                     ignoredContributionValue[ignoredContribArrayIt] = quantitativeContrib;
-                    ignoredContribArrayIt++;                   
+                    ignoredContribArrayIt++;
                     URNspec urnSpec = element.getGrlspec().getUrnspec();
                     MetadataHelper.addMetaData(urnSpec, link.getSrc(), Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"), ""); //$NON-NLS-1$ //$NON-NLS-2$ $NON-NLS-2$
                 } else {
@@ -246,8 +169,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
 
                     consideredContribArrayIt++;
 
-                    double resultContrib;
-                    resultContrib = (quantitativeContrib * srcNodeEvaluationValue) / 100;
+                    double resultContrib = super.computeContributionResult(link, contrib);
 
                     if (resultContrib != 0) {
                         contributionValues[contribArrayIt] = (new Double(Math.round(resultContrib))).intValue();
@@ -256,9 +178,7 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
                 }
             }
         }
-        if (decompositionValue >= minRange) {
-            result = decompositionValue;
-        }
+
         if (ignoredContribArrayIt > 0 && consideredContribArrayIt > 0 && sumConsideredContributionLinks > 0) {
             int totalIgnoredContributionValue = 0;
             for (int i = 0; i < ignoredContribArrayIt; i++) {
@@ -297,88 +217,10 @@ public class ConditionalBasedGRLStrategyAlgorithm implements IGRLStrategyAlgorit
             }
 
         }
-        if (contribArrayIt > 0) {
-            boolean hasSatisfy = (result == 100);
-            boolean hasDeny = (result == minRange);
-            int contribValue = 0;
 
-            for (int i = 0; i < contribArrayIt; i++) {
-                if (contributionValues[i] == 100)
-                    hasSatisfy = true;
-                if (contributionValues[i] == minRange)
-                    hasDeny = true;
-                contribValue += contributionValues[i];
+        result = ensureEvaluationWithinRange(result, decompositionValue, dependencyValue, contributionValues, contribArrayIt);
 
-            }
-            result = result + contribValue;
-
-            if (result > 100) {
-            	result = 100;
-            }
-            else if (result < minRange) {
-                result = minRange;
-            }
-
-            if (result >= (100 - StrategyEvaluationPreferences.getTolerance()) && !hasSatisfy) {
-                if (contribValue > 0)
-                    result = Math.max(decompositionValue, 100 - StrategyEvaluationPreferences.getTolerance());
-                else
-                    result = Math.max(result, 100 - StrategyEvaluationPreferences.getTolerance());
-            } else if (result <= (minRange + StrategyEvaluationPreferences.getTolerance()) && !hasDeny) {
-                if ((contribValue) < 0 && (decompositionValue > 100 * minRange)) // Need to consider that there might be no decomposition
-                    result = Math.min(decompositionValue, minRange + StrategyEvaluationPreferences.getTolerance());
-                else
-                    result = Math.min(result, minRange + StrategyEvaluationPreferences.getTolerance());
-            }
-        }
-        if ((dependencyValue <= 100) && (result > dependencyValue)) {
-            result = dependencyValue;
-        }
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm#getActorEvaluation(grl.Actor)
-     */
-    public int getActorEvaluation(Actor actor) {
-        int sumEval = 0;
-        int sumImportance = 0;
-
-        Iterator iter = actor.getContRefs().iterator();
-        while (iter.hasNext()) {
-            // Parse through the nodes bound to this actor
-            ActorRef ref = (ActorRef) iter.next();
-            Iterator iterNode = ref.getNodes().iterator();
-            while (iterNode.hasNext()) {
-                IURNNode node = (IURNNode) iterNode.next();
-                if (node instanceof IntentionalElementRef) {
-                    IntentionalElementRef elementRef = (IntentionalElementRef) node;
-                    IntentionalElement element = elementRef.getDef();
-                    String value = MetadataHelper.getMetaData(element, "ST_Legal"); //$NON-NLS-1$
-                    int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
-                    int importance = element.getImportanceQuantitative();
-
-                    if (importance != 0 && !"No".equals(value)) { //$NON-NLS-1$
-                        sumEval += evaluation * importance;
-
-                        sumImportance += importance;
-                    }
-
-                }
-            }
-        }
-        if (sumImportance > 0) {
-            sumImportance = sumEval / sumImportance;
-        }
-
-        return sumImportance;
-    }
-
-    @Override
-    public boolean isConstraintSolverAlgorithm() {
-        // TODO Auto-generated method stub
-        return false;
-    }
 }

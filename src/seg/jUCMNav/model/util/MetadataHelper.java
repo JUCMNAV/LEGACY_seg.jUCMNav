@@ -84,7 +84,7 @@ public class MetadataHelper {
         Vector v = new Vector();
         for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
             Metadata data = (Metadata) iter.next();
-            if (data.getName() != null && data.getName().equals(name)) {
+            if (data.getName() != null && data.getName().equalsIgnoreCase(name)) {
                 v.add(data);
                 //iter.remove(); - sometimes crashed in infinite loop
                 // elem.getMetadata().remove(data); - assuming crashed because modified coll for iter.  
@@ -106,7 +106,7 @@ public class MetadataHelper {
         Vector v = new Vector();
         for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
             Metadata data = (Metadata) iter.next();
-            if (data.getName() != null && data.getName().equals(name)) {
+            if (data.getName() != null && data.getName().equalsIgnoreCase(name)) {
                 v.add(data);
             }
         }
@@ -127,7 +127,7 @@ public class MetadataHelper {
 
         for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
             Metadata data = (Metadata) iter.next();
-            if (data.getName() != null && data.getName().equals(name))
+            if (data.getName() != null && data.getName().equalsIgnoreCase(name))
                 return data.getValue();
         }
 
@@ -157,7 +157,7 @@ public class MetadataHelper {
 
         for (Iterator iter = urn.getMetadata().iterator(); iter.hasNext();) {
             Metadata data = (Metadata) iter.next();
-            if (data.getName() != null && data.getName().equals(name))
+            if (data.getName() != null && data.getName().equalsIgnoreCase(name))
                 return data.getValue();
         }
 
@@ -179,7 +179,7 @@ public class MetadataHelper {
     	
         for (Iterator iter = urn.getMetadata().iterator(); iter.hasNext();) {
             Metadata data = (Metadata) iter.next();
-            if (data.getName() != null && data.getName().equals(name))
+            if (data.getName() != null && data.getName().equalsIgnoreCase(name))
                 value = data.getValue();
         }
 
@@ -198,7 +198,7 @@ public class MetadataHelper {
 
         for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
             Metadata data = (Metadata) iter.next();
-            if (data.getName() != null && data.getName().equals(name))
+            if (data.getName() != null && data.getName().equalsIgnoreCase(name))
                 return data;
         }
 
@@ -218,7 +218,7 @@ public class MetadataHelper {
 
         for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
             Metadata data = (Metadata) iter.next();
-            if (data.getName() != null && data.getName().equals(name))
+            if (data.getName() != null && data.getName().equalsIgnoreCase(name))
                 return data;
         }
 
