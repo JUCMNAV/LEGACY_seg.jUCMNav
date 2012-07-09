@@ -22,9 +22,12 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.commands.UnexecutableCommand;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import seg.jUCMNav.model.commands.IGlobalStackCommand;
 import seg.jUCMNav.model.commands.cutcopypaste.PasteCommand;
+import seg.jUCMNav.views.outline.UrnOutlinePage;
 import urncore.IURNDiagram;
 
 /**
@@ -295,18 +298,24 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * @see org.eclipse.gef.commands.CommandStack#redo()
      */
     public void redo() {
-        if (stkUrnSpec.getRedoCommand() != null) {
+        try {
+            tryUnhookOutlineSelectionSynchronizer();
 
-            Command command = stkUrnSpec.getRedoCommand();
+            if (stkUrnSpec.getRedoCommand() != null) {
 
-            if (command instanceof IGlobalStackCommand) {
-                lastAffectedDiagram = ((IGlobalStackCommand) command).getAffectedDiagram();
+                Command command = stkUrnSpec.getRedoCommand();
+
+                if (command instanceof IGlobalStackCommand) {
+                    lastAffectedDiagram = ((IGlobalStackCommand) command).getAffectedDiagram();
+                }
+
+                stkUrnSpec.redo();
+            } else {
+                if (null != currentCommandStack)
+                    currentCommandStack.redo();
             }
-
-            stkUrnSpec.redo();
-        } else {
-            if (null != currentCommandStack)
-                currentCommandStack.redo();
+        } finally {
+            tryHookOutlineSelectionSynchronizer();
         }
     }
 
@@ -360,17 +369,52 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * @see org.eclipse.gef.commands.CommandStack#undo()
      */
     public void undo() {
-        if (stkUrnSpec.getUndoCommand() != null) {
-            Command command = stkUrnSpec.getUndoCommand();
-            if (command instanceof IGlobalStackCommand) {
-                lastAffectedDiagram = ((IGlobalStackCommand) command).getAffectedDiagram();
+        try {
+            tryUnhookOutlineSelectionSynchronizer();
+
+            if (stkUrnSpec.getUndoCommand() != null) {
+                Command command = stkUrnSpec.getUndoCommand();
+                if (command instanceof IGlobalStackCommand) {
+                    lastAffectedDiagram = ((IGlobalStackCommand) command).getAffectedDiagram();
+                }
+
+                stkUrnSpec.undo();
+            } else {
+
+                if (null != currentCommandStack)
+                    currentCommandStack.undo();
             }
-
-            stkUrnSpec.undo();
-        } else {
-
-            if (null != currentCommandStack)
-                currentCommandStack.undo();
+        } finally {
+            tryHookOutlineSelectionSynchronizer();
         }
+    }
+
+    protected void tryUnhookOutlineSelectionSynchronizer() {
+        /* Did not produce significant performance boost. 
+         * UrnOutlinePage urnOutlinePage = getOutlinePage();
+        if (urnOutlinePage != null)
+            urnOutlinePage.unhookOutlineViewer(); // temporarily unhook selection synchronizer.
+            */
+    }
+
+    protected void tryHookOutlineSelectionSynchronizer() {
+        /* Did not produce significant performance boost. 
+         * UrnOutlinePage urnOutlinePage = getOutlinePage();
+        if (urnOutlinePage != null)
+            urnOutlinePage.unhookOutlineViewer(); // rehook selection synchronizer.
+            */
+    }
+
+    protected UrnOutlinePage getOutlinePage() {
+        UrnOutlinePage urnOutlinePage = null;
+        if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
+                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            IContentOutlinePage outline = (IContentOutlinePage) editor.getAdapter(IContentOutlinePage.class);
+            if (outline instanceof UrnOutlinePage) {
+                urnOutlinePage = (UrnOutlinePage) outline;
+            }
+        }
+        return urnOutlinePage;
     }
 }

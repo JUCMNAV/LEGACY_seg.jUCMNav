@@ -370,7 +370,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
     /**
      * Synchronizes the selection between the main viewer and the outline views.
      */
-    protected void hookOutlineViewer() {
+    public void hookOutlineViewer() {
         multieditor.getSelectionSynchronizer().addViewer(getViewer());
         multieditor.getSelectionSynchronizer().addViewer(getConcernsViewer());
         multieditor.getSelectionSynchronizer().addViewer(getDefinitionsViewer());
@@ -587,7 +587,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
     /**
      * Removes selection synchronization, removes listeners. Usually called when outline page is being closed.
      */
-    protected void unhookOutlineViewer() {
+    public void unhookOutlineViewer() {
         if (multieditor != null) {
             multieditor.getSelectionSynchronizer().removeViewer(getViewer());
             multieditor.getSelectionSynchronizer().removeViewer(getConcernsViewer());
