@@ -1,5 +1,7 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import grl.Actor;
+import grl.ActorRef;
 import grl.ImportanceType;
 import grl.IntentionalElementRef;
 
@@ -7,11 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * 
@@ -23,9 +27,31 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
     public final static int DECREASE = ImportanceType.VALUES.size() + 1;
 
     private class IElementState {
-        IntentionalElementRef intElemRef;
+        EObject intElemRef; // IntentionalElementRef or ActorRef
         ImportanceType oldType, newType;
         int oldValue;
+    }
+    
+    public static ImportanceType getImportance(EObject o) {
+        if (o instanceof IntentionalElementRef) {
+            IntentionalElementRef ref = (IntentionalElementRef) o;
+            return ref.getDef().getImportance();
+        } else if (o instanceof ActorRef) {
+            ActorRef ref = (ActorRef) o;
+            return ((Actor) ref.getContDef()).getImportance();
+        } else
+            throw new NotImplementedException();
+    }
+
+    public static void setImportance(EObject o, ImportanceType value) {
+        if (o instanceof IntentionalElementRef) {
+            IntentionalElementRef ref = (IntentionalElementRef) o;
+            EvaluationStrategyManager.getInstance().setIntentionalElementQualitativeImportance(ref.getDef(), value);
+        } else if (o instanceof ActorRef) {
+            ActorRef ref = (ActorRef) o;
+            EvaluationStrategyManager.getInstance().setActorQualitativeImportance(((Actor) ref.getContDef()), value);
+        } else
+            throw new NotImplementedException();
     }
 
     Vector intElementStates = new Vector();
@@ -37,12 +63,12 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
 
         for (Iterator iter = intElemRefs.iterator(); iter.hasNext();) {
 
-            IntentionalElementRef currentIERef = (IntentionalElementRef) iter.next();
+            EObject currentIERef = (EObject) iter.next();
             IElementState ies = new IElementState();
 
             ies.intElemRef = currentIERef;
-            ies.oldType = currentIERef.getDef().getImportance();
-            ies.oldValue = currentIERef.getDef().getImportanceQuantitative(); // store old numerical value for undo operations
+            ies.oldType = getImportance(currentIERef);
+            ies.oldValue = ChangeNumericalImportanceCommand.getImportanceQuantitative(currentIERef); // store old numerical value for undo operations
             intElementStates.add(ies);
 
             if (id < INCREASE) { // input from sub-menu High --> None
@@ -66,7 +92,7 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
 
         for (Iterator iter = intElementStates.iterator(); iter.hasNext();) {
             IElementState ies = (IElementState) iter.next();
-            EvaluationStrategyManager.getInstance().setIntentionalElementQualitativeImportance(ies.intElemRef.getDef(), ies.newType);
+            setImportance(ies.intElemRef, ies.newType);
         }
 
         testPostConditions();
@@ -91,8 +117,8 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
 
         for (Iterator iter = intElementStates.iterator(); iter.hasNext();) {
             IElementState ies = (IElementState) iter.next();
-            EvaluationStrategyManager.getInstance().setIntentionalElementQualitativeImportance(ies.intElemRef.getDef(), ies.oldType);
-            EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance(ies.intElemRef.getDef(), ies.oldValue);
+            setImportance(ies.intElemRef, ies.oldType);
+            ChangeNumericalImportanceCommand.setImportanceQuantitative(ies.intElemRef, ies.oldValue);
         }
 
         testPreConditions();

@@ -1,17 +1,21 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import grl.Actor;
+import grl.ActorRef;
 import grl.IntentionalElementRef;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * 
@@ -30,25 +34,47 @@ public class ChangeNumericalImportanceCommand extends Command implements JUCMNav
     public final static int DECREASE = values.length + 2;
 
     private class IElementState {
-        IntentionalElementRef intElemRef;
+        EObject intElemRef; // IntentionalElementRef or ActorRef
         int oldValue, newValue;
+    }
+
+    public static int getImportanceQuantitative(EObject o) {
+        if (o instanceof IntentionalElementRef) {
+            IntentionalElementRef ref = (IntentionalElementRef) o;
+            return ref.getDef().getImportanceQuantitative();
+        } else if (o instanceof ActorRef) {
+            ActorRef ref = (ActorRef) o;
+            return ((Actor) ref.getContDef()).getImportanceQuantitative();
+        } else
+            throw new NotImplementedException();
+    }
+
+    public static void setImportanceQuantitative(EObject o, int value) {
+        if (o instanceof IntentionalElementRef) {
+            IntentionalElementRef ref = (IntentionalElementRef) o;
+            EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance(ref.getDef(), value);
+        } else if (o instanceof ActorRef) {
+            ActorRef ref = (ActorRef) o;
+            EvaluationStrategyManager.getInstance().setActorQuantitativeImportance(((Actor) ref.getContDef()), value);
+        } else
+            throw new NotImplementedException();
     }
 
     Vector intElementStates = new Vector();
 
     public ChangeNumericalImportanceCommand(List intElemRefs, int id, int enteredImportance, CommandStack stack) {
         setLabel(Messages.getString("UrnContextMenuProvider.SetNumericalImportance")); //$NON-NLS-1$
-        
+
         operation = id;
         commandStack = stack;
 
         for (Iterator iter = intElemRefs.iterator(); iter.hasNext();) {
 
-            IntentionalElementRef currentIERef = (IntentionalElementRef) iter.next();
+            EObject currentIERef = (EObject) iter.next();
             IElementState ies = new IElementState();
 
             ies.intElemRef = currentIERef;
-            ies.oldValue = currentIERef.getDef().getImportanceQuantitative();
+            ies.oldValue = getImportanceQuantitative(currentIERef);
             intElementStates.add(ies);
 
             if (id < USER_ENTRY) // input from sub-menu +100 -> 0
@@ -91,7 +117,7 @@ public class ChangeNumericalImportanceCommand extends Command implements JUCMNav
 
         for (Iterator iter = intElementStates.iterator(); iter.hasNext();) {
             IElementState ies = (IElementState) iter.next();
-            EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance(ies.intElemRef.getDef(), ies.newValue);
+            setImportanceQuantitative(ies.intElemRef, ies.newValue);
         }
 
         testPostConditions();
@@ -119,7 +145,7 @@ public class ChangeNumericalImportanceCommand extends Command implements JUCMNav
 
         for (Iterator iter = intElementStates.iterator(); iter.hasNext();) {
             IElementState ies = (IElementState) iter.next();
-            EvaluationStrategyManager.getInstance().setIntentionalElementQuantitativeImportance(ies.intElemRef.getDef(), ies.oldValue);
+            setImportanceQuantitative(ies.intElemRef, ies.newValue);
         }
 
         testPreConditions();

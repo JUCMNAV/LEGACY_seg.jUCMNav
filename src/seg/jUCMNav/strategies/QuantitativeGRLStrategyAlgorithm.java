@@ -21,6 +21,7 @@ import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
+import urncore.IURNContainerRef;
 import urncore.IURNNode;
 
 /**
@@ -261,6 +262,21 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     IntentionalElementRef elementRef = (IntentionalElementRef) node;
                     IntentionalElement element = elementRef.getDef();
                     int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
+                    int importance = element.getImportanceQuantitative();
+
+                    if (importance != 0 && isLegalStereotype(element)) {
+                        sumEval += evaluation * importance;
+                        sumImportance += importance;
+                    }
+                }
+            }
+            iterNode = ref.getChildren().iterator();
+            while (iterNode.hasNext()) {
+                IURNContainerRef node = (IURNContainerRef) iterNode.next();
+                if (node instanceof ActorRef) {
+                    ActorRef elementRef = (ActorRef) node;
+                    Actor element = (Actor) elementRef.getContDef();
+                    int evaluation = EvaluationStrategyManager.getInstance().getActorEvaluation(element);
                     int importance = element.getImportanceQuantitative();
 
                     if (importance != 0 && isLegalStereotype(element)) {

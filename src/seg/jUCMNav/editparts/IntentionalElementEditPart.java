@@ -4,6 +4,7 @@ import grl.Decomposition;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.GrlPackage;
+import grl.ImportanceType;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
@@ -599,31 +600,36 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             String stereotypes = UrnMetadata.getAllStereotypes( getNode(), getNode().getDef());
             String name = getNode().getDef().getName();
 
-            // Handle importance annotation
-            String importance = ""; //$NON-NLS-1$
-            int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
-            if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE 
-                                                             || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA
-                                                             || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER
-                                                             || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION) {
-                if (getNode().getDef().getImportanceQuantitative() > 0) {
-                    importance = "  (" + String.valueOf(getNode().getDef().getImportanceQuantitative()) + ")"; //$NON-NLS-1$ //$NON-NLS-2$  $NON-NLS-2$
-                }
-            } else if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE) {
-                switch (getNode().getDef().getImportance().getValue()) {
-                case 0:
-                    importance = "  (H)"; //$NON-NLS-1$
-                    break;
-                case 1:
-                    importance = "  (M)"; //$NON-NLS-1$
-                    break;
-                case 2:
-                    importance = "  (L)"; //$NON-NLS-1$
-                }
-            }
-            // Roy's algo does not use importance but priority and criticality... Deprecated.
+            String importance = getImportanceSuffix(getNode().getDef().getImportanceQuantitative(), getNode().getDef().getImportance());
 
             getNodeFigure().setEditableText(name + importance + stereotypes);
         }
+    }
+
+    public static String getImportanceSuffix(int val, ImportanceType type) {
+        // Handle importance annotation
+        String importance = ""; //$NON-NLS-1$
+        int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
+        if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE 
+                                                         || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA
+                                                         || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER
+                                                         || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION) {
+            if (val > 0) {
+                importance = "  (" + String.valueOf(val) + ")"; //$NON-NLS-1$ //$NON-NLS-2$  $NON-NLS-2$
+            }
+        } else if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE) {
+            switch (type.getValue()) {
+            case 0:
+                importance = "  (H)"; //$NON-NLS-1$
+                break;
+            case 1:
+                importance = "  (M)"; //$NON-NLS-1$
+                break;
+            case 2:
+                importance = "  (L)"; //$NON-NLS-1$
+            }
+        }
+
+        return importance;
     }
 }

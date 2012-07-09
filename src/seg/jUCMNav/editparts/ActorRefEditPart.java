@@ -177,6 +177,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         Rectangle bounds = new Rectangle(location, size);
         figure.setBounds(bounds);
         figure.setLocation(location);
+        setText();
 
         int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
 
@@ -284,4 +285,15 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
     	}
     }
 
+    private void setText() {
+        if (getActorRef().getContDef()!=null && getActorRef().getContDef() instanceof Actor) {
+            Actor actor = (Actor) getActorRef().getContDef();
+            
+            String name = actor.getName();
+
+            String importance = IntentionalElementEditPart.getImportanceSuffix(actor.getImportanceQuantitative(), actor.getImportance());
+
+            getActorFigure().setEditableText(name + importance);
+        }
+    }
 }

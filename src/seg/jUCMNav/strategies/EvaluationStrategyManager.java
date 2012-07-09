@@ -689,6 +689,49 @@ public class EvaluationStrategyManager {
             return ImportanceType.NONE_LITERAL;
         return null;
     }
+    
+
+    /**
+     * Sets the quantitative importance of an actor
+     * 
+     * @param element
+     *            the element to apply the new value to
+     * @param value
+     *            the new quantitative importance value
+     * 
+     */
+    public synchronized void setActorQuantitativeImportance(Actor element, int value) {
+        // The importance should be between 0 and 100
+        if (value <= 100 && value >= 0) {
+
+            // Change the value in the evaluation
+            if (value != element.getImportanceQuantitative()) {
+                element.setImportanceQuantitative(value);
+                syncActorQuantitativeImportance(element, value);
+            }
+
+            // do we have a command for this?
+            calculateEvaluation();
+        }
+    }
+
+    /**
+     * Synchronize the qualitative importance to the quantitative importance
+     * 
+     * @param element
+     *            actor being synchronized
+     * @param value
+     *            quantitative value for the actor
+     * 
+     */
+    private void syncActorQuantitativeImportance(Actor element, int value) {
+        ImportanceType label = element.getImportance();
+
+        ImportanceType toSet = getQualitativeImportanceForQuantitativeValue(value);
+
+        if (!label.equals(toSet))
+            element.setImportance(toSet);
+    }
 
     /**
      * Sets the qualitative importance
@@ -720,17 +763,57 @@ public class EvaluationStrategyManager {
     private void syncIntentionalElementQualitativeImportance(IntentionalElement element) {
         String type = element.getImportance().getName();
         int importance = element.getImportanceQuantitative();
-
-        if (ImportanceType.HIGH_LITERAL.getName().equals(type) && (importance < 66))
-            element.setImportanceQuantitative(100);
-        else if (ImportanceType.MEDIUM_LITERAL.getName().equals(type) && (importance < 33 || importance >= 66))
-            element.setImportanceQuantitative(50);
-        else if (ImportanceType.LOW_LITERAL.getName().equals(type) && (importance == 0 || importance >= 33))
-            element.setImportanceQuantitative(25);
-        else if (ImportanceType.NONE_LITERAL.getName().equals(type) && (importance > 0))
-            element.setImportanceQuantitative(0);
+        int value = mapImportanceToValue(type, importance);
+        if (value>=0) element.setImportanceQuantitative(value);
 
     }
+
+    protected int mapImportanceToValue(String type, int importance) {
+        if (ImportanceType.HIGH_LITERAL.getName().equals(type) && (importance < 66))
+            return 100;
+        else if (ImportanceType.MEDIUM_LITERAL.getName().equals(type) && (importance < 33 || importance >= 66))
+            return 50;
+        else if (ImportanceType.LOW_LITERAL.getName().equals(type) && (importance == 0 || importance >= 33))
+            return 25;
+        else if (ImportanceType.NONE_LITERAL.getName().equals(type) && (importance > 0))
+            return 0;
+        return -1;
+    }
+    
+    /**
+     * Sets the qualitative importance
+     * 
+     * @param element
+     *            the element to which to apply the new value
+     * @param value
+     *            the new qualitative importance value
+     * 
+     */
+    public synchronized void setActorQualitativeImportance(Actor element, ImportanceType value) {
+        // Change the value in the evaluation
+        if (value != element.getImportance()) {
+            element.setImportance(value);
+            syncActorQualitativeImportance(element);
+
+        }
+        // do we have a command for this?
+        calculateEvaluation();
+    }
+
+    /**
+     * Synchronizes the quantitative evaluation to the qualitative evaluation
+     * 
+     * @param element
+     *            the intentional element being synchronized
+     * 
+     */
+    private void syncActorQualitativeImportance(Actor element) {
+        String type = element.getImportance().getName();
+        int importance = element.getImportanceQuantitative();
+        int value = mapImportanceToValue(type, importance);
+        if (value>=0) element.setImportanceQuantitative(value);
+    }
+    
 
     /**
      * Sets the quantitative evaluation

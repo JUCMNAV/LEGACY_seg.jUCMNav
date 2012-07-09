@@ -1,16 +1,21 @@
 package seg.jUCMNav.actions;
 
+import grl.Actor;
+import grl.ActorRef;
 import grl.ImportanceType;
 import grl.IntentionalElementRef;
 
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editparts.ActorRefEditPart;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeQualitativeImportanceCommand;
 
@@ -42,26 +47,45 @@ public class SetQualitativeImportanceAction extends URNSelectionAction {
     protected Command getCommand() {
         return new ChangeQualitativeImportanceCommand(intElementRefs, id);
     }
+    protected boolean hasImportance(Object obj) {
+        return obj instanceof IntentionalElementEditPart || obj instanceof ActorRefEditPart || obj instanceof IntentionalElementRef || obj instanceof ActorRef;
+    }
+    
+    protected ImportanceType getImportanceFromEditPart(EditPart obj) {
+        return getImportance(obj.getModel());
+    }
 
+    protected ImportanceType getImportance(Object obj) {
+        ImportanceType oldEval = ImportanceType.NONE_LITERAL;
+
+        if (obj instanceof IntentionalElementRef) {
+            IntentionalElementRef ier = (IntentionalElementRef) obj;
+            oldEval = ier.getDef().getImportance();
+        } else if (obj instanceof ActorRef) {
+            ActorRef ier = (ActorRef) obj;
+            oldEval = ((Actor) ier.getContDef()).getImportance();
+        }
+        return oldEval;
+    }
     /**
      * We need to have an intentional element reference selected. For increase and decrease operations verify if possible
      */
     protected boolean calculateEnabled() {
         for (Iterator iter = getSelectedObjects().iterator(); iter.hasNext();) {
             Object obj = iter.next();
-            if (!(obj instanceof IntentionalElementEditPart))
+            if (!hasImportance(obj)) // all must have it. 
                 return false;
 
             if (id < ChangeQualitativeImportanceCommand.INCREASE) // operation is not increase or decrease, skip further tests
                 continue;
 
-            IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) obj).getModel());
+            ImportanceType type = getImportanceFromEditPart((EditPart)obj);
 
             if (id == ChangeQualitativeImportanceCommand.INCREASE) { // increase operation, verify if possible
-                if (ier.getDef().getImportance() == ImportanceType.HIGH_LITERAL)
+                if (type == ImportanceType.HIGH_LITERAL)
                     return false; // can't increase from HIGH
             } else if (id == ChangeQualitativeImportanceCommand.DECREASE) { // decrease operation, verify if possible
-                if (ier.getDef().getImportance() == ImportanceType.NONE_LITERAL)
+                if (type == ImportanceType.NONE_LITERAL)
                     return false; // can't decrease from NONE
             }
         }
@@ -69,7 +93,7 @@ public class SetQualitativeImportanceAction extends URNSelectionAction {
         intElementRefs = new Vector(); // all tests passed, create list
 
         for (Iterator iter = getSelectedObjects().iterator(); iter.hasNext();) {
-            IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) iter.next()).getModel());
+            EObject ier = (EObject) (((EditPart) iter.next()).getModel());
             intElementRefs.add(ier);
         }
 

@@ -1,16 +1,21 @@
 package seg.jUCMNav.actions;
 
+import grl.Actor;
+import grl.ActorRef;
 import grl.IntentionalElementRef;
 
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editparts.ActorRefEditPart;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalImportanceCommand;
 import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
@@ -42,20 +47,37 @@ public class SetNumericalImportanceAction extends URNSelectionAction {
         this.id = id;
     }
 
+    protected int getQuantitativeImportanceFromEditPart(EditPart obj) {
+        return getQuantitativeImportance(obj.getModel());
+    }
+
+    protected int getQuantitativeImportance(Object obj) {
+        int oldEval = 0;
+
+        if (obj instanceof IntentionalElementRef) {
+            IntentionalElementRef ier = (IntentionalElementRef) obj;
+            oldEval = ier.getDef().getImportanceQuantitative();
+        } else if (obj instanceof ActorRef) {
+            ActorRef ier = (ActorRef) obj;
+            oldEval = ((Actor) ier.getContDef()).getImportanceQuantitative();
+        }
+        return oldEval;
+    }
+    
     /**
      * We need to have only intentional element references selected. For increase/decrease other tests are necessary.
      */
     protected boolean calculateEnabled() {
         for (Iterator iter = getSelectedObjects().iterator(); iter.hasNext();) {
             Object obj = iter.next();
-            if (!(obj instanceof IntentionalElementEditPart))
+            if (!hasImportance(obj)) // all must have imporance. 
                 return false;
 
             if (id <= ChangeNumericalImportanceCommand.USER_ENTRY) // operation is not increase or decrease, skip further tests
                 continue;
 
-            IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) obj).getModel());
-            int oldEval = ier.getDef().getImportanceQuantitative();
+            
+            int oldEval = getQuantitativeImportanceFromEditPart((EditPart)obj);
 
             if (id == ChangeNumericalImportanceCommand.INCREASE) { // increase operation, verify if possible
                 if (oldEval == 100)
@@ -69,11 +91,15 @@ public class SetNumericalImportanceAction extends URNSelectionAction {
         intElementRefs = new Vector(); // all tests passed, create list
 
         for (Iterator iter = getSelectedObjects().iterator(); iter.hasNext();) {
-            IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) iter.next()).getModel());
+            EObject ier = (EObject) (((EditPart) iter.next()).getModel());
             intElementRefs.add(ier);
         }
 
         return true;
+    }
+
+    protected boolean hasImportance(Object obj) {
+        return obj instanceof IntentionalElementEditPart || obj instanceof ActorRefEditPart || obj instanceof IntentionalElementRef || obj instanceof ActorRef;
     }
 
     public void run() {
@@ -81,7 +107,7 @@ public class SetNumericalImportanceAction extends URNSelectionAction {
             execute(new ChangeNumericalImportanceCommand(intElementRefs, id, 0, getCommandStack()));
         else if (id == ChangeNumericalImportanceCommand.USER_ENTRY) {
             String currentValue = (intElementRefs.size() > 1) ? "" : //$NON-NLS-1$
-                    Integer.toString(((IntentionalElementRef) (intElementRefs.get(0))).getDef().getImportanceQuantitative());
+                    Integer.toString(getQuantitativeImportance(intElementRefs.get(0)));
             Integer userEntry = enterImportance(currentValue);
             if (userEntry != null) {
                 int enteredImportance = userEntry.intValue();
