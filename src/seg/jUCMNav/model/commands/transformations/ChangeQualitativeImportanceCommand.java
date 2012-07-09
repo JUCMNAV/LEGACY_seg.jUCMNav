@@ -15,7 +15,6 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * 
@@ -40,7 +39,7 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
             ActorRef ref = (ActorRef) o;
             return ((Actor) ref.getContDef()).getImportance();
         } else
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
     }
 
     public static void setImportance(EObject o, ImportanceType value) {
@@ -51,7 +50,7 @@ public class ChangeQualitativeImportanceCommand extends Command implements JUCMN
             ActorRef ref = (ActorRef) o;
             EvaluationStrategyManager.getInstance().setActorQualitativeImportance(((Actor) ref.getContDef()), value);
         } else
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
     }
 
     Vector intElementStates = new Vector();

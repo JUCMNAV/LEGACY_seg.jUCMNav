@@ -15,7 +15,6 @@ import org.eclipse.gef.commands.CommandStack;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * 
@@ -46,7 +45,7 @@ public class ChangeNumericalImportanceCommand extends Command implements JUCMNav
             ActorRef ref = (ActorRef) o;
             return ((Actor) ref.getContDef()).getImportanceQuantitative();
         } else
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
     }
 
     public static void setImportanceQuantitative(EObject o, int value) {
@@ -57,7 +56,7 @@ public class ChangeNumericalImportanceCommand extends Command implements JUCMNav
             ActorRef ref = (ActorRef) o;
             EvaluationStrategyManager.getInstance().setActorQuantitativeImportance(((Actor) ref.getContDef()), value);
         } else
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
     }
 
     Vector intElementStates = new Vector();
