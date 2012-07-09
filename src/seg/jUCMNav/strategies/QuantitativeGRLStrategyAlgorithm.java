@@ -186,7 +186,7 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         return result;
     }
 
-    protected boolean isLegalStereotype(GRLLinkableElement element) {
+    public static boolean isLegalStereotype(GRLLinkableElement element) {
         String value = MetadataHelper.getMetaData(element, "ST_Legal"); //$NON-NLS-1$
         return !"No".equalsIgnoreCase(value);
     }
@@ -242,12 +242,8 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         return resultContrib;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm#getActorEvaluation(grl.Actor)
-     */
-    public int getActorEvaluation(Actor actor) {
+    public static int getStandardActorEvaluation(Actor actor)
+    {
         int sumEval = 0;
         int sumImportance = 0;
 
@@ -291,6 +287,14 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         }
 
         return sumImportance;
+    }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm#getActorEvaluation(grl.Actor)
+     */
+    public int getActorEvaluation(Actor actor) {
+      return getStandardActorEvaluation(actor);
     }
 
     @Override

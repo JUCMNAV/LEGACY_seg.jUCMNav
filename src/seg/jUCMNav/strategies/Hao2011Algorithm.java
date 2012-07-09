@@ -1,14 +1,12 @@
 package seg.jUCMNav.strategies;
 
 import grl.Actor;
-import grl.ActorRef;
 import grl.Contribution;
 import grl.DecompositionType;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
-import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 import grl.impl.ContributionImpl;
 import grl.impl.DecompositionImpl;
@@ -21,8 +19,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
-import seg.jUCMNav.model.util.MetadataHelper;
-import urncore.IURNNode;
 import JaCoP.constraints.Constraint;
 import JaCoP.constraints.Max;
 import JaCoP.constraints.Min;
@@ -340,37 +336,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
      * @see seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm#getActorEvaluation(grl.Actor)
      */
     public int getActorEvaluation(Actor actor) {
-        int sumEval = 0;
-        int sumImportance = 0;
-
-        Iterator iter = actor.getContRefs().iterator();
-        while (iter.hasNext()) {
-            // Parse through the node bind to this actor
-            ActorRef ref = (ActorRef) iter.next();
-            Iterator iterNode = ref.getNodes().iterator();
-            while (iterNode.hasNext()) {
-                IURNNode node = (IURNNode) iterNode.next();
-                if (node instanceof IntentionalElementRef) {
-                    IntentionalElementRef elementRef = (IntentionalElementRef) node;
-                    IntentionalElement element = elementRef.getDef();
-                    String value = MetadataHelper.getMetaData(element, "ST_Legal"); //$NON-NLS-1$
-                    int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
-                    int importance = element.getImportanceQuantitative();
-
-                    if (importance != 0 && !"No".equals(value)){ //$NON-NLS-1$
-                        sumEval += evaluation*importance;
-
-                        sumImportance += importance;
-                    }
-
-                }
-            }
-        }
-        if (sumImportance > 0) {
-            sumImportance = sumEval / sumImportance;
-        }
-
-        return sumImportance;
+        return QuantitativeGRLStrategyAlgorithm.getStandardActorEvaluation(actor);
     }
 
     public List<IntentionalElement> getAllElements() {
