@@ -53,9 +53,11 @@ public class KPIValueWSResources implements KPIValueResources {
                 EvaluationStrategyManager strategyManager = EvaluationStrategyManager.getInstance();
                 for (int i = 0; i < result.length; i++) {
                     // System.out.println("Result" + i + ": " + ((KpiEntity) result[i]).getIndicatorName() + " - " + ((KpiEntity) result[i]).getKpiValue());
-                    KPIEvalValueSet kpiEvalValueSet = ((Evaluation) evalObjects.get(i)).getKpiEvalValueSet();
-                    kpiEvalValueSet.setEvaluationValue(Double.parseDouble(((KpiEntity) result[i]).getKpiValue()));
-
+                    
+                    /*KPIEvalValueSet kpiEvalValueSet = strategyManager.getActiveKPIEvalValueSet(elem);
+                    kpiEvalValueSet.setEvaluationValue(Double.parseDouble(((KpiEntity) result[i]).getKpiValue()));*/
+                    IntentionalElement elem = ((Evaluation) evalObjects.get(i)).getIntElement();
+                    strategyManager.setActiveKPIEvaluationValue(elem, Double.parseDouble(((KpiEntity) result[i]).getKpiValue()));
                     strategyManager.calculateIndicatorEvalLevel((Evaluation) evalObjects.get(i));
                 }
 

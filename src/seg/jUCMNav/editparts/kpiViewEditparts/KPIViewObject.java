@@ -104,14 +104,15 @@ public class KPIViewObject {
             }
         }
 
-        Evaluation eval = EvaluationStrategyManager.getInstance().getEvaluationObject(indicator);
+        EvaluationStrategyManager sm = EvaluationStrategyManager.getInstance();
+        Evaluation eval = sm.getEvaluationObject(indicator);
         evaluationLevel = eval.getEvaluation();
 
-        KPIEvalValueSet kpiEvalValueSet = eval.getKpiEvalValueSet();
+        KPIEvalValueSet kpiEvalValueSet = sm.getActiveKPIEvalValueSet(indicator);
         targetValue = kpiEvalValueSet.getTargetValue();
         thresholdValue = kpiEvalValueSet.getThresholdValue();
         worstValue = kpiEvalValueSet.getWorstValue();
-        evaluationValue = kpiEvalValueSet.getEvaluationValue();
+        evaluationValue =   sm.getActiveKPIValue(indicator); //kpiEvalValueSet.getEvaluationValue();
         unit = kpiEvalValueSet.getUnit() == null ? "" : kpiEvalValueSet.getUnit(); //$NON-NLS-1$
 
         KPIModelLink[] kpiModelLinks = (KPIModelLink[]) indicator.getKpiModelLinksDest().toArray(new KPIModelLink[0]);

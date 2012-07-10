@@ -31,6 +31,7 @@ import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIInformationElementRef;
 import grl.kpimodel.KPIModelLink;
 import grl.kpimodel.KPIModelLinkRef;
+import grl.kpimodel.KPINewEvalValue;
 import grl.kpimodel.KpimodelFactory;
 
 import java.text.DateFormat;
@@ -376,7 +377,16 @@ public class ModelCreationFactory implements CreationFactory {
                 result = grlfactory.createEvaluation();
                 ((Evaluation) result).setKpiEvalValueSet(kpiFactory.createKPIEvalValueSet());
             } else if (targetClass.equals(KPIEvalValueSet.class)) {
-                result = kpiFactory.createKPIEvalValueSet();
+                KPIEvalValueSet set = kpiFactory.createKPIEvalValueSet();
+                double defaultValue = 0.0;
+                set.setTargetValue(defaultValue);
+                set.setThresholdValue(defaultValue);
+                set.setWorstValue(defaultValue);
+                set.setEvaluationValue(defaultValue);
+                result = set;
+
+            } else if (targetClass.equals(KPINewEvalValue.class)){
+                result = kpiFactory.createKPINewEvalValue();
             } else if (targetClass.equals(KPIInformationConfig.class)) {
                 result = kpiFactory.createKPIInformationConfig();
             } else if (targetClass.equals(EnumerationType.class)) {

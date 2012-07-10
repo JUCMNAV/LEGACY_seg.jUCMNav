@@ -56,7 +56,7 @@ public class IndicatorTreeEditPart extends KPIUrnModelElementTreeEditPart {
         if (sm.getEvaluationStrategy() != null) {
             Evaluation eval = sm.getEvaluationObject(getNode());
             int evalLevel = eval.getEvaluation();
-            KPIEvalValueSet kpiEvalValueSet = eval.getKpiEvalValueSet();
+            KPIEvalValueSet kpiEvalValueSet = sm.getActiveKPIEvalValueSet(getNode());
             if (evalLevel > 0) {
                 iconFile = "icons/indicator_up.gif"; //$NON-NLS-1$
             } else if (evalLevel < 0) {

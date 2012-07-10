@@ -336,7 +336,7 @@ public class Hao2011Algorithm implements IGRLStrategyAlgorithm {
      * @see seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm#getActorEvaluation(grl.Actor)
      */
     public int getActorEvaluation(Actor actor) {
-        return QuantitativeGRLStrategyAlgorithm.getStandardActorEvaluation(actor);
+        return StrategyAlgorithmImplementationHelper.defaultActorEvaluation(actor);
     }
 
     public List<IntentionalElement> getAllElements() {

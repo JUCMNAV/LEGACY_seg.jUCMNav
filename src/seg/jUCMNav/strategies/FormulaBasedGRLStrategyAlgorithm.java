@@ -68,8 +68,8 @@ public class FormulaBasedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlg
                 System.err.println("Incorrect formula '" + formula + "' in KPI '" + element.getName() + "'."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
 
-            eval.getKpiEvalValueSet().setEvaluationValue(resultContrib);
             EvaluationStrategyManager strategyManager = EvaluationStrategyManager.getInstance();
+            strategyManager.setActiveKPIEvaluationValue(element, resultContrib);
             strategyManager.calculateIndicatorEvalLevel(eval);
             result = eval.getEvaluation();
         }
@@ -84,8 +84,9 @@ public class FormulaBasedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlg
         if (mathEvaluator == null) {
             return super.computeContributionResult(link, contrib);
         } else {
-            int quantitativeContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
-            double srcNodeEvaluationValue = ((Evaluation) evaluations.get(link.getSrc())).getKpiEvalValueSet().getEvaluationValue();
+            EvaluationStrategyManager strategyManager = EvaluationStrategyManager.getInstance();
+            int quantitativeContrib = strategyManager.getActiveQuantitativeContribution(contrib);
+            double srcNodeEvaluationValue = strategyManager.getActiveKPIValue((IntentionalElement)link.getSrc());
             // TODO: it might be better if we change this to use the name of the source node as opposed to link
             // TODO: I have noticed if the name of the link does not match the variables used in the formula it can cause errors.
             // This is partially caught now and displayed on Ststem.err, to prevent crashing (Daniel)

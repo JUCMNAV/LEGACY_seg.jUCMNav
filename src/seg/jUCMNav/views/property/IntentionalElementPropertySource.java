@@ -121,7 +121,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 addPropertyToDescriptor(descriptors, attr, def.eClass());
             }
         }
-        if (strategyView && EvaluationStrategyManager.getInstance().getEvaluationStrategy()!=null) {
+        if (strategyView && EvaluationStrategyManager.getInstance().getEvaluationStrategy() != null) {
             // get the strategy attribute
             EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();
             it = strategy.eClass().getEAllAttributes().iterator();
@@ -140,26 +140,21 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 EAttribute attr = (EAttribute) it.next();
                 addPropertyToDescriptor(descriptors, attr, temp.eClass());
             }
-            
+
             // add the properties properties for the range
-            if (temp.getStrategies()!=null && temp.getEvalRange()!=null && temp.getStrategies()==strategy) {
+            if (temp.getStrategies() != null && temp.getEvalRange() != null && temp.getStrategies() == strategy) {
                 EStructuralFeature attr = temp.eClass().getEStructuralFeature("evalRange"); //$NON-NLS-1$
                 addPropertyToDescriptor(descriptors, attr, temp.getEvalRange().eClass());
             }
-                 
+
             /*
-            if (temp.getStrategies()!=null) {
-                EvaluationRange range = temp.getEvalRange();
-                it = range.eClass().getEAllAttributes().iterator();
-                if (attr.getName() == "evalRange" && temp.getStrategies()!=null)
-                    addPropertyToDescriptor(descriptors, attr, temp.getStrategies().eClass());
-            }
-                 */
-            
+             * if (temp.getStrategies()!=null) { EvaluationRange range = temp.getEvalRange(); it = range.eClass().getEAllAttributes().iterator(); if
+             * (attr.getName() == "evalRange" && temp.getStrategies()!=null) addPropertyToDescriptor(descriptors, attr, temp.getStrategies().eClass()); }
+             */
 
             // Add KPIEvalValueSet to Indicator
             if (def instanceof Indicator) {
-                KPIEvalValueSet kpiEval = EvaluationStrategyManager.getInstance().getEvaluationObject(def).getKpiEvalValueSet();
+                KPIEvalValueSet kpiEval = EvaluationStrategyManager.getInstance().getActiveKPIEvalValueSet(def);
                 it = kpiEval.eClass().getEAllAttributes().iterator();
                 // Add the new properties
                 while (it.hasNext()) {
@@ -197,7 +192,6 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             super.addPropertyToDescriptor(descriptors, attr, c);
         }
     }
-    
 
     /**
      * @param descriptors
@@ -206,7 +200,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
     private void evaluationRangeDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         PropertyDescriptor pd = null;
         String name = attr.getName().toLowerCase();
-        if (name.indexOf("evalrange") >= 0 && def!=null) { //$NON-NLS-1$
+        if (name.indexOf("evalrange") >= 0 && def != null) { //$NON-NLS-1$
             Evaluation ev = EvaluationStrategyManager.getInstance().getEvaluationObject(def);
             pd = new EvaluationRangePropertyDescriptor(propertyid, ev);
         } else {
@@ -215,7 +209,6 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
         pd.setCategory("Strategy"); //$NON-NLS-1$
         descriptors.add(pd);
     }
-
 
     /**
      * @param descriptors
@@ -242,7 +235,8 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      * @param propertyid
      */
     private void intentionalElementDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (getEditableValue() == null || ((IntentionalElementRef) getEditableValue()).getDiagram() == null || ((IntentionalElementRef) getEditableValue()).getDiagram().getUrndefinition() == null)
+        if (getEditableValue() == null || ((IntentionalElementRef) getEditableValue()).getDiagram() == null
+                || ((IntentionalElementRef) getEditableValue()).getDiagram().getUrndefinition() == null)
             return;
         URNspec urn = ((IntentionalElementRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
         Vector list = new Vector(urn.getGrlspec().getIntElements());
@@ -285,11 +279,11 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
     private void evaluationDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         if (attr.getName() == "evaluation") { //$NON-NLS-1$
             String name = Messages.getString("IntentionalElementPropertySource.EvaluationLevel"); //$NON-NLS-1$
-            
+
             URNspec urn = def.getGrlspec().getUrnspec();
             if (StrategyEvaluationPreferences.getVisualizeAsPositiveRange(urn))
                 name = name.replace("-100", "0"); //$NON-NLS-1$ //$NON-NLS-2$
-            TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, name); 
+            TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, name);
 
             ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
                 public String isValid(Object value) {
@@ -297,13 +291,12 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                     try {
                         intValue = Integer.parseInt((String) value);
                         URNspec urn2 = def.getGrlspec().getUrnspec();
-                        if (StrategyEvaluationPreferences.getVisualizeAsPositiveRange(urn2))
-                        {
-                            if (intValue < 0 || intValue>100) return "Not In Range";//$NON-NLS-1$ 
-                        }
-                        else if (intValue < -100 || intValue>100)
+                        if (StrategyEvaluationPreferences.getVisualizeAsPositiveRange(urn2)) {
+                            if (intValue < 0 || intValue > 100)
+                                return "Not In Range";//$NON-NLS-1$ 
+                        } else if (intValue < -100 || intValue > 100)
                             return "Not In Range";//$NON-NLS-1$
-                        
+
                         return null;
                     } catch (NumberFormatException exc) {
                         return "Not Number"; //$NON-NLS-1$
@@ -322,7 +315,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 QualitativeLabel tmp = (QualitativeLabel) vIter.next();
                 values[i++] = tmp.getName();
             }
-            ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "qualitativeEvaluation", values);  //$NON-NLS-1$
+            ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "qualitativeEvaluation", values); //$NON-NLS-1$
 
             pd.setCategory("Strategy"); //$NON-NLS-1$
             descriptors.add(pd);
@@ -438,6 +431,16 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                     result = new Integer(i);
             }
 
+        } else if (feature.getName().equals("evaluationValue")) {
+            IntentionalElement elem = null;
+            if (object instanceof IntentionalElementRef) {
+                elem = ((IntentionalElementRef) object).getDef();
+            } else if (object instanceof IntentionalElement)
+                elem = (IntentionalElement) object;
+            if (elem != null)
+                return new Double(EvaluationStrategyManager.getInstance().getActiveKPIValue(elem)).toString();
+            else
+                return super.returnPropertyValue(feature, result);
         } else
             return super.returnPropertyValue(feature, result);
 
@@ -461,15 +464,13 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).eGet(feature);
         } else if (propertyid.getEClass().getName() == "Evaluation") { //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).eGet(feature);
-            /*if (result instanceof Integer)
-            {
-                result = new Integer(StrategyEvaluationPreferences.getValueToVisualize(((Integer)result).intValue()));
-            }*/
+            /*
+             * if (result instanceof Integer) { result = new Integer(StrategyEvaluationPreferences.getValueToVisualize(((Integer)result).intValue())); }
+             */
         } else if (propertyid.getEClass().getName() == "KPIEvalValueSet") { //$NON-NLS-1$
             Evaluation eval = EvaluationStrategyManager.getInstance().getEvaluationObject(def);
-            if (eval != null && eval.getKpiEvalValueSet() != null)
-            {
-            	result = eval.getKpiEvalValueSet().eGet(feature);
+            if (eval != null && EvaluationStrategyManager.getInstance().getActiveKPIEvalValueSet(def) != null) {
+                result = EvaluationStrategyManager.getInstance().getActiveKPIEvalValueSet(def).eGet(feature);
             }
         } else
             result = object.eGet(feature);
@@ -540,7 +541,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             if (feature.getEType().getInstanceClass() == int.class) {
                 Integer temp = new Integer(Integer.parseInt((String) value));
                 int val = temp.intValue();
-                //val = StrategyEvaluationPreferences.getModelValueFromVisualization(urn, val);
+                // val = StrategyEvaluationPreferences.getModelValueFromVisualization(urn, val);
                 EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def, val);
             } else if (feature.getEType().getInstanceClass() == QualitativeLabel.class) {
                 QualitativeLabel label = QualitativeLabel.get(((Integer) value).intValue());

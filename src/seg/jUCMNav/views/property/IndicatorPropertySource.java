@@ -3,6 +3,7 @@ package seg.jUCMNav.views.property;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 import grl.kpimodel.Indicator;
 import grl.kpimodel.IndicatorGroup;
 import grl.kpimodel.KPIEvalValueSet;
@@ -108,7 +109,7 @@ public class IndicatorPropertySource extends URNElementPropertySource {
             }
 
             // Add KPIEvalValueSet
-            KPIEvalValueSet kpiEval = EvaluationStrategyManager.getInstance().getEvaluationObject(def).getKpiEvalValueSet();
+            KPIEvalValueSet kpiEval = EvaluationStrategyManager.getInstance().getActiveKPIEvalValueSet(def);
             it = kpiEval.eClass().getEAllAttributes().iterator();
             // Add the new properties
             while (it.hasNext()) {
@@ -308,7 +309,16 @@ public class IndicatorPropertySource extends URNElementPropertySource {
                 if (list.get(i).equals(((IntentionalElement) getEditableValue())))
                     result = new Integer(i);
             }
-
+        } else if (feature.getName().equals("evaluationValue")) {
+            IntentionalElement elem = null;
+            if (object instanceof IntentionalElementRef) {
+                elem = ((IntentionalElementRef) object).getDef();
+            } else if (object instanceof IntentionalElement)
+                elem = (IntentionalElement) object;
+            if (elem != null)
+                return new Double(EvaluationStrategyManager.getInstance().getActiveKPIValue(elem)).toString();
+            else
+                return super.returnPropertyValue(feature, result);
         } else
             return super.returnPropertyValue(feature, result);
 
@@ -329,7 +339,7 @@ public class IndicatorPropertySource extends URNElementPropertySource {
         } else if (propertyid.getEClass().getName() == "Evaluation") { //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).eGet(feature);
         } else if (propertyid.getEClass().getName() == "KPIEvalValueSet") { //$NON-NLS-1$
-            result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).getKpiEvalValueSet().eGet(feature);
+            result = EvaluationStrategyManager.getInstance().getActiveKPIEvalValueSet(def).eGet(feature);
         } else
             result = object.eGet(feature);
         return result;

@@ -1,7 +1,6 @@
 package seg.jUCMNav.strategies;
 
 import grl.Actor;
-import grl.ActorRef;
 import grl.Contribution;
 import grl.Decomposition;
 import grl.DecompositionType;
@@ -9,20 +8,15 @@ import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
-import grl.GRLLinkableElement;
 import grl.IntentionalElement;
-import grl.IntentionalElementRef;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
-import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
-import urncore.IURNContainerRef;
-import urncore.IURNNode;
 
 /**
  * This class implement the default GRL evaluation algorithm.
@@ -186,14 +180,9 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         return result;
     }
 
-    public static boolean isLegalStereotype(GRLLinkableElement element) {
-        String value = MetadataHelper.getMetaData(element, "ST_Legal"); //$NON-NLS-1$
-        return !"No".equalsIgnoreCase(value);
-    }
-
     protected int evaluateDecomposition(IntentionalElement element, int decompositionValue, Iterator it, ElementLink link) {
         if (element.getDecompositionType().getValue() == DecompositionType.AND) {
-            if (!isLegalStereotype(link.getSrc())) {
+            if (!StrategyAlgorithmImplementationHelper.isLegalStereotype(link.getSrc())) {
                 if (!it.hasNext() && decompositionValue < minRange)
                     decompositionValue = 0; // case where all sources are tagged "N"
                 else
@@ -242,59 +231,14 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
         return resultContrib;
     }
 
-    public static int getStandardActorEvaluation(Actor actor)
-    {
-        int sumEval = 0;
-        int sumImportance = 0;
-
-        Iterator iter = actor.getContRefs().iterator();
-        while (iter.hasNext()) {
-            // Parse through the node bound to this actor
-            ActorRef ref = (ActorRef) iter.next();
-            Iterator iterNode = ref.getNodes().iterator();
-            while (iterNode.hasNext()) {
-                IURNNode node = (IURNNode) iterNode.next();
-                if (node instanceof IntentionalElementRef) {
-                    IntentionalElementRef elementRef = (IntentionalElementRef) node;
-                    IntentionalElement element = elementRef.getDef();
-                    int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
-                    int importance = element.getImportanceQuantitative();
-
-                    if (importance != 0 && isLegalStereotype(element)) {
-                        sumEval += evaluation * importance;
-                        sumImportance += importance;
-                    }
-                }
-            }
-            iterNode = ref.getChildren().iterator();
-            while (iterNode.hasNext()) {
-                IURNContainerRef node = (IURNContainerRef) iterNode.next();
-                if (node instanceof ActorRef) {
-                    ActorRef elementRef = (ActorRef) node;
-                    Actor element = (Actor) elementRef.getContDef();
-                    int evaluation = EvaluationStrategyManager.getInstance().getActorEvaluation(element);
-                    int importance = element.getImportanceQuantitative();
-
-                    if (importance != 0 && isLegalStereotype(element)) {
-                        sumEval += evaluation * importance;
-                        sumImportance += importance;
-                    }
-                }
-            }
-        }
-        if (sumImportance > 0) {
-            sumImportance = sumEval / sumImportance;
-        }
-
-        return sumImportance;
-    }
+    
     /*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm#getActorEvaluation(grl.Actor)
      */
     public int getActorEvaluation(Actor actor) {
-      return getStandardActorEvaluation(actor);
+      return StrategyAlgorithmImplementationHelper.defaultActorEvaluation(actor);
     }
 
     @Override

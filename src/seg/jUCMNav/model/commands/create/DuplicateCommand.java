@@ -11,6 +11,7 @@ import grl.EvaluationStrategy;
 import grl.StrategiesGroup;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
+import grl.kpimodel.KPINewEvalValue;
 
 import java.util.Iterator;
 
@@ -286,6 +287,13 @@ public class DuplicateCommand extends CompoundCommand {
                     newKPIEvalValueSet.setUnit(kpiEvalValueSet.getUnit());
                     newEval.setKpiEvalValueSet(newKPIEvalValueSet);
                 }
+                KPINewEvalValue kpiNewEvalValue = eval.getKpiNewEvalValue();
+                if (kpiNewEvalValue != null) // Duplicate only if a KPINewEvalValue exists
+                {
+                    KPINewEvalValue n = (KPINewEvalValue) ModelCreationFactory.getNewObject(urn, KPINewEvalValue.class);
+                    n.setEvaluationValue(kpiNewEvalValue.getEvaluationValue());
+                    newEval.setKpiNewEvalValue(n);
+                }                
                 add(new AddEvaluationCommand(newEval, eval.getIntElement(), newStrategy));
             }
             for (Iterator iter = strategy.getKpiInfoConfig().iterator(); iter.hasNext();) {

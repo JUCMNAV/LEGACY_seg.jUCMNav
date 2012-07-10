@@ -10,6 +10,7 @@ import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.kpimodel.Indicator;
+import grl.kpimodel.KPIEvalValueSet;
 
 import java.text.DecimalFormat;
 import java.util.Iterator;
@@ -463,10 +464,14 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA) {
                         String kpiText = "";//$NON-NLS-1$                       
                         if ((getNode()).getDef() != null && ((getNode()).getDef() instanceof Indicator)) {
-                            if (null != evaluation.getKpiEvalValueSet()) {
-                                double kpiValue = evaluation.getKpiEvalValueSet().getEvaluationValue();
+                            EvaluationStrategyManager sm = EvaluationStrategyManager.getInstance();
+                            Indicator indicator = (Indicator)getNode().getDef();
+                            KPIEvalValueSet set = sm.getActiveKPIEvalValueSet(indicator);
+                            if (null != set) {
+                                //double kpiValue = set.getEvaluationValue();
+                                double kpiValue = sm.getActiveKPIValue(indicator);
                                 DecimalFormat df = new  DecimalFormat ("0.##"); //$NON-NLS-1$
-                                kpiText = df.format(kpiValue) + " " + evaluation.getKpiEvalValueSet().getUnit(); //$NON-NLS-1$
+                                kpiText = df.format(kpiValue) + " " + set.getUnit(); //$NON-NLS-1$
                                 kpiEvaluationValueLabel.setText(kpiText);
                                 Point kpiEvalPosition = getNodeFigure().getLocation();
                                 kpiEvalPosition.y = kpiEvalPosition.y - 28;

@@ -20,6 +20,7 @@ import grl.StrategiesGroup;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPINewEvalValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
@@ -80,7 +82,7 @@ public class EvaluationStrategyManager {
     private static HashMap<UCMNavMultiPageEditor, EvaluationStrategyManager> strategyManagerInstances = null;
     // just in case we're actually accessing it via some non UI thread during export and/or before the app loads.
     private static EvaluationStrategyManager noEditorStrategyManagerInstance = null;
-    private static int minRange=-100; // for 0..100 range feature
+    private static int minRange = -100; // for 0..100 range feature
 
     private boolean canRefresh;
     private boolean differenceMode = false;
@@ -97,8 +99,6 @@ public class EvaluationStrategyManager {
     private ContributionContext contributionContext = null;
     private IGRLStrategyAlgorithm algo;
     private HashMap kpiInformationConfigs = new HashMap();
-    
-
 
     public static synchronized EvaluationStrategyManager getInstance(UCMNavMultiPageEditor multieditor, boolean canRefresh) {
 
@@ -168,19 +168,20 @@ public class EvaluationStrategyManager {
         minRange = -100 * (StrategyEvaluationRangeHelper.getCurrentRange(urn) ? 0 : 1);
 
         HashMap results = new HashMap();
-//        long before = System.currentTimeMillis();
+        // long before = System.currentTimeMillis();
 
         clearCalculationValues(urn);
 
-        for (int i = range.getStart(); (range.getEnd() >= range.getStart() &&  i <= range.getEnd()) || (range.getEnd() < range.getStart() && i >= range.getEnd()); i += range.getStep()) {
+        for (int i = range.getStart(); (range.getEnd() >= range.getStart() && i <= range.getEnd())
+                || (range.getEnd() < range.getStart() && i >= range.getEnd()); i += range.getStep()) {
             range.getEval().setEvaluation(i);
             calculateEvaluationExecute();
 
             recordCalculationValues(urn, results, i);
         }
 
-//        long after = System.currentTimeMillis();
-//        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+        // long after = System.currentTimeMillis();
+        //        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
 
         refreshDiagrams();
     }
@@ -198,11 +199,12 @@ public class EvaluationStrategyManager {
             return;
 
         HashMap results = new HashMap();
-//        long before = System.currentTimeMillis();
+        // long before = System.currentTimeMillis();
 
         clearCalculationValues(urn);
 
-        for (int i = range.getStart(); (range.getEnd() >= range.getStart() &&  i <= range.getEnd()) || (range.getEnd() < range.getStart() && i >= range.getEnd()); i += range.getStep()) {
+        for (int i = range.getStart(); (range.getEnd() >= range.getStart() && i <= range.getEnd())
+                || (range.getEnd() < range.getStart() && i >= range.getEnd()); i += range.getStep()) {
             range.getChange().setNewQuantitativeContribution(i);
             LinkRefPropertySource.syncElementLinkQualitativeContribution(range.getChange().getContribution(), i);
             calculateEvaluationExecute();
@@ -210,12 +212,12 @@ public class EvaluationStrategyManager {
             recordCalculationValues(urn, results, i);
         }
 
-//        long after = System.currentTimeMillis();
-//        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+        // long after = System.currentTimeMillis();
+        //        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
 
         refreshDiagrams();
     }
-    
+
     private void recordCalculationValues(URNspec urn, HashMap results, int i) {
         for (Iterator iterator = evaluations.keySet().iterator(); iterator.hasNext();) {
             IntentionalElement ie = (IntentionalElement) iterator.next();
@@ -223,7 +225,7 @@ public class EvaluationStrategyManager {
             if (r == null) {
                 r = (EvaluationRange) ModelCreationFactory.getNewObject(urn, EvaluationRange.class);
                 r.setEnd(minRange);
-                r.setStart(100); // so that is overridden with better values below.                     
+                r.setStart(100); // so that is overridden with better values below.
             }
             results.put(ie, r);
 
@@ -250,17 +252,16 @@ public class EvaluationStrategyManager {
         }
     }
 
-
     public synchronized void calculateEvaluation() {
         if (strategy == null) {
             return;
         }
-//        long before = System.currentTimeMillis();
+        // long before = System.currentTimeMillis();
 
         calculateEvaluationExecute();
 
-//        long after = System.currentTimeMillis();
-//        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+        // long after = System.currentTimeMillis();
+        //        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
 
         refreshDiagrams();
     }
@@ -557,6 +558,7 @@ public class EvaluationStrategyManager {
         }
         for (Iterator iterator = strategy.getEvaluations().iterator(); iterator.hasNext();) {
             Evaluation ev = (Evaluation) iterator.next();
+            Evaluation past = (Evaluation) v.get(ev.getIntElement());
             v.put(ev.getIntElement(), ev);
         }
         return v;
@@ -614,6 +616,16 @@ public class EvaluationStrategyManager {
                 kpiInformationConfigs.put(elem, config);
             }
 
+            for (Iterator iterator = evaluations.values().iterator(); iterator.hasNext();) {
+                Evaluation ev = (Evaluation) iterator.next();
+                KPIEvalValueSet set = ev.getKpiEvalValueSet();
+                // if we have something change, force a recompute.
+                if (ev.getKpiNewEvalValue() != null
+                        || (set != null && (set.getTargetValue() != 0 || set.getThresholdValue() != 0 || set.getWorstValue() != 0
+                                || set.getEvaluationValue() != 0 || !"".equals(set.getUnit()))))
+                    calculateIndicatorEvalLevel(ev);
+
+            }
             calculateEvaluation();
         }
 
@@ -689,7 +701,6 @@ public class EvaluationStrategyManager {
             return ImportanceType.NONE_LITERAL;
         return null;
     }
-    
 
     /**
      * Sets the quantitative importance of an actor
@@ -764,7 +775,8 @@ public class EvaluationStrategyManager {
         String type = element.getImportance().getName();
         int importance = element.getImportanceQuantitative();
         int value = mapImportanceToValue(type, importance);
-        if (value>=0) element.setImportanceQuantitative(value);
+        if (value >= 0)
+            element.setImportanceQuantitative(value);
 
     }
 
@@ -779,7 +791,7 @@ public class EvaluationStrategyManager {
             return 0;
         return -1;
     }
-    
+
     /**
      * Sets the qualitative importance
      * 
@@ -811,9 +823,9 @@ public class EvaluationStrategyManager {
         String type = element.getImportance().getName();
         int importance = element.getImportanceQuantitative();
         int value = mapImportanceToValue(type, importance);
-        if (value>=0) element.setImportanceQuantitative(value);
+        if (value >= 0)
+            element.setImportanceQuantitative(value);
     }
-    
 
     /**
      * Sets the quantitative evaluation
@@ -1034,18 +1046,27 @@ public class EvaluationStrategyManager {
     public synchronized void setKPIEvalValueSet(IntentionalElement element, EStructuralFeature feature, double value) {
         // TODO: For some reason, when the Properties view is maximized, "evaluations" becomes empty!
         Evaluation eval = (Evaluation) evaluations.get(element);
-        KPIEvalValueSet kpiEval = eval.getKpiEvalValueSet();
 
-        if (feature.getName().equals("targetValue")) { //$NON-NLS-1$
-            kpiEval.setTargetValue(value);
-        } else if (feature.getName().equals("thresholdValue")) { //$NON-NLS-1$
-            kpiEval.setThresholdValue(value);
-        } else if (feature.getName().equals("worstValue")) { //$NON-NLS-1$
-            kpiEval.setWorstValue(value);
-        } else if (feature.getName().equals("evaluationValue")) { //$NON-NLS-1$
-            kpiEval.setEvaluationValue(value);
+        // KPIEvalValueSet kpiEval = getActiveKPIEvalValueSet(element);
+        Vector sets = new Vector();
+        getRecursiveKPIEvalValueSetList(strategy, sets);
+
+        // modify all applicable sets.
+        for (Iterator iterator = sets.iterator(); iterator.hasNext();) {
+            KPIEvalValueSet kpiEval = (KPIEvalValueSet) iterator.next();
+
+            if (feature.getName().equals("targetValue")) { //$NON-NLS-1$
+                kpiEval.setTargetValue(value);
+            } else if (feature.getName().equals("thresholdValue")) { //$NON-NLS-1$
+                kpiEval.setThresholdValue(value);
+            } else if (feature.getName().equals("worstValue")) { //$NON-NLS-1$
+                kpiEval.setWorstValue(value);
+            } else if (feature.getName().equals("evaluationValue")) { //$NON-NLS-1$
+                // kpiEval.setEvaluationValue(value);
+                setActiveKPIEvaluationValue(element, value);
+            }
+
         }
-
         // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
         AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
         execute(cmd);
@@ -1056,13 +1077,14 @@ public class EvaluationStrategyManager {
 
     public synchronized void resetKPIEvalValueSet(IntentionalElement element) {
         Evaluation eval = (Evaluation) evaluations.get(element);
-        KPIEvalValueSet kpiEval = eval.getKpiEvalValueSet();
+        KPIEvalValueSet kpiEval = getActiveKPIEvalValueSet(element);
         double defaultValue = 0.0;
 
         kpiEval.setTargetValue(defaultValue);
         kpiEval.setThresholdValue(defaultValue);
         kpiEval.setWorstValue(defaultValue);
-        kpiEval.setEvaluationValue(defaultValue);
+        // kpiEval.setEvaluationValue(defaultValue);
+        setActiveKPIEvaluationValue(element, defaultValue);
 
         // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
         AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
@@ -1074,7 +1096,7 @@ public class EvaluationStrategyManager {
 
     public synchronized void setKPIEvalValueSetUnit(IntentionalElement element, EStructuralFeature feature, String value) {
         Evaluation eval = (Evaluation) evaluations.get(element);
-        KPIEvalValueSet kpiEval = eval.getKpiEvalValueSet();
+        KPIEvalValueSet kpiEval = getActiveKPIEvalValueSet(element);
 
         if (feature.getName().equals("unit")) { //$NON-NLS-1$
             kpiEval.setUnit(value);
@@ -1082,38 +1104,35 @@ public class EvaluationStrategyManager {
     }
 
     public synchronized void calculateIndicatorEvalLevel(Evaluation eval) {
-        KPIEvalValueSet kpiEval = eval.getKpiEvalValueSet();
+        KPIEvalValueSet kpiEval = getActiveKPIEvalValueSet(eval.getIntElement());
+        double newValue = getActiveKPIValue(eval.getIntElement());
         double evalLevel;
 
         if (kpiEval.getTargetValue() < kpiEval.getWorstValue()) {
-        	if (kpiEval.getEvaluationValue() <= kpiEval.getTargetValue()) {
-        		evalLevel = 100;
-        	} else if (kpiEval.getEvaluationValue() >= kpiEval.getWorstValue()) {
-        		evalLevel = -100;
-        	} else if (kpiEval.getEvaluationValue() < kpiEval.getThresholdValue()) {
-        		evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
-        				/ Math.abs(kpiEval.getTargetValue() - kpiEval.getThresholdValue()) * 100;
-        	} else {
-        		evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
-        				/ Math.abs(kpiEval.getThresholdValue() - kpiEval.getWorstValue()) * -100;
-        	}
+            if (newValue <= kpiEval.getTargetValue()) {
+                evalLevel = 100;
+            } else if (newValue >= kpiEval.getWorstValue()) {
+                evalLevel = -100;
+            } else if (newValue < kpiEval.getThresholdValue()) {
+                evalLevel = Math.abs(newValue - kpiEval.getThresholdValue()) / Math.abs(kpiEval.getTargetValue() - kpiEval.getThresholdValue()) * 100;
+            } else {
+                evalLevel = Math.abs(newValue - kpiEval.getThresholdValue()) / Math.abs(kpiEval.getThresholdValue() - kpiEval.getWorstValue()) * -100;
+            }
         } else {
-        	if (kpiEval.getEvaluationValue() >= kpiEval.getTargetValue()) {
-        		evalLevel = 100;
-        	} else if (kpiEval.getEvaluationValue() <= kpiEval.getWorstValue()) {
-        		evalLevel = -100;
-        	} else if (kpiEval.getEvaluationValue() >= kpiEval.getThresholdValue()) {
-        		evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
-        				/ Math.abs(kpiEval.getTargetValue() - kpiEval.getThresholdValue()) * 100 ;
-        	} else {
-        		evalLevel = Math.abs(kpiEval.getEvaluationValue() - kpiEval.getThresholdValue())
-        				/ Math.abs(kpiEval.getThresholdValue() - kpiEval.getWorstValue()) * -100;
-        	}
+            if (newValue >= kpiEval.getTargetValue()) {
+                evalLevel = 100;
+            } else if (newValue <= kpiEval.getWorstValue()) {
+                evalLevel = -100;
+            } else if (newValue >= kpiEval.getThresholdValue()) {
+                evalLevel = Math.abs(newValue - kpiEval.getThresholdValue()) / Math.abs(kpiEval.getTargetValue() - kpiEval.getThresholdValue()) * 100;
+            } else {
+                evalLevel = Math.abs(newValue - kpiEval.getThresholdValue()) / Math.abs(kpiEval.getThresholdValue() - kpiEval.getWorstValue()) * -100;
+            }
         }
 
-        if (minRange==0) // Convert to new 0..100 range
-        	evalLevel = evalLevel / 2 + 50;
-        
+        if (minRange == 0) // Convert to new 0..100 range
+            evalLevel = evalLevel / 2 + 50;
+
         eval.setEvaluation((int) evalLevel);
     }
 
@@ -1288,7 +1307,7 @@ public class EvaluationStrategyManager {
         if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
                 && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.StrategiesView") != null) { //$NON-NLS-1$
             sv = (StrategiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-            		.findViewReference("seg.jUCMNav.views.StrategiesView").getView(false); //$NON-NLS-1$
+                    .findViewReference("seg.jUCMNav.views.StrategiesView").getView(false); //$NON-NLS-1$
         }
 
         return sv;
@@ -1656,5 +1675,126 @@ public class EvaluationStrategyManager {
             }
             contribution.setContribution(type);
         }
+    }
+
+    public KPIEvalValueSet getActiveKPIEvalValueSet(IntentionalElement elem) {
+        KPIEvalValueSet set = getRecursiveKPIEvalValueSet(elem, strategy);
+        if (set == null) { // ensure always has a value, even if the ev is temporary  
+            set = (KPIEvalValueSet) ModelCreationFactory.getNewObject(null, KPIEvalValueSet.class);
+        }
+        return set;
+
+    }
+
+    public KPINewEvalValue getActiveKPINewEvalValue(IntentionalElement elem) {
+        return getRecursiveKPINewEvalValue(elem, strategy);
+    }
+
+    public double getActiveKPIValue(IntentionalElement elem) {
+        KPINewEvalValue val = getRecursiveKPINewEvalValue(elem, strategy);
+        if (val != null)
+            return val.getEvaluationValue();
+        else {
+            KPIEvalValueSet set = getActiveKPIEvalValueSet(elem);
+            if (set != null)
+                return set.getEvaluationValue();
+            else {
+                return (double) getEvaluation(elem);
+            }
+        }
+    }
+
+    public void setActiveKPIEvaluationValue(IntentionalElement elem, double value) {
+        Evaluation eval = null;
+        KPIEvalValueSet set = getActiveKPIEvalValueSet(elem);
+        // if we're editing the active strategy.
+        if (set != null && set.getEval()!=null) {
+            eval = set.getEval();
+
+            if (eval.getStrategies() == strategy) {
+                set.setEvaluationValue(value); // change
+            } else // set's evaluation is actually connected to an included strategy.
+            {
+                eval = EcoreUtil.copy(eval);
+                eval.setIntElement(null);
+                eval.setKpiEvalValueSet(null); // don't actually need this, will keep on re-using the other one.
+                KPINewEvalValue override = (KPINewEvalValue) ModelCreationFactory.getNewObject(elem.getGrlspec().getUrnspec(), KPINewEvalValue.class);
+                override.setEvaluationValue(value);
+                eval.setKpiNewEvalValue(override);
+                evaluations.put(elem, eval);
+            }
+        } else // set doesn't exist, create it.
+        {
+            eval = getEvaluationObject(elem);
+            set = (KPIEvalValueSet) ModelCreationFactory.getNewObject(elem.getGrlspec().getUrnspec(), KPIEvalValueSet.class);
+            set.setEvaluationValue(value); // change
+            eval.setKpiEvalValueSet(set);
+        }
+
+        // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
+        AddEvaluationCommand cmd = new AddEvaluationCommand(eval, elem, strategy);
+        execute(cmd);
+
+        calculateIndicatorEvalLevel(eval);
+        calculateEvaluation();
+    }
+
+    /***
+     * Find the first KPIEvalValueSet you can in the list of included strategies.
+     * 
+     * @param strategy
+     * @return
+     */
+    protected synchronized void getRecursiveKPIEvalValueSetList(EvaluationStrategy strategy, Vector list) {
+        if (list == null)
+            throw new NullPointerException();
+        for (Iterator iterator = strategy.getEvaluations().iterator(); iterator.hasNext();) {
+            Evaluation ev = (Evaluation) iterator.next();
+            if (ev.getKpiEvalValueSet() != null) {
+                list.add(ev.getKpiEvalValueSet());
+            }
+        }
+        for (Iterator iterator = strategy.getIncludedStrategies().iterator(); iterator.hasNext();) {
+            EvaluationStrategy ev = (EvaluationStrategy) iterator.next();
+            getRecursiveKPIEvalValueSetList(ev, list);
+        }
+    }
+
+    /***
+     * Find the first KPIEvalValueSet you can in the list of included strategies.
+     * 
+     * @param strategy
+     * @return
+     */
+    protected synchronized KPIEvalValueSet getRecursiveKPIEvalValueSet(IntentionalElement elem, EvaluationStrategy strategy) {
+        for (Iterator iterator = strategy.getEvaluations().iterator(); iterator.hasNext();) {
+            Evaluation ev = (Evaluation) iterator.next();
+            if (ev.getKpiEvalValueSet() != null && ev.getIntElement() == elem)
+                return ev.getKpiEvalValueSet();
+        }
+        for (Iterator iterator = strategy.getIncludedStrategies().iterator(); iterator.hasNext();) {
+            EvaluationStrategy ev = (EvaluationStrategy) iterator.next();
+            return getRecursiveKPIEvalValueSet(elem, ev);
+        }
+        return null;
+    }
+
+    /***
+     * Find the first KPINewEvalValue you can in the list of included strategies.
+     * 
+     * @param strategy
+     * @return
+     */
+    protected synchronized KPINewEvalValue getRecursiveKPINewEvalValue(IntentionalElement elem, EvaluationStrategy strategy) {
+        for (Iterator iterator = strategy.getEvaluations().iterator(); iterator.hasNext();) {
+            Evaluation ev = (Evaluation) iterator.next();
+            if (ev.getKpiNewEvalValue() != null && ev.getIntElement() == elem)
+                return ev.getKpiNewEvalValue();
+        }
+        for (Iterator iterator = strategy.getIncludedStrategies().iterator(); iterator.hasNext();) {
+            EvaluationStrategy ev = (EvaluationStrategy) iterator.next();
+            return getRecursiveKPINewEvalValue(elem, ev);
+        }
+        return null;
     }
 }
