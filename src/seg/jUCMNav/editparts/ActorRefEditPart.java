@@ -30,6 +30,7 @@ import seg.jUCMNav.figures.ActorFigure;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 import urn.URNspec;
@@ -86,7 +87,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         evaluationLabel = new Label();
         evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
 
-        evaluationLabel.setSize(78, 16);  // increased from 58,16
+        evaluationLabel.setSize(78, 16); // increased from 58,16
         evaluationImg = (JUCMNavPlugin.getImage("icons/Actor16.gif")); //$NON-NLS-1$
         evaluationLabel.setIcon(evaluationImg);
         evaluationLabel.setText(""); //$NON-NLS-1$
@@ -179,7 +180,8 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         figure.setLocation(location);
         setText();
 
-        int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
+        IGRLStrategyAlgorithm algo = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm();
+        int evalType = algo.getEvaluationType();
 
         try {
             // set information for specific drawing
@@ -200,10 +202,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
             if (getParent() != null && ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                 // Calculate the actor evaluation
                 String evaluation = calculateEvaluation();
-                if (evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED
-                                                                        || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA
-                                                                        || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER
-                														) {
+                if (algo instanceof QuantitativeGRLStrategyAlgorithm || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                     if (GeneralPreferencePage.getGrlSatisfactionTextVisible())
                         evaluationLabel.setText(evaluation);
                     else
@@ -211,7 +210,8 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 }
                 evaluationLabel.setLocation(getActorFigure().getLocation());
 
-                if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
+                if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED
+                        || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
 
                     if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE)
                         evaluationLabel.setText(null);
@@ -219,9 +219,9 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                     // Set the label icon
 
                     URNspec urn = null;
-                    if (getActorRef().getContDef() instanceof Actor && ((Actor) getActorRef().getContDef()).getGrlspec() !=null) 
+                    if (getActorRef().getContDef() instanceof Actor && ((Actor) getActorRef().getContDef()).getGrlspec() != null)
                         urn = ((Actor) getActorRef().getContDef()).getGrlspec().getUrnspec();
-                    
+
                     QualitativeLabel ql = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue(urn, evalInt);
                     switch (ql.getValue()) {
                     case QualitativeLabel.DENIED:
@@ -250,7 +250,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 }
 
             }
-            
+
             if (GeneralPreferencePage.getGrlSatisfactionIconVisible())
                 evaluationLabel.setIcon(evaluationImg);
             else
@@ -276,19 +276,19 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
      * @return the evaluation to be displayed in the label.
      */
     public String calculateEvaluation() {
-    	int val = EvaluationStrategyManager.getInstance().getDisplayActorEvaluation(((Actor) getActorRef().getContDef()));
-    	//val = StrategyEvaluationPreferences.getValueToVisualize(val);
-    	if( EvaluationStrategyManager.getInstance().displayDifferenceMode() ) {
-    		return  '<' + String.valueOf(val) + '>'; // add angle brackets to signify strategy difference mode
-    	} else {
-    		return String.valueOf(val);
-    	}
+        int val = EvaluationStrategyManager.getInstance().getDisplayActorEvaluation(((Actor) getActorRef().getContDef()));
+        // val = StrategyEvaluationPreferences.getValueToVisualize(val);
+        if (EvaluationStrategyManager.getInstance().displayDifferenceMode()) {
+            return '<' + String.valueOf(val) + '>'; // add angle brackets to signify strategy difference mode
+        } else {
+            return String.valueOf(val);
+        }
     }
 
     private void setText() {
-        if (getActorRef().getContDef()!=null && getActorRef().getContDef() instanceof Actor) {
+        if (getActorRef().getContDef() != null && getActorRef().getContDef() instanceof Actor) {
             Actor actor = (Actor) getActorRef().getContDef();
-            
+
             String name = actor.getName();
 
             String importance = IntentionalElementEditPart.getImportanceSuffix(actor.getImportanceQuantitative(), actor.getImportance());

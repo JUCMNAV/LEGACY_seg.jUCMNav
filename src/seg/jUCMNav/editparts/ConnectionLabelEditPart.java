@@ -17,6 +17,7 @@ import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import urncore.ConnectionLabel;
 import urncore.IURNConnection;
@@ -164,7 +165,8 @@ public class ConnectionLabelEditPart extends LabelEditPart {
         LabelFigure labelFigure = getLabelFigure();
 
         if(((LinkRef)getConnection()).getLink() instanceof Contribution) {
-            int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
+            IGRLStrategyAlgorithm algo = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm();
+            int evalType = algo.getEvaluationType();
             
             Contribution contrib = (Contribution)((LinkRef)getConnection()).getLink();
             // Set the contribution Label
@@ -173,7 +175,7 @@ public class ConnectionLabelEditPart extends LabelEditPart {
 
 
                 if (GeneralPreferencePage.getGrlTextVisible()) {
-                    if (evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION) {
+                    if (algo instanceof QuantitativeGRLStrategyAlgorithm || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                         //int val = contrib.getQuantitativeContribution();
                         int val = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
                         //val = StrategyEvaluationPreferences.getValueToVisualize(val);

@@ -53,6 +53,7 @@ import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
@@ -425,12 +426,12 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         ((IntentionalElementFigure) figure).setColors(lineColor, color, true);
                     }
 
-                    int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
-
                     String text = (evaluation.getStrategies() != null ? "(*)" : ""); //$NON-NLS-1$ //$NON-NLS-2$
 
-                    if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE
-                            || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION ) {
+                    IGRLStrategyAlgorithm algo = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm();
+                    int evalType = algo.getEvaluationType();
+
+                    if (algo instanceof QuantitativeGRLStrategyAlgorithm || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                         int val = evaluation.getEvaluation();
 
                         String evalStr = String.valueOf(val);
@@ -614,11 +615,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     public static String getImportanceSuffix(int val, ImportanceType type) {
         // Handle importance annotation
         String importance = ""; //$NON-NLS-1$
-        int evalType = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType();
-        if (evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE 
-                                                         || evalType == IGRLStrategyAlgorithm.EVAL_FORMULA
-                                                         || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER
-                                                         || evalType == IGRLStrategyAlgorithm.EVAL_CONDITION) {
+        IGRLStrategyAlgorithm algo = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm();
+        int evalType = algo.getEvaluationType();
+
+        if (algo instanceof QuantitativeGRLStrategyAlgorithm || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
             if (val > 0) {
                 importance = "  (" + String.valueOf(val) + ")"; //$NON-NLS-1$ //$NON-NLS-2$  $NON-NLS-2$
             }
