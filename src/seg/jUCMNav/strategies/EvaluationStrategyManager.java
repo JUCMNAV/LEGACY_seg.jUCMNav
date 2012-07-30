@@ -1103,7 +1103,7 @@ public class EvaluationStrategyManager {
         }
     }
 
-    public synchronized void calculateIndicatorEvalLevel(Evaluation eval) {
+    public synchronized int calculateIndicatorEvalLevel(Evaluation eval) {
         KPIEvalValueSet kpiEval = getActiveKPIEvalValueSet(eval.getIntElement());
         double newValue = getActiveKPIValue(eval.getIntElement());
         double evalLevel;
@@ -1134,6 +1134,7 @@ public class EvaluationStrategyManager {
             evalLevel = evalLevel / 2 + 50;
 
         eval.setEvaluation((int) evalLevel);
+        return (int)evalLevel;
     }
 
     public synchronized void setMultieditor(UCMNavMultiPageEditor multieditor) {
@@ -1705,6 +1706,9 @@ public class EvaluationStrategyManager {
     }
 
     public void setActiveKPIEvaluationValue(IntentionalElement elem, double value) {
+        setActiveKPIEvaluationValue(elem, value, true);
+    }
+    public void setActiveKPIEvaluationValue(IntentionalElement elem, double value, boolean recomputeAll) {
         Evaluation eval = null;
         KPIEvalValueSet set = getActiveKPIEvalValueSet(elem);
         // if we're editing the active strategy.
@@ -1736,7 +1740,8 @@ public class EvaluationStrategyManager {
         execute(cmd);
 
         calculateIndicatorEvalLevel(eval);
-        calculateEvaluation();
+        if (recomputeAll)
+            calculateEvaluation();
     }
 
     /***

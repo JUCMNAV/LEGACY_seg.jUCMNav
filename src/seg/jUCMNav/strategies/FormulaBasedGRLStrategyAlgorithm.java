@@ -4,6 +4,7 @@ import grl.Contribution;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.IntentionalElement;
+import grl.kpimodel.KPIEvalValueSet;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.MetadataHelper;
@@ -58,8 +59,11 @@ public class FormulaBasedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlg
     protected int postGetEvaluation(IntentionalElement element, Evaluation eval, int result) {
         if (null != mathEvaluator) {
             double resultContrib;
-            Double srcAfterFormula;
-            srcAfterFormula = mathEvaluator.getValue();
+            Double srcAfterFormula = null;
+            try {
+                srcAfterFormula = mathEvaluator.getValue();
+            } catch (Exception ex) { }
+
 
             if (srcAfterFormula != null) {
                 resultContrib = srcAfterFormula.doubleValue();
@@ -69,8 +73,9 @@ public class FormulaBasedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlg
             }
 
             EvaluationStrategyManager strategyManager = EvaluationStrategyManager.getInstance();
-            strategyManager.setActiveKPIEvaluationValue(element, resultContrib);
-            strategyManager.calculateIndicatorEvalLevel(eval);
+            strategyManager.setActiveKPIEvaluationValue(element, resultContrib, false /* don't recompute all */);
+            //eval.getKpiEvalValueSet().setEvaluationValue(resultContrib);
+            int v = strategyManager.calculateIndicatorEvalLevel(eval);
             result = eval.getEvaluation();
         }
 
@@ -91,6 +96,13 @@ public class FormulaBasedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlg
             // TODO: I have noticed if the name of the link does not match the variables used in the formula it can cause errors.
             // This is partially caught now and displayed on Ststem.err, to prevent crashing (Daniel)
             mathEvaluator.addVariable(contrib.getName(), srcNodeEvaluationValue);
+            
+            KPIEvalValueSet set = strategyManager.getActiveKPIEvalValueSet(((IntentionalElement)link.getSrc()));
+            if (set!=null) {
+                mathEvaluator.addVariable(contrib.getName() + "_target", set.getTargetValue());
+                mathEvaluator.addVariable(contrib.getName() + "_threshold", set.getThresholdValue());
+                mathEvaluator.addVariable(contrib.getName() + "_worst", set.getWorstValue());
+            }
             return 0;
         }
     }
