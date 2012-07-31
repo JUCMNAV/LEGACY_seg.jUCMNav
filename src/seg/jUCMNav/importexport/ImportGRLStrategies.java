@@ -175,8 +175,12 @@ public class ImportGRLStrategies implements IURNImport  {
 				if( columns[i].contentEquals("") ) //$NON-NLS-1$
 					break; // no more meaningful data on line
 				if( elementIndexes.containsKey( i )) {
+				    boolean importingKPIEvaluation = false;
 					if( columns[i].endsWith("#")) { // computed evaluation, ignore //$NON-NLS-1$
-						continue; 						
+						continue;
+					} else if ( columns [i].endsWith("!")) {
+					    importingKPIEvaluation = true;
+					    valueString = columns[i].substring(0, columns[i].length()-1);
 					} else {
 						valueString = columns[i];
 					}
@@ -195,6 +199,12 @@ public class ImportGRLStrategies implements IURNImport  {
 						newEvaluation.setEvaluation(value);
 						newEvaluation.setStrategies(strategy);
 						newEvaluation.setIntElement(element);
+						
+						if (importingKPIEvaluation)
+						{
+						    newEvaluation.getKpiEvalValueSet().setEvaluationValue(value);
+						}
+						
 						strategy.getEvaluations().add(newEvaluation);
 						esm.syncIntentionalElementQualitativeEvaluation( newEvaluation, value );
 					}
