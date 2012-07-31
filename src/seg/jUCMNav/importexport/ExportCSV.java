@@ -9,8 +9,10 @@ import grl.IntentionalElement;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.swt.widgets.Display;
 
@@ -114,7 +116,7 @@ public class ExportCSV implements IURNExport {
     	
     	write( quote(Messages.getString("ExportCSV.GRLStrategiesFor")) + COMMA + quote( ExportPreferenceHelper.getFilenamePrefix() ) + END_LINE + END_LINE + END_LINE); //$NON-NLS-1$
     	
-        write("\"Strategy Name\", Author, Description" + END_LINE);//$NON-NLS-1$    
+        write("\"Strategy Name\", Author, Description, \"Included Strategies\"" + END_LINE);//$NON-NLS-1$    
 
     	for (Iterator iter = urn.getGrlspec().getStrategies().iterator(); iter.hasNext();) {
     		EvaluationStrategy strategy = (EvaluationStrategy) iter.next();
@@ -130,10 +132,32 @@ public class ExportCSV implements IURNExport {
     		if ((description = strategy.getDescription()) == null) {
     			description = new String(""); //$NON-NLS-1$
     		}
-    		write( COMMA + quote(escape(description).replace(',', ';')) + END_LINE ); // Replace commas with semicolons
+    		write( COMMA + quote(escape(description).replace(',', ';'))); // Replace commas with semicolons
+    		
+    		write (COMMA);
+    		Vector includedNames = new Vector();
+    		for (Iterator iterator = strategy.getIncludedStrategies().iterator(); iterator.hasNext();) {
+                EvaluationStrategy included = (EvaluationStrategy) iterator.next();
+                includedNames.add(included.getName().replace(',', ';')); // get rid of our delimiter in the internal names. 
+            }
+    		writeEscapedAndQuoted(join(includedNames, ", ")); // only one quote for the whole list. 
+    		write (END_LINE);
     	}
     	
         write(END_LINE + END_LINE);
+    }
+    
+    static String join(Collection<?> s, String delimiter) {
+        StringBuilder builder = new StringBuilder();
+        Iterator iter = s.iterator();
+        while (iter.hasNext()) {
+            builder.append(iter.next());
+            if (!iter.hasNext()) {
+              break;                  
+            }
+            builder.append(delimiter);
+        }
+        return builder.toString();
     }
     
     private void writeStrategyEvaluations(URNspec urn) throws IOException {

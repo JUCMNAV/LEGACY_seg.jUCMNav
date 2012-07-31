@@ -4,6 +4,7 @@ import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 import grl.StrategiesGroup;
+import grl.kpimodel.KPINewEvalValue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -61,7 +62,9 @@ public class ImportGRLStrategies implements IURNImport  {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 			String strLine;
-
+            HashMap strategyDefinition = new HashMap();
+            boolean inStrategyDefinitions = false;
+            
 			while( (strLine = br.readLine()) != null) {
 				
 				if( strLine.contentEquals("")) //$NON-NLS-1$
@@ -71,10 +74,21 @@ public class ImportGRLStrategies implements IURNImport  {
 					continue; // skip 'blank' lines composed solely of commas output by some spreadsheets in CSV mode
 
 				String [] columns = strLine.split(","); //$NON-NLS-1$
-				
-				if( unquote(columns[0]).contentEquals(Messages.getString("ImportGRLStrategies.StrategyName")) && !columns[1].contentEquals(Messages.getString("ImportGRLStrategies.SpceAuthor")) ) { //$NON-NLS-1$ //$NON-NLS-2$
-					this.processSectionHeader( strLine, br );
-				}
+
+  
+                if( unquote(columns[0]).contentEquals(Messages.getString("ImportGRLStrategies.StrategyName")) && columns[1].contentEquals(Messages.getString("ImportGRLStrategies.SpceAuthor")) ) { //$NON-NLS-1$ //$NON-NLS-2$
+                    inStrategyDefinitions = true;
+                }
+                
+                                
+                if( unquote(columns[0]).contentEquals(Messages.getString("ImportGRLStrategies.StrategyName")) && !columns[1].contentEquals(Messages.getString("ImportGRLStrategies.SpceAuthor")) ) { //$NON-NLS-1$ //$NON-NLS-2$
+                    inStrategyDefinitions = false;
+					this.processSectionHeader( strLine, br, strategyDefinition );
+				} else if (inStrategyDefinitions)
+                {
+                    strategyDefinition.put(unquote(columns[0]), strLine);
+                }
+				    
 								
 //				System.out.println ( i++ + ": " + strLine);
 			}
@@ -107,7 +121,7 @@ public class ImportGRLStrategies implements IURNImport  {
 		}
 	}
 	
-	private void processSectionHeader( String headerLine, BufferedReader br ) throws IOException {
+	private void processSectionHeader( String headerLine, BufferedReader br, HashMap strategyDefinition ) throws IOException {
 
 		String [] columns = headerLine.split(","); //$NON-NLS-1$
 		elementIndexes.clear();
@@ -134,10 +148,10 @@ public class ImportGRLStrategies implements IURNImport  {
 			}
 		}
 
-		this.processStrategyElementValues(br); // process Evaluation values for each strategy
+		this.processStrategyElementValues(br, strategyDefinition); // process Evaluation values for each strategy
 	}
 	
-	private void processStrategyElementValues(BufferedReader br) throws IOException {
+	private void processStrategyElementValues(BufferedReader br, HashMap strategyDefinition) throws IOException {
 
 		String strLine;
 		EvaluationStrategy strategy = null;
@@ -158,14 +172,51 @@ public class ImportGRLStrategies implements IURNImport  {
 			if( createdStrategies.containsKey( strategyName ) ) { // check if strategy was already created in a previous CSV section
 				strategy = createdStrategies.get( strategyName );
 			} else { // create a new strategy
+			    
+			    String [] strategyColumns = null;
+			    String strategyLine = (String)strategyDefinition.get(strategyName);
+			    if (strategyLine!=null) strategyColumns = strategyLine.split(",");
+			    
 				StrategiesGroup group = this.getStrategiesGroup();
 				strategy = (EvaluationStrategy) ModelCreationFactory.getNewObject( urnSpec, EvaluationStrategy.class );
 				strategy.setName( strategyName );
+				
+				if (strategyColumns!=null) {
+    				strategy.setAuthor ( unquote(strategyColumns[1]) );
+    				strategy.setDescription( unquote(strategyColumns[2]) );
+				}
 				strategy.setGroup( group );
 				group.getStrategies().add( strategy );
 				urnSpec.getGrlspec().getStrategies().add( strategy );
 				createdStrategies.put( strategyName, strategy );
 //				System.out.println( "Strategy created: " + strategy.getName() );
+				
+				// bug 854 - point to included strategy
+				if (strategyColumns!=null) {
+				    
+				    String included = strategyColumns[3]; // it split it into multiple extra columns. 
+				    for (int i = 4; i < strategyColumns.length; i++) {
+                        String s = strategyColumns[i];
+                        included += "," + s;
+                        
+                    }
+    				included = unquote(included);
+    				String[] includedNames = included.split(",");
+    				
+    				for (int i = 0; i < includedNames.length; i++) {
+                        String name = includedNames[i]; // we have a list of included strategy names. 
+                        
+                        // check in the list of existing strategies for it. 
+                        for (Iterator iterator = urnSpec.getGrlspec().getStrategies().iterator(); iterator.hasNext();) {
+                            EvaluationStrategy strat = (EvaluationStrategy) iterator.next();
+                            if (strat.getName().replace(',', ';').trim().equalsIgnoreCase(name.trim())) // need to escape the , character due to export encoding
+                            {
+                                strategy.getIncludedStrategies().add(strat);
+                                break; // only include the first one we find - which, given the list we are looking at, should give priority to strategies already in the model. 
+                            }
+                        }
+                    }
+				}
 			}			
 			
 			String valueString;
@@ -202,7 +253,15 @@ public class ImportGRLStrategies implements IURNImport  {
 						
 						if (importingKPIEvaluation)
 						{
-						    newEvaluation.getKpiEvalValueSet().setEvaluationValue(value);
+						    if (strategy.getIncludedStrategies().size() == 0)
+						        newEvaluation.getKpiEvalValueSet().setEvaluationValue(value); // straight modif of the kpi value set. 
+						    else 
+						    {
+						        newEvaluation.setKpiEvalValueSet(null); // we'll use the KPI Evaluation Set from the included strategy and override its value.  
+			                    KPINewEvalValue n = (KPINewEvalValue) ModelCreationFactory.getNewObject(urnSpec, KPINewEvalValue.class);
+			                    n.setEvaluationValue(value);
+			                    newEvaluation.setKpiNewEvalValue(n);
+						    }
 						}
 						
 						strategy.getEvaluations().add(newEvaluation);
