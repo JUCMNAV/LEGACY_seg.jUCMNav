@@ -12,6 +12,7 @@ import grl.IntentionalElementRef;
 import grl.QualitativeLabel;
 import grl.kpimodel.Indicator;
 import grl.kpimodel.IndicatorGroup;
+import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIEvalValueSet;
 
 import java.util.Collection;
@@ -120,6 +121,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 EStructuralFeature attr = ((Indicator) def).eClass().getEStructuralFeature("groups"); //$NON-NLS-1$
                 addPropertyToDescriptor(descriptors, attr, def.eClass());
             }
+
         }
         if (strategyView && EvaluationStrategyManager.getInstance().getEvaluationStrategy() != null) {
             // get the strategy attribute
@@ -161,6 +163,14 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                     EAttribute attr = (EAttribute) it.next();
                     addPropertyToDescriptor(descriptors, attr, kpiEval.eClass());
                 }
+
+                it = kpiEval.eClass().getEAllReferences().iterator();
+                // Add the new properties
+                while (it.hasNext()) {
+                    EReference attr = (EReference) it.next();
+                    if (attr.getName() == "kpiConv")
+                        addPropertyToDescriptor(descriptors, attr, kpiEval.eClass());
+                }
             }
         }
         return (Vector) descriptors;
@@ -181,7 +191,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
         } else if (c.getInstanceClass() == EvaluationStrategy.class) {
             strategyDescriptor(descriptors, attr, propertyid);
         } else if (c.getInstanceClass() == Evaluation.class) {
-            evaluationDescriptor(descriptors, attr, propertyid);
+            evaluationDescriptor(descriptors, attr, propertyid, c);
         } else if (type.getInstanceClass() == EvaluationRange.class) {
             evaluationRangeDescriptor(descriptors, attr, propertyid);
         } else if (c.getInstanceClass() == KPIEvalValueSet.class) {
@@ -276,7 +286,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      * @param attr
      * @param propertyid
      */
-    private void evaluationDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+    private void evaluationDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid, EClass eclass) {
         if (attr.getName() == "evaluation") { //$NON-NLS-1$
             String name = Messages.getString("IntentionalElementPropertySource.EvaluationLevel"); //$NON-NLS-1$
 
@@ -319,6 +329,13 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
 
             pd.setCategory("Strategy"); //$NON-NLS-1$
             descriptors.add(pd);
+        } else {
+            int size = descriptors.size();
+            super.addPropertyToDescriptor(descriptors, attr, eclass);
+            if (size < descriptors.size()) {
+                PropertyDescriptor pd = (PropertyDescriptor) descriptors.toArray()[descriptors.size() - 1];
+                pd.setCategory("Strategy"); //$NON-NLS-1$
+            }
         }
     }
 
@@ -343,7 +360,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 }
             });
 
-            pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
+            pd.setCategory("KPI Model Strategy");
             descriptors.add(pd);
         } else if (attr.getName() == "thresholdValue") { //$NON-NLS-1$
             TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, "Threshold value"); //$NON-NLS-1$
@@ -360,7 +377,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 }
             });
 
-            pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
+            pd.setCategory("KPI Model Strategy");
             descriptors.add(pd);
         } else if (attr.getName() == "worstValue") { //$NON-NLS-1$
             TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, "Worst value"); //$NON-NLS-1$
@@ -377,7 +394,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 }
             });
 
-            pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
+            pd.setCategory("KPI Model Strategy");
             descriptors.add(pd);
         } else if (attr.getName() == "evaluationValue") { //$NON-NLS-1$
             CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "Evaluation value"); //$NON-NLS-1$
@@ -397,7 +414,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             // Open for editing in the simulation test, will be readonly when a formal way exists.
             // pd.setReadOnly(true);
 
-            pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
+            pd.setCategory("KPI Model Strategy");
             descriptors.add(pd);
         } else if (attr.getName() == "unit") { //$NON-NLS-1$
             CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "Unit"); //$NON-NLS-1$
@@ -411,9 +428,56 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             // Open for editing in the simulation test, will be readonly when a formal way exists.
             // pd.setReadOnly(true);
 
-            pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
+            pd.setCategory("KPI Model Strategy");
+            descriptors.add(pd);
+        } else if (getFeatureType(attr).getInstanceClass() == KPIConversion.class) { //$NON-NLS-1$
+            kpiConversionDescriptor(descriptors, propertyid);
+        } else if (attr.getName() == "qualitativeEvaluationValue") { //$NON-NLS-1$
+            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "Qualitative Evaluation Value"); //$NON-NLS-1$
+
+            ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
+                public String isValid(Object value) {
+                    return null;
+                }
+            });
+
+            // Open for editing in the simulation test, will be readonly when a formal way exists.
+            // pd.setReadOnly(true);
+
+            pd.setCategory("KPI Model Strategy");
             descriptors.add(pd);
         }
+    }
+
+    /**
+     * Creates a drop down list for strategy groups.
+     * 
+     * @param descriptors
+     * @param propertyid
+     */
+    private void kpiConversionDescriptor(Collection descriptors, PropertyID propertyid) {
+        Vector list = getKPIConversionList();
+
+        String[] values = new String[list.size() + 1];
+        values[0] = "(undefined)";
+        for (int i = 0; i < list.size(); i++) {
+
+            values[i + 1] = EObjectClassNameComparator.getSortableElementName((KPIConversion) list.get(i));
+            if (values[i + 1] == null)
+                values[i + 1] = Messages.getString("URNElementPropertySource.unnamed"); //$NON-NLS-1$
+        }
+
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "KPI Conversion", values);
+        pd.setCategory("KPI Model Strategy");
+        descriptors.add(pd);
+    }
+
+    public Vector getKPIConversionList() {
+        URNspec urn = def.getGrlspec().getUrnspec();
+        Vector list;
+        list = new Vector(urn.getGrlspec().getKPIConversion());
+        Collections.sort(list, new EObjectClassNameComparator());
+        return list;
     }
 
     /*
@@ -441,6 +505,11 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 return new Double(EvaluationStrategyManager.getInstance().getActiveKPIValue(elem)).toString();
             else
                 return super.returnPropertyValue(feature, result);
+        } else if (feature.getName() == "kpiConv") {
+            if (result == null)
+                result = new Integer(0);
+            else
+                result = new Integer(getKPIConversionList().indexOf(result) + 1);
         } else
             return super.returnPropertyValue(feature, result);
 
@@ -555,7 +624,15 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 Double temp = new Double(Double.parseDouble((String) value));
                 EvaluationStrategyManager.getInstance().setKPIEvalValueSet(def, feature, temp.doubleValue());
             } else if (feature.getEType().getInstanceClass() == String.class) {
-                EvaluationStrategyManager.getInstance().setKPIEvalValueSetUnit(def, feature, (String) value);
+                EvaluationStrategyManager.getInstance().setKPIEvalValueSetString(def, feature, (String) value);
+            } else if (feature.getName() == "kpiConv" && value instanceof Integer)
+            {
+                int idx = ((Integer)value).intValue();
+                KPIConversion conv = null;
+                if (idx>0)
+                    conv = (KPIConversion)getKPIConversionList().get(idx-1);
+                
+                EvaluationStrategyManager.getInstance().setKPIEvalValueSetKPIConversion(def, feature, conv);
             }
         } else if (feature.getContainerClass() == IntentionalElement.class) {
             if (feature.getEType().getInstanceClass() == ImportanceType.class) {
@@ -592,6 +669,9 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             def.eSet(feature, result);
         } else if (propertyid.getEClass().getName() == "EvaluationStrategy") { //$NON-NLS-1$
             EvaluationStrategyManager.getInstance().getEvaluationStrategy().eSet(feature, result);
+        } else if (propertyid.getEClass().getName() == "Evaluation") { //$NON-NLS-1$
+            Evaluation eval = EvaluationStrategyManager.getInstance().getEvaluationObject(def);
+            eval.eSet(feature, result);
         } else {
             object.eSet(feature, result);
         }

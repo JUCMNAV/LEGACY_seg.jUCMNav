@@ -20,7 +20,9 @@ import seg.jUCMNav.actions.performance.ManageResourcesAction;
 import seg.jUCMNav.actions.scenarios.AddContributionContextAction;
 import seg.jUCMNav.actions.scenarios.AddContributionContextGroupAction;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
+import seg.jUCMNav.actions.scenarios.AddKPIConversionAction;
 import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
+import seg.jUCMNav.actions.scenarios.AddQualitativeMappingAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioGroupAction;
 import seg.jUCMNav.actions.scenarios.AddStartEndPointAction;
@@ -119,6 +121,14 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        action = getActionRegistry().getAction(AddKPIConversionAction.ADDKPICONVERSION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(AddQualitativeMappingAction.ADDQUALITATIVEMAPPING);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
         action = getActionRegistry().getAction(AddVariableAction.ADDVARIABLEWIZARD);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);

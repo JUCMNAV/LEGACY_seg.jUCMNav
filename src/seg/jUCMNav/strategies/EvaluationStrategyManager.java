@@ -17,10 +17,13 @@ import grl.IntentionalElement;
 import grl.IntentionalElementType;
 import grl.QualitativeLabel;
 import grl.StrategiesGroup;
+import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPINewEvalValue;
+import grl.kpimodel.QualitativeMapping;
+import grl.kpimodel.QualitativeMappings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -974,8 +977,7 @@ public class EvaluationStrategyManager {
      * 
      */
     private void syncIntentionalElementEvaluation(Evaluation eval) {
-        String type = eval.getQualitativeEvaluation().getName();
-        int evaluation = eval.getEvaluation();
+        QualitativeLabel qualitative = eval.getQualitativeEvaluation();
 
         URNspec urn = null;
         if (eval.getIntElement() != null && eval.getIntElement().getGrlspec() != null)
@@ -983,6 +985,13 @@ public class EvaluationStrategyManager {
         else if (multieditor != null)
             urn = multieditor.getModel();
 
+        int evaluation = eval.getEvaluation();
+        int result = getQuantitativeValueForQualitativeEvaluation(qualitative, urn, evaluation);
+        eval.setEvaluation(result);
+    }
+
+    public static int getQuantitativeValueForQualitativeEvaluation(QualitativeLabel qualitative, URNspec urn, int evaluation) {
+        String type = qualitative.getName();
         evaluation = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn, evaluation);
 
         int result = 0;
@@ -1004,7 +1013,7 @@ public class EvaluationStrategyManager {
             result = IGRLStrategyAlgorithm.UNDECIDED;
 
         result = StrategyEvaluationPreferences.getEquivalentValueIn0To100RangeIfApplicable(urn, result);
-        eval.setEvaluation(result);
+        return result;
     }
 
     /*
@@ -1094,15 +1103,30 @@ public class EvaluationStrategyManager {
         calculateEvaluation();
     }
 
-    public synchronized void setKPIEvalValueSetUnit(IntentionalElement element, EStructuralFeature feature, String value) {
+    public synchronized void setKPIEvalValueSetString(IntentionalElement element, EStructuralFeature feature, String value) {
         Evaluation eval = (Evaluation) evaluations.get(element);
         KPIEvalValueSet kpiEval = getActiveKPIEvalValueSet(element);
 
         if (feature.getName().equals("unit")) { //$NON-NLS-1$
             kpiEval.setUnit(value);
+        } else if (feature.getName().equals("qualitativeEvaluationValue")) { //$NON-NLS-1$
+            kpiEval.setQualitativeEvaluationValue(value);
         }
-    }
+        
+        // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
+        AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
+        execute(cmd);
 
+        calculateIndicatorEvalLevel(eval);
+        calculateEvaluation();        
+    }
+    
+    public synchronized void setKPIEvalValueSetKPIConversion(IntentionalElement element, EStructuralFeature feature, KPIConversion conv) {
+        Evaluation eval = (Evaluation) evaluations.get(element);
+        KPIEvalValueSet kpiEval = getActiveKPIEvalValueSet(element);
+        kpiEval.setKpiConv(conv);
+    }
+    
     public synchronized int calculateIndicatorEvalLevel(Evaluation eval) {
         KPIEvalValueSet kpiEval = getActiveKPIEvalValueSet(eval.getIntElement());
         double newValue = getActiveKPIValue(eval.getIntElement());
@@ -1697,8 +1721,9 @@ public class EvaluationStrategyManager {
             return val.getEvaluationValue();
         else {
             KPIEvalValueSet set = getActiveKPIEvalValueSet(elem);
-            if (set != null)
+            if (set != null) {
                 return set.getEvaluationValue();
+            }
             else {
                 return (double) getEvaluation(elem);
             }

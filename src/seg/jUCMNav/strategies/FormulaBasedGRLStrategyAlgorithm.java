@@ -50,9 +50,7 @@ public class FormulaBasedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlg
 
         // return immediately if we can
         Integer result = null;
-        if ((element.getLinksDest().size() == 0) || (eval.getIntElement() != null && mathEvaluator == null)) {
-            result = eval.getEvaluation();
-        }
+        result = super.preGetEvaluation(element,  eval);
         return result;
     }
 

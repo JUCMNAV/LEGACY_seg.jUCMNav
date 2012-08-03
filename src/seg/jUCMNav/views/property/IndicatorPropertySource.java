@@ -392,7 +392,7 @@ public class IndicatorPropertySource extends URNElementPropertySource {
             if (feature.getEType().getInstanceClass() == double.class) {
                 EvaluationStrategyManager.getInstance().setKPIEvalValueSet(def, feature, Double.parseDouble((String) value));
             } else if (feature.getEType().getInstanceClass() == String.class) {
-                EvaluationStrategyManager.getInstance().setKPIEvalValueSetUnit(def, feature, (String) value);
+                EvaluationStrategyManager.getInstance().setKPIEvalValueSetString(def, feature, (String) value);
             }
         } else if (feature.getName() == "name") { //$NON-NLS-1$
             String message = URNNamingHelper.isNameValid(urn, (URNmodelElement) object, value.toString());

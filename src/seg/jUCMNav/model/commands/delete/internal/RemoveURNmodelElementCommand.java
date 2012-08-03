@@ -3,8 +3,10 @@ package seg.jUCMNav.model.commands.delete.internal;
 import grl.Actor;
 import grl.ActorRef;
 import grl.GRLNode;
+import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIInformationElementRef;
 
@@ -45,6 +47,7 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
     private IURNDiagram diagram;
     private URNmodelElement definition;
     private UCMspec ucmspec;
+    private GRLspec grlspec;
     private boolean aborted = false;
     private ScenarioDef scenario;
     private boolean isPreCondition;
@@ -76,6 +79,15 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
      */
     public RemoveURNmodelElementCommand(Variable var) {
         this.element = var;
+    }
+    
+    /**
+     * 
+     * @param conv
+     *            the KPIConversion to be deleted.
+     */
+    public RemoveURNmodelElementCommand(KPIConversion conv) {
+        this.element = conv;
     }
 
     /**
@@ -242,6 +254,13 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
                 return;
             ucmspec = generalResource.getUcmspec();
             index = ucmspec.getResources().indexOf(generalResource);
+        } else if (element instanceof KPIConversion) {
+            KPIConversion conv = (KPIConversion) element;
+            aborted = conv.getGrlspec() == null;
+            if (aborted)
+                return;
+            grlspec = conv.getGrlspec();
+            index = grlspec.getKPIConversion().indexOf(element);
         }
 
         redo();
@@ -301,7 +320,10 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
         } else if (element instanceof GeneralResource) {
             GeneralResource resx = (GeneralResource) element;
             resx.setUcmspec(null);
-        }
+        } else if (element instanceof KPIConversion) {
+            KPIConversion conv = (KPIConversion) element;
+            conv.setGrlspec(null);
+        } 
 
         testPostConditions();
     }
@@ -369,7 +391,11 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
         } else if (element instanceof GeneralResource) {
             GeneralResource resx = (GeneralResource) element;
             resx.setUcmspec(ucmspec);
-        }
+        } else if (element instanceof KPIConversion) {
+            KPIConversion conv = (KPIConversion) element;
+            conv.setGrlspec(grlspec);
+        } 
+        
 
         testPreConditions();
     }
@@ -379,7 +405,7 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert element != null && (diagram != null || ucmspec != null || scenario != null) : "pre something is null"; //$NON-NLS-1$
+        assert element != null && (diagram != null || ucmspec != null || scenario != null || grlspec!=null) : "pre something is null"; //$NON-NLS-1$
         if (element instanceof IURNNode)
             assert diagram.getNodes().contains(element) : "pre diagram contains element"; //$NON-NLS-1$
         else if (element instanceof IURNContainerRef)
@@ -419,7 +445,7 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert element != null && (diagram != null || ucmspec != null || scenario != null) : "post something is null"; //$NON-NLS-1$
+        assert element != null && (diagram != null || ucmspec != null || scenario != null || grlspec!=null) : "post something is null"; //$NON-NLS-1$
         if (element instanceof IURNNode)
             assert !diagram.getNodes().contains(element) : "post diagram contains element"; //$NON-NLS-1$
         else if (element instanceof IURNContainerRef)

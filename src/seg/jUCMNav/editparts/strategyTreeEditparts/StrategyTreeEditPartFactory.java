@@ -6,6 +6,8 @@ import grl.ContributionContextGroup;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.StrategiesGroup;
+import grl.kpimodel.KPIConversion;
+import grl.kpimodel.QualitativeMapping;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.EditPart;
@@ -75,8 +77,14 @@ public class StrategyTreeEditPartFactory implements EditPartFactory {
         } else if (model instanceof EList) {
             if (model == urn.getGrlspec().getContributionGroups())
                 return new ContributionContextGroupListTreeEditPart(urn.getGrlspec());
+            else if (model == urn.getGrlspec().getKPIConversion())
+                return new KPIConversionListTreeEditPart(urn.getGrlspec());
             else
                 return new VariableListTreeEditPart(urn.getUcmspec(), urn.getUcmspec().getEnumerationTypes() == model);
+        } else if (model instanceof KPIConversion) {
+            return new KPIConversionTreeEditPart((KPIConversion) model);
+        } else if (model instanceof QualitativeMapping) {
+            return new QualitativeMappingTreeEditPart((QualitativeMapping) model);
         } else if (model instanceof ScenarioStartPoint) {
             return new ScenarioPathNodeTreeEditPart((ScenarioStartPoint) model);
         } else if (model instanceof ScenarioEndPoint) {
@@ -88,7 +96,7 @@ public class StrategyTreeEditPartFactory implements EditPartFactory {
         } else if (model instanceof ContributionContext) {
             return new ContributionContextTreeEditPart((ContributionContext) model);
         } else if (model instanceof ContributionChange) {
-            return new ContributionChangeTreeEditPart((ContributionChange)model);
+            return new ContributionChangeTreeEditPart((ContributionChange) model);
         } else if (model instanceof String)
             if (context.getModel() instanceof EvaluationStrategy)
                 return new StrategyLabelTreeEditPart(model, (EvaluationStrategy) context.getModel());

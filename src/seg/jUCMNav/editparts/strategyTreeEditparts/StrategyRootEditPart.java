@@ -46,6 +46,9 @@ public class StrategyRootEditPart extends UrnAbstractTreeEditPart {
             l.add(((UCMNavMultiPageEditor) getModel()).getModel().getGrlspec().getContributionGroups());
         }
 
+        if (!DisplayPreferences.getInstance().isGlobalFilterEnabled() || DisplayPreferences.getInstance().isShowKPI())
+            l.add(((UCMNavMultiPageEditor) getModel()).getModel().getGrlspec().getKPIConversion());
+
         if (!DisplayPreferences.getInstance().isGlobalFilterEnabled() || DisplayPreferences.getInstance().getShowUCMS()) {
             l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec().getEnumerationTypes());
             l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec().getVariables());

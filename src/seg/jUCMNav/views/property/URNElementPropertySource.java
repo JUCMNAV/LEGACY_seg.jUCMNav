@@ -3,7 +3,10 @@ package seg.jUCMNav.views.property;
 import grl.ContributionContext;
 import grl.ContributionContextGroup;
 import grl.EvaluationStrategy;
+import grl.QualitativeLabel;
 import grl.StrategiesGroup;
+import grl.kpimodel.QualitativeMapping;
+import grl.kpimodel.QualitativeMappings;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -27,6 +30,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.descriptors.CheckboxPropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.CodePropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.MetadataPropertyDescriptor;
@@ -108,8 +112,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
                 booleanDescriptor(descriptors, attr, propertyid);
             else if (init.getVariable() != null && init.getVariable().getType().equals(ScenarioUtils.sTypeEnumeration)) {
                 if (((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues() != null)
-                    enumerationDescriptor(descriptors, propertyid, ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues().split(
-                            ",")); //$NON-NLS-1$
+                    enumerationDescriptor(descriptors, propertyid,
+                            ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues().split(",")); //$NON-NLS-1$
             }
         } else if (type.getInstanceClass() == Metadata.class) {
             metadataDescriptor(descriptors, attr, propertyid);
@@ -180,8 +184,6 @@ public class URNElementPropertySource extends EObjectPropertySource {
         descriptors.add(pd);
     }
 
-
-    
     /**
      * @param descriptors
      * @param propertyid
@@ -324,9 +326,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "group", values); //$NON-NLS-1$
         pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy")); //$NON-NLS-1$
         descriptors.add(pd);
-
     }
-    
+
     /**
      * Creates a drop down list for contribution context groups.
      * 
@@ -334,9 +335,10 @@ public class URNElementPropertySource extends EObjectPropertySource {
      * @param propertyid
      */
     private void contributionContextGroupDescriptor(Collection descriptors, PropertyID propertyid) {
-        if (((ContributionContext) getEditableValue()).getGroups().size() ==0 || ((ContributionContextGroup)((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec() == null)
+        if (((ContributionContext) getEditableValue()).getGroups().size() == 0
+                || ((ContributionContextGroup) ((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec() == null)
             return;
-        URNspec urn = ((ContributionContextGroup)((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec().getUrnspec();
+        URNspec urn = ((ContributionContextGroup) ((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec().getUrnspec();
         Vector list;
         list = new Vector(urn.getGrlspec().getContributionGroups());
         Collections.sort(list, new EObjectClassNameComparator());
@@ -434,15 +436,17 @@ public class URNElementPropertySource extends EObjectPropertySource {
                 if (list.get(i).equals(((EvaluationStrategy) getEditableValue()).getGroup()))
                     result = new Integer(i);
             }
-        } else if (getFeatureType(feature).getInstanceClass() == ContributionContextGroup.class && getEditableValue() instanceof ContributionContext && ((ContributionContext) getEditableValue()).getGroups().size()>0 ) {
-            URNspec urn = ((ContributionContextGroup)((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec().getUrnspec();
+        } else if (getFeatureType(feature).getInstanceClass() == ContributionContextGroup.class && getEditableValue() instanceof ContributionContext
+                && ((ContributionContext) getEditableValue()).getGroups().size() > 0) {
+            URNspec urn = ((ContributionContextGroup) ((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec().getUrnspec();
             Vector list = new Vector(urn.getGrlspec().getContributionGroups());
 
             Collections.sort(list, new EObjectClassNameComparator());
             for (int i = 0; i < list.size(); i++) {
-                if (((ContributionContext) getEditableValue()).getGroups().size()>0 && list.get(i).equals(((ContributionContext) getEditableValue()).getGroups().get(0)))
+                if (((ContributionContext) getEditableValue()).getGroups().size() > 0
+                        && list.get(i).equals(((ContributionContext) getEditableValue()).getGroups().get(0)))
                     result = new Integer(i);
-            }            
+            }
         } else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization) getEditableValue()).getVariable().getEnumerationType() != null && ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues() != null) { //$NON-NLS-1$)
             String[] values = ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues().split(","); //$NON-NLS-1$
             String value = super.returnPropertyValue(feature, result) != null ? super.returnPropertyValue(feature, result).toString() : ""; //$NON-NLS-1$
@@ -503,6 +507,18 @@ public class URNElementPropertySource extends EObjectPropertySource {
                 e.printStackTrace();
             }
 
+            if (feature.getContainerClass() == QualitativeMapping.class && feature.getEType().getInstanceClass() == QualitativeLabel.class) {
+                QualitativeLabel label = QualitativeLabel.get(((Integer) value).intValue());
+                QualitativeMapping mapping = (QualitativeMapping) getEditableValue();
+                URNspec urn = null;
+                try {
+                    urn = ((QualitativeMappings) mapping.eContainer()).getGrlspec().getUrnspec();
+                } catch (Exception ex) {
+                }
+                int intValue = EvaluationStrategyManager.getQuantitativeValueForQualitativeEvaluation(label, urn, 0);
+                mapping.setEvaluation(intValue);
+            }
+
             setReferencedObject(propertyid, feature, result);
         } else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization) getEditableValue()).getVariable().getEnumerationType() != null && ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues() != null) { //$NON-NLS-1$)
 
@@ -525,12 +541,14 @@ public class URNElementPropertySource extends EObjectPropertySource {
             Collections.sort(list, new EObjectClassNameComparator());
             result = list.get(((Integer) value).intValue());
             setReferencedObject(propertyid, feature, result);
-        } else if (getFeatureType(feature).getInstanceClass() == ContributionContextGroup.class && getEditableValue() instanceof ContributionContext && ((ContributionContext) getEditableValue()).getGroups().size()>0) {
-            Vector list = new Vector(((ContributionContextGroup)((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec().getContributionGroups());
+        } else if (getFeatureType(feature).getInstanceClass() == ContributionContextGroup.class && getEditableValue() instanceof ContributionContext
+                && ((ContributionContext) getEditableValue()).getGroups().size() > 0) {
+            Vector list = new Vector(((ContributionContextGroup) ((ContributionContext) getEditableValue()).getGroups().get(0)).getGrlspec()
+                    .getContributionGroups());
             Collections.sort(list, new EObjectClassNameComparator());
             result = list.get(((Integer) value).intValue());
-            ((ContributionContext)getEditableValue()).getGroups().set(0,result);
-            //setReferencedObject(propertyid, feature, result);            
+            ((ContributionContext) getEditableValue()).getGroups().set(0, result);
+            // setReferencedObject(propertyid, feature, result);
         } else if (getEditableValue() instanceof Initialization && getFeatureType(feature).getInstanceClass() == String.class && value instanceof Boolean) {
             super.setPropertyValue(id, ((Boolean) value).toString());
         } else if (feature.getName().equals("context")) { //$NON-NLS-1$
@@ -571,7 +589,19 @@ public class URNElementPropertySource extends EObjectPropertySource {
             }
             // test
             super.setPropertyValue(id, value);
-        } else
+        } else if (feature.getContainerClass() == QualitativeMapping.class && feature.getName().equals("evaluation")) {
+            QualitativeMapping mapping = (QualitativeMapping) getEditableValue();
+            URNspec urn = null;
+            try {
+                urn = ((QualitativeMappings) mapping.eContainer()).getGrlspec().getUrnspec();
+            } catch (Exception ex) {
+            }
+            
+            super.setPropertyValue(id, value);
+            QualitativeLabel lbl = EvaluationStrategyManager.getQualitativeEvaluationForQuantitativeValue(urn, mapping.getEvaluation());
+            mapping.setQualitativeEvaluation(lbl);
+        }
+        else
             super.setPropertyValue(id, value);
     }
 

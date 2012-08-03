@@ -9,6 +9,10 @@ import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
+import grl.QualitativeLabel;
+import grl.kpimodel.KPIEvalValueSet;
+import grl.kpimodel.QualitativeMapping;
+import grl.kpimodel.QualitativeMappings;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -127,9 +131,33 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     protected Integer preGetEvaluation(IntentionalElement element, Evaluation eval) {
         // return immediately if we can
         Integer result = null;
-        if (element.getLinksDest().size() == 0 || eval.getIntElement() != null) {
+
+        EvaluationStrategyManager strategyManager = EvaluationStrategyManager.getInstance();
+        KPIEvalValueSet set = strategyManager.getActiveKPIEvalValueSet(element);
+        // has a qualitative value & a mapping, load it from there instead of looking at current value. 
+        if (set.getKpiConv() instanceof QualitativeMappings && set.getQualitativeEvaluationValue()!=null && set.getQualitativeEvaluationValue().length()>0 &&  element.getGrlspec()!=null)
+        {
+            QualitativeMappings mappings = (QualitativeMappings) set.getKpiConv();
+            boolean found = false;
+            for (Iterator iterator = mappings.getMapping().iterator(); iterator.hasNext();) {
+                QualitativeMapping map = (QualitativeMapping) iterator.next();
+                if (set.getQualitativeEvaluationValue().equalsIgnoreCase(map.getRealWorldLabel()))
+                {
+                    // load the evaluationValue from the conversion. 
+                    result = map.getEvaluation(); 
+                    eval.setQualitativeEvaluation(map.getQualitativeEvaluation());
+                    found = true;
+                }
+            }
+            if (!found) { 
+                result = EvaluationStrategyManager.getQuantitativeValueForQualitativeEvaluation(QualitativeLabel.UNKNOWN_LITERAL, element.getGrlspec().getUrnspec(), 0);
+                eval.setQualitativeEvaluation(QualitativeLabel.UNKNOWN_LITERAL);
+            }
+        }
+        else  if (element.getLinksDest().size() == 0 || eval.getIntElement() != null) {
             result = eval.getEvaluation();
         }
+        
         return result;
     }
 

@@ -19,6 +19,7 @@ import grl.IntentionalElementRef;
 import grl.LinkRef;
 import grl.StrategiesGroup;
 import grl.kpimodel.IndicatorGroup;
+import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIInformationElementRef;
 import grl.kpimodel.KPIModelLink;
@@ -400,8 +401,13 @@ public class SelectionHelper {
                         }
                     }
                 }
+            } else if (model instanceof KPIConversion) {
+                KPIConversion kpi = (KPIConversion)model;
+                grlspec = kpi.getGrlspec();
+                if (grlspec!=null)
+                    urnspec = grlspec.getUrnspec();
             }
-        }
+        } 
 
         // Connections
         else if (model instanceof IURNConnection) {

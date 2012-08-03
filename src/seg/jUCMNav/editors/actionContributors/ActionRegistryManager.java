@@ -1,5 +1,7 @@
 package seg.jUCMNav.editors.actionContributors;
 
+import grl.kpimodel.QualitativeMappings;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -102,7 +104,9 @@ import seg.jUCMNav.actions.performance.ManageResourcesAction;
 import seg.jUCMNav.actions.scenarios.AddContributionContextAction;
 import seg.jUCMNav.actions.scenarios.AddContributionContextGroupAction;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
+import seg.jUCMNav.actions.scenarios.AddKPIConversionAction;
 import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
+import seg.jUCMNav.actions.scenarios.AddQualitativeMappingAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioGroupAction;
 import seg.jUCMNav.actions.scenarios.AddStartEndPointAction;
@@ -600,6 +604,14 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.EditEnumerations")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new AddKPIConversionAction(editor, QualitativeMappings.class);
+        action.setText("Add Qualitative Mapping Group");
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddQualitativeMappingAction(editor);
+        action.setText("Add Qualitative Mapping");
+        addEditPartAction((SelectionAction) action);
+        
         action = new EditCodeAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.Edit")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

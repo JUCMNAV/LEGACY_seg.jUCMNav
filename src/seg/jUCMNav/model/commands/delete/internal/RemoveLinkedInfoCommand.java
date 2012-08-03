@@ -1,8 +1,11 @@
 package seg.jUCMNav.model.commands.delete.internal;
 
 import grl.GRLGraph;
+import grl.kpimodel.KPIConversion;
+import grl.kpimodel.KPIEvalValueSet;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -52,6 +55,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     private EnumerationType enumType;
     private List components; // Single Component or list of ComponentRegular
     private List perfMeasures;
+    private List kpiEvalValueSet;
 
     /**
      * 
@@ -136,6 +140,15 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
 
     /**
      * 
+     * @param conv
+     *            the KPIConversion to be cleaned.
+     */
+    public RemoveLinkedInfoCommand(KPIConversion conv) {
+        this.element = conv;
+    }
+
+    /**
+     * 
      * @param resx
      *            the GeneralResource to be cleaned.
      */
@@ -170,6 +183,10 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 ProcessingResource processingResource = (ProcessingResource) element;
                 this.components.addAll(processingResource.getComponents());
             }
+        } else if (element instanceof KPIConversion) {
+            KPIConversion conv = (KPIConversion) element;
+            this.kpiEvalValueSet = new ArrayList();
+            this.kpiEvalValueSet.addAll(conv.getKpiEvalValueSet());
         }
         redo();
     }
@@ -198,7 +215,13 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 ProcessingResource processingResource = (ProcessingResource) element;
                 processingResource.getComponents().clear();
             }
+        } else if (element instanceof KPIConversion) {
+            for (Iterator iterator = kpiEvalValueSet.iterator(); iterator.hasNext();) {
+                KPIEvalValueSet kpi = (KPIEvalValueSet) iterator.next();
+                kpi.setKpiConv(null);
+            }
         }
+
         testPostConditions();
 
     }
@@ -230,7 +253,14 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 ProcessingResource processingResource = (ProcessingResource) element;
                 processingResource.getComponents().addAll(this.components);
             }
+        } else if (element instanceof KPIConversion) {
+            KPIConversion conv = (KPIConversion) element;
+            for (Iterator iterator = kpiEvalValueSet.iterator(); iterator.hasNext();) {
+                KPIEvalValueSet kpi = (KPIEvalValueSet) iterator.next();
+                kpi.setKpiConv(conv);
+            }
         }
+
         testPreConditions();
     }
 
@@ -241,7 +271,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         assert element != null : "pre something is null"; //$NON-NLS-1$
         assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap
                 || element instanceof GRLGraph || element instanceof ScenarioStartPoint || element instanceof ScenarioEndPoint
-                || element instanceof Initialization || element instanceof Variable || element instanceof GeneralResource) : "pre invalid class"; //$NON-NLS-1$
+                || element instanceof Initialization || element instanceof Variable || element instanceof GeneralResource || element instanceof KPIConversion) : "pre invalid class"; //$NON-NLS-1$
 
     }
 
@@ -270,6 +300,9 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
             GeneralResource resource = (GeneralResource) element;
         }
 
+        if (element instanceof KPIConversion) {
+            assert kpiEvalValueSet != null : "post kpi set null";
+        }
     }
 
 }

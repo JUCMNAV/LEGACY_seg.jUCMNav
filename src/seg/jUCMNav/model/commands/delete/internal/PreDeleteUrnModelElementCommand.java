@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.delete.internal;
 
 import grl.ActorRef;
 import grl.GRLNode;
+import grl.kpimodel.KPIConversion;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
@@ -43,6 +44,15 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
      */
     public PreDeleteUrnModelElementCommand(Variable var) {
         add(new CleanRelationshipsCommand(var));
+    }
+    
+    /**
+     * 
+     * @param conv
+     *            the KPIConversion to be deleted.
+     */
+    public PreDeleteUrnModelElementCommand(KPIConversion conv) {
+        add(new CleanRelationshipsCommand(conv));
     }
 
     /**

@@ -4,6 +4,7 @@ import grl.ActorRef;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.IntentionalElementRef;
+import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIInformationElementRef;
 
 import java.util.Iterator;
@@ -106,6 +107,15 @@ public class CleanRelationshipsCommand extends CompoundCommand {
      */
     public CleanRelationshipsCommand(Variable var) {
         this.element = var;
+    }
+    
+    /**
+     * 
+     * @param conv
+     *            the KPIConversion to be cleaned.
+     */
+    public CleanRelationshipsCommand(KPIConversion conv) {
+        this.element = conv;
     }
 
     /**
@@ -369,8 +379,17 @@ public class CleanRelationshipsCommand extends CompoundCommand {
                 }
             }
         }
-
     }
+    
+    /**
+     * 
+     * @param conv
+     *            the KPIConversion to be cleaned.
+     */
+    private void build(KPIConversion conv) {
+        add(new RemoveLinkedInfoCommand(conv));
+    }
+    
 
     /**
      * 
@@ -483,6 +502,8 @@ public class CleanRelationshipsCommand extends CompoundCommand {
             build((KPIInformationElementRef) element);
         else if (element instanceof Variable)
             build((Variable) element);
+        else if (element instanceof KPIConversion)
+            build((KPIConversion) element);
         else if (element instanceof ScenarioStartPoint)
             build((ScenarioStartPoint) element);
         else if (element instanceof ScenarioEndPoint)

@@ -22,6 +22,7 @@ import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
+import grl.QualitativeLabel;
 import grl.StrategiesGroup;
 import grl.kpimodel.Indicator;
 import grl.kpimodel.IndicatorGroup;
@@ -33,6 +34,8 @@ import grl.kpimodel.KPIModelLink;
 import grl.kpimodel.KPIModelLinkRef;
 import grl.kpimodel.KPINewEvalValue;
 import grl.kpimodel.KpimodelFactory;
+import grl.kpimodel.QualitativeMapping;
+import grl.kpimodel.QualitativeMappings;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -254,7 +257,6 @@ public class ModelCreationFactory implements CreationFactory {
         GrlFactory grlfactory = GrlFactory.eINSTANCE;
         UrnFactory urnmainfactory = UrnFactory.eINSTANCE;
         KpimodelFactory kpiFactory = KpimodelFactory.eINSTANCE;
-
         Object result = null;
 
         if (targetClass != null) {
@@ -353,18 +355,21 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(ContributionContextGroup.class)) {
                 result = grlfactory.createContributionContextGroup();
             } else if (targetClass.equals(ContributionContext.class)) {
-                if (definition!=null) return definition; // drag & drop of existing
+                if (definition != null)
+                    return definition; // drag & drop of existing
                 result = grlfactory.createContributionContext();
             } else if (targetClass.equals(ContributionChange.class)) {
                 result = grlfactory.createContributionChange();
             } else if (targetClass.equals(EvaluationStrategy.class)) {
-                if (definition!=null) return definition; // drag & drop of existing 
+                if (definition != null)
+                    return definition; // drag & drop of existing
                 result = grlfactory.createEvaluationStrategy();
                 ((EvaluationStrategy) result).setAuthor(GeneralPreferencePage.getAuthor());
             } else if (targetClass.equals(ScenarioGroup.class)) {
                 result = ucmscenariofactory.createScenarioGroup();
             } else if (targetClass.equals(ScenarioDef.class)) {
-                if (definition!=null) return definition; // drag & drop of existing 
+                if (definition != null)
+                    return definition; // drag & drop of existing
                 result = ucmscenariofactory.createScenarioDef();
             } else if (targetClass.equals(ScenarioStartPoint.class)) {
                 result = ucmscenariofactory.createScenarioStartPoint();
@@ -385,8 +390,15 @@ public class ModelCreationFactory implements CreationFactory {
                 set.setEvaluationValue(defaultValue);
                 result = set;
 
-            } else if (targetClass.equals(KPINewEvalValue.class)){
+            } else if (targetClass.equals(KPINewEvalValue.class)) {
                 result = kpiFactory.createKPINewEvalValue();
+            } else if (targetClass.equals(QualitativeMappings.class)) {
+                result = kpiFactory.createQualitativeMappings();
+            } else if (targetClass.equals(QualitativeMapping.class)) {
+                result = kpiFactory.createQualitativeMapping();
+                QualitativeMapping mapping = ((QualitativeMapping)result);
+                mapping.setRealWorldLabel("Real World Label"); // a default value.
+                mapping.setQualitativeEvaluation(QualitativeLabel.UNKNOWN_LITERAL);
             } else if (targetClass.equals(KPIInformationConfig.class)) {
                 result = kpiFactory.createKPIInformationConfig();
             } else if (targetClass.equals(EnumerationType.class)) {
@@ -405,11 +417,11 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createResponsibilityBinding();
             } else if (targetClass.equals(Anything.class)) {
                 result = mapfactory.createAnything();
-            } else if(targetClass.equals(ConnectionLabel.class)) {
+            } else if (targetClass.equals(ConnectionLabel.class)) {
                 result = urncorefactory.createConnectionLabel();
-            } else if(targetClass.equals(EvaluationRange.class)) {
+            } else if (targetClass.equals(EvaluationRange.class)) {
                 result = grlfactory.createEvaluationRange();
-            } else if(targetClass.equals(ContributionRange.class)) {
+            } else if (targetClass.equals(ContributionRange.class)) {
                 result = grlfactory.createContributionRange();
             } else {
                 // complex creations
@@ -450,7 +462,7 @@ public class ModelCreationFactory implements CreationFactory {
                     // static stub by default
                     result = mapfactory.createStub();
                     Stub stub = (Stub) result;
-                    
+
                     if (type == 1) {
                         // dynamic stub
                         stub.setDynamic(true);
@@ -458,7 +470,7 @@ public class ModelCreationFactory implements CreationFactory {
                         // pointcut stub
                         stub.setDynamic(true);
                         stub.setAopointcut(PointcutKind.REGULAR_LITERAL);
-                    } else if(type == 3) {
+                    } else if (type == 3) {
                         // pointcut replacement
                         stub.setDynamic(true);
                         stub.setAopointcut(PointcutKind.REPLACEMENT_LITERAL);
@@ -471,17 +483,17 @@ public class ModelCreationFactory implements CreationFactory {
                         stub.setDynamic(true);
                         stub.setSynchronization(true);
                         stub.setBlocking(true);
-                    } else if(type == 6) {
+                    } else if (type == 6) {
                         // Aspect Marker
                         stub.setAspect(AspectKind.REGULAR_LITERAL);
-                    } else if(type == 7) {
+                    } else if (type == 7) {
                         // Aspect Marker Entrance
                         stub.setAspect(AspectKind.ENTRANCE_LITERAL);
-                    } else if(type == 8) {
-                     // Aspect Marker Exit
+                    } else if (type == 8) {
+                        // Aspect Marker Exit
                         stub.setAspect(AspectKind.EXIT_LITERAL);
-                    } else if(type == 9) {
-                     // Aspect Marker Conditional
+                    } else if (type == 9) {
+                        // Aspect Marker Conditional
                         stub.setAspect(AspectKind.CONDITIONAL_LITERAL);
                     }
                 } else if (targetClass.equals(RespRef.class)) {
@@ -734,10 +746,10 @@ public class ModelCreationFactory implements CreationFactory {
         indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.flexibility")); //$NON-NLS-1$
         indicatorGroup.setIsRedesignCategory(true);
         urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
-        
-        // set default value. 
+
+        // set default value.
         StrategyEvaluationRangeHelper.setCurrentRange(urnspec, StrategyEvaluationPreferences.getVisualizeAsPositiveRange(null));
-        
+
         result = urnspec;
         return result;
     }

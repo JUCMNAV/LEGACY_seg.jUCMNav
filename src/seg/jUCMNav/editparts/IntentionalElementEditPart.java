@@ -11,6 +11,7 @@ import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.kpimodel.Indicator;
 import grl.kpimodel.KPIEvalValueSet;
+import grl.kpimodel.QualitativeMappings;
 
 import java.text.DecimalFormat;
 import java.util.Iterator;
@@ -123,7 +124,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         evaluationLabel.setVisible(false);
 
-        evaluationLabel.setSize(100, 16);  // resized from 60, 16
+        evaluationLabel.setSize(100, 16); // resized from 60, 16
         evaluationLabel.setTextAlignment(PositionConstants.LEFT);
         kpiEvaluationValueLabel = new Label();
         kpiEvaluationValueLabel.setForegroundColor(ColorManager.BLUE);
@@ -254,50 +255,49 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
-    	if (getParent() == null || getNode().getDef() == null)
-    		return;
-    	refreshTargetConnections();
-    	refreshSourceConnections();
-    	refreshVisuals();
+        if (getParent() == null || getNode().getDef() == null)
+            return;
+        refreshTargetConnections();
+        refreshSourceConnections();
+        refreshVisuals();
 
-    	int featureId = notification.getFeatureID(GrlPackage.class);
-    	if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE || featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY
-    			|| featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY || featureId == GrlPackage.INTENTIONAL_ELEMENT__IMPORTANCE) {
-    		EvaluationStrategyManager.getInstance().calculateEvaluation();
-    	}
+        int featureId = notification.getFeatureID(GrlPackage.class);
+        if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE || featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY
+                || featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY || featureId == GrlPackage.INTENTIONAL_ELEMENT__IMPORTANCE) {
+            EvaluationStrategyManager.getInstance().calculateEvaluation();
+        }
 
-    	EList linksDest = getNode().getDef().getLinksDest();
-    	if (linksDest != null){
-    		for (Iterator iter = linksDest.iterator(); iter.hasNext();) {
-    			ElementLink link = (ElementLink) iter.next();
-    			for (Iterator iRef = link.getRefs().iterator(); iRef.hasNext();) {
-    				LinkRef ref = (LinkRef) iRef.next();
-    				LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
-    				if (refEditPart != null) {
-    					refEditPart.refreshVisuals();
-    				}
-    			}
-    		} 
-    	}
+        EList linksDest = getNode().getDef().getLinksDest();
+        if (linksDest != null) {
+            for (Iterator iter = linksDest.iterator(); iter.hasNext();) {
+                ElementLink link = (ElementLink) iter.next();
+                for (Iterator iRef = link.getRefs().iterator(); iRef.hasNext();) {
+                    LinkRef ref = (LinkRef) iRef.next();
+                    LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
+                    if (refEditPart != null) {
+                        refEditPart.refreshVisuals();
+                    }
+                }
+            }
+        }
 
+        EList linksSrc = getNode().getDef().getLinksSrc();
+        if (linksSrc != null) {
+            for (Iterator iter = linksSrc.iterator(); iter.hasNext();) {
+                ElementLink link = (ElementLink) iter.next();
+                for (Iterator iRef = link.getRefs().iterator(); iRef.hasNext();) {
+                    LinkRef ref = (LinkRef) iRef.next();
+                    LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
+                    if (refEditPart != null) {
+                        refEditPart.refreshVisuals();
+                    }
+                }
+            }
+        }
 
-    	EList linksSrc = getNode().getDef().getLinksSrc();
-    	if (linksSrc != null){
-    		for (Iterator iter = linksSrc.iterator(); iter.hasNext();) {
-    			ElementLink link = (ElementLink) iter.next();
-    			for (Iterator iRef = link.getRefs().iterator(); iRef.hasNext();) {
-    				LinkRef ref = (LinkRef) iRef.next();
-    				LinkRefEditPart refEditPart = (LinkRefEditPart) getViewer().getEditPartRegistry().get(ref);
-    				if (refEditPart != null) {
-    					refEditPart.refreshVisuals();
-    				}
-    			}
-    		}
-    	}
-
-    	// we want the top level editpart to refresh its children so that the largest components are always in the back.
-    	if (notification.getEventType() == Notification.SET && getParent() != null)
-    		((URNDiagramEditPart) getParent()).notifyChanged(notification);
+        // we want the top level editpart to refresh its children so that the largest components are always in the back.
+        if (notification.getEventType() == Notification.SET && getParent() != null)
+            ((URNDiagramEditPart) getParent()).notifyChanged(notification);
     }
 
     /**
@@ -308,14 +308,14 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     protected void refreshVisuals() {
         if (evaluationLabel == null)
             return;
-        
+
         evaluationLabel.setForegroundColor(ColorManager.LINE);
-        
+
         int width = MetadataHelper.getIntMetaData(getNode(), MetadataHelper.WIDTH, 0); //$NON-NLS-1$
         int height = MetadataHelper.getIntMetaData(getNode(), MetadataHelper.HEIGHT, 0); //$NON-NLS-1$
-        
-        ((GrlNodeFigure)figure).setAutoResize(width == 0 || height == 0);
-        ((GrlNodeFigure)figure).setBounds(new Rectangle(getNode().getX(), getNode().getY(), width, height));
+
+        ((GrlNodeFigure) figure).setAutoResize(width == 0 || height == 0);
+        ((GrlNodeFigure) figure).setBounds(new Rectangle(getNode().getX(), getNode().getY(), width, height));
 
         setText();
 
@@ -332,7 +332,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef()
                         .isFilled());
                 ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_SOLID);
-                if( EvaluationStrategyManager.getInstance().isConditionResource( getNode().getDef() ) ) {
+                if (EvaluationStrategyManager.getInstance().isConditionResource(getNode().getDef())) {
                     figure.setForegroundColor(ColorManager.AQUA);
                 }
                 ((IntentionalElementPropertySource) getPropertySource()).setEvaluationStrategyView(false);
@@ -363,31 +363,31 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 // Get the evaluation value
                 Evaluation evaluation = EvaluationStrategyManager.getInstance().getDisplayEvaluationObject(getNode().getDef());
                 boolean ignored = EvaluationStrategyManager.getInstance().isIgnored(getNode().getDef());
-                
+
                 if (evaluation != null) {
                     if (StrategyEvaluationPreferences.getFillElements()) {
-                       String color, lineColor;
-                        if( ignored ) { // set to light gray color
-                        	color = "169,169,169"; //$NON-NLS-1$
+                        String color, lineColor;
+                        if (ignored) { // set to light gray color
+                            color = "169,169,169"; //$NON-NLS-1$
                         } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT) {
                             color = "0,255,255"; //$NON-NLS-1$
                         } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
                             color = "192,192,192"; //$NON-NLS-1$
                         } else {
-                        	int evalValue = evaluation.getEvaluation();
+                            int evalValue = evaluation.getEvaluation();
                             URNspec urn = null;
-                            if (getNode()!=null && getNode().getDef()!=null && getNode().getDef().getGrlspec()!=null)
+                            if (getNode() != null && getNode().getDef() != null && getNode().getDef().getGrlspec() != null)
                                 urn = getNode().getDef().getGrlspec().getUrnspec();
-                            // if 0,100, convert back to -100,100 to have the right color. 
-                            evalValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn,  evalValue);
+                            // if 0,100, convert back to -100,100 to have the right color.
+                            evalValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn, evalValue);
 
-                            
-                            if( EvaluationStrategyManager.getInstance().displayDifferenceMode() && !StrategyEvaluationPreferences.getVisualizeAsPositiveRange(urn)) {
-                            	evalValue /= 2;
+                            if (EvaluationStrategyManager.getInstance().displayDifferenceMode()
+                                    && !StrategyEvaluationPreferences.getVisualizeAsPositiveRange(urn)) {
+                                evalValue /= 2;
                             }
                             int partial = (Math.abs((Math.abs(evalValue) - IGRLStrategyAlgorithm.SATISFICED)) * 160 / IGRLStrategyAlgorithm.SATISFICED) + 96;
-                            partial = limit( partial );
-                            
+                            partial = limit(partial);
+
                             if (evalValue < IGRLStrategyAlgorithm.NONE) {
                                 color = "255," + partial + ",96"; //$NON-NLS-1$ //$NON-NLS-2$
                             } else {
@@ -395,10 +395,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             }
                         }
 
-                        if( EvaluationStrategyManager.getInstance().isConditionResource( getNode().getDef() ) ) {
-                        	lineColor = "0,100,100"; //$NON-NLS-1$ Color AQUA
+                        if (EvaluationStrategyManager.getInstance().isConditionResource(getNode().getDef())) {
+                            lineColor = "0,100,100"; //$NON-NLS-1$ Color AQUA
                         } else {
-                        	lineColor = "0,0,0"; //$NON-NLS-1$
+                            lineColor = "0,0,0"; //$NON-NLS-1$
                         }
 
                         if (evaluation.getStrategies() != null) {
@@ -412,17 +412,17 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                                 // Special case for indicators... no dashed lines as they are always initialized.
                                 ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_SOLID);
                             }
-                            
+
                         } else {
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_SOLID);
                         }
-                        
-                        if( ignored ){
-                        	lineColor = "69,69,69"; //$NON-NLS-1$
+
+                        if (ignored) {
+                            lineColor = "69,69,69"; //$NON-NLS-1$
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DOT);
                             evaluationLabel.setForegroundColor(ColorManager.GRAY);
                         }
-                        
+
                         ((IntentionalElementFigure) figure).setColors(lineColor, color, true);
                     }
 
@@ -435,23 +435,23 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         int val = evaluation.getEvaluation();
 
                         String evalStr = String.valueOf(val);
-                        
-                        if (evaluation.getEvalRange()!=null && (evaluation.getStrategies() == null || evaluation.getStrategies() == EvaluationStrategyManager.getInstance().getEvaluationStrategy()) )
-                        {
+
+                        if (evaluation.getEvalRange() != null
+                                && (evaluation.getStrategies() == null || evaluation.getStrategies() == EvaluationStrategyManager.getInstance()
+                                        .getEvaluationStrategy())) {
                             evalStr = evalStr + " [" + evaluation.getEvalRange().getStart() + ".." + evaluation.getEvalRange().getEnd() + "] "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         }
 
                         text = evalStr + text; //$NON-NLS-1$
-                        if( EvaluationStrategyManager.getInstance().displayDifferenceMode() ) {
-                        	text = '<' + text + '>'; // add angle brackets to signify strategy difference mode
+                        if (EvaluationStrategyManager.getInstance().displayDifferenceMode()) {
+                            text = '<' + text + '>'; // add angle brackets to signify strategy difference mode
                         }
-                        
+
                     }
                     if (GeneralPreferencePage.getGrlSatisfactionTextVisible())
                         evaluationLabel.setText(text);
-                    else 
+                    else
                         evaluationLabel.setText("");//$NON-NLS-1$
-                    
 
                     Point position = getNodeFigure().getLocation();
                     position.y = position.y - 16;
@@ -466,14 +466,20 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         String kpiText = "";//$NON-NLS-1$                       
                         if ((getNode()).getDef() != null && ((getNode()).getDef() instanceof Indicator)) {
                             EvaluationStrategyManager sm = EvaluationStrategyManager.getInstance();
-                            Indicator indicator = (Indicator)getNode().getDef();
+                            Indicator indicator = (Indicator) getNode().getDef();
                             KPIEvalValueSet set = sm.getActiveKPIEvalValueSet(indicator);
                             if (null != set) {
-                                //double kpiValue = set.getEvaluationValue();
-                                double kpiValue = sm.getActiveKPIValue(indicator);
-                                DecimalFormat df = new  DecimalFormat ("0.##"); //$NON-NLS-1$
-                                kpiText = df.format(kpiValue) + " " + set.getUnit(); //$NON-NLS-1$
-                                kpiEvaluationValueLabel.setText(kpiText);
+                                // double kpiValue = set.getEvaluationValue();
+
+                                if (set.getQualitativeEvaluationValue() != null && set.getQualitativeEvaluationValue().length() > 0) {
+                                    kpiEvaluationValueLabel.setText(set.getQualitativeEvaluationValue()); 
+                                }
+                                else {
+                                    double kpiValue = sm.getActiveKPIValue(indicator);
+                                    DecimalFormat df = new DecimalFormat("0.##"); //$NON-NLS-1$
+                                    kpiText = df.format(kpiValue) + " " + set.getUnit(); //$NON-NLS-1$
+                                    kpiEvaluationValueLabel.setText(kpiText);
+                                }
                                 Point kpiEvalPosition = getNodeFigure().getLocation();
                                 kpiEvalPosition.y = kpiEvalPosition.y - 28;
 
@@ -483,57 +489,57 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         }
                     }
                     if (evalType == IGRLStrategyAlgorithm.EVAL_CONDITION) {
-                    	
+
                     }
 
-                    if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
+                    if (evalType == IGRLStrategyAlgorithm.EVAL_QUALITATIVE || evalType == IGRLStrategyAlgorithm.EVAL_MIXED
+                            || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                         // Set the label icon
-                    	boolean use0to100 = false;
-                        if (getNode()!=null && getNode().getDef()!=null && getNode().getDef().getGrlspec()!=null) {
+                        boolean use0to100 = false;
+                        if (getNode() != null && getNode().getDef() != null && getNode().getDef().getGrlspec() != null) {
                             use0to100 = StrategyEvaluationRangeHelper.getCurrentRange(getNode().getDef().getGrlspec().getUrnspec());
                         }
 
-                    	if (!use0to100){ // Use a -100..100 scale
-                    		if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.DENIED) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/denied.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() > IGRLStrategyAlgorithm.DENIED && evaluation.getEvaluation() < IGRLStrategyAlgorithm.NONE) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/wdenied.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/none.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() > IGRLStrategyAlgorithm.NONE && evaluation.getEvaluation() < IGRLStrategyAlgorithm.SATISFICED) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/wsatisficed.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.SATISFICED) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/satisficed.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/conflict.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/undecided.gif")); //$NON-NLS-1$
-                    		}
-                    	}
-                    	else { // Use a 0..100 scale
-                    		if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.DENIED_0) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/denied.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() > IGRLStrategyAlgorithm.DENIED_0 && evaluation.getEvaluation() < IGRLStrategyAlgorithm.NONE_0) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/wdenied.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE_0) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/none.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() > IGRLStrategyAlgorithm.NONE_0 && evaluation.getEvaluation() < IGRLStrategyAlgorithm.SATISFICED_0) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/wsatisficed.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.SATISFICED_0) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/satisficed.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT_0) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/conflict.gif")); //$NON-NLS-1$
-                    		} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED_0) {
-                    			evaluationImg = (JUCMNavPlugin.getImage("icons/undecided.gif")); //$NON-NLS-1$
-                    		}
-                    	}
-                    	
+                        if (!use0to100) { // Use a -100..100 scale
+                            if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.DENIED) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/denied.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() > IGRLStrategyAlgorithm.DENIED && evaluation.getEvaluation() < IGRLStrategyAlgorithm.NONE) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/wdenied.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/none.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() > IGRLStrategyAlgorithm.NONE && evaluation.getEvaluation() < IGRLStrategyAlgorithm.SATISFICED) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/wsatisficed.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.SATISFICED) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/satisficed.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/conflict.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/undecided.gif")); //$NON-NLS-1$
+                            }
+                        } else { // Use a 0..100 scale
+                            if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.DENIED_0) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/denied.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() > IGRLStrategyAlgorithm.DENIED_0 && evaluation.getEvaluation() < IGRLStrategyAlgorithm.NONE_0) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/wdenied.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.NONE_0) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/none.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() > IGRLStrategyAlgorithm.NONE_0
+                                    && evaluation.getEvaluation() < IGRLStrategyAlgorithm.SATISFICED_0) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/wsatisficed.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.SATISFICED_0) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/satisficed.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT_0) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/conflict.gif")); //$NON-NLS-1$
+                            } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED_0) {
+                                evaluationImg = (JUCMNavPlugin.getImage("icons/undecided.gif")); //$NON-NLS-1$
+                            }
+                        }
+
                         if (evaluationImg != null && GeneralPreferencePage.getGrlSatisfactionIconVisible()) {
                             evaluationLabel.setIcon(evaluationImg);
-                        }
-                        else
+                        } else
                             evaluationLabel.setIcon(null);
-                        
+
                     } else {
                         setUrnLinkIcon(getNode(), elem);
 
@@ -554,37 +560,34 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         // (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
 
-    private int limit( int value ) {
-    	if( value < 0 ) {
-    		value = 0;
-    	} else if( value > 255 ) {
-    		value = 255;
-    	}
-    	return value;
+    private int limit(int value) {
+        if (value < 0) {
+            value = 0;
+        } else if (value > 255) {
+            value = 255;
+        }
+        return value;
     }
-    
+
     /**
      * Set the icon of the intentional element's label in case in has URN links.
      * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
      */
-	private void setUrnLinkIcon(IntentionalElementRef ref, IntentionalElement elem) {
-		if (elem.getFromLinks().size() + ref.getFromLinks().size() > 0) {
-			if (elem.getToLinks().size() + ref.getToLinks().size() > 0)
-				evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink-bidir.gif")); //$NON-NLS-1$
-			else
-				evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
-		}
-		else 
-		{
-			if (elem.getToLinks().size() + ref.getToLinks().size() > 0)
-				evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink-reversed.gif")); //$NON-NLS-1$
-			else
-				evaluationLabel.setIcon(null);
-		}
-	}
+    private void setUrnLinkIcon(IntentionalElementRef ref, IntentionalElement elem) {
+        if (elem.getFromLinks().size() + ref.getFromLinks().size() > 0) {
+            if (elem.getToLinks().size() + ref.getToLinks().size() > 0)
+                evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink-bidir.gif")); //$NON-NLS-1$
+            else
+                evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink.gif")); //$NON-NLS-1$
+        } else {
+            if (elem.getToLinks().size() + ref.getToLinks().size() > 0)
+                evaluationLabel.setIcon(JUCMNavPlugin.getImage("icons/urnlink-reversed.gif")); //$NON-NLS-1$
+            else
+                evaluationLabel.setIcon(null);
+        }
+    }
 
-	
     /**
      * Refresh the successor edit parts.
      */
@@ -603,7 +606,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      */
     private void setText() {
         if (getNode().getDef() != null) {
-            String stereotypes = UrnMetadata.getAllStereotypes( getNode(), getNode().getDef());
+            String stereotypes = UrnMetadata.getAllStereotypes(getNode(), getNode().getDef());
             String name = getNode().getDef().getName();
 
             String importance = getImportanceSuffix(getNode().getDef().getImportanceQuantitative(), getNode().getDef().getImportance());
