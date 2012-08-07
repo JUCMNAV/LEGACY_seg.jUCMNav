@@ -12,6 +12,7 @@ import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 
+import java.awt.print.PrinterIOException;
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.Vector;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.eclipse.draw2d.PrintFigureOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -31,12 +33,14 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
+import seg.jUCMNav.model.commands.create.AddMetadataCommand;
 import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
 import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urn.URNspec;
 import urncore.IURNContainerRef;
+import urncore.Metadata;
 
 /**
  * This class import a GRL catalog from an xml file
@@ -171,7 +175,41 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             } else {
                 throw new SAXException("Could not create IntentionalElementRef " + attrs.getValue("name")); //$NON-NLS-1$ //$NON-NLS-2$
             }
-        } else if ("dependency".equals(qName)) { //$NON-NLS-1$
+        } else if ( "metadata".equals(qName) ) { //$NON-NLS-1$
+            if ( state != 1 ) 
+            {
+              System.out.println( "state problem!!!" );  
+              throw new SAXException("<metadata> not at the right place..."); //$NON-NLS-1$
+            } 
+            else 
+            {
+                IntentionalElement IE = (IntentionalElement) map.get( attrs.getValue( "elem" ) ); //$NON-NLS-1$
+                
+                if ( IE == null )
+                {   
+                    System.out.println( "IE problem!!!" );
+                    throw new SAXException("Invalid intentionalelement in containment link"); //$NON-NLS-1$
+                }
+              
+                Metadata metadataObject = (Metadata) ModelCreationFactory.getNewObject( urn, Metadata.class );
+              
+                //String nameString = (String) map.get( attrs.getValue( "name" ) ); //$NON-NLS-1$
+                //String valueString = (String) map.get( attrs.getValue( "value" ) ); //$NON-NLS-1$
+              
+                metadataObject.setName( attrs.getValue( "name" ) ); //$NON-NLS-1$
+                metadataObject.setValue( attrs.getValue( "value" ) ); //$NON-NLS-1$
+              
+                /*ArrayList<Metadata> MD = ( ArrayList<Metadata> ) map.get( attrs.getValue( "metadata" ) );
+                Metadata [] MDArray = MD.toArray( new Metadata[ MD.size() ] );
+              
+                if ( MDArray == null )
+                    throw new SAXException("Invalid metadata in containment link"); //$NON-NLS-1$*/
+                
+                AddMetadataCommand metadataCommand = new AddMetadataCommand( IE, metadataObject, null );
+                metadataCommand.execute();               
+            }
+        
+      } else if ("dependency".equals(qName)) { //$NON-NLS-1$
             if (state != 2)
             {
                 throw new SAXException("<dependency> not at the right place..."); //$NON-NLS-1$
@@ -338,7 +376,15 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             {
                 throw new SAXException("<actor-IE-link-def> not at the right place..."); //$NON-NLS-1$
             }
-        } else {
+        } /*else if ( "metadata".equals( qName ) ) { //$NON-NLS-1$
+              if ( state == 4 )
+                  state = 5;
+              else
+              {
+                  throw new SAXException("<metadata> not at the right place..."); //$NON-NLS-1$
+              }
+        }*/
+        else {
             throw new SAXException("Could not parse element:" + qName); //$NON-NLS-1$
         }
     }
