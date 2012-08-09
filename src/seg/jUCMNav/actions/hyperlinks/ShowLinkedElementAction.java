@@ -12,7 +12,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.model.commands.metadata.ChangeHyperlinkCommand;
-import seg.jUCMNav.model.commands.metadata.ShowLinkedElementCommand;
+//import seg.jUCMNav.model.commands.metadata.ShowLinkedElementCommand;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.wizards.HyperlinkDialog;
 import urn.URNspec;
@@ -77,7 +77,7 @@ public class ShowLinkedElementAction extends URNSelectionAction
 
         //if (url != null && url.length() > 0) {
         //    comm = new ChangeHyperlinkCommand(urnspec, element, url);
-        comm = new ShowLinkedElementCommand(urnspec, element);
+//        comm = new ShowLinkedElementCommand(urnspec, element);
         //    return comm;
         //} else
             return null;
