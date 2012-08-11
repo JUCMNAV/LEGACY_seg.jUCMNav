@@ -1,5 +1,6 @@
 package regulations.importExcelSheet;
 
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -226,6 +227,11 @@ public class XMLFileSimple
     public ArrayList <String> getDecomposition()
     {
         return Decomposition;
+    }
+    
+    public ArrayList <String> getRefinedDecomposition()
+    {
+        return RefinedDecomposition;
     }
   
     public ArrayList <ElementDefinition> getElementDefinitionList()
@@ -531,7 +537,6 @@ public class XMLFileSimple
             
             Element decompositionElement;
             Attr namedecompAttr, descriptiondecompAttr, srciddecompAttr, destiddecompAttr;
-            int decompositionCounter = 0;
             
             for ( int i = 0; i < DecompositionLinkDefinitionList.size(); i++ )
             {
@@ -553,14 +558,11 @@ public class XMLFileSimple
                 destiddecompAttr = doc.createAttribute( "destid" );
                 destiddecompAttr.setValue( DecompositionLinkDefinitionList.get( i ).getDestid() );
                 decompositionElement.setAttributeNode( destiddecompAttr );
-                
-                decompositionCounter++;
             }
             
             Element contributionElement;
             Attr namecontrAttr, descriptioncontrAttr, srcidcontrAttr, destidcontrAttr, contributiontypeAttr, 
             quantitativeContributionAttr, correlationAttr;
-            int contributionCounter = 0;
             
             for ( int i = 0; i < ContributionLinkDefinitionList.size(); i++ )
             {
@@ -594,21 +596,21 @@ public class XMLFileSimple
                 correlationAttr = doc.createAttribute( "correlation" );
                 correlationAttr.setValue( ContributionLinkDefinitionList.get( i ).getCorrelation() );
                 contributionElement.setAttributeNode( correlationAttr );
-                
-                contributionCounter++;
             }
             
-            //Write the content into xml file
+            // Write the content into xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult grlResult = new StreamResult(new File("..\\cvsImport\\src\\file.grl"));
-            StreamResult xmlResult = new StreamResult(new File("..\\cvsImport\\src\\file.xml"));
+            
+            // Name of the output file will be file.grl
+            StreamResult grlResult = new StreamResult(new File("..\\cvsImportII\\src\\file.grl"));
+            StreamResult xmlResult = new StreamResult(new File("..\\cvsImportII\\src\\file.xml"));
      
-            //Output to console for testing
-            //StreamResult result = new StreamResult(System.out);
-            //System.out.println( "\nDecomposition quantity is : " + decompositionCounter );
-            //System.out.println( "\nContribution quantity is : " + contributionCounter );
+            // Output to console for testing
+            // StreamResult result = new StreamResult(System.out);
+            // System.out.println( "\nDecomposition quantity is : " + decompositionCounter );
+            // System.out.println( "\nContribution quantity is : " + contributionCounter );
      
             transformer.transform(source, grlResult);
             transformer.transform(source, xmlResult);
@@ -652,8 +654,20 @@ public class XMLFileSimple
             maAttr4 = new MetadataAttribute();
             maAttr5 = new MetadataAttribute();
             mdarray = new MetadataAttribute[ metadataArraySize ];
-            ID = 1 + rdNumber.nextInt(1000);  
-            stringID = Integer.toString( ID );
+            //ID = 1 + rdNumber.nextInt(1000);  
+            //stringID = Integer.toString( ID );
+            //IDList.add( stringID );
+            
+            //To create a random number for the new abstract intentional element that is unique in whole xml file
+            while ( true ) 
+            {
+                ID = 1 + rdNumber.nextInt(1000);                   
+                stringID = Integer.toString( ID );
+                
+                if ( !IDList.contains( stringID ) )
+                  break;
+            }
+            
             IDList.add( stringID );
           
             ieAttr.setID( stringID );
@@ -711,7 +725,7 @@ public class XMLFileSimple
         
         for ( int i = 0; i < Decomposition.size(); i++ )
         {
-            if ( ! Decomposition.get( i ).equals( "" ) )
+            if ( !Decomposition.get( i ).equals( "" ) )
             {
                 //To create a random number for the new abstract intentional element that is unique in whole xml file
                 while ( true ) 
@@ -752,14 +766,14 @@ public class XMLFileSimple
     private void createContributionList()
     {
         Random rdNumber = new Random();
-        int ID, fatherIndex = 0;
+        int ID, fatherIndex = 0, foundCounter = 0;
         String stringID, fatherName;
         ContributionAttribute contrbAttr;
         ContributionLinkDefinitionList = new ArrayList<ContributionAttribute>();
         
         for ( int i = 0; i < Importance.size(); i++ )
         {
-            if ( ! Importance.get( i ).equals( "" ) )
+            if ( !Importance.get( i ).equals( "" ) )
             {
                 //To create a random number for the new abstract intentional element that is unique in whole xml file
                 while ( true ) 
@@ -786,24 +800,29 @@ public class XMLFileSimple
                     if ( RelationList.get( j ).getName().equals( fatherName ) )
                     {
                         fatherIndex = j;
+                        foundCounter++;
                         break;
                     }                  
                 }
               
                 contrbAttr.setDestid( ElementDefinitionList.get( fatherIndex ).getIntentionalElementAttribute().getID() );
                 
-                if ( Integer.parseInt( Importance.get( i ) ) < 40  )
+                //need to be revised
+                if ( ContributionValueList.get( i ) < 40  )
                     contrbAttr.setContributionType( "Help" );
-                else if ( Integer.parseInt( Importance.get( i ) ) > 40 )
+                else if ( ContributionValueList.get( i ) > 40 )
                     contrbAttr.setContributionType( "SomePositive" );
+                //to this point
                 
-                contrbAttr.setQuantitativeContribution( Importance.get( i ) );
+                contrbAttr.setQuantitativeContribution( ContributionValueList.get( i ).toString() );
                 
                 contrbAttr.setCorrelation( "false" );
               
                 ContributionLinkDefinitionList.add( contrbAttr );
             }
         }
+        
+        System.out.println("\nfoundCounter for contribution is : " + foundCounter + "\n");
     }
     
     public void calculateContributionValueList()
@@ -863,9 +882,16 @@ public class XMLFileSimple
                         contributionSum = contributionSum +  ContributionValueList.get( siblingsList.get( j ) );
                     
                     ContributionValueList.remove( i );
-                    ContributionValueList.add( i, ( 100 - contributionSum ) + contributionValue );
+                    ContributionValueList.add( i, 100 - contributionSum );
                 }
             }//End of if
+            
+            else //The element does not have a contribution, it has a decomposition. Thus 0 must be added to its related index
+              // in ContributionValueList
+            {
+                ContributionValueList.remove( i );
+                ContributionValueList.add( i, 0 );
+            }
             
             contributionSum = 0;
             contributionValue = 0;

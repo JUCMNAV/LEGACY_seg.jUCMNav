@@ -15,13 +15,15 @@ import urncore.URNmodelElement;
  * 
  * @author rouzbahan
  */
-public class AddMetadataCommand extends Command implements JUCMNavCommand {
+public class AddMetadataCommand extends Command implements JUCMNavCommand 
+{
     private URNmodelElement urnelem = null;
-    private URNspec urnspec = null;
-    private Metadata[] oldMetadataArray;
-    private Metadata[] newMetadataArray;
+    private URNspec urnspec = null;    
+    private Metadata[] mdArray;
+    private Metadata mdElement;
 
-    public AddMetadataCommand(EObject obj, Metadata metadataArray, String label) {
+    public AddMetadataCommand(EObject obj, Metadata metadataArray, String label) 
+    {
         if ( (obj instanceof URNmodelElement) || (obj instanceof URNspec) ) {
             
             if(obj instanceof URNmodelElement)
@@ -29,22 +31,24 @@ public class AddMetadataCommand extends Command implements JUCMNavCommand {
             else
                 this.urnspec = (URNspec) obj;
             
-            //this.newMetadataArray = metadataArray;
+            mdElement = metadataArray;
             
-            /*if( label != null)
+            if( label != null)
                 setLabel( label );
             else
-                setLabel(Messages.getString("ChangeMetadataCommand.ChangeURNmodelElementMetadata")); //$NON-NLS-1$*/
+                setLabel(Messages.getString("AddMetadataCommand.AddURNmodelElementMetadata")); //$NON-NLS-1$
         }
     }
 
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
-    public void execute() {
-        /*EList metadata = this.getMetadata();
-        oldMetadataArray = (Metadata[]) metadata.toArray(new Metadata[0]);
-        redo();*/
+    public void execute() 
+    {
+        EList metadata = this.getMetadata();
+        
+        mdArray = (Metadata[]) metadata.toArray(new Metadata[0]);
+        redo();
     }
 
     /*
@@ -52,16 +56,14 @@ public class AddMetadataCommand extends Command implements JUCMNavCommand {
      * 
      * @see org.eclipse.gef.commands.Command#redo()
      */
-    public void redo() {
-        /*testPreConditions();
-
+    public void redo() 
+    {
+        testPreConditions();
+        
         EList metadata = this.getMetadata();
-        metadata.clear();
-        for (int i = 0; i < newMetadataArray.length; i++) {
-            metadata.add(newMetadataArray[i]);
-        }
-
-        testPostConditions();*/
+        metadata.add(this.mdElement);
+        
+        testPostConditions();
     }
 
     /*
@@ -69,8 +71,9 @@ public class AddMetadataCommand extends Command implements JUCMNavCommand {
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
-    public void testPostConditions() {
-        //assert urnelem != null || urnspec != null : "post no element to name!"; //$NON-NLS-1$
+    public void testPostConditions() 
+    {
+        assert urnelem != null || urnspec != null : "post no element to name!"; //$NON-NLS-1$
     }
 
     /*
@@ -78,13 +81,15 @@ public class AddMetadataCommand extends Command implements JUCMNavCommand {
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
-    public void testPreConditions() {
-        //assert urnelem != null || urnspec != null : "pre no element to name!"; //$NON-NLS-1$
+    public void testPreConditions() 
+    {
+        assert urnelem != null || urnspec != null : "pre no element to name!"; //$NON-NLS-1$
     }
 
-    /**
+    /** 
      * @see org.eclipse.gef.commands.Command#undo()
      */
+    // There is no need for undo in this command
     public void undo() {
         /*testPostConditions();
 
@@ -97,7 +102,8 @@ public class AddMetadataCommand extends Command implements JUCMNavCommand {
         testPreConditions();*/
     }
     
-    private EList getMetadata() {
+    private EList getMetadata() 
+    {
         if( urnelem != null )
             return( urnelem.getMetadata() );
         else
