@@ -1,6 +1,3 @@
-package regulations.importExcelSheet;
-
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -382,7 +379,7 @@ public class XMLFileSimple
         return commonString;
     }*/
 
-    public void createXMLFile()
+    public void createXMLFile( String saveURI )
     {
         try
         {
@@ -600,14 +597,13 @@ public class XMLFileSimple
             DOMSource source = new DOMSource(doc);
             
             // Name of the output file will be file.grl
-            StreamResult grlResult = new StreamResult(new File("..\\file.grl"));
-            StreamResult xmlResult = new StreamResult(new File("..\\file.xml"));
+            StreamResult grlResult = new StreamResult(new File(saveURI + "file.grl"));
+            StreamResult xmlResult = new StreamResult(new File(saveURI + "file.xml"));
      
             // Output to console for testing
-            // StreamResult result = new StreamResult(System.out);
-            // System.out.println( "\nDecomposition quantity is : " + decompositionCounter );
-            // System.out.println( "\nContribution quantity is : " + contributionCounter );
-     
+            StreamResult result = new StreamResult(System.out);
+            transformer.transform(source, result);
+            
             transformer.transform(source, grlResult);
             transformer.transform(source, xmlResult);
             
@@ -650,10 +646,7 @@ public class XMLFileSimple
             maAttr4 = new MetadataAttribute();
             maAttr5 = new MetadataAttribute();
             mdarray = new MetadataAttribute[ metadataArraySize ];
-            //ID = 1 + rdNumber.nextInt(1000);  
-            //stringID = Integer.toString( ID );
-            //IDList.add( stringID );
-            
+                        
             //To create a random number for the new abstract intentional element that is unique in whole xml file
             while ( true ) 
             {

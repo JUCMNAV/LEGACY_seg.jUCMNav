@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="seg.jUCMNav.URNImport">
+      <importer
+            class="CSVLegislationImport"
+            extension="csv"
+            id="LegislationImportPlugin.importer"
+            importInSelectedFile="false"
+            name="CSV Legislation Import (*.csv)"
+            useStream="false">
+      </importer>
+   </extension>
+
+</plugin>
