@@ -198,7 +198,6 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
             }
             evaluationImg = (JUCMNavPlugin.getImage("icons/Actor16.gif")); //$NON-NLS-1$
             evaluationLabel.setText(""); //$NON-NLS-1$
-
             if (getParent() != null && ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                 // Calculate the actor evaluation
                 String evaluation = calculateEvaluation();

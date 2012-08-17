@@ -19,6 +19,11 @@ public class ActorFigure extends GrlNodeFigure {
         super();
     }
 
+    protected boolean shouldHideInnerText()
+    {
+        return true;
+    }
+    
     /*
      * (non-Javadoc)
      * 
