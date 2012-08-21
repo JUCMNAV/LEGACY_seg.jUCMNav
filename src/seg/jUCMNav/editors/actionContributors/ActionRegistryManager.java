@@ -92,6 +92,9 @@ import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
 import seg.jUCMNav.actions.hyperlinks.AddHyperlinkAction;
+import seg.jUCMNav.actions.ShowLinkedElementAction;
+import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
+import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
 import seg.jUCMNav.actions.hyperlinks.ChangeHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.DeleteHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.NavigateHyperlinkAction;
@@ -722,6 +725,18 @@ public class ActionRegistryManager implements IDisposable {
 
         action = new AddHyperlinkAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.AddHyperlinkAction")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ShowLinkedElementAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElement")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ShowLinkedElementLevelTwoAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementLevelTwo")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ShowLinkedElementLevelThreeAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementLevelThree")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new NavigateHyperlinkAction(editor);

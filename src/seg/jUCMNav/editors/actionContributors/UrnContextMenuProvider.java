@@ -72,6 +72,9 @@ import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
 import seg.jUCMNav.actions.hyperlinks.AddHyperlinkAction;
+import seg.jUCMNav.actions.ShowLinkedElementAction;
+import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
+import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
 import seg.jUCMNav.actions.hyperlinks.ChangeHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.DeleteHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.NavigateHyperlinkAction;
@@ -388,13 +391,22 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[1] = getActionRegistry().getAction(NavigateHyperlinkAction.NAVIGATEHYPERLINK);
         actions[2] = getActionRegistry().getAction(ChangeHyperlinkAction.CHANGEHYPERLINK);
         actions[3] = getActionRegistry().getAction(DeleteHyperlinkAction.DELETEHYPERLINK);
-
+        
         submenu = new SubmenuAction(
                 actions,
                 Messages.getString("UrnContextMenuProvider.Hyperlink"), Messages.getString("UrnContextMenuProvider.Hyperlink"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
-
+        
+        actions = new IAction[3];
+        actions[0] = getActionRegistry().getAction(ShowLinkedElementAction.SHOWLINKEDELEMENT);
+        actions[1] = getActionRegistry().getAction(ShowLinkedElementLevelTwoAction.SHOWLINKEDELEMENTLEVELTWO);
+        actions[2] = getActionRegistry().getAction(ShowLinkedElementLevelThreeAction.SHOWLINKEDELEMENTLEVELTHREE);
+        
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.LinkedElement"), Messages.getString("UrnContextMenuProvider.LinkedElement"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GROUP_UNCOMMON, submenu);
+        
         action = getActionRegistry().getAction(ManageConcernsAction.MANAGECONCERNS);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);
