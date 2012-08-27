@@ -59,6 +59,8 @@ import seg.jUCMNav.actions.SetNumericalImportanceAction;
 import seg.jUCMNav.actions.SetQualitativeContributionAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
+import seg.jUCMNav.actions.ShowContainingElementAction;
+import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
 import seg.jUCMNav.actions.SubmenuAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
@@ -398,12 +400,20 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
         
-        actions = new IAction[3];
+        actions = new IAction[4];
         actions[0] = getActionRegistry().getAction(ShowLinkedElementAction.SHOWLINKEDELEMENT);
         actions[1] = getActionRegistry().getAction(ShowLinkedElementLevelTwoAction.SHOWLINKEDELEMENTLEVELTWO);
         actions[2] = getActionRegistry().getAction(ShowLinkedElementLevelThreeAction.SHOWLINKEDELEMENTLEVELTHREE);
+        actions[3] = getActionRegistry().getAction(ShowEvaluationIntentionalElementAction.SHOWEVALUATIONINTENTIONALELEMENT);
         
         submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.LinkedElement"), Messages.getString("UrnContextMenuProvider.LinkedElement"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GROUP_UNCOMMON, submenu);
+        
+        actions = new IAction[1];
+        actions[0] = getActionRegistry().getAction(ShowContainingElementAction.SHOWCONTAININGELEMENT);
+        
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.ContainingElement"), Messages.getString("UrnContextMenuProvider.ContainingElement"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
         

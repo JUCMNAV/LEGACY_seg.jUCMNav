@@ -77,6 +77,8 @@ import seg.jUCMNav.actions.SetNumericalImportanceAction;
 import seg.jUCMNav.actions.SetQualitativeContributionAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
+import seg.jUCMNav.actions.ShowContainingElementAction;
+import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
@@ -737,6 +739,14 @@ public class ActionRegistryManager implements IDisposable {
         
         action = new ShowLinkedElementLevelThreeAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementLevelThree")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ShowContainingElementAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowContainingElement")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ShowEvaluationIntentionalElementAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowEvaluationIntentionalElement")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new NavigateHyperlinkAction(editor);

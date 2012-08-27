@@ -308,41 +308,47 @@ public class ShowLinkedElementLevelTwoCommand extends Command implements JUCMNav
         addedIntentionalElementRefList = new ArrayList<IntentionalElementRef>();
         finalIntentionalElementRefList = new ArrayList<IntentionalElementRef>();
         
-        for (int i = 0; i < srcGRLLinkableElementList.size(); i++)
+        if (levelTwoSrc == false)
         {
-            ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
-            ieRef.setDef( (IntentionalElement) srcGRLLinkableElementList.get(i));
+            for (int i = 0; i < srcGRLLinkableElementList.size(); i++)
+            {
+                ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+                ieRef.setDef( (IntentionalElement) srcGRLLinkableElementList.get(i));
             
-            if (currentIntentionalElementRefList.contains(ieRef))
-            {
-                finalIntentionalElementRefList.add(currentIntentionalElementRefList.get(currentIntentionalElementRefList.indexOf(ieRef)));
-                continue;
-            }
-            else
-            {
-                addedIntentionalElementRefList.add(ieRef);
-                finalIntentionalElementRefList.add(ieRef);
-                AddIntentionalElementRefCommand comm1 = new AddIntentionalElementRefCommand(grlGraph, ieRef);
-                comm1.execute();
+                if (currentIntentionalElementRefList.contains(ieRef))
+                {
+                    finalIntentionalElementRefList.add(currentIntentionalElementRefList.get(currentIntentionalElementRefList.indexOf(ieRef)));
+                    continue;
+                }
+                else
+                {
+                    addedIntentionalElementRefList.add(ieRef);
+                    finalIntentionalElementRefList.add(ieRef);
+                    AddIntentionalElementRefCommand comm1 = new AddIntentionalElementRefCommand(grlGraph, ieRef);
+                    comm1.execute();
+                }
             }
         }
         
-        for (int i = 0; i < destGRLLinkableElementList.size(); i++)
+        if (levelTwoDest == false)
         {
-            ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
-            ieRef.setDef( (IntentionalElement) destGRLLinkableElementList.get(i));            
-           
-            if (currentIntentionalElementRefList.contains(ieRef))
+            for (int i = 0; i < destGRLLinkableElementList.size(); i++)
             {
-                finalIntentionalElementRefList.add(currentIntentionalElementRefList.get(currentIntentionalElementRefList.indexOf(ieRef)));
-                continue;
-            }
-            else
-            {
-                addedIntentionalElementRefList.add(ieRef);
-                finalIntentionalElementRefList.add(ieRef);
-                AddIntentionalElementRefCommand comm1 = new AddIntentionalElementRefCommand(grlGraph, ieRef);
-                comm1.execute();
+                ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+                ieRef.setDef( (IntentionalElement) destGRLLinkableElementList.get(i));            
+               
+                if (currentIntentionalElementRefList.contains(ieRef))
+                {
+                    finalIntentionalElementRefList.add(currentIntentionalElementRefList.get(currentIntentionalElementRefList.indexOf(ieRef)));
+                    continue;
+                }
+                else
+                {
+                    addedIntentionalElementRefList.add(ieRef);
+                    finalIntentionalElementRefList.add(ieRef);
+                    AddIntentionalElementRefCommand comm1 = new AddIntentionalElementRefCommand(grlGraph, ieRef);
+                    comm1.execute();
+                }
             }
         }
         
@@ -485,6 +491,7 @@ public class ShowLinkedElementLevelTwoCommand extends Command implements JUCMNav
             RemoveURNmodelElementCommand comm3 = new RemoveURNmodelElementCommand(listOfIntentionalElementRefs.get(i));
             comm3.execute();
         }
+        
         
         finalIntentionalElementRefList.clear();
         addedIntentionalElementRefList.clear();
