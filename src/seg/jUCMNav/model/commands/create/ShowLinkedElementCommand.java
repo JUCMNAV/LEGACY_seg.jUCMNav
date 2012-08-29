@@ -43,7 +43,11 @@ public class ShowLinkedElementCommand extends Command implements JUCMNavCommand
     
     private List<GRLLinkableElement> srcGRLLinkableElementList; // List of the GRLLinkable(IntentionalElement) Elements that the selected element is the source for it
     private List<GRLLinkableElement> destGRLLinkableElementList; // List of the GRLLinkable(IntentionalElement) Elements that the selected element is the destination for it
-        
+    
+    private ArrayList<IntentionalElement> LogicallyConnectedElementList;
+    private ArrayList<IntentionalElement> inGraphLogicalElementList;
+    private ArrayList<IntentionalElement> missingConnectedIntentionalElementList;
+    
     private List<ElementLink> linksSourceList;
     private List<ElementLink> linksDestinationList;   
     
@@ -101,11 +105,19 @@ public class ShowLinkedElementCommand extends Command implements JUCMNavCommand
         
         srcGRLLinkableElementList = new ArrayList<GRLLinkableElement>();
         destGRLLinkableElementList = new ArrayList<GRLLinkableElement>();
-        
+        LogicallyConnectedElementList = new ArrayList<IntentionalElement>();
+                
         // Initializing ElementLink lists to find related intentional elements
         linksSourceList = new ArrayList<ElementLink>(chosenIntentionalElement.getLinksSrc());
         linksDestinationList = new ArrayList<ElementLink>(chosenIntentionalElement.getLinksDest());
+        
+        for (ElementLink EL : linksSourceList)
+            LogicallyConnectedElementList.add((IntentionalElement)EL.getDest());
                 
+        for (ElementLink EL : linksDestinationList)
+            LogicallyConnectedElementList.add((IntentionalElement)EL.getSrc());
+                
+        /*        
         // Creating list of intentional elements that the element is the source of them and its ref is not in the refs list of the graph
         for (ElementLink EL : linksSourceList)            
         {
@@ -140,7 +152,7 @@ public class ShowLinkedElementCommand extends Command implements JUCMNavCommand
                   destGRLLinkableElementList.add( (IntentionalElement) EL.getSrc());
             found = false;
         }
-        
+        */
         redo();   
     }
 
@@ -154,8 +166,43 @@ public class ShowLinkedElementCommand extends Command implements JUCMNavCommand
         testPreConditions();
         
         IntentionalElementRef ieRef;        
-        addedIntentionalElementRefList = new ArrayList<IntentionalElementRef>();
+                
+        // Finding all refs in the graph at the begining of any redo
+        currentIntentionalElementRefList = new ArrayList<IntentionalElementRef>(grlGraph.getNodes());
         
+        // Finding the definition of all the refs in the graph
+        inGraphLogicalElementList = new ArrayList<IntentionalElement>();
+        for (IntentionalElementRef IER : currentIntentionalElementRefList)
+            inGraphLogicalElementList.add(IER.getDef());
+        
+        // Removing the selected node from the inGraphLogicalElementList
+        inGraphLogicalElementList.remove(chosenIntentionalElement);
+        
+        // Finding and adding missing connected Intentional Elements to the list below
+        missingConnectedIntentionalElementList = new ArrayList<IntentionalElement>();
+        for (IntentionalElement IE : LogicallyConnectedElementList)
+            if (!inGraphLogicalElementList.contains(IE))
+                missingConnectedIntentionalElementList.add(IE);
+        
+        // Creating refs for the missingConnectedInentionalElementList and adding them to graph and also to the list of addedIntentionalElementRefList
+        addedIntentionalElementRefList = new ArrayList<IntentionalElementRef>();
+        for (IntentionalElement IE : missingConnectedIntentionalElementList)
+        {
+            ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+            ieRef.setDef( (IntentionalElement) IE);
+            addedIntentionalElementRefList.add(ieRef);
+            AddIntentionalElementRefCommand cmd = new AddIntentionalElementRefCommand(grlGraph, ieRef);
+            cmd.execute();
+        }
+        
+        // Adding all the missing links between all the nodes and all the added nodes in the graph
+        for (IntentionalElementRef IER : addedIntentionalElementRefList)
+        {
+            CreateAllLinkRefCommand cmd = new CreateAllLinkRefCommand(IER);
+            cmd.execute();
+        }
+        
+        /*
         for (int i = 0; i < srcGRLLinkableElementList.size(); i++)
         {
             ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
@@ -188,7 +235,8 @@ public class ShowLinkedElementCommand extends Command implements JUCMNavCommand
         
         CreateAllLinkRefCommand comm2 = new CreateAllLinkRefCommand(objRef);
         comm2.execute();
-                
+        */
+        
         testPostConditions();
     }
 
@@ -229,18 +277,18 @@ public class ShowLinkedElementCommand extends Command implements JUCMNavCommand
     {
         testPostConditions();
         
-        List<IntentionalElementRef> listOfIntentionalElementRefs = new ArrayList<IntentionalElementRef>(objRef.getDiagram().getNodes());
-        listOfIntentionalElementRefs.removeAll(currentIntentionalElementRefList);
+        //List<IntentionalElementRef> listOfIntentionalElementRefs = new ArrayList<IntentionalElementRef>(objRef.getDiagram().getNodes());
+        //listOfIntentionalElementRefs.removeAll(currentIntentionalElementRefList);
         
-        for (int i = 0; i < listOfIntentionalElementRefs.size(); i++)
+        for (int i = 0; i < addedIntentionalElementRefList.size(); i++)
         {
-            DeleteAllLinkRefCommand comm1 = new DeleteAllLinkRefCommand(listOfIntentionalElementRefs.get(i));
+            DeleteAllLinkRefCommand comm1 = new DeleteAllLinkRefCommand(addedIntentionalElementRefList.get(i));
             comm1.execute();
         
-            DisconnectGRLNodeCommand comm2 = new DisconnectGRLNodeCommand(listOfIntentionalElementRefs.get(i));
+            DisconnectGRLNodeCommand comm2 = new DisconnectGRLNodeCommand(addedIntentionalElementRefList.get(i));
             comm2.execute();
         
-            RemoveURNmodelElementCommand comm3 = new RemoveURNmodelElementCommand(listOfIntentionalElementRefs.get(i));
+            RemoveURNmodelElementCommand comm3 = new RemoveURNmodelElementCommand(addedIntentionalElementRefList.get(i));
             comm3.execute();
         }     
         

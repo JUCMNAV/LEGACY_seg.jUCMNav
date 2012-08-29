@@ -50,6 +50,10 @@ public class ShowLinkedElementLevelTwoCommand extends Command implements JUCMNav
     private List<GRLLinkableElement> destGRLLinkableElementList; // List of the GRLLinkable(IntentionalElement) Elements that the selected element is the destination for it
     private List<GRLLinkableElement> levelTwoSrcGRLLinkableElementList;
     private List<GRLLinkableElement> levelTwoDestGRLLinkableElementList;
+    
+    private ArrayList<IntentionalElement> LogicallyConnectedElementList;
+    private ArrayList<IntentionalElement> inGraphLogicalElementList;
+    private ArrayList<IntentionalElement> missingConnectedIntentionalElementList;
       
     private List<ElementLink> linksSourceList;
     private List<ElementLink> linksDestinationList;
@@ -108,7 +112,19 @@ public class ShowLinkedElementLevelTwoCommand extends Command implements JUCMNav
         
         srcGRLLinkableElementList = new ArrayList<GRLLinkableElement>();
         destGRLLinkableElementList = new ArrayList<GRLLinkableElement>();
+        LogicallyConnectedElementList = new ArrayList<IntentionalElement>();
         
+        // Initializing ElementLink lists to find related intentional elements
+        linksSourceList = new ArrayList<ElementLink>(chosenIntentionalElement.getLinksSrc());
+        linksDestinationList = new ArrayList<ElementLink>(chosenIntentionalElement.getLinksDest());
+        
+        for (ElementLink EL : linksSourceList)
+            LogicallyConnectedElementList.add((IntentionalElement)EL.getDest());
+                
+        for (ElementLink EL : linksDestinationList)
+            LogicallyConnectedElementList.add((IntentionalElement)EL.getSrc());
+        
+        /* carry a bug
         levelTwoSrcGRLLinkableElementList = new ArrayList<GRLLinkableElement>();
         levelTwoDestGRLLinkableElementList = new ArrayList<GRLLinkableElement>();
         
@@ -304,7 +320,58 @@ public class ShowLinkedElementLevelTwoCommand extends Command implements JUCMNav
     {
         testPreConditions();
         
-        IntentionalElementRef ieRef;        
+        IntentionalElementRef ieRef = null;
+        
+        // Finding all refs in the graph at the begining of any redo
+        currentIntentionalElementRefList = new ArrayList<IntentionalElementRef>(grlGraph.getNodes());
+        
+        // Finding the definition of all the refs in the graph
+        inGraphLogicalElementList = new ArrayList<IntentionalElement>();
+        for (IntentionalElementRef IER : currentIntentionalElementRefList)
+            inGraphLogicalElementList.add(IER.getDef());
+        
+        // Removing the selected node from the inGraphLogicalElementList
+        inGraphLogicalElementList.remove(chosenIntentionalElement);
+        
+        // Finding and adding missing connected Intentional Elements to the list below
+        missingConnectedIntentionalElementList = new ArrayList<IntentionalElement>();
+        for (IntentionalElement IE : LogicallyConnectedElementList)
+            if (!inGraphLogicalElementList.contains(IE))
+                missingConnectedIntentionalElementList.add(IE);
+        
+        // Creating refs for the missingConnectedInentionalElementList and adding them to graph and also to the list of addedIntentionalElementRefList
+        addedIntentionalElementRefList = new ArrayList<IntentionalElementRef>();
+        for (IntentionalElement IE : missingConnectedIntentionalElementList)
+        {
+            ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+            ieRef.setDef( (IntentionalElement) IE);
+            addedIntentionalElementRefList.add(ieRef);
+            AddIntentionalElementRefCommand cmd = new AddIntentionalElementRefCommand(grlGraph, ieRef);
+            cmd.execute();
+        }
+        
+        // Adding all the missing links between all the nodes and all the added nodes in the graph
+        for (IntentionalElementRef IER : addedIntentionalElementRefList)
+        {
+            CreateAllLinkRefCommand cmd = new CreateAllLinkRefCommand(IER);
+            cmd.execute();
+        }
+        
+        // Calling ShowLinkedElementCommand for all the logically connected elements
+        for (IntentionalElement IE : LogicallyConnectedElementList)
+        {   
+            List<IntentionalElementRef> tempIERList = IE.getRefs();
+            for(IntentionalElementRef IER : tempIERList) // Finding the ref of the connected element that is located in the graph 
+                if (IER.getDiagram().equals(diagramOfElement))
+                {
+                    ieRef = IER;
+                    break;
+                }
+            ShowLinkedElementCommand cmd = new ShowLinkedElementCommand(urnspec, IE, ieRef);
+            cmd.execute();
+        }
+        
+        /* carry a bug
         addedIntentionalElementRefList = new ArrayList<IntentionalElementRef>();
         finalIntentionalElementRefList = new ArrayList<IntentionalElementRef>();
         
@@ -435,7 +502,7 @@ public class ShowLinkedElementLevelTwoCommand extends Command implements JUCMNav
                 comm.execute();
                 index++;
             }
-        }        
+        }*/        
         
         testPostConditions();
     }
@@ -476,6 +543,7 @@ public class ShowLinkedElementLevelTwoCommand extends Command implements JUCMNav
     public void undo() 
     {
         testPostConditions();
+        IntentionalElementRef ieRef = null;
         
         List<IntentionalElementRef> listOfIntentionalElementRefs = new ArrayList<IntentionalElementRef>(objRef.getDiagram().getNodes());
         listOfIntentionalElementRefs.removeAll(currentIntentionalElementRefList);
@@ -491,10 +559,9 @@ public class ShowLinkedElementLevelTwoCommand extends Command implements JUCMNav
             RemoveURNmodelElementCommand comm3 = new RemoveURNmodelElementCommand(listOfIntentionalElementRefs.get(i));
             comm3.execute();
         }
-        
-        
-        finalIntentionalElementRefList.clear();
-        addedIntentionalElementRefList.clear();
+                
+        //finalIntentionalElementRefList.clear();
+        //addedIntentionalElementRefList.clear();
         
         testPreConditions();
     }
