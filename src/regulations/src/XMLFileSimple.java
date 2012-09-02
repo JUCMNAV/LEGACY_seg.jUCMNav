@@ -1,3 +1,5 @@
+package regulations.src;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ public class XMLFileSimple
     private ArrayList <String> Decomposition;
     private ArrayList <String> RefinedDecomposition; // to consider all the elements AND, except for OR
     private ArrayList <ElementDefinition> ElementDefinitionList; // for grl file
-    private ArrayList <DecompoitionAttribute> DecompositionLinkDefinitionList; // for grl file
+    private ArrayList <DecompositionAttribute> DecompositionLinkDefinitionList; // for grl file
     private ArrayList <ContributionAttribute> ContributionLinkDefinitionList; // for grl file
     private ArrayList <RelationNode> RelationList; // to keep relations betweeen goals
     private ArrayList <String> IDList; // list of ids of element definitions of grl file elements
@@ -232,7 +234,7 @@ public class XMLFileSimple
         return ElementDefinitionList;
     }
     
-    public ArrayList <DecompoitionAttribute> getDecompositionLinkDefinitionList()
+    public ArrayList <DecompositionAttribute> getDecompositionLinkDefinitionList()
     {
         return DecompositionLinkDefinitionList;
     }
@@ -709,8 +711,8 @@ public class XMLFileSimple
         Random rdNumber = new Random();
         int ID, fatherIndex = 0;
         String stringID, fatherName;        
-        DecompoitionAttribute dcompAttr;
-        DecompositionLinkDefinitionList = new ArrayList<DecompoitionAttribute>();
+        DecompositionAttribute dcompAttr;
+        DecompositionLinkDefinitionList = new ArrayList<DecompositionAttribute>();
         
         for ( int i = 0; i < Decomposition.size(); i++ )
         {
@@ -728,7 +730,7 @@ public class XMLFileSimple
                 
                 LinkIDList.add( stringID );
                 
-                dcompAttr = new DecompoitionAttribute();
+                dcompAttr = new DecompositionAttribute();
                 dcompAttr.setName( "Decomposition" + stringID );
                 dcompAttr.setDescription( "" );               
                 dcompAttr.setSrcid( ElementDefinitionList.get( i ).getIntentionalElementAttribute().getID() );

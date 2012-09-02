@@ -1,9 +1,5 @@
 package seg.jUCMNav.model.commands.create;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import grl.Actor;
 import grl.ActorRef;
 import grl.ElementLink;
@@ -13,22 +9,20 @@ import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.MoveNodeCommand;
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.delete.DeleteAllLinkRefCommand;
 import seg.jUCMNav.model.commands.delete.internal.DisconnectGRLNodeCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
-import seg.jUCMNav.model.util.MetadataHelper;
 import urn.URNspec;
-import urncore.GRLmodelElement;
 import urncore.IURNNode;
 import urncore.URNmodelElement;
 

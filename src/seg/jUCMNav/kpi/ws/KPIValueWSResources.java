@@ -4,7 +4,6 @@ import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 import grl.kpimodel.Indicator;
-import grl.kpimodel.KPIEvalValueSet;
 
 import java.util.ArrayList;
 import java.util.List;

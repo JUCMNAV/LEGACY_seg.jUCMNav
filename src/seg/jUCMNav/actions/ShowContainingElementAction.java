@@ -1,9 +1,8 @@
 package seg.jUCMNav.actions;
 
-import java.util.List;
-
 import grl.ActorRef;
-import grl.IntentionalElementRef;
+
+import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
@@ -11,7 +10,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
 import seg.jUCMNav.model.commands.create.ShowContainingElementCommand;
-import seg.jUCMNav.model.commands.create.ShowLinkedElementCommand;
 import urn.URNspec;
 import urncore.URNmodelElement;
 

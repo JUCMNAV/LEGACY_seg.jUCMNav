@@ -53,7 +53,7 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
     }
 
     /**
-     * Hnaldes dropping of elements from palette.
+     * Handles dropping of elements from palette.
      * 
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
      */

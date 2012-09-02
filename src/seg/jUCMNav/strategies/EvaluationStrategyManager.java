@@ -22,8 +22,6 @@ import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPINewEvalValue;
-import grl.kpimodel.QualitativeMapping;
-import grl.kpimodel.QualitativeMappings;
 
 import java.util.ArrayList;
 import java.util.HashMap;

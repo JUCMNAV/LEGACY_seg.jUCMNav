@@ -1,8 +1,10 @@
+package regulations.src;
+
 /**
  * @author Rouzbahan
  *
  */
-public class DecompoitionAttribute
+public class DecompositionAttribute
 {
     private String name;
     private String description;

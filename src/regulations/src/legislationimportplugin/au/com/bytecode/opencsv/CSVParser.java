@@ -1,4 +1,4 @@
-package legislationimportplugin.au.com.bytecode.opencsv;
+package regulations.src.legislationimportplugin.au.com.bytecode.opencsv;
 
 /**
  Copyright 2005 Bytecode Pty Ltd.

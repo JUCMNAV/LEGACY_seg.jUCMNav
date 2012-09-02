@@ -1,4 +1,4 @@
-package au.com.bytecode.opencsv;
+package regulations.src.au.com.bytecode.opencsv;
 /**
  Copyright 2005 Bytecode Pty Ltd.
 

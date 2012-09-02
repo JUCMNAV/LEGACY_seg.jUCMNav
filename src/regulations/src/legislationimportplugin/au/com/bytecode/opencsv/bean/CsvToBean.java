@@ -1,4 +1,4 @@
-package legislationimportplugin.au.com.bytecode.opencsv.bean;
+package regulations.src.legislationimportplugin.au.com.bytecode.opencsv.bean;
 
 /**
  Copyright 2007 Kyle Miller.
@@ -16,7 +16,7 @@ package legislationimportplugin.au.com.bytecode.opencsv.bean;
  limitations under the License.
  */
 
-import au.com.bytecode.opencsv.CSVReader;
+import regulations.src.au.com.bytecode.opencsv.CSVReader;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;

@@ -36,7 +36,8 @@ public class ShowLinkedElementLevelThreeAction extends URNSelectionAction
     /**
      * True if we have selected a valid URNmodelElement. 
      */
-    protected boolean calculateEnabled() 
+    @SuppressWarnings("static-access")
+	protected boolean calculateEnabled() 
     {
         List objects = getSelectedObjects();
 

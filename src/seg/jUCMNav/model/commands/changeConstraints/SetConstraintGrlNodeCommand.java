@@ -94,8 +94,9 @@ public class SetConstraintGrlNodeCommand extends CompoundCommand {
 
     protected void changeDimension(int width, int height) {
         if (width > 0 && height > 0) {
-            MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(), (URNmodelElement) node, MetadataHelper.WIDTH, (new Integer(width)).toString()); //$NON-NLS-1$
-            MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(), (URNmodelElement) node, MetadataHelper.HEIGHT, (new Integer(height)).toString()); //$NON-NLS-1$
+        	URNmodelElement thenode = (URNmodelElement) node;
+            MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(), thenode, MetadataHelper.WIDTH, (new Integer(width)).toString()); //$NON-NLS-1$
+            MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(), thenode, MetadataHelper.HEIGHT, (new Integer(height)).toString()); //$NON-NLS-1$
         }
     }
 

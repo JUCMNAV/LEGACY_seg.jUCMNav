@@ -1,28 +1,21 @@
 package seg.jUCMNav.model.commands.create;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import grl.Actor;
-import grl.ActorRef;
-import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
-import grl.GRLLinkableElement;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
-
-import com.lowagie.tools.Executable;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 import urncore.GRLmodelElement;
-import urncore.URNmodelElement;
 
 public class ShowEvaluationIntentionalElementCommand extends Command implements JUCMNavCommand
 {

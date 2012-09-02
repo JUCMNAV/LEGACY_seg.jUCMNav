@@ -19,8 +19,6 @@ import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
 import grl.StrategiesGroup;
-import grl.kpimodel.KPIInformationElement;
-import grl.kpimodel.KPIInformationElementRef;
 
 import java.io.ByteArrayInputStream;
 import java.util.Iterator;
@@ -52,7 +50,6 @@ import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddDependencyElementLinkCommand;
 import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
-import seg.jUCMNav.model.commands.create.AddKPIInformationElementRefCommand;
 import seg.jUCMNav.model.commands.create.AddLinkRefBendpointCommand;
 import seg.jUCMNav.model.commands.create.AddStandardElementLinkCommand;
 import seg.jUCMNav.model.commands.create.AddUrnLinkCommand;
@@ -85,13 +82,12 @@ import ucm.map.ComponentRef;
 import ucm.map.UCMmap;
 import urn.URNlink;
 import urn.URNspec;
-import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 
 /**
  * Test suite to test the commands in the GRL editor
  * 
- * @author Jean-Franï¿½ois Roy
+ * @author Jean-François Roy
  * 
  */
 public class JUCMNavGRLCommandTests extends TestCase {
@@ -720,14 +716,6 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        /*
-        KPIInformationElementRef ref5 = (KPIInformationElementRef) ModelCreationFactory.getNewObject(urnspec, KPIInformationElementRef.class,
-            IntentionalElementType.INDICATOR);
-        cmd = new AddKPIInformationElementRefCommand(graph, ref5);
-        assertTrue("Can't execute AddKPIInformationElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-        */
-        
         IntentionalElementRef ref5 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.GOAL);
         cmd = new AddIntentionalElementRefCommand(graph, ref5);
@@ -763,21 +751,12 @@ public class JUCMNavGRLCommandTests extends TestCase {
         cs.execute(cmd);
         
         assertTrue(graph.getNodes().size() == 5);
-        
-        //Dependency depen = (Dependency) ModelCreationFactory.getNewObject(urnspec, Dependency.class);
-        /*
-        cmd = new CreateElementLinkCommand(urnspec, ref4.getDef(), depen);
-        ((CreateElementLinkCommand) cmd).setTarget(ref5.getDef());
-        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-        */
-        
+               
         cmd = new CreateGrlGraphCommand(urnspec);        
         assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         GRLGraph graph2 = (GRLGraph)(((CreateGrlGraphCommand)cmd).getDiagram());
-        //graph2.getNodes().add(ref3);
         cmd = new AddIntentionalElementRefCommand(graph2, ref1);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -790,22 +769,26 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(graph2.getNodes().size() == 1);        
         cs.redo();
         assertTrue(graph2.getNodes().size() == 3);
+        cs.undo();
+        assertTrue(graph2.getNodes().size() == 1);        
         
         cmd = new ShowLinkedElementLevelTwoCommand(urnspec, ref1.getDef(), ref1);
         assertTrue("Can't execute ShowLinkedElementLevelTwoCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         assertTrue(graph2.getNodes().size() == 4);
         cs.undo();
-        assertTrue(graph2.getNodes().size() == 3);        
+        assertTrue(graph2.getNodes().size() == 1);        
         cs.redo();
         assertTrue(graph2.getNodes().size() == 4);
-        
+        cs.undo();
+        assertTrue(graph2.getNodes().size() == 1);        
+     
         cmd = new ShowLinkedElementLevelThreeCommand(urnspec, ref1.getDef(), ref1);
         assertTrue("Can't execute ShowLinkedElementLevelThreeCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         assertTrue(graph2.getNodes().size() == 5);
         cs.undo();
-        assertTrue(graph2.getNodes().size() == 4);        
+        assertTrue(graph2.getNodes().size() == 1);        
         cs.redo();
         assertTrue(graph2.getNodes().size() == 5);
     }

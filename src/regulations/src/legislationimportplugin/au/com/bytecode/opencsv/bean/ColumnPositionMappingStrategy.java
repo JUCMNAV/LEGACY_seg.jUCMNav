@@ -1,6 +1,6 @@
-package legislationimportplugin.au.com.bytecode.opencsv.bean;
+package regulations.src.legislationimportplugin.au.com.bytecode.opencsv.bean;
 
-import au.com.bytecode.opencsv.CSVReader;
+import regulations.src.au.com.bytecode.opencsv.CSVReader;
 
 import java.io.IOException;
 

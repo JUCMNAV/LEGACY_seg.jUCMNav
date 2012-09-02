@@ -11,7 +11,6 @@ import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.kpimodel.Indicator;
 import grl.kpimodel.KPIEvalValueSet;
-import grl.kpimodel.QualitativeMappings;
 
 import java.text.DecimalFormat;
 import java.util.Iterator;

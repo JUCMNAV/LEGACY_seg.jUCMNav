@@ -6,9 +6,8 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
+
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.actions.SelectionHelper;
-import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementCommand;
 import urn.URNspec;
@@ -39,7 +38,8 @@ public class ShowLinkedElementAction extends URNSelectionAction
     /**
      * True if we have selected a valid URNmodelElement.
      */
-    protected boolean calculateEnabled() 
+    @SuppressWarnings("static-access")
+	protected boolean calculateEnabled() 
     {
         List objects = getSelectedObjects();
 

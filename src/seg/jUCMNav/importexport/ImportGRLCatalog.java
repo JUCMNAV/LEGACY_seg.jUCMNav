@@ -12,7 +12,6 @@ import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 
-import java.awt.print.PrinterIOException;
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import java.util.Vector;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.eclipse.draw2d.PrintFigureOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

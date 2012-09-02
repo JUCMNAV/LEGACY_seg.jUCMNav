@@ -1,7 +1,9 @@
+package regulations.src;
+
 /**
    * 
    */
-import au.com.bytecode.opencsv.CSVReader;
+import regulations.src.au.com.bytecode.opencsv.CSVReader;
 import java.util.*;
 import java.io.*;
 

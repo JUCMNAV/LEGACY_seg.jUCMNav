@@ -1,11 +1,4 @@
-import grl.ContributionType;
-import grl.Decomposition;
-import grl.DecompositionType;
-import grl.Dependency;
-import grl.GRLGraph;
-import grl.IntentionalElement;
-import grl.IntentionalElementRef;
-import grl.IntentionalElementType;
+package regulations.src;
 
 import java.io.File;
 import java.io.FileInputStream;
