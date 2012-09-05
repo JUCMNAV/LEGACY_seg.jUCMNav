@@ -35,14 +35,15 @@ public class UCMAspectComposer {
 	// contains all the mappings for each aspect marker to be added to the model given one match
 	// potentially, one aspect marker is added for each in-path and out-path of the pointcut stub
 	private static HashMap<InoutInfo, AspectMarkerMappings> amms;
-	// contains all the in-paths and out-paths of the pointcut stub
-	// TODO assumes that there is only one pointcut stub on the aspect map
+	// contains all the in-paths and out-paths of each pointcut stub
 	private static List<InoutInfo> inout;
 	// list of the final results of the of the composer, contains all the information to actually 
 	// insert all aspect markers; is returned to the ApplyConcernAction to enable undo
 	private static List<AspectMarkerMappings> result;
 	// indicates an interleaving composition
 	private static boolean interleaving;
+	// counter for the numbering of matches
+	private static int counter = 1;
 	
 	// adds aspect markers to the model based on the results from a single pointcutMap of a single aspect
 	public static List<AspectMarkerMappings> compose(UCMmap aspectMap, UCMmap pointcutMap, MatchList matchList) throws MalformedAspectMap, CompositionNotRequired {
@@ -50,11 +51,10 @@ public class UCMAspectComposer {
 		boolean updateFlag = false;
 		// get all the in/out-paths that have plug-in bindings with the pointcut map
 		// throw exception if none such in/out-path exists; also sets interleaving
-		if (!setupInout(aspectMap)) {
+		if (!setupInout(aspectMap, pointcutMap)) {
 			throw new CompositionNotRequired();
 		}
 		// TODO add scanning here since it only needs to be done once per aspect map!
-		Integer counter = 1;
 		for (Iterator iter = matchList.getMatchList().iterator(); iter.hasNext();) {
 			Match match = (Match) iter.next();
 			amms = new HashMap<InoutInfo, AspectMarkerMappings>();
@@ -75,7 +75,7 @@ public class UCMAspectComposer {
 		return result;
 	}
 
-	private static boolean setupInout(UCMmap aspectMap) throws MalformedAspectMap {
+	private static boolean setupInout(UCMmap aspectMap, UCMmap pointcutMap) throws MalformedAspectMap {
 		inout = new ArrayList<InoutInfo>();
 		int counter = 0;
 		for (Iterator iter = aspectMap.getNodes().iterator(); iter.hasNext();) {
@@ -83,24 +83,29 @@ public class UCMAspectComposer {
 			// needs to be a pointcut stub with at least one plug-in map (i.e., pointcut map)
 			if (pathnode instanceof Stub && !((Stub) pathnode).getAopointcut().equals(PointcutKind.NONE_LITERAL) && ((Stub) pathnode).getBindings().size() > 0) {
 				counter++;
-				List inBindings = ((PluginBinding) ((Stub) pathnode).getBindings().get(0)).getIn();
-				List outBindings = ((PluginBinding) ((Stub) pathnode).getBindings().get(0)).getOut();
-				boolean replacement = ((Stub) pathnode).getAopointcut() == PointcutKind.REPLACEMENT_LITERAL;
-				// validity checks for replacement pointcut stub
-				if (replacement && !validReplacementAspectMap((Stub) pathnode, inBindings, outBindings)) {
-					throw new MalformedAspectMap();
-				}
-				InoutInfo inoutInfo;
-				for (Iterator iter2 = inBindings.iterator(); iter2.hasNext();) {
-					InBinding inBinding = (InBinding) iter2.next();
-					inoutInfo = new InoutInfo(inBinding.getStubEntry(), inBinding, null, replacement);
-					inout.add(inoutInfo);
-				}
-				for (Iterator iter3 = outBindings.iterator(); iter3
-						.hasNext();) {
-					OutBinding outBinding = (OutBinding) iter3.next();
-					inoutInfo = new InoutInfo(outBinding.getStubExit(), null, outBinding, replacement);
-					inout.add(inoutInfo);
+				for (Iterator iterator = ((Stub) pathnode).getBindings().iterator(); iterator.hasNext();) {
+					PluginBinding pl = (PluginBinding) iterator.next();
+					// only setup the inout for the pointcut map that is currently composed!
+					if (pl.getPlugin().equals(pointcutMap)) {
+						List inBindings = pl.getIn();
+						List outBindings = pl.getOut();
+						boolean replacement = ((Stub) pathnode).getAopointcut() == PointcutKind.REPLACEMENT_LITERAL;
+						// validity checks for replacement pointcut stub
+						if (replacement && !validReplacementAspectMap((Stub) pathnode, inBindings, outBindings)) {
+							throw new MalformedAspectMap();
+						}
+						InoutInfo inoutInfo;
+						for (Iterator iter2 = inBindings.iterator(); iter2.hasNext();) {
+							InBinding inBinding = (InBinding) iter2.next();
+							inoutInfo = new InoutInfo(inBinding.getStubEntry(), inBinding, null, replacement);
+							inout.add(inoutInfo);
+						}
+						for (Iterator iter3 = outBindings.iterator(); iter3.hasNext();) {
+							OutBinding outBinding = (OutBinding) iter3.next();
+							inoutInfo = new InoutInfo(outBinding.getStubExit(), null, outBinding, replacement);
+							inout.add(inoutInfo);
+						}
+					}
 				}
 			}
 		}
@@ -120,6 +125,7 @@ public class UCMAspectComposer {
 
 	// TODO refactor detection of whitespace (see also MatchableElement) to reduce duplication
 	private static void composeUCMPreprocessing(Match match, UCMmap pointcutMap) {
+		// TODO this is still only working for one pointcut map
 		if (interleaving) {
 			for (Iterator iter = pointcutMap.getNodes().iterator(); iter.hasNext();) {
 				PathNode pn = (PathNode) iter.next();
@@ -214,6 +220,7 @@ public class UCMAspectComposer {
 	}
 	
 	private static void composeUCMStep2(int counter) throws MalformedAspectMap {
+		boolean showInfoMessages = false;
 		// TODO assumes that there is only one pointcut stub on the aspect map
 		// find all start/end points and pointcut stubs reachable from an in/out-path of the pointcut stub
 		List<HashSet<PathNode>> elList = new ArrayList<HashSet<PathNode>>();
@@ -225,13 +232,15 @@ public class UCMAspectComposer {
 		String capture;
 		if (counter == 2) {
 			capture = capture(elList);
-			MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Scanning Result", capture); //$NON-NLS-1$ //$NON-NLS-2$
+			if (showInfoMessages)
+				MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Scanning Result", capture); //$NON-NLS-1$ //$NON-NLS-2$
 		}
         // now find the elements for the second mapping and create them!
         createSecondMappings(elList);
         if (counter == 2) {
         	capture = capture();
-        	MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Second Mappings", capture); //$NON-NLS-1$ //$NON-NLS-2$
+        	if (showInfoMessages)
+        		MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Second Mappings", capture); //$NON-NLS-1$ //$NON-NLS-2$
         }
 	}
 
@@ -245,17 +254,20 @@ public class UCMAspectComposer {
 		}
 		HashSet<PathNode> candidates = new HashSet<PathNode>();
 		candidates.add(startNode);
+		HashSet<PathNode> visitedNodes = new HashSet<PathNode>();
+		visitedNodes.add(startNode);
 		HashSet<PathNode> result = new HashSet<PathNode>();
 		while (!candidates.isEmpty()) {
 			HashSet<PathNode> newCandidates = new HashSet<PathNode>();
+			HashSet<PathNode> filteredCandidates = new HashSet<PathNode>();
 			for (Iterator iter = candidates.iterator(); iter.hasNext();) {
 				PathNode e = (PathNode) iter.next();
-				if (e instanceof StartPoint) {
+				if (e instanceof StartPoint && (((StartPoint) e).getSucc().size() + ((StartPoint) e).getPred().size() == 1)) {
 					// ignore local start points
 					if (!((StartPoint) e).isLocal()) {
 						result.add(e);						
 					}
-				} else if (e instanceof EndPoint) {
+				} else if (e instanceof EndPoint && (((EndPoint) e).getSucc().size() + ((EndPoint) e).getPred().size() == 1)) {
 					// ignore local end points
 					if (!((EndPoint) e).isLocal()) {
 						result.add(e);						
@@ -271,11 +283,21 @@ public class UCMAspectComposer {
 						for (int i = 0; i < e.getPred().size(); i++) {
 							newCandidates.add((PathNode) ((NodeConnection) e.getPred().get(i)).getSource());
 						}
-					}					
+					}
+					// make sure that a candidate node has not been visited before during the scan
+					// to avoid going into an infinite loop, add only non-visited candidates to the
+					// filteredCandidates
+					for (Iterator iter2 = newCandidates.iterator(); iter2.hasNext();) {
+						PathNode candidate = (PathNode) iter2.next();
+						if (!visitedNodes.contains(candidate)) {
+							filteredCandidates.add(candidate);
+							visitedNodes.add(candidate);							
+						}
+					}
 				}
 			}
 			candidates.clear();
-			candidates.addAll(newCandidates);
+			candidates.addAll(filteredCandidates);
 		}
 		return result;
 	}
@@ -348,9 +370,14 @@ public class UCMAspectComposer {
 	}
 
 	private static void copyResultsForThisMatch() {
-		for (int i = 0; i < inout.size(); i++) {
-			result.add(amms.get(inout.get(i)));
+		for (Iterator iterator = amms.values().iterator(); iterator.hasNext();) {
+			AspectMarkerMappings a = (AspectMarkerMappings) iterator.next();
+			result.add(a);
 		}
+	}
+	
+	public static void resetCounter() {
+		counter = 1;
 	}
 
 	public static void dispose() {

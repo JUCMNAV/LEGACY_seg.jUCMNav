@@ -12,6 +12,8 @@ public class MatchableNeighbor {
 	private boolean timeout;
 	// connect (used between pairs of end/start point, and for trigger paths of waiting places and timers)
 	private boolean connect;
+	// indicates whether this matchable element is a "forward" neighbor of a pointcut start point
+	private boolean fromPointcutStartPoint;
 	
 	public MatchableNeighbor(PathNode pathNode, boolean forward, boolean timeout, boolean connect, MatchableElement element) {
 		MatchableElement matchableElement = MatchableElementFactory.getMatchablePathNode(pathNode, element);
@@ -20,6 +22,7 @@ public class MatchableNeighbor {
 		this.forward = forward;
 		this.timeout = timeout;
 		this.connect = connect;
+		this.fromPointcutStartPoint = element.isPointcutStartPoint() && forward;
 	}
 	
 	public MatchableElement getElement() {
@@ -36,6 +39,10 @@ public class MatchableNeighbor {
 	
 	public boolean isConnect() {
 		return connect;
+	}
+
+	public boolean isFromPointcutStartPoint() {
+		return fromPointcutStartPoint;
 	}
 
 }

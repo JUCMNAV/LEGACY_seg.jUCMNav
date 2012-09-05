@@ -1,7 +1,9 @@
 package seg.jUCMNav.aourn.matcher;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,9 +19,12 @@ import ucm.map.NodeConnection;
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
+import ucm.map.PointcutKind;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
+import urn.URNspec;
+import urncore.URNmodelElement;
 
 public class MatchableElementFactory {
 	
@@ -36,8 +41,52 @@ public class MatchableElementFactory {
 	// TODO the key may have to be more than just the ID, since one element may be included in several alternative streams
 	// TODO the key could be ID+stubID+pluginID
 	// TODO private static HashMap<String, Joinpoint> semanticJoinpoints = new HashMap<String, Joinpoint>();
+
+	public static List<PathNode> createMatchableElements(URNspec urn, URNmodelElement aspectMap, HashSet<UCMmap> pointcutMaps) {
+		List<PathNode> pathNodes = getJoinpoints(urn, aspectMap);
+		createAllJoinpoints(pathNodes);
+		List<PathNode> pointcutNodes = new ArrayList<PathNode>(); 
+		for (Iterator iterator = pointcutMaps.iterator(); iterator.hasNext();) {
+			UCMmap pointcutMap = (UCMmap) iterator.next();
+			pointcutNodes.addAll(pointcutMap.getNodes());
+		}
+		createPointcutElements(pointcutNodes);
+		List<PathNode> filteredJoinpoints = new ArrayList<PathNode>();
+		for (Iterator iterator = joinpoints.values().iterator(); iterator.hasNext();) {
+			Joinpoint joinpoint = (Joinpoint) iterator.next();
+			PathNode pathNode = joinpoint.getElement();
+			filteredJoinpoints.add(pathNode);
+		}
+		return filteredJoinpoints;
+	}
 	
-	public static void createAllJoinpoints(List pathNodes) {
+    private static List<PathNode> getJoinpoints(URNspec urn, URNmodelElement aspectMap) {
+    	List<PathNode> joinpoints = new ArrayList();
+   		// TODO assumes that there is only one aspect map for this aspect in the model
+    	List diagrams = urn.getUrndef().getSpecDiagrams();
+    	for (Iterator iter = diagrams.iterator(); iter.hasNext();) {
+			URNmodelElement diagram = (URNmodelElement) iter.next();
+			if (diagram instanceof UCMmap && !diagram.equals(aspectMap)) {
+				// don't include the map if it is a plug-in of only pointcut stubs
+				boolean include = false;
+				for (int i = 0; i < ((UCMmap) diagram).getParentStub().size(); i++) {
+					Stub stub = ((PluginBinding) ((UCMmap) diagram).getParentStub().get(i)).getStub();
+					if (stub.getAopointcut() == PointcutKind.NONE_LITERAL) {
+						// it's not a pointcut stub, so let's include the plugin
+						include = true;
+					}
+				}
+				// also include any root map
+				if (include || ((UCMmap) diagram).getParentStub().size() == 0) {
+					joinpoints.addAll(((UCMmap) diagram).getNodes());					
+				}
+			}
+		} 
+    	return joinpoints;
+    }
+
+	
+	private static void createAllJoinpoints(List pathNodes) {
 		for (Iterator iter = pathNodes.iterator(); iter.hasNext();) {
 			PathNode pathNode = (PathNode) iter.next();
 			if (!joinpoints.containsKey(pathNode.getId())) {
@@ -140,8 +189,8 @@ public class MatchableElementFactory {
 		}
 	}
 
-	public static void createPointcutElements(UCMmap pointcutMap) {
-		for (Iterator iter = pointcutMap.getNodes().iterator(); iter.hasNext();) {
+	private static void createPointcutElements(List pathNodes) {
+		for (Iterator iter = pathNodes.iterator(); iter.hasNext();) {
 			PathNode pathNode = (PathNode) iter.next();
 			if (!pointcutElements.containsKey(pathNode.getId())) {
 				if (!isWhitespace(pathNode)) {
@@ -235,6 +284,10 @@ public class MatchableElementFactory {
 
 	public static Collection<Joinpoint> getJoinpoints() {
 		return joinpoints.values();
+	}
+
+	public static Joinpoint getJoinpoint(PathNode pathNode) {
+		return joinpoints.get(pathNode.getId());
 	}
 
 	public static void clearCache() {

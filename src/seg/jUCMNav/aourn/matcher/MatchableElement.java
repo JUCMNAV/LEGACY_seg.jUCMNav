@@ -1,5 +1,7 @@
 package seg.jUCMNav.aourn.matcher;
 
+import grl.Actor;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +15,7 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Timer;
+import urncore.Component;
 
 public abstract class MatchableElement {
 	
@@ -114,7 +117,6 @@ public abstract class MatchableElement {
 	}
 	
 	public String getName() {
-		// TODO also for component definitions
 		if (element instanceof RespRef) {
 			return ((RespRef) element).getRespDef().getName();
 		}
@@ -131,6 +133,22 @@ public abstract class MatchableElement {
 		} else {
 			return element.getName();
 		}
+	}
+	
+	public String getContainerName() {
+		// if a pointcut element does not have a container, then any element in a container can be matched
+		// hence, a wildcard is returned
+		// in the case of a joinpoint element, the empty String is returned which can only be matched if anything
+		// matches the pointcut because the name of a container in a pointcut expression cannot be the empty string
+		if (element.getContRef() == null)
+			if (this instanceof PointcutElement)
+				return "*"; //$NON-NLS-1$
+			else
+				return ""; //$NON-NLS-1$
+		if (element.getContRef().getContDef() instanceof Component)
+			return ((Component) element.getContRef().getContDef()).getName();
+		else 
+			return ((Actor) element.getContRef().getContDef()).getName();
 	}
 
 	public List<MatchableNeighbor> getNeighbors() {

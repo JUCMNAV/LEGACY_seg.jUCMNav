@@ -3,26 +3,35 @@ package seg.jUCMNav.aourn.matcher;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import seg.jUCMNav.aourn.matcher.exceptions.ContradictoryMappingException;
 import seg.jUCMNav.aourn.matcher.exceptions.DuplicateMappingException;
 import seg.jUCMNav.aourn.matcher.exceptions.IncompatibleDirectionsException;
 import seg.jUCMNav.aourn.matcher.exceptions.MatchingFailedException;
 import ucm.map.Anything;
+import ucm.map.ComponentRef;
+import ucm.map.PathNode;
+import ucm.map.RespRef;
 import ucm.map.UCMmap;
+import urncore.IURNContainer;
+import urncore.Metadata;
+import urncore.Responsibility;
+import urncore.URNmodelElement;
 
 public class PointcutMatcher {
 
 	// matches a single pointcutMap against a list of pathNodes from the base model
 	public static MatchList match(UCMmap pointcutMap, List pathNodes) throws MatchingFailedException {
 		MatchList result = new MatchList();
-		MatchableElementFactory.clearCache();
-		MatchableElementFactory.createAllJoinpoints(pathNodes);
-		MatchableElementFactory.createPointcutElements(pointcutMap);
 		PointcutElement pointcutElement = MatchableElementFactory.getInitialMatchablePointcutElement(pointcutMap);
 		assert pointcutElement != null : "PointcutElement does not exist"; //$NON-NLS-1$
-		for (Iterator iter = MatchableElementFactory.getJoinpoints().iterator(); iter.hasNext();) {
-			Joinpoint joinpoint = (Joinpoint) iter.next();
+		for (Iterator iterator = pathNodes.iterator(); iterator.hasNext();) {
+			PathNode pathNode = (PathNode) iterator.next();
+			Joinpoint joinpoint = MatchableElementFactory.getJoinpoint(pathNode);			
+//		for (Iterator iter = MatchableElementFactory.getJoinpoints().iterator(); iter.hasNext();) {
+//			Joinpoint joinpoint = (Joinpoint) iter.next();
 			if (matchElement(pointcutElement, joinpoint)) {
 				Match match = new Match();
 				Mapping mapping = null;
@@ -48,8 +57,10 @@ public class PointcutMatcher {
 	
 	public static boolean matchNeighbor(MatchableNeighbor pointcutNeighbor, MatchableNeighbor joinpointNeighbor) throws IncompatibleDirectionsException {
 		// check whether the direction of links between elements matches and then match the actual elements
-		if (pointcutNeighbor.isForward() == joinpointNeighbor.isForward() && pointcutNeighbor.isTimeout() == joinpointNeighbor.isTimeout() &&
-			pointcutNeighbor.isConnect() == joinpointNeighbor.isConnect()) {
+		// if the neighbor is on a "timeout" path, then allow it to be matched against a pointcut element that is not on a "timeout" path if this 
+		// pointcut element is a forward neighbor of a pointcut start point
+		if (pointcutNeighbor.isForward() == joinpointNeighbor.isForward() && pointcutNeighbor.isConnect() == joinpointNeighbor.isConnect() && 
+				(pointcutNeighbor.isTimeout() == joinpointNeighbor.isTimeout() || pointcutNeighbor.isFromPointcutStartPoint())) {
 			return matchElement((PointcutElement) pointcutNeighbor.getElement(), (Joinpoint) joinpointNeighbor.getElement());
 		}
 		throw new IncompatibleDirectionsException();
@@ -58,8 +69,10 @@ public class PointcutMatcher {
 	// always returns true if matching the beginning/end of a pointcut expression (pointcut start/end points)
 	// always returns true if the anything pointcut element is matched
 	// returns true if the following matches:
-	//		name of pointcutElement/joinpoint (TODO only * and exact match supported right now)
 	//		type of pointcutElement/joinpoint
+	//		name of pointcutElement/joinpoint (*, exact match, and regular expression match supported, 
+	//                                         ignores variable prefix, i.e., $Variable = name)
+	//      metadata of pointcutElement/joinpoint
 	//		TODO add remaining matching criteria
 	// returns false otherwise
 	public static boolean matchElement(PointcutElement pointcutElement, Joinpoint joinpoint) {
@@ -67,11 +80,84 @@ public class PointcutMatcher {
 			return true;
 		if (pointcutElement.getElement() instanceof Anything)
 			return true;
-		if (pointcutElement.getName().equals("*") || pointcutElement.getName().equals(joinpoint.getName())) { //$NON-NLS-1$
-			if (pointcutElement.getElement().getClass() == joinpoint.getElement().getClass()) 
+		if (pointcutElement.getElement().getClass() != joinpoint.getElement().getClass())
+			return false;
+		if (!namesAreMatching(removeVariablePrefix(pointcutElement.getName()), joinpoint.getName()))
+			return false;
+		if (!namesAreMatching(removeVariablePrefix(pointcutElement.getContainerName()), joinpoint.getContainerName()))
+			return false;
+		if (metadataAreMatching(pointcutElement.getElement(), joinpoint.getElement()))
+			return true;
+		// TODO match metadata on components
+		return false;
+	}
+
+	private static boolean metadataAreMatching(URNmodelElement pointcutElement, URNmodelElement joinpointElement) {
+		// TODO this only works for UCM at the moment
+		List<Metadata> list = new ArrayList<Metadata>();
+		list.addAll(pointcutElement.getMetadata());
+		if (pointcutElement instanceof RespRef) {
+			Responsibility rDef = ((RespRef) pointcutElement).getRespDef();
+			list.addAll(rDef.getMetadata());
+		}
+		if (pointcutElement instanceof ComponentRef) {
+			IURNContainer cDef = ((ComponentRef) pointcutElement).getContDef();
+			list.addAll(((URNmodelElement) cDef).getMetadata());
+		}
+		List<Metadata> listJP = new ArrayList<Metadata>();
+		list.addAll(joinpointElement.getMetadata());
+		if (joinpointElement instanceof RespRef) {
+			Responsibility rDef = ((RespRef) joinpointElement).getRespDef();
+			listJP.addAll(rDef.getMetadata());
+		}
+		if (joinpointElement instanceof ComponentRef) {
+			IURNContainer cDef = ((ComponentRef) joinpointElement).getContDef();
+			listJP.addAll(((URNmodelElement) cDef).getMetadata());
+		}
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Metadata m = (Metadata) iterator.next();
+			boolean matched = false;
+			for (Iterator iterator2 = listJP.iterator(); iterator2.hasNext();) {
+				Metadata mJP = (Metadata) iterator2.next();
+				if (namesAreMatching(m.getName(), mJP.getName()) && namesAreMatching(m.getValue(), mJP.getValue())) {
+					matched = true;
+					break;
+				}
+			}
+			if (!matched) {
+				list.clear();
+				listJP.clear();
+				return false;				
+			}
+		}
+		list.clear();
+		listJP.clear();
+		return true;
+	}
+
+	private static String removeVariablePrefix(String name) {
+		if (name.startsWith("$") && name.contains("=")) {
+			name = name.substring(name.indexOf("=") + 1);
+			while (name.startsWith(" "))
+				name = name.substring(1);
+		}
+		return name;
+	}
+
+	private static boolean namesAreMatching(String pointcutName, String joinpointName) {
+		// TODO right now everything starting with a * is matched, this is a quick workaround to allow
+		// TODO any number of * to be matched, should be changed back to equals once proper tagging of 
+		// TODO responsibility references works, so that multiple pointcut maps can share the responsibility *
+		if (pointcutName.startsWith("*") || pointcutName.equals(joinpointName)) //$NON-NLS-1$
+			return true;
+		else {
+		    Pattern p = Pattern.compile(pointcutName);
+		    Matcher m;
+		    m = p.matcher(joinpointName);
+		    if (m.matches())
 				return true;
 		}
-		return false;
+    	return false;
 	}
 
 	// tries to match the neighbors of the mapping's pointcutElement and the neighbors of the mapping's joinpoint

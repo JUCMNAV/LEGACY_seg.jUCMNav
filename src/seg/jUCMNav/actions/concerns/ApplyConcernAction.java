@@ -1,6 +1,7 @@
 package seg.jUCMNav.actions.concerns;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import seg.jUCMNav.aourn.composer.exceptions.MalformedAspectMap;
 import seg.jUCMNav.aourn.matcher.Mapping;
 import seg.jUCMNav.aourn.matcher.Match;
 import seg.jUCMNav.aourn.matcher.MatchList;
+import seg.jUCMNav.aourn.matcher.MatchableElementFactory;
 import seg.jUCMNav.aourn.matcher.PointcutMatcher;
 import seg.jUCMNav.aourn.matcher.exceptions.MatchingFailedException;
 import seg.jUCMNav.model.commands.concerns.AddAspectStubsCommand;
@@ -87,118 +89,145 @@ public class ApplyConcernAction extends URNSelectionAction {
     /**
      * @return a {@link AddAspectStubsCommand} 
      */
-    protected Command getCommand() {   		
+    protected Command getCommand() {
+    	boolean showInfoMessages = false;
     	// TODO only works for UCM right now
-       	UCMmap pointcutMap = getPointcutExpression(element);
+       	HashSet<UCMmap> pointcutMaps = getPointcutExpression(element);
+       	UCMmap pointcutMap = null;
         // TODO externalize strings
-       	if (pointcutMap != null) {
-       		List<PathNode> joinpoints = getJoinpoints(element, pointcutMap);
-            MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Found pointcut expression: " + pointcutMap.getName() + " [" + pointcutMap.getId() + Messages.getString("ApplyConcernAction.CloseBracketJoinPoints") + joinpoints.size() + Messages.getString("ApplyConcernAction.SpacePathNodes")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        if (!pointcutMaps.isEmpty()) {
+       		MatchableElementFactory.clearCache();
+       		List<PathNode> joinpoints = MatchableElementFactory.createMatchableElements(urn, element, pointcutMaps);
+        	List<MatchList> matchResultList = new ArrayList<MatchList>();
             MatchList matchResult = new MatchList();
             String capture = ""; //$NON-NLS-1$
-            try {
-            	matchResult = PointcutMatcher.match(pointcutMap, joinpoints);
-    	        if (matchResult.getMatchList().size() < 20)
-    	        	capture = capture(matchResult);
-	        } catch (MatchingFailedException e) {
-	        	// nothing to do
+            int size = 0;
+            for (Iterator iterator = pointcutMaps.iterator(); iterator.hasNext();) {
+				pointcutMap = (UCMmap) iterator.next();
+	       		if (showInfoMessages) 
+	       			MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Found pointcut expression: " + pointcutMap.getName() + " [" + pointcutMap.getId() + Messages.getString("ApplyConcernAction.CloseBracketJoinPoints") + joinpoints.size() + Messages.getString("ApplyConcernAction.SpacePathNodes")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+	            try {
+	            	matchResult = PointcutMatcher.match(pointcutMap, joinpoints);
+	            	matchResultList.add(matchResult);
+	    	        if (matchResult.getMatchList().size() < 20)
+	    	        	capture = capture + capture(matchResult);
+	    	        size = size + matchResult.getMatchList().size();
+		        } catch (MatchingFailedException e) {
+		        	// add an empty list of matches, so that there is the same number of entries in the results array as there are pointcut maps
+		        	matchResultList.add(new MatchList());
+				}
 			}
-        	MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Found " + matchResult.getMatchList().size() + Messages.getString("ApplyConcernAction.SpaceMatches") + capture); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            // if there are some matches, continue with the composition
-            if (matchResult.getMatchList().size() > 0) {
-                List<AspectMarkerMappings> composeResult = new ArrayList<AspectMarkerMappings>();
-                capture = ""; //$NON-NLS-1$
-                try {
-    				composeResult = UCMAspectComposer.compose((UCMmap) element, pointcutMap, matchResult);
-    				if (composeResult.size() < 20)
-    					capture = capture(composeResult);
-    		        MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Aspect markers to apply: " + composeResult.size() + "     " + capture); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    		        if (composeResult.size() < 250) {
-    		        	// perform the commands to update the model - one for each aspect marker that is being added
-    		        	CompoundCommand cmd = new AddAspectStubsCommand(urn, composeResult);
-        		        // dispose of the the temporary matching and composition data
-    		        	disposeMatchingCompositionInfo();
-        		        return cmd;
-    		        } else {
-        		        MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Info", "Too much work to add so many aspect markers!"); //$NON-NLS-1$ //$NON-NLS-2$
-    		        }
-    			} catch (MalformedAspectMap e) {
-    				MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", "Malformed aspect map!"); //$NON-NLS-1$ //$NON-NLS-2$
-    			} catch (CompositionNotRequired e) {
-    				MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", "Nothing to compose!"); //$NON-NLS-1$ //$NON-NLS-2$
+            if (showInfoMessages)
+            	MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Found " + size + Messages.getString("ApplyConcernAction.SpaceMatches") + capture); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            else
+            	MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Found " + size + "matches!"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            // go through all the pointcut maps and compose their match results
+            int i = 0;
+            UCMAspectComposer.resetCounter();
+        	List<List<AspectMarkerMappings>> composeResultList = new ArrayList<List<AspectMarkerMappings>>();
+        	boolean compositionSuccessful = false;
+            for (Iterator iterator = pointcutMaps.iterator(); iterator.hasNext();) {
+            	pointcutMap = (UCMmap) iterator.next();
+            	MatchList mResult = matchResultList.get(i++);
+            	// if there are some matches, continue with the composition
+            	if (mResult.getMatchList().size() > 0) {
+            		List<AspectMarkerMappings> composeResult = new ArrayList<AspectMarkerMappings>();
+            		capture = ""; //$NON-NLS-1$
+            		try {
+            			composeResult = UCMAspectComposer.compose((UCMmap) element, pointcutMap, mResult);
+            			composeResultList.add(composeResult);
+            			if (composeResult.size() < 20)
+            				capture = capture + capture(composeResult);
+            			compositionSuccessful = true;
+            		} catch (MalformedAspectMap e) {
+            			MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", "Malformed aspect map!"); //$NON-NLS-1$ //$NON-NLS-2$
+            		} catch (CompositionNotRequired e) {
+            			MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", "Nothing to compose!"); //$NON-NLS-1$ //$NON-NLS-2$
+            		}
+            	}
+			}
+    		if (compositionSuccessful) {
+    			size = 0;
+    			for (int j = 0; j < composeResultList.size(); j++) {
+					size = size + composeResultList.get(j).size();
+				}
+    			if (showInfoMessages)
+    				MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Result", "Aspect markers to apply: " + size + "     " + capture); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    			if (size < 250) {
+    				// perform the commands to update the model - one for each aspect marker that is being added
+    				CompoundCommand cmd = new AddAspectStubsCommand(urn, composeResultList);
+    				// dispose of the the temporary matching and composition data
+    				disposeMatchingCompositionInfo();
+    				return cmd;
+    			} else {
+    				MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Info", "Too much work to add so many aspect markers!"); //$NON-NLS-1$ //$NON-NLS-2$
     			}
-            }
+    		}
     	} else {
-            MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", "This map does not contain one or more pointcut stubs with the same pointcut map and with in/out-bindings for all in/out-paths!"); //$NON-NLS-1$ //$NON-NLS-2$
+            MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", "This map does not contain one or more pointcut stubs with the same pointcut maps and with in/out-bindings for all in/out-paths!"); //$NON-NLS-1$ //$NON-NLS-2$
     	}
        	return UnexecutableCommand.INSTANCE;
     }
 
-	private UCMmap getPointcutExpression(URNmodelElement element) {
+	private HashSet<UCMmap> getPointcutExpression(URNmodelElement element) {
+		// TODO only works for UCM right now
     	if (element instanceof UCMmap) {
-    		UCMmap pointcutMap = null;
-    		// TODO considers only the first pointcut map of a pointcut stub on the aspect map
+			// find all pointcut stubs
+    		List<Stub> pointcutStubs = new ArrayList<Stub>();
     		for (Iterator iter = ((UCMmap) element).getNodes().iterator(); iter.hasNext();) {
     			PathNode pathnode = (PathNode) iter.next();
-    			// needs to be a pointcut stub with at least one plug-in map (i.e., pointcut map)
-    			if (pathnode instanceof Stub && !((Stub) pathnode).getAopointcut().equals(PointcutKind.NONE_LITERAL) && ((Stub) pathnode).getBindings().size() > 0) {
-    				// furthermore, all in/out-paths of the pointcut stub need to have an in/outBinding with the pointcut map
+    			if (pathnode instanceof Stub && !((Stub) pathnode).getAopointcut().equals(PointcutKind.NONE_LITERAL)) {
+    				pointcutStubs.add((Stub) pathnode);
+    			}
+    		}
+    		// check that all pointcuts stubs have the same number of plug-in maps and at least one plug-in map (i.e., pointcut map)
+    		HashSet<UCMmap> pointcutMaps = new HashSet<UCMmap>();    		
+    		int numberOfPlugins = -1;
+    		for (int i = 0; i < pointcutStubs.size(); i++) {
+    			Stub stub = pointcutStubs.get(i);
+    			int size = stub.getBindings().size();
+    			if (numberOfPlugins == -1)
+    				numberOfPlugins = size;
+    			else if (size != numberOfPlugins) {
+    				numberOfPlugins = -1;
+    				break;
+    			}
+    			for (Iterator iterator = stub.getBindings().iterator(); iterator.hasNext();) {
+					UCMmap pcMap = ((PluginBinding) iterator.next()).getPlugin();
+					pointcutMaps.add(pcMap);					
+				}
+    		}
+    		// return empty set if the number of plug-in maps is not the same or is 0 (i.e., it was set to -1 in the previous for loop)
+    		// also check that all plug-in maps are the same for each pointcut stub (i.e., the number of all plug-in maps is the same as numberOfPlugins) 
+    		if (numberOfPlugins == -1 || numberOfPlugins != pointcutMaps.size())
+    			return new HashSet<UCMmap>();
+    		// furthermore, all in/out-paths of the pointcut stubs need to have an in/outBinding for all its pointcut maps
+    		for (int i = 0; i < pointcutStubs.size(); i++) {
+    			Stub pcStub = pointcutStubs.get(i);
+				for (int j = 0; j < pcStub.getBindings().size(); j++) {
     				List<NodeConnection> ncList = new ArrayList<NodeConnection>();
-    				ncList.addAll(((Stub) pathnode).getPred());
-    				ncList.addAll(((Stub) pathnode).getSucc());
-    				PluginBinding pl = ((PluginBinding) ((Stub) pathnode).getBindings().get(0));
-    				for (int i = 0; i < pl.getIn().size(); i++) {
-						InBinding in = (InBinding) pl.getIn().get(i);
+    				ncList.addAll(pcStub.getPred());
+    				ncList.addAll(pcStub.getSucc());
+    				PluginBinding pl = (PluginBinding) pcStub.getBindings().get(j);
+    				// look through all the in/outBindings and remove the corresponding in/out-path from the list of in/out-paths
+    				for (int k = 0; k < pl.getIn().size(); k++) {
+						InBinding in = (InBinding) pl.getIn().get(k);
 						ncList.remove(in.getStubEntry());
 					}
-    				for (int i = 0; i < pl.getOut().size(); i++) {
-						OutBinding out = (OutBinding) pl.getOut().get(i);
+    				for (int k = 0; k < pl.getOut().size(); k++) {
+						OutBinding out = (OutBinding) pl.getOut().get(k);
 						ncList.remove(out.getStubExit());
 					}
-    				if (ncList.isEmpty()) {
-    					if (pointcutMap == null) {
-            				// found the pointcut map
-        					pointcutMap = pl.getPlugin();    						
-    					} else {
-    						// check that it is the same pointcut map
-    						if (!pointcutMap.equals(pl.getPlugin())) {
-    							return null;
-    						}
-    					}
-    				} else {
-    					// some in/out-paths do not have bindings
-    					return null;
+    				// the remaining list of in/out-paths has to be empty if all in/out-paths have bindings
+    				if (!ncList.isEmpty()) {
+    					// return empty set if some in/out-paths do not have bindings
+    					return new HashSet<UCMmap>();
     				}
 				}
     		}
-    		return pointcutMap;
+    		return pointcutMaps;
     	}
-    	return null;
-    }
-    
-    private List<PathNode> getJoinpoints(URNmodelElement aspectMap, URNmodelElement pointcutMap) {
-    	List<PathNode> joinpoints = new ArrayList();
-   		// TODO assumes that there is only one aspect map for this aspect in the model
-    	List diagrams = urn.getUrndef().getSpecDiagrams();
-    	for (Iterator iter = diagrams.iterator(); iter.hasNext();) {
-			URNmodelElement diagram = (URNmodelElement) iter.next();
-			if (diagram instanceof UCMmap && !diagram.equals(aspectMap) && !diagram.equals(pointcutMap)) {
-				// don't include the map if it is a plug-in of only pointcut stubs
-				boolean include = false;
-				for (int i = 0; i < ((UCMmap) diagram).getParentStub().size(); i++) {
-					Stub stub = ((PluginBinding) ((UCMmap) diagram).getParentStub().get(i)).getStub();
-					if (stub.getAopointcut() == PointcutKind.NONE_LITERAL) {
-						// it's not a pointcut stub, so let's include the plugin
-						include = true;
-					}
-				}
-				// also include any root map
-				if (include || ((UCMmap) diagram).getParentStub().size() == 0) {
-					joinpoints.addAll(((UCMmap) diagram).getNodes());					
-				}
-			}
-		} 
-    	return joinpoints;
+    	return new HashSet<UCMmap>();
     }
     
 	private void disposeMatchingCompositionInfo() {
