@@ -109,6 +109,9 @@ public class JUCMNavGRLCommandTests extends TestCase {
     private StrategiesGroup strategiesgroup;
     private EvaluationStrategy strategy;
     private URNlink urnlink;
+    
+    private IntentionalElementRef ieRef1, ieRef2, ieRef3, ieRef4, ieRef5, ieRef6, ieRef7, 
+        ieRef8, ieRef9, ieRef10, ieRef11, ieRef12, ieRef13, ieRef14, ieRef15;
 
     private boolean testBindings;
 
@@ -682,115 +685,258 @@ public class JUCMNavGRLCommandTests extends TestCase {
     
     public void testCreateGRLGraph()
     {
-        
-    }
-    
-    public void testShowLinkedElementCommand()
-    {
         Command cmd = new CreateGrlGraphCommand(urnspec);
         
         assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        IntentionalElementRef ref1 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+        ieRef1 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
               IntentionalElementType.GOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ref1);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef1);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        IntentionalElementRef ref2 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+        ieRef2 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
             IntentionalElementType.GOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ref2);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef2);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
   
-        IntentionalElementRef ref3 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+        ieRef3 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
             IntentionalElementType.GOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ref3);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef3);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        IntentionalElementRef ref4 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+        ieRef4 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
             IntentionalElementType.GOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ref4);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef4);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        IntentionalElementRef ref5 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+        ieRef5 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.GOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ref5);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef5);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Contribution contrib1 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ref3.getDef(), contrib1);
-        ((CreateElementLinkCommand) cmd).setTarget(ref4.getDef());
+        cmd = new CreateElementLinkCommand(urnspec, ieRef3.getDef(), contrib1);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef1.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Contribution contrib2 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ref4.getDef(), contrib2);
-        ((CreateElementLinkCommand) cmd).setTarget(ref5.getDef());
+        cmd = new CreateElementLinkCommand(urnspec, ieRef2.getDef(), contrib2);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef1.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Decomposition decomp1 = (Decomposition) ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ref2.getDef(), decomp1);
-        ((CreateElementLinkCommand) cmd).setTarget(ref1.getDef());
+        cmd = new CreateElementLinkCommand(urnspec, ieRef4.getDef(), decomp1);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef2.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Decomposition decomp2 = (Decomposition) ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ref3.getDef(), decomp2);
-        ((CreateElementLinkCommand) cmd).setTarget(ref1.getDef());
+        cmd = new CreateElementLinkCommand(urnspec, ieRef5.getDef(), decomp2);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef2.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        assertTrue(graph.getNodes().size() == 5);
-               
-        cmd = new CreateGrlGraphCommand(urnspec);        
-        assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-        
-        GRLGraph graph2 = (GRLGraph)(((CreateGrlGraphCommand)cmd).getDiagram());
-        cmd = new AddIntentionalElementRefCommand(graph2, ref1);
+        ieRef6 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.SOFTGOAL);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef6);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        cmd = new ShowLinkedElementCommand(urnspec, ref1.getDef(), ref1);
+        ieRef7 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.SOFTGOAL);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef7);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Contribution contrib3 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef6.getDef(), contrib3);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef4.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Contribution contrib4 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef7.getDef(), contrib4);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef4.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        ieRef8 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.TASK);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef8);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        ieRef9 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.TASK);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef9);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Contribution contrib5 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef8.getDef(), contrib5);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef6.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Contribution contrib6 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef9.getDef(), contrib6);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef6.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        ieRef10 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.TASK);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef10);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        ieRef11 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.TASK);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef11);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Contribution contrib7 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef10.getDef(), contrib7);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef7.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Contribution contrib8 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef11.getDef(), contrib8);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef7.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        ieRef12 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.TASK);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef12);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        ieRef13 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.TASK);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef13);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Decomposition decomp3 = (Decomposition) ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef12.getDef(), decomp3);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef3.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Decomposition decomp4 = (Decomposition) ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef13.getDef(), decomp4);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef3.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        ieRef14 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.TASK);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef14);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Contribution contrib9 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef6.getDef(), contrib9);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef14.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Contribution contrib10 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef14.getDef(), contrib10);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef1.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        ieRef15 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.INDICATOR);
+        cmd = new AddIntentionalElementRefCommand(graph, ieRef15);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        Contribution contrib11 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
+        
+        cmd = new CreateElementLinkCommand(urnspec, ieRef15.getDef(), contrib11);
+        ((CreateElementLinkCommand) cmd).setTarget(ieRef5.getDef());
+        assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        assertTrue(graph.getNodes().size() == 15);
+    }
+    
+    public void testShowLinkedElementCommand()
+    {   
+        testCreateGRLGraph();
+      
+        Command cmd = new CreateGrlGraphCommand(urnspec);        
+        assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        IntentionalElementRef tempRef4  = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+            IntentionalElementType.GOAL);        
+        tempRef4.setDef(ieRef4.getDef());
+        GRLGraph graph2 = (GRLGraph)(((CreateGrlGraphCommand)cmd).getDiagram());
+        
+        cmd = new AddIntentionalElementRefCommand(graph2, tempRef4);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        assertTrue(graph2.getNodes().size() == 1);
+        cmd = new ShowLinkedElementCommand(urnspec, tempRef4.getDef(), tempRef4);
         assertTrue("Can't execute ShowLinkedElementCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        assertTrue(graph2.getNodes().size() == 3);
+        assertTrue(graph2.getNodes().size() == 4);
         cs.undo();
         assertTrue(graph2.getNodes().size() == 1);        
         cs.redo();
-        assertTrue(graph2.getNodes().size() == 3);
-        cs.undo();
-        assertTrue(graph2.getNodes().size() == 1);        
+        assertTrue(graph2.getNodes().size() == 4);
+        //cs.undo();
+        //assertTrue(graph2.getNodes().size() == 1);
         
-        cmd = new ShowLinkedElementLevelTwoCommand(urnspec, ref1.getDef(), ref1);
-        assertTrue("Can't execute ShowLinkedElementLevelTwoCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-        assertTrue(graph2.getNodes().size() == 4);
+        Command cmd2 = new ShowLinkedElementLevelTwoCommand(urnspec, tempRef4.getDef(), tempRef4);
+        assertTrue("Can't execute ShowLinkedElementLevelTwoCommand.", cmd2.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd2);
+        assertTrue(graph2.getNodes().size() == 11);
         cs.undo();
-        assertTrue(graph2.getNodes().size() == 1);        
+        assertTrue(graph2.getNodes().size() == 4);        
         cs.redo();
-        assertTrue(graph2.getNodes().size() == 4);
+        assertTrue(graph2.getNodes().size() == 11);
+        //cs.undo();
+        //assertTrue(graph2.getNodes().size() == 1);        
+        
+        Command cmd3 = new ShowLinkedElementLevelThreeCommand(urnspec, tempRef4.getDef(), tempRef4);
+        assertTrue("Can't execute ShowLinkedElementLevelThreeCommand.", cmd3.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd3);
+        assertTrue(graph2.getNodes().size() == 13);
         cs.undo();
-        assertTrue(graph2.getNodes().size() == 1);        
-     
-        cmd = new ShowLinkedElementLevelThreeCommand(urnspec, ref1.getDef(), ref1);
-        assertTrue("Can't execute ShowLinkedElementLevelThreeCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-        assertTrue(graph2.getNodes().size() == 5);
-        cs.undo();
-        assertTrue(graph2.getNodes().size() == 1);        
+        assertTrue(graph2.getNodes().size() == 11);        
         cs.redo();
-        assertTrue(graph2.getNodes().size() == 5);
+        assertTrue(graph2.getNodes().size() == 13);
+        //cs.undo();
+        //assertTrue(graph2.getNodes().size() == 1);
     }
 
     /**

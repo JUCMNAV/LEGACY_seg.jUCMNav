@@ -91,6 +91,15 @@ public abstract class ExportExtensionPointHelper {
      * @return the exporter's unique id
      */
     public static String getExporterFromLabelIndex(String sExtensionPoint, int index) {
+        ArrayList confElems = getExportConfigurationElements(sExtensionPoint);
+        ArrayList labels = new ArrayList();
+        for (Iterator iter = confElems.iterator(); iter.hasNext();) {
+            IConfigurationElement element = (IConfigurationElement) iter.next();
+            labels.add(element.getAttribute("name")); //$NON-NLS-1$
+        }            
+        if (index >= labels.size())
+          index = 0;
+      
         return ((IConfigurationElement) getExportConfigurationElements(sExtensionPoint).get(index)).getAttribute("id"); //$NON-NLS-1$
     }
 

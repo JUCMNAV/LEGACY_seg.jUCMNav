@@ -116,43 +116,7 @@ public class ShowLinkedElementCommand extends Command implements JUCMNavCommand
                 
         for (ElementLink EL : linksDestinationList)
             LogicallyConnectedElementList.add((IntentionalElement)EL.getSrc());
-                
-        /*        
-        // Creating list of intentional elements that the element is the source of them and its ref is not in the refs list of the graph
-        for (ElementLink EL : linksSourceList)            
-        {
-            tempIE = (IntentionalElement) EL.getDest();
-            tempIEList = new ArrayList <IntentionalElementRef>( tempIE.getRefs() );
-            
-            for ( int i = 0; i < tempIEList.size(); i++ )
-            {
-                if (currentIntentionalElementRefList.contains(tempIEList.get( i )))
-                    found = true;
-            }
-            
-            if ( !found )
-                srcGRLLinkableElementList.add( (IntentionalElement) EL.getDest());
-            
-            found = false;
-        }
         
-        // Creating list of intentional elements that the element is the destination of them and its ref is not in the refs list of the graph
-        for (ElementLink EL : linksDestinationList)
-        {
-            tempIE = (IntentionalElement) EL.getSrc();
-            tempIEList = new ArrayList <IntentionalElementRef>( tempIE.getRefs() );
-          
-            for ( int i = 0; i < tempIEList.size(); i++ )
-            {
-                if (currentIntentionalElementRefList.contains(tempIEList.get( i )))
-                    found = true;
-            } 
-          
-            if ( !found )   
-                  destGRLLinkableElementList.add( (IntentionalElement) EL.getSrc());
-            found = false;
-        }
-        */
         redo();   
     }
 
@@ -201,42 +165,7 @@ public class ShowLinkedElementCommand extends Command implements JUCMNavCommand
             CreateAllLinkRefCommand cmd = new CreateAllLinkRefCommand(IER);
             cmd.execute();
         }
-        
-        /*
-        for (int i = 0; i < srcGRLLinkableElementList.size(); i++)
-        {
-            ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
-            ieRef.setDef( (IntentionalElement) srcGRLLinkableElementList.get(i));
-            
-            if (currentIntentionalElementRefList.contains(ieRef))
-                continue;
-            else
-            {
-                addedIntentionalElementRefList.add(ieRef);
-                AddIntentionalElementRefCommand comm1 = new AddIntentionalElementRefCommand(grlGraph, ieRef);
-                comm1.execute();
-            }
-        }
-        
-        for (int i = 0; i < destGRLLinkableElementList.size(); i++)
-        {
-            ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
-            ieRef.setDef( (IntentionalElement) destGRLLinkableElementList.get(i));
-            
-            if (currentIntentionalElementRefList.contains(ieRef))
-                continue;
-            else
-            {
-                addedIntentionalElementRefList.add(ieRef);
-                AddIntentionalElementRefCommand comm1 = new AddIntentionalElementRefCommand(grlGraph, ieRef);
-                comm1.execute();
-            }
-        }           
-        
-        CreateAllLinkRefCommand comm2 = new CreateAllLinkRefCommand(objRef);
-        comm2.execute();
-        */
-        
+                
         testPostConditions();
     }
 
@@ -276,9 +205,6 @@ public class ShowLinkedElementCommand extends Command implements JUCMNavCommand
     public void undo() 
     {
         testPostConditions();
-        
-        //List<IntentionalElementRef> listOfIntentionalElementRefs = new ArrayList<IntentionalElementRef>(objRef.getDiagram().getNodes());
-        //listOfIntentionalElementRefs.removeAll(currentIntentionalElementRefList);
         
         for (int i = 0; i < addedIntentionalElementRefList.size(); i++)
         {
