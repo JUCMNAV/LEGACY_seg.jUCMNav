@@ -1,11 +1,5 @@
 package seg.jUCMNav.model.commands.create;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
-import grl.Actor;
-import grl.ActorRef;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
@@ -15,11 +9,11 @@ import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.StrategiesGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
-
-import com.lowagie.tools.Executable;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -31,7 +25,6 @@ import urn.URNspec;
 import urncore.GRLmodelElement;
 import urncore.IURNDiagram;
 import urncore.Metadata;
-import urncore.URNmodelElement;
 
 public class ShowBestEvaluationIntentionalElementCommand extends Command implements JUCMNavCommand
 {
