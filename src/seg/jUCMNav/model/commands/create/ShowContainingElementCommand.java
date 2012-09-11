@@ -61,6 +61,8 @@ public class ShowContainingElementCommand extends Command implements JUCMNavComm
     private List<IntentionalElement> missingIEList;
     private List<IntentionalElementRef> addedIERefsList;
     
+    private final static int nodeMove = 10;
+    
     public ShowContainingElementCommand(URNspec spec, EObject obj, ActorRef objRef) 
     {
         urnspec = spec;
@@ -71,8 +73,6 @@ public class ShowContainingElementCommand extends Command implements JUCMNavComm
             this.grlelem = (Actor) obj;
             this.grlelemRef = (ActorRef) objRef;
             this.grlGraph = (GRLGraph) objRef.getDiagram();
-            
-            System.out.println("\n\nIn Command constructor!!!\n\n");
             
             setLabel(Messages.getString("ActionRegistryManager.ShowContainingElement")); //$NON-NLS-1$
         }
@@ -111,83 +111,6 @@ public class ShowContainingElementCommand extends Command implements JUCMNavComm
         missingIEList.removeAll(existingIEList);
         missingIEList.removeAll(listOfIE);
         
-        /*
-        srcGRLLinkableElementList = new ArrayList<GRLLinkableElement>();
-        destGRLLinkableElementList = new ArrayList<GRLLinkableElement>();
-        currentIntentionalElementList = new ArrayList<GRLLinkableElement>();
-        
-        System.out.println(grlelem.getLinksSrc().size());
-      
-        // Initializing ElementLink lists to find related intentional elements
-        linksSourceList = new ArrayList<ElementLink>(grlelem.getLinksSrc());
-        linksDestinationList = new ArrayList<ElementLink>(grlelem.getLinksDest());
-        
-        for (ElementLink EL : linksSourceList)
-            srcGRLLinkableElementList.add((IntentionalElement) EL.getDest());
-                
-        for (ElementLink EL : linksDestinationList)
-            destGRLLinkableElementList.add((IntentionalElement) EL.getSrc());
-        
-        for (int i = 0; i < srcGRLLinkableElementList.size(); i++)
-        {
-            List<IntentionalElementRef> list = ( (IntentionalElement) srcGRLLinkableElementList.get(i)).getRefs();
-            
-            for (int j = 0; j < list.size(); j++)
-            {
-                if (( (GRLGraph) list.get(j).getDiagram()).equals(grlGraph))
-                {
-                    actorContainingIERefList.add(list.get(j));
-                    break;
-                }
-            }
-        }
-        
-        for (int i = 0; i < destGRLLinkableElementList.size(); i++)
-        {
-            List<IntentionalElementRef> list = ( (IntentionalElement) destGRLLinkableElementList.get(i)).getRefs();
-            
-            for (int j = 0; j < list.size(); j++)
-            {
-                if (( (GRLGraph) list.get(j).getDiagram()).equals(grlGraph))
-                {
-                    actorContainingIERefList.add(list.get(j));
-                    break;
-                }
-            }
-        }
-        
-        actorContainingIEList = new ArrayList<IntentionalElement>();
-                
-        for (IntentionalElementRef IER : actorContainingIERefList)
-            actorContainingIEList.add(IER.getDef());
-        */
-        /* in case of trouble with casting of lists in following instructions srcIEList and destIEList must be used 
-        srcIEList = new ArrayList<IntentionalElement>();
-        destIEList = new ArrayList<IntentionalElement>();
-        
-        for (GRLLinkableElement GLE : srcGRLLinkableElementList)
-            srcIEList.add( (IntentionalElement) GLE);
-        
-        for (GRLLinkableElement GLE : destGRLLinkableElementList)
-            destIEList.add( (IntentionalElement) GLE);
-        */
-        /*
-        actorMissingIEList = new ArrayList<IntentionalElement>();        
-        actorMissingIEList.addAll((Collection<? extends IntentionalElement>)srcGRLLinkableElementList);
-        actorMissingIEList.addAll((Collection<? extends IntentionalElement>)destGRLLinkableElementList);
-        actorMissingIEList.removeAll(actorContainingIEList);
-        
-        currentGRLNodeList = new ArrayList<GRLNode>(grlGraph.getNodes());
-        currentIntentionalElementRefList = new ArrayList<IntentionalElementRef>();
-        
-        for(GRLNode GN : currentGRLNodeList)
-            if (GN instanceof IntentionalElementRef)
-                currentIntentionalElementRefList.add( (IntentionalElementRef) GN);
-                
-        for (IntentionalElementRef IER : currentIntentionalElementRefList)
-              currentIntentionalElementList.add(IER.getDef());
-        */
-        
         redo();
     }
 
@@ -200,6 +123,7 @@ public class ShowContainingElementCommand extends Command implements JUCMNavComm
     {
         testPreConditions();
         
+        int X_offset, Y_offset;
         IntentionalElementRef ieRef;
         addedIERefsList = new ArrayList<IntentionalElementRef>();
         
@@ -222,13 +146,12 @@ public class ShowContainingElementCommand extends Command implements JUCMNavComm
             }
                         
             grlelemRef.getNodes().addAll(addedIERefsList);
-            
-            //SetConstraintBoundContainerRefCompoundCommand comm = new SetConstraintBoundContainerRefCompoundCommand(grlelemRef, 
-                //grlelemRef.getX(), grlelemRef.getY(), grlelemRef.getWidth(), grlelemRef.getHeight(), true);           
+            X_offset = grlelemRef.getX();
+            Y_offset = grlelemRef.getY();
+                                  
             for (int i = 0; i < grlelemRef.getNodes().size(); i++)
             {
-                MoveNodeCommand comm = new MoveNodeCommand((IURNNode)grlelemRef.getNodes().get(i), 
-                    grlelemRef.getX(), grlelemRef.getY());
+                MoveNodeCommand comm = new MoveNodeCommand((IURNNode)grlelemRef.getNodes().get(i), X_offset += nodeMove, Y_offset += nodeMove);
                 comm.execute();
             }
             

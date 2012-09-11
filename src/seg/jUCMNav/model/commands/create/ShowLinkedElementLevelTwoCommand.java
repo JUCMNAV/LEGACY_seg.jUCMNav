@@ -226,7 +226,6 @@ public class ShowLinkedElementLevelTwoCommand extends Command implements JUCMNav
     public void undo() 
     {
         testPostConditions();
-        IntentionalElementRef ieRef = null;
         
         List<IntentionalElementRef> listOfIntentionalElementRefs = new ArrayList<IntentionalElementRef>(objRef.getDiagram().getNodes());
         listOfIntentionalElementRefs.removeAll(currentIntentionalElementRefList);

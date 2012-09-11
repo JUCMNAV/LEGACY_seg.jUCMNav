@@ -42,8 +42,10 @@ import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.MoveLinkRefBendpointCommand;
+import seg.jUCMNav.model.commands.changeConstraints.MoveNodeCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefLinkCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
@@ -59,6 +61,7 @@ import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
 import seg.jUCMNav.model.commands.create.CreateStrategyCommand;
+import seg.jUCMNav.model.commands.create.ShowContainingElementCommand;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementCommand;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementLevelThreeCommand;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementLevelTwoCommand;
@@ -83,6 +86,7 @@ import ucm.map.UCMmap;
 import urn.URNlink;
 import urn.URNspec;
 import urncore.IURNDiagram;
+import urncore.IURNNode;
 
 /**
  * Test suite to test the commands in the GRL editor
@@ -112,6 +116,8 @@ public class JUCMNavGRLCommandTests extends TestCase {
     
     private IntentionalElementRef ieRef1, ieRef2, ieRef3, ieRef4, ieRef5, ieRef6, ieRef7, 
         ieRef8, ieRef9, ieRef10, ieRef11, ieRef12, ieRef13, ieRef14, ieRef15;
+    private ActorRef aRef1, aRef2;
+    private GRLGraph graph1;
 
     private boolean testBindings;
 
@@ -686,37 +692,37 @@ public class JUCMNavGRLCommandTests extends TestCase {
     public void testCreateGRLGraph()
     {
         Command cmd = new CreateGrlGraphCommand(urnspec);
-        
+        graph1 = ((CreateGrlGraphCommand) cmd).getDiagram();
         assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        
+                
         ieRef1 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
               IntentionalElementType.GOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef1);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef1);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         ieRef2 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
             IntentionalElementType.GOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef2);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef2);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
   
         ieRef3 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
             IntentionalElementType.GOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef3);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef3);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         ieRef4 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
             IntentionalElementType.GOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef4);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef4);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         ieRef5 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.GOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef5);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef5);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
@@ -750,13 +756,13 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         ieRef6 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.SOFTGOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef6);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef6);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         ieRef7 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.SOFTGOAL);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef7);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef7);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
@@ -776,13 +782,13 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         ieRef8 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.TASK);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef8);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef8);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         ieRef9 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.TASK);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef9);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef9);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
@@ -802,13 +808,13 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         ieRef10 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.TASK);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef10);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef10);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         ieRef11 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.TASK);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef11);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef11);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
@@ -828,13 +834,13 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         ieRef12 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.TASK);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef12);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef12);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         ieRef13 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.TASK);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef13);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef13);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
@@ -854,7 +860,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         ieRef14 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.TASK);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef14);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef14);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
@@ -874,7 +880,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         ieRef15 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
           IntentionalElementType.INDICATOR);
-        cmd = new AddIntentionalElementRefCommand(graph, ieRef15);
+        cmd = new AddIntentionalElementRefCommand(graph1, ieRef15);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
@@ -885,21 +891,59 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        assertTrue(graph.getNodes().size() == 15);
+        assertTrue(graph1.getNodes().size() == 15);
+        
+        aRef1 = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
+        cmd = new AddContainerRefCommand(graph1, aRef1);
+        assertTrue("Can't execute AddContainerRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        cmd = new SetConstraintContainerRefCommand(aRef1, 376, 12, 621, 239);
+        assertTrue("Can't execute SetConstraintContainerRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);   
+        
+        cmd = new MoveNodeCommand(ieRef1, 623, 37);
+        assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        cmd = new MoveNodeCommand(ieRef2, 487, 132);
+        assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        cmd = new MoveNodeCommand(ieRef3, 797, 157);
+        assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        aRef2 = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
+        cmd = new AddContainerRefCommand(graph1, aRef2);
+        assertTrue("Can't execute AddContainerRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        cmd = new SetConstraintContainerRefCommand(aRef2, 104, 240, 450, 235);
+        assertTrue("Can't execute SetConstraintContainerRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        cmd = new MoveNodeCommand(ieRef4, 268, 266);
+        assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        cmd = new MoveNodeCommand(ieRef6, 155, 362);
+        assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        cmd = new MoveNodeCommand(ieRef7, 353, 366);
+        assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        assertTrue(graph1.getNodes().size() == 15);
     }
     
     public void testShowLinkedElementCommand()
     {   
         testCreateGRLGraph();
       
-        Command cmd = new CreateGrlGraphCommand(urnspec);        
+        Command cmd = new CreateGrlGraphCommand(urnspec);   
+        GRLGraph graph2 = ( (CreateGrlGraphCommand) cmd).getDiagram();
         assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         IntentionalElementRef tempRef4  = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
             IntentionalElementType.GOAL);        
-        tempRef4.setDef(ieRef4.getDef());
-        GRLGraph graph2 = (GRLGraph)(((CreateGrlGraphCommand)cmd).getDiagram());
+        tempRef4.setDef(ieRef4.getDef());        
         
         cmd = new AddIntentionalElementRefCommand(graph2, tempRef4);
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
@@ -937,6 +981,33 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(graph2.getNodes().size() == 13);
         //cs.undo();
         //assertTrue(graph2.getNodes().size() == 1);
+    }
+    
+    public void testShowContainingElementCommand()
+    {
+        testCreateGRLGraph();
+        
+        Command cmd = new CreateGrlGraphCommand(urnspec);   
+        GRLGraph graph2 = ( (CreateGrlGraphCommand) cmd).getDiagram();
+        assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        ActorRef ar1 = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
+        ar1.setContDef(aRef1.getContDef());
+        cmd = new AddContainerRefCommand(graph2, ar1);
+        assertTrue("Can't execute AddContainerRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        assertTrue(graph2.getNodes().size() == 0);
+        
+        cmd = new ShowContainingElementCommand(urnspec, ar1.getContDef(), ar1);
+        assertTrue("Can't execute ShowContainingElementCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        assertTrue(graph2.getNodes().size() == 3);
+        cs.undo();
+        assertTrue(graph2.getNodes().size() == 0);        
+        cs.redo();
+        assertTrue(graph2.getNodes().size() == 3);        
     }
 
     /**

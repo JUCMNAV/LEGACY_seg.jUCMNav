@@ -61,16 +61,13 @@ public class ShowContainingElementAction extends URNSelectionAction
             //elementRef = sel.getActorref();
             element = sel.getActor();
             elementRef = (ActorRef) HyperlinkUtils.findURNmodelElement(sel);
-            System.out.println("\nelement type is : " + element);
-            System.out.println("elementRef type is : " + elementRef);
-            System.out.println("It is Enabled");
+            //System.out.println("\nelement type is : " + element);
+            //System.out.println("elementRef type is : " + elementRef);
+            //System.out.println("It is Enabled");
                 return true;
         } 
         else
-        {
-            System.out.println("It is not Enabled");
-                return false;
-        }
+            return false;
     }
     
     /**
