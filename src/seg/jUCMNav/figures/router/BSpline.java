@@ -54,6 +54,9 @@ public class BSpline {
             
         System.out.println("slope: " + slope);
         boolean isRoughlySameSlope=true;
+        // this piece of code is not perfect enough.  
+        isRoughlySameSlope=false;
+        /*
         for (int i=1;i<list.size();i++)
         {
              double sensitivity = 2.5;
@@ -64,13 +67,13 @@ public class BSpline {
              if (localdiffx!=0)
                  localslope = (double)localdiffy / (double)localdiffx;
              
-             double variance = Math.abs(Math.round(localslope) - Math.round(slope));
+             double variance = Math.abs(Math.abs(Math.round(localslope)) - Math.abs(Math.round(slope)));
              
              if (variance > sensitivity) {
                      isRoughlySameSlope=false;
                      break;
              }
-        }
+        }*/
         
         if (isRoughlySameSlope)
         {
