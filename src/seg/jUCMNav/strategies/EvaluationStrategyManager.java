@@ -1123,6 +1123,14 @@ public class EvaluationStrategyManager {
         Evaluation eval = (Evaluation) evaluations.get(element);
         KPIEvalValueSet kpiEval = getActiveKPIEvalValueSet(element);
         kpiEval.setKpiConv(conv);
+        
+        if (kpiEval.getEval()==null) {
+            kpiEval.setEval(eval);
+            
+            // If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
+            AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
+            execute(cmd);
+        }
     }
     
     public synchronized int calculateIndicatorEvalLevel(Evaluation eval) {
