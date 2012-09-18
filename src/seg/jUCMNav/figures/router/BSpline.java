@@ -52,11 +52,11 @@ public class BSpline {
         if (diffx!=0)
             slope = (double)diffy / (double) diffx; 
             
-        
+        System.out.println("slope: " + slope);
         boolean isRoughlySameSlope=true;
         for (int i=1;i<list.size();i++)
         {
-             double sensitivity = 5;
+             double sensitivity = 2.5;
              // slope between these two points. 
              int localdiffy = list.getPoint(i).y - list.getPoint(i-1).y;
              int localdiffx = list.getPoint(i).x - list.getPoint(i-1).x;
@@ -65,6 +65,7 @@ public class BSpline {
                  localslope = (double)localdiffy / (double)localdiffx;
              
              double variance = Math.abs(Math.round(localslope) - Math.round(slope));
+             
              if (variance > sensitivity) {
                      isRoughlySameSlope=false;
                      break;
@@ -75,10 +76,11 @@ public class BSpline {
         {
             precision=4;
             step = 0.333;
+            
         } else
         {
             precision=10;
-            step = 0.1125;
+            step = 0.1115;
             //precision=8;
             //step = 0.143;
         }
