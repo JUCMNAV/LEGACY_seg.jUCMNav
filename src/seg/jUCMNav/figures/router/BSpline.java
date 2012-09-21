@@ -52,7 +52,7 @@ public class BSpline {
         if (diffx!=0)
             slope = (double)diffy / (double) diffx; 
             
-        System.out.println("slope: " + slope);
+        //System.out.println("slope: " + slope);
         boolean isRoughlySameSlope=true;
         // this piece of code is not perfect enough.  
         isRoughlySameSlope=false;
