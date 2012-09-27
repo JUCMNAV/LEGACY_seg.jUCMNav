@@ -71,7 +71,8 @@ public class FormulaBasedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlg
             }
 
             EvaluationStrategyManager strategyManager = EvaluationStrategyManager.getInstance();
-            strategyManager.setActiveKPIEvaluationValue(element, resultContrib, false /* don't recompute all */);
+            //strategyManager.setActiveKPIEvaluationValue(element, resultContrib, false /* don't recompute all */);
+            strategyManager.setActiveKPIEvaluationValue(element, resultContrib, true);
             //eval.getKpiEvalValueSet().setEvaluationValue(resultContrib);
             int v = strategyManager.calculateIndicatorEvalLevel(eval);
             result = eval.getEvaluation();
