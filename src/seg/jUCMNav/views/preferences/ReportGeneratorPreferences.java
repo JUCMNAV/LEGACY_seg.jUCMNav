@@ -24,6 +24,9 @@ public class ReportGeneratorPreferences {
     public final static String PREF_REPORT_WIDTH = "seg.jUCMNav.ReportPreference.Width"; //$NON-NLS-1$
     public final static String PREF_NUMBER_CSV_COLUMNS = "seg.jUCMNav.ReportPreference.NumberCSV_Columns"; //$NON-NLS-1$
 
+    public final static boolean DEFAULT_UCM_SHOW_UCM_DIAGRAMS = true;
+    public final static boolean DEFAULT_GRL_SHOW_GRL_DIAGRAMS = true;
+    
     public final static boolean DEFAULT_UCM_SHOW_DESC = true;
     public final static boolean DEFAULT_UCM_SHOW_RESPONSIBILITY = true;
     public final static boolean DEFAULT_UCM_SHOW_STUB = true;
@@ -34,7 +37,13 @@ public class ReportGeneratorPreferences {
     public final static boolean DEFAULT_GRL_SHOW_INTENTIONAL_ELEMENTS = true;
     public final static boolean DEFAULT_GRL_SHOW_BELIEFS = true;
     public final static boolean DEFAULT_GRL_SHOW_URN_LINKS = true;
+    
+    //public final static boolean DEFAULT_GRL_SHOW_EVAL_STRATEGY_TREND = false;
+    //public final static int DEFAULT_GRL_EVAL_STRATEGY_TREND = 3;
 
+    public final static String PREF_UCM_SHOW_UCM_DIAGRAMS = "seg.jUCMNav.UCMReportPreference.UCMSHOWUCMDIAGRAMS"; //$NON-NLS-1$
+    public final static String PREF_GRL_SHOW_GRL_DIAGRAMS = "seg.jUCMNav.UCMReportPreference.GRLSHOWGRLDIAGRAMS"; //$NON-NLS-1$
+    
     public final static String PREF_UCM_SHOW_DESC = "seg.jUCMNav.UCMReportPreference.UCMSHOWDESC"; //$NON-NLS-1$
     public final static String PREF_UCM_SHOW_RESPONSIBILITY = "seg.jUCMNav.UCMReportPreference.UCMSHOWRESPONSIBILITY"; //$NON-NLS-1$
     public final static String PREF_UCM_SHOW_STUB = "seg.jUCMNav.UCMReportPreference.UCMSHOWSTUB"; //$NON-NLS-1$
@@ -45,6 +54,9 @@ public class ReportGeneratorPreferences {
     public final static String PREF_GRL_SHOW_INTENTIONAL_ELEMENTS = "seg.jUCMNav.UCMReportPreference.IntentionalElements"; //$NON-NLS-1$
     public final static String PREF_GRL_SHOW_BELIEFS = "seg.jUCMNav.UCMReportPreference.Beliefs"; //$NON-NLS-1$
     public final static String PREF_SHOW_URN_LINKS = "seg.jUCMNav.UCMReportPreference.URNLinks"; //$NON-NLS-1$
+    
+    //public final static String PREF_GRL_SHOW_EVAL_STRATEGY_TREND = "seg.jUCMNav.UCMReportPreference.GRLShowEvalStratefyTrend"; //$NON-NLS-1$
+    //public final static String PREF_GRL_EVAL_STRATEGY_TREND = "seg.jUCMNav.UCMReportPreference.GRLEvalStrategyTrend"; //$NON-NLS-1$
 
     /**
      * 
@@ -63,6 +75,8 @@ public class ReportGeneratorPreferences {
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_REPORT_HEIGHT, ReportGeneratorPreferences.DEFAULT_REPORT_HEIGHT);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_REPORT_COLOR, ReportGeneratorPreferences.DEFAULT_REPORT_COLOR);
 
+        getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_UCM_SHOW_UCM_DIAGRAMS, ReportGeneratorPreferences.DEFAULT_UCM_SHOW_UCM_DIAGRAMS);
+        getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_GRL_DIAGRAMS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_GRL_DIAGRAMS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_UCM_SHOW_DESC, ReportGeneratorPreferences.DEFAULT_UCM_SHOW_DESC);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_UCM_SHOW_RESPONSIBILITY, ReportGeneratorPreferences.DEFAULT_UCM_SHOW_RESPONSIBILITY);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_UCM_SHOW_STUB, ReportGeneratorPreferences.DEFAULT_UCM_SHOW_STUB);
@@ -74,6 +88,8 @@ public class ReportGeneratorPreferences {
                 ReportGeneratorPreferences.DEFAULT_GRL_SHOW_INTENTIONAL_ELEMENTS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_BELIEFS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_BELIEFS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_SHOW_URN_LINKS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_URN_LINKS);
+        //getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_EVAL_STRATEGY_TREND, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_EVAL_STRATEGY_TREND);
+        //getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_EVAL_STRATEGY_TREND, ReportGeneratorPreferences.DEFAULT_GRL_EVAL_STRATEGY_TREND);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_NUMBER_CSV_COLUMNS, ReportGeneratorPreferences.DEFAULT_NUMBER_CSV_COLUMNS);
     }
 
@@ -185,6 +201,22 @@ public class ReportGeneratorPreferences {
 
     /**
      * 
+     * @return the value of the show ucm diagrams preference
+     */
+    public static boolean getUCMSHOWUCMDIAGRAMS() {
+    	return getPreferenceStore().getBoolean(PREF_UCM_SHOW_UCM_DIAGRAMS);
+    }
+    
+    /**
+     * 
+     * @return the value of the show grl diagrams preference
+     */
+    public static boolean getGRLSHOWGRLDIAGRAMS() {
+    	return getPreferenceStore().getBoolean(PREF_GRL_SHOW_GRL_DIAGRAMS);
+    }
+    
+    /**
+     * 
      * @return the show ucm description
      */
     public static boolean getUCMSHOWDESC() {
@@ -253,6 +285,22 @@ public class ReportGeneratorPreferences {
 
     /**
      * 
+     * @return the value of the show grl eval strategy trend preference
+     */
+    //public static boolean getShowGRLEvalStrategyTrend() {
+    //	return getPreferenceStore().getBoolean(PREF_GRL_SHOW_EVAL_STRATEGY_TREND);
+    //}
+    
+    /**
+     * 
+     * @return the value of the grl eval strategy trend preference
+     */
+    //public static String getGRLEvalStrategyTrend() {
+    //	return getPreferenceStore().getString(PREF_GRL_EVAL_STRATEGY_TREND);
+    //}
+    
+    /**
+     * 
      * @param bool
      *            show or not the description node type
      */
@@ -260,6 +308,24 @@ public class ReportGeneratorPreferences {
         getPreferenceStore().setValue(PREF_UCM_SHOW_DESC, bool);
     }
 
+    /**
+     * 
+     * @param bool
+     *            show or not the show ucm diagrams node type
+     */
+    public static void setUCMSHOWUCMDIAGRAMS(boolean bool) {
+    	getPreferenceStore().setValue(PREF_UCM_SHOW_UCM_DIAGRAMS, bool);
+    }
+    
+    /**
+     * 
+     * @param bool
+     *            show or not the show grl diagrams node type
+     */
+    public static void setGRLSHOWGRLDIAGRAMS(boolean bool) {
+    	getPreferenceStore().setValue(PREF_GRL_SHOW_GRL_DIAGRAMS, bool);
+    }
+    
     /**
      * 
      * @param bool
@@ -313,5 +379,36 @@ public class ReportGeneratorPreferences {
     // public static void setEndPoint(boolean bool) {
     // getPreferenceStore().setValue(PREF_UCM_SHOW_END_POINT, bool);
     // }
+    
+    /**
+     * 
+     * @param bool
+     *            show or not the GRL Show Eval Strategy Trend preference
+     */
+    //public static void setShowGRLEvalStrategyTrend(boolean bool) {
+    //	getPreferenceStore().setValue(PREF_GRL_SHOW_EVAL_STRATEGY_TREND, bool);
+    //}
+    
+    /**
+     * 
+     * @param evalStrategyTrend
+     *            set the number of strategy evaluations to use for the evaluation strategy trend of the intentional elements
+     */
+    /*public static void setGRLEvalStrategyTrend(String evalStrategyTrend) {
+    	String s;
+        // want to make sure it is convertible.
+        try {
+            int i = Integer.parseInt(evalStrategyTrend);
+            if( i < 0 ) {
+            	s = "0"; //$NON-NLS-1$
+            } else {
+            	s = Integer.toString(i);
+            }
+        } catch (Exception e) {
+            s = "0"; //$NON-NLS-1$
+        }
+
+        getPreferenceStore().setValue(PREF_GRL_EVAL_STRATEGY_TREND, s);
+    }*/
 
 }

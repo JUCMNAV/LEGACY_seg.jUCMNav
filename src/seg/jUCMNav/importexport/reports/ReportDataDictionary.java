@@ -14,6 +14,7 @@ import ucm.scenario.EnumerationType;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.Variable;
+import urn.URNspec;
 import urncore.Component;
 import urncore.Responsibility;
 import urncore.URNdefinition;
@@ -40,6 +41,8 @@ public class ReportDataDictionary extends Report {
      * 
      * @param document
      *            the document in which the report is created
+     * @param urnspec
+     *            the urn specification used to retrieve the urn model description
      * @param ucmspec
      *            the ucm specification used to retrieve elements
      * @param grlspec
@@ -52,7 +55,6 @@ public class ReportDataDictionary extends Report {
             if (ucmspec != null) {
                 // document scenario Groups
                 if (!ucmspec.getScenarioGroups().isEmpty()) {
-                    document.add(Chunk.NEWLINE);
                     document.add(Chunk.NEWLINE);
                     writeScenarioGroups(document, ucmspec);
                 }

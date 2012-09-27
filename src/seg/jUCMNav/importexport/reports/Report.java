@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import ucm.UCMspec;
 import urn.URNspec;
 import urncore.URNdefinition;
@@ -54,6 +55,9 @@ public class Report extends URNReport {
     protected GRLspec grlspec;
     protected URNdefinition urndef;
 
+    protected boolean prefShowUCMDiagrams;
+    protected boolean prefShowGRLDiagrams;
+    
     private String filename;
 
     public Report() {
@@ -85,11 +89,15 @@ public class Report extends URNReport {
         // TODO report description strings should be externalized
 
         try {
+        	// fetch the values of the UCMSHOWUCMDIAGRAMS and GRLSHOWGRLDIAGRAMS preferences.
+        	prefShowUCMDiagrams = ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS();
+        	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
+        	
             // get UCMSpec from URNSpec and iterate in scenario groups
-            if (urn.getUcmspec() != null) {
+            if ((urn.getUcmspec() != null) && (prefShowUCMDiagrams)) {
                 ucmspec = urn.getUcmspec();
             }
-            if (urn.getGrlspec() != null) {
+            if ((urn.getGrlspec() != null) && (prefShowGRLDiagrams)) {
                 grlspec = urn.getGrlspec();
             }
             if (urn.getUrndef() != null) {

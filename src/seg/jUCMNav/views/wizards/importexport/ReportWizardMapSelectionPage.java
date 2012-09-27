@@ -25,6 +25,7 @@ import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.ReportExtensionPointHelper;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import urncore.IURNDiagram;
 
 /**
@@ -86,8 +87,39 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         this.mapsToEditor = mapsToEditor;
         this.mapsToExport = mapsToExport;
 
+        filterMapsToExport();
     }
 
+    /*
+     * fetches the UCMSHOWUCMDIAGRAMS and the GRLSHOWGRLDIAGRAMS preferences, in order to remove
+     * some diagrams (if one of these preferences is set to false)
+     */
+    private void filterMapsToExport()
+    {
+    	String filteredName, diagramName;
+    	Vector temp = new Vector();
+        int i = 0;
+        for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
+            IURNDiagram diagram = (IURNDiagram) iter.next();
+
+            diagramName = ReportWizard.getDiagramName(diagram);
+            // if the diagram is a use case map and the UCMSHOWUCMDIAGRAMS preference is set to true,
+            // add this diagram to the temp vector. Otherwise if the diagram is a GRL diagram and the
+            // GRLSHOWGRLDIAGRAMS preference is set to true, add this diagram to the temp vector.
+            if ((diagramName.contains("-Map")) && (ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS())) { //$NON-NLS-1$
+                temp.add(this.mapsToExport.elementAt(i));
+            }
+            else if ((diagramName.contains("-GRLGraph")) && (ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS())) { //$NON-NLS-1$
+            	temp.add(this.mapsToExport.elementAt(i));
+            }
+
+            i++;
+        }
+        // remove all diagrams from the mapsToExport vector, and add all diagrams contained within
+        // the temp vector to the mapsToExport vector.
+        this.mapsToExport.removeAllElements();
+        this.mapsToExport.addAll(temp);
+    }
     /**
      * Contains controls to set the report directory, report file type and selected maps.
      */
@@ -231,12 +263,14 @@ public class ReportWizardMapSelectionPage extends WizardPage {
             }
 
             diagramName = ReportWizard.getDiagramName(diagram);
-            if (diagramName.contains("-Map")) //$NON-NLS-1$
+            if (diagramName.contains("-Map")){ //$NON-NLS-1$
                 filteredName = diagramName.substring(0, diagramName.indexOf("-Map") + 1) //$NON-NLS-1$
                         + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
-            else
+            }
+            else { 
                 filteredName = diagramName.substring(0, diagramName.indexOf("-GRLGraph") + 1) //$NON-NLS-1$
                         + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
+            }
             listMaps.add(filteredName);
 
             i++;
@@ -295,8 +329,11 @@ public class ReportWizardMapSelectionPage extends WizardPage {
         ReportPreferenceHelper.setReportType(iTypeSelectionIndex);
         ReportPreferenceHelper.setFilenamePrefix(sFilename);
 
-        if (!htmlSelected) // if HTML report type is selected bypass map selection filtering, export all maps
+        // if HTML report type is selected, bypass map selection filtering by exporting all maps, or all GRL/UCM diagrams
+        // (depending on the report generation preferences).
+        if (htmlSelected) {
             updatemapsToExport();
+        }
 
         return true;
     }
@@ -344,14 +381,27 @@ public class ReportWizardMapSelectionPage extends WizardPage {
             setErrorMessage(null);
         }
 
-        if (cboReportType.getText().contains("HTML")) //$NON-NLS-1$
-            listMaps.selectAll();
-        else if (mapsToExport.size() == 0)
-            setErrorMessage(Messages.getString("ReportWizardPage.noMapsSelected")); //$NON-NLS-1$
-
-        if (txtFilenamePrefix.getText() == "") //$NON-NLS-1$
+        // disable the Report prefix feature and select all available maps if the report type
+        // selected is HTML.
+        if (cboReportType.getText().contains("HTML")) {	//$NON-NLS-1$
+        	if (txtFilenamePrefix.getText() == "") {
+        		txtFilenamePrefix.setText(ReportPreferenceHelper.getFilenamePrefix());
+        	}
+        	lblFilenamePrefix.setEnabled(false);
+        	txtFilenamePrefix.setEnabled(false);
+        	listMaps.selectAll();  	
+        } else {
+        	lblFilenamePrefix.setEnabled(true);
+        	txtFilenamePrefix.setEnabled(true);
+        	if (mapsToExport.size() == 0) {
+        		setErrorMessage(Messages.getString("ReportWizardPage.noMapsSelected")); //$NON-NLS-1$
+        	}
+        }
+        
+        if (txtFilenamePrefix.getText() == "") { //$NON-NLS-1$
             setErrorMessage(Messages.getString("ReportWizardMapSelectionPage.invalidFilename")); //$NON-NLS-1$
-
+        }
+        
         setPageComplete(getErrorMessage() == null && (listMaps.getSelectionCount() > 0) && cboReportType.getSelectionIndex() >= 0);
     }
 

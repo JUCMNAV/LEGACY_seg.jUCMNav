@@ -419,21 +419,94 @@ public class HTMLMenuParser {
 		NodeList branchList = xmlDocument.getDocumentElement().getChildNodes();
 		int len = branchList.getLength();
 		Element branch = null;
+		
 		for (int i = 0; i < len; i++) {
 			Node childNode = branchList.item(i);
 			if (childNode.getNodeType() == Node.ELEMENT_NODE) {
 				branch = (Element) childNode;
-
 				String emptyText = ""; //$NON-NLS-1$
 				String bid = branch.getAttribute(BRANCH_ID);
+				// the branch corresponds to the UCM menu
 				if (bid.equals(HTMLMenuItem.TYPE_UCM)) {
+					// get the child node corresponding to the branch text (i.e. the menu name),
+					// fetch the menu name from the properties and assign this name as the text content of the node
+					NodeList childNodeList = childNode.getChildNodes();
+					int len2 = childNodeList.getLength();
+					for (int j=0; j < len2; j++) {
+						Node childNode2 = childNodeList.item(j);
+						if ((childNode2.getNodeName()).equals(BRANCH_TEXT)) {
+							childNode2.setTextContent(Messages.getString("HTMLMenuParser.UCMDiagrams")); //$NON-NLS-1$
+							break;
+						}
+					}
+					// set the default "no UCMs" message
 					emptyText = Messages.getString("HTMLMenuParser.NoUCMs"); //$NON-NLS-1$
 				} else if (bid.equals(HTMLMenuItem.TYPE_GRL)) {
+					// the branch corresponds to the GRL menu
+					// get the child node corresponding to the branch text (i.e. the menu name),
+					// fetch the menu name from the properties and assign this name as the text content of the node
+					NodeList childNodeList = childNode.getChildNodes();
+					int len2 = childNodeList.getLength();
+					for (int j=0; j < len2; j++) {
+						Node childNode2 = childNodeList.item(j);
+						if ((childNode2.getNodeName()).equals(BRANCH_TEXT)) {
+							childNode2.setTextContent(Messages.getString("HTMLMenuParser.GRLDiagrams")); //$NON-NLS-1$
+							break;
+						}
+					}
+					// set the default "no GRLs" message
 					emptyText = Messages.getString("HTMLMenuParser.NoGRLs"); //$NON-NLS-1$
 				} else if (bid.equals(HTMLMenuItem.TYPE_MSC)) {
+					// the branch corresponds to the MSC menu
+					// get the child node corresponding to the branch text (i.e. the menu name),
+					// fetch the menu name from the properties and assign this name as the text content of the node
+					NodeList childNodeList = childNode.getChildNodes();
+					int len2 = childNodeList.getLength();
+					for (int j=0; j < len2; j++) {
+						Node childNode2 = childNodeList.item(j);
+						if ((childNode2.getNodeName()).equals(BRANCH_TEXT)) {
+							childNode2.setTextContent(Messages.getString("HTMLMenuParser.MSCDiagrams")); //$NON-NLS-1$
+							break;
+						}
+					}
+					// set the default "no MSCs" message
 					emptyText = Messages.getString("HTMLMenuParser.NoMSCs"); //$NON-NLS-1$
+				} else {
+					// the branch corresponds to the Definitions menu
+					// get the child node corresponding to the branch text (i.e. the menu name),
+					// fetch the menu name from the properties and assign this name as the text content of the node
+					NodeList childNodeList = childNode.getChildNodes();
+					int len2 = childNodeList.getLength();
+					for (int j=0; j < len2; j++) {
+						Node childNode2 = childNodeList.item(j);
+						if ((childNode2.getNodeName()).equals(BRANCH_TEXT)) {
+							childNode2.setTextContent(Messages.getString("HTMLMenuParser.Definitions")); //$NON-NLS-1$
+						} else if ((childNode2.getNodeName()).equals(LEAF)) {
+							// the child nodes of the Definitions node are the UCM Definitions page, the
+							// GRL Definitions page as well as the Title Page
+							NodeList child2NodeList = childNode2.getChildNodes();
+							int len3 = child2NodeList.getLength();
+							// get the child node corresponding to the leaf text (i.e. the menu name),
+							// fetch the menu name from the properties and assign this name as the text content of the node
+							for (int k=0; k < len3; k++) {
+								Node childNode3 = child2NodeList.item(k);
+								if ((childNode3.getNodeName()).equals(LEAF_TEXT)) {
+									if ((childNode3.getTextContent()).equals(HTMLMenuItem.TYPE_UCM_DEF)) {
+										childNode3.setTextContent(Messages.getString("HTMLMenuParser.UCMDefinitions")); //$NON-NLS-1$
+									} else if ((childNode3.getTextContent()).equals(HTMLMenuItem.TYPE_GRL_DEF)) {
+										childNode3.setTextContent(Messages.getString("HTMLMenuParser.GRLDefinitions")); //$NON-NLS-1$
+									} else {
+										childNode3.setTextContent(Messages.getString("HTMLMenuParser.TitlePage")); //$NON-NLS-1$
+									}
+									break;
+								}
+							}
+						}
+					}
 				}
 
+				// set the text content of the leaf nodes if need be (i.e. if no diagram is
+				// found in one of the categories)
 				if (branch.getElementsByTagName(LEAF).getLength() <= 0 && branch.getElementsByTagName(BRANCH).getLength() <= 0) {
 					Element leaf = xmlDocument.createElement(LEAF);
 

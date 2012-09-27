@@ -45,7 +45,7 @@ public class ReportTitlePage extends Report {
             document.add(appURL);
 
             // Create some space between the image and the title page info
-            for (int x = 0; x < 6; x++) {
+            for (int x = 0; x < 4; x++) {
 
                 document.add(Chunk.NEWLINE);
 
@@ -57,8 +57,12 @@ public class ReportTitlePage extends Report {
 
             // URN title
             Chunk titleLabel = new Chunk(Messages.getString("ReportTitlePage.Title"), specsFont); //$NON-NLS-1$
-            Chunk titleValue = new Chunk(CheckforEmpty(ExportPreferenceHelper.getFilenamePrefix().replace( ".jucm", "")));
+            Chunk titleValue = new Chunk(CheckforEmpty(ExportPreferenceHelper.getFilenamePrefix().replace( Messages.getString("ReportTitlePage.0"), Messages.getString("ReportTitlePage.1")))); //$NON-NLS-1$ //$NON-NLS-2$
 
+            // URN Model name
+            Chunk urnModelNameLabel = new Chunk(Messages.getString("ReportTitlePage.URNModelName"), specsFont); //$NON-NLS-1$
+            Chunk urnModelNameValue = new Chunk(CheckforEmpty(urn.getName()));
+            
             // URN description
             Chunk descriptionLabel = new Chunk(Messages.getString("ReportTitlePage.Description"), specsFont); //$NON-NLS-1$
             Chunk descriptionValue = new Chunk(CheckforEmpty(urn.getDescription()));
@@ -91,6 +95,11 @@ public class ReportTitlePage extends Report {
             titleCell.setBorder(Rectangle.NO_BORDER);
             titleCellValue.setBorder(Rectangle.NO_BORDER);
 
+            Cell urnModelNameCell = new Cell(urnModelNameLabel);
+            Cell urnModelNameCellValue = new Cell(urnModelNameValue);
+            urnModelNameCell.setBorder(Rectangle.NO_BORDER);
+            urnModelNameCellValue.setBorder(Rectangle.NO_BORDER);
+            
             Cell descCell = new Cell(descriptionLabel);
             Cell descCellValue = new Cell(descriptionValue);
             descCell.setBorder(Rectangle.NO_BORDER);
@@ -124,6 +133,9 @@ public class ReportTitlePage extends Report {
             specsTable.addCell(titleCell);
             specsTable.addCell(titleCellValue);
 
+            specsTable.addCell(urnModelNameCell);
+            specsTable.addCell(urnModelNameCellValue);
+            
             specsTable.addCell(descCell);
             specsTable.addCell(descCellValue);
 

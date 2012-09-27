@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +31,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.URNReport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
@@ -38,7 +40,6 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.strategies.StrategiesView;
-import seg.jUCMNav.views.wizards.importexport.ExportPreferenceHelper;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.UCMspec;
 import ucm.map.ComponentRef;
@@ -81,7 +82,7 @@ public class HTMLReport extends URNReport {
 	public static final String PAGES_LOCATION = "pages" + File.separator; //$NON-NLS-1$
 	public static final String IMAGES_LOCATION = PAGES_LOCATION + "img" + File.separator; //$NON-NLS-1$
 
-	protected static String [] excludedMDnames = { "AltName", "AltDescription", "_numEval", "_qualEval" };
+	protected static String [] excludedMDnames = { "AltName", "AltDescription", "_numEval", "_qualEval" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	protected static HashMap<String, Object> excludedMetadata = null;
 	public static final int UCM_DEFINITIONS = 0;
 	public static final int GRL_DEFINITIONS = 1;
@@ -95,6 +96,9 @@ public class HTMLReport extends URNReport {
 	private static StrategiesView sv = null;
 	private static boolean designView = false;
 
+	protected boolean prefShowUCMDiagrams;
+    protected boolean prefShowGRLDiagrams;
+    
 	static {
 		excludedMetadata = new HashMap<String, Object>();
 
@@ -116,34 +120,42 @@ public class HTMLReport extends URNReport {
 		FileOutputStream imgFos = null;
 		IFigure pane;
 
-		final EvaluationStrategy firstStrategy = getFirstStrategy( urn.getGrlspec() );
+		// fetch the values of the UCMSHOWUCMDIAGRAMS and GRLSHOWGRLDIAGRAMS preferences.
+    	prefShowUCMDiagrams = ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS();
+    	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
+    	
+    	if (prefShowGRLDiagrams) {
+    		final EvaluationStrategy firstStrategy = getFirstStrategy( urn.getGrlspec() );
 
-		if( firstStrategy != null ) { // skip mode switch if design does not contain strategies
-			Display.getDefault().syncExec(new Runnable() {
-				public void run() {
-					if( (sv = EvaluationStrategyManager.getInstance(false).getStrategiesView()) != null ) {
-						if( !sv.isStrategyView() ) {
-							designView = true;
-							EvaluationStrategyManager.getInstance(false).setStrategy(firstStrategy);
-							sv.setStrategy(firstStrategy);
-							sv.showPage(StrategiesView.ID_STRATEGY);
-							sv.refreshScenarioIfNeeded();
-						}	
-					}
-				}
-			});
-		}
+    		if( firstStrategy != null ) { // skip mode switch if design does not contain strategies
+    			Display.getDefault().syncExec(new Runnable() {
+    				public void run() {
+    					if( (sv = EvaluationStrategyManager.getInstance(false).getStrategiesView()) != null ) {
+    						if( !sv.isStrategyView() ) {
+    							designView = true;
+    							EvaluationStrategyManager.getInstance(false).setStrategy(firstStrategy);
+    							sv.setStrategy(firstStrategy);
+    							sv.showPage(StrategiesView.ID_STRATEGY);
+    							sv.refreshScenarioIfNeeded();
+    						}	
+    					}
+    				}
+    			});
+    		}
+    	}
 
-
-		for (int i = 0; i < urn.getUrndef().getSpecDiagrams().size(); i++) {
-			IURNDiagram diagram = (IURNDiagram) urn.getUrndef().getSpecDiagrams().get(i);
-
-			boolean isLast = (i == urn.getUrndef().getSpecDiagrams().size() - 1);
+    	int i=0;
+		//for (int i = 0; i < urn.getUrndef().getSpecDiagrams().size(); i++) {
+    	for (Iterator iter = mapDiagrams.keySet().iterator(); iter.hasNext();) {
+			//IURNDiagram diagram = (IURNDiagram) urn.getUrndef().getSpecDiagrams().get(i);
+    		IURNDiagram diagram = (IURNDiagram) iter.next();
+    		
+			//boolean isLast = (i == urn.getUrndef().getSpecDiagrams().size() - 1);
+			boolean isLast = (i == mapDiagrams.size() - 1);
 			// get the high level IFigure to be saved.
 			pane = (IFigure) mapDiagrams.get(diagram);
 			String diagramName = ExportWizard.getDiagramName(diagram);
 			String imgPath = createImgPath(filename, diagramName);
-
 			// export the image file
 			(new ExportImageGIF()).export(pane, imgPath);
 
@@ -179,21 +191,28 @@ public class HTMLReport extends URNReport {
 
 			// write the content of menu to XML file
 			if (isLast) {
-				exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_DEFINITIONS);
-				exportGlobalDefinitions(urn, htmlPath, HTMLReport.GRL_DEFINITIONS);
+				//if (prefShowUCMDiagrams) {
+					exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_DEFINITIONS);
+				//}
+				//if (prefShowGRLDiagrams) {
+					exportGlobalDefinitions(urn, htmlPath, HTMLReport.GRL_DEFINITIONS);
+				//}
 				htmlMenuParser.writeToFile();
 				htmlMenuParser.resetDocument();
 			}
+			i++;
 		}
 
-		if( designView ) {
-			Display.getDefault().syncExec(new Runnable() {
-				public void run() {
-					sv.setStrategy(null);
-					sv.showPage(StrategiesView.ID_DESIGN);
-					sv.cancelStrategyMode();
-				}
-			});
+		if (prefShowGRLDiagrams) {
+			if( designView ) {
+				Display.getDefault().syncExec(new Runnable() {
+					public void run() {
+						sv.setStrategy(null);
+						sv.showPage(StrategiesView.ID_DESIGN);
+						sv.cancelStrategyMode();
+					}
+				});
+			}
 		}
 	}
 
@@ -320,6 +339,31 @@ public class HTMLReport extends URNReport {
 			srcFile = "htmltemplates/open.gif"; //$NON-NLS-1$
 			desFile = htmlPath + PAGES_LOCATION + "open.gif"; //$NON-NLS-1$
 			copy(srcFile, desFile);
+			
+			// Generate the icon16.gif (the jUCMNav logo) file
+			srcFile = "htmltemplates/icon16.gif"; //$NON-NLS-1$
+			desFile = htmlPath + PAGES_LOCATION + "icon16.gif"; //$NON-NLS-1$
+			copy(srcFile, desFile);
+			
+			// Generate the ucm16.gif (the UCM symbol) file
+			srcFile = "htmltemplates/ucm16.gif"; //$NON-NLS-1$
+			desFile = htmlPath + PAGES_LOCATION + "ucm16.gif"; //$NON-NLS-1$
+			copy(srcFile, desFile);
+						
+			// Generate the grl16.gif (the GRL symbol) file
+			srcFile = "htmltemplates/grl16.gif"; //$NON-NLS-1$
+			desFile = htmlPath + PAGES_LOCATION + "grl16.gif"; //$NON-NLS-1$
+			copy(srcFile, desFile);
+						
+			// Generate the ucmdef16.gif (the UCMDEF symbol) file
+			srcFile = "htmltemplates/ucmdef16.gif"; //$NON-NLS-1$
+			desFile = htmlPath + PAGES_LOCATION + "ucmdef16.gif"; //$NON-NLS-1$
+			copy(srcFile, desFile);
+						
+			// Generate the grldef16.gif (the GRLDEF symbol) file
+			srcFile = "htmltemplates/grldef16.gif"; //$NON-NLS-1$
+			desFile = htmlPath + PAGES_LOCATION + "grldef16.gif"; //$NON-NLS-1$
+			copy(srcFile, desFile);
 
 			// Generate the LogoFinal.gif file
 			srcFile = "htmltemplates/LogoFinal.gif"; //$NON-NLS-1$
@@ -349,14 +393,28 @@ public class HTMLReport extends URNReport {
 			}
 			reader.close();
 
-			String newtext = oldtext.replaceAll("TITLE", ExportPreferenceHelper.getFilenamePrefix().replace( ".jucm", ""));  //$NON-NLS-1$
-			newtext = newtext.replaceAll("DATE", urn.getModified());  //$NON-NLS-1$
-			newtext = newtext.replaceAll("VERSION", urn.getSpecVersion());  //$NON-NLS-1$
+			//String newtextr = oldtext.replaceAll("TITLE", ExportPreferenceHelper.getFilenamePrefix().replace( ".jucm", ""));  //$NON-NLS-1$
+			String newtext = oldtext.replaceAll("URN Model:", Messages.getString("HTMLReport.URNModelName"));  //$NON-NLS-1$ //$NON-NLS-2$
+			newtext = newtext.replaceAll("TITLE", urn.getName());  //$NON-NLS-1$
+			newtext = newtext.replaceAll("URN Model Description:", Messages.getString("HTMLReport.URNModelDesc")); //$NON-NLS-1$ //$NON-NLS-2$
 			if (urn.getDescription() != null) {
 				newtext = newtext.replaceAll("DESCRIPTION", urn.getDescription());  //$NON-NLS-1$
 			} else {
-				newtext = newtext.replaceAll("DESCRIPTION", "N/A");  //$NON-NLS-1$  //$NON-NLS-2$
+				newtext = newtext.replaceAll("DESCRIPTION", Messages.getString("HTMLReport.URNModelDescNA"));  //$NON-NLS-1$ //$NON-NLS-2$
 			}
+			newtext = newtext.replaceAll("Author:", Messages.getString("HTMLReport.ModelAuthor"));	//$NON-NLS-1$ //$NON-NLS-2$
+			newtext = newtext.replaceAll("AUTHOR", urn.getAuthor());	//$NON-NLS-1$
+			newtext = newtext.replaceAll("Creation Date:", Messages.getString("HTMLReport.ModelCreationDate"));	//$NON-NLS-1$ //$NON-NLS-2$
+			newtext = newtext.replaceAll("CREATIONDATE", urn.getCreated());  //$NON-NLS-1$
+			newtext = newtext.replaceAll("Modification Date:", Messages.getString("HTMLReport.ModelModificationDate"));	//$NON-NLS-1$ //$NON-NLS-2$
+			newtext = newtext.replaceAll("MODIFICATIONDATE", urn.getModified());  //$NON-NLS-1$
+			SimpleDateFormat format = new SimpleDateFormat(Messages.getString("ReportTitlePage.DateFormat")); //$NON-NLS-1$
+			String date = format.format(new java.util.Date());
+			newtext = newtext.replaceAll("Report Generation Date:",Messages.getString("HTMLReport.ReportGenDate"));	//$NON-NLS-1$ //$NON-NLS-2$
+			newtext = newtext.replaceAll("REPORTGENDATE",date);  //$NON-NLS-1$
+			newtext = newtext.replaceAll("Model Version:",Messages.getString("HTMLReport.URNModelVersion"));	//$NON-NLS-1$ //$NON-NLS-2$
+			newtext = newtext.replaceAll("VERSION", urn.getSpecVersion());  //$NON-NLS-1$
+			newtext = newtext.replaceAll("Generated by ", Messages.getString("HTMLReport.GeneratedBy")); //$NON-NLS-1$ //$NON-NLS-2$
 			FileWriter writer = new FileWriter(mainFile);
 			writer.write(newtext);
 			writer.close();
@@ -450,7 +508,7 @@ public class HTMLReport extends URNReport {
 			sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"); //$NON-NLS-1$
 			sb.append("<head>\n"); //$NON-NLS-1$
 			sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"); //$NON-NLS-1$
-			sb.append("<title>URN Model</title>\n"); //$NON-NLS-1$
+			sb.append("<title>" + Messages.getString("HTMLReport.URNModel") + "</title>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// Dynamic stub menu stuff
 			sb.append("<script language=JavaScript src=\"menu.js\"></script>\n"); //$NON-NLS-1$
 			sb.append("<link href=\"menu.css\" rel=stylesheet>\n"); //$NON-NLS-1$
@@ -476,7 +534,7 @@ public class HTMLReport extends URNReport {
 			sb.append("}\n"); //$NON-NLS-1$
 			sb.append("</style>\n"); //$NON-NLS-1$
 			sb.append("</head>\n"); //$NON-NLS-1$
-			sb.append("<body>\n"); //$NON-NLS-1$
+			sb.append("<body style=\"margin: 3px; padding: 3px\">\n"); //$NON-NLS-1$
 
 			boolean hasStub = false;
 			Iterator nodeIter = null;
@@ -489,7 +547,7 @@ public class HTMLReport extends URNReport {
 				int left = 30;
 
 				sb.append("<div align=\"left\" style=\"top:" + top + "px; left:" + left + "px;\"><font size=\"+2\">" + EscapeUtils.escapeHTML(diagramName.substring(diagramName.lastIndexOf("-") + 1)) + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-						"</font><font size=\"+1\"><i>"
+						"</font><font size=\"+1\"><i>" //$NON-NLS-1$
 						+ MapType(diagram)
 						+ "</i></font></br><img src=\"img/" + diagramName + ".gif\" border=\"0\" style=\"top:" + top + "px; left:0px;\" usemap=\"#tooltips\" />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				sb.append("<script language=\"JavaScript\">\n"); //$NON-NLS-1$
@@ -604,30 +662,30 @@ public class HTMLReport extends URNReport {
 				int height = 10;
 				int width = 10;
 
-				sb.append("<map name=\"tooltips\">\n");
+				sb.append("<map name=\"tooltips\">\n"); //$NON-NLS-1$
 				for (Iterator iter1 = diagram.getNodes().iterator(); iter1.hasNext();) {
 					IURNNode specNode = (IURNNode) iter1.next();
 
 					if (specNode instanceof RespRef) {
 						RespRef respRef = (RespRef) specNode;
 						Responsibility responsibility = respRef.getRespDef();
-						sb.append("<area shape=\"rect\" coords=\"" + (respRef.getX() - width / 2) + ", " + (respRef.getY() - height / 2) + ", "
-								+ (respRef.getX() + width / 2) + ", " + (respRef.getY() + height / 2) + "\" " + "title=\"" + EscapeUtils.escapeHTML(responsibility.getName()) + ": "
-								+ EscapeUtils.escapeHTML(notNull(responsibility.getDescription())) + "\">\n");
+						sb.append("<area shape=\"rect\" coords=\"" + (respRef.getX() - width / 2) + ", " + (respRef.getY() - height / 2) + ", " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+								+ (respRef.getX() + width / 2) + ", " + (respRef.getY() + height / 2) + "\" " + "title=\"" + EscapeUtils.escapeHTML(responsibility.getName()) + ": " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+								+ EscapeUtils.escapeHTML(notNull(responsibility.getDescription())) + "\">\n"); //$NON-NLS-1$
 					} else if (specNode instanceof StartPoint) {
 						StartPoint startPoint = (StartPoint) specNode;
-						sb.append("<area shape=\"circle\" coords=\"" + startPoint.getX() + ", " + startPoint.getY() + ", 10\" " + "title=\""
-								+ EscapeUtils.escapeHTML(startPoint.getName()) + ": " + EscapeUtils.escapeHTML(notNull(startPoint.getDescription())) + "\">\n");
+						sb.append("<area shape=\"circle\" coords=\"" + startPoint.getX() + ", " + startPoint.getY() + ", 10\" " + "title=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+								+ EscapeUtils.escapeHTML(startPoint.getName()) + ": " + EscapeUtils.escapeHTML(notNull(startPoint.getDescription())) + "\">\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					} else if (specNode instanceof EndPoint) {
 						EndPoint endPoint = (EndPoint) specNode;
-						sb.append("<area shape=\"rect\" coords=\"" + (endPoint.getX() - width / 2) + ", " + (endPoint.getY() - height / 2) + ", "
-								+ (endPoint.getX() + width / 2) + ", " + (endPoint.getY() + height / 2) + "\" " + "title=\"" + EscapeUtils.escapeHTML(endPoint.getName()) + ": "
-								+ EscapeUtils.escapeHTML(notNull(endPoint.getDescription())) + "\">\n");
+						sb.append("<area shape=\"rect\" coords=\"" + (endPoint.getX() - width / 2) + ", " + (endPoint.getY() - height / 2) + ", " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+								+ (endPoint.getX() + width / 2) + ", " + (endPoint.getY() + height / 2) + "\" " + "title=\"" + EscapeUtils.escapeHTML(endPoint.getName()) + ": " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+								+ EscapeUtils.escapeHTML(notNull(endPoint.getDescription())) + "\">\n"); //$NON-NLS-1$
 					}
 
 				}
 
-				sb.append("<area shape=\"default\" nohref>\n</map></br>\n");
+				sb.append("<area shape=\"default\" nohref>\n</map></br>\n"); //$NON-NLS-1$
 			}
 
 			sb.append("</div>\n"); //$NON-NLS-1$
@@ -675,7 +733,7 @@ public class HTMLReport extends URNReport {
 			sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"); //$NON-NLS-1$
 			sb.append("<head>\n"); //$NON-NLS-1$
 			sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"); //$NON-NLS-1$
-			sb.append("<title>URN Model</title>\n"); //$NON-NLS-1$
+			sb.append("<title>" + Messages.getString("HTMLReport.URNModel") + "</title>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// Basic style
 			sb.append("<style>\n"); //$NON-NLS-1$
 			sb.append("body {\n"); //$NON-NLS-1$
@@ -683,15 +741,15 @@ public class HTMLReport extends URNReport {
 			sb.append("}\n"); //$NON-NLS-1$
 			sb.append("</style>\n"); //$NON-NLS-1$
 			sb.append("</head>\n"); //$NON-NLS-1$
-			sb.append("<body>\n"); //$NON-NLS-1$
+			sb.append("<body style=\"margin: 3px; padding: 3px\">\n"); //$NON-NLS-1$
 
-			if( type == UCM_DEFINITIONS ) {
+			if ( type == UCM_DEFINITIONS ) {
 				outputUCM_Definitions(urn, sb);
-				pageName = "UCM_Definitions";
+				pageName = "UCM_Definitions"; //$NON-NLS-1$
 
 			} else { // GRL_DEFINITIONS
 				outputGRL_Definitions(urn, sb);
-				pageName = "GRL_Definitions";
+				pageName = "GRL_Definitions"; //$NON-NLS-1$
 			}
 
 			sb.append("</div>\n"); //$NON-NLS-1$
@@ -734,21 +792,21 @@ public class HTMLReport extends URNReport {
 		if (!hasNodeType(diagram.getNodes(), RespRefImpl.class))
 			return;
 
-		sb.append("</div>\n<div>\n<h2>Responsibilities</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Pseudo-code</b></td><td><b>Metadata</b></td><td><b>URN Links</b></td></tr>\n");
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.Responsibilities") + "</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<tr><td><b>" + Messages.getString("HTMLReport.Name") + "</b></td><td><b>" + Messages.getString("HTMLReport.Description") + "</b></td><td><b>" + Messages.getString("HTMLReport.PseudoCode") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td><td><b>" + Messages.getString("HTMLReport.URNLinks") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			IURNNode specNode = (IURNNode) iter.next();
 			if (specNode instanceof RespRef) {
 				Responsibility responsibility = ((RespRef) specNode).getRespDef();
-				sb.append("<tr><td>" + EscapeUtils.escapeHTML(responsibility.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(responsibility.getDescription())) + "&nbsp;</td><td>"
-						+ EscapeUtils.escapeHTML(notNull(responsibility.getExpression())).replace("\r\n", "<br></br>") + "&nbsp;</td>\n");
+				sb.append("<tr><td>" + EscapeUtils.escapeHTML(responsibility.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(responsibility.getDescription())) + "&nbsp;</td><td>" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						+ EscapeUtils.escapeHTML(notNull(responsibility.getExpression())).replace("\r\n", "<br></br>") + "&nbsp;</td>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				InsertMetadataInTable(responsibility.getMetadata(), sb);
 				InsertURNLinks(responsibility.getToLinks(), sb);
-				sb.append("</tr>\n");
+				sb.append("</tr>\n"); //$NON-NLS-1$
 			}
 		}
-		sb.append("</tbody></table></br>\n");
+		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 	}
 
 	private void InsertMetadataInTable(EList metadata, StringBuffer sb) {
@@ -756,38 +814,38 @@ public class HTMLReport extends URNReport {
 		boolean firstLine = true;
 
 		if (!this.isMetadataMeaningful(metadata)) {
-			sb.append("<td></td>");
+			sb.append("<td></td>"); //$NON-NLS-1$
 		} else {
-			sb.append("<td>");
+			sb.append("<td>"); //$NON-NLS-1$
 			for (Iterator iter = metadata.iterator(); iter.hasNext();) {
 				Metadata mdata = (Metadata) iter.next();
 				if( isMetadataMeaningful(mdata.getName())) {
 					if( !firstLine ) {
-						sb.append("<br></br>");
+						sb.append("<br></br>"); //$NON-NLS-1$
 					}
-					sb.append("\"" + EscapeUtils.escapeHTML(mdata.getName()) + "\" = \"" + EscapeUtils.escapeHTML(mdata.getValue()) + "\"&nbsp;");
+					sb.append("\"" + EscapeUtils.escapeHTML(mdata.getName()) + "\" = \"" + EscapeUtils.escapeHTML(mdata.getValue()) + "\"&nbsp;"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					firstLine = false;
 				}
 			}
-			sb.append("&nbsp;</td>\n");
+			sb.append("&nbsp;</td>\n"); //$NON-NLS-1$
 		}
 	}
 
 	private void InsertURNLinks(EList urnLinks, StringBuffer sb) {
 		if (urnLinks.isEmpty()) {
-			sb.append("<td></td>");
+			sb.append("<td></td>"); //$NON-NLS-1$
 		} else {
-			sb.append("<td>");
+			sb.append("<td>"); //$NON-NLS-1$
 			for (Iterator iter = urnLinks.iterator(); iter.hasNext();) {
 				URNlink link = (URNlink) iter.next();
 				if (link.getFromElem() instanceof IntentionalElement) {
 					IntentionalElement ie = (IntentionalElement) link.getFromElem();
-					sb.append(EscapeUtils.escapeHTML(ie.getName()) + " (" + EscapeUtils.escapeHTML(ie.getType().getName()) + ")");
+					sb.append(EscapeUtils.escapeHTML(ie.getName()) + " (" + EscapeUtils.escapeHTML(ie.getType().getName()) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				if (iter.hasNext())
-					sb.append("<br></br>");
+					sb.append("<br></br>"); //$NON-NLS-1$
 			}
-			sb.append("&nbsp;</td>\n");
+			sb.append("&nbsp;</td>\n"); //$NON-NLS-1$
 		}
 	}
 
@@ -809,23 +867,23 @@ public class HTMLReport extends URNReport {
 			return;
 
 		sb
-		.append("</div>\n<div>\n<h2>Start Points</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Precondition</b></td><td><b>Metadata</b></td></tr>\n");
+		.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.StartPoints") + "</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<tr><td><b>" + Messages.getString("HTMLReport.Name") + "</b></td><td><b>" + Messages.getString("HTMLReport.Precondition") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			IURNNode specNode = (IURNNode) iter.next();
 			if (specNode instanceof StartPoint) {
 				sp = (StartPoint) specNode;
 				if (ReportUtils.notEmpty(sp.getPrecondition().getLabel()) || isMetadataMeaningful( sp.getMetadata() )) {
-					sb.append("<tr><td>" + EscapeUtils.escapeHTML(sp.getName()) + "</td><td>[" + EscapeUtils.escapeHTML(sp.getPrecondition().getLabel()) + "] ==&gt; "
-							+ EscapeUtils.escapeHTML(notNull(sp.getPrecondition().getExpression())) + "&nbsp;</td>\n");
+					sb.append("<tr><td>" + EscapeUtils.escapeHTML(sp.getName()) + "</td><td>[" + EscapeUtils.escapeHTML(sp.getPrecondition().getLabel()) + "] ==&gt; " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							+ EscapeUtils.escapeHTML(notNull(sp.getPrecondition().getExpression())) + "&nbsp;</td>\n"); //$NON-NLS-1$
 					InsertMetadataInTable(sp.getMetadata(), sb);
-					sb.append("</tr>\n");
+					sb.append("</tr>\n"); //$NON-NLS-1$
 				}
 			}
 		}
 
-		sb.append("</tbody></table></br>\n");
+		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 	}
 
 	private boolean hasStartPointData(StartPoint sp) {
@@ -849,23 +907,23 @@ public class HTMLReport extends URNReport {
 		if (!hasData)
 			return;
 
-		sb.append("</div>\n<div>\n<h2>End Points</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Postcondition</b></td><td><b>Metadata</b></td></tr>\n");
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.EndPoints") + "</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<tr><td><b>" + Messages.getString("HTMLReport.Name") + "</b></td><td><b>" + Messages.getString("HTMLReport.Postcondition") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			IURNNode specNode = (IURNNode) iter.next();
 			if (specNode instanceof EndPoint) {
 				ep = (EndPoint) specNode;
 				if (hasEndPointData(ep)) {
-					sb.append("<tr><td>" + EscapeUtils.escapeHTML(ep.getName()) + "</td><td>[" + EscapeUtils.escapeHTML(ep.getPostcondition().getLabel()) + "] ==&gt; "
-							+ EscapeUtils.escapeHTML(notNull(ep.getPostcondition().getExpression())) + "&nbsp;</td>");
+					sb.append("<tr><td>" + EscapeUtils.escapeHTML(ep.getName()) + "</td><td>[" + EscapeUtils.escapeHTML(ep.getPostcondition().getLabel()) + "] ==&gt; " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							+ EscapeUtils.escapeHTML(notNull(ep.getPostcondition().getExpression())) + "&nbsp;</td>"); //$NON-NLS-1$
 					InsertMetadataInTable(ep.getMetadata(), sb);
-					sb.append("</tr>\n");
+					sb.append("</tr>\n"); //$NON-NLS-1$
 				}
 			}
 		}
 
-		sb.append("</tbody></table></br>\n");
+		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 	}
 
 	private boolean hasEndPointData(EndPoint ep) {
@@ -894,8 +952,8 @@ public class HTMLReport extends URNReport {
 		if (!hasData)
 			return;
 
-		sb.append("</div>\n<div>\n<h2>Or Fork Description</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Guard Conditions</b></td><td><b>Metadata</b></td></tr>\n");
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.OrForkDesc") + "</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<tr><td><b>" + Messages.getString("HTMLReport.GuardConditions") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			IURNNode specNode = (IURNNode) iter.next();
@@ -907,7 +965,7 @@ public class HTMLReport extends URNReport {
 
 				firstCondition = true;
 
-				sb.append("<tr>");
+				sb.append("<tr>"); //$NON-NLS-1$
 
 				for (Iterator iter1 = orFork.getSucc().iterator(); iter1.hasNext();) {
 					NodeConnection nc = (NodeConnection) iter1.next();
@@ -916,27 +974,27 @@ public class HTMLReport extends URNReport {
 					if (orCondition != null) {
 						if (ReportUtils.notEmpty(orCondition.getLabel())) {
 							if (firstCondition) {
-								sb.append("<td>");
+								sb.append("<td>"); //$NON-NLS-1$
 								firstCondition = false;
 							} else
-								sb.append("<br></br>");
+								sb.append("<br></br>"); //$NON-NLS-1$
 						}
-						sb.append("[" + EscapeUtils.escapeHTML(orCondition.getLabel()) + "] ==&gt; " + EscapeUtils.escapeHTML(notNull(orCondition.getExpression())) + "(" + nc.getProbability() + ")");
+						sb.append("[" + EscapeUtils.escapeHTML(orCondition.getLabel()) + "] ==&gt; " + EscapeUtils.escapeHTML(notNull(orCondition.getExpression())) + "(" + nc.getProbability() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					}
 				}
 
 				if (firstCondition) { // if no conditions were found insert empty column
-					sb.append("<td></td>");
+					sb.append("<td></td>"); //$NON-NLS-1$
 				} else { // terminate column
-					sb.append("</td>");
+					sb.append("</td>"); //$NON-NLS-1$
 				}
 
 				InsertMetadataInTable(orFork.getMetadata(), sb);
-				sb.append("</tr>\n");
+				sb.append("</tr>\n"); //$NON-NLS-1$
 			}
 		}
 
-		sb.append("</tbody></table></br>\n");
+		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 	}
 
 	private boolean hasOrForkData(OrFork orFork) {
@@ -970,16 +1028,16 @@ public class HTMLReport extends URNReport {
 					continue;
 
 				if (!hasBindings) { // output heading for stubs only one time
-					sb.append("</div>\n<div>\n<h2>Stubs</h2>\n");
+					sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.Stubs") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					hasBindings = true;
 				}
 
 				if (stub.isDynamic())
-					stub_type = "Dynamic Stub - ";
+					stub_type = Messages.getString("HTMLReport.DynamicStub"); //$NON-NLS-1$
 				else
-					stub_type = "Static Stub - ";
+					stub_type = Messages.getString("HTMLReport.StaticStub"); //$NON-NLS-1$
 
-				sb.append("<h3>" + stub_type + EscapeUtils.escapeHTML(stub.getName()) + "</h3><hr></hr>\n");
+				sb.append("<h3>" + stub_type + EscapeUtils.escapeHTML(stub.getName()) + "</h3><hr></hr>\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
 				for (Iterator bindings = stub.getBindings().iterator(); bindings.hasNext();) {
 
@@ -987,9 +1045,9 @@ public class HTMLReport extends URNReport {
 
 					String pluginDiagramName = ExportWizard.getDiagramName(binding.getPlugin());
 
-					sb.append("<h4><center><a href=\"" + pluginDiagramName + ".html\">" + "Plugin Map - " + EscapeUtils.escapeHTML(binding.getPlugin().getName())
-							+ "</a></center></h4>\n");
-					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+					sb.append("<h4><center><a href=\"" + pluginDiagramName + ".html\">" + Messages.getString("HTMLReport.PluginMap") + EscapeUtils.escapeHTML(binding.getPlugin().getName()) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							+ "</a></center></h4>\n"); //$NON-NLS-1$
+					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
 
 					inputBuffer = new StringBuffer();
 					outputBuffer = new StringBuffer();
@@ -1004,7 +1062,7 @@ public class HTMLReport extends URNReport {
 							stubEntryIndex = stub.getSucc().indexOf(inBinding.getStubEntry()) + 1;
 						}
 
-						inputBuffer.append("IN " + stubEntryIndex + " &lt;-&gt; " + EscapeUtils.escapeHTML(inBinding.getStartPoint().getName()) + "<br></br>");
+						inputBuffer.append("IN " + stubEntryIndex + " &lt;-&gt; " + EscapeUtils.escapeHTML(inBinding.getStartPoint().getName()) + "<br></br>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 					}
 
@@ -1014,45 +1072,45 @@ public class HTMLReport extends URNReport {
 						int stubExitIndex = 0;
 						stubExitIndex = stub.getSucc().indexOf(outBinding.getStubExit()) + 1;
 
-						outputBuffer.append("OUT " + stubExitIndex + " <-> " + EscapeUtils.escapeHTML(outBinding.getEndPoint().getName()) + "<br></br>");
+						outputBuffer.append("OUT " + stubExitIndex + " <-> " + EscapeUtils.escapeHTML(outBinding.getEndPoint().getName()) + "<br></br>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 					}
 
 					sb
-					.append("<tr><td><b>Input Bindings</b></td><td>" + inputBuffer + "</td><td><b>Output Bindings</b></td><td>" + outputBuffer
-							+ "</td></tr>");
-					sb.append("</tbody></table></br>\n"); // end of input / output bindings table
+					.append("<tr><td><b>" + Messages.getString("HTMLReport.InputBindings") + "</b></td><td>" + inputBuffer + "</td><td><b>" + Messages.getString("HTMLReport.OutputBindings") + "</b></td><td>" + outputBuffer //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+							+ "</td></tr>"); //$NON-NLS-1$
+					sb.append("</tbody></table></br>\n"); // end of input / output bindings table //$NON-NLS-1$
 
-					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
 
-					sb.append("<tr><td><table style=\"text-align: left; width: 15%;\" border=\"1\" cellpadding=\"1\" cellspacing=\"2\">\n<tbody>\n");
-					sb.append("<tr><center><b>Precondition</b></center></tr>\n");
-					sb.append("</tbody></table>");
+					sb.append("<tr><td><table style=\"text-align: left; width: 15%;\" border=\"0\" cellpadding=\"1\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
+					sb.append("<tr><center><b>" + Messages.getString("HTMLReport.Precondition") + "</b></center></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					sb.append("</tbody></table>"); //$NON-NLS-1$
 
-					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
 
 					if (ReportUtils.notEmpty(binding.getPrecondition().getLabel())) {
-						sb.append("<tr><td>Label: </td><td>" + EscapeUtils.escapeHTML(binding.getPrecondition().getLabel()) + "</td></tr>");
+						sb.append("<tr><td>" + Messages.getString("HTMLReport.Label") + " </td><td>" + EscapeUtils.escapeHTML(binding.getPrecondition().getLabel()) + "</td></tr>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					}
 
 					if (ReportUtils.notEmpty(binding.getPrecondition().getExpression())) {
-						sb.append("<tr><td>Expression: </td><td>" + EscapeUtils.escapeHTML(binding.getPrecondition().getExpression()) + "</td></tr>");
+						sb.append("<tr><td>" + Messages.getString("HTMLReport.Expression") + " </td><td>" + EscapeUtils.escapeHTML(binding.getPrecondition().getExpression()) + "</td></tr>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					}
 
 					if (ReportUtils.notEmpty(binding.getPrecondition().getDescription())) {
-						sb.append("<tr><td>Description: </td><td>" + EscapeUtils.escapeHTML(binding.getPrecondition().getDescription()) + "</td></tr>");
+						sb.append("<tr><td>" + Messages.getString("HTMLReport.Description") + ": </td><td>" + EscapeUtils.escapeHTML(binding.getPrecondition().getDescription()) + "</td></tr>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					}
 
-					sb.append("<tr><td>Transaction: </td><td>" + binding.isTransaction() + "</td></tr>");
-					sb.append("<tr><td>Probability: </td><td>" + binding.getProbability() + "</td></tr>");
-					sb.append("</tbody></table></td>\n</tbody></table></br>\n");
+					sb.append("<tr><td>" + Messages.getString("HTMLReport.Transaction") + ": </td><td>" + binding.isTransaction() + "</td></tr>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					sb.append("<tr><td>" + Messages.getString("HTMLReport.Probability") + ": </td><td>" + binding.getProbability() + "</td></tr>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					sb.append("</tbody></table></td>\n</tbody></table></br>\n"); //$NON-NLS-1$
 				}
 
 				if (isMetadataMeaningful( stub.getMetadata() )) {
-					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-					sb.append("<tr><td><b>Metadata</b></td>\n");
+					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
+					sb.append("<tr><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					InsertMetadataInTable(stub.getMetadata(), sb);
-					sb.append("</tr></tbody></table></br>\n");
+					sb.append("</tr></tbody></table></br>\n"); //$NON-NLS-1$
 				}
 			}
 		}
@@ -1066,20 +1124,20 @@ public class HTMLReport extends URNReport {
 			return;
 
 		if (ReportUtils.notEmpty(((UCMmap) diagram).getDescription())) {
-			sb.append("</div>\n<div>\n<h2>Map Description</h2>\n");
-			sb.append("&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(((UCMmap) diagram).getDescription()));
+			sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.MapDescription") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append("&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(((UCMmap) diagram).getDescription())); //$NON-NLS-1$
 		}
 
 		EList urnLinks = ((UCMmap) diagram).getToLinks();
 		if (!urnLinks.isEmpty()) {
 
-			sb.append("</div>\n<div>\n<h2>URN Links</h2>\n");
+			sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.URNLinks") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			for (Iterator iter = urnLinks.iterator(); iter.hasNext();) {
 				URNlink link = (URNlink) iter.next();
 				if (link.getFromElem() instanceof IntentionalElement) {
 					IntentionalElement ie = (IntentionalElement) link.getFromElem();
-					sb.append("&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(ie.getName()) + " (" + EscapeUtils.escapeHTML(ie.getType().getName()) + ")<br></br>");
+					sb.append("&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(ie.getName()) + " (" + EscapeUtils.escapeHTML(ie.getType().getName()) + ")<br></br>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 			}
 		}
@@ -1089,8 +1147,8 @@ public class HTMLReport extends URNReport {
 
 	private void OutputGRLDiagramInfo(IURNDiagram diagram, StringBuffer sb) {
 		if (ReportUtils.notEmpty(((GRLGraph) diagram).getDescription())) {
-			sb.append("</div>\n<div>\n<h2>Diagram Description</h2>\n");
-			sb.append("&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(((GRLGraph) diagram).getDescription()) );
+			sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.DiagramDesc") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append("&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(((GRLGraph) diagram).getDescription()) ); //$NON-NLS-1$
 		}
 
 		InsertMetadata(((GRLGraph) diagram).getMetadata(), sb);
@@ -1101,12 +1159,12 @@ public class HTMLReport extends URNReport {
 		if (!this.isMetadataMeaningful(metadata))
 			return;
 
-		sb.append("</div>\n<div>\n<h2>Metadata</h2>\n");
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.Metadata") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		for (Iterator iter = metadata.iterator(); iter.hasNext();) {
 			Metadata mdata = (Metadata) iter.next();
 			if( isMetadataMeaningful(mdata.getName())) {
-				sb.append("&nbsp;&nbsp;&nbsp;\"" + EscapeUtils.escapeHTML(mdata.getName()) + "\" = \"" + EscapeUtils.escapeHTML(mdata.getValue()) + "\"<br></br>");
+				sb.append("&nbsp;&nbsp;&nbsp;\"" + EscapeUtils.escapeHTML(mdata.getName()) + "\" = \"" + EscapeUtils.escapeHTML(mdata.getValue()) + "\"<br></br>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		}
 	}
@@ -1126,9 +1184,9 @@ public class HTMLReport extends URNReport {
 		if (!hasData)
 			return;
 
-		sb.append("<h2>Beliefs</h2>\n");
-		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Metadata</b></td></tr>\n");
+		sb.append("<h2>" + Messages.getString("HTMLReport.Beliefs") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
+		sb.append("<tr><td><b>Name</b></td><td><b>" + Messages.getString("HTMLReport.Description") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
@@ -1136,14 +1194,14 @@ public class HTMLReport extends URNReport {
 			if (currentElement instanceof Belief) {
 				Belief currentBelief = (Belief) currentElement;
 				if (hasGRLBeliefData(currentBelief)) {
-					sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentBelief.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(currentBelief.getDescription())) + "</td>");
+					sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentBelief.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(currentBelief.getDescription())) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					InsertMetadataInTable(currentBelief.getMetadata(), sb);
-					sb.append("</tr>\n");
+					sb.append("</tr>\n"); //$NON-NLS-1$
 				}
 			}
 		}
 
-		sb.append("</tbody></table></br>\n");
+		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 	}
 
 	private boolean hasGRLBeliefData(Belief belief) {
@@ -1167,9 +1225,9 @@ public class HTMLReport extends URNReport {
 		if (!hasData)
 			return;
 
-		sb.append("<h2>Intentional Elements</h2>\n");
-		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-		sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Metadata</b></td></tr>\n");
+		sb.append("<h2>" + Messages.getString("HTMLReport.IntentionalElements") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
+		sb.append("<tr><td><b>" + Messages.getString("HTMLReport.Name") + "</b></td><td><b>" + Messages.getString("HTMLReport.Description") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
@@ -1178,14 +1236,14 @@ public class HTMLReport extends URNReport {
 				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
 
 				if (hasGRLIntentionalElementData(ie)) {
-					sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(ie.getDescription())) + "</td>");
+					sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(ie.getDescription())) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					InsertMetadataInTable(ie.getMetadata(), sb);
-					sb.append("</tr>\n");
+					sb.append("</tr>\n"); //$NON-NLS-1$
 				}
 			}
 		}
 
-		sb.append("</tbody></table></br>\n");
+		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 	}
 
 	private boolean hasGRLIntentionalElementData(IntentionalElement ie) {
@@ -1210,10 +1268,10 @@ public class HTMLReport extends URNReport {
 		if (!hasData)
 			return;
 
-		sb.append("<h2>Intentional Element URN Links</h2>\n");
-		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<h2>" + Messages.getString("HTMLReport.IntElementsURNLinks") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
 		sb
-		.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i> direction </i> <b>element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
+		.append("<tr><td><b>" + Messages.getString("HTMLReport.Name") + "</b><i>(" + Messages.getString("HTMLReport.Direction") + ")</i></td><td><b>" + Messages.getString("HTMLReport.LinkType") + "</b></td><td><b>(</b><i> " + Messages.getString("HTMLReport.Direction") + " </i> <b>" + Messages.getString("HTMLReport.ElementType") + ")" + Messages.getString("HTMLReport.Name") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$ //$NON-NLS-12$ //$NON-NLS-13$ //$NON-NLS-14$ //$NON-NLS-15$
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
@@ -1226,10 +1284,10 @@ public class HTMLReport extends URNReport {
 					String elementType = link.getToElem().getClass().getName();
 					elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-					sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "<i>(from)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> to </i>" + elementType
-							+ ") " + EscapeUtils.escapeHTML(link.getToElem().getName()) + "</td>");
+					sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "<i>(" + Messages.getString("HTMLReport.From") + ")</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> " + Messages.getString("HTMLReport.To") + " </i>" + elementType //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+							+ ") " + EscapeUtils.escapeHTML(link.getToElem().getName()) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
 					InsertMetadataInTable(link.getMetadata(), sb);
-					sb.append("</tr>\n");
+					sb.append("</tr>\n"); //$NON-NLS-1$
 				}
 
 				for (Iterator iter1 = ie.getToLinks().iterator(); iter1.hasNext();) {
@@ -1238,15 +1296,15 @@ public class HTMLReport extends URNReport {
 					String elementType = link.getFromElem().getClass().getName();
 					elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-					sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "<i>(to)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> from </i>" + elementType
-							+ ") " + EscapeUtils.escapeHTML(link.getFromElem().getName()) + "</td>");
+					sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "<i>(" + Messages.getString("HTMLReport.To") + ")</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> " + Messages.getString("HTMLReport.From") + " </i>" + elementType //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+							+ ") " + EscapeUtils.escapeHTML(link.getFromElem().getName()) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
 					InsertMetadataInTable(link.getMetadata(), sb);
-					sb.append("</tr>\n");
+					sb.append("</tr>\n"); //$NON-NLS-1$
 				}
 
 			}
 		}
-		sb.append("</tbody></table></br>\n");
+		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 	}
 
 	private void OutputActorURNlinks(IURNDiagram diagram, StringBuffer sb) {
@@ -1267,10 +1325,10 @@ public class HTMLReport extends URNReport {
 		if (!hasURNlinks)
 			return;
 
-		sb.append("<h2>Actor URN Links</h2>\n");
-		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<h2>" + Messages.getString("HTMLReport.ActorURNLinks") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
 		sb
-		.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i>direction</i> <b>element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
+		.append("<tr><td><b>" + Messages.getString("HTMLReport.Name") + "</b><i>(" + Messages.getString("HTMLReport.Direction") + ")</i></td><td><b>" + Messages.getString("HTMLReport.LinkType") + "</b></td><td><b>(</b><i>" + Messages.getString("HTMLReport.Direction") + "</i> <b>" + Messages.getString("HTMLReport.ElementType") + ")" + Messages.getString("HTMLReport.Name") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$ //$NON-NLS-12$ //$NON-NLS-13$ //$NON-NLS-14$ //$NON-NLS-15$
 
 		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext();) {
 			currentActorRef = (ActorRef) iter.next();
@@ -1282,10 +1340,10 @@ public class HTMLReport extends URNReport {
 				String elementType = link.getToElem().getClass().getName();
 				elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-				sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentActor.getName()) + "<i>(from)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> to </i>" + elementType
-						+ " ) " + EscapeUtils.escapeHTML(link.getToElem().getName()) + "</td>");
+				sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentActor.getName()) + "<i>(" + Messages.getString("HTMLReport.From") + ")</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> " + Messages.getString("HTMLReport.To") + " </i>" + elementType //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+						+ " ) " + EscapeUtils.escapeHTML(link.getToElem().getName()) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
 				InsertMetadataInTable(link.getMetadata(), sb);
-				sb.append("</tr>\n");
+				sb.append("</tr>\n"); //$NON-NLS-1$
 			}
 
 			for (Iterator iter1 = currentActor.getToLinks().iterator(); iter1.hasNext();) {
@@ -1294,14 +1352,14 @@ public class HTMLReport extends URNReport {
 				String elementType = link.getFromElem().getClass().getName();
 				elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-				sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentActor.getName()) + "<i>(to)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> from </i>" + elementType
-						+ ") " + EscapeUtils.escapeHTML(link.getFromElem().getName()) + "</td>");
+				sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentActor.getName()) + "<i>(" + Messages.getString("HTMLReport.To") + ")</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> " + Messages.getString("HTMLReport.From") + " </i>" + elementType //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+						+ ") " + EscapeUtils.escapeHTML(link.getFromElem().getName()) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
 				InsertMetadataInTable(link.getMetadata(), sb);
-				sb.append("</tr>\n");
+				sb.append("</tr>\n"); //$NON-NLS-1$
 			}
 		}
 
-		sb.append("</tbody></table></br>\n");
+		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 	}
 
 	private void OutputComponentURNlinks(IURNDiagram diagram, StringBuffer sb) {
@@ -1322,10 +1380,10 @@ public class HTMLReport extends URNReport {
 		if (!hasURNlinks)
 			return;
 
-		sb.append("<h2>Component URN Links</h2>\n");
-		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+		sb.append("<h2>" + Messages.getString("HTMLReport.ComponentURNLinks") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
 		sb
-		.append("<tr><td><b>Name</b><i>(direction)</i></td><td><b>Link Type</b></td><td><b>(</b><i> direction </i> <b>element type)Name</b></td><td><b>Metadata</b></td></tr>\n");
+		.append("<tr><td><b>" + Messages.getString("HTMLReport.Name") + "</b><i>(" + Messages.getString("HTMLReport.Direction") + ")</i></td><td><b>" + Messages.getString("HTMLReport.LinkType") + "</b></td><td><b>(</b><i> " + Messages.getString("HTMLReport.Direction") + " </i> <b>" + Messages.getString("HTMLReport.ElementType") + ")" + Messages.getString("HTMLReport.Name") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$ //$NON-NLS-12$ //$NON-NLS-13$ //$NON-NLS-14$ //$NON-NLS-15$
 
 		for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext();) {
 			currentComponentRef = (ComponentRef) iter.next();
@@ -1337,10 +1395,10 @@ public class HTMLReport extends URNReport {
 				String elementType = link.getToElem().getClass().getName();
 				elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-				sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentComponent.getName()) + "<i>(From)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> to </i>"
-						+ elementType + " ) " + EscapeUtils.escapeHTML(link.getToElem().getName()) + "</td>");
+				sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentComponent.getName()) + "<i>(" + Messages.getString("HTMLReport.FromCapital") + ")</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> " + Messages.getString("HTMLReport.To") + " </i>" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+						+ elementType + " ) " + EscapeUtils.escapeHTML(link.getToElem().getName()) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
 				InsertMetadataInTable(link.getMetadata(), sb);
-				sb.append("</tr>\n");
+				sb.append("</tr>\n"); //$NON-NLS-1$
 			}
 
 			for (Iterator iter1 = currentComponent.getToLinks().iterator(); iter1.hasNext();) {
@@ -1349,14 +1407,14 @@ public class HTMLReport extends URNReport {
 				String elementType = link.getFromElem().getClass().getName();
 				elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-				sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentComponent.getName()) + "<i>(To)</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> from </i>"
-						+ elementType + ") " + EscapeUtils.escapeHTML(link.getFromElem().getName()) + "</td>");
+				sb.append("<tr><td>" + EscapeUtils.escapeHTML(currentComponent.getName()) + "<i>(" + Messages.getString("HTMLReport.ToCapital") + ")</i></td><td>" + EscapeUtils.escapeHTML(notNull(link.getType())) + "</td><td>(" + "<i> " + Messages.getString("HTMLReport.From") + " </i>" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+						+ elementType + ") " + EscapeUtils.escapeHTML(link.getFromElem().getName()) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
 				InsertMetadataInTable(link.getMetadata(), sb);
-				sb.append("</tr>\n");
+				sb.append("</tr>\n"); //$NON-NLS-1$
 			}
 		}
 
-		sb.append("</tbody></table></br>\n");
+		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 	}
 
 	/**
@@ -1391,7 +1449,7 @@ public class HTMLReport extends URNReport {
 	 */
 	private String notNull(String s) {
 		if (s == null)
-			return "";
+			return ""; //$NON-NLS-1$
 		else
 			return s;
 	}
@@ -1399,11 +1457,11 @@ public class HTMLReport extends URNReport {
 	private String MapType(IURNDiagram diagram) {
 		if (diagram instanceof UCMmap) {
 			if (((UCMmap) diagram).getParentStub().size() == 0)
-				return " - UCM Root Map";
+				return Messages.getString("HTMLReport.UCMRootMap"); //$NON-NLS-1$
 			else
-				return " - UCM Plugin Map";
+				return Messages.getString("HTMLReport.UCMPluginMap"); //$NON-NLS-1$
 		} else
-			return " - GRL Graph";
+			return Messages.getString("HTMLReport.GRLGraph"); //$NON-NLS-1$
 	}
 
 	public int getType() {
@@ -1430,7 +1488,7 @@ public class HTMLReport extends URNReport {
 
 		UCMspec ucmspec = urn.getUcmspec();
 
-		sb.append("<h1>UCM Definitions</h1>\n");
+		sb.append("<h1>" + Messages.getString("HTMLReport.UCMDefinitions") + "</h1>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		outputVariables(ucmspec, sb);    
 		outputEnumerationTypes(ucmspec, sb);    
 		outputScenarios(ucmspec, sb);    
@@ -1439,40 +1497,44 @@ public class HTMLReport extends URNReport {
 	private void outputVariables(UCMspec ucmspec, StringBuffer sb) {
 
 		int i = 1;
-		sb.append("</div>\n<div>\n<h2>Variables</h2>\n");
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.Variables") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		
+		if (prefShowUCMDiagrams) {
+			for (Iterator iter = ucmspec.getVariables().iterator(); iter.hasNext();) {
 
-		for (Iterator iter = ucmspec.getVariables().iterator(); iter.hasNext();) {
+				Variable var = (Variable) iter.next();
+				String varName = var.getName();
+				String varType = var.getType();
+				String varDescription = var.getDescription();
 
-			Variable var = (Variable) iter.next();
-			String varName = var.getName();
-			String varType = var.getType();
-			String varDescription = var.getDescription();
+				sb.append("&nbsp;&nbsp;&nbsp;" + i++ + ". " + EscapeUtils.escapeHTML(var.getName()) ); //$NON-NLS-1$ //$NON-NLS-2$
 
-			sb.append("&nbsp;&nbsp;&nbsp;" + i++ + ". " + EscapeUtils.escapeHTML(var.getName()) );
+				if (var.getEnumerationType() != null) { // the variable type is enumeration
+					sb.append( "(Enum " + var.getEnumerationType().getName() + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+				} else {
+					sb.append( "(" + varType + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+				}
 
-			if (var.getEnumerationType() != null) { // the variable type is enumeration
-				sb.append( "(Enum " + var.getEnumerationType().getName() + ")" );
-			} else {
-				sb.append( "(" + varType + ")" );
+				if( ReportUtils.notEmpty(var.getDescription()) ) {
+					sb.append( ": " + EscapeUtils.escapeHTML(var.getDescription()) ); //$NON-NLS-1$
+				}
+				sb.append( "<br></br>\n" ); //$NON-NLS-1$
 			}
-
-			if( ReportUtils.notEmpty(var.getDescription()) ) {
-				sb.append( ": " + EscapeUtils.escapeHTML(var.getDescription()) );
-			}
-			sb.append( "<br></br>\n" );
 		}
 	}
 
 	private void outputEnumerationTypes(UCMspec ucmspec, StringBuffer sb) {
 
 		int i = 1;
-		sb.append("</div>\n<div>\n<h2>Enumeration Types</h2>\n");
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.EnumerationTypes") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-		for (Iterator iter = ucmspec.getEnumerationTypes().iterator(); iter.hasNext();) {
-			EnumerationType enumType = (EnumerationType) iter.next();
+		if (prefShowUCMDiagrams) {
+			for (Iterator iter = ucmspec.getEnumerationTypes().iterator(); iter.hasNext();) {
+				EnumerationType enumType = (EnumerationType) iter.next();
 
-			if (enumType.getValues() != null) {            	
-				sb.append("&nbsp;&nbsp;&nbsp;" + i++ + ". " + EscapeUtils.escapeHTML(enumType.getName()) + ": " + enumType.getValues().replace( ",", ", ") );
+				if (enumType.getValues() != null) {            	
+					sb.append("&nbsp;&nbsp;&nbsp;" + i++ + ". " + EscapeUtils.escapeHTML(enumType.getName()) + ": " + enumType.getValues().replace( ",", ", ") ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				}
 			}
 		}
 	}
@@ -1480,29 +1542,31 @@ public class HTMLReport extends URNReport {
 	private void outputScenarios(UCMspec ucmspec, StringBuffer sb) {
 
 		int i = 1, j = 1;
-		sb.append("</div>\n<div>\n<h2>UCM Scenario Groups</h2>\n");
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.UCMScenarioGroups") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-		for (Iterator iter = ucmspec.getScenarioGroups().iterator(); iter.hasNext();) {
-			ScenarioGroup group = (ScenarioGroup) iter.next();
-			sb.append("</div>\n<div>\n<h3>" + i++ + ". " + group.getName() + ":</h3>\n");
-			j = 1;
-			for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
-				// create a list for the scenario group
-				ScenarioDef scenario = (ScenarioDef) iterator.next();
-				sb.append("&nbsp;&nbsp;&nbsp;" + j++ + ". " + EscapeUtils.escapeHTML(scenario.getName()) );
-				if( ReportUtils.notEmpty(scenario.getDescription()) ) {
-					sb.append( ": " + EscapeUtils.escapeHTML(scenario.getDescription()) );
+		if (prefShowUCMDiagrams) {
+			for (Iterator iter = ucmspec.getScenarioGroups().iterator(); iter.hasNext();) {
+				ScenarioGroup group = (ScenarioGroup) iter.next();
+				sb.append("</div>\n<div>\n<h3>" + i++ + ". " + group.getName() + ":</h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				j = 1;
+				for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
+					// create a list for the scenario group
+					ScenarioDef scenario = (ScenarioDef) iterator.next();
+					sb.append("&nbsp;&nbsp;&nbsp;" + j++ + ". " + EscapeUtils.escapeHTML(scenario.getName()) ); //$NON-NLS-1$ //$NON-NLS-2$
+					if( ReportUtils.notEmpty(scenario.getDescription()) ) {
+						sb.append( ": " + EscapeUtils.escapeHTML(scenario.getDescription()) ); //$NON-NLS-1$
+					}
+					sb.append( "<br></br>\n" ); //$NON-NLS-1$
 				}
-				sb.append( "<br></br>\n" );
 			}
-		}	
+		}
 	}
 
 	private void outputGRL_Definitions(URNspec urn, StringBuffer sb) {
 
 		GRLspec grlspec = urn.getGrlspec();
 
-		sb.append("<h1>GRL Definitions</h1>\n");
+		sb.append("<h1>" + Messages.getString("HTMLReport.GRLDefinitions") + "</h1>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		outputStrategies( grlspec, sb );
 	}
 
@@ -1510,71 +1574,73 @@ public class HTMLReport extends URNReport {
 
 		HashMap<Integer, EvaluationStrategy> strategies;
 
-		sb.append("</div>\n<div>\n<h2>Evaluation Strategies</h2>\n");
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.EvaluationStrategies") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-		for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
+		if (prefShowGRLDiagrams) {
+			for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
 
-			StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
+				StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
 
-			if (!evalGroup.getStrategies().isEmpty()) {
+				if (!evalGroup.getStrategies().isEmpty()) {
 
-				strategies = new HashMap<Integer, EvaluationStrategy>();
+					strategies = new HashMap<Integer, EvaluationStrategy>();
 
-				// create a hashmap containing strategies (one per column), key is column number starting with 1
-				int columnNo = 1;
-				for (Iterator iter2 = evalGroup.getStrategies().iterator(); iter2.hasNext();) {
-					EvaluationStrategy strategy = (EvaluationStrategy) iter2.next();
-					strategies.put(columnNo, strategy);
-					columnNo++;
-				}
+					// create a hashmap containing strategies (one per column), key is column number starting with 1
+					int columnNo = 1;
+					for (Iterator iter2 = evalGroup.getStrategies().iterator(); iter2.hasNext();) {
+						EvaluationStrategy strategy = (EvaluationStrategy) iter2.next();
+						strategies.put(columnNo, strategy);
+						columnNo++;
+					}
 
-				outputStrategiesLegend( strategies, evalGroup, sb );
-				this.calculateAllEvaluations( strategies.values(), grlspec ); // build evaluations table
+					outputStrategiesLegend( strategies, evalGroup, sb );
+					this.calculateAllEvaluations( strategies.values(), grlspec ); // build evaluations table
 
-				/***************************************************************************************************************************************
-				 * Create the header row
-				 */
-				sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
+					/***************************************************************************************************************************************
+					 * Create the header row
+				 	*/
+					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
 
-				sb.append("<tr><td><b>Element Name</b></td>");
-
-				for( Integer index : strategies.keySet() ) {
-					sb.append("<td><b>" + index + "</b></td>");
-				}	
-
-				sb.append("</tr>\n");
-
-				// add Actors in first column, one per row
-				for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
-
-					Actor actor = (Actor) iter.next();
-					sb.append("<tr><td>" + actor.getName() + " (A)" + "</td>");
+					sb.append("<tr><td><b>" + Messages.getString("HTMLReport.ElementName") + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 					for( Integer index : strategies.keySet() ) {
-						EvaluationStrategy currentStrategy = strategies.get(index);
-						int evalValue = evalTable.get(currentStrategy).get(actor);
-						sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + evalValue + "</b></td>");
+						sb.append("<td><b>" + index + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$
 					}	
 
-					sb.append("</tr>\n");   				
-				}     
+					sb.append("</tr>\n"); //$NON-NLS-1$
 
-				// add Intentional Elements in first column, one per row
-				for (Iterator iter11 = grlspec.getIntElements().iterator(); iter11.hasNext();) {
+					// add Actors in first column, one per row
+					for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
 
-					IntentionalElement intElement = (IntentionalElement) iter11.next();
-					sb.append("<tr><td>" + intElement.getName() + "</td>");
+						Actor actor = (Actor) iter.next();
+						sb.append("<tr><td>" + actor.getName() + " (A)" + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-					for( Integer index : strategies.keySet() ) {
-						EvaluationStrategy currentStrategy = strategies.get(index);
-						int evalValue = evalTable.get(currentStrategy).get(intElement);
-						sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + evalValue + "</b></td>");
-					}	
+						for( Integer index : strategies.keySet() ) {
+							EvaluationStrategy currentStrategy = strategies.get(index);
+							int evalValue = evalTable.get(currentStrategy).get(actor);
+							sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + evalValue + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						}	
 
-					sb.append("</tr>\n");
+						sb.append("</tr>\n");   				 //$NON-NLS-1$
+					}     
+
+					// add Intentional Elements in first column, one per row
+					for (Iterator iter11 = grlspec.getIntElements().iterator(); iter11.hasNext();) {
+
+						IntentionalElement intElement = (IntentionalElement) iter11.next();
+						sb.append("<tr><td>" + intElement.getName() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
+
+						for( Integer index : strategies.keySet() ) {
+							EvaluationStrategy currentStrategy = strategies.get(index);
+							int evalValue = evalTable.get(currentStrategy).get(intElement);
+							sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + evalValue + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						}	
+
+						sb.append("</tr>\n"); //$NON-NLS-1$
+					}
+
+					sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 				}
-
-				sb.append("</tbody></table></br>\n");
 			}
 		}
 
@@ -1582,10 +1648,10 @@ public class HTMLReport extends URNReport {
 
 	private void outputStrategiesLegend( HashMap<Integer, EvaluationStrategy> strategies, StrategiesGroup evalGroup, StringBuffer sb ) {
 
-		sb.append("</div>\n<div>\n<h3>Strategy Legend for Group \"" +  evalGroup.getName() + "\"</h3>\n");
+		sb.append("</div>\n<div>\n<h3>" + "Strategy Legend for Group" + " \"" +  evalGroup.getName() + "\"</h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		for( Integer index : strategies.keySet() ) {
-			sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + "<br></br>\n");
+			sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + "<br></br>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}	
 	}
 
@@ -1626,15 +1692,15 @@ public class HTMLReport extends URNReport {
 		int colorValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable( urnSpec,  evalValue );
 
 		if (colorValue == 0) {
-			hexColor = "#FFFF97"; // Color(255, 255, 151)
+			hexColor = "#FFFF97"; // Color(255, 255, 151) //$NON-NLS-1$
 		} else if (colorValue == -100) {
-			hexColor = "#FCA9AB"; // Color(252, 169, 171)
+			hexColor = "#FCA9AB"; // Color(252, 169, 171) //$NON-NLS-1$
 		} else if (colorValue > -100 && colorValue < 0) {
-			hexColor = "#FDE9EA"; // Color(253, 233, 234)
+			hexColor = "#FDE9EA"; // Color(253, 233, 234) //$NON-NLS-1$
 		} else if (colorValue == 100) {
-			hexColor = "#D2F9AC"; // Color(210, 249, 172)
+			hexColor = "#D2F9AC"; // Color(210, 249, 172) //$NON-NLS-1$
 		} else if (colorValue > 0 && colorValue < 100) {
-			hexColor = "F0FDE3"; // Color(240, 253, 227)
+			hexColor = "F0FDE3"; // Color(240, 253, 227) //$NON-NLS-1$
 		}
 
 		return hexColor;
