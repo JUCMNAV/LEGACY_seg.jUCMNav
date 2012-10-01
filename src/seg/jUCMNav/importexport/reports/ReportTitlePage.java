@@ -1,6 +1,9 @@
 package seg.jUCMNav.importexport.reports;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
@@ -73,17 +76,83 @@ public class ReportTitlePage extends Report {
 
             // URN creation date
             Chunk creationLabel = new Chunk(Messages.getString("ReportTitlePage.CreationDate"), specsFont); //$NON-NLS-1$
-            Chunk creationValue = new Chunk(CheckforEmpty(urn.getCreated()));
+            Chunk creationValue;
+            if (CheckforEmpty(urn.getCreated()) != "") { //$NON-NLS-1$
+            	SimpleDateFormat newFormat = new SimpleDateFormat(Messages.getString("ReportTitlePage.DateFormat")); //$NON-NLS-1$
+    			// TODO Replace the hard-coded Locale value (to find the language in which dates were generated in the model)
+    			SimpleDateFormat originalDateFormat = new SimpleDateFormat(Messages.getString("ReportTitlePage.DefaultDateFormat"), new Locale("en,US")); //$NON-NLS-1$ //$NON-NLS-2$
+    			// verify if the model's creation time corresponds to a PM time
+    			int indexOfPMString = -1;
+    			boolean isPM = false;
+    			indexOfPMString = urn.getCreated().indexOf(" PM "); //$NON-NLS-1$
+    			if (indexOfPMString > -1) {
+    				isPM = true;
+    			}
+    			Date dateCreated = (Date)originalDateFormat.parse(urn.getCreated());
+    			String strDateCreated = newFormat.format(dateCreated);
+    			// since not all locales recognize the 12-hour AM/PM system, make sure that all "AM" strings
+    			// are replaced by "PM" if isPM is true
+    			if (isPM) {
+    				strDateCreated = strDateCreated.replaceAll(" AM ", " PM "); //$NON-NLS-1$ //$NON-NLS-2$
+    			}
+            	creationValue = new Chunk(strDateCreated);
+            } else {
+            	creationValue = new Chunk(""); //$NON-NLS-1$
+            }
 
             // URN modification date/time
             Chunk modLabel = new Chunk(Messages.getString("ReportTitlePage.ModificaitonDate"), specsFont); //$NON-NLS-1$
-            Chunk modValue = new Chunk(CheckforEmpty(urn.getModified()));
+            Chunk modValue;
+            if (CheckforEmpty(urn.getModified()) != "") { //$NON-NLS-1$
+            	SimpleDateFormat newFormat = new SimpleDateFormat(Messages.getString("ReportTitlePage.DateFormat")); //$NON-NLS-1$
+    			// TODO Replace the hard-coded Locale value (to find the language in which dates were generated in the model)
+    			SimpleDateFormat originalDateFormat = new SimpleDateFormat(Messages.getString("ReportTitlePage.DefaultDateFormat"), new Locale("en,US")); //$NON-NLS-1$ //$NON-NLS-2$
+    			// verify if the model's modification time corresponds to a PM time
+    			int indexOfPMString = -1;
+    			boolean isPM = false;
+    			indexOfPMString = urn.getModified().indexOf(" PM "); //$NON-NLS-1$
+    			if (indexOfPMString > -1) {
+    				isPM = true;
+    			}
+    			Date dateModified = (Date)originalDateFormat.parse(urn.getModified());
+    			String strDateModified = newFormat.format(dateModified);
+    			// since not all locales recognize the 12-hour AM/PM system, make sure that all "AM" strings
+    			// are replaced by "PM" if isPM is true
+    			if (isPM) {
+    				strDateModified = strDateModified.replaceAll(" AM ", " PM "); //$NON-NLS-1$ //$NON-NLS-2$
+    			}
+    			modValue = new Chunk(strDateModified);
+            }
+            else {
+            	modValue = new Chunk(""); //$NON-NLS-1$
+            }
 
             // URN current date/time
-            SimpleDateFormat format = new SimpleDateFormat(Messages.getString("ReportTitlePage.DateFormat")); //$NON-NLS-1$
-            String date = format.format(new java.util.Date());
+            // generate the current date using the standard Locale (English-US) and convert it to the default locale
+            String strCurrentDate;
+            DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.US);
+            strCurrentDate = df.format(new Date());
+            
+            SimpleDateFormat newFormat = new SimpleDateFormat(Messages.getString("ReportTitlePage.DateFormat")); //$NON-NLS-1$
+			// TODO Replace the hard-coded Locale value (to find the language in which dates were generated in the model)
+			SimpleDateFormat originalDateFormat = new SimpleDateFormat(Messages.getString("ReportTitlePage.DefaultDateFormat"), new Locale("en,US")); //$NON-NLS-1$ //$NON-NLS-2$
+			// verify if current time corresponds to a PM time
+			int indexOfPMString = -1;
+			boolean isPM = false;
+			indexOfPMString = strCurrentDate.indexOf(" PM "); //$NON-NLS-1$
+			if (indexOfPMString > -1) {
+				isPM = true;
+			}
+			Date dateGenerated = (Date)originalDateFormat.parse(strCurrentDate);
+			String strDateGenerated = newFormat.format(dateGenerated);
+			// since not all locales recognize the 12-hour AM/PM system, make sure that all "AM" strings
+			// are replaced by "PM" if isPM is true
+			if (isPM) {
+				strDateGenerated = strDateGenerated.replaceAll(" AM ", " PM "); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			
             Chunk dateLabel = new Chunk(Messages.getString("ReportTitlePage.ReportGenerationDate"), specsFont); //$NON-NLS-1$
-            Chunk dateValue = new Chunk(date);
+            Chunk dateValue = new Chunk(strDateGenerated);
 
             // URN specification version
             Chunk specLabel = new Chunk(Messages.getString("ReportTitlePage.SpecificationVersion"), specsFont); //$NON-NLS-1$

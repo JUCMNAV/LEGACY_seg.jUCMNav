@@ -22,10 +22,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
@@ -393,7 +397,6 @@ public class HTMLReport extends URNReport {
 			}
 			reader.close();
 
-			//String newtextr = oldtext.replaceAll("TITLE", ExportPreferenceHelper.getFilenamePrefix().replace( ".jucm", ""));  //$NON-NLS-1$
 			String newtext = oldtext.replaceAll("URN Model:", Messages.getString("HTMLReport.URNModelName"));  //$NON-NLS-1$ //$NON-NLS-2$
 			newtext = newtext.replaceAll("TITLE", urn.getName());  //$NON-NLS-1$
 			newtext = newtext.replaceAll("URN Model Description:", Messages.getString("HTMLReport.URNModelDesc")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -404,15 +407,73 @@ public class HTMLReport extends URNReport {
 			}
 			newtext = newtext.replaceAll("Author:", Messages.getString("HTMLReport.ModelAuthor"));	//$NON-NLS-1$ //$NON-NLS-2$
 			newtext = newtext.replaceAll("AUTHOR", urn.getAuthor());	//$NON-NLS-1$
+			SimpleDateFormat newFormat = new SimpleDateFormat(Messages.getString("ReportTitlePage.DateFormat")); //$NON-NLS-1$
+			// TODO Replace the hard-coded Locale value (to find the language in which dates were generated in the model)
+			SimpleDateFormat originalDateFormat = new SimpleDateFormat(Messages.getString("ReportTitlePage.DefaultDateFormat"), new Locale("en,US")); //$NON-NLS-1$ //$NON-NLS-2$
 			newtext = newtext.replaceAll("Creation Date:", Messages.getString("HTMLReport.ModelCreationDate"));	//$NON-NLS-1$ //$NON-NLS-2$
-			newtext = newtext.replaceAll("CREATIONDATE", urn.getCreated());  //$NON-NLS-1$
-			newtext = newtext.replaceAll("Modification Date:", Messages.getString("HTMLReport.ModelModificationDate"));	//$NON-NLS-1$ //$NON-NLS-2$
-			newtext = newtext.replaceAll("MODIFICATIONDATE", urn.getModified());  //$NON-NLS-1$
-			SimpleDateFormat format = new SimpleDateFormat(Messages.getString("ReportTitlePage.DateFormat")); //$NON-NLS-1$
-			String date = format.format(new java.util.Date());
+			// verify if the model's creation time corresponds to a PM time
+			int indexOfPMString = -1;
+			boolean isPM = false;
+			
+			indexOfPMString = urn.getCreated().indexOf(" PM "); //$NON-NLS-1$
+			
+			if (indexOfPMString > -1) {
+				isPM = true;
+			}
+			
+			Date dateCreated = (Date)originalDateFormat.parse(urn.getCreated());
+			String strDateCreated = newFormat.format(dateCreated);
+			
+			// since not all locales recognize the 12-hour AM/PM system, make sure that all "AM" strings
+			// are replaced by "PM" if isPM is true
+			if (isPM) {
+				strDateCreated = strDateCreated.replaceAll(" AM ", " PM "); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			newtext = newtext.replaceAll("CREATIONDATE", strDateCreated);  //$NON-NLS-1$
+			newtext = newtext.replaceAll("Modification Date:", Messages.getString("HTMLReport.ModelModificationDate"));	//$NON-NLS-1$ //$NON-NLS-2$	
+			// verify if the model's modification time corresponds to a PM time
+			indexOfPMString = -1;
+			isPM = false;
+			
+			indexOfPMString = urn.getModified().indexOf(" PM "); //$NON-NLS-1$
+			
+			if (indexOfPMString > -1) {
+				isPM = true;
+			}
+			
+			Date dateModified = (Date)originalDateFormat.parse(urn.getModified());
+			String strDateModified = newFormat.format(dateModified);
+			
+			// since not all locales recognize the 12-hour AM/PM system, make sure that all "AM" strings
+			// are replaced by "PM" if isPM is true
+			if (isPM) {
+				strDateModified = strDateModified.replaceAll(" AM ", " PM "); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			newtext = newtext.replaceAll("MODIFICATIONDATE", strDateModified);  //$NON-NLS-1$
 			newtext = newtext.replaceAll("Report Generation Date:",Messages.getString("HTMLReport.ReportGenDate"));	//$NON-NLS-1$ //$NON-NLS-2$
-			newtext = newtext.replaceAll("REPORTGENDATE",date);  //$NON-NLS-1$
-			newtext = newtext.replaceAll("Model Version:",Messages.getString("HTMLReport.URNModelVersion"));	//$NON-NLS-1$ //$NON-NLS-2$
+			
+			// generate the current date using the standard Locale (English-US) and convert it to the default locale
+            String strCurrentDate;
+            DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.US);
+            strCurrentDate = df.format(new Date());
+            
+            // verify if current time corresponds to a PM time
+            indexOfPMString = -1;
+         	isPM = false;
+         	indexOfPMString = strCurrentDate.indexOf(" PM "); //$NON-NLS-1$
+         	if (indexOfPMString > -1) {
+         		isPM = true;
+         	}
+         	
+         	Date dateGenerated = (Date)originalDateFormat.parse(strCurrentDate);
+			String strDateGenerated = newFormat.format(dateGenerated);
+			// since not all locales recognize the 12-hour AM/PM system, make sure that all "AM" strings
+			// are replaced by "PM" if isPM is true
+			if (isPM) {
+				strDateGenerated = strDateGenerated.replaceAll(" AM ", " PM "); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+            newtext = newtext.replaceAll("REPORTGENDATE", strDateGenerated);  //$NON-NLS-1$
+			newtext = newtext.replaceAll("Model Version:", Messages.getString("HTMLReport.URNModelVersion"));	//$NON-NLS-1$ //$NON-NLS-2$
 			newtext = newtext.replaceAll("VERSION", urn.getSpecVersion());  //$NON-NLS-1$
 			newtext = newtext.replaceAll("Generated by ", Messages.getString("HTMLReport.GeneratedBy")); //$NON-NLS-1$ //$NON-NLS-2$
 			FileWriter writer = new FileWriter(mainFile);
@@ -420,6 +481,8 @@ public class HTMLReport extends URNReport {
 			writer.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
+		} catch (ParseException e2) {
+			e2.printStackTrace();
 		}
 
 	}
@@ -1648,7 +1711,7 @@ public class HTMLReport extends URNReport {
 
 	private void outputStrategiesLegend( HashMap<Integer, EvaluationStrategy> strategies, StrategiesGroup evalGroup, StringBuffer sb ) {
 
-		sb.append("</div>\n<div>\n<h3>" + "Strategy Legend for Group" + " \"" +  evalGroup.getName() + "\"</h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		sb.append("</div>\n<div>\n<h3>" + Messages.getString("HTMLReport.StrategyLegendForGroup") + " \"" +  evalGroup.getName() + "\"</h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		for( Integer index : strategies.keySet() ) {
 			sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + "<br></br>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
