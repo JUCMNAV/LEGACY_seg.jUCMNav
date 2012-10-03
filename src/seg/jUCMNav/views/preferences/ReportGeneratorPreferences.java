@@ -37,9 +37,10 @@ public class ReportGeneratorPreferences {
     public final static boolean DEFAULT_GRL_SHOW_INTENTIONAL_ELEMENTS = true;
     public final static boolean DEFAULT_GRL_SHOW_BELIEFS = true;
     public final static boolean DEFAULT_GRL_SHOW_URN_LINKS = true;
+
     
-    //public final static boolean DEFAULT_GRL_SHOW_EVAL_STRATEGY_TREND = false;
-    //public final static int DEFAULT_GRL_EVAL_STRATEGY_TREND = 3;
+    public final static boolean DEFAULT_GRL_SHOW_EVAL_STRATEGY_TREND = false;
+    public final static int DEFAULT_GRL_EVAL_STRATEGY_TREND = 3;
 
     public final static String PREF_UCM_SHOW_UCM_DIAGRAMS = "seg.jUCMNav.UCMReportPreference.UCMSHOWUCMDIAGRAMS"; //$NON-NLS-1$
     public final static String PREF_GRL_SHOW_GRL_DIAGRAMS = "seg.jUCMNav.UCMReportPreference.GRLSHOWGRLDIAGRAMS"; //$NON-NLS-1$
@@ -55,8 +56,9 @@ public class ReportGeneratorPreferences {
     public final static String PREF_GRL_SHOW_BELIEFS = "seg.jUCMNav.UCMReportPreference.Beliefs"; //$NON-NLS-1$
     public final static String PREF_SHOW_URN_LINKS = "seg.jUCMNav.UCMReportPreference.URNLinks"; //$NON-NLS-1$
     
-    //public final static String PREF_GRL_SHOW_EVAL_STRATEGY_TREND = "seg.jUCMNav.UCMReportPreference.GRLShowEvalStratefyTrend"; //$NON-NLS-1$
-    //public final static String PREF_GRL_EVAL_STRATEGY_TREND = "seg.jUCMNav.UCMReportPreference.GRLEvalStrategyTrend"; //$NON-NLS-1$
+    public final static String PREF_GRL_SHOW_EVAL_STRATEGY_TREND = "seg.jUCMNav.UCMReportPreference.GRLShowEvalStratefyTrend"; //$NON-NLS-1$
+    public final static String PREF_GRL_EVAL_STRATEGY_TREND = "seg.jUCMNav.UCMReportPreference.GRLEvalStrategyTrend"; //$NON-NLS-1$
+
 
     /**
      * 
@@ -88,8 +90,10 @@ public class ReportGeneratorPreferences {
                 ReportGeneratorPreferences.DEFAULT_GRL_SHOW_INTENTIONAL_ELEMENTS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_BELIEFS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_BELIEFS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_SHOW_URN_LINKS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_URN_LINKS);
-        //getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_EVAL_STRATEGY_TREND, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_EVAL_STRATEGY_TREND);
-        //getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_EVAL_STRATEGY_TREND, ReportGeneratorPreferences.DEFAULT_GRL_EVAL_STRATEGY_TREND);
+
+        getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_EVAL_STRATEGY_TREND, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_EVAL_STRATEGY_TREND);
+        getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_EVAL_STRATEGY_TREND, ReportGeneratorPreferences.DEFAULT_GRL_EVAL_STRATEGY_TREND);
+
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_NUMBER_CSV_COLUMNS, ReportGeneratorPreferences.DEFAULT_NUMBER_CSV_COLUMNS);
     }
 
@@ -287,17 +291,17 @@ public class ReportGeneratorPreferences {
      * 
      * @return the value of the show grl eval strategy trend preference
      */
-    //public static boolean getShowGRLEvalStrategyTrend() {
-    //	return getPreferenceStore().getBoolean(PREF_GRL_SHOW_EVAL_STRATEGY_TREND);
-    //}
+    public static boolean getShowGRLEvalStrategyTrend() {
+    	return getPreferenceStore().getBoolean(PREF_GRL_SHOW_EVAL_STRATEGY_TREND);
+    }
     
     /**
      * 
      * @return the value of the grl eval strategy trend preference
      */
-    //public static String getGRLEvalStrategyTrend() {
-    //	return getPreferenceStore().getString(PREF_GRL_EVAL_STRATEGY_TREND);
-    //}
+    public static String getGRLEvalStrategyTrend() {
+    	return getPreferenceStore().getString(PREF_GRL_EVAL_STRATEGY_TREND);
+    }
     
     /**
      * 
@@ -379,22 +383,23 @@ public class ReportGeneratorPreferences {
     // public static void setEndPoint(boolean bool) {
     // getPreferenceStore().setValue(PREF_UCM_SHOW_END_POINT, bool);
     // }
+
     
     /**
      * 
      * @param bool
      *            show or not the GRL Show Eval Strategy Trend preference
      */
-    //public static void setShowGRLEvalStrategyTrend(boolean bool) {
-    //	getPreferenceStore().setValue(PREF_GRL_SHOW_EVAL_STRATEGY_TREND, bool);
-    //}
+    public static void setShowGRLEvalStrategyTrend(boolean bool) {
+    	getPreferenceStore().setValue(PREF_GRL_SHOW_EVAL_STRATEGY_TREND, bool);
+    }
     
     /**
      * 
      * @param evalStrategyTrend
      *            set the number of strategy evaluations to use for the evaluation strategy trend of the intentional elements
      */
-    /*public static void setGRLEvalStrategyTrend(String evalStrategyTrend) {
+    public static void setGRLEvalStrategyTrend(String evalStrategyTrend) {
     	String s;
         // want to make sure it is convertible.
         try {
@@ -408,7 +413,8 @@ public class ReportGeneratorPreferences {
             s = "0"; //$NON-NLS-1$
         }
 
-        getPreferenceStore().setValue(PREF_GRL_EVAL_STRATEGY_TREND, s);
-    }*/
 
+        getPreferenceStore().setValue(PREF_GRL_EVAL_STRATEGY_TREND, s);
+    
+    	}
 }

@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -78,6 +79,10 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
 			strategies = new EObjectWithInverseResolvingEList(EvaluationStrategy.class, this, GrlPackage.STRATEGIES_GROUP__STRATEGIES, GrlPackage.EVALUATION_STRATEGY__GROUP);
 		}
 		return strategies;
+	}
+    
+    public void sortStrategies() {
+		ECollections.sort(strategies);
 	}
 
     /**

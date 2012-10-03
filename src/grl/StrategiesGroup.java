@@ -73,5 +73,7 @@ public interface StrategiesGroup extends GRLmodelElement {
 	 * @generated
 	 */
     void setGrlspec(GRLspec value);
+    
+    void sortStrategies();
 
 } // StrategiesGroup

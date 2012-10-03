@@ -6,6 +6,7 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
+
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -14,6 +15,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -82,6 +84,7 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
                 .getString("ReportGeneratorPreferencePage.descOrder"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(showUCMDesc);
+
         
         BooleanFieldEditor ShowURNLinks = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_SHOW_URN_LINKS, Messages
                 .getString("ReportGeneratorPreferencePage.urnLinks"), //$NON-NLS-1$
@@ -110,6 +113,7 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         		ucmCompOptions);
         addField(showUCMDiagrams);
         
+
         BooleanFieldEditor showUCMResponsibility = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_RESPONSIBILITY, Messages
                 .getString("ReportGeneratorPreferencePage.respOrder"), //$NON-NLS-1$
                 ucmCompOptions);
@@ -140,6 +144,7 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
                 ucmCompOptions);
         addField(ShowUCMEndPoint);
 
+
         // Group for GRL Preferences
         Group grlDisplayOptions = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
         grlDisplayOptions.setText("GRL Preferences");
@@ -164,6 +169,7 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         		grlCompOptions);
         addField(showGRLDiagrams);
 
+
         BooleanFieldEditor ShowGRLIntentionalElements = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_INTENTIONAL_ELEMENTS, Messages
                 .getString("ReportGeneratorPreferencePage.intentionalElements"), //$NON-NLS-1$
                 grlCompOptions);
@@ -173,17 +179,20 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
                 .getString("ReportGeneratorPreferencePage.beliefs"), //$NON-NLS-1$
                 grlCompOptions);
         addField(ShowGRLBeliefs);
+
         
-        /*BooleanFieldEditor ShowGRLEvalStrategyTrend = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_EVAL_STRATEGY_TREND,
+        BooleanFieldEditor ShowGRLEvalStrategyTrend = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_EVAL_STRATEGY_TREND,
         		Messages.getString("ReportGeneratorPreferencePage.ShowGRLEvalTrends"), //$NON-NLS-1$
-                grlCompOptions);
+                getFieldEditorParent());
         addField(ShowGRLEvalStrategyTrend);
         
         StringFieldEditor GRLEvalStrategyTrend = new StringFieldEditor(ReportGeneratorPreferences.PREF_GRL_EVAL_STRATEGY_TREND,
         		Messages.getString("ReportGeneratorPreferencePage.NumberColsEvalTrends"), //$NON-NLS-1$
-                grlCompOptions);
-        addField(numberCSVcolumns);*/
+                getFieldEditorParent());
+        addField(GRLEvalStrategyTrend);
+
     }
+
 
     /*public void propertyChange(PropertyChangeEvent event) {
     	
@@ -200,6 +209,7 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
     		}
     	}
     }*/
+
     public void init(IWorkbench workbench) {
 
     }

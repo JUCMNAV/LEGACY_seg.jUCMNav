@@ -48,7 +48,7 @@ import urncore.impl.GRLmodelElementImpl;
  *
  * @generated
  */
-public class EvaluationStrategyImpl extends GRLmodelElementImpl implements EvaluationStrategy {
+public class EvaluationStrategyImpl extends GRLmodelElementImpl implements EvaluationStrategy, Comparable <EvaluationStrategy>{
     /**
 	 * The default value of the '{@link #getAuthor() <em>Author</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -503,5 +503,9 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 		result.append(')');
 		return result.toString();
 	}
+    
+    public int compareTo(EvaluationStrategy strat){
+    	return (this.getName()).compareTo(strat.getName());
+    }
 
 } //EvaluationStrategyImpl

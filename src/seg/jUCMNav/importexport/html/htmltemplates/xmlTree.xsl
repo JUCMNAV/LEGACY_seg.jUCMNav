@@ -22,7 +22,7 @@
 <span class="trigger">
 <xsl:attribute name="onClick">
 showBranch('<xsl:value-of select="@id"/>');
-redirect('<xsl:value-of select="@branchlink"/>'); 
+redirect('<xsl:value-of select="@branchLink"/>'); 
 </xsl:attribute>
 <img src="closed.gif">
 <xsl:attribute name="id">I<xsl:value-of select="@id"/></xsl:attribute>

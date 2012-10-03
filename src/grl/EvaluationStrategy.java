@@ -186,5 +186,7 @@ public interface EvaluationStrategy extends GRLmodelElement {
 	 * @generated
 	 */
     EList getKpiInfoConfig();
+    
+    int compareTo(EvaluationStrategy strat);
 
 } // EvaluationStrategy

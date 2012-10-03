@@ -35,6 +35,8 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.widgets.Display;
 
+import com.lowagie.text.Cell;
+
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.URNReport;
@@ -102,6 +104,9 @@ public class HTMLReport extends URNReport {
 
 	protected boolean prefShowUCMDiagrams;
     protected boolean prefShowGRLDiagrams;
+    
+    private boolean prefShowTrend;
+    private int prefTrend;
     
 	static {
 		excludedMetadata = new HashMap<String, Object>();
@@ -1634,7 +1639,10 @@ public class HTMLReport extends URNReport {
 	}
 
 	private void outputStrategies(GRLspec grlspec, StringBuffer sb) {
-
+		
+		prefShowTrend = ReportGeneratorPreferences.getShowGRLEvalStrategyTrend();
+    	prefTrend = Integer.parseInt(ReportGeneratorPreferences.getGRLEvalStrategyTrend());
+		
 		HashMap<Integer, EvaluationStrategy> strategies;
 
 		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.EvaluationStrategies") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -1644,6 +1652,8 @@ public class HTMLReport extends URNReport {
 
 				StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
 
+				evalGroup.sortStrategies();
+				
 				if (!evalGroup.getStrategies().isEmpty()) {
 
 					strategies = new HashMap<Integer, EvaluationStrategy>();
@@ -1669,6 +1679,10 @@ public class HTMLReport extends URNReport {
 					for( Integer index : strategies.keySet() ) {
 						sb.append("<td><b>" + index + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$
 					}	
+					
+					if (prefShowTrend){
+						sb.append("<td><b>" + "Trends" + "</b></td>");
+					}
 
 					sb.append("</tr>\n"); //$NON-NLS-1$
 
@@ -1684,6 +1698,11 @@ public class HTMLReport extends URNReport {
 							sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + evalValue + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						}	
 
+						if(prefShowTrend){
+							int trend = calculateTrend(strategies, actor, strategies.size());
+							sb.append(trendContent(trend));
+						}
+						
 						sb.append("</tr>\n");   				 //$NON-NLS-1$
 					}     
 
@@ -1699,6 +1718,11 @@ public class HTMLReport extends URNReport {
 							sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + evalValue + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						}	
 
+						if(prefShowTrend){
+							int trend = calculateTrend(strategies, intElement, strategies.size());
+							sb.append(trendContent(trend));
+						}
+						
 						sb.append("</tr>\n"); //$NON-NLS-1$
 					}
 
@@ -1708,6 +1732,89 @@ public class HTMLReport extends URNReport {
 		}
 
 	}
+	
+    /**
+     * calculates a trend in the strategies
+     * 
+     * @param strategies
+     *            hash tables which contains the evaluated strategies     
+     * @param element
+     *            current element - actor or intentional element
+     * @param numStrat
+     *            number of strategies in group
+     */
+    
+    private int calculateTrend(HashMap<Integer, EvaluationStrategy> strategies, GRLLinkableElement element, int numStrat) {
+    	int trend = -2; 
+	    	//no trend = -2
+    		//varying trend = -3
+	    	//no change = 0
+	    	//negative trend = -1
+	    	//positive trend = 1
+    	int lastValue;
+    	int currentValue;
+    	
+    	EvaluationStrategy currentStrategy;
+    	
+    	if (numStrat >= prefTrend && prefTrend > 1){//else not enough data to calculate trend
+  
+    		currentStrategy = strategies.get(numStrat - prefTrend+1); 
+    		
+    		lastValue = evalTable.get(currentStrategy).get(element);
+    		
+	    	for (int i = (int)numStrat - prefTrend + 2; i<=numStrat; i++){
+	    		currentStrategy = strategies.get(i); 
+	    		currentValue = evalTable.get(currentStrategy).get(element);
+	    		 
+	    		
+	    		if (trend == -2){ //no trend calculated yet (first element)
+	    			if (currentValue > lastValue){
+	    				trend = 1;
+	    			}else if(currentValue < lastValue){
+	    				trend = -1;
+	    			}else{
+	    				trend = 0;
+	    			}
+	    		}
+	    		else{
+	    			//if (!((currentValue > lastValue && trend == 1) || (currentValue < lastValue && trend == -1) || (currentValue == lastValue && trend == 0))){
+	    				//trend = -2;
+	    			//	trend = -3;
+	    			//	break;
+	    			//}
+	    			if (trend == 0 && currentValue > lastValue){ //neutral trend changed to positive
+	    				trend = 1;	
+	    			}else if(trend == 0 && currentValue < lastValue){//neutral trend changed to negative
+	    				trend = -1;
+	    			}else if(!((currentValue > lastValue && trend == 1) || (currentValue < lastValue && trend == -1) || (currentValue == lastValue && trend == 0))){ //trend changed
+	    				trend = -3;
+	    				break;
+	    			}
+	    		}
+	    		
+	    		lastValue = currentValue;
+	    	}
+    	}
+    	
+    	return trend;	
+    }
+    
+    private String trendContent(int trend) {
+    	String content;
+    			
+    	switch(trend){
+    	case -1: content = "<td bgcolor=#FCA9AB><b>-</b></td>";
+    			break;
+    	case 0: content = "<td bgcolor=#FFFF97><b>=</b></td>";
+				break;
+    	case 1: content = "<td bgcolor=#D2F9AC><b>+</b></td>";
+				break;
+		default: content = "<td><b>?</b></td>";
+				break;
+    	}
+    	
+    	return content;
+    }
 
 	private void outputStrategiesLegend( HashMap<Integer, EvaluationStrategy> strategies, StrategiesGroup evalGroup, StringBuffer sb ) {
 
