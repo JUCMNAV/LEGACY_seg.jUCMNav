@@ -1,7 +1,7 @@
 package seg.jUCMNav.views.preferences;
 
+
 import org.eclipse.jface.preference.BooleanFieldEditor;
-import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
@@ -12,7 +12,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
@@ -30,9 +29,16 @@ import seg.jUCMNav.Messages;
  */
 public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
+	Label labelWarning;
+	boolean isUCMPrefsSelected;
+	boolean isGRLPrefsSelected;
+	
     public ReportGeneratorPreferencePage() {
         super(FieldEditorPreferencePage.GRID);
 
+        // Initialize isUCMPrefsSelected and isGRLPrefsSelected flags to true.
+        isUCMPrefsSelected = true;
+        isGRLPrefsSelected = true;
         // Set the preference store for the preference page.
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         setPreferenceStore(store);
@@ -47,6 +53,12 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
     protected void createFieldEditors() {
         // Initialize all field editors.
 
+    	Label formatPreferencesLabel = new Label(getFieldEditorParent(), SWT.LEFT);
+        formatPreferencesLabel.setText(Messages.getString("ReportGeneratorPreferencePage.ReportFormatPreferences")); //$NON-NLS-1$
+        
+        Label formatPreferencesLabel2 = new Label(getFieldEditorParent(), SWT.LEFT);
+        formatPreferencesLabel2.setText(""); //$NON-NLS-1$
+        
         StringFieldEditor width = new StringFieldEditor(ReportGeneratorPreferences.PREF_REPORT_WIDTH,
                 Messages.getString("ReportGeneratorPreferencePage.width"), //$NON-NLS-1$
                 getFieldEditorParent());
@@ -69,9 +81,10 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
                 .getString("ReportGeneratorPreferencePage.orientation"), 1, values, getFieldEditorParent()); //$NON-NLS-1$
         addField(orientation);
 
-        ColorFieldEditor reportColor = new ColorFieldEditor(ReportGeneratorPreferences.PREF_REPORT_COLOR, Messages
-                .getString("ReportGeneratorPreferencePage.PDFBackgroundColor"), getFieldEditorParent()); //$NON-NLS-1$
-        addField(reportColor);
+        // pdf background color not used in the report generation...
+        //ColorFieldEditor reportColor = new ColorFieldEditor(ReportGeneratorPreferences.PREF_REPORT_COLOR, Messages
+        //        .getString("ReportGeneratorPreferencePage.PDFBackgroundColor"), getFieldEditorParent()); //$NON-NLS-1$
+        //addField(reportColor);
 
         // separator line
         GridData g = new GridData(GridData.FILL_HORIZONTAL);
@@ -79,6 +92,9 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         Label separator = new Label (getFieldEditorParent(), SWT.SEPARATOR | SWT.HORIZONTAL);
         separator.setLayoutData(g);
         separator.setVisible(true);
+        
+        Label diagPreferencesLabel = new Label(getFieldEditorParent(), SWT.LEFT);
+        diagPreferencesLabel.setText(Messages.getString("ReportGeneratorPreferencePage.DiagramSpecificPreferences")); //$NON-NLS-1$
         
         BooleanFieldEditor showUCMDesc = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_DESC, Messages
                 .getString("ReportGeneratorPreferencePage.descOrder"), //$NON-NLS-1$
@@ -93,7 +109,7 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         
         // Group for UCM Preferences
         Group ucmDisplayOptions = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
-        ucmDisplayOptions.setText("UCM Preferences");
+        ucmDisplayOptions.setText(Messages.getString("ReportGeneratorPreferencePage.UCMPreferences")); //$NON-NLS-1$
         
         GridLayout ucmLayoutOptions = new GridLayout();
         ucmLayoutOptions.numColumns = 1;
@@ -147,7 +163,7 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
 
         // Group for GRL Preferences
         Group grlDisplayOptions = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
-        grlDisplayOptions.setText("GRL Preferences");
+        grlDisplayOptions.setText(Messages.getString("ReportGeneratorPreferencePage.GRLPreferences")); //$NON-NLS-1$
         
         GridLayout grlLayoutOptions = new GridLayout();
         grlLayoutOptions.numColumns = 1;
@@ -179,36 +195,80 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
                 .getString("ReportGeneratorPreferencePage.beliefs"), //$NON-NLS-1$
                 grlCompOptions);
         addField(ShowGRLBeliefs);
-
-        
+  
         BooleanFieldEditor ShowGRLEvalStrategyTrend = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_EVAL_STRATEGY_TREND,
         		Messages.getString("ReportGeneratorPreferencePage.ShowGRLEvalTrends"), //$NON-NLS-1$
-                getFieldEditorParent());
+        		grlCompOptions);
         addField(ShowGRLEvalStrategyTrend);
         
         StringFieldEditor GRLEvalStrategyTrend = new StringFieldEditor(ReportGeneratorPreferences.PREF_GRL_EVAL_STRATEGY_TREND,
         		Messages.getString("ReportGeneratorPreferencePage.NumberColsEvalTrends"), //$NON-NLS-1$
-                getFieldEditorParent());
+        		grlCompOptions);
         addField(GRLEvalStrategyTrend);
 
+        labelWarning = new Label(getFieldEditorParent(), SWT.LEFT);
+        
+        // set isUCMPrefsSelected and isGRLPrefsSelected flags depending on the current values of
+        // the UCMSHOWUCMDIAGRAMS and GRLSHOWGRLDIAGRAMS preferences
+        if (!getPreferenceStore().getBoolean(ReportGeneratorPreferences.PREF_GRL_SHOW_GRL_DIAGRAMS)) {
+        	isGRLPrefsSelected = false;
+        } else {
+        	isGRLPrefsSelected = true;
+        }
+        if (!getPreferenceStore().getBoolean(ReportGeneratorPreferences.PREF_UCM_SHOW_UCM_DIAGRAMS)) {
+        	isUCMPrefsSelected = false;
+        } else {
+        	isUCMPrefsSelected = true;
+        }
+        
+        // set the labelWarning text to the right warning message, depending on the values of the
+        // isUCMPrefsSelected and isGRLPrefsSelected flags
+        if ((isUCMPrefsSelected) && (!isGRLPrefsSelected)) {
+        	labelWarning.setText(Messages.getString("ReportGeneratorPreferencePage.WarningGRL")); //$NON-NLS-1$
+        } else if ((!isUCMPrefsSelected) && (!isGRLPrefsSelected)) {
+        	labelWarning.setText(Messages.getString("ReportGeneratorPreferencePage.WarningGRLUCM")); //$NON-NLS-1$
+        } else if ((!isUCMPrefsSelected) && (isGRLPrefsSelected)) {
+        	labelWarning.setText(Messages.getString("ReportGeneratorPreferencePage.WarningUCM")); //$NON-NLS-1$
+        } else {
+        	labelWarning.setText("                                                                                                                          "); //$NON-NLS-1$
+        }
+        
     }
 
 
-    /*public void propertyChange(PropertyChangeEvent event) {
+    public void propertyChange(PropertyChangeEvent event) {
     	
-    	String prefName = ((BooleanFieldEditor) event.getSource()).getPreferenceName();
-    	if (prefName.equals("seg.jUCMNav.UCMReportPreference.UCMSHOWUCMDIAGRAMS")) {
-    		Control[] controls = this.getFieldEditorParent().getChildren();
-    		for (int i=0; i < controls.length; i++) {
-    			if ((controls[i].toString()).equals("Group {UCM Preferences}")) {
-    				Control[] childControls = ((Group) controls[i]).getChildren();
-    				for (int j=0; j < childControls.length; j++) {
-    					System.out.println(childControls[j].toString());
-    				}
+    	if (event.getSource() instanceof BooleanFieldEditor) {
+    		String prefName = ((BooleanFieldEditor) event.getSource()).getPreferenceName();
+    		
+    		// change values of isUCMPrefsSelected and isGRLPrefsSelected if the changed preference
+    		// is UCMSHOWUCMDIAGRAMS or GRLSHOWGRLDIAGRAMS
+    		if (prefName.equals("seg.jUCMNav.UCMReportPreference.UCMSHOWUCMDIAGRAMS")) { //$NON-NLS-1$
+    			if ((boolean) (event.getNewValue().equals(true))) {
+    				isUCMPrefsSelected = true;
+    			} else {
+    				isUCMPrefsSelected = false;
+    			}
+    		} else if (prefName.equals("seg.jUCMNav.UCMReportPreference.GRLSHOWGRLDIAGRAMS")) { //$NON-NLS-1$
+    			if ((boolean) (event.getNewValue().equals(true))) {
+    				isGRLPrefsSelected = true;
+    			} else {
+    				isGRLPrefsSelected = false;
     			}
     		}
+    		
+    		// change warning message depending on the preferences selected
+    		if ((isUCMPrefsSelected) && (!isGRLPrefsSelected)) {
+    			labelWarning.setText(Messages.getString("ReportGeneratorPreferencePage.WarningGRL")); //$NON-NLS-1$
+    		} else if ((!isUCMPrefsSelected) && (!isGRLPrefsSelected)) {
+    			labelWarning.setText(Messages.getString("ReportGeneratorPreferencePage.WarningGRLUCM")); //$NON-NLS-1$
+    		} else if ((!isUCMPrefsSelected) && (isGRLPrefsSelected)) {
+    			labelWarning.setText(Messages.getString("ReportGeneratorPreferencePage.WarningUCM")); //$NON-NLS-1$
+    		} else {
+    			labelWarning.setText(""); //$NON-NLS-1$
+    		}
     	}
-    }*/
+    }
 
     public void init(IWorkbench workbench) {
 

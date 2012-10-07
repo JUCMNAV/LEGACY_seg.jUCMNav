@@ -35,8 +35,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.widgets.Display;
 
-import com.lowagie.text.Cell;
-
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.URNReport;

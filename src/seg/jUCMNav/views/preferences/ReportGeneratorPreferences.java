@@ -20,7 +20,7 @@ public class ReportGeneratorPreferences {
     public final static int DEFAULT_NUMBER_CSV_COLUMNS = 7;
     public final static String PREF_REPORT_HEIGHT = "seg.jUCMNav.ReportPreference.Height"; //$NON-NLS-1$
     public final static String PREF_REPORT_ORIENTATION = "seg.jUCMNav.ReportPreference.Orientation"; //$NON-NLS-1$
-    public final static String PREF_REPORT_COLOR = "seg.jUCMNav.ReportPreference.Color";//$NON-NLS-1$
+    //public final static String PREF_REPORT_COLOR = "seg.jUCMNav.ReportPreference.Color";//$NON-NLS-1$
     public final static String PREF_REPORT_WIDTH = "seg.jUCMNav.ReportPreference.Width"; //$NON-NLS-1$
     public final static String PREF_NUMBER_CSV_COLUMNS = "seg.jUCMNav.ReportPreference.NumberCSV_Columns"; //$NON-NLS-1$
 
@@ -75,7 +75,7 @@ public class ReportGeneratorPreferences {
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_REPORT_ORIENTATION, ReportGeneratorPreferences.DEFAULT_REPORT_ORIENTATION);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_REPORT_WIDTH, ReportGeneratorPreferences.DEFAULT_REPORT_WIDTH);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_REPORT_HEIGHT, ReportGeneratorPreferences.DEFAULT_REPORT_HEIGHT);
-        getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_REPORT_COLOR, ReportGeneratorPreferences.DEFAULT_REPORT_COLOR);
+        //getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_REPORT_COLOR, ReportGeneratorPreferences.DEFAULT_REPORT_COLOR);
 
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_UCM_SHOW_UCM_DIAGRAMS, ReportGeneratorPreferences.DEFAULT_UCM_SHOW_UCM_DIAGRAMS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_GRL_DIAGRAMS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_GRL_DIAGRAMS);
@@ -117,9 +117,9 @@ public class ReportGeneratorPreferences {
      * 
      * @return the color of the report background in the PDF
      */
-    public static String getReportColor() {
-        return getPreferenceStore().getString(PREF_REPORT_COLOR);
-    }
+    //public static String getReportColor() {
+    //    return getPreferenceStore().getString(PREF_REPORT_COLOR);
+    //}
 
     /**
      * 
@@ -181,9 +181,9 @@ public class ReportGeneratorPreferences {
      * @param color
      *            the color of the report background in the PDF
      */
-    public static void setReportColor(String color) {
-        getPreferenceStore().setValue(PREF_REPORT_COLOR, color);
-    }
+    //public static void setReportColor(String color) {
+    //    getPreferenceStore().setValue(PREF_REPORT_COLOR, color);
+    //}
 
     /**
      * 
@@ -380,9 +380,9 @@ public class ReportGeneratorPreferences {
      * @param bool
      *            show or not the EndPoint node type
      */
-    // public static void setEndPoint(boolean bool) {
-    // getPreferenceStore().setValue(PREF_UCM_SHOW_END_POINT, bool);
-    // }
+     public static void setEndPoint(boolean bool) {
+    	 getPreferenceStore().setValue(PREF_UCM_SHOW_END_POINT, bool);
+     }
 
     
     /**

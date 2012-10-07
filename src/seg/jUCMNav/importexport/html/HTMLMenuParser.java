@@ -52,7 +52,7 @@ public class HTMLMenuParser {
 	private final static String TREE = "tree"; //$NON-NLS-1$
 	private final static String BRANCH = "branch"; //$NON-NLS-1$
 	private final static String BRANCH_ID = "id"; //$NON-NLS-1$
-	private final static String BRANCH_LINK = "branchlink"; //$NON-NLS-1$
+	private final static String BRANCH_LINK = "branchLink"; //$NON-NLS-1$
 	private final static String BRANCH_TEXT = "branchText"; //$NON-NLS-1$
 
 	private final static String LEAF = "leaf"; //$NON-NLS-1$
