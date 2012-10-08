@@ -188,7 +188,7 @@ public class ReportStrategies extends ReportDataDictionary {
                 ReportUtils.writeLineWithSeparator(document, columnNo, ":", strategyName, descriptionFont, true); //$NON-NLS-1$
             }
             
-            ReportUtils.writeLineWithSeparator(document, "Note", ":", " Trend calculated based on last " + prefTrend + " strategies", descriptionFont, true); 
+            ReportUtils.writeLineWithSeparator(document, Messages.getString("ReportStrategies.TrendNote"), ":", Messages.getString("ReportStrategies.TrendNote1") + prefTrend + Messages.getString("ReportStrategies.TrendNote2"), descriptionFont, true);   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
         } catch (Exception e) {
             jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
@@ -318,14 +318,12 @@ public class ReportStrategies extends ReportDataDictionary {
                                 table.addCell(strategyNo);
                                 lastCellOfPage = column;
                                 
-                                if (prefShowTrend){ //added
-                                	//lastCellOfPage = intTrendColumnWidth/2;  
-                                }
+                                
                             }
                             
                             // Second line - last cell: contains the strategy evaluation trend header title
                             if (prefShowTrend){
-                            Cell trendHeadCell = new Cell("Trend");//(Messages.getString("ReportStrategies.StrategyEvaluations")); //$NON-NLS-1$
+                            Cell trendHeadCell = new Cell(Messages.getString("ReportStrategies.Trends")); //$NON-NLS-1$
                             trendHeadCell.setHeader(true);
                             trendHeadCell.setColspan(TREND_CELL_WIDTH);
                             table.addCell(trendHeadCell);
@@ -530,7 +528,7 @@ public class ReportStrategies extends ReportDataDictionary {
 	    				trend = 1;	
 	    			}else if(trend == 0 && currentValue < lastValue){//neutral trend changed to negative
 	    				trend = -1;
-	    			}else if(!((currentValue > lastValue && trend == 1) || (currentValue < lastValue && trend == -1) || (currentValue == lastValue && trend == 0))){ //trend changed
+	    			}else if(!((currentValue >= lastValue && trend == 1) || (currentValue <= lastValue && trend == -1) || (currentValue == lastValue && trend == 0))){ //trend changed
 	    				trend = -3;
 	    				break;
 	    			}
@@ -558,6 +556,7 @@ public class ReportStrategies extends ReportDataDictionary {
     	//Cell cell = new Cell(new Phrase("title", FontFactory.getFont(FontFactory.HELVETICA, 24, Font.BOLD)));
     	
     	/*
+    	
     	switch(trend){
     	case -1: trendCell = new Cell("-"); //$NON-NLS-1$
     			//trendCell = new Cell(new Phrase("-", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD)));
@@ -580,28 +579,28 @@ public class ReportStrategies extends ReportDataDictionary {
 				
 				}*/
     	
-    	/* with image
+    	
     	Image img;
     	switch(trend){
-    	case -1:img = Image.getInstance("C:/Users/Alex/workspace/Reports-test/down.png");
+    	case -1:img = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/down.png"));//$NON-NLS-1$
 		        img.setAlignment(Image.MIDDLE);
 		        trendCell = new Cell();
 		        trendCell.add(img);
 		        trendCell.setBackgroundColor(new java.awt.Color(252, 169, 171));
     			break;
-    	case 0:img = Image.getInstance("C:/Users/Alex/workspace/Reports-test/straight.png");
+    	case 0:img = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/straight.png"));//$NON-NLS-1$
 		        img.setAlignment(Image.MIDDLE);
 		        trendCell = new Cell();
 		        trendCell.add(img);
 		        trendCell.setBackgroundColor(new java.awt.Color(255, 255, 151));
 		        break;
-    	case 1:img = Image.getInstance("C:/Users/Alex/workspace/Reports-test/up.png");
+    	case 1:img = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/up.png"));//$NON-NLS-1$
 		        img.setAlignment(Image.MIDDLE);
 		        trendCell = new Cell();
 		        trendCell.add(img);
 		        trendCell.setBackgroundColor(new java.awt.Color(210, 249, 172));
 		        break;
-    	case -3:img = Image.getInstance("C:/Users/Alex/workspace/Reports-test/vary2.png");
+    	case -3:img = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/vary.png"));//$NON-NLS-1$
 		        img.setAlignment(Image.MIDDLE);
 		        trendCell = new Cell();
 		        trendCell.add(img);
@@ -609,41 +608,8 @@ public class ReportStrategies extends ReportDataDictionary {
     	default:trendCell = new Cell("?"); //$NON-NLS-1$
 				break;
     	
-    	}*/
-    	//char c = (char)"\u2192";
-    	//String arrow = "\u2191";
-    	
-    	//System.out.println("!!!!!!!!!!!!!!!!!");
-    	//System.out.println(arrow);
-    	//System.out.println(c);
-    	//System.out.println(Character.toString(c));
-    	
-    	
-    	switch(trend){
-    	case -1: trendCell = new Cell("-"); //$NON-NLS-1$
-    			
-    			//trendCell = new Cell(new Phrase("-", FontFactory.getFont(FontFactory.SYMBOL, 14, Font.BOLD)));
-    			trendCell.setBackgroundColor(new java.awt.Color(252, 169, 171));
-    			break;
-    	case 0: trendCell = new Cell("="); //$NON-NLS-1$
-    			//trendCell = new Cell(new Phrase("=", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD)));
-    			//trendCell = new Cell(new Phrase("=", FontFactory.getFont(FontFactory.COURIER_BOLD)));
-				trendCell.setBackgroundColor(new java.awt.Color(255, 255, 151));
-				break;
-    	case 1: trendCell = new Cell("+"); //$NON-NLS-1$
-    			//trendCell = new Cell(new Phrase("+", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD)));
-    			//trendCell = new Cell(new Phrase("+", FontFactory.getFont(FontFactory.COURIER_BOLD)));
-				trendCell.setBackgroundColor(new java.awt.Color(210, 249, 172));
-				break;
-    	case -3: trendCell = new Cell("+/-"); //$NON-NLS-1$
-				break;
-		default:trendCell = new Cell("?"); //$NON-NLS-1$
+    	}
 
-				//trendCell = new Cell(new Phrase("?", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, Font.BOLD)));
-				break;
-				
-				}
-    	
     	trendCell.setColspan(TREND_CELL_WIDTH);
     	trendCell.setVerticalAlignment(Element.ALIGN_CENTER);
     	trendCell.setHorizontalAlignment(Element.ALIGN_CENTER);

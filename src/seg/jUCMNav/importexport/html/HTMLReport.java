@@ -131,6 +131,9 @@ public class HTMLReport extends URNReport {
     	prefShowUCMDiagrams = ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS();
     	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
     	
+    	prefShowTrend = ReportGeneratorPreferences.getShowGRLEvalStrategyTrend();
+    	prefTrend = Integer.parseInt(ReportGeneratorPreferences.getGRLEvalStrategyTrend());
+    	
     	if (prefShowGRLDiagrams) {
     		final EvaluationStrategy firstStrategy = getFirstStrategy( urn.getGrlspec() );
 
@@ -376,6 +379,27 @@ public class HTMLReport extends URNReport {
 			srcFile = "htmltemplates/LogoFinal.gif"; //$NON-NLS-1$
 			desFile = htmlPath + PAGES_LOCATION + "LogoFinal.gif"; //$NON-NLS-1$
 			copy(srcFile, desFile);
+			
+			// Generate the LogoFinal.gif file
+			srcFile = "htmltemplates/up.png"; //$NON-NLS-1$
+			desFile = htmlPath + PAGES_LOCATION + "up.png"; //$NON-NLS-1$
+			copy(srcFile, desFile);
+						
+			// Generate the LogoFinal.gif file
+			srcFile = "htmltemplates/down.png"; //$NON-NLS-1$
+			desFile = htmlPath + PAGES_LOCATION + "down.png"; //$NON-NLS-1$
+			copy(srcFile, desFile);
+						
+			// Generate the LogoFinal.gif file
+			srcFile = "htmltemplates/vary.png"; //$NON-NLS-1$
+			desFile = htmlPath + PAGES_LOCATION + "vary.png"; //$NON-NLS-1$
+			copy(srcFile, desFile);
+						
+			// Generate the LogoFinal.gif file
+			srcFile = "htmltemplates/straight.png"; //$NON-NLS-1$
+			desFile = htmlPath + PAGES_LOCATION + "straight.png"; //$NON-NLS-1$
+			copy(srcFile, desFile);
+			
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -1637,10 +1661,7 @@ public class HTMLReport extends URNReport {
 	}
 
 	private void outputStrategies(GRLspec grlspec, StringBuffer sb) {
-		
-		prefShowTrend = ReportGeneratorPreferences.getShowGRLEvalStrategyTrend();
-    	prefTrend = Integer.parseInt(ReportGeneratorPreferences.getGRLEvalStrategyTrend());
-		
+			
 		HashMap<Integer, EvaluationStrategy> strategies;
 
 		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.EvaluationStrategies") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -1679,7 +1700,7 @@ public class HTMLReport extends URNReport {
 					}	
 					
 					if (prefShowTrend){
-						sb.append("<td><b>" + "Trends" + "</b></td>");
+						sb.append("<td><b>" + Messages.getString("HTMLReport.Trends") + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					}
 
 					sb.append("</tr>\n"); //$NON-NLS-1$
@@ -1784,7 +1805,7 @@ public class HTMLReport extends URNReport {
 	    				trend = 1;	
 	    			}else if(trend == 0 && currentValue < lastValue){//neutral trend changed to negative
 	    				trend = -1;
-	    			}else if(!((currentValue > lastValue && trend == 1) || (currentValue < lastValue && trend == -1) || (currentValue == lastValue && trend == 0))){ //trend changed
+	    			}else if(!((currentValue >= lastValue && trend == 1) || (currentValue <= lastValue && trend == -1) || (currentValue == lastValue && trend == 0))){ //trend changed
 	    				trend = -3;
 	    				break;
 	    			}
@@ -1801,13 +1822,15 @@ public class HTMLReport extends URNReport {
     	String content;
     			
     	switch(trend){
-    	case -1: content = "<td bgcolor=#FCA9AB><b>-</b></td>";
+    	case -1: content = "<td align=\"center\" bgcolor=#FCA9AB><b><img src=\"down.png\"></b></td>";//$NON-NLS-1$
     			break;
-    	case 0: content = "<td bgcolor=#FFFF97><b>=</b></td>";
+    	case 0: content = "<td align=\"center\" bgcolor=#FFFF97><b><img src=\"straight.png\"></b></td>";//$NON-NLS-1$
 				break;
-    	case 1: content = "<td bgcolor=#D2F9AC><b>+</b></td>";
+    	case 1: content = "<td align=\"center\" bgcolor=#D2F9AC><b><img src=\"up.png\"></b></td>";//$NON-NLS-1$
 				break;
-		default: content = "<td><b>?</b></td>";
+    	case -3: content = "<td align=\"center\" ><b><img src=\"vary.png\"></b></td>";//$NON-NLS-1$
+					break;
+		default: content = "<td align=\"center\" ><b>?</b></td>";//$NON-NLS-1$
 				break;
     	}
     	
@@ -1821,6 +1844,11 @@ public class HTMLReport extends URNReport {
 		for( Integer index : strategies.keySet() ) {
 			sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + "<br></br>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}	
+		
+		if (prefShowTrend){
+			sb.append("&nbsp;&nbsp;&nbsp;<b>"+ Messages.getString("HTMLReport.TrendNote") +":" + Messages.getString("HTMLReport.TrendNote2") + " " + prefTrend + " " + Messages.getString("HTMLReport.TrendNote3") +"</b>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+			
+		}
 	}
 
 	private void calculateAllEvaluations( final Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {

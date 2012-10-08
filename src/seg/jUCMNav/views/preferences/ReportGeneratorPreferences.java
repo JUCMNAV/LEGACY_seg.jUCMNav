@@ -102,7 +102,14 @@ public class ReportGeneratorPreferences {
      * @return the height parameter to give dot
      */
     public static String getHeight() {
-        return getPreferenceStore().getString(PREF_REPORT_HEIGHT);
+    	if (getPreferenceStore().getString(PREF_REPORT_HEIGHT).equals("")){
+    		return "0"; //$NON-NLS-1$
+    		
+    	}else{
+    	
+    		return getPreferenceStore().getString(PREF_REPORT_HEIGHT);
+    	}	
+        
     }
 
     /**
@@ -126,11 +133,26 @@ public class ReportGeneratorPreferences {
      * @return the width parameter to give dot
      */
     public static String getWidth() {
-        return getPreferenceStore().getString(PREF_REPORT_WIDTH);
+    	if (getPreferenceStore().getString(PREF_REPORT_WIDTH).equals("")){
+    		return "0"; //$NON-NLS-1$
+    		
+    	}else{
+    	
+    		return getPreferenceStore().getString(PREF_REPORT_WIDTH);
+    	}	
+    	
+
     }
 
     public static String getNumberCSV_Columns() {
-        return getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS);    	
+    	if (getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS).equals("")){
+    		return "5"; //$NON-NLS-1$
+    		
+    	}else{
+    	
+    	 return getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS);
+    	}	
+           	
     }
     /**
      * 
@@ -300,7 +322,13 @@ public class ReportGeneratorPreferences {
      * @return the value of the grl eval strategy trend preference
      */
     public static String getGRLEvalStrategyTrend() {
+    	if (getPreferenceStore().getString(PREF_GRL_EVAL_STRATEGY_TREND).equals("")){
+    		return "0"; //$NON-NLS-1$
+    		
+    	}else{
+    	
     	return getPreferenceStore().getString(PREF_GRL_EVAL_STRATEGY_TREND);
+    	}
     }
     
     /**
@@ -402,14 +430,23 @@ public class ReportGeneratorPreferences {
     public static void setGRLEvalStrategyTrend(String evalStrategyTrend) {
     	String s;
         // want to make sure it is convertible.
+    	
+    	System.out.println("1ALEX " + evalStrategyTrend);
+
         try {
             int i = Integer.parseInt(evalStrategyTrend);
-            if( i < 0 ) {
+            if( i < 0) {
+            	System.out.println("2ALEX " + i);
             	s = "0"; //$NON-NLS-1$
             } else {
+            	System.out.println("3ALEX " + i);
+            	
             	s = Integer.toString(i);
+            	
             }
         } catch (Exception e) {
+
+        	System.out.println("catchALEX " + evalStrategyTrend);
             s = "0"; //$NON-NLS-1$
         }
 

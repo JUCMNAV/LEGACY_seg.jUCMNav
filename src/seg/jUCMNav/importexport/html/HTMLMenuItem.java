@@ -9,11 +9,11 @@ import urncore.IURNDiagram;
  * 
  */
 public class HTMLMenuItem {
-    public static final String TYPE_UCM = "UCM";
-    public static final String TYPE_GRL = "GRL";
-    public static final String TYPE_UCM_DEF = "UCM Definitions";
-    public static final String TYPE_GRL_DEF = "GRL Definitions";
-    public static final String TYPE_MSC = "MSC";
+    public static final String TYPE_UCM = "UCM"; //$NON-NLS-1$
+    public static final String TYPE_GRL = "GRL"; //$NON-NLS-1$
+    public static final String TYPE_UCM_DEF = "UCM Definitions"; //$NON-NLS-1$
+    public static final String TYPE_GRL_DEF = "GRL Definitions"; //$NON-NLS-1$
+    public static final String TYPE_MSC = "MSC"; //$NON-NLS-1$
 
     private static String diagramName = ""; //$NON-NLS-1$
     private static String type = ""; //$NON-NLS-1$

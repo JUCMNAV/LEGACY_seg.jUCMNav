@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import org.eclipse.emf.common.util.EList;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import ucm.map.ComponentRef;
@@ -63,7 +64,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
             // sections array contains a list of UCM Types we can report on
             // the order in the array will be the order in which they appear
             // in the report.
-            String[] sections = { "RespRef", "Stub", "OrFork", "StartPoint", "EndPoint" };
+            String[] sections = { "RespRef", "Stub", "OrFork", "StartPoint", "EndPoint" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
             // variables used to skip headers for multiple items
             boolean firstOrFork = true;
@@ -146,7 +147,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 for (int i4 = 1; i4 <= respRefSection.size(); i4++) {
 
                     if (firstResp == true) {
-                        insertDiagramSectionHeader(document, tableParams, "Responsibilities");
+                        insertDiagramSectionHeader(document, tableParams, Messages.getString("UCMDiagramSection.Responsibilities")); //$NON-NLS-1$
                         firstResp = false;
                     }
 
@@ -161,7 +162,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 for (int i4 = 1; i4 <= stubSection.size(); i4++) {
 
                     if (firstStub == true) {
-                        insertDiagramSectionHeader(document, tableParams, "Stubs");
+                        insertDiagramSectionHeader(document, tableParams, Messages.getString("UCMDiagramSection.Stubs")); //$NON-NLS-1$
                         firstStub = false;
                     }
 
@@ -175,7 +176,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
             if (orForkSection.size() > 0) {
                 for (int i4 = 1; i4 <= orForkSection.size(); i4++) {
                     if (firstOrFork == true) {
-                        insertDiagramSectionHeader(document, tableParams, "Or Fork Description");
+                        insertDiagramSectionHeader(document, tableParams, Messages.getString("UCMDiagramSection.OrFork")); //$NON-NLS-1$
                         firstOrFork = false;
                     }
 
@@ -189,7 +190,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
             if (startPointSection.size() > 0) {
                 for (int i4 = 1; i4 <= startPointSection.size(); i4++) {
                     if (firstStartPoint == true) {
-                        insertDiagramSectionHeader(document, tableParams, "Start Point ");
+                        insertDiagramSectionHeader(document, tableParams, Messages.getString("UCMDiagramSection.StartPoint")); //$NON-NLS-1$
                         firstStartPoint = false;
                     }
 
@@ -203,7 +204,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
             if (endPointSection.size() > 0) {
                 for (int i4 = 1; i4 <= endPointSection.size(); i4++) {
                     if (firstEndPoint == true) {
-                        insertDiagramSectionHeader(document, tableParams, "End Points");
+                        insertDiagramSectionHeader(document, tableParams, Messages.getString("UCMDiagramSection.EndPoint")); //$NON-NLS-1$
                         firstEndPoint = false;
                     }
 
@@ -228,13 +229,13 @@ public class UCMDiagramSection extends PDFReportDiagram {
         if (urnLinks.isEmpty())
             return;
 
-        insertDiagramSectionHeader(document, tableParams, "Map URN Links");
+        insertDiagramSectionHeader(document, tableParams, Messages.getString("UCMDiagramSection.MapURNLinks")); //$NON-NLS-1$
 
         for (Iterator iter = urnLinks.iterator(); iter.hasNext();) {
             URNlink link = (URNlink) iter.next();
             if (link.getFromElem() instanceof IntentionalElement) {
                 IntentionalElement ie = (IntentionalElement) link.getFromElem();
-                ReportUtils.writeLineWithSeparator(document, ie.getName() + " (" + ie.getType().getName() + ")", null, null, descriptionFont, false);
+                ReportUtils.writeLineWithSeparator(document, ie.getName() + " (" + ie.getType().getName() + ")", null, null, descriptionFont, false); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
     }
@@ -257,7 +258,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
         if (!hasURNlinks)
             return;
 
-        insertDiagramSectionHeader(document, tableParams, "Component URN Links");
+        insertDiagramSectionHeader(document, tableParams, Messages.getString("UCMDiagramSection.CompURNLinks")); //$NON-NLS-1$
 
         for (Iterator iter = diagram.getContRefs().iterator(); iter.hasNext();) {
             currentComponentRef = (ComponentRef) iter.next();
@@ -269,10 +270,10 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 String elementType = link.getToElem().getClass().getName();
                 elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                ReportUtils.writeLineWithSeparator(document, currentComponent.getName(), " ==> (", elementType + ") " + link.getToElem().getName(),
+                ReportUtils.writeLineWithSeparator(document, currentComponent.getName(), " ==> (", elementType + ") " + link.getToElem().getName(), //$NON-NLS-1$ //$NON-NLS-2$
                         descriptionFont, true);
                 if (ReportUtils.notEmpty(link.getType()))
-                    ReportUtils.writeLineWithSeparator(document, "     Link Type", ": ", link.getType(), descriptionFont, true);
+                    ReportUtils.writeLineWithSeparator(document, "     " + Messages.getString("UCMDiagramSection.LinkType"), ": ", link.getType(), descriptionFont, true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
                 insertMetadata(document, link.getMetadata());
             }
@@ -283,10 +284,10 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 String elementType = link.getFromElem().getClass().getName();
                 elementType = elementType.substring(elementType.lastIndexOf('.') + 1, elementType.length() - 4);
 
-                ReportUtils.writeLineWithSeparator(document, currentComponent.getName(), " <== (", elementType + ") " + link.getFromElem().getName(),
+                ReportUtils.writeLineWithSeparator(document, currentComponent.getName(), " <== (", elementType + ") " + link.getFromElem().getName(), //$NON-NLS-1$ //$NON-NLS-2$
                         descriptionFont, true);
                 if (ReportUtils.notEmpty(link.getType()))
-                    ReportUtils.writeLineWithSeparator(document, "     Link Type", ": ", link.getType(), descriptionFont, true);
+                    ReportUtils.writeLineWithSeparator(document, "     " + Messages.getString("UCMDiagramSection.LinkType2"), ": ", link.getType(), descriptionFont, true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
                 insertMetadata(document, link.getMetadata());
             }
@@ -310,7 +311,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 if (orCondition != null) {
                     if (ReportUtils.notEmpty(orCondition.getLabel())) {
 
-                        document.add(new Chunk("[" + orCondition.getLabel() + "] ==> ", descriptionFont)); // <BM> <2008-02-23> Search for label result
+                        document.add(new Chunk("[" + orCondition.getLabel() + "] ==> ", descriptionFont)); // <BM> <2008-02-23> Search for label result //$NON-NLS-1$ //$NON-NLS-2$
 
                         if (ReportUtils.notEmpty(orCondition.getExpression())) {
 
@@ -320,7 +321,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                     }
                 }
                 // <BM> <2008-02-24> no need to check probability for empty since it always has a default value of 1.0
-                document.add(new Chunk(" (probability: " + probability + ")", descriptionFont));// <BM> <2008-02-21> Fixed the way probability is output
+                document.add(new Chunk(" (" + Messages.getString("UCMDiagramSection.Probability") + ": " + probability + ")", descriptionFont));// <BM> <2008-02-21> Fixed the way probability is output //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 document.add(Chunk.NEWLINE);
             }
 
@@ -335,16 +336,16 @@ public class UCMDiagramSection extends PDFReportDiagram {
         Responsibility responsibility = respRef.getRespDef();
 
         try {
-            ReportUtils.writeLineWithSeparator(document, respRef.getRespDef().getName(), ": ", respRef.getRespDef().getDescription(), descriptionFont, true);
+            ReportUtils.writeLineWithSeparator(document, respRef.getRespDef().getName(), ": ", respRef.getRespDef().getDescription(), descriptionFont, true); //$NON-NLS-1$
             String expression = respRef.getRespDef().getExpression();
             if (ReportUtils.notEmpty(expression)) {
-                String[] expression_lines = expression.split("\n");
+                String[] expression_lines = expression.split("\n"); //$NON-NLS-1$
                 if (expression_lines.length == 1) {
-                    ReportUtils.writeLineWithSeparator(document, "     Expression", ": ", expression_lines[0], descriptionFont, false);
+                    ReportUtils.writeLineWithSeparator(document, "     " + Messages.getString("UCMDiagramSection.Expression"), ": ", expression_lines[0], descriptionFont, false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 } else {
-                    ReportUtils.writeLineWithSeparator(document, "     Expression\n", null, null, descriptionFont, false);
+                    ReportUtils.writeLineWithSeparator(document, "     " + Messages.getString("UCMDiagramSection.Expression2") + "\n", null, null, descriptionFont, false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     for (int i = 0; i < expression_lines.length; i++)
-                        ReportUtils.writeLineWithSeparator(document, "          " + expression_lines[i], null, null, descriptionFont, false);
+                        ReportUtils.writeLineWithSeparator(document, "          " + expression_lines[i], null, null, descriptionFont, false); //$NON-NLS-1$
                 }
                 document.add(Chunk.NEWLINE);
             }
@@ -358,7 +359,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                     URNlink link = (URNlink) iter1.next();
                     if (link.getFromElem() instanceof IntentionalElement) {
                         IntentionalElement ie = (IntentionalElement) link.getFromElem();
-                        ReportUtils.writeLineWithSeparator(document, "     URN Link", ": ", ie.getName() + "(" + ie.getType().getName() + ")", descriptionFont,
+                        ReportUtils.writeLineWithSeparator(document, "     " + Messages.getString("UCMDiagramSection.URNLink"), ": ", ie.getName() + "(" + ie.getType().getName() + ")", descriptionFont, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                                 false);
                     }
                 }
@@ -371,10 +372,10 @@ public class UCMDiagramSection extends PDFReportDiagram {
 
     private void insertStartPoint(Document document, StartPoint start) {
         try {
-            ReportUtils.writeLineWithSeparator(document, start.getName(), ": ", start.getDescription(), descriptionFont, true);
+            ReportUtils.writeLineWithSeparator(document, start.getName(), ": ", start.getDescription(), descriptionFont, true); //$NON-NLS-1$
             Condition pc = start.getPrecondition();
             if (ReportUtils.notEmpty(pc.getLabel())) {
-                ReportUtils.writeLineWithSeparator(document, "     Precondition [" + pc.getLabel(), "] ==> ", notNull(pc.getExpression()), descriptionFont,
+                ReportUtils.writeLineWithSeparator(document, "     " + Messages.getString("UCMDiagramSection.Precondition") + " [" + pc.getLabel(), "] ==> ", notNull(pc.getExpression()), descriptionFont, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                         true);
             }
             insertMetadata(document, start.getMetadata());
@@ -393,10 +394,10 @@ public class UCMDiagramSection extends PDFReportDiagram {
 
     private void insertEndPoint(Document document, EndPoint end) {
         try {
-            ReportUtils.writeLineWithSeparator(document, end.getName(), ": ", end.getDescription(), descriptionFont, true);
+            ReportUtils.writeLineWithSeparator(document, end.getName(), ": ", end.getDescription(), descriptionFont, true); //$NON-NLS-1$
             Condition pc = end.getPostcondition();
             if (ReportUtils.notEmpty(pc.getLabel())) {
-                ReportUtils.writeLineWithSeparator(document, "     Postcondition [" + pc.getLabel(), "]  ==> ", notNull(pc.getExpression()), descriptionFont,
+                ReportUtils.writeLineWithSeparator(document, "     " + Messages.getString("UCMDiagramSection.Postcondition") + " [" + pc.getLabel(), "]  ==> ", notNull(pc.getExpression()), descriptionFont, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                         true);
             }
             insertMetadata(document, end.getMetadata());
@@ -423,7 +424,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 IURNNode urnNode = element.getTarget();
                 UCMmodelElement ucmElement = (UCMmodelElement) urnNode;
 
-                document.add(new Chunk("Output " + i + ": "));
+                document.add(new Chunk(Messages.getString("UCMDiagramSection.Output") + " " + i + ": "));  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
                 document.add(new Chunk(ucmElement.getName()));
                 document.add(Chunk.NEWLINE);
 
@@ -441,11 +442,11 @@ public class UCMDiagramSection extends PDFReportDiagram {
             String stubType;
 
             if (stub.isDynamic()) {
-                stubType = "Dynamic Stub - ";
+                stubType = Messages.getString("UCMDiagramSection.DynamicStub") + " - "; //$NON-NLS-2$ //$NON-NLS-1$
             } else {
-                stubType = "Static Stub - ";
+                stubType = Messages.getString("UCMDiagramSection.StaticStub") + " - "; //$NON-NLS-2$ //$NON-NLS-1$
             }
-            ReportUtils.writeLineWithSeparator(document, stubType + stub.getName(), ": ", stub.getDescription(), descriptionFont, true);
+            ReportUtils.writeLineWithSeparator(document, stubType + stub.getName(), ": ", stub.getDescription(), descriptionFont, true); //$NON-NLS-1$
 
             insertMetadata(document, stub.getMetadata());
 
@@ -458,7 +459,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 Paragraph pluginMapPar = new Paragraph();
                 pluginMapPar.setIndentationLeft(10);
                 document.add(Chunk.NEWLINE);
-                Chunk pluginMap1 = new Chunk("Plugin Map - " + binding.getPlugin().getName(), pluginMapTitleFont);
+                Chunk pluginMap1 = new Chunk(Messages.getString("UCMDiagramSection.PluginMap") + " - " + binding.getPlugin().getName(), pluginMapTitleFont); //$NON-NLS-2$ //$NON-NLS-1$
                 pluginMapPar.add(pluginMap1);
                 document.add(pluginMapPar);
 
@@ -466,7 +467,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 if (binding.getIn().iterator().hasNext()) {
                     Paragraph par = new Paragraph();
                     par.setIndentationLeft(20);
-                    par.add(new Chunk("Input Bindings:", bindingsHeaderFont));
+                    par.add(new Chunk(Messages.getString("UCMDiagramSection.InputBinding") + ":", bindingsHeaderFont)); //$NON-NLS-2$ //$NON-NLS-1$
                     document.add(par);
                 }
 
@@ -481,7 +482,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                     }
                     Paragraph par = new Paragraph();
                     par.setIndentationLeft(30);
-                    String inItemDescription = "IN " + stubEntryIndex + " <-> " + inBinding.getStartPoint().getName();
+                    String inItemDescription = "IN " + stubEntryIndex + " <-> " + inBinding.getStartPoint().getName(); //$NON-NLS-1$ //$NON-NLS-2$
                     par.add(new Chunk(inItemDescription, bindingsFont));
                     document.add(par);
                 }
@@ -490,7 +491,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 if (binding.getOut().iterator().hasNext()) {
                     Paragraph par = new Paragraph();
                     par.setIndentationLeft(20);
-                    par.add(new Chunk("Output Bindings:", bindingsHeaderFont));
+                    par.add(new Chunk(Messages.getString("UCMDiagramSection.OutputBinding") + ":", bindingsHeaderFont)); //$NON-NLS-2$ //$NON-NLS-1$
                     document.add(par);
 
                 }
@@ -502,7 +503,7 @@ public class UCMDiagramSection extends PDFReportDiagram {
 
                     Paragraph par = new Paragraph();
                     par.setIndentationLeft(30);
-                    String inItemDescription = "OUT " + stubExitIndex + " <-> " + outBinding.getEndPoint().getName();
+                    String inItemDescription = "OUT " + stubExitIndex + " <-> " + outBinding.getEndPoint().getName(); //$NON-NLS-1$ //$NON-NLS-2$
                     par.add(new Chunk(inItemDescription, bindingsFont));
                     document.add(par);
                 }
@@ -510,29 +511,29 @@ public class UCMDiagramSection extends PDFReportDiagram {
                 // Additional plugin binding information
                 Paragraph addlInfo = new Paragraph();
                 addlInfo.setIndentationLeft(20);
-                addlInfo.add(new Chunk("Precondition:", bindingsHeaderFont));
+                addlInfo.add(new Chunk(Messages.getString("UCMDiagramSection.Precondition2") + ":", bindingsHeaderFont)); //$NON-NLS-2$ //$NON-NLS-1$
                 addlInfo.add(Chunk.NEWLINE);
 
                 if (ReportUtils.notEmpty(binding.getPrecondition().getLabel())) {
-                    Chunk details = new Chunk("   Label: " + binding.getPrecondition().getLabel(), pluginMapTitleFont);
+                    Chunk details = new Chunk("   " + Messages.getString("UCMDiagramSection.Label") + ": " + binding.getPrecondition().getLabel(), pluginMapTitleFont); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     addlInfo.add(details);
                     addlInfo.add(Chunk.NEWLINE);
                 }
                 if (ReportUtils.notEmpty(binding.getPrecondition().getExpression())) {
-                    Chunk details = new Chunk("   Expression: " + binding.getPrecondition().getExpression(), pluginMapTitleFont);
+                    Chunk details = new Chunk("   " + Messages.getString("UCMDiagramSection.Expression3") + ": " + binding.getPrecondition().getExpression(), pluginMapTitleFont); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     addlInfo.add(details);
                     addlInfo.add(Chunk.NEWLINE);
                 }
                 if (ReportUtils.notEmpty(binding.getPrecondition().getDescription())) {
-                    Chunk details = new Chunk("   Description: " + binding.getPrecondition().getDescription(), pluginMapTitleFont);
+                    Chunk details = new Chunk("   " + Messages.getString("UCMDiagramSection.Description") + ": " + binding.getPrecondition().getDescription(), pluginMapTitleFont); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     addlInfo.add(details);
                     addlInfo.add(Chunk.NEWLINE);
                 }
-                Chunk details = new Chunk("Transaction: " + binding.isTransaction(), pluginMapTitleFont);
+                Chunk details = new Chunk(Messages.getString("UCMDiagramSection.Transaction") +": " + binding.isTransaction(), pluginMapTitleFont); //$NON-NLS-2$ //$NON-NLS-1$
                 addlInfo.add(details);
                 addlInfo.add(Chunk.NEWLINE);
 
-                details = new Chunk("Probability: " + binding.getProbability() + "", pluginMapTitleFont);
+                details = new Chunk(Messages.getString("UCMDiagramSection.Probability2") + ": " + binding.getProbability() + "", pluginMapTitleFont);  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
                 addlInfo.add(details);
 
                 document.add(addlInfo);
