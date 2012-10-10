@@ -6,11 +6,14 @@ import grl.GRLspec;
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
+import seg.jUCMNav.views.wizards.importexport.ReportWizard;
 import ucm.UCMspec;
 import urn.URNspec;
+import urncore.IURNDiagram;
 import urncore.URNdefinition;
 
 import com.lowagie.text.Document;
@@ -93,11 +96,28 @@ public class Report extends URNReport {
         	prefShowUCMDiagrams = ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS();
         	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
         	
+        	// boolean flags used to determine whether or not there is at least one UCM/GRL
+        	// diagram in the maps selected
+        	boolean containsUCMs = false;
+        	boolean containsGRLs = false;
+        	
+        	for (Iterator iter = mapDiagrams.keySet().iterator(); iter.hasNext();) {
+                IURNDiagram diagram = (IURNDiagram) iter.next();
+                
+                String diagramName = ReportWizard.getDiagramName(diagram);
+                if (diagramName.contains("-Map")){ //$NON-NLS-1$
+                	containsUCMs = true;
+                } else {
+                	containsGRLs = true;
+                }
+                if (containsUCMs && containsGRLs) break;
+        	}
+        	
             // get UCMSpec from URNSpec and iterate in scenario groups
-            if ((urn.getUcmspec() != null) && (prefShowUCMDiagrams)) {
+            if ((urn.getUcmspec() != null) && (prefShowUCMDiagrams) && containsUCMs) {
                 ucmspec = urn.getUcmspec();
             }
-            if ((urn.getGrlspec() != null) && (prefShowGRLDiagrams)) {
+            if ((urn.getGrlspec() != null) && (prefShowGRLDiagrams) && containsGRLs) {
                 grlspec = urn.getGrlspec();
             }
             if (urn.getUrndef() != null) {

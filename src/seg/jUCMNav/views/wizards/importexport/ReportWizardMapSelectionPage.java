@@ -331,7 +331,7 @@ public class ReportWizardMapSelectionPage extends WizardPage {
 
         // if HTML report type is selected, bypass map selection filtering by exporting all maps, or all GRL/UCM diagrams
         // (depending on the report generation preferences).
-        if (htmlSelected) {
+        if (!htmlSelected) {
             updatemapsToExport();
         }
 

@@ -92,7 +92,6 @@ public class ReportWizard extends ExportWizard {
 
             for (int i = 0; i < mapsToExport.size(); i++) {
                 IURNDiagram diag = (IURNDiagram) mapsToExport.get(i);
-                String diagramName = ExportWizard.getDiagramName(diagram);
                 UrnEditor editor2 = ((UrnEditor) mapsToSpecificEditor.get(diag));
                 LayeredPane pane = ((URNRootEditPart) (editor2.getGraphicalViewer().getRootEditPart())).getScaledLayers();
                 mapDiagrams.put(diag, pane);
