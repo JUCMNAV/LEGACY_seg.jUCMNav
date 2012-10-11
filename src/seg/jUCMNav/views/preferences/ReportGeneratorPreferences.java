@@ -103,7 +103,7 @@ public class ReportGeneratorPreferences {
      */
     public static String getHeight() {
     	if (getPreferenceStore().getString(PREF_REPORT_HEIGHT).equals("")){
-    		return "0"; //$NON-NLS-1$
+    		return Double.toString(DEFAULT_REPORT_HEIGHT); //return default if blank
     		
     	}else{
     	
@@ -134,7 +134,7 @@ public class ReportGeneratorPreferences {
      */
     public static String getWidth() {
     	if (getPreferenceStore().getString(PREF_REPORT_WIDTH).equals("")){
-    		return "0"; //$NON-NLS-1$
+    		return Double.toString(DEFAULT_REPORT_WIDTH); //return default if blank
     		
     	}else{
     	
@@ -146,7 +146,7 @@ public class ReportGeneratorPreferences {
 
     public static String getNumberCSV_Columns() {
     	if (getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS).equals("")){
-    		return "5"; //$NON-NLS-1$
+    		return Integer.toString(DEFAULT_NUMBER_CSV_COLUMNS); //return default if blank
     		
     	}else{
     	
@@ -164,7 +164,12 @@ public class ReportGeneratorPreferences {
         // want to make sure it is convertible.
         try {
             double d = Double.parseDouble(height);
+            //if( d < 3 ) {
+            	//s = Double.toString(DEFAULT_REPORT_HEIGHT);
+            //} else {
             s = Double.toString(d);
+            //}
+            
         } catch (Exception e) {
             s = "0"; //$NON-NLS-1$
         }
@@ -217,7 +222,11 @@ public class ReportGeneratorPreferences {
         // want to make sure it is convertible.
         try {
             double d = Double.parseDouble(width);
-            s = Double.toString(d);
+           // if( d < 3 ) {
+            	s = Double.toString(DEFAULT_REPORT_WIDTH);
+            //} else {
+            //s = Double.toString(d);
+           // }
         } catch (Exception e) {
             s = "0"; //$NON-NLS-1$
         }
@@ -323,7 +332,7 @@ public class ReportGeneratorPreferences {
      */
     public static String getGRLEvalStrategyTrend() {
     	if (getPreferenceStore().getString(PREF_GRL_EVAL_STRATEGY_TREND).equals("")){
-    		return "0"; //$NON-NLS-1$
+    		return Integer.toString(DEFAULT_GRL_EVAL_STRATEGY_TREND);//return default if blank
     		
     	}else{
     	
@@ -430,23 +439,17 @@ public class ReportGeneratorPreferences {
     public static void setGRLEvalStrategyTrend(String evalStrategyTrend) {
     	String s;
         // want to make sure it is convertible.
-    	
-    	System.out.println("1ALEX " + evalStrategyTrend);
 
         try {
             int i = Integer.parseInt(evalStrategyTrend);
             if( i < 0) {
-            	System.out.println("2ALEX " + i);
             	s = "0"; //$NON-NLS-1$
             } else {
-            	System.out.println("3ALEX " + i);
             	
             	s = Integer.toString(i);
             	
             }
         } catch (Exception e) {
-
-        	System.out.println("catchALEX " + evalStrategyTrend);
             s = "0"; //$NON-NLS-1$
         }
 

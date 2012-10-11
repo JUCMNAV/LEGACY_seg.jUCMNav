@@ -1839,10 +1839,15 @@ public class HTMLReport extends URNReport {
 
 	private void outputStrategiesLegend( HashMap<Integer, EvaluationStrategy> strategies, StrategiesGroup evalGroup, StringBuffer sb ) {
 
-		sb.append("</div>\n<div>\n<h3>" + Messages.getString("HTMLReport.StrategyLegendForGroup") + " \"" +  evalGroup.getName() + "\"</h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		sb.append("</div>\n<div>\n<h3>" + Messages.getString("HTMLReport.StrategyLegendForGroup") + " \"" +  evalGroup.getName() + "\"</h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
 		for( Integer index : strategies.keySet() ) {
-			sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + "<br></br>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if (strategies.get(index).getDescription() == null || strategies.get(index).getDescription().equals("")){
+				sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + "<br></br>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				
+			}else{
+			sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + " - " + EscapeUtils.escapeHTML(strategies.get(index).getDescription()) + "<br></br>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			}
 		}	
 		
 		if (prefShowTrend){

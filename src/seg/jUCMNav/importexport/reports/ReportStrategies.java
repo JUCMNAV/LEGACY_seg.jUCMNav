@@ -185,7 +185,17 @@ public class ReportStrategies extends ReportDataDictionary {
 
                 String strategyName = strategy.getName();
                 String columnNo = i + ""; //$NON-NLS-1$
-                ReportUtils.writeLineWithSeparator(document, columnNo, ":", strategyName, descriptionFont, true); //$NON-NLS-1$
+                String strategyDesc = strategy.getDescription();
+                
+             
+
+              if (!(strategyDesc == null || strategyDesc.equals(""))){
+            	  ReportUtils.writeLineWithSeparator(document, columnNo, ":", strategyName + " - " + strategyDesc, descriptionFont, true); //$NON-NLS-1$ //$NON-NLS-2$
+                }else{
+                	ReportUtils.writeLineWithSeparator(document, columnNo, ":", strategyName, descriptionFont, true); //$NON-NLS-1$  	
+                }
+                
+                
             }
             
             ReportUtils.writeLineWithSeparator(document, Messages.getString("ReportStrategies.TrendNote"), ":", Messages.getString("ReportStrategies.TrendNote1") + prefTrend + Messages.getString("ReportStrategies.TrendNote2"), descriptionFont, true);   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
