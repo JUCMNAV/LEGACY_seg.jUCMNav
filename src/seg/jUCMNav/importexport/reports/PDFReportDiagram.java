@@ -69,7 +69,9 @@ public class PDFReportDiagram extends PDFReport {
     public void createPDFReportDiagramsAndDescription(Document document, URNdefinition urndef, HashMap mapDiagrams, Rectangle pagesize) {
 
         try {
-            document.add(Chunk.NEXTPAGE);
+        	// commented out since a blank page was generated between the GRL Strategy Evaluation summary page and the first diagram
+        	// ReportStrategies.writeStrategies(...) skips to the next page when it is done writing
+            // document.add(Chunk.NEXTPAGE);
             int i = 0;
             for (Iterator iter = mapDiagrams.keySet().iterator(); iter.hasNext();) {
                 i++;
@@ -93,8 +95,8 @@ public class PDFReportDiagram extends PDFReport {
                     grlSection.createGRLDiagramDescription(document, element, diagram);
                 }
 
-                // empty line
-                document.add(Chunk.NEWLINE);
+                // empty line - commented out since multiple blank pages were often generated between two diagram descriptions
+                // document.add(Chunk.NEWLINE);
 
                 // New page
                 document.add(Chunk.NEXTPAGE);

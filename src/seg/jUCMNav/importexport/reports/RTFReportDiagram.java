@@ -55,17 +55,19 @@ public class RTFReportDiagram extends PDFReport {
 
     public void createRTFReportDiagramsAndDescription(Document document, URNdefinition urndef, HashMap mapDiagrams, Rectangle pagesize) {
         try {
-            document.add(Chunk.NEXTPAGE);
-
+        	// commented out since a blank page was generated between the GRL Strategy Evaluation summary page and the first diagram
+        	// ReportStrategies.writeStrategies(...) skips to the next page when it is done writing
+            // document.add(Chunk.NEXTPAGE);
             int i = 0;
             for (Iterator iter = mapDiagrams.keySet().iterator(); iter.hasNext();) {
                 i++;
+                
                 IURNDiagram diagram = (IURNDiagram) iter.next();
                 URNmodelElement element = (URNmodelElement) diagram;
 
                 // diagram Header
                 createHeader1(document, element.getName());
-
+                
                 // insert the figure
                 insertDiagram(document, mapDiagrams, diagram, urndef, i, pagesize);
 
@@ -80,11 +82,13 @@ public class RTFReportDiagram extends PDFReport {
                     grlSection.createGRLDiagramDescription(document, element, diagram);
                 }
 
-                // empty line
-                document.add(Chunk.NEWLINE);
-
-                // New page
-                document.add(Chunk.NEXTPAGE);
+                // empty line - commented out since multiple blank pages were often generated between two diagram descriptions
+                // document.add(Chunk.NEWLINE);
+                
+                if (iter.hasNext()) {
+                	// New page
+                	document.add(Chunk.NEXTPAGE);
+                }
             }
 
         } catch (Exception e) {
@@ -144,6 +148,8 @@ public class RTFReportDiagram extends PDFReport {
             // get the high level IFigure to be saved.
             IFigure pane = (IFigure) mapDiagrams.get(diagram);
 
+            //int paneWidth = Math.round(pane.getSize().width * ReportUtils.ZOOMFACTOR);
+            //int paneHeight = Math.round(pane.getSize().height * ReportUtils.ZOOMFACTOR);
             int paneWidth = Math.round(pane.getSize().width * ReportUtils.ZOOMFACTOR);
             int paneHeight = Math.round(pane.getSize().height * ReportUtils.ZOOMFACTOR);
             Image image = new Image(Display.getCurrent(), paneWidth, paneHeight);

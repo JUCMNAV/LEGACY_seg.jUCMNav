@@ -230,7 +230,7 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         } else if ((!isUCMPrefsSelected) && (isGRLPrefsSelected)) {
         	labelWarning.setText(Messages.getString("ReportGeneratorPreferencePage.WarningUCM")); //$NON-NLS-1$
         } else {
-        	labelWarning.setText("                                                                                                                          "); //$NON-NLS-1$
+        	labelWarning.setText("                                                                                                                                                       "); //$NON-NLS-1$
         }
         
     }

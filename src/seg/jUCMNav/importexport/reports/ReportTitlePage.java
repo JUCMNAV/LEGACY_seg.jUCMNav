@@ -43,7 +43,7 @@ public class ReportTitlePage extends Report {
             image.setAlignment(Image.MIDDLE);
             document.add(image);
 
-            Paragraph appURL = new Paragraph("http://www.softwareengineering.ca/jucmnav/"); //$NON-NLS-1$
+            Paragraph appURL = new Paragraph("http://jucmnav.softwareengineering.ca/ucm/bin/view/ProjetSEG/WebHome"); //$NON-NLS-1$
             appURL.setAlignment(Element.ALIGN_CENTER);
             document.add(appURL);
 

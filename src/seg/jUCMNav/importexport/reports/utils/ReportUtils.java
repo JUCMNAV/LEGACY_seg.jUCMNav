@@ -126,22 +126,20 @@ public class ReportUtils {
     public static void insertRTFImage(Document document, IFigure pane, Rectangle pagesize, int imageWidth, int imageHeight) {
 
         try {
-
+        	document.add(Chunk.NEWLINE);
             int paneWidth = Math.round(pane.getSize().width * ReportUtils.ZOOMFACTOR);
             int paneHeight = Math.round(pane.getSize().height * ReportUtils.ZOOMFACTOR);
             org.eclipse.swt.graphics.Image image = new org.eclipse.swt.graphics.Image(Display.getCurrent(), paneWidth, paneHeight);
 
             GC gc = new GC(image);
             SWTGraphics graphics = new SWTGraphics(gc);
-            // zoom for better resolution
-            graphics.scale(ReportUtils.ZOOMFACTOR*2);  // temporary
-
-            // if the bounds are in the negative x/y, we don't see them without a translation
-            graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
             pane.paint(graphics);
 
+            ImageData ideaImageData = ExportImageGIF.downSample(image);
+            ImageData croppedImage = ReportUtils.cropImage(ideaImageData);
+            
             ImageLoader loader = new ImageLoader();
-            loader.data = new ImageData[] { ExportImageGIF.downSample(image) };
+            loader.data = new ImageData[] { croppedImage };
             loader.save("tmpfile.gif", SWT.IMAGE_GIF); //$NON-NLS-1$
 
             Image rtfImage = Image.getInstance("tmpfile.gif"); //$NON-NLS-1$

@@ -10,6 +10,7 @@ import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import urn.URNspec;
 
+import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.rtf.RtfWriter2;
@@ -52,6 +53,8 @@ public class RTFReport extends Report {
             RtfWriter2.getInstance(document, new FileOutputStream(filename));
 
             document.open();
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
 
             super.export(urn, mapDiagrams, filename, document, pagesize);
 
