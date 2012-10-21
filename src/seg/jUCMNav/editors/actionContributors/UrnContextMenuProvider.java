@@ -60,7 +60,11 @@ import seg.jUCMNav.actions.SetQualitativeContributionAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.ShowContainingElementAction;
-import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
+import seg.jUCMNav.actions.ShowContainingActorAction;
+//import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
+import seg.jUCMNav.actions.ShowEvaluationIntentionalElementV1Action;
+import seg.jUCMNav.actions.ShowLinkedElementAlternativeAction;
+import seg.jUCMNav.actions.ShowLinkedElementCompleteAction;
 import seg.jUCMNav.actions.SubmenuAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
@@ -400,22 +404,25 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
         
-        actions = new IAction[4];
-        actions[0] = getActionRegistry().getAction(ShowLinkedElementAction.SHOWLINKEDELEMENT);
-        actions[1] = getActionRegistry().getAction(ShowLinkedElementLevelTwoAction.SHOWLINKEDELEMENTLEVELTWO);
-        actions[2] = getActionRegistry().getAction(ShowLinkedElementLevelThreeAction.SHOWLINKEDELEMENTLEVELTHREE);
-        actions[3] = getActionRegistry().getAction(ShowEvaluationIntentionalElementAction.SHOWEVALUATIONINTENTIONALELEMENT);
+        actions = new IAction[6];
+        actions[0] = getActionRegistry().getAction(ShowLinkedElementAlternativeAction.SHOWLINKEDELEMENTALTERNATIVE);
+        actions[1] = getActionRegistry().getAction(ShowLinkedElementAction.SHOWLINKEDELEMENT);
+        actions[2] = getActionRegistry().getAction(ShowLinkedElementLevelTwoAction.SHOWLINKEDELEMENTLEVELTWO);
+        actions[3] = getActionRegistry().getAction(ShowLinkedElementLevelThreeAction.SHOWLINKEDELEMENTLEVELTHREE);
+        actions[4] = getActionRegistry().getAction(ShowContainingActorAction.SHOWCONTAININGACTOR);
+        actions[5] = getActionRegistry().getAction(ShowLinkedElementCompleteAction.SHOWLINKEDELEMENTCOMPLETE);
         
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.LinkedElement"), Messages.getString("UrnContextMenuProvider.LinkedElement"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.LinkedElement"), Messages.getString("UrnContextMenuProvider.LinkedElement"), JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
         
-        actions = new IAction[1];
-        actions[0] = getActionRegistry().getAction(ShowContainingElementAction.SHOWCONTAININGELEMENT);
+        action = getActionRegistry().getAction(ShowContainingElementAction.SHOWCONTAININGELEMENT);
+        if (action.isEnabled())
+            manager.appendToGroup(GROUP_UNCOMMON, action);
         
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.ContainingElement"), Messages.getString("UrnContextMenuProvider.ContainingElement"), actions[0].getImageDescriptor(), true); //$NON-NLS-1$ //$NON-NLS-2$
-        if (submenu.getActiveOperationCount() > 0)
-            manager.appendToGroup(GROUP_UNCOMMON, submenu);
+        action = getActionRegistry().getAction(ShowEvaluationIntentionalElementV1Action.SHOWEVALUATIONINTENTIONALELEMENT);
+        if (action.isEnabled())
+            manager.appendToGroup(GROUP_UNCOMMON, action);
         
         action = getActionRegistry().getAction(ManageConcernsAction.MANAGECONCERNS);
         if (action.isEnabled())

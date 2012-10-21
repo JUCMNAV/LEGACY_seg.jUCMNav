@@ -1,5 +1,7 @@
+/**
+ * 
+ */
 package seg.jUCMNav.actions;
-
 import grl.IntentionalElementRef;
 
 import java.util.List;
@@ -10,41 +12,42 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementCommand;
+import seg.jUCMNav.model.commands.create.ShowLinkedElementCompleteCommand;
 import urn.URNspec;
 import urncore.URNmodelElement;
 
 /**
- * Action for showing linked element(s).
+ * Action for showing linked element(s) in all level.
  * 
  * @author rouzbahan
  * 
  */
-public class ShowLinkedElementAction extends URNSelectionAction
+public class ShowLinkedElementCompleteAction extends URNSelectionAction
 {
-    public static final String SHOWLINKEDELEMENT = "seg.jUCMNav.ShowLinkedElementAction"; //$NON-NLS-1$
-  
+    public static final String SHOWLINKEDELEMENTCOMPLETE = "seg.jUCMNav.ShowLinkedElementCompleteAction"; //$NON-NLS-1$
+    
     private URNmodelElement element;
     private IntentionalElementRef elementRef;
     private URNspec urnspec;
     
-    public ShowLinkedElementAction(IWorkbenchPart part)
+    public ShowLinkedElementCompleteAction(IWorkbenchPart part)
     {
         super(part);        
-        setId(SHOWLINKEDELEMENT);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement1.gif")); //$NON-NLS-1$
+        setId(SHOWLINKEDELEMENTCOMPLETE);
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif")); //$NON-NLS-1$
     }
     
     /**
      * True if we have selected a valid URNmodelElement.
      */
     @SuppressWarnings("static-access")
-	protected boolean calculateEnabled() 
+    protected boolean calculateEnabled() 
     {
         List objects = getSelectedObjects();
-
+  
         if (objects.size() != 1)
             return false;
-
+  
         SelectionHelper sel = new SelectionHelper(objects);
         urnspec = sel.getUrnspec();
         element = HyperlinkUtils.findURNmodelElement(sel);
@@ -60,8 +63,7 @@ public class ShowLinkedElementAction extends URNSelectionAction
      * Trying to Add linked element to environment.
      * 
      */
-    protected Command getCommand() 
-    {
-        return new ShowLinkedElementCommand(urnspec, element, elementRef);
+    protected Command getCommand() {
+        return new ShowLinkedElementCompleteCommand(urnspec, element, elementRef);
     }
 }

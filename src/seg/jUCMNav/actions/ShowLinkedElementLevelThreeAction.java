@@ -30,7 +30,7 @@ public class ShowLinkedElementLevelThreeAction extends URNSelectionAction
         super(part);
     
         setId(SHOWLINKEDELEMENTLEVELTHREE);
-        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement3.gif")); //$NON-NLS-1$
     }
     
     /**
@@ -48,12 +48,10 @@ public class ShowLinkedElementLevelThreeAction extends URNSelectionAction
         urnspec = sel.getUrnspec();
         element = HyperlinkUtils.findURNmodelElement(sel);
       
-        if (sel.getSelectionType() == sel.INTENTIONALELEMENTREF)
-        {
+        if (sel.getSelectionType() == sel.INTENTIONALELEMENTREF) {
             elementRef = sel.getIntentionalElementRef(); 
             return true;
-        } 
-        else
+        } else
             return false;
     }
     

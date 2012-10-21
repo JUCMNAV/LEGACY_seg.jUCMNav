@@ -62,6 +62,7 @@ import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
 import seg.jUCMNav.model.commands.create.CreateStrategyCommand;
 import seg.jUCMNav.model.commands.create.ShowContainingElementCommand;
+import seg.jUCMNav.model.commands.create.ShowLinkedElementAlternativeCommand;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementCommand;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementLevelThreeCommand;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementLevelTwoCommand;
@@ -977,6 +978,58 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(graph2.getNodes().size() == 13);
         cs.undo();
         assertTrue(graph2.getNodes().size() == 11);        
+        cs.redo();
+        assertTrue(graph2.getNodes().size() == 13);
+        //cs.undo();
+        //assertTrue(graph2.getNodes().size() == 1);
+    }
+    
+    public void testShowLinkedElementAlternativeCommand()
+    {
+        testCreateGRLGraph();
+        
+        Command cmd = new CreateGrlGraphCommand(urnspec);   
+        GRLGraph graph2 = ( (CreateGrlGraphCommand) cmd).getDiagram();
+        assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        IntentionalElementRef tempRef4  = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class,
+          IntentionalElementType.GOAL);        
+        tempRef4.setDef(ieRef4.getDef());
+        
+        cmd = new AddIntentionalElementRefCommand(graph2, tempRef4);
+        assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        assertTrue(graph2.getNodes().size() == 1);
+        
+        cmd = new ShowLinkedElementAlternativeCommand(urnspec, tempRef4.getDef(), tempRef4, "1");
+        assertTrue("Can't execute ShowLinkedElementAlternativeCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        assertTrue(graph2.getNodes().size() == 4);
+        cs.undo();
+        assertTrue(graph2.getNodes().size() == 1);        
+        cs.redo();
+        assertTrue(graph2.getNodes().size() == 4);
+        cs.undo();
+        assertTrue(graph2.getNodes().size() == 1);
+        
+        Command cmd2 = new ShowLinkedElementAlternativeCommand(urnspec, tempRef4.getDef(), tempRef4, "2");
+        assertTrue("Can't execute ShowLinkedElementLevelTwoCommand.", cmd2.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd2);
+        assertTrue(graph2.getNodes().size() == 11);
+        cs.undo();
+        assertTrue(graph2.getNodes().size() == 1);        
+        cs.redo();
+        assertTrue(graph2.getNodes().size() == 11);
+        cs.undo();
+        assertTrue(graph2.getNodes().size() == 1);
+        
+        Command cmd3 = new ShowLinkedElementAlternativeCommand(urnspec, tempRef4.getDef(), tempRef4, "3");
+        assertTrue("Can't execute ShowLinkedElementLevelThreeCommand.", cmd3.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd3);
+        assertTrue(graph2.getNodes().size() == 13);
+        cs.undo();
+        assertTrue(graph2.getNodes().size() == 1);        
         cs.redo();
         assertTrue(graph2.getNodes().size() == 13);
         //cs.undo();

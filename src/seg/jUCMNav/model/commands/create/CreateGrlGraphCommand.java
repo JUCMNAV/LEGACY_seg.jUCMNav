@@ -87,7 +87,7 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand, IG
     public void testPreConditions() {
         assert urn != null && urn.getUrndef() != null && graph != null : "pre not null"; //$NON-NLS-1$
         assert !urn.getUrndef().getSpecDiagrams().contains(graph) : "pre map not in model"; //$NON-NLS-1$
-        assert oldCount == urn.getUrndef().getSpecDiagrams().size() : "pre map count wrong"; //$NON-NLS-1$
+        assert oldCount == urn.getUrndef().getSpecDiagrams().size() : "pre map count wrong"; //$NON-NLS-1$   
 
     }
 

@@ -77,8 +77,12 @@ import seg.jUCMNav.actions.SetNumericalImportanceAction;
 import seg.jUCMNav.actions.SetQualitativeContributionAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
+import seg.jUCMNav.actions.ShowContainingActorAction;
 import seg.jUCMNav.actions.ShowContainingElementAction;
-import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
+//import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
+import seg.jUCMNav.actions.ShowEvaluationIntentionalElementV1Action;
+import seg.jUCMNav.actions.ShowLinkedElementAlternativeAction;
+import seg.jUCMNav.actions.ShowLinkedElementCompleteAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
@@ -729,6 +733,14 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.AddHyperlinkAction")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
+        action = new ShowLinkedElementAlternativeAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementAlternative")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ShowLinkedElementCompleteAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementComplete")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
         action = new ShowLinkedElementAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElement")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
@@ -745,7 +757,11 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.ShowContainingElement")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
-        action = new ShowEvaluationIntentionalElementAction(editor);
+        action = new ShowContainingActorAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowContainingActor")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ShowEvaluationIntentionalElementV1Action(editor);
         action.setText(Messages.getString("ActionRegistryManager.ShowEvaluationIntentionalElement")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
