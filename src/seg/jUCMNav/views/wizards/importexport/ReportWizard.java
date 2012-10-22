@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.wizards.importexport;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -16,6 +17,7 @@ import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -41,6 +43,7 @@ import urncore.IURNDiagram;
 public class ReportWizard extends ExportWizard {
 
     protected static final String PAGE0 = Messages.getString("ReportWizard.reportWizard"); //$NON-NLS-1$
+    public static boolean userChoice = true;
 
     /**
      * Add the map selection page
@@ -52,13 +55,13 @@ public class ReportWizard extends ExportWizard {
     /**
      * Saves all images and closes opened editors.
      */
-    protected boolean doFinish(IProgressMonitor monitor) throws Exception {
+    protected boolean doFinish(final IProgressMonitor monitor) throws Exception {
         boolean b = ((ReportWizardMapSelectionPage) getPage(PAGE0)).finish();
         postHooks = new Vector();
 
         if (b) {
             // Provide any diagram to the export. Will be used to find the right editor.
-            ExportDiagramtoPDF((IURNDiagram) mapsToExport.get(0));
+			ExportDiagramtoPDF((IURNDiagram) mapsToExport.get(0));
             monitor.worked(1);
         }
         return b;
@@ -70,9 +73,9 @@ public class ReportWizard extends ExportWizard {
      * @param diagram
      */
     private void ExportDiagramtoPDF(IURNDiagram diagram) throws Exception {
-
+    	
         try {
-
+            
             // given the export type, get the exporter id
             int imgtype = ReportPreferenceHelper.getPreferenceStore().getInt(ReportPreferenceHelper.PREF_REPORTYPE);
             String id = ReportExtensionPointHelper.getExporterFromLabelIndex(imgtype);
@@ -83,12 +86,12 @@ public class ReportWizard extends ExportWizard {
             genericPath = (Path) genericPath.addFileExtension(ReportExtensionPointHelper.getFilenameExtension(id));
 
             // get the simple editor
-            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(diagram);
+             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(diagram);
 
             // get exporter
-            IURNReport exporter = ReportExtensionPointHelper.getExporter(id);
+             IURNReport exporter = ReportExtensionPointHelper.getExporter(id);
 
-            HashMap mapDiagrams = new HashMap();
+             HashMap mapDiagrams = new HashMap();
 
             for (int i = 0; i < mapsToExport.size(); i++) {
                 IURNDiagram diag = (IURNDiagram) mapsToExport.get(i);
@@ -96,26 +99,43 @@ public class ReportWizard extends ExportWizard {
                 LayeredPane pane = ((URNRootEditPart) (editor2.getGraphicalViewer().getRootEditPart())).getScaledLayers();
                 mapDiagrams.put(diag, pane);
             }
+                     
+           File f;
+           
+            if (ReportExtensionPointHelper.getFilenameExtension(id).equals("html")){ //$NON-NLS-1$
+            	String htmlIndex = ReportPreferenceHelper.getPreferenceStore().getString(ReportPreferenceHelper.PREF_PATH) + "/index.html"; //$NON-NLS-1$
+            	System.out.println(htmlIndex);
+            	f = new File(htmlIndex);
+            }else{
+            	
+            	f = new File(genericPath.toString());
+            }
+                       
+            //if file already exists, launch warning 
+            if(f.exists()){
+            	Display.getDefault().syncExec(new Runnable() {public void run() {
+            	userChoice = MessageDialog.openQuestion(getShell(), Messages.getString("ReportWizard.OverwriteFile"), Messages.getString("ReportWizard.FileAlreadyExists")); //$NON-NLS-1$ //$NON-NLS-2$
+            	}
+            	});
+            	
+            }
+            
+            if(!(f.exists()) || userChoice){
+				exporter.export(editor.getModel(), mapDiagrams, genericPath.toOSString());
+            }
 
-            // export diagrams from URN
-            exporter.export(editor.getModel(), mapDiagrams, genericPath.toOSString());
-
-        } catch (InvocationTargetException e) {
-            Throwable realException = e.getTargetException();
-            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
-            System.out.println( getStackTrace(e) );
-            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
-            return;
         } catch (Exception e) {
             IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
             System.out.println( getStackTrace(e) );
             ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
             return;
-
+            
         }
 
+       
     }
 
+    
     public static String getStackTrace(Throwable throwable) {
     	  Writer writer = new StringWriter();
     	  PrintWriter printWriter = new PrintWriter(writer);
@@ -129,8 +149,10 @@ public class ReportWizard extends ExportWizard {
     public boolean performFinish() {
         IRunnableWithProgress op = new IRunnableWithProgress() {
             public void run(IProgressMonitor monitor) throws InvocationTargetException {
+            	           	
                 try {
-                    monitor.beginTask(Messages.getString("ReportWizard.Exporting"), IProgressMonitor.UNKNOWN); //$NON-NLS-1$
+                    monitor.beginTask(Messages.getString("ReportWizard.Exporting"), IProgressMonitor.UNKNOWN); //$NON-NLS-1$   
+                    
                     doFinish(monitor);
                 } catch (Exception ex) {
                     if (ex instanceof InvocationTargetException)
@@ -140,6 +162,8 @@ public class ReportWizard extends ExportWizard {
                 } finally {
                     monitor.done();
                 }
+            	
+            
             }
 
         };
@@ -160,7 +184,38 @@ public class ReportWizard extends ExportWizard {
             MessageDialog.openError(getShell(), Messages.getString("ExportImageWizard.error"), realException.getMessage()); //$NON-NLS-1$
             return false;
         }
-        return true;
+        
+        if (fileExists() && !userChoice){
+        	return false; //user cancelled overwriting existing files      	
+        }else{
+        	return true;
+        }
+    }
+    
+    private boolean fileExists(){
+    	((ReportWizardMapSelectionPage) getPage(PAGE0)).finish();
+    	
+    	int imgtype = ReportPreferenceHelper.getPreferenceStore().getInt(ReportPreferenceHelper.PREF_REPORTYPE);
+    	String id = ReportExtensionPointHelper.getExporterFromLabelIndex(imgtype);
+
+        File f;
+
+        if (ReportExtensionPointHelper.getFilenameExtension(id).equals("html")){ //$NON-NLS-1$
+        	String htmlIndex = ReportPreferenceHelper.getPreferenceStore().getString(ReportPreferenceHelper.PREF_PATH) + "/index.html"; //$NON-NLS-1$
+        	f = new File(htmlIndex);        	
+        }else{
+        	Path genericPath = new Path(ReportPreferenceHelper.getPreferenceStore().getString(ReportPreferenceHelper.PREF_PATH));
+        	genericPath = (Path) genericPath.append("/" + ReportPreferenceHelper.getFilenamePrefix()); //$NON-NLS-1$
+        	genericPath = (Path) genericPath.addFileExtension(ReportExtensionPointHelper.getFilenameExtension(id));
+        	f = new File(genericPath.toString());
+        }
+              
+        if(f.exists()){
+        	return true; 	
+        }else{
+        	return false;
+        }
+    	
     }
 
 }

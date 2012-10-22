@@ -223,7 +223,7 @@ public class ReportGeneratorPreferences {
         try {
             double d = Double.parseDouble(width);
            // if( d < 3 ) {
-            	s = Double.toString(DEFAULT_REPORT_WIDTH);
+            	s = Double.toString(d);
             //} else {
             //s = Double.toString(d);
            // }
