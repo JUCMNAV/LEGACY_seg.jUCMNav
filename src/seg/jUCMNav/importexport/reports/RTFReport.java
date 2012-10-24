@@ -64,6 +64,8 @@ public class RTFReport extends Report {
 
             }
 
+            super.writeScenarioDocumentation(document, ucmspec);
+            
             document.close();
 
         } catch (Exception e) {

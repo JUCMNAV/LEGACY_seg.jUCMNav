@@ -46,6 +46,7 @@ public class Report extends URNReport {
     protected Font bindingsHeaderFont = new Font(Font.HELVETICA, 10, Font.NORMAL + Font.BOLDITALIC);
     protected Font pluginMapTitleFont = new Font(Font.HELVETICA, 10, Font.NORMAL);
     protected Font pluginMapNameFont = new Font(Font.HELVETICA, 10, Font.NORMAL + Font.BOLDITALIC);
+    protected Font scenTitleFont = new Font(Font.HELVETICA, 11, Font.NORMAL + Font.BOLDITALIC);
 
     public static final String QUOTES = "\""; //$NON-NLS-1$
     public static final String QUOTES_COMMA = "\", "; //$NON-NLS-1$
@@ -170,6 +171,12 @@ public class Report extends URNReport {
                         return true;
                 }
         return result;
+    }
+    
+    public void writeScenarioDocumentation(Document document, UCMspec ucmspec) {
+    	
+    	ReportScenarios scenarios = new ReportScenarios();
+    	scenarios.writeUCMScenarioInformation(document, ucmspec);
     }
 
     /**
