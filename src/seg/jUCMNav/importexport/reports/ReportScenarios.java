@@ -2,9 +2,9 @@ package seg.jUCMNav.importexport.reports;
 
 import java.util.Iterator;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
-import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import ucm.UCMspec;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -51,10 +51,10 @@ public class ReportScenarios extends Report {
 		try {
 			if (!ucmSpec.getScenarioGroups().isEmpty()) {
 				// write the header of the UCM scenario documentation section
-				insertHeader(document, "UCM Scenario Documentation and Execution", header1Font);
-				document.add(Chunk.NEWLINE);
+				insertHeader(document, Messages.getString("ReportScenarios.Title"), header1Font); //$NON-NLS-1$
 				// loop through each scenario group and write all data related to this group
 				for (Iterator iter = ucmSpec.getScenarioGroups().iterator(); iter.hasNext();) {
+					document.add(Chunk.NEWLINE);
 	                ScenarioGroup scenGroup = (ScenarioGroup) iter.next();
 	                writeScenarioGroupInfo(document, scenGroup);
 				}
@@ -79,7 +79,7 @@ public class ReportScenarios extends Report {
 		
 		try {
 			if (!scenGroup.getScenarios().isEmpty()) {
-				document.add(new Chunk(scenGroup.getName() + " (ID: " + scenGroup.getId() + ")", header2Font));
+				document.add(new Chunk(scenGroup.getName() + " (" + "ID" + ": " + scenGroup.getId() + ")", header2Font)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	            document.add(Chunk.NEWLINE);
 	            // write all pertinent data related to each scenario belonging to the scnario group scenGroup
 				for (Iterator iter = scenGroup.getScenarios().iterator(); iter.hasNext();) {
@@ -111,22 +111,22 @@ public class ReportScenarios extends Report {
 		try {	
 			Paragraph scenarioTitlePar = new Paragraph();
 			scenarioTitlePar.setIndentationLeft(20);
-			scenarioTitlePar.add(new Chunk("Scenario " + scenario.getName() + " (ID: " + scenario.getId() + ")", scenTitleFont));
+			scenarioTitlePar.add(new Chunk(Messages.getString("ReportScenarios.Scenario") + scenario.getName() + " (" + "ID" + ": " + scenario.getId() + ")", scenTitleFont)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 			document.add(scenarioTitlePar);
 			document.add(Chunk.NEWLINE);
 			// write all the data related to all scenarios that are included in the scenario scenario
 			Paragraph inclScenariosTitlePar = new Paragraph();
 			inclScenariosTitlePar.setIndentationLeft(30);
-			inclScenariosTitlePar.add(new Chunk("Included UCM Scenario(s):", descriptionBoldFont));
+			inclScenariosTitlePar.add(new Chunk(Messages.getString("ReportScenarios.IncludedScenarios") + ":", descriptionBoldFont)); //$NON-NLS-1$ //$NON-NLS-2$
 			document.add(inclScenariosTitlePar);
 			if (!scenario.getIncludedScenarios().isEmpty()) {
 				for (Iterator iter = scenario.getIncludedScenarios().iterator(); iter.hasNext();) {
 					Paragraph inclScenariosPar = new Paragraph();
 					inclScenariosPar.setIndentationLeft(40);
 	                ScenarioDef includedScenario = (ScenarioDef) iter.next();
-	                inclScenariosPar.add(new Chunk("Scenario " + includedScenario.getName() + " (ID: " + includedScenario.getId() + ")", descriptionFont));
+	                inclScenariosPar.add(new Chunk(Messages.getString("ReportScenarios.Scenario") + includedScenario.getName() + " (" + "ID" + ": " + includedScenario.getId() + ")", descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	                if (includedScenario.getDescription() != null) {
-	                	inclScenariosPar.add(new Chunk(": " + includedScenario.getDescription(), descriptionFont));
+	                	inclScenariosPar.add(new Chunk(": " + includedScenario.getDescription(), descriptionFont)); //$NON-NLS-1$
 	                }
 	                document.add(inclScenariosPar);
 	                document.add(Chunk.NEWLINE);
@@ -134,7 +134,7 @@ public class ReportScenarios extends Report {
 			} else {
 				Paragraph inclScenariosPar = new Paragraph();
 				inclScenariosPar.setIndentationLeft(40);
-				inclScenariosPar.add(new Chunk("None", headerFont));
+				inclScenariosPar.add(new Chunk(Messages.getString("ReportScenarios.None"), headerFont)); //$NON-NLS-1$
 				document.add(inclScenariosPar);
 				document.add(Chunk.NEWLINE);
 			}
@@ -166,7 +166,7 @@ public class ReportScenarios extends Report {
 		try {	
 			Paragraph startPointsTitlePar = new Paragraph();
 			startPointsTitlePar.setIndentationLeft(30);
-			startPointsTitlePar.add(new Chunk("Scenario Start Point(s):", descriptionBoldFont));
+			startPointsTitlePar.add(new Chunk(Messages.getString("ReportScenarios.ScenarioStartPoints") + ":", descriptionBoldFont)); //$NON-NLS-1$ //$NON-NLS-2$
 			document.add(startPointsTitlePar);
 			if (!scenario.getStartPoints().isEmpty()) {
 				// write data related to all the starting points of the scenario scenario
@@ -174,21 +174,25 @@ public class ReportScenarios extends Report {
 					Paragraph startPointsPar = new Paragraph();
 					startPointsPar.setIndentationLeft(40);
 					ScenarioStartPoint scenStartPoint = (ScenarioStartPoint) iter.next();
-					startPointsPar.add(new Chunk(scenStartPoint.getStartPoint().getName() + " (ID: " + scenStartPoint.getStartPoint().getId() + ")", descriptionFont));
+					startPointsPar.add(new Chunk(scenStartPoint.getStartPoint().getName() + " (" + "ID" + ": " + scenStartPoint.getStartPoint().getId() + ")", descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	                if (scenStartPoint.getStartPoint().getDescription() != null) {
-	                	startPointsPar.add(new Chunk(": " + scenStartPoint.getStartPoint().getDescription(), descriptionFont));
+	                	startPointsPar.add(new Chunk(": " + scenStartPoint.getStartPoint().getDescription(), descriptionFont)); //$NON-NLS-1$
 	                }
 	                document.add(startPointsPar);
 	                Paragraph startPointsDescPar = new Paragraph();
 	                startPointsDescPar.setIndentationLeft(50);
-	                startPointsDescPar.add(new Chunk("Start point is enabled: " + scenStartPoint.isEnabled(), descriptionFont));
+	                if (scenStartPoint.isEnabled()) {
+	                	startPointsDescPar.add(new Chunk(Messages.getString("ReportScenarios.StartPointIsEnabled") + ": " + Messages.getString("ReportScenarios.True"), descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	                } else {
+	                	startPointsDescPar.add(new Chunk(Messages.getString("ReportScenarios.StartPointIsEnabled") + ": " + Messages.getString("ReportScenarios.False"), descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	                }
 	                document.add(startPointsDescPar);
 				}
 				document.add(Chunk.NEWLINE);
 			} else {
 				Paragraph startPointsPar = new Paragraph();
 				startPointsPar.setIndentationLeft(40);
-				startPointsPar.add(new Chunk("No start point(s) defined for this scenario", headerFont));
+				startPointsPar.add(new Chunk(Messages.getString("ReportScenarios.NoStartPointDefined"), headerFont)); //$NON-NLS-1$
 				document.add(startPointsPar);
 				document.add(Chunk.NEWLINE);
 			}
@@ -212,7 +216,7 @@ public class ReportScenarios extends Report {
 		try {	
 			Paragraph initTitlePar = new Paragraph();
 			initTitlePar.setIndentationLeft(30);
-			initTitlePar.add(new Chunk("Initialization(s):", descriptionBoldFont));
+			initTitlePar.add(new Chunk(Messages.getString("ReportScenarios.Initializations") + ":", descriptionBoldFont)); //$NON-NLS-1$ //$NON-NLS-2$
 			document.add(initTitlePar);
 			if (!scenario.getInitializations().isEmpty()) {
 				// write all the data related to the initialization of the scenario's variable(s)
@@ -221,23 +225,23 @@ public class ReportScenarios extends Report {
 					initPar.setIndentationLeft(40);
 	                Initialization init = (Initialization) iter.next();
 	                if (init.getVariable().getDescription() == null) {
-	                	initPar.add(new Chunk(init.getVariable().getName() + " (ID: " + init.getVariable().getId() + ")", descriptionFont));
+	                	initPar.add(new Chunk(init.getVariable().getName() + " (" + "ID" + ": " + init.getVariable().getId() + ")", descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	                } else {
-	                	initPar.add(new Chunk(init.getVariable().getName() + " (ID: " + init.getVariable().getId() + "): " + init.getVariable().getDescription(), descriptionFont));
+	                	initPar.add(new Chunk(init.getVariable().getName() + " (" + "ID" + ": " + init.getVariable().getId() + "): " + init.getVariable().getDescription(), descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	                }
 	                document.add(initPar);
 	                Paragraph initParDesc = new Paragraph();
 					initParDesc.setIndentationLeft(50);
-					initParDesc.add(new Chunk("Variable type: " + init.getVariable().getType(), descriptionFont));
+					initParDesc.add(new Chunk(Messages.getString("ReportScenarios.VariableType") + ": " + init.getVariable().getType(), descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$
 					initParDesc.add(new Chunk(Chunk.NEWLINE));
-					initParDesc.add(new Chunk("Initial value: " + init.getValue(), descriptionFont));
+					initParDesc.add(new Chunk(Messages.getString("ReportScenarios.InitialValue") + ": " + init.getValue(), descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$
 					document.add(initParDesc);
 				}
 				document.add(Chunk.NEWLINE);
 			} else {
 				Paragraph initPar = new Paragraph();
 				initPar.setIndentationLeft(40);
-				initPar.add(new Chunk("No initializations", headerFont));
+				initPar.add(new Chunk(Messages.getString("ReportScenarios.NoInitialization"), headerFont)); //$NON-NLS-1$
 				document.add(initPar);
 				document.add(Chunk.NEWLINE);
 			}
@@ -261,7 +265,7 @@ public class ReportScenarios extends Report {
 		try {	
 			Paragraph preconditionsTitlePar = new Paragraph();
 			preconditionsTitlePar.setIndentationLeft(30);
-			preconditionsTitlePar.add(new Chunk("Precondition(s):", descriptionBoldFont));
+			preconditionsTitlePar.add(new Chunk(Messages.getString("ReportScenarios.Preconditions") + ":", descriptionBoldFont)); //$NON-NLS-1$ //$NON-NLS-2$
 			document.add(preconditionsTitlePar);
 			if (!scenario.getPreconditions().isEmpty()) {
 				// write all the data related to the scenario's preconditions
@@ -271,19 +275,19 @@ public class ReportScenarios extends Report {
 	                Condition precondition = (Condition) iter.next();
 	                preconditionsPar.add(new Chunk(precondition.getLabel(), descriptionFont));
 	                if (precondition.getDescription() != null) {
-	                	preconditionsPar.add(new Chunk(": " + precondition.getDescription(), descriptionFont));
+	                	preconditionsPar.add(new Chunk(": " + precondition.getDescription(), descriptionFont)); //$NON-NLS-1$
 	                }
 	                document.add(preconditionsPar);
 	                Paragraph preconditionsDescPar = new Paragraph();
 	                preconditionsDescPar.setIndentationLeft(50);
-	                preconditionsDescPar.add(new Chunk("Precondition expression: " + precondition.getExpression(), descriptionFont));
+	                preconditionsDescPar.add(new Chunk(Messages.getString("ReportScenarios.PreconditionExpression") + ": " + precondition.getExpression(), descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$
 	                document.add(preconditionsDescPar);
 				}
 				document.add(Chunk.NEWLINE);
 			} else {
 				Paragraph preconditionsPar = new Paragraph();
 				preconditionsPar.setIndentationLeft(40);
-				preconditionsPar.add(new Chunk("None", headerFont));
+				preconditionsPar.add(new Chunk(Messages.getString("ReportScenarios.None2"), headerFont)); //$NON-NLS-1$
 				document.add(preconditionsPar);
 				document.add(Chunk.NEWLINE);
 			}
@@ -307,7 +311,7 @@ public class ReportScenarios extends Report {
 		try {	
 			Paragraph endPointsTitlePar = new Paragraph();
 			endPointsTitlePar.setIndentationLeft(30);
-			endPointsTitlePar.add(new Chunk("Scenario End Point(s):", descriptionBoldFont));
+			endPointsTitlePar.add(new Chunk(Messages.getString("ReportScenarios.ScenarioEndPoints") + ":", descriptionBoldFont)); //$NON-NLS-1$ //$NON-NLS-2$
 			document.add(endPointsTitlePar);
 			if (!scenario.getEndPoints().isEmpty()) {
 				// write all the data related to the scenario's end points
@@ -315,21 +319,25 @@ public class ReportScenarios extends Report {
 					Paragraph endPointsPar = new Paragraph();
 					endPointsPar.setIndentationLeft(40);
 					ScenarioEndPoint scenEndPoint = (ScenarioEndPoint) iter.next();
-					endPointsPar.add(new Chunk(scenEndPoint.getEndPoint().getName() + " (ID: " + scenEndPoint.getEndPoint().getId() + ")", descriptionFont));
+					endPointsPar.add(new Chunk(scenEndPoint.getEndPoint().getName() + " (" + "ID" + ": " + scenEndPoint.getEndPoint().getId() + ")", descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	                if (scenEndPoint.getEndPoint().getDescription() != null) {
-	                	endPointsPar.add(new Chunk(": " + scenEndPoint.getEndPoint().getDescription(), descriptionFont));
+	                	endPointsPar.add(new Chunk(": " + scenEndPoint.getEndPoint().getDescription(), descriptionFont)); //$NON-NLS-1$
 	                }
 	                document.add(endPointsPar);
 	                Paragraph endPointsDescPar = new Paragraph();
 					endPointsDescPar.setIndentationLeft(50);
-					endPointsDescPar.add(new Chunk("End point is enabled: " + scenEndPoint.isEnabled(), descriptionFont));
+					if (scenEndPoint.isEnabled()) {
+						endPointsDescPar.add(new Chunk(Messages.getString("ReportScenarios.EndPointIsEnabled") + ": " + Messages.getString("ReportScenarios.True"), descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					} else {
+						endPointsDescPar.add(new Chunk(Messages.getString("ReportScenarios.EndPointIsEnabled") + ": " + Messages.getString("ReportScenarios.False"), descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					}
 					document.add(endPointsDescPar);
 				}
 				document.add(Chunk.NEWLINE);
 			} else {
 				Paragraph endPointsPar = new Paragraph();
 				endPointsPar.setIndentationLeft(40);
-				endPointsPar.add(new Chunk("No end point(s) defined for this scenario", headerFont));
+				endPointsPar.add(new Chunk(Messages.getString("ReportScenarios.NoEndPointDefined"), headerFont)); //$NON-NLS-1$
 				document.add(endPointsPar);
 				document.add(Chunk.NEWLINE);
 			}
@@ -353,7 +361,7 @@ public class ReportScenarios extends Report {
 		try {
 			Paragraph postconditionsTitlePar = new Paragraph();
 			postconditionsTitlePar.setIndentationLeft(30);
-			postconditionsTitlePar.add(new Chunk("Postcondition(s):", descriptionBoldFont));
+			postconditionsTitlePar.add(new Chunk(Messages.getString("ReportScenarios.Postconditions") + ":", descriptionBoldFont)); //$NON-NLS-1$ //$NON-NLS-2$
 			document.add(postconditionsTitlePar);
 			if (!scenario.getPreconditions().isEmpty()) {
 				// write all the pertinent data related to the scenario's postconditions
@@ -363,19 +371,19 @@ public class ReportScenarios extends Report {
 	                Condition postcondition = (Condition) iter.next();
 	                postconditionsPar.add(new Chunk(postcondition.getLabel(), descriptionFont));
 	                if (postcondition.getDescription() != null) {
-	                	postconditionsPar.add(new Chunk(": " + postcondition.getDescription(), descriptionFont));
+	                	postconditionsPar.add(new Chunk(": " + postcondition.getDescription(), descriptionFont)); //$NON-NLS-1$
 	                }
 	                document.add(postconditionsPar);
 	                Paragraph postconditionsDescPar = new Paragraph();
 	                postconditionsDescPar.setIndentationLeft(50);
-	                postconditionsDescPar.add(new Chunk("Postcondition expression: " + postcondition.getExpression(), descriptionFont));
+	                postconditionsDescPar.add(new Chunk(Messages.getString("ReportScenarios.PostconditionExpression") + ": " + postcondition.getExpression(), descriptionFont)); //$NON-NLS-1$ //$NON-NLS-2$
 	                document.add(postconditionsDescPar);
 				}
 				document.add(Chunk.NEWLINE);
 			} else {
 				Paragraph postconditionsPar = new Paragraph();
 				postconditionsPar.setIndentationLeft(40);
-				postconditionsPar.add(new Chunk("None", headerFont));
+				postconditionsPar.add(new Chunk(Messages.getString("ReportScenarios.None2"), headerFont)); //$NON-NLS-1$
 				document.add(postconditionsPar);
 				document.add(Chunk.NEWLINE);
 			}

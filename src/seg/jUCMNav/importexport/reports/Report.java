@@ -61,6 +61,7 @@ public class Report extends URNReport {
 
     protected boolean prefShowUCMDiagrams;
     protected boolean prefShowGRLDiagrams;
+    protected boolean prefShowScenarioInfo;
     
     private String filename;
 
@@ -93,8 +94,9 @@ public class Report extends URNReport {
         // TODO report description strings should be externalized
 
         try {
-        	// fetch the values of the UCMSHOWUCMDIAGRAMS and GRLSHOWGRLDIAGRAMS preferences.
+        	// fetch the values of the UCMSHOWUCMDIAGRAMS, UCMSHOWSCENARIOINFO and GRLSHOWGRLDIAGRAMS preferences.
         	prefShowUCMDiagrams = ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS();
+        	prefShowScenarioInfo = ReportGeneratorPreferences.getUCMSHOWSCENARIOINFO();
         	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
         	
         	// boolean flags used to determine whether or not there is at least one UCM/GRL

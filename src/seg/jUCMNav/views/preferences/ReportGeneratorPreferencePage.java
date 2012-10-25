@@ -159,6 +159,11 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
                 .getString("ReportGeneratorPreferencePage.endPoint"), //$NON-NLS-1$
                 ucmCompOptions);
         addField(ShowUCMEndPoint);
+        
+        BooleanFieldEditor ShowScenarioInfo = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_SCENARIO_INFO, Messages
+                .getString("ReportGeneratorPreferencePage.scenarioInfo"), //$NON-NLS-1$
+                ucmCompOptions);
+        addField(ShowScenarioInfo);
 
 
         // Group for GRL Preferences
