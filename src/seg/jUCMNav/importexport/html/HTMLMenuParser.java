@@ -482,8 +482,8 @@ public class HTMLMenuParser {
 						if ((childNode2.getNodeName()).equals(BRANCH_TEXT)) {
 							childNode2.setTextContent(Messages.getString("HTMLMenuParser.Definitions")); //$NON-NLS-1$
 						} else if ((childNode2.getNodeName()).equals(LEAF)) {
-							// the child nodes of the Definitions node are the UCM Definitions page, the
-							// GRL Definitions page as well as the Title Page
+							// the child nodes of the Definitions node are the UCM Definitions page, the UCM Scenarios page,
+							// the GRL Definitions page as well as the Title Page
 							NodeList child2NodeList = childNode2.getChildNodes();
 							int len3 = child2NodeList.getLength();
 							// get the child node corresponding to the leaf text (i.e. the menu name),
@@ -493,6 +493,8 @@ public class HTMLMenuParser {
 								if ((childNode3.getNodeName()).equals(LEAF_TEXT)) {
 									if ((childNode3.getTextContent()).equals(HTMLMenuItem.TYPE_UCM_DEF)) {
 										childNode3.setTextContent(Messages.getString("HTMLMenuParser.UCMDefinitions")); //$NON-NLS-1$
+									} else if ((childNode3.getTextContent()).equals(HTMLMenuItem.TYPE_UCM_SCEN)) {
+										childNode3.setTextContent(Messages.getString("HTMLMenuParser.UCMScenarios")); //$NON-NLS-1$
 									} else if ((childNode3.getTextContent()).equals(HTMLMenuItem.TYPE_GRL_DEF)) {
 										childNode3.setTextContent(Messages.getString("HTMLMenuParser.GRLDefinitions")); //$NON-NLS-1$
 									} else {

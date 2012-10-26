@@ -61,8 +61,11 @@ import ucm.map.impl.PluginBindingImpl;
 import ucm.map.impl.RespRefImpl;
 import ucm.map.impl.StubImpl;
 import ucm.scenario.EnumerationType;
+import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioGroup;
+import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.URNlink;
 import urn.URNspec;
@@ -89,7 +92,8 @@ public class HTMLReport extends URNReport {
 	protected static String [] excludedMDnames = { "AltName", "AltDescription", "_numEval", "_qualEval" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	protected static HashMap<String, Object> excludedMetadata = null;
 	public static final int UCM_DEFINITIONS = 0;
-	public static final int GRL_DEFINITIONS = 1;
+	public static final int UCM_SCENARIOS = 1;
+	public static final int GRL_DEFINITIONS = 2;
 
 	private static Evaluation evaluation = null;
 	private static int evalValue = 0;
@@ -101,6 +105,7 @@ public class HTMLReport extends URNReport {
 	private static boolean designView = false;
 
 	protected boolean prefShowUCMDiagrams;
+	protected boolean prefShowScenarioInfo;
     protected boolean prefShowGRLDiagrams;
     
     private boolean prefShowTrend;
@@ -127,8 +132,9 @@ public class HTMLReport extends URNReport {
 		FileOutputStream imgFos = null;
 		IFigure pane;
 
-		// fetch the values of the UCMSHOWUCMDIAGRAMS and GRLSHOWGRLDIAGRAMS preferences.
+		// fetch the values of the UCMSHOWUCMDIAGRAMS, UCMSHOWSCENARIOINFO and GRLSHOWGRLDIAGRAMS preferences.
     	prefShowUCMDiagrams = ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS();
+    	prefShowScenarioInfo = ReportGeneratorPreferences.getUCMSHOWSCENARIOINFO();
     	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
     	
     	prefShowTrend = ReportGeneratorPreferences.getShowGRLEvalStrategyTrend();
@@ -201,12 +207,9 @@ public class HTMLReport extends URNReport {
 
 			// write the content of menu to XML file
 			if (isLast) {
-				//if (prefShowUCMDiagrams) {
-					exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_DEFINITIONS);
-				//}
-				//if (prefShowGRLDiagrams) {
-					exportGlobalDefinitions(urn, htmlPath, HTMLReport.GRL_DEFINITIONS);
-				//}
+				exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_DEFINITIONS);
+				exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_SCENARIOS);
+				exportGlobalDefinitions(urn, htmlPath, HTMLReport.GRL_DEFINITIONS);
 				htmlMenuParser.writeToFile();
 				htmlMenuParser.resetDocument();
 			}
@@ -368,6 +371,11 @@ public class HTMLReport extends URNReport {
 			// Generate the ucmdef16.gif (the UCMDEF symbol) file
 			srcFile = "htmltemplates/ucmdef16.gif"; //$NON-NLS-1$
 			desFile = htmlPath + PAGES_LOCATION + "ucmdef16.gif"; //$NON-NLS-1$
+			copy(srcFile, desFile);
+			
+			// Generate the ucmscen16.gif (the UCMSCEN symbol) file
+			srcFile = "htmltemplates/ucmscen16.gif"; //$NON-NLS-1$
+			desFile = htmlPath + PAGES_LOCATION + "ucmscen16.gif"; //$NON-NLS-1$
 			copy(srcFile, desFile);
 						
 			// Generate the grldef16.gif (the GRLDEF symbol) file
@@ -836,7 +844,11 @@ public class HTMLReport extends URNReport {
 			if ( type == UCM_DEFINITIONS ) {
 				outputUCM_Definitions(urn, sb);
 				pageName = "UCM_Definitions"; //$NON-NLS-1$
-
+				
+			} else if ( type == UCM_SCENARIOS) {
+				outputUCM_Scenarios(urn.getUcmspec(), sb);
+				pageName = "UCM_Scenarios"; //$NON-NLS-1$
+				
 			} else { // GRL_DEFINITIONS
 				outputGRL_Definitions(urn, sb);
 				pageName = "GRL_Definitions"; //$NON-NLS-1$
@@ -1600,9 +1612,9 @@ public class HTMLReport extends URNReport {
 				sb.append("&nbsp;&nbsp;&nbsp;" + i++ + ". " + EscapeUtils.escapeHTML(var.getName()) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 				if (var.getEnumerationType() != null) { // the variable type is enumeration
-					sb.append( "(Enum " + var.getEnumerationType().getName() + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+					sb.append( " (Enum " + var.getEnumerationType().getName() + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 				} else {
-					sb.append( "(" + varType + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+					sb.append( " (" + varType + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 
 				if( ReportUtils.notEmpty(var.getDescription()) ) {
@@ -1649,6 +1661,262 @@ public class HTMLReport extends URNReport {
 					sb.append( "<br></br>\n" ); //$NON-NLS-1$
 				}
 			}
+		}
+	}
+
+	/**
+	 * Writes scenario information in the "UCM Scenarios" page of the report
+	 * 
+	 * @param ucmSpec
+	 *            the UCMspec object from which we will fetch all the necessary information
+	 * @param sb
+	 *            the StringBuffer object into which we will write all the HTML page content
+	 */
+	private void outputUCM_Scenarios(UCMspec ucmSpec, StringBuffer sb) {
+		
+		sb.append("<h1>" + Messages.getString("HTMLReport.UCMScenTitle") + "</h1>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if ((prefShowScenarioInfo) && (prefShowUCMDiagrams)) {
+			if (!ucmSpec.getScenarioGroups().isEmpty()) {
+				// loop through each scenario group and write all data related to this group
+				for (Iterator iter = ucmSpec.getScenarioGroups().iterator(); iter.hasNext();) {
+					ScenarioGroup scenGroup = (ScenarioGroup) iter.next();
+	                writeScenarioGroupInfo(sb, scenGroup);
+				}
+			} else {
+				sb.append("&nbsp;&nbsp;&nbsp;" + "<i>" + Messages.getString("HTMLReport.NoScenario") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			}
+		} else {
+			sb.append("&nbsp;&nbsp;&nbsp;" + "<i>" + Messages.getString("HTMLReport.NoScenarioPreferencesDisabled") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		}
+	}
+	
+	/**
+     * this method writes data on all the scenario groups, and calls other 
+     * methods that write information specific to each scenario
+     * 
+     * @param sb
+     *            the StringBuffer object into which we will write the HTML page content
+     * @param scenGroup
+     *            the ScenarioGroup from which we are getting scenario info
+     */
+	private void writeScenarioGroupInfo(StringBuffer sb, ScenarioGroup scenGroup) {
+		
+		if (!scenGroup.getScenarios().isEmpty()) {
+			sb.append("<div>\n<h2>" + EscapeUtils.escapeHTML(scenGroup.getName()) + " (" + "ID" + ": " + scenGroup.getId() + ")" + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+            // write all pertinent data related to each scenario belonging to the scnario group scenGroup
+			for (Iterator iter = scenGroup.getScenarios().iterator(); iter.hasNext();) {
+				ScenarioDef scenario = (ScenarioDef) iter.next();
+                writeScenarioInfo(sb, scenario);
+			}
+			sb.append("</div>"); //$NON-NLS-1$
+		}
+	}
+
+	/**
+     * this method writes data related to one scenario, and calls other 
+     * methods that write information specific to each scenario component
+     * 
+     * @param sb
+     *            the StringBuffer object into which we will write the HTML page content
+     * @param scenario
+     *            the scenario from which we are getting scenario info
+     */
+	private void writeScenarioInfo(StringBuffer sb, ScenarioDef scenario) {
+		
+		sb.append("<div>\n<h3>" + Messages.getString("HTMLReport.Scenario") + EscapeUtils.escapeHTML(scenario.getName()) + " (" + "ID" + ": " + scenario.getId() + ")" + "</h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+		// write all the data related to all scenarios that are included in the scenario scenario
+		sb.append("&nbsp;&nbsp;&nbsp;<b>" + Messages.getString("HTMLReport.IncludedScenarios") + ":</b>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		
+		if (!scenario.getIncludedScenarios().isEmpty()) {
+			for (Iterator iter = scenario.getIncludedScenarios().iterator(); iter.hasNext();) {
+				sb.append("<br>\n"); //$NON-NLS-1$
+				ScenarioDef includedScenario = (ScenarioDef) iter.next();
+                sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Messages.getString("HTMLReport.Scenario") + EscapeUtils.escapeHTML(includedScenario.getName()) + " (" + "ID" + ": " + includedScenario.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                if (includedScenario.getDescription() != null) {
+                	sb.append(": " + EscapeUtils.escapeHTML(includedScenario.getDescription())); //$NON-NLS-1$
+                }
+                sb.append("\n"); //$NON-NLS-1$
+			}
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		} else {
+			sb.append("<br>\n"); //$NON-NLS-1$
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "<i>" + Messages.getString("HTMLReport.None") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		}
+		// write all other pertinent data related to the scenario
+		writeStartPoints(sb, scenario);
+		writeInitializations(sb, scenario);
+		writePreconditions(sb, scenario);
+		writeEndPoints(sb, scenario);
+		writePostconditions(sb, scenario);
+		sb.append("</div>\n"); //$NON-NLS-1$
+	}
+
+	/**
+     * this method writes data related to a scenario's start points
+     * 
+     * @param sb
+     *            the StringBuffer object into which we will write the HTML page content
+     * @param scenario
+     *            the scenario from which we are getting scenario info
+     */
+	private void writeStartPoints(StringBuffer sb, ScenarioDef scenario) {
+		
+		sb.append("&nbsp;&nbsp;&nbsp;<b>" + Messages.getString("HTMLReport.ScenarioStartPoints") + ":</b>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (!scenario.getStartPoints().isEmpty()) {
+			// write data related to all the starting points of the scenario scenario
+			for (Iterator iter = scenario.getStartPoints().iterator(); iter.hasNext();) {
+				sb.append("<br>\n"); //$NON-NLS-1$
+				ScenarioStartPoint scenStartPoint = (ScenarioStartPoint) iter.next();
+				sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(scenStartPoint.getStartPoint().getName()) + " (" + "ID" + ": " + scenStartPoint.getStartPoint().getId() + ")\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				if (scenStartPoint.getStartPoint().getDescription() != null) {
+                	sb.append(": " + EscapeUtils.escapeHTML(scenStartPoint.getStartPoint().getDescription())); //$NON-NLS-1$
+                }
+                sb.append("<br>\n"); //$NON-NLS-1$
+                if (scenStartPoint.isEnabled()) {
+                	sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Messages.getString("HTMLReport.StartPointIsEnabled") + ": " + Messages.getString("HTMLReport.True") + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                } else {
+                	sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Messages.getString("HTMLReport.StartPointIsEnabled") + ": " + Messages.getString("HTMLReport.False") + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                }
+			}
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		} else {
+			sb.append("<br>\n"); //$NON-NLS-1$
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "<i>" + Messages.getString("HTMLReport.NoStartPoint") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		}
+	}
+	
+	/**
+     * this method writes data related to the initialization of a scenario's variable(s)
+     * 
+     * @param sb
+     *            the StringBuffer object into which we will write the HTML page content
+     * @param scenario
+     *            the scenario from which we are getting scenario info
+     */
+	private void writeInitializations(StringBuffer sb, ScenarioDef scenario) {
+			
+		sb.append("&nbsp;&nbsp;&nbsp;<b>" + Messages.getString("HTMLReport.Initializations") + ":</b>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (!scenario.getInitializations().isEmpty()) {
+			// write all the data related to the initialization of the scenario's variable(s)
+			for (Iterator iter = scenario.getInitializations().iterator(); iter.hasNext();) {
+				sb.append("<br>\n"); //$NON-NLS-1$
+                Initialization init = (Initialization) iter.next();
+                if (init.getVariable().getDescription() == null) {
+                	sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(init.getVariable().getName()) + " (" + "ID" + ": " + init.getVariable().getId() + ")\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                } else {
+                	sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(init.getVariable().getName()) + " (" + "ID" + ": " + init.getVariable().getId() + "):" + EscapeUtils.escapeHTML(init.getVariable().getDescription()) + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                }
+                sb.append("<br>\n"); //$NON-NLS-1$
+				sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Messages.getString("HTMLReport.VariableType") + ": " + init.getVariable().getType() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				sb.append("<br>\n"); //$NON-NLS-1$
+				sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Messages.getString("HTMLReport.InitialValue") + ": " + EscapeUtils.escapeHTML(init.getValue()) + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			}
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		} else {
+			sb.append("<br>\n"); //$NON-NLS-1$
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "<i>" + Messages.getString("HTMLReport.NoInitialization") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		}
+	}
+	
+	/**
+     * this method writes data related to the precondition(s) of a scenario
+     * 
+     * @param sb
+     *            the StringBuffer object into which we will write the HTML page content
+     * @param scenario
+     *            the scenario from which we are getting scenario info
+     */
+	private void writePreconditions(StringBuffer sb, ScenarioDef scenario) {
+		
+		sb.append("&nbsp;&nbsp;&nbsp;<b>" + Messages.getString("HTMLReport.Preconditions") + ":</b>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (!scenario.getPreconditions().isEmpty()) {
+			// write all the data related to the scenario's preconditions
+			for (Iterator iter = scenario.getPreconditions().iterator(); iter.hasNext();) {
+				sb.append("<br>\n"); //$NON-NLS-1$
+                Condition precondition = (Condition) iter.next();
+                sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(precondition.getLabel())); //$NON-NLS-1$
+                if (precondition.getDescription() != null) {
+                	sb.append(": " + EscapeUtils.escapeHTML(precondition.getDescription())); //$NON-NLS-1$
+                }
+                sb.append("\n"); //$NON-NLS-1$
+                sb.append("<br>\n"); //$NON-NLS-1$
+                sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Messages.getString("HTMLReport.PreconditionExpression") + ": " + EscapeUtils.escapeHTML(precondition.getExpression()) + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            }
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		} else {
+			sb.append("<br>\n"); //$NON-NLS-1$
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "<i>" + Messages.getString("HTMLReport.None2") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		}
+	}
+
+	/**
+     * this method writes data related to a scenario's end points
+     * 
+     * @param sb
+     *            the StringBuffer object into which we will write the HTML page content
+     * @param scenario
+     *            the scenario from which we are getting scenario info
+     */
+	private void writeEndPoints(StringBuffer sb, ScenarioDef scenario) {
+		
+		sb.append("&nbsp;&nbsp;&nbsp;<b>" + Messages.getString("HTMLReport.ScenarioEndPoints") + ":</b>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (!scenario.getEndPoints().isEmpty()) {
+			// write all the data related to the scenario's end points
+			for (Iterator iter = scenario.getEndPoints().iterator(); iter.hasNext();) {
+				sb.append("<br>\n"); //$NON-NLS-1$
+				ScenarioEndPoint scenEndPoint = (ScenarioEndPoint) iter.next();
+				sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(scenEndPoint.getEndPoint().getName()) + " (" + "ID" + ": " + scenEndPoint.getEndPoint().getId() + ")\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				if (scenEndPoint.getEndPoint().getDescription() != null) {
+					sb.append(": " + EscapeUtils.escapeHTML(scenEndPoint.getEndPoint().getDescription())); //$NON-NLS-1$
+				}
+				sb.append("<br>\n"); //$NON-NLS-1$
+				if (scenEndPoint.isEnabled()) {
+                	sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Messages.getString("HTMLReport.EndPointIsEnabled") + ": " + Messages.getString("HTMLReport.True") + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                } else {
+                	sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Messages.getString("HTMLReport.EndPointIsEnabled") + ": " + Messages.getString("HTMLReport.False") + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                }
+			}
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		} else {
+			sb.append("<br>\n"); //$NON-NLS-1$
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "<i>" + Messages.getString("HTMLReport.NoEndPointDefined") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		}
+	}
+
+	/**
+     * this method writes data related to the postcondition(s) of a scenario
+     * 
+     * @param sb
+     *            the StringBuffer object into which we will write the HTML page content
+     * @param scenario
+     *            the scenario from which we are getting scenario info
+     */
+	private void writePostconditions(StringBuffer sb, ScenarioDef scenario) {
+		
+		sb.append("&nbsp;&nbsp;&nbsp;<b>" + Messages.getString("HTMLReport.Postconditions") + ":</b>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (!scenario.getPreconditions().isEmpty()) {
+			// write all the pertinent data related to the scenario's postconditions
+			for (Iterator iter = scenario.getPostconditions().iterator(); iter.hasNext();) {
+				sb.append("<br>\n"); //$NON-NLS-1$
+                Condition postcondition = (Condition) iter.next();
+                sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(postcondition.getLabel())); //$NON-NLS-1$
+                if (postcondition.getDescription() != null) {
+                	sb.append(": " + EscapeUtils.escapeHTML(postcondition.getDescription())); //$NON-NLS-1$
+                }
+                sb.append("\n"); //$NON-NLS-1$
+                sb.append("<br>\n"); //$NON-NLS-1$
+                sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Messages.getString("HTMLReport.PostconditionExpression") + ": " + EscapeUtils.escapeHTML(postcondition.getExpression()) + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			}
+			sb.append("<br><br>\n"); //$NON-NLS-1$
+		} else {
+			sb.append("<br>\n"); //$NON-NLS-1$
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "<i>" + Messages.getString("HTMLReport.None2") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			sb.append("<br><br>\n"); //$NON-NLS-1$
 		}
 	}
 
@@ -1842,11 +2110,11 @@ public class HTMLReport extends URNReport {
 		sb.append("</div>\n<div>\n<h3>" + Messages.getString("HTMLReport.StrategyLegendForGroup") + " \"" +  evalGroup.getName() + "\"</h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
 		for( Integer index : strategies.keySet() ) {
-			if (strategies.get(index).getDescription() == null || strategies.get(index).getDescription().equals("")){
-				sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + "<br></br>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			if (strategies.get(index).getDescription() == null || strategies.get(index).getDescription().equals("")){ //$NON-NLS-1$
+				sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + "<br></br>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				
 			}else{
-			sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + " - " + EscapeUtils.escapeHTML(strategies.get(index).getDescription()) + "<br></br>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append("&nbsp;&nbsp;&nbsp;<b>" + index + ".</b> " + EscapeUtils.escapeHTML(strategies.get(index).getName()) + " - " + EscapeUtils.escapeHTML(strategies.get(index).getDescription()) + "<br></br>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			}
 		}	
 		

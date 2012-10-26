@@ -12,6 +12,7 @@ public class HTMLMenuItem {
     public static final String TYPE_UCM = "UCM"; //$NON-NLS-1$
     public static final String TYPE_GRL = "GRL"; //$NON-NLS-1$
     public static final String TYPE_UCM_DEF = "UCM Definitions"; //$NON-NLS-1$
+    public static final String TYPE_UCM_SCEN = "UCM Scenarios"; //$NON-NLS-1$
     public static final String TYPE_GRL_DEF = "GRL Definitions"; //$NON-NLS-1$
     public static final String TYPE_MSC = "MSC"; //$NON-NLS-1$
 
