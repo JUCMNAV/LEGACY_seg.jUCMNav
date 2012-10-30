@@ -1,10 +1,22 @@
 package seg.jUCMNav.importexport.reports;
 
+import java.awt.Color;
 import java.util.Iterator;
+import java.util.Vector;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
+import seg.jUCMNav.scenarios.ScenarioTraversalAlgorithm;
+import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.scenarios.algorithmInterfaces.IScenarioTraversalAlgorithm;
+import seg.jUCMNav.scenarios.model.TraversalException;
+import seg.jUCMNav.scenarios.model.TraversalWarning;
+import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import ucm.UCMspec;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -18,7 +30,9 @@ import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
 import com.lowagie.text.Table;
 
 /**
@@ -32,6 +46,15 @@ public class ReportScenarios extends Report {
 
 	// The table parameters used to create the section header
 	protected int[] tableParams = { 1, 2, 0, 100 };
+	
+		
+	//vector which contains warnings for current scenario
+	private Vector warnings; 
+	
+	private final int scenario_width = 6;
+	private final int result_width = 4;
+	
+	private Color white = new java.awt.Color(255, 255, 255);
 	
 	public ReportScenarios() {
 		
@@ -144,12 +167,21 @@ public class ReportScenarios extends Report {
 			writePostconditions(document, scenario);
 			document.add(Chunk.NEXTPAGE);
 			
+			
 		} catch (Exception e) {
             jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
             e.printStackTrace();
 
         }
 	}
+	
+	
+
+	
+	
+	
+	
+	
 
 	/**
      * this method writes data related to a scenario's start points
@@ -407,7 +439,7 @@ public class ReportScenarios extends Report {
 		try {
 			Table table = ReportUtils.createTable(tableParams[0], tableParams[1], tableParams[2], tableParams[3]);
 			
-			Chunk chunk = new Chunk(message, header2Font);
+			Chunk chunk = new Chunk(message, font);
 			Cell descriptionCell = new Cell(chunk);
 			descriptionCell.setColspan(1);
 			descriptionCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -421,6 +453,167 @@ public class ReportScenarios extends Report {
             e.printStackTrace();
 		}
 	}
+	
+	
+	
+	/**
+     * writes the execution summary tables
+     * 
+     * @param document
+     *            the document we are reporting into
+     * @param ucmSpec
+     *            the UCM specification from which we are getting scenario info
+     */
+	public void writeSummary(Document document, UCMspec ucmSpec){
+		 
+        try {
+            if (!ucmSpec.getScenarioGroups().isEmpty()) {
+            	//document.add(Chunk.NEXTPAGE); 
+
+            	document.add(Chunk.NEWLINE);
+            	document.add(new Chunk(Messages.getString("ReportScenarios.ExecutionSummaryTitle"), header2Font));  //$NON-NLS-1$
+            	
+                for (Iterator iter1 = ucmSpec.getScenarioGroups().iterator(); iter1.hasNext();) {
+
+                	ScenarioGroup scenGroup = (ScenarioGroup) iter1.next();
+                    
+                    if (!scenGroup.getScenarios().isEmpty()) {
+                        int nbOfColumns = 40;
+                        
+                        int warnMsg_width = nbOfColumns - scenario_width - result_width;
+
+
+            		 document.add(Chunk.NEWLINE);
+                        
+                            // create the table for strategy evaluations, there will be one table per strategy group
+                            Table table = new Table(nbOfColumns);
+                            table.setBorderWidth(1);
+                            table.setBorderColor(white);
+                            table.setPadding(3);
+                            table.setSpacing(0);
+                            table.setWidth(100);
+
+                            /***************************************************************************************************************************************
+                             * Create the header row
+                             * 
+                             */
+
+                            // First line: contains the scenario group's name. Width equals width of table
+                            Cell cell = new Cell( new Phrase(scenGroup.getName(), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD)));
+                            cell.setHeader(true);
+                            cell.setColspan(nbOfColumns);
+                            //cell.
+                            table.addCell(cell);
+                            
+                            // Second line - first cell: Cell which contains the Scenario header
+                            Cell cell2 = new Cell(new Phrase(Messages.getString("ReportScenarios.ScenarioName"), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD)));  //$NON-NLS-1$
+                            cell2.setColspan(scenario_width);
+                            table.addCell(cell2);
+                            
+                            // Second line - second cell: Cell which contains the Result header
+                            Cell cell3 = new Cell(new Phrase(Messages.getString("ReportScenarios.Result"), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD)));  //$NON-NLS-1$
+                            cell3.setColspan(result_width);
+                            table.addCell(cell3);
+                            
+	                         // Second line - third cell: Cell which contains the Messages header
+                            Cell cell4 = new Cell(new Phrase(Messages.getString("ReportScenarios.Messages"), FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD)));  //$NON-NLS-1$
+                            cell4.setColspan(warnMsg_width);
+                            table.addCell(cell4);
+
+
+                            // add Scenarios in first column, one per row
+                            for (Iterator iter = scenGroup.getScenarios().iterator(); iter.hasNext();) {
+                            
+                            	ScenarioDef scenario = (ScenarioDef) iter.next();
+                            	
+                            	//get warnings for scenario
+	                            Vector warnings = ScenarioUtils.traverseWarn(scenario, null);
+	    						
+	                            String result; //PASS or FAIL
+	                            
+	                            //Cell which contains name of the scenario
+                                Cell scenarioCell = new Cell( scenario.getName());
+                                scenarioCell.setColspan(scenario_width);
+                                
+                                if (warnings.size() > 0) {
+                                	scenarioCell.setBackgroundColor(new java.awt.Color(252, 169, 171)); //red
+	    							result = "FAIL"; //$NON-NLS-1$
+	    						}else{
+                                	scenarioCell.setBackgroundColor(new java.awt.Color(210, 249, 172)); //green
+	    							result = "PASS"; //$NON-NLS-1$
+	    						}
+                               
+                                table.addCell(scenarioCell);
+
+                                
+                                //no warnings
+                                if (warnings.size() <= 0){
+                                	Cell resultCell = new Cell(result);
+	                                resultCell.setColspan(result_width);
+	                                resultCell.setBackgroundColor(new java.awt.Color(210, 249, 172)); //green
+	                                table.addCell(resultCell);
+	                                
+                                	//add empty msg cell
+                                	Cell emptyMsgCell = new Cell(""); //$NON-NLS-1$
+                                	emptyMsgCell.setColspan(warnMsg_width);
+                                	emptyMsgCell.setBackgroundColor(new java.awt.Color(210, 249, 172)); //green
+	                                table.addCell(emptyMsgCell);
+                                }else{
+                                	
+                                	Cell resultCell = new Cell(result);
+	                                resultCell.setColspan(result_width);
+	                                resultCell.setBackgroundColor(new java.awt.Color(252, 169, 171)); //red
+	                                table.addCell(resultCell);
+	                                
+	                                
+                                	boolean firstWarn = true;
+                                	//add all warnings one at a time
+                                	 for (Iterator iterWarn = warnings.iterator(); iterWarn.hasNext();) {
+                                         TraversalWarning o = (TraversalWarning) iterWarn.next();
+                                         
+                                        if(firstWarn){
+                                        Cell warnCell = new Cell(o.getMsg());
+                                        warnCell.setColspan(warnMsg_width);
+                                        warnCell.setBackgroundColor(new java.awt.Color(252, 169, 171)); //red
+     	                                table.addCell(warnCell);
+                                        }else{
+                                        	Cell emptyCell = new Cell(""); //$NON-NLS-1$
+                                        	emptyCell.setColspan(scenario_width);
+                                        	emptyCell.setBackgroundColor(new java.awt.Color(252, 169, 171)); //red
+	     	                                table.addCell(emptyCell);
+                                        	
+		     	                            Cell emptyCell2 = new Cell(""); //$NON-NLS-1$
+		     	                            emptyCell2.setColspan(result_width);
+                                        	emptyCell2.setBackgroundColor(new java.awt.Color(252, 169, 171)); //red
+		     	                            table.addCell(emptyCell2);
+                                        	
+                                        	Cell warnCell = new Cell(o.getMsg());
+	                                        warnCell.setColspan(warnMsg_width);
+	                                        warnCell.setBackgroundColor(new java.awt.Color(252, 169, 171)); //red
+	     	                                table.addCell(warnCell);
+                                        }
+                                        
+                                        firstWarn = false;
+                                	 }
+                                }
+                                
+                            }                            
+
+
+                            document.add(table);
+
+                        }
+
+                    }
+                }
+                document.add(Chunk.NEXTPAGE);
+            
+        } catch (Exception e) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            e.printStackTrace();
+
+        }
+    }
 }
 
 

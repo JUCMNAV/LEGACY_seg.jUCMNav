@@ -84,11 +84,10 @@ public class PDFReport extends Report {
             if (!urndef.getSpecDiagrams().isEmpty()) {
                 PDFReportDiagram reportDiagrams = new PDFReportDiagram();
                 reportDiagrams.createPDFReportDiagramsAndDescription(document, urndef, mapDiagrams, pagesize);
-
             }
             
             super.writeScenarioDocumentation(document, ucmspec);
-
+            
             document.close();
 
         } catch (Exception e) {

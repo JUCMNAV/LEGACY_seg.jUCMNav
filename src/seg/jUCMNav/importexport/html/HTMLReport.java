@@ -37,13 +37,24 @@ import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.widgets.Display;
 
+import com.lowagie.text.Cell;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.Table;
+
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.URNReport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
+import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.importexport.utils.EscapeUtils;
+import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
@@ -1725,10 +1736,17 @@ public class HTMLReport extends URNReport {
 		sb.append("<h1>" + Messages.getString("HTMLReport.UCMScenTitle") + "</h1>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		if ((prefShowScenarioInfo) || (prefShowScenarioExec)) {
 			if (!ucmSpec.getScenarioGroups().isEmpty()) {
+				
+				if (prefShowScenarioExec){
+				writeScenarioExecSummary(sb, ucmSpec);
+				}
+				
+				if(prefShowScenarioInfo){
 				// loop through each scenario group and write all data related to this group
 				for (Iterator iter = ucmSpec.getScenarioGroups().iterator(); iter.hasNext();) {
 					ScenarioGroup scenGroup = (ScenarioGroup) iter.next();
 	                writeScenarioGroupInfo(sb, scenGroup);
+				}
 				}
 			} else {
 				sb.append("&nbsp;&nbsp;&nbsp;" + "<i>" + Messages.getString("HTMLReport.NoScenario") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -1751,7 +1769,7 @@ public class HTMLReport extends URNReport {
 		
 		if (!scenGroup.getScenarios().isEmpty()) {
 			sb.append("<div>\n<h2>" + EscapeUtils.escapeHTML(scenGroup.getName()) + " (" + "ID" + ": " + scenGroup.getId() + ")" + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-            // write all pertinent data related to each scenario belonging to the scnario group scenGroup
+            // write all pertinent data related to each scenario belonging to the scnario group scenGroup		
 			for (Iterator iter = scenGroup.getScenarios().iterator(); iter.hasNext();) {
 				ScenarioDef scenario = (ScenarioDef) iter.next();
                 writeScenarioInfo(sb, scenario);
@@ -1968,6 +1986,89 @@ public class HTMLReport extends URNReport {
 		}
 	}
 
+	
+	/**
+     * writes the execution summary tables
+     * 
+     * @param document
+     *            the document we are reporting into
+     * @param ucmSpec
+     *            the UCM specification from which we are getting scenario info
+     */
+	public void writeScenarioExecSummary(StringBuffer sb, UCMspec ucmSpec){
+		 
+        try {
+            if (!ucmSpec.getScenarioGroups().isEmpty()) {
+            	//document.add(Chunk.NEXTPAGE); 
+
+            	sb.append("<div>\n"); //$NON-NLS-1$
+            	sb.append("<h2>" + Messages.getString("HTMLReport.ScenarioExecutionTitle") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            	
+                for (Iterator iter1 = ucmSpec.getScenarioGroups().iterator(); iter1.hasNext();) {
+
+                	ScenarioGroup scenGroup = (ScenarioGroup) iter1.next();
+                    
+                    if (!scenGroup.getScenarios().isEmpty()) {
+
+            		 sb.append("<br>\n"); //$NON-NLS-1$
+                     sb.append("<h3>" +scenGroup.getName() + "</h3>\n");   //$NON-NLS-1$ //$NON-NLS-2$
+                     
+                     // create the table for strategy evaluations, there will be one table per strategy group
+                     sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n");   //$NON-NLS-1$
+                     sb.append("<col width=\"100\"><col width=\"50\">\n"); //$NON-NLS-1$
+                     //header row
+                     sb.append("<tr><th>" + Messages.getString("HTMLReport.ScenarioName") + "</th><th>" + Messages.getString("HTMLReport.Result") + "</th><th>" + Messages.getString("HTMLReport.Message") + "</th></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+                            
+                     // add Scenarios in first column, one per row
+                      for (Iterator iter = scenGroup.getScenarios().iterator(); iter.hasNext();) {
+                            
+                          ScenarioDef scenario = (ScenarioDef) iter.next();
+                            	
+                          //get warnings for scenario
+	                      Vector warnings = ScenarioUtils.traverseWarn(scenario, null);
+	    						
+	                      String result; //PASS or FAIL
+	                            
+	                      //Cell which contains name of the scenario
+                          //Cell scenarioCell = new Cell( scenario.getName());
+                          //scenarioCell.setColspan(scenario_width);
+                                
+                                if (warnings.size() > 0) {
+                                	boolean firstWarn = true;
+                                	//add all warnings one at a time
+                                	 for (Iterator iterWarn = warnings.iterator(); iterWarn.hasNext();) {
+                                         TraversalWarning o = (TraversalWarning) iterWarn.next();
+                                         
+                                        if(firstWarn){
+                                        	sb.append("<tr bgcolor=#FCA9AB><td>" + scenario.getName() + "</td><td>" + "FAIL" + "</td><td>" + o.getMsg() + "</td></tr>\n"); //red row for a pass  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                                        }else{ //second, third, etc warning msg for scenario
+                                        	sb.append("<tr bgcolor=#FCA9AB><td>" + "" + "</td><td>" + "" + "</td><td>" + o.getMsg() + "</td></tr>\n"); //red row for a pass //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                                        }
+                                        
+                                        firstWarn = false;
+                                     }
+	    						}else{
+                                	//scenarioCell.setBackgroundColor(new java.awt.Color(210, 249, 172)); //green
+	    							result = "PASS"; //$NON-NLS-1$
+	    							
+	    							sb.append("<tr bgcolor=#D2F9AC><td>" + scenario.getName() + "</td><td>" + "PASS" + "</td><td></td></tr>\n"); //green row for a pass //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	    						}                     
+                            }  
+                      		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
+                        }
+
+                    }
+                	sb.append("</div>\n"); //$NON-NLS-1$
+                }
+            
+        } catch (Exception e) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            e.printStackTrace();
+
+        }
+    }
+	
+	
 	private void outputGRL_Definitions(URNspec urn, StringBuffer sb) {
 
 		GRLspec grlspec = urn.getGrlspec();

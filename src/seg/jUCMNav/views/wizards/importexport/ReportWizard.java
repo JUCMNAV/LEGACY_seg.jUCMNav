@@ -44,6 +44,7 @@ public class ReportWizard extends ExportWizard {
 
     protected static final String PAGE0 = Messages.getString("ReportWizard.reportWizard"); //$NON-NLS-1$
     public static boolean userChoice = true;
+    public static boolean fileExists = false;
 
     /**
      * Add the map selection page
@@ -109,18 +110,21 @@ public class ReportWizard extends ExportWizard {
             }else{
             	
             	f = new File(genericPath.toString());
-            }
-                       
+            }                      
+            
             //if file already exists, launch warning 
             if(f.exists()){
+            	fileExists = true;
             	Display.getDefault().syncExec(new Runnable() {public void run() {
             	userChoice = MessageDialog.openQuestion(getShell(), Messages.getString("ReportWizard.OverwriteFile"), Messages.getString("ReportWizard.FileAlreadyExists")); //$NON-NLS-1$ //$NON-NLS-2$
             	}
             	});
             	
+            }else{
+            	fileExists = false;
             }
             
-            if(!(f.exists()) || userChoice){
+            if(!(fileExists) || userChoice){
 				exporter.export(editor.getModel(), mapDiagrams, genericPath.toOSString());
             }
 
@@ -185,37 +189,12 @@ public class ReportWizard extends ExportWizard {
             return false;
         }
         
-        if (fileExists() && !userChoice){
+        if (fileExists && !userChoice){
         	return false; //user cancelled overwriting existing files      	
         }else{
         	return true;
         }
     }
-    
-    private boolean fileExists(){
-    	((ReportWizardMapSelectionPage) getPage(PAGE0)).finish();
-    	
-    	int imgtype = ReportPreferenceHelper.getPreferenceStore().getInt(ReportPreferenceHelper.PREF_REPORTYPE);
-    	String id = ReportExtensionPointHelper.getExporterFromLabelIndex(imgtype);
 
-        File f;
-
-        if (ReportExtensionPointHelper.getFilenameExtension(id).equals("html")){ //$NON-NLS-1$
-        	String htmlIndex = ReportPreferenceHelper.getPreferenceStore().getString(ReportPreferenceHelper.PREF_PATH) + "/index.html"; //$NON-NLS-1$
-        	f = new File(htmlIndex);        	
-        }else{
-        	Path genericPath = new Path(ReportPreferenceHelper.getPreferenceStore().getString(ReportPreferenceHelper.PREF_PATH));
-        	genericPath = (Path) genericPath.append("/" + ReportPreferenceHelper.getFilenamePrefix()); //$NON-NLS-1$
-        	genericPath = (Path) genericPath.addFileExtension(ReportExtensionPointHelper.getFilenameExtension(id));
-        	f = new File(genericPath.toString());
-        }
-              
-        if(f.exists()){
-        	return true; 	
-        }else{
-        	return false;
-        }
-    	
-    }
 
 }

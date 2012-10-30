@@ -172,6 +172,10 @@ public class Report extends URNReport {
     		ReportScenarios scenarios = new ReportScenarios();
     		// write the header of the UCM scenario documentation section
 			scenarios.insertHeader(document, Messages.getString("ReportScenarios.Title"), header1Font); //$NON-NLS-1$
+			
+			if (prefShowScenarioExec) {
+				scenarios.writeSummary(document, ucmspec);
+        	}
     		if (prefShowScenarioInfo) {
         		scenarios.writeUCMScenarioInformation(document, ucmspec);
         	}
