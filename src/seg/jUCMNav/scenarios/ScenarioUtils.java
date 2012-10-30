@@ -860,7 +860,7 @@ public class ScenarioUtils {
             
             if (initial ==null) {
                 clearActiveScenario(scenario);
-                return;
+                return; 
             }
             if (activeScenario.containsKey(initial))
                 clearTraversalResults(initial);
@@ -890,6 +890,52 @@ public class ScenarioUtils {
             e.printStackTrace();
         } catch (TraversalException e) {
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", e.getMessage()); //$NON-NLS-1$
+        }
+    }
+    
+    public static Vector traverseWarn(EObject scenario, Vector listeners) {//**************
+        try {
+            if (scenario == null) {
+                System.out.println("Use clearActiveScenario instead"); //$NON-NLS-1$
+                return (Vector)null;//***********************
+            }
+            UcmEnvironment initial = getEnvironment(scenario);
+            
+            if (initial ==null) {
+                clearActiveScenario(scenario);
+                return (Vector)null; //***********
+            }
+            if (activeScenario.containsKey(initial))
+                clearTraversalResults(initial);
+            activeScenario.put(initial, scenario);
+            UcmEnvironment forTraversal = (UcmEnvironment) initial.clone();
+
+            IScenarioTraversalAlgorithm algo = new ScenarioTraversalAlgorithm();
+            if (scenario instanceof ScenarioDef)
+                algo.init(forTraversal, (ScenarioDef) scenario);
+            else if (scenario instanceof ScenarioGroup)
+                algo.init(forTraversal, (ScenarioGroup) scenario);
+            else if (scenario instanceof UCMspec)
+                algo.init(forTraversal, (UCMspec) scenario);
+            else
+                System.out.println("undefined initialization"); //$NON-NLS-1$
+
+            traversals.put(initial, algo);
+
+            // TODO: add listeners from extension point
+
+            if (listeners != null)
+                algo.addListeners(listeners);
+
+            algo.traverse();
+            return algo.getWarnings(); //********
+
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return (Vector)null;
+        } catch (TraversalException e) {
+            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", e.getMessage()); //$NON-NLS-1$
+            return (Vector)null;
         }
     }
 
