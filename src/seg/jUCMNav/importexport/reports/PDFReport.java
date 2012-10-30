@@ -87,9 +87,7 @@ public class PDFReport extends Report {
 
             }
             
-            if (prefShowUCMDiagrams && prefShowScenarioInfo) {
-            	super.writeScenarioDocumentation(document, ucmspec);
-            }
+            super.writeScenarioDocumentation(document, ucmspec);
 
             document.close();
 

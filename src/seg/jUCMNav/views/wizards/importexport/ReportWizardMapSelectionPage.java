@@ -91,8 +91,8 @@ public class ReportWizardMapSelectionPage extends WizardPage {
     }
 
     /*
-     * fetches the UCMSHOWUCMDIAGRAMS and the GRLSHOWGRLDIAGRAMS preferences, in order to remove
-     * some diagrams (if one of these preferences is set to false)
+     * fetches the UCMSHOWUCMDIAGRAMS and the GRLSHOWGRLDIAGRAMS preferences, as well as the scenario and GRL 
+     * evaluation preferences, in order to filter the diagrams that are part of the current URN model
      */
     private void filterMapsToExport()
     {
@@ -103,13 +103,14 @@ public class ReportWizardMapSelectionPage extends WizardPage {
             IURNDiagram diagram = (IURNDiagram) iter.next();
 
             diagramName = ReportWizard.getDiagramName(diagram);
-            // if the diagram is a use case map and the UCMSHOWUCMDIAGRAMS preference is set to true,
-            // add this diagram to the temp vector. Otherwise if the diagram is a GRL diagram and the
-            // GRLSHOWGRLDIAGRAMS preference is set to true, add this diagram to the temp vector.
-            if ((diagramName.contains("-Map")) && (ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS())) { //$NON-NLS-1$
+            // if the diagram is a use case map and the UCMSHOWUCMDIAGRAMS preference (or one of the scenario 
+            // preferences) is set to true, add this diagram to the temp vector. Otherwise if the diagram is a 
+            // GRL diagram and the GRLSHOWGRLDIAGRAMS preference (or the ShowEvals preference) is set to true, 
+            // add this diagram to the temp vector.
+            if ((diagramName.contains("-Map")) && (ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS() || ReportGeneratorPreferences.getUCMSHOWSCENARIOINFO() || ReportGeneratorPreferences.getUCMSHOWSCENARIOEXEC())) { //$NON-NLS-1$
                 temp.add(this.mapsToExport.elementAt(i));
             }
-            else if ((diagramName.contains("-GRLGraph")) && (ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS())) { //$NON-NLS-1$
+            else if ((diagramName.contains("-GRLGraph")) && (ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS() || ReportGeneratorPreferences.getShowGRLShowEvals())) { //$NON-NLS-1$
             	temp.add(this.mapsToExport.elementAt(i));
             }
 

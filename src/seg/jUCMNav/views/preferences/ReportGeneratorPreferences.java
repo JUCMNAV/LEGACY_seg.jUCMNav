@@ -38,10 +38,11 @@ public class ReportGeneratorPreferences {
     public final static boolean DEFAULT_GRL_SHOW_BELIEFS = true;
     public final static boolean DEFAULT_GRL_SHOW_URN_LINKS = true;
 
-    
+    public final static boolean DEFAULT_GRL_SHOW_EVALS = true;
     public final static boolean DEFAULT_GRL_SHOW_EVAL_STRATEGY_TREND = false;
     public final static int DEFAULT_GRL_EVAL_STRATEGY_TREND = 3;
     public final static boolean DEFAULT_SHOW_SCENARIO_INFO = true; 
+    public final static boolean DEFAULT_SHOW_SCENARIO_EXEC = true;
 
     public final static String PREF_UCM_SHOW_UCM_DIAGRAMS = "seg.jUCMNav.UCMReportPreference.UCMSHOWUCMDIAGRAMS"; //$NON-NLS-1$
     public final static String PREF_GRL_SHOW_GRL_DIAGRAMS = "seg.jUCMNav.UCMReportPreference.GRLSHOWGRLDIAGRAMS"; //$NON-NLS-1$
@@ -54,10 +55,12 @@ public class ReportGeneratorPreferences {
     public final static String PREF_UCM_SHOW_START_POINT = "seg.jUCMNav.UCMReportPreference.StartPoint"; //$NON-NLS-1$
     public final static String PREF_UCM_SHOW_END_POINT = "seg.jUCMNav.UCMReportPreference.EndPoint"; //$NON-NLS-1$
     public final static String PREF_UCM_SHOW_SCENARIO_INFO = "seg.jUCMNav.UCMReportPreference.UCMSHOWSCENARIOINFO"; //$NON-NLS-1$
+    public final static String PREF_UCM_SHOW_SCENARIO_EXEC = "seg.jUCMNav.UCMReportPreference.UCMSHOWSCENARIOEXEC"; //$NON-NLS-1$
     public final static String PREF_GRL_SHOW_INTENTIONAL_ELEMENTS = "seg.jUCMNav.UCMReportPreference.IntentionalElements"; //$NON-NLS-1$
     public final static String PREF_GRL_SHOW_BELIEFS = "seg.jUCMNav.UCMReportPreference.Beliefs"; //$NON-NLS-1$
     public final static String PREF_SHOW_URN_LINKS = "seg.jUCMNav.UCMReportPreference.URNLinks"; //$NON-NLS-1$
     
+    public final static String PREF_GRL_SHOW_EVALS = "seg.jUCMNav.UCMReportPreference.GRLShowEvals"; //$NON-NLS-1$
     public final static String PREF_GRL_SHOW_EVAL_STRATEGY_TREND = "seg.jUCMNav.UCMReportPreference.GRLShowEvalStratefyTrend"; //$NON-NLS-1$
     public final static String PREF_GRL_EVAL_STRATEGY_TREND = "seg.jUCMNav.UCMReportPreference.GRLEvalStrategyTrend"; //$NON-NLS-1$
 
@@ -89,11 +92,12 @@ public class ReportGeneratorPreferences {
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_UCM_SHOW_START_POINT, ReportGeneratorPreferences.DEFAULT_UCM_SHOW_START_POINT);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_UCM_SHOW_END_POINT, ReportGeneratorPreferences.DEFAULT_UCM_SHOW_END_POINT);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_UCM_SHOW_SCENARIO_INFO, ReportGeneratorPreferences.DEFAULT_SHOW_SCENARIO_INFO);
+        getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_UCM_SHOW_SCENARIO_EXEC, ReportGeneratorPreferences.DEFAULT_SHOW_SCENARIO_EXEC);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_INTENTIONAL_ELEMENTS,
                 ReportGeneratorPreferences.DEFAULT_GRL_SHOW_INTENTIONAL_ELEMENTS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_BELIEFS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_BELIEFS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_SHOW_URN_LINKS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_URN_LINKS);
-
+        getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_EVALS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_EVALS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_EVAL_STRATEGY_TREND, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_EVAL_STRATEGY_TREND);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_EVAL_STRATEGY_TREND, ReportGeneratorPreferences.DEFAULT_GRL_EVAL_STRATEGY_TREND);
 
@@ -105,7 +109,7 @@ public class ReportGeneratorPreferences {
      * @return the height parameter to give dot
      */
     public static String getHeight() {
-    	if (getPreferenceStore().getString(PREF_REPORT_HEIGHT).equals("")){
+    	if (getPreferenceStore().getString(PREF_REPORT_HEIGHT).equals("")){ //$NON-NLS-1$
     		return Double.toString(DEFAULT_REPORT_HEIGHT); //return default if blank
     		
     	}else{
@@ -136,7 +140,7 @@ public class ReportGeneratorPreferences {
      * @return the width parameter to give dot
      */
     public static String getWidth() {
-    	if (getPreferenceStore().getString(PREF_REPORT_WIDTH).equals("")){
+    	if (getPreferenceStore().getString(PREF_REPORT_WIDTH).equals("")){ //$NON-NLS-1$
     		return Double.toString(DEFAULT_REPORT_WIDTH); //return default if blank
     		
     	}else{
@@ -148,7 +152,7 @@ public class ReportGeneratorPreferences {
     }
 
     public static String getNumberCSV_Columns() {
-    	if (getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS).equals("")){
+    	if (getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS).equals("")){ //$NON-NLS-1$
     		return Integer.toString(DEFAULT_NUMBER_CSV_COLUMNS); //return default if blank
     		
     	}else{
@@ -316,6 +320,14 @@ public class ReportGeneratorPreferences {
     public static boolean getUCMSHOWSCENARIOINFO() {
     	return getPreferenceStore().getBoolean(PREF_UCM_SHOW_SCENARIO_INFO);
     }
+    
+    /**
+     * 
+     * @return the value of the ucm show scenario execution info preference
+     */
+    public static boolean getUCMSHOWSCENARIOEXEC() {
+    	return getPreferenceStore().getBoolean(PREF_UCM_SHOW_SCENARIO_EXEC);
+    }
 
     
     public static boolean getGRLShowIntentionalElements() {
@@ -332,6 +344,14 @@ public class ReportGeneratorPreferences {
 
     /**
      * 
+     * @return the value of the show grl show evals preference
+     */
+    public static boolean getShowGRLShowEvals() {
+    	return getPreferenceStore().getBoolean(PREF_GRL_SHOW_EVALS);
+    }
+    
+    /**
+     * 
      * @return the value of the show grl eval strategy trend preference
      */
     public static boolean getShowGRLEvalStrategyTrend() {
@@ -343,7 +363,7 @@ public class ReportGeneratorPreferences {
      * @return the value of the grl eval strategy trend preference
      */
     public static String getGRLEvalStrategyTrend() {
-    	if (getPreferenceStore().getString(PREF_GRL_EVAL_STRATEGY_TREND).equals("")){
+    	if (getPreferenceStore().getString(PREF_GRL_EVAL_STRATEGY_TREND).equals("")){ //$NON-NLS-1$
     		return Integer.toString(DEFAULT_GRL_EVAL_STRATEGY_TREND);//return default if blank
     		
     	}else{
@@ -441,7 +461,25 @@ public class ReportGeneratorPreferences {
       public static void setUCMSHOWSCENARIOINFO(boolean bool) {
      	 getPreferenceStore().setValue(PREF_UCM_SHOW_SCENARIO_INFO, bool);
       }
+      
+      /**
+       * 
+       * @param bool
+       *            show or not the UCMSHOWSCENARIOEXEC preference
+       */
+       public static void setUCMSHOWSCENARIOEXEC(boolean bool) {
+      	 getPreferenceStore().setValue(PREF_UCM_SHOW_SCENARIO_EXEC, bool);
+       }
     
+      /**
+       * 
+       * @param bool
+       *            show or not the GRL Show Evals preference
+       */
+      public static void setShowGRLEvals(boolean bool) {
+      	getPreferenceStore().setValue(PREF_GRL_SHOW_EVALS, bool);
+      }
+      
     /**
      * 
      * @param bool

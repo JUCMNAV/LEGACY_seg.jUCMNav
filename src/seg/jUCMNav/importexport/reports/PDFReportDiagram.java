@@ -17,6 +17,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import ucm.map.UCMmap;
 import urncore.IURNDiagram;
 import urncore.Metadata;
@@ -69,6 +70,8 @@ public class PDFReportDiagram extends PDFReport {
     public void createPDFReportDiagramsAndDescription(Document document, URNdefinition urndef, HashMap mapDiagrams, Rectangle pagesize) {
 
         try {
+        	prefShowUCMDiagrams = ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS();
+        	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
         	// commented out since a blank page was generated between the GRL Strategy Evaluation summary page and the first diagram
         	// ReportStrategies.writeStrategies(...) skips to the next page when it is done writing
             // document.add(Chunk.NEXTPAGE);
@@ -78,28 +81,38 @@ public class PDFReportDiagram extends PDFReport {
                 IURNDiagram diagram = (IURNDiagram) iter.next();
                 URNmodelElement element = (URNmodelElement) diagram;
 
-                // diagram Header
-                createHeader1(document, element.getName());
+                if ((diagram instanceof UCMmap) && (prefShowUCMDiagrams)) {
+                	// diagram Header
+                    createHeader1(document, element.getName());
 
-                // insert the figure
-                insertDiagram(document, mapDiagrams, diagram, urndef, i, pagesize);
+                    // insert the figure
+                    insertDiagram(document, mapDiagrams, diagram, urndef, i, pagesize);
 
-                // insert diagram name under figure
-                insertDiagramLegend(document, element, i);
+                    // insert diagram name under figure
+                    insertDiagramLegend(document, element, i);
+                	UCMDiagramSection ucmSection = new UCMDiagramSection();
+                	ucmSection.createUCMDiagramDescription(document, element, diagram);
+                	
+                	// New page
+                    document.add(Chunk.NEXTPAGE);
+                } else if ((!(diagram instanceof UCMmap)) && (prefShowGRLDiagrams)) {
+                	// diagram Header
+                    createHeader1(document, element.getName());
 
-                if (diagram instanceof UCMmap) {
-                    UCMDiagramSection ucmSection = new UCMDiagramSection();
-                    ucmSection.createUCMDiagramDescription(document, element, diagram);
-                } else {
-                    GRLDiagramSection grlSection = new GRLDiagramSection();
-                    grlSection.createGRLDiagramDescription(document, element, diagram);
+                    // insert the figure
+                    insertDiagram(document, mapDiagrams, diagram, urndef, i, pagesize);
+
+                    // insert diagram name under figure
+                    insertDiagramLegend(document, element, i);
+                	GRLDiagramSection grlSection = new GRLDiagramSection();
+                	grlSection.createGRLDiagramDescription(document, element, diagram);
+                	
+                	// New page
+                    document.add(Chunk.NEXTPAGE);
                 }
 
                 // empty line - commented out since multiple blank pages were often generated between two diagram descriptions
                 // document.add(Chunk.NEWLINE);
-
-                // New page
-                document.add(Chunk.NEXTPAGE);
             }
 
         } catch (Exception e) {

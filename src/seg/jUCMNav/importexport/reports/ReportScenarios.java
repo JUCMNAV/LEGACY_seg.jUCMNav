@@ -50,8 +50,6 @@ public class ReportScenarios extends Report {
 		
 		try {
 			if (!ucmSpec.getScenarioGroups().isEmpty()) {
-				// write the header of the UCM scenario documentation section
-				insertHeader(document, Messages.getString("ReportScenarios.Title"), header1Font); //$NON-NLS-1$
 				// loop through each scenario group and write all data related to this group
 				for (Iterator iter = ucmSpec.getScenarioGroups().iterator(); iter.hasNext();) {
 					document.add(Chunk.NEWLINE);
@@ -404,7 +402,7 @@ public class ReportScenarios extends Report {
      * @param font
      *            the font we will use to display the header
      */
-	private void insertHeader(Document document, String message, Font font) {
+	public void insertHeader(Document document, String message, Font font) {
 		
 		try {
 			Table table = ReportUtils.createTable(tableParams[0], tableParams[1], tableParams[2], tableParams[3]);

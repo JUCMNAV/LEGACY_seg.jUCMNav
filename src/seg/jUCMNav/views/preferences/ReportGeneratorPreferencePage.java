@@ -110,17 +110,19 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         // Group for UCM Preferences
         Group ucmDisplayOptions = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
         ucmDisplayOptions.setText(Messages.getString("ReportGeneratorPreferencePage.UCMPreferences")); //$NON-NLS-1$
-        
         GridLayout ucmLayoutOptions = new GridLayout();
         ucmLayoutOptions.numColumns = 1;
         ucmDisplayOptions.setLayout(ucmLayoutOptions);
         
-        GridData ucmDataOptions = new GridData();
+        GridData ucmDataOptions = new GridData(SWT.FILL);
         ucmDataOptions.horizontalSpan = 2;
+        ucmDataOptions.horizontalAlignment = GridData.FILL_HORIZONTAL;
+        ucmDataOptions.grabExcessHorizontalSpace = true;
         ucmDisplayOptions.setLayoutData(ucmDataOptions);
         
         Composite ucmCompOptions = new Composite(ucmDisplayOptions, SWT.NONE);
-        ucmDataOptions = new GridData();
+        ucmDataOptions = new GridData(SWT.FILL);
+        ucmDataOptions.horizontalAlignment = GridData.FILL_HORIZONTAL;
         ucmDataOptions.grabExcessHorizontalSpace = true;
         ucmDataOptions.horizontalIndent = 20;
         ucmCompOptions.setLayoutData(ucmDataOptions);
@@ -159,13 +161,38 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
                 .getString("ReportGeneratorPreferencePage.endPoint"), //$NON-NLS-1$
                 ucmCompOptions);
         addField(ShowUCMEndPoint);
+
+        // Group for Scenario Execution Preferences
+        Group scenDisplayOptions = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
+        scenDisplayOptions.setText(Messages.getString("ReportGeneratorPreferencePage.ScenarioExecPrefs")); //$NON-NLS-1$
+        
+        GridLayout scenLayoutOptions = new GridLayout();
+        scenLayoutOptions.numColumns = 1;
+        scenDisplayOptions.setLayout(scenLayoutOptions);
+        
+        GridData scenDataOptions = new GridData(SWT.FILL);
+        scenDataOptions.horizontalSpan = 2;
+        scenDataOptions.horizontalAlignment = GridData.FILL_HORIZONTAL;
+        scenDataOptions.grabExcessHorizontalSpace = true;
+        scenDisplayOptions.setLayoutData(scenDataOptions);
+        
+        Composite scenCompOptions = new Composite(scenDisplayOptions, SWT.NONE);
+        scenDataOptions = new GridData(SWT.FILL);
+        scenDataOptions.horizontalIndent = 20;
+        scenDataOptions.horizontalAlignment = SWT.FILL;
+        scenDataOptions.grabExcessHorizontalSpace = true;
+        scenDataOptions.verticalAlignment = SWT.BEGINNING;
+        scenCompOptions.setLayoutData(scenDataOptions);
         
         BooleanFieldEditor ShowScenarioInfo = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_SCENARIO_INFO, Messages
                 .getString("ReportGeneratorPreferencePage.scenarioInfo"), //$NON-NLS-1$
-                ucmCompOptions);
+                scenCompOptions);
         addField(ShowScenarioInfo);
-
-
+        
+        BooleanFieldEditor ShowScenarioExec = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_SCENARIO_EXEC, Messages.getString("ReportGeneratorPreferencePage.ShowScenarioExec"), //$NON-NLS-1$
+                scenCompOptions);
+        addField(ShowScenarioExec);
+        
         // Group for GRL Preferences
         Group grlDisplayOptions = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
         grlDisplayOptions.setText(Messages.getString("ReportGeneratorPreferencePage.GRLPreferences")); //$NON-NLS-1$
@@ -174,15 +201,17 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         grlLayoutOptions.numColumns = 1;
         grlDisplayOptions.setLayout(grlLayoutOptions);
         
-        GridData grlDataOptions = new GridData();
+        GridData grlDataOptions = new GridData(SWT.FILL);
         grlDataOptions.horizontalSpan = 2;
+        grlDataOptions.horizontalAlignment = GridData.FILL_HORIZONTAL;
+        grlDataOptions.grabExcessHorizontalSpace = true;
         grlDisplayOptions.setLayoutData(grlDataOptions);
         
         Composite grlCompOptions = new Composite(grlDisplayOptions, SWT.NONE);
-        grlDataOptions = new GridData();
+        grlDataOptions = new GridData(SWT.FILL);
         grlDataOptions.grabExcessHorizontalSpace = true;
         grlDataOptions.horizontalIndent = 20;
-        grlDataOptions.horizontalAlignment = SWT.LEFT;
+        grlDataOptions.horizontalAlignment = SWT.FILL;
         grlDataOptions.verticalAlignment = SWT.BEGINNING;
         grlCompOptions.setLayoutData(grlDataOptions);
         
@@ -201,14 +230,42 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
                 grlCompOptions);
         addField(ShowGRLBeliefs);
   
+        
+        // Group for GRL Strategy Evaluation Preferences
+        Group evalDisplayOptions = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
+        evalDisplayOptions.setText(Messages.getString("ReportGeneratorPreferencePage.StrategyEvalPrefs")); //$NON-NLS-1$
+        
+        GridLayout evalLayoutOptions = new GridLayout();
+        evalLayoutOptions.numColumns = 1;
+        evalDisplayOptions.setLayout(evalLayoutOptions);
+        
+        GridData evalDataOptions = new GridData(SWT.FILL);
+        evalDataOptions.horizontalSpan = 2;
+        evalDataOptions.horizontalAlignment = GridData.FILL_HORIZONTAL;
+        evalDataOptions.grabExcessHorizontalSpace = true;
+        evalDisplayOptions.setLayoutData(evalDataOptions);
+        
+        Composite evalCompOptions = new Composite(evalDisplayOptions, SWT.NONE);
+        evalDataOptions = new GridData(SWT.FILL);
+        evalDataOptions.grabExcessHorizontalSpace = true;
+        evalDataOptions.horizontalIndent = 20;
+        evalDataOptions.horizontalAlignment = SWT.FILL;
+        evalDataOptions.verticalAlignment = SWT.BEGINNING;
+        evalCompOptions.setLayoutData(evalDataOptions);
+        
+        BooleanFieldEditor ShowGRLEvals = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_EVALS,
+        		Messages.getString("ReportGeneratorPreferencePage.ShowStrategyEvals"), //$NON-NLS-1$
+        		evalCompOptions);
+        addField(ShowGRLEvals);
+        
         BooleanFieldEditor ShowGRLEvalStrategyTrend = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_EVAL_STRATEGY_TREND,
         		Messages.getString("ReportGeneratorPreferencePage.ShowGRLEvalTrends"), //$NON-NLS-1$
-        		grlCompOptions);
+        		evalCompOptions);
         addField(ShowGRLEvalStrategyTrend);
         
         StringFieldEditor GRLEvalStrategyTrend = new StringFieldEditor(ReportGeneratorPreferences.PREF_GRL_EVAL_STRATEGY_TREND,
         		Messages.getString("ReportGeneratorPreferencePage.NumberColsEvalTrends"), //$NON-NLS-1$
-        		grlCompOptions);
+        		evalCompOptions);
         addField(GRLEvalStrategyTrend);
 
         labelWarning = new Label(getFieldEditorParent(), SWT.LEFT);

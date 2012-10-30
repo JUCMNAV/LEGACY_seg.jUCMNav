@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.wizards.importexport.ReportWizard;
@@ -16,6 +17,7 @@ import urn.URNspec;
 import urncore.IURNDiagram;
 import urncore.URNdefinition;
 
+import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.Rectangle;
@@ -62,6 +64,8 @@ public class Report extends URNReport {
     protected boolean prefShowUCMDiagrams;
     protected boolean prefShowGRLDiagrams;
     protected boolean prefShowScenarioInfo;
+    protected boolean prefShowScenarioExec;
+    protected boolean prefShowEvals;
     
     private String filename;
 
@@ -97,30 +101,15 @@ public class Report extends URNReport {
         	// fetch the values of the UCMSHOWUCMDIAGRAMS, UCMSHOWSCENARIOINFO and GRLSHOWGRLDIAGRAMS preferences.
         	prefShowUCMDiagrams = ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS();
         	prefShowScenarioInfo = ReportGeneratorPreferences.getUCMSHOWSCENARIOINFO();
+        	prefShowScenarioExec = ReportGeneratorPreferences.getUCMSHOWSCENARIOEXEC();
         	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
-        	
-        	// boolean flags used to determine whether or not there is at least one UCM/GRL
-        	// diagram in the maps selected
-        	boolean containsUCMs = false;
-        	boolean containsGRLs = false;
-        	
-        	for (Iterator iter = mapDiagrams.keySet().iterator(); iter.hasNext();) {
-                IURNDiagram diagram = (IURNDiagram) iter.next();
-                
-                String diagramName = ReportWizard.getDiagramName(diagram);
-                if (diagramName.contains("-Map")){ //$NON-NLS-1$
-                	containsUCMs = true;
-                } else {
-                	containsGRLs = true;
-                }
-                if (containsUCMs && containsGRLs) break;
-        	}
-        	
+        	prefShowEvals = ReportGeneratorPreferences.getShowGRLShowEvals();
+
             // get UCMSpec from URNSpec and iterate in scenario groups
-            if ((urn.getUcmspec() != null) && (prefShowUCMDiagrams) && containsUCMs) {
+            if (urn.getUcmspec() != null) {
                 ucmspec = urn.getUcmspec();
             }
-            if ((urn.getGrlspec() != null) && (prefShowGRLDiagrams) && containsGRLs) {
+            if (urn.getGrlspec() != null) {
                 grlspec = urn.getGrlspec();
             }
             if (urn.getUrndef() != null) {
@@ -140,10 +129,12 @@ public class Report extends URNReport {
             ReportDataDictionary dataDictionary = new ReportDataDictionary();
             dataDictionary.createReportDataDictionary(document, ucmspec, grlspec);
 
-            if (hasStrategies(grlspec)) {
+            if ((hasStrategies(grlspec)) && prefShowEvals) {
                 // Strategies and their evaluations
                 ReportStrategies reportStrategies = new ReportStrategies();
                 reportStrategies.createReportStrategies(document, ucmspec, grlspec, urndef, pagesize);
+            } else {
+            	document.add(Chunk.NEXTPAGE);
             }
 
         } catch (Exception e) {
@@ -177,8 +168,14 @@ public class Report extends URNReport {
     
     public void writeScenarioDocumentation(Document document, UCMspec ucmspec) {
     	
-    	ReportScenarios scenarios = new ReportScenarios();
-    	scenarios.writeUCMScenarioInformation(document, ucmspec);
+    	if (prefShowScenarioInfo || prefShowScenarioExec) {
+    		ReportScenarios scenarios = new ReportScenarios();
+    		// write the header of the UCM scenario documentation section
+			scenarios.insertHeader(document, Messages.getString("ReportScenarios.Title"), header1Font); //$NON-NLS-1$
+    		if (prefShowScenarioInfo) {
+        		scenarios.writeUCMScenarioInformation(document, ucmspec);
+        	}
+    	}
     }
 
     /**

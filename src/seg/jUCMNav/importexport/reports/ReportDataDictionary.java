@@ -9,6 +9,7 @@ import java.util.Iterator;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import ucm.UCMspec;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.ScenarioDef;
@@ -33,6 +34,11 @@ import com.lowagie.text.Paragraph;
  */
 public class ReportDataDictionary extends Report {
 
+	protected boolean prefShowUCMDiagrams;
+	protected boolean prefShowGRLDiagrams;
+	protected boolean prefShowEvals;
+    protected boolean prefShowScenarioInfo;
+    
     public ReportDataDictionary() {
     }
 
@@ -51,8 +57,13 @@ public class ReportDataDictionary extends Report {
     public void createReportDataDictionary(Document document, UCMspec ucmspec, GRLspec grlspec) {
 
         try {
+        	prefShowUCMDiagrams = ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS();
+        	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
+        	prefShowEvals = ReportGeneratorPreferences.getShowGRLShowEvals();
+        	prefShowScenarioInfo = ReportGeneratorPreferences.getUCMSHOWSCENARIOINFO();
+        	
             // UCMspec report documentation
-            if (ucmspec != null) {
+            if ((ucmspec != null) && (prefShowScenarioInfo || prefShowScenarioExec)) {
                 // document scenario Groups
                 if (!ucmspec.getScenarioGroups().isEmpty()) {
                     document.add(Chunk.NEWLINE);
@@ -60,13 +71,13 @@ public class ReportDataDictionary extends Report {
                 }
 
                 // document variables contained in ucmspec
-                if (!ucmspec.getVariables().isEmpty()) {
+                if ((!ucmspec.getVariables().isEmpty()) && (prefShowUCMDiagrams || prefShowScenarioInfo || prefShowScenarioExec)) {
                     document.add(Chunk.NEWLINE);
                     writeVariables(document, ucmspec);
                 }
 
                 // document enumeration types and their content
-                if (!ucmspec.getEnumerationTypes().isEmpty()) {
+                if ((!ucmspec.getEnumerationTypes().isEmpty()) && prefShowUCMDiagrams) {
                     document.add(Chunk.NEWLINE);
                     writeEnumerationTypes(document, ucmspec);
                 }
@@ -76,13 +87,13 @@ public class ReportDataDictionary extends Report {
 
                 // intElements with id
                 // intElements fromLinks
-                if (!grlspec.getIntElements().isEmpty()) {
+                if ((!grlspec.getIntElements().isEmpty()) && (prefShowGRLDiagrams || prefShowEvals)) {
                     document.add(Chunk.NEWLINE);
                     writeIntElements(document, grlspec);
                 }
 
                 // actors
-                if (!grlspec.getActors().isEmpty()) {
+                if ((!grlspec.getActors().isEmpty()) && (prefShowGRLDiagrams || prefShowEvals)) {
                     document.add(Chunk.NEWLINE);
                     writeActors(document, grlspec);
                 }

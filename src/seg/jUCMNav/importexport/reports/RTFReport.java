@@ -64,10 +64,7 @@ public class RTFReport extends Report {
 
             }
 
-            if (prefShowUCMDiagrams && prefShowScenarioInfo) {
-            	document.add(Chunk.NEXTPAGE);
-            	super.writeScenarioDocumentation(document, ucmspec);
-            }
+            super.writeScenarioDocumentation(document, ucmspec);
             
             document.close();
 

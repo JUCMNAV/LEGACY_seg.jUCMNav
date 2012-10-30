@@ -30,12 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Vector;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editors.UrnEditor;
+import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.importexport.reports.URNReport;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
@@ -45,6 +49,7 @@ import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.strategies.StrategiesView;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
+import seg.jUCMNav.views.wizards.importexport.ReportWizard;
 import ucm.UCMspec;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
@@ -106,7 +111,9 @@ public class HTMLReport extends URNReport {
 
 	protected boolean prefShowUCMDiagrams;
 	protected boolean prefShowScenarioInfo;
+	protected boolean prefShowScenarioExec;
     protected boolean prefShowGRLDiagrams;
+    protected boolean prefShowEvals;
     
     private boolean prefShowTrend;
     private int prefTrend;
@@ -132,15 +139,18 @@ public class HTMLReport extends URNReport {
 		FileOutputStream imgFos = null;
 		IFigure pane;
 
-		// fetch the values of the UCMSHOWUCMDIAGRAMS, UCMSHOWSCENARIOINFO and GRLSHOWGRLDIAGRAMS preferences.
+		// fetch the values of the UCMSHOWUCMDIAGRAMS, UCMSHOWSCENARIOINFO/EXEC, GRLSHOWGRLDIAGRAMS and
+		// GRLSHOWEVALS preferences.
     	prefShowUCMDiagrams = ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS();
     	prefShowScenarioInfo = ReportGeneratorPreferences.getUCMSHOWSCENARIOINFO();
+    	prefShowScenarioExec = ReportGeneratorPreferences.getUCMSHOWSCENARIOEXEC();
     	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
+    	prefShowEvals = ReportGeneratorPreferences.getShowGRLShowEvals();
     	
     	prefShowTrend = ReportGeneratorPreferences.getShowGRLEvalStrategyTrend();
     	prefTrend = Integer.parseInt(ReportGeneratorPreferences.getGRLEvalStrategyTrend());
     	
-    	if (prefShowGRLDiagrams) {
+    	if (prefShowEvals) {
     		final EvaluationStrategy firstStrategy = getFirstStrategy( urn.getGrlspec() );
 
     		if( firstStrategy != null ) { // skip mode switch if design does not contain strategies
@@ -159,64 +169,96 @@ public class HTMLReport extends URNReport {
     			});
     		}
     	}
-
+        
     	int i=0;
-		//for (int i = 0; i < urn.getUrndef().getSpecDiagrams().size(); i++) {
+    	boolean isLast = false;		// determines whether the current diagram (if any diagrams are added) is the last
+    								// diagram to be added
+    	boolean complete = false;	// determines whether all files of the report have been exported
+		
     	for (Iterator iter = mapDiagrams.keySet().iterator(); iter.hasNext();) {
-			//IURNDiagram diagram = (IURNDiagram) urn.getUrndef().getSpecDiagrams().get(i);
     		IURNDiagram diagram = (IURNDiagram) iter.next();
     		
-			//boolean isLast = (i == urn.getUrndef().getSpecDiagrams().size() - 1);
-			boolean isLast = (i == mapDiagrams.size() - 1);
-			// get the high level IFigure to be saved.
+			isLast = (i == mapDiagrams.size() - 1);
+			// get the high level IFigure to be saved
 			pane = (IFigure) mapDiagrams.get(diagram);
 			String diagramName = ExportWizard.getDiagramName(diagram);
-			String imgPath = createImgPath(filename, diagramName);
-			// export the image file
-			(new ExportImageGIF()).export(pane, imgPath);
+			// export the diagram only if the corresponding preference value is TRUE
+			if (((diagramName.contains("-Map")) && prefShowUCMDiagrams) || ((diagramName.contains("-GRLGraph")) && prefShowGRLDiagrams)) { //$NON-NLS-1$ //$NON-NLS-2$
+				
+				String imgPath = createImgPath(filename, diagramName);
+				// export the image file
+				(new ExportImageGIF()).export(pane, imgPath);
+			
+				// export the index pages
+				String htmlPath = getPath(filename);
+				
+				if (isLast) {
+					createIndexPages(urn, htmlPath);
+				}
+				
+				// prepare the HTML menu item
+				HTMLMenuItem htmlMenuItem = new HTMLMenuItem();
+				htmlMenuItem.reset();
 
-			// export the index pages
-			String htmlPath = getPath(filename);
+				htmlMenuItem.setDiagramName(EscapeUtils.escapeHTML(diagramName));
+				if (diagram instanceof GRLGraph) {
+					htmlMenuItem.setType(HTMLMenuItem.TYPE_GRL);
+				} else {
+					htmlMenuItem.setType(HTMLMenuItem.TYPE_UCM);
+				}
+				htmlMenuItem.setLeafText(diagramName.substring(diagramName.lastIndexOf("-") + 1)); //$NON-NLS-1$
+				htmlMenuItem.setLink(diagramName + ".html"); //$NON-NLS-1$
+				htmlMenuItem.setBaseX(-pane.getBounds().x);
+				htmlMenuItem.setBaseY(-pane.getBounds().y);
+				htmlMenuItem.setDiagram(diagram);
+			
+				// export the HTML or this diagram
+				export(diagram, htmlPath);
 
-			if (isLast) {
-				createIndexPages(urn, htmlPath);
-			}
-
-			// prepare the HTML menu item
-			HTMLMenuItem htmlMenuItem = new HTMLMenuItem();
-			htmlMenuItem.reset();
-
-			htmlMenuItem.setDiagramName(EscapeUtils.escapeHTML(diagramName));
-			if (diagram instanceof GRLGraph) {
-				htmlMenuItem.setType(HTMLMenuItem.TYPE_GRL);
-			} else {
-				htmlMenuItem.setType(HTMLMenuItem.TYPE_UCM);
-			}
-			htmlMenuItem.setLeafText(diagramName.substring(diagramName.lastIndexOf("-") + 1)); //$NON-NLS-1$
-			htmlMenuItem.setLink(diagramName + ".html"); //$NON-NLS-1$
-			htmlMenuItem.setBaseX(-pane.getBounds().x);
-			htmlMenuItem.setBaseY(-pane.getBounds().y);
-			htmlMenuItem.setDiagram(diagram);
-
-			// export the HTML or this diagram
-			export(diagram, htmlPath);
-
-			// create the XML menu content
-			HTMLMenuParser htmlMenuParser = HTMLMenuParser.getParser(htmlPath);
-			htmlMenuParser.addMenu(htmlMenuItem);
-
-			// write the content of menu to XML file
-			if (isLast) {
-				exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_DEFINITIONS);
+				// create the XML menu content
+				HTMLMenuParser htmlMenuParser = HTMLMenuParser.getParser(htmlPath);
+				htmlMenuParser.addMenu(htmlMenuItem);
+				
+				// write the content of menu to XML file
+				if (isLast) {
+					exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_DEFINITIONS);
+					exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_SCENARIOS);
+					exportGlobalDefinitions(urn, htmlPath, HTMLReport.GRL_DEFINITIONS);
+					htmlMenuParser.writeToFile();
+					htmlMenuParser.resetDocument();
+					complete = true;
+				}
+		}
+		i++;
+	}
+    	// If no diagrams were added to the report, export the index pages and the report content.
+    	if (!complete) {
+    		String htmlPath = getPath(filename);
+    		File mainDirectory = new File(htmlPath + PAGES_LOCATION);
+    		if (!mainDirectory.exists()) {
+    			mainDirectory.mkdirs();
+    		}
+    		try {
+	    		File mainFile;
+	    		mainFile = new File("main.html"); //$NON-NLS-1$
+	    		// create file main.html if it does not exist yet
+	    		if(!mainFile.exists()) {
+	    			mainFile.createNewFile();
+	    		}
+	    		createIndexPages(urn, htmlPath);
+	    		HTMLMenuParser htmlMenuParser = HTMLMenuParser.getParser(htmlPath);
+	    		exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_DEFINITIONS);
 				exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_SCENARIOS);
 				exportGlobalDefinitions(urn, htmlPath, HTMLReport.GRL_DEFINITIONS);
 				htmlMenuParser.writeToFile();
 				htmlMenuParser.resetDocument();
-			}
-			i++;
-		}
+    		}
+    		catch (Exception ex) {
+    			ex.printStackTrace();
+    		}
+    	}
 
-		if (prefShowGRLDiagrams) {
+		if (prefShowEvals) {
 			if( designView ) {
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
@@ -1601,7 +1643,7 @@ public class HTMLReport extends URNReport {
 		int i = 1;
 		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.Variables") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		
-		if (prefShowUCMDiagrams) {
+		if ((prefShowUCMDiagrams) || (prefShowScenarioInfo) || (prefShowScenarioExec)) {
 			for (Iterator iter = ucmspec.getVariables().iterator(); iter.hasNext();) {
 
 				Variable var = (Variable) iter.next();
@@ -1622,6 +1664,8 @@ public class HTMLReport extends URNReport {
 				}
 				sb.append( "<br></br>\n" ); //$NON-NLS-1$
 			}
+		} else {
+			sb.append("&nbsp;&nbsp;&nbsp;<i>" + Messages.getString("HTMLReport.NoVariablesPrefsDisabled") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
 
@@ -1638,6 +1682,8 @@ public class HTMLReport extends URNReport {
 					sb.append("&nbsp;&nbsp;&nbsp;" + i++ + ". " + EscapeUtils.escapeHTML(enumType.getName()) + ": " + enumType.getValues().replace( ",", ", ") ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 				}
 			}
+		} else {
+			sb.append("&nbsp;&nbsp;&nbsp;<i>" + Messages.getString("HTMLReport.NoEnumTypesPrefsDisabled") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
 
@@ -1646,7 +1692,7 @@ public class HTMLReport extends URNReport {
 		int i = 1, j = 1;
 		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.UCMScenarioGroups") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-		if (prefShowUCMDiagrams) {
+		if ((prefShowScenarioInfo) || (prefShowScenarioExec)) {
 			for (Iterator iter = ucmspec.getScenarioGroups().iterator(); iter.hasNext();) {
 				ScenarioGroup group = (ScenarioGroup) iter.next();
 				sb.append("</div>\n<div>\n<h3>" + i++ + ". " + group.getName() + ":</h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -1661,6 +1707,8 @@ public class HTMLReport extends URNReport {
 					sb.append( "<br></br>\n" ); //$NON-NLS-1$
 				}
 			}
+		} else {
+			sb.append("&nbsp;&nbsp;&nbsp;<i>" + Messages.getString("HTMLReport.NoScenarioPreferencesDisabled") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
 
@@ -1675,7 +1723,7 @@ public class HTMLReport extends URNReport {
 	private void outputUCM_Scenarios(UCMspec ucmSpec, StringBuffer sb) {
 		
 		sb.append("<h1>" + Messages.getString("HTMLReport.UCMScenTitle") + "</h1>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		if ((prefShowScenarioInfo) && (prefShowUCMDiagrams)) {
+		if ((prefShowScenarioInfo) || (prefShowScenarioExec)) {
 			if (!ucmSpec.getScenarioGroups().isEmpty()) {
 				// loop through each scenario group and write all data related to this group
 				for (Iterator iter = ucmSpec.getScenarioGroups().iterator(); iter.hasNext();) {
@@ -1934,7 +1982,7 @@ public class HTMLReport extends URNReport {
 
 		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.EvaluationStrategies") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-		if (prefShowGRLDiagrams) {
+		if (prefShowEvals) {
 			for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
 
 				StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
@@ -2016,6 +2064,8 @@ public class HTMLReport extends URNReport {
 					sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 				}
 			}
+		} else {
+			sb.append("&nbsp;&nbsp;&nbsp;<i>" + Messages.getString("HTMLReport.NoEvalsPrefsDisabled") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 	}
