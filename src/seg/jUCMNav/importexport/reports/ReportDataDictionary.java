@@ -15,7 +15,6 @@ import ucm.scenario.EnumerationType;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.Variable;
-import urn.URNspec;
 import urncore.Component;
 import urncore.Responsibility;
 import urncore.URNdefinition;

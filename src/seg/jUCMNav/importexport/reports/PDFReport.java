@@ -2,25 +2,11 @@ package seg.jUCMNav.importexport.reports;
 
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
-import org.eclipse.draw2d.LayeredPane;
-
-import seg.jUCMNav.editors.UrnEditor;
-import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
-import seg.jUCMNav.views.wizards.importexport.ReportWizard;
-import ucm.map.EndPoint;
-import ucm.map.PathNode;
-import ucm.map.StartPoint;
-import ucm.map.UCMmap;
 import urn.URNspec;
-import urncore.IURNDiagram;
-import urncore.IURNNode;
-import urncore.NodeLabel;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Rectangle;
