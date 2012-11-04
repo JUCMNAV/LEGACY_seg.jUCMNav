@@ -109,8 +109,8 @@ public class ReportGeneratorPreferences {
      * @return the height parameter to give dot
      */
     public static String getHeight() {
-    	if (getPreferenceStore().getString(PREF_REPORT_HEIGHT).equals("")){ //$NON-NLS-1$
-    		return Double.toString(DEFAULT_REPORT_HEIGHT); //return default if blank
+    	if (getPreferenceStore().getString(PREF_REPORT_HEIGHT).equals("") || Double.parseDouble(getPreferenceStore().getString(PREF_REPORT_HEIGHT)) < 3.0){ //$NON-NLS-1$
+    		return "3"; //return 3 if blank or too small (0 would cause an error)
     		
     	}else{
     	
@@ -140,11 +140,9 @@ public class ReportGeneratorPreferences {
      * @return the width parameter to give dot
      */
     public static String getWidth() {
-    	if (getPreferenceStore().getString(PREF_REPORT_WIDTH).equals("")){ //$NON-NLS-1$
-    		return Double.toString(DEFAULT_REPORT_WIDTH); //return default if blank
-    		
+    	if (getPreferenceStore().getString(PREF_REPORT_WIDTH).equals("") || Double.parseDouble(getPreferenceStore().getString(PREF_REPORT_WIDTH)) < 3.0){ //$NON-NLS-1$
+    		return "3"; //return 3 if blank or too small (0 would cause an error)
     	}else{
-    	
     		return getPreferenceStore().getString(PREF_REPORT_WIDTH);
     	}	
     	
@@ -152,12 +150,10 @@ public class ReportGeneratorPreferences {
     }
 
     public static String getNumberCSV_Columns() {
-    	if (getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS).equals("")){ //$NON-NLS-1$
-    		return Integer.toString(DEFAULT_NUMBER_CSV_COLUMNS); //return default if blank
-    		
+    	if (getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS).equals("") || Integer.parseInt(getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS)) < 5 || Integer.parseInt(getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS)) > 12){ //$NON-NLS-1$
+    		return "7"; //return 0 if blank
     	}else{
-    	
-    	 return getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS);
+    		return getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS);
     	}	
            	
     }
@@ -171,12 +167,8 @@ public class ReportGeneratorPreferences {
         // want to make sure it is convertible.
         try {
             double d = Double.parseDouble(height);
-            //if( d < 3 ) {
-            	//s = Double.toString(DEFAULT_REPORT_HEIGHT);
-            //} else {
-            s = Double.toString(d);
-            //}
-            
+
+            s = Double.toString(d);        
         } catch (Exception e) {
             s = "0"; //$NON-NLS-1$
         }
@@ -229,11 +221,7 @@ public class ReportGeneratorPreferences {
         // want to make sure it is convertible.
         try {
             double d = Double.parseDouble(width);
-           // if( d < 3 ) {
             	s = Double.toString(d);
-            //} else {
-            //s = Double.toString(d);
-           // }
         } catch (Exception e) {
             s = "0"; //$NON-NLS-1$
         }

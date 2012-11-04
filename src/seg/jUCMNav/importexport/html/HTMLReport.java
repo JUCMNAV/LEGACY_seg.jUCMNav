@@ -1777,7 +1777,7 @@ public class HTMLReport extends URNReport {
      */
 	private void writeScenarioInfo(StringBuffer sb, ScenarioDef scenario) {
 		
-		sb.append("<div>\n<h3>" + Messages.getString("HTMLReport.Scenario") + EscapeUtils.escapeHTML(scenario.getName()) + " (" + Messages.getString("HTMLReport.ID") + ": " + scenario.getId() + ")" + "</h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+		sb.append("<div>\n<h3>" + Messages.getString("HTMLReport.Scenario") + "<a id=\"" + scenario.getId() + "\">" + EscapeUtils.escapeHTML(scenario.getName()) + " (" + Messages.getString("HTMLReport.ID") + ": " + scenario.getId() + ")" + "</a></h3>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
 		// write all the data related to all scenarios that are included in the scenario scenario
 		
 		if (!scenario.getIncludedScenarios().isEmpty()) {
@@ -1989,6 +1989,13 @@ public class HTMLReport extends URNReport {
 	    						
 	                      String result; //PASSED or FAILED
 	                             
+	                      String scenName;
+	                      if (prefShowScenarioInfo){//add links if scenario info is available
+	                    	  scenName = "<a href=\"#" + scenario.getId() + "\">" + EscapeUtils.escapeHTML(scenario.getName())+  " (" + Messages.getString("HTMLReport.ID") + ": " + scenario.getId() + ")"+ "</a>";  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+	                      }else{
+	                    	   scenName = EscapeUtils.escapeHTML(scenario.getName()) + " (" + Messages.getString("HTMLReport.ID") + ": " + scenario.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	                      }
+	                      
                           if (warnings.size() > 0) {
                         	  result = Messages.getString("HTMLReport.Failed"); //$NON-NLS-1$
                         	  boolean firstWarn = true;
@@ -1996,7 +2003,7 @@ public class HTMLReport extends URNReport {
                               for (Iterator iterWarn = warnings.iterator(); iterWarn.hasNext();) {
                             	  TraversalWarning o = (TraversalWarning) iterWarn.next();
                                   if (firstWarn) {
-                                	  sb.append("<tr bgcolor=#FCA9AB><td>" + EscapeUtils.escapeHTML(scenario.getName()) + " (" + Messages.getString("HTMLReport.ID") + ": " + scenario.getId() + ")" + "</td><td>" + result + "</td><td>" + o.getMsg() + "</td></tr>\n"); //red row for a failed //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+                                	  sb.append("<tr bgcolor=#FCA9AB><td>" + scenName + "</td><td>" + result + "</td><td>" + o.getMsg() + "</td></tr>\n"); //red row for a failed //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
                                   } else { //second, third, etc warning msg for scenario
                                 	  sb.append("<tr bgcolor=#FCA9AB><td>" + "" + "</td><td>" + "" + "</td><td>" + o.getMsg() + "</td></tr>\n"); //red row for a failed //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
                                   }
@@ -2005,7 +2012,7 @@ public class HTMLReport extends URNReport {
                               }
                           } else {
                         	  result = Messages.getString("HTMLReport.Passed"); //$NON-NLS-1$
-	    					  sb.append("<tr bgcolor=#D2F9AC><td>" + scenario.getName() + " (" + Messages.getString("HTMLReport.ID") + ": " + scenario.getId() + ")" + "</td><td>" + result + "</td><td></td></tr>\n"); //green row for a passed //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+	    					  sb.append("<tr bgcolor=#D2F9AC><td>" + scenName + "</td><td>" + result + "</td><td></td></tr>\n"); //green row for a passed //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
                           }                     
                        }  
                        sb.append("</table>\n"); //$NON-NLS-1$
