@@ -6,15 +6,12 @@ import grl.GRLspec;
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
-import seg.jUCMNav.views.wizards.importexport.ReportWizard;
 import ucm.UCMspec;
 import urn.URNspec;
-import urncore.IURNDiagram;
 import urncore.URNdefinition;
 
 import com.lowagie.text.Chunk;

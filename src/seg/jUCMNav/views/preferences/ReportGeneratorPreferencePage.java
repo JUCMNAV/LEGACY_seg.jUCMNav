@@ -93,8 +93,8 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         separator.setLayoutData(g);
         separator.setVisible(true);
         
-        Label diagPreferencesLabel = new Label(getFieldEditorParent(), SWT.LEFT);
-        diagPreferencesLabel.setText(Messages.getString("ReportGeneratorPreferencePage.DiagramSpecificPreferences")); //$NON-NLS-1$
+        Label urnPreferencesLabel = new Label(getFieldEditorParent(), SWT.LEFT);
+        urnPreferencesLabel.setText(Messages.getString("ReportGeneratorPreferencePage.URNModelPrefs")); //$NON-NLS-1$
         
         BooleanFieldEditor showUCMDesc = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_UCM_SHOW_DESC, Messages
                 .getString("ReportGeneratorPreferencePage.descOrder"), //$NON-NLS-1$
