@@ -8,7 +8,6 @@ import java.util.Locale;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.reports.utils.ReportUtils;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
-import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.wizards.importexport.ExportPreferenceHelper;
 import urn.URNspec;
 
@@ -31,12 +30,12 @@ public class ReportTitlePage extends Report {
     public void CreateTitlePage(Document document, URNspec urn) {
 
         try {
-        	float reportWidthPref = Float.parseFloat(ReportGeneratorPreferences.getWidth());
-        	float reportHeightPref = Float.parseFloat(ReportGeneratorPreferences.getHeight());
+        	//float reportWidthPref = Float.parseFloat(ReportGeneratorPreferences.getWidth());
+        	//float reportHeightPref = Float.parseFloat(ReportGeneratorPreferences.getHeight());
         	int spaceAfterImg = 4;
             // jUCMNav title
         	Font font;
-        	if (reportHeightPref < 11) {
+        	if (reportHeight < 11) {
         		font = new Font(Font.HELVETICA, 24, Font.BOLD);
         	} else {
         		font = new Font(Font.HELVETICA, 36, Font.BOLD);
@@ -49,7 +48,7 @@ public class ReportTitlePage extends Report {
 
             // Load jUCMNav image by returning the runtime of the class of the object and retrieve its resources
             Image image = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/LogoFinalLarge.gif")); //$NON-NLS-1$
-            if (reportHeightPref < 11) {
+            if (reportHeight < 11) {
             	spaceAfterImg = 1;
             	image.scaleAbsolute(image.getWidth() * 0.5f, image.getHeight() * 0.5f);
             }
@@ -71,7 +70,7 @@ public class ReportTitlePage extends Report {
             
             Table specsTable;
             
-            float tableWidth = (0.7f * 8.5f * 72f)/(reportWidthPref * 72) * 100;
+            float tableWidth = (0.7f * 8.5f * 72f)/(reportWidth * 72) * 100;
             if (tableWidth > 100) {
             	specsTable = ReportUtils.createTable(2, 2, 0, 100);
             } else {

@@ -556,6 +556,9 @@ public class ReportStrategies extends ReportDataDictionary {
      */
     protected void writeTrend(Table table, int trend) throws IOException {
     	
+    	//Float reportWidth = Float.parseFloat(ReportGeneratorPreferences.getWidth());
+    	//Float reportHeight = Float.parseFloat(ReportGeneratorPreferences.getHeight());
+    	
     	try{
     	Cell trendCell;    	   	
     	
@@ -582,31 +585,39 @@ public class ReportStrategies extends ReportDataDictionary {
     	*/
     	
     	Image img;
+    	int scaleFactor = 50;	// default scaling factor (when page width >= 8.5 inches)
+    	if (reportWidth < 8.5f) {
+    		// needed to define a new scale factor when page width < 8.5, otherwise won't fit in table cells
+    		scaleFactor = 42;
+    		// to find the proper scaling factor, compute (defaultScalingFactor / defaultPageSizePixels) = (scaleFactor / currentWidthPixels)
+    		scaleFactor = (int) Math.floor((scaleFactor/(8.5f * 72)) * (reportWidth * 72));
+    	}
+    	
     	switch(trend){
     	case -1:img = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/down.png"));//$NON-NLS-1$
 		        img.setAlignment(Image.MIDDLE);
-		        img.scaleToFit(50, 50);
+		        img.scaleToFit(scaleFactor, scaleFactor);
 		        trendCell = new Cell();
 		        trendCell.add(img);
 		        trendCell.setBackgroundColor(new java.awt.Color(252, 169, 171));
     			break;
     	case 0:img = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/straight.png"));//$NON-NLS-1$
 		        img.setAlignment(Image.MIDDLE);
-		        img.scaleToFit(50, 50);
+		        img.scaleToFit(scaleFactor, scaleFactor);
 		        trendCell = new Cell();
 		        trendCell.add(img);
 		        trendCell.setBackgroundColor(new java.awt.Color(255, 255, 151));
 		        break;
     	case 1:img = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/up.png"));//$NON-NLS-1$
 		        img.setAlignment(Image.MIDDLE);
-		        img.scaleToFit(50, 50);
+		        img.scaleToFit(scaleFactor, scaleFactor);
 		        trendCell = new Cell();
 		        trendCell.add(img);
 		        trendCell.setBackgroundColor(new java.awt.Color(210, 249, 172));
 		        break;
     	case -3:img = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/vary.png"));//$NON-NLS-1$
 		        img.setAlignment(Image.MIDDLE);
-		        img.scaleToFit(50, 50);
+		        img.scaleToFit(scaleFactor, scaleFactor);
 		        trendCell = new Cell();
 		        trendCell.add(img);
 		        break;

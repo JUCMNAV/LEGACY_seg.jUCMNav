@@ -64,6 +64,9 @@ public class Report extends URNReport {
     protected boolean prefShowScenarioExec;
     protected boolean prefShowEvals;
     
+    protected float reportWidth = Float.parseFloat(ReportGeneratorPreferences.getWidth());
+	protected float reportHeight = Float.parseFloat(ReportGeneratorPreferences.getHeight());
+    
     private String filename;
 
     public Report() {
@@ -91,8 +94,6 @@ public class Report extends URNReport {
      */
 
     public void export(URNspec urn, HashMap mapDiagrams, String filename, Document document, Rectangle pagesize) throws InvocationTargetException {
-        // TODO remove all hardcoded preferences, font names and sizes
-        // TODO report description strings should be externalized
 
         try {
         	// fetch the values of the UCMSHOWUCMDIAGRAMS, UCMSHOWSCENARIOINFO and GRLSHOWGRLDIAGRAMS preferences.
