@@ -557,11 +557,9 @@ public class ReportStrategies extends ReportDataDictionary {
     protected void writeTrend(Table table, int trend) throws IOException {
     	
     	try{
-    	Cell trendCell;
-    	//Cell cell = new Cell(new Phrase("title", FontFactory.getFont(FontFactory.HELVETICA, 24, Font.BOLD)));
+    	Cell trendCell;    	   	
     	
     	/*
-    	
     	switch(trend){
     	case -1: trendCell = new Cell("-"); //$NON-NLS-1$
     			//trendCell = new Cell(new Phrase("-", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD)));
@@ -569,12 +567,10 @@ public class ReportStrategies extends ReportDataDictionary {
     			break;
     	case 0: trendCell = new Cell("="); //$NON-NLS-1$
     			//trendCell = new Cell(new Phrase("=", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD)));
-    			//trendCell = new Cell(new Phrase("=", FontFactory.getFont(FontFactory.COURIER_BOLD)));
 				trendCell.setBackgroundColor(new java.awt.Color(255, 255, 151));
 				break;
     	case 1: trendCell = new Cell("+"); //$NON-NLS-1$
     			//trendCell = new Cell(new Phrase("+", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD)));
-    			//trendCell = new Cell(new Phrase("+", FontFactory.getFont(FontFactory.COURIER_BOLD)));
 				trendCell.setBackgroundColor(new java.awt.Color(210, 249, 172));
 				break;
 		default:trendCell = new Cell("?"); //$NON-NLS-1$
@@ -582,8 +578,8 @@ public class ReportStrategies extends ReportDataDictionary {
 				//trendCell = new Cell(new Phrase("?", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, Font.BOLD)));
 				break;
 				
-				}*/
-    	
+				}
+    	*/
     	
     	Image img;
     	switch(trend){
@@ -620,8 +616,9 @@ public class ReportStrategies extends ReportDataDictionary {
     	}
 
     	trendCell.setColspan(TREND_CELL_WIDTH);
-    	trendCell.setVerticalAlignment(Element.ALIGN_CENTER);
-    	trendCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	trendCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+    	//trendCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	trendCell.setHorizontalAlignment(Element.ALIGN_LEFT);
     	table.addCell(trendCell);
     	}
     	catch(Exception e){
