@@ -171,7 +171,7 @@ public class ReportStrategies extends ReportDataDictionary {
 
             // document.add(Chunk.NEXTPAGE);
         	String title = Messages.getString("ReportStrategies.StrategyLegendForGroupQuote") + evalGroup.getName() + Messages.getString("ReportStrategies.StrategyLegendForGroupEndQuote");  //$NON-NLS-1$ //$NON-NLS-2$
-            document.add(new Paragraph(title, descriptionBoldFont));
+            document.add(new Paragraph(title, header1Font));
 
             for (int i = 1; i <= strategies.size(); i++) {
                 // name and description
