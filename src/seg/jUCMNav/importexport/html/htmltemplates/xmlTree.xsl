@@ -40,17 +40,7 @@ redirect('<xsl:value-of select="@branchLink"/>');
 
 </xsl:template>
 
-<xsl:template match="branch[@id='UCM']/branch/leaf">
-<img src="ucm16.gif"/>
-<a  target="mainFrame" >
-<xsl:attribute name="href" >
-<xsl:value-of select="link"/>
-</xsl:attribute>
-<xsl:value-of select="leafText"/>
-</a><br/>
-</xsl:template>
-
-<xsl:template match="branch[@id='UCM']/leaf">
+<xsl:template match="branch[@id='UCM']//leaf">
 <img src="ucm16.gif"/>
 <a  target="mainFrame" >
 <xsl:attribute name="href" >
