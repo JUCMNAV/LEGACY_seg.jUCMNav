@@ -33,8 +33,8 @@ public class UrnMetadata {
     /**
      * Metadata indicator added to text labels
      */
-    public static final String METADATA_PRESENCE = " \u2029"; //$NON-NLS-1$
-    public static final String METADATA_PRESENCE_NOSPACE = "\u2029"; //$NON-NLS-1$
+    public static final String METADATA_PRESENCE = " \u00B6"; //$NON-NLS-1$
+    public static final String METADATA_PRESENCE_NOSPACE = "\u00B6"; //$NON-NLS-1$
     public static final String STEREOTYPE_OPEN = " \u00AB"; //$NON-NLS-1$
     public static final String STEREOTYPE_CLOSE = "\u00BB"; //$NON-NLS-1$
 

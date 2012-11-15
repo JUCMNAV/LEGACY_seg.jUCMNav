@@ -369,12 +369,16 @@ public class LabelEditPart extends ModelElementEditPart {
                     RespRef respRef = (RespRef) modelElement;
                     Responsibility responsibility = respRef.getRespDef();
                     if (responsibility != null) {
-                        labelFigure.setSuffixText(UrnMetadata.getStereotypes(responsibility));
+                        // shows {repetitioncount} from reference
+                        if (respRef.getRepetitionCount().compareTo("1")!=0)
+                            labelFigure.setSuffixText(UrnMetadata.getStereotypes(responsibility) + " {" + respRef.getRepetitionCount() + "}"); //$NON-NLS-1$ $NON-NLS-2$
+                        else 
+                        	labelFigure.setSuffixText(UrnMetadata.getStereotypes(responsibility));
                         
                         if (responsibility.isContext())
                             labelFigure.setPrefixText(Messages.getString("LabelEditPart.parentprefix")); //$NON-NLS-1$
                         else
-                            labelFigure.setPrefixText("");//$NON-NLS-1$
+                            labelFigure.setPrefixText("");//$NON-NLS-1$                        
                     }
                 } else {
                     labelFigure.setSuffixText(UrnMetadata.getStereotypes(modelElement));
