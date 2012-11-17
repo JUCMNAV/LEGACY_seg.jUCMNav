@@ -4,8 +4,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> <meta name="robots" content="noindex" /> <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/WebRss" />
 	 <meta name="scripturl" content="http://cserg0.site.uottawa.ca/ucm/bin" />
 	 <meta name="scriptsuffix" content="" />
-	<link rel="icon" href="favicon.ico.4" type="image/x-icon" /> <link rel="shortcut icon" href="favicon.ico.4" type="image/x-icon" />
-	<link rel="alternate" href="http://cserg0.site.uottawa.ca/ucm/bin/edit/ProjetSEG/HelpOnLine?_T=02 May 2012" type="application/x-wiki" title="edit HelpOnLine" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon" /> <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="alternate" href="http://cserg0.site.uottawa.ca/ucm/bin/edit/ProjetSEG/HelpOnLine?_T=16 Nov 2012" type="application/x-wiki" title="edit HelpOnLine" />
 	<meta name="description" content="HelpOnLine" />
 	
 	<style type="text/css" media="all">
@@ -26,7 +26,7 @@ pre {
 </head><body class=""><div class="foswikiPage">
 <a name="PageTop"></a> <LINK REL="STYLESHEET" HREF="book.css" CHARSET="ISO-8859-1" TYPE="text/css" />
 <h1><a name="jUCMNav_Online_Help"></a> jUCMNav Online Help </h1>
- <em>02 May 2012 - 10:31</em>
+ <em>16 Nov 2012 - 19:56</em>
 <p />
 <a name="foswikiTOC"></a><div class="foswikiToc"> <ul>
 <li> <a href="#jUCMNav_Online_Help"> jUCMNav Online Help</a> <ul>
@@ -492,10 +492,6 @@ pre {
 </li> <li> Import/Export <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/HelpOnLine#GRL_Catalogues" class="foswikiCurrentTopicLink">GRL Catalogues</a>
 </li> <li> Export to .dot format for GraphViz
 </li> <li> Export <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/HelpOnLine#Exporting_Strategies_in_CSV" class="foswikiCurrentTopicLink">GRL Strategies to .csv files</a>
-</li> <li> Export to HTML  <ul>
-<li> Generates a report on the diagrams and their main elements as a set of interlinked HTML pages.
-</li> <li> This export is work in progress.
-</li></ul> 
 </li> <li> Export Scenario Execution Traces (as UCM or MSC), see <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/HelpOnLine#Part_V_UCM_Scenarios" class="foswikiCurrentTopicLink">Part V</a>.
 </li> <li> Export to Telelogic DOORS DXL  <ul>
 <li> jUCMNav can export and synchronize URN models with <a href="http://www.telelogic.com/corp/products/doors/index.cfm" target="_top">Telelogic DOORS</a> for requirements management and traceability.<br /> <img alt="DOORS.png" src="DOORS.png" />
@@ -510,17 +506,57 @@ pre {
 </li></ul> 
 </li></ul> 
 <h3><a name="Report_Generation"></a> Report Generation </h3> <ul>
-<li> jUCMNav allows users to export URN models to PDF documents or RTF (Word) documents.
-</li> <li> Select File -&gt; Export -&gt; Generate a Report (or the context menu on a .jucm file in the Navigator view)
+<li> jUCMNav allows users to export URN models to PDF documents, RTF (Microsoft Word) documents or HTML pages.
+</li> <li> The Report Generation Preferences allow you to specify the dimensions and orientation of the report&rsquo;s pages (for PDF and RTF reports). These preferences also allow you to specify the elements you wish to include in the report. In particular, it is possible to include the following URN elements:  <ul>
+<li> Diagram descriptions (UCM and GRL diagrams).
+</li> <li> URN links.
+</li> <li> UCM-specific preferences. If the &ldquo;Show UCM diagrams and descriptions&rdquo; preference is checked, you can decide whether or not the report should include information related to responsibilities, stubs, or forks, start points and end points, in addition to the UCM diagrams themselves.
+</li> <li> Documentation and execution of scenarios. If the &ldquo;Show scenario execution information&rdquo; preference is checked, the report will have a section that will execute each scenario that is part of the model, and will return the execution result (i.e. Passed or Failed) as well as information on errors/warnings (if any) that occurred during the execution. If the &ldquo;Show scenario information&rdquo; preference is checked, the report will have a section describing each component (included scenarios, start/end points, initializations, preconditions and postconditions) of the scenarios present in the model.
+</li> <li> GRL-related preferences. If the &ldquo;Show GRL diagrams and descriptions&rdquo; preference is checked, you can decide whether or not the report should include information related to GRL beliefs and intentional elements, in addition to the GRL diagrams themselves.
+</li> <li> GRL Strategy evaluations. If the &ldquo;Show Strategy Evaluation information&rdquo; is checked, you can decide whether or not the report should evaluate the trends of the strategy evaluations found in the model, in addition to the evaluations themselves. If that last preference is checked, you will need to specify the number of evaluations to be used when a trend is calculated.
 </li></ul> 
-<img alt="Reports.png" src="Reports.png" />  <ul>
-<li> Select the target directory, the report format (PDF or RTF), the report name, and the diagrams to export. Then, click on Finish.
-</li> <li> Preferences allow you to select the UCM elements to export, as well as the format of the page.
-</li> <li> This export is work in progress. Among the current features present and missing:  <ul>
-<li> The report includes the list of UCM variables and scenarios, but neither their definitions nor their diagrams.
-</li> <li> The results of GRL strategies is included in a table, but the GRL elements are not yet explained in the diagrams.
+</li></ul> 
+<img alt="ReportGen_Prefs.png" src="ReportGen_Prefs.png" />
+<p /> <ul>
+<li> Typical PDF and RTF reports contain the following sections (here listed in order of appearance):  <ul>
+<li> A title page.
+</li> <li> A data dictionary section: this section includes a list of scenario groups (with all their scenarios), the names/descriptions of variables, GRL intentional elements as well as GRL actors and a strategy legend (used in the strategy evaluation table, displayed in the following section).
+</li> <li> A section including all the evaluations of strategies that are part of the model, as well as a trend for each intentional element/actor.
+</li> <li> A section including all the diagrams present in the URN model, as well as a description of their components.
+</li> <li> A Scenario Documentation section: this section includes the scenario execution summary for all scenarios that are part of the model, followed by information on every component of these scenarios.
+</li> <li> Note that one or more of these sections could be missing depending on the values of the Report Generation Preferences and the elements present in the model.
+</li></ul> 
+</li> <li> The HTML reports contain an interactive menu that consists of three main sections:  <ul>
+<li> UCM Diagrams: By clicking on this directory, you will be able to see the links to every UCM diagram present in the model. These links are listed as sub-menus of the UCM Diagrams menu. Each of these sub-menus will lead to an HTML page consisting of the corresponding diagram as well as a description of each of its components.
+</li> <li> GRL Diagrams: By clicking on this directory, you will be able to see the links to every GRL diagram present in the model. These links are listed as sub-menus of the GRL Diagrams menu. Each of these sub-menus will lead to an HTML page consisting of the corresponding diagram as well as a description of each of its components.
+</li> <li> Definitions: This menu contains a UCM Definitions sub-menu, a GRL Definitions sub-menu, a UCM Scenarios sub-menu as well as a link to the report&rsquo;s title page.  <ul>
+<li> The UCM Definitions page typically consists of a description of the model&rsquo;s variables, enumeration types, as well as a list of the model&rsquo;s scenario groups.
+</li> <li> The GRL Definitions page typically consists of the strategy evaluation table.
+</li> <li> The UCM Scenarios page consists of a summary of the execution of each scenario that is part of the model, as well as a description of each component of these scenarios.
+</li></ul> 
+</li> <li> Note that it is possible that one or more pages are empty (i.e. contain only the titles of the various sections without any information). This will depend on the values of the Report Generation Preferences as well as the components that are present in the URN model.
+</li></ul> 
+</li> <li> To generate a report, select File -&gt; Export&hellip; -&gt; Generate a Report (or select that context menu on a .jucm file in the Navigator view).
+</li></ul> 
+<img alt="ReportGen_Export_Page1.png" src="ReportGen_Export_Page1.png" />
+<p /> <ul>
+<li> Next, select the target directory, the report format (PDF, RTF or HTML Pages). If the type selected is either PDF or RTF, you will need to specify the report name as well as the diagrams to export. Note that the diagram list displayed in the wizard is filtered according to the value of the preferences mentioned above. UCM diagrams will be displayed if the &ldquo;Show UCM diagrams and descriptions preferences&rdquo; or one of the two scenario preferences is checked. Similarly, GRL diagrams will be shown if the &ldquo;Show GRL diagrams and descriptions&rdquo; or the &ldquo;Show Strategy Evaluation information&rdquo; is checked.
+</li> <li> When all parameters have been entered, click on Finish.
+</li></ul> 
+<img alt="ReportGen_Export_Page2pdf.png" src="ReportGen_Export_Page2pdf.png" />
+<p />
+<img alt="ReportGen_Export_Page2html.png" src="ReportGen_Export_Page2html.png" />
+<p /> <ul>
+<li> <!--[if gte mso 9]&gt;<xml> <o:OfficeDocumentSettings> <o:AllowPNG/> </o:OfficeDocumentSettings> </xml>&lt;![endif]-->When the &ldquo;Show GRL Strategy Evaluations trend&rdquo; preference is checked, the strategy evaluation table in the report will contain an additional column which illustrates the variation of the numerical value of the intentional element or actor by calculating a trend. The trend is calculated based on the last 3 evaluations by default, which can be modified in the preferences. The value entered in the preferences will be displayed in the Strategy Legend section of the report. There must be at least two strategies in order to calculate a trend. A positive trend is represented by an up arrow, a negative trend by a down arrow, a neutral trend (no variation) by a straight arrow and a varying trend by a zigzagging arrow. If there are not enough strategies to calculate a trend (number of strategies is less than two or smaller than the number set in the preferences), a question mark will be displayed instead to indicate that no trend could be calculated.
+</li></ul> 
+<img alt="Report_GRLStrategyTrend.png" src="Report_GRLStrategyTrend.png" />
+<p /> <ul>
+<li> This export is work in progress. Among the current features present and missing in the report generator:  <ul>
+<li> OCL constraints are not reported.
+</li> <li> Information related to KPIs is not displayed.
 </li></ul> 
 </li></ul> 
+<a href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/JUCMNavTutorials#jUCMNav_s_Report_Generation_Tool">Click here</a> to view a series of tutorial videos on jUCMNav's report generation tool as well as a few report samples. 
 <h3><a name="GRL_Catalogues"></a> GRL Catalogues </h3> <ul>
 <li> GRL catalogues are reusable high-level GRL models, often used to describe common model elements and relationships related to non-functional aspects.
 </li> <li> Catalogues are used to start new models or add concerns to existing ones. They consist of a XML file describing:  <ul>
@@ -556,7 +592,7 @@ pre {
 </li></ul> 
 <img alt="URNlinks-menu-expanded.png" src="URNlinks-menu-expanded.png" />
 <p />
-URN Link creation dialog: <br /> <img width="556" alt="URNlink-creation-dialog.png" src="http://jucmnav.softwareengineering.ca/ucm/pub/ProjetSEG/HelpOnLine/URNlink-creation-dialog.png" height="503" />
+URN Link creation dialog: <br /> <img width="556" alt="URNlink-creation-dialog.png" src="URNlink-creation-dialog.png" height="503" />
 <h3><a name="Bilingual_models"></a> Bilingual models </h3> <ul>
 <li> Up until version 5.0.0, jUCMNav supported different user interface languages (English, French), but only supported unilingual models. Every element in the model was in the language chosen by the designer.
 </li> <li> Version 5.0.0 introduces the concept of bilingual models. Given any existing model, one can use the jUCMNav -&gt; Switch Model Language menu option. This will copy the name or description of every element into metadata. The designer can now freely translate every model element name or description into a second language.
@@ -982,6 +1018,193 @@ Utility Two: ancestors():Set(ComponentRef)&#61; ancestorSet(
 <a name="TopicEnd"></a>
 <p />
 <p />
+<div class="foswikiAttachments">
+<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="rows" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th bgcolor="#e0e0e4" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/HelpOnLine?skin=plain;sortcol=0;table=1;up=0#sorted_table" title="Sort by this column"><font color="#444444">I</font></a> </th>
+			<th bgcolor="#e0e0e4" valign="top" class="foswikiTableCol1"> <a rel="nofollow" href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/HelpOnLine?skin=plain;sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#444444">Attachment</font></a> </th>
+			<th bgcolor="#e0e0e4" valign="top" class="foswikiTableCol2"> <a rel="nofollow" href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/HelpOnLine?skin=plain;sortcol=2;table=1;up=0#sorted_table" title="Sort by this column"><font color="#444444">Action</font></a> </th>
+			<th bgcolor="#e0e0e4" valign="top" class="foswikiTableCol3"> <a rel="nofollow" href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/HelpOnLine?skin=plain;sortcol=3;table=1;up=0#sorted_table" title="Sort by this column"><font color="#444444">Size</font></a> </th>
+			<th bgcolor="#e0e0e4" valign="top" class="foswikiTableCol4"> <a rel="nofollow" href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/HelpOnLine?skin=plain;sortcol=4;table=1;up=0#sorted_table" title="Sort by this column"><font color="#444444">Date</font></a> </th>
+			<th bgcolor="#e0e0e4" valign="top" class="foswikiTableCol5"> <a rel="nofollow" href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/HelpOnLine?skin=plain;sortcol=5;table=1;up=0#sorted_table" title="Sort by this column"><font color="#444444">Who</font></a> </th>
+			<th bgcolor="#e0e0e4" valign="top" class="foswikiTableCol6 foswikiLastCol"> <a rel="nofollow" href="http://cserg0.site.uottawa.ca/ucm/bin/view/ProjetSEG/HelpOnLine?skin=plain;sortcol=6;table=1;up=0#sorted_table" title="Sort by this column"><font color="#444444">Comment</font></a> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1"> <a href="ReportGen_Export_Page1.png">ReportGen_Export_Page1.png</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=ReportGen_Export_Page1.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#ffffff" align="right" valign="top" class="foswikiTableCol3"> 40.5&nbsp;K </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">05 Nov 2012 - 13:17</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/JeanFrancoisSeguin">Jean Francois Seguin</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol6 foswikiLastCol"> Screenshot of the first page of the Report Wizard </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1"> <a href="ReportGen_Export_Page2html.png">ReportGen_Export_Page2html.png</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=ReportGen_Export_Page2html.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#edf4f9" align="right" valign="top" class="foswikiTableCol3"> 38.5&nbsp;K </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">05 Nov 2012 - 13:18</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/JeanFrancoisSeguin">Jean Francois Seguin</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol6 foswikiLastCol"> Screenshot of the second page of the Report Wizard (when HTML is selected as the Report type) </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1"> <a href="ReportGen_Export_Page2pdf.png">ReportGen_Export_Page2pdf.png</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=ReportGen_Export_Page2pdf.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#ffffff" align="right" valign="top" class="foswikiTableCol3"> 38.5&nbsp;K </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">05 Nov 2012 - 13:18</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/JeanFrancoisSeguin">Jean Francois Seguin</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol6 foswikiLastCol"> Screenshot of the second page of the Report Wizard (when PDF is selected as the Report type) </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1"> <a href="ReportGen_Prefs.png">ReportGen_Prefs.png</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=ReportGen_Prefs.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#edf4f9" align="right" valign="top" class="foswikiTableCol3"> 116.2&nbsp;K </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">05 Nov 2012 - 13:15</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/JeanFrancoisSeguin">Jean Francois Seguin</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol6 foswikiLastCol"> Displays the report generation preferences </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1"> <a href="Report_GRLStrategyTrend.png">Report_GRLStrategyTrend.png</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=Report_GRLStrategyTrend.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#ffffff" align="right" valign="top" class="foswikiTableCol3"> 27.8&nbsp;K </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">05 Nov 2012 - 23:39</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/AlexandreHamel">Alexandre Hamel</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol6 foswikiLastCol"> Screenshot of an example of GRL Strategy trends </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1"> <a href="URNlink-creation-dialog.png">URNlink-creation-dialog.png</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=URNlink-creation-dialog.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#edf4f9" align="right" valign="top" class="foswikiTableCol3"> 33.2&nbsp;K </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">09 Mar 2012 - 17:59</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/AndrewMiga">Andrew Miga</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol6 foswikiLastCol"> URN Link creation dialog </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1"> <a href="URNlinks-menu-expanded.png">URNlinks-menu-expanded.png</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=URNlinks-menu-expanded.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#ffffff" align="right" valign="top" class="foswikiTableCol3"> 99.3&nbsp;K </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">01 May 2012 - 21:11</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/DanielAmyot">Daniel Amyot</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol6 foswikiLastCol"> URN Links popup menu for Intentional Element </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1"> <a href="algorithm_selection.png">algorithm_selection.png</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=algorithm_selection.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#edf4f9" align="right" valign="top" class="foswikiTableCol3"> 42.4&nbsp;K </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">12 Jul 2011 - 23:57</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol6 foswikiLastCol"> algorithm_selection </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1"> <a href="bottom-up.png">bottom-up.png</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=bottom-up.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#ffffff" align="right" valign="top" class="foswikiTableCol3"> 16.4&nbsp;K </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">14 Jul 2011 - 23:34</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol6 foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1"> <a href="c1.png">c1.png</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=c1.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#edf4f9" align="right" valign="top" class="foswikiTableCol3"> 10.4&nbsp;K </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">19 Jul 2011 - 23:18</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol6 foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1"> <a href="c2.png">c2.png</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=c2.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#ffffff" align="right" valign="top" class="foswikiTableCol3"> 9.7&nbsp;K </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">19 Jul 2011 - 23:18</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol6 foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1"> <a href="c3.png">c3.png</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=c3.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#edf4f9" align="right" valign="top" class="foswikiTableCol3"> 9.6&nbsp;K </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">19 Jul 2011 - 23:18</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol6 foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1"> <a href="c4.png">c4.png</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=c4.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#ffffff" align="right" valign="top" class="foswikiTableCol3"> 9.0&nbsp;K </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">19 Jul 2011 - 23:19</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol6 foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1"> <a href="generic-task.png">generic-task.png</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=generic-task.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#edf4f9" align="right" valign="top" class="foswikiTableCol3"> 14.2&nbsp;K </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">14 Jul 2011 - 23:45</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol6 foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1"> <a href="initialized.png">initialized.png</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=initialized.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#ffffff" align="right" valign="top" class="foswikiTableCol3"> 16.0&nbsp;K </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">14 Jul 2011 - 23:38</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol6 foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1"> <a href="metadataIndicators.png">metadataIndicators.png</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=metadataIndicators.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#edf4f9" align="right" valign="top" class="foswikiTableCol3"> 19.6&nbsp;K </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">21 Apr 2009 - 14:58</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/DanielAmyot">Daniel Amyot</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol6 foswikiLastCol"> Metadata, stereotype, and URN link indicators </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1"> <a href="top-down-task.png">top-down-task.png</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=top-down-task.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#ffffff" align="right" valign="top" class="foswikiTableCol3"> 14.2&nbsp;K </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">14 Jul 2011 - 23:43</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol6 foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1"> <a href="top-down.png">top-down.png</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol2"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=top-down.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#edf4f9" align="right" valign="top" class="foswikiTableCol3"> 14.6&nbsp;K </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol4"> <span class="foswikiNoBreak">14 Jul 2011 - 23:36</span> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol5"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol6 foswikiLastCol"> &nbsp; </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <img width="16" alt="png" align="top" src="png.gif" height="16" border="0" /><span class="foswikiHidden">png</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1 foswikiLast"> <a href="unsolvable.png">unsolvable.png</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2 foswikiLast"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/attach/ProjetSEG/HelpOnLine?filename=unsolvable.png;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> </td>
+			<td bgcolor="#ffffff" align="right" valign="top" class="foswikiTableCol3 foswikiLast"> 14.7&nbsp;K </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4 foswikiLast"> <span class="foswikiNoBreak">14 Jul 2011 - 23:40</span> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol5 foswikiLast"> <a href="http://cserg0.site.uottawa.ca/ucm/bin/view/Main/HaoLuo">Hao Luo</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol6 foswikiLastCol foswikiLast"> &nbsp; </td>
+		</tr>
+	</tbody></table>
+</div>
 <p />
 </div><!--/foswikiPage-->
 </body></html>

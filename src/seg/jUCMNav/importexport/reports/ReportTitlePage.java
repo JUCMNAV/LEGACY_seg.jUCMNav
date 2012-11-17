@@ -33,6 +33,8 @@ public class ReportTitlePage extends Report {
         	//float reportWidthPref = Float.parseFloat(ReportGeneratorPreferences.getWidth());
         	//float reportHeightPref = Float.parseFloat(ReportGeneratorPreferences.getHeight());
         	int spaceAfterImg = 4;
+        	float imgWidth = 0;
+        	float imgHeight = 0;
             // jUCMNav title
         	Font font;
         	if (reportHeight < 11) {
@@ -47,11 +49,18 @@ public class ReportTitlePage extends Report {
             document.add(Chunk.NEWLINE);
 
             // Load jUCMNav image by returning the runtime of the class of the object and retrieve its resources
-            Image image = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/LogoFinalLarge.gif")); //$NON-NLS-1$
-            if (reportHeight < 11) {
+            Image image = Image.getInstance(getClass().getResource("/seg/jUCMNav/icons/jUCMNavLogo_large.png")); //$NON-NLS-1$
+            
+            if (reportHeight >= 11) {
+            	imgWidth = image.getWidth() * 0.5f;
+                imgHeight = image.getHeight() * 0.5f;
+            } else {
+            	imgWidth = image.getWidth() * 0.25f;
+                imgHeight = image.getHeight() * 0.25f;
             	spaceAfterImg = 1;
-            	image.scaleAbsolute(image.getWidth() * 0.5f, image.getHeight() * 0.5f);
             }
+            
+            image.scaleAbsolute(imgWidth, imgHeight);
             image.setAlignment(Image.MIDDLE);
             document.add(image);
 
