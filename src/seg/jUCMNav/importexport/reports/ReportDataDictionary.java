@@ -127,7 +127,7 @@ public class ReportDataDictionary extends Report {
                 if (group != null) {
                     // create list for this scenario group
                     String sScenarioGroupName = new String(group.getName());
-                    List list1 = new List(List.ORDERED);
+                    List list1 = new List(List.UNORDERED);
                     list1.add(new ListItem(sScenarioGroupName + ":")); //$NON-NLS-1$
                     document.add(list1);
 
