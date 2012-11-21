@@ -23,7 +23,7 @@ import urncore.URNmodelElement;
  * @author rouzbahan
  * 
  */
-public class ShowLinkedElementAlternativeAction extends URNSelectionAction
+public class ShowLinkedElementAlternativeAction extends URNSelectionAction 
 {
     public static final String SHOWLINKEDELEMENTALTERNATIVE = "seg.jUCMNav.ShowLinkedElementAlternativeAction"; //$NON-NLS-1$
   
@@ -31,8 +31,7 @@ public class ShowLinkedElementAlternativeAction extends URNSelectionAction
     private IntentionalElementRef elementRef;
     private URNspec urnspec;
     
-    public ShowLinkedElementAlternativeAction(IWorkbenchPart part)
-    {
+    public ShowLinkedElementAlternativeAction(IWorkbenchPart part) {
         super(part);        
         setId(SHOWLINKEDELEMENTALTERNATIVE);
         setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElementAlternative.gif")); //$NON-NLS-1$
@@ -42,17 +41,14 @@ public class ShowLinkedElementAlternativeAction extends URNSelectionAction
      * True if we have selected a valid URNmodelElement.
      */
     @SuppressWarnings("static-access")
-	protected boolean calculateEnabled() 
-    {
+	protected boolean calculateEnabled() {
         List objects = getSelectedObjects();
-
         if (objects.size() != 1)
             return false;
 
         SelectionHelper sel = new SelectionHelper(objects);
         urnspec = sel.getUrnspec();
-        element = HyperlinkUtils.findURNmodelElement(sel);
-        
+        element = HyperlinkUtils.findURNmodelElement(sel);        
         if (sel.getSelectionType() == sel.INTENTIONALELEMENTREF) {
             elementRef = sel.getIntentionalElementRef(); 
             return true;
@@ -64,19 +60,16 @@ public class ShowLinkedElementAlternativeAction extends URNSelectionAction
      * Trying to Add linked element to environment.
      * 
      */
-    protected Command getCommand() 
-    {
+    protected Command getCommand() {
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         ShowLinkedElementDialog dialog = new ShowLinkedElementDialog(shell);
         String value = dialog.open(Messages.getString("ShowLinkedElementalternative.WindowEnterNew"), //$NON-NLS-1$ 
             Messages.getString("ShowLinkedElementalternative.TextEnterNew"), //$NON-NLS-1$  
             ""); //$NON-NLS-1$
         
-        if (value != null && value.length() > 0) {
-            System.out.println("in the action's if");
-            Command cmd = new ShowLinkedElementAlternativeCommand(urnspec, element, elementRef, value);
-            return cmd;
-        } else
+        if (value != null && value.length() > 0)
+            return new ShowLinkedElementAlternativeCommand(urnspec, element, elementRef, value);
+        else
             return null;        
     }
 }

@@ -112,10 +112,7 @@ public class ShowLinkedElementDialog extends Dialog {
             public void handleEvent(Event event) {
                 try {
                     value = text.getText();
-                    //URL urlTest = new URL(value);
-                    if (value.equals("1") || value.equals("2") || value.equals("3") || value.equals("4") || value.equals("5") || 
-                        value.equals("6") || value.equals("7") || value.equals("8") || value.equals("9")) {
-                        //value.toString();
+                    if (Integer.parseInt(value) >= 0) {
                         ok.setEnabled(true);
                     }
                     else
