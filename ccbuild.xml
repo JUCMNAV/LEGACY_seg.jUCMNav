@@ -107,7 +107,7 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		
 
 		<!-- A) this is the typically active setting; use either A) or B) but not both-->
-		<condition property="jucmnav.version" value="5.2.${buildtime}">
+		<condition property="jucmnav.version" value="5.3.0">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>
@@ -115,7 +115,7 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		
 		<!-- B) use this when packaging; use either A) or B) but not both -->
 		<!--
-    	<property name="jucmnav.version" value="5.2.0" />
+    	<property name="jucmnav.version" value="5.3.0" />
     	--> 
 		<echo>Building version: ${jucmnav.version}</echo>
 		
@@ -133,15 +133,15 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 	
 	<target name="build.fullzip.exactversion">
 		<antcall target="init">
-			<param name="jucmnav.version" value="5.2.0"/>
+			<param name="jucmnav.version" value="5.3.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="clean">
-			<param name="jucmnav.version" value="5.2.0"/>
+			<param name="jucmnav.version" value="5.3.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="zip.plugin">
-			<param name="jucmnav.version" value="5.2.0"/>
+			<param name="jucmnav.version" value="5.3.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 	</target>
