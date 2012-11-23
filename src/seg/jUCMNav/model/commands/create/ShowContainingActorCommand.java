@@ -121,6 +121,7 @@ public class ShowContainingActorCommand extends Command implements JUCMNavComman
         int offset = 40, maxX = -1, minX = -1, maxY = -1, minY = -1;
         ActorRef aRef; 
         Command cmd;
+        ArrayList <Actor> tempActorDefs = new ArrayList<Actor>(); // a list to contain the actors' definitions that are added
         addedContainingActorList = new ArrayList<ActorRef>();
         
         // obtaining current actors in the graph
@@ -135,15 +136,19 @@ public class ShowContainingActorCommand extends Command implements JUCMNavComman
         actorRef_X = 0;        
         actorRef_Y = offset;
         for (int i = 0; i < missingContainingActorList.size(); i++) {
-            aRef = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
-            aRef.setContDef(missingContainingActorList.get(i).getContDef());
-            cmd = new AddContainerRefCommand(grlGraph, aRef);
-            cmd.execute();
-            //cmd = new SetConstraintContainerRefCommand(aRef, actorRef_X += offset, actorRef_Y, actorRef_Width, actorRef_Height);
-            //cmd.execute();
-            //md = new ContainerRefBindChildCommand(aRef);
-            //cmd.execute();
-            addedContainingActorList.add(aRef);
+            if (!tempActorDefs.contains((Actor) missingContainingActorList.get(i).getContDef())) {
+                tempActorDefs.add((Actor) missingContainingActorList.get(i).getContDef());
+                aRef = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
+                aRef.setContDef(missingContainingActorList.get(i).getContDef());
+                cmd = new AddContainerRefCommand(grlGraph, aRef);
+                cmd.execute();
+                //cmd = new SetConstraintContainerRefCommand(aRef, actorRef_X += offset, actorRef_Y, actorRef_Width, actorRef_Height);
+                //cmd.execute();
+                //md = new ContainerRefBindChildCommand(aRef);
+                //cmd.execute();
+                tempActorDefs.add((Actor) missingContainingActorList.get(i).getContDef());
+                addedContainingActorList.add(aRef);
+            }
         }
         
         for (int i = 0; i < addedContainingActorList.size(); i++) {
