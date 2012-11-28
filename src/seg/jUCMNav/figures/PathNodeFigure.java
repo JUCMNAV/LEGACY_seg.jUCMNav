@@ -44,6 +44,10 @@ public abstract class PathNodeFigure extends Figure {
     protected boolean isPointcutBorder;
 
     protected XYLayout xylayout;
+    
+    // @author: nikiforov
+    // use to highlight path by user color
+    protected Color userColor;
 
     /**
      * Creates the figure and initializes anchors.
@@ -170,7 +174,12 @@ public abstract class PathNodeFigure extends Figure {
     }
 
     protected void setColors() {
-        if (selected) {
+    	 if(userColor!=null){
+             // @author: nikiforov
+             // highlight PathNode by user color
+             setForegroundColor(userColor);
+             setColor(userColor);
+         }else if (selected) {
             setForegroundColor(ColorManager.LINE);
             setColor(ColorManager.SELECTED);
         } else if (traversed) {
@@ -184,4 +193,21 @@ public abstract class PathNodeFigure extends Figure {
                 setColor(ColorManager.FILL);
         }
     }
+    
+    /**
+     * @author: nikiforov
+     * Set user color to highlight connection
+     */
+    public void setUserColor(Color userColor){
+    	this.userColor = userColor;
+    }
+    
+    /**
+     * @author: nikiforov
+     * Reset user color to remove user highlighting
+     */
+    public void resetUserColor(){
+    	this.userColor = null;
+    }
+    
 }

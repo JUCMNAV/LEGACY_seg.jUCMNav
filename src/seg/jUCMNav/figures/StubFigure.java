@@ -365,7 +365,11 @@ public class StubFigure extends PathNodeFigure implements IRotateable {
     }
 
     protected void setColors() {
-        if (selected) {
+   	 	if(userColor!=null){
+   	 		// @author: nikiforov
+   	 		// highlight PathNode by user color
+   	 		mainFigure.setBackgroundColor(userColor);
+   	 	}else if (selected) {
             mainFigure.setForegroundColor(ColorManager.LINE);
             setColor(ColorManager.SELECTED);
         } else if (traversed) {

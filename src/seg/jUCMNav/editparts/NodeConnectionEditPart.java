@@ -18,6 +18,7 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -128,6 +129,10 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     protected IPropertySource propertySource = null;
 
     private TimeoutPathFigure timeout;
+    
+    // @author: nikiforov
+    // use to highlight path by user color
+    private Color userColor;
 
     /**
      * Build an edit part for the given link, in the given pathgraph.
@@ -391,7 +396,12 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
             endLabel.setVisible(GeneralPreferencePage.getUcmStubLabelVisible());
         }
 
-        if (ScenarioUtils.getActiveScenario(getLink()) != null && ScenarioUtils.getTraversalHitCount(getLink()) > 0) {
+        if(userColor!=null){
+            // @author: nikiforov
+            // highlight connection
+            getFigure().setForegroundColor(userColor);
+            getFigure().setBackgroundColor(userColor);
+        }else if (ScenarioUtils.getActiveScenario(getLink()) != null && ScenarioUtils.getTraversalHitCount(getLink()) > 0) {
             getFigure().setForegroundColor(ColorManager.TRAVERSAL);
             getFigure().setBackgroundColor(ColorManager.TRAVERSAL);
         } else {
@@ -430,5 +440,21 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         wizard.init(PlatformUI.getWorkbench(), null, model);
         WizardDialog dialog = new WizardDialog(shell, wizard);
         dialog.open();
+    }
+    
+    /**
+     * @author: nikiforov
+     * Set user color to highlight connection
+     */
+    public void setUserColor(Color userColor){
+    	this.userColor = userColor;
+    }
+    
+    /**
+     * @author: nikiforov
+     * Reset user color to remove user highlighting
+     */
+    public void resetUserColor(){
+    	this.userColor = null;
     }
 }

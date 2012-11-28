@@ -129,7 +129,12 @@ public class StartPointFigure extends PathNodeFigure {
      * @see seg.jUCMNav.figures.PathNodeFigure#setColors()
      */
     protected void setColors() {
-        if (selected) {
+   	 	if(userColor!=null){
+   	 		// @author: nikiforov
+   	 		//highlight PathNode by user color
+   	 		setForegroundColor(userColor);
+   	 		setColor(userColor);
+   	 	}else if (selected) {
             setForegroundColor(ColorManager.LINE);
             setColor(ColorManager.SELECTED);
         } else if (traversed) {
