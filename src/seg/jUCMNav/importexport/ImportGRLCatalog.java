@@ -172,7 +172,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             } else {
                 throw new SAXException("Could not create IntentionalElementRef " + attrs.getValue("name")); //$NON-NLS-1$ //$NON-NLS-2$
             }
-        } else if ( "metadata".equals(qName) ) { //$NON-NLS-1$
+        } else if ( "metadata".equals(qName) && state == 1 ) { //$NON-NLS-1$
             if ( state != 1 ) 
             {
               System.out.println( "state problem!!!" );  
@@ -190,18 +190,8 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
               
                 Metadata metadataObject = (Metadata) ModelCreationFactory.getNewObject( urn, Metadata.class );
               
-                //String nameString = (String) map.get( attrs.getValue( "name" ) ); //$NON-NLS-1$
-                //String valueString = (String) map.get( attrs.getValue( "value" ) ); //$NON-NLS-1$
-              
                 metadataObject.setName( attrs.getValue( "name" ) ); //$NON-NLS-1$
                 metadataObject.setValue( attrs.getValue( "value" ) ); //$NON-NLS-1$
-              
-                /*ArrayList<Metadata> MD = ( ArrayList<Metadata> ) map.get( attrs.getValue( "metadata" ) );
-                Metadata [] MDArray = MD.toArray( new Metadata[ MD.size() ] );
-              
-                if ( MDArray == null )
-                    throw new SAXException("Invalid metadata in containment link"); //$NON-NLS-1$*/
-                
                 AddMetadataCommand metadataCommand = new AddMetadataCommand( IE, metadataObject, null );
                 metadataCommand.execute();               
             }
@@ -289,8 +279,34 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 } else {
                     contrib.setCorrelation(false);
                 }
+                
+                // Add the new element in the hashmap for reference from links
+                map.put(attrs.getValue("name"), contrib); //$NON-NLS-1$
             } else {
                 throw new SAXException("Could not create Contribution"); //$NON-NLS-1$
+            }
+        } else if ( "metadata".equals(qName) && state == 2 ) { //$NON-NLS-1$
+            if ( state != 2 ) 
+            {
+                System.out.println( "state problem!!!" );  
+                throw new SAXException("<metadata> not at the right place..."); //$NON-NLS-1$
+            } 
+            else 
+            {
+                Contribution C = (Contribution) map.get( attrs.getValue( "elem" )); //$NON-NLS-1$               
+                  
+                if ( C == null )
+                {   
+                    System.out.println( "Contribution recognition problem!!!" );
+                    throw new SAXException("Invalid Contribution recognition in containment link"); //$NON-NLS-1$
+                }
+                
+                Metadata metadataObject = (Metadata) ModelCreationFactory.getNewObject( urn, Metadata.class );
+                
+                metadataObject.setName( attrs.getValue( "name" ) ); //$NON-NLS-1$
+                metadataObject.setValue( attrs.getValue( "value" ) ); //$NON-NLS-1$
+                AddMetadataCommand metadataCommand = new AddMetadataCommand( C, metadataObject, null );
+                metadataCommand.execute();               
             }
         } else if ("actor".equals(qName)) { //$NON-NLS-1$
             if (state != 3)

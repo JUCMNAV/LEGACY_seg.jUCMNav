@@ -13,6 +13,7 @@ Bundle-Vendor: UseCaseMaps.org
 Bundle-Localization: plugin
 Export-Package: grl,
  grl.impl,
+ grl.kpimodel,
  grl.util,
  seg.jUCMNav,
  seg.jUCMNav.actions,
