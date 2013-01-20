@@ -109,6 +109,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
                     }
 
                 } else
+                    _error = "Threading error detected.";
                     System.out
                             .println("DEBUG: not supposed to happen (new thread count: " + newlyAdded.size() + ", old thread count: " + newlyDied.size() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
