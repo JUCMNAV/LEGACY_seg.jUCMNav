@@ -15,9 +15,14 @@ public class UrnMultiPageEditorSite extends MultiPageEditorSite {
     protected static StructuredSelection globalSelection = null;
     
     protected void handleSelectionChanged(SelectionChangedEvent event) {
-
         // performance fix for large maps. 
         if (((UCMNavMultiPageEditor)getMultiPageEditor()).getActiveEditor()==getEditor())
             super.handleSelectionChanged(event);
+    }
+    
+    protected void handlePostSelectionChanged(SelectionChangedEvent event) {
+        // performance fix for large maps.
+        if (((UCMNavMultiPageEditor)getMultiPageEditor()).getActiveEditor()==getEditor())
+            super.handlePostSelectionChanged(event);
     }
 }
