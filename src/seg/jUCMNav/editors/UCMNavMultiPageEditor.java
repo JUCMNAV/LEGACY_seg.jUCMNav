@@ -831,10 +831,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             if (o != null) {
 
                 UrnOutlinePage outline;
-                if (getPageCount() == 0)
+                //if (getPageCount() == 0)
                     outline = (UrnOutlinePage) getAdapter(IContentOutlinePage.class);
-                else
-                    outline = (UrnOutlinePage) getEditor(0).getAdapter(IContentOutlinePage.class);
+                //else
+                    //outline = (UrnOutlinePage) getEditor(0).getAdapter(IContentOutlinePage.class);
 
                 Object element = URNElementFinder.find(getModel(), o.toString());
                 if (element != null) {
