@@ -68,6 +68,7 @@ import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.actions.GenerateReportAction;
 import seg.jUCMNav.actions.ImportAction;
+import seg.jUCMNav.actions.ListDefinitionReferencesAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.RefactorIntoStubAction;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
@@ -79,10 +80,12 @@ import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
 import seg.jUCMNav.actions.ShowContainingActorAction;
 import seg.jUCMNav.actions.ShowContainingElementAction;
-//import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
 import seg.jUCMNav.actions.ShowEvaluationIntentionalElementV1Action;
+import seg.jUCMNav.actions.ShowLinkedElementAction;
 import seg.jUCMNav.actions.ShowLinkedElementAlternativeAction;
 import seg.jUCMNav.actions.ShowLinkedElementCompleteAction;
+import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
+import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
@@ -98,9 +101,6 @@ import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
 import seg.jUCMNav.actions.hyperlinks.AddHyperlinkAction;
-import seg.jUCMNav.actions.ShowLinkedElementAction;
-import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
-import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
 import seg.jUCMNav.actions.hyperlinks.ChangeHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.DeleteHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.NavigateHyperlinkAction;
@@ -143,6 +143,7 @@ import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+//import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
 
 /**
  * Adds actions to the action registry. Originally included in the UCMNavMultiPageEditor, this code was factored out.
@@ -787,6 +788,10 @@ public class ActionRegistryManager implements IDisposable {
         
         action = new SetComparisonStrategyAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.SetComparisonStrategyAction")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ListDefinitionReferencesAction(editor);
+        action.setText("List references");
         addEditPartAction((SelectionAction) action);
         
         

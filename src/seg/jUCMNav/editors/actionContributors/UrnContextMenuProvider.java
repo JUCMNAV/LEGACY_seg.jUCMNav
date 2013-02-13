@@ -51,6 +51,7 @@ import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.actions.GenerateReportAction;
 import seg.jUCMNav.actions.ImportAction;
+import seg.jUCMNav.actions.ListDefinitionReferencesAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.RefactorIntoStubAction;
 import seg.jUCMNav.actions.SetNumericalContributionAction;
@@ -59,12 +60,14 @@ import seg.jUCMNav.actions.SetNumericalImportanceAction;
 import seg.jUCMNav.actions.SetQualitativeContributionAction;
 import seg.jUCMNav.actions.SetQualitativeEvaluationAction;
 import seg.jUCMNav.actions.SetQualitativeImportanceAction;
-import seg.jUCMNav.actions.ShowContainingElementAction;
 import seg.jUCMNav.actions.ShowContainingActorAction;
-//import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
+import seg.jUCMNav.actions.ShowContainingElementAction;
 import seg.jUCMNav.actions.ShowEvaluationIntentionalElementV1Action;
+import seg.jUCMNav.actions.ShowLinkedElementAction;
 import seg.jUCMNav.actions.ShowLinkedElementAlternativeAction;
 import seg.jUCMNav.actions.ShowLinkedElementCompleteAction;
+import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
+import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
 import seg.jUCMNav.actions.SubmenuAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
@@ -78,9 +81,6 @@ import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
 import seg.jUCMNav.actions.hyperlinks.AddHyperlinkAction;
-import seg.jUCMNav.actions.ShowLinkedElementAction;
-import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
-import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
 import seg.jUCMNav.actions.hyperlinks.ChangeHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.DeleteHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.NavigateHyperlinkAction;
@@ -96,6 +96,7 @@ import seg.jUCMNav.actions.scenarios.EditContributionRangeAction;
 import seg.jUCMNav.actions.scenarios.EditEvaluationRangeAction;
 import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
+//import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
 
 /**
  * This class builds the context menu used in our editor and views.
@@ -371,6 +372,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(AddBeliefAction.ADDBELIEF);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(ListDefinitionReferencesAction.LISTREFERENCES);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
