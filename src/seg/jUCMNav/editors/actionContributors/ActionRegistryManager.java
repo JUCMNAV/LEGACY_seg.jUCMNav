@@ -791,7 +791,7 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
         
         action = new ListDefinitionReferencesAction(editor);
-        action.setText("List references");
+        action.setText("References...");
         addEditPartAction((SelectionAction) action);
         
         

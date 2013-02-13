@@ -26,8 +26,10 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.map.RespRef;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
@@ -96,11 +98,12 @@ public class ListDefinitionReferencesAction extends URNSelectionAction {
                             if (items[i].getData("toRemove").equals("true"))
                                 items[i].dispose();
                         }
+                        
 
                         int i = 0;
                         for (Iterator it = references.iterator(); it.hasNext();) {
                             EObject obj = (EObject)it.next();
-                            
+
                             IURNDiagram diagram = null;
                             
                             if(obj instanceof IURNContainerRef)
@@ -111,8 +114,6 @@ public class ListDefinitionReferencesAction extends URNSelectionAction {
                                 diagram = ((IntentionalElementRef)obj).getDiagram();
                             else if(obj instanceof LinkRef)
                                 diagram = ((LinkRef)obj).getDiagram();
-                            
-                            String diagramName = URNNamingHelper.getName((URNmodelElement) diagram);
 
                             // create the submenu item
                             MenuItem item = new MenuItem(menu, SWT.NONE);
@@ -121,7 +122,13 @@ public class ListDefinitionReferencesAction extends URNSelectionAction {
                             item.setData(new Integer(i));
 
                             // identify it
-                            item.setText(diagramName);
+                         // Set the text depending on the outline preferences
+                            if (DisplayPreferences.getInstance().getShowNodeNumber()) {
+                                // This class return the ID between () at the element name
+                                item.setText(EObjectClassNameComparator.getSortableElementName(diagram));
+                            } else {
+                                item.setText(URNNamingHelper.getName((URNmodelElement)diagram));
+                            }
 
                             // inform us when something is selected.
                             item.addSelectionListener(new SelectionListener() {
@@ -164,26 +171,41 @@ public class ListDefinitionReferencesAction extends URNSelectionAction {
      * 
      */
     protected boolean calculateEnabled() {
-        EditPart ep = (EditPart) getSelectedObjects().get(0);
-        if (ep.getModel() instanceof EObject) {
-            EObject model = (EObject)ep.getModel();
-        
-            if (model instanceof IURNContainer) {
-                references = ((IURNContainer)model).getContRefs();
-                return true;
-            }
-            else if(model instanceof Responsibility) {
-                references = ((Responsibility)model).getRespRefs();
-                return true;
-            }
-            else if(model instanceof IntentionalElement)
-            {
-                references = ((IntentionalElement)model).getRefs();
-                return true;
-            }
-            else if(model instanceof ElementLink)
-            {
-                references = ((ElementLink)model).getRefs();
+        if(getSelectedObjects().size() > 0 && getSelectedObjects().get(0) instanceof EditPart) {
+            EditPart ep = (EditPart) getSelectedObjects().get(0);
+            
+            if (ep.getModel() instanceof EObject) {
+                EObject model = (EObject)ep.getModel();
+            
+                if (model instanceof IURNContainer) {
+                    references = ((IURNContainer)model).getContRefs();
+                }
+                else if(model instanceof Responsibility) {
+                    references = ((Responsibility)model).getRespRefs();
+                }
+                else if(model instanceof IntentionalElement)
+                {
+                    references = ((IntentionalElement)model).getRefs();
+                }
+                else if(model instanceof ElementLink)
+                {
+                    references = ((ElementLink)model).getRefs();
+                }
+                else if(model instanceof IURNContainerRef) {
+                    references = ((IURNContainerRef)model).getContDef().getContRefs();
+                }
+                else if(model instanceof RespRef && ((RespRef)model).getRespDef() != null) {
+                    references = ((RespRef)model).getRespDef().getRespRefs();
+                }
+                else if(model instanceof IntentionalElementRef) {
+                    references = ((IntentionalElementRef)model).getDef().getRefs();
+                }
+                else if(model instanceof LinkRef) {
+                    references = ((LinkRef)model).getLink().getRefs();
+                }
+                else
+                    return false;
+                
                 return true;
             }
         }
