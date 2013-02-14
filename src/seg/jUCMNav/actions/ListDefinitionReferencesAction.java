@@ -26,6 +26,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
@@ -104,16 +105,7 @@ public class ListDefinitionReferencesAction extends URNSelectionAction {
                         for (Iterator it = references.iterator(); it.hasNext();) {
                             EObject obj = (EObject)it.next();
 
-                            IURNDiagram diagram = null;
-                            
-                            if(obj instanceof IURNContainerRef)
-                                diagram = ((IURNContainerRef)obj).getDiagram();
-                            else if(obj instanceof RespRef)
-                                diagram = ((RespRef)obj).getDiagram();
-                            else if(obj instanceof IntentionalElementRef)
-                                diagram = ((IntentionalElementRef)obj).getDiagram();
-                            else if(obj instanceof LinkRef)
-                                diagram = ((LinkRef)obj).getDiagram();
+                            IURNDiagram diagram = getDiagram(obj);
 
                             // create the submenu item
                             MenuItem item = new MenuItem(menu, SWT.NONE);
@@ -139,16 +131,36 @@ public class ListDefinitionReferencesAction extends URNSelectionAction {
                                 @Override
                                 public void widgetSelected(SelectionEvent e) {
                                     int index = ((Integer) (((MenuItem) (e.getSource())).getData())).intValue();
+                                    EObject o = (EObject)references.get(index);
+                                    IURNDiagram diagram = getDiagram(o);
 
                                     UrnOutlinePage outline = (UrnOutlinePage) getEditor().getAdapter(IContentOutlinePage.class);
-                                    EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(references.get(index));
+                                    
+                                    EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(o);
 
-                                    if (part != null) 
-                                        getEditor().select(part);
+                                    if (part != null)
+                                        getEditor().selectInOutline(part);
+                                    else {
+                                        getEditor().selectInDiagram(o, diagram);
+                                    }
                                 }
                             });
                             i++;
                         }
+                    }
+
+                    protected IURNDiagram getDiagram(EObject obj) {
+                        IURNDiagram diagram = null;
+                        
+                        if(obj instanceof IURNContainerRef)
+                            diagram = ((IURNContainerRef)obj).getDiagram();
+                        else if(obj instanceof RespRef)
+                            diagram = ((RespRef)obj).getDiagram();
+                        else if(obj instanceof IntentionalElementRef)
+                            diagram = ((IntentionalElementRef)obj).getDiagram();
+                        else if(obj instanceof LinkRef)
+                            diagram = ((LinkRef)obj).getDiagram();
+                        return diagram;
                     }
 
                 });

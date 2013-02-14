@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.RootEditPart;
@@ -841,7 +842,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
                     EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(element);
 
-                    select(part);
+                    selectInOutline(part);
                 }
 
                 // if found nothing, see if we have a quick fix.
@@ -862,12 +863,20 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         }
     }
     
-    public void select(EditPart part) {
+    public void selectInOutline(EditPart part) {
         UrnOutlinePage outline = (UrnOutlinePage) getAdapter(IContentOutlinePage.class);
         if (part != null && outline != null) {
             getMultiPageTabManager().getSelectionListener().selectionChanged(this, new StructuredSelection(part));
             outline.getViewer().select(part);
         }
+    }
+    
+    public void selectInDiagram(EObject model, IURNDiagram diagram) {
+        setActivePage(diagram);
+        EditPart part = (EditPart)getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(model);
+        getMultiPageTabManager().getSelectionListener().selectionChanged(this, new StructuredSelection(part));
+        
+        getCurrentPage().getGraphicalViewer().select(part);
     }
 
     /**
