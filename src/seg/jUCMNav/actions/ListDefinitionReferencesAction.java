@@ -144,7 +144,7 @@ public class ListDefinitionReferencesAction extends URNSelectionAction {
                                     EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(references.get(index));
 
                                     if (part != null) 
-                                        outline.getViewer().select(part);
+                                        getEditor().select(part);
                                 }
                             });
                             i++;

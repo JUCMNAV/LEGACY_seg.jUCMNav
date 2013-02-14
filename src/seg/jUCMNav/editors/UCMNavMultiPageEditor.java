@@ -841,12 +841,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
                     EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(element);
 
-                    if (part != null) {
-                        getMultiPageTabManager().getSelectionListener().selectionChanged(this, new StructuredSelection(part));
-                        outline.getViewer().select(part);
-                        // part.setSelected(EditPart.SELECTED_PRIMARY);
-                        // return; // work is done.
-                    }
+                    select(part);
                 }
 
                 // if found nothing, see if we have a quick fix.
@@ -865,7 +860,14 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         } catch (CoreException e) {
             e.printStackTrace();
         }
-
+    }
+    
+    public void select(EditPart part) {
+        UrnOutlinePage outline = (UrnOutlinePage) getAdapter(IContentOutlinePage.class);
+        if (part != null && outline != null) {
+            getMultiPageTabManager().getSelectionListener().selectionChanged(this, new StructuredSelection(part));
+            outline.getViewer().select(part);
+        }
     }
 
     /**
