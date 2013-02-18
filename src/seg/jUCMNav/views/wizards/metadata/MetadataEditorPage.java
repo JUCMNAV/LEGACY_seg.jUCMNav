@@ -56,7 +56,7 @@ import urncore.URNmodelElement;
  * @author pchen
  */
 public class MetadataEditorPage extends WizardPage {
-    private Shell shell;
+    protected Shell shell;
     private Composite container;
     private Table metadataTable;
     private static final String[] columnNames = { Messages.getString("MetadataEditorPage.column1"), Messages.getString("MetadataEditorPage.column2") }; //$NON-NLS-1$ //$NON-NLS-2$
@@ -529,11 +529,18 @@ public class MetadataEditorPage extends WizardPage {
 
         return popUpMenu;
     }
+    
+    protected MetadataEntryDialog createMetadataEntryDialog(String title) {
+        MetadataEntryDialog dialog = new MetadataEntryDialog(shell);
+        dialog.setTitle(title);
+        dialog.setLabels(columnNames);
+        
+        return dialog;
+    }
 
     private void newEntry() {
-        MetadataEntryDialog dialog = new MetadataEntryDialog(shell);
-        dialog.setTitle(Messages.getString("MetadataEntryDialog.title_add")); //$NON-NLS-1$
-        dialog.setLabels(columnNames);
+        MetadataEntryDialog dialog = createMetadataEntryDialog(Messages.getString("MetadataEntryDialog.title_add"));
+        setNewEntryDefaults(dialog);
         String[] data = dialog.open();
 
         if (data != null) {
@@ -542,6 +549,10 @@ public class MetadataEditorPage extends WizardPage {
 
             metadataChanged();
         }
+    }
+
+    protected void setNewEntryDefaults(MetadataEntryDialog dialog) {
+        
     }
 
     private void copyEntry(TableItem item) {
@@ -565,9 +576,7 @@ public class MetadataEditorPage extends WizardPage {
     }
 
     private void editEntry(TableItem item) {
-        MetadataEntryDialog dialog = new MetadataEntryDialog(shell);
-        dialog.setTitle(Messages.getString("MetadataEntryDialog.title_edit")); //$NON-NLS-1$
-        dialog.setLabels(columnNames);
+        MetadataEntryDialog dialog = createMetadataEntryDialog(Messages.getString("MetadataEntryDialog.title_edit"));
         String[] values = new String[metadataTable.getColumnCount()];
 
         for (int i = 0; i < values.length; i++) {
@@ -698,7 +707,7 @@ public class MetadataEditorPage extends WizardPage {
         // Remove related listeners on metadataTable in here
 
         if (!metadataTable.isDisposed()) {
-            if (obj != null && obj instanceof URNmodelElement) {
+            if (obj != null && obj instanceof URNmodelElement || obj instanceof URNspec) {
                 // put urnelem into metadata table
                 metadataTable.removeAll();
 
@@ -706,15 +715,7 @@ public class MetadataEditorPage extends WizardPage {
                 if (metadataMap.get(obj) != null) {
                     metadataArray = (Metadata[]) metadataMap.get(obj);
                 } else {
-                    EList metadataList = null;
-                    if(obj instanceof URNlink)
-                        metadataList = ((URNlink)obj).getMetadata();
-                    else if(obj instanceof URNmodelElement)
-                        metadataList = ((URNmodelElement)obj).getMetadata();
-                    else if(obj instanceof URNspec)
-                        metadataList = ((URNspec)obj).getMetadata();
-                    
-                    metadataArray = (Metadata[]) metadataList.toArray(new Metadata[0]);
+                    metadataArray = setMetadataArray(obj);
                 }
 
                 String[][] tableInfo = new String[metadataArray.length][metadataTable.getColumnCount()];
@@ -744,6 +745,20 @@ public class MetadataEditorPage extends WizardPage {
         }
 
         // Restore listeners on metadataTable in here
+    }
+
+    protected Metadata[] setMetadataArray(Object obj) {
+        Metadata[] metadataArray;
+        EList metadataList = null;
+        if(obj instanceof URNlink)
+            metadataList = ((URNlink)obj).getMetadata();
+        else if(obj instanceof URNmodelElement)
+            metadataList = ((URNmodelElement)obj).getMetadata();
+        else if(obj instanceof URNspec)
+            metadataList = ((URNspec)obj).getMetadata();
+        
+        metadataArray = (Metadata[]) metadataList.toArray(new Metadata[0]);
+        return metadataArray;
     }
 
     /**

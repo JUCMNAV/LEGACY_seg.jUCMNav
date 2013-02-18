@@ -65,7 +65,9 @@ public class MetadataRefResolver {
                         }
                     }
                 }
-
+            }
+            else if(defaultSelected instanceof URNspec) {
+                v.add(defaultSelected);
             }
 
             return new StructuredSelection(v);

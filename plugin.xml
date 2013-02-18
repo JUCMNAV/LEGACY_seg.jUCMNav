@@ -499,6 +499,11 @@
 	         <propertyTab
 	         	afterTab="mview.MetaDataTab"
 	            category="jUCMNav"
+	               id="mview.StereotypeTab"
+	            label="Stereotypes"/>
+	         <propertyTab
+	         	afterTab="mview.StereotypeTab"
+	            category="jUCMNav"
 	               id="mview.AdvancedTab"
 	            label="Advanced"/>
 	      </propertyTabs>
@@ -578,6 +583,14 @@
 	               tab="mview.MetaDataTab">
 	               <input
 		                  type="urncore.URNmodelElement">
+		            </input>
+	        </propertySection>
+			<propertySection
+	               class="seg.jUCMNav.views.property.tabbed.sections.StereotypesPropertySection"
+	               id="mview.StereotypesPropertySection"
+	               tab="mview.StereotypeTab">
+	               <input
+		                  type="urn.URNspec">
 		            </input>
 	        </propertySection>
 			<propertySection

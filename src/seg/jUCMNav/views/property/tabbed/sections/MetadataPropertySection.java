@@ -32,31 +32,39 @@ public class MetadataPropertySection extends AbstractWizardPropertySection {
         EObject obj = resolver.getRealObject(eObject);
         initialObject = getUnresolvedSelection(propertySheetPage.getSelection());
 
-        final MetadataEditorPage page = new MetadataEditorPage(sel, obj, initialObject != obj ? initialObject : null);
+        final MetadataEditorPage page = createMetadataEditorPage(sel, obj, initialObject);
         page.setInProperties(true);
         page.addMetadataListener(new IMetadataListener() {
             public void metadataChanged() {
-                final HashMap metadataMap = ((MetadataEditorPage) page).getAllMetadata();
-                if (metadataMap.keySet().size() > 0) {
-                    CommandStack cs = StackHelper.getStack(propertySheetPage);
-                    if (cs != null) {
-                        CompoundCommand cmd = new CompoundCommand();
-                        for (Iterator iter = metadataMap.entrySet().iterator(); iter.hasNext();) {
-                            Map.Entry entry = (Map.Entry) iter.next();
-                            cmd.add(new ChangeMetadataCommand((EObject) entry.getKey(), (Metadata[]) entry.getValue(), null));
-                        }
-
-                        if (cmd.canExecute()) {
-                            cs.execute(cmd);
-                        }
-                    }
-                }
+                MetadataPropertySection.this.metadataChanged(page);
             }
         });
 
         page.createControl(parent);
 
         return page;
+    }
+
+    protected MetadataEditorPage createMetadataEditorPage(IStructuredSelection sel, EObject obj, EObject initialObject) {
+        return new MetadataEditorPage(sel, obj, initialObject != obj ? initialObject : null);
+    }
+    
+    protected void metadataChanged(final MetadataEditorPage page) {
+        final HashMap metadataMap = ((MetadataEditorPage) page).getAllMetadata();
+        if (metadataMap.keySet().size() > 0) {
+            CommandStack cs = StackHelper.getStack(propertySheetPage);
+            if (cs != null) {
+                CompoundCommand cmd = new CompoundCommand();
+                for (Iterator iter = metadataMap.entrySet().iterator(); iter.hasNext();) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    cmd.add(new ChangeMetadataCommand((EObject) entry.getKey(), (Metadata[]) entry.getValue(), null));
+                }
+
+                if (cmd.canExecute()) {
+                    cs.execute(cmd);
+                }
+            }
+        }
     }
 
     public void setInput(IWorkbenchPart part, ISelection selection) {

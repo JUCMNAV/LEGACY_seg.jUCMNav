@@ -37,7 +37,7 @@ public class MetadataEntryDialog extends Dialog {
         shell.setLayout(layout);
     }
 
-    private void addTextListener(final Text text) {
+    protected void addTextListener(final Text text) {
         text.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 Integer index = (Integer) (text.getData("index")); //$NON-NLS-1$
@@ -46,11 +46,38 @@ public class MetadataEntryDialog extends Dialog {
         });
     }
 
-    private void createControlButtons() {
+    protected void createControls() {
 		Point size;
+		GridData gridData = null;
+
+        if (labels == null)
+            return;
+
+        if (values == null)
+            values = new String[labels.length];
+
+        for (int i = 0; i < labels.length; i++) {
+            Label label = new Label(shell, SWT.RIGHT);
+            label.setText(labels[i] + ": "); //$NON-NLS-1$
+            size = label.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+            gridData = new GridData();
+            gridData.widthHint = size.x + LABEL_WIDTH;
+            label.setLayoutData(gridData);
+
+            Text text = new Text(shell, SWT.BORDER);
+            gridData = new GridData();
+            gridData.widthHint = 320;
+            gridData.grabExcessHorizontalSpace = true;
+            text.setLayoutData(gridData);
+            if (values[i] != null) {
+                text.setText(values[i]);
+            }
+            text.setData("index", new Integer(i)); //$NON-NLS-1$
+            addTextListener(text);
+        }
 
         Composite buttonComp = new Composite(shell, SWT.NONE);
-        GridData gridData = new GridData();
+        gridData = new GridData();
         gridData.horizontalSpan = 2;
         buttonComp.setLayoutData(gridData);
         GridLayout layout = new GridLayout();
@@ -84,36 +111,6 @@ public class MetadataEntryDialog extends Dialog {
         });
 
         shell.setDefaultButton(okButton);
-    }
-
-    private void createTextWidgets() {
-		Point size;
-
-		if (labels == null)
-            return;
-
-        if (values == null)
-            values = new String[labels.length];
-
-        for (int i = 0; i < labels.length; i++) {
-            Label label = new Label(shell, SWT.RIGHT);
-            label.setText(labels[i] + ": "); //$NON-NLS-1$
-    		size = label.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-            GridData gridData = new GridData();
-            gridData.widthHint = size.x + LABEL_WIDTH;
-            label.setLayoutData(gridData);
-
-            Text text = new Text(shell, SWT.BORDER);
-            gridData = new GridData();
-            gridData.widthHint = 320;
-            gridData.grabExcessHorizontalSpace = true;
-            text.setLayoutData(gridData);
-            if (values[i] != null) {
-                text.setText(values[i]);
-            }
-            text.setData("index", new Integer(i)); //$NON-NLS-1$
-            addTextListener(text);
-        }
     }
 
     public String[] getLabels() {
@@ -166,8 +163,7 @@ public class MetadataEntryDialog extends Dialog {
      * @return values of the edited metadata
      */
     public String[] open() {
-        createTextWidgets();
-        createControlButtons();
+        createControls();
 
         int width = 340;
         int height = 125;
@@ -184,5 +180,4 @@ public class MetadataEntryDialog extends Dialog {
 
         return getValues();
     }
-
 }
