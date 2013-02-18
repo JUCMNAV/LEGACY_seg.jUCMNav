@@ -2,6 +2,8 @@ package seg.jUCMNav.views.wizards.metadata;
 
 import grl.GrlFactory;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -181,9 +183,21 @@ public class StereotypeEntryDialog extends MetadataEntryDialog {
         list.addAll(MapFactory.eINSTANCE.getMapPackage().getEClassifiers());
         list.addAll(PerformanceFactory.eINSTANCE.getPerformancePackage().getEClassifiers());
         list.addAll(ScenarioFactory.eINSTANCE.getScenarioPackage().getEClassifiers());
-        list.addAll(MapFactory.eINSTANCE.getMapPackage().getEClassifiers());
         list.addAll(UrncoreFactory.eINSTANCE.getUrncorePackage().getEClassifiers());
         list.addAll(UrnFactory.eINSTANCE.getUrnPackage().getEClassifiers());
+        
+        Collections.sort(list, new Comparator(){
+            public int compare(Object o1, Object o2) {
+                EClassifier e1 = (EClassifier)o1;
+                EClassifier e2 = (EClassifier)o2;
+                
+                String name1 = e1.getEPackage().getName().toUpperCase() + ": " + e1.getName();
+                String name2 = e2.getEPackage().getName().toUpperCase() + ": " + e2.getName();
+                
+                return name1.compareTo(name2);
+            }
+            
+        });
 
         int j = 0;
         for (Iterator i = list.iterator(); i.hasNext();) {
