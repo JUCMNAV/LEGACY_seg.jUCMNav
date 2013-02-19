@@ -26,7 +26,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
@@ -69,10 +68,10 @@ public class ListDefinitionReferencesAction extends URNSelectionAction {
             }
 
             public Menu getMenu(Menu parent) {
-                if (getCreatedMenu() != null) {
-                    getCreatedMenu().setEnabled(false);
-                    getCreatedMenu().dispose();
-                }
+//                if (getCreatedMenu() != null) {
+//                    getCreatedMenu().setEnabled(false);
+//                    getCreatedMenu().dispose();
+//                }
 
                 // create dynamic submenu
                 final Menu menu = new Menu(parent);

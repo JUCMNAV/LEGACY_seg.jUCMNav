@@ -8,7 +8,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
 import seg.jUCMNav.model.commands.create.ShowContainingElementCommand;
 import urn.URNspec;
 import urncore.URNmodelElement;
@@ -47,9 +46,9 @@ public class ShowContainingElementAction extends URNSelectionAction
         SelectionHelper sel = new SelectionHelper(objects);
         urnspec = sel.getUrnspec();
         
-        if (sel.getSelectionType() == SelectionHelper.ACTOR) {
+        if (sel.getSelectionType() == SelectionHelper.ACTORREF) {
             element = sel.getActor();
-            elementRef = (ActorRef) HyperlinkUtils.findURNmodelElement(sel);
+            elementRef = (ActorRef) sel.getActorref();
             return true;
         } else
             return false;

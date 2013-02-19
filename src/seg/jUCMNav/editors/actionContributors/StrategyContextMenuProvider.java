@@ -14,6 +14,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.TagElementAction;
+import seg.jUCMNav.actions.kpi.RunAllGRLEvaluationAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
@@ -202,6 +203,10 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(RunAllScenariosAction.RUNALLSCENARIOS);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(RunAllGRLEvaluationAction.RUNALLGRLEVALUATIONS);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 

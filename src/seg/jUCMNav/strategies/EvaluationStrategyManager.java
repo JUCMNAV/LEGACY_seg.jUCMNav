@@ -1833,4 +1833,9 @@ public class EvaluationStrategyManager {
         }
         return null;
     }
+    
+    public HashMap getEvaluations()
+    {
+        return (HashMap) evaluations.clone();
+    }
 }

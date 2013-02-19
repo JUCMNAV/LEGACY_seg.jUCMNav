@@ -106,6 +106,7 @@ import seg.jUCMNav.actions.hyperlinks.DeleteHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.NavigateHyperlinkAction;
 import seg.jUCMNav.actions.kpi.AddIndicatorGroupAction;
 import seg.jUCMNav.actions.kpi.EditIndicatorGroupsAction;
+import seg.jUCMNav.actions.kpi.RunAllGRLEvaluationAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.palette.SelectPaletteEntryAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
@@ -720,6 +721,10 @@ public class ActionRegistryManager implements IDisposable {
 
         action = new RunAllScenariosAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.RunAllScenariosInGroup")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new RunAllGRLEvaluationAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.RunAllGRLEvaluationAction")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new ManageDemandAction(editor);

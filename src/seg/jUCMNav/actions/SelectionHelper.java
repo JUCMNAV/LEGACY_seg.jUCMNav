@@ -688,10 +688,10 @@ public class SelectionHelper {
             selectionType = KPIINFORMATIONELEMENTREF;
         else if (belief != null)
             selectionType = BELIEF;
-        else if (actor != null)
-            selectionType = ACTOR;
         else if (actorref != null)
             selectionType = ACTORREF;
+        else if (actor != null)
+            selectionType = ACTOR;
         else if (linkref != null)
             selectionType = LINKREF;
         else if (kpiModelLinkRef != null)
