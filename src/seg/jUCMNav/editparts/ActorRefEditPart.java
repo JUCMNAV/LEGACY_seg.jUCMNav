@@ -29,6 +29,8 @@ import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.ActorFigure;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.util.UrnMetadata;
+import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
@@ -244,16 +246,26 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                     case QualitativeLabel.NONE:
                         evaluationImg = (JUCMNavPlugin.getImage("icons/Actor-N-24x16.gif")); //$NON-NLS-1$
                         break;
-
                     }
                 }
 
             }
+            
+            Actor actor = (Actor) getActorRef().getContDef();
+            String _trendStr = MetadataHelper.getMetaData(actor, BatchEvaluationUtil.METADATA_TREND);
 
-            if (GeneralPreferencePage.getGrlSatisfactionIconVisible())
-                evaluationLabel.setIcon(evaluationImg);
-            else
-                evaluationLabel.setIcon(null);
+            if(_trendStr != null) {
+                int _trend = Integer.parseInt(_trendStr);
+                Image icon = BatchEvaluationUtil.getIcon(_trend);
+                if(icon != null)
+                    evaluationLabel.setIcon(icon);
+            }
+            else {
+                if (GeneralPreferencePage.getGrlSatisfactionIconVisible())
+                    evaluationLabel.setIcon(evaluationImg);
+                else
+                    evaluationLabel.setIcon(null);
+            }
             evaluationLabel.setLocation(getActorFigure().getLocation());
 
         } catch (NullPointerException e) {

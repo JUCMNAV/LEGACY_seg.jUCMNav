@@ -589,6 +589,9 @@ public class EvaluationStrategyManager {
         if (strategy != null) {
             // Go through all the intentionalElement and create a new Evaluation object if no one exist for this strategy
             GRLspec grl = strategy.getGrlspec();
+            
+            MetadataHelper.cleanRunTimeMetadata(grl.getUrnspec());
+            
             HashMap recursiveEvaluations = new HashMap();
             getRecursiveEvaluations(strategy, recursiveEvaluations);
 

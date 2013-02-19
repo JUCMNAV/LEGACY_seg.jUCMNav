@@ -10,6 +10,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.swt.graphics.Image;
+
+import seg.jUCMNav.JUCMNavPlugin;
+
 public class BatchEvaluationUtil {
     /**
      * Metadata name used to store runtime trends for GRL strategy groups
@@ -43,6 +47,13 @@ public class BatchEvaluationUtil {
         return evalTable;
     }
     
+    public static final int TREND_POSITIVE = 1;
+    public static final int TREND_EQUALS = 0;
+    public static final int TREND_NEGATIVE = -1;
+    public static final int TREND_NOTREND = -2;
+    public static final int TREND_VARYING = -3;
+    public static final int TREND_CANTCALCULATE = -4;
+    
     /**
      * calculates a trend in the strategies
      * 
@@ -56,6 +67,7 @@ public class BatchEvaluationUtil {
     
     public static int calculateTrend(HashMap<Integer, EvaluationStrategy> strategies, GRLLinkableElement element, HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable, int prefTrend) {
         int trend = -2; 
+            //can't calculate = -4
             //no trend = -2
             //varying trend = -3
             //no change = 0
@@ -100,7 +112,24 @@ public class BatchEvaluationUtil {
                 lastValue = currentValue;
             }
         }
+        else
+            trend = -4;
         
         return trend;   
+    }
+    
+    public static Image getIcon(int _trend) {
+        if(_trend == BatchEvaluationUtil.TREND_NOTREND || _trend == BatchEvaluationUtil.TREND_VARYING) // No trend or varying trend
+            return (JUCMNavPlugin.getImage("icons/trend-notrend.gif"));
+        else if(_trend == BatchEvaluationUtil.TREND_CANTCALCULATE) // Can't calculatate trend
+            return (JUCMNavPlugin.getImage("icons/trend-cant.gif"));
+        else if(_trend == BatchEvaluationUtil.TREND_NEGATIVE) // Negative trend
+            return (JUCMNavPlugin.getImage("icons/trend-down.gif"));
+        else if(_trend == BatchEvaluationUtil.TREND_EQUALS) // Equal trend
+            return (JUCMNavPlugin.getImage("icons/trend-equals.gif"));
+        else if(_trend == BatchEvaluationUtil.TREND_POSITIVE) // Positive trend
+            return (JUCMNavPlugin.getImage("icons/trend-up.gif"));
+        
+        return null;
     }
 }

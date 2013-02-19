@@ -52,6 +52,7 @@ import seg.jUCMNav.figures.IntentionalElementFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
+import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
@@ -547,6 +548,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 refreshConnections();
             }
         }
+        
+        setTrendIcons();
 
         // Make the label recenter itself.
         figure.validate();
@@ -557,6 +560,23 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         // and will not draw it correctly.
         // if (getParent() != null)
         // (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
+    }
+
+    private void setTrendIcons() {
+        String _trendStr = MetadataHelper.getMetaData(getNode().getDef(), BatchEvaluationUtil.METADATA_TREND);
+
+        if(_trendStr != null) {
+            int _trend = Integer.parseInt(_trendStr);
+            Image icon = BatchEvaluationUtil.getIcon(_trend);
+            if(icon != null)
+                evaluationLabel.setIcon(icon);
+        }
+        else {
+            if (evaluationImg != null && GeneralPreferencePage.getGrlSatisfactionIconVisible()) {
+                evaluationLabel.setIcon(evaluationImg);
+            } else
+                evaluationLabel.setIcon(null);
+        }
     }
 
     private int limit(int value) {
