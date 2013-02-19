@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
@@ -248,6 +249,7 @@ public class MetadataHelper {
                 Actor actor = (Actor) iter.next();
                 MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_NUMEVAL);
                 MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_QUALEVAL);
+                MetadataHelper.removeMetaData(actor, BatchEvaluationUtil.METADATA_TREND);
             }
             // Remove run-time evaluation metadata attached to intentional elements
             for (Iterator iter2 = model.getGrlspec().getIntElements().iterator(); iter2.hasNext();) {
@@ -255,6 +257,7 @@ public class MetadataHelper {
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_NUMEVAL);
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_QUALEVAL);
                 MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_RANGEVALUES);
+                MetadataHelper.removeMetaData(ie, BatchEvaluationUtil.METADATA_TREND);
                 MetadataHelper.removeMetaData(ie, Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode")); //$NON-NLS-1$
             }
             // Remove run-time evaluation metadata attached to path nodes
@@ -287,7 +290,7 @@ public class MetadataHelper {
      */
     public static boolean isRuntimeMetadata(String name) {
         return name!=null && (name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_NUMEVAL) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_RANGEVALUES)
-                || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_QUALEVAL) || name.equalsIgnoreCase(PathNodeEditPart.METADATA_HITS)
+                || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_QUALEVAL) || name.equalsIgnoreCase(PathNodeEditPart.METADATA_HITS) || name.equalsIgnoreCase(BatchEvaluationUtil.METADATA_TREND)
                         || name.equalsIgnoreCase(WIDTH) || name.equalsIgnoreCase(HEIGHT)  );
     }
 }

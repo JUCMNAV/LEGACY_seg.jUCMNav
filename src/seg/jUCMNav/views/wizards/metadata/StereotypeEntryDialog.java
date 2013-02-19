@@ -212,8 +212,11 @@ public class StereotypeEntryDialog extends MetadataEntryDialog {
             j++;
         }
 
+        try {
         j = (Integer)combo.getData(value);
         combo.select(j);
+        }
+        catch(Exception e) {}
 
         combo.addSelectionListener(new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent arg0) { }

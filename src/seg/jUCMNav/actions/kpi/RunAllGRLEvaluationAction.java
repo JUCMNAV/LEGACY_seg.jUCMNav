@@ -1,10 +1,14 @@
 package seg.jUCMNav.actions.kpi;
 
+import grl.Actor;
 import grl.EvaluationStrategy;
 import grl.GRLLinkableElement;
+import grl.GRLspec;
+import grl.IntentionalElement;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -16,7 +20,9 @@ import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.strategyTreeEditparts.EnumerationTypeTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.VariableListTreeEditPart;
-import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.strategies.BatchEvaluationUtil;
+import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 
 public class RunAllGRLEvaluationAction extends SelectionAction {
 
@@ -57,82 +63,40 @@ public class RunAllGRLEvaluationAction extends SelectionAction {
 
     public void run() {
         UCMNavMultiPageEditor multieditor = (UCMNavMultiPageEditor) getWorkbenchPart();
+        int prefTrend = Integer.parseInt(ReportGeneratorPreferences.getGRLEvalStrategyTrend());
 
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         if (sel.getGroup() != null) {
             EList strategies = sel.getGroup().getStrategies();
-            
-            EvaluationStrategyManager manager = EvaluationStrategyManager.getInstance();
+            HashMap<Integer, EvaluationStrategy> stratIndexes = new HashMap<Integer, EvaluationStrategy>();
+
+            evalTable = BatchEvaluationUtil.calculateAllEvaluations(strategies, sel.getGroup().getGrlspec());
             
             int j = 0;
             for (Iterator i = strategies.iterator(); i.hasNext();) {
                 EvaluationStrategy strat = (EvaluationStrategy) i.next();
-
-                manager.setStrategy(strat);
-                manager.calculateEvaluation();
                 
-                evalTable.put(strat, manager.getEvaluations());
+                stratIndexes.put(j++, strat);
             }
             
             if(evalTable.size() > 0) {
-//                calculateTrend(strategies, )
-            }
-        }
-    }
-    
-    private int calculateTrend(HashMap<Integer, EvaluationStrategy> strategies, GRLLinkableElement element, int numStrat) {
-        int trend = -2; 
-            //no trend = -2
-            //varying trend = -3
-            //no change = 0
-            //negative trend = -1
-            //positive trend = 1
-        int lastValue;
-        int currentValue;
-        int prefTrend = 3;
-        
-        EvaluationStrategy currentStrategy;
-        
-        if (numStrat >= prefTrend && prefTrend > 1){//else not enough data to calculate trend
-  
-            currentStrategy = strategies.get(numStrat - prefTrend+1); 
-            
-            lastValue = evalTable.get(currentStrategy).get(element);
-            
-            for (int i = (int)numStrat - prefTrend + 2; i<=numStrat; i++){
-                currentStrategy = strategies.get(i); 
-                currentValue = evalTable.get(currentStrategy).get(element);
-                 
+                Set<GRLLinkableElement> elements = evalTable.get(strategies.get(0)).keySet();
+                GRLspec grlspec = sel.getGroup().getGrlspec();
                 
-                if (trend == -2){ //no trend calculated yet (first element)
-                    if (currentValue > lastValue){
-                        trend = 1;
-                    }else if(currentValue < lastValue){
-                        trend = -1;
-                    }else{
-                        trend = 0;
-                    }
-                }
-                else{
-                    //if (!((currentValue > lastValue && trend == 1) || (currentValue < lastValue && trend == -1) || (currentValue == lastValue && trend == 0))){
-                        //trend = -2;
-                    //  trend = -3;
-                    //  break;
-                    //}
-                    if (trend == 0 && currentValue > lastValue){ //neutral trend changed to positive
-                        trend = 1;  
-                    }else if(trend == 0 && currentValue < lastValue){//neutral trend changed to negative
-                        trend = -1;
-                    }else if(!((currentValue >= lastValue && trend == 1) || (currentValue <= lastValue && trend == -1) || (currentValue == lastValue && trend == 0))){ //trend changed
-                        trend = -3;
-                        break;
-                    }
+                for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
+                    Actor actor = (Actor) iter.next();
+                    int trend = BatchEvaluationUtil.calculateTrend(stratIndexes, actor, evalTable, prefTrend);
+                    
+                    MetadataHelper.addMetaData(sel.getGroup().getGrlspec().getUrnspec(), actor, "_trend", new Integer(trend).toString());
                 }
                 
-                lastValue = currentValue;
+                for (Iterator i = grlspec.getIntElements().iterator(); i.hasNext();) {
+                    IntentionalElement element = (IntentionalElement) i.next();
+                    int trend = BatchEvaluationUtil.calculateTrend(stratIndexes, element, evalTable, prefTrend);
+                    
+                    MetadataHelper.addMetaData(sel.getGroup().getGrlspec().getUrnspec(), element, "_trend", new Integer(trend).toString());
+                }
             }
         }
-        
-        return trend;   
     }
 }

@@ -44,6 +44,7 @@ import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.importexport.utils.EscapeUtils;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
+import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.ReportGeneratorPreferences;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
@@ -102,7 +103,6 @@ public class HTMLReport extends URNReport {
 	private static Evaluation evaluation = null;
 	private static int evalValue = 0;
 
-	private static HashMap<GRLLinkableElement, Integer> strategyEvaluations;
 	private HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
 
 	private static StrategiesView sv = null;
@@ -2096,7 +2096,7 @@ public class HTMLReport extends URNReport {
 						}	
 
 						if(prefShowTrend){
-							int trend = calculateTrend(strategies, actor, strategies.size());
+							int trend = BatchEvaluationUtil.calculateTrend(strategies, actor, evalTable, prefTrend);
 							sb.append(trendContent(trend));
 						}
 						
@@ -2116,7 +2116,7 @@ public class HTMLReport extends URNReport {
 						}	
 
 						if(prefShowTrend){
-							int trend = calculateTrend(strategies, intElement, strategies.size());
+							int trend = BatchEvaluationUtil.calculateTrend(strategies, intElement, evalTable, prefTrend);
 							sb.append(trendContent(trend));
 						}
 						
@@ -2131,72 +2131,6 @@ public class HTMLReport extends URNReport {
 		}
 
 	}
-	
-    /**
-     * calculates a trend in the strategies
-     * 
-     * @param strategies
-     *            hash tables which contains the evaluated strategies     
-     * @param element
-     *            current element - actor or intentional element
-     * @param numStrat
-     *            number of strategies in group
-     */
-    
-    private int calculateTrend(HashMap<Integer, EvaluationStrategy> strategies, GRLLinkableElement element, int numStrat) {
-    	int trend = -2; 
-	    	//no trend = -2
-    		//varying trend = -3
-	    	//no change = 0
-	    	//negative trend = -1
-	    	//positive trend = 1
-    	int lastValue;
-    	int currentValue;
-    	
-    	EvaluationStrategy currentStrategy;
-    	
-    	if (numStrat >= prefTrend && prefTrend > 1){//else not enough data to calculate trend
-  
-    		currentStrategy = strategies.get(numStrat - prefTrend+1); 
-    		
-    		lastValue = evalTable.get(currentStrategy).get(element);
-    		
-	    	for (int i = (int)numStrat - prefTrend + 2; i<=numStrat; i++){
-	    		currentStrategy = strategies.get(i); 
-	    		currentValue = evalTable.get(currentStrategy).get(element);
-	    		 
-	    		
-	    		if (trend == -2){ //no trend calculated yet (first element)
-	    			if (currentValue > lastValue){
-	    				trend = 1;
-	    			}else if(currentValue < lastValue){
-	    				trend = -1;
-	    			}else{
-	    				trend = 0;
-	    			}
-	    		}
-	    		else{
-	    			//if (!((currentValue > lastValue && trend == 1) || (currentValue < lastValue && trend == -1) || (currentValue == lastValue && trend == 0))){
-	    				//trend = -2;
-	    			//	trend = -3;
-	    			//	break;
-	    			//}
-	    			if (trend == 0 && currentValue > lastValue){ //neutral trend changed to positive
-	    				trend = 1;	
-	    			}else if(trend == 0 && currentValue < lastValue){//neutral trend changed to negative
-	    				trend = -1;
-	    			}else if(!((currentValue >= lastValue && trend == 1) || (currentValue <= lastValue && trend == -1) || (currentValue == lastValue && trend == 0))){ //trend changed
-	    				trend = -3;
-	    				break;
-	    			}
-	    		}
-	    		
-	    		lastValue = currentValue;
-	    	}
-    	}
-    	
-    	return trend;	
-    }
     
     private String trendContent(int trend) {
     	String content;
@@ -2242,26 +2176,7 @@ public class HTMLReport extends URNReport {
 
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
-
-				for( EvaluationStrategy strategy : strategies ) {
-
-					strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
-					EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
-
-					for (Iterator iter = grlspec.getIntElements().iterator(); iter.hasNext();) {
-						IntentionalElement element = (IntentionalElement) iter.next();
-						evalValue = EvaluationStrategyManager.getInstance(false).getEvaluation(element);
-						strategyEvaluations.put( element, evalValue );
-					}
-
-					for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
-						Actor actor = (Actor) iter.next();
-						evalValue = EvaluationStrategyManager.getInstance(false).getActorEvaluation(actor);
-						strategyEvaluations.put( actor, evalValue );
-					}
-
-					evalTable.put(strategy, strategyEvaluations); // add map of this strategy's evaluations to the table
-				}
+			    evalTable = BatchEvaluationUtil.calculateAllEvaluations(strategies, grlspec);
 			}
 		});
 	}
