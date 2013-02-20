@@ -15,6 +15,14 @@ import org.eclipse.swt.graphics.Image;
 import seg.jUCMNav.JUCMNavPlugin;
 
 public class BatchEvaluationUtil {
+    
+    public static final int TREND_POSITIVE = 1;
+    public static final int TREND_EQUALS = 0;
+    public static final int TREND_NEGATIVE = -1;
+    public static final int TREND_NOTREND = -2;
+    public static final int TREND_VARYING = -3;
+    public static final int TREND_CANTCALCULATE = -4;
+    
     /**
      * Metadata name used to store runtime trends for GRL strategy groups
      */
@@ -46,13 +54,6 @@ public class BatchEvaluationUtil {
         
         return evalTable;
     }
-    
-    public static final int TREND_POSITIVE = 1;
-    public static final int TREND_EQUALS = 0;
-    public static final int TREND_NEGATIVE = -1;
-    public static final int TREND_NOTREND = -2;
-    public static final int TREND_VARYING = -3;
-    public static final int TREND_CANTCALCULATE = -4;
     
     /**
      * calculates a trend in the strategies

@@ -248,13 +248,12 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                         break;
                     }
                 }
-
             }
             
             Actor actor = (Actor) getActorRef().getContDef();
             String _trendStr = MetadataHelper.getMetaData(actor, BatchEvaluationUtil.METADATA_TREND);
 
-            if(_trendStr != null) {
+            if(_trendStr != null && ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                 int _trend = Integer.parseInt(_trendStr);
                 Image icon = BatchEvaluationUtil.getIcon(_trend);
                 if(icon != null)

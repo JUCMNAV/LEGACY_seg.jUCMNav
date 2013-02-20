@@ -27,6 +27,7 @@ import grl.kpimodel.KPIModelLinkRef;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
@@ -155,7 +156,7 @@ public class SelectionHelper {
     public static final int DEPENDENCY = 217;
     public static final int CONTRIBUTIONCONTEXTGROUP = 218;
     public static final int CONTRIBUTIONCONTEXT = 219;
-    public static final int CONTRIBUTIONCHANGE= 220; 
+    public static final int CONTRIBUTIONCHANGE = 220;
 
     // Concerns
     public static final int CONCERN = 300;
@@ -223,6 +224,8 @@ public class SelectionHelper {
     private GRLspec grlspec;
     private URNmodelElement urnelem;
 
+    private Vector allModel = new Vector();
+
     public SelectionHelper(List selection) {
         setSelection(selection);
     }
@@ -230,7 +233,7 @@ public class SelectionHelper {
     /**
      * Given an EditPart, set the appropriate internal variable.
      */
-    private void setInternals(EditPart part) {
+    private EObject setInternals(EditPart part) {
         EObject model = (EObject) part.getModel();
 
         // Separate UCM from GRL and others... Cuts search time by half!
@@ -365,10 +368,10 @@ public class SelectionHelper {
                 grlspec = group.getGrlspec();
                 urnspec = group.getGrlspec().getUrnspec();
             } else if (model instanceof EvaluationStrategy) {
-//            	if( JUCMNavPlugin.isInDebug() )	System.out.println( "EvaluationStrategy found in SelectionHelper." );            	
+                // if( JUCMNavPlugin.isInDebug() ) System.out.println( "EvaluationStrategy found in SelectionHelper." );
                 strategy = (EvaluationStrategy) model;
                 group = strategy.getGroup();
-                if (group!=null) {
+                if (group != null) {
                     grlspec = group.getGrlspec();
                     urnspec = group.getGrlspec().getUrnspec();
                 }
@@ -382,9 +385,9 @@ public class SelectionHelper {
                 urnspec = grlspec.getUrnspec();
             } else if (model instanceof ContributionContext) {
                 contributionContext = (ContributionContext) model;
-                if (contributionContext.getGroups().size()>0) {
+                if (contributionContext.getGroups().size() > 0) {
                     contributionContextGroup = (ContributionContextGroup) contributionContext.getGroups().get(0); // TODO: only one?
-                    if (contributionContextGroup!=null) {
+                    if (contributionContextGroup != null) {
                         grlspec = contributionContextGroup.getGrlspec();
                         urnspec = grlspec.getUrnspec();
                     }
@@ -402,12 +405,12 @@ public class SelectionHelper {
                     }
                 }
             } else if (model instanceof KPIConversion) {
-                KPIConversion kpi = (KPIConversion)model;
+                KPIConversion kpi = (KPIConversion) model;
                 grlspec = kpi.getGrlspec();
-                if (grlspec!=null)
+                if (grlspec != null)
                     urnspec = grlspec.getUrnspec();
             }
-        } 
+        }
 
         // Connections
         else if (model instanceof IURNConnection) {
@@ -515,6 +518,8 @@ public class SelectionHelper {
         if (model instanceof URNmodelElement) {
             urnelem = (URNmodelElement) model;
         }
+
+        return model;
     }
 
     /**
@@ -524,6 +529,7 @@ public class SelectionHelper {
      */
     private void setSelection(List selection) {
         this.selection = selection;
+        allModel.clear();
         if ((selection.size() == 1) && selection.get(0) instanceof URNspec) {
             urnspec = (URNspec) selection.get(0);
         }
@@ -531,14 +537,17 @@ public class SelectionHelper {
         if ((selection.size() == 1 || selection.size() == 2) && selection.get(0) instanceof EditPart) {
             EditPart ep = (EditPart) selection.get(0);
             if (ep.getModel() instanceof EObject) {
-                setInternals(ep);
+                allModel.add(setInternals(ep));
             }
         }
 
         if (selection.size() == 2 && selection.get(1) instanceof EditPart) {
             EditPart ep = (EditPart) selection.get(1);
             if (ep.getModel() instanceof EObject) {
-                setInternals(ep);
+                allModel.add(setInternals(ep));
+
+                if (selection.get(0) instanceof EditPart)
+                    allModel.add(((EditPart) selection.get(0)).getModel());
             }
 
         }
@@ -549,40 +558,42 @@ public class SelectionHelper {
                 Object element = iter.next();
                 if (element instanceof EditPart && ((EditPart) element).getModel() != null) {
                     Object model = ((EditPart) element).getModel();
-                    if (model instanceof URNspec)
-                        urnspec = (URNspec) model;
-                    else if (model instanceof IURNDiagram && ((IURNDiagram) model).getUrndefinition() != null)
-                        urnspec = ((IURNDiagram) model).getUrndefinition().getUrnspec();
-                    else if (model instanceof IURNNode && ((IURNNode) model).getDiagram() != null && ((IURNNode) model).getDiagram().getUrndefinition() != null)
-                        urnspec = ((IURNNode) model).getDiagram().getUrndefinition().getUrnspec();
-                    else if (model instanceof IURNConnection && ((IURNConnection) model).getDiagram() != null
-                            && ((IURNConnection) model).getDiagram().getUrndefinition() != null)
-                        urnspec = ((IURNConnection) model).getDiagram().getUrndefinition().getUrnspec();
-                    else if (model instanceof IURNContainerRef && ((IURNContainerRef) model).getDiagram() != null
-                            && ((IURNContainerRef) model).getDiagram().getUrndefinition() != null)
-                        urnspec = ((IURNContainerRef) model).getDiagram().getUrndefinition().getUrnspec();
-                    else if (model instanceof Comment)
-                        urnspec = ((Comment) model).getDiagram().getUrndefinition().getUrnspec();
-                    else if (model instanceof Responsibility)
-                        urnspec = ((Responsibility) model).getUrndefinition().getUrnspec();
-                    else if (model instanceof Component)
-                        urnspec = ((Component) model).getUrndefinition().getUrnspec();
-                    else if (model instanceof ScenarioDef)
-                        urnspec = ((ScenarioDef) model).getGroup().getUcmspec().getUrnspec();
-                    else if (model instanceof ScenarioGroup)
-                        urnspec = ((ScenarioGroup) model).getUcmspec().getUrnspec();
-                    else if (model instanceof EvaluationStrategy)
-                        urnspec = ((EvaluationStrategy) model).getGroup().getGrlspec().getUrnspec();
-                    else if (model instanceof StrategiesGroup)
-                        urnspec = ((StrategiesGroup) model).getGrlspec().getUrnspec();
-                }
+                    allModel.add(model);
 
-                if (urnspec == null && element instanceof LabelTreeEditPart) {
-                    urnspec = ((LabelTreeEditPart) element).getURNSpec();
-                }
+                    if (urnspec == null) {
+                        if (model instanceof URNspec)
+                            urnspec = (URNspec) model;
+                        else if (model instanceof IURNDiagram && ((IURNDiagram) model).getUrndefinition() != null)
+                            urnspec = ((IURNDiagram) model).getUrndefinition().getUrnspec();
+                        else if (model instanceof IURNNode && ((IURNNode) model).getDiagram() != null
+                                && ((IURNNode) model).getDiagram().getUrndefinition() != null)
+                            urnspec = ((IURNNode) model).getDiagram().getUrndefinition().getUrnspec();
+                        else if (model instanceof IURNConnection && ((IURNConnection) model).getDiagram() != null
+                                && ((IURNConnection) model).getDiagram().getUrndefinition() != null)
+                            urnspec = ((IURNConnection) model).getDiagram().getUrndefinition().getUrnspec();
+                        else if (model instanceof IURNContainerRef && ((IURNContainerRef) model).getDiagram() != null
+                                && ((IURNContainerRef) model).getDiagram().getUrndefinition() != null)
+                            urnspec = ((IURNContainerRef) model).getDiagram().getUrndefinition().getUrnspec();
+                        else if (model instanceof Comment)
+                            urnspec = ((Comment) model).getDiagram().getUrndefinition().getUrnspec();
+                        else if (model instanceof Responsibility)
+                            urnspec = ((Responsibility) model).getUrndefinition().getUrnspec();
+                        else if (model instanceof Component)
+                            urnspec = ((Component) model).getUrndefinition().getUrnspec();
+                        else if (model instanceof ScenarioDef)
+                            urnspec = ((ScenarioDef) model).getGroup().getUcmspec().getUrnspec();
+                        else if (model instanceof ScenarioGroup)
+                            urnspec = ((ScenarioGroup) model).getUcmspec().getUrnspec();
+                        else if (model instanceof EvaluationStrategy)
+                            urnspec = ((EvaluationStrategy) model).getGroup().getGrlspec().getUrnspec();
+                        else if (model instanceof StrategiesGroup)
+                            urnspec = ((StrategiesGroup) model).getGrlspec().getUrnspec();
+                    }
 
-                if (urnspec != null)
-                    break;
+                    if (urnspec == null && element instanceof LabelTreeEditPart) {
+                        urnspec = ((LabelTreeEditPart) element).getURNSpec();
+                    }
+                }
             }
         }
 
@@ -706,7 +717,7 @@ public class SelectionHelper {
             selectionType = SCENARIOGROUP;
         else if (initialization != null)
             selectionType = INITIALIZATION;
-        else if (contributionChange!=null)
+        else if (contributionChange != null)
             selectionType = CONTRIBUTIONCHANGE;
         else if (contributionContext != null)
             selectionType = CONTRIBUTIONCONTEXT;
@@ -955,6 +966,10 @@ public class SelectionHelper {
 
     public StrategiesGroup getGroup() {
         return group;
+    }
+
+    public Vector getAllModel() {
+        return allModel;
     }
 
     public EvaluationStrategy getStrategy() {
