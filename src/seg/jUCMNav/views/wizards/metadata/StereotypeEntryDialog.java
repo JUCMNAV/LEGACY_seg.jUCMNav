@@ -44,7 +44,7 @@ public class StereotypeEntryDialog extends MetadataEntryDialog {
 
     @Override
     public void setTitle(String title) {
-        shell.setText("Edit Stereotype");
+        shell.setText(Messages.getString("StereotypeEntryDialog.EditStereotype")); //$NON-NLS-1$
     }
 
     @Override
@@ -54,15 +54,15 @@ public class StereotypeEntryDialog extends MetadataEntryDialog {
         if (values == null)
             values = new String[2];
 
-        String[] stereotypeValues = (values[1] == null ? "" : values[1]).split(",");
+        String[] stereotypeValues = (values[1] == null ? "" : values[1]).split(","); //$NON-NLS-1$ //$NON-NLS-2$
         if (stereotypeValues.length != 3) {
-            stereotypeValues = new String[] { "", "", "" };
+            stereotypeValues = new String[] { "", "", "" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
 
-        Text stereodef = addTextbox("Type", "StereotypeDef", false);
-        Combo applyOn = addElementsCombo("Applies on", stereotypeValues[2]);
-        Text stereo = addTextbox("Stereotype", stereotypeValues[0]);
-        Text val = addTextbox("Value", stereotypeValues[1]);
+        Text stereodef = addTextbox(Messages.getString("StereotypeEntryDialog.Type"), "StereotypeDef", false); //$NON-NLS-1$ //$NON-NLS-2$
+        Combo applyOn = addElementsCombo(Messages.getString("StereotypeEntryDialog.AppliesOn"), stereotypeValues[2]); //$NON-NLS-1$
+        Text stereo = addTextbox(Messages.getString("StereotypeEntryDialog.Stereotype"), stereotypeValues[0]); //$NON-NLS-1$
+        Text val = addTextbox(Messages.getString("StereotypeEntryDialog.Value"), stereotypeValues[1]); //$NON-NLS-1$
         
         allTexts.add(stereo);
         allTexts.add(val);
@@ -121,17 +121,17 @@ public class StereotypeEntryDialog extends MetadataEntryDialog {
     
     protected void reconstructValues()
     {
-        String result = "";
+        String result = ""; //$NON-NLS-1$
 
         for (Iterator j = allTexts.iterator(); j.hasNext();) {
             Object o = (Object) j.next();
             if (o instanceof Text) {
                 Text t = (Text) o;
-                result += t.getText().replace(",", "") + ",";
+                result += t.getText().replace(",", "") + ","; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
             else if(o instanceof Combo) {
                 Combo t = (Combo)o;
-                result += reverse.get(t.getText()).toString().replace(",", "") + ",";
+                result += reverse.get(t.getText()).toString().replace(",", "") + ","; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
         }
 
@@ -191,8 +191,8 @@ public class StereotypeEntryDialog extends MetadataEntryDialog {
                 EClassifier e1 = (EClassifier)o1;
                 EClassifier e2 = (EClassifier)o2;
                 
-                String name1 = e1.getEPackage().getName().toUpperCase() + ": " + e1.getName();
-                String name2 = e2.getEPackage().getName().toUpperCase() + ": " + e2.getName();
+                String name1 = e1.getEPackage().getName().toUpperCase() + ": " + e1.getName(); //$NON-NLS-1$
+                String name2 = e2.getEPackage().getName().toUpperCase() + ": " + e2.getName(); //$NON-NLS-1$
                 
                 return name1.compareTo(name2);
             }
@@ -203,7 +203,7 @@ public class StereotypeEntryDialog extends MetadataEntryDialog {
         for (Iterator i = list.iterator(); i.hasNext();) {
             EClassifier eClassifier = (EClassifier) i.next();
             
-            String name = eClassifier.getEPackage().getName().toUpperCase() + ": " + eClassifier.getName();
+            String name = eClassifier.getEPackage().getName().toUpperCase() + ": " + eClassifier.getName(); //$NON-NLS-1$
             
             reverse.put(name, eClassifier.getName());
 

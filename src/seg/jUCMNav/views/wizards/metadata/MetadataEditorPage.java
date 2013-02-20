@@ -87,6 +87,8 @@ public class MetadataEditorPage extends WizardPage {
     private boolean inProperties = false;
 
     private Vector changedListener = new Vector();
+    
+    protected Composite buttonRow;
 
     private SelectionListener metadataTableSelectionListener = new SelectionAdapter() {
         public void widgetDefaultSelected(SelectionEvent e) {
@@ -346,7 +348,7 @@ public class MetadataEditorPage extends WizardPage {
         gd.grabExcessHorizontalSpace = true;
         metadataTable.setLayoutData(gd);
 
-        Composite buttonRow = new Composite( container, SWT.NULL );
+        buttonRow = new Composite( container, SWT.NULL );
 
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.grabExcessHorizontalSpace = true;

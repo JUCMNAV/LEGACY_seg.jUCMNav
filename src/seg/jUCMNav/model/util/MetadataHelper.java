@@ -166,6 +166,27 @@ public class MetadataHelper {
     }
 
     /**
+     * Returns a URNSpec's metadata.
+     * 
+     * @param elem
+     *            the element
+     * @param name
+     *            the name of the metadata
+     * @return the value of the metadata
+     */
+    public static Vector getAllMetaData(URNspec urn, String name) {
+        Vector ret = new Vector();
+        
+        for (Iterator iter = urn.getMetadata().iterator(); iter.hasNext();) {
+            Metadata data = (Metadata) iter.next();
+            if (data.getName() != null && data.getName().equalsIgnoreCase(name))
+                ret.add(data.getValue());
+        }
+
+        return ret;
+    }
+
+    /**
      * Returns a URNSpec's last metadata.
      * 
      * @param elem
