@@ -616,11 +616,11 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
 
         action = new AddKPIConversionAction(editor, QualitativeMappings.class);
-        action.setText("Add Qualitative Mapping Group");
+        action.setText(Messages.getString("ActionRegistryManager.AddQualitativeMappingGroup")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddQualitativeMappingAction(editor);
-        action.setText("Add Qualitative Mapping");
+        action.setText(Messages.getString("ActionRegistryManager.AddQualitativeMapping")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new EditCodeAction(editor);
@@ -796,7 +796,7 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
         
         action = new ListDefinitionReferencesAction(editor);
-        action.setText("References...");
+        action.setText(Messages.getString("ActionRegistryManager.References")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         

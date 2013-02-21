@@ -417,7 +417,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[4] = getActionRegistry().getAction(ShowContainingActorAction.SHOWCONTAININGACTOR);
         actions[5] = getActionRegistry().getAction(ShowLinkedElementCompleteAction.SHOWLINKEDELEMENTCOMPLETE);
         
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.LinkedElement"), Messages.getString("UrnContextMenuProvider.LinkedElement"), JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.LinkedElement"), Messages.getString("UrnContextMenuProvider.LinkedElement"), JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
         

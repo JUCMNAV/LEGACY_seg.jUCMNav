@@ -541,7 +541,7 @@ public class MetadataEditorPage extends WizardPage {
     }
 
     private void newEntry() {
-        MetadataEntryDialog dialog = createMetadataEntryDialog(Messages.getString("MetadataEntryDialog.title_add"));
+        MetadataEntryDialog dialog = createMetadataEntryDialog(Messages.getString("MetadataEntryDialog.title_add")); //$NON-NLS-1$
         setNewEntryDefaults(dialog);
         String[] data = dialog.open();
 
@@ -578,7 +578,7 @@ public class MetadataEditorPage extends WizardPage {
     }
 
     private void editEntry(TableItem item) {
-        MetadataEntryDialog dialog = createMetadataEntryDialog(Messages.getString("MetadataEntryDialog.title_edit"));
+        MetadataEntryDialog dialog = createMetadataEntryDialog(Messages.getString("MetadataEntryDialog.title_edit")); //$NON-NLS-1$
         String[] values = new String[metadataTable.getColumnCount()];
 
         for (int i = 0; i < values.length; i++) {

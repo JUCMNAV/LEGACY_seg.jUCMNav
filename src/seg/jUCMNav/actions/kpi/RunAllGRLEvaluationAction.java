@@ -115,14 +115,14 @@ public class RunAllGRLEvaluationAction extends SelectionAction {
                     Actor actor = (Actor) iter.next();
                     int trend = BatchEvaluationUtil.calculateTrend(stratIndexes, actor, evalTable, prefTrend);
                     
-                    MetadataHelper.addMetaData(grlSpec.getUrnspec(), actor, "_trend", new Integer(trend).toString());
+                    MetadataHelper.addMetaData(grlSpec.getUrnspec(), actor, "_trend", new Integer(trend).toString()); //$NON-NLS-1$
                 }
                 
                 for (Iterator i = grlSpec.getIntElements().iterator(); i.hasNext();) {
                     IntentionalElement element = (IntentionalElement) i.next();
                     int trend = BatchEvaluationUtil.calculateTrend(stratIndexes, element, evalTable, prefTrend);
                     
-                    MetadataHelper.addMetaData(grlSpec.getUrnspec(), element, "_trend", new Integer(trend).toString());
+                    MetadataHelper.addMetaData(grlSpec.getUrnspec(), element, "_trend", new Integer(trend).toString()); //$NON-NLS-1$
                 }
             }
             

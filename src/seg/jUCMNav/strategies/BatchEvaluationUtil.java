@@ -121,15 +121,15 @@ public class BatchEvaluationUtil {
     
     public static Image getIcon(int _trend) {
         if(_trend == BatchEvaluationUtil.TREND_NOTREND || _trend == BatchEvaluationUtil.TREND_VARYING) // No trend or varying trend
-            return (JUCMNavPlugin.getImage("icons/trend-notrend.gif"));
+            return (JUCMNavPlugin.getImage("icons/trend-notrend.gif")); //$NON-NLS-1$
         else if(_trend == BatchEvaluationUtil.TREND_CANTCALCULATE) // Can't calculatate trend
-            return (JUCMNavPlugin.getImage("icons/trend-cant.gif"));
+            return (JUCMNavPlugin.getImage("icons/trend-cant.gif")); //$NON-NLS-1$
         else if(_trend == BatchEvaluationUtil.TREND_NEGATIVE) // Negative trend
-            return (JUCMNavPlugin.getImage("icons/trend-down.gif"));
+            return (JUCMNavPlugin.getImage("icons/trend-down.gif")); //$NON-NLS-1$
         else if(_trend == BatchEvaluationUtil.TREND_EQUALS) // Equal trend
-            return (JUCMNavPlugin.getImage("icons/trend-equals.gif"));
+            return (JUCMNavPlugin.getImage("icons/trend-equals.gif")); //$NON-NLS-1$
         else if(_trend == BatchEvaluationUtil.TREND_POSITIVE) // Positive trend
-            return (JUCMNavPlugin.getImage("icons/trend-up.gif"));
+            return (JUCMNavPlugin.getImage("icons/trend-up.gif")); //$NON-NLS-1$
         
         return null;
     }

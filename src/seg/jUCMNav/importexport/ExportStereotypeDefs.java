@@ -55,7 +55,7 @@ public class ExportStereotypeDefs implements IURNExport {
     }
     
     protected void writeStereotypeDefinitions(URNspec urn, FileOutputStream stream) throws IOException {
-        Vector<String> defs = MetadataHelper.getAllMetaData(urn, "StereotypeDef");
+        Vector<String> defs = MetadataHelper.getAllMetaData(urn, "StereotypeDef"); //$NON-NLS-1$
         
         for (String value : defs) {
             write(value);

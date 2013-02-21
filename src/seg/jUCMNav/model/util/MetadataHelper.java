@@ -24,8 +24,8 @@ import urncore.URNmodelElement;
 
 public class MetadataHelper {
 
-    public static final String WIDTH = "_width";
-    public static final String HEIGHT = "_height";
+    public static final String WIDTH = "_width"; //$NON-NLS-1$
+    public static final String HEIGHT = "_height"; //$NON-NLS-1$
     
     /**
      * Adds metadata to an element. Modifies if the name already exists.

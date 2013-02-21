@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IURNImport;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
@@ -31,7 +32,7 @@ public class ImportStereotypeDefinitions implements IURNImport {
         InputStreamReader r = new InputStreamReader(fis);
         BufferedReader reader = new BufferedReader(r);
         
-        Vector allMeta = MetadataHelper.getAllMetaData(urnSpec, "StereotypeDef");
+        Vector allMeta = MetadataHelper.getAllMetaData(urnSpec, "StereotypeDef"); //$NON-NLS-1$
         
         try {
             String line = reader.readLine();
@@ -39,7 +40,7 @@ public class ImportStereotypeDefinitions implements IURNImport {
                 
                 if(validateLine(allMeta, line)) {
                     Metadata data = (Metadata) ModelCreationFactory.getNewObject(urnSpec, Metadata.class);
-                    data.setName("StereotypeDef");
+                    data.setName("StereotypeDef"); //$NON-NLS-1$
                     data.setValue(line);
                     
                     urnSpec.getMetadata().add(data);
@@ -48,12 +49,12 @@ public class ImportStereotypeDefinitions implements IURNImport {
                 line = reader.readLine();
             }
             
-            String msg = "";
+            String msg = ""; //$NON-NLS-1$
             for (String warning : warnings) {
-                msg += warning + System.getProperty("line.separator");
+                msg += warning + System.getProperty("line.separator"); //$NON-NLS-1$
             }
 
-            displayMessage("Duplicate Stereotype Definition", msg);
+            displayMessage(Messages.getString("ImportStereotypeDefinitions.Duplicate"), msg); //$NON-NLS-1$
 
             // Sanitize urnspec to resolve naming conflict
             URNNamingHelper.sanitizeURNspec(urnSpec);
@@ -74,7 +75,7 @@ public class ImportStereotypeDefinitions implements IURNImport {
     }
     
     protected boolean validateLine(Vector<String> allMeta, String line) {
-        String[] values = line.split(",");
+        String[] values = line.split(","); //$NON-NLS-1$
         
         if(values.length != 3)
             return false;
@@ -94,7 +95,7 @@ public class ImportStereotypeDefinitions implements IURNImport {
         Display.getDefault().syncExec(new Runnable() {
             public void run() {
                 Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-                MessageDialog md = new MessageDialog( shell, title, null, message, MessageDialog.INFORMATION, new String[] { "OK" }, 0 );
+                MessageDialog md = new MessageDialog( shell, title, null, message, MessageDialog.INFORMATION, new String[] { "OK" }, 0 ); //$NON-NLS-1$
                 md.create();
                 md.open();
             }

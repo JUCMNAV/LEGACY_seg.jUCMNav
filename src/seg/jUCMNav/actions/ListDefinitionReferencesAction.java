@@ -84,7 +84,7 @@ public class ListDefinitionReferencesAction extends URNSelectionAction {
 
                         // Don't dispose items here or they won't fire selection events.
                         for (int i = 0; i < items.length; i++) {
-                            items[i].setData("toRemove", "true");
+                            items[i].setData("toRemove", "true"); //$NON-NLS-1$ //$NON-NLS-2$
                         }
                     }
 
@@ -95,7 +95,7 @@ public class ListDefinitionReferencesAction extends URNSelectionAction {
 
                         // dispose unused items. This way we simulate a dynamic sub-menu.
                         for (int i = 0; i < items.length; i++) {
-                            if (items[i].getData("toRemove").equals("true"))
+                            if (items[i].getData("toRemove").equals("true")) //$NON-NLS-1$ //$NON-NLS-2$
                                 items[i].dispose();
                         }
                         
