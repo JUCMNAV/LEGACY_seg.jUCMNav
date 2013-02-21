@@ -6,12 +6,7 @@ import java.util.Vector;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.FileDialog;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.wizards.metadata.MetadataEditorPage;
@@ -34,28 +29,6 @@ public class StereotypeListPage extends MetadataEditorPage {
         super(selection, defaultSelected, ref);
         
         
-    }
-
-    @Override
-    public void createControl(Composite parent) {
-        super.createControl(parent);
-        
-        btImport = new Button(buttonRow, SWT.PUSH);
-        btImport.setText(Messages.getString("StereotypeListPage_Import")); //$NON-NLS-1$
-        btImport.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-                dialog.open();
-            }
-        });
-        
-        btExport = new Button(buttonRow, SWT.PUSH);
-        btExport.setText(Messages.getString("StereotypeListPage.Export")); //$NON-NLS-1$
-        btExport.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                
-            }
-        });
     }
 
     @Override

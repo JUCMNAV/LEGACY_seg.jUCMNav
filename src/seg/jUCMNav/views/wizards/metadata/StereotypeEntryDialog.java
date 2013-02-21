@@ -171,7 +171,7 @@ public class StereotypeEntryDialog extends MetadataEntryDialog {
         gridData.widthHint = size.x;
         label.setLayoutData(gridData);
 
-        Combo combo = new Combo(shell, SWT.BORDER | SWT.DROP_DOWN);
+        Combo combo = new Combo(shell, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
         gridData = new GridData();
         gridData.widthHint = 320;
         gridData.grabExcessHorizontalSpace = true;
