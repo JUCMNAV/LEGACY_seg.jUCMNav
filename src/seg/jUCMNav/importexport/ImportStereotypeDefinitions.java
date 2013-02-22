@@ -28,6 +28,7 @@ public class ImportStereotypeDefinitions implements IURNImport {
     @Override
     public URNspec importURN(FileInputStream fis, URNspec urn, Vector autolayoutDiagrams) throws InvocationTargetException {
         URNspec urnSpec = (URNspec) EcoreUtil.copy(urn);
+        warnings.clear();
         
         InputStreamReader r = new InputStreamReader(fis);
         BufferedReader reader = new BufferedReader(r);
@@ -54,7 +55,8 @@ public class ImportStereotypeDefinitions implements IURNImport {
                 msg += warning + System.getProperty("line.separator"); //$NON-NLS-1$
             }
 
-            displayMessage(Messages.getString("ImportStereotypeDefinitions.Duplicate"), msg); //$NON-NLS-1$
+            if(warnings.size() > 0)
+                displayMessage(Messages.getString("ImportStereotypeDefinitions.ImportErrors"), msg); //$NON-NLS-1$
 
             // Sanitize urnspec to resolve naming conflict
             URNNamingHelper.sanitizeURNspec(urnSpec);
@@ -77,14 +79,16 @@ public class ImportStereotypeDefinitions implements IURNImport {
     protected boolean validateLine(Vector<String> allMeta, String line) {
         String[] values = line.split(","); //$NON-NLS-1$
         
-        if(values.length != 3)
+        if(values.length != 3) {
+            warnings.add(Messages.getString("ImportStereotypeDefinitions.InvalidLineFormat") + line); //$NON-NLS-1$
             return false;
+        }
 
         for (String meta : allMeta) {
             if(meta.equalsIgnoreCase(line))
             {
-                warnings.add(line);
-                break;
+                warnings.add(Messages.getString("ImportStereotypeDefinitions.DuplicatedLine") + line); //$NON-NLS-1$
+                return false;
             }
         }
         
@@ -95,7 +99,7 @@ public class ImportStereotypeDefinitions implements IURNImport {
         Display.getDefault().syncExec(new Runnable() {
             public void run() {
                 Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-                MessageDialog md = new MessageDialog( shell, title, null, message, MessageDialog.INFORMATION, new String[] { "OK" }, 0 ); //$NON-NLS-1$
+                MessageDialog md = new MessageDialog( shell, title, null, message, MessageDialog.WARNING, new String[] { "OK" }, 0 ); //$NON-NLS-1$
                 md.create();
                 md.open();
             }
