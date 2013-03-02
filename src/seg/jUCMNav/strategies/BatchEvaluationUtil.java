@@ -33,7 +33,6 @@ public class BatchEvaluationUtil {
         HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
 
         for( EvaluationStrategy strategy : strategies ) {
-
             HashMap<GRLLinkableElement, Integer> strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
             EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
 
@@ -82,11 +81,11 @@ public class BatchEvaluationUtil {
         
         if (numStrat >= prefTrend && prefTrend > 1){//else not enough data to calculate trend
   
-            currentStrategy = strategies.get(numStrat - prefTrend); 
+            currentStrategy = strategies.get(numStrat - prefTrend+1); 
             
             lastValue = evalTable.get(currentStrategy).get(element);
             
-            for (int i = (int)numStrat - prefTrend + 1; i < numStrat; i++){
+            for (int i = (int)numStrat - prefTrend + 2; i < numStrat; i++){
                 currentStrategy = strategies.get(i); 
                 currentValue = evalTable.get(currentStrategy).get(element);
                 

@@ -224,7 +224,6 @@ public class ReportStrategies extends ReportDataDictionary {
                 for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
 
                     StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
-
                     evalGroup.sortStrategies();
                     
                     if (!evalGroup.getStrategies().isEmpty()) {

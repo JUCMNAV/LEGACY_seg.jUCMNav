@@ -23,7 +23,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import urncore.impl.GRLmodelElementImpl;
 
 /**
@@ -82,7 +84,12 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
 	}
     
     public void sortStrategies() {
-		ECollections.sort(strategies);
+    	
+    	Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				ECollections.sort(strategies);
+			}
+		});
 	}
 
     /**
