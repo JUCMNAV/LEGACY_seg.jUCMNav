@@ -90,5 +90,7 @@ public class CreateQualitativeMappingCommand extends Command implements JUCMNavC
         testPreConditions();
     }
 
- 
+    public QualitativeMapping getMapping() {
+        return mapping;
+    }
 }

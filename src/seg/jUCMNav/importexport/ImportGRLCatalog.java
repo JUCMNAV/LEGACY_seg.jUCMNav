@@ -11,7 +11,6 @@ import grl.GRLGraph;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
-
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -172,11 +171,64 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             } else {
                 throw new SAXException("Could not create IntentionalElementRef " + attrs.getValue("name")); //$NON-NLS-1$ //$NON-NLS-2$
             }
-        } else if ( "metadata".equals(qName) && state == 1 ) { //$NON-NLS-1$
+        } /*else if ("intentional-element-ref".equals(qName)) {
+            if (state != 1) {
+                System.out.println( "state problem!!!" );  
+                throw new SAXException("<intentional-element-ref> not at the right place..."); //$NON-NLS-1$
+            }
+            else {
+                // Create the intentional element
+                IntentionalElementType type = IntentionalElementType.get(attrs.getValue("type")); //$NON-NLS-1$
+                IntentionalElementRef ref = (IntentionalElementRef) ModelCreationFactory.getNewObject(urn, IntentionalElementRef.class, 
+                                             type.getValue(), map.get(attrs.getValue("definitionid")));
+                
+                AddIntentionalElementRefCommand elementCmd = new AddIntentionalElementRefCommand(graph, ref);
+                if (elementCmd.canExecute()) {
+                    elementCmd.execute();
+                    // Set the definition properties define in the catalog
+                    //ref.getDef().setDecompositionType(DecompositionType.get(attrs.getValue("decompositiontype"))); //$NON-NLS-1$
+
+                    //ref.getDef().setDescription(attrs.getValue("description")); //$NON-NLS-1$
+                    
+                    if (URNNamingHelper.isNameValid(ref.getDef(), attrs.getValue("name")).equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
+                        //ref.getDef().setName(attrs.getValue("name")); //$NON-NLS-1$
+                        ref.setName(attrs.getValue("name")); //$NON-NLS-1$
+                    } else {
+                        //ref.getDef().setName(attrs.getValue("name")); //$NON-NLS-1$
+                        ref.setName(attrs.getValue("name")); //$NON-NLS-1$
+                        URNNamingHelper.resolveNamingConflict(urn, ref.getDef());
+                    }
+                    
+                    System.out.println("before deteling!!!");
+                    
+                    System.out.println(ref.getSucc().size());
+                    for (int i = 0; i < ref.getSucc().size(); i++) {
+                        System.out.println(ref.getSucc().size());
+                        RemoveLinkRefCommand cmd = new RemoveLinkRefCommand((LinkRef) ref.getSucc().get(i));
+                        if (cmd.canExecute()) {
+                            System.out.println("Can be executed!!!");
+                            cmd.execute();
+                        }
+                    }
+                    
+                    System.out.println(ref.getPred().size());
+                    for (int i = 0; i < ref.getPred().size(); i++) {
+                        System.out.println(ref.getPred().size());
+                        RemoveLinkRefCommand cmd = new RemoveLinkRefCommand((LinkRef) ref.getPred().get(i));
+                        if (cmd.canExecute()) {
+                            System.out.println("Can be executed!!!");
+                            cmd.execute();
+                        }
+                    }
+                    // Add the new element in the hashmap for reference from links
+                    map.put(attrs.getValue("id"), ref.getDef()); //$NON-NLS-1$
+                }
+            }
+        } */else if ( "metadata".equals(qName) && state == 1 ) { //$NON-NLS-1$
             if ( state != 1 ) 
             {
-              System.out.println( "state problem!!!" );  
-              throw new SAXException("<metadata> not at the right place..."); //$NON-NLS-1$
+                System.out.println( "state problem!!!" );  
+                throw new SAXException("<metadata> not at the right place..."); //$NON-NLS-1$
             } 
             else 
             {
@@ -242,7 +294,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             } else {
                 throw new SAXException("Could not create Decomposition"); //$NON-NLS-1$
             }
-        } else if ("contribution".equals(qName)) { //$NON-NLS-1$
+        } else if ("contribution".equals(qName) && state == 2) { //$NON-NLS-1$
             if (state != 2)
             {
                 throw new SAXException("<contribution> not at the right place..."); //$NON-NLS-1$
@@ -360,7 +412,95 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 }
             }
             // Else: skip... element already bound!
+        } else if ("intentional-element-ref".equals(qName)) {
+            if (state != 5) {
+                System.out.println( "state problem!!!" );  
+                throw new SAXException("<intentional-element-ref> not at the right place..."); //$NON-NLS-1$
+            } else {
+                // Create the intentional element
+                IntentionalElementType type = IntentionalElementType.get(attrs.getValue("type")); //$NON-NLS-1$
+                IntentionalElementRef ref = (IntentionalElementRef) ModelCreationFactory.getNewObject(urn, IntentionalElementRef.class, 
+                                             type.getValue(), map.get(attrs.getValue("definitionid")));
+                
+                AddIntentionalElementRefCommand elementCmd = new AddIntentionalElementRefCommand(graph, ref);
+                if (elementCmd.canExecute()) {
+                    elementCmd.execute();
+                    // Set the definition properties define in the catalog
+                    //ref.getDef().setDecompositionType(DecompositionType.get(attrs.getValue("decompositiontype"))); //$NON-NLS-1$
+    
+                    //ref.getDef().setDescription(attrs.getValue("description")); //$NON-NLS-1$
+                    
+                    if (URNNamingHelper.isNameValid(ref.getDef(), attrs.getValue("name")).equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
+                        ref.setName(attrs.getValue("name")); //$NON-NLS-1$
+                    } else {
+                        ref.setName(attrs.getValue("name")); //$NON-NLS-1$
+                        URNNamingHelper.resolveNamingConflict(urn, ref.getDef());
+                    }
+                    
+                    // Add the new element in the hashmap for reference from links
+                    map.put(attrs.getValue("id"), ref.getDef()); //$NON-NLS-1$
+                }
+            }
+        } else if ( "metadata".equals(qName) && state == 5 ) { //$NON-NLS-1$
+            if ( state != 5 ) {
+                System.out.println( "state problem!!!" );  
+                throw new SAXException("<metadata> not at the right place..."); //$NON-NLS-1$
+            } else {
+                IntentionalElement C = (IntentionalElement) map.get( attrs.getValue( "elem" )); //$NON-NLS-1$               
+                if ( C == null ) {   
+                    System.out.println( "intetnional element ref recognition problem!!!" );
+                    throw new SAXException("Invalid intetnional element ref recognition in containment link"); //$NON-NLS-1$
+                }
+                
+                Metadata metadataObject = (Metadata) ModelCreationFactory.getNewObject( urn, Metadata.class );
+                
+                metadataObject.setName( attrs.getValue( "name" ) ); //$NON-NLS-1$
+                metadataObject.setValue( attrs.getValue( "value" ) ); //$NON-NLS-1$
+                AddMetadataCommand metadataCommand = new AddMetadataCommand( C, metadataObject, null );
+                metadataCommand.execute();       
+            }
+        } else if ("contribution".equals(qName) && state == 6) { //$NON-NLS-1$
+              if (state != 6) {
+                  throw new SAXException("<contribution> of refs not at the right place..."); //$NON-NLS-1$
+              }
+              // Create a contribution between the 2 elements
+              IntentionalElement src = (IntentionalElement) map.get(attrs.getValue("srcid")); //$NON-NLS-1$
+              IntentionalElement dest = (IntentionalElement) map.get(attrs.getValue("destid")); //$NON-NLS-1$
 
+              if (src == null || dest == null) {
+                  throw new SAXException("Invalid intentional element id in contribution"); //$NON-NLS-1$
+              }
+              
+              Contribution contrib = (Contribution) ModelCreationFactory.getNewObject(urn, Contribution.class);
+              CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, src, contrib);
+              linkCmd.setTarget(dest);
+              if (linkCmd.canExecute()) {
+                  linkCmd.execute();
+                  // Set the name and description
+                  contrib.setName(attrs.getValue("name")); //$NON-NLS-1$
+                  contrib.setDescription(attrs.getValue("description")); //$NON-NLS-1$
+                  // Set the contribution type, qualitative and quantitative
+                  contrib.setContribution(ContributionType.get(attrs.getValue("contributiontype"))); //$NON-NLS-1$
+                  String quantitativeContrib=attrs.getValue("quantitativeContribution");  //$NON-NLS-1$
+                  if (quantitativeContrib != null)
+                      contrib.setQuantitativeContribution(Integer.parseInt(quantitativeContrib));
+                  else {
+                      // Older .grl file, without quantitative contribution. 
+                      // Use mapping from qualitative contribution.
+                      LinkRefPropertySource.syncElementLinkQuantitativeContribution(contrib, contrib.getContribution());
+                  }
+                  // Set the correlation
+                  if (attrs.getValue("correlation") == "true") { //$NON-NLS-1$ //$NON-NLS-2$
+                      contrib.setCorrelation(true);
+                  } else {
+                      contrib.setCorrelation(false);
+                  }
+                  
+                  // Add the new element in the hashmap for reference from links
+                  map.put(attrs.getValue("name"), contrib); //$NON-NLS-1$
+              } else {
+                  throw new SAXException("Could not create Contribution"); //$NON-NLS-1$
+              }
         } else if ("element-def".equals(qName)) { //$NON-NLS-1$
             if (state == 0)
                 state=1;
@@ -389,14 +529,21 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             {
                 throw new SAXException("<actor-IE-link-def> not at the right place..."); //$NON-NLS-1$
             }
-        } /*else if ( "metadata".equals( qName ) ) { //$NON-NLS-1$
+        } else if ( "intentional-element-ref-def".equals( qName ) ) { //$NON-NLS-1$
               if ( state == 4 )
                   state = 5;
               else
               {
-                  throw new SAXException("<metadata> not at the right place..."); //$NON-NLS-1$
+                  throw new SAXException("<intentional-element-ref-def> not at the right place..."); //$NON-NLS-1$
               }
-        }*/
+        } else if ( "intentional-element-ref-link-def".equals( qName ) ) { //$NON-NLS-1$
+            if ( state == 5 )
+                state = 6;
+            else
+            {
+                throw new SAXException("<intentional-element-ref-link-def> not at the right place..."); //$NON-NLS-1$
+            }
+        }         
         else {
             throw new SAXException("Could not parse element:" + qName); //$NON-NLS-1$
         }

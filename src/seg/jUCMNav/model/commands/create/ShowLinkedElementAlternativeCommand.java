@@ -154,9 +154,9 @@ public class ShowLinkedElementAlternativeCommand extends Command implements JUCM
                     allAddedIntentionalElementList.add(IER.getDef());                
             } // end of consideredINtentionalElement for
             
-            newNumberOfNodes = grlGraph.getNodes().size(); // If no other nodes left to add to graph
-            if (newNumberOfNodes == previousNumberOfNodes)
-                break;
+            newNumberOfNodes = grlGraph.getNodes().size(); // If no other nodes left to add to graph // of no use here!!!
+            //if (newNumberOfNodes == previousNumberOfNodes)
+                //break;
             
             consideredIntentionalElementList.clear();
             consideredIntentionalElementList.addAll(allLogicallyConnectedElementList);

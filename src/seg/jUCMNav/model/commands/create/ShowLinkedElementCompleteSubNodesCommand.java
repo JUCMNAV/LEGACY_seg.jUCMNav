@@ -27,7 +27,7 @@ import java.util.*;
  * @author Rouzbahan
  *
  */
-public class ShowLinkedElementCompleteCommand extends Command implements JUCMNavCommand
+public class ShowLinkedElementCompleteSubNodesCommand extends Command implements JUCMNavCommand
 {
     private URNspec urnspec;
     private GRLmodelElement grlelem;
@@ -56,12 +56,10 @@ public class ShowLinkedElementCompleteCommand extends Command implements JUCMNav
     private ArrayList<IntentionalElement> inGraphLogicalElementList;
     private ArrayList<IntentionalElement> missingConnectedIntentionalElementList;
     
-    private List<ElementLink> linksSourceList;
+    //private List<ElementLink> linksSourceList;
     private List<ElementLink> linksDestinationList; 
     
-    private ArrayList<IntentionalElement> wholeGraphNodes;
-    
-    public ShowLinkedElementCompleteCommand(URNspec spec, EObject obj, IntentionalElementRef ref) 
+    public ShowLinkedElementCompleteSubNodesCommand(URNspec spec, EObject obj, IntentionalElementRef ref) 
     {
         int counter = 0;
       
@@ -102,28 +100,6 @@ public class ShowLinkedElementCompleteCommand extends Command implements JUCMNav
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        // finding all the elements that are somehow in different level connected to the selected node
-        wholeGraphNodes = new ArrayList<IntentionalElement>();
-        wholeGraphNodes.add(chosenIntentionalElement);
-        
-        int i = 0;            
-        while (true) {
-            linksSourceList = new ArrayList<ElementLink>(wholeGraphNodes.get(i).getLinksSrc());
-            linksDestinationList = new ArrayList<ElementLink>(wholeGraphNodes.get(i).getLinksDest());
-                
-            for (ElementLink EL : linksSourceList)
-                if (!wholeGraphNodes.contains((IntentionalElement)EL.getDest()))
-                    wholeGraphNodes.add((IntentionalElement)EL.getDest());                
-            for (ElementLink EL : linksDestinationList)
-                if (!wholeGraphNodes.contains((IntentionalElement)EL.getSrc()))
-                    wholeGraphNodes.add((IntentionalElement)EL.getSrc());
-                
-            i++;
-                
-            if (i == wholeGraphNodes.size())
-                break;
-        }
-        
         redo();   
     } 
     
@@ -149,15 +125,16 @@ public class ShowLinkedElementCompleteCommand extends Command implements JUCMNav
             size = consideredIntentionalElementList.size();
             allmissingConnectedIntentionalElementList.clear();
             for (int j = 0; j < size; j++) {
-                linksSourceList = new ArrayList<ElementLink>(consideredIntentionalElementList.get(j).getLinksSrc());
+                //linksSourceList = new ArrayList<ElementLink>(consideredIntentionalElementList.get(j).getLinksSrc());
                 linksDestinationList = new ArrayList<ElementLink>(consideredIntentionalElementList.get(j).getLinksDest());
                 
                 LogicallyConnectedElementList = new ArrayList<IntentionalElement>();
-                for (ElementLink EL : linksSourceList)
-                    LogicallyConnectedElementList.add((IntentionalElement)EL.getDest());                      
+                //for (ElementLink EL : linksSourceList)
+                    //LogicallyConnectedElementList.add((IntentionalElement)EL.getDest());                      
                 for (ElementLink EL : linksDestinationList)
                     LogicallyConnectedElementList.add((IntentionalElement)EL.getSrc());
-                LogicallyConnectedElementList.remove(chosenIntentionalElement);
+                //LogicallyConnectedElementList.remove(chosenIntentionalElement);
+                LogicallyConnectedElementList.remove(consideredIntentionalElementList.get(j));
                 
                 // Finding all refs in the graph at the begining of any redo
                 currentIntentionalElementRefList = new ArrayList<IntentionalElementRef>(grlGraph.getNodes());
@@ -202,12 +179,12 @@ public class ShowLinkedElementCompleteCommand extends Command implements JUCMNav
             
             consideredIntentionalElementList.clear();
             consideredIntentionalElementList.addAll(allLogicallyConnectedElementList);
+            if (allLogicallyConnectedElementList.size() == 0 )
+                break;
+            
             allLogicallyConnectedElementList.clear();
             allAddedIntentionalElementRefList.clear();
             allAddedIntentionalElementList.clear();            
-            if (wholeGraphNodes.size() == grlGraph.getNodes().size()) // if we have all the connected nodes then we are done!
-                break;
-            
         } while (true);// end of levels' for
         
         

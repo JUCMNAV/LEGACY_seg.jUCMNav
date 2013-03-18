@@ -10,16 +10,14 @@ import grl.GRLGraph;
 import grl.GRLLinkableElement;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
-import grl.IntentionalElementType;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.ExportGRLCatalog;
@@ -27,9 +25,9 @@ import seg.jUCMNav.importexport.ImportGRLCatalog;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.commands.delete.DeleteGRLGraphCommand;
+import seg.jUCMNav.views.preferences.DisplayPreferences;
 import urn.URNspec;
 import urncore.GRLmodelElement;
-import urncore.IURNContainer;
 
 /**
  * @author Rouzbahan
@@ -66,13 +64,14 @@ public class ShowEvaluationIntentionalElementV1Command extends Command implement
     private List<ElementLink> linksDestinationList;
     
   
-    public ShowEvaluationIntentionalElementV1Command(URNspec spec, EObject obj, EvaluationStrategy es, String v) 
+    public ShowEvaluationIntentionalElementV1Command(URNspec spec, EObject obj, EvaluationStrategy es, String v, GRLGraph g) 
     {
         urnspec = spec;
       
         if (obj instanceof GRLmodelElement) 
         {
             this.grlGraph = (GRLGraph) obj;
+            this.newGraph = (GRLGraph) g;
             this.strategy = es;
             this.value = Integer.parseInt(v);
             urnspecEvaluationStrategyList = new ArrayList<EvaluationStrategy>(urnspec.getGrlspec().getStrategies());
@@ -136,8 +135,20 @@ public class ShowEvaluationIntentionalElementV1Command extends Command implement
         for (IntentionalElement IE : nodesInStrategy)
             if (leafNodes.contains(IE))
                 startingNodes.add(leafNodesRefs.get(leafNodes.indexOf(IE)));
-        System.out.println("size of startingNodes is : " + startingNodes.size());
-            
+        System.out.println("size of startingNodes is : " + startingNodes.size());        
+        
+        //ExportGRLCatalog exportGRL = new ExportGRLCatalog();
+        //exportGRL.export(urnspec, null, "file");        
+        //ImportGRLCatalog importGRL = new ImportGRLCatalog();
+        //newUrn = ModelCreationFactory.getNewURNspec(false, false);
+        //try {
+            //FileInputStream grlFile = new FileInputStream("file.grl");
+        //} catch (FileNotFoundException e) {
+            //e.printStackTrace();
+        //}
+        
+        //importGRL.importURN(grlFile, newUrn, autolayoutDiagrams);
+        
         redo();   
     }
     
@@ -150,19 +161,35 @@ public class ShowEvaluationIntentionalElementV1Command extends Command implement
     {   
         testPreConditions();
         
+        //Display.getDefault().syncExec(new Runnable() { 
+          //@Override
+          //public void run() {
+        
         Command cmd;        
         IntentionalElementRef ieRef, new_ieRef;
         IntentionalElement intentionalElement;
-        int j = 0;
         
         // creating a new graph
-        newUrn = ModelCreationFactory.getNewURNspec(false, false);
-        cmd = new CreateGrlGraphCommand(newUrn);
+        //newUrn = ModelCreationFactory.getNewURNspec(false, false);
+        /*cmd = new CreateGrlGraphCommand(urnspec);
+        System.out.println("No Fail is happened");
+        ((CreateGrlGraphCommand)cmd).setIndex(urnspec.getUrndef().getSpecDiagrams().indexOf(grlGraph) + 1 );
+        System.out.println("grlGraph index is : " + urnspec.getUrndef().getSpecDiagrams().indexOf(grlGraph) +
+           " and, index of the new grapg is : " + urnspec.getUrndef().getSpecDiagrams().indexOf(grlGraph) + 1);
+        if (cmd.canExecute()) {
+            System.out.println("can be executed!");
+            DisplayPreferences.getInstance().setShowGRLS(true);
+        }
+        
+        System.out.println("No Fail is happened");
         newGraph = ((CreateGrlGraphCommand) cmd).getDiagram();
-        cmd.execute();
-        // adding the very first set of element to the new graph
-        addedIntentionlElementRefinNewGraph = new ArrayList<IntentionalElementRef>();
-        for (int i = 0; i < startingNodes.size(); i++) { // first we add the refs that are in the consideringNodes list
+        cmd.execute();*/
+        
+        
+        
+        consideringNodes = new ArrayList<IntentionalElementRef>(startingNodes); // consideringNodes = startingNodes
+        addedIntentionlElementRefinNewGraph = new ArrayList<IntentionalElementRef>(); // adding the very first set of element to the new graph
+        for (int i = 0; i < startingNodes.size(); i++) { // first we add the refs that are in the startingNodes list
             ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class, 
                 startingNodes.get(i).getDef().getType().getValue(), startingNodes.get(i).getDef());
             addedIntentionlElementRefinNewGraph.add(ieRef);
@@ -170,58 +197,55 @@ public class ShowEvaluationIntentionalElementV1Command extends Command implement
             cmd.execute();
         }
         
-        // calculation of the connected element to the first set of added nodes FAIL FAIL FAIL FAIL
-        consideringNodes = new ArrayList<IntentionalElementRef>();
-        for (int i = 0; i < startingNodes.size(); i++) {
-            intentionalElement = startingNodes.get(i).getDef();
-            linksSourceList = new ArrayList<ElementLink>(intentionalElement.getLinksSrc());
-        }
-        while (j < 1) {
-            for (int i = 0; i < consideringNodes.size(); i++) { // first we add the refs that are in the consideringNodes list
-                ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class, 
-                    consideringNodes.get(i).getDef().getType().getValue(), consideringNodes.get(i).getDef());
-                addedIntentionlElementRefinNewGraph.add(ieRef);
-                cmd = new AddIntentionalElementRefCommand(newGraph, ieRef);
-                cmd.execute();
+        while (consideringNodes.size() != 0) {
+            existingIntentionalElementRefsList = new ArrayList<IntentionalElementRef>(newGraph.getNodes());
+            existingIntentionalElementList = new ArrayList<IntentionalElement>(); // obtaining the definition of the existing refs in the new graph
+            for (IntentionalElementRef IER : existingIntentionalElementRefsList)
+                existingIntentionalElementList.add(IER.getDef());
+            
+            linksSourceList = new ArrayList<ElementLink>(); // finding all the outgoing links from all the starting nodes
+            for (int i = 0; i < consideringNodes.size(); i++) {
+                intentionalElement = consideringNodes.get(i).getDef();
+                linksSourceList.addAll(intentionalElement.getLinksSrc());
             }
-            j++;
-            // now we calculate the connected element to the last set of added nodes
-        }
-        
-        
-        
-        /*
-        for (IntentionalElement ie : nodesInStrategy) {
-            linksSourceList = new ArrayList<ElementLink>(ie.getLinksSrc());
-            for (ElementLink EL : linksSourceList)
-                LogicallyConnectedElementList.add((IntentionalElement)EL.getDest());
-        }
-        
-        // creating the graph and adding the selected element at first
-        cmd = new CreateGrlGraphCommand(urnspec);
-        //((CreateGrlGraphCommand)cmd).setIndex(urnspec.getUrndef().getSpecDiagrams().indexOf(grlGraph) + 1);
-        DisplayPreferences.getInstance().setShowGRLS(true);
-        cmd.execute();
-        newGraph = ((CreateGrlGraphCommand) cmd).getDiagram();        
-        ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
-        ieRef.setDef((IntentionalElement) grlelem);
-        addedIntentionlElementRefinNewGraph.add(ieRef);
-        cmd = new AddIntentionalElementRefCommand(newGraph, ieRef);
-        cmd.execute();
-        // adding all the desired elements to the new graph
-        for (IntentionalElement ie : desiredIntentionalElementList) {
-            new_ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
-            new_ieRef.setDef((IntentionalElement) ie);
-            addedIntentionlElementRefinNewGraph.add(new_ieRef);
-            cmd = new AddIntentionalElementRefCommand(newGraph, new_ieRef);
-            cmd.execute();
+            
+            consideringNodes = new ArrayList<IntentionalElementRef>();
+            for (int i = 0; i < linksSourceList.size(); i++) { // finding all the elements on the destination side of the all outgoing links
+                existingIntentionalElementRefsList = new ArrayList<IntentionalElementRef>(newGraph.getNodes());
+                existingIntentionalElementList = new ArrayList<IntentionalElement>(); // obtaining the definition of the existing refs in the new graph
+                for (IntentionalElementRef IER : existingIntentionalElementRefsList)
+                    existingIntentionalElementList.add(IER.getDef());
+                
+                IntentionalElement ie = (IntentionalElement) linksSourceList.get(i).getDest();
+                if (existingIntentionalElementList.contains(ie)) // a ref of the element already exists in the new graph
+                    continue; 
+                else { // no ref of the element exists in graph
+                    ArrayList<IntentionalElementRef> ieRefList = new ArrayList<IntentionalElementRef>(ie.getRefs());
+                    IntentionalElementRef ref = null;
+                    for (int j = 0; j < ieRefList.size(); j++) // finding the ref that in located in the current grlGraph
+                        if (((GRLGraph) ieRefList.get(j).getDiagram()).equals(grlGraph)) {
+                            ref = ieRefList.get(j); // keeping the found ref in the variable ref
+                            break;
+                        }
+                    
+                    consideringNodes.add(ref); // saving all the elements on the destination side of the all links into consideringNodes if not already included
+                    ieRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class, 
+                        ref.getDef().getType().getValue(), ref.getDef());
+                    addedIntentionlElementRefinNewGraph.add(ieRef);
+                    cmd = new AddIntentionalElementRefCommand(newGraph, ieRef);
+                    cmd.execute();
+                }
+            }
         }
         
         for (IntentionalElementRef IER : addedIntentionlElementRefinNewGraph) {
             CreateAllLinkRefCommand comm = new CreateAllLinkRefCommand(IER);
             comm.execute();
         }
-        */
+        
+        //  } // end of run
+        //}); 
+        
         /*
         // exporting and importing grl file
         HashMap mapDiagrams = (HashMap)((IURNContainer) grlGraph);

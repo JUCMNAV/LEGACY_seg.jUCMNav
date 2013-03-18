@@ -97,6 +97,8 @@ import seg.jUCMNav.actions.scenarios.EditEvaluationRangeAction;
 import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 //import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
+import seg.jUCMNav.actions.ShowLinkedElementAlternativeSubNodesAction;
+import seg.jUCMNav.actions.ShowLinkedElementCompleteSubNodesAction;
 
 /**
  * This class builds the context menu used in our editor and views.
@@ -409,13 +411,15 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
         
-        actions = new IAction[6];
+        actions = new IAction[8];
         actions[0] = getActionRegistry().getAction(ShowLinkedElementAlternativeAction.SHOWLINKEDELEMENTALTERNATIVE);
-        actions[1] = getActionRegistry().getAction(ShowLinkedElementAction.SHOWLINKEDELEMENT);
-        actions[2] = getActionRegistry().getAction(ShowLinkedElementLevelTwoAction.SHOWLINKEDELEMENTLEVELTWO);
-        actions[3] = getActionRegistry().getAction(ShowLinkedElementLevelThreeAction.SHOWLINKEDELEMENTLEVELTHREE);
-        actions[4] = getActionRegistry().getAction(ShowContainingActorAction.SHOWCONTAININGACTOR);
-        actions[5] = getActionRegistry().getAction(ShowLinkedElementCompleteAction.SHOWLINKEDELEMENTCOMPLETE);
+        actions[1] = getActionRegistry().getAction(ShowLinkedElementAlternativeSubNodesAction.SHOWLINKEDELEMENTALTERNATIVESUBNODES);
+        actions[2] = getActionRegistry().getAction(ShowLinkedElementAction.SHOWLINKEDELEMENT);
+        actions[3] = getActionRegistry().getAction(ShowLinkedElementLevelTwoAction.SHOWLINKEDELEMENTLEVELTWO);
+        actions[4] = getActionRegistry().getAction(ShowLinkedElementLevelThreeAction.SHOWLINKEDELEMENTLEVELTHREE);
+        actions[5] = getActionRegistry().getAction(ShowContainingActorAction.SHOWCONTAININGACTOR);
+        actions[6] = getActionRegistry().getAction(ShowLinkedElementCompleteAction.SHOWLINKEDELEMENTCOMPLETE);
+        actions[7] = getActionRegistry().getAction(ShowLinkedElementCompleteSubNodesAction.SHOWLINKEDELEMENTCOMPLETESUBNODES);
         
         submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.LinkedElement"), Messages.getString("UrnContextMenuProvider.LinkedElement"), JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         if (submenu.getActiveOperationCount() > 0)

@@ -145,6 +145,8 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 //import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
+import seg.jUCMNav.actions.ShowLinkedElementAlternativeSubNodesAction;
+import seg.jUCMNav.actions.ShowLinkedElementCompleteSubNodesAction;
 
 /**
  * Adds actions to the action registry. Originally included in the UCMNavMultiPageEditor, this code was factored out.
@@ -743,8 +745,16 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementAlternative")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
+        action = new ShowLinkedElementAlternativeSubNodesAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementAlternativeSubNodes")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
         action = new ShowLinkedElementCompleteAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementComplete")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ShowLinkedElementCompleteSubNodesAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementCompleteSubNodes")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new ShowLinkedElementAction(editor);
