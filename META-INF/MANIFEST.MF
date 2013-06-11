@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: jUCMNav
 Bundle-SymbolicName: seg.jUCMNav;singleton:=true
-Bundle-Version: 5.3
+Bundle-Version: 5.4
 Bundle-ClassPath: jUCMNav.jar,
  lib/jdom.jar,
  lib/itext-2.0.6.jar,

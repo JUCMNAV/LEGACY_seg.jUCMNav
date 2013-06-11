@@ -102,12 +102,12 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 			'5' for 2005, TODO: change to '6', '7', etc. We can't use full year because of number overflow restrictions.
 			GM: In 2010, we decided to use letters (i.e., A for 2010, B for 2011...).
 			-->
-			<format property="buildtime" pattern="'C'MMdd.'v'HHmm"/>
+			<format property="buildtime" pattern="'D'MMdd.'v'HHmm"/>
 		</tstamp>
 		
 
 		<!-- A) this is the typically active setting; use either A) or B) but not both-->
-		<condition property="jucmnav.version" value="5.3.${buildtime}">
+		<condition property="jucmnav.version" value="5.4.0">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>
@@ -115,7 +115,7 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		
 		<!-- B) use this when packaging; use either A) or B) but not both -->
 		<!--
-    	<property name="jucmnav.version" value="5.3.0" />
+    	<property name="jucmnav.version" value="5.4.0" />
     	--> 
 		<echo>Building version: ${jucmnav.version}</echo>
 		
@@ -133,15 +133,15 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 	
 	<target name="build.fullzip.exactversion">
 		<antcall target="init">
-			<param name="jucmnav.version" value="5.3.0"/>
+			<param name="jucmnav.version" value="5.4.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="clean">
-			<param name="jucmnav.version" value="5.3.0"/>
+			<param name="jucmnav.version" value="5.4.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="zip.plugin">
-			<param name="jucmnav.version" value="5.3.0"/>
+			<param name="jucmnav.version" value="5.4.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 	</target>
