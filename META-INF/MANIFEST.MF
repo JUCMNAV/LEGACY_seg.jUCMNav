@@ -137,4 +137,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.jface.text
 Eclipse-LazyStart: true
+Import-Package: org.eclipse.e4.core.contexts
 
