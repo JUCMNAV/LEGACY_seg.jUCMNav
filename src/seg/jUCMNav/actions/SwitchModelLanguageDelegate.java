@@ -35,11 +35,7 @@ public class SwitchModelLanguageDelegate implements IEditorActionDelegate {
     
     
     public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-    	// DB: avoid class cast exception with e4.2
-    	if ( targetEditor instanceof UCMNavMultiPageEditor ) {
-    		editor = (UCMNavMultiPageEditor) targetEditor;
-    	}
-        //editor = (UCMNavMultiPageEditor) targetEditor;
+        editor = (UCMNavMultiPageEditor) targetEditor;
     }
 
 	public void run(IAction action) {
