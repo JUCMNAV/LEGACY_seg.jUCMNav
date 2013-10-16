@@ -29,7 +29,11 @@ public class VerifyStaticSemanticDelegate implements IEditorActionDelegate {
     private UCMNavMultiPageEditor editor;
 
     public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-        editor = (UCMNavMultiPageEditor) targetEditor;
+    	// DB: avoid class cast exception with e4
+    	if ( targetEditor instanceof UCMNavMultiPageEditor ) {
+    		editor = (UCMNavMultiPageEditor) targetEditor;
+    	}
+//        editor = (UCMNavMultiPageEditor) targetEditor;
     }
 
     protected UCMNavMultiPageEditor getEditor() {

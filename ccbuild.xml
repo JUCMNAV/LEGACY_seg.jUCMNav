@@ -107,7 +107,7 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		
 
 		<!-- A) this is the typically active setting; use either A) or B) but not both-->
-		<condition property="jucmnav.version" value="5.4.1">
+		<condition property="jucmnav.version" value="5.4.${buildtime}">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>

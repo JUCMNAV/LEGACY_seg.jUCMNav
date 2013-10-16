@@ -2,6 +2,7 @@ package seg.jUCMNav.editors.actionContributors;
 
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
+import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
@@ -9,6 +10,7 @@ import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
@@ -65,5 +67,18 @@ public class UCMActionBarContributor extends ActionBarContributor {
     protected void declareGlobalActionKeys() {
         // currently none
     }
+    
+    /* DB: Overrides this to avoid null pointer exception with ActionRegistry adapter.
+     * (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.ActionBarContributor#setActiveEditor(org.eclipse.ui.IEditorPart)
+     */
+    @Override
+	public void setActiveEditor(IEditorPart editor) {
+    	final ActionRegistry registry = (ActionRegistry) editor.getAdapter(ActionRegistry.class);
+    	
+    	if ( registry != null ) {
+    		super.setActiveEditor( editor );
+    	}
+	}
 
 }
