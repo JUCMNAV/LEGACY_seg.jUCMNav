@@ -492,10 +492,8 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette impleme
         // Bug 381: 3.1: remove extra items from contextual menus
         // getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer); //$NON-NLS-1$
         menuExtenders = new ArrayList(1);
-        
         PartSite.registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer, true, //$NON-NLS-1$
-                	// DB: Fix for internal API removed from E4.2.
-                this, ( (PartSite)( (MultiPageEditorSite) getSite() ).getMultiPageEditor().getSite() ).getContext(), menuExtenders);
+                this, menuExtenders);
         // bug 531
         if (menuExtenders.get(0) != null) {
             provider.removeMenuListener((IMenuListener) menuExtenders.get(0));

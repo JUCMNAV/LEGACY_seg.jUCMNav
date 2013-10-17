@@ -28,11 +28,7 @@ public class VerifySyntaxActionDelegate implements IEditorActionDelegate {
      * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
      */
     public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-    	// DB: avoid class cast exception with e4
-    	if ( targetEditor instanceof UCMNavMultiPageEditor ) {
-    		editor = (UCMNavMultiPageEditor) targetEditor;
-    	}
-//        editor = (UCMNavMultiPageEditor) targetEditor;
+        editor = (UCMNavMultiPageEditor) targetEditor;
     }
 
     /*
