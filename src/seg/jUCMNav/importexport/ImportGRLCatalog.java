@@ -42,7 +42,7 @@ import urncore.Metadata;
 /**
  * This class import a GRL catalog from an xml file
  * 
- * @author Jean-François Roy
+ * @author Jean-Fran?ois Roy
  */
 public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
 
@@ -60,7 +60,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
      * @see seg.jUCMNav.extensionpoints.IURNImport#importURN(java.io.FileInputStream)
      */
     public URNspec importURN(FileInputStream fis, Vector autolayoutDiagrams) throws InvocationTargetException {
-        URNspec urn = ModelCreationFactory.getNewURNspec(false, false);
+        URNspec urn = ModelCreationFactory.getNewURNspec(false, false, false);
 
         // Remove ucm diagram (only one diagram is insert by default).
         // urn.getUrndef().getSpecDiagrams().remove(0);

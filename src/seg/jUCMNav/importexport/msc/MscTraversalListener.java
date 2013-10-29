@@ -126,7 +126,7 @@ public class MscTraversalListener implements ITraversalListener {
         this.whenToSave = whenToSave;
 
         htScenarioToMap = new HashMap();
-        urnspec = ModelCreationFactory.getNewURNspec(true, false);
+        urnspec = ModelCreationFactory.getNewURNspec(true, false, false);
 
         // TODO: find a better way to store this information, e.g., use URNspec metadata.
         urnspec.setAuthor(originalFilename);

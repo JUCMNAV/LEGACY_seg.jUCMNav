@@ -27,7 +27,7 @@ public class URNspecUMHandler extends EObjectImplUMHandler {
 		urn.URNspec elem = null;
 		if (null == elem) {
 			if (null == target) {
-				elem = (urn.URNspec) ModelCreationFactory.getNewURNspec(false, false);
+				elem = (urn.URNspec) ModelCreationFactory.getNewURNspec(false, false, false);
 				//elem = (urn.URNspec) ModelCreationFactory.getNewObject(urn,
 					//	urn.URNspec.class);
 				urn = elem;

@@ -10,8 +10,10 @@ import grl.IntentionalElementRef;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
+import urncore.Metadata;
 
 /**
  * This command create a IntentionalElementRef and a IntentionalElement object in the model
@@ -50,7 +52,12 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
 
         existingDef = elementRef.getDef();
         bDefAlreadyExists = graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(existingDef);
-
+        boolean isFeatureModel = ModelCreationFactory.containsMetadata(graph.getMetadata(),
+        		ModelCreationFactory.getFeatureModelGraphMetadata());
+    	if (isFeatureModel) {
+    		System.out.println("Adding feature for feature model");
+    		existingDef.getMetadata().add(ModelCreationFactory.getFeatureModelFeatureMetadata());
+    	}
         redo();
     }
 
@@ -60,7 +67,6 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
      */
     public void redo() {
         testPreConditions();
-
         URNspec urnspec = graph.getUrndefinition().getUrnspec();
         if (!bDefAlreadyExists)
             urnspec.getGrlspec().getIntElements().add(elementRef.getDef());

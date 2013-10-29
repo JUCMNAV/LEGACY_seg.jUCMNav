@@ -41,6 +41,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.resource.StringConverter;
 
@@ -136,8 +137,14 @@ public class ModelCreationFactory implements CreationFactory {
     public static final int DEFAULT_GRL_COMPONENT_HEIGHT = 200;
     public static final int DEFAULT_GRL_COMPONENT_WIDTH = 200;
     public static final String URNSPEC_VERSION = "0.925"; //$NON-NLS-1$
+    
+    //the type used to distinguish mandatory or optional for contribution link
+    public static final int FEATURE_MODEL_MANDATORY_TYPE = -1;
+    public static final int FEATURE_MODEL_OPTIONAL_TYPE = -2;
+    public static final int FEATURE_MODEL_DECOMPOSTION_TYPE = -3;
 
     private Object preDefinedDefinition;
+
 
     /**
      * @param urn
@@ -213,6 +220,80 @@ public class ModelCreationFactory implements CreationFactory {
      */
     public Object getNewObject() {
         return getNewObject(urn, targetClass, type, preDefinedDefinition);
+    }
+    
+    /**
+     * @return the Metadata tag of feature model graph 
+     */
+    public static Metadata getFeatureModelGraphMetadata() {
+    	Metadata featureModelGraphMetadata;
+    	featureModelGraphMetadata = UrncoreFactory.eINSTANCE.createMetadata();
+    	featureModelGraphMetadata.setName("ModelType"); //$NON-NLS-1$
+    	featureModelGraphMetadata.setValue("FeatureModel"); //$NON-NLS-1$
+    	return featureModelGraphMetadata;
+    }
+    
+    /**
+     * @return the Metadata tag of feature model feature element 
+     */
+    public static Metadata getFeatureModelFeatureMetadata() {
+    	Metadata featureModelFeatureElementMetadata;
+    	featureModelFeatureElementMetadata = UrncoreFactory.eINSTANCE.createMetadata();
+    	featureModelFeatureElementMetadata.setName("FeatureModel"); //$NON-NLS-1$
+    	featureModelFeatureElementMetadata.setValue("Feature"); //$NON-NLS-1$
+    	return featureModelFeatureElementMetadata;
+    }
+    
+    /**
+     * @return the Metadata tag of feature model decopositon link
+     */
+    public static Metadata getFeatureModelDecompositionLinkMetadata() {
+    	Metadata featureModelDecompositionLinkMetadata;
+    	featureModelDecompositionLinkMetadata = UrncoreFactory.eINSTANCE.createMetadata();
+    	featureModelDecompositionLinkMetadata.setName("FeatureModel"); //$NON-NLS-1$
+    	featureModelDecompositionLinkMetadata.setValue("Decomposition"); //$NON-NLS-1$
+    	return featureModelDecompositionLinkMetadata;
+    }
+    
+    /**
+     * @return the Metadata tag of feature model mandatory link
+     */
+    public static Metadata getFeatureModelMandatoryLinkMetadata() {
+    	Metadata featureModelMandatoryLinkMetadata;
+    	featureModelMandatoryLinkMetadata = UrncoreFactory.eINSTANCE.createMetadata();
+    	featureModelMandatoryLinkMetadata.setName("FeatureModel"); //$NON-NLS-1$
+    	featureModelMandatoryLinkMetadata.setValue("Mandatory"); //$NON-NLS-1$
+    	return featureModelMandatoryLinkMetadata;
+    }
+    
+    /**
+     * @return the Metadata tag of feature model optional link
+     */
+    public static Metadata getFeatureModelOptionalLinkMetadata() {
+    	Metadata featureModelOptionalLinkMetadata;
+    	featureModelOptionalLinkMetadata = UrncoreFactory.eINSTANCE.createMetadata();
+    	featureModelOptionalLinkMetadata.setName("FeatureModel"); //$NON-NLS-1$
+    	featureModelOptionalLinkMetadata.setValue("Optional"); //$NON-NLS-1$
+    	return featureModelOptionalLinkMetadata;
+    }
+    
+    /**
+     * check if the metadata Elist contains a specific metadata
+     * @param metadataList the metadata list
+     * @param metadata the specific metadata
+     * @return true if contains, otherwise false
+     */
+    public static boolean containsMetadata(EList metadataList, Metadata metadata) {
+    	boolean result = false;
+    	for (int i = 0; i < metadataList.size(); i++)
+    	{
+    		Metadata m = (Metadata) metadataList.get(i);
+    		if ((m.getName().equals(metadata.getName())) && (m.getValue().equals(metadata.getValue()))) {
+    			result = true;
+    			break;
+    		}
+    	}
+    	return result;
     }
 
     /**
@@ -337,9 +418,21 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(Connect.class)) {
                 result = mapfactory.createConnect();
             } else if (targetClass.equals(Decomposition.class)) {
-                result = grlfactory.createDecomposition();
+            	Decomposition decomposition = grlfactory.createDecomposition();
+            	if (type == ModelCreationFactory.FEATURE_MODEL_DECOMPOSTION_TYPE) {
+            		decomposition.getMetadata().add(ModelCreationFactory.getFeatureModelDecompositionLinkMetadata());
+            	}
+                result = decomposition;
             } else if (targetClass.equals(Contribution.class)) {
-                result = grlfactory.createContribution();
+            	Contribution contribution = grlfactory.createContribution();
+            	//add metadata if the contribution link is created in feature model 
+            	//as mandatory or optional link
+            	if (type == ModelCreationFactory.FEATURE_MODEL_MANDATORY_TYPE) {
+            		contribution.getMetadata().add(ModelCreationFactory.getFeatureModelMandatoryLinkMetadata());
+            	} else if (type == ModelCreationFactory.FEATURE_MODEL_OPTIONAL_TYPE) {
+            		contribution.getMetadata().add(ModelCreationFactory.getFeatureModelOptionalLinkMetadata());
+            	}
+            	result = contribution;
             } else if (targetClass.equals(Dependency.class)) {
                 result = grlfactory.createDependency();
             } else if (targetClass.equals(LinkRef.class)) {
@@ -656,8 +749,9 @@ public class ModelCreationFactory implements CreationFactory {
      */
     public static URNspec getNewURNspec() {
         // Will also create one if no GRL or UCM diagrams were selected (so at least one diagram is present)
-
-        return getNewURNspec(GeneralPreferencePage.getNewUCM() || !GeneralPreferencePage.getNewGRL(), GeneralPreferencePage.getNewGRL());
+        return getNewURNspec(GeneralPreferencePage.getNewUCM() || ((!GeneralPreferencePage.getNewGRL()) && (!GeneralPreferencePage.getNewFMD())),
+        		GeneralPreferencePage.getNewGRL(),
+        		GeneralPreferencePage.getNewFMD());
     }
 
     /**
@@ -668,10 +762,12 @@ public class ModelCreationFactory implements CreationFactory {
      *            should a blank UCM be created?
      * @param createGrl
      *            should a blank GRL graph be created?
+     * @param createFmd
+     *            should a blank FMD graph be created?
      * @return a new URN spec
      */
-    public static URNspec getNewURNspec(boolean createUcm, boolean createGrl) {
-
+    public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolean createFmd) {
+    	    	
         URNspec result = null;
 
         // create the URN spec
@@ -711,6 +807,15 @@ public class ModelCreationFactory implements CreationFactory {
         // add a new UCM map to the UCMspec, if desired.
         if (createUcm) {
             urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, UCMmap.class));
+        }
+        
+        // add a new FMD diagram to the FMDspec, if desired.
+        //TODO: currently it will create a grl graph instead of FMD, after implemented FDM, correct this one.
+        if (createFmd) {
+        	GRLGraph newFmdGraph = (GRLGraph) getNewObject(urnspec, GRLGraph.class);
+        	newFmdGraph.setName("featureModelGraph");
+        	newFmdGraph.getMetadata().add(getFeatureModelGraphMetadata());
+        	urnspec.getUrndef().getSpecDiagrams().add(newFmdGraph);
         }
 
         // Create a Strategy and Strategy Group

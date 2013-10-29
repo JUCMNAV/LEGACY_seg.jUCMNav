@@ -124,6 +124,11 @@ public class NewUcmFileWizardPage extends WizardPage {
         grlButton.setImage(JUCMNavPlugin.getImage("icons/grl16.gif")); //$NON-NLS-1$
         grlButton.setText("GRL"); //$NON-NLS-1$
         grlButton.addListener(SWT.Selection, checkGroupListener);
+        
+        Button fmdButton = new Button(diagramComposite, SWT.CHECK);
+        fmdButton.setImage(JUCMNavPlugin.getImage("icons/fmd16.gif")); //$NON-NLS-1$
+        fmdButton.setText("FMD");
+        fmdButton.addListener(SWT.Selection, checkGroupListener);
 
         if (GeneralPreferencePage.getNewGRL()) {
             grlButton.setSelection(true);
@@ -133,6 +138,10 @@ public class NewUcmFileWizardPage extends WizardPage {
             ucmButton.setSelection(true);
             doDiagramSelection(ucmButton);
         }
+        if (GeneralPreferencePage.getNewFMD()) {
+        	fmdButton.setSelection(true);
+        	doDiagramSelection(fmdButton);
+        }
 
         initialize();
         dialogChanged();
@@ -140,20 +149,28 @@ public class NewUcmFileWizardPage extends WizardPage {
     }
 
     /**
-     * Updates preferences for new UCM/GRL diagrams based on checkbox (un)selected.
+     * Updates preferences for new UCM/GRL/FMD diagrams based on checkbox (un)selected.
      */
     static void doDiagramSelection(Button button) {
         if (button.getSelection()) {
             if (button.getText().equals("GRL")) { //$NON-NLS-1$
                 GeneralPreferencePage.setNewGRL(true);
-            } else {
+            }
+            else if (button.getText().equals("UCM")) { //$NON-NLS-1$
                 GeneralPreferencePage.setNewUCM(true);
+            }
+            else if (button.getText().equals("FMD")) { //$NON-NLS-1$
+            	GeneralPreferencePage.setNewFMD(true);
             }
         } else {
             if (button.getText().equals("GRL")) { //$NON-NLS-1$
                 GeneralPreferencePage.setNewGRL(false);
-            } else {
+            }
+            else if (button.getText().equals("UCM")) { //$NON-NLS-1$
                 GeneralPreferencePage.setNewUCM(false);
+            }
+            else if (button.getText().equals("FMD")) { //$NON-NLS-1$
+            	GeneralPreferencePage.setNewFMD(false);
             }
         }
     }
