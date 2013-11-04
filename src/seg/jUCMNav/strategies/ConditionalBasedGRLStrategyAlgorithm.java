@@ -15,6 +15,7 @@ import java.util.List;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
 import urn.URNspec;
 import urncore.Metadata;
@@ -124,8 +125,18 @@ public class ConditionalBasedGRLStrategyAlgorithm extends FormulaBasedGRLStrateg
         int ignoredContribArrayIt = 0;
         int consideredContribArrayIt = 0;
         int sumConsideredContributionLinks = 0;
+        /* The following 3 variables will be used when the diagram is a feature model*/
+        int mandatoryLinksIndex = 0;
+        boolean onlyOptionalLinks = true;
+
+        if(ModelCreationFactory.containsMetadata(element.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata()))
+        {
+            mandatoryLinksIndex = computeNumberOfMandatoryLinks(element);
+        	onlyOptionalLinks = containsOnlyOptionalLink(element);
+        }
 
         Iterator it = element.getLinksDest().iterator(); // Return the list of elementlink
+        int remainingContributionFMD = 100; // remaining contribution is currently 100
         while (it.hasNext()) {
             ElementLink link = (ElementLink) it.next();
             if (link instanceof Decomposition) {
@@ -153,6 +164,32 @@ public class ConditionalBasedGRLStrategyAlgorithm extends FormulaBasedGRLStrateg
                 ignoreSrc = checkIgnoreElement(link.getSrc());
 
                 int quantitativeContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
+                // if Feature Model Diagram
+                if(ModelCreationFactory.containsMetadata(element.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata()))
+                {
+                	if(onlyOptionalLinks)
+                		//The case that the element contains only optional links
+                		quantitativeContrib = 100;
+                	else
+                	{
+                		//Mixed case or only mandatory links
+                		if(ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelMandatoryLinkMetadata()))
+                		{
+                			//Last Link case
+                			if(mandatoryLinksIndex == 1)                			
+                				quantitativeContrib = remainingContributionFMD;
+                			else {
+                				quantitativeContrib = remainingContributionFMD/mandatoryLinksIndex;
+                				remainingContributionFMD -= quantitativeContrib;
+                			}
+                			mandatoryLinksIndex--;
+                		}else
+                			//The link is an optional link
+                			quantitativeContrib = 0;                		
+                	}
+                	contrib.setQuantitativeContribution(quantitativeContrib);
+
+                }
 
                 if (ignoreSrc) {
                     ignoredContributionValue[ignoredContribArrayIt] = quantitativeContrib;
@@ -222,5 +259,34 @@ public class ConditionalBasedGRLStrategyAlgorithm extends FormulaBasedGRLStrateg
 
         return result;
     }
-
+    
+    public int computeNumberOfMandatoryLinks(IntentionalElement element){
+    	int MandatoryLinks = 0;
+    	Iterator it = element.getLinksDest().iterator();
+        while (it.hasNext()) {
+        	ElementLink link = (ElementLink) it.next();
+        	if (link instanceof Contribution) {
+        		if(ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelMandatoryLinkMetadata()))
+        			MandatoryLinks++;
+        	}
+        }
+    	return MandatoryLinks;
+    }
+    
+    //return true if the element has only optional links
+    public boolean containsOnlyOptionalLink(IntentionalElement element){
+    	boolean containsOnlyOptionalLink = true;
+    	Iterator it = element.getLinksDest().iterator();
+        while (it.hasNext()) {
+        	ElementLink link = (ElementLink) it.next();
+        	if (link instanceof Contribution) {
+        		if(ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelMandatoryLinkMetadata()))
+        		{
+        			containsOnlyOptionalLink = false;
+        			break;
+        		}
+        	}
+        }
+    	return containsOnlyOptionalLink;
+    }
 }
