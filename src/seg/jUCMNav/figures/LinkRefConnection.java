@@ -29,18 +29,25 @@ public class LinkRefConnection extends PolylineConnection {
     public static final int TYPE_DECOMPOSITION_AND = 2;
     public static final int TYPE_DECOMPOSITION_OR = 3;
     public static final int TYPE_DEPENDENCY = 4;
+    public static final int TYPE_MANDATORY =5;
+    public static final int TYPE_OPTIONAL =6;
 
     private int type;
     private PolylineDecoration contribution;
     private PolylineDecoration line;
     private PolygonDecoration depend;
-
+    private PolylineDecoration optional;
+    private PolylineDecoration mandatory;
+    
     private RotatableDecoration middleDec;
 
     public static final PointList DEPENDENCY_FIG = new PointList();
 
     public static final PointList LINE = new PointList();
 
+    public static final PointList OPTIONAL_FIG = new PointList();
+    
+    public static final PointList MANDATORY_FIG = new PointList();
     static {
         // The dependency figure is the inverse of the other type of link
 
@@ -60,6 +67,20 @@ public class LinkRefConnection extends PolylineConnection {
 
         LINE.addPoint(-1, 1);
         LINE.addPoint(-1, -1);
+        
+        int r = 50;
+        for (int alpha = 0; alpha <= 360; alpha += 15)
+        {
+                double rad = alpha * Math.PI / 180;
+                OPTIONAL_FIG.addPoint((int)Math.round(r * Math.sin(rad)) - r, (int)Math.round(r * Math.cos(rad)));
+        }
+        for (int j = r; j > 0; j--) {
+            for (int alpha = 0; alpha <= 360; alpha += 15)
+            {
+                    double rad = alpha * Math.PI / 180;
+                    MANDATORY_FIG.addPoint((int)Math.round(j * Math.sin(rad)) - j, (int)Math.round(j * Math.cos(rad)));
+            }
+        }
     }
 
     /**
@@ -75,7 +96,19 @@ public class LinkRefConnection extends PolylineConnection {
         contribution.setLineWidth(3);
         contribution.setScale(17, 7);
         contribution.setAntialias(GeneralPreferencePage.getAntialiasingPref());
-
+      
+        optional = new PolylineDecoration();
+        optional.setTemplate(OPTIONAL_FIG);
+        optional.setLineWidth(2);
+        optional.setScale(0.1, 0.1);
+        optional.setAntialias(GeneralPreferencePage.getAntialiasingPref());
+        
+        mandatory = new PolylineDecoration();
+        mandatory.setTemplate(MANDATORY_FIG);
+        mandatory.setLineWidth(2);
+        mandatory.setScale(0.1, 0.1);
+        mandatory.setAntialias(GeneralPreferencePage.getAntialiasingPref());
+        
         line = new PolylineDecoration();
         line.setTemplate(LINE);
         line.setLineWidth(3);
@@ -136,7 +169,18 @@ public class LinkRefConnection extends PolylineConnection {
             setTargetDecoration(null);
             setMiddleDecoration(null);
             setSourceDecoration(line);
-        } else {
+        } else if (type == TYPE_OPTIONAL) {
+            setLineStyle(SWT.LINE_SOLID);
+            setTargetDecoration(null);
+            setMiddleDecoration(null);
+            setSourceDecoration(optional);
+        } else if (type == TYPE_MANDATORY) {
+            setLineStyle(SWT.LINE_SOLID);
+            setTargetDecoration(null);
+            setMiddleDecoration(null);
+            setSourceDecoration(mandatory);
+        }
+        else {
             setLineStyle(SWT.LINE_SOLID);
             setTargetDecoration(null);
             setMiddleDecoration(null);

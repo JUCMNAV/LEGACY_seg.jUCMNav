@@ -33,6 +33,7 @@ import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.figures.util.UrnMetadata;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
@@ -305,8 +306,12 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
             Contribution contrib = (Contribution) getLinkRef().getLink();
             if (contrib.isCorrelation()) {
                 getLinkRefFigure().setType(LinkRefConnection.TYPE_CORRELATION);
+            } else if (ModelCreationFactory.containsMetadata(contrib.getMetadata(), ModelCreationFactory.getFeatureModelOptionalLinkMetadata())) {
+            	getLinkRefFigure().setType(LinkRefConnection.TYPE_OPTIONAL);
+            } else if (ModelCreationFactory.containsMetadata(contrib.getMetadata(), ModelCreationFactory.getFeatureModelMandatoryLinkMetadata())) {
+                getLinkRefFigure().setType(LinkRefConnection.TYPE_MANDATORY);
             } else {
-                getLinkRefFigure().setType(LinkRefConnection.TYPE_CONTRIBUTION);
+            	getLinkRefFigure().setType(LinkRefConnection.TYPE_CONTRIBUTION);
             }
             
             // Set the stereotype Label
