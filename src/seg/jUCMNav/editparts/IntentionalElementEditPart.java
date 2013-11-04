@@ -1,5 +1,6 @@
 package seg.jUCMNav.editparts;
 
+import grl.Contribution;
 import grl.Decomposition;
 import grl.ElementLink;
 import grl.Evaluation;
@@ -50,6 +51,7 @@ import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.GrlNodeFigure;
 import seg.jUCMNav.figures.IntentionalElementFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.strategies.BatchEvaluationUtil;
@@ -393,6 +395,12 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             } else {
                                 color = partial + ",255,96"; //$NON-NLS-1$
                             }
+                            
+                            // if FMD
+                            if (ModelCreationFactory.containsMetadata(elem.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata())) {                            	
+                            	// set to gray if all contributions are optional
+                            	if (isOptionalForAllLinkSrc(elem)) color = "169,169,169";
+                            }
                         }
 
                         if (EvaluationStrategyManager.getInstance().isConditionResource(getNode().getDef())) {
@@ -562,7 +570,30 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         // (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
 
-    private void setTrendIcons() {
+    /**
+     * checks if an intentional element's all source links are optional
+     * @param elem
+     * @return
+     */
+    private boolean isOptionalForAllLinkSrc(IntentionalElement elem) {
+    	Iterator it = elem.getLinksSrc().iterator();
+    	if (!it.hasNext()) {
+    		return false;
+    	}
+    	while (it.hasNext()) {
+    		ElementLink link = (ElementLink) it.next();
+    		if (link instanceof Contribution) {
+    			if (!ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelOptionalLinkMetadata())) {
+    				return false;
+    			}
+    		} else {
+    			return false;
+    		}
+    	}
+    	return true;
+	}
+
+	private void setTrendIcons() {
         String _trendStr = MetadataHelper.getMetaData(getNode().getDef(), BatchEvaluationUtil.METADATA_TREND);
 
         if(_trendStr != null) {
