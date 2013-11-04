@@ -2,8 +2,10 @@ package seg.jUCMNav.editparts;
 
 import grl.Contribution;
 import grl.Decomposition;
+import grl.DecompositionType;
 import grl.ElementLink;
 import grl.Evaluation;
+import grl.GRLLinkableElement;
 import grl.GrlPackage;
 import grl.ImportanceType;
 import grl.IntentionalElement;
@@ -63,6 +65,7 @@ import seg.jUCMNav.views.property.IntentionalElementPropertySource;
 import urn.URNspec;
 import urncore.IURNConnection;
 import urncore.IURNNode;
+import urncore.Metadata;
 
 /**
  * EditPart for all IntentialElementRef. It listen for changes in the references and the definitions
@@ -396,10 +399,13 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                                 color = partial + ",255,96"; //$NON-NLS-1$
                             }
                             
-                            // if FMD
-                            if (ModelCreationFactory.containsMetadata(elem.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata())) {                            	
-                            	// set to gray if all contributions are optional
-                            	if (isOptionalForAllLinkSrc(elem)) color = "169,169,169";
+                            // if FMD and self is 0, check if need to set gray
+                            if (ModelCreationFactory.containsMetadata(elem.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata())) { 
+                            	Metadata metaNumerical = MetadataHelper.getMetaDataObj(elem, EvaluationStrategyManager.METADATA_NUMEVAL);
+                            	if (metaNumerical == null || metaNumerical.getValue().equals("0")) {
+                            		// set to gray if all contributions are optional
+                            		if (isOptionalForAllLinkSrc(elem)) color = "169,169,169";
+                            	}
                             }
                         }
 
@@ -570,7 +576,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         // (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
 
-    /**
+	/**
      * checks if an intentional element's all source links are optional
      * @param elem
      * @return
