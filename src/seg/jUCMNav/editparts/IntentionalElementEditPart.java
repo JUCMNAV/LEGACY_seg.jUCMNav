@@ -407,7 +407,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                                 if (ModelCreationFactory.containsMetadata(elem.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata())) { 
                                     if (IntentionalElementUtil.hasNumericalValue(elem, 0)) {
                                         // set to gray if all contributions are optional
-                                        if (IntentionalElementUtil.containsOnlyOptionalDestLink(elem)) color = "169,169,169";
+                                        if (IntentionalElementUtil.containsOnlyOptionalSrcLink(elem)) color = "169,169,169";
                                         // set to gray if self numerial value is 100 and brothers of the same OR decomposition link is 100
                                         if (IntentionalElementUtil.hasFullOrBrother(elem)) color = "169,169,169";
                                     }

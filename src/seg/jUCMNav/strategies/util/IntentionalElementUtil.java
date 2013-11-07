@@ -39,6 +39,30 @@ public class IntentionalElementUtil {
     }
     
     /**
+     * Returns true if the element only contains optional src links, returns false otherwise
+     * Note: when no src link, return false
+     * @param elem
+     * @return
+     */
+    public static boolean containsOnlyOptionalSrcLink(IntentionalElement elem){
+        Iterator it = elem.getLinksSrc().iterator();
+        if (!it.hasNext()) {
+            return false;
+        }
+        while (it.hasNext()) {
+            ElementLink link = (ElementLink) it.next();
+            if (link instanceof Contribution) {
+                if (!ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelOptionalLinkMetadata())) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
      * Returns the number of Mandatory destination links
      * @param element
      * @return
