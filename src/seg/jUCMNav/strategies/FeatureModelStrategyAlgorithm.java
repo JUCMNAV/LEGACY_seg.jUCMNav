@@ -15,17 +15,19 @@ import java.util.List;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.strategies.util.IntentionalElementUtil;
 import urn.URNspec;
 import urncore.Metadata;
 
 /**
  * This class implement the conditional GRL evaluation algorithm.
  * 
- * @author Azalia Shamsaei
+ * @author Yanji Liu, Yukun Su
  * 
  */
-public class ConditionalBasedGRLStrategyAlgorithm extends FormulaBasedGRLStrategyAlgorithm {
+public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgorithm {
 
     List strategyMetaDataValue;
     HashMap acceptStereotypes = new HashMap<String, String>();
@@ -56,7 +58,7 @@ public class ConditionalBasedGRLStrategyAlgorithm extends FormulaBasedGRLStrateg
      * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluationType()
      */
     public int getEvaluationType() {
-        return IGRLStrategyAlgorithm.EVAL_CONDITION;
+        return IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL;
     }
 
     /**
@@ -124,8 +126,18 @@ public class ConditionalBasedGRLStrategyAlgorithm extends FormulaBasedGRLStrateg
         int ignoredContribArrayIt = 0;
         int consideredContribArrayIt = 0;
         int sumConsideredContributionLinks = 0;
+        /* The following 3 variables will be used when the diagram is a feature model*/
+        int mandatoryLinksIndex = 0;
+        boolean onlyOptionalLinks = true;
+
+        if(ModelCreationFactory.containsMetadata(element.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata()))
+        {
+            mandatoryLinksIndex = IntentionalElementUtil.getNumberOfMandatoryDestLinks(element);
+        	onlyOptionalLinks = IntentionalElementUtil.containsOnlyOptionalDestLink(element);
+        }
 
         Iterator it = element.getLinksDest().iterator(); // Return the list of elementlink
+        int remainingContributionFMD = 100; // remaining contribution is currently 100
         while (it.hasNext()) {
             ElementLink link = (ElementLink) it.next();
             if (link instanceof Decomposition) {
@@ -153,6 +165,32 @@ public class ConditionalBasedGRLStrategyAlgorithm extends FormulaBasedGRLStrateg
                 ignoreSrc = checkIgnoreElement(link.getSrc());
 
                 int quantitativeContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
+                // if Feature Model Diagram
+                if(ModelCreationFactory.containsMetadata(element.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata()))
+                {
+                	if(onlyOptionalLinks)
+                		//The case that the element contains only optional links
+                		quantitativeContrib = 100;
+                	else
+                	{
+                		//Mixed case or only mandatory links
+                		if(ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelMandatoryLinkMetadata()))
+                		{
+                			//Last Link case
+                			if(mandatoryLinksIndex == 1)                			
+                				quantitativeContrib = remainingContributionFMD;
+                			else {
+                				quantitativeContrib = remainingContributionFMD/mandatoryLinksIndex;
+                				remainingContributionFMD -= quantitativeContrib;
+                			}
+                			mandatoryLinksIndex--;
+                		}else
+                			//The link is an optional link
+                			quantitativeContrib = 0;                		
+                	}
+                	contrib.setQuantitativeContribution(quantitativeContrib);
+
+                }
 
                 if (ignoreSrc) {
                     ignoredContributionValue[ignoredContribArrayIt] = quantitativeContrib;

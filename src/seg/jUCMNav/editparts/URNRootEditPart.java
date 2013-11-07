@@ -145,7 +145,6 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
                 }
             }
         }
-
     }
 
     public void refreshChildren() {

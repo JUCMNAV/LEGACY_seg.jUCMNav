@@ -59,6 +59,7 @@ import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
+import seg.jUCMNav.strategies.util.IntentionalElementUtil;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
@@ -368,7 +369,9 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 // Get the evaluation value
                 Evaluation evaluation = EvaluationStrategyManager.getInstance().getDisplayEvaluationObject(getNode().getDef());
                 boolean ignored = EvaluationStrategyManager.getInstance().isIgnored(getNode().getDef());
-
+                IGRLStrategyAlgorithm algo = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm();
+                int evalType = algo.getEvaluationType();
+                
                 if (evaluation != null) {
                     if (StrategyEvaluationPreferences.getFillElements()) {
                         String color, lineColor;
@@ -385,7 +388,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                                 urn = getNode().getDef().getGrlspec().getUrnspec();
                             // if 0,100, convert back to -100,100 to have the right color.
                             evalValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn, evalValue);
-
+                            
                             if (EvaluationStrategyManager.getInstance().displayDifferenceMode()
                                     && !StrategyEvaluationPreferences.getVisualizeAsPositiveRange(urn)) {
                                 evalValue /= 2;
@@ -400,12 +403,15 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             }
                             
                             // if FMD and self is 0, check if need to set gray
-                            if (ModelCreationFactory.containsMetadata(elem.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata())) { 
-                            	Metadata metaNumerical = MetadataHelper.getMetaDataObj(elem, EvaluationStrategyManager.METADATA_NUMEVAL);
-                            	if (metaNumerical == null || metaNumerical.getValue().equals("0")) {
-                            		// set to gray if all contributions are optional
-                            		if (isOptionalForAllLinkSrc(elem)) color = "169,169,169";
-                            	}
+                            if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL){
+                                if (ModelCreationFactory.containsMetadata(elem.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata())) { 
+                                    if (IntentionalElementUtil.hasNumericalValue(elem, 0)) {
+                                        // set to gray if all contributions are optional
+                                        if (IntentionalElementUtil.containsOnlyOptionalDestLink(elem)) color = "169,169,169";
+                                        // set to gray if self numerial value is 100 and brothers of the same OR decomposition link is 100
+                                        if (IntentionalElementUtil.hasFullOrBrother(elem)) color = "169,169,169";
+                                    }
+                                }
                             }
                         }
 
@@ -435,15 +441,21 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             lineColor = "69,69,69"; //$NON-NLS-1$
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DOT);
                             evaluationLabel.setForegroundColor(ColorManager.GRAY);
+                        } else if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) { 
+                            if (ModelCreationFactory.containsMetadata(elem.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata())) { 
+                                // else for FMD, if 100
+                                if (IntentionalElementUtil.hasNumericalValue(elem, 100)) {
+                                    if (IntentionalElementUtil.hasFullXorBrother(elem)) {
+                                        lineColor = "160,0,0"; //$NON-NLS-1$
+                                    }
+                                }
+                            }
                         }
 
                         ((IntentionalElementFigure) figure).setColors(lineColor, color, true);
                     }
 
                     String text = (evaluation.getStrategies() != null ? "(*)" : ""); //$NON-NLS-1$ //$NON-NLS-2$
-
-                    IGRLStrategyAlgorithm algo = EvaluationStrategyManager.getInstance().getEvaluationAlgorithm();
-                    int evalType = algo.getEvaluationType();
 
                     if (algo instanceof QuantitativeGRLStrategyAlgorithm || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                         int val = evaluation.getEvaluation();
@@ -575,29 +587,6 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         // if (getParent() != null)
         // (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
-
-	/**
-     * checks if an intentional element's all source links are optional
-     * @param elem
-     * @return
-     */
-    private boolean isOptionalForAllLinkSrc(IntentionalElement elem) {
-    	Iterator it = elem.getLinksSrc().iterator();
-    	if (!it.hasNext()) {
-    		return false;
-    	}
-    	while (it.hasNext()) {
-    		ElementLink link = (ElementLink) it.next();
-    		if (link instanceof Contribution) {
-    			if (!ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelOptionalLinkMetadata())) {
-    				return false;
-    			}
-    		} else {
-    			return false;
-    		}
-    	}
-    	return true;
-	}
 
 	private void setTrendIcons() {
         String _trendStr = MetadataHelper.getMetaData(getNode().getDef(), BatchEvaluationUtil.METADATA_TREND);

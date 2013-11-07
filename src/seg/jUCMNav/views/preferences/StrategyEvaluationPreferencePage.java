@@ -25,7 +25,6 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
         // Set the preference store for the preference page.
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         setPreferenceStore(store);
-
     }
 
     /*
@@ -46,9 +45,11 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
                 Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.FormulaBasedGRL"), (StrategyEvaluationPreferences.FORMULA_BASED_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
         algos[StrategyEvaluationPreferences.CONDITIONAL_GRL_ALGORITHM] = new String[] {
                 Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.ConditionalGRLAlgorithm"), (StrategyEvaluationPreferences.CONDITIONAL_GRL_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
-     
         algos[StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM] = new String[] {
                 Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.HAO_2011_GRL_ALGORITHM"), (StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
+        // Feature Model Diagram specific
+        algos[StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM] = new String[] {
+                Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.FeatureModelStrategyAlgorithm"), (StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
         
         ComboFieldEditor pref_algorithm = new ComboFieldEditor(StrategyEvaluationPreferences.PREF_ALGORITHM, Messages
                 .getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm"), algos, getFieldEditorParent()); //$NON-NLS-1$

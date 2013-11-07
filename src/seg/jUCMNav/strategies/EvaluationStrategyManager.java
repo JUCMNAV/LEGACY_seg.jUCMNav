@@ -417,6 +417,8 @@ public class EvaluationStrategyManager {
             algo = new ConditionalBasedGRLStrategyAlgorithm();
         else if ((StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
             algo = new Hao2011Algorithm();
+        else if ((StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
+            algo = new FeatureModelStrategyAlgorithm();
         else
             algo = new QuantitativeGRLStrategyAlgorithm(); // New default, just in case...
 

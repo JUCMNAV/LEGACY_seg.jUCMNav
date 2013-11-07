@@ -40,6 +40,7 @@ public interface IGRLStrategyAlgorithm {
     public final static int EVAL_FORMULA = 4;
     public final static int EVAL_CONSTRAINT_SOLVER = 5;
     public final static int EVAL_CONDITION = 6;
+    public static final int EVAL_FEATURE_MODEL = 7;
     
 
     /**
