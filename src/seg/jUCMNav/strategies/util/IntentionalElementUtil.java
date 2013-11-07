@@ -15,12 +15,13 @@ import urncore.Metadata;
 
 public class IntentionalElementUtil {
     /**
-     * Returns true if the element only contains optional destination links
+     * Returns true if the element only contains optional destination links, returns false otherwise
+     * Note: when no dest link, return false
      * @param elem
      * @return
      */
     public static boolean containsOnlyOptionalDestLink(IntentionalElement elem){
-        Iterator it = elem.getLinksSrc().iterator();
+        Iterator it = elem.getLinksDest().iterator();
         if (!it.hasNext()) {
             return false;
         }

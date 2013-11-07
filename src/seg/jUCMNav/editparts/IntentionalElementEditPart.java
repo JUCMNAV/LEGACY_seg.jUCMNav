@@ -425,7 +425,11 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             if (!evaluation.getIntElement().getLinksDest().isEmpty()) {
                                 // This initial evaluation potentially overrides computed ones
                                 // Highlight in a different color, dark red.
-                                lineColor = "160,0,0"; //$NON-NLS-1$
+                            	// there is an exception case which is in FMD, when self num value is 100, and all children links are optional
+                            	boolean isException = (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) && (ModelCreationFactory.containsMetadata(elem.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata())) && IntentionalElementUtil.containsOnlyOptionalDestLink(elem) && IntentionalElementUtil.hasNumericalValue(elem, 100);
+                            	if (!isException) {
+                                	lineColor = "160,0,0"; //$NON-NLS-1$
+                                }
                             }
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DASH);
                             if (elem.getType() == IntentionalElementType.INDICATOR_LITERAL) {
@@ -441,7 +445,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             lineColor = "69,69,69"; //$NON-NLS-1$
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DOT);
                             evaluationLabel.setForegroundColor(ColorManager.GRAY);
-                        } else if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) { 
+                        } else if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) {
                             if (ModelCreationFactory.containsMetadata(elem.getMetadata(), ModelCreationFactory.getFeatureModelFeatureMetadata())) { 
                                 // else for FMD, if 100
                                 if (IntentionalElementUtil.hasNumericalValue(elem, 100)) {
