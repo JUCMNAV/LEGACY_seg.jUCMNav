@@ -39,12 +39,17 @@ public class ShowContainingActorCommand extends Command implements JUCMNavComman
     private IURNDiagram diagramOfElement;    
     
     private ArrayList<ActorRef> containingActorsList;
-    private ArrayList<ActorRef> missingContainingActorList;
+    
     private ArrayList<ActorRef> currentContainerList;
     private ArrayList<ActorRef> addedContainingActorList;
-    private ActorRef currentContainingActor;    
+    private Actor currentContainingActor;    
     private ArrayList<ArrayList<ActorRef>> allNodesActorRefsList;
     private ArrayList<IntentionalElementRef> allNodesList;
+    
+    private ArrayList<IntentionalElementRef> chosenIntentionalElementAllRefs;
+    private ArrayList<Actor> missingContainingActorList;
+    private ArrayList<ActorRef> currentContainingActorRefs;
+    private ArrayList<Actor> currentContainingActorDefs;
     
     private static int actorRef_Width = 70;
     private static int actorRef_Height = 70;
@@ -84,14 +89,20 @@ public class ShowContainingActorCommand extends Command implements JUCMNavComman
     public void execute() 
     {   
         IntentionalElementRef ieRef;
+        // creating list of all the other refs in GrlSpec of the selected element
+        chosenIntentionalElementAllRefs = new ArrayList<IntentionalElementRef>(); 
+        for (int i = 0; i < chosenIntentionalElement.getRefs().size(); i++) {
+            if (!chosenIntentionalElement.getRefs().get(i).equals(chosenIntentionalElementRef))
+                chosenIntentionalElementAllRefs.add( (IntentionalElementRef) chosenIntentionalElement.getRefs().get(i));
+        }
         
-        currentContainingActor = (ActorRef) chosenIntentionalElementRef.getContRef();
+        /*currentContainingActor = (ActorRef) chosenIntentionalElementRef.getContRef();
         containingActorsList = new ArrayList<ActorRef>();
         for (int i = 0; i < chosenIntentionalElement.getRefs().size(); i++) {
             ieRef = (IntentionalElementRef) chosenIntentionalElement.getRefs().get(i);
             if (ieRef.getContRef() != null)  
                 containingActorsList.add((ActorRef) ieRef.getContRef());
-        }
+        }*/
         // obtaining all the actorRefs related to each node in the graph. they are being kept in the same order as the order of the nodes in the allNodesList list.
         // they are being kept in allNodesActorRefsList list.
         allNodesList = new ArrayList<IntentionalElementRef>(grlGraph.getNodes());
@@ -121,7 +132,8 @@ public class ShowContainingActorCommand extends Command implements JUCMNavComman
         int offset = 40, maxX = -1, minX = -1, maxY = -1, minY = -1;
         ActorRef aRef; 
         Command cmd;
-        ArrayList <Actor> tempActorDefs = new ArrayList<Actor>(); // a list to contain the actors' definitions that are added
+        
+        /*ArrayList <Actor> tempActorDefs = new ArrayList<Actor>(); // a list to contain the actors' definitions that are added
         addedContainingActorList = new ArrayList<ActorRef>();
         
         // obtaining current actors in the graph
@@ -149,6 +161,39 @@ public class ShowContainingActorCommand extends Command implements JUCMNavComman
                 tempActorDefs.add((Actor) missingContainingActorList.get(i).getContDef());
                 addedContainingActorList.add(aRef);
             }
+        } */
+        
+        // finding actor refs that must be added and adding its defs
+        missingContainingActorList = new ArrayList<Actor>();
+        for (int i = 0; i < chosenIntentionalElementAllRefs.size(); i++) {
+            if (chosenIntentionalElementAllRefs.get(i).getContRef() != null) // if a ref of chosen element has an containing actor
+                if (!missingContainingActorList.contains( (Actor) chosenIntentionalElementAllRefs.get(i).getContRef().getContDef())) // if actor ref is not included already
+                    missingContainingActorList.add( (Actor) chosenIntentionalElementAllRefs.get(i).getContRef().getContDef()); // actor ref is added
+        }
+        
+        // finding existing actor refs in current diagram and adding their defs into a new list 
+        currentContainingActorRefs = new ArrayList<ActorRef>(grlGraph.getContRefs());
+        currentContainingActorDefs = new ArrayList<Actor>();
+        for (int i = 0; i < currentContainingActorRefs.size(); i++) {
+            if (!currentContainingActorDefs.contains(currentContainingActorRefs.get(i).getContDef()))
+                currentContainingActorDefs.add( (Actor) currentContainingActorRefs.get(i).getContDef());
+        }
+        
+        missingContainingActorList.removeAll(currentContainingActorDefs); // removing the redundant actor defs, so the rest can be added safely
+        System.out.println(missingContainingActorList.size());
+        addedContainingActorList = new ArrayList<ActorRef>(); // to keep track of added actor refs
+        actorRef_X = 0;        
+        actorRef_Y = offset;
+        for (int i = 0; i < missingContainingActorList.size(); i++) {
+            aRef = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
+            aRef.setContDef(missingContainingActorList.get(i));
+                cmd = new AddContainerRefCommand(grlGraph, aRef);
+                cmd.execute();
+                //cmd = new SetConstraintContainerRefCommand(aRef, actorRef_X += offset, actorRef_Y, actorRef_Width, actorRef_Height);
+                //cmd.execute();
+                //md = new ContainerRefBindChildCommand(aRef);
+                //cmd.execute();
+                addedContainingActorList.add(aRef);            
         }
         
         for (int i = 0; i < addedContainingActorList.size(); i++) {
@@ -190,7 +235,7 @@ public class ShowContainingActorCommand extends Command implements JUCMNavComman
      */
     public void testPostConditions() 
     {
-        assert grlelem != null : "post no elemement to modify!"; //$NON-NLS-1$
+        //assert grlelem != null : "post no elemement to modify!"; //$NON-NLS-1$
         assert urnspec != null : "post no URN specification to modify!"; //$NON-NLS-1$
         assert grlGraph != null : "post no grl Grpah to modify"; //$NON-NLS-1$
         assert chosenIntentionalElementRef != null : "post no chosenIntentionalElementRef to modify"; //$NON-NLS-1$
@@ -205,7 +250,7 @@ public class ShowContainingActorCommand extends Command implements JUCMNavComman
      */
     public void testPreConditions() 
     {
-        assert grlelem != null : "pre no elemement to modify!"; //$NON-NLS-1$
+        //assert grlelem != null : "pre no elemement to modify!"; //$NON-NLS-1$
         assert urnspec != null : "pre no URN specification to modify!"; //$NON-NLS-1$
         assert grlGraph != null : "pre no grl Grpah to modify"; //$NON-NLS-1$
         assert chosenIntentionalElementRef != null : "pre no chosenIntentionalElementRef to modify"; //$NON-NLS-1$
