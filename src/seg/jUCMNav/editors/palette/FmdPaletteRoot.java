@@ -23,7 +23,7 @@ import seg.jUCMNav.editors.palette.tools.URNElementCreationEntry;
 import seg.jUCMNav.model.ModelCreationFactory;
 import urncore.Comment;
 
-public class FmdPaletteRoot extends UcmPaletteRoot {
+public class FmdPaletteRoot extends GrlPaletteRoot {
 
     /**
      * Creates a new FmdPaletteRoot.
