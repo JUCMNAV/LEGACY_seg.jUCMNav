@@ -20,44 +20,65 @@ import seg.jUCMNav.scenarios.SyntaxChecker;
  */
 public class VerifySyntaxActionDelegate implements IEditorActionDelegate {
 
-    private UCMNavMultiPageEditor editor;
+	private UCMNavMultiPageEditor editor;
 
-    /**
-     * Set the active editor to a new instance of a {@link seg.jUCMNav.editors.UCMNavMultiPageEditor}.
-     * 
-     * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
-     */
-    public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-        editor = (UCMNavMultiPageEditor) targetEditor;
-    }
+	/**
+	 * Set the active editor to a new instance of a
+	 * {@link seg.jUCMNav.editors.UCMNavMultiPageEditor}.
+	 * 
+	 * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction,
+	 *      org.eclipse.ui.IEditorPart)
+	 */
+	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
+		// DB: avoid class cast exception with e4
+		if (targetEditor instanceof UCMNavMultiPageEditor) {
+			editor = (UCMNavMultiPageEditor) targetEditor;
+		}
+		// editor = (UCMNavMultiPageEditor) targetEditor;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
-     */
-    public void selectionChanged(IAction action, ISelection selection) {
-        // we dont' depend on the selection.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 * .IAction, org.eclipse.jface.viewers.ISelection)
+	 */
+	public void selectionChanged(IAction action, ISelection selection) {
+		// we dont' depend on the selection.
 
-    }
+	}
 
-    /**
-     * Runs {@link seg.jUCMNav.scenarios.SyntaxChecker#verifySyntax(urn.URNspec)} and updates the problem view.
-     * 
-     * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
-     */
-    public void run(IAction action) {
-        if (editor != null) {
-            Vector errors = SyntaxChecker.verifySyntax(editor.getModel());
-            SyntaxChecker.refreshProblemsView(errors);
-            String header = Messages.getString("VerifySyntaxActionDelegate.SyntaxVerification"); //$NON-NLS-1$
-            if (errors.size() == 0)
-                MessageDialog.openInformation(editor.getSite().getShell(), header, Messages.getString("VerifySyntaxActionDelegate.NoErrors")); //$NON-NLS-1$
-            else
-                MessageDialog.openError(editor.getSite().getShell(), header, errors.size() + Messages.getString("VerifySyntaxActionDelegate.ErrorsFound")); //$NON-NLS-1$
+	/**
+	 * Runs
+	 * {@link seg.jUCMNav.scenarios.SyntaxChecker#verifySyntax(urn.URNspec)} and
+	 * updates the problem view.
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+	 */
+	public void run(IAction action) {
+		if (editor != null) {
+			Vector errors = SyntaxChecker.verifySyntax(editor.getModel());
+			SyntaxChecker.refreshProblemsView(errors);
+			String header = Messages
+					.getString("VerifySyntaxActionDelegate.SyntaxVerification"); //$NON-NLS-1$
+			if (errors.size() == 0)
+				MessageDialog
+						.openInformation(
+								editor.getSite().getShell(),
+								header,
+								Messages.getString("VerifySyntaxActionDelegate.NoErrors")); //$NON-NLS-1$
+			else
+				MessageDialog
+						.openError(
+								editor.getSite().getShell(),
+								header,
+								errors.size()
+										+ Messages
+												.getString("VerifySyntaxActionDelegate.ErrorsFound")); //$NON-NLS-1$
 
-        }
+		}
 
-    }
+	}
 
 }

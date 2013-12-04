@@ -8,6 +8,9 @@ this file is kept here with the information necessary for a good build by cruise
 The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol folder. 
 -->
 <project name="seg.jUCMNav" default="build.jars" basedir=".">
+        
+    <property name="eclipsehome" value="../../../eclipse" />
+    
 
 	<property name="bootclasspath" value=""/>
 	<property name="ws" value="win32"/> <!-- JP: hard-code win32 because property not defined outside eclipse -->
@@ -47,6 +50,9 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		<include name="org.eclipse.ocl*.jar"/>
 		<include name="org.eclipse.search*.jar"/>
 		<include name="org.eclipse.text*.jar"/>
+        <include name="org.eclipse.e4.core.contexts*.jar"/>
+        
+        
 	</patternset>
 	<patternset id="jucmnav.lib.classpath">
 		<include name="lib/*.jar" />
@@ -73,25 +79,14 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		<condition property="build.result.folder" value="${pluginTemp}/seg.jUCMNav">
 			<isset property="buildTempFolder"/>
 		</condition>
-		<property name="build.result.folder" value="${basedir}/build/"/>
-		<property name="temp.folder" value="${basedir}/temp.folder"/>
-		<property name="plugin.destination" value="${basedir}/build/"/>
+		<property name="build.result.folder" value="${basedir}/../work/build/"/>
+		<property name="temp.folder" value="${basedir}/../work/temp.folder"/>
+		<property name="plugin.destination" value="${basedir}/../work/build/"/>
 		<property name="updatesite.destination" value="${plugin.destination}/updatesite" />
 		<property name="updatesite.features" value="${updatesite.destination}/features" />
 		<property name="updatesite.plugins" value="${updatesite.destination}/plugins" />
 
-		<condition property="env.ECLIPSE_HOME" value="C:/work/cruisecontrol/testing/test-eclipse/eclipse">
-			<and>
-				<!-- If on windows, set a default ECLIPSE_HOME to c:/eclipse, don't overwrite if existing -->
-				<os family="windows" />
-				<not>
-					<isset property="env.ECLIPSE_HOME"/>
-				</not>
-			</and>
-		</condition>
-		<property name="env.ECLIPSE_HOME" value="/opt/eclipse/" />
-		<property name="eclipsehome" value="${env.ECLIPSE_HOME}" />
-		
+
 		<!-- <echo>Using ECLIPSE_HOME: ${eclipsehome}</echo> -->
 		<tstamp>
 			<!--
@@ -134,15 +129,15 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 	<target name="build.fullzip.exactversion">
 		<antcall target="init">
 			<param name="jucmnav.version" value="5.4.0"/>
-			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
+			<param name="env.ECLIPSE_HOME" value="${env.ECLIPSE_HOME}" />
 		</antcall>
 		<antcall target="clean">
 			<param name="jucmnav.version" value="5.4.0"/>
-			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
+			<param name="env.ECLIPSE_HOME" value="${env.ECLIPSE_HOME}" />
 		</antcall>
 		<antcall target="zip.plugin">
 			<param name="jucmnav.version" value="5.4.0"/>
-			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
+			<param name="env.ECLIPSE_HOME" value="${env.ECLIPSE_HOME}" />
 		</antcall>
 	</target>
 			
@@ -176,7 +171,7 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 				</fileset>
 			</classpath>
 			<src path="src/"			/>
-			</javac>
+        </javac>
 		<!-- Copy necessary resources -->
 		<copy todir="${temp.folder}/jUCMNav.jar.bin" failonerror="true">
 			<fileset dir="src/" excludes="**/*.java, **/package.htm*"			/>
@@ -387,11 +382,12 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 		<move tofile="${updatesite.plugins}/seg.jUCMNav_${jucmnav.version}.jar" file="${plugin.destination}/seg.jUCMNav_plugin.jar" />
 	</target>
 	
-	<!-- Tests are now run from a batch file called runtests.bat, invoked by the cruisecontrol task.
+	<!-- Tests are now run from a batch file called runtests.bat, invoked by the cruisecontrol task. -->
+	<!--
 	<target name="runtests" depends="init, build.jars" description="Run unit tests on jUCMNav.jar">
 		<junit printsummary="yes">
 			<classpath>
-				<pathelement location="${build.result.folder}jUCMNav.jar" />
+				<pathelement location="${build.result.folder}/jUCMNav.jar" />
 				<fileset dir="${eclipsehome}/plugins">
 					<include name="**/*.jar" />
 				</fileset>
@@ -400,6 +396,6 @@ The build.fullzip task is called by build-seg.jUCMNav.xml in the cruisecontrol f
 			<formatter type="xml" />
 		</junit>
 	</target>
-	-->
+     -->
 	
 </project>

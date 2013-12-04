@@ -11,6 +11,9 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
+import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.ui.IEditorPart;
+
 
 /**
  * This class define all the modification we should make to the workbench when we are editing an UCM.
@@ -65,5 +68,20 @@ public class UCMActionBarContributor extends ActionBarContributor {
     protected void declareGlobalActionKeys() {
         // currently none
     }
+    
+    
+    /* DB: Overrides this to avoid null pointer exception with ActionRegistry adapter.
+     * (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.ActionBarContributor#setActiveEditor(org.eclipse.ui.IEditorPart)
+     */
+    @Override
+	public void setActiveEditor(IEditorPart editor) {
+    	final ActionRegistry registry = (ActionRegistry) editor.getAdapter(ActionRegistry.class);
+    	
+    	if ( registry != null ) {
+    		super.setActiveEditor( editor );
+    	}
+	}
+
 
 }

@@ -128,7 +128,6 @@ Require-Bundle: org.eclipse.ui,
  org.apache.axis;resolution:=optional,
  javax.xml.rpc;resolution:=optional,
  org.apache.commons.discovery;resolution:=optional,
- javax.wsdl15;resolution:=optional,
  javax.xml.soap;resolution:=optional,
  org.eclipse.ocl,
  org.eclipse.ocl.ecore,
@@ -137,4 +136,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.jface.text
 Eclipse-LazyStart: true
-
+Import-Package: org.eclipse.e4.core.contexts
