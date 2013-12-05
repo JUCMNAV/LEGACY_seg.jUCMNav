@@ -39,7 +39,7 @@ import urn.URNspec;
 
 public class ImportGRLStrategies implements IURNImport  {
 
-	private URNspec urnSpec;
+	private URNspec urnSpec; 
 	EvaluationStrategyManager esm;
 	private HashMap<Integer, IntentionalElement> elementIndexes = new HashMap<Integer, IntentionalElement>(); // mapping between column indexes and Intentional Elements for current section
 	private HashMap<String, EvaluationStrategy> createdStrategies = new HashMap<String, EvaluationStrategy>(); // list of newly created strategies
