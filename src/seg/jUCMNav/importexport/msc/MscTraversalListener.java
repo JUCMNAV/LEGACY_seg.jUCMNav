@@ -84,11 +84,13 @@ import urncore.URNmodelElement;
  * 
  * TODO: filter unused definitions (resp/comp) + scenario groups.
  * 
- * TODO: andfork should have stub name if concurrency is started by endpoint.
+ * TODO: and fork should have stub name if concurrency is started by endpoint.
  * 
  * @author jkealey
  * 
  */
+
+
 public class MscTraversalListener implements ITraversalListener {
 
     protected CommandStack cs;
