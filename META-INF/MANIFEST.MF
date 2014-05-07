@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: jUCMNav
-Bundle-SymbolicName: seg.jUCMNav;singleton:=true
+Bundle-SymbolicName: org.etsi.mts.tdl;singleton:=true
 Bundle-Version: 5.5
 Bundle-ClassPath: jUCMNav.jar,
  lib/jdom.jar,
@@ -11,10 +11,14 @@ Bundle-ClassPath: jUCMNav.jar,
 Bundle-Activator: seg.jUCMNav.JUCMNavPlugin
 Bundle-Vendor: UseCaseMaps.org
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: grl,
  grl.impl,
  grl.kpimodel,
  grl.util,
+ org.etsi.mts.tdl,
+ org.etsi.mts.tdl.impl,
+ org.etsi.mts.tdl.util,
  seg.jUCMNav,
  seg.jUCMNav.actions,
  seg.jUCMNav.actions.concerns,
@@ -119,6 +123,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
  org.eclipse.ui.ide,
  org.eclipse.emf.ecore,
+ org.eclipse.uml2.types;visibility:=reexport,
+ org.eclipse.uml2.common;visibility:=reexport,
  org.eclipse.draw2d,
  org.eclipse.gef,
  org.eclipse.ui.views,
@@ -135,5 +141,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.search,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.jface.text
+Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
 Import-Package: org.eclipse.e4.core.contexts

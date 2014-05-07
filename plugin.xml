@@ -360,6 +360,12 @@
             name="%ExportScenarios"
             useStream="false"/>
       <exporter
+            class="seg.jUCMNav.importexport.tdl.ExportTDL"
+            extension="tdl"
+            id="seg.jUCMNav.ExportTdl"
+            name="%ExportTdl"
+            useStream="false"/>       
+      <exporter
             class="seg.jUCMNav.importexport.ExportDXL"
             extension="dxl"
             id="seg.jUCMNav.ExportDXL"
@@ -784,4 +790,12 @@
 	      file-extensions="jucmscenarios"
 	      file-names="*"/>
       </extension>   
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated tdl -->
+      <package
+            uri="http://www.etsi.org/spec/TDL/20130606"
+            class="org.etsi.mts.tdl.TdlPackage"
+            genModel="src/tdl.genmodel"/>
+   </extension>
+
 </plugin>
