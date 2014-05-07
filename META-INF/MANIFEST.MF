@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: jUCMNav
-Bundle-SymbolicName: org.etsi.mts.tdl;singleton:=true
+Bundle-SymbolicName: seg.jUCMNav;singleton:=true
 Bundle-Version: 5.5
 Bundle-ClassPath: jUCMNav.jar,
  lib/jdom.jar,
@@ -118,29 +118,19 @@ Export-Package: grl,
  urncore,
  urncore.impl,
  urncore.util
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.ui.ide,
- org.eclipse.emf.ecore,
  org.eclipse.uml2.types;visibility:=reexport,
- org.eclipse.uml2.common;visibility:=reexport,
- org.eclipse.draw2d,
  org.eclipse.gef,
- org.eclipse.ui.views,
- org.eclipse.emf.ecore.xmi,
  org.junit,
- org.eclipse.ui.forms,
  org.apache.axis;resolution:=optional,
  javax.xml.rpc;resolution:=optional,
- org.apache.commons.discovery;resolution:=optional,
- javax.xml.soap;resolution:=optional,
- org.eclipse.ocl,
  org.eclipse.ocl.ecore,
- org.eclipse.help,
  org.eclipse.search,
  org.eclipse.ui.views.properties.tabbed,
- org.eclipse.jface.text
+ org.eclipse.jface.text,
+ org.eclipse.e4.core.contexts;bundle-version="1.3.1"
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
-Import-Package: org.eclipse.e4.core.contexts
+
