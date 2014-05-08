@@ -140,6 +140,9 @@ public class ModelCreationFactory implements CreationFactory {
     public static final int DEFAULT_GRL_COMPONENT_WIDTH = 200;
     public static final String URNSPEC_VERSION = "0.925"; //$NON-NLS-1$
     
+    // distinguish task from feature (must have different value than IntentionalElementType)
+    public static final int FEATURE = -1;
+    
     //the type used to distinguish mandatory or optional for contribution link
     public static final int FEATURE_MODEL_MANDATORY_TYPE = -1;
     public static final int FEATURE_MODEL_OPTIONAL_TYPE = -2;
@@ -222,17 +225,6 @@ public class ModelCreationFactory implements CreationFactory {
      */
     public Object getNewObject() {
         return getNewObject(urn, targetClass, type, preDefinedDefinition);
-    }
-    
-    /**
-     * @return the Metadata tag of feature model feature element 
-     */
-    public static Metadata getFeatureModelFeatureMetadata() {
-    	Metadata featureModelFeatureElementMetadata;
-    	featureModelFeatureElementMetadata = UrncoreFactory.eINSTANCE.createMetadata();
-    	featureModelFeatureElementMetadata.setName("FeatureModel"); //$NON-NLS-1$
-    	featureModelFeatureElementMetadata.setValue("Feature"); //$NON-NLS-1$
-    	return featureModelFeatureElementMetadata;
     }
     
     /**
@@ -642,13 +634,18 @@ public class ModelCreationFactory implements CreationFactory {
                     } else {
                         if (type == IntentionalElementType.INDICATOR) {
                             elementdef = kpiFactory.createIndicator();
+                        } else if (type == FEATURE) {
+                        	elementdef = fmfactory.createFeature();
                         } else {
                             elementdef = grlfactory.createIntentionalElement();
                         }
                     }
 
                     ((IntentionalElementRef) result).setDef(elementdef);
-
+                    // a feature is a subclass of an IntentionalElement of type TASK
+                    // since there is no FEATURE type in IntentionalElementType, it needs to be set to TASK
+                    if (type == FEATURE)
+                    	type = IntentionalElementType.TASK;
                     elementdef.setType(IntentionalElementType.get(type));
 
                     if (definition == null) {

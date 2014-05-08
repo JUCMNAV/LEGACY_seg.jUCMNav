@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.util;
 
+import fm.Feature;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
@@ -676,6 +677,8 @@ public class URNNamingHelper {
                 // Fix badly named intentional element type Ressource (should have only 1 s...)
                 if (((IntentionalElement) o).getType().getValue() == IntentionalElementType.RESSOURCE)
                     ce.setName("Resource" + ce.getId()); //$NON-NLS-1$
+                else if (o instanceof Feature)
+                	ce.setName("Feature" + ce.getId()); //$NON-NLS-1$
                 else
                     ce.setName(((IntentionalElement) o).getType().toString() + ce.getId()); //$NON-NLS-1$
             }

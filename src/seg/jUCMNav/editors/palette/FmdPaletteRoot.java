@@ -92,9 +92,9 @@ public class FmdPaletteRoot extends GrlPaletteRoot {
         
         entry = new URNElementCreationEntry(
                 Messages.getString("FmdPaletteRoot.feature"), Messages.getString("FmdPaletteRoot.createFeature"), IntentionalElementRef.class,  //$NON-NLS-1$ //$NON-NLS-2$
-                new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, IntentionalElementType.TASK),
-                JUCMNavPlugin.getImageDescriptor("icons/Task16.gif"), //$NON-NLS-1$
-                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Task24.gif")); //$NON-NLS-1$
+                new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, ModelCreationFactory.FEATURE),
+                JUCMNavPlugin.getImageDescriptor("icons/Feature16.gif"), //$NON-NLS-1$
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Feature24.gif")); //$NON-NLS-1$
         elementsDrawer.add(entry);
         keyboardMapping.put("f", entry); //$NON-NLS-1$
         

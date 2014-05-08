@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.elements;
 
+import fm.Feature;
 import grl.GRLGraph;
 import grl.GrlPackage;
 import grl.IntentionalElement;
@@ -28,6 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.compositeList.CompositeListControl;
 import seg.jUCMNav.views.compositeList.CompositeListItem;
 import ucm.UcmPackage;
@@ -169,7 +171,10 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
             } else if (intentional.getDef().getType().getValue() == IntentionalElementType.RESSOURCE) {
                 respItem.setElementImg("/seg/jUCMNav/icons/Resource16.gif"); //$NON-NLS-1$
             } else if (intentional.getDef().getType().getValue() == IntentionalElementType.TASK) {
-                respItem.setElementImg("/seg/jUCMNav/icons/Task16.gif"); //$NON-NLS-1$
+            	if (intentional.getDef() instanceof Feature)
+            		respItem.setElementImg("/seg/jUCMNav/icons/Feature16.gif"); //$NON-NLS-1$
+            	else
+            		respItem.setElementImg("/seg/jUCMNav/icons/Task16.gif"); //$NON-NLS-1$
             } else if (intentional.getDef().getType().getValue() == IntentionalElementType.INDICATOR) {
                 respItem.setElementImg("/seg/jUCMNav/icons/Indicator16.gif"); //$NON-NLS-1$
             }

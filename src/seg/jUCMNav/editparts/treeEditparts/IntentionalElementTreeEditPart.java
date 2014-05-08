@@ -1,5 +1,6 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
+import fm.Feature;
 import grl.IntentionalElement;
 import grl.IntentionalElementType;
 import grl.kpimodel.Indicator;
@@ -55,7 +56,10 @@ public class IntentionalElementTreeEditPart extends UrnModelElementTreeEditPart 
             else if (getElement().getType().getValue() == IntentionalElementType.SOFTGOAL)
                 setImage((JUCMNavPlugin.getImage("icons/Softgoal16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.TASK)
-                setImage((JUCMNavPlugin.getImage("icons/Task16.gif"))); //$NON-NLS-1$
+            	if (getElement() instanceof Feature)
+            		setImage((JUCMNavPlugin.getImage("icons/Feature16.gif"))); //$NON-NLS-1$
+            	else
+            		setImage((JUCMNavPlugin.getImage("icons/Task16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.RESSOURCE)
                 setImage((JUCMNavPlugin.getImage("icons/Resource16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.INDICATOR)
