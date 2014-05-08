@@ -15,11 +15,15 @@ import ucmscenarios.Component;
 
 
 /*
- * TO DO : Add a description here.
+ * TODO : Add a description here.
  */
 
 public class ExportTDL{
 		
+	
+	 protected String oldFilename;
+	 protected String newFilename;
+	
 	/*
 	 * An instance of ExportMSC class
 	 * simply to access it's methods. 

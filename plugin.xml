@@ -359,12 +359,15 @@
             id="seg.jUCMNav.ExportScenarios"
             name="%ExportScenarios"
             useStream="false"/>
+      
+     <!--  
       <exporter
             class="seg.jUCMNav.importexport.tdl.ExportTDL"
             extension="tdl"
             id="seg.jUCMNav.ExportTdl"
             name="%ExportTdl"
-            useStream="false"/>       
+            useStream="false"/>   
+     -->    
       <exporter
             class="seg.jUCMNav.importexport.ExportDXL"
             extension="dxl"
