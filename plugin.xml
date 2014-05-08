@@ -798,4 +798,12 @@
             genModel="src/tdl.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Types -->
+      <package
+            uri="http://www.eclipse.org/uml2/4.0.0/Types"
+            class="org.eclipse.uml2.types.TypesPackage"
+            genModel="src/org/etsi/mts/tdl/Types.genmodel"/>
+   </extension>
+
 </plugin>
