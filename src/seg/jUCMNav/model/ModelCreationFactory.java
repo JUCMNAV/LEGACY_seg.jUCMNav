@@ -1,5 +1,7 @@
 package seg.jUCMNav.model;
 
+import fm.FeatureModel;
+import fm.FmFactory;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
@@ -223,17 +225,6 @@ public class ModelCreationFactory implements CreationFactory {
     }
     
     /**
-     * @return the Metadata tag of feature model graph 
-     */
-    public static Metadata getFeatureModelGraphMetadata() {
-    	Metadata featureModelGraphMetadata;
-    	featureModelGraphMetadata = UrncoreFactory.eINSTANCE.createMetadata();
-    	featureModelGraphMetadata.setName("ModelType"); //$NON-NLS-1$
-    	featureModelGraphMetadata.setValue("FeatureModel"); //$NON-NLS-1$
-    	return featureModelGraphMetadata;
-    }
-    
-    /**
      * @return the Metadata tag of feature model feature element 
      */
     public static Metadata getFeatureModelFeatureMetadata() {
@@ -336,6 +327,7 @@ public class ModelCreationFactory implements CreationFactory {
         UrncoreFactory urncorefactory = UrncoreFactory.eINSTANCE;
         PerformanceFactory performancefactory = PerformanceFactory.eINSTANCE;
         GrlFactory grlfactory = GrlFactory.eINSTANCE;
+        FmFactory fmfactory = FmFactory.eINSTANCE; 
         UrnFactory urnmainfactory = UrnFactory.eINSTANCE;
         KpimodelFactory kpiFactory = KpimodelFactory.eINSTANCE;
         Object result = null;
@@ -632,8 +624,12 @@ public class ModelCreationFactory implements CreationFactory {
 
                     result = plug;
                 } else if (targetClass.equals(GRLGraph.class)) {
-                    // create a map
+                    // create a graph
                     result = grlfactory.createGRLGraph();
+                    URNNamingHelper.setElementNameAndID(urn, result);
+                } else if (targetClass.equals(FeatureModel.class)) {
+                    // create a diagram
+                    result = fmfactory.createFeatureModel();
                     URNNamingHelper.setElementNameAndID(urn, result);
                 } else if (targetClass.equals(IntentionalElementRef.class)) {
                     // create the intentional Element ref
@@ -810,12 +806,11 @@ public class ModelCreationFactory implements CreationFactory {
         }
         
         // add a new FMD diagram to the FMDspec, if desired.
-        //TODO: currently it will create a grl graph instead of FMD, after implemented FDM, correct this one.
         if (createFmd) {
-        	GRLGraph newFmdGraph = (GRLGraph) getNewObject(urnspec, GRLGraph.class);
-        	newFmdGraph.setName("featureModelGraph");
-        	newFmdGraph.getMetadata().add(getFeatureModelGraphMetadata());
-        	urnspec.getUrndef().getSpecDiagrams().add(newFmdGraph);
+            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, FeatureModel.class));
+//        	GRLGraph newFmdGraph = (GRLGraph) getNewObject(urnspec, FeatureModel.class);
+//        	newFmdGraph.setName("featureModelGraph");
+//        	urnspec.getUrndef().getSpecDiagrams().add(newFmdGraph);
         }
 
         // Create a Strategy and Strategy Group

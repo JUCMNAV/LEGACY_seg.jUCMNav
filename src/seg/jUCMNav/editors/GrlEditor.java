@@ -1,5 +1,6 @@
 package seg.jUCMNav.editors;
 
+import fm.FeatureModel;
 import grl.GRLGraph;
 
 import java.util.ArrayList;
@@ -14,15 +15,12 @@ import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 
-import seg.jUCMNav.editors.palette.GrlPaletteRoot;
 import seg.jUCMNav.editors.palette.FmdPaletteRoot;
-
+import seg.jUCMNav.editors.palette.GrlPaletteRoot;
 import seg.jUCMNav.editparts.GrlConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GrlGraphicalEditPartFactory;
 import seg.jUCMNav.model.ModelCreationFactory;
 import urncore.IURNDiagram;
-import urncore.Metadata;
-import urncore.UrncoreFactory;
 
 /**
  * This is the main class for editing a single GRLGraph in our model.
@@ -33,8 +31,7 @@ import urncore.UrncoreFactory;
 public class GrlEditor extends UrnEditor {
 
     private GRLGraph graphModel;
-    boolean isFeatureModel;
-
+    
     /**
      * Create a new GrlEditor instance. This is called by the Workspace.
      * 
@@ -110,8 +107,7 @@ public class GrlEditor extends UrnEditor {
     public PaletteRoot getPaletteRoot() {
     	if (graphModel == null) return paletteRoot;
         if (null == paletteRoot) {
-
-        	if (isFeatureModel) {
+        	if (graphModel instanceof FeatureModel) {
                 paletteRoot = new FmdPaletteRoot(parent);
         	} else {
                 paletteRoot = new GrlPaletteRoot(parent);
@@ -141,8 +137,6 @@ public class GrlEditor extends UrnEditor {
      */
     public void setModel(IURNDiagram model) {
         graphModel = (GRLGraph) model;
-    	isFeatureModel = ModelCreationFactory.containsMetadata(graphModel.getMetadata(),
-    			ModelCreationFactory.getFeatureModelGraphMetadata());
     	getEditDomain().setPaletteRoot(getPaletteRoot());
     }
 

@@ -249,7 +249,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     }
     
     /**
-     * @return whether a new GRL diagram should be created in new .jucm file
+     * @return whether a new feature model diagram should be created in new .jucm file
      */
     public static boolean getNewFMD() {
     	return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_NEWFMD);

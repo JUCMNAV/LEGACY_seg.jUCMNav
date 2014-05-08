@@ -37,6 +37,7 @@ import seg.jUCMNav.actions.AddConditionLabelAction;
 import seg.jUCMNav.actions.AddContainerRefAction;
 import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.AddEmptyPoint;
+import seg.jUCMNav.actions.AddFMDAction;
 import seg.jUCMNav.actions.AddFailurePointAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
@@ -83,7 +84,10 @@ import seg.jUCMNav.actions.ShowContainingElementAction;
 import seg.jUCMNav.actions.ShowEvaluationIntentionalElementV1Action;
 import seg.jUCMNav.actions.ShowLinkedElementAction;
 import seg.jUCMNav.actions.ShowLinkedElementAlternativeAction;
+//import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
+import seg.jUCMNav.actions.ShowLinkedElementAlternativeSubNodesAction;
 import seg.jUCMNav.actions.ShowLinkedElementCompleteAction;
+import seg.jUCMNav.actions.ShowLinkedElementCompleteSubNodesAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
 import seg.jUCMNav.actions.TagElementAction;
@@ -144,9 +148,6 @@ import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.scenarios.ScenarioUtils;
-//import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
-import seg.jUCMNav.actions.ShowLinkedElementAlternativeSubNodesAction;
-import seg.jUCMNav.actions.ShowLinkedElementCompleteSubNodesAction;
 
 /**
  * Adds actions to the action registry. Originally included in the UCMNavMultiPageEditor, this code was factored out.
@@ -571,6 +572,10 @@ public class ActionRegistryManager implements IDisposable {
 
         action = new AddGrlGraphAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addGRLGraph")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new AddFMDAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addFMD")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddStrategiesGroupAction(editor);

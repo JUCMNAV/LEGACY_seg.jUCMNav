@@ -21,6 +21,7 @@ import seg.jUCMNav.actions.AddConditionLabelAction;
 import seg.jUCMNav.actions.AddContainerRefAction;
 import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.AddEmptyPoint;
+import seg.jUCMNav.actions.AddFMDAction;
 import seg.jUCMNav.actions.AddFailurePointAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
@@ -65,7 +66,10 @@ import seg.jUCMNav.actions.ShowContainingElementAction;
 import seg.jUCMNav.actions.ShowEvaluationIntentionalElementV1Action;
 import seg.jUCMNav.actions.ShowLinkedElementAction;
 import seg.jUCMNav.actions.ShowLinkedElementAlternativeAction;
+//import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
+import seg.jUCMNav.actions.ShowLinkedElementAlternativeSubNodesAction;
 import seg.jUCMNav.actions.ShowLinkedElementCompleteAction;
+import seg.jUCMNav.actions.ShowLinkedElementCompleteSubNodesAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
 import seg.jUCMNav.actions.SubmenuAction;
@@ -96,9 +100,6 @@ import seg.jUCMNav.actions.scenarios.EditContributionRangeAction;
 import seg.jUCMNav.actions.scenarios.EditEvaluationRangeAction;
 import seg.jUCMNav.actions.scenarios.EditSecondaryCodeAction;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
-//import seg.jUCMNav.actions.ShowEvaluationIntentionalElementAction;
-import seg.jUCMNav.actions.ShowLinkedElementAlternativeSubNodesAction;
-import seg.jUCMNav.actions.ShowLinkedElementCompleteSubNodesAction;
 
 /**
  * This class builds the context menu used in our editor and views.
@@ -396,6 +397,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(AddGrlGraphAction.ADDGRLGRAPH);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(AddFMDAction.ADDFMD);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
