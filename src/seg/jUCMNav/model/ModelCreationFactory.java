@@ -2,6 +2,8 @@ package seg.jUCMNav.model;
 
 import fm.FeatureModel;
 import fm.FmFactory;
+import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
@@ -143,11 +145,6 @@ public class ModelCreationFactory implements CreationFactory {
     // distinguish task from feature (must have different value than IntentionalElementType)
     public static final int FEATURE = -1;
     
-    //the type used to distinguish mandatory or optional for contribution link
-    public static final int FEATURE_MODEL_MANDATORY_TYPE = -1;
-    public static final int FEATURE_MODEL_OPTIONAL_TYPE = -2;
-    public static final int FEATURE_MODEL_DECOMPOSTION_TYPE = -3;
-
     private Object preDefinedDefinition;
 
 
@@ -225,39 +222,6 @@ public class ModelCreationFactory implements CreationFactory {
      */
     public Object getNewObject() {
         return getNewObject(urn, targetClass, type, preDefinedDefinition);
-    }
-    
-    /**
-     * @return the Metadata tag of feature model decopositon link
-     */
-    public static Metadata getFeatureModelDecompositionLinkMetadata() {
-    	Metadata featureModelDecompositionLinkMetadata;
-    	featureModelDecompositionLinkMetadata = UrncoreFactory.eINSTANCE.createMetadata();
-    	featureModelDecompositionLinkMetadata.setName("FeatureModel"); //$NON-NLS-1$
-    	featureModelDecompositionLinkMetadata.setValue("Decomposition"); //$NON-NLS-1$
-    	return featureModelDecompositionLinkMetadata;
-    }
-    
-    /**
-     * @return the Metadata tag of feature model mandatory link
-     */
-    public static Metadata getFeatureModelMandatoryLinkMetadata() {
-    	Metadata featureModelMandatoryLinkMetadata;
-    	featureModelMandatoryLinkMetadata = UrncoreFactory.eINSTANCE.createMetadata();
-    	featureModelMandatoryLinkMetadata.setName("FeatureModel"); //$NON-NLS-1$
-    	featureModelMandatoryLinkMetadata.setValue("Mandatory"); //$NON-NLS-1$
-    	return featureModelMandatoryLinkMetadata;
-    }
-    
-    /**
-     * @return the Metadata tag of feature model optional link
-     */
-    public static Metadata getFeatureModelOptionalLinkMetadata() {
-    	Metadata featureModelOptionalLinkMetadata;
-    	featureModelOptionalLinkMetadata = UrncoreFactory.eINSTANCE.createMetadata();
-    	featureModelOptionalLinkMetadata.setName("FeatureModel"); //$NON-NLS-1$
-    	featureModelOptionalLinkMetadata.setValue("Optional"); //$NON-NLS-1$
-    	return featureModelOptionalLinkMetadata;
     }
     
     /**
@@ -402,21 +366,13 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(Connect.class)) {
                 result = mapfactory.createConnect();
             } else if (targetClass.equals(Decomposition.class)) {
-            	Decomposition decomposition = grlfactory.createDecomposition();
-            	if (type == ModelCreationFactory.FEATURE_MODEL_DECOMPOSTION_TYPE) {
-            		decomposition.getMetadata().add(ModelCreationFactory.getFeatureModelDecompositionLinkMetadata());
-            	}
-                result = decomposition;
+            	result = grlfactory.createDecomposition();
             } else if (targetClass.equals(Contribution.class)) {
-            	Contribution contribution = grlfactory.createContribution();
-            	//add metadata if the contribution link is created in feature model 
-            	//as mandatory or optional link
-            	if (type == ModelCreationFactory.FEATURE_MODEL_MANDATORY_TYPE) {
-            		contribution.getMetadata().add(ModelCreationFactory.getFeatureModelMandatoryLinkMetadata());
-            	} else if (type == ModelCreationFactory.FEATURE_MODEL_OPTIONAL_TYPE) {
-            		contribution.getMetadata().add(ModelCreationFactory.getFeatureModelOptionalLinkMetadata());
-            	}
-            	result = contribution;
+            	result = grlfactory.createContribution();
+            } else if (targetClass.equals(MandatoryFMLink.class)) {
+            	result = fmfactory.createMandatoryFMLink();
+            } else if (targetClass.equals(OptionalFMLink.class)) {
+            	result = fmfactory.createOptionalFMLink();
             } else if (targetClass.equals(Dependency.class)) {
                 result = grlfactory.createDependency();
             } else if (targetClass.equals(LinkRef.class)) {

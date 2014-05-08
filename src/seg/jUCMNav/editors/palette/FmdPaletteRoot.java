@@ -1,9 +1,9 @@
 package seg.jUCMNav.editors.palette;
 
-import grl.Contribution;
+import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
 import grl.Decomposition;
 import grl.IntentionalElementRef;
-import grl.IntentionalElementType;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -59,7 +59,7 @@ public class FmdPaletteRoot extends GrlPaletteRoot {
         // Add a decomposition
         entry = new BaseConnectionCreationToolEntry(
                 Messages.getString("FmdPaletteRoot.decomposition"), Messages.getString("FmdPaletteRoot.createDecomposition"), //$NON-NLS-1$ //$NON-NLS-2$
-                new ModelCreationFactory(getURNspec(), Decomposition.class, ModelCreationFactory.FEATURE_MODEL_DECOMPOSTION_TYPE),
+                new ModelCreationFactory(getURNspec(), Decomposition.class),
                 JUCMNavPlugin.getImageDescriptor("icons/Decomposition16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Decomposition24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);
@@ -68,7 +68,7 @@ public class FmdPaletteRoot extends GrlPaletteRoot {
         // Add a mandatory
         entry = new BaseConnectionCreationToolEntry(
                 Messages.getString("FmdPaletteRoot.mandatory"), Messages.getString("FmdPaletteRoot.createMandatory"), //$NON-NLS-1$ //$NON-NLS-2$
-                new ModelCreationFactory(getURNspec(), Contribution.class, ModelCreationFactory.FEATURE_MODEL_MANDATORY_TYPE),
+                new ModelCreationFactory(getURNspec(), MandatoryFMLink.class),
                 JUCMNavPlugin.getImageDescriptor("icons/Mandatory16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Mandatory24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);
@@ -78,7 +78,7 @@ public class FmdPaletteRoot extends GrlPaletteRoot {
         // Add a optional
         entry = new BaseConnectionCreationToolEntry(
                 Messages.getString("FmdPaletteRoot.optional"), Messages.getString("FmdPaletteRoot.createOptional"), //$NON-NLS-1$ //$NON-NLS-2$
-                new ModelCreationFactory(getURNspec(), Contribution.class, ModelCreationFactory.FEATURE_MODEL_OPTIONAL_TYPE),
+                new ModelCreationFactory(getURNspec(), OptionalFMLink.class),
                 JUCMNavPlugin.getImageDescriptor("icons/Optional16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Optional24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);

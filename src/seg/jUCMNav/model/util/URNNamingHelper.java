@@ -1,6 +1,8 @@
 package seg.jUCMNav.model.util;
 
 import fm.Feature;
+import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
@@ -681,6 +683,14 @@ public class URNNamingHelper {
                 	ce.setName("Feature" + ce.getId()); //$NON-NLS-1$
                 else
                     ce.setName(((IntentionalElement) o).getType().toString() + ce.getId()); //$NON-NLS-1$
+            }
+            
+            // Set the name properly for mandatory/optional links. "Mandatory/OptionalFMLinkXXX" is too long...
+            if (o instanceof MandatoryFMLink) {
+              	ce.setName("Mandatory" + ce.getId()); //$NON-NLS-1$
+            }
+            if (o instanceof OptionalFMLink) {
+              	ce.setName("Optional" + ce.getId()); //$NON-NLS-1$
             }
 
             // Dummy description for beliefs

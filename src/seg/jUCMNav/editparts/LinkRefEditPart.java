@@ -1,5 +1,7 @@
 package seg.jUCMNav.editparts;
 
+import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
 import grl.Contribution;
 import grl.Decomposition;
 import grl.DecompositionType;
@@ -306,9 +308,9 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
             Contribution contrib = (Contribution) getLinkRef().getLink();
             if (contrib.isCorrelation()) {
                 getLinkRefFigure().setType(LinkRefConnection.TYPE_CORRELATION);
-            } else if (ModelCreationFactory.containsMetadata(contrib.getMetadata(), ModelCreationFactory.getFeatureModelOptionalLinkMetadata())) {
+            } else if (contrib instanceof OptionalFMLink) {
             	getLinkRefFigure().setType(LinkRefConnection.TYPE_OPTIONAL);
-            } else if (ModelCreationFactory.containsMetadata(contrib.getMetadata(), ModelCreationFactory.getFeatureModelMandatoryLinkMetadata())) {
+            } else if (contrib instanceof MandatoryFMLink) {
                 getLinkRefFigure().setType(LinkRefConnection.TYPE_MANDATORY);
             } else {
             	getLinkRefFigure().setType(LinkRefConnection.TYPE_CONTRIBUTION);

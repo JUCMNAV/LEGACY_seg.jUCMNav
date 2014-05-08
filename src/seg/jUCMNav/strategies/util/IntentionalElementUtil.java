@@ -1,6 +1,7 @@
 package seg.jUCMNav.strategies.util;
 
-import grl.Contribution;
+import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
 import grl.Decomposition;
 import grl.DecompositionType;
 import grl.ElementLink;
@@ -8,7 +9,6 @@ import grl.IntentionalElement;
 
 import java.util.Iterator;
 
-import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import urncore.Metadata;
@@ -27,11 +27,7 @@ public class IntentionalElementUtil {
         }
         while (it.hasNext()) {
             ElementLink link = (ElementLink) it.next();
-            if (link instanceof Contribution) {
-                if (!ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelOptionalLinkMetadata())) {
-                    return false;
-                }
-            } else {
+            if (!(link instanceof OptionalFMLink)) {
                 return false;
             }
         }
@@ -51,11 +47,7 @@ public class IntentionalElementUtil {
         }
         while (it.hasNext()) {
             ElementLink link = (ElementLink) it.next();
-            if (link instanceof Contribution) {
-                if (!ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelOptionalLinkMetadata())) {
-                    return false;
-                }
-            } else {
+            if (!(link instanceof OptionalFMLink)) {
                 return false;
             }
         }
@@ -72,9 +64,8 @@ public class IntentionalElementUtil {
         Iterator it = element.getLinksDest().iterator();
         while (it.hasNext()) {
             ElementLink link = (ElementLink) it.next();
-            if (link instanceof Contribution) {
-                if(ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelMandatoryLinkMetadata()))
-                    MandatoryLinks++;
+            if (link instanceof MandatoryFMLink) {
+            	MandatoryLinks++;
             }
         }
         return MandatoryLinks;

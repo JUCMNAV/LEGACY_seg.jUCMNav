@@ -1,6 +1,7 @@
 package seg.jUCMNav.strategies;
 
 import fm.Feature;
+import fm.MandatoryFMLink;
 import grl.Contribution;
 import grl.Decomposition;
 import grl.Dependency;
@@ -175,7 +176,7 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
                 	else
                 	{
                 		//Mixed case or only mandatory links
-                		if(ModelCreationFactory.containsMetadata(link.getMetadata(), ModelCreationFactory.getFeatureModelMandatoryLinkMetadata()))
+                		if(link instanceof MandatoryFMLink)
                 		{
                 			//Last Link case
                 			if(mandatoryLinksIndex == 1)                			
