@@ -154,7 +154,7 @@ public class KPIInformationConfigImpl extends EObjectImpl implements KPIInformat
 	 */
     public EvaluationStrategy getStrategies() {
 		if (eContainerFeatureID() != KpimodelPackage.KPI_INFORMATION_CONFIG__STRATEGIES) return null;
-		return (EvaluationStrategy)eContainer();
+		return (EvaluationStrategy)eInternalContainer();
 	}
 
     /**

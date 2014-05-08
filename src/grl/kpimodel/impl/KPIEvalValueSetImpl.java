@@ -322,7 +322,7 @@ public class KPIEvalValueSetImpl extends EObjectImpl implements KPIEvalValueSet 
 	 */
     public Evaluation getEval() {
 		if (eContainerFeatureID() != KpimodelPackage.KPI_EVAL_VALUE_SET__EVAL) return null;
-		return (Evaluation)eContainer();
+		return (Evaluation)eInternalContainer();
 	}
 
     /**

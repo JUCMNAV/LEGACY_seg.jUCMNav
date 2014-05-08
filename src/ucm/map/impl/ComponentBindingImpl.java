@@ -80,7 +80,7 @@ public class ComponentBindingImpl extends EObjectImpl implements ComponentBindin
 	 */
 	public PluginBinding getBinding() {
 		if (eContainerFeatureID() != MapPackage.COMPONENT_BINDING__BINDING) return null;
-		return (PluginBinding)eContainer();
+		return (PluginBinding)eInternalContainer();
 	}
 
 	/**

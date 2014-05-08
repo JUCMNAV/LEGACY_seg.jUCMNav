@@ -32,7 +32,7 @@ public class UcmFactoryImpl extends EFactoryImpl implements UcmFactory {
 	 */
 	public static UcmFactory init() {
 		try {
-			UcmFactory theUcmFactory = (UcmFactory)EPackage.Registry.INSTANCE.getEFactory("http:///ucm.ecore"); 
+			UcmFactory theUcmFactory = (UcmFactory)EPackage.Registry.INSTANCE.getEFactory(UcmPackage.eNS_URI);
 			if (theUcmFactory != null) {
 				return theUcmFactory;
 			}

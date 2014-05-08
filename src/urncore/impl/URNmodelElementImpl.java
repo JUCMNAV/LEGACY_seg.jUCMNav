@@ -6,6 +6,7 @@
  */
 package urncore.impl;
 
+import core.impl.CORENamedElementImpl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -36,7 +37,6 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.URNmodelElementImpl#getFromLinks <em>From Links</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getToLinks <em>To Links</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getId <em>Id</em>}</li>
- *   <li>{@link urncore.impl.URNmodelElementImpl#getName <em>Name</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getMetadata <em>Metadata</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getInconcern <em>Inconcern</em>}</li>
@@ -45,7 +45,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public abstract class URNmodelElementImpl extends EObjectImpl implements URNmodelElement {
+public abstract class URNmodelElementImpl extends CORENamedElementImpl implements URNmodelElement {
     /**
 	 * The cached value of the '{@link #getFromLinks() <em>From Links</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -85,26 +85,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
 	 * @ordered
 	 */
     protected String id = ID_EDEFAULT;
-
-    /**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-    protected static final String NAME_EDEFAULT = null;
-
-    /**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-    protected String name = NAME_EDEFAULT;
 
     /**
 	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
@@ -207,27 +187,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
 		id = newId;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.UR_NMODEL_ELEMENT__ID, oldId, id));
-	}
-
-    /**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public String getName() {
-		return name;
-	}
-
-    /**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.UR_NMODEL_ELEMENT__NAME, oldName, name));
 	}
 
     /**
@@ -374,8 +333,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
 				return getToLinks();
 			case UrncorePackage.UR_NMODEL_ELEMENT__ID:
 				return getId();
-			case UrncorePackage.UR_NMODEL_ELEMENT__NAME:
-				return getName();
 			case UrncorePackage.UR_NMODEL_ELEMENT__DESCRIPTION:
 				return getDescription();
 			case UrncorePackage.UR_NMODEL_ELEMENT__METADATA:
@@ -404,9 +361,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
 				return;
 			case UrncorePackage.UR_NMODEL_ELEMENT__ID:
 				setId((String)newValue);
-				return;
-			case UrncorePackage.UR_NMODEL_ELEMENT__NAME:
-				setName((String)newValue);
 				return;
 			case UrncorePackage.UR_NMODEL_ELEMENT__DESCRIPTION:
 				setDescription((String)newValue);
@@ -438,9 +392,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
 			case UrncorePackage.UR_NMODEL_ELEMENT__ID:
 				setId(ID_EDEFAULT);
 				return;
-			case UrncorePackage.UR_NMODEL_ELEMENT__NAME:
-				setName(NAME_EDEFAULT);
-				return;
 			case UrncorePackage.UR_NMODEL_ELEMENT__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
@@ -467,8 +418,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
 				return toLinks != null && !toLinks.isEmpty();
 			case UrncorePackage.UR_NMODEL_ELEMENT__ID:
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-			case UrncorePackage.UR_NMODEL_ELEMENT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case UrncorePackage.UR_NMODEL_ELEMENT__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case UrncorePackage.UR_NMODEL_ELEMENT__METADATA:
@@ -490,8 +439,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (id: ");
 		result.append(id);
-		result.append(", name: ");
-		result.append(name);
 		result.append(", description: ");
 		result.append(description);
 		result.append(')');

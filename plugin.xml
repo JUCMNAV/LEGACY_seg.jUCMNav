@@ -766,6 +766,14 @@
             uri="http:///grl.ecore">
       </package>
    </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated URN -->
+      <package
+            uri="http:///grl/kpimodel.ecore"
+            class="grl.kpimodel.KpimodelPackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
+   </extension>
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
@@ -773,6 +781,54 @@
             genModel="archive:platform:/plugin/seg.jUCMNav/jUCMNav.jar!/seg/jUCMNav/emf/URN.genmodel"
             uri="http:///ucm.ecore">
       </package>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated URN -->
+      <package
+            uri="http:///ucm/performance.ecore"
+            class="ucm.performance.PerformancePackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated URN -->
+      <package
+            uri="http:///ucm/map.ecore"
+            class="ucm.map.MapPackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated URN -->
+      <package
+            uri="http:///ucm/scenario.ecore"
+            class="ucm.scenario.ScenarioPackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated URN -->
+      <package
+            uri="http:///asd.ecore"
+            class="asd.AsdPackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated URN -->
+      <package
+            uri="http:///fm.ecore"
+            class="fm.FmPackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated URN -->
+      <package
+            uri="http://cs.mcgill.ca/sel/core/1.0"
+            class="core.CorePackage"
+            genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
    </extension>
    <extension
          point="org.eclipse.emf.ecore.generated_package">

@@ -141,7 +141,7 @@ public class LinkRefBendpointImpl extends EObjectImpl implements LinkRefBendpoin
 	 */
     public LinkRef getLinkref() {
 		if (eContainerFeatureID() != GrlPackage.LINK_REF_BENDPOINT__LINKREF) return null;
-		return (LinkRef)eContainer();
+		return (LinkRef)eInternalContainer();
 	}
 
     /**

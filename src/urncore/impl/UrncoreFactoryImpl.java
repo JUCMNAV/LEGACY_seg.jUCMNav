@@ -44,7 +44,7 @@ public class UrncoreFactoryImpl extends EFactoryImpl implements UrncoreFactory {
 	 */
 	public static UrncoreFactory init() {
 		try {
-			UrncoreFactory theUrncoreFactory = (UrncoreFactory)EPackage.Registry.INSTANCE.getEFactory("http:///urncore.ecore"); 
+			UrncoreFactory theUrncoreFactory = (UrncoreFactory)EPackage.Registry.INSTANCE.getEFactory(UrncorePackage.eNS_URI);
 			if (theUrncoreFactory != null) {
 				return theUrncoreFactory;
 			}

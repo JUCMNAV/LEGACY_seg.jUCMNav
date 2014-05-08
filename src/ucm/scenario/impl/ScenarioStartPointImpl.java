@@ -112,7 +112,7 @@ public class ScenarioStartPointImpl extends EObjectImpl implements ScenarioStart
 	 */
 	public ScenarioDef getScenarioDef() {
 		if (eContainerFeatureID() != ScenarioPackage.SCENARIO_START_POINT__SCENARIO_DEF) return null;
-		return (ScenarioDef)eContainer();
+		return (ScenarioDef)eInternalContainer();
 	}
 
     /**

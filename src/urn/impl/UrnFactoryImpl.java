@@ -33,7 +33,7 @@ public class UrnFactoryImpl extends EFactoryImpl implements UrnFactory {
 	 */
 	public static UrnFactory init() {
 		try {
-			UrnFactory theUrnFactory = (UrnFactory)EPackage.Registry.INSTANCE.getEFactory("http:///urn.ecore"); 
+			UrnFactory theUrnFactory = (UrnFactory)EPackage.Registry.INSTANCE.getEFactory(UrnPackage.eNS_URI);
 			if (theUrnFactory != null) {
 				return theUrnFactory;
 			}

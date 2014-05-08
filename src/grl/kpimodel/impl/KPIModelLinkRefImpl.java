@@ -226,7 +226,7 @@ public class KPIModelLinkRefImpl extends EObjectImpl implements KPIModelLinkRef 
 	 */
     public IURNDiagram getDiagram() {
 		if (eContainerFeatureID() != KpimodelPackage.KPI_MODEL_LINK_REF__DIAGRAM) return null;
-		return (IURNDiagram)eContainer();
+		return (IURNDiagram)eInternalContainer();
 	}
 
     /**

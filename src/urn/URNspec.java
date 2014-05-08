@@ -6,6 +6,7 @@
  */
 package urn;
 
+import asd.ASDspec;
 import grl.GRLspec;
 
 import org.eclipse.emf.common.util.EList;
@@ -39,6 +40,7 @@ import urncore.URNdefinition;
  *   <li>{@link urn.URNspec#getUrndef <em>Urndef</em>}</li>
  *   <li>{@link urn.URNspec#getUrnLinks <em>Urn Links</em>}</li>
  *   <li>{@link urn.URNspec#getMetadata <em>Metadata</em>}</li>
+ *   <li>{@link urn.URNspec#getAsdspec <em>Asdspec</em>}</li>
  * </ul>
  * </p>
  *
@@ -372,5 +374,31 @@ public interface URNspec extends EObject {
 	 * @generated
 	 */
 	EList getMetadata();
+
+				/**
+	 * Returns the value of the '<em><b>Asdspec</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Asdspec</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Asdspec</em>' containment reference.
+	 * @see #setAsdspec(ASDspec)
+	 * @see urn.UrnPackage#getURNspec_Asdspec()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	ASDspec getAsdspec();
+
+				/**
+	 * Sets the value of the '{@link urn.URNspec#getAsdspec <em>Asdspec</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Asdspec</em>' containment reference.
+	 * @see #getAsdspec()
+	 * @generated
+	 */
+	void setAsdspec(ASDspec value);
 
 } // URNspec

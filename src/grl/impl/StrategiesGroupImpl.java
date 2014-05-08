@@ -99,7 +99,7 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
 	 */
     public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != GrlPackage.STRATEGIES_GROUP__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
     /**

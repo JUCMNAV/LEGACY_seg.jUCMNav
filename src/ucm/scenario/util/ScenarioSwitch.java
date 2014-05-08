@@ -6,6 +6,7 @@
  */
 package ucm.scenario.util;
 
+import core.CORENamedElement;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -102,6 +103,7 @@ public class ScenarioSwitch {
 				Object result = caseVariable(variable);
 				if (result == null) result = caseUCMmodelElement(variable);
 				if (result == null) result = caseURNmodelElement(variable);
+				if (result == null) result = caseCORENamedElement(variable);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -110,6 +112,7 @@ public class ScenarioSwitch {
 				Object result = caseScenarioDef(scenarioDef);
 				if (result == null) result = caseUCMmodelElement(scenarioDef);
 				if (result == null) result = caseURNmodelElement(scenarioDef);
+				if (result == null) result = caseCORENamedElement(scenarioDef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -118,6 +121,7 @@ public class ScenarioSwitch {
 				Object result = caseScenarioGroup(scenarioGroup);
 				if (result == null) result = caseUCMmodelElement(scenarioGroup);
 				if (result == null) result = caseURNmodelElement(scenarioGroup);
+				if (result == null) result = caseCORENamedElement(scenarioGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -126,6 +130,7 @@ public class ScenarioSwitch {
 				Object result = caseEnumerationType(enumerationType);
 				if (result == null) result = caseUCMmodelElement(enumerationType);
 				if (result == null) result = caseURNmodelElement(enumerationType);
+				if (result == null) result = caseCORENamedElement(enumerationType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -227,6 +232,21 @@ public class ScenarioSwitch {
 	}
 
     /**
+	 * Returns the result of interpreting the object as an instance of '<em>CORE Named Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CORE Named Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCORENamedElement(CORENamedElement object) {
+		return null;
+	}
+
+				/**
 	 * Returns the result of interpreting the object as an instance of '<em>Def</em>'.
 	 * <!-- begin-user-doc -->
      * This implementation returns null;

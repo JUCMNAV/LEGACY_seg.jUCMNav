@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ucm"
-    nsURI="http:///ucm.ecore" nsPrefix="ucm">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ucm" nsURI="http:///ucm.ecore" nsPrefix="ucm">
   <eClassifiers xsi:type="ecore:EClass" name="UCMspec">
     <eStructuralFeatures xsi:type="ecore:EReference" name="urnspec" lowerBound="1"
         eType="ecore:EClass urn.ecore#//URNspec" transient="true" eOpposite="urn.ecore#//URNspec/ucmspec"/>
@@ -196,7 +194,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioStartPoints"
           upperBound="-1" eType="#//scenario/ScenarioStartPoint" eOpposite="#//scenario/ScenarioStartPoint/startPoint"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="UCMmap" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//IURNDiagram">
+    <eClassifiers xsi:type="ecore:EClass" name="UCMmap" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//IURNDiagram core.ecore#//COREModel">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleton" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentStub" upperBound="-1"

@@ -6,6 +6,7 @@
  */
 package urncore.impl;
 
+import core.COREConcern;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -35,6 +36,7 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.ConcernImpl#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link urncore.impl.ConcernImpl#getSpecDiagrams <em>Spec Diagrams</em>}</li>
  *   <li>{@link urncore.impl.ConcernImpl#getElements <em>Elements</em>}</li>
+ *   <li>{@link urncore.impl.ConcernImpl#getCoreConcern <em>Core Concern</em>}</li>
  *   <li>{@link urncore.impl.ConcernImpl#getCondition <em>Condition</em>}</li>
  * </ul>
  * </p>
@@ -63,6 +65,16 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
     protected EList elements;
 
     /**
+	 * The cached value of the '{@link #getCoreConcern() <em>Core Concern</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCoreConcern()
+	 * @generated
+	 * @ordered
+	 */
+	protected COREConcern coreConcern;
+
+				/**
 	 * The cached value of the '{@link #getCondition() <em>Condition</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -97,7 +109,7 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 	 */
 	public URNdefinition getUrndefinition() {
 		if (eContainerFeatureID() != UrncorePackage.CONCERN__URNDEFINITION) return null;
-		return (URNdefinition)eContainer();
+		return (URNdefinition)eInternalContainer();
 	}
 
     /**
@@ -156,6 +168,44 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public COREConcern getCoreConcern() {
+		if (coreConcern != null && coreConcern.eIsProxy()) {
+			InternalEObject oldCoreConcern = (InternalEObject)coreConcern;
+			coreConcern = (COREConcern)eResolveProxy(oldCoreConcern);
+			if (coreConcern != oldCoreConcern) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.CONCERN__CORE_CONCERN, oldCoreConcern, coreConcern));
+			}
+		}
+		return coreConcern;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public COREConcern basicGetCoreConcern() {
+		return coreConcern;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCoreConcern(COREConcern newCoreConcern) {
+		COREConcern oldCoreConcern = coreConcern;
+		coreConcern = newCoreConcern;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.CONCERN__CORE_CONCERN, oldCoreConcern, coreConcern));
+	}
+
+				/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -266,6 +316,9 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 				return getSpecDiagrams();
 			case UrncorePackage.CONCERN__ELEMENTS:
 				return getElements();
+			case UrncorePackage.CONCERN__CORE_CONCERN:
+				if (resolve) return getCoreConcern();
+				return basicGetCoreConcern();
 			case UrncorePackage.CONCERN__CONDITION:
 				return getCondition();
 		}
@@ -290,6 +343,9 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 				getElements().clear();
 				getElements().addAll((Collection)newValue);
 				return;
+			case UrncorePackage.CONCERN__CORE_CONCERN:
+				setCoreConcern((COREConcern)newValue);
+				return;
 			case UrncorePackage.CONCERN__CONDITION:
 				setCondition((Condition)newValue);
 				return;
@@ -313,6 +369,9 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 			case UrncorePackage.CONCERN__ELEMENTS:
 				getElements().clear();
 				return;
+			case UrncorePackage.CONCERN__CORE_CONCERN:
+				setCoreConcern((COREConcern)null);
+				return;
 			case UrncorePackage.CONCERN__CONDITION:
 				setCondition((Condition)null);
 				return;
@@ -333,6 +392,8 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 				return specDiagrams != null && !specDiagrams.isEmpty();
 			case UrncorePackage.CONCERN__ELEMENTS:
 				return elements != null && !elements.isEmpty();
+			case UrncorePackage.CONCERN__CORE_CONCERN:
+				return coreConcern != null;
 			case UrncorePackage.CONCERN__CONDITION:
 				return condition != null;
 		}

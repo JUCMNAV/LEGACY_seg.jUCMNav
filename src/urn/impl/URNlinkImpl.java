@@ -142,7 +142,7 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
 	 */
     public URNspec getUrnspec() {
 		if (eContainerFeatureID() != UrnPackage.UR_NLINK__URNSPEC) return null;
-		return (URNspec)eContainer();
+		return (URNspec)eInternalContainer();
 	}
 
     /**

@@ -197,7 +197,7 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
 	 */
     public URNspec getUrnspec() {
 		if (eContainerFeatureID() != GrlPackage.GR_LSPEC__URNSPEC) return null;
-		return (URNspec)eContainer();
+		return (URNspec)eInternalContainer();
 	}
 
     /**

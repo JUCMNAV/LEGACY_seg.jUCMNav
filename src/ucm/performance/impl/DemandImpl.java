@@ -112,7 +112,7 @@ public class DemandImpl extends EObjectImpl implements Demand {
 	 */
     public Responsibility getResponsibility() {
 		if (eContainerFeatureID() != PerformancePackage.DEMAND__RESPONSIBILITY) return null;
-		return (Responsibility)eContainer();
+		return (Responsibility)eInternalContainer();
 	}
 
     /**

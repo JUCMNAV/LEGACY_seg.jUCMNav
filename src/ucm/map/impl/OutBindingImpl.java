@@ -92,7 +92,7 @@ public class OutBindingImpl extends EObjectImpl implements OutBinding {
 	 */
     public PluginBinding getBinding() {
 		if (eContainerFeatureID() != MapPackage.OUT_BINDING__BINDING) return null;
-		return (PluginBinding)eContainer();
+		return (PluginBinding)eInternalContainer();
 	}
 
     /**

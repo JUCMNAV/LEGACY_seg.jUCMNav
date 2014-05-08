@@ -104,7 +104,7 @@ public class KPINewEvalValueImpl extends EObjectImpl implements KPINewEvalValue 
 	 */
 	public Evaluation getEval() {
 		if (eContainerFeatureID() != KpimodelPackage.KPI_NEW_EVAL_VALUE__EVAL) return null;
-		return (Evaluation)eContainer();
+		return (Evaluation)eInternalContainer();
 	}
 
 	/**

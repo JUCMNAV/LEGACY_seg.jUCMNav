@@ -92,6 +92,15 @@ public interface ScenarioPackage extends EPackage {
     int VARIABLE = 0;
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int VARIABLE__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
+
+				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -100,7 +109,7 @@ public interface ScenarioPackage extends EPackage {
 	 */
     int VARIABLE__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -109,7 +118,7 @@ public interface ScenarioPackage extends EPackage {
 	 */
     int VARIABLE__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -117,15 +126,6 @@ public interface ScenarioPackage extends EPackage {
 	 * @ordered
 	 */
     int VARIABLE__ID = UrncorePackage.UC_MMODEL_ELEMENT__ID;
-
-    /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int VARIABLE__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -192,6 +192,15 @@ public interface ScenarioPackage extends EPackage {
 
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int SCENARIO_DEF__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
+
+				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -200,7 +209,7 @@ public interface ScenarioPackage extends EPackage {
 	 */
     int SCENARIO_DEF__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -209,7 +218,7 @@ public interface ScenarioPackage extends EPackage {
 	 */
     int SCENARIO_DEF__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -217,15 +226,6 @@ public interface ScenarioPackage extends EPackage {
 	 * @ordered
 	 */
     int SCENARIO_DEF__ID = UrncorePackage.UC_MMODEL_ELEMENT__ID;
-
-    /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int SCENARIO_DEF__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -336,6 +336,15 @@ public interface ScenarioPackage extends EPackage {
     int SCENARIO_DEF_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int SCENARIO_GROUP__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
+
+				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -344,7 +353,7 @@ public interface ScenarioPackage extends EPackage {
 	 */
     int SCENARIO_GROUP__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -353,7 +362,7 @@ public interface ScenarioPackage extends EPackage {
 	 */
     int SCENARIO_GROUP__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -361,15 +370,6 @@ public interface ScenarioPackage extends EPackage {
 	 * @ordered
 	 */
     int SCENARIO_GROUP__ID = UrncorePackage.UC_MMODEL_ELEMENT__ID;
-
-    /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int SCENARIO_GROUP__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -436,6 +436,15 @@ public interface ScenarioPackage extends EPackage {
 	int ENUMERATION_TYPE = 3;
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUMERATION_TYPE__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
+
+				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -444,7 +453,7 @@ public interface ScenarioPackage extends EPackage {
 	 */
 	int ENUMERATION_TYPE__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -453,7 +462,7 @@ public interface ScenarioPackage extends EPackage {
 	 */
 	int ENUMERATION_TYPE__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -461,15 +470,6 @@ public interface ScenarioPackage extends EPackage {
 	 * @ordered
 	 */
 	int ENUMERATION_TYPE__ID = UrncorePackage.UC_MMODEL_ELEMENT__ID;
-
-    /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUMERATION_TYPE__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.

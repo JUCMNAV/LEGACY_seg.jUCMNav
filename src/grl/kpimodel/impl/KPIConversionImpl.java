@@ -93,7 +93,7 @@ public abstract class KPIConversionImpl extends GRLmodelElementImpl implements K
 	 */
 	public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != KpimodelPackage.KPI_CONVERSION__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
 	/**

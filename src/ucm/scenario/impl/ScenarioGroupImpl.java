@@ -75,7 +75,7 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
 	 */
     public UCMspec getUcmspec() {
 		if (eContainerFeatureID() != ScenarioPackage.SCENARIO_GROUP__UCMSPEC) return null;
-		return (UCMspec)eContainer();
+		return (UCMspec)eInternalContainer();
 	}
 
     /**

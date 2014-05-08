@@ -59,7 +59,7 @@ public class MapFactoryImpl extends EFactoryImpl implements MapFactory {
 	 */
 	public static MapFactory init() {
 		try {
-			MapFactory theMapFactory = (MapFactory)EPackage.Registry.INSTANCE.getEFactory("http:///ucm/map.ecore"); 
+			MapFactory theMapFactory = (MapFactory)EPackage.Registry.INSTANCE.getEFactory(MapPackage.eNS_URI);
 			if (theMapFactory != null) {
 				return theMapFactory;
 			}

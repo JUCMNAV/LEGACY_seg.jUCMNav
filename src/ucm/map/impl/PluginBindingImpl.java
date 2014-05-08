@@ -327,7 +327,7 @@ public class PluginBindingImpl extends EObjectImpl implements PluginBinding {
 	 */
     public Stub getStub() {
 		if (eContainerFeatureID() != MapPackage.PLUGIN_BINDING__STUB) return null;
-		return (Stub)eContainer();
+		return (Stub)eInternalContainer();
 	}
 
     /**

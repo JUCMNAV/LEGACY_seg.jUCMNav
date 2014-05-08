@@ -6,6 +6,7 @@
  */
 package grl.kpimodel.util;
 
+import core.CORENamedElement;
 import grl.GRLLinkableElement;
 import grl.GRLNode;
 import grl.IntentionalElement;
@@ -109,6 +110,7 @@ public class KpimodelSwitch {
 				Object result = caseIndicatorGroup(indicatorGroup);
 				if (result == null) result = caseGRLmodelElement(indicatorGroup);
 				if (result == null) result = caseURNmodelElement(indicatorGroup);
+				if (result == null) result = caseCORENamedElement(indicatorGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -119,6 +121,7 @@ public class KpimodelSwitch {
 				if (result == null) result = caseGRLLinkableElement(indicator);
 				if (result == null) result = caseGRLmodelElement(indicator);
 				if (result == null) result = caseURNmodelElement(indicator);
+				if (result == null) result = caseCORENamedElement(indicator);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -127,6 +130,7 @@ public class KpimodelSwitch {
 				Object result = caseKPIInformationElement(kpiInformationElement);
 				if (result == null) result = caseGRLmodelElement(kpiInformationElement);
 				if (result == null) result = caseURNmodelElement(kpiInformationElement);
+				if (result == null) result = caseCORENamedElement(kpiInformationElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -137,6 +141,7 @@ public class KpimodelSwitch {
 				if (result == null) result = caseGRLmodelElement(kpiInformationElementRef);
 				if (result == null) result = caseIURNNode(kpiInformationElementRef);
 				if (result == null) result = caseURNmodelElement(kpiInformationElementRef);
+				if (result == null) result = caseCORENamedElement(kpiInformationElementRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -145,6 +150,7 @@ public class KpimodelSwitch {
 				Object result = caseKPIModelLink(kpiModelLink);
 				if (result == null) result = caseGRLmodelElement(kpiModelLink);
 				if (result == null) result = caseURNmodelElement(kpiModelLink);
+				if (result == null) result = caseCORENamedElement(kpiModelLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -178,6 +184,7 @@ public class KpimodelSwitch {
 				Object result = caseKPIConversion(kpiConversion);
 				if (result == null) result = caseGRLmodelElement(kpiConversion);
 				if (result == null) result = caseURNmodelElement(kpiConversion);
+				if (result == null) result = caseCORENamedElement(kpiConversion);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -187,6 +194,7 @@ public class KpimodelSwitch {
 				if (result == null) result = caseKPIConversion(qualitativeMappings);
 				if (result == null) result = caseGRLmodelElement(qualitativeMappings);
 				if (result == null) result = caseURNmodelElement(qualitativeMappings);
+				if (result == null) result = caseCORENamedElement(qualitativeMappings);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -377,6 +385,21 @@ public class KpimodelSwitch {
 	 * @generated
 	 */
 	public Object caseQualitativeMapping(QualitativeMapping object) {
+		return null;
+	}
+
+				/**
+	 * Returns the result of interpreting the object as an instance of '<em>CORE Named Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CORE Named Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCORENamedElement(CORENamedElement object) {
 		return null;
 	}
 

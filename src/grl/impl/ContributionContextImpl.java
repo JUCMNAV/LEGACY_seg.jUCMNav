@@ -110,7 +110,7 @@ public class ContributionContextImpl extends GRLmodelElementImpl implements Cont
 	 */
 	public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
 	/**

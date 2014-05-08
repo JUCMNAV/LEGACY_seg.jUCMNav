@@ -112,7 +112,7 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 	 */
     public UCMspec getUcmspec() {
 		if (eContainerFeatureID() != ScenarioPackage.VARIABLE__UCMSPEC) return null;
-		return (UCMspec)eContainer();
+		return (UCMspec)eInternalContainer();
 	}
 
     /**

@@ -438,7 +438,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 */
     public StartPoint getStartPoint() {
 		if (eContainerFeatureID() != PerformancePackage.WORKLOAD__START_POINT) return null;
-		return (StartPoint)eContainer();
+		return (StartPoint)eInternalContainer();
 	}
 
     /**

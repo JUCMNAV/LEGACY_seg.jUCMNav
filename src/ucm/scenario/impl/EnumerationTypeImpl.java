@@ -117,7 +117,7 @@ public class EnumerationTypeImpl extends UCMmodelElementImpl implements Enumerat
 	 */
 	public UCMspec getUcmspec() {
 		if (eContainerFeatureID() != ScenarioPackage.ENUMERATION_TYPE__UCMSPEC) return null;
-		return (UCMspec)eContainer();
+		return (UCMspec)eInternalContainer();
 	}
 
     /**

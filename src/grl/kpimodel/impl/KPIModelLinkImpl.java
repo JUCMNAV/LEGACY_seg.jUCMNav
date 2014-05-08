@@ -172,7 +172,7 @@ public class KPIModelLinkImpl extends GRLmodelElementImpl implements KPIModelLin
 	 */
     public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != KpimodelPackage.KPI_MODEL_LINK__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
     /**

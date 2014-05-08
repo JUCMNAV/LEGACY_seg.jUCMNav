@@ -187,13 +187,22 @@ public interface UrnPackage extends EPackage {
 	int UR_NSPEC__METADATA = 12;
 
 				/**
+	 * The feature id for the '<em><b>Asdspec</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UR_NSPEC__ASDSPEC = 13;
+
+				/**
 	 * The number of structural features of the '<em>UR Nspec</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int UR_NSPEC_FEATURE_COUNT = 13;
+    int UR_NSPEC_FEATURE_COUNT = 14;
 
     /**
 	 * The meta object id for the '{@link urn.impl.URNlinkImpl <em>UR Nlink</em>}' class.
@@ -414,6 +423,17 @@ public interface UrnPackage extends EPackage {
 	EReference getURNspec_Metadata();
 
 				/**
+	 * Returns the meta object for the containment reference '{@link urn.URNspec#getAsdspec <em>Asdspec</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Asdspec</em>'.
+	 * @see urn.URNspec#getAsdspec()
+	 * @see #getURNspec()
+	 * @generated
+	 */
+	EReference getURNspec_Asdspec();
+
+				/**
 	 * Returns the meta object for class '{@link urn.URNlink <em>UR Nlink</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -613,6 +633,14 @@ public interface UrnPackage extends EPackage {
 		 * @generated
 		 */
 		EReference UR_NSPEC__METADATA = eINSTANCE.getURNspec_Metadata();
+
+								/**
+		 * The meta object literal for the '<em><b>Asdspec</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UR_NSPEC__ASDSPEC = eINSTANCE.getURNspec_Asdspec();
 
 								/**
 		 * The meta object literal for the '{@link urn.impl.URNlinkImpl <em>UR Nlink</em>}' class.

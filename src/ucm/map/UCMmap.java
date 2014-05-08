@@ -6,6 +6,7 @@
  */
 package ucm.map;
 
+import core.COREModel;
 import org.eclipse.emf.common.util.EList;
 
 import urncore.IURNDiagram;
@@ -28,7 +29,7 @@ import urncore.UCMmodelElement;
  * @model
  * @generated
  */
-public interface UCMmap extends UCMmodelElement, IURNDiagram {
+public interface UCMmap extends UCMmodelElement, IURNDiagram, COREModel {
     /**
 	 * Returns the value of the '<em><b>Singleton</b></em>' attribute.
 	 * The default value is <code>"true"</code>.

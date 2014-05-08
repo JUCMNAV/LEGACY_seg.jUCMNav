@@ -226,7 +226,7 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
 	 */
     public URNdefinition getUrndefinition() {
 		if (eContainerFeatureID() != UrncorePackage.RESPONSIBILITY__URNDEFINITION) return null;
-		return (URNdefinition)eContainer();
+		return (URNdefinition)eInternalContainer();
 	}
 
     /**

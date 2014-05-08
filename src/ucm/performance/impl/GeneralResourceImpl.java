@@ -142,7 +142,7 @@ public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements
 	 */
     public UCMspec getUcmspec() {
 		if (eContainerFeatureID() != PerformancePackage.GENERAL_RESOURCE__UCMSPEC) return null;
-		return (UCMspec)eContainer();
+		return (UCMspec)eInternalContainer();
 	}
 
     /**

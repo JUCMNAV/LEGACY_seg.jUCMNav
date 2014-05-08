@@ -271,7 +271,7 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
 	 */
     public EvaluationStrategy getStrategies() {
 		if (eContainerFeatureID() != GrlPackage.EVALUATION__STRATEGIES) return null;
-		return (EvaluationStrategy)eContainer();
+		return (EvaluationStrategy)eInternalContainer();
 	}
 
     /**

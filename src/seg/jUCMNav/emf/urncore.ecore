@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="urncore"
-    nsURI="http:///urncore.ecore" nsPrefix="urncore">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="urncore" nsURI="http:///urncore.ecore" nsPrefix="urncore">
   <eClassifiers xsi:type="ecore:EClass" name="URNdefinition">
     <eStructuralFeatures xsi:type="ecore:EReference" name="urnspec" lowerBound="1"
         eType="ecore:EClass urn.ecore#//URNspec" transient="true" eOpposite="urn.ecore#//URNspec/urndef"/>
@@ -123,13 +121,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="comments" upperBound="-1"
         eType="#//Comment" containment="true" eOpposite="#//Comment/diagram"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="URNmodelElement" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="URNmodelElement" abstract="true" eSuperTypes="core.ecore#//CORENamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromLinks" upperBound="-1"
         eType="ecore:EClass urn.ecore#//URNlink" eOpposite="urn.ecore#//URNlink/fromElem"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="toLinks" upperBound="-1"
         eType="ecore:EClass urn.ecore#//URNlink" eOpposite="urn.ecore#//URNlink/toElem"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="metadata" upperBound="-1"
         eType="#//Metadata" containment="true"/>
@@ -199,6 +197,7 @@
         eType="#//IURNDiagram" eOpposite="#//IURNDiagram/concern"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
         eType="#//URNmodelElement" eOpposite="#//URNmodelElement/inconcern"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coreConcern" eType="ecore:EClass core.ecore#//COREConcern"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Condition"
         containment="true" eOpposite="#//Condition/concern"/>
   </eClassifiers>

@@ -111,7 +111,7 @@ public class InitializationImpl extends EObjectImpl implements Initialization {
 	 */
 	public ScenarioDef getScenarioDef() {
 		if (eContainerFeatureID() != ScenarioPackage.INITIALIZATION__SCENARIO_DEF) return null;
-		return (ScenarioDef)eContainer();
+		return (ScenarioDef)eInternalContainer();
 	}
 
     /**

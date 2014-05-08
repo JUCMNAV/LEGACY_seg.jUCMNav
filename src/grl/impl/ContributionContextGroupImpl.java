@@ -75,7 +75,7 @@ public class ContributionContextGroupImpl extends GRLmodelElementImpl implements
 	 */
 	public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != GrlPackage.CONTRIBUTION_CONTEXT_GROUP__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
 	/**

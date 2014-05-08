@@ -186,7 +186,7 @@ public class EvaluationRangeImpl extends EObjectImpl implements EvaluationRange 
 	 */
 	public Evaluation getEval() {
 		if (eContainerFeatureID() != GrlPackage.EVALUATION_RANGE__EVAL) return null;
-		return (Evaluation)eContainer();
+		return (Evaluation)eInternalContainer();
 	}
 
 	/**

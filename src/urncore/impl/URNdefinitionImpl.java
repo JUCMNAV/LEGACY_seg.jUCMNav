@@ -123,7 +123,7 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
 	 */
     public URNspec getUrnspec() {
 		if (eContainerFeatureID() != UrncorePackage.UR_NDEFINITION__URNSPEC) return null;
-		return (URNspec)eContainer();
+		return (URNspec)eInternalContainer();
 	}
 
     /**

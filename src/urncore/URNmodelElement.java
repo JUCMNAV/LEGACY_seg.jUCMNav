@@ -6,6 +6,7 @@
  */
 package urncore;
 
+import core.CORENamedElement;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -20,7 +21,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link urncore.URNmodelElement#getFromLinks <em>From Links</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getToLinks <em>To Links</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getId <em>Id</em>}</li>
- *   <li>{@link urncore.URNmodelElement#getName <em>Name</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getDescription <em>Description</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getMetadata <em>Metadata</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getInconcern <em>Inconcern</em>}</li>
@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface URNmodelElement extends EObject {
+public interface URNmodelElement extends CORENamedElement {
     /**
 	 * Returns the value of the '<em><b>From Links</b></em>' reference list.
 	 * The list contents are of type {@link urn.URNlink}.
@@ -79,7 +79,7 @@ public interface URNmodelElement extends EObject {
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(String)
 	 * @see urncore.UrncorePackage#getURNmodelElement_Id()
-	 * @model
+	 * @model id="true"
 	 * @generated
 	 */
     String getId();
@@ -93,32 +93,6 @@ public interface URNmodelElement extends EObject {
 	 * @generated
 	 */
     void setId(String value);
-
-    /**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Name</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see urncore.UrncorePackage#getURNmodelElement_Name()
-	 * @model
-	 * @generated
-	 */
-    String getName();
-
-    /**
-	 * Sets the value of the '{@link urncore.URNmodelElement#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-    void setName(String value);
 
     /**
 	 * Returns the value of the '<em><b>Description</b></em>' attribute.

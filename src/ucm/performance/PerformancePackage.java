@@ -73,6 +73,15 @@ public interface PerformancePackage extends EPackage {
     int WORKLOAD = 0;
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int WORKLOAD__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
+
+				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -81,7 +90,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int WORKLOAD__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -90,7 +99,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int WORKLOAD__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -98,15 +107,6 @@ public interface PerformancePackage extends EPackage {
 	 * @ordered
 	 */
     int WORKLOAD__ID = UrncorePackage.UC_MMODEL_ELEMENT__ID;
-
-    /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int WORKLOAD__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -245,6 +245,15 @@ public interface PerformancePackage extends EPackage {
     int GENERAL_RESOURCE = 1;
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int GENERAL_RESOURCE__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
+
+				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -253,7 +262,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int GENERAL_RESOURCE__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -262,7 +271,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int GENERAL_RESOURCE__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -270,15 +279,6 @@ public interface PerformancePackage extends EPackage {
 	 * @ordered
 	 */
     int GENERAL_RESOURCE__ID = UrncorePackage.UC_MMODEL_ELEMENT__ID;
-
-    /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int GENERAL_RESOURCE__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -354,6 +354,15 @@ public interface PerformancePackage extends EPackage {
     int ACTIVE_RESOURCE = 2;
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int ACTIVE_RESOURCE__NAME = GENERAL_RESOURCE__NAME;
+
+				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -362,7 +371,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int ACTIVE_RESOURCE__FROM_LINKS = GENERAL_RESOURCE__FROM_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -371,7 +380,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int ACTIVE_RESOURCE__TO_LINKS = GENERAL_RESOURCE__TO_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -379,15 +388,6 @@ public interface PerformancePackage extends EPackage {
 	 * @ordered
 	 */
     int ACTIVE_RESOURCE__ID = GENERAL_RESOURCE__ID;
-
-    /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int ACTIVE_RESOURCE__NAME = GENERAL_RESOURCE__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -481,6 +481,15 @@ public interface PerformancePackage extends EPackage {
     int PASSIVE_RESOURCE = 3;
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int PASSIVE_RESOURCE__NAME = GENERAL_RESOURCE__NAME;
+
+				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -489,7 +498,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int PASSIVE_RESOURCE__FROM_LINKS = GENERAL_RESOURCE__FROM_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -498,7 +507,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int PASSIVE_RESOURCE__TO_LINKS = GENERAL_RESOURCE__TO_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -506,15 +515,6 @@ public interface PerformancePackage extends EPackage {
 	 * @ordered
 	 */
     int PASSIVE_RESOURCE__ID = GENERAL_RESOURCE__ID;
-
-    /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int PASSIVE_RESOURCE__NAME = GENERAL_RESOURCE__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -599,6 +599,15 @@ public interface PerformancePackage extends EPackage {
     int EXTERNAL_OPERATION = 4;
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int EXTERNAL_OPERATION__NAME = ACTIVE_RESOURCE__NAME;
+
+				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -607,7 +616,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int EXTERNAL_OPERATION__FROM_LINKS = ACTIVE_RESOURCE__FROM_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -616,7 +625,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int EXTERNAL_OPERATION__TO_LINKS = ACTIVE_RESOURCE__TO_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -624,15 +633,6 @@ public interface PerformancePackage extends EPackage {
 	 * @ordered
 	 */
     int EXTERNAL_OPERATION__ID = ACTIVE_RESOURCE__ID;
-
-    /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int EXTERNAL_OPERATION__NAME = ACTIVE_RESOURCE__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -735,6 +735,15 @@ public interface PerformancePackage extends EPackage {
     int PROCESSING_RESOURCE = 5;
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int PROCESSING_RESOURCE__NAME = ACTIVE_RESOURCE__NAME;
+
+				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -743,7 +752,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int PROCESSING_RESOURCE__FROM_LINKS = ACTIVE_RESOURCE__FROM_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -752,7 +761,7 @@ public interface PerformancePackage extends EPackage {
 	 */
     int PROCESSING_RESOURCE__TO_LINKS = ACTIVE_RESOURCE__TO_LINKS;
 
-    /**
+				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -760,15 +769,6 @@ public interface PerformancePackage extends EPackage {
 	 * @ordered
 	 */
     int PROCESSING_RESOURCE__ID = ACTIVE_RESOURCE__ID;
-
-    /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int PROCESSING_RESOURCE__NAME = ACTIVE_RESOURCE__NAME;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.

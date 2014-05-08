@@ -418,7 +418,7 @@ public class ComponentRefImpl extends UCMmodelElementImpl implements ComponentRe
 	 */
     public IURNDiagram getDiagram() {
 		if (eContainerFeatureID() != MapPackage.COMPONENT_REF__DIAGRAM) return null;
-		return (IURNDiagram)eContainer();
+		return (IURNDiagram)eInternalContainer();
 	}
 
     /**

@@ -100,7 +100,7 @@ public class KPIInformationElementImpl extends GRLmodelElementImpl implements KP
 	 */
     public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
     /**

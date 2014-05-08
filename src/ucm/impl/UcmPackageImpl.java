@@ -6,6 +6,12 @@
  */
 package ucm.impl;
 
+import asd.AsdPackage;
+import asd.impl.AsdPackageImpl;
+import core.CorePackage;
+import core.impl.CorePackageImpl;
+import fm.FmPackage;
+import fm.impl.FmPackageImpl;
 import grl.GrlPackage;
 import grl.impl.GrlPackageImpl;
 import grl.kpimodel.KpimodelPackage;
@@ -98,6 +104,9 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
 		MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackage.eINSTANCE);
 		ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackage.eINSTANCE);
+		AsdPackageImpl theAsdPackage = (AsdPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AsdPackage.eNS_URI) instanceof AsdPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AsdPackage.eNS_URI) : AsdPackage.eINSTANCE);
+		FmPackageImpl theFmPackage = (FmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) instanceof FmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) : FmPackage.eINSTANCE);
+		CorePackageImpl theCorePackage = (CorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI) instanceof CorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI) : CorePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theUcmPackage.createPackageContents();
@@ -108,6 +117,9 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 		thePerformancePackage.createPackageContents();
 		theMapPackage.createPackageContents();
 		theScenarioPackage.createPackageContents();
+		theAsdPackage.createPackageContents();
+		theFmPackage.createPackageContents();
+		theCorePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theUcmPackage.initializePackageContents();
@@ -118,6 +130,9 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 		thePerformancePackage.initializePackageContents();
 		theMapPackage.initializePackageContents();
 		theScenarioPackage.initializePackageContents();
+		theAsdPackage.initializePackageContents();
+		theFmPackage.initializePackageContents();
+		theCorePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theUcmPackage.freeze();

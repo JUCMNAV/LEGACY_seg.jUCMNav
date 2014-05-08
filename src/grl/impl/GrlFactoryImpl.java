@@ -61,7 +61,7 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 	 */
 	public static GrlFactory init() {
 		try {
-			GrlFactory theGrlFactory = (GrlFactory)EPackage.Registry.INSTANCE.getEFactory("http:///grl.ecore"); 
+			GrlFactory theGrlFactory = (GrlFactory)EPackage.Registry.INSTANCE.getEFactory(GrlPackage.eNS_URI);
 			if (theGrlFactory != null) {
 				return theGrlFactory;
 			}

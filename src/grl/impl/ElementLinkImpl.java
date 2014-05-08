@@ -110,7 +110,7 @@ public class ElementLinkImpl extends GRLmodelElementImpl implements ElementLink 
 	 */
     public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != GrlPackage.ELEMENT_LINK__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
     /**

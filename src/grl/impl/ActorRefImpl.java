@@ -333,7 +333,7 @@ public class ActorRefImpl extends GRLmodelElementImpl implements ActorRef {
 	 */
     public IURNDiagram getDiagram() {
 		if (eContainerFeatureID() != GrlPackage.ACTOR_REF__DIAGRAM) return null;
-		return (IURNDiagram)eContainer();
+		return (IURNDiagram)eInternalContainer();
 	}
 
     /**

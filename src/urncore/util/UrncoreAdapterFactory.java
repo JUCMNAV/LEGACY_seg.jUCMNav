@@ -6,6 +6,7 @@
  */
 package urncore.util;
 
+import core.CORENamedElement;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -148,6 +149,9 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseComment(Comment object) {
 				return createCommentAdapter();
+			}
+			public Object caseCORENamedElement(CORENamedElement object) {
+				return createCORENamedElementAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
@@ -444,6 +448,20 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCommentAdapter() {
+		return null;
+	}
+
+				/**
+	 * Creates a new adapter for an object of class '{@link core.CORENamedElement <em>CORE Named Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see core.CORENamedElement
+	 * @generated
+	 */
+	public Adapter createCORENamedElementAdapter() {
 		return null;
 	}
 

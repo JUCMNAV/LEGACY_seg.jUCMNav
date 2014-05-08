@@ -6,6 +6,7 @@
  */
 package urn.impl;
 
+import asd.ASDspec;
 import grl.GRLspec;
 import grl.GrlPackage;
 
@@ -51,6 +52,7 @@ import urncore.UrncorePackage;
  *   <li>{@link urn.impl.URNspecImpl#getUrndef <em>Urndef</em>}</li>
  *   <li>{@link urn.impl.URNspecImpl#getUrnLinks <em>Urn Links</em>}</li>
  *   <li>{@link urn.impl.URNspecImpl#getMetadata <em>Metadata</em>}</li>
+ *   <li>{@link urn.impl.URNspecImpl#getAsdspec <em>Asdspec</em>}</li>
  * </ul>
  * </p>
  *
@@ -266,6 +268,16 @@ public class URNspecImpl extends EObjectImpl implements URNspec {
 	 * @ordered
 	 */
 	protected EList metadata;
+
+				/**
+	 * The cached value of the '{@link #getAsdspec() <em>Asdspec</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAsdspec()
+	 * @generated
+	 * @ordered
+	 */
+	protected ASDspec asdspec;
 
 				/**
 	 * <!-- begin-user-doc -->
@@ -611,6 +623,49 @@ public class URNspecImpl extends EObjectImpl implements URNspec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ASDspec getAsdspec() {
+		return asdspec;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetAsdspec(ASDspec newAsdspec, NotificationChain msgs) {
+		ASDspec oldAsdspec = asdspec;
+		asdspec = newAsdspec;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrnPackage.UR_NSPEC__ASDSPEC, oldAsdspec, newAsdspec);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAsdspec(ASDspec newAsdspec) {
+		if (newAsdspec != asdspec) {
+			NotificationChain msgs = null;
+			if (asdspec != null)
+				msgs = ((InternalEObject)asdspec).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UrnPackage.UR_NSPEC__ASDSPEC, null, msgs);
+			if (newAsdspec != null)
+				msgs = ((InternalEObject)newAsdspec).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UrnPackage.UR_NSPEC__ASDSPEC, null, msgs);
+			msgs = basicSetAsdspec(newAsdspec, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrnPackage.UR_NSPEC__ASDSPEC, newAsdspec, newAsdspec));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case UrnPackage.UR_NSPEC__UCMSPEC:
@@ -648,6 +703,8 @@ public class URNspecImpl extends EObjectImpl implements URNspec {
 				return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
 			case UrnPackage.UR_NSPEC__METADATA:
 				return ((InternalEList)getMetadata()).basicRemove(otherEnd, msgs);
+			case UrnPackage.UR_NSPEC__ASDSPEC:
+				return basicSetAsdspec(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -685,6 +742,8 @@ public class URNspecImpl extends EObjectImpl implements URNspec {
 				return getUrnLinks();
 			case UrnPackage.UR_NSPEC__METADATA:
 				return getMetadata();
+			case UrnPackage.UR_NSPEC__ASDSPEC:
+				return getAsdspec();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -737,6 +796,9 @@ public class URNspecImpl extends EObjectImpl implements URNspec {
 				getMetadata().clear();
 				getMetadata().addAll((Collection)newValue);
 				return;
+			case UrnPackage.UR_NSPEC__ASDSPEC:
+				setAsdspec((ASDspec)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -787,6 +849,9 @@ public class URNspecImpl extends EObjectImpl implements URNspec {
 			case UrnPackage.UR_NSPEC__METADATA:
 				getMetadata().clear();
 				return;
+			case UrnPackage.UR_NSPEC__ASDSPEC:
+				setAsdspec((ASDspec)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -824,6 +889,8 @@ public class URNspecImpl extends EObjectImpl implements URNspec {
 				return urnLinks != null && !urnLinks.isEmpty();
 			case UrnPackage.UR_NSPEC__METADATA:
 				return metadata != null && !metadata.isEmpty();
+			case UrnPackage.UR_NSPEC__ASDSPEC:
+				return asdspec != null;
 		}
 		return super.eIsSet(featureID);
 	}

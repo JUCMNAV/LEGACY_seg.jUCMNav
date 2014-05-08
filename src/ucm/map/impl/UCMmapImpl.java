@@ -6,6 +6,11 @@
  */
 package ucm.map.impl;
 
+import core.COREFeature;
+import core.COREModel;
+import core.COREModelElement;
+import core.COREReuse;
+import core.CorePackage;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -14,7 +19,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -45,6 +52,9 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.map.impl.UCMmapImpl#getConnections <em>Connections</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getConcern <em>Concern</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getComments <em>Comments</em>}</li>
+ *   <li>{@link ucm.map.impl.UCMmapImpl#getReuses <em>Reuses</em>}</li>
+ *   <li>{@link ucm.map.impl.UCMmapImpl#getModelElements <em>Model Elements</em>}</li>
+ *   <li>{@link ucm.map.impl.UCMmapImpl#getRealizes <em>Realizes</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#isSingleton <em>Singleton</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getParentStub <em>Parent Stub</em>}</li>
  * </ul>
@@ -104,6 +114,36 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	protected EList comments;
 
 				/**
+	 * The cached value of the '{@link #getReuses() <em>Reuses</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReuses()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList reuses;
+
+				/**
+	 * The cached value of the '{@link #getModelElements() <em>Model Elements</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelElements()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList modelElements;
+
+				/**
+	 * The cached value of the '{@link #getRealizes() <em>Realizes</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRealizes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList realizes;
+
+				/**
 	 * The default value of the '{@link #isSingleton() <em>Singleton</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -158,7 +198,7 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 */
     public URNdefinition getUrndefinition() {
 		if (eContainerFeatureID() != MapPackage.UC_MMAP__URNDEFINITION) return null;
-		return (URNdefinition)eContainer();
+		return (URNdefinition)eInternalContainer();
 	}
 
     /**
@@ -305,6 +345,42 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getReuses() {
+		if (reuses == null) {
+			reuses = new EObjectContainmentEList(COREReuse.class, this, MapPackage.UC_MMAP__REUSES);
+		}
+		return reuses;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getModelElements() {
+		if (modelElements == null) {
+			modelElements = new EObjectResolvingEList(COREModelElement.class, this, MapPackage.UC_MMAP__MODEL_ELEMENTS);
+		}
+		return modelElements;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getRealizes() {
+		if (realizes == null) {
+			realizes = new EObjectWithInverseResolvingEList.ManyInverse(COREFeature.class, this, MapPackage.UC_MMAP__REALIZES, CorePackage.CORE_FEATURE__REALIZED_BY);
+		}
+		return realizes;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isSingleton() {
 		return singleton;
 	}
@@ -356,6 +432,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return basicSetConcern((Concern)otherEnd, msgs);
 			case MapPackage.UC_MMAP__COMMENTS:
 				return ((InternalEList)getComments()).basicAdd(otherEnd, msgs);
+			case MapPackage.UC_MMAP__REALIZES:
+				return ((InternalEList)getRealizes()).basicAdd(otherEnd, msgs);
 			case MapPackage.UC_MMAP__PARENT_STUB:
 				return ((InternalEList)getParentStub()).basicAdd(otherEnd, msgs);
 		}
@@ -381,6 +459,10 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return basicSetConcern(null, msgs);
 			case MapPackage.UC_MMAP__COMMENTS:
 				return ((InternalEList)getComments()).basicRemove(otherEnd, msgs);
+			case MapPackage.UC_MMAP__REUSES:
+				return ((InternalEList)getReuses()).basicRemove(otherEnd, msgs);
+			case MapPackage.UC_MMAP__REALIZES:
+				return ((InternalEList)getRealizes()).basicRemove(otherEnd, msgs);
 			case MapPackage.UC_MMAP__PARENT_STUB:
 				return ((InternalEList)getParentStub()).basicRemove(otherEnd, msgs);
 		}
@@ -420,6 +502,12 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return basicGetConcern();
 			case MapPackage.UC_MMAP__COMMENTS:
 				return getComments();
+			case MapPackage.UC_MMAP__REUSES:
+				return getReuses();
+			case MapPackage.UC_MMAP__MODEL_ELEMENTS:
+				return getModelElements();
+			case MapPackage.UC_MMAP__REALIZES:
+				return getRealizes();
 			case MapPackage.UC_MMAP__SINGLETON:
 				return isSingleton() ? Boolean.TRUE : Boolean.FALSE;
 			case MapPackage.UC_MMAP__PARENT_STUB:
@@ -457,6 +545,14 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				getComments().clear();
 				getComments().addAll((Collection)newValue);
 				return;
+			case MapPackage.UC_MMAP__REUSES:
+				getReuses().clear();
+				getReuses().addAll((Collection)newValue);
+				return;
+			case MapPackage.UC_MMAP__REALIZES:
+				getRealizes().clear();
+				getRealizes().addAll((Collection)newValue);
+				return;
 			case MapPackage.UC_MMAP__SINGLETON:
 				setSingleton(((Boolean)newValue).booleanValue());
 				return;
@@ -493,6 +589,12 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 			case MapPackage.UC_MMAP__COMMENTS:
 				getComments().clear();
 				return;
+			case MapPackage.UC_MMAP__REUSES:
+				getReuses().clear();
+				return;
+			case MapPackage.UC_MMAP__REALIZES:
+				getRealizes().clear();
+				return;
 			case MapPackage.UC_MMAP__SINGLETON:
 				setSingleton(SINGLETON_EDEFAULT);
 				return;
@@ -522,6 +624,12 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return concern != null;
 			case MapPackage.UC_MMAP__COMMENTS:
 				return comments != null && !comments.isEmpty();
+			case MapPackage.UC_MMAP__REUSES:
+				return reuses != null && !reuses.isEmpty();
+			case MapPackage.UC_MMAP__MODEL_ELEMENTS:
+				return modelElements != null && !modelElements.isEmpty();
+			case MapPackage.UC_MMAP__REALIZES:
+				return realizes != null && !realizes.isEmpty();
 			case MapPackage.UC_MMAP__SINGLETON:
 				return singleton != SINGLETON_EDEFAULT;
 			case MapPackage.UC_MMAP__PARENT_STUB:
@@ -547,6 +655,14 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				default: return -1;
 			}
 		}
+		if (baseClass == COREModel.class) {
+			switch (derivedFeatureID) {
+				case MapPackage.UC_MMAP__REUSES: return CorePackage.CORE_MODEL__REUSES;
+				case MapPackage.UC_MMAP__MODEL_ELEMENTS: return CorePackage.CORE_MODEL__MODEL_ELEMENTS;
+				case MapPackage.UC_MMAP__REALIZES: return CorePackage.CORE_MODEL__REALIZES;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -564,6 +680,14 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				case UrncorePackage.IURN_DIAGRAM__CONNECTIONS: return MapPackage.UC_MMAP__CONNECTIONS;
 				case UrncorePackage.IURN_DIAGRAM__CONCERN: return MapPackage.UC_MMAP__CONCERN;
 				case UrncorePackage.IURN_DIAGRAM__COMMENTS: return MapPackage.UC_MMAP__COMMENTS;
+				default: return -1;
+			}
+		}
+		if (baseClass == COREModel.class) {
+			switch (baseFeatureID) {
+				case CorePackage.CORE_MODEL__REUSES: return MapPackage.UC_MMAP__REUSES;
+				case CorePackage.CORE_MODEL__MODEL_ELEMENTS: return MapPackage.UC_MMAP__MODEL_ELEMENTS;
+				case CorePackage.CORE_MODEL__REALIZES: return MapPackage.UC_MMAP__REALIZES;
 				default: return -1;
 			}
 		}

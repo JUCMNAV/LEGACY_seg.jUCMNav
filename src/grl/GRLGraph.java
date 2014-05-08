@@ -6,6 +6,7 @@
  */
 package grl;
 
+import core.COREImpactModel;
 import urncore.GRLmodelElement;
 import urncore.IURNDiagram;
 
@@ -19,5 +20,5 @@ import urncore.IURNDiagram;
  * @model
  * @generated
  */
-public interface GRLGraph extends GRLmodelElement, IURNDiagram {
+public interface GRLGraph extends GRLmodelElement, IURNDiagram, COREImpactModel {
 } // GRLGraph

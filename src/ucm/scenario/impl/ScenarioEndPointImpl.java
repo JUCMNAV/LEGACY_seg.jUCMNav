@@ -154,7 +154,7 @@ public class ScenarioEndPointImpl extends EObjectImpl implements ScenarioEndPoin
 	 */
 	public ScenarioDef getScenarioDef() {
 		if (eContainerFeatureID() != ScenarioPackage.SCENARIO_END_POINT__SCENARIO_DEF) return null;
-		return (ScenarioDef)eContainer();
+		return (ScenarioDef)eInternalContainer();
 	}
 
     /**

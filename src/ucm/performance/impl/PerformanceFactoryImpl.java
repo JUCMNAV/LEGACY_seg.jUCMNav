@@ -40,7 +40,7 @@ public class PerformanceFactoryImpl extends EFactoryImpl implements PerformanceF
 	 */
 	public static PerformanceFactory init() {
 		try {
-			PerformanceFactory thePerformanceFactory = (PerformanceFactory)EPackage.Registry.INSTANCE.getEFactory("http:///ucm/performance.ecore"); 
+			PerformanceFactory thePerformanceFactory = (PerformanceFactory)EPackage.Registry.INSTANCE.getEFactory(PerformancePackage.eNS_URI);
 			if (thePerformanceFactory != null) {
 				return thePerformanceFactory;
 			}

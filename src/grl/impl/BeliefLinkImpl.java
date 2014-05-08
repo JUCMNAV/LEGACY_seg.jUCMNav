@@ -214,7 +214,7 @@ public class BeliefLinkImpl extends EObjectImpl implements BeliefLink {
 	 */
     public IURNDiagram getDiagram() {
 		if (eContainerFeatureID() != GrlPackage.BELIEF_LINK__DIAGRAM) return null;
-		return (IURNDiagram)eContainer();
+		return (IURNDiagram)eInternalContainer();
 	}
 
     /**

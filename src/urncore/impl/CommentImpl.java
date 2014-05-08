@@ -309,7 +309,7 @@ public class CommentImpl extends EObjectImpl implements Comment {
 	 */
 	public IURNDiagram getDiagram() {
 		if (eContainerFeatureID() != UrncorePackage.COMMENT__DIAGRAM) return null;
-		return (IURNDiagram)eContainer();
+		return (IURNDiagram)eInternalContainer();
 	}
 
 	/**

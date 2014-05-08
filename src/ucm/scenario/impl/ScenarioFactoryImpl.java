@@ -38,7 +38,7 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
 	 */
 	public static ScenarioFactory init() {
 		try {
-			ScenarioFactory theScenarioFactory = (ScenarioFactory)EPackage.Registry.INSTANCE.getEFactory("http:///ucm/scenario.ecore"); 
+			ScenarioFactory theScenarioFactory = (ScenarioFactory)EPackage.Registry.INSTANCE.getEFactory(ScenarioPackage.eNS_URI);
 			if (theScenarioFactory != null) {
 				return theScenarioFactory;
 			}

@@ -195,7 +195,7 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public StartPoint getStartPoint() {
 		if (eContainerFeatureID() != UrncorePackage.CONDITION__START_POINT) return null;
-		return (StartPoint)eContainer();
+		return (StartPoint)eInternalContainer();
 	}
 
     /**
@@ -236,7 +236,7 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public EndPoint getEndPoint() {
 		if (eContainerFeatureID() != UrncorePackage.CONDITION__END_POINT) return null;
-		return (EndPoint)eContainer();
+		return (EndPoint)eInternalContainer();
 	}
 
     /**
@@ -277,7 +277,7 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public PluginBinding getPluginBinding() {
 		if (eContainerFeatureID() != UrncorePackage.CONDITION__PLUGIN_BINDING) return null;
-		return (PluginBinding)eContainer();
+		return (PluginBinding)eInternalContainer();
 	}
 
     /**
@@ -318,7 +318,7 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public NodeConnection getNodeConnection() {
 		if (eContainerFeatureID() != UrncorePackage.CONDITION__NODE_CONNECTION) return null;
-		return (NodeConnection)eContainer();
+		return (NodeConnection)eInternalContainer();
 	}
 
     /**
@@ -359,7 +359,7 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public Concern getConcern() {
 		if (eContainerFeatureID() != UrncorePackage.CONDITION__CONCERN) return null;
-		return (Concern)eContainer();
+		return (Concern)eInternalContainer();
 	}
 
     /**
@@ -400,7 +400,7 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public ScenarioDef getScenarioDefPre() {
 		if (eContainerFeatureID() != UrncorePackage.CONDITION__SCENARIO_DEF_PRE) return null;
-		return (ScenarioDef)eContainer();
+		return (ScenarioDef)eInternalContainer();
 	}
 
     /**
@@ -441,7 +441,7 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 */
     public ScenarioDef getScenarioDefPost() {
 		if (eContainerFeatureID() != UrncorePackage.CONDITION__SCENARIO_DEF_POST) return null;
-		return (ScenarioDef)eContainer();
+		return (ScenarioDef)eInternalContainer();
 	}
 
     /**

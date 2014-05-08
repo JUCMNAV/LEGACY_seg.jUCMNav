@@ -6,6 +6,7 @@
  */
 package urncore.util;
 
+import core.CORENamedElement;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -119,6 +120,7 @@ public class UrncoreSwitch {
 				Object result = caseResponsibility(responsibility);
 				if (result == null) result = caseUCMmodelElement(responsibility);
 				if (result == null) result = caseURNmodelElement(responsibility);
+				if (result == null) result = caseCORENamedElement(responsibility);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -128,6 +130,7 @@ public class UrncoreSwitch {
 				if (result == null) result = caseUCMmodelElement(component);
 				if (result == null) result = caseIURNContainer(component);
 				if (result == null) result = caseURNmodelElement(component);
+				if (result == null) result = caseCORENamedElement(component);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -136,6 +139,7 @@ public class UrncoreSwitch {
 				Object result = caseComponentType(componentType);
 				if (result == null) result = caseUCMmodelElement(componentType);
 				if (result == null) result = caseURNmodelElement(componentType);
+				if (result == null) result = caseCORENamedElement(componentType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -143,6 +147,7 @@ public class UrncoreSwitch {
 				UCMmodelElement ucMmodelElement = (UCMmodelElement)theEObject;
 				Object result = caseUCMmodelElement(ucMmodelElement);
 				if (result == null) result = caseURNmodelElement(ucMmodelElement);
+				if (result == null) result = caseCORENamedElement(ucMmodelElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -150,6 +155,7 @@ public class UrncoreSwitch {
 				GRLmodelElement grLmodelElement = (GRLmodelElement)theEObject;
 				Object result = caseGRLmodelElement(grLmodelElement);
 				if (result == null) result = caseURNmodelElement(grLmodelElement);
+				if (result == null) result = caseCORENamedElement(grLmodelElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -189,6 +195,7 @@ public class UrncoreSwitch {
 			case UrncorePackage.UR_NMODEL_ELEMENT: {
 				URNmodelElement urNmodelElement = (URNmodelElement)theEObject;
 				Object result = caseURNmodelElement(urNmodelElement);
+				if (result == null) result = caseCORENamedElement(urNmodelElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -226,6 +233,7 @@ public class UrncoreSwitch {
 				Concern concern = (Concern)theEObject;
 				Object result = caseConcern(concern);
 				if (result == null) result = caseURNmodelElement(concern);
+				if (result == null) result = caseCORENamedElement(concern);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -543,6 +551,21 @@ public class UrncoreSwitch {
 	 * @generated
 	 */
 	public Object caseComment(Comment object) {
+		return null;
+	}
+
+				/**
+	 * Returns the result of interpreting the object as an instance of '<em>CORE Named Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CORE Named Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCORENamedElement(CORENamedElement object) {
 		return null;
 	}
 

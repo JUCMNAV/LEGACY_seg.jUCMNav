@@ -195,7 +195,7 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 	 */
     public IURNDiagram getDiagram() {
 		if (eContainerFeatureID() != MapPackage.PATH_NODE__DIAGRAM) return null;
-		return (IURNDiagram)eContainer();
+		return (IURNDiagram)eInternalContainer();
 	}
 
     /**

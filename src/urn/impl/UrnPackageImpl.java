@@ -6,6 +6,12 @@
  */
 package urn.impl;
 
+import asd.AsdPackage;
+import asd.impl.AsdPackageImpl;
+import core.CorePackage;
+import core.impl.CorePackageImpl;
+import fm.FmPackage;
+import fm.impl.FmPackageImpl;
 import grl.GrlPackage;
 import grl.impl.GrlPackageImpl;
 import grl.kpimodel.KpimodelPackage;
@@ -107,6 +113,9 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
 		MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackage.eINSTANCE);
 		ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackage.eINSTANCE);
+		AsdPackageImpl theAsdPackage = (AsdPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AsdPackage.eNS_URI) instanceof AsdPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AsdPackage.eNS_URI) : AsdPackage.eINSTANCE);
+		FmPackageImpl theFmPackage = (FmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) instanceof FmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) : FmPackage.eINSTANCE);
+		CorePackageImpl theCorePackage = (CorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI) instanceof CorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI) : CorePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theUrnPackage.createPackageContents();
@@ -117,6 +126,9 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		thePerformancePackage.createPackageContents();
 		theMapPackage.createPackageContents();
 		theScenarioPackage.createPackageContents();
+		theAsdPackage.createPackageContents();
+		theFmPackage.createPackageContents();
+		theCorePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theUrnPackage.initializePackageContents();
@@ -127,6 +139,9 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		thePerformancePackage.initializePackageContents();
 		theMapPackage.initializePackageContents();
 		theScenarioPackage.initializePackageContents();
+		theAsdPackage.initializePackageContents();
+		theFmPackage.initializePackageContents();
+		theCorePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theUrnPackage.freeze();
@@ -265,6 +280,15 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getURNspec_Asdspec() {
+		return (EReference)urNspecEClass.getEStructuralFeatures().get(13);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -359,6 +383,7 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		createEReference(urNspecEClass, UR_NSPEC__URNDEF);
 		createEReference(urNspecEClass, UR_NSPEC__URN_LINKS);
 		createEReference(urNspecEClass, UR_NSPEC__METADATA);
+		createEReference(urNspecEClass, UR_NSPEC__ASDSPEC);
 
 		urNlinkEClass = createEClass(UR_NLINK);
 		createEAttribute(urNlinkEClass, UR_NLINK__TYPE);
@@ -395,6 +420,7 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		UcmPackage theUcmPackage = (UcmPackage)EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI);
 		GrlPackage theGrlPackage = (GrlPackage)EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI);
 		UrncorePackage theUrncorePackage = (UrncorePackage)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
+		AsdPackage theAsdPackage = (AsdPackage)EPackage.Registry.INSTANCE.getEPackage(AsdPackage.eNS_URI);
 
 		// Add supertypes to classes
 
@@ -413,6 +439,7 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		initEReference(getURNspec_Urndef(), theUrncorePackage.getURNdefinition(), theUrncorePackage.getURNdefinition_Urnspec(), "urndef", null, 1, 1, URNspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getURNspec_UrnLinks(), this.getURNlink(), this.getURNlink_Urnspec(), "urnLinks", null, 0, -1, URNspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getURNspec_Metadata(), theUrncorePackage.getMetadata(), null, "metadata", null, 0, -1, URNspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getURNspec_Asdspec(), theAsdPackage.getASDspec(), null, "asdspec", null, 1, 1, URNspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(urNlinkEClass, URNlink.class, "URNlink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getURNlink_Type(), ecorePackage.getEString(), "type", null, 0, 1, URNlink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

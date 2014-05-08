@@ -118,7 +118,7 @@ public class IndicatorGroupImpl extends GRLmodelElementImpl implements Indicator
 	 */
     public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != KpimodelPackage.INDICATOR_GROUP__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
     /**

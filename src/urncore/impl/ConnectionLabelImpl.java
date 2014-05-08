@@ -56,7 +56,7 @@ public class ConnectionLabelImpl extends LabelImpl implements ConnectionLabel {
 	 */
 	public IURNConnection getConnection() {
 		if (eContainerFeatureID() != UrncorePackage.CONNECTION_LABEL__CONNECTION) return null;
-		return (IURNConnection)eContainer();
+		return (IURNConnection)eInternalContainer();
 	}
 
 	/**

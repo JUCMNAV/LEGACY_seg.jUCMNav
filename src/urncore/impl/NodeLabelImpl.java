@@ -56,7 +56,7 @@ public class NodeLabelImpl extends LabelImpl implements NodeLabel {
 	 */
     public IURNNode getNode() {
 		if (eContainerFeatureID() != UrncorePackage.NODE_LABEL__NODE) return null;
-		return (IURNNode)eContainer();
+		return (IURNNode)eInternalContainer();
 	}
 
     /**

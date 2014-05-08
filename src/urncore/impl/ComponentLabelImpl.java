@@ -56,7 +56,7 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
 	 */
     public IURNContainerRef getContRef() {
 		if (eContainerFeatureID() != UrncorePackage.COMPONENT_LABEL__CONT_REF) return null;
-		return (IURNContainerRef)eContainer();
+		return (IURNContainerRef)eInternalContainer();
 	}
 
     /**

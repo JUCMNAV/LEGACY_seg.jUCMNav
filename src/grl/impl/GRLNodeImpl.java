@@ -196,7 +196,7 @@ public class GRLNodeImpl extends GRLmodelElementImpl implements GRLNode {
 	 */
     public IURNDiagram getDiagram() {
 		if (eContainerFeatureID() != GrlPackage.GRL_NODE__DIAGRAM) return null;
-		return (IURNDiagram)eContainer();
+		return (IURNDiagram)eInternalContainer();
 	}
 
     /**

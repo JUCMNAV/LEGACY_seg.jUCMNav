@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/seg.jUCMNav/src"
-    editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
-    modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
-    editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Users\Daniel\Desktop\Metamodel0.24\URN_25.mdl</foreignModel>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/seg.jUCMNav/src" editDirectory="/seg.jUCMNav.edit/src"
+    editorDirectory="/seg.jUCMNav.editor/src" modelPluginID="seg.jUCMNav" runtimeJar="true"
+    modelName="URN" editPluginClass="grl.provider.URNEditPlugin" editorPluginClass="grl.presentation.URNEditorPlugin"
+    importerID="org.eclipse.emf.importer.rose">
+  <foreignModel>C:\Users\damyot\Documents\work\jucmnav\URN_27.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -21,6 +20,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/urndef"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/urnLinks"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/metadata"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/asdspec"/>
     </genClasses>
     <genClasses ecoreClass="urn.ecore#//URNlink">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/type"/>
@@ -108,7 +108,6 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//URNmodelElement/fromLinks"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//URNmodelElement/toLinks"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//URNmodelElement/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//URNmodelElement/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//URNmodelElement/description"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNmodelElement/metadata"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//URNmodelElement/inconcern"/>
@@ -155,6 +154,7 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Concern/urndefinition"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//Concern/specDiagrams"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//Concern/elements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//Concern/coreConcern"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//Concern/condition"/>
     </genClasses>
     <genClasses ecoreClass="urncore.ecore#//ConnectionLabel">
@@ -689,5 +689,113 @@
             ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioEndPoint/endPoint"/>
       </genClasses>
     </nestedGenPackages>
+  </genPackages>
+  <genPackages prefix="Asd" disposableProviderFactory="true" ecorePackage="asd.ecore#/">
+    <genClasses ecoreClass="asd.ecore#//ASDspec">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/ASNetwork"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/Motivation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/Outcome"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/dols"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/subjects"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/communities"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/objects"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/outcomes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/motivations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/tools"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference asd.ecore#//ASDspec/rules"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="asd.ecore#//ASDelement">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDelement/diagrams"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDelement/parentElements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDelement/refinedElements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDelement/requiredOutcomes"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//ASDiagram">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDiagram/elements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDiagram/ASD"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDiagram/relatedASD"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference asd.ecore#//ASDiagram/mediations"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDiagram/asdLayouts"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDiagram/parentDoLs"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="asd.ecore#//MediatingElement">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//MediatingElement/mediations"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//Mediation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Mediation/mediatedBy"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Mediation/mediates"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference asd.ecore#//Mediation/relevantASD"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="asd.ecore#//MediatedElement">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//MediatedElement/mediations"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="asd.ecore#//ASDmodelElement"/>
+    <genClasses ecoreClass="asd.ecore#//ASNetwork">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASNetwork/ASDspec"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference asd.ecore#//ASNetwork/asdLayouts"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//ASDlayout">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute asd.ecore#//ASDlayout/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute asd.ecore#//ASDlayout/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute asd.ecore#//ASDlayout/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute asd.ecore#//ASDlayout/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute asd.ecore#//ASDlayout/collapsed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference asd.ecore#//ASDlayout/asNetwork"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//ASDlayout/asDiagram"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//Tool">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference asd.ecore#//Tool/asdSpec"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//Rule">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Rule/dols"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference asd.ecore#//Rule/asdSpec"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//DivisionOfLabour">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//DivisionOfLabour/rules"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//DivisionOfLabour/refinedDiagrams"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//DivisionOfLabour/performedBy"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference asd.ecore#//DivisionOfLabour/asdSpec"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//Community">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Community/performs"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference asd.ecore#//Community/asdSpec"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Community/subject"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//Subject">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference asd.ecore#//Subject/asdSpec"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Subject/memberOf"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Subject/objects"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//Object">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference asd.ecore#//Object/asdSpec"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Object/outcomes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Object/subjects"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//Motivation">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference asd.ecore#//Motivation/asdSpec"/>
+    </genClasses>
+    <genClasses ecoreClass="asd.ecore#//Outcome">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Outcome/enabledElements"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference asd.ecore#//Outcome/asdSpec"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference asd.ecore#//Outcome/objects"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Fm" disposableProviderFactory="true" ecorePackage="fm.ecore#/">
+    <genClasses ecoreClass="fm.ecore#//FeatureModel"/>
+    <genClasses ecoreClass="fm.ecore#//Feature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute fm.ecore#//Feature/selectable"/>
+    </genClasses>
+    <genClasses ecoreClass="fm.ecore#//MandatoryFMLink"/>
+    <genClasses ecoreClass="fm.ecore#//OptionalFMLink"/>
+  </genPackages>
+  <genPackages prefix="Core" disposableProviderFactory="true" ecorePackage="core.ecore#/">
+    <genClasses image="false" ecoreClass="core.ecore#//COREFeatureModel"/>
+    <genClasses image="false" ecoreClass="core.ecore#//COREFeature"/>
+    <genClasses image="false" ecoreClass="core.ecore#//COREModel"/>
+    <genClasses image="false" ecoreClass="core.ecore#//COREImpactModel"/>
+    <genClasses ecoreClass="core.ecore#//COREConcern"/>
+    <genClasses image="false" ecoreClass="core.ecore#//CORENamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute core.ecore#//CORENamedElement/name"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

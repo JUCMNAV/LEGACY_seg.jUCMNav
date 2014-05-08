@@ -243,7 +243,7 @@ public class LinkRefImpl extends EObjectImpl implements LinkRef {
 	 */
     public IURNDiagram getDiagram() {
 		if (eContainerFeatureID() != GrlPackage.LINK_REF__DIAGRAM) return null;
-		return (IURNDiagram)eContainer();
+		return (IURNDiagram)eInternalContainer();
 	}
 
     /**

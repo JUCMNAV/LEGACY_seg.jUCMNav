@@ -92,7 +92,7 @@ public class InBindingImpl extends EObjectImpl implements InBinding {
 	 */
     public PluginBinding getBinding() {
 		if (eContainerFeatureID() != MapPackage.IN_BINDING__BINDING) return null;
-		return (PluginBinding)eContainer();
+		return (PluginBinding)eInternalContainer();
 	}
 
     /**

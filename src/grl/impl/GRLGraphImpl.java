@@ -6,6 +6,12 @@
  */
 package grl.impl;
 
+import core.COREFeature;
+import core.COREImpactModel;
+import core.COREModel;
+import core.COREModelElement;
+import core.COREReuse;
+import core.CorePackage;
 import grl.GRLGraph;
 import grl.GrlPackage;
 
@@ -17,7 +23,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -44,6 +53,9 @@ import urncore.impl.GRLmodelElementImpl;
  *   <li>{@link grl.impl.GRLGraphImpl#getConnections <em>Connections</em>}</li>
  *   <li>{@link grl.impl.GRLGraphImpl#getConcern <em>Concern</em>}</li>
  *   <li>{@link grl.impl.GRLGraphImpl#getComments <em>Comments</em>}</li>
+ *   <li>{@link grl.impl.GRLGraphImpl#getReuses <em>Reuses</em>}</li>
+ *   <li>{@link grl.impl.GRLGraphImpl#getModelElements <em>Model Elements</em>}</li>
+ *   <li>{@link grl.impl.GRLGraphImpl#getRealizes <em>Realizes</em>}</li>
  * </ul>
  * </p>
  *
@@ -101,6 +113,36 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 	protected EList comments;
 
 				/**
+	 * The cached value of the '{@link #getReuses() <em>Reuses</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReuses()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList reuses;
+
+				/**
+	 * The cached value of the '{@link #getModelElements() <em>Model Elements</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelElements()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList modelElements;
+
+				/**
+	 * The cached value of the '{@link #getRealizes() <em>Realizes</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRealizes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList realizes;
+
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -125,7 +167,7 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 	 */
     public URNdefinition getUrndefinition() {
 		if (eContainerFeatureID() != GrlPackage.GRL_GRAPH__URNDEFINITION) return null;
-		return (URNdefinition)eContainer();
+		return (URNdefinition)eInternalContainer();
 	}
 
     /**
@@ -272,6 +314,42 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getReuses() {
+		if (reuses == null) {
+			reuses = new EObjectContainmentEList(COREReuse.class, this, GrlPackage.GRL_GRAPH__REUSES);
+		}
+		return reuses;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getModelElements() {
+		if (modelElements == null) {
+			modelElements = new EObjectResolvingEList(COREModelElement.class, this, GrlPackage.GRL_GRAPH__MODEL_ELEMENTS);
+		}
+		return modelElements;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getRealizes() {
+		if (realizes == null) {
+			realizes = new EObjectWithInverseResolvingEList.ManyInverse(COREFeature.class, this, GrlPackage.GRL_GRAPH__REALIZES, CorePackage.CORE_FEATURE__REALIZED_BY);
+		}
+		return realizes;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case GrlPackage.GRL_GRAPH__URNDEFINITION:
@@ -290,6 +368,8 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				return basicSetConcern((Concern)otherEnd, msgs);
 			case GrlPackage.GRL_GRAPH__COMMENTS:
 				return ((InternalEList)getComments()).basicAdd(otherEnd, msgs);
+			case GrlPackage.GRL_GRAPH__REALIZES:
+				return ((InternalEList)getRealizes()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -313,6 +393,10 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				return basicSetConcern(null, msgs);
 			case GrlPackage.GRL_GRAPH__COMMENTS:
 				return ((InternalEList)getComments()).basicRemove(otherEnd, msgs);
+			case GrlPackage.GRL_GRAPH__REUSES:
+				return ((InternalEList)getReuses()).basicRemove(otherEnd, msgs);
+			case GrlPackage.GRL_GRAPH__REALIZES:
+				return ((InternalEList)getRealizes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -350,6 +434,12 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				return basicGetConcern();
 			case GrlPackage.GRL_GRAPH__COMMENTS:
 				return getComments();
+			case GrlPackage.GRL_GRAPH__REUSES:
+				return getReuses();
+			case GrlPackage.GRL_GRAPH__MODEL_ELEMENTS:
+				return getModelElements();
+			case GrlPackage.GRL_GRAPH__REALIZES:
+				return getRealizes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -383,6 +473,14 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				getComments().clear();
 				getComments().addAll((Collection)newValue);
 				return;
+			case GrlPackage.GRL_GRAPH__REUSES:
+				getReuses().clear();
+				getReuses().addAll((Collection)newValue);
+				return;
+			case GrlPackage.GRL_GRAPH__REALIZES:
+				getRealizes().clear();
+				getRealizes().addAll((Collection)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -412,6 +510,12 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 			case GrlPackage.GRL_GRAPH__COMMENTS:
 				getComments().clear();
 				return;
+			case GrlPackage.GRL_GRAPH__REUSES:
+				getReuses().clear();
+				return;
+			case GrlPackage.GRL_GRAPH__REALIZES:
+				getRealizes().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -435,6 +539,12 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				return concern != null;
 			case GrlPackage.GRL_GRAPH__COMMENTS:
 				return comments != null && !comments.isEmpty();
+			case GrlPackage.GRL_GRAPH__REUSES:
+				return reuses != null && !reuses.isEmpty();
+			case GrlPackage.GRL_GRAPH__MODEL_ELEMENTS:
+				return modelElements != null && !modelElements.isEmpty();
+			case GrlPackage.GRL_GRAPH__REALIZES:
+				return realizes != null && !realizes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -456,6 +566,19 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				default: return -1;
 			}
 		}
+		if (baseClass == COREModel.class) {
+			switch (derivedFeatureID) {
+				case GrlPackage.GRL_GRAPH__REUSES: return CorePackage.CORE_MODEL__REUSES;
+				case GrlPackage.GRL_GRAPH__MODEL_ELEMENTS: return CorePackage.CORE_MODEL__MODEL_ELEMENTS;
+				case GrlPackage.GRL_GRAPH__REALIZES: return CorePackage.CORE_MODEL__REALIZES;
+				default: return -1;
+			}
+		}
+		if (baseClass == COREImpactModel.class) {
+			switch (derivedFeatureID) {
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -473,6 +596,19 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				case UrncorePackage.IURN_DIAGRAM__CONNECTIONS: return GrlPackage.GRL_GRAPH__CONNECTIONS;
 				case UrncorePackage.IURN_DIAGRAM__CONCERN: return GrlPackage.GRL_GRAPH__CONCERN;
 				case UrncorePackage.IURN_DIAGRAM__COMMENTS: return GrlPackage.GRL_GRAPH__COMMENTS;
+				default: return -1;
+			}
+		}
+		if (baseClass == COREModel.class) {
+			switch (baseFeatureID) {
+				case CorePackage.CORE_MODEL__REUSES: return GrlPackage.GRL_GRAPH__REUSES;
+				case CorePackage.CORE_MODEL__MODEL_ELEMENTS: return GrlPackage.GRL_GRAPH__MODEL_ELEMENTS;
+				case CorePackage.CORE_MODEL__REALIZES: return GrlPackage.GRL_GRAPH__REALIZES;
+				default: return -1;
+			}
+		}
+		if (baseClass == COREImpactModel.class) {
+			switch (baseFeatureID) {
 				default: return -1;
 			}
 		}

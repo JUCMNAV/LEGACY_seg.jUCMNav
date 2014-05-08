@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
+import core.CorePackage;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.RespRef;
@@ -13,7 +14,6 @@ import urn.URNspec;
 import urn.UrnPackage;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
-import urncore.UrncorePackage;
 
 public class NamePropertySection extends AbstractMultiLineStringPropertySection {
 
@@ -21,7 +21,7 @@ public class NamePropertySection extends AbstractMultiLineStringPropertySection 
         if (eObject instanceof URNspec)
             return UrnPackage.eINSTANCE.getURNspec_Name();
         else
-            return UrncorePackage.eINSTANCE.getURNmodelElement_Name();
+            return CorePackage.eINSTANCE.getCORENamedElement_Name();
     }
 
     public String getLabelText() {

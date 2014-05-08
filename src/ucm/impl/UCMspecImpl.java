@@ -113,7 +113,7 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	 */
     public URNspec getUrnspec() {
 		if (eContainerFeatureID() != UcmPackage.UC_MSPEC__URNSPEC) return null;
-		return (URNspec)eContainer();
+		return (URNspec)eInternalContainer();
 	}
 
     /**

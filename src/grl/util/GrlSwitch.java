@@ -6,6 +6,9 @@
  */
 package grl.util;
 
+import core.COREImpactModel;
+import core.COREModel;
+import core.CORENamedElement;
 import grl.*;
 import grl.Actor;
 import grl.ActorRef;
@@ -132,6 +135,7 @@ public class GrlSwitch {
 				if (result == null) result = caseGRLmodelElement(belief);
 				if (result == null) result = caseIURNNode(belief);
 				if (result == null) result = caseURNmodelElement(belief);
+				if (result == null) result = caseCORENamedElement(belief);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -141,6 +145,7 @@ public class GrlSwitch {
 				if (result == null) result = caseGRLLinkableElement(intentionalElement);
 				if (result == null) result = caseGRLmodelElement(intentionalElement);
 				if (result == null) result = caseURNmodelElement(intentionalElement);
+				if (result == null) result = caseCORENamedElement(intentionalElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -151,6 +156,7 @@ public class GrlSwitch {
 				if (result == null) result = caseIURNContainer(actor);
 				if (result == null) result = caseGRLmodelElement(actor);
 				if (result == null) result = caseURNmodelElement(actor);
+				if (result == null) result = caseCORENamedElement(actor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -159,7 +165,10 @@ public class GrlSwitch {
 				Object result = caseGRLGraph(grlGraph);
 				if (result == null) result = caseGRLmodelElement(grlGraph);
 				if (result == null) result = caseIURNDiagram(grlGraph);
+				if (result == null) result = caseCOREImpactModel(grlGraph);
 				if (result == null) result = caseURNmodelElement(grlGraph);
+				if (result == null) result = caseCOREModel(grlGraph);
+				if (result == null) result = caseCORENamedElement(grlGraph);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -169,6 +178,7 @@ public class GrlSwitch {
 				if (result == null) result = caseGRLmodelElement(actorRef);
 				if (result == null) result = caseIURNContainerRef(actorRef);
 				if (result == null) result = caseURNmodelElement(actorRef);
+				if (result == null) result = caseCORENamedElement(actorRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -179,6 +189,7 @@ public class GrlSwitch {
 				if (result == null) result = caseGRLmodelElement(intentionalElementRef);
 				if (result == null) result = caseIURNNode(intentionalElementRef);
 				if (result == null) result = caseURNmodelElement(intentionalElementRef);
+				if (result == null) result = caseCORENamedElement(intentionalElementRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -188,6 +199,7 @@ public class GrlSwitch {
 				if (result == null) result = caseElementLink(contribution);
 				if (result == null) result = caseGRLmodelElement(contribution);
 				if (result == null) result = caseURNmodelElement(contribution);
+				if (result == null) result = caseCORENamedElement(contribution);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -203,6 +215,7 @@ public class GrlSwitch {
 				Object result = caseElementLink(elementLink);
 				if (result == null) result = caseGRLmodelElement(elementLink);
 				if (result == null) result = caseURNmodelElement(elementLink);
+				if (result == null) result = caseCORENamedElement(elementLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -212,6 +225,7 @@ public class GrlSwitch {
 				if (result == null) result = caseElementLink(decomposition);
 				if (result == null) result = caseGRLmodelElement(decomposition);
 				if (result == null) result = caseURNmodelElement(decomposition);
+				if (result == null) result = caseCORENamedElement(decomposition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -221,6 +235,7 @@ public class GrlSwitch {
 				if (result == null) result = caseElementLink(dependency);
 				if (result == null) result = caseGRLmodelElement(dependency);
 				if (result == null) result = caseURNmodelElement(dependency);
+				if (result == null) result = caseCORENamedElement(dependency);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -235,6 +250,7 @@ public class GrlSwitch {
 				Object result = caseEvaluationStrategy(evaluationStrategy);
 				if (result == null) result = caseGRLmodelElement(evaluationStrategy);
 				if (result == null) result = caseURNmodelElement(evaluationStrategy);
+				if (result == null) result = caseCORENamedElement(evaluationStrategy);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -244,6 +260,7 @@ public class GrlSwitch {
 				if (result == null) result = caseGRLmodelElement(grlNode);
 				if (result == null) result = caseIURNNode(grlNode);
 				if (result == null) result = caseURNmodelElement(grlNode);
+				if (result == null) result = caseCORENamedElement(grlNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -265,6 +282,7 @@ public class GrlSwitch {
 				Object result = caseStrategiesGroup(strategiesGroup);
 				if (result == null) result = caseGRLmodelElement(strategiesGroup);
 				if (result == null) result = caseURNmodelElement(strategiesGroup);
+				if (result == null) result = caseCORENamedElement(strategiesGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -273,6 +291,7 @@ public class GrlSwitch {
 				Object result = caseContributionContextGroup(contributionContextGroup);
 				if (result == null) result = caseGRLmodelElement(contributionContextGroup);
 				if (result == null) result = caseURNmodelElement(contributionContextGroup);
+				if (result == null) result = caseCORENamedElement(contributionContextGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -281,6 +300,7 @@ public class GrlSwitch {
 				Object result = caseContributionContext(contributionContext);
 				if (result == null) result = caseGRLmodelElement(contributionContext);
 				if (result == null) result = caseURNmodelElement(contributionContext);
+				if (result == null) result = caseCORENamedElement(contributionContext);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -295,6 +315,7 @@ public class GrlSwitch {
 				Object result = caseGRLLinkableElement(grlLinkableElement);
 				if (result == null) result = caseGRLmodelElement(grlLinkableElement);
 				if (result == null) result = caseURNmodelElement(grlLinkableElement);
+				if (result == null) result = caseCORENamedElement(grlLinkableElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -305,6 +326,7 @@ public class GrlSwitch {
 				if (result == null) result = caseGRLmodelElement(collapsedActorRef);
 				if (result == null) result = caseIURNNode(collapsedActorRef);
 				if (result == null) result = caseURNmodelElement(collapsedActorRef);
+				if (result == null) result = caseCORENamedElement(collapsedActorRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -700,6 +722,21 @@ public class GrlSwitch {
 	}
 
 				/**
+	 * Returns the result of interpreting the object as an instance of '<em>CORE Named Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CORE Named Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCORENamedElement(CORENamedElement object) {
+		return null;
+	}
+
+				/**
 	 * Returns the result of interpreting the object as an instance of '<em>UR Nmodel Element</em>'.
 	 * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -775,6 +812,36 @@ public class GrlSwitch {
 	}
 
     /**
+	 * Returns the result of interpreting the object as an instance of '<em>CORE Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CORE Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCOREModel(COREModel object) {
+		return null;
+	}
+
+				/**
+	 * Returns the result of interpreting the object as an instance of '<em>CORE Impact Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CORE Impact Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCOREImpactModel(COREImpactModel object) {
+		return null;
+	}
+
+				/**
 	 * Returns the result of interpreting the object as an instance of '<em>IURN Container Ref</em>'.
 	 * <!-- begin-user-doc -->
      * This implementation returns null;

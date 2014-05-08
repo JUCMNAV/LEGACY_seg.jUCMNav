@@ -39,7 +39,7 @@ public class KpimodelFactoryImpl extends EFactoryImpl implements KpimodelFactory
 	 */
     public static KpimodelFactory init() {
 		try {
-			KpimodelFactory theKpimodelFactory = (KpimodelFactory)EPackage.Registry.INSTANCE.getEFactory("http:///grl/kpimodel.ecore"); 
+			KpimodelFactory theKpimodelFactory = (KpimodelFactory)EPackage.Registry.INSTANCE.getEFactory(KpimodelPackage.eNS_URI);
 			if (theKpimodelFactory != null) {
 				return theKpimodelFactory;
 			}

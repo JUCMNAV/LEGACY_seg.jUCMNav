@@ -82,7 +82,7 @@ public class ResponsibilityBindingImpl extends EObjectImpl implements Responsibi
 	 */
     public PluginBinding getBinding() {
 		if (eContainerFeatureID() != MapPackage.RESPONSIBILITY_BINDING__BINDING) return null;
-		return (PluginBinding)eContainer();
+		return (PluginBinding)eInternalContainer();
 	}
 
     /**

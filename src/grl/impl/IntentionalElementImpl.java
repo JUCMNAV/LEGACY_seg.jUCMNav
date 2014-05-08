@@ -370,7 +370,7 @@ public class IntentionalElementImpl extends GRLLinkableElementImpl implements In
 	 */
     public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
     /**

@@ -318,7 +318,7 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 	 */
     public IURNDiagram getDiagram() {
 		if (eContainerFeatureID() != MapPackage.NODE_CONNECTION__DIAGRAM) return null;
-		return (IURNDiagram)eContainer();
+		return (IURNDiagram)eInternalContainer();
 	}
 
     /**

@@ -166,7 +166,7 @@ public class ContributionChangeImpl extends EObjectImpl implements ContributionC
 	 */
 	public ContributionContext getContext() {
 		if (eContainerFeatureID() != GrlPackage.CONTRIBUTION_CHANGE__CONTEXT) return null;
-		return (ContributionContext)eContainer();
+		return (ContributionContext)eInternalContainer();
 	}
 
 	/**

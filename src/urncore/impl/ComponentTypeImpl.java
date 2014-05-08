@@ -85,7 +85,7 @@ public class ComponentTypeImpl extends UCMmodelElementImpl implements ComponentT
 	 */
 	public URNdefinition getUrndefinition() {
 		if (eContainerFeatureID() != UrncorePackage.COMPONENT_TYPE__URNDEFINITION) return null;
-		return (URNdefinition)eContainer();
+		return (URNdefinition)eInternalContainer();
 	}
 
 				/**

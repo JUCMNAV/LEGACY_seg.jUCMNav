@@ -333,7 +333,7 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 	 */
     public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != GrlPackage.ACTOR__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
     /**
