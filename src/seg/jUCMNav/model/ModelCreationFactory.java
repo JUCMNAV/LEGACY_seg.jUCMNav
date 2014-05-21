@@ -761,9 +761,6 @@ public class ModelCreationFactory implements CreationFactory {
         // add a new FMD diagram to the FMDspec, if desired.
         if (createFmd) {
             urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, FeatureModel.class));
-//        	GRLGraph newFmdGraph = (GRLGraph) getNewObject(urnspec, FeatureModel.class);
-//        	newFmdGraph.setName("featureModelGraph");
-//        	urnspec.getUrndef().getSpecDiagrams().add(newFmdGraph);
         }
 
         // Create a Strategy and Strategy Group
