@@ -223,25 +223,6 @@ public class ModelCreationFactory implements CreationFactory {
     public Object getNewObject() {
         return getNewObject(urn, targetClass, type, preDefinedDefinition);
     }
-    
-    /**
-     * check if the metadata Elist contains a specific metadata
-     * @param metadataList the metadata list
-     * @param metadata the specific metadata
-     * @return true if contains, otherwise false
-     */
-    public static boolean containsMetadata(EList metadataList, Metadata metadata) {
-    	boolean result = false;
-    	for (int i = 0; i < metadataList.size(); i++)
-    	{
-    		Metadata m = (Metadata) metadataList.get(i);
-    		if ((m.getName().equals(metadata.getName())) && (m.getValue().equals(metadata.getValue()))) {
-    			result = true;
-    			break;
-    		}
-    	}
-    	return result;
-    }
 
     /**
      * Equivalent to getNewObject(urn, targetClass, 0);
