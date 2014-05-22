@@ -55,8 +55,9 @@ import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.FeatureModelStrategyAlgorithm;
 import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
-import seg.jUCMNav.strategies.util.IntentionalElementUtil;
+import seg.jUCMNav.strategies.util.FeatureUtil;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
@@ -67,7 +68,7 @@ import urncore.IURNNode;
 /**
  * EditPart for all IntentialElementRef. It listen for changes in the references and the definitions
  * 
- * @author Jean-Francois Roy, sghanava, jkealey
+ * @author Jean-Francois Roy, sghanava, jkealey, gunterm
  * 
  */
 public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeEditPart {
@@ -377,6 +378,16 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             color = "0,255,255"; //$NON-NLS-1$
                         } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
                             color = "192,192,192"; //$NON-NLS-1$
+                        } else if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && elem instanceof Feature && 
+                        		FeatureUtil.hasNumericalValue((Feature) elem, 0) && 
+                        		(FeatureUtil.containsOnlySrcLinkToNotSelectedFeature((Feature) elem) || 
+                        				FeatureUtil.containsOnlyOptionalSrcLinkToFeature((Feature) elem) || 
+                        				FeatureUtil.hasSelectedOrXorBrother((Feature) elem, true, true))) {
+                            	// if feature model algorithm and own evaluation is 0, check if need to set to light gray color
+                        		// case A: set to light gray if all links to other features are to features with an evaluation of 0
+                        		// case B: set to light gray if all links to other features are optional
+                        		// case C: set to light gray if a brother of the same OR/XOR decomposition link is 100
+                        	color = "169,169,169";
                         } else {
                             int evalValue = evaluation.getEvaluation();
                             URNspec urn = null;
@@ -397,18 +408,6 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             } else {
                                 color = partial + ",255,96"; //$NON-NLS-1$
                             }
-                            
-                            // if FMD and self is 0, check if need to set gray
-                            if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL){
-                                if (elem instanceof Feature) { 
-                                    if (IntentionalElementUtil.hasNumericalValue(elem, 0)) {
-                                        // set to gray if all contributions are optional
-                                        if (IntentionalElementUtil.containsOnlyOptionalSrcLink(elem)) color = "169,169,169";
-                                        // set to gray if self numerial value is 100 and brothers of the same OR decomposition link is 100
-                                        if (IntentionalElementUtil.hasFullOrBrother(elem)) color = "169,169,169";
-                                    }
-                                }
-                            }
                         }
 
                         if (EvaluationStrategyManager.getInstance().isConditionResource(getNode().getDef())) {
@@ -421,8 +420,14 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             if (!evaluation.getIntElement().getLinksDest().isEmpty()) {
                                 // This initial evaluation potentially overrides computed ones
                                 // Highlight in a different color, dark red.
-                            	// there is an exception case which is in FMD, when self num value is 100, and all children links are optional
-                            	boolean isException = (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) && (elem instanceof Feature) && IntentionalElementUtil.containsOnlyOptionalDestLink(elem) && IntentionalElementUtil.hasNumericalValue(elem, 100);
+                            	boolean isException = false;
+                            	// Except in the case of Feature Model evaluation and a feature element
+                            	if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && (elem instanceof Feature)) {
+                            		// elements with only optional links are allowed to be selected even if their children are not
+                            		isException = FeatureUtil.containsOnlyOptionalDestLink((Feature) elem) && FeatureUtil.hasNumericalValue((Feature) elem, 100);
+                            		// the initial evaluation is the same as the computed one (i.e., e.g., user defined value is the same as the contributions of all child links)
+                                	isException = isException || (MetadataHelper.getMetaDataObj(elem, FeatureModelStrategyAlgorithm.METADATA_WARNING) == null);  
+                            	}
                             	if (!isException) {
                                 	lineColor = "160,0,0"; //$NON-NLS-1$
                                 }
@@ -441,15 +446,11 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             lineColor = "69,69,69"; //$NON-NLS-1$
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DOT);
                             evaluationLabel.setForegroundColor(ColorManager.GRAY);
-                        } else if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) {
-                            if (elem instanceof Feature) { 
-                                // else for FMD, if 100
-                                if (IntentionalElementUtil.hasNumericalValue(elem, 100)) {
-                                    if (IntentionalElementUtil.hasFullXorBrother(elem)) {
-                                        lineColor = "160,0,0"; //$NON-NLS-1$
-                                    }
-                                }
-                            }
+                        } else if ((evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) && (elem instanceof Feature)) {
+                        	// in the case of Feature Model evaluation and a feature element, check if there are two selected XOR brothers
+                        	if (FeatureUtil.hasNumericalValue((Feature) elem, 100) && (FeatureUtil.hasSelectedOrXorBrother((Feature) elem, false, true))) {
+                        		lineColor = "160,0,0"; //$NON-NLS-1$
+                        	}
                         }
 
                         ((IntentionalElementFigure) figure).setColors(lineColor, color, true);

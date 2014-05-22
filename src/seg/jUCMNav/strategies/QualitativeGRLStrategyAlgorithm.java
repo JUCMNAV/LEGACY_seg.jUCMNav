@@ -8,15 +8,12 @@ import grl.DecompositionType;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
-import grl.EvaluationStrategy;
 import grl.ImportanceType;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.QualitativeLabel;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Vector;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.DependencyQualitativeLabelComparitor;
@@ -24,12 +21,12 @@ import seg.jUCMNav.model.util.MetadataHelper;
 import urncore.IURNNode;
 
 /**
- * This class implement the default GRL evaluation algorithm.
+ * This class implements the qualitative GRL evaluation algorithm.
  * 
- * @author sghanava
+ * @author sghanava, gunterm
  * 
  */
-public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
+public class QualitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 
     private static int D = QualitativeLabel.DENIED;
     private static int WD = QualitativeLabel.WEAKLY_DENIED;
@@ -67,58 +64,6 @@ public class QualitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
             { WD, N, N, WS, C, U, N }, // low
             { N, N, N, N, N, N, N }, // none
     };
-
-    Vector evalReady;
-    HashMap evaluationCalculation;
-    HashMap evaluations;
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#init(java.util.Vector)
-     */
-    public void init(EvaluationStrategy strategy, HashMap evaluations) {
-        evalReady = new Vector();
-        evaluationCalculation = new HashMap();
-        this.evaluations = evaluations;
-
-        StrategyAlgorithmImplementationHelper.defaultInit(strategy, evaluations, evalReady, evaluationCalculation);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#hasNextNode()
-     */
-    public boolean hasNextNode() {
-        if (evalReady.size() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#nextNode()
-     */
-    public IntentionalElement nextNode() {
-        IntentionalElement intElem = (IntentionalElement) evalReady.remove(0);
-
-        for (Iterator j = intElem.getLinksSrc().iterator(); j.hasNext();) {
-            // TODO Need to make sure this GRLLinkableElement is really an IntentionalElement
-            IntentionalElement temp = (IntentionalElement) ((ElementLink) j.next()).getDest();
-            if (evaluationCalculation.containsKey(temp)) {
-                EvaluationCalculation calc = (EvaluationCalculation) evaluationCalculation.get(temp);
-                calc.linkCalc += 1;
-                if (calc.linkCalc >= calc.totalLinkDest) {
-                    evaluationCalculation.remove(temp);
-                    evalReady.add(calc.element);
-                }
-            }
-        }
-        return intElem;
-    }
 
     /*
      * (non-Javadoc)

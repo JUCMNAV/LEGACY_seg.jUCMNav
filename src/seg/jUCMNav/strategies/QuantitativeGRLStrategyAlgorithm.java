@@ -16,23 +16,19 @@ import grl.kpimodel.QualitativeMappings;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Vector;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 
 /**
- * This class implement the default GRL evaluation algorithm.
+ * This class implements the quantitative GRL evaluation algorithm.
  * 
- * @author sghanava
+ * @author sghanava, gunterm
  * 
  */
-public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
+public class QuantitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
 
-    Vector evalReady;
-    HashMap evaluationCalculation;
-    HashMap evaluations;
     int minRange;
 
     /*
@@ -41,48 +37,10 @@ public class QuantitativeGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
      * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#init(java.util.Vector)
      */
     public void init(EvaluationStrategy strategy, HashMap evaluations) {
-        evalReady = new Vector();
-        evaluationCalculation = new HashMap();
-        this.evaluations = evaluations;
         // determines whether -100 or 0 should be used as a minimum scale.
         minRange = -100 * (StrategyEvaluationRangeHelper.getCurrentRange(strategy.getGrlspec().getUrnspec()) ? 0 : 1);
-
-        StrategyAlgorithmImplementationHelper.defaultInit(strategy, evaluations, evalReady, evaluationCalculation);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#hasNextNode()
-     */
-    public boolean hasNextNode() {
-        if (evalReady.size() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#nextNode()
-     */
-    public IntentionalElement nextNode() {
-        IntentionalElement intElem = (IntentionalElement) evalReady.remove(0);
-
-        for (Iterator j = intElem.getLinksSrc().iterator(); j.hasNext();) {
-            // TODO Need to make sure this GRLLinkableElement is really an IntentionalElement
-            IntentionalElement temp = (IntentionalElement) ((ElementLink) j.next()).getDest();
-            if (evaluationCalculation.containsKey(temp)) {
-                EvaluationCalculation calc = (EvaluationCalculation) evaluationCalculation.get(temp);
-                calc.linkCalc += 1;
-                if (calc.linkCalc >= calc.totalLinkDest) {
-                    evaluationCalculation.remove(temp);
-                    evalReady.add(calc.element);
-                }
-            }
-        }
-        return intElem;
+        super.init(strategy, evaluations);
+        
     }
 
     /*
