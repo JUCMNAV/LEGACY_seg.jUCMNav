@@ -1,5 +1,11 @@
 package seg.jUCMNav.strategies.util;
 
+import java.util.Iterator;
+
+import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import urncore.Metadata;
 import fm.Feature;
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
@@ -7,12 +13,6 @@ import grl.Decomposition;
 import grl.DecompositionType;
 import grl.ElementLink;
 import grl.IntentionalElement;
-
-import java.util.Iterator;
-
-import seg.jUCMNav.model.util.MetadataHelper;
-import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import urncore.Metadata;
 
 public class FeatureUtil {
     
@@ -88,7 +88,7 @@ public class FeatureUtil {
         }
         while (it.hasNext()) {
             ElementLink link = (ElementLink) it.next();
-            if (link.getDest() instanceof Feature && !(hasNumericalValue((Feature) link.getDest(), 0))) {
+            if (link.getDest() instanceof Feature && !(checkSelectionStatus((Feature) link.getDest(), false))) {
                 return false;
             }
         }
@@ -138,7 +138,7 @@ public class FeatureUtil {
         				if (broLink instanceof Decomposition) {
         					// for each brother element
         					IntentionalElement broElem = (IntentionalElement)broLink.getSrc();
-        					if (broElem instanceof Feature && !(broElem.equals(elem)) && hasNumericalValue((Feature) broElem, 100)) {
+        					if (broElem instanceof Feature && !(broElem.equals(elem)) && checkSelectionStatus((Feature) broElem, true)) {
         						return true;
         					}
         				}
@@ -150,13 +150,13 @@ public class FeatureUtil {
     }
     
     /**
-     * Returns true if elem has given numerical value
+     * Returns true if elem is either selected (isSelected = true) or not selected (isSelected = false)
      * Note: Null numerical value will be treated as 0
      * @param elem
-     * @param value
+     * @param isSelected
      * @return
      */
-    public static boolean hasNumericalValue(Feature elem, int value) {
+    public static boolean checkSelectionStatus(Feature elem, boolean isSelected) {
         String metaDataStr;
         if (elem == null) 
         	return false;
@@ -164,7 +164,10 @@ public class FeatureUtil {
     	metaDataStr = "0";
     	if (metaNumerical != null) 
         	metaDataStr = metaNumerical.getValue();
-        return metaDataStr.equals(Integer.toString(value));
+    	int value = IGRLStrategyAlgorithm.FEATURE_NOT_SELECTED; 
+    	if (isSelected)
+    		value = IGRLStrategyAlgorithm.FEATURE_SELECTED;
+    	return metaDataStr.equals(Integer.toString(value));
     }
 
 }

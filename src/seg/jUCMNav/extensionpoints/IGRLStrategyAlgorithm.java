@@ -32,6 +32,10 @@ public interface IGRLStrategyAlgorithm {
     public final static int CONFLICT_0 = -101;
     public final static int UNDECIDED_0 = -102;
     public final static int NONE_0 = 50;
+    
+    // values for feature model evaluations
+    public final static int FEATURE_SELECTED = 100;
+    public final static int FEATURE_NOT_SELECTED = 0;
 
     // Values for the various GRL strategy algorithms
     public final static int EVAL_QUALITATIVE = 1;

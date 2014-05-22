@@ -379,7 +379,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
                             color = "192,192,192"; //$NON-NLS-1$
                         } else if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && elem instanceof Feature && 
-                        		FeatureUtil.hasNumericalValue((Feature) elem, 0) && 
+                        		FeatureUtil.checkSelectionStatus((Feature) elem, false) && 
                         		(FeatureUtil.containsOnlySrcLinkToNotSelectedFeature((Feature) elem) || 
                         				FeatureUtil.containsOnlyOptionalSrcLinkToFeature((Feature) elem) || 
                         				FeatureUtil.hasSelectedOrXorBrother((Feature) elem, true, true))) {
@@ -424,7 +424,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             	// Except in the case of Feature Model evaluation and a feature element
                             	if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && (elem instanceof Feature)) {
                             		// elements with only optional links are allowed to be selected even if their children are not
-                            		isException = FeatureUtil.containsOnlyOptionalDestLink((Feature) elem) && FeatureUtil.hasNumericalValue((Feature) elem, 100);
+                            		isException = FeatureUtil.containsOnlyOptionalDestLink((Feature) elem) && FeatureUtil.checkSelectionStatus((Feature) elem, true);
                             		// the initial evaluation is the same as the computed one (i.e., e.g., user defined value is the same as the contributions of all child links)
                                 	isException = isException || (MetadataHelper.getMetaDataObj(elem, FeatureModelStrategyAlgorithm.METADATA_WARNING) == null);  
                             	}
@@ -448,7 +448,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             evaluationLabel.setForegroundColor(ColorManager.GRAY);
                         } else if ((evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) && (elem instanceof Feature)) {
                         	// in the case of Feature Model evaluation and a feature element, check if there are two selected XOR brothers
-                        	if (FeatureUtil.hasNumericalValue((Feature) elem, 100) && (FeatureUtil.hasSelectedOrXorBrother((Feature) elem, false, true))) {
+                        	if (FeatureUtil.checkSelectionStatus((Feature) elem, true) && (FeatureUtil.hasSelectedOrXorBrother((Feature) elem, false, true))) {
                         		lineColor = "160,0,0"; //$NON-NLS-1$
                         	}
                         }
