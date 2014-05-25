@@ -1,6 +1,8 @@
 package seg.jUCMNav.strategies.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.MetadataHelper;
@@ -12,6 +14,7 @@ import fm.OptionalFMLink;
 import grl.Decomposition;
 import grl.DecompositionType;
 import grl.ElementLink;
+import grl.GRLspec;
 import grl.IntentionalElement;
 
 public class FeatureUtil {
@@ -33,6 +36,38 @@ public class FeatureUtil {
 		return true;
 	}
 	
+	/**
+	 * Returns true if elem does not have another feature as a parent (may have other IntentionalElements as parent but not features)
+	 * @param elem
+	 * @return
+	 */
+	private static boolean isRootFeature(Feature elem) {
+        Iterator it = elem.getLinksSrc().iterator();
+        while (it.hasNext()) {
+            ElementLink link = (ElementLink) it.next();
+            if (link.getDest() instanceof Feature) {
+                return false;
+            }
+        }
+		return true;
+	}
+	
+	/**
+	 * Given a GRLspec, the list of root features is returned
+	 * @param grl
+	 * @return
+	 */
+	public static List<Feature> getRootFeatures(GRLspec grl) {
+		Iterator it = grl.getIntElements().iterator();
+		List<Feature> rootFeatures = new ArrayList<Feature>();
+		while (it.hasNext()) {
+			IntentionalElement elem = (IntentionalElement) it.next();
+			if (elem instanceof Feature && isRootFeature((Feature) elem))
+				rootFeatures.add((Feature) elem);
+		}
+		return rootFeatures;
+	}
+
 	/**
      * Returns true if elem only has optional destination links, returns false otherwise
      * (note that elem is not allowed to have any other destination links even to IntentionalElements that are not Features)

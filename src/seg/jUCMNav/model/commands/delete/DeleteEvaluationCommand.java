@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.model.commands.delete;
 
+import fm.Feature;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
@@ -10,9 +11,11 @@ import grl.IntentionalElement;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 
 /**
  * This command delete an GRL evaluation
@@ -55,6 +58,13 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
 
         evaluation.setStrategies(null);
         evaluation.setIntElement(null);
+        
+        // if Feature Model Evaluation algo, the command being performed on a feature, and "Auto Select" option being enabled, then 
+        // set the strategy again to force a refresh (addressed a problem where a mandatory child of the feature is not properly refreshed)
+        if (EvaluationStrategyManager.getInstance().getEvaluationAlgorithm().getEvaluationType() == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && 
+        		intentional instanceof Feature && StrategyEvaluationPreferences.getAutoSelectMandatoryFeatures()) {
+			EvaluationStrategyManager.getInstance().setStrategy(EvaluationStrategyManager.getInstance().getEvaluationStrategy());
+		}
 
         testPostConditions();
     }

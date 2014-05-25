@@ -10,7 +10,7 @@ import urn.URNspec;
 /**
  * Encapsulates load/save of the strategy evaluation properties.
  * 
- * @author jkealey, sghanava
+ * @author jkealey, sghanava, gunterm
  * 
  */
 public class StrategyEvaluationPreferences {
@@ -18,7 +18,8 @@ public class StrategyEvaluationPreferences {
     public final static int DEFAULT_TOLERANCE = 10;
     public final static boolean DEFAULT_EVALFILLED = true;
     public final static boolean DEFAULT_VISUALIZEASPOSITIVERANGE = false;
-
+    public final static boolean DEFAULT_AUTOSELECTMANDATORYFEATURES = false;
+    
     public final static int QUANTITATIVE_ALGORITHM = 0;
     public final static int QUALITATIVE_ALGORITHM = 1;
     public final static int MIXED_ALGORITHM = 2;
@@ -35,10 +36,8 @@ public class StrategyEvaluationPreferences {
     public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$
     public static final String PREF_EVALFILLED = "PREF_EVALFILLED"; //$NON-NLS-1$
     public static final String PREF_VISUALIZEASPOSITIVERANGE = "PREF_VISUALIZEASPOSITIVERANGE"; //$NON-NLS-1$
-    
+    public static final String PREF_AUTOSELECTMANDATORYFEATURES = "PREF_AUTOSELECTMANDATORYFEATURES"; //$NON-NLS-1$ 
 	
-	
-
     /**
      * 
      * @return Preference store where the properties are stored.
@@ -71,6 +70,14 @@ public class StrategyEvaluationPreferences {
      */
     public static boolean getFillElements() {
         return getPreferenceStore().getBoolean(PREF_EVALFILLED);
+    }
+    
+
+    /**
+     * @return should we auto select mandatory features?
+     */
+    public static boolean getAutoSelectMandatoryFeatures() {
+    	return getPreferenceStore().getBoolean(PREF_AUTOSELECTMANDATORYFEATURES);
     }
 
     /**

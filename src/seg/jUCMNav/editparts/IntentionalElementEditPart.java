@@ -416,8 +416,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             lineColor = "0,0,0"; //$NON-NLS-1$
                         }
 
-                        if (evaluation.getStrategies() != null) {
-                            if (!evaluation.getIntElement().getLinksDest().isEmpty()) {
+                        if (evaluation.getStrategies() != null || MetadataHelper.getMetaDataObj(elem, FeatureModelStrategyAlgorithm.METADATA_AUTO_SELECTED) != null) {
+                            if (!elem.getLinksDest().isEmpty()) {
                                 // This initial evaluation potentially overrides computed ones
                                 // Highlight in a different color, dark red.
                             	boolean isException = false;
@@ -457,6 +457,11 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     }
 
                     String text = (evaluation.getStrategies() != null ? "(*)" : ""); //$NON-NLS-1$ //$NON-NLS-2$
+                    // indicate auto selected features with (A)
+                    if (algo instanceof FeatureModelStrategyAlgorithm && StrategyEvaluationPreferences.getAutoSelectMandatoryFeatures() &&
+                    		elem instanceof Feature && MetadataHelper.getMetaDataObj(elem, FeatureModelStrategyAlgorithm.METADATA_AUTO_SELECTED) != null) {
+                    	text = text + "(A)"; //$NON-NLS-1$
+                    }
 
                     if (algo instanceof QuantitativeGRLStrategyAlgorithm || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                         int val = evaluation.getEvaluation();

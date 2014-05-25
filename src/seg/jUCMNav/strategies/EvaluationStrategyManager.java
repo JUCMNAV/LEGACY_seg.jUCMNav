@@ -305,16 +305,33 @@ public class EvaluationStrategyManager {
     }
 
     private void processNonConstraintSolverAlgorithm() {
-        while (algo.hasNextNode()) {
+        // if Feature Model evaluation, remove all auto select metadata (done regardless of whether the 
+    	// "Auto Select" option is selected or not to ensure that all metadata is removed in both cases)
+        if (algo instanceof FeatureModelStrategyAlgorithm)
+        	((FeatureModelStrategyAlgorithm) algo).clearAllAutoSelectedFeatures(strategy);
+        	
+        // evaluate for the first time (this is all that is needed for all algorithms except for the Feature Model evaluation)
+        evaluateModel();
+        
+        // if Feature Model evaluation and auto selection is set, execute auto selection of mandatory features, then evaluate again
+        if (algo instanceof FeatureModelStrategyAlgorithm && StrategyEvaluationPreferences.getAutoSelectMandatoryFeatures()) {
+        	((FeatureModelStrategyAlgorithm) algo).autoSelectAllMandatoryFeatures(strategy);
+        	algo.init(strategy, evaluations);
+        	evaluateModel();
+        	refreshDiagrams();
+        }
+    }
+
+	private void evaluateModel() {
+		while (algo.hasNextNode()) {
             IntentionalElement element = algo.nextNode();
-            String elementName = element.getName();
             Evaluation eval = (Evaluation) evaluations.get(element);
             int val = algo.getEvaluation(element);
             eval.setEvaluation(val);
             syncIntentionalElementQualitativeEvaluation(eval, val);
             setEvaluationMetadata(element, eval);
         }
-    }
+	}
 
     private void processConstraintSolverAlgorithm() {
         Hao2011Algorithm hao2011Algorithm = (Hao2011Algorithm) algo;

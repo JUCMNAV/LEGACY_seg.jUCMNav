@@ -5,16 +5,23 @@ import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
 import grl.Contribution;
 import grl.Decomposition;
+import grl.DecompositionType;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
+import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.util.FeatureUtil;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 
 /**
  * This class implements the evaluation algorithm for Feature Models.
@@ -25,7 +32,8 @@ import seg.jUCMNav.strategies.util.FeatureUtil;
 public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgorithm {
 
     public static final String METADATA_WARNING = "_userSetEvaluationWarning"; //$NON-NLS-1$
-
+    public static final String METADATA_AUTO_SELECTED = "_autoSelected"; //$NON-NLS-1$
+    
     /*
      * (non-Javadoc)
      * 
@@ -45,7 +53,10 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
     	// the quickReturn result is not null when the element does not have any incoming links, has a user-defined value, or has a KPI conversion
     	// contrary to the formula-based algorithm, do not return this result immediately, but compare it against the calculated result from the incoming links
         Integer quickReturn = preGetEvaluation(element, eval);
-        
+        // set quickReturn result to 100 if feature is auto selected
+        if (StrategyEvaluationPreferences.getAutoSelectMandatoryFeatures() &&
+        		element instanceof Feature && MetadataHelper.getMetaDataObj(element, FeatureModelStrategyAlgorithm.METADATA_AUTO_SELECTED) != null)
+        	quickReturn = FEATURE_SELECTED;
         // if there are incoming links, calculate the result from the incoming links
         int result = 0;
         boolean incomingLinks = false;
@@ -113,7 +124,7 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
         	if (result != quickReturn.intValue()) {
         		// the user set evaluation does not match the incoming links --> add warning
        			MetadataHelper.addMetaData(element.getGrlspec().getUrnspec(), element, METADATA_WARNING, 
-       					Integer.toString(eval.getEvaluation()) + " != " + Integer.toString(result));
+       					Integer.toString(quickReturn) + " != " + Integer.toString(result));
         	} else {
         		//user set evaluation is equal to evaluated value --> make sure warning does not exist
         		MetadataHelper.removeMetaData(element, METADATA_WARNING);
@@ -129,5 +140,55 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
         else
         	return result;
     }
+    
+    public void clearAllAutoSelectedFeatures(EvaluationStrategy strategy) {
+    	Iterator it = strategy.getGrlspec().getIntElements().iterator();
+    	while (it.hasNext()) {
+    		IntentionalElement elem = (IntentionalElement) it.next();
+    		if (elem instanceof Feature)
+    			MetadataHelper.removeMetaData(elem, METADATA_AUTO_SELECTED);
+    	}
+    }
+
+
+	public void autoSelectAllMandatoryFeatures(EvaluationStrategy strategy) {
+		// timestamp for auto selection
+		String timeStamp = new SimpleDateFormat("yyyyMMdd-HHmmssSSS").format(Calendar.getInstance().getTime());
+		// this implementation does not assume that there is only one root feature and
+		// it also does not assume that a feature only has one parent
+		List<Feature> rootFeatures = FeatureUtil.getRootFeatures(strategy.getGrlspec());
+		List<Feature> candidates = new ArrayList<Feature>();
+		Iterator it = rootFeatures.iterator();
+		while (it.hasNext()) {
+			Feature root = (Feature) it.next();
+			autoSelectChildren(root, candidates, timeStamp, strategy);
+		}
+		while (!candidates.isEmpty()) {
+			Feature parent = candidates.remove(0);
+			autoSelectChildren(parent, candidates, timeStamp, strategy);
+		}
+	}
+
+	private void autoSelectChildren(Feature parent, List<Feature> candidates, String timeStamp, EvaluationStrategy strategy) {
+		Iterator it = parent.getLinksDest().iterator();
+		// all children of a parent (either root feature or selected feature) are auto selected 
+		// as long as the link between the child and the parent is mandatory or an AND decomposition
+		while (it.hasNext()) {
+			ElementLink link = (ElementLink) it.next();
+			IntentionalElement child = (IntentionalElement) link.getSrc();
+			// auto selection only applies to features
+			if (child instanceof Feature) {
+				if (link instanceof MandatoryFMLink || (link instanceof Decomposition && parent.getDecompositionType() == DecompositionType.AND_LITERAL)) {
+					// the child feature is auto selectable --> add metadata tag to this element
+					MetadataHelper.addMetaData(strategy.getGrlspec().getUrnspec(), child, METADATA_AUTO_SELECTED, timeStamp);
+					// add child to list of features that will need to have their children examined for auto selection
+					candidates.add((Feature) child);
+				} else if (FeatureUtil.checkSelectionStatus((Feature) child, true)) {
+					// the child feature is not auto selectable --> add child to list of features that will need to have their children examined for auto selection but only if the child is selected
+					candidates.add((Feature) child);
+				}
+			}
+		}
+	}
 
 }
