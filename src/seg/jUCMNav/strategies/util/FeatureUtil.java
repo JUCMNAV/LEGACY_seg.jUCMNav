@@ -96,7 +96,9 @@ public class FeatureUtil {
      * @param elem
      * @return
      */
-    public static boolean containsOnlyOptionalSrcLinkToFeature(Feature elem){
+    public static boolean containsOnlyOptionalSrcLinkToFeature(Feature elem) {
+    	if (FeatureUtil.isRootFeature(elem))
+    		return false;
         Iterator it = elem.getLinksSrc().iterator();
         if (!it.hasNext()) {
             return false;
@@ -117,6 +119,8 @@ public class FeatureUtil {
 	 * @return
 	 */
 	public static boolean containsOnlySrcLinkToNotSelectedFeature(Feature elem) {
+		if (FeatureUtil.isRootFeature(elem))
+			return false;
         Iterator it = elem.getLinksSrc().iterator();
         if (!it.hasNext()) {
             return false;
