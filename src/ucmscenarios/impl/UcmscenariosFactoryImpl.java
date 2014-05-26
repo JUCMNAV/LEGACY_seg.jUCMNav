@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import ucmscenarios.*;
 import ucmscenarios.Component;
 import ucmscenarios.Condition;
 import ucmscenarios.Event;
@@ -44,7 +45,7 @@ public class UcmscenariosFactoryImpl extends EFactoryImpl implements Ucmscenario
 	 */
 	public static UcmscenariosFactory init() {
 		try {
-			UcmscenariosFactory theUcmscenariosFactory = (UcmscenariosFactory)EPackage.Registry.INSTANCE.getEFactory("http:///ucmscenarios.ecore"); 
+			UcmscenariosFactory theUcmscenariosFactory = (UcmscenariosFactory)EPackage.Registry.INSTANCE.getEFactory(UcmscenariosPackage.eNS_URI);
 			if (theUcmscenariosFactory != null) {
 				return theUcmscenariosFactory;
 			}
@@ -84,6 +85,7 @@ public class UcmscenariosFactoryImpl extends EFactoryImpl implements Ucmscenario
 			case UcmscenariosPackage.MESSAGE: return createMessage();
 			case UcmscenariosPackage.MODEL_ELEMENT: return createModelElement();
 			case UcmscenariosPackage.CONDITION: return createCondition();
+			case UcmscenariosPackage.METADATA: return createMetadata();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -235,6 +237,16 @@ public class UcmscenariosFactoryImpl extends EFactoryImpl implements Ucmscenario
 	public Condition createCondition() {
 		ConditionImpl condition = new ConditionImpl();
 		return condition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Metadata createMetadata() {
+		MetadataImpl metadata = new MetadataImpl();
+		return metadata;
 	}
 
 	/**

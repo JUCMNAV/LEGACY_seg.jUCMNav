@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import ucmscenarios.*;
 import ucmscenarios.Component;
 import ucmscenarios.Condition;
 import ucmscenarios.Event;
@@ -184,6 +185,12 @@ public class UcmscenariosSwitch {
 				Object result = caseCondition(condition);
 				if (result == null) result = caseSequenceElement(condition);
 				if (result == null) result = caseModelElement(condition);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UcmscenariosPackage.METADATA: {
+				Metadata metadata = (Metadata)theEObject;
+				Object result = caseMetadata(metadata);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -368,6 +375,21 @@ public class UcmscenariosSwitch {
 	 * @generated
 	 */
 	public Object caseCondition(Condition object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Metadata</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Metadata</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseMetadata(Metadata object) {
 		return null;
 	}
 

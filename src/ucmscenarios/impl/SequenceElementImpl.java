@@ -70,7 +70,7 @@ public class SequenceElementImpl extends ModelElementImpl implements SequenceEle
 	 */
 	public ScenarioDef getParentScenario() {
 		if (eContainerFeatureID() != UcmscenariosPackage.SEQUENCE_ELEMENT__PARENT_SCENARIO) return null;
-		return (ScenarioDef)eContainer();
+		return (ScenarioDef)eInternalContainer();
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class SequenceElementImpl extends ModelElementImpl implements SequenceEle
 	 */
 	public Sequence getSequence() {
 		if (eContainerFeatureID() != UcmscenariosPackage.SEQUENCE_ELEMENT__SEQUENCE) return null;
-		return (Sequence)eContainer();
+		return (Sequence)eInternalContainer();
 	}
 
 	/**

@@ -108,7 +108,7 @@ public class InstanceImpl extends ModelElementImpl implements Instance {
 	 */
 	public ScenarioDef getScenario() {
 		if (eContainerFeatureID() != UcmscenariosPackage.INSTANCE__SCENARIO) return null;
-		return (ScenarioDef)eContainer();
+		return (ScenarioDef)eInternalContainer();
 	}
 
 	/**

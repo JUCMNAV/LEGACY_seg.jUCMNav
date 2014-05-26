@@ -85,7 +85,7 @@ public class ScenarioDefImpl extends ModelElementImpl implements ScenarioDef {
 	 */
 	public ScenarioGroup getGroup() {
 		if (eContainerFeatureID() != UcmscenariosPackage.SCENARIO_DEF__GROUP) return null;
-		return (ScenarioGroup)eContainer();
+		return (ScenarioGroup)eInternalContainer();
 	}
 
 	/**

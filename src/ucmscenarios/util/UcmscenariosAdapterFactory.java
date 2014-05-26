@@ -11,6 +11,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
+import ucmscenarios.*;
 import ucmscenarios.Component;
 import ucmscenarios.Condition;
 import ucmscenarios.Event;
@@ -115,6 +116,9 @@ public class UcmscenariosAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseCondition(Condition object) {
 				return createConditionAdapter();
+			}
+			public Object caseMetadata(Metadata object) {
+				return createMetadataAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
@@ -299,6 +303,20 @@ public class UcmscenariosAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConditionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucmscenarios.Metadata <em>Metadata</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucmscenarios.Metadata
+	 * @generated
+	 */
+	public Adapter createMetadataAdapter() {
 		return null;
 	}
 

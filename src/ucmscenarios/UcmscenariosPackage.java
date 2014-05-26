@@ -98,13 +98,22 @@ public interface UcmscenariosPackage extends EPackage {
 	int MODEL_ELEMENT__DESCRIPTION = 2;
 
 	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT__METADATA = 3;
+
+	/**
 	 * The number of structural features of the '<em>Model Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_ELEMENT_FEATURE_COUNT = 3;
+	int MODEL_ELEMENT_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link ucmscenarios.impl.ScenarioSpecImpl <em>Scenario Spec</em>}' class.
@@ -142,6 +151,15 @@ public interface UcmscenariosPackage extends EPackage {
 	 * @ordered
 	 */
 	int SCENARIO_SPEC__DESCRIPTION = MODEL_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_SPEC__METADATA = MODEL_ELEMENT__METADATA;
 
 	/**
 	 * The feature id for the '<em><b>Filename</b></em>' attribute.
@@ -244,6 +262,15 @@ public interface UcmscenariosPackage extends EPackage {
 	int SCENARIO_DEF__DESCRIPTION = MODEL_ELEMENT__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_DEF__METADATA = MODEL_ELEMENT__METADATA;
+
+	/**
 	 * The feature id for the '<em><b>Group</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -317,6 +344,15 @@ public interface UcmscenariosPackage extends EPackage {
 	int COMPONENT__DESCRIPTION = MODEL_ELEMENT__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__METADATA = MODEL_ELEMENT__METADATA;
+
+	/**
 	 * The feature id for the '<em><b>Scenario Spec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -381,6 +417,15 @@ public interface UcmscenariosPackage extends EPackage {
 	int SCENARIO_GROUP__DESCRIPTION = MODEL_ELEMENT__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_GROUP__METADATA = MODEL_ELEMENT__METADATA;
+
+	/**
 	 * The feature id for the '<em><b>Scenario Spec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -443,6 +488,15 @@ public interface UcmscenariosPackage extends EPackage {
 	 * @ordered
 	 */
 	int SEQUENCE_ELEMENT__DESCRIPTION = MODEL_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_ELEMENT__METADATA = MODEL_ELEMENT__METADATA;
 
 	/**
 	 * The feature id for the '<em><b>Parent Scenario</b></em>' container reference.
@@ -516,6 +570,15 @@ public interface UcmscenariosPackage extends EPackage {
 	 * @ordered
 	 */
 	int SEQUENCE__DESCRIPTION = SEQUENCE_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE__METADATA = SEQUENCE_ELEMENT__METADATA;
 
 	/**
 	 * The feature id for the '<em><b>Parent Scenario</b></em>' container reference.
@@ -609,6 +672,15 @@ public interface UcmscenariosPackage extends EPackage {
 	int PARALLEL__DESCRIPTION = SEQUENCE_ELEMENT__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARALLEL__METADATA = SEQUENCE_ELEMENT__METADATA;
+
+	/**
 	 * The feature id for the '<em><b>Parent Scenario</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -689,6 +761,15 @@ public interface UcmscenariosPackage extends EPackage {
 	 * @ordered
 	 */
 	int INSTANCE__DESCRIPTION = MODEL_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTANCE__METADATA = MODEL_ELEMENT__METADATA;
 
 	/**
 	 * The feature id for the '<em><b>Scenario</b></em>' container reference.
@@ -782,6 +863,15 @@ public interface UcmscenariosPackage extends EPackage {
 	int EVENT__DESCRIPTION = SEQUENCE_ELEMENT__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT__METADATA = SEQUENCE_ELEMENT__METADATA;
+
+	/**
 	 * The feature id for the '<em><b>Parent Scenario</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -862,6 +952,15 @@ public interface UcmscenariosPackage extends EPackage {
 	 * @ordered
 	 */
 	int MESSAGE__DESCRIPTION = SEQUENCE_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE__METADATA = SEQUENCE_ELEMENT__METADATA;
 
 	/**
 	 * The feature id for the '<em><b>Parent Scenario</b></em>' container reference.
@@ -955,6 +1054,15 @@ public interface UcmscenariosPackage extends EPackage {
 	int CONDITION__DESCRIPTION = SEQUENCE_ELEMENT__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITION__METADATA = SEQUENCE_ELEMENT__METADATA;
+
+	/**
 	 * The feature id for the '<em><b>Parent Scenario</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1009,6 +1117,43 @@ public interface UcmscenariosPackage extends EPackage {
 	int CONDITION_FEATURE_COUNT = SEQUENCE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link ucmscenarios.impl.MetadataImpl <em>Metadata</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ucmscenarios.impl.MetadataImpl
+	 * @see ucmscenarios.impl.UcmscenariosPackageImpl#getMetadata()
+	 * @generated
+	 */
+	int METADATA = 12;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METADATA__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METADATA__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Metadata</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METADATA_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link ucmscenarios.EventType <em>Event Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1016,7 +1161,7 @@ public interface UcmscenariosPackage extends EPackage {
 	 * @see ucmscenarios.impl.UcmscenariosPackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 12;
+	int EVENT_TYPE = 13;
 
 
 	/**
@@ -1460,6 +1605,17 @@ public interface UcmscenariosPackage extends EPackage {
 	EAttribute getModelElement_Description();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link ucmscenarios.ModelElement#getMetadata <em>Metadata</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Metadata</em>'.
+	 * @see ucmscenarios.ModelElement#getMetadata()
+	 * @see #getModelElement()
+	 * @generated
+	 */
+	EReference getModelElement_Metadata();
+
+	/**
 	 * Returns the meta object for class '{@link ucmscenarios.Condition <em>Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1490,6 +1646,38 @@ public interface UcmscenariosPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCondition_Label();
+
+	/**
+	 * Returns the meta object for class '{@link ucmscenarios.Metadata <em>Metadata</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Metadata</em>'.
+	 * @see ucmscenarios.Metadata
+	 * @generated
+	 */
+	EClass getMetadata();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ucmscenarios.Metadata#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see ucmscenarios.Metadata#getName()
+	 * @see #getMetadata()
+	 * @generated
+	 */
+	EAttribute getMetadata_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ucmscenarios.Metadata#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see ucmscenarios.Metadata#getValue()
+	 * @see #getMetadata()
+	 * @generated
+	 */
+	EAttribute getMetadata_Value();
 
 	/**
 	 * Returns the meta object for enum '{@link ucmscenarios.EventType <em>Event Type</em>}'.
@@ -1874,6 +2062,14 @@ public interface UcmscenariosPackage extends EPackage {
 		EAttribute MODEL_ELEMENT__DESCRIPTION = eINSTANCE.getModelElement_Description();
 
 		/**
+		 * The meta object literal for the '<em><b>Metadata</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL_ELEMENT__METADATA = eINSTANCE.getModelElement_Metadata();
+
+		/**
 		 * The meta object literal for the '{@link ucmscenarios.impl.ConditionImpl <em>Condition</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1898,6 +2094,32 @@ public interface UcmscenariosPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CONDITION__LABEL = eINSTANCE.getCondition_Label();
+
+		/**
+		 * The meta object literal for the '{@link ucmscenarios.impl.MetadataImpl <em>Metadata</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ucmscenarios.impl.MetadataImpl
+		 * @see ucmscenarios.impl.UcmscenariosPackageImpl#getMetadata()
+		 * @generated
+		 */
+		EClass METADATA = eINSTANCE.getMetadata();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METADATA__NAME = eINSTANCE.getMetadata_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METADATA__VALUE = eINSTANCE.getMetadata_Value();
 
 		/**
 		 * The meta object literal for the '{@link ucmscenarios.EventType <em>Event Type</em>}' enum.

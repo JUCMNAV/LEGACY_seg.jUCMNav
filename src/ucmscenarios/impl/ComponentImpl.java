@@ -73,7 +73,7 @@ public class ComponentImpl extends ModelElementImpl implements Component {
 	 */
 	public ScenarioSpec getScenarioSpec() {
 		if (eContainerFeatureID() != UcmscenariosPackage.COMPONENT__SCENARIO_SPEC) return null;
-		return (ScenarioSpec)eContainer();
+		return (ScenarioSpec)eInternalContainer();
 	}
 
 	/**

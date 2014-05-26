@@ -6,6 +6,7 @@
  */
 package ucmscenarios;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ucmscenarios.ModelElement#getId <em>Id</em>}</li>
  *   <li>{@link ucmscenarios.ModelElement#getName <em>Name</em>}</li>
  *   <li>{@link ucmscenarios.ModelElement#getDescription <em>Description</em>}</li>
+ *   <li>{@link ucmscenarios.ModelElement#getMetadata <em>Metadata</em>}</li>
  * </ul>
  * </p>
  *
@@ -104,5 +106,21 @@ public interface ModelElement extends EObject {
 	 * @generated
 	 */
 	void setDescription(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Metadata</b></em>' containment reference list.
+	 * The list contents are of type {@link ucmscenarios.Metadata}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Metadata</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Metadata</em>' containment reference list.
+	 * @see ucmscenarios.UcmscenariosPackage#getModelElement_Metadata()
+	 * @model type="ucmscenarios.Metadata" containment="true"
+	 * @generated
+	 */
+	EList getMetadata();
 
 } // ModelElement

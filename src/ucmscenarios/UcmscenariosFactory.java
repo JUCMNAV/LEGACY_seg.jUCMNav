@@ -134,6 +134,15 @@ public interface UcmscenariosFactory extends EFactory {
 	Condition createCondition();
 
 	/**
+	 * Returns a new object of class '<em>Metadata</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Metadata</em>'.
+	 * @generated
+	 */
+	Metadata createMetadata();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

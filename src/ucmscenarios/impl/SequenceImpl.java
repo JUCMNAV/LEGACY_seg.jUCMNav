@@ -73,7 +73,7 @@ public class SequenceImpl extends SequenceElementImpl implements Sequence {
 	 */
 	public Parallel getParent() {
 		if (eContainerFeatureID() != UcmscenariosPackage.SEQUENCE__PARENT) return null;
-		return (Parallel)eContainer();
+		return (Parallel)eInternalContainer();
 	}
 
 	/**
