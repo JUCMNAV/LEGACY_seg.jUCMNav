@@ -848,7 +848,7 @@ public class ScenarioGenerator {
      *            the path
      */
     public void save(File path) {
-        UcmScenariosModelManager mgr = new UcmScenariosModelManager();
+        UcmScenariosModelManager mgr = new UcmScenariosModelManager();        
         mgr.createScenarioSpec(path, getScenarioDocument());
     }
 
