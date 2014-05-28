@@ -103,8 +103,10 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
                     				// all other links before the last one 
                     				quantitativeContrib = remainingMandatoryContribution/mandatoryLinksNumber;
                     				remainingMandatoryContribution -= quantitativeContrib;
-                    			}
-                    			mandatoryLinksNumber--;
+                    				// only count down the number of links if greater than one, therefore the lowest this number gets is 1 and
+                    				// the earlier check whether the number of links is 0 is still correct for each loop iteration
+                        			mandatoryLinksNumber--;                    			
+                        		}
                     		} else
                     			// in the mixed case, an optional link's contribution is 0
                     			quantitativeContrib = 0;                		
