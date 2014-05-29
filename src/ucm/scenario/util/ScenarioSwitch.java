@@ -6,21 +6,10 @@
  */
 package ucm.scenario.util;
 
-import core.CORENamedElement;
 import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import ucm.scenario.*;
-import ucm.scenario.EnumerationType;
-import ucm.scenario.Initialization;
-import ucm.scenario.ScenarioDef;
-import ucm.scenario.ScenarioEndPoint;
-import ucm.scenario.ScenarioGroup;
-import ucm.scenario.ScenarioPackage;
-import ucm.scenario.ScenarioStartPoint;
-import ucm.scenario.Variable;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -242,7 +231,7 @@ public class ScenarioSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCORENamedElement(CORENamedElement object) {
+	public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 		return null;
 	}
 

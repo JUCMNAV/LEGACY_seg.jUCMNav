@@ -6,7 +6,6 @@
  */
 package urncore;
 
-import core.CorePackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -151,7 +150,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UR_NMODEL_ELEMENT__NAME = CorePackage.CORE_NAMED_ELEMENT__NAME;
+    int UR_NMODEL_ELEMENT__NAME = ca.mcgill.sel.core.CorePackage.CORE_NAMED_ELEMENT__NAME;
 
 				/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
@@ -160,7 +159,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UR_NMODEL_ELEMENT__FROM_LINKS = CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 0;
+    int UR_NMODEL_ELEMENT__FROM_LINKS = ca.mcgill.sel.core.CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 				/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
@@ -169,7 +168,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UR_NMODEL_ELEMENT__TO_LINKS = CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 1;
+    int UR_NMODEL_ELEMENT__TO_LINKS = ca.mcgill.sel.core.CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 				/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -178,7 +177,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UR_NMODEL_ELEMENT__ID = CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 2;
+    int UR_NMODEL_ELEMENT__ID = ca.mcgill.sel.core.CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 2;
 
     /**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -187,7 +186,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UR_NMODEL_ELEMENT__DESCRIPTION = CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 3;
+    int UR_NMODEL_ELEMENT__DESCRIPTION = ca.mcgill.sel.core.CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 3;
 
     /**
 	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
@@ -196,7 +195,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UR_NMODEL_ELEMENT__METADATA = CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int UR_NMODEL_ELEMENT__METADATA = ca.mcgill.sel.core.CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Inconcern</b></em>' reference.
@@ -205,7 +204,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UR_NMODEL_ELEMENT__INCONCERN = CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 5;
+    int UR_NMODEL_ELEMENT__INCONCERN = ca.mcgill.sel.core.CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 5;
 
     /**
 	 * The number of structural features of the '<em>UR Nmodel Element</em>' class.
@@ -214,7 +213,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UR_NMODEL_ELEMENT_FEATURE_COUNT = CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 6;
+    int UR_NMODEL_ELEMENT_FEATURE_COUNT = ca.mcgill.sel.core.CorePackage.CORE_NAMED_ELEMENT_FEATURE_COUNT + 6;
 
     /**
 	 * The meta object id for the '{@link urncore.impl.UCMmodelElementImpl <em>UC Mmodel Element</em>}' class.

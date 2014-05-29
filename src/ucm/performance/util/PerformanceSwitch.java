@@ -6,21 +6,10 @@
  */
 package ucm.performance.util;
 
-import core.CORENamedElement;
 import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import ucm.performance.*;
-import ucm.performance.ActiveResource;
-import ucm.performance.Demand;
-import ucm.performance.ExternalOperation;
-import ucm.performance.GeneralResource;
-import ucm.performance.PassiveResource;
-import ucm.performance.PerformancePackage;
-import ucm.performance.ProcessingResource;
-import ucm.performance.Workload;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -284,7 +273,7 @@ public class PerformanceSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCORENamedElement(CORENamedElement object) {
+	public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 		return null;
 	}
 

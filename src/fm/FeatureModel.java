@@ -2,8 +2,6 @@
  */
 package fm;
 
-import core.COREFeatureModel;
-
 import grl.GRLGraph;
 
 /**
@@ -16,5 +14,5 @@ import grl.GRLGraph;
  * @model
  * @generated
  */
-public interface FeatureModel extends GRLGraph, COREFeatureModel {
+public interface FeatureModel extends GRLGraph, ca.mcgill.sel.core.COREFeatureModel {
 } // FeatureModel

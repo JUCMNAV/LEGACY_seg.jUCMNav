@@ -8,8 +8,6 @@ package grl.kpimodel.impl;
 
 import asd.AsdPackage;
 import asd.impl.AsdPackageImpl;
-import core.CorePackage;
-import core.impl.CorePackageImpl;
 import fm.FmPackage;
 import fm.impl.FmPackageImpl;
 import grl.GrlPackage;
@@ -26,7 +24,6 @@ import grl.kpimodel.KPIModelLinkRef;
 import grl.kpimodel.KPINewEvalValue;
 import grl.kpimodel.KpimodelFactory;
 import grl.kpimodel.KpimodelPackage;
-
 import grl.kpimodel.QualitativeMapping;
 import grl.kpimodel.QualitativeMappings;
 import org.eclipse.emf.ecore.EAttribute;
@@ -34,7 +31,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import ucm.UcmPackage;
 import ucm.impl.UcmPackageImpl;
 import ucm.map.MapPackage;
@@ -185,43 +181,43 @@ public class KpimodelPackageImpl extends EPackageImpl implements KpimodelPackage
 
 		isInited = true;
 
+		// Initialize simple dependencies
+		ca.mcgill.sel.core.CorePackage.eINSTANCE.eClass();
+
 		// Obtain or create and register interdependencies
-		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackage.eINSTANCE);
-		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackage.eINSTANCE);
+		FmPackageImpl theFmPackage = (FmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) instanceof FmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) : FmPackage.eINSTANCE);
 		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackage.eINSTANCE);
+		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackage.eINSTANCE);
+		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackage.eINSTANCE);
 		UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackage.eINSTANCE);
 		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
 		MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackage.eINSTANCE);
 		ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackage.eINSTANCE);
 		AsdPackageImpl theAsdPackage = (AsdPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AsdPackage.eNS_URI) instanceof AsdPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AsdPackage.eNS_URI) : AsdPackage.eINSTANCE);
-		FmPackageImpl theFmPackage = (FmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) instanceof FmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) : FmPackage.eINSTANCE);
-		CorePackageImpl theCorePackage = (CorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI) instanceof CorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI) : CorePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theKpimodelPackage.createPackageContents();
-		theUrnPackage.createPackageContents();
-		theUrncorePackage.createPackageContents();
+		theFmPackage.createPackageContents();
 		theGrlPackage.createPackageContents();
+		theUrncorePackage.createPackageContents();
+		theUrnPackage.createPackageContents();
 		theUcmPackage.createPackageContents();
 		thePerformancePackage.createPackageContents();
 		theMapPackage.createPackageContents();
 		theScenarioPackage.createPackageContents();
 		theAsdPackage.createPackageContents();
-		theFmPackage.createPackageContents();
-		theCorePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theKpimodelPackage.initializePackageContents();
-		theUrnPackage.initializePackageContents();
-		theUrncorePackage.initializePackageContents();
+		theFmPackage.initializePackageContents();
 		theGrlPackage.initializePackageContents();
+		theUrncorePackage.initializePackageContents();
+		theUrnPackage.initializePackageContents();
 		theUcmPackage.initializePackageContents();
 		thePerformancePackage.initializePackageContents();
 		theMapPackage.initializePackageContents();
 		theScenarioPackage.initializePackageContents();
 		theAsdPackage.initializePackageContents();
-		theFmPackage.initializePackageContents();
-		theCorePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theKpimodelPackage.freeze();

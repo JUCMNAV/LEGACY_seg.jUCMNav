@@ -194,7 +194,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioStartPoints"
           upperBound="-1" eType="#//scenario/ScenarioStartPoint" eOpposite="#//scenario/ScenarioStartPoint/startPoint"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="UCMmap" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//IURNDiagram core.ecore#//COREModel">
+    <eClassifiers xsi:type="ecore:EClass" name="UCMmap" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//IURNDiagram ../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREModel">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleton" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentStub" upperBound="-1"

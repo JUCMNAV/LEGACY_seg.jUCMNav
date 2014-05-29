@@ -81,7 +81,7 @@
     <eLiterals name="Low" value="2"/>
     <eLiterals name="None" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GRLGraph" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNDiagram core.ecore#//COREImpactModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GRLGraph" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNDiagram ../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREImpactModel"/>
   <eClassifiers xsi:type="ecore:EClass" name="ActorRef" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNContainerRef"/>
   <eClassifiers xsi:type="ecore:EClass" name="IntentionalElementRef" eSuperTypes="#//GRLNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="criticality" eType="#//Criticality"

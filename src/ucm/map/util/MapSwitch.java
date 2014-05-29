@@ -6,39 +6,10 @@
  */
 package ucm.map.util;
 
-import core.COREModel;
-import core.CORENamedElement;
 import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import ucm.map.*;
-import ucm.map.AndFork;
-import ucm.map.AndJoin;
-import ucm.map.Anything;
-import ucm.map.ComponentBinding;
-import ucm.map.ComponentRef;
-import ucm.map.Connect;
-import ucm.map.DirectionArrow;
-import ucm.map.EmptyPoint;
-import ucm.map.EndPoint;
-import ucm.map.FailurePoint;
-import ucm.map.InBinding;
-import ucm.map.MapPackage;
-import ucm.map.NodeConnection;
-import ucm.map.OrFork;
-import ucm.map.OrJoin;
-import ucm.map.OutBinding;
-import ucm.map.PathNode;
-import ucm.map.PluginBinding;
-import ucm.map.RespRef;
-import ucm.map.ResponsibilityBinding;
-import ucm.map.StartPoint;
-import ucm.map.Stub;
-import ucm.map.Timer;
-import ucm.map.UCMmap;
-import ucm.map.WaitingPlace;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
@@ -729,7 +700,7 @@ public class MapSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCORENamedElement(CORENamedElement object) {
+	public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 		return null;
 	}
 
@@ -819,7 +790,7 @@ public class MapSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREModel(COREModel object) {
+	public Object caseCOREModel(ca.mcgill.sel.core.COREModel object) {
 		return null;
 	}
 

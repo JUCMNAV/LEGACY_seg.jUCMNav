@@ -2,30 +2,17 @@
  */
 package fm.impl;
 
-import core.COREConfiguration;
-import core.COREFeature;
-import core.COREModel;
-import core.COREModelElement;
-import core.COREStrategy;
-import core.CorePackage;
-
+import ca.mcgill.sel.core.COREFeatureModelDecompositionType;
 import fm.Feature;
 import fm.FmPackage;
-
 import grl.impl.IntentionalElementImpl;
-
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -55,7 +42,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList realizedBy;
+	protected EList<ca.mcgill.sel.core.COREModel> realizedBy;
 
 	/**
 	 * The cached value of the '{@link #getStrategies() <em>Strategies</em>}' containment reference list.
@@ -65,7 +52,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList strategies;
+	protected EList<ca.mcgill.sel.core.COREStrategy> strategies;
 
 	/**
 	 * The cached value of the '{@link #getConfigurations() <em>Configurations</em>}' containment reference list.
@@ -75,7 +62,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList configurations;
+	protected EList<ca.mcgill.sel.core.COREConfiguration> configurations;
 
 	/**
 	 * The default value of the '{@link #isSelectable() <em>Selectable</em>}' attribute.
@@ -120,9 +107,9 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getRealizedBy() {
+	public EList<ca.mcgill.sel.core.COREModel> getRealizedBy() {
 		if (realizedBy == null) {
-			realizedBy = new EObjectWithInverseResolvingEList.ManyInverse(COREModel.class, this, FmPackage.FEATURE__REALIZED_BY, CorePackage.CORE_MODEL__REALIZES);
+			realizedBy = new EObjectWithInverseResolvingEList.ManyInverse(ca.mcgill.sel.core.COREModel.class, this, FmPackage.FEATURE__REALIZED_BY, ca.mcgill.sel.core.CorePackage.CORE_MODEL__REALIZES);
 		}
 		return realizedBy;
 	}
@@ -132,9 +119,9 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getStrategies() {
+	public EList<ca.mcgill.sel.core.COREStrategy> getStrategies() {
 		if (strategies == null) {
-			strategies = new EObjectContainmentEList(COREStrategy.class, this, FmPackage.FEATURE__STRATEGIES);
+			strategies = new EObjectContainmentEList(ca.mcgill.sel.core.COREStrategy.class, this, FmPackage.FEATURE__STRATEGIES);
 		}
 		return strategies;
 	}
@@ -144,9 +131,9 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getConfigurations() {
+	public EList<ca.mcgill.sel.core.COREConfiguration> getConfigurations() {
 		if (configurations == null) {
-			configurations = new EObjectContainmentEList(COREConfiguration.class, this, FmPackage.FEATURE__CONFIGURATIONS);
+			configurations = new EObjectContainmentEList(ca.mcgill.sel.core.COREConfiguration.class, this, FmPackage.FEATURE__CONFIGURATIONS);
 		}
 		return configurations;
 	}
@@ -170,6 +157,105 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		selectable = newSelectable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, FmPackage.FEATURE__SELECTABLE, oldSelectable, selectable));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void addFeature(String child_name, COREFeatureModelDecompositionType association) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void delete() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void rename(String core_feature_name) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void changeLink(COREFeatureModelDecompositionType new_association) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void changeParent(ca.mcgill.sel.core.COREFeature feature, COREFeatureModelDecompositionType new_association) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void requires(ca.mcgill.sel.core.COREFeature feature) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void excludes(ca.mcgill.sel.core.COREFeature feature) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void removeConstraint(ca.mcgill.sel.core.COREFeature feature) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void addRealizedBy(ca.mcgill.sel.core.COREModel model) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -295,16 +381,16 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @generated
 	 */
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
-		if (baseClass == COREModelElement.class) {
+		if (baseClass == ca.mcgill.sel.core.COREModelElement.class) {
 			switch (derivedFeatureID) {
 				default: return -1;
 			}
 		}
-		if (baseClass == COREFeature.class) {
+		if (baseClass == ca.mcgill.sel.core.COREFeature.class) {
 			switch (derivedFeatureID) {
-				case FmPackage.FEATURE__REALIZED_BY: return CorePackage.CORE_FEATURE__REALIZED_BY;
-				case FmPackage.FEATURE__STRATEGIES: return CorePackage.CORE_FEATURE__STRATEGIES;
-				case FmPackage.FEATURE__CONFIGURATIONS: return CorePackage.CORE_FEATURE__CONFIGURATIONS;
+				case FmPackage.FEATURE__REALIZED_BY: return ca.mcgill.sel.core.CorePackage.CORE_FEATURE__REALIZED_BY;
+				case FmPackage.FEATURE__STRATEGIES: return ca.mcgill.sel.core.CorePackage.CORE_FEATURE__STRATEGIES;
+				case FmPackage.FEATURE__CONFIGURATIONS: return ca.mcgill.sel.core.CorePackage.CORE_FEATURE__CONFIGURATIONS;
 				default: return -1;
 			}
 		}
@@ -317,16 +403,16 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @generated
 	 */
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
-		if (baseClass == COREModelElement.class) {
+		if (baseClass == ca.mcgill.sel.core.COREModelElement.class) {
 			switch (baseFeatureID) {
 				default: return -1;
 			}
 		}
-		if (baseClass == COREFeature.class) {
+		if (baseClass == ca.mcgill.sel.core.COREFeature.class) {
 			switch (baseFeatureID) {
-				case CorePackage.CORE_FEATURE__REALIZED_BY: return FmPackage.FEATURE__REALIZED_BY;
-				case CorePackage.CORE_FEATURE__STRATEGIES: return FmPackage.FEATURE__STRATEGIES;
-				case CorePackage.CORE_FEATURE__CONFIGURATIONS: return FmPackage.FEATURE__CONFIGURATIONS;
+				case ca.mcgill.sel.core.CorePackage.CORE_FEATURE__REALIZED_BY: return FmPackage.FEATURE__REALIZED_BY;
+				case ca.mcgill.sel.core.CorePackage.CORE_FEATURE__STRATEGIES: return FmPackage.FEATURE__STRATEGIES;
+				case ca.mcgill.sel.core.CorePackage.CORE_FEATURE__CONFIGURATIONS: return FmPackage.FEATURE__CONFIGURATIONS;
 				default: return -1;
 			}
 		}

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="fm" nsURI="http:///fm.ecore" nsPrefix="fm">
-  <eClassifiers xsi:type="ecore:EClass" name="FeatureModel" eSuperTypes="grl.ecore#//GRLGraph core.ecore#//COREFeatureModel"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Feature" eSuperTypes="grl.ecore#//IntentionalElement core.ecore#//COREFeature">
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureModel" eSuperTypes="grl.ecore#//GRLGraph ../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREFeatureModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Feature" eSuperTypes="grl.ecore#//IntentionalElement ../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREFeature">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="selectable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>

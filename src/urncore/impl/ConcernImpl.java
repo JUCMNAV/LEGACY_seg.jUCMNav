@@ -6,9 +6,7 @@
  */
 package urncore.impl;
 
-import core.COREConcern;
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -18,7 +16,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import urncore.Concern;
 import urncore.Condition;
 import urncore.IURNDiagram;
@@ -72,7 +69,7 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 	 * @generated
 	 * @ordered
 	 */
-	protected COREConcern coreConcern;
+	protected ca.mcgill.sel.core.COREConcern coreConcern;
 
 				/**
 	 * The cached value of the '{@link #getCondition() <em>Condition</em>}' containment reference.
@@ -172,10 +169,10 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public COREConcern getCoreConcern() {
+	public ca.mcgill.sel.core.COREConcern getCoreConcern() {
 		if (coreConcern != null && coreConcern.eIsProxy()) {
 			InternalEObject oldCoreConcern = (InternalEObject)coreConcern;
-			coreConcern = (COREConcern)eResolveProxy(oldCoreConcern);
+			coreConcern = (ca.mcgill.sel.core.COREConcern)eResolveProxy(oldCoreConcern);
 			if (coreConcern != oldCoreConcern) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.CONCERN__CORE_CONCERN, oldCoreConcern, coreConcern));
@@ -189,7 +186,7 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public COREConcern basicGetCoreConcern() {
+	public ca.mcgill.sel.core.COREConcern basicGetCoreConcern() {
 		return coreConcern;
 	}
 
@@ -198,8 +195,8 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setCoreConcern(COREConcern newCoreConcern) {
-		COREConcern oldCoreConcern = coreConcern;
+	public void setCoreConcern(ca.mcgill.sel.core.COREConcern newCoreConcern) {
+		ca.mcgill.sel.core.COREConcern oldCoreConcern = coreConcern;
 		coreConcern = newCoreConcern;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.CONCERN__CORE_CONCERN, oldCoreConcern, coreConcern));
@@ -344,7 +341,7 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 				getElements().addAll((Collection)newValue);
 				return;
 			case UrncorePackage.CONCERN__CORE_CONCERN:
-				setCoreConcern((COREConcern)newValue);
+				setCoreConcern((ca.mcgill.sel.core.COREConcern)newValue);
 				return;
 			case UrncorePackage.CONCERN__CONDITION:
 				setCondition((Condition)newValue);
@@ -370,7 +367,7 @@ public class ConcernImpl extends URNmodelElementImpl implements Concern {
 				getElements().clear();
 				return;
 			case UrncorePackage.CONCERN__CORE_CONCERN:
-				setCoreConcern((COREConcern)null);
+				setCoreConcern((ca.mcgill.sel.core.COREConcern)null);
 				return;
 			case UrncorePackage.CONCERN__CONDITION:
 				setCondition((Condition)null);

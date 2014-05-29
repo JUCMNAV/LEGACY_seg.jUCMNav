@@ -2,26 +2,15 @@
  */
 package fm.util;
 
-import core.COREFeature;
-import core.COREFeatureModel;
-import core.COREImpactModel;
-import core.COREModel;
-import core.COREModelElement;
-import core.CORENamedElement;
-
 import fm.*;
-
 import grl.Contribution;
 import grl.ElementLink;
 import grl.GRLGraph;
 import grl.GRLLinkableElement;
 import grl.IntentionalElement;
-
 import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import urncore.GRLmodelElement;
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
@@ -224,7 +213,7 @@ public class FmSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCORENamedElement(CORENamedElement object) {
+	public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 		return null;
 	}
 
@@ -284,7 +273,7 @@ public class FmSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREModel(COREModel object) {
+	public Object caseCOREModel(ca.mcgill.sel.core.COREModel object) {
 		return null;
 	}
 
@@ -299,7 +288,7 @@ public class FmSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREImpactModel(COREImpactModel object) {
+	public Object caseCOREImpactModel(ca.mcgill.sel.core.COREImpactModel object) {
 		return null;
 	}
 
@@ -329,7 +318,7 @@ public class FmSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREFeatureModel(COREFeatureModel object) {
+	public Object caseCOREFeatureModel(ca.mcgill.sel.core.COREFeatureModel object) {
 		return null;
 	}
 
@@ -374,7 +363,7 @@ public class FmSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREModelElement(COREModelElement object) {
+	public Object caseCOREModelElement(ca.mcgill.sel.core.COREModelElement object) {
 		return null;
 	}
 
@@ -389,7 +378,7 @@ public class FmSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREFeature(COREFeature object) {
+	public Object caseCOREFeature(ca.mcgill.sel.core.COREFeature object) {
 		return null;
 	}
 

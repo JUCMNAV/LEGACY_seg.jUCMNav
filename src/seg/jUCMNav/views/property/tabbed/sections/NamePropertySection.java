@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
-import core.CorePackage;
+import ca.mcgill.sel.core.CorePackage;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.RespRef;

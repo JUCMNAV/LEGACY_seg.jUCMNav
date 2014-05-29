@@ -121,7 +121,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="comments" upperBound="-1"
         eType="#//Comment" containment="true" eOpposite="#//Comment/diagram"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="URNmodelElement" abstract="true" eSuperTypes="core.ecore#//CORENamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="URNmodelElement" abstract="true" eSuperTypes="../../../../../ca.mcgill.sel.core/model/CORE.ecore#//CORENamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromLinks" upperBound="-1"
         eType="ecore:EClass urn.ecore#//URNlink" eOpposite="urn.ecore#//URNlink/fromElem"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="toLinks" upperBound="-1"
@@ -197,7 +197,7 @@
         eType="#//IURNDiagram" eOpposite="#//IURNDiagram/concern"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
         eType="#//URNmodelElement" eOpposite="#//URNmodelElement/inconcern"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="coreConcern" eType="ecore:EClass core.ecore#//COREConcern"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coreConcern" eType="ecore:EClass ../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREConcern"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Condition"
         containment="true" eOpposite="#//Condition/concern"/>
   </eClassifiers>

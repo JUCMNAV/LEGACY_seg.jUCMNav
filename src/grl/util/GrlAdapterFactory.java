@@ -6,40 +6,11 @@
  */
 package grl.util;
 
-import core.COREImpactModel;
-import core.COREModel;
-import core.CORENamedElement;
 import grl.*;
-import grl.Actor;
-import grl.ActorRef;
-import grl.Belief;
-import grl.BeliefLink;
-import grl.CollapsedActorRef;
-import grl.Contribution;
-import grl.ContributionChange;
-import grl.ContributionContext;
-import grl.ContributionContextGroup;
-import grl.Decomposition;
-import grl.Dependency;
-import grl.ElementLink;
-import grl.Evaluation;
-import grl.EvaluationStrategy;
-import grl.GRLGraph;
-import grl.GRLLinkableElement;
-import grl.GRLNode;
-import grl.GRLspec;
-import grl.GrlPackage;
-import grl.IntentionalElement;
-import grl.IntentionalElementRef;
-import grl.LinkRef;
-import grl.LinkRefBendpoint;
-import grl.StrategiesGroup;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-
 import urncore.GRLmodelElement;
 import urncore.IURNConnection;
 import urncore.IURNContainer;
@@ -178,7 +149,7 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 			public Object caseContributionRange(ContributionRange object) {
 				return createContributionRangeAdapter();
 			}
-			public Object caseCORENamedElement(CORENamedElement object) {
+			public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {
@@ -196,10 +167,10 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 			public Object caseIURNDiagram(IURNDiagram object) {
 				return createIURNDiagramAdapter();
 			}
-			public Object caseCOREModel(COREModel object) {
+			public Object caseCOREModel(ca.mcgill.sel.core.COREModel object) {
 				return createCOREModelAdapter();
 			}
-			public Object caseCOREImpactModel(COREImpactModel object) {
+			public Object caseCOREImpactModel(ca.mcgill.sel.core.COREImpactModel object) {
 				return createCOREImpactModelAdapter();
 			}
 			public Object caseIURNContainerRef(IURNContainerRef object) {
@@ -577,13 +548,13 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 				/**
-	 * Creates a new adapter for an object of class '{@link core.CORENamedElement <em>CORE Named Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.CORENamedElement <em>CORE Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see core.CORENamedElement
+	 * @see ca.mcgill.sel.core.CORENamedElement
 	 * @generated
 	 */
 	public Adapter createCORENamedElementAdapter() {
@@ -661,13 +632,13 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 	}
 
     /**
-	 * Creates a new adapter for an object of class '{@link core.COREModel <em>CORE Model</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREModel <em>CORE Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see core.COREModel
+	 * @see ca.mcgill.sel.core.COREModel
 	 * @generated
 	 */
 	public Adapter createCOREModelAdapter() {
@@ -675,13 +646,13 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 				/**
-	 * Creates a new adapter for an object of class '{@link core.COREImpactModel <em>CORE Impact Model</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREImpactModel <em>CORE Impact Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see core.COREImpactModel
+	 * @see ca.mcgill.sel.core.COREImpactModel
 	 * @generated
 	 */
 	public Adapter createCOREImpactModelAdapter() {

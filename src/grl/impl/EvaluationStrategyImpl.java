@@ -48,7 +48,7 @@ import urncore.impl.GRLmodelElementImpl;
  *
  * @generated
  */
-public class EvaluationStrategyImpl extends GRLmodelElementImpl implements EvaluationStrategy, Comparable <EvaluationStrategy>{
+public class EvaluationStrategyImpl extends GRLmodelElementImpl implements EvaluationStrategy{
     /**
 	 * The default value of the '{@link #getAuthor() <em>Author</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -237,7 +237,7 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 	 */
     public GRLspec getGrlspec() {
 		if (eContainerFeatureID() != GrlPackage.EVALUATION_STRATEGY__GRLSPEC) return null;
-		return (GRLspec)eContainer();
+		return (GRLspec)eInternalContainer();
 	}
 
     /**

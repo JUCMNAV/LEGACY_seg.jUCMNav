@@ -6,40 +6,10 @@
  */
 package grl.util;
 
-import core.COREImpactModel;
-import core.COREModel;
-import core.CORENamedElement;
 import grl.*;
-import grl.Actor;
-import grl.ActorRef;
-import grl.Belief;
-import grl.BeliefLink;
-import grl.CollapsedActorRef;
-import grl.Contribution;
-import grl.ContributionChange;
-import grl.ContributionContext;
-import grl.ContributionContextGroup;
-import grl.Decomposition;
-import grl.Dependency;
-import grl.ElementLink;
-import grl.Evaluation;
-import grl.EvaluationStrategy;
-import grl.GRLGraph;
-import grl.GRLLinkableElement;
-import grl.GRLNode;
-import grl.GRLspec;
-import grl.GrlPackage;
-import grl.IntentionalElement;
-import grl.IntentionalElementRef;
-import grl.LinkRef;
-import grl.LinkRefBendpoint;
-import grl.StrategiesGroup;
-
 import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import urncore.GRLmodelElement;
 import urncore.IURNConnection;
 import urncore.IURNContainer;
@@ -732,7 +702,7 @@ public class GrlSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCORENamedElement(CORENamedElement object) {
+	public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 		return null;
 	}
 
@@ -822,7 +792,7 @@ public class GrlSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREModel(COREModel object) {
+	public Object caseCOREModel(ca.mcgill.sel.core.COREModel object) {
 		return null;
 	}
 
@@ -837,7 +807,7 @@ public class GrlSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREImpactModel(COREImpactModel object) {
+	public Object caseCOREImpactModel(ca.mcgill.sel.core.COREImpactModel object) {
 		return null;
 	}
 

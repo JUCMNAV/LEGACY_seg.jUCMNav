@@ -6,34 +6,11 @@
  */
 package urncore.util;
 
-import core.CORENamedElement;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-
 import urncore.*;
-import urncore.Comment;
-import urncore.Component;
-import urncore.ComponentLabel;
-import urncore.ComponentType;
-import urncore.Concern;
-import urncore.Condition;
-import urncore.ConnectionLabel;
-import urncore.GRLmodelElement;
-import urncore.IURNConnection;
-import urncore.IURNContainer;
-import urncore.IURNContainerRef;
-import urncore.IURNDiagram;
-import urncore.IURNNode;
-import urncore.Label;
-import urncore.Metadata;
-import urncore.NodeLabel;
-import urncore.Responsibility;
-import urncore.UCMmodelElement;
-import urncore.URNdefinition;
-import urncore.URNmodelElement;
-import urncore.UrncorePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -150,7 +127,7 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
 			public Object caseComment(Comment object) {
 				return createCommentAdapter();
 			}
-			public Object caseCORENamedElement(CORENamedElement object) {
+			public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
 			public Object defaultCase(EObject object) {
@@ -452,13 +429,13 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
 	}
 
 				/**
-	 * Creates a new adapter for an object of class '{@link core.CORENamedElement <em>CORE Named Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.CORENamedElement <em>CORE Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see core.CORENamedElement
+	 * @see ca.mcgill.sel.core.CORENamedElement
 	 * @generated
 	 */
 	public Adapter createCORENamedElementAdapter() {

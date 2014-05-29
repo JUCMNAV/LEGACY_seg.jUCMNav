@@ -7,11 +7,8 @@
 package ucm.util;
 
 import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import ucm.*;
 import ucm.UCMspec;
 import ucm.UcmPackage;
 

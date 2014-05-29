@@ -6,34 +6,10 @@
  */
 package urncore.util;
 
-import core.CORENamedElement;
 import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import urncore.*;
-import urncore.Comment;
-import urncore.Component;
-import urncore.ComponentLabel;
-import urncore.ComponentType;
-import urncore.Concern;
-import urncore.Condition;
-import urncore.ConnectionLabel;
-import urncore.GRLmodelElement;
-import urncore.IURNConnection;
-import urncore.IURNContainer;
-import urncore.IURNContainerRef;
-import urncore.IURNDiagram;
-import urncore.IURNNode;
-import urncore.Label;
-import urncore.Metadata;
-import urncore.NodeLabel;
-import urncore.Responsibility;
-import urncore.UCMmodelElement;
-import urncore.URNdefinition;
-import urncore.URNmodelElement;
-import urncore.UrncorePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -565,7 +541,7 @@ public class UrncoreSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCORENamedElement(CORENamedElement object) {
+	public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 		return null;
 	}
 

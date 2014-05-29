@@ -6,7 +6,6 @@
  */
 package grl;
 
-import core.COREImpactModel;
 import urncore.GRLmodelElement;
 import urncore.IURNDiagram;
 
@@ -20,5 +19,5 @@ import urncore.IURNDiagram;
  * @model
  * @generated
  */
-public interface GRLGraph extends GRLmodelElement, IURNDiagram, COREImpactModel {
+public interface GRLGraph extends GRLmodelElement, IURNDiagram, ca.mcgill.sel.core.COREImpactModel {
 } // GRLGraph

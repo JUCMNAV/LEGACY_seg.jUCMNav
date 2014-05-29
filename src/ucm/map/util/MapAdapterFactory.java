@@ -6,39 +6,11 @@
  */
 package ucm.map.util;
 
-import core.COREModel;
-import core.CORENamedElement;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-
 import ucm.map.*;
-import ucm.map.AndFork;
-import ucm.map.AndJoin;
-import ucm.map.Anything;
-import ucm.map.ComponentBinding;
-import ucm.map.ComponentRef;
-import ucm.map.Connect;
-import ucm.map.DirectionArrow;
-import ucm.map.EmptyPoint;
-import ucm.map.EndPoint;
-import ucm.map.FailurePoint;
-import ucm.map.InBinding;
-import ucm.map.MapPackage;
-import ucm.map.NodeConnection;
-import ucm.map.OrFork;
-import ucm.map.OrJoin;
-import ucm.map.OutBinding;
-import ucm.map.PathNode;
-import ucm.map.PluginBinding;
-import ucm.map.RespRef;
-import ucm.map.ResponsibilityBinding;
-import ucm.map.StartPoint;
-import ucm.map.Stub;
-import ucm.map.Timer;
-import ucm.map.UCMmap;
-import ucm.map.WaitingPlace;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
@@ -173,7 +145,7 @@ public class MapAdapterFactory extends AdapterFactoryImpl {
 			public Object caseResponsibilityBinding(ResponsibilityBinding object) {
 				return createResponsibilityBindingAdapter();
 			}
-			public Object caseCORENamedElement(CORENamedElement object) {
+			public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {
@@ -191,7 +163,7 @@ public class MapAdapterFactory extends AdapterFactoryImpl {
 			public Object caseIURNDiagram(IURNDiagram object) {
 				return createIURNDiagramAdapter();
 			}
-			public Object caseCOREModel(COREModel object) {
+			public Object caseCOREModel(ca.mcgill.sel.core.COREModel object) {
 				return createCOREModelAdapter();
 			}
 			public Object caseIURNContainerRef(IURNContainerRef object) {
@@ -552,13 +524,13 @@ public class MapAdapterFactory extends AdapterFactoryImpl {
 	}
 
                 /**
-	 * Creates a new adapter for an object of class '{@link core.CORENamedElement <em>CORE Named Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.CORENamedElement <em>CORE Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see core.CORENamedElement
+	 * @see ca.mcgill.sel.core.CORENamedElement
 	 * @generated
 	 */
 	public Adapter createCORENamedElementAdapter() {
@@ -636,13 +608,13 @@ public class MapAdapterFactory extends AdapterFactoryImpl {
 	}
 
     /**
-	 * Creates a new adapter for an object of class '{@link core.COREModel <em>CORE Model</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREModel <em>CORE Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see core.COREModel
+	 * @see ca.mcgill.sel.core.COREModel
 	 * @generated
 	 */
 	public Adapter createCOREModelAdapter() {

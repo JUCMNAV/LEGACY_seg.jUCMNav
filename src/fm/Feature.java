@@ -2,8 +2,6 @@
  */
 package fm;
 
-import core.COREFeature;
-
 import grl.IntentionalElement;
 
 /**
@@ -22,7 +20,7 @@ import grl.IntentionalElement;
  * @model
  * @generated
  */
-public interface Feature extends IntentionalElement, COREFeature {
+public interface Feature extends IntentionalElement, ca.mcgill.sel.core.COREFeature {
 	/**
 	 * Returns the value of the '<em><b>Selectable</b></em>' attribute.
 	 * The default value is <code>"false"</code>.

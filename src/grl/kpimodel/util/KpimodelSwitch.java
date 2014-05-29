@@ -6,26 +6,13 @@
  */
 package grl.kpimodel.util;
 
-import core.CORENamedElement;
 import grl.GRLLinkableElement;
 import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.kpimodel.*;
-import grl.kpimodel.Indicator;
-import grl.kpimodel.IndicatorGroup;
-import grl.kpimodel.KPIEvalValueSet;
-import grl.kpimodel.KPIInformationConfig;
-import grl.kpimodel.KPIInformationElement;
-import grl.kpimodel.KPIInformationElementRef;
-import grl.kpimodel.KPIModelLink;
-import grl.kpimodel.KPIModelLinkRef;
-import grl.kpimodel.KpimodelPackage;
-
 import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import urncore.GRLmodelElement;
 import urncore.IURNConnection;
 import urncore.IURNNode;
@@ -399,7 +386,7 @@ public class KpimodelSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCORENamedElement(CORENamedElement object) {
+	public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 		return null;
 	}
 

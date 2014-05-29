@@ -2,6 +2,7 @@
  */
 package fm.impl;
 
+import ca.mcgill.sel.core.COREFeature;
 import fm.FeatureModel;
 import fm.FmPackage;
 
@@ -35,6 +36,28 @@ public class FeatureModelImpl extends GRLGraphImpl implements FeatureModel {
 	 */
 	protected EClass eStaticClass() {
 		return FmPackage.Literals.FEATURE_MODEL;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public COREFeature getGlobalRoot() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public COREFeature getLocalRoot() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 } //FeatureModelImpl

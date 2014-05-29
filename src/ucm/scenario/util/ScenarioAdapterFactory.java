@@ -6,21 +6,11 @@
  */
 package ucm.scenario.util;
 
-import core.CORENamedElement;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-
 import ucm.scenario.*;
-import ucm.scenario.EnumerationType;
-import ucm.scenario.Initialization;
-import ucm.scenario.ScenarioDef;
-import ucm.scenario.ScenarioEndPoint;
-import ucm.scenario.ScenarioGroup;
-import ucm.scenario.ScenarioPackage;
-import ucm.scenario.ScenarioStartPoint;
-import ucm.scenario.Variable;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -100,7 +90,7 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 			public Object caseScenarioEndPoint(ScenarioEndPoint object) {
 				return createScenarioEndPointAdapter();
 			}
-			public Object caseCORENamedElement(CORENamedElement object) {
+			public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {
@@ -198,13 +188,13 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	}
 
     /**
-	 * Creates a new adapter for an object of class '{@link core.CORENamedElement <em>CORE Named Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.CORENamedElement <em>CORE Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see core.CORENamedElement
+	 * @see ca.mcgill.sel.core.CORENamedElement
 	 * @generated
 	 */
 	public Adapter createCORENamedElementAdapter() {
