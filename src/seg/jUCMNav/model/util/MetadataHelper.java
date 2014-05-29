@@ -72,6 +72,30 @@ public class MetadataHelper {
             md.setValue(value);
         }
     }
+    
+    /**
+     * Adds metadata to an element. Modifies if the name already exists.
+     * 
+     * @param urnspec
+     *            the urnspec containing everything
+     * @param elem
+     *            the element
+     * @param name
+     *            the name of the metadata to add
+     * @param value
+     *            the value to add
+     */
+    public static void addMetaData(URNspec urnspec, ucmscenarios.ModelElement elem, String name, String value) {
+        ucmscenarios.Metadata md = getMetaDataObj(elem, name);
+        if (md == null) {
+            Metadata data = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
+            data.setName(name);
+            data.setValue(value);
+            elem.getMetadata().add(data);
+        } else {
+            md.setValue(value);
+        }
+    }
 
     /**
      * Removes all metadata of specified name from an element.
@@ -220,6 +244,26 @@ public class MetadataHelper {
 
         for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
             Metadata data = (Metadata) iter.next();
+            if (data.getName() != null && data.getName().equalsIgnoreCase(name))
+                return data;
+        }
+
+        return null;
+    }
+    
+    /**
+     * Returns an element's metadata object
+     * 
+     * @param elem
+     *            the element
+     * @param name
+     *            the name of the metadata
+     * @return the metadata object
+     */
+    public static ucmscenarios.Metadata getMetaDataObj(ucmscenarios.ModelElement elem, String name) {
+
+        for (Iterator iter = elem.getMetadata().iterator(); iter.hasNext();) {
+            ucmscenarios.Metadata data = (ucmscenarios.Metadata) iter.next();
             if (data.getName() != null && data.getName().equalsIgnoreCase(name))
                 return data;
         }

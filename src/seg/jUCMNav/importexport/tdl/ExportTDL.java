@@ -15,6 +15,7 @@ import java.util.LinkedList;
 
 
 
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.etsi.mts.tdl.ComponentType;
@@ -33,6 +34,7 @@ import seg.jUCMNav.importexport.msc.MscTraversalListener;
 import seg.jUCMNav.importexport.msc.ScenarioGenerator;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.importexport.scenariosTools.ExportScenarios;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.preferences.ScenarioExportPreferences;
 import ucmscenarios.*;
@@ -77,6 +79,13 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 	 * A List that contains all the Timer for that package
 	 */	
 	List<Timer> timerList = new LinkedList<Timer>();
+	
+	/*
+	 * A HashMap where the name of a TimeUnit is the key and the TimeUnit object itself is the value
+	 * 			
+	 */
+	
+	HashMap<String, TimeUnit> timeUnitList = new HashMap<String, TimeUnit>();
 	
 	
 	/*
@@ -135,7 +144,37 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 		// Creates default GateType
 		GateType defaultGT = f.createGateType();
 		defaultGT.setName("DefaultGT");
-				
+			
+		
+		// Creates Predefined TimeUnits
+		TimeUnit tick = f.createTimeUnit();
+		tick.setName("TICK");
+		timeUnitList.put("TICK", tick);
+		
+		TimeUnit nanosecond = f.createTimeUnit();
+		nanosecond.setName("NANOSECOND");
+		timeUnitList.put("NANOSECOND", nanosecond);
+		
+		TimeUnit microsecond = f.createTimeUnit();
+		microsecond.setName("MICROSECOND");
+		timeUnitList.put("MICROSECOND", microsecond);
+		
+		TimeUnit millisecond = f.createTimeUnit();
+		millisecond.setName("MILLISECOND");
+		timeUnitList.put("MILLISECOND", millisecond);
+		
+		TimeUnit second = f.createTimeUnit();
+		second.setName("SECOND");
+		timeUnitList.put("SECOND", second);
+		
+		TimeUnit minute = f.createTimeUnit();
+		minute.setName("MINUTE");
+		timeUnitList.put("MINUTE", minute);
+		
+		TimeUnit hour = f.createTimeUnit();
+		hour.setName("HOUR");
+		timeUnitList.put("HOUR", hour);
+		
 		// Creates Predefined VerdictTypes
 		VerdictType passVerdict = f.createVerdictType();
 		passVerdict.setName("PASS");
@@ -192,7 +231,8 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 
 				// Sets the owningPackage for default parameters
 				initTdlPackage(tdlPackage, f, scenarioSpec, interactionTitle, interactionDescription, 
-									defaultGT, passVerdict, failVerdict, inconclusiveVerdict);
+									defaultGT, passVerdict, failVerdict, inconclusiveVerdict,
+										tick, nanosecond, microsecond, millisecond, second, minute, hour);
 				/* 
 				 * Creates a test description for the currently visited scenario and 
 				 * assign it to the TestConfiguration of the ScenarioGroup
@@ -443,7 +483,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 		while(seqElemListIt.hasNext()){
 			
 			SequenceElement currentSeqElem = seqElemListIt.next();
-			System.out.println("\n" + currentSeqElem.toString());
+			//System.out.println("\n" + currentSeqElem.toString());
 		
 			//Verifying the type of SequenceElement
 			if (currentSeqElem instanceof Parallel){
@@ -516,10 +556,10 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				
 				Event eventCurrentSeqElem = (Event)currentSeqElem;
 				
-								
-				if(eventCurrentSeqElem.getType().getName() == "StartPoint"){
+				
+				if(eventCurrentSeqElem.getType().getName().equals("StartPoint")){
 					// TODO: Define instructions for that case
-				}else if (eventCurrentSeqElem.getType().getName() == "Responsibility"){
+				}else if (eventCurrentSeqElem.getType().getName().equals("Responsibility")){
 					Action currentAction;
 					boolean found = false;
 					
@@ -554,9 +594,9 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 					AtomicBehaviour currentAtomicBehavAction = currentActionRef;
 					mainBlock.getBehaviours().add(currentAtomicBehavAction);																
 									
-				}else if (eventCurrentSeqElem.getType().getName() == "EndPoint"){
+				}else if (eventCurrentSeqElem.getType().getName().equals("EndPoint")){
 					// TODO: Define instructions for that case
-				}else if (eventCurrentSeqElem.getType().getName() == "WP_Enter"){
+				}else if (eventCurrentSeqElem.getType().getName().equals("WP_Enter")){
 					String timeOperationInstanceName = getInstanceName(eventCurrentSeqElem.getInstance().getName());
 										
 					TimeOperation currentTimeOperation  = f.createWait();
@@ -569,16 +609,16 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 					
 					// TODO : refine instructions above to be more specific 
 					
-				}else if (eventCurrentSeqElem.getType().getName() == "WP_Leave"){
+				}else if (eventCurrentSeqElem.getType().getName().equals("WP_Leave")){
 					// TODO: Define instructions for that case
-				}else if (eventCurrentSeqElem.getType().getName() == "Connect_Start"){
+				}else if (eventCurrentSeqElem.getType().getName().equals("Connect_Start")){
 					// TODO: Define instructions for that case
-				}else if (eventCurrentSeqElem.getType().getName() == "Connect_End"){
+				}else if (eventCurrentSeqElem.getType().getName().equals("Connect_End")){
 					// TODO: Define instructions for that case
-				}else if (eventCurrentSeqElem.getType().getName() == "Trigger_End"){
+				}else if (eventCurrentSeqElem.getType().getName().equals("Trigger_End")){
 					// TODO: Define instructions for that case
-				}else if (eventCurrentSeqElem.getType().getName() == "Timer_Set"){
-					
+				}else if (eventCurrentSeqElem.getType().getName().equals("Timer_Set")){
+							
 					// Setting a reference to the Timer object to use and creating a new one if it doesn't exists.
 					String timerInstanceName = getInstanceName(eventCurrentSeqElem.getInstance().getName());
 					String timerName = eventCurrentSeqElem.getName();
@@ -601,9 +641,27 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 					}
 					
 					// Creating the TimeOperation that starts the Timer 
-					TimerOperation currentTimerOperation = f.createTimerStart();
+					TimerStart currentTimerOperation = f.createTimerStart();
 					currentTimerOperation.setTimer(currentTimer);
 					currentTimerOperation.setName(currentTimer.getName() + "_Start");
+					
+					// Defines the period 
+					for (Object currentObject : eventCurrentSeqElem.getMetadata()){
+						Metadata currentMetadata = (Metadata)currentObject;
+						if(currentMetadata.getName().toLowerCase().equals("period")){
+							Time currentTime = f.createTime();
+							
+							currentTime.setUnit(setTimeUnitForPeriod(currentMetadata.getValue().toLowerCase()));
+							
+							String[] periodNameArray = currentMetadata.getValue().split(" ");
+							
+							Double periodValue = Double.parseDouble(periodNameArray[0]);
+							
+							currentTime.setValue(periodValue);
+							
+							currentTimerOperation.setPeriod(currentTime);
+						}
+					}
 					
 					AtomicBehaviour currentAtomicBehavAction = currentTimerOperation;
 					mainBlock.getBehaviours().add(currentAtomicBehavAction);		
@@ -675,12 +733,34 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 			
 		}
 	}
-
-
+/**
+ * Sets the owning Package for default objetcs of the Package
+ * 
+ * @author pboul037
+ * 
+ * @param tdlPackage
+ * @param f
+ * @param scenarioSpec
+ * @param interactionTitle
+ * @param interactionDescription
+ * @param defaultGT
+ * @param passVerdict
+ * @param failVerdict
+ * @param inconclusiveVerdict
+ * @param tick
+ * @param nanosecond
+ * @param microsecond
+ * @param millisecond
+ * @param second
+ * @param minute
+ * @param hour
+ */
 	private void initTdlPackage(Package tdlPackage, TdlFactory f, ScenarioSpec scenarioSpec,
 									AnnotationType interactionTitle, AnnotationType interactionDescription, 
 										GateType defaultGT, VerdictType passVerdict, VerdictType failVerdict, 
-											VerdictType inconclusiveVerdict){
+											VerdictType inconclusiveVerdict, TimeUnit tick, TimeUnit nanosecond, 
+												TimeUnit microsecond, TimeUnit millisecond, TimeUnit second, TimeUnit minute, 
+													TimeUnit hour){
 
 		interactionTitle.setOwningPackage(tdlPackage);
 	
@@ -694,10 +774,35 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 
 		inconclusiveVerdict.setOwningPackage(tdlPackage);
 		
+		tick.setOwningPackage(tdlPackage);
+		
+		nanosecond.setOwningPackage(tdlPackage);
+		
+		microsecond.setOwningPackage(tdlPackage);
+		
+		millisecond.setOwningPackage(tdlPackage);
+		
+		second.setOwningPackage(tdlPackage);
+		
+		minute.setOwningPackage(tdlPackage);
+		
+		hour.setOwningPackage(tdlPackage);
+		
 		createComponentTypes(tdlPackage, scenarioSpec, defaultGT);
 	}
 	
-
+/**
+ * Creates ComponentTypes for each UCMScenario Component in the ScenarioSpec
+ * 
+ * @author pboul037
+ * 
+ * @param tdlPackage
+ * 		owning Package
+ * @param scenarioSpec
+ * 		current scenarioSpec
+ * @param defaultGT
+ * 		default GateType
+ */
 private void createComponentTypes(Package tdlPackage, ScenarioSpec scenarioSpec, GateType defaultGT){
 	
 	//Visits all the Components
@@ -709,6 +814,8 @@ private void createComponentTypes(Package tdlPackage, ScenarioSpec scenarioSpec,
 	
 	Component currentUCMComp = compListIt.next();
 	System.out.println(currentUCMComp.toString());
+	if(! currentUCMComp.getMetadata().isEmpty() && currentUCMComp.getMetadata() != null)
+		System.out.println("This is a component metadata" + currentUCMComp.getMetadata().get(0));
 	
 	String currentCompTypeName = getInstanceType(currentUCMComp.getName());
 	
@@ -722,8 +829,6 @@ private void createComponentTypes(Package tdlPackage, ScenarioSpec scenarioSpec,
 	
 	if(!found){
 		
-		System.out.println("Creates a ComponentType");
-		
 		// Creates a ComponentType for each type of Component 
 		ComponentType currentCompType = f.createComponentType();
 		currentCompType.getGateTypes().add(defaultGT);
@@ -734,6 +839,39 @@ private void createComponentTypes(Package tdlPackage, ScenarioSpec scenarioSpec,
 		
 		}
 	}
+}
+
+/**
+ * Returns the TimeUnit of the period of a TimeOperation.
+ * 
+ * @author pboul037
+ * 
+ * @param period
+ * 		a reference to the period
+ * @param periodName
+ * 		the name of the period
+ * @return selectedTimeUnit
+ * 		selected TimeUnit according to the period's name
+ */
+private TimeUnit setTimeUnitForPeriod(String periodName){
+	TimeUnit selectedTimeUnit = null;
+	
+	if ( periodName.contains("tick"))
+		selectedTimeUnit = timeUnitList.get("TICK");
+	else if ( periodName.contains("nanosecond"))
+		selectedTimeUnit = timeUnitList.get("NANOSECOND");
+	else if ( periodName.contains("microsecond"))
+		selectedTimeUnit = timeUnitList.get("MICROSECOND");
+	else if ( periodName.contains("millisecond"))
+		selectedTimeUnit = timeUnitList.get("MILLISECOND");	
+	else if ( periodName.contains("second"))
+		selectedTimeUnit = timeUnitList.get("SECOND");
+	else if ( periodName.contains("minute"))
+		selectedTimeUnit = timeUnitList.get("MINUTE");
+	else if ( periodName.contains("hour"))
+		selectedTimeUnit = timeUnitList.get("HOUR");
+		
+	return selectedTimeUnit;
 }
 }
 	

@@ -498,6 +498,14 @@ public class ExportScenariosTraversalListener {
 	            arrow.setName(visit.getVisitedElement().getName());
 	            MetadataHelper.addMetaData(urnspec, arrow, "type", visit.getVisitedElement() instanceof Timer ? "Timer_Set" : "WP_Enter"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	            MetadataHelper.addMetaData(urnspec, arrow, "name", visit.getVisitedElement().getName()); //$NON-NLS-1$
+	            
+	            //adds the "duration" metadata to the waiting place if it exists in the visited pathnode
+	            for (Object currentObj : visit.getVisitedElement().getMetadata()){
+	            	urncore.Metadata currentMeta = (urncore.Metadata) currentObj;
+	            	if(currentMeta.getName().equals("period")){
+	            		MetadataHelper.addMetaData(urnspec, arrow, "period", currentMeta.getValue());
+	            	}
+	            }
 	        }
 	    }
 	}

@@ -39,11 +39,13 @@ import ucmscenarios.Parallel;
 import ucmscenarios.ScenarioSpec;
 import ucmscenarios.Sequence;
 import ucmscenarios.UcmscenariosFactory;
+import ucmscenarios.Metadata;
 import urn.URNspec;
 import urncore.Component;
 import urncore.Condition;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
+
 
 /**
  * Generates an scenario xml from a URNspec produced by MscTraversalListener
@@ -153,7 +155,8 @@ public class ScenarioGenerator {
 
         for (Iterator iter = urnspec.getUrndef().getComponents().iterator(); iter.hasNext();) {
             Component element = (Component) iter.next();
-
+           
+            
             comp = f.createComponent();
             setIdNameDesc(element, comp);
             comp.setScenarioSpec(scenarios);
@@ -178,7 +181,7 @@ public class ScenarioGenerator {
         instance.setDefinition(_environmentComponent);
         _lastEnvironmentInstance = instance;
         for (Iterator iter = map.getContRefs().iterator(); iter.hasNext();) {
-            ComponentRef element = (ComponentRef) iter.next();
+            ComponentRef element = (ComponentRef) iter.next();           
             instance = f.createInstance();
             setIdNameDesc(element, instance);
             // refs have no useful names.
@@ -199,7 +202,8 @@ public class ScenarioGenerator {
      */
     private ComponentRef addCondition(Sequence seq, WaitingPlace wp) {
         ComponentRef compRef = (ComponentRef) wp.getContRef();
-
+        
+        
         Condition cond = ((NodeConnection) wp.getSucc().get(0)).getCondition();
         assert cond != null;
 
@@ -272,6 +276,8 @@ public class ScenarioGenerator {
         ComponentRef compRef = (ComponentRef) pn.getContRef();
         action.setInstance(getInstance(compRef));
 
+        
+        
         if (pn instanceof StartPoint)
             action.setType(EventType.START_POINT_LITERAL);
         else if (pn instanceof EndPoint)
@@ -280,15 +286,19 @@ public class ScenarioGenerator {
             action.setType(EventType.TIMEOUT_LITERAL);
         } else if (pn instanceof DirectionArrow) {
             EventType type = EventType.get(MetadataHelper.getMetaData(pn, "type")); //$NON-NLS-1$
-            action.setType(type);
-
-            if (type == EventType.WP_ENTER_LITERAL)
+            action.setType(type);  
+            if (type == EventType.WP_ENTER_LITERAL){
                 action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceEnter")); //$NON-NLS-1$ //$NON-NLS-2$
+                if (MetadataHelper.getMetaData(pn, "period") != null )
+                	MetadataHelper.addMetaData(urnspec, action, "period", MetadataHelper.getMetaData(pn, "period"));
+                }
             else if (type == EventType.WP_LEAVE_LITERAL) {
                 action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceLeave")); //$NON-NLS-1$ //$NON-NLS-2$
-            } else if (type == EventType.TIMER_SET_LITERAL)
-                action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceSet")); //$NON-NLS-1$ //$NON-NLS-2$
-            else if (type == EventType.TIMER_RESET_LITERAL) {
+            } else if (type == EventType.TIMER_SET_LITERAL){
+            	action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceSet")); //$NON-NLS-1$ //$NON-NLS-2$
+            	  if (MetadataHelper.getMetaData(pn, "period") != null )
+                  	MetadataHelper.addMetaData(urnspec, action, "period", MetadataHelper.getMetaData(pn, "period"));
+            }else if (type == EventType.TIMER_RESET_LITERAL) {
                 action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceReset")); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
@@ -864,5 +874,24 @@ public class ScenarioGenerator {
         out.setId(in.getId());
         out.setName(in.getName());
         out.setDescription(in.getDescription());
+        
+        if(!in.getMetadata().isEmpty() && in.getMetadata() != null ){
+        	
+            for ( Object currentObj : in.getMetadata()){
+            	urncore.Metadata currentMetadata = (urncore.Metadata)currentObj;
+            	System.out.println("We are accessing metadata" + in.getMetadata().get(0) + "   Metadata objet = " + in);
+            }
+        	
+        	for ( Object currentObject : in.getMetadata()){
+        		urncore.Metadata currentUrnMetadata = (urncore.Metadata) currentObject;
+        		
+        		Metadata currentScenMetadata = f.createMetadata();
+        		currentScenMetadata.setName(currentUrnMetadata.getName());
+        		currentScenMetadata.setValue(currentUrnMetadata.getValue());
+        	
+        		out.getMetadata().add(currentScenMetadata);
+        	}
+        }
+        	
     }
 }
