@@ -140,6 +140,10 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 		// Creates annotation type representing Interaction names
 		AnnotationType interactionDescription = f.createAnnotationType();
 		interactionDescription.setName("PROCEDURE");
+		
+		// Creates annotation type representing Interaction names
+		AnnotationType timerInstanceRef = f.createAnnotationType();
+		timerInstanceRef.setName("INSTANCEREF");
 				
 		// Creates default GateType
 		GateType defaultGT = f.createGateType();
@@ -230,7 +234,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				HashMap<String, List<String>> connections = new HashMap<String, List<String>>();
 
 				// Sets the owningPackage for default parameters
-				initTdlPackage(tdlPackage, f, scenarioSpec, interactionTitle, interactionDescription, 
+				initTdlPackage(tdlPackage, f, scenarioSpec, interactionTitle, interactionDescription, timerInstanceRef, 
 									defaultGT, passVerdict, failVerdict, inconclusiveVerdict,
 										tick, nanosecond, microsecond, millisecond, second, minute, hour);
 				/* 
@@ -368,7 +372,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				
 				
 				scenarioSeqElemTraversal(tdlPackage, seqElemList, seqElemListIt, currentUCMScenario, mainBlock, 
-											currentTestConfig, compInstNameList, interactionTitle,interactionDescription );
+											currentTestConfig, compInstNameList, interactionTitle,interactionDescription, timerInstanceRef );
 				}
 				
 				save(file, tdlPackage);
@@ -479,7 +483,8 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 															TestConfiguration currentTestConfig,
 																HashMap<String, ComponentInstance> compInstNameList,
 																	AnnotationType interactionTitle,
-																		AnnotationType interactionDescription){
+																		AnnotationType interactionDescription,
+																			AnnotationType timerInstanceRef){
 		while(seqElemListIt.hasNext()){
 			
 			SequenceElement currentSeqElem = seqElemListIt.next();
@@ -505,7 +510,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 					
 					// Recursive call for each branch of the AndFork
 					scenarioSeqElemTraversal(tdlPackage, seqListNiv2, seqListNiv2It, currentUCMScenario, currentParallelBlock, 
-													currentTestConfig, compInstNameList, interactionTitle, interactionDescription);
+													currentTestConfig, compInstNameList, interactionTitle, interactionDescription, timerInstanceRef);
 				}
 				
 				mainBlock.getBehaviours().add(parallelBehav);
@@ -518,7 +523,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				ListIterator<SequenceElement> seqListIt = seqList.listIterator();
 
 				scenarioSeqElemTraversal(tdlPackage, seqList, seqListIt, currentUCMScenario, mainBlock, 
-											currentTestConfig, compInstNameList, interactionTitle, interactionDescription);
+											currentTestConfig, compInstNameList, interactionTitle, interactionDescription, timerInstanceRef);
 				
 			}else if(currentSeqElem instanceof Message){
 				
@@ -644,7 +649,6 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 					TimerStart currentTimerOperation = f.createTimerStart();
 					currentTimerOperation.setTimer(currentTimer);
 					currentTimerOperation.setName(currentTimer.getName() + "_Start");
-					
 					// Defines the period 
 					for (Object currentObject : eventCurrentSeqElem.getMetadata()){
 						Metadata currentMetadata = (Metadata)currentObject;
@@ -662,6 +666,10 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 							currentTimerOperation.setPeriod(currentTime);
 						}
 					}
+					// Gives a reference to the gateInst for the timer ( useful in PlantUml visualisation )
+					Annotation currentTimerInstanceRef = currentTimerOperation.createAnnotation();
+					currentTimerInstanceRef.setKey(timerInstanceRef);
+					currentTimerInstanceRef.setValue("g" + eventCurrentSeqElem.getInstance().getName());
 					
 					AtomicBehaviour currentAtomicBehavAction = currentTimerOperation;
 					mainBlock.getBehaviours().add(currentAtomicBehavAction);		
@@ -692,6 +700,11 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 					currentTimerOperation.setTimer(currentTimer);
 					currentTimerOperation.setName(currentTimer.getName() + "_TimerStop");
 					
+					// Gives a reference to the gateInst for the timer ( useful in PlantUml visualisation )
+					Annotation currentTimerInstanceRef = currentTimerOperation.createAnnotation();
+					currentTimerInstanceRef.setKey(timerInstanceRef);
+					currentTimerInstanceRef.setValue("g" + eventCurrentSeqElem.getInstance().getName());
+					
 					AtomicBehaviour currentAtomicBehavAction = currentTimerOperation;
 					mainBlock.getBehaviours().add(currentAtomicBehavAction);
 					
@@ -720,6 +733,11 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 					TimerOperation currentTimerOperation = f.createTimeOut();
 					currentTimerOperation.setTimer(currentTimer);
 					currentTimerOperation.setName(currentTimer.getName() + "_Timeout");
+					
+					// Gives a reference to the gateInst for the timer ( useful in PlantUml visualisation )
+					Annotation currentTimerInstanceRef = currentTimerOperation.createAnnotation();
+					currentTimerInstanceRef.setKey(timerInstanceRef);
+					currentTimerInstanceRef.setValue("g" + eventCurrentSeqElem.getInstance().getName());
 					
 					AtomicBehaviour currentAtomicBehavAction = currentTimerOperation;
 					mainBlock.getBehaviours().add(currentAtomicBehavAction);
@@ -756,7 +774,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
  * @param hour
  */
 	private void initTdlPackage(Package tdlPackage, TdlFactory f, ScenarioSpec scenarioSpec,
-									AnnotationType interactionTitle, AnnotationType interactionDescription, 
+									AnnotationType interactionTitle, AnnotationType interactionDescription, AnnotationType timerInstanceRef, 
 										GateType defaultGT, VerdictType passVerdict, VerdictType failVerdict, 
 											VerdictType inconclusiveVerdict, TimeUnit tick, TimeUnit nanosecond, 
 												TimeUnit microsecond, TimeUnit millisecond, TimeUnit second, TimeUnit minute, 
@@ -765,6 +783,8 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 		interactionTitle.setOwningPackage(tdlPackage);
 	
 		interactionDescription.setOwningPackage(tdlPackage);
+		
+		timerInstanceRef.setOwningPackage(tdlPackage);
 
 		defaultGT.setOwningPackage(tdlPackage);
 
