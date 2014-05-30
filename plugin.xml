@@ -363,7 +363,7 @@
             class="seg.jUCMNav.importexport.tdl.ExportTDL"
             extension="tdl"
             id="seg.jUCMNav.ExportTdl"
-            name="Export TDL (.tdl)"
+            name="Test Description Language (.tdl)"
             useStream="false"/>    
       <exporter
             class="seg.jUCMNav.importexport.ExportDXL"
