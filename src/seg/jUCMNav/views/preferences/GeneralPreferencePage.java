@@ -17,6 +17,7 @@ import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editparts.URNRootEditPart;
@@ -167,6 +168,10 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
      * @return the Author
      */
     public static String getAuthor() {
+    	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
+    	// the plugin environment is not defined which causes a null pointer exception here
+    	if (JUCMNavPlugin.getDefault() == null)
+    		return COREFactory4URN.AUTHOR_NAME;
         return JUCMNavPlugin.getDefault().getPreferenceStore().getString(PREF_AUTHOR);
     }
 

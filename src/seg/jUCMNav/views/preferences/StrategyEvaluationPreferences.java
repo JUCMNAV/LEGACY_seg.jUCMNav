@@ -3,6 +3,7 @@ package seg.jUCMNav.views.preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import urn.URNspec;
@@ -43,6 +44,10 @@ public class StrategyEvaluationPreferences {
      * @return Preference store where the properties are stored.
      */
     public static IPreferenceStore getPreferenceStore() {
+    	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
+    	// the plugin environment is not defined which causes a null pointer exception here
+    	if (JUCMNavPlugin.getDefault() == null)
+    		return null;
         return JUCMNavPlugin.getDefault().getPreferenceStore();
     }
 
@@ -85,8 +90,13 @@ public class StrategyEvaluationPreferences {
      * @return should we visualize -100 to 100 as a positive range (0 to 100)?
      */
     public static boolean getVisualizeAsPositiveRange(URNspec urn) {
-        if (urn == null)
-            return getPreferenceStore().getBoolean(PREF_VISUALIZEASPOSITIVERANGE);
+        if (urn == null) {
+        	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
+        	// the plugin environment is not defined which causes a null pointer exception here
+        	if (getPreferenceStore() == null)
+        		return COREFactory4URN.POSITIVE_RANGE;
+        	return getPreferenceStore().getBoolean(PREF_VISUALIZEASPOSITIVERANGE);
+        }
         else
         {
             return StrategyEvaluationRangeHelper.getCurrentRange(urn);
