@@ -2,7 +2,7 @@
  */
 package fm.impl;
 
-import ca.mcgill.sel.core.COREFeatureModelDecompositionType;
+import ca.mcgill.sel.core.COREFeatureRelationshipType;
 import fm.Feature;
 import fm.FmPackage;
 import grl.impl.IntentionalElementImpl;
@@ -162,10 +162,10 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
-	public void addFeature(String child_name, COREFeatureModelDecompositionType association) {
+	public void addFeature(String child_name, COREFeatureRelationshipType association) {
 		// TODO: implement this method
+		// TODO NOW, only mandatory!
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
 	}
@@ -173,10 +173,10 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void delete() {
 		// TODO: implement this method
+		// TODO NOW
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
 	}
@@ -197,7 +197,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void changeLink(COREFeatureModelDecompositionType new_association) {
+	public void changeLink(COREFeatureRelationshipType new_association) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -208,7 +208,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void changeParent(ca.mcgill.sel.core.COREFeature feature, COREFeatureModelDecompositionType new_association) {
+	public void changeParent(ca.mcgill.sel.core.COREFeature feature, COREFeatureRelationshipType new_association) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();

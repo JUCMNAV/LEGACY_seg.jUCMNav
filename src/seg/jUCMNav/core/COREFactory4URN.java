@@ -5,7 +5,10 @@ import java.util.Iterator;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.concerns.AssignConcernDiagramCommand;
 import seg.jUCMNav.model.commands.concerns.InternalCreateConcernCommand;
+import seg.jUCMNav.model.commands.concerns.UpdateConcernCommand;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
+import seg.jUCMNav.model.commands.create.CreateFMDCommand;
+import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import urn.URNspec;
 import urncore.Concern;
@@ -21,74 +24,55 @@ import grl.GRLGraph;
 import grl.IntentionalElementRef;
 
 public class COREFactory4URN extends AbstractConcernFactory {
+	// the general idea for the CORE interface implementation is to use already existing commands as much as possible to
+	// leverage existing checks for well-formedness constraints etc.
 	
-	// TODO singleton for now until the abstract methods are switched to static
-	private static COREFactory4URN instance = null;
-	public static String AUTHOR_NAME = "CORE author";
+	public static String AUTHOR_NAME = "CORE";
 	public static boolean POSITIVE_RANGE = false;
 	
-	private COREFactory4URN coreFactory4URN() {
-		instance = this;
-		return this;
-	}
-	
-	public COREFactory4URN getInstance() {
-		if (instance != null)
-			return instance;
-		return coreFactory4URN();
-	}
-	
 	@Override
-	public COREConcern createConcern() {
-		// TODO assumes name = "Concern XYZ" at the moment, should be passed into method, as should the author name
-		// TODO COREInterface is not created (should be done in CORE)
-		String name = "Concern XYZ"; //$NON-NLS-1$
-		return createConcern(name, AUTHOR_NAME);
-	}
-	
-	public COREConcern createConcern(String concernName, String authorName) {
-		// the general idea for the CORE interface implementation is to use already existing commands as much as possible to
-		// leverage existing checks for well-formedness constraints etc.
-		
-		if (concernName == null || authorName == null)
+	protected COREFeatureModel createFeatureModel(COREConcern cc) {
+		// consistency checks: correct parameter, feature model does not exist, does impact model exist?
+		if (cc == null)
 			return null;
-		
-		// creates the urn model with one feature model and one impact model
-		URNspec urn = ModelCreationFactory.getNewURNspec(false, true, true);
-		FeatureModel fm = null;
-		GRLGraph im = null;
-		Iterator it = urn.getUrndef().getSpecDiagrams().iterator();
+		GRLGraph im = null;		
+		Iterator<COREModel> it = cc.getModels().iterator();
 		while (it.hasNext()) {
-			IURNDiagram diagram = (IURNDiagram) it.next();
-			// need to first check for FeatureModel because any FeatureModel is also a GRLGraph
-			if (diagram instanceof FeatureModel)
-				fm = (FeatureModel) diagram;
-			else if (diagram instanceof GRLGraph)
-				im = (GRLGraph) diagram;
+			COREModel model = it.next();
+			if (model instanceof COREFeatureModel && model instanceof FeatureModel)
+				return null;
+			// need to check that model is not a FeatureModel because any FeatureModel is also a GRLGraph/COREImpactModel
+			if (model instanceof COREImpactModel && model instanceof GRLGraph && !(model instanceof FeatureModel))
+				im = (GRLGraph) model;			
 		}
-		if (fm == null || im == null)
-			return null;
 		
-		// create concern and name it
-		InternalCreateConcernCommand iccCmd = new InternalCreateConcernCommand(urn, concernName, "");
-		if (iccCmd.canExecute())
-			iccCmd.execute();
-		else
-			return null;
-		Concern concern = iccCmd.getConcern();
+		// if impact model already exists, add feature model to the existing URN model
+		URNspec urn = null;
+		FeatureModel fm = null;		
+		if (im != null) {
+			// use existing urn model to add feature model
+			urn = im.getUrndefinition().getUrnspec();
+			CreateFMDCommand cfCmd = new CreateFMDCommand(urn);
+			if (cfCmd.canExecute())
+				cfCmd.execute();
+			else
+				return null;
+			fm = cfCmd.getDiagram();
+		}
+		else {
+			// creates the urn model with one feature model
+			urn = ModelCreationFactory.getNewURNspec(false, false, true);
+			// get the created feature model
+			Iterator it2 = urn.getUrndef().getSpecDiagrams().iterator();
+			while (it2.hasNext()) {
+				IURNDiagram diagram = (IURNDiagram) it2.next();
+				if (diagram instanceof FeatureModel)
+					fm = (FeatureModel) diagram;
+			}
+			if (fm == null)
+				return null;
+		}
 		
-		// assign both models to the concern
-		AssignConcernDiagramCommand acdCmd = new AssignConcernDiagramCommand(fm, concern);
-		if (acdCmd.canExecute())
-			acdCmd.execute();
-		else
-			return null;
-		AssignConcernDiagramCommand acdCmd2 = new AssignConcernDiagramCommand(im, concern);
-		if (acdCmd2.canExecute())
-			acdCmd2.execute();
-		else
-			return null;
-				
 		// create root feature with the same name as concern and add to feature model
 		IntentionalElementRef ref = (IntentionalElementRef) ModelCreationFactory.getNewObject(urn, IntentionalElementRef.class, ModelCreationFactory.FEATURE);
         AddIntentionalElementRefCommand aierCmd = new AddIntentionalElementRefCommand(fm, ref);
@@ -96,50 +80,106 @@ public class COREFactory4URN extends AbstractConcernFactory {
         	aierCmd.execute();
         else
         	return null;
-        ChangeGrlNodeNameCommand cgnnCmd = new ChangeGrlNodeNameCommand(ref, concernName);
+        ChangeGrlNodeNameCommand cgnnCmd = new ChangeGrlNodeNameCommand(ref, cc.getName());
         if (cgnnCmd.canExecute())
         	cgnnCmd.execute();
         else
         	return null;
+        
+        Concern concern = createURNConcern(cc, urn, fm);
+        if (concern == null)
+        	return null;
 		
-		// create COREconcern, name it, and assign the two models
-		CoreFactory fact = CoreFactory.eINSTANCE;
-		COREConcern cc = fact.createCOREConcern();
-		cc.setName(concernName);
-		cc.getModels().add(fm);
-		cc.getModels().add(im);
+		// return feature model
+		return (COREFeatureModel) fm;
+	}
+
+	@Override
+	protected COREImpactModel createImpactModel(COREConcern cc) {
+		// consistency checks: correct parameter, impact model does not exist, does feature model exist?
+		if (cc == null)
+			return null;
+		FeatureModel fm = null;		
+		Iterator<COREModel> it = cc.getModels().iterator();
+		while (it.hasNext()) {
+			COREModel model = it.next();
+			if (model instanceof COREFeatureModel && model instanceof FeatureModel)
+				fm = (FeatureModel) model;
+			// need to check that model is not a FeatureModel because any FeatureModel is also a GRLGraph/COREImpactModel
+			if (model instanceof COREImpactModel && model instanceof GRLGraph && !(model instanceof FeatureModel))
+				return null;			
+		}
 		
+		// if feature model already exists, add impact model to the existing URN model
+		URNspec urn = null;
+		GRLGraph im = null;		
+		if (fm != null) {
+			// use existing urn model to add feature model
+			urn = fm.getUrndefinition().getUrnspec();
+			CreateGrlGraphCommand cggCmd = new CreateGrlGraphCommand(urn);
+			if (cggCmd.canExecute())
+				cggCmd.execute();
+			else
+				return null;
+			im = cggCmd.getDiagram();
+		}
+		else {
+			// creates the urn model with one impact model
+			urn = ModelCreationFactory.getNewURNspec(false, true, false);
+			// get the created impact model
+			Iterator it2 = urn.getUrndef().getSpecDiagrams().iterator();
+			while (it2.hasNext()) {
+				IURNDiagram diagram = (IURNDiagram) it2.next();
+				// need to check that model is not a FeatureModel because any FeatureModel is also a GRLGraph
+				if (diagram instanceof GRLGraph && !(diagram instanceof FeatureModel))
+					im = (GRLGraph) diagram;
+			}
+			if (im == null)
+				return null;
+		}
+		
+        Concern concern = createURNConcern(cc, urn, im);
+        if (concern == null)
+        	return null;
+        
+		// return impact model
+		return (COREImpactModel) im;
+	}
+
+	private Concern createURNConcern(COREConcern cc, URNspec urn, GRLGraph model) {
+		// does concern already exist in URN? (assumes there is only at the most one concern defined)
+        Concern concern = null;
+        Iterator it3 = urn.getUrndef().getConcerns().iterator();
+        if (it3.hasNext()) {
+        	// use existing concern, but rename it
+        	concern = (Concern) it3.next();
+        	UpdateConcernCommand ucCmd = new UpdateConcernCommand(concern, cc.getName(), "");
+        	if (ucCmd.canExecute())
+        		ucCmd.execute();
+        	else
+        		return null;
+        }
+        else {
+    		// create concern and name it
+    		InternalCreateConcernCommand iccCmd = new InternalCreateConcernCommand(urn, cc.getName(), "");
+    		if (iccCmd.canExecute())
+    			iccCmd.execute();
+    		else
+    			return null;
+    		concern = iccCmd.getConcern();        	
+        }
+        
+		// assign model to the concern
+		AssignConcernDiagramCommand acdCmd = new AssignConcernDiagramCommand(model, concern);
+		if (acdCmd.canExecute())
+			acdCmd.execute();
+		else
+			return null;
+				
 		// associate the concern in urn with the COREConcern 
 		concern.setCoreConcern(cc);
 		
-		// return concern
-		return cc;
+		return concern;
 	}
-
-	@Override
-	public COREFeatureModel getFeatureModel(COREConcern concern) {
-		// TODO only returns first feature model of concern
-		// TODO should really be a list of all feature models
-		Iterator<COREModel> it = concern.getModels().iterator();
-		while (it.hasNext()) {
-			COREModel model = it.next();
-			if (model instanceof FeatureModel)
-				return (COREFeatureModel) model;
-		}
-		return null;
-	}
-
-	@Override
-	public COREImpactModel getImpactModel(COREConcern concern) {
-		// TODO only returns first impact model of concern
-		// TODO should really be a list of all impact models
-		Iterator<COREModel> it = concern.getModels().iterator();
-		while (it.hasNext()) {
-			COREModel model = it.next();
-			if (!(model instanceof FeatureModel) && model instanceof GRLGraph)
-				return (COREImpactModel) model;
-		}
-		return null;
-	}
-
+	
 }
