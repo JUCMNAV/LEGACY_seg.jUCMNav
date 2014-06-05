@@ -879,7 +879,7 @@ public class ScenarioGenerator {
         	
             for ( Object currentObj : in.getMetadata()){
             	urncore.Metadata currentMetadata = (urncore.Metadata)currentObj;
-            	System.out.println("We are accessing metadata" + in.getMetadata().get(0) + "   Metadata objet = " + in);
+            	//System.out.println("We are accessing metadata" + in.getMetadata().get(0) + "   Metadata objet = " + in);
             }
         	
         	for ( Object currentObject : in.getMetadata()){

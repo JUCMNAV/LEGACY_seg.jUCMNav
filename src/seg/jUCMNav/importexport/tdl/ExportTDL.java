@@ -136,14 +136,19 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 		//Creates annotation type representing Interaction names
 		AnnotationType interactionTitle = f.createAnnotationType();
 		interactionTitle.setName("STEP");
-				
+			
+		
 		// Creates annotation type representing Interaction names
 		AnnotationType interactionDescription = f.createAnnotationType();
 		interactionDescription.setName("PROCEDURE");
 		
-		// Creates annotation type representing Interaction names
+		// Creates annotation type representing the instance of a timer
 		AnnotationType timerInstanceRef = f.createAnnotationType();
 		timerInstanceRef.setName("INSTANCEREF");
+			
+		// Creates annotation type representing the instance of an alternative
+		AnnotationType alternInstanceRef = f.createAnnotationType();
+		alternInstanceRef.setName("ALTERNINSTANCEREF");
 				
 		// Creates default GateType
 		GateType defaultGT = f.createGateType();
@@ -179,6 +184,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 		hour.setName("HOUR");
 		timeUnitList.put("HOUR", hour);
 		
+		
 		// Creates Predefined VerdictTypes
 		VerdictType passVerdict = f.createVerdictType();
 		passVerdict.setName("PASS");
@@ -197,6 +203,9 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 		//Visits all the ScenarioGroups
 		EList<ScenarioGroup> groupList = scenarioSpec.getGroups();
 		ListIterator<ScenarioGroup> groupListIt = groupList.listIterator();
+		
+		Boolean tempFirstFile = false;
+		String tempPath = null;
 		
 		while(groupListIt.hasNext()){
 			ScenarioGroup currentUCMGroup = groupListIt.next();
@@ -218,8 +227,13 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				tdlPackage = seg.jUCMNav.model.TdlModelCreationFactory.getNewTdlPackage(currentUCMScenario.getName());
 				
 				
-				path = path.substring(0, path.lastIndexOf('\\')) + "\\" + currentUCMScenario.getName() + ".tdl";
-				System.out.println(path);
+				if(tempFirstFile == false){
+					tempPath = path.substring(0, path.lastIndexOf('\\'));
+					tempFirstFile = true;
+				}
+				
+				path = tempPath + "\\" + currentUCMScenario.getName() + "\\TDL\\" + currentUCMScenario.getName() + ".tdl";
+				
 				file = new File(path);
 				
 				// Creates a test configuration for the currently visited Scenario
@@ -234,9 +248,38 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				HashMap<String, List<String>> connections = new HashMap<String, List<String>>();
 
 				// Sets the owningPackage for default parameters
-				initTdlPackage(tdlPackage, f, scenarioSpec, interactionTitle, interactionDescription, timerInstanceRef, 
-									defaultGT, passVerdict, failVerdict, inconclusiveVerdict,
-										tick, nanosecond, microsecond, millisecond, second, minute, hour);
+				interactionTitle.setOwningPackage(tdlPackage);
+				
+				interactionDescription.setOwningPackage(tdlPackage);
+				
+				timerInstanceRef.setOwningPackage(tdlPackage);
+				
+				alternInstanceRef.setOwningPackage(tdlPackage);
+
+				defaultGT.setOwningPackage(tdlPackage);
+
+				passVerdict.setOwningPackage(tdlPackage);
+				
+				failVerdict.setOwningPackage(tdlPackage);
+
+				inconclusiveVerdict.setOwningPackage(tdlPackage);
+				
+				tick.setOwningPackage(tdlPackage);
+				
+				nanosecond.setOwningPackage(tdlPackage);
+				
+				microsecond.setOwningPackage(tdlPackage);
+				
+				millisecond.setOwningPackage(tdlPackage);
+				
+				second.setOwningPackage(tdlPackage);
+				
+				minute.setOwningPackage(tdlPackage);
+				
+				hour.setOwningPackage(tdlPackage);
+				
+				createComponentTypes(tdlPackage, scenarioSpec, defaultGT);
+				
 				/* 
 				 * Creates a test description for the currently visited scenario and 
 				 * assign it to the TestConfiguration of the ScenarioGroup
@@ -372,7 +415,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				
 				
 				scenarioSeqElemTraversal(tdlPackage, seqElemList, seqElemListIt, currentUCMScenario, mainBlock, 
-											currentTestConfig, compInstNameList, interactionTitle,interactionDescription, timerInstanceRef );
+											currentTestConfig, compInstNameList, interactionTitle,interactionDescription, timerInstanceRef, alternInstanceRef );
 				}
 				
 				save(file, tdlPackage);
@@ -484,7 +527,8 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 																HashMap<String, ComponentInstance> compInstNameList,
 																	AnnotationType interactionTitle,
 																		AnnotationType interactionDescription,
-																			AnnotationType timerInstanceRef){
+																			AnnotationType timerInstanceRef, 
+																				AnnotationType alternInstanceRef){
 		while(seqElemListIt.hasNext()){
 			
 			SequenceElement currentSeqElem = seqElemListIt.next();
@@ -510,7 +554,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 					
 					// Recursive call for each branch of the AndFork
 					scenarioSeqElemTraversal(tdlPackage, seqListNiv2, seqListNiv2It, currentUCMScenario, currentParallelBlock, 
-													currentTestConfig, compInstNameList, interactionTitle, interactionDescription, timerInstanceRef);
+													currentTestConfig, compInstNameList, interactionTitle, interactionDescription, timerInstanceRef, alternInstanceRef);
 				}
 				
 				mainBlock.getBehaviours().add(parallelBehav);
@@ -523,7 +567,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				ListIterator<SequenceElement> seqListIt = seqList.listIterator();
 
 				scenarioSeqElemTraversal(tdlPackage, seqList, seqListIt, currentUCMScenario, mainBlock, 
-											currentTestConfig, compInstNameList, interactionTitle, interactionDescription, timerInstanceRef);
+											currentTestConfig, compInstNameList, interactionTitle, interactionDescription, timerInstanceRef, alternInstanceRef);
 				
 			}else if(currentSeqElem instanceof Message){
 				
@@ -744,71 +788,21 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				}				
 			}else{
 				Condition conditionCurrentSeqElem = (Condition)currentSeqElem;
-				// Alternatives are not needed in this version since scenarios are already flattened
+				
+				AlternativeBehaviour alternBehav = f.createAlternativeBehaviour();
+				alternBehav.setName("<b>Alternative</b> : " + conditionCurrentSeqElem.getExpression() + "\\n<b>Label : </b>" + conditionCurrentSeqElem.getLabel());
+				
+				// Gives a reference to the Instance of the alternative ( useful in PlantUml visualisation )
+				Annotation currentAlternInstanceRef = alternBehav.createAnnotation();
+				currentAlternInstanceRef.setKey(alternInstanceRef);
+				currentAlternInstanceRef.setValue(conditionCurrentSeqElem.getInstance().getName());
+				
+				mainBlock.getBehaviours().add(alternBehav);
 				
 			}
 			
 			
 		}
-	}
-/**
- * Sets the owning Package for default objetcs of the Package
- * 
- * @author pboul037
- * 
- * @param tdlPackage
- * @param f
- * @param scenarioSpec
- * @param interactionTitle
- * @param interactionDescription
- * @param defaultGT
- * @param passVerdict
- * @param failVerdict
- * @param inconclusiveVerdict
- * @param tick
- * @param nanosecond
- * @param microsecond
- * @param millisecond
- * @param second
- * @param minute
- * @param hour
- */
-	private void initTdlPackage(Package tdlPackage, TdlFactory f, ScenarioSpec scenarioSpec,
-									AnnotationType interactionTitle, AnnotationType interactionDescription, AnnotationType timerInstanceRef, 
-										GateType defaultGT, VerdictType passVerdict, VerdictType failVerdict, 
-											VerdictType inconclusiveVerdict, TimeUnit tick, TimeUnit nanosecond, 
-												TimeUnit microsecond, TimeUnit millisecond, TimeUnit second, TimeUnit minute, 
-													TimeUnit hour){
-
-		interactionTitle.setOwningPackage(tdlPackage);
-	
-		interactionDescription.setOwningPackage(tdlPackage);
-		
-		timerInstanceRef.setOwningPackage(tdlPackage);
-
-		defaultGT.setOwningPackage(tdlPackage);
-
-		passVerdict.setOwningPackage(tdlPackage);
-		
-		failVerdict.setOwningPackage(tdlPackage);
-
-		inconclusiveVerdict.setOwningPackage(tdlPackage);
-		
-		tick.setOwningPackage(tdlPackage);
-		
-		nanosecond.setOwningPackage(tdlPackage);
-		
-		microsecond.setOwningPackage(tdlPackage);
-		
-		millisecond.setOwningPackage(tdlPackage);
-		
-		second.setOwningPackage(tdlPackage);
-		
-		minute.setOwningPackage(tdlPackage);
-		
-		hour.setOwningPackage(tdlPackage);
-		
-		createComponentTypes(tdlPackage, scenarioSpec, defaultGT);
 	}
 	
 /**
@@ -896,5 +890,3 @@ private TimeUnit setTimeUnitForPeriod(String periodName){
 }
 	
 	  
-
-
