@@ -4,9 +4,19 @@ package fm.impl;
 
 import ca.mcgill.sel.core.COREFeatureRelationshipType;
 import fm.Feature;
+import fm.FeatureModel;
 import fm.FmPackage;
+import fm.MandatoryFMLink;
+import grl.ContributionType;
+import grl.Dependency;
+import grl.GRLNode;
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 import grl.impl.IntentionalElementImpl;
+
 import java.util.Collection;
+import java.util.Iterator;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -16,6 +26,15 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
+import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
+import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
+import seg.jUCMNav.model.commands.delete.DeleteGRLNodeCommand;
+import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
+import seg.jUCMNav.views.property.LinkRefPropertySource;
+import urn.URNspec;
 
 /**
  * <!-- begin-user-doc -->
@@ -158,16 +177,50 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, FmPackage.FEATURE__SELECTABLE, oldSelectable, selectable));
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 */
-	public void addFeature(String child_name, COREFeatureRelationshipType association) {
-		// TODO: implement this method
-		// TODO NOW, only mandatory!
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+	public void addFeature(String childName, COREFeatureRelationshipType relationship) {
+		// TODO add support for other relationships - only mandatory working right now!
+		if (relationship == COREFeatureRelationshipType.MANDATORY) {
+			// find the feature model of this feature, do not add new feature if feature model does not exist 
+			// TODO this assumes that there is only one feature model where this feature is used; if there are more than one, then use the one where the feature is not a leaf
+			FeatureModel fm = null;
+			if (this.getRefs() != null) {
+				Iterator it = this.getRefs().iterator();
+				while (it.hasNext()) {
+					GRLNode node = (GRLNode) it.next();
+					if (node.getDiagram() instanceof FeatureModel) {
+						fm = (FeatureModel) node.getDiagram();						
+						break;
+					}
+				}
+				if (fm != null) {
+					// add new feature with childName and add to feature model
+					URNspec urn = this.getGrlspec().getUrnspec();
+					IntentionalElementRef ref = (IntentionalElementRef) ModelCreationFactory.getNewObject(urn, IntentionalElementRef.class, ModelCreationFactory.FEATURE);
+					AddIntentionalElementRefCommand aierCmd = new AddIntentionalElementRefCommand(fm, ref);
+					if (aierCmd.canExecute()) {
+						aierCmd.execute();
+						ChangeGrlNodeNameCommand cgnnCmd = new ChangeGrlNodeNameCommand(ref, childName);
+						if (cgnnCmd.canExecute()) {
+							cgnnCmd.execute();
+
+							// add mandatory link between this feature and the new child feature
+				            MandatoryFMLink link = (MandatoryFMLink) ModelCreationFactory.getNewObject(urn, MandatoryFMLink.class);
+				            CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) ref.getDef(), link);
+				            celCmd.setTarget(this);
+				            if (celCmd.canExecute())
+				                celCmd.execute();
+						}
+					}
+				}
+			}
+		}
+		else 
+			throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -175,10 +228,9 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 */
 	public void delete() {
-		// TODO: implement this method
-		// TODO NOW
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		DeleteIntentionalElementCommand dieCmd = new DeleteIntentionalElementCommand(this);
+		if (dieCmd.canExecute())
+			dieCmd.execute();
 	}
 
 	/**

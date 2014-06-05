@@ -1,5 +1,9 @@
 package seg.jUCMNav.core;
 
+import fm.FeatureModel;
+import grl.GRLGraph;
+import grl.IntentionalElementRef;
+
 import java.util.Iterator;
 
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -17,11 +21,7 @@ import ca.mcgill.sel.core.COREConcern;
 import ca.mcgill.sel.core.COREFeatureModel;
 import ca.mcgill.sel.core.COREImpactModel;
 import ca.mcgill.sel.core.COREModel;
-import ca.mcgill.sel.core.CoreFactory;
 import ca.mcgill.sel.core.util.AbstractConcernFactory;
-import fm.FeatureModel;
-import grl.GRLGraph;
-import grl.IntentionalElementRef;
 
 public class COREFactory4URN extends AbstractConcernFactory {
 	// the general idea for the CORE interface implementation is to use already existing commands as much as possible to
@@ -29,6 +29,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
 	
 	public static String AUTHOR_NAME = "CORE";
 	public static boolean POSITIVE_RANGE = false;
+	public static boolean ALWAYS_DELETE = true;
 	
 	@Override
 	protected COREFeatureModel createFeatureModel(COREConcern cc) {

@@ -110,11 +110,21 @@ public class EvaluationStrategyManager {
         EvaluationStrategyManager soleInstance = null;
 
         if (multieditor == null) {
-            if (PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
-                    && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
-                    && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
-                multieditor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-            }
+        	
+        	// protect against this method being called from the CORE interface (without the Eclipse UI running)
+        	try {
+        		Class cls = Class.forName("org.eclipse.ui.internal.Workbench;");
+        		// if Eclipse UI is not running, the exception is caught here
+        		
+                if (PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
+                        && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+                        && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+                    multieditor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+                }
+        	}
+        	catch (ClassNotFoundException e) {
+        		multieditor = null;
+        	}
         }
 
         if (multieditor != null) {
