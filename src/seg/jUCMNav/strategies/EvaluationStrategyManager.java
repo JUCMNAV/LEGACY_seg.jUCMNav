@@ -39,6 +39,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editparts.URNRootEditPart;
@@ -110,20 +111,14 @@ public class EvaluationStrategyManager {
         EvaluationStrategyManager soleInstance = null;
 
         if (multieditor == null) {
-        	
-        	// protect against this method being called from the CORE interface (without the Eclipse UI running)
-        	try {
-        		Class cls = Class.forName("org.eclipse.ui.internal.Workbench;");
-        		// if Eclipse UI is not running, the exception is caught here
-        		
-                if (PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
-                        && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
-                        && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
-                    multieditor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-                }
-        	}
-        	catch (ClassNotFoundException e) {
-        		multieditor = null;
+        	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
+        	// the plugin environment is not defined which causes a ClassNotFound exception here
+        	if (!COREFactory4URN.isCOREInterfaceActive()) {
+        		if (PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
+        				&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+        				&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+        			multieditor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+        		}        		
         	}
         }
 

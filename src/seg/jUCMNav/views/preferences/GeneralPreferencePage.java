@@ -15,6 +15,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import ca.mcgill.sel.core.COREInterface;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.core.COREFactory4URN;
@@ -170,7 +171,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static String getAuthor() {
     	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
     	// the plugin environment is not defined which causes a null pointer exception here
-    	if (JUCMNavPlugin.getDefault() == null)
+    	if (COREFactory4URN.isCOREInterfaceActive())
     		return COREFactory4URN.AUTHOR_NAME;
         return JUCMNavPlugin.getDefault().getPreferenceStore().getString(PREF_AUTHOR);
     }

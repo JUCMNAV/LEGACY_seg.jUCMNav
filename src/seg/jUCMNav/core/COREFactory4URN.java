@@ -27,21 +27,27 @@ public class COREFactory4URN extends AbstractConcernFactory {
 	// the general idea for the CORE interface implementation is to use already existing commands as much as possible to
 	// leverage existing checks for well-formedness constraints etc.
 	
+	// each method needs to call setCOREInterfaceActive(true) at the beginning of the method and call returnResult(...) or 
+	// setCOREInterfaceActive(false) when exiting the method
+	private static boolean COREInterfaceActive = false;
+	
+	// the following constants are used to replace behavior of the Eclipse environment
 	public static String AUTHOR_NAME = "CORE";
 	public static boolean POSITIVE_RANGE = false;
 	public static boolean ALWAYS_DELETE = true;
 	
 	@Override
 	protected COREFeatureModel createFeatureModel(COREConcern cc) {
+		setCOREInterfaceActive(true);
 		// consistency checks: correct parameter, feature model does not exist, does impact model exist?
 		if (cc == null)
-			return null;
+			return (COREFeatureModel) returnResult(null);
 		GRLGraph im = null;		
 		Iterator<COREModel> it = cc.getModels().iterator();
 		while (it.hasNext()) {
 			COREModel model = it.next();
 			if (model instanceof COREFeatureModel && model instanceof FeatureModel)
-				return null;
+				return (COREFeatureModel) returnResult(null);
 			// need to check that model is not a FeatureModel because any FeatureModel is also a GRLGraph/COREImpactModel
 			if (model instanceof COREImpactModel && model instanceof GRLGraph && !(model instanceof FeatureModel))
 				im = (GRLGraph) model;			
@@ -57,7 +63,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
 			if (cfCmd.canExecute())
 				cfCmd.execute();
 			else
-				return null;
+				return (COREFeatureModel) returnResult(null);
 			fm = cfCmd.getDiagram();
 		}
 		else {
@@ -71,7 +77,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
 					fm = (FeatureModel) diagram;
 			}
 			if (fm == null)
-				return null;
+				return (COREFeatureModel) returnResult(null);
 		}
 		
 		// create root feature with the same name as concern and add to feature model
@@ -80,26 +86,27 @@ public class COREFactory4URN extends AbstractConcernFactory {
         if (aierCmd.canExecute())
         	aierCmd.execute();
         else
-        	return null;
+        	return (COREFeatureModel) returnResult(null);
         ChangeGrlNodeNameCommand cgnnCmd = new ChangeGrlNodeNameCommand(ref, cc.getName());
         if (cgnnCmd.canExecute())
         	cgnnCmd.execute();
         else
-        	return null;
+        	return (COREFeatureModel) returnResult(null);
         
         Concern concern = createURNConcern(cc, urn, fm);
         if (concern == null)
-        	return null;
+        	return (COREFeatureModel) returnResult(null);
 		
 		// return feature model
-		return (COREFeatureModel) fm;
+		return (COREFeatureModel) returnResult(fm);
 	}
 
 	@Override
 	protected COREImpactModel createImpactModel(COREConcern cc) {
+		setCOREInterfaceActive(true);
 		// consistency checks: correct parameter, impact model does not exist, does feature model exist?
 		if (cc == null)
-			return null;
+			return (COREImpactModel) returnResult(null);
 		FeatureModel fm = null;		
 		Iterator<COREModel> it = cc.getModels().iterator();
 		while (it.hasNext()) {
@@ -108,7 +115,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
 				fm = (FeatureModel) model;
 			// need to check that model is not a FeatureModel because any FeatureModel is also a GRLGraph/COREImpactModel
 			if (model instanceof COREImpactModel && model instanceof GRLGraph && !(model instanceof FeatureModel))
-				return null;			
+				return (COREImpactModel) returnResult(null);			
 		}
 		
 		// if feature model already exists, add impact model to the existing URN model
@@ -121,7 +128,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
 			if (cggCmd.canExecute())
 				cggCmd.execute();
 			else
-				return null;
+				return (COREImpactModel) returnResult(null);
 			im = cggCmd.getDiagram();
 		}
 		else {
@@ -136,18 +143,19 @@ public class COREFactory4URN extends AbstractConcernFactory {
 					im = (GRLGraph) diagram;
 			}
 			if (im == null)
-				return null;
+				return (COREImpactModel) returnResult(null);
 		}
 		
         Concern concern = createURNConcern(cc, urn, im);
         if (concern == null)
-        	return null;
+        	return (COREImpactModel) returnResult(null);
         
 		// return impact model
-		return (COREImpactModel) im;
+		return (COREImpactModel) returnResult(im);
 	}
 
 	private Concern createURNConcern(COREConcern cc, URNspec urn, GRLGraph model) {
+		setCOREInterfaceActive(true);
 		// does concern already exist in URN? (assumes there is only at the most one concern defined)
         Concern concern = null;
         Iterator it3 = urn.getUrndef().getConcerns().iterator();
@@ -158,7 +166,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
         	if (ucCmd.canExecute())
         		ucCmd.execute();
         	else
-        		return null;
+        		return (Concern) returnResult(null);
         }
         else {
     		// create concern and name it
@@ -166,7 +174,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
     		if (iccCmd.canExecute())
     			iccCmd.execute();
     		else
-    			return null;
+    			return (Concern) returnResult(null);
     		concern = iccCmd.getConcern();        	
         }
         
@@ -175,12 +183,26 @@ public class COREFactory4URN extends AbstractConcernFactory {
 		if (acdCmd.canExecute())
 			acdCmd.execute();
 		else
-			return null;
+			return (Concern) returnResult(null);
 				
 		// associate the concern in urn with the COREConcern 
 		concern.setCoreConcern(cc);
 		
-		return concern;
+		return (Concern) returnResult(concern);
 	}
 	
+	public static Object returnResult(Object o) {
+		COREInterfaceActive = false;
+		return o;
+	}
+
+	public static boolean isCOREInterfaceActive() {
+		return COREInterfaceActive;
+	}
+
+	public static void setCOREInterfaceActive(boolean cOREInterfaceActive) {
+		COREInterfaceActive = cOREInterfaceActive;
+	}
+
+
 }

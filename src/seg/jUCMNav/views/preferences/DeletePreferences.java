@@ -43,10 +43,6 @@ public class DeletePreferences {
      * @return Preference store where the properties are stored.
      */
     public static IPreferenceStore getPreferenceStore() {
-    	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
-    	// the plugin environment is not defined which causes a null pointer exception here
-    	if (JUCMNavPlugin.getDefault() == null)
-    		return null;
         return JUCMNavPlugin.getDefault().getPreferenceStore();
     }
 
@@ -95,7 +91,7 @@ public class DeletePreferences {
         if (DeletionContext.isPerformingCutAction() || DeletionContext.isPerformingPasteAction()) return false;
         // this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
     	// the plugin environment is not defined which causes a null pointer exception here
-    	if (getPreferenceStore() == null)
+    	if (COREFactory4URN.isCOREInterfaceActive())
     		return COREFactory4URN.ALWAYS_DELETE;
         String currentPrefValue = getPreferenceStore().getString(PREF_DELREFERENCE);
         if (currentPrefValue.equals(PREF_ALWAYS)) {

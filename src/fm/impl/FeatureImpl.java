@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
 import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
@@ -185,6 +186,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 */
 	public void addFeature(String childName, COREFeatureRelationshipType relationship) {
+		COREFactory4URN.setCOREInterfaceActive(true);
 		// TODO add support for other relationships - only mandatory working right now!
 		if (relationship == COREFeatureRelationshipType.MANDATORY || relationship == COREFeatureRelationshipType.OPTIONAL) {
 			// find the feature model of this feature, do not add new feature if feature model does not exist 
@@ -226,9 +228,12 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 					}
 				}
 			}
+			COREFactory4URN.setCOREInterfaceActive(false);
 		}
-		else 
-			throw new UnsupportedOperationException();
+		else {
+			COREFactory4URN.setCOREInterfaceActive(false);
+			throw new UnsupportedOperationException();			
+		}
 	}
 
 	/**
@@ -236,9 +241,11 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 */
 	public void delete() {
+		COREFactory4URN.setCOREInterfaceActive(true);
 		DeleteIntentionalElementCommand dieCmd = new DeleteIntentionalElementCommand(this);
 		if (dieCmd.canExecute())
 			dieCmd.execute();
+		COREFactory4URN.setCOREInterfaceActive(false);
 	}
 
 	/**

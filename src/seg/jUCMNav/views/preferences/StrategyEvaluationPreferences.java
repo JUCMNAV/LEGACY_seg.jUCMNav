@@ -44,10 +44,6 @@ public class StrategyEvaluationPreferences {
      * @return Preference store where the properties are stored.
      */
     public static IPreferenceStore getPreferenceStore() {
-    	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
-    	// the plugin environment is not defined which causes a null pointer exception here
-    	if (JUCMNavPlugin.getDefault() == null)
-    		return null;
         return JUCMNavPlugin.getDefault().getPreferenceStore();
     }
 
@@ -93,7 +89,7 @@ public class StrategyEvaluationPreferences {
         if (urn == null) {
         	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
         	// the plugin environment is not defined which causes a null pointer exception here
-        	if (getPreferenceStore() == null)
+        	if (COREFactory4URN.isCOREInterfaceActive())
         		return COREFactory4URN.POSITIVE_RANGE;
         	return getPreferenceStore().getBoolean(PREF_VISUALIZEASPOSITIVERANGE);
         }
