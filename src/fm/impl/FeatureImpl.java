@@ -7,8 +7,10 @@ import fm.Feature;
 import fm.FeatureModel;
 import fm.FmPackage;
 import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
 import grl.ContributionType;
 import grl.Dependency;
+import grl.ElementLink;
 import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
@@ -184,7 +186,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 */
 	public void addFeature(String childName, COREFeatureRelationshipType relationship) {
 		// TODO add support for other relationships - only mandatory working right now!
-		if (relationship == COREFeatureRelationshipType.MANDATORY) {
+		if (relationship == COREFeatureRelationshipType.MANDATORY || relationship == COREFeatureRelationshipType.OPTIONAL) {
 			// find the feature model of this feature, do not add new feature if feature model does not exist 
 			// TODO this assumes that there is only one feature model where this feature is used; if there are more than one, then use the one where the feature is not a leaf
 			FeatureModel fm = null;
@@ -208,12 +210,18 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 						if (cgnnCmd.canExecute()) {
 							cgnnCmd.execute();
 
-							// add mandatory link between this feature and the new child feature
-				            MandatoryFMLink link = (MandatoryFMLink) ModelCreationFactory.getNewObject(urn, MandatoryFMLink.class);
-				            CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) ref.getDef(), link);
-				            celCmd.setTarget(this);
-				            if (celCmd.canExecute())
-				                celCmd.execute();
+							ElementLink link = null;
+							if (relationship == COREFeatureRelationshipType.MANDATORY) {
+								// add mandatory link between this feature and the new child feature
+								link = (ElementLink) ModelCreationFactory.getNewObject(urn, MandatoryFMLink.class);								
+							} else {
+								// add optional link between this feature and the new child feature
+								link = (ElementLink) ModelCreationFactory.getNewObject(urn, OptionalFMLink.class);
+							}
+							CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) ref.getDef(), link);
+							celCmd.setTarget(this);
+							if (celCmd.canExecute())
+								celCmd.execute();
 						}
 					}
 				}
