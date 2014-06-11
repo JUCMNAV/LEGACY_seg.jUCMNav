@@ -9,6 +9,7 @@ import fm.FmPackage;
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
 import grl.ContributionType;
+import grl.Decomposition;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.GRLNode;
@@ -35,6 +36,7 @@ import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
 import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteGRLNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeDecompositionTypeCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urn.URNspec;
@@ -187,8 +189,8 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 */
 	public void addFeature(String childName, COREFeatureRelationshipType relationship) {
 		COREFactory4URN.setCOREInterfaceActive(true);
-		// TODO add support for other relationships - only mandatory working right now!
-		if (relationship == COREFeatureRelationshipType.MANDATORY || relationship == COREFeatureRelationshipType.OPTIONAL) {
+		if (relationship == COREFeatureRelationshipType.MANDATORY || relationship == COREFeatureRelationshipType.OPTIONAL ||
+				relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
 			// find the feature model of this feature, do not add new feature if feature model does not exist 
 			// TODO this assumes that there is only one feature model where this feature is used; if there are more than one, then use the one where the feature is not a leaf
 			FeatureModel fm = null;
@@ -213,17 +215,31 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 							cgnnCmd.execute();
 
 							ElementLink link = null;
+							int type = 0;
 							if (relationship == COREFeatureRelationshipType.MANDATORY) {
 								// add mandatory link between this feature and the new child feature
 								link = (ElementLink) ModelCreationFactory.getNewObject(urn, MandatoryFMLink.class);								
-							} else {
+							} else if (relationship == COREFeatureRelationshipType.OPTIONAL) {
 								// add optional link between this feature and the new child feature
 								link = (ElementLink) ModelCreationFactory.getNewObject(urn, OptionalFMLink.class);
+							} else if (relationship == COREFeatureRelationshipType.XOR) {
+								// add XOR decomposition link between this feature and the new child feature
+								link = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
+								type = 2;
+							} else if (relationship == COREFeatureRelationshipType.OR) {
+								// add OR decomposition link between this feature and the new child feature
+								link = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
+								type = 1;
 							}
 							CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) ref.getDef(), link);
 							celCmd.setTarget(this);
 							if (celCmd.canExecute())
 								celCmd.execute();
+							if (relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
+								ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef) this.getRefs().get(0), type);
+								if (cdtCmd.canExecute())
+									cdtCmd.execute();
+							}
 						}
 					}
 				}
