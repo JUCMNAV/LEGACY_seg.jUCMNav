@@ -110,10 +110,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
         // TODO: find original filename
         v.add(new TdlTraversalListener(this.oldFilename, this.newFilename, this.EXPORT_TYPE));
 
-            EObject eo = ScenarioUtils.getActiveScenario(urn);
-            ScenarioUtils.setActiveScenario(urn.getUcmspec(), v);
-            
-          
+            ScenarioUtils.setActiveScenario(urn.getUcmspec(), v); 
         }
 	
 	/*
@@ -149,6 +146,10 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 		// Creates annotation type representing the instance of an alternative
 		AnnotationType alternInstanceRef = f.createAnnotationType();
 		alternInstanceRef.setName("ALTERNINSTANCEREF");
+		
+		// Creates annotation type representing the instance of an alternative
+		AnnotationType actionInstanceRef = f.createAnnotationType();
+		actionInstanceRef.setName("ACTIONINSTANCEREF");
 				
 		// Creates default GateType
 		GateType defaultGT = f.createGateType();
@@ -199,7 +200,6 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 		
 		File file = null;
 		
-		
 		//Visits all the ScenarioGroups
 		EList<ScenarioGroup> groupList = scenarioSpec.getGroups();
 		ListIterator<ScenarioGroup> groupListIt = groupList.listIterator();
@@ -216,6 +216,8 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 			EList<ScenarioDef> scenariosList = currentUCMGroup.getScenarios();
 			ListIterator<ScenarioDef> scenariosListIt = scenariosList.listIterator();
 			
+			ElementImport elemIn = f.createElementImport();
+
 			
 			while(scenariosListIt.hasNext()){
 				ScenarioDef currentUCMScenario = scenariosListIt.next();
@@ -225,7 +227,6 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				 * A reference to the top element (tdlPackage) of the tdl model.
 				 */
 				tdlPackage = seg.jUCMNav.model.TdlModelCreationFactory.getNewTdlPackage(currentUCMScenario.getName());
-				
 				
 				if(tempFirstFile == false){
 					tempPath = path.substring(0, path.lastIndexOf('\\'));
@@ -255,6 +256,8 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				timerInstanceRef.setOwningPackage(tdlPackage);
 				
 				alternInstanceRef.setOwningPackage(tdlPackage);
+				
+				actionInstanceRef.setOwningPackage(tdlPackage);
 
 				defaultGT.setOwningPackage(tdlPackage);
 
@@ -347,11 +350,6 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 						// Creating a default GateInstance with a useful name
 						currentCompInst.createGateInstance().setName("g" + currentCompInst.getName());
 						
-						//System.out.println("Is the null element here : " + currentCompInst.getGateInstances());
-						//System.out.println("Is the null element here : " + currentCompInst.getType());
-						//System.out.println("Is the null element here : " + currentCompInst.getType().getGateTypes());
-						//System.out.println("Is the null element here : " + currentCompInst.getType().getGateTypes().get(0));
-						
 						currentCompInst.getGateInstances().get(0).setType(currentCompInst.getType().getGateTypes().get(0));
 						
 						
@@ -384,9 +382,6 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 						for(String currentName : connections.get(entry.getKey())){
 							Connection currentConnection = f.createConnection();
 							
-							//System.out.println("This is the name of the ComponentInstance : " + entry.getKey());
-							//System.out.println("Is the null error here 2 " + compInstNameList.get(entry.getKey()));
-							
 							currentConnection.setName(compInstNameList.get(entry.getKey()).getName() + "_" 
 														+ compInstNameList.get(currentName).getName());
 							
@@ -415,10 +410,12 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				
 				
 				scenarioSeqElemTraversal(tdlPackage, seqElemList, seqElemListIt, currentUCMScenario, mainBlock, 
-											currentTestConfig, compInstNameList, interactionTitle,interactionDescription, timerInstanceRef, alternInstanceRef );
+											currentTestConfig, compInstNameList, interactionTitle,interactionDescription, timerInstanceRef, alternInstanceRef, actionInstanceRef );
 				}
 				
 				save(file, tdlPackage);
+				
+				
 				
 				compTypeList.clear();
 				actionList.clear();
@@ -528,7 +525,8 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 																	AnnotationType interactionTitle,
 																		AnnotationType interactionDescription,
 																			AnnotationType timerInstanceRef, 
-																				AnnotationType alternInstanceRef){
+																				AnnotationType alternInstanceRef,
+																					AnnotationType actionInstanceRef){
 		while(seqElemListIt.hasNext()){
 			
 			SequenceElement currentSeqElem = seqElemListIt.next();
@@ -554,7 +552,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 					
 					// Recursive call for each branch of the AndFork
 					scenarioSeqElemTraversal(tdlPackage, seqListNiv2, seqListNiv2It, currentUCMScenario, currentParallelBlock, 
-													currentTestConfig, compInstNameList, interactionTitle, interactionDescription, timerInstanceRef, alternInstanceRef);
+													currentTestConfig, compInstNameList, interactionTitle, interactionDescription, timerInstanceRef, alternInstanceRef, actionInstanceRef);
 				}
 				
 				mainBlock.getBehaviours().add(parallelBehav);
@@ -567,7 +565,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				ListIterator<SequenceElement> seqListIt = seqList.listIterator();
 
 				scenarioSeqElemTraversal(tdlPackage, seqList, seqListIt, currentUCMScenario, mainBlock, 
-											currentTestConfig, compInstNameList, interactionTitle, interactionDescription, timerInstanceRef, alternInstanceRef);
+											currentTestConfig, compInstNameList, interactionTitle, interactionDescription, timerInstanceRef, alternInstanceRef, actionInstanceRef);
 				
 			}else if(currentSeqElem instanceof Message){
 				
@@ -641,7 +639,12 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 					
 					// Creates a Behaviour object to insert the ActionReference into the Block
 					AtomicBehaviour currentAtomicBehavAction = currentActionRef;
-					mainBlock.getBehaviours().add(currentAtomicBehavAction);																
+					mainBlock.getBehaviours().add(currentAtomicBehavAction);
+					
+					// Gives a reference to the Instance of the action ( useful in PlantUml visualisation )
+					Annotation currentActionInstanceRef = currentAtomicBehavAction.createAnnotation();
+					currentActionInstanceRef.setKey(actionInstanceRef);
+					currentActionInstanceRef.setValue("g" + eventCurrentSeqElem.getInstance().getName());
 									
 				}else if (eventCurrentSeqElem.getType().getName().equals("EndPoint")){
 					// TODO: Define instructions for that case
@@ -790,17 +793,16 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				Condition conditionCurrentSeqElem = (Condition)currentSeqElem;
 				
 				AlternativeBehaviour alternBehav = f.createAlternativeBehaviour();
-				alternBehav.setName("<b>Alternative</b> : " + conditionCurrentSeqElem.getExpression() + "\\n<b>Label : </b>" + conditionCurrentSeqElem.getLabel());
+				alternBehav.setName(conditionCurrentSeqElem.getLabel() + "\\n" + conditionCurrentSeqElem.getExpression());
 				
 				// Gives a reference to the Instance of the alternative ( useful in PlantUml visualisation )
 				Annotation currentAlternInstanceRef = alternBehav.createAnnotation();
 				currentAlternInstanceRef.setKey(alternInstanceRef);
-				currentAlternInstanceRef.setValue(conditionCurrentSeqElem.getInstance().getName());
+				currentAlternInstanceRef.setValue("g" + conditionCurrentSeqElem.getInstance().getName());
 				
 				mainBlock.getBehaviours().add(alternBehav);
 				
 			}
-			
 			
 		}
 	}
