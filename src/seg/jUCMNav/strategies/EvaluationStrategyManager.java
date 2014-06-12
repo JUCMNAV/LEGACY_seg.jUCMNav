@@ -318,8 +318,11 @@ public class EvaluationStrategyManager {
         // evaluate for the first time (this is all that is needed for all algorithms except for the Feature Model evaluation)
         evaluateModel();
         
-        // if Feature Model evaluation and auto selection is set, execute auto selection of mandatory features, then evaluate again
-        if (algo instanceof FeatureModelStrategyAlgorithm && StrategyEvaluationPreferences.getAutoSelectMandatoryFeatures()) {
+        // if Feature Model evaluation and auto selection is set, execute auto selection of mandatory features, then evaluate again (check first 
+        // if jCUMNav is currently accessed through the CORE interface, because in this case getAutoSelectMandatoryFeatures causes a null pointer 
+        // exception here) 
+        if (algo instanceof FeatureModelStrategyAlgorithm && 
+        		(COREFactory4URN.isCOREInterfaceActive() || StrategyEvaluationPreferences.getAutoSelectMandatoryFeatures())) {
         	((FeatureModelStrategyAlgorithm) algo).autoSelectAllMandatoryFeatures(strategy);
         	algo.init(strategy, evaluations);
         	evaluateModel();
@@ -425,7 +428,13 @@ public class EvaluationStrategyManager {
      * 
      */
     public synchronized void setupEvaluationAlgorithm() {
-        String algoChoice = StrategyEvaluationPreferences.getAlgorithm();
+    	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
+    	// the plugin environment is not defined which causes a null pointer exception here
+    	String algoChoice = null;
+    	if (COREFactory4URN.isCOREInterfaceActive())
+    		algoChoice = StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM + "";
+    	else
+        	algoChoice = StrategyEvaluationPreferences.getAlgorithm();
         
         if ((StrategyEvaluationPreferences.MIXED_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
             algo = new MixedGRLStrategyAlgorithm();

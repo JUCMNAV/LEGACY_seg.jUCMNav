@@ -372,43 +372,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 if (evaluation != null) {
                     if (StrategyEvaluationPreferences.getFillElements()) {
                         String color, lineColor;
-                        if (ignored) { // set to light gray color
-                            color = "169,169,169"; //$NON-NLS-1$
-                        } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT) {
-                            color = "0,255,255"; //$NON-NLS-1$
-                        } else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
-                            color = "192,192,192"; //$NON-NLS-1$
-                        } else if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && elem instanceof Feature && 
-                        		FeatureUtil.checkSelectionStatus((Feature) elem, false) && 
-                        		(FeatureUtil.containsOnlySrcLinkToNotSelectedFeature((Feature) elem) || 
-                        				FeatureUtil.containsOnlyOptionalSrcLinkToFeature((Feature) elem) || 
-                        				FeatureUtil.hasSelectedOrXorBrother((Feature) elem, true, true))) {
-                            	// if feature model algorithm and own evaluation is 0, check if need to set to light gray color
-                        		// case A: set to light gray if all links to other features are to features with an evaluation of 0
-                        		// case B: set to light gray if all links to other features are optional
-                        		// case C: set to light gray if a brother of the same OR/XOR decomposition link is 100
-                        	color = "169,169,169";
-                        } else {
-                            int evalValue = evaluation.getEvaluation();
-                            URNspec urn = null;
-                            if (getNode() != null && getNode().getDef() != null && getNode().getDef().getGrlspec() != null)
-                                urn = getNode().getDef().getGrlspec().getUrnspec();
-                            // if 0,100, convert back to -100,100 to have the right color.
-                            evalValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn, evalValue);
-                            
-                            if (EvaluationStrategyManager.getInstance().displayDifferenceMode()
-                                    && !StrategyEvaluationPreferences.getVisualizeAsPositiveRange(urn)) {
-                                evalValue /= 2;
-                            }
-                            int partial = (Math.abs((Math.abs(evalValue) - IGRLStrategyAlgorithm.SATISFICED)) * 160 / IGRLStrategyAlgorithm.SATISFICED) + 96;
-                            partial = limit(partial);
-
-                            if (evalValue < IGRLStrategyAlgorithm.NONE) {
-                                color = "255," + partial + ",96"; //$NON-NLS-1$ //$NON-NLS-2$
-                            } else {
-                                color = partial + ",255,96"; //$NON-NLS-1$
-                            }
-                        }
+            		    URNspec urn = null;
+            		    if (getNode() != null && getNode().getDef() != null && getNode().getDef().getGrlspec() != null)
+            		        urn = getNode().getDef().getGrlspec().getUrnspec();
+                        color = determineColor(urn, elem, evaluation, ignored, evalType);
 
                         if (EvaluationStrategyManager.getInstance().isConditionResource(getNode().getDef())) {
                             lineColor = "0,100,100"; //$NON-NLS-1$ Color AQUA
@@ -417,21 +384,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         }
 
                         if (evaluation.getStrategies() != null || MetadataHelper.getMetaDataObj(elem, FeatureModelStrategyAlgorithm.METADATA_AUTO_SELECTED) != null) {
-                            if (!elem.getLinksDest().isEmpty()) {
-                                // This initial evaluation potentially overrides computed ones
-                                // Highlight in a different color, dark red.
-                            	boolean isException = false;
-                            	// Except in the case of Feature Model evaluation and a feature element
-                            	if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && (elem instanceof Feature)) {
-                            		// elements with only optional links are allowed to be selected even if their children are not
-                            		isException = FeatureUtil.containsOnlyOptionalDestLink((Feature) elem) && FeatureUtil.checkSelectionStatus((Feature) elem, true);
-                            		// the initial evaluation is the same as the computed one (i.e., e.g., user defined value is the same as the contributions of all child links)
-                                	isException = isException || (MetadataHelper.getMetaDataObj(elem, FeatureModelStrategyAlgorithm.METADATA_WARNING) == null);  
-                            	}
-                            	if (!isException) {
-                                	lineColor = "160,0,0"; //$NON-NLS-1$
-                                }
-                            }
+                            if (determineOverriddenWarning(elem, evalType))
+                            	lineColor = "160,0,0"; //$NON-NLS-1$ 
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DASH);
                             if (elem.getType() == IntentionalElementType.INDICATOR_LITERAL) {
                                 // Special case for indicators... no dashed lines as they are always initialized.
@@ -446,11 +400,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                             lineColor = "69,69,69"; //$NON-NLS-1$
                             ((IntentionalElementFigure) figure).setLineStyle(SWT.LINE_DOT);
                             evaluationLabel.setForegroundColor(ColorManager.GRAY);
-                        } else if ((evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) && (elem instanceof Feature)) {
-                        	// in the case of Feature Model evaluation and a feature element, check if there are two selected XOR brothers
-                        	if (FeatureUtil.checkSelectionStatus((Feature) elem, true) && (FeatureUtil.hasSelectedOrXorBrother((Feature) elem, false, true))) {
-                        		lineColor = "160,0,0"; //$NON-NLS-1$
-                        	}
+                        } else if (determineOrXorWarning(elem, evalType)) {
+                        	lineColor = "160,0,0"; //$NON-NLS-1$
                         }
 
                         ((IntentionalElementFigure) figure).setColors(lineColor, color, true);
@@ -594,6 +545,73 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         // (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
 
+	public static boolean determineOrXorWarning(IntentionalElement elem, int evalType) {
+		if ((evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) && (elem instanceof Feature)) {
+			// in the case of Feature Model evaluation and a feature element, check if there are two selected XOR brothers
+			if (FeatureUtil.checkSelectionStatus((Feature) elem, true) && (FeatureUtil.hasSelectedOrXorBrother((Feature) elem, false, true))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean determineOverriddenWarning(IntentionalElement elem, int evalType) {
+		if (!elem.getLinksDest().isEmpty()) {
+		    // This initial evaluation potentially overrides computed ones
+		    // Highlight in a different color, dark red.
+			boolean isException = false;
+			// Except in the case of Feature Model evaluation and a feature element
+			if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && (elem instanceof Feature)) {
+				// elements with only optional links are allowed to be selected even if their children are not
+				isException = FeatureUtil.containsOnlyOptionalDestLink((Feature) elem) && FeatureUtil.checkSelectionStatus((Feature) elem, true);
+				// the initial evaluation is the same as the computed one (i.e., e.g., user defined value is the same as the contributions of all child links)
+		    	isException = isException || (MetadataHelper.getMetaDataObj(elem, FeatureModelStrategyAlgorithm.METADATA_WARNING) == null);  
+			}
+			return !isException;
+		}
+		return false;
+	}
+
+	public static String determineColor(URNspec urn, IntentionalElement elem, Evaluation evaluation, boolean ignored, int evalType) {
+		String color;
+		if (ignored) { // set to light gray color
+		    color = "169,169,169"; //$NON-NLS-1$
+		} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.CONFLICT) {
+		    color = "0,255,255"; //$NON-NLS-1$
+		} else if (evaluation.getEvaluation() == IGRLStrategyAlgorithm.UNDECIDED) {
+		    color = "192,192,192"; //$NON-NLS-1$
+		} else if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && elem instanceof Feature && 
+				FeatureUtil.checkSelectionStatus((Feature) elem, false) && 
+				(FeatureUtil.containsOnlySrcLinkToNotSelectedFeature((Feature) elem) || 
+						FeatureUtil.containsOnlyOptionalSrcLinkToFeature((Feature) elem) || 
+						FeatureUtil.hasSelectedOrXorBrother((Feature) elem, true, true))) {
+		    	// if feature model algorithm and own evaluation is 0, check if need to set to light gray color
+				// case A: set to light gray if all links to other features are to features with an evaluation of 0
+				// case B: set to light gray if all links to other features are optional
+				// case C: set to light gray if a brother of the same OR/XOR decomposition link is 100
+			color = "169,169,169";
+		} else {
+		    int evalValue = evaluation.getEvaluation();
+
+		    // if 0,100, convert back to -100,100 to have the right color.
+		    evalValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable(urn, evalValue);
+		    
+		    if (EvaluationStrategyManager.getInstance().displayDifferenceMode()
+		            && !StrategyEvaluationPreferences.getVisualizeAsPositiveRange(urn)) {
+		        evalValue /= 2;
+		    }
+		    int partial = (Math.abs((Math.abs(evalValue) - IGRLStrategyAlgorithm.SATISFICED)) * 160 / IGRLStrategyAlgorithm.SATISFICED) + 96;
+		    partial = limit(partial);
+
+		    if (evalValue < IGRLStrategyAlgorithm.NONE) {
+		        color = "255," + partial + ",96"; //$NON-NLS-1$ //$NON-NLS-2$
+		    } else {
+		        color = partial + ",255,96"; //$NON-NLS-1$
+		    }
+		}
+		return color;
+	}
+
 	private void setTrendIcons() {
         String _trendStr = MetadataHelper.getMetaData(getNode().getDef(), BatchEvaluationUtil.METADATA_TREND);
 
@@ -611,7 +629,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         }
     }
 
-    private int limit(int value) {
+    private static int limit(int value) {
         if (value < 0) {
             value = 0;
         } else if (value > 255) {

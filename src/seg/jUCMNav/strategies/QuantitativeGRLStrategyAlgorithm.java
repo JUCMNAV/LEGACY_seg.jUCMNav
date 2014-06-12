@@ -17,6 +17,7 @@ import grl.kpimodel.QualitativeMappings;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
@@ -148,16 +149,22 @@ public class QuantitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgo
                 result = minRange;
             }
 
-            if (result >= (100 - StrategyEvaluationPreferences.getTolerance()) && !hasSatisfy) {
+        	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
+        	// the plugin environment is not defined which causes a null pointer exception here
+            int tolerance = 0;
+            if (!COREFactory4URN.isCOREInterfaceActive())
+            	tolerance = StrategyEvaluationPreferences.getTolerance();
+            				
+            if (result >= (100 - tolerance) && !hasSatisfy) {
                 if (contribValue > 0)
-                    result = Math.max(decompositionValue, 100 - StrategyEvaluationPreferences.getTolerance());
+                    result = Math.max(decompositionValue, 100 - tolerance);
                 else
-                    result = Math.max(result, 100 - StrategyEvaluationPreferences.getTolerance());
-            } else if (result <= (minRange + StrategyEvaluationPreferences.getTolerance()) && !hasDeny) {
+                    result = Math.max(result, 100 - tolerance);
+            } else if (result <= (minRange + tolerance) && !hasDeny) {
                 if ((contribValue) < 0 && (decompositionValue > 100 * minRange)) // Need to consider that there might be no decomposition
-                    result = Math.min(decompositionValue, minRange + StrategyEvaluationPreferences.getTolerance());
+                    result = Math.min(decompositionValue, minRange + tolerance);
                 else
-                    result = Math.min(result, minRange + StrategyEvaluationPreferences.getTolerance());
+                    result = Math.min(result, minRange + tolerance);
             }
         }
         if ((dependencyValue <= 100) && (result > dependencyValue)) {
