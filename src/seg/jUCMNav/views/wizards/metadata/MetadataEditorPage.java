@@ -144,6 +144,8 @@ public class MetadataEditorPage extends WizardPage {
     public MetadataEditorPage(ISelection selection, EObject defaultSelected, EObject ref) {
         super("wizardPage"); //$NON-NLS-1$
 
+
+        
         this.setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
         setData(selection, defaultSelected, ref);
@@ -176,6 +178,7 @@ public class MetadataEditorPage extends WizardPage {
         TableItem[] items = null;
         if (!metadataTable.isDisposed()) {
             items = metadataTable.getSelection();
+            
             if (items != null && items.length > 0) {
                 buttonEdit.setEnabled(true);
                 buttonRemove.setEnabled(true);
@@ -183,7 +186,8 @@ public class MetadataEditorPage extends WizardPage {
                 buttonEdit.setEnabled(false);
                 buttonRemove.setEnabled(false);
             }
-
+        	
+            
             if (defaultSelected != null) {
                 buttonAdd.setEnabled(true);
                 buttonRemoveAll.setEnabled(true);
@@ -221,10 +225,11 @@ public class MetadataEditorPage extends WizardPage {
 
             typeOfElements = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
             typeOfElements.addSelectionListener(new SelectionListener() {
-                public void widgetSelected(SelectionEvent e) {
+              
+            	public void widgetSelected(SelectionEvent e) {
                     // single click.
                     metadataTable.removeAll();
-
+                	
                     if (typeOfElements.getSelectionIndex() >= 0) {
                         refreshPossibilityLabels();
 
@@ -264,7 +269,7 @@ public class MetadataEditorPage extends WizardPage {
                 public void widgetSelected(SelectionEvent e) {
                     // single click.
                     metadataTable.removeAll();
-
+                    
                     if (possibilities.getSelectionIndex() >= 0) {
                         EObject o = (EObject) selectedPossibilities.get(possibilities.getSelectionIndex());
                         if (o != defaultSelected) {
@@ -417,9 +422,17 @@ public class MetadataEditorPage extends WizardPage {
     public void updateUI(boolean firstLoad) {
         initialize();
 
+        
+        
         initTypeOfElementsLabels();
-        if (typeOfElements != null)
-            typeOfElements.select(0);
+        if (typeOfElements != null){
+        	if(defaultSelected instanceof URNmodelElement){
+        		 typeOfElements.select(0);
+        	}else if ( defaultSelected instanceof URNspec){
+        		typeOfElements.select(23);
+        	}
+        	 
+        }
         refreshPossibilityLabels();
 
         if (possibilities != null) {
@@ -510,7 +523,7 @@ public class MetadataEditorPage extends WizardPage {
                 Menu menu = (Menu) e.widget;
                 MenuItem[] items = menu.getItems();
                 int scount = metadataTable.getSelectionCount();
-
+                
                 if (defaultSelected != null) {
                     items[0].setEnabled(true); // new
                     items[2].setEnabled(scount > 0); // edit
@@ -647,12 +660,17 @@ public class MetadataEditorPage extends WizardPage {
     }
 
     private void refreshPossibilityLabels() {
+
+    	
         if (!inProperties) {
             selectedPossibilities.clear();
+           
+            
             for (int i = 0; i < allPossibilities.size(); i++) {
                 EObject element = (EObject) allPossibilities.get(i);
-
                 Class choosedType = (Class) URNmodelElementType.urnElementTypes.get(typeOfElements.getItem(typeOfElements.getSelectionIndex()));
+                        
+                
                 if (choosedType.isInstance(element)) {
                     selectedPossibilities.add(element);
                 }
@@ -665,11 +683,19 @@ public class MetadataEditorPage extends WizardPage {
                 possibilities.removeAll();
             selectedPossibilities.clear();
             for (int i = 0; i < pArray.length; i++) {
-                URNmodelElement curUrnelem = (URNmodelElement) pArray[i];
-                String name = URNNamingHelper.getName(curUrnelem) + " (" + curUrnelem.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-
-                selectedPossibilities.add(curUrnelem);
-                possibilities.add(name);
+            	
+            	
+            	if (pArray[i] instanceof URNmodelElement){
+            		URNmodelElement curUrnelem = (URNmodelElement) pArray[i];
+            		String name = URNNamingHelper.getName(curUrnelem) + " (" + curUrnelem.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$       		
+                    selectedPossibilities.add(curUrnelem);
+                    possibilities.add(name);
+            	}else if (pArray[i] instanceof URNspec){
+            		 URNspec curUrnelem = (URNspec) pArray[i];
+            		 String name = curUrnelem.getName(); //$NON-NLS-1$ //$NON-NLS-2$
+                     selectedPossibilities.add(curUrnelem);
+                     possibilities.add(name);
+            	}
             }
         }
     }

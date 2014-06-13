@@ -31,7 +31,7 @@ public class MetadataPropertySection extends AbstractWizardPropertySection {
         IStructuredSelection sel = resolver.adjustSelection(propertySheetPage.getSelection(), eObject);
         EObject obj = resolver.getRealObject(eObject);
         initialObject = getUnresolvedSelection(propertySheetPage.getSelection());
-
+        
         final MetadataEditorPage page = createMetadataEditorPage(sel, obj, initialObject);
         page.setInProperties(true);
         page.addMetadataListener(new IMetadataListener() {
@@ -45,7 +45,7 @@ public class MetadataPropertySection extends AbstractWizardPropertySection {
         return page;
     }
 
-    protected MetadataEditorPage createMetadataEditorPage(IStructuredSelection sel, EObject obj, EObject initialObject) {
+    protected MetadataEditorPage createMetadataEditorPage(IStructuredSelection sel, EObject obj, EObject initialObject) {    	
         return new MetadataEditorPage(sel, obj, initialObject != obj ? initialObject : null);
     }
     
@@ -73,6 +73,7 @@ public class MetadataPropertySection extends AbstractWizardPropertySection {
         currentObj = resolver.getRealObject(eObject);
         initialObject = getUnresolvedSelection(selection);
 
+        
         ((MetadataEditorPage) page).setData(resolver.adjustSelection(null, eObject), currentObj, initialObject != currentObj ? initialObject : null);
         ((MetadataEditorPage) page).updateUI(true);
     }

@@ -101,6 +101,8 @@ public class MetadataEditor extends Wizard {
 
         this.selection = selection;
         this.eObject = defaultSelected;
+        
+        
         this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
 
         this.defaultSelected = resolver.getRealObject(defaultSelected);

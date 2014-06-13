@@ -27,6 +27,7 @@ import ucm.scenario.Variable;
 import urncore.Component;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
+import urn.URNspec;
 
 /**
  * URNmodelElementType.
@@ -57,7 +58,8 @@ public class URNmodelElementType {
             Messages.getString("URNmodelElementType.Scenario"), //$NON-NLS-1$
             Messages.getString("URNmodelElementType.ScenarioGroup"), //$NON-NLS-1$
             Messages.getString("URNmodelElementType.Variable"), //$NON-NLS-1$
-            Messages.getString("URNmodelElementType.Workload") //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.Workload"), //$NON-NLS-1$
+            Messages.getString("URNspecType.URNspec") //$NON-NLS-1$
     };
 
     static {
@@ -84,5 +86,6 @@ public class URNmodelElementType {
         urnElementTypes.put(urnElementTypeNames[20], ScenarioGroup.class);
         urnElementTypes.put(urnElementTypeNames[21], Variable.class);
         urnElementTypes.put(urnElementTypeNames[22], Workload.class);
+        urnElementTypes.put(urnElementTypeNames[23], URNspec.class);
     }
 }

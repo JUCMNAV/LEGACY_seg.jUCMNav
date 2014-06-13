@@ -30,7 +30,9 @@ import urncore.URNmodelElement;
 public class TagElementAction extends URNSelectionAction {
 
     public static final String TAG_ELEMENT_ACTION = "seg.jUCMNav.TagElementAction"; //$NON-NLS-1$
-
+    
+    private URNspec urnElement;
+    
     private URNmodelElement element;
     private URNspec urnspec;
 	
@@ -46,12 +48,18 @@ public class TagElementAction extends URNSelectionAction {
     	URNmodelElement parentElement = null;
     	String parentClassName = null;
     	
+    	URNspec urnParentElement = null;
+    	
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         element = sel.getURNmodelElement();
-        if (element == null) {
+        urnElement = sel.getUrnspec();
+        
+        if (element == null /* && urnElement == null */) {
             return false;
         }
         
+        // if the selection is a UrnModelElement
+        if ( element != null){
 		urnspec = this.getURNspec( element );
 		String className = this.className( element );
 		parentElement = URNElementFinder.getParentElement( element );
@@ -75,8 +83,10 @@ public class TagElementAction extends URNSelectionAction {
     			}
     		}    		
     	}
-
-        return false;
+        
+        }
+            return false;
+        
     }
     
 	private String getTagClassName( String value ) {
@@ -91,6 +101,11 @@ public class TagElementAction extends URNSelectionAction {
     	te.tagElement( getCommandStack(), element, urnspec );
     }
 
+    private String className( URNspec urnElement){
+    	String className = urnElement.getClass().getSimpleName();
+    	return className.substring( 0, className.length()-4 );  // strip suffix 'Impl' from class name
+    }
+    
 	private String className( URNmodelElement element )
 	{
 	    String className = element.getClass().getSimpleName();

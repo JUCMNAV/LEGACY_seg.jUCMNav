@@ -14,13 +14,14 @@ import seg.jUCMNav.views.wizards.metadata.MetadataEditor;
 /**
  * Opens the metadata editor
  * 
- * @author pchen
+ * @author pchen, pboul037
  */
 public class EditMetadataAction extends URNSelectionAction {
 
     public static final String EDITMETADATAACTION = "seg.jUCMNav.EditMetadataAction"; //$NON-NLS-1$
 
     private EObject obj;
+    private EObject urnObj;
 
     /**
      * Opens the Metadata editor.
@@ -43,7 +44,9 @@ public class EditMetadataAction extends URNSelectionAction {
 
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         obj = sel.getURNmodelElement();
-        if (obj != null) {
+        urnObj = sel.getUrnspec();
+        
+        if (obj != null || urnObj != null) {
             enable = true;
         }
 
@@ -60,9 +63,16 @@ public class EditMetadataAction extends URNSelectionAction {
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         MetadataEditor wizard = new MetadataEditor();
 
+        if( obj != null){
         wizard.init(PlatformUI.getWorkbench(), null, obj);
         WizardDialog dialog = new WizardDialog(shell, wizard);
         dialog.open();
+        } else if( urnObj != null){
+        	
+            wizard.init(PlatformUI.getWorkbench(), null, urnObj);
+            WizardDialog dialog = new WizardDialog(shell, wizard);
+            dialog.open();
+        }
 
     }
 

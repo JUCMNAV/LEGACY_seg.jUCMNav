@@ -11,12 +11,13 @@ import urncore.Metadata;
 import urncore.URNmodelElement;
 
 /**
- * adds the metadata associated with a urn model element.
+ * adds the metadata associated with a urn model element or URNspec.
  * 
- * @author rouzbahan
+ * @author rouzbahan, pboul037
  */
 public class AddMetadataCommand extends Command implements JUCMNavCommand 
 {
+
     private URNmodelElement urnelem = null;
     private URNspec urnspec = null;    
     private Metadata[] mdArray;
