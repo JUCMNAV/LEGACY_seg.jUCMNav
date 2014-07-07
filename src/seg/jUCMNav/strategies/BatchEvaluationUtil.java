@@ -5,6 +5,8 @@ import grl.EvaluationStrategy;
 import grl.GRLLinkableElement;
 import grl.GRLspec;
 import grl.IntentionalElement;
+import grl.kpimodel.Indicator;
+import grl.kpimodel.KPIEvalValueSet;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,6 +54,59 @@ public class BatchEvaluationUtil {
         }
         
         return evalTable;
+    }
+    
+public static HashMap<EvaluationStrategy, HashMap<Indicator, HashMap<String, String>>> calculateAllEvaluationsKPI( final Collection<EvaluationStrategy> strategies, final GRLspec grlspec) {
+        
+    	int evalValue;
+
+        HashMap<EvaluationStrategy, HashMap<Indicator, HashMap<String, String>>> indicatorTable = new HashMap<EvaluationStrategy, HashMap<Indicator, HashMap<String, String>>>() ;
+		
+        for( EvaluationStrategy strategy : strategies ) {
+            HashMap<GRLLinkableElement, Integer> strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
+            EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
+            HashMap<Indicator, HashMap<String, String>> indicatorEvaluations = new HashMap<Indicator, HashMap<String, String>>();
+            
+            
+            boolean tempIndicators = false;
+            
+            for (Iterator iter = grlspec.getIntElements().iterator(); iter.hasNext();) {
+            	
+                IntentionalElement element = (IntentionalElement) iter.next();
+                evalValue = EvaluationStrategyManager.getInstance(false).getEvaluation(element);
+                strategyEvaluations.put( element, evalValue );
+                
+                	if(element.getType().getName().compareTo("Indicator") == 0){
+    				
+                		HashMap<String, String> currentEvalKPI = new HashMap<String, String>();
+                		KPIEvalValueSet currentKpiEvalSet = EvaluationStrategyManager.getInstance(false).getActiveKPIEvalValueSet(element);
+					
+                		
+                		currentEvalKPI.put("Threshold",String.valueOf(currentKpiEvalSet.getThresholdValue()));
+                		currentEvalKPI.put("Worst",String.valueOf(currentKpiEvalSet.getWorstValue()));
+                		currentEvalKPI.put("Target",String.valueOf(currentKpiEvalSet.getTargetValue()));
+                		currentEvalKPI.put("Unit",currentKpiEvalSet.getUnit());
+						currentEvalKPI.put("EvaluationValue", String.valueOf(round(currentKpiEvalSet.getEvaluationValue(), 2)));
+						currentEvalKPI.put("QualitativeEval", currentKpiEvalSet.getQualitativeEvaluationValue());
+						currentEvalKPI.put("Evaluation", String.valueOf(evalValue));
+						
+						if( currentKpiEvalSet.getKpiConv() != null){
+							currentEvalKPI.put("KpiConv", currentKpiEvalSet.getKpiConv().getName());
+						}
+						
+						indicatorEvaluations.put((Indicator)element, currentEvalKPI);			
+					
+						tempIndicators = true;
+				}
+                
+            }
+            
+        	if (tempIndicators == true){
+				indicatorTable.put(strategy, indicatorEvaluations);
+			}  
+        }
+        
+        return indicatorTable;
     }
     
     /**
@@ -131,5 +186,24 @@ public class BatchEvaluationUtil {
             return (JUCMNavPlugin.getImage("icons/trend-up.gif")); //$NON-NLS-1$
         
         return null;
+    }
+    
+    /*
+     * Rounds a Double to a number of decimal places
+     * 
+     * param value
+     * 	value to round off
+     * param places
+     * 	number of decimal places needed
+     * return 
+     * 	the rounded number
+     */
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 }

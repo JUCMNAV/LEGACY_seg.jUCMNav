@@ -11,6 +11,10 @@ import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.StrategiesGroup;
+import grl.kpimodel.Indicator;
+import grl.kpimodel.KPIEvalValueSet;
+import grl.kpimodel.impl.QualitativeMappingImpl;
+import grl.kpimodel.impl.QualitativeMappingsImpl;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -35,6 +39,10 @@ import java.util.Vector;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.widgets.Display;
+
+import com.lowagie.text.Cell;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Table;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.ExportImageGIF;
@@ -104,7 +112,8 @@ public class HTMLReport extends URNReport {
 	private static int evalValue = 0;
 
 	private HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
-
+	private HashMap<EvaluationStrategy, HashMap<Indicator, HashMap<String, String>>> indicatorTable = new HashMap<EvaluationStrategy, HashMap<Indicator, HashMap<String, String>>>();
+	
 	private static StrategiesView sv = null;
 	private static boolean designView = false;
 
@@ -116,6 +125,12 @@ public class HTMLReport extends URNReport {
     
     private boolean prefShowTrend;
     private int prefTrend;
+    
+	private static HashMap<GRLLinkableElement, Integer> strategyEvaluations;
+	private static HashMap<Indicator, HashMap<String, String>> indicatorEvaluations;
+	private static HashMap<Indicator, String> indicatorKpiConversion;
+	
+
     
 	static {
 		excludedMetadata = new HashMap<String, Object>();
@@ -2036,6 +2051,7 @@ public class HTMLReport extends URNReport {
 
 		sb.append("<h1>" + Messages.getString("HTMLReport.GRLDefinitions") + "</h1>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		outputStrategies( grlspec, sb );
+		outputStrategiesKPI(grlspec, sb);
 	}
 
 	private void outputStrategies(GRLspec grlspec, StringBuffer sb) {
@@ -2131,8 +2147,171 @@ public class HTMLReport extends URNReport {
 		}
 
 	}
-    
-    private String trendContent(int trend) {
+	
+	private void outputStrategiesKPI(GRLspec grlspec, StringBuffer sb) {
+		
+		HashMap<Integer, EvaluationStrategy> strategies;
+
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.EvaluationStrategiesKPI") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		if (prefShowEvals) {
+			for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
+
+				StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
+				evalGroup.sortStrategies();
+				
+				if (!evalGroup.getStrategies().isEmpty()) {
+
+					strategies = new HashMap<Integer, EvaluationStrategy>();
+
+					// create a hashmap containing strategies (one per column), key is column number starting with 1
+					int columnNo = 1;
+					for (Iterator iter2 = evalGroup.getStrategies().iterator(); iter2.hasNext();) {
+						EvaluationStrategy strategy = (EvaluationStrategy) iter2.next();
+						strategies.put(columnNo, strategy);
+						columnNo++;
+					}
+					outputStrategiesLegend( strategies, evalGroup, sb );
+					this.calculateAllEvaluations( strategies.values(), grlspec ); // build evaluations table
+
+					/***************************************************************************************************************************************
+					 * Create the header row
+				 	*/
+					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
+
+					sb.append("<tr><td><b>" + Messages.getString("HTMLReport.Indicator") + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+					for( Integer index : strategies.keySet() ) {
+						sb.append("<td><b>" + index + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$
+					}	
+
+					sb.append("</tr>\n"); //$NON-NLS-1$
+
+					
+					// add Intentional Elements in first column, one per row
+					for (Iterator iter11 = grlspec.getIntElements().iterator(); iter11.hasNext();) {
+
+						IntentionalElement intElement = (IntentionalElement) iter11.next();
+						
+						if( intElement.getType().getName().compareTo("Indicator") == 0){
+							
+							boolean kpiConverted = false;
+							boolean firstIteration = true;
+							
+							String intElemConv = indicatorKpiConversion.get((Indicator)intElement);
+
+                    	
+                    	
+                    	if( intElemConv.compareTo("none") != 0)
+                    		kpiConverted = true;
+						
+						for( Integer index : strategies.keySet() ) {
+							EvaluationStrategy currentStrategy = strategies.get(index);
+							int evalValue = evalTable.get(currentStrategy).get(intElement);
+					
+							HashMap<Indicator, HashMap<String, String>> currentIndicatorEval = indicatorTable.get(currentStrategy);
+							HashMap<String, String> kpiEvalValue = ((HashMap<String, String>)currentIndicatorEval.get(intElement));
+							
+							
+							String unit = kpiEvalValue.get("Unit");
+
+							
+							if( firstIteration){
+								if(kpiConverted){
+									sb.append("<tr><td>" + "<b>" + intElement.getName() + "</b>" + "&nbsp;" + "(KPI Conversion : " + indicatorKpiConversion.get((Indicator)intElement) + ")" +
+											"<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + 
+											Messages.getString("KPIViewObjectFigure.QualitativeEvaluation") + "<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+			                        		Messages.getString("KPIViewObjectFigure.Evaluation") + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$	
+								}else {
+									sb.append("<tr><td>" + "<b>" + intElement.getName() + "</b>" +  "<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + 
+		                        		Messages.getString("KPIViewObjectFigure.Threshold") + "<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+		                        		Messages.getString("KPIViewObjectFigure.Worst") + "<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+		                        		Messages.getString("KPIViewObjectFigure.Target") + "<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"  +
+		                        		Messages.getString("KPIViewObjectFigure.QuantitativeEvaluation") + "<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"  +
+		    	                        Messages.getString("KPIViewObjectFigure.Evaluation") + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
+								}
+							}
+							firstIteration = false;
+							
+							if( kpiConverted){
+								sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + ""+ "<br>" +
+						    			kpiEvalValue.get("QualitativeEval") + " " +  "<br>" +
+						    			evalValue +"</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							}else{
+								sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + ""+ "<br>" + kpiEvalValue.get("Threshold") + " " + unit + "<br>" + 
+						    			kpiEvalValue.get("Worst") + " " + unit  + "<br>" +
+						    			kpiEvalValue.get("Target") + " " + unit + "<br>" +
+						    			kpiEvalValue.get("EvaluationValue") + " " + unit +  "<br>" +
+						    			evalValue + " " +"</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							}
+				
+						}
+
+						
+						sb.append("</tr>\n"); //$NON-NLS-1$
+						
+						}
+					}
+
+					sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
+				}
+			}
+			writeKpiConversionTables(grlspec, sb);
+			
+		} else {
+			sb.append("&nbsp;&nbsp;&nbsp;<i>" + Messages.getString("HTMLReport.NoEvalsPrefsDisabled") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+
+	}
+	
+    /*
+     * Writes a KPI Conversion association reference table 
+     * for each conversion.
+     */
+    private void writeKpiConversionTables(GRLspec grlspec, StringBuffer sb) {
+		
+    	HashMap<Integer, EvaluationStrategy> strategies;
+
+		for( Object obj : grlspec.getKPIConversion()){
+    		
+			QualitativeMappingsImpl currentKpiConv = (QualitativeMappingsImpl) obj;
+			
+			/***************************************************************************************************************************************
+			 * Create the header row
+		 	*/
+			sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
+			sb.append("</div>\n<div>\n<h2>" + " \n\n " +  Messages.getString("ReportStrategies.KpiConversionQuote") + currentKpiConv.getName() + "\" " + "</h2>\n");
+			
+            // First line - first cell
+            sb.append("<tr><td>" + "<b>" + Messages.getString("ReportStrategies.RealWorldLabel") + "</b>" + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$	
+            
+            // First line - RealWorldLabels of mappings
+            
+            for ( Object obj2 : currentKpiConv.getMapping()){
+            	
+            	QualitativeMappingImpl currentMapping = (QualitativeMappingImpl) obj2;
+            	sb.append("<td>"  + currentMapping.getRealWorldLabel()  + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$	
+            }  
+                            
+            // Second line - first cell
+            sb.append("<tr><td>" + "<b>" + Messages.getString("ReportStrategies.EvaluationValue") + "</b>" + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
+            
+            // Second line - rest of the cells : evaluation values
+            
+            for ( Object obj2 : currentKpiConv.getMapping()){
+            	
+            	QualitativeMappingImpl currentMapping = (QualitativeMappingImpl) obj2;
+            	sb.append("<td>"  + String.valueOf(currentMapping.getEvaluation())  + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$	
+            }  
+	
+						sb.append("</tr>\n"); //$NON-NLS-1$
+
+					sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
+				}
+			
+	}
+
+	private String trendContent(int trend) {
     	String content;
     			
     	switch(trend){
@@ -2170,26 +2349,100 @@ public class HTMLReport extends URNReport {
 		}
 	}
 
-	private void calculateAllEvaluations( final Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {
+	/*
+	 * Upgraded to new version of the method 07/07/2014 (can be deleted if no problem encountered after upgrade)
+	 * 
+	 * private void calculateAllEvaluations( final Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {
 
 		evalTable.clear();
 
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 			    evalTable = BatchEvaluationUtil.calculateAllEvaluations(strategies, grlspec);
+			    indicatorTable = BatchEvaluationUtil.calculateAllEvaluationsKPI(strategies, grlspec);
 			}
 		});
-	}
+	}*/
+	
+	private void calculateAllEvaluations( final Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {
+
+    	evalTable.clear();
+    	indicatorTable.clear();
+
+    	Display.getDefault().syncExec(new Runnable() {
+    		public void run() {
+ 			
+    			for( EvaluationStrategy strategy : strategies ) {
+
+    				strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
+    				EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
+    				
+    				indicatorEvaluations = new HashMap<Indicator, HashMap<String, String>>();
+    				indicatorKpiConversion = new HashMap<Indicator, String>();
+    				
+    				boolean tempIndicators = false;
+
+    				for (Iterator iter = grlspec.getIntElements().iterator(); iter.hasNext();) {
+    					
+    					IntentionalElement element = (IntentionalElement) iter.next();
+    					evalValue = EvaluationStrategyManager.getInstance(false).getEvaluation(element);
+    					strategyEvaluations.put( element, evalValue );
+    					
+    					
+    					if(element.getType().getName().compareTo("Indicator") == 0){
+    						
+    						HashMap<String, String> currentEvalKPI = new HashMap<String, String>();
+    						KPIEvalValueSet currentKpiEvalSet = EvaluationStrategyManager.getInstance(false).getActiveKPIEvalValueSet(element);
+    						
+    						String currentIndicatorKpiConv = null;
+    						
+    						if( currentKpiEvalSet.getKpiConv() != null){
+    						currentIndicatorKpiConv = (String) currentKpiEvalSet.getKpiConv().getName();
+    						}else{
+    						currentIndicatorKpiConv = "none";
+    						}
+    						
+    						currentEvalKPI.put("Threshold",String.valueOf(currentKpiEvalSet.getThresholdValue()));
+    						currentEvalKPI.put("Worst",String.valueOf(currentKpiEvalSet.getWorstValue()));
+    						currentEvalKPI.put("Target",String.valueOf(currentKpiEvalSet.getTargetValue()));
+    						currentEvalKPI.put("Unit",currentKpiEvalSet.getUnit());
+    						currentEvalKPI.put("EvaluationValue", String.valueOf(round(currentKpiEvalSet.getEvaluationValue(), 2)));
+    						currentEvalKPI.put("QualitativeEval", currentKpiEvalSet.getQualitativeEvaluationValue());
+    						
+    						indicatorKpiConversion.put((Indicator)element, currentIndicatorKpiConv);
+    						
+    						indicatorEvaluations.put((Indicator)element, currentEvalKPI);
+    						    					
+    						tempIndicators = true;
+    					}
+    					
+    				}
+
+    				for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
+    					Actor actor = (Actor) iter.next();
+    					evalValue = EvaluationStrategyManager.getInstance(false).getActorEvaluation(actor);
+    					strategyEvaluations.put( actor, evalValue );
+    				}
+    				
+    				if (tempIndicators == true){
+    					indicatorTable.put(strategy, indicatorEvaluations);
+    					    				    				}
+    				
+    				evalTable.put(strategy, strategyEvaluations); // add map of this strategy's evaluations to the table
+    			}
+    		}
+    	});
+    }
 
 	private String getBackgroundColor( int evalValue, URNspec urnSpec ) {
 
 		// if 0,100, convert back to -100,100 to have the right color.
 		String hexColor = null;
 		int colorValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable( urnSpec,  evalValue );
-
+		
 		if (colorValue == 0) {
 			hexColor = "#FFFF97"; // Color(255, 255, 151) //$NON-NLS-1$
-		} else if (colorValue == -100) {
+		} else if (colorValue <= -100) {
 			hexColor = "#FCA9AB"; // Color(252, 169, 171) //$NON-NLS-1$
 		} else if (colorValue > -100 && colorValue < 0) {
 			hexColor = "#FDE9EA"; // Color(253, 233, 234) //$NON-NLS-1$
@@ -2201,5 +2454,24 @@ public class HTMLReport extends URNReport {
 
 		return hexColor;
 	}
+	
+	/*
+     * Rounds a Double to a number of decimal places
+     * 
+     * param value
+     * 	value to round off
+     * param places
+     * 	number of decimal places needed
+     * return 
+     * 	the rounded number
+     */
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
 }
 

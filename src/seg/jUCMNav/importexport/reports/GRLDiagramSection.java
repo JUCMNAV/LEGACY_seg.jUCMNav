@@ -5,6 +5,8 @@ import grl.ActorRef;
 import grl.Belief;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.IntentionalElementType;
+import grl.kpimodel.Indicator;
 
 import java.util.Iterator;
 
@@ -35,6 +37,7 @@ public class GRLDiagramSection extends PDFReportDiagram {
             outputGRLBeliefs(document, diagram);
             outputIntentionalElementURNLinks(document, diagram);
             outputActorURNlinks(document, diagram);
+            outputGrlKPIs(document, diagram);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -216,5 +219,38 @@ public class GRLDiagramSection extends PDFReportDiagram {
             }
         }
     }
+   
+    private void outputGrlKPIs(Document document, IURNDiagram diagram) {
+        boolean hasData = false;
 
+        //if (!ReportGeneratorPreferences.getGRLShowBeliefs())
+        //    return;
+        
+        for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
+            URNmodelElement currentElement = (URNmodelElement) iter.next();
+                       
+            if (currentElement instanceof Belief)
+                hasData = hasGRLBeliefData((Belief) currentElement);
+        }
+
+        if (!hasData)
+            return;
+
+        insertDiagramSectionHeader(document, tableParams, Messages.getString("GRLDiagramSection.Beliefs")); //$NON-NLS-1$
+
+        for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+            URNmodelElement currentElement = (URNmodelElement) iter.next();
+            if (currentElement instanceof Belief) {
+                Belief currentBelief = (Belief) currentElement;
+                if (hasGRLBeliefData(currentBelief)) {
+                    ReportUtils.writeLineWithSeparator(document, currentBelief.getName(), ": ", notNull(currentBelief.getDescription()), descriptionFont, true); //$NON-NLS-1$
+                    insertMetadata(document, currentBelief.getMetadata());
+                }
+            }
+        }
+    }
+
+    private boolean hasGrlKPIData(Indicator indicator) {
+        return true; //(ReportUtils.notEmpty(belief.getDescription()) || !belief.getMetadata().isEmpty());
+    }
 }

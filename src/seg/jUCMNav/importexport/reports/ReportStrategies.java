@@ -7,6 +7,12 @@ import grl.GRLLinkableElement;
 import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.StrategiesGroup;
+import grl.kpimodel.Indicator;
+import grl.kpimodel.KPIConversion;
+import grl.kpimodel.KPIEvalValueSet;
+import grl.kpimodel.impl.IndicatorImpl;
+import grl.kpimodel.impl.QualitativeMappingImpl;
+import grl.kpimodel.impl.QualitativeMappingsImpl;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -24,9 +30,13 @@ import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.strategies.StrategiesView;
 import ucm.UCMspec;
 import urn.URNspec;
+import urncore.Metadata;
 import urncore.URNdefinition;
 
 import com.lowagie.text.Cell;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Phrase;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -47,10 +57,14 @@ public class ReportStrategies extends ReportDataDictionary {
 	private static Evaluation evaluation = null;
 	private static int evalValue = 0;
 	private static HashMap<GRLLinkableElement, Integer> strategyEvaluations;
+	private static HashMap<Indicator, HashMap<String, String>> indicatorEvaluations;
+	private static HashMap<Indicator, String> indicatorKpiConversion;
 	private Color white = new java.awt.Color(255, 255, 255);
+	private Color black = new java.awt.Color(0, 0, 0);
     private final int STRATEGY_CELL_WIDTH = 2;
-    //private final int MAX_STRATEGIES_PER_PAGE = 15;
+    private final int STRATEGY_CELL_WIDTH_INDICATORS = 3;
     private int MAX_STRATEGIES_PER_PAGE = 17;
+    private int MAX_STRATEGIES_PER_PAGE_INDICATORS = 6;
     
     private final int TREND_CELL_WIDTH = 4;
     
@@ -61,10 +75,13 @@ public class ReportStrategies extends ReportDataDictionary {
 
     private HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
     
+    private HashMap<EvaluationStrategy, HashMap<Indicator, HashMap<String, String>>> indicatorTable = new HashMap<EvaluationStrategy, HashMap<Indicator, HashMap<String, String>>>();
+    
     StringBuffer sb = new StringBuffer(); // debugging
     
     private boolean prefShowTrend;
     private int prefTrend;
+    private boolean prefShowKPI;
 
     
     public ReportStrategies() {
@@ -90,6 +107,7 @@ public class ReportStrategies extends ReportDataDictionary {
 
     	prefShowTrend = ReportGeneratorPreferences.getShowGRLEvalStrategyTrend();
     	prefTrend = Integer.parseInt(ReportGeneratorPreferences.getGRLEvalStrategyTrend());
+    	prefShowKPI = ReportGeneratorPreferences.getShowKpiShowEvals();
     	
     	if( prefShowTrend){
     		MAX_STRATEGIES_PER_PAGE = MAX_STRATEGIES_PER_PAGE - TREND_CELL_WIDTH/2;
@@ -120,6 +138,7 @@ public class ReportStrategies extends ReportDataDictionary {
             if (!grlspec.getStrategies().isEmpty()) {
                 document.add(Chunk.NEWLINE);
                 writeStrategies(document, grlspec, pagesize);
+                writeKPIs(document, grlspec, pagesize);
                 
             	Display.getDefault().syncExec(new Runnable() {
             		public void run() {
@@ -169,7 +188,7 @@ public class ReportStrategies extends ReportDataDictionary {
 
         try {
 
-            // document.add(Chunk.NEXTPAGE);
+            document.add(Chunk.NEXTPAGE);
         	String title = Messages.getString("ReportStrategies.StrategyLegendForGroupQuote") + evalGroup.getName() + Messages.getString("ReportStrategies.StrategyLegendForGroupEndQuote");  //$NON-NLS-1$ //$NON-NLS-2$
             document.add(new Paragraph(title, header1Font));
 
@@ -193,7 +212,7 @@ public class ReportStrategies extends ReportDataDictionary {
                 
             }
             
-            ReportUtils.writeLineWithSeparator(document, Messages.getString("ReportStrategies.TrendNote"), ":", Messages.getString("ReportStrategies.TrendNote1") + prefTrend + Messages.getString("ReportStrategies.TrendNote2"), descriptionFont, true);   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            ReportUtils.writeLineWithSeparator(document, Messages.getString("ReportStrategies.TrendNote"), ":", Messages.getString("ReportStrategies.TrendNote1") + prefTrend + Messages.getString("ReportStrategies.TrendNote2") + "\n\n", descriptionFont, true );   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
         } catch (Exception e) {
             jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
@@ -214,7 +233,9 @@ public class ReportStrategies extends ReportDataDictionary {
      */
 
     private void writeStrategies(Document document, GRLspec grlspec, Rectangle pagesize) {
-
+    	
+    	
+    	
         HashMap  evaluations;
         HashMap<Integer, EvaluationStrategy> strategies;
     	
@@ -296,6 +317,7 @@ public class ReportStrategies extends ReportDataDictionary {
                             cell.setHeader(true);
                             cell.setColspan(strategiesWidth);
                             table.addCell(cell);
+                            table.endHeaders();
                             /*
                          // First line - third cell: contains the strategy evaluation trend header title
                             if (prefShowTrend){
@@ -410,19 +432,54 @@ public class ReportStrategies extends ReportDataDictionary {
     private void calculateAllEvaluations( final Collection<EvaluationStrategy> strategies, final GRLspec grlspec ) {
 
     	evalTable.clear();
+    	indicatorTable.clear();
 
     	Display.getDefault().syncExec(new Runnable() {
     		public void run() {
-
+ 			
     			for( EvaluationStrategy strategy : strategies ) {
 
     				strategyEvaluations = new HashMap<GRLLinkableElement, Integer>();
     				EvaluationStrategyManager.getInstance(false).setStrategy(strategy);
+    				
+    				indicatorEvaluations = new HashMap<Indicator, HashMap<String, String>>();
+    				indicatorKpiConversion = new HashMap<Indicator, String>();
+    				
+    				boolean tempIndicators = false;
 
     				for (Iterator iter = grlspec.getIntElements().iterator(); iter.hasNext();) {
     					IntentionalElement element = (IntentionalElement) iter.next();
     					evalValue = EvaluationStrategyManager.getInstance(false).getEvaluation(element);
     					strategyEvaluations.put( element, evalValue );
+    					
+    					
+    					if(element.getType().getName().compareTo("Indicator") == 0){
+    						
+    						HashMap<String, String> currentEvalKPI = new HashMap<String, String>();
+    						KPIEvalValueSet currentKpiEvalSet = EvaluationStrategyManager.getInstance(false).getActiveKPIEvalValueSet(element);
+    						
+    						String currentIndicatorKpiConv = null;
+    						
+    						if( currentKpiEvalSet.getKpiConv() != null){
+    						currentIndicatorKpiConv = (String) currentKpiEvalSet.getKpiConv().getName();
+    						}else{
+    						currentIndicatorKpiConv = "none";
+    						}
+    						
+    						currentEvalKPI.put("Threshold",String.valueOf(currentKpiEvalSet.getThresholdValue()));
+    						currentEvalKPI.put("Worst",String.valueOf(currentKpiEvalSet.getWorstValue()));
+    						currentEvalKPI.put("Target",String.valueOf(currentKpiEvalSet.getTargetValue()));
+    						currentEvalKPI.put("Unit",currentKpiEvalSet.getUnit());
+    						currentEvalKPI.put("EvaluationValue", String.valueOf(round(currentKpiEvalSet.getEvaluationValue(), 2)));
+    						currentEvalKPI.put("QualitativeEval", currentKpiEvalSet.getQualitativeEvaluationValue());
+    						
+    						indicatorKpiConversion.put((Indicator)element, currentIndicatorKpiConv);
+    						
+    						indicatorEvaluations.put((Indicator)element, currentEvalKPI);
+    						    					
+    						tempIndicators = true;
+    					}
+    					
     				}
 
     				for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
@@ -430,7 +487,11 @@ public class ReportStrategies extends ReportDataDictionary {
     					evalValue = EvaluationStrategyManager.getInstance(false).getActorEvaluation(actor);
     					strategyEvaluations.put( actor, evalValue );
     				}
-
+    				
+    				if (tempIndicators == true){
+    					indicatorTable.put(strategy, indicatorEvaluations);
+    					    				    				}
+    				
     				evalTable.put(strategy, strategyEvaluations); // add map of this strategy's evaluations to the table
     			}
     		}
@@ -444,6 +505,17 @@ public class ReportStrategies extends ReportDataDictionary {
             Cell emptyStrat = new Cell(""); //$NON-NLS-1$//new Cell(String.valueOf(i2));
             emptyStrat.setBorderColor(white);
             emptyStrat.setColspan(STRATEGY_CELL_WIDTH);
+            table.addCell(emptyStrat);
+        }
+    }
+    
+    private void fillEmptySpaceIndicators( Table table, int lastCellOfPage, int pageNo ) {
+        // if the number of evaluations/strategies is less than total number of columns, fill in the rest with empty cells
+        for (float i2 = (lastCellOfPage) + 1; i2 <= MAX_STRATEGIES_PER_PAGE_INDICATORS * pageNo; i2++) {
+            // for (float i3 = nbOfStrategies + 1; i3 <= lastCellOfPage; i3++) {
+            Cell emptyStrat = new Cell(""); //$NON-NLS-1$//new Cell(String.valueOf(i2));
+            emptyStrat.setBorderColor(white);
+            emptyStrat.setColspan(STRATEGY_CELL_WIDTH_INDICATORS);
             table.addCell(emptyStrat);
         }
     }
@@ -476,6 +548,41 @@ public class ReportStrategies extends ReportDataDictionary {
     		evaluationCell.setBackgroundColor(new java.awt.Color(240, 253, 227));
     	}
 
+    	table.addCell(evaluationCell);
+    }
+    
+    /**
+     * creates the KPI evaluation cells
+     * 
+     * @param table
+     *            the in which to insert the evaluations
+     */
+
+    protected void writeKPIEvaluation(Table table, int evalValue, String kpiEvalValue) throws IOException {
+
+    	//evalValue = StrategyEvaluationPreferences.getValueToVisualize(evalValue);
+    	
+    	
+        // if 0,100, convert back to -100,100 to have the right color. 
+       int colorValue = StrategyEvaluationPreferences.getEquivalentValueInFullRangeIfApplicable( urnSpec,  evalValue );
+             
+    	Cell evaluationCell = new Cell( kpiEvalValue );
+    	evaluationCell.setColspan(STRATEGY_CELL_WIDTH_INDICATORS);
+    	evaluationCell.setHorizontalAlignment("RIGHT");
+    	evaluationCell.setBorderWidthLeft(0);
+ 
+    	if (colorValue == 0) {
+    		evaluationCell.setBackgroundColor(new java.awt.Color(255, 255, 151));
+    	} else if (colorValue == -100) {
+    		evaluationCell.setBackgroundColor(new java.awt.Color(252, 169, 171));
+    	} else if (colorValue > -100 && colorValue < 0) {
+    		evaluationCell.setBackgroundColor(new java.awt.Color(253, 233, 234));
+    	} else if (colorValue == 100) {
+    		evaluationCell.setBackgroundColor(new java.awt.Color(210, 249, 172));
+    	} else if (colorValue > 0 && colorValue < 100) {
+    		evaluationCell.setBackgroundColor(new java.awt.Color(240, 253, 227));
+    	}
+    	
     	table.addCell(evaluationCell);
     }
     
@@ -636,5 +743,339 @@ public class ReportStrategies extends ReportDataDictionary {
             e.printStackTrace();
     	}
     }
+
+    private void writeKPIs(Document document, GRLspec grlspec, Rectangle pagesize) {
+
+    	if ( prefShowKPI ){
+        HashMap  evaluations;
+        HashMap<Integer, EvaluationStrategy> strategies;
+    	
+        
+        
+        try {
+            if (!grlspec.getGroups().isEmpty()) {
+
+                for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
+
+                    StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
+                    evalGroup.sortStrategies();
+                    
+                    if (!evalGroup.getStrategies().isEmpty()) {
+                        // maximum number of strategies per page is 17
+                        int nbOfColumns = 23;
+                        int intElementColumnWidth = 5;
+                                               
+                        int strategiesWidth = nbOfColumns - intElementColumnWidth ;// - intTrendColumnWidth; added  - intTrendColumnWidth           
+                        
+                        float nbOfStrategyColumns = (strategiesWidth / STRATEGY_CELL_WIDTH_INDICATORS);
+
+                       
+                        
+                        strategies = new HashMap<Integer, EvaluationStrategy>();
+
+                         //create a hashmap containing strategies (one per column), key is column number starting with 1
+                        int columnNo = 1;
+                        for (Iterator iter2 = evalGroup.getStrategies().iterator(); iter2.hasNext();) {
+                            EvaluationStrategy strategy = (EvaluationStrategy) iter2.next();
+                            Integer hashKey = new Integer(columnNo);
+                            strategies.put(hashKey, strategy);
+                            columnNo++;
+                        }
+                        float nbOfStrategies = strategies.size();
+                        int nbOfPages = (int) (Math.round(nbOfStrategies / MAX_STRATEGIES_PER_PAGE_INDICATORS)) + 1;
+      
+                        writeStrategiesLegend(document, strategies, evalGroup );
+                        
+                        this.calculateAllEvaluations( strategies.values(), grlspec );//  build evaluations table
+               
+                        
+                        // process strategies per page
+                        boolean newpage = false;
+                        int lastCellOfPage = MAX_STRATEGIES_PER_PAGE_INDICATORS;
+                        int lastCellAdded = 1;
+                        int pageNo = 1;
+
+                        document.add(Chunk.NEXTPAGE);
+
+                        for (int i = 1; i <= nbOfPages; i++) {
+                            if (newpage) {
+                                document.add(Chunk.NEXTPAGE);
+                            }
+                            // create the table for strategy evaluations, there will be one table per strategy group
+                            Table table = new Table(nbOfColumns);
+                            table.setBorderWidth(1);
+                            table.setBorderColor(white);
+                            table.setPadding(3);
+                            table.setSpacing(0);
+                            table.setWidth(100);
+
+                            /***************************************************************************************************************************************
+                             * Create the header row
+                             * 
+                             */
+                            // First Line of Table
+                            
+                            // First line - first cell: empty with the width of the intentional element column
+                            Cell emptyCell = new Cell(""); //$NON-NLS-1$
+                            emptyCell.setBorderColor(new java.awt.Color(0, 0, 0));
+                            emptyCell.setColspan(intElementColumnWidth);
+                            table.addCell(emptyCell);
+
+                             //First line - second cell: contains the strategy evaluation header title. Width equals all strategy columns.
+                            Cell cell = new Cell(Messages.getString("ReportStrategies.StrategyKPI")); //$NON-NLS-1$
+                            cell.setHeader(true);
+                            cell.setColspan(strategiesWidth);
+                            table.addCell(cell);
+
+                            
+                            // Second line - first cell: empty with the width of the intentional element column
+                            Cell emptyCell2 = new Cell("Indicators"); //$NON-NLS-1$
+                            emptyCell2.setBorderColor(white);
+                            emptyCell2.setColspan(intElementColumnWidth);
+                            table.addCell(emptyCell2);
+
+                            // Second line - strategy number header. This number represents a strategy as documented in the legend. One number per
+                            //  column/strategy.
+                            for (int column = lastCellAdded; (column <= (MAX_STRATEGIES_PER_PAGE_INDICATORS * pageNo) && column <= nbOfStrategies); column++) {
+                                Cell strategyNo = new Cell(column + ""); //$NON-NLS-1$
+                                strategyNo.setBorderColor(new java.awt.Color(0, 0, 0));
+                                strategyNo.setColspan(STRATEGY_CELL_WIDTH_INDICATORS);
+
+                                table.addCell(strategyNo);
+                                lastCellOfPage = column;
+                                
+                                
+                            }
+                            
+                            // Second line - last cell: contains the strategy evaluation trend header title
+                            if (prefShowTrend){
+                            Cell trendHeadCell = new Cell(Messages.getString("ReportStrategies.Trends")); //$NON-NLS-1$
+                            trendHeadCell.setHeader(true);
+                            trendHeadCell.setColspan(TREND_CELL_WIDTH);
+                            table.addCell(trendHeadCell);
+                            }
+
+                            this.fillEmptySpaceIndicators( table, lastCellOfPage, pageNo );
+                     
+                            for (Iterator iter11 = grlspec.getIntElements().iterator(); iter11.hasNext();) {
+
+                                IntentionalElement intElement = (IntentionalElement) iter11.next();
+                                    
+                                if( intElement.getType().getName().compareTo("Indicator") == 0){
+                                
+                                	String intElemConv = indicatorKpiConversion.get((Indicator)intElement);
+                                	Cell intElementCell = null;
+                                	boolean kpiConverted = false;
+                                	
+                                	if( intElemConv.compareTo("none") != 0)
+                                		kpiConverted = true;
+                                	
+                                	// true if the indicator as a KPI Conversion
+                                	if( kpiConverted ){
+                                		intElementCell = new Cell("\n" + intElement.getName() + "(KPI Conversion : " + indicatorKpiConversion.get((Indicator)intElement) + ")"); 
+                                	}else{
+                                		intElementCell = new Cell("\n" + intElement.getName());
+                                	}
+                                	
+                                	intElementCell.setBorderWidthTop(1);
+                                	intElementCell.setBorderColorTop(black);
+                                    intElementCell.setColspan(nbOfColumns);
+                                    intElementCell.setBorderWidthBottom(2);
+                                    table.addCell(intElementCell);
+   	
+                                    
+                                	for( int ctr = 0; ctr < 5; ctr++){
+                 		     
+                                     boolean firstIteration = true;
+                                     
+                                     //column 1 contains strategy 1, column 2 -> strategy 2, ...
+                                     for (int column = lastCellAdded; column <= lastCellOfPage; column++) {
+                                    	 // for each strategy (i.e. bcolumn), get evaluation for the IntentionalElement of the row
+                                    	 EvaluationStrategy currentStrategy = strategies.get(column);
+                                    	 
+                                    	 int evalValue = evalTable.get(currentStrategy).get(intElement);
+                                    	 
+                                    	 HashMap<Indicator, HashMap<String, String>> currentIndicatorEval = indicatorTable.get(currentStrategy);
+                                    	 HashMap<String, String> kpiEvalValue = ((HashMap<String, String>)currentIndicatorEval.get(intElement));
+                                    	 
+                                    
+                                		if( firstIteration ){
+                                	
+                                			
+                                			String unit = kpiEvalValue.get("Unit");        
+                                			
+                                			Cell kpiEvalValueType = null;   
+                          
+                                			
+                                			// the headers of the first column for a intElement is added to the table
+                                			if (kpiConverted && ctr == 0){
+                                        		kpiEvalValueType = new Cell(Messages.getString("KPIViewObjectFigure.QualitativeEvaluation"));
+                                        	}else if( kpiConverted && ctr == 1 ){
+                                        		kpiEvalValueType = new Cell(Messages.getString("KPIViewObjectFigure.Evaluation"));
+                                        		ctr = 4;
+                                    		}else if( ctr == 0 ){
+                                    			kpiEvalValueType = new Cell(Messages.getString("KPIViewObjectFigure.Threshold")+ " (" + unit + ")");
+                                        	}else if( ctr == 1){
+                                        		kpiEvalValueType = new Cell(Messages.getString("KPIViewObjectFigure.Worst") +" (" + unit + ")");
+                                        	}else if( ctr == 2){
+                                           		kpiEvalValueType = new Cell(Messages.getString("KPIViewObjectFigure.Target")+ " (" + unit+ ")");
+                                        	}else if (ctr == 3){
+                                           		kpiEvalValueType = new Cell(Messages.getString("KPIViewObjectFigure.QuantitativeEvaluation") + " (" + unit+ ")" );
+                                        	}else if (ctr == 4){
+                                           		kpiEvalValueType = new Cell(Messages.getString("KPIViewObjectFigure.Evaluation"));
+                                        	}
+                                    		
+                                    		kpiEvalValueType.setColspan(intElementColumnWidth);
+                                    		kpiEvalValueType.setHorizontalAlignment("RIGHT");
+                                    		kpiEvalValueType.setBorderWidthRight(1);
+                                    		table.addCell(kpiEvalValueType);
+                                		}
+                                		
+                                		firstIteration = false;
+                                    
+                                		// the informations for each strategy is added to the table
+                                		if ( kpiConverted && ctr == 0){
+                                    		this.writeKPIEvaluation(table, evalValue, kpiEvalValue.get("QualitativeEval"));
+                                		}else if( kpiConverted && ctr == 1 ){
+                                			this.writeKPIEvaluation(table, evalValue, String.valueOf(evalValue));
+                                			ctr = 4;
+                                		}else if( ctr == 0){
+                                    		this.writeKPIEvaluation(table, evalValue, (String)kpiEvalValue.get("Threshold"));
+                                    	}else if( ctr == 1){
+                                    		this.writeKPIEvaluation(table, evalValue, (String)kpiEvalValue.get("Worst"));
+                                    	}else if( ctr == 2){
+                                    		this.writeKPIEvaluation(table, evalValue, (String)kpiEvalValue.get("Target"));
+                                    	}else if (ctr == 3){
+                                    		this.writeKPIEvaluation(table, evalValue, (String)kpiEvalValue.get("EvaluationValue"));
+                                    	}else if (ctr == 4){
+                                    		this.writeKPIEvaluation(table, evalValue, String.valueOf(evalValue));
+                                    	}
+                                }
+                                this.fillEmptySpaceIndicators( table, lastCellOfPage, pageNo ); 
+                                }  
+                                }
+                            }
+                            document.add(table);
+
+                            newpage = true;
+                            lastCellAdded = lastCellOfPage + 1;
+                            pageNo++;
+                        }
+
+                    }
+                }
+                
+                if( ! grlspec.getKPIConversion().isEmpty())
+                	writeKpiConversionTables(document, grlspec, pagesize);
+                
+                document.setPageSize(pagesize);
+                document.add(Chunk.NEXTPAGE);
+                
+
+            }
+        } catch (Exception e) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            e.printStackTrace();
+
+        }
+    	}
+    }
     
+    /*
+     * Creates kpi conversion mapping tables
+     * 
+     * @param document
+     * 		the document where to put the table
+     * @grlspec
+     * 		the grlspec where the kpi conversion are found
+     * @pagesize
+     * 		the size of the page in the document where to put the table
+     */
+    
+    private void writeKpiConversionTables(Document document, GRLspec grlspec, Rectangle pagesize) {
+		
+    	try{
+			    		
+    		for( Object obj : grlspec.getKPIConversion()){
+    		
+    			    			
+    			QualitativeMappingsImpl currentKpiConv = (QualitativeMappingsImpl) obj;
+    			int nbOfColumns = currentKpiConv.getMapping().size() + 2;
+    			
+    			String title = " \n\n " +  Messages.getString("ReportStrategies.KpiConversionQuote") + currentKpiConv.getName() + "\" ";  //$NON-NLS-1$ //$NON-NLS-2$
+                document.add(new Paragraph(title, header1Font));
+    			
+    			Table kpiTable = new Table(nbOfColumns);
+    			kpiTable.setBorderWidth(1);
+                kpiTable.setPadding(3);
+                kpiTable.setSpacing(0);
+                kpiTable.setBorderColorBottom(black);
+                kpiTable.setWidth(100);
+                
+	
+                // First line - first cell
+                Cell realWorldHeader = new Cell(Messages.getString("ReportStrategies.RealWorldLabel"));
+                realWorldHeader.setColspan(2);
+                realWorldHeader.setBorderColorBottom(black);
+                kpiTable.addCell(realWorldHeader);
+                
+                // First line - RealWorldLabels of mappings
+                
+                for ( Object obj2 : currentKpiConv.getMapping()){
+                	QualitativeMappingImpl currentMapping = (QualitativeMappingImpl) obj2;
+                	
+                	Cell realWorldLabelsCell = new Cell (currentMapping.getRealWorldLabel());
+                	kpiTable.addCell(realWorldLabelsCell);
+                }  
+                                
+                // Second line - first cell
+                Cell evalMappingHeader = new Cell(Messages.getString("ReportStrategies.EvaluationValue"));
+                evalMappingHeader.setColspan(2);
+                evalMappingHeader.setBorderColorBottom(black);
+                kpiTable.addCell(evalMappingHeader);
+                
+                // Second line - rest of the cells : evaluation values
+                
+                for ( Object obj2 : currentKpiConv.getMapping()){
+                	QualitativeMappingImpl currentMapping = (QualitativeMappingImpl) obj2;
+                	
+                	Cell evaluationMappingCell = new Cell(String.valueOf(currentMapping.getEvaluation()));
+                	evaluationMappingCell.setBorderColor(black);
+                	kpiTable.addCell(evaluationMappingCell);
+                }  
+                
+                document.add(kpiTable);
+    		}
+    	
+        } catch (Exception e) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            e.printStackTrace();
+        }
+    	
+    			
+	}
+    
+
+	/*
+     * Rounds a Double to a number of decimal places
+     * 
+     * param value
+     * 	value to round off
+     * param places
+     * 	number of decimal places needed
+     * return 
+     * 	the rounded number
+     */
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
 }
+    	
+
+
+

@@ -371,4 +371,26 @@ public class ReportDataDictionary extends Report {
         }
     }
 
+    public void writeIndicators(Document document, GRLspec grlspec) {
+
+        try {
+            document.add(new Paragraph(Messages.getString("ReportDataDictionary.Indicators"), header1Font)); //$NON-NLS-1$
+            List list1 = new List(List.ORDERED);
+            list1.setIndentationLeft(10);
+            for (Iterator iter = grlspec.getIndicatorGroup().iterator() ; iter.hasNext();) {
+
+                // generate report documentation for intentional elements (name, description, criticality, priority)
+                IntentionalElement intElement = (IntentionalElement) iter.next();
+                list1.add(new ListItem(ReportUtils
+                        .getParagraphWithSeparator(document, intElement.getName(), ": ", intElement.getDescription(), descriptionFont))); //$NON-NLS-1$
+            }
+            document.add(list1);
+        } catch (Exception e) {
+            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            e.printStackTrace();
+
+        }
+    }
+
 }
+

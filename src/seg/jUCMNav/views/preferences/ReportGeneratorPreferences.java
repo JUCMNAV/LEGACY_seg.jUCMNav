@@ -39,6 +39,7 @@ public class ReportGeneratorPreferences {
     public final static boolean DEFAULT_GRL_SHOW_URN_LINKS = true;
 
     public final static boolean DEFAULT_GRL_SHOW_EVALS = true;
+    public final static boolean DEFAULT_KPI_SHOW_EVALS = false;
     public final static boolean DEFAULT_GRL_SHOW_EVAL_STRATEGY_TREND = false;
     public final static int DEFAULT_GRL_EVAL_STRATEGY_TREND = 3;
     public final static boolean DEFAULT_SHOW_SCENARIO_INFO = true; 
@@ -60,6 +61,7 @@ public class ReportGeneratorPreferences {
     public final static String PREF_GRL_SHOW_BELIEFS = "seg.jUCMNav.UCMReportPreference.Beliefs"; //$NON-NLS-1$
     public final static String PREF_SHOW_URN_LINKS = "seg.jUCMNav.UCMReportPreference.URNLinks"; //$NON-NLS-1$
     
+    public final static String PREF_KPI_SHOW_EVALS = "seg.jUCMNav.UCMReportPreference.KPIsShowEvals";
     public final static String PREF_GRL_SHOW_EVALS = "seg.jUCMNav.UCMReportPreference.GRLShowEvals"; //$NON-NLS-1$
     public final static String PREF_GRL_SHOW_EVAL_STRATEGY_TREND = "seg.jUCMNav.UCMReportPreference.GRLShowEvalStratefyTrend"; //$NON-NLS-1$
     public final static String PREF_GRL_EVAL_STRATEGY_TREND = "seg.jUCMNav.UCMReportPreference.GRLEvalStrategyTrend"; //$NON-NLS-1$
@@ -98,6 +100,7 @@ public class ReportGeneratorPreferences {
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_BELIEFS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_BELIEFS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_SHOW_URN_LINKS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_URN_LINKS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_EVALS, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_EVALS);
+        getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_KPI_SHOW_EVALS, ReportGeneratorPreferences.DEFAULT_KPI_SHOW_EVALS);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_SHOW_EVAL_STRATEGY_TREND, ReportGeneratorPreferences.DEFAULT_GRL_SHOW_EVAL_STRATEGY_TREND);
         getPreferenceStore().setDefault(ReportGeneratorPreferences.PREF_GRL_EVAL_STRATEGY_TREND, ReportGeneratorPreferences.DEFAULT_GRL_EVAL_STRATEGY_TREND);
 
@@ -338,6 +341,13 @@ public class ReportGeneratorPreferences {
     	return getPreferenceStore().getBoolean(PREF_GRL_SHOW_EVALS);
     }
     
+    /**
+     * 
+     * @return the value of the show kpi show evals preference
+     */
+    public static boolean getShowKpiShowEvals() {
+    	return getPreferenceStore().getBoolean(PREF_KPI_SHOW_EVALS);
+    }
     /**
      * 
      * @return the value of the show grl eval strategy trend preference

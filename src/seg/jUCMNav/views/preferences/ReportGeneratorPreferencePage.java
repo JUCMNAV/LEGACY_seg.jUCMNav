@@ -258,6 +258,11 @@ public class ReportGeneratorPreferencePage extends FieldEditorPreferencePage imp
         		evalCompOptions);
         addField(ShowGRLEvals);
         
+        BooleanFieldEditor ShowKPIsEvals = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_KPI_SHOW_EVALS,
+        		Messages.getString("ReportGeneratorPreferencePage.ShowStrategyKPIsEvals"), //$NON-NLS-1$
+        		evalCompOptions);
+        addField(ShowKPIsEvals);
+        
         BooleanFieldEditor ShowGRLEvalStrategyTrend = new BooleanFieldEditor(ReportGeneratorPreferences.PREF_GRL_SHOW_EVAL_STRATEGY_TREND,
         		Messages.getString("ReportGeneratorPreferencePage.ShowGRLEvalTrends"), //$NON-NLS-1$
         		evalCompOptions);

@@ -83,7 +83,7 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
     	
     	Display.getDefault().syncExec(new Runnable() {
 			public void run() {
-				ECollections.sort(strategies);
+				//ECollections.sort(strategies); doesn't work because grl.impl.EvaluationStrategyImpl cannot be cast to java.lang.comparable
 			}
 		});
 	}

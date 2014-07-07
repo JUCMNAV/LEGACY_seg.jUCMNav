@@ -167,10 +167,10 @@ public class ReportWizard extends ExportWizard {
                     monitor.done();
                 }
             	
-            
             }
 
-        };
+        }; 
+     
         try {
             ((ReportWizardMapSelectionPage) getPage(PAGE0)).preFinish();
             getContainer().run(true, false, op);
@@ -188,6 +188,8 @@ public class ReportWizard extends ExportWizard {
             MessageDialog.openError(getShell(), Messages.getString("ExportImageWizard.error"), realException.getMessage()); //$NON-NLS-1$
             return false;
         }
+        
+        
         
         if (fileExists && !userChoice){
         	return false; //user cancelled overwriting existing files      	
