@@ -70,8 +70,10 @@ import seg.jUCMNav.actions.ShowLinkedElementAlternativeAction;
 import seg.jUCMNav.actions.ShowLinkedElementAlternativeSubNodesAction;
 import seg.jUCMNav.actions.ShowLinkedElementCompleteAction;
 import seg.jUCMNav.actions.ShowLinkedElementCompleteSubNodesAction;
+import seg.jUCMNav.actions.ShowLinkedElementInNewDiagramAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
+import seg.jUCMNav.actions.ShowNonLeafElementsInSeparateDiagramsAction;
 import seg.jUCMNav.actions.SubmenuAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
@@ -374,10 +376,14 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        action = getActionRegistry().getAction(AddBeliefAction.ADDBELIEF);
+        action = getActionRegistry().getAction(ShowNonLeafElementsInSeparateDiagramsAction.SHOWNONLEAFELEMENTSINSEPARATEDIAGRAMS);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        action = getActionRegistry().getAction(AddBeliefAction.ADDBELIEF);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
         action = getActionRegistry().getAction(ListDefinitionReferencesAction.LISTREFERENCES);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -416,15 +422,16 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
         
-        actions = new IAction[8];
+        actions = new IAction[9];
         actions[0] = getActionRegistry().getAction(ShowLinkedElementAlternativeAction.SHOWLINKEDELEMENTALTERNATIVE);
         actions[1] = getActionRegistry().getAction(ShowLinkedElementAlternativeSubNodesAction.SHOWLINKEDELEMENTALTERNATIVESUBNODES);
         actions[2] = getActionRegistry().getAction(ShowLinkedElementAction.SHOWLINKEDELEMENT);
-        actions[3] = getActionRegistry().getAction(ShowLinkedElementLevelTwoAction.SHOWLINKEDELEMENTLEVELTWO);
-        actions[4] = getActionRegistry().getAction(ShowLinkedElementLevelThreeAction.SHOWLINKEDELEMENTLEVELTHREE);
-        actions[5] = getActionRegistry().getAction(ShowContainingActorAction.SHOWCONTAININGACTOR);
-        actions[6] = getActionRegistry().getAction(ShowLinkedElementCompleteAction.SHOWLINKEDELEMENTCOMPLETE);
-        actions[7] = getActionRegistry().getAction(ShowLinkedElementCompleteSubNodesAction.SHOWLINKEDELEMENTCOMPLETESUBNODES);
+        actions[3] = getActionRegistry().getAction(ShowLinkedElementInNewDiagramAction.SHOWLINKEDELEMENTINNEWDIAGRAM);  
+        actions[4] = getActionRegistry().getAction(ShowLinkedElementLevelTwoAction.SHOWLINKEDELEMENTLEVELTWO);
+        actions[5] = getActionRegistry().getAction(ShowLinkedElementLevelThreeAction.SHOWLINKEDELEMENTLEVELTHREE);
+        actions[6] = getActionRegistry().getAction(ShowContainingActorAction.SHOWCONTAININGACTOR);
+        actions[7] = getActionRegistry().getAction(ShowLinkedElementCompleteAction.SHOWLINKEDELEMENTCOMPLETE);
+        actions[8] = getActionRegistry().getAction(ShowLinkedElementCompleteSubNodesAction.SHOWLINKEDELEMENTCOMPLETESUBNODES);	
         
         submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.LinkedElement"), Messages.getString("UrnContextMenuProvider.LinkedElement"), JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         if (submenu.getActiveOperationCount() > 0)

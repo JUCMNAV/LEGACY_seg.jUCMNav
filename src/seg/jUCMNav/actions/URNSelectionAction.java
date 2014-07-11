@@ -67,7 +67,7 @@ public abstract class URNSelectionAction extends SelectionAction {
             UCMNavMultiPageEditor editor = getEditor();
             EditPartViewer viewer = editor.getCurrentPage().getGraphicalViewer();
             Object part = (EditPart) viewer.getEditPartRegistry().get(((ICreateElementCommand) cmd).getNewModelElement());
-
+            
             if (part instanceof EditPart)
                 ((EditPart) part).performRequest(directEditRequest);
         }

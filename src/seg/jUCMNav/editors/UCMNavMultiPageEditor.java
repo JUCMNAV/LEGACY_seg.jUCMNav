@@ -688,7 +688,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     protected void setActivePage(int pageIndex) {
         if (getPageCount() > 0) {
             super.setActivePage(pageIndex);
-
+            
             // refresh content depending on current page
             currentPageChanged();
         }

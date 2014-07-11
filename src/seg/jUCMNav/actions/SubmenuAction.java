@@ -46,7 +46,7 @@ public class SubmenuAction extends Action implements SelectionListener {
     public SubmenuAction(IAction[] subactions, String text, String toolTip, ImageDescriptor descriptor, boolean hideDisabledActions) {
         // indicate that this is a secondary fly-out menu.
         super("", IAction.AS_DROP_DOWN_MENU); //$NON-NLS-1$
-
+    
         this.actionInstance = this;
         this.actions = subactions;
         this.hideDisabled = hideDisabledActions;

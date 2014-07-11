@@ -88,8 +88,10 @@ import seg.jUCMNav.actions.ShowLinkedElementAlternativeAction;
 import seg.jUCMNav.actions.ShowLinkedElementAlternativeSubNodesAction;
 import seg.jUCMNav.actions.ShowLinkedElementCompleteAction;
 import seg.jUCMNav.actions.ShowLinkedElementCompleteSubNodesAction;
+import seg.jUCMNav.actions.ShowLinkedElementInNewDiagramAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
+import seg.jUCMNav.actions.ShowNonLeafElementsInSeparateDiagramsAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
@@ -494,6 +496,10 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.addBelief")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new ShowNonLeafElementsInSeparateDiagramsAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowNonLeafElementsInSeparateDiagrams")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
         for (int i = 0; i <= 2; i++) {
             action = new ChangeDecompositionTypeAction(editor, i);
             addEditPartAction((SelectionAction) action);
@@ -764,6 +770,10 @@ public class ActionRegistryManager implements IDisposable {
         
         action = new ShowLinkedElementAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElement")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ShowLinkedElementInNewDiagramAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementInNewDiagram")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new ShowLinkedElementLevelTwoAction(editor);
