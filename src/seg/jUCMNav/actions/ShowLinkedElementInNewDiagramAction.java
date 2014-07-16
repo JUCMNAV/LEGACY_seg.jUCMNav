@@ -24,7 +24,6 @@ import urncore.URNmodelElement;
 public class ShowLinkedElementInNewDiagramAction extends URNSelectionAction
 {
     public static final String SHOWLINKEDELEMENTINNEWDIAGRAM = "seg.jUCMNav.ShowLinkedElementInNewDiagramAction"; //$NON-NLS-1$
-  
     private URNmodelElement element;
     private IntentionalElementRef elementRef;
     private URNspec urnspec;
@@ -64,6 +63,7 @@ public class ShowLinkedElementInNewDiagramAction extends URNSelectionAction
      */
     protected Command getCommand() 
     {
-        return new ShowLinkedElementInNewDiagramCommand(urnspec, element, elementRef, getEditor(), false);
+        return new ShowLinkedElementInNewDiagramCommand(urnspec, element, elementRef, getEditor(), getCommandStack());
     }
+    
 }

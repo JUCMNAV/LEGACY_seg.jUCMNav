@@ -51,6 +51,7 @@ public class AutoLayoutWizard extends Wizard {
     private IURNDiagram map;
     private UrnEditor editor;
     public static final int PADDING = 50;
+    private CompoundCommand repositionLayout;
 
     public AutoLayoutWizard(UrnEditor editor, IURNDiagram map) {
         this.map = map;
@@ -72,7 +73,7 @@ public class AutoLayoutWizard extends Wizard {
     /**
      * @param initial
      */
-    private String autoLayoutDotString(String initial) {
+    public String autoLayoutDotString(String initial) {
         String s = ""; //$NON-NLS-1$
         StringBuffer builder = new StringBuffer();
         InputStream is = callDOT(initial.getBytes(), "dot"); //$NON-NLS-1$
@@ -158,7 +159,7 @@ public class AutoLayoutWizard extends Wizard {
     /**
      * @return success
      */
-    private boolean trimEmptyPoints() {
+    public boolean trimEmptyPoints() {
         CompoundCommand cmd;
 
         if (map instanceof UCMmap && AutoLayoutPreferences.getEmptyPoints()) {
@@ -173,7 +174,7 @@ public class AutoLayoutWizard extends Wizard {
         return true;
     }
 
-    private static CompoundCommand repositionLayout(IURNDiagram usecasemap, String positioned) throws Exception {
+    public static CompoundCommand repositionLayout(IURNDiagram usecasemap, String positioned) throws Exception  {
         positioned = positioned.replaceAll("\\\\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
         BufferedReader reader = new BufferedReader(new StringReader(positioned));
         String line;

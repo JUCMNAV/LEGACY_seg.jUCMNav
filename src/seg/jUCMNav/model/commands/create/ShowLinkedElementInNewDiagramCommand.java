@@ -9,13 +9,20 @@ import grl.IntentionalElementRef;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.part.MultiPageEditorPart;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editors.DelegatingCommandStack;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
+import seg.jUCMNav.importexport.ExportLayoutDOT;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.IGlobalStackCommand;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.commands.delete.DeleteGRLGraphCommand;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.wizards.AutoLayoutWizard;
 import urn.URNspec;
@@ -41,7 +48,8 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
     private IntentionalElement elemRef;
     private IURNDiagram diagramOfElement;
     private boolean redoTime = false;
-    
+    private CommandStack cmdStack;
+    private IntentionalElementRef newRef;
     private UCMNavMultiPageEditor editor;
     private CreateGrlGraphCommand graphCmd;
     
@@ -49,7 +57,7 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
     private boolean refreshTabsBypass; // true if we want to repeat the command a few times and refresh the tabs of the editor only after the last command
     
 
-    public ShowLinkedElementInNewDiagramCommand(URNspec spec, EObject obj, IntentionalElementRef ref, UCMNavMultiPageEditor editor, boolean refreshTabsBypass) 
+    public ShowLinkedElementInNewDiagramCommand(URNspec spec, EObject obj, IntentionalElementRef ref, UCMNavMultiPageEditor editor, CommandStack cmdStack) 
     {
     	
       
@@ -61,6 +69,7 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
         diagramOfElement = objRef.getDiagram();
         grlGraph = (GRLGraph) objRef.getDiagram();
         this.refreshTabsBypass = refreshTabsBypass;
+        this.cmdStack = cmdStack;
         
         if (obj instanceof GRLLinkableElement) 
         {
@@ -89,7 +98,7 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
 
     	// Create a new GRLGraph in the urnspec
         graphCmd = new CreateGrlGraphCommand(urnspec);
-       
+        
         if (graphCmd.canExecute()) {
             DisplayPreferences.getInstance().setShowGRLS(true);
         }
@@ -121,11 +130,13 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
             	}
             }
             
-            newGraph.setName(objName); //$NON-NLS-1$
+            newRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+            newRef.setDef(elemRef);
             
-            graphCmd.execute();
-            if ( ! refreshTabsBypass)
-            	editor.recreatePages();
+            newGraph.setName(objName); //$NON-NLS-1$
+           
+            cmdStack.execute(graphCmd);
+
             }
 
         redo();
@@ -144,13 +155,12 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
     	testPreConditions();
        
     	if(redoTime){
-        	graphCmd.redo();
+    		if(graphCmd.canExecute())
+    			cmdStack.execute(graphCmd);
     	}
     	
     	redoTime = true;
     	
-        IntentionalElementRef newRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
-        newRef.setDef(elemRef);
         
         AddIntentionalElementRefCommand elementCmd = new AddIntentionalElementRefCommand(newGraph, newRef);
         if (elementCmd.canExecute()) 
@@ -160,13 +170,15 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
         if ( oneLevelCmd.canExecute()){
         	oneLevelCmd.execute();
         }
-   
+        
+        CompoundCommand autoLayoutCmd = null;
         // performs Autolayout on the diagram
         try{
-        	doAutolayout();
+        	autoLayoutCmd = doAutolayout();
         }catch (InvocationTargetException e){
         	e.printStackTrace();
         }
+        autoLayoutCmd.execute();
         
         testPostConditions();
     }
@@ -205,13 +217,7 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
     public void undo() 
     {
         testPostConditions();
-       
-        if(graphCmd.canUndo()){
-        	graphCmd.undo();
-        }
-        if( !refreshTabsBypass )
-        	editor.recreatePages();
-        
+        cmdStack.undo();
         testPreConditions();
     }
 
@@ -222,21 +228,22 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
 	/*
 	 * Performs Autolayout on the newly created diagram
 	 */
-	private void doAutolayout() throws InvocationTargetException{
- 	  
+	private CompoundCommand doAutolayout() throws InvocationTargetException{
+		
 		UrnEditor urneditor = (UrnEditor) editor.getEditor(editor.getActivePage());
 		AutoLayoutWizard wizard = new AutoLayoutWizard(urneditor, (IURNDiagram) newGraph);
-
-		// use settings saved in preferences.
-		if (wizard.canFinish()) {
-			try {
-               wizard.performFinish();
-           } catch (Exception ex) {
-               throw new InvocationTargetException(ex, Messages.getString("jUCMNavLoader.UnablePerformAutolayout")); //$NON-NLS-1$
-           }
-       } else {
-           throw new InvocationTargetException(new Exception(Messages.getString("jUCMNavLoader.UnablePerformAutolayout"))); //$NON-NLS-1$
-       }
+ 
+	    String initial = ExportLayoutDOT.convertUCMToDot((IURNDiagram) newGraph);
+	    String positioned = wizard.autoLayoutDotString(initial);
+	    CompoundCommand cmdResult = null;
+	    
+	    try{
+	    	cmdResult = AutoLayoutWizard.repositionLayout(newGraph, positioned);
+	    }catch (Exception e){
+	    	e.printStackTrace();
+	    }
+	    
+	    return cmdResult;
 	}
 
 }

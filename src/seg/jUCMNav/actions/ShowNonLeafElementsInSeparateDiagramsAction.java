@@ -72,6 +72,6 @@ public class ShowNonLeafElementsInSeparateDiagramsAction extends URNSelectionAct
      * 
      */
     protected Command getCommand() {
-        return new ShowNonLeafElementsInSeparateDiagramsCommand(urnspec, grlGraph, getEditor());
+        return new ShowNonLeafElementsInSeparateDiagramsCommand(urnspec, grlGraph, getEditor(), getCommandStack());
     }
 }

@@ -21,7 +21,9 @@ import grl.LinkRefBendpoint;
 import grl.StrategiesGroup;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -68,8 +70,10 @@ import seg.jUCMNav.model.commands.create.ShowLinkedElementAlternativeSubNodesCom
 import seg.jUCMNav.model.commands.create.ShowLinkedElementCommand;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementCompleteCommand;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementCompleteSubNodesCommand;
+import seg.jUCMNav.model.commands.create.ShowLinkedElementInNewDiagramCommand;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementLevelThreeCommand;
 import seg.jUCMNav.model.commands.create.ShowLinkedElementLevelTwoCommand;
+import seg.jUCMNav.model.commands.create.ShowNonLeafElementsInSeparateDiagramsCommand;
 import seg.jUCMNav.model.commands.delete.DeleteActorCommand;
 import seg.jUCMNav.model.commands.delete.DeleteActorRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteAllLinkRefCommand;
@@ -92,6 +96,7 @@ import urn.URNlink;
 import urn.URNspec;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
+import urncore.Metadata;
 
 /**
  * Test suite to test the commands in the GRL editor
@@ -1261,6 +1266,143 @@ public class JUCMNavGRLCommandTests extends TestCase {
         cs.redo();
         assertTrue(graph2.getNodes().size() == 3);        
     }  
+    
+    public void testShowLinkedElementInNewDiagramCommand()
+    {
+    	testCreateGRLGraph();
+    	testShowLinkedElementCommand();
+    	
+    	boolean helperRefreshTabsByPass = false; // not using the iterative command to create a graph for all non leaf element here
+    	boolean selectedIntElemRefCopied = false; // true if the selected Intentional Element is present in the generated graph
+    	int oldGraphCount = urnspec.getUrndef().getSpecDiagrams().size(); // graph count before command execution
+    	int oldLinksCount = ieRef4.getPred().size() + ieRef4.getSucc().size(); // total links of the selected intentional element in graph1
+    	
+    	
+    	// contains all the pred links of the Int. Elem. that we're using the command on
+    	ArrayList<LinkRef> elemRefLinksPredBefore = new ArrayList();
+		if(ieRef4.getPred() != null && !ieRef4.getPred().isEmpty())
+			elemRefLinksPredBefore.addAll(ieRef4.getPred());
+		
+		// contains all the succ links of the Int. Elem. that we're using the command on
+		ArrayList<LinkRef> elemRefLinksSuccBefore = new ArrayList();
+		if(ieRef4.getSucc() != null && !ieRef4.getSucc().isEmpty())
+			elemRefLinksSuccBefore.addAll(ieRef4.getSucc());
+    	
+		ArrayList<LinkRef> elemRefLinksPredAfter = null;
+		ArrayList<LinkRef> elemRefLinksSuccAfter = null;
+		
+    	Metadata legislationMeta = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
+        legislationMeta.setName("LegislationSection");
+        legislationMeta.setValue("aValidGraphName");
+    	ieRef4.getDef().getMetadata().add(legislationMeta);
+    	
+    	
+    	ShowLinkedElementInNewDiagramCommand cmd = new ShowLinkedElementInNewDiagramCommand(urnspec, ieRef4.getDef(), ieRef4, editor, cs);
+    	assertTrue("Can't execute ShowLinkedElementInNewDiagramCommand.", cmd.canExecute()); //$NON-NLS-1$
+    	cs.execute(cmd);
+    	
+    	assertTrue("Wrong number of graph added.", urnspec.getUrndef().getSpecDiagrams().size() == oldGraphCount + 1);
+
+    	
+    	GRLGraph addedGraph = (GRLGraph)urnspec.getUrndef().getSpecDiagrams().get(oldGraphCount);
+    	assertTrue("Graph hasn't been assigned a valid name", addedGraph.getName().compareTo("aValidGraphName") == 0);
+    	
+    	for(GRLNode currentNode : (List<GRLNode>) addedGraph.getNodes()){
+    		if( currentNode instanceof IntentionalElementRef){
+    			IntentionalElementRef currentRef = (IntentionalElementRef) currentNode;
+    			
+    			if (currentRef.getDef().getName().compareTo(ieRef4.getDef().getName()) == 0){
+    				selectedIntElemRefCopied = true;
+    				
+    				int newLinksCount = currentRef.getPred().size() + currentRef.getSucc().size();
+    				elemRefLinksPredAfter = new ArrayList<LinkRef>();
+    				elemRefLinksSuccAfter = new ArrayList<LinkRef>();
+    				elemRefLinksPredAfter.addAll(currentRef.getPred());
+    				elemRefLinksSuccAfter.addAll(currentRef.getSucc());
+
+    				assertTrue("Intentional Element Linked Elements not all present", oldLinksCount == newLinksCount);	
+    			}
+    		}
+    	}
+    	assertTrue("Selected Intentional Element not copied in the generated graph", selectedIntElemRefCopied);
+    	
+    	ArrayList<IntentionalElement> toBeRemoved = new ArrayList<IntentionalElement>();
+    	
+    	// testing if all the prec Int. Elem that we're connected before are connected after the command at the first level
+    	for( LinkRef currentLinkBefore : elemRefLinksPredBefore){
+    		boolean helperFound = false;
+    		for( LinkRef currentLinkAfter : elemRefLinksPredAfter){
+    			if(((IntentionalElementRef)currentLinkAfter.getSource()).getDef() == 
+    					((IntentionalElementRef)currentLinkBefore.getSource()).getDef()){
+    				helperFound = true;
+    			} 				
+    		}
+    		assertTrue("New graph has not all the Intentional Elements it should have.", helperFound);
+    	}
+    	
+    	// testing if all the succ Int. Elem that we're connected before are connected after the command at the first level
+     	for( LinkRef currentLinkBefore : elemRefLinksSuccBefore){
+    		boolean helperFound = false;
+    		for( LinkRef currentLinkAfter : elemRefLinksSuccAfter){
+    			if(((IntentionalElementRef)currentLinkAfter.getTarget()).getDef() == 
+    					((IntentionalElementRef)currentLinkBefore.getTarget()).getDef()){
+    				helperFound = true;
+    			} 				
+    		}
+    		assertTrue("New graph has not all the Intentional Elements it should have.", helperFound);
+    	}
+    	
+    	assertTrue("Wrong number of nodes in the generated graph", addedGraph.getNodes().size() == oldLinksCount + 1);
+    	
+    	// trying command with a graph with no "LegislationSection" metadata and a limit node
+    	Metadata altNameMeta = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
+        altNameMeta.setName("AltName");
+        altNameMeta.setValue("aValidGraphName");
+    	ieRef1.getDef().getMetadata().add(altNameMeta);
+    	
+    	
+    	// testing command with most top node
+    	cmd = new ShowLinkedElementInNewDiagramCommand(urnspec, ieRef1.getDef(), ieRef1, editor, cs);
+    	assertTrue("Can't execute ShowLinkedElementInNewDiagramCommand.", cmd.canExecute()); //$NON-NLS-1$
+    	cs.execute(cmd);
+    	
+    	assertTrue("Wrong number of graph added.", urnspec.getUrndef().getSpecDiagrams().size() == oldGraphCount + 2);
+
+    	addedGraph = (GRLGraph)urnspec.getUrndef().getSpecDiagrams().get(oldGraphCount + 1);
+    	assertTrue("Graph hasn't been assigned a valid name", addedGraph.getName().compareTo("aValidGraphName") == 0);
+
+    	
+    	
+    	// testing undo/redo
+    	cs.undo();
+    	
+    	assertTrue("Wrong number of graph in urnspec.", urnspec.getUrndef().getSpecDiagrams().size() == oldGraphCount + 1); 
+
+    	cs.redo();
+    	assertTrue("Wrong number of graph in urnspec.", urnspec.getUrndef().getSpecDiagrams().size() == oldGraphCount + 2);    
+
+    	
+    	// cleaning graph to prevent further dependent tests to fail because of this test
+    	ieRef4.getMetadata().remove(legislationMeta);
+    	ieRef1.getMetadata().remove(altNameMeta);
+   
+    }
+    
+    public void testShowNonLeafElementsInSeparateDiagramsCommand()
+    {
+    	testCreateGRLGraph();
+    	testShowLinkedElementCommand();
+    	
+    	int oldGraphCount = urnspec.getUrndef().getSpecDiagrams().size(); // graph count before command execution
+    	
+    	ShowNonLeafElementsInSeparateDiagramsCommand cmd = new ShowNonLeafElementsInSeparateDiagramsCommand(urnspec, graph1, editor, cs);
+    	assertTrue("Can't execute ShowNonLeafElementsInSeparateDiagramsCommand.", cmd.canExecute()); //$NON-NLS-1$
+    	cs.execute(cmd);    	
+    	
+    	// testing if the number of graphs added corresponds to the number of non leaf element in graph1
+    	assertTrue("Wrong number of graph added.", urnspec.getUrndef().getSpecDiagrams().size() == oldGraphCount + 8);
+ 
+    }
    
     /**
      * This method will go through all of the path nodes and component ref in all the maps and verify that they are all bound as they should be. will be usefull

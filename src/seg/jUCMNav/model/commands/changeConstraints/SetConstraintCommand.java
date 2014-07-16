@@ -30,6 +30,8 @@ public class SetConstraintCommand extends CompoundCommand {
     public SetConstraintCommand(IURNNode node, int x, int y) {
         setLabel(Messages.getString("SetConstraintCommand.setNodeConstraints")); //$NON-NLS-1$
         add(new MoveNodeCommand(node, x, y));
+        
+        
 
         if (node.getPred().size() > 0) {
             for (Iterator iter = node.getPred().iterator(); iter.hasNext();) {

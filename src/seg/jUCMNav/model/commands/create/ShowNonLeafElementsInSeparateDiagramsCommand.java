@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
@@ -33,6 +34,7 @@ public class ShowNonLeafElementsInSeparateDiagramsCommand extends Command implem
 {
     private URNspec urnspec;
     private GRLGraph grlGraph; 
+    private CommandStack cmdStack;
     private List<IntentionalElementRef> currentIntentionalElementRefList; // List of the refs of IntentionalElements in the grl Graph
     private Stack<IntentionalElementRef> leafElementRefStack; // List of the refs of IntentionalElements in the grl Graph
     private UCMNavMultiPageEditor editor;
@@ -40,12 +42,13 @@ public class ShowNonLeafElementsInSeparateDiagramsCommand extends Command implem
     private HashMap<IntentionalElementRef, String> newDiagramNames; // name of the diagram that will be generated ( if the case ) for this intentional element ref
   
     
-    public ShowNonLeafElementsInSeparateDiagramsCommand(URNspec urnspec, GRLGraph grlGraph, UCMNavMultiPageEditor editor) 
+    public ShowNonLeafElementsInSeparateDiagramsCommand(URNspec urnspec, GRLGraph grlGraph, UCMNavMultiPageEditor editor, CommandStack cmdStack) 
     {
       
         this.urnspec = urnspec;
         this.grlGraph = grlGraph;            
         this.editor = editor;
+        this.cmdStack = cmdStack;
         secondaryCmdStack = new Stack<ShowLinkedElementInNewDiagramCommand>();
         currentIntentionalElementRefList = new ArrayList<IntentionalElementRef>(grlGraph.getNodes());                                 
 
@@ -130,13 +133,13 @@ public class ShowNonLeafElementsInSeparateDiagramsCommand extends Command implem
         testPreConditions();
 
     	for( IntentionalElementRef currentRef : currentIntentionalElementRefList){
-    				ShowLinkedElementInNewDiagramCommand cmd = new ShowLinkedElementInNewDiagramCommand(urnspec, currentRef.getDef(), currentRef, editor, true);
+    				ShowLinkedElementInNewDiagramCommand cmd = new ShowLinkedElementInNewDiagramCommand(urnspec, currentRef.getDef(), currentRef, editor, cmdStack);
     				if(cmd.canExecute()){
     					cmd.execute();
     					secondaryCmdStack.push(cmd);
     				}
     		}
-    	editor.recreatePages(); 
+    	
         
         testPostConditions();
     }
@@ -176,7 +179,6 @@ public class ShowNonLeafElementsInSeparateDiagramsCommand extends Command implem
         	}
         	secondaryCmdStack.pop();
         }
-        editor.recreatePages();
         
         testPreConditions();
     }
