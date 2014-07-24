@@ -1,0 +1,325 @@
+package seg.jUCMNav.model.commands.changeConstraints;
+
+import grl.IntentionalElementRef;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.eclipse.gef.NodeEditPart;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.ui.PlatformUI;
+
+import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.util.MetadataHelper;
+import ucm.map.Connect;
+import ucm.map.NodeConnection;
+import urn.URNspec;
+import urncore.IURNConnection;
+import urncore.IURNContainer;
+import urncore.IURNContainerRef;
+import urncore.IURNNode;
+import urncore.URNmodelElement;
+import urncore.Metadata;
+
+/**
+ * This command is used to align URNmodelElements.
+ * 
+ * @author Patrice Boulet
+ * 
+ */
+public class AlignCommand extends CompoundCommand {
+
+    private static final int SELTYPE_INTENTIONALELEMENT = 1;
+    private static final int SELTYPE_ACTOR = 2;
+    private static final int SELTYPE_COMPONENT = 3;
+    private static final int SELTYPE_PATHNODE = 4;
+    
+    private int selType;
+    private String moveType;
+    private URNspec urnspec;
+    
+    private HashMap<String, HashMap <String, Integer>> coordinatesValues;
+    private HashMap<IURNContainerRef, HashMap <String, Integer>> coordinatesValuesContainer;
+    
+    private List sel;
+    private int newCoordinate;
+    private int newPositionElemDimension;
+
+    
+    private boolean verticalAlign;
+    private String axis = "x";
+	
+    /**
+     * 
+     * @param node
+     *            The SpecificationNode to move
+     * @param x
+     *            the new X
+     * @param y
+     *            the new Y
+     */
+    public AlignCommand(List sel, int selType, String moveType) {
+        
+
+    	setLabel(Messages.getString("SetConstraintCommand.Align")); //$NON-NLS-1$
+        
+    	this.sel = sel;
+    	this.selType = selType;
+    	this.moveType = moveType;
+    	
+    	if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 ||
+    			moveType.compareTo("seg.jUCMNav.AlignTop") == 0 ||
+    					moveType.compareTo("seg.jUCMNav.AlignMiddle") == 0 ){
+    		verticalAlign = true;
+    		axis = "y";
+    	}
+  	
+    	
+    	if (Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
+    			Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
+    		
+    		coordinatesValuesContainer = new HashMap<IURNContainerRef, HashMap <String, Integer>>() ;
+    		newCoordinate = findCoordinatecontainer();
+        	getOldCoordinates();
+        	calculateNewXYcoordinatesContainer();
+    		
+    	}else{
+    		
+    		coordinatesValues = new HashMap <String, HashMap <String, Integer>>();
+    		newCoordinate = findCoordinate();
+        	getOldCoordinates();
+        	calculateNewCoordinates();
+    	}
+
+    	addMoveCommand();
+
+    }
+
+	private void getOldCoordinates() {
+		// puts the old coordinates in a HashMap for each URNmodelElement
+		if (Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
+				Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
+	    		for(IURNContainerRef currentContainer : (List<IURNContainerRef>)sel){
+	    			
+	    			HashMap<String, Integer> coordinatesMap = new HashMap<String, Integer>();
+	    			coordinatesMap.put("y", currentContainer.getY());
+	    			coordinatesMap.put("x", currentContainer.getX());
+	    			coordinatesValuesContainer.put( currentContainer, coordinatesMap);
+	    		}
+		}else{
+			// puts the old coordinates in a HashMap for each URNmodelElement
+	    		for(IURNNode currentNode : (List<IURNNode>)sel){
+		
+	    			HashMap<String, Integer> coordinatesMap = new HashMap<String, Integer>();
+	    			coordinatesMap.put("y", currentNode.getY());
+	    			coordinatesMap.put("x", currentNode.getX());
+	    			coordinatesValues.put( ((URNmodelElement)currentNode).getId(), coordinatesMap);
+	    		}
+	    	}
+		}
+	
+
+	private void addMoveCommand() {
+		
+		if ( Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
+				Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
+			// adds the move command to be executed on the Command stack after this command
+	    	for(IURNContainerRef currentContainer : (List<IURNContainerRef>)sel){
+				add( new SetConstraintBoundContainerRefCompoundCommand(currentContainer, coordinatesValuesContainer.get(currentContainer).get("x"), 
+						coordinatesValuesContainer.get(currentContainer).get("y"), currentContainer.getWidth(),
+							currentContainer.getHeight(), true));
+	    		}	
+			
+		}else{
+			// adds the move command to be executed on the Command stack after this command
+	    	for(IURNNode currentNode : (List<IURNNode>)sel){
+				add( new SetConstraintGrlNodeCommand(currentNode, coordinatesValues.get( ((URNmodelElement)currentNode).getId()).get("x"),
+						coordinatesValues.get( ((URNmodelElement)currentNode).getId()).get("y"), true));
+			}
+		}
+	}
+    
+    public boolean canExecute(){
+    	return true;
+    }
+    
+    private int findCoordinate(){
+       
+    	int result = -1;
+    	
+    		// sorts the elements in ascending order compared with their y value field
+	    	Collections.sort(sel, new Comparator<IURNNode>() {
+	    	    public int compare(IURNNode nodeA, IURNNode nodeB) {
+	    	    	if ( verticalAlign)
+	    	    		return Integer.valueOf(nodeA.getY()).compareTo(nodeB.getY());
+	    	    	else
+	    	    		return Integer.valueOf(nodeA.getX()).compareTo(nodeB.getX());
+	    	    }
+	    	});
+
+    	// assigns a new coordinate for the URNmodelElement depending on the moveType variable
+    	if( moveType.compareTo("seg.jUCMNav.AlignTop") == 0 || moveType.compareTo("seg.jUCMNav.AlignLeft") == 0){
+    		if( verticalAlign)
+    			result = ((IURNNode)sel.get(0)).getY();
+    		else
+    			result = ((IURNNode)sel.get(0)).getX();
+    	}else if( moveType.compareTo("seg.jUCMNav.AlignMiddle") == 0 || moveType.compareTo("seg.jUCMNav.AlignCenter") == 0){
+    		if( verticalAlign){
+    			result = ((IURNNode)sel.get(0)).getY() + 
+    					( (((IURNNode)sel.get(sel.size()-1)).getY() -
+    						((IURNNode)sel.get(0)).getY() )/2);
+    		}else{
+    			result = ((IURNNode)sel.get(0)).getX() + 
+    					( (((IURNNode)sel.get(sel.size()-1)).getX() -
+    						((IURNNode)sel.get(0)).getX() )/2);
+    		}
+    	}else if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 || moveType.compareTo("seg.jUCMNav.AlignRight") == 0){
+    		if (verticalAlign)
+    			result = ((IURNNode)sel.get(sel.size()-1)).getY();
+    		else
+    			result = ((IURNNode)sel.get(sel.size()-1)).getX();
+    	}
+    	
+    	return result;
+    }
+    
+    private int findCoordinatecontainer(){
+        
+    	int result = -1;
+	
+    		// sorts the elements in ascending order compared with their coordinate value field
+	    	Collections.sort(sel, new Comparator<IURNContainerRef>() {
+	    	    public int compare(IURNContainerRef containerA, IURNContainerRef containerB) {
+	    	        if( verticalAlign)
+	    	        	return Integer.valueOf(containerA.getY()).compareTo(containerB.getY());
+	    	        else
+	    	        	return Integer.valueOf(containerA.getX()).compareTo(containerB.getX());
+	    	    }
+	    	});
+    	
+	    List<IURNContainerRef> selTemp = (List<IURNContainerRef>) sel;
+    	
+    	// assigns a new coordinate for the URNmodelElement depending on the moveType variable
+    	if( moveType.compareTo("seg.jUCMNav.AlignTop") == 0 || moveType.compareTo("seg.jUCMNav.AlignLeft") == 0){
+    		if (verticalAlign)
+    			result = selTemp.get(0).getY();
+    		else
+    			result = selTemp.get(0).getX();
+    	}else if( moveType.compareTo("seg.jUCMNav.AlignMiddle") == 0 || moveType.compareTo("seg.jUCMNav.AlignCenter") == 0){
+    		if( verticalAlign){
+    			result = selTemp.get(0).getY() + 
+    					(( ((selTemp.get(selTemp.size()-1)).getY() + selTemp.get(0).getHeight()) -
+    						(selTemp.get(0).getY())) /2);
+    		}else{
+    			result = selTemp.get(0).getX() + 
+    					(( ((selTemp.get(selTemp.size()-1)).getX() + selTemp.get(0).getWidth()) -
+    						(selTemp.get(0).getX())) /2);
+    		}
+    	}else if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 || moveType.compareTo("seg.jUCMNav.AlignRight") == 0){
+    		if (verticalAlign)
+    			result = selTemp.get(selTemp.size()-1).getY();
+    		else
+    			result = selTemp.get(selTemp.size()-1).getX();
+    	}
+    	
+    	return result;
+    }
+    
+    private void calculateNewCoordinates(){
+    	
+    	// finds the height/width of the URNmodelElement for which the coordinate equals the newCoordinate variable
+		for(URNmodelElement currentElem : (List<URNmodelElement>) sel){	
+			String currentMeta;
+			
+			if ( verticalAlign){
+				currentMeta = MetadataHelper.getMetaData(currentElem, "_height");	
+			}else{
+				currentMeta = MetadataHelper.getMetaData(currentElem, "_width");
+			}
+				if ( coordinatesValues.get(currentElem.getId()).get(axis).compareTo(newCoordinate) == 0){	
+					newPositionElemDimension = Integer.valueOf(currentMeta);
+				}
+		}
+		
+		
+		for(URNmodelElement currentElem : (List<URNmodelElement>) sel){			
+
+				// the height/width of the URNmodelElement in this iteration
+				int dimensionValue;
+				String currentMeta;
+				int tempNewCoordinate;
+		
+				if (verticalAlign){
+					currentMeta = MetadataHelper.getMetaData(currentElem, "_height");
+				}else{
+					currentMeta = MetadataHelper.getMetaData(currentElem, "_width");
+				}
+				
+				dimensionValue = Integer.valueOf(Integer.valueOf(currentMeta));
+
+					// sets the new coordinate for each URNmodelElement differently depending on the moveType
+					
+					if ( coordinatesValues.get(currentElem.getId()).get(axis).compareTo(newCoordinate) != 0){	
+						
+				    	if( moveType.compareTo("seg.jUCMNav.AlignTop") == 0 || moveType.compareTo("seg.jUCMNav.AlignLeft") == 0){
+				    			coordinatesValues.get(currentElem.getId()).put(axis, newCoordinate);
+				    	}else if( moveType.compareTo("seg.jUCMNav.AlignMiddle") == 0 || moveType.compareTo("seg.jUCMNav.AlignCenter") == 0){
+				    			coordinatesValues.get(currentElem.getId()).put(axis, newCoordinate - dimensionValue/2);
+				    	}else if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 || moveType.compareTo("seg.jUCMNav.AlignRight") == 0){
+				    			coordinatesValues.get(currentElem.getId()).put(axis, newCoordinate - (dimensionValue - newPositionElemDimension));
+				    	}
+					}
+	
+    }
+    }
+ 
+	private void calculateNewXYcoordinatesContainer(){	 
+	
+		
+    	// finds the height/width of the URNmodelElement for which the Y coordinate equals the newY variable
+		for(IURNContainerRef currentRef : (List<IURNContainerRef>) sel){	
+			if( verticalAlign){
+					if ( coordinatesValuesContainer.get(currentRef).get("y").compareTo(newCoordinate) == 0){	
+						newPositionElemDimension = currentRef.getHeight();
+					}
+			}else{
+				if ( coordinatesValuesContainer.get(currentRef).get("x").compareTo(newCoordinate) == 0){	
+					newPositionElemDimension = currentRef.getWidth();
+				}
+			}
+		}
+    	
+		for(IURNContainerRef currentRef : (List<IURNContainerRef>) sel){			
+			
+				// the height of the URNmodelElement in this iteration
+				
+				int dimensionValue; 
+				int tempNewCoordinate;
+				
+				if ( verticalAlign){
+					dimensionValue = currentRef.getHeight();
+				}else{
+					dimensionValue = currentRef.getWidth();
+				}
+				
+				// sets the new coordinate for each URNmodelElement differently depending on the moveType
+				if ( coordinatesValuesContainer.get(currentRef).get(axis).compareTo(newCoordinate) != 0){	
+						
+				    	if( moveType.compareTo("seg.jUCMNav.AlignTop") == 0 || moveType.compareTo("seg.jUCMNav.AlignLeft") == 0){
+				    			coordinatesValuesContainer.get(currentRef).put(axis, newCoordinate);
+				    	}else if( moveType.compareTo("seg.jUCMNav.AlignMiddle") == 0 || moveType.compareTo("seg.jUCMNav.AlignCenter") == 0){
+				    			coordinatesValuesContainer.get(currentRef).put(axis, newCoordinate - dimensionValue/2);
+				    	}else if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 || moveType.compareTo("seg.jUCMNav.AlignRight") == 0){
+				    			coordinatesValuesContainer.get(currentRef).put(axis, newCoordinate - (dimensionValue - newPositionElemDimension));
+				    	}
+					}
+
+				}
+		
+		
+    }
+}

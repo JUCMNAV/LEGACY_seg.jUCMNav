@@ -302,6 +302,7 @@ public class ActionRegistryManager implements IDisposable {
         // Notice the following are calls to addEditPartAction().
         // They need to know the current selection to work.
         // If you write addAction instead, you'll get empty selections
+        
         action = new seg.jUCMNav.actions.DeleteAction(editor);
         addEditPartAction((SelectionAction) action);
 
@@ -897,7 +898,7 @@ public class ActionRegistryManager implements IDisposable {
             IAction action = getActionRegistry().getAction(ids.next());
             if (null != action && action instanceof UpdateAction)
                 ((UpdateAction) action).update();
-
+            
         }
     }
 
