@@ -47,6 +47,7 @@ public class ManageConcernsAction extends URNSelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         element = sel.getURNmodelElement();
         switch (sel.getSelectionType()) {
+        case SelectionHelper.URNSPEC:
         case SelectionHelper.MAP:
         case SelectionHelper.GRLGRAPH:
         case SelectionHelper.CONCERN:
