@@ -132,12 +132,8 @@ public class ConcernsManager extends Wizard {
         this.defaultSelected = defaultSelected;
         this.concerns = new ArrayList();
         this.diagrams = new ArrayList();
-        // populate the concerns and diagrams lists only if defaultSelected is a Concern or IURNDiagram
-        URNdefinition urnDef = null;
-        if (defaultSelected instanceof Concern)
-            urnDef = ((Concern) defaultSelected).getUrndefinition();
-        else if (defaultSelected instanceof IURNDiagram)
-            urnDef = ((IURNDiagram) defaultSelected).getUrndefinition();
+        // populate the concerns and diagrams lists
+        URNdefinition urnDef = urn.getUrndef();
         if (urnDef != null) {
             this.concerns = (List) urnDef.getConcerns();
             this.diagrams = (List) urnDef.getSpecDiagrams();

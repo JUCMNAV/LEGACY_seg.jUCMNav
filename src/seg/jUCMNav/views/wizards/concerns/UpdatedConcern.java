@@ -38,8 +38,20 @@ public class UpdatedConcern {
         this.updatedName = "Concern"; //$NON-NLS-1$
         this.updatedDescription = ""; //$NON-NLS-1$
         this.updatedSpecDiagrams = new ArrayList();
-        ;
-        addToUpdatedConcerns();
+        
+        // for some reason, when the Add button is pressed first thing after the Concern Dialogue is displayed, the SelectionEvent is fired twice and therefore
+        // two new UpdatedConcerns are added. hence, before adding this new UpdatedConcern to the list of updatedConcerns, check whether another new 
+        // UpdatedConcern exists (that has not been changed at all). if one exists, delete it and add this new one to the list (keeping the old one and not adding the
+        // new one does not work, because the old one would not be selected in the combo box. therefore, the new one is kept and will be selected in the combo box.
+    	Iterator it = getNewConcerns().iterator();
+    	while (it.hasNext()) {
+    		UpdatedConcern uc = (UpdatedConcern) it.next();
+    		if (uc.getDescription().equals("") && uc.getName().equals("Concern") && uc.getSpecDiagrams().size()==0) {
+    			uc.delete();
+    			break;
+    		}
+    	}
+        addToUpdatedConcerns();    		
     }
 
     /**
