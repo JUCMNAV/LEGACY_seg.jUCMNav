@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
@@ -292,6 +293,7 @@ public class ConcernsManagerPage extends WizardPage {
         Composite container = new Composite(parent, SWT.NULL);
         GridLayout layout = new GridLayout();
         container.setLayout(layout);
+        ((WizardDialog) this.getWizard().getContainer()).setMinimumPageSize(100, 450);
         layout.numColumns = 2;
         layout.verticalSpacing = 5;
 
