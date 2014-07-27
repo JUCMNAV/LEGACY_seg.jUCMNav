@@ -37,7 +37,6 @@ import seg.jUCMNav.actions.AddConditionLabelAction;
 import seg.jUCMNav.actions.AddContainerRefAction;
 import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.AddEmptyPoint;
-import seg.jUCMNav.actions.AddFMDAction;
 import seg.jUCMNav.actions.AddFailurePointAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
@@ -106,6 +105,9 @@ import seg.jUCMNav.actions.cutcopypaste.PasteAction;
 import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
+import seg.jUCMNav.actions.features.AddFMDAction;
+import seg.jUCMNav.actions.features.SelectFeatureAction;
+import seg.jUCMNav.actions.features.UnselectFeatureAction;
 import seg.jUCMNav.actions.hyperlinks.AddHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.ChangeHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.DeleteHyperlinkAction;
@@ -493,6 +495,14 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.bindAll")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new SelectFeatureAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.SelectFeature")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new UnselectFeatureAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.UnselectFeature")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
         action = new AddBeliefAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addBelief")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

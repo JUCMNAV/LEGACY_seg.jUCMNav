@@ -1,5 +1,6 @@
 package seg.jUCMNav.actions;
 
+import fm.Feature;
 import grl.IntentionalElementRef;
 import grl.QualitativeLabel;
 
@@ -71,7 +72,8 @@ public class SetQualitativeEvaluationAction extends URNSelectionAction {
 
         for (Iterator iter = getSelectedObjects().iterator(); iter.hasNext();) {
             Object obj = iter.next();
-            if (!(obj instanceof IntentionalElementEditPart))
+            if (!(obj instanceof IntentionalElementEditPart) || 
+            		((obj instanceof IntentionalElementEditPart) && (((IntentionalElementRef)((IntentionalElementEditPart) obj).getModel()).getDef() instanceof Feature)))
                 return false;
 
             if (id < ChangeQualitativeEvaluationCommand.INCREASE) // operation is not increase or decrease, skip further tests

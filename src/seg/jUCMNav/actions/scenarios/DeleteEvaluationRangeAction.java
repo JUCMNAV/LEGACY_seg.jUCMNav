@@ -1,5 +1,6 @@
 package seg.jUCMNav.actions.scenarios;
 
+import fm.Feature;
 import grl.Evaluation;
 import grl.EvaluationRange;
 import grl.EvaluationStrategy;
@@ -46,7 +47,7 @@ public class DeleteEvaluationRangeAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
+        if ((sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) && !(sel.getIntentionalElementRef().getDef() instanceof Feature)) {
             urn = sel.getUrnspec();
             IntentionalElementRef selection = sel.getIntentionalElementRef();
             EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();

@@ -21,7 +21,6 @@ import seg.jUCMNav.actions.AddConditionLabelAction;
 import seg.jUCMNav.actions.AddContainerRefAction;
 import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.AddEmptyPoint;
-import seg.jUCMNav.actions.AddFMDAction;
 import seg.jUCMNav.actions.AddFailurePointAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
@@ -86,6 +85,9 @@ import seg.jUCMNav.actions.concerns.ManageConcernsAction;
 import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
+import seg.jUCMNav.actions.features.AddFMDAction;
+import seg.jUCMNav.actions.features.SelectFeatureAction;
+import seg.jUCMNav.actions.features.UnselectFeatureAction;
 import seg.jUCMNav.actions.hyperlinks.AddHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.ChangeHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.DeleteHyperlinkAction;
@@ -291,6 +293,14 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         manager.add(new Separator(GROUP_UNCOMMON));
 
         // IE Importance and Evaluation
+        action = getActionRegistry().getAction(SelectFeatureAction.SELECTFEATURE);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(UnselectFeatureAction.UNSELECTFEATURE);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         actions = new IAction[8];
         for (int i = 0; i <= 7; i++)
             actions[i] = getActionRegistry().getAction(SetNumericalImportanceAction.generateId(i));

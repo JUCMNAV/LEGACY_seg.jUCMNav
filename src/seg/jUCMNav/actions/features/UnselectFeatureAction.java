@@ -1,11 +1,10 @@
-package seg.jUCMNav.actions.scenarios;
+package seg.jUCMNav.actions.features;
 
 import fm.Feature;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElementRef;
 
-import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -17,31 +16,33 @@ import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
 /**
- * Deletes a user evaluation.
+ * This action is used to unselect a feature (removes user-defined numerical evaluation).
  * 
- * @author Jean-François Roy
+ * @author orujahmadov, gunterm
  * 
  */
-public class DeleteEvaluationAction extends URNSelectionAction {
-
-    public static final String DELETEEVALUATION = Messages.getString("DeleteEvaluationAction.DeleteUserEvaluation"); //$NON-NLS-1$
+public class UnselectFeatureAction extends URNSelectionAction {
+    public static final String UNSELECTFEATURE = Messages.getString("UnselectFeatureAction.UnselectFeature"); //$NON-NLS-1$
     private Evaluation evaluation;
 
     /**
      * @param part
      */
-    public DeleteEvaluationAction(IWorkbenchPart part) {
+    public UnselectFeatureAction(IWorkbenchPart part) {
         super(part);
-        setId(DELETEEVALUATION);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/StrategyEvalDelete16.gif")); //$NON-NLS-1$
+        setId(UNSELECTFEATURE);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/delete16.gif")); //$NON-NLS-1$
     }
 
-    /**
-     * We need an evaluation set.
-     */
+	/**
+	 * We need to have an intentional element reference of a feature definition selected when an evaluation is active and a user defined evaluation exists
+	 */
     protected boolean calculateEnabled() {
+		if (getSelectedObjects().size() != 1)
+			return false;
+	
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        if ((sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) && !(sel.getIntentionalElementRef().getDef() instanceof Feature)) {
+        if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF && (sel.getIntentionalElementRef().getDef() instanceof Feature)) {
             IntentionalElementRef selection = sel.getIntentionalElementRef();
             EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();
             if (strategy != null) {
@@ -54,10 +55,9 @@ public class DeleteEvaluationAction extends URNSelectionAction {
         return false;
     }
 
-    /**
-     * @return Builds the command to delete the evaluation
-     */
-    protected Command getCommand() {
-        return new DeleteEvaluationCommand(evaluation);
-    }
+	public void run() {
+		execute(new DeleteEvaluationCommand(evaluation));
+	}
+	
 }
+

@@ -1,5 +1,6 @@
 package seg.jUCMNav.actions.scenarios;
 
+import fm.Feature;
 import grl.Evaluation;
 import grl.IntentionalElement;
 
@@ -50,6 +51,8 @@ public class EditEvaluationRangeAction extends URNSelectionAction {
     private Evaluation getSelectedEvaluation() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         IntentionalElement ie = sel.getIntentionalElement();
+        if (ie instanceof Feature)
+        	return null;
         obj = ie;
         urn = sel.getUrnspec();
         if (urn!=null && ie!=null) {
