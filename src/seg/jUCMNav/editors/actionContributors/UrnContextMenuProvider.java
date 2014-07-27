@@ -447,6 +447,15 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
         
+        actions = new IAction[2];
+        actions[0] = getActionRegistry().getAction(ShowLinkedElementAlternativeAction.SHOWLINKEDELEMENTALTERNATIVE);
+        actions[1] = getActionRegistry().getAction(ShowLinkedElementAlternativeSubNodesAction.SHOWLINKEDELEMENTALTERNATIVESUBNODES);	
+        
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.AlignGrlNodes"), Messages.getString("UrnContextMenuProvider.AlignGrlNodes"), JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GROUP_UNCOMMON, submenu);
+        
+        
         action = getActionRegistry().getAction(ShowContainingElementAction.SHOWCONTAININGELEMENT);
         if (action.isEnabled())
             manager.appendToGroup(GROUP_UNCOMMON, action);

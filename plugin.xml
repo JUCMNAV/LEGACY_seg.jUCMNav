@@ -892,15 +892,22 @@
             <command
                   commandId="seg.jUCMNav.AlignPulldownCommand"
                   icon="icons/AlignIcon.ico"
-                  id="seg.jUCMNav.alignCommandToolbar"
+                  id="seg.jUCMNav.AlignCommandPulldown"
                   label="%Align"
+                  style="pulldown">
+            </command>
+            <command
+                  commandId="seg.jUCMNav.DistributePulldown"
+                  icon="icons/Distribute.png"
+                  id="seg.jUCMNav.DistributeCommandPulldown"
+                  label="%Distribute"
                   style="pulldown">
             </command>
          </toolbar>
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="menu:seg.jUCMNav.alignCommandToolbar">
+            locationURI="menu:seg.jUCMNav.AlignCommandPulldown">
          <command
                commandId="seg.jUCMNav.AlignCommand"
                icon="icons/AlignTop.ico"
@@ -962,6 +969,32 @@
             </parameter>
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:seg.jUCMNav.DistributeCommandPulldown">
+         <command
+               commandId="seg.jUCMNav.DistributeCommand"
+               icon="icons/DistributeVertical.png"
+               id="Distribute Vertically"
+               label="%DistributeVertically"
+               style="push">
+            <parameter
+                  name="seg.jUCMNav.DistributeType"
+                  value="seg.jUCMNav.DistributeVertically">
+            </parameter>
+         </command>
+         <command
+               commandId="seg.jUCMNav.DistributeCommand"
+               icon="icons/DistributeHorizontal.png"
+               id="Distribute Horizontally"
+               label="%DistributeHorizontally"
+               style="push">
+            <parameter
+                  name="seg.jUCMNav.DistributeType"
+                  value="seg.jUCMNav.DistributeHorizontally">
+            </parameter>
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -977,6 +1010,20 @@
                name="AlignType"
                optional="true"
                values="seg.jUCMNav.model.commands.parameters.AlignTypeCommandParameter">
+         </commandParameter>
+      </command>
+      <command
+            id="seg.jUCMNav.DistributePulldown"
+            name="DistributePulldown">
+      </command>
+      <command
+            id="seg.jUCMNav.DistributeCommand"
+            name="Distribute">
+         <commandParameter
+               id="seg.jUCMNav.DistributeType"
+               name="Distribute Type"
+               optional="true"
+               values="seg.jUCMNav.model.commands.parameters.DistributeTypeCommandParameter">
          </commandParameter>
       </command>
    </extension>
@@ -997,6 +1044,30 @@
       <handler
             class="seg.jUCMNav.model.commands.handlers.AlignCommandHandler"
             commandId="seg.jUCMNav.AlignCommand">
+         <enabledWhen>
+            <with
+                  variable="seg.jUCMNav.selectionState">
+               <equals
+                     value="valid">
+               </equals>
+            </with>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="seg.jUCMNav.model.commands.handlers.DistributePulldownCommandHandler"
+            commandId="seg.jUCMNav.DistributePulldown">
+         <enabledWhen>
+            <with
+                  variable="seg.jUCMNav.selectionState">
+               <equals
+                     value="valid">
+               </equals>
+            </with>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="seg.jUCMNav.model.commands.handlers.DistributeCommandHandler"
+            commandId="seg.jUCMNav.DistributeCommand">
          <enabledWhen>
             <with
                   variable="seg.jUCMNav.selectionState">

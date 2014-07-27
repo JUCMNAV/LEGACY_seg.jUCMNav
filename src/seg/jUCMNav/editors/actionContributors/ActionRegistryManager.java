@@ -835,6 +835,9 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.References")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
+        action = new ShowLinkedElementAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.AlignGrlNodes")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
         
         // keep at bottom
         action = new EditStubPluginsAction(editor);
