@@ -215,7 +215,6 @@ public class AlignStateSourceProvider extends AbstractSourceProvider {
 	 */
 	
 	public void updateStateSelectionChanged() {
-		
 		if(isSelectionValid()){
 			setSelectionValid(true);
 			setSelectionType(selType);

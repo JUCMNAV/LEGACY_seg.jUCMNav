@@ -10,14 +10,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.gef.NodeEditPart;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.MetadataHelper;
 import ucm.map.Connect;
 import ucm.map.NodeConnection;
-import urn.URNspec;
 import urncore.IURNConnection;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
@@ -31,28 +29,12 @@ import urncore.Metadata;
  * @author Patrice Boulet
  * 
  */
-public class AlignCommand extends CompoundCommand {
+public class AlignCommand extends AlignDistributeCommand {
 
-    private static final int SELTYPE_INTENTIONALELEMENT = 1;
-    private static final int SELTYPE_ACTOR = 2;
-    private static final int SELTYPE_COMPONENT = 3;
-    private static final int SELTYPE_PATHNODE = 4;
-    
-    private int selType;
-    private String moveType;
-    private URNspec urnspec;
-    
-    private HashMap<String, HashMap <String, Integer>> coordinatesValues;
-    private HashMap<IURNContainerRef, HashMap <String, Integer>> coordinatesValuesContainer;
-    
-    private List sel;
     private int newCoordinate;
     private int newPositionElemDimension;
 
     
-    private boolean verticalAlign;
-    private String axis = "x";
-	
     /**
      * 
      * @param node
@@ -74,7 +56,7 @@ public class AlignCommand extends CompoundCommand {
     	if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 ||
     			moveType.compareTo("seg.jUCMNav.AlignTop") == 0 ||
     					moveType.compareTo("seg.jUCMNav.AlignMiddle") == 0 ){
-    		verticalAlign = true;
+    		verticalMove = true;
     		axis = "y";
     	}
   	
@@ -99,30 +81,6 @@ public class AlignCommand extends CompoundCommand {
 
     }
 
-	private void getOldCoordinates() {
-		// puts the old coordinates in a HashMap for each URNmodelElement
-		if (Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
-				Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
-	    		for(IURNContainerRef currentContainer : (List<IURNContainerRef>)sel){
-	    			
-	    			HashMap<String, Integer> coordinatesMap = new HashMap<String, Integer>();
-	    			coordinatesMap.put("y", currentContainer.getY());
-	    			coordinatesMap.put("x", currentContainer.getX());
-	    			coordinatesValuesContainer.put( currentContainer, coordinatesMap);
-	    		}
-		}else{
-			// puts the old coordinates in a HashMap for each URNmodelElement
-	    		for(IURNNode currentNode : (List<IURNNode>)sel){
-		
-	    			HashMap<String, Integer> coordinatesMap = new HashMap<String, Integer>();
-	    			coordinatesMap.put("y", currentNode.getY());
-	    			coordinatesMap.put("x", currentNode.getX());
-	    			coordinatesValues.put( ((URNmodelElement)currentNode).getId(), coordinatesMap);
-	    		}
-	    	}
-		}
-	
-
 	private void addMoveCommand() {
 		
 		if ( Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
@@ -143,10 +101,6 @@ public class AlignCommand extends CompoundCommand {
 		}
 	}
     
-    public boolean canExecute(){
-    	return true;
-    }
-    
     private int findCoordinate(){
        
     	int result = -1;
@@ -154,7 +108,7 @@ public class AlignCommand extends CompoundCommand {
     		// sorts the elements in ascending order compared with their y value field
 	    	Collections.sort(sel, new Comparator<IURNNode>() {
 	    	    public int compare(IURNNode nodeA, IURNNode nodeB) {
-	    	    	if ( verticalAlign)
+	    	    	if ( verticalMove)
 	    	    		return Integer.valueOf(nodeA.getY()).compareTo(nodeB.getY());
 	    	    	else
 	    	    		return Integer.valueOf(nodeA.getX()).compareTo(nodeB.getX());
@@ -163,12 +117,12 @@ public class AlignCommand extends CompoundCommand {
 
     	// assigns a new coordinate for the URNmodelElement depending on the moveType variable
     	if( moveType.compareTo("seg.jUCMNav.AlignTop") == 0 || moveType.compareTo("seg.jUCMNav.AlignLeft") == 0){
-    		if( verticalAlign)
+    		if( verticalMove)
     			result = ((IURNNode)sel.get(0)).getY();
     		else
     			result = ((IURNNode)sel.get(0)).getX();
     	}else if( moveType.compareTo("seg.jUCMNav.AlignMiddle") == 0 || moveType.compareTo("seg.jUCMNav.AlignCenter") == 0){
-    		if( verticalAlign){
+    		if( verticalMove){
     			result = ((IURNNode)sel.get(0)).getY() + 
     					( (((IURNNode)sel.get(sel.size()-1)).getY() -
     						((IURNNode)sel.get(0)).getY() )/2);
@@ -178,7 +132,7 @@ public class AlignCommand extends CompoundCommand {
     						((IURNNode)sel.get(0)).getX() )/2);
     		}
     	}else if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 || moveType.compareTo("seg.jUCMNav.AlignRight") == 0){
-    		if (verticalAlign)
+    		if (verticalMove)
     			result = ((IURNNode)sel.get(sel.size()-1)).getY();
     		else
     			result = ((IURNNode)sel.get(sel.size()-1)).getX();
@@ -194,7 +148,7 @@ public class AlignCommand extends CompoundCommand {
     		// sorts the elements in ascending order compared with their coordinate value field
 	    	Collections.sort(sel, new Comparator<IURNContainerRef>() {
 	    	    public int compare(IURNContainerRef containerA, IURNContainerRef containerB) {
-	    	        if( verticalAlign)
+	    	        if( verticalMove)
 	    	        	return Integer.valueOf(containerA.getY()).compareTo(containerB.getY());
 	    	        else
 	    	        	return Integer.valueOf(containerA.getX()).compareTo(containerB.getX());
@@ -205,12 +159,12 @@ public class AlignCommand extends CompoundCommand {
     	
     	// assigns a new coordinate for the URNmodelElement depending on the moveType variable
     	if( moveType.compareTo("seg.jUCMNav.AlignTop") == 0 || moveType.compareTo("seg.jUCMNav.AlignLeft") == 0){
-    		if (verticalAlign)
+    		if (verticalMove)
     			result = selTemp.get(0).getY();
     		else
     			result = selTemp.get(0).getX();
     	}else if( moveType.compareTo("seg.jUCMNav.AlignMiddle") == 0 || moveType.compareTo("seg.jUCMNav.AlignCenter") == 0){
-    		if( verticalAlign){
+    		if( verticalMove){
     			result = selTemp.get(0).getY() + 
     					(( ((selTemp.get(selTemp.size()-1)).getY() + selTemp.get(0).getHeight()) -
     						(selTemp.get(0).getY())) /2);
@@ -220,7 +174,7 @@ public class AlignCommand extends CompoundCommand {
     						(selTemp.get(0).getX())) /2);
     		}
     	}else if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 || moveType.compareTo("seg.jUCMNav.AlignRight") == 0){
-    		if (verticalAlign)
+    		if (verticalMove)
     			result = selTemp.get(selTemp.size()-1).getY();
     		else
     			result = selTemp.get(selTemp.size()-1).getX();
@@ -235,7 +189,7 @@ public class AlignCommand extends CompoundCommand {
 		for(URNmodelElement currentElem : (List<URNmodelElement>) sel){	
 			String currentMeta;
 			
-			if ( verticalAlign){
+			if ( verticalMove){
 				currentMeta = MetadataHelper.getMetaData(currentElem, "_height");	
 			}else{
 				currentMeta = MetadataHelper.getMetaData(currentElem, "_width");
@@ -253,7 +207,7 @@ public class AlignCommand extends CompoundCommand {
 				String currentMeta;
 				int tempNewCoordinate;
 		
-				if (verticalAlign){
+				if (verticalMove){
 					currentMeta = MetadataHelper.getMetaData(currentElem, "_height");
 				}else{
 					currentMeta = MetadataHelper.getMetaData(currentElem, "_width");
@@ -282,7 +236,7 @@ public class AlignCommand extends CompoundCommand {
 		
     	// finds the height/width of the URNmodelElement for which the Y coordinate equals the newY variable
 		for(IURNContainerRef currentRef : (List<IURNContainerRef>) sel){	
-			if( verticalAlign){
+			if( verticalMove){
 					if ( coordinatesValuesContainer.get(currentRef).get("y").compareTo(newCoordinate) == 0){	
 						newPositionElemDimension = currentRef.getHeight();
 					}
@@ -300,7 +254,7 @@ public class AlignCommand extends CompoundCommand {
 				int dimensionValue; 
 				int tempNewCoordinate;
 				
-				if ( verticalAlign){
+				if ( verticalMove){
 					dimensionValue = currentRef.getHeight();
 				}else{
 					dimensionValue = currentRef.getWidth();

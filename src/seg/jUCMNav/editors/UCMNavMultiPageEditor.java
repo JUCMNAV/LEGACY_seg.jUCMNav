@@ -4,6 +4,9 @@ import grl.GrlPackage;
 
 import java.net.URI;
 
+
+
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.AssertionFailedException;
@@ -41,6 +44,7 @@ import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.ui.services.ISourceProviderService;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
@@ -54,6 +58,7 @@ import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.sourceProviders.AlignStateSourceProvider;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.OpenEditorQuickFix;
 import seg.jUCMNav.views.QuickFixer;
@@ -97,6 +102,11 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         public void selectionChanged(IWorkbenchPart part, ISelection selection) {
             if (manager != null)
                 manager.updateEditPartActions();
+            
+            ISourceProviderService service = (ISourceProviderService) PlatformUI.getWorkbench().
+            		getActiveWorkbenchWindow().getService(ISourceProviderService.class); 
+            AlignStateSourceProvider alignStateSourceProvider = (AlignStateSourceProvider) service.getSourceProvider(AlignStateSourceProvider.SELECTION_STATE); 
+            alignStateSourceProvider.updateStateSelectionChanged();
         }
     }
 
