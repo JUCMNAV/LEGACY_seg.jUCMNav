@@ -33,6 +33,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.AlignCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.DistributeCommand;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
@@ -524,8 +525,7 @@ public class JUCMNavCommandTests extends TestCase {
         cs.undo();
         assertTrue(compRef.getX() == compRefOldXCoordinate);
         assertTrue(compRef2.getX() == compRef2OldXCoordinate);
-        
-        System.out.println("It gets to the end of the test");
+       
     	}
     
     	
@@ -1613,4 +1613,161 @@ public class JUCMNavCommandTests extends TestCase {
         
         
     }
+    
+    /**
+     * Test for DistributeCommand.
+     *  
+     *  @author Patrice Boulet
+     */
+    public void testDistributeCommand(){
+    	testSetConstraintCommand();
+    	testSetConstraintComponentRefCommand();
+    	testSetConstraintBoundComponentRefCompoundCommand();
+    	
+    	CreateMapCommand cmd1 = new CreateMapCommand(urnspec);
+        assertTrue("Can't execute CreateMapCommand.", cmd1.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd1);
+        
+        assertEquals("map was not added properly in model", urnspec.getUrndef().getSpecDiagrams().size(), 2); //$NON-NLS-1$
+        assertEquals("map was not added properly in editor", editor.getPageCount(), 2); //$NON-NLS-1$
+        
+        // add bogus data to new map
+        map = (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(1);
+        
+        compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
+        compRef.setDiagram(map);
+        compRef.setWidth(100);
+        compRef.setHeight(100);
+        compRef.setX(50);
+        compRef.setY(50);
+        int compRefOldXCoordinate = compRef.getX();
+        int compRefOldYCoordinate = compRef.getY();
+        
+        compRef2 = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
+        compRef2.setDiagram(map);
+        compRef2.setWidth(100);
+        compRef2.setHeight(100);
+        compRef2.setX(100);
+        compRef2.setY(200);
+        int compRef2OldXCoordinate = compRef2.getX();
+        int compRef2OldYCoordinate = compRef2.getY();
+        
+        ComponentRef compRef3 = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
+        compRef3.setDiagram(map);
+        compRef3.setWidth(100);
+        compRef3.setHeight(100);
+        compRef3.setX(60);
+        compRef3.setY(60);
+        int compRef3OldXCoordinate = compRef3.getX();
+        int compRef3OldYCoordinate = compRef3.getY();
+        
+        AddContainerRefCommand cmd2 = new AddContainerRefCommand(map, compRef);
+        assertTrue("Can't execute AddContainerRefCommand.", cmd2.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd2);
+        
+        AddContainerRefCommand cmd3 = new AddContainerRefCommand(map, compRef2);
+        assertTrue("Can't execute AddContainerRefCommand.", cmd2.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd2);
+        
+        AddContainerRefCommand cmd7 = new AddContainerRefCommand(map, compRef3);
+        assertTrue("Can't execute AddContainerRefCommand.", cmd7.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd7);
+        
+        start = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
+        start.setDiagram(map);
+        start.setX(100);
+        start.setY(100);
+        compRef.getNodes().add(start);
+        int startOldXCoordinate = start.getX();
+        int startOldYCoordinate = start.getY();
+        
+        resp = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
+        resp.setDiagram(map);
+        resp.setX(150);
+        resp.setY(250);
+        compRef2.getNodes().add(resp);
+        int respOldXCoordinate = resp.getX();
+        int respOldYCoordinate = resp.getY();      
+        
+        RespRef resp2 = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
+        resp2.setDiagram(map);
+        resp2.setX(110);
+        resp2.setY(140);
+        compRef.getNodes().add(resp2);
+        int resp2OldXCoordinate = resp2.getX();
+        int resp2OldYCoordinate = resp2.getY();     
+        
+        LinkedList nodes = new LinkedList<PathNode>();
+        nodes.add(start);
+        nodes.add(resp);
+        nodes.add(resp2);
+        
+        LinkedList components = new LinkedList<ComponentRef>();
+        components.add(compRef);
+        components.add(compRef2);
+        components.add(compRef3);
+        
+        // test distribute horizontally with nodes
+      	DistributeCommand cmd4 = new DistributeCommand(nodes, 4, "seg.jUCMNav.DistributeHorizontally");
+        assertTrue("Can't execute DistributeCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(start.getX() == startOldXCoordinate);
+        assertTrue(resp.getX() == respOldXCoordinate);
+        assertTrue(resp2.getX() == startOldXCoordinate + (respOldXCoordinate - startOldXCoordinate)/2 );
+        
+        cs.undo();
+        assertTrue(start.getX() == startOldXCoordinate);
+        assertTrue(resp2.getX() == resp2OldXCoordinate);
+        assertTrue(resp.getX() == respOldXCoordinate);
+
+        // test distribute vertically with nodes
+      	DistributeCommand cmd5 = new DistributeCommand(nodes, 4, "seg.jUCMNav.DistributeVertically");
+        assertTrue("Can't execute DistributeCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(start.getY() == startOldYCoordinate);
+        assertTrue(resp.getY() == respOldYCoordinate);
+        assertTrue(resp2.getY() == startOldYCoordinate + (respOldYCoordinate - startOldYCoordinate)/2 );
+        
+        cs.undo();
+        assertTrue(start.getY() == startOldYCoordinate);
+        assertTrue(resp2.getY() == resp2OldYCoordinate);
+        assertTrue(resp.getY() == respOldYCoordinate);
+        
+        // testing redo
+        cs.redo();
+        assertTrue(start.getY() == startOldYCoordinate);
+        assertTrue(resp.getY() == respOldYCoordinate);
+        assertTrue(resp2.getY() == startOldYCoordinate + (respOldYCoordinate - startOldYCoordinate)/2 );
+        cs.undo();
+        
+        // test distribute horizontally with components
+      	DistributeCommand cmd6 = new DistributeCommand(components, 3, "seg.jUCMNav.DistributeHorizontally");
+        assertTrue("Can't execute DistributeCommand.", cmd6.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd6);
+         
+        assertTrue(compRef3.getX() == 
+        	( (compRef.getX()+compRef.getWidth()/2) + ((compRef2.getX()+compRef2.getWidth()/2) - 
+        			(compRef.getX()+compRef.getWidth()/2))/2 - compRef3.getWidth()/2));
+        cs.undo();
+        assertTrue(compRef.getX() == compRefOldXCoordinate);
+        assertTrue(compRef2.getX() == compRef2OldXCoordinate);
+        assertTrue(compRef3.getX() == compRef3OldXCoordinate);
+        
+        // test distribute vertically with components
+      	DistributeCommand cmd8 = new DistributeCommand(components, 3, "seg.jUCMNav.DistributeVertically");
+        assertTrue("Can't execute DistributeCommand.", cmd8.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd8);
+         
+        assertTrue(compRef3.getY() == 
+        	( (compRef.getY()+compRef.getHeight()/2) + ((compRef2.getY()+compRef2.getHeight()/2) - 
+        			(compRef.getY()+compRef.getHeight()/2))/2 - compRef3.getHeight()/2));
+        cs.undo();
+        assertTrue(compRef.getY() == compRefOldYCoordinate);
+        assertTrue(compRef2.getY() == compRef2OldYCoordinate);
+        assertTrue(compRef3.getY() == compRef3OldYCoordinate);
+        
+    	}
+    
 }

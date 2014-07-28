@@ -45,6 +45,7 @@ import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
 import seg.jUCMNav.model.commands.changeConstraints.AlignCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.DistributeCommand;
 import seg.jUCMNav.model.commands.changeConstraints.MoveLinkRefBendpointCommand;
 import seg.jUCMNav.model.commands.changeConstraints.MoveNodeCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
@@ -91,6 +92,7 @@ import seg.jUCMNav.model.commands.delete.DeleteStrategiesGroupCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import seg.jUCMNav.model.commands.transformations.AddBeliefToIntentionalElementRefCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeDecompositionTypeCommand;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.ComponentRef;
@@ -103,6 +105,7 @@ import urn.URNspec;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.Metadata;
+import urncore.URNmodelElement;
 
 /**
  * Test suite to test the commands in the GRL editor
@@ -1607,6 +1610,164 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(actorref.getX() == actorrefOldXCoordinate);
         assertTrue(actorref2.getX() == actorref2OldXCoordinate);
    
+        cs.undo();
+        cs.undo();
+        
+        cs.flush();
+    	}
+    
+    /**
+     * Test for AlignCommand.
+     *  
+     *  @author Patrice Boulet
+     */
+    public void testDistributeCommand(){
+    	testSetConstraintCommand();
+    	testSetConstraintBoundContainerRefCompoundCommand();
+    	
+    	CreateGrlGraphCommand cmd1 = new CreateGrlGraphCommand(urnspec);
+        assertTrue("Can't execute CreateMapCommand.", cmd1.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd1);
+        
+        // add bogus data to new graph
+        graph = cmd1.getDiagram();
+        
+        actorref = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
+        actorref.setDiagram(graph);
+        actorref.setWidth(100);
+        actorref.setHeight(100);
+        actorref.setX(50);
+        actorref.setY(50);
+        int actorrefOldXCoordinate = actorref.getX();
+        int actorrefOldYCoordinate = actorref.getY();
+        
+        actorref2 = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
+        actorref2.setDiagram(graph);
+        actorref2.setWidth(100);
+        actorref2.setHeight(100);
+        actorref2.setX(100);
+        actorref2.setY(200);
+        int actorref2OldXCoordinate = actorref2.getX();
+        int actorref2OldYCoordinate = actorref2.getY();
+        
+        ActorRef actorref3 = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
+        actorref3.setDiagram(graph);
+        actorref3.setWidth(100);
+        actorref3.setHeight(100);
+        actorref3.setX(60);
+        actorref3.setY(60);
+        int actorref3OldXCoordinate = actorref3.getX();
+        int actorref3OldYCoordinate = actorref3.getY();
+
+        ieRef1 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+        ieRef1.setDiagram(graph);
+        ieRef1.setX(100);
+        ieRef1.setY(100);
+        actorref.getNodes().add(ieRef1);
+        int ieRef1OldXCoordinate = ieRef1.getX();
+        int ieRef1OldYCoordinate = ieRef1.getY();
+        
+        SetConstraintGrlNodeCommand ref1RezizeCmd; 
+        ref1RezizeCmd = new SetConstraintGrlNodeCommand((IURNNode)ieRef1, 100, 100, 50, 50, false);
+        assertTrue("Can't execute  SetConstraintGrlNodeCommand.", ref1RezizeCmd.canExecute()); //$NON-NLS-1$
+        cs.execute(ref1RezizeCmd);
+        
+        ieRef2 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+        ieRef2.setDiagram(graph);
+        ieRef2.setX(150);
+        ieRef2.setY(250);
+        actorref2.getNodes().add(ieRef2);
+        int ieRef2OldXCoordinate = ieRef2.getX();
+        int ieRef2OldYCoordinate = ieRef2.getY();      
+        
+        SetConstraintGrlNodeCommand ref2RezizeCmd; 
+        ref2RezizeCmd = new SetConstraintGrlNodeCommand((IURNNode)ieRef2, 150, 250, 50, 50, false);
+        assertTrue("Can't execute  SetConstraintGrlNodeCommand.", ref2RezizeCmd.canExecute()); //$NON-NLS-1$
+        cs.execute(ref2RezizeCmd);
+        
+        ieRef3 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+        ieRef3.setDiagram(graph);
+        ieRef3.setX(110);
+        ieRef3.setY(140);
+        actorref.getNodes().add(ieRef3);
+        int ieRef3OldXCoordinate = ieRef3.getX();
+        int ieRef3OldYCoordinate = ieRef3.getY();      
+        
+        SetConstraintGrlNodeCommand ref3RezizeCmd; 
+        ref3RezizeCmd = new SetConstraintGrlNodeCommand((IURNNode)ieRef3, 110, 140, 50, 50, false);
+        assertTrue("Can't execute  SetConstraintGrlNodeCommand.", ref3RezizeCmd.canExecute()); //$NON-NLS-1$
+        cs.execute(ref3RezizeCmd);
+        
+        LinkedList intElems = new LinkedList<IntentionalElementRef>();
+        intElems.add(ieRef1);
+        intElems.add(ieRef2);
+        intElems.add(ieRef3);
+        
+        LinkedList actors = new LinkedList<Actor>();
+        actors.add(actorref);
+        actors.add(actorref2);
+        actors.add(actorref3);
+        
+        // test distribute horizontally with intentional elements
+      	DistributeCommand cmd6 = new DistributeCommand(intElems, 1, "seg.jUCMNav.DistributeHorizontally");
+        assertTrue("Can't execute DistributeCommand.", cmd6.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd6);
+        
+        int ieRef1width = Integer.valueOf(MetadataHelper.getMetaData((URNmodelElement)ieRef1, "_width")); 
+        int ieRef2width = Integer.valueOf(MetadataHelper.getMetaData((URNmodelElement)ieRef2, "_width")); 
+        int ieRef3width = Integer.valueOf(MetadataHelper.getMetaData((URNmodelElement)ieRef3, "_width")); 
+        
+        assertTrue(ieRef3.getX() == 
+        	( (ieRef1.getX()+ieRef1width/2) + ((ieRef2.getX()+ieRef2width/2) - 
+        			(ieRef1.getX()+ieRef1width/2))/2 - ieRef3width/2));
+        cs.undo();
+        assertTrue(ieRef1.getX() == ieRef1OldXCoordinate);
+        assertTrue(ieRef2.getX() == ieRef2OldXCoordinate);
+        assertTrue(ieRef3.getX() == ieRef3OldXCoordinate);
+        
+        // test distribute vertically with intentional elements
+      	DistributeCommand cmd8 = new DistributeCommand(intElems, 1, "seg.jUCMNav.DistributeVertically");
+        assertTrue("Can't execute DistributeCommand.", cmd8.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd8);
+        
+        int ieRef1height = Integer.valueOf(MetadataHelper.getMetaData((URNmodelElement)ieRef1, "_height")); 
+        int ieRef2height = Integer.valueOf(MetadataHelper.getMetaData((URNmodelElement)ieRef2, "_height")); 
+        int ieRef3height = Integer.valueOf(MetadataHelper.getMetaData((URNmodelElement)ieRef3, "_height")); 
+         
+        assertTrue(ieRef3.getY() == 
+        	( (ieRef1.getY()+ieRef1height/2) + ((ieRef2.getY()+ieRef2height/2) - 
+        			(ieRef1.getY()+ieRef1height/2))/2 - ieRef3height/2));
+        cs.undo();
+        assertTrue(ieRef1.getY() == ieRef1OldYCoordinate);
+        assertTrue(ieRef2.getY() == ieRef2OldYCoordinate);
+        assertTrue(ieRef3.getY() == ieRef3OldYCoordinate);
+ 
+        // test distribute horizontally with actors
+      	DistributeCommand cmd9 = new DistributeCommand(actors, 2, "seg.jUCMNav.DistributeHorizontally");
+        assertTrue("Can't execute DistributeCommand.", cmd9.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd9);
+        
+        assertTrue(actorref3.getX() == 
+        	( (actorref.getX()+actorref.getWidth()/2) + ((actorref2.getX()+actorref2.getWidth()/2) - 
+        			(actorref.getX()+actorref.getWidth()/2))/2 - actorref3.getWidth()/2));
+        cs.undo();
+        assertTrue(actorref.getX() == actorrefOldXCoordinate);
+        assertTrue(actorref2.getX() == actorref2OldXCoordinate);
+        assertTrue(actorref3.getX() == actorref3OldXCoordinate);
+        
+        // test distribute vertically with actors
+      	DistributeCommand cmd10 = new DistributeCommand(actors, 2, "seg.jUCMNav.DistributeVertically");
+        assertTrue("Can't execute DistributeCommand.", cmd10.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd10);
+         
+        assertTrue(actorref3.getY() == 
+        	( (actorref.getY()+actorref.getHeight()/2) + ((actorref2.getY()+actorref2.getHeight()/2) - 
+        			(actorref.getY()+actorref.getHeight()/2))/2 - actorref3.getHeight()/2));
+        cs.undo();
+        assertTrue(actorref.getY() == actorrefOldYCoordinate);
+        assertTrue(actorref2.getY() == actorref2OldYCoordinate);
+        assertTrue(actorref3.getY() == actorref3OldYCoordinate);
+    	
         cs.undo();
         cs.undo();
         

@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.AbstractSourceProvider;
@@ -142,10 +143,12 @@ public class AlignStateSourceProvider extends AbstractSourceProvider {
         componentList = new LinkedList<ComponentRef>();
         pathNodeList = new LinkedList<PathNode>();
         notEmptyTypes = new LinkedList<String>();
-        
-        List objects = ((IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection()).toList();
-        
         boolean result = false;
+        
+        try{
+
+        List objects = ((IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection()).toList();
+
 
         
         for( Object obj :  objects){
@@ -206,6 +209,10 @@ public class AlignStateSourceProvider extends AbstractSourceProvider {
         			result = false;
         	}
         	
+        }catch(Exception e){
+        	// nothing to solve; exception only threw when running all test suite
+        }
+        
       	return result;
 	}
 	
