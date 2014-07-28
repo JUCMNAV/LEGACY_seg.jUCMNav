@@ -195,7 +195,11 @@ public class AlignCommand extends AlignDistributeCommand {
 				currentMeta = MetadataHelper.getMetaData(currentElem, "_width");
 			}
 				if ( coordinatesValues.get(currentElem.getId()).get(axis).compareTo(newCoordinate) == 0){	
-					newPositionElemDimension = Integer.valueOf(currentMeta);
+					if ( currentMeta != null){
+						newPositionElemDimension = Integer.valueOf(currentMeta);
+					}else{
+						newPositionElemDimension = 0;
+					}
 				}
 		}
 		
@@ -212,9 +216,11 @@ public class AlignCommand extends AlignDistributeCommand {
 				}else{
 					currentMeta = MetadataHelper.getMetaData(currentElem, "_width");
 				}
-				
-				dimensionValue = Integer.valueOf(Integer.valueOf(currentMeta));
-
+				if ( currentMeta != null){
+					dimensionValue = Integer.valueOf(Integer.valueOf(currentMeta));
+				}else{
+					dimensionValue = 0;
+				}
 					// sets the new coordinate for each URNmodelElement differently depending on the moveType
 					
 					if ( coordinatesValues.get(currentElem.getId()).get(axis).compareTo(newCoordinate) != 0){	

@@ -2,6 +2,7 @@ package seg.jUCMNav.tests.commands;
 
 import java.io.ByteArrayInputStream;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Vector;
 
@@ -23,10 +24,13 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
+import com.lowagie.text.List;
+
 import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.changeConstraints.AlignCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
@@ -113,6 +117,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
     public UCMmodelElement componentRefWithLabel;
     public ComponentRef compRef;
+    public ComponentRef compRef2;
     public CommandStack cs;
     public UCMNavMultiPageEditor editor;
     public EndPoint end;
@@ -320,7 +325,211 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("Can't execute AddBranchCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
+   
+    /**
+     * Test for AlignCommand.
+     *  
+     *  @author Patrice Boulet
+     */
+    public void testAlignCommand(){
+    	testSetConstraintCommand();
+    	testSetConstraintComponentRefCommand();
+    	testSetConstraintBoundComponentRefCompoundCommand();
+    	
+    	CreateMapCommand cmd1 = new CreateMapCommand(urnspec);
+        assertTrue("Can't execute CreateMapCommand.", cmd1.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd1);
+        
+        assertEquals("map was not added properly in model", urnspec.getUrndef().getSpecDiagrams().size(), 2); //$NON-NLS-1$
+        assertEquals("map was not added properly in editor", editor.getPageCount(), 2); //$NON-NLS-1$
+        
+        // add bogus data to new map
+        map = (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(1);
+        
+        compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
+        compRef.setDiagram(map);
+        compRef.setWidth(100);
+        compRef.setHeight(100);
+        compRef.setX(50);
+        compRef.setY(50);
+        int compRefOldXCoordinate = compRef.getX();
+        int compRefOldYCoordinate = compRef.getY();
+        
+        compRef2 = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
+        compRef2.setDiagram(map);
+        compRef2.setWidth(100);
+        compRef2.setHeight(100);
+        compRef2.setX(100);
+        compRef2.setY(200);
+        int compRef2OldXCoordinate = compRef2.getX();
+        int compRef2OldYCoordinate = compRef2.getY();
+        
+        AddContainerRefCommand cmd2 = new AddContainerRefCommand(map, compRef);
+        assertTrue("Can't execute AddContainerRefCommand.", cmd2.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd2);
+        
+        AddContainerRefCommand cmd3 = new AddContainerRefCommand(map, compRef2);
+        assertTrue("Can't execute AddContainerRefCommand.", cmd2.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd2);
+        
+        start = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
+        start.setDiagram(map);
+        start.setX(100);
+        start.setY(100);
+        compRef.getNodes().add(start);
+        int startOldXCoordinate = start.getX();
+        int startOldYCoordinate = start.getY();
+        
+        resp = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
+        resp.setDiagram(map);
+        resp.setX(150);
+        resp.setY(250);
+        compRef2.getNodes().add(resp);
+        int respOldXCoordinate = resp.getX();
+        int respOldYCoordinate = resp.getY();      
+        
+        
+        LinkedList nodes = new LinkedList<PathNode>();
+        nodes.add(start);
+        nodes.add(resp);
+        
+        LinkedList components = new LinkedList<ComponentRef>();
+        components.add(compRef);
+        components.add(compRef2);
+        
+        // test align top with nodes
+      	AlignCommand cmd4 = new AlignCommand(nodes, 4, "seg.jUCMNav.AlignTop");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
 
+        assertTrue(start.getY() == resp.getY() && start.getY() == 100);
+        cs.undo();
+        assertTrue(start.getY() == startOldYCoordinate);
+        assertTrue(resp.getY() == respOldYCoordinate);
+        
+        // test align middle with nodes
+      	cmd4 = new AlignCommand(nodes, 4, "seg.jUCMNav.AlignMiddle");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(start.getY() == resp.getY() && start.getY() == 175);
+        cs.undo();
+        assertTrue(start.getY() == startOldYCoordinate);
+        assertTrue(resp.getY() == respOldYCoordinate);
+        
+        // test align bottom with nodes
+      	cmd4 = new AlignCommand(nodes, 4, "seg.jUCMNav.AlignBottom");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(start.getY() == resp.getY() && start.getY() == 250);
+        cs.undo();
+        assertTrue(start.getY() == startOldYCoordinate);
+        assertTrue(resp.getY() == respOldYCoordinate);
+        
+        // test align left with nodes
+      	cmd4 = new AlignCommand(nodes, 4, "seg.jUCMNav.AlignLeft");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(start.getX() == resp.getX() && start.getX() == 100);
+        cs.undo();
+        assertTrue(start.getX() == startOldXCoordinate);
+        assertTrue(resp.getX() == respOldXCoordinate);
+        
+        // test align center with nodes
+      	cmd4 = new AlignCommand(nodes, 4, "seg.jUCMNav.AlignCenter");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(start.getX() == resp.getX() && start.getX() == 125);
+        cs.undo();
+        assertTrue(start.getX() == startOldXCoordinate);
+        assertTrue(resp.getX() == respOldXCoordinate);
+        
+        // test align right with nodes
+      	cmd4 = new AlignCommand(nodes, 4, "seg.jUCMNav.AlignRight");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(start.getX() == resp.getX() && start.getX() == 150);
+        cs.undo();
+        assertTrue(start.getX() == startOldXCoordinate);
+        assertTrue(resp.getX() == respOldXCoordinate);
+        
+        // testing redo
+        
+        cs.redo();
+        assertTrue(start.getX() == resp.getX() && start.getX() == 150);
+        cs.undo();
+        assertTrue(start.getX() == startOldXCoordinate);
+        assertTrue(resp.getX() == respOldXCoordinate);
+        
+        // test align top with components
+      	AlignCommand cmd5 = new AlignCommand(components, 3, "seg.jUCMNav.AlignTop");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(compRef.getY() == compRef2.getY() && compRef.getY() == 50);
+        cs.undo();
+        assertTrue(compRef.getY() == compRefOldYCoordinate);
+        assertTrue(compRef2.getY() == compRef2OldYCoordinate);
+       
+        // test align middle with components
+      	cmd5 = new AlignCommand(components, 3, "seg.jUCMNav.AlignMiddle");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(compRef.getY() == compRef2.getY() && compRef.getY() == 125);
+        cs.undo();
+        assertTrue(compRef.getY() == compRefOldYCoordinate);
+        assertTrue(compRef2.getY() == compRef2OldYCoordinate);
+        
+        // test align bottom with components
+      	cmd5 = new AlignCommand(components, 3, "seg.jUCMNav.AlignBottom");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(compRef.getY() == compRef2.getY() && compRef.getY() == compRef2OldYCoordinate);
+        cs.undo();
+        assertTrue(compRef.getY() == compRefOldYCoordinate);
+        assertTrue(compRef2.getY() == compRef2OldYCoordinate);
+        
+        // test align left with components
+      	cmd5 = new AlignCommand(components, 3, "seg.jUCMNav.AlignLeft");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(compRef.getX() == compRef2.getX() && compRef.getX() == 50);
+        cs.undo();
+        assertTrue(compRef.getX() == compRefOldXCoordinate);
+        assertTrue(compRef2.getX() == compRef2OldXCoordinate);
+        
+        // test align center with components
+      	cmd5 = new AlignCommand(components, 3, "seg.jUCMNav.AlignCenter");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(compRef.getX() == compRef2.getX() && compRef.getX() == 75);
+        cs.undo();
+        assertTrue(compRef.getX() == compRefOldXCoordinate);
+        assertTrue(compRef2.getX() == compRef2OldXCoordinate);
+        
+        // test align right with components
+      	cmd5 = new AlignCommand(components, 3, "seg.jUCMNav.AlignRight");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(compRef.getX() == compRef2.getX() && compRef.getX() == compRef2OldXCoordinate);
+        cs.undo();
+        assertTrue(compRef.getX() == compRefOldXCoordinate);
+        assertTrue(compRef2.getX() == compRef2OldXCoordinate);
+        
+        System.out.println("It gets to the end of the test");
+    	}
+    
+    	
+    
     /**
      * 
      *  

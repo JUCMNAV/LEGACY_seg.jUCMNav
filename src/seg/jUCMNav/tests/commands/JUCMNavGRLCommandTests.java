@@ -23,6 +23,7 @@ import grl.StrategiesGroup;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -41,6 +42,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.change.ModifyUrnLinkCommand;
+import seg.jUCMNav.model.commands.changeConstraints.AlignCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.MoveLinkRefBendpointCommand;
@@ -48,6 +50,7 @@ import seg.jUCMNav.model.commands.changeConstraints.MoveNodeCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintContainerRefCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintGrlNodeCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefLinkCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
@@ -91,6 +94,9 @@ import seg.jUCMNav.model.commands.transformations.ChangeDecompositionTypeCommand
 import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.views.preferences.DeletePreferences;
 import ucm.map.ComponentRef;
+import ucm.map.PathNode;
+import ucm.map.RespRef;
+import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import urn.URNlink;
 import urn.URNspec;
@@ -119,6 +125,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
     private Belief belief;
     // private Actor actor;
     private ActorRef actorref;
+    private ActorRef actorref2;
     private ElementLink link;
     private StrategiesGroup strategiesgroup;
     private EvaluationStrategy strategy;
@@ -1403,6 +1410,208 @@ public class JUCMNavGRLCommandTests extends TestCase {
     	assertTrue("Wrong number of graph added.", urnspec.getUrndef().getSpecDiagrams().size() == oldGraphCount + 8);
  
     }
+    
+    /**
+     * Test for AlignCommand.
+     *  
+     *  @author Patrice Boulet
+     */
+    public void testAlignCommand(){
+    	testSetConstraintCommand();
+    	testSetConstraintBoundContainerRefCompoundCommand();
+    	
+    	CreateGrlGraphCommand cmd1 = new CreateGrlGraphCommand(urnspec);
+        assertTrue("Can't execute CreateMapCommand.", cmd1.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd1);
+        
+        // add bogus data to new graph
+        graph = cmd1.getDiagram();
+        
+        actorref = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
+        actorref.setDiagram(graph);
+        actorref.setWidth(100);
+        actorref.setHeight(100);
+        actorref.setX(50);
+        actorref.setY(50);
+        int actorrefOldXCoordinate = actorref.getX();
+        int actorrefOldYCoordinate = actorref.getY();
+        
+        actorref2 = (ActorRef) ModelCreationFactory.getNewObject(urnspec, ActorRef.class);
+        actorref2.setDiagram(graph);
+        actorref2.setWidth(100);
+        actorref2.setHeight(100);
+        actorref2.setX(100);
+        actorref2.setY(200);
+        int actorref2OldXCoordinate = actorref2.getX();
+        int actorref2OldYCoordinate = actorref2.getY();
+
+        ieRef1 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+        ieRef1.setDiagram(graph);
+        ieRef1.setX(100);
+        ieRef1.setY(100);
+        actorref.getNodes().add(ieRef1);
+        int ieRef1OldXCoordinate = ieRef1.getX();
+        int ieRef1OldYCoordinate = ieRef1.getY();
+        
+        SetConstraintGrlNodeCommand ref1RezizeCmd; 
+        ref1RezizeCmd = new SetConstraintGrlNodeCommand((IURNNode)ieRef1, 100, 100, 50, 50, false);
+        assertTrue("Can't execute  SetConstraintGrlNodeCommand.", ref1RezizeCmd.canExecute()); //$NON-NLS-1$
+        cs.execute(ref1RezizeCmd);
+        
+        ieRef2 = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+        ieRef2.setDiagram(graph);
+        ieRef2.setX(150);
+        ieRef2.setY(250);
+        actorref2.getNodes().add(ieRef2);
+        int ieRef2OldXCoordinate = ieRef2.getX();
+        int ieRef2OldYCoordinate = ieRef2.getY();      
+        
+        SetConstraintGrlNodeCommand ref2RezizeCmd; 
+        ref2RezizeCmd = new SetConstraintGrlNodeCommand((IURNNode)ieRef2, 150, 250, 50, 50, false);
+        assertTrue("Can't execute  SetConstraintGrlNodeCommand.", ref2RezizeCmd.canExecute()); //$NON-NLS-1$
+        cs.execute(ref2RezizeCmd);
+        
+        LinkedList intElems = new LinkedList<IntentionalElementRef>();
+        intElems.add(ieRef1);
+        intElems.add(ieRef2);
+        
+        LinkedList actors = new LinkedList<Actor>();
+        actors.add(actorref);
+        actors.add(actorref2);
+        
+        // test align top with intentional elements
+      	AlignCommand cmd4 = new AlignCommand(intElems, 1, "seg.jUCMNav.AlignTop");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(ieRef1.getY() == ieRef2.getY() && ieRef1.getY() == 100);
+        cs.undo();
+        assertTrue(ieRef1.getY() == ieRef1OldYCoordinate);
+        assertTrue(ieRef2.getY() == ieRef2OldYCoordinate);
+        
+        // test align middle with intentional elements
+      	cmd4 = new AlignCommand(intElems, 1, "seg.jUCMNav.AlignMiddle");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(ieRef1.getY() == ieRef2.getY() && ieRef1.getY() == 150);
+        cs.undo();
+        assertTrue(ieRef1.getY() == ieRef1OldYCoordinate);
+        assertTrue(ieRef2.getY() == ieRef2OldYCoordinate);
+        
+        // test align bottom with intentional elements
+      	cmd4 = new AlignCommand(intElems, 1, "seg.jUCMNav.AlignBottom");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(ieRef1.getY() == ieRef2.getY() && ieRef1.getY() == 250);
+        cs.undo();
+        assertTrue(ieRef1.getY() == ieRef1OldYCoordinate);
+        assertTrue(ieRef2.getY() == ieRef2OldYCoordinate);
+        
+        // test align left with intentional elements
+      	cmd4 = new AlignCommand(intElems, 1, "seg.jUCMNav.AlignLeft");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(ieRef1.getX() == ieRef2.getX() && ieRef1.getX() == 100);
+        cs.undo();
+        assertTrue(ieRef1.getX() == ieRef1OldXCoordinate);
+        assertTrue(ieRef2.getX() == ieRef2OldXCoordinate);
+        
+        // test align center with intentional elements
+      	cmd4 = new AlignCommand(intElems, 1, "seg.jUCMNav.AlignCenter");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(ieRef1.getX() == ieRef2.getX() && ieRef1.getX() == 100);
+        cs.undo();
+        assertTrue(ieRef1.getX() == ieRef1OldXCoordinate);
+        assertTrue(ieRef2.getX() == ieRef2OldXCoordinate);
+        
+        // test align right with intentional elements
+      	cmd4 = new AlignCommand(intElems, 1, "seg.jUCMNav.AlignRight");
+        assertTrue("Can't execute AlignCommand.", cmd4.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd4);
+
+        assertTrue(ieRef1.getX() == ieRef2.getX() && ieRef1.getX() == 150);
+        cs.undo();
+        assertTrue(ieRef1.getX() == ieRef1OldXCoordinate);
+        assertTrue(ieRef2.getX() == ieRef2OldXCoordinate);
+        
+        // testing redo
+        
+        cs.redo();
+        assertTrue(ieRef1.getX() == ieRef2.getX() && ieRef1.getX() == 150);
+        cs.undo();
+        assertTrue(ieRef1.getX() == ieRef1OldXCoordinate);
+        assertTrue(ieRef2.getX() == ieRef2OldXCoordinate);
+        
+        // test align top with actors
+      	AlignCommand cmd5 = new AlignCommand(actors, 2, "seg.jUCMNav.AlignTop");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(actorref.getY() == actorref2.getY() && actorref.getY() == 50);
+        cs.undo();
+        assertTrue(actorref.getY() == actorrefOldYCoordinate);
+        assertTrue(actorref2.getY() == actorref2OldYCoordinate);
+       
+        // test align middle with actors
+      	cmd5 = new AlignCommand(actors, 2, "seg.jUCMNav.AlignMiddle");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(actorref.getY() == actorref2.getY() && actorref.getY() == 125);
+        cs.undo();
+        assertTrue(actorref.getY() == actorrefOldYCoordinate);
+        assertTrue(actorref2.getY() == actorref2OldYCoordinate);
+        
+        // test align bottom with actors
+      	cmd5 = new AlignCommand(actors, 2, "seg.jUCMNav.AlignBottom");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(actorref.getY() == actorref2.getY() && actorref.getY() == actorref2OldYCoordinate);
+        cs.undo();
+        assertTrue(actorref.getY() == actorrefOldYCoordinate);
+        assertTrue(actorref2.getY() == actorref2OldYCoordinate);
+        
+        // test align left with actors
+      	cmd5 = new AlignCommand(actors, 2, "seg.jUCMNav.AlignLeft");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(actorref.getX() == actorref2.getX() && actorref.getX() == 50);
+        cs.undo();
+        assertTrue(actorref.getX() == actorrefOldXCoordinate);
+        assertTrue(actorref2.getX() == actorref2OldXCoordinate);
+        
+        // test align center with actors
+      	cmd5 = new AlignCommand(actors, 2, "seg.jUCMNav.AlignCenter");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(actorref.getX() == actorref2.getX() && actorref.getX() == 75);
+        cs.undo();
+        assertTrue(actorref.getX() == actorrefOldXCoordinate);
+        assertTrue(actorref2.getX() == actorref2OldXCoordinate);
+        
+        // test align right with actors
+      	cmd5 = new AlignCommand(actors, 2, "seg.jUCMNav.AlignRight");
+        assertTrue("Can't execute AlignCommand.", cmd5.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd5);
+
+        assertTrue(actorref.getX() == actorref2.getX() && actorref.getX() == actorref2OldXCoordinate);
+        cs.undo();
+        assertTrue(actorref.getX() == actorrefOldXCoordinate);
+        assertTrue(actorref2.getX() == actorref2OldXCoordinate);
+   
+        cs.undo();
+        cs.undo();
+        
+        cs.flush();
+    	}
    
     /**
      * This method will go through all of the path nodes and component ref in all the maps and verify that they are all bound as they should be. will be usefull

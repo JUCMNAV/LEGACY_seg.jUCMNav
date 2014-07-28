@@ -96,8 +96,13 @@ public class DistributeCommand extends AlignDistributeCommand {
 				
 			}else{
 				for (IURNNode node : (List<IURNNode>)sel){
-					elemsRadius.put((URNmodelElement)node, 
-							(Integer.valueOf(MetadataHelper.getMetaData( (URNmodelElement)node, "_height"))/2));
+					
+					if( MetadataHelper.getMetaData( (URNmodelElement)node, "_height") != null){
+						elemsRadius.put((URNmodelElement)node, 
+								(Integer.valueOf(MetadataHelper.getMetaData( (URNmodelElement)node, "_height"))/2));
+					}else{
+						elemsRadius.put((URNmodelElement)node, 0);
+					}
 				}
 			}
 						
@@ -112,8 +117,15 @@ public class DistributeCommand extends AlignDistributeCommand {
 				
 			}else{
 				for (IURNNode node : (List<IURNNode>)sel){
-					elemsRadius.put((URNmodelElement)node, 
+					
+					if( MetadataHelper.getMetaData( (URNmodelElement)node, "_width") != null){
+					
+						elemsRadius.put((URNmodelElement)node, 
 							(Integer.valueOf(MetadataHelper.getMetaData( (URNmodelElement)node, "_width"))/2));
+					}else{
+						elemsRadius.put((URNmodelElement)node, 0);
+					}
+					
 				}
 			}
 		}
@@ -219,16 +231,34 @@ public class DistributeCommand extends AlignDistributeCommand {
 
     	// assigns a new coordinate for the URNmodelElement depending on the moveType variable
     		if( verticalMove){
-    			result.put("LowerBound", ( ((IURNNode)sel.get(0)).getY()) + 
-    					Integer.valueOf(MetadataHelper.getMetaData( ((URNmodelElement)sel.get(0)), "_height" ))/2);
-    			result.put("UpperBound", ( ((IURNNode)sel.get((sel.size()-1))).getY()) + 
-    					Integer.valueOf(MetadataHelper.getMetaData( ((URNmodelElement)sel.get((sel.size()-1))), "_height" ))/2);
-    		}else{
-    			result.put("LowerBound", ( ((IURNNode)sel.get(0)).getX())  + 
-    					Integer.valueOf(MetadataHelper.getMetaData( ((URNmodelElement)sel.get(0)), "_width" ))/2);
+    			int lowerBoundRadius, upperBoundRadius;
     			
-    			result.put("UpperBound", ( ((IURNNode)sel.get((sel.size()-1))).getX()) +
-    					Integer.valueOf(MetadataHelper.getMetaData( ((URNmodelElement)sel.get((sel.size()-1))), "_width" ))/2);
+    			if( MetadataHelper.getMetaData( ((URNmodelElement)sel.get(0)), "_height" ) != null){
+    				lowerBoundRadius = Integer.valueOf(MetadataHelper.getMetaData( ((URNmodelElement)sel.get(0)), "_height" ))/2;
+    				upperBoundRadius = Integer.valueOf(MetadataHelper.getMetaData( ((URNmodelElement)sel.get((sel.size()-1))), "_height" ))/2;	
+    			}else{
+    				lowerBoundRadius = 0;
+    				upperBoundRadius = 0;
+    			}
+    			
+    			result.put("LowerBound", ( ((IURNNode)sel.get(0)).getY()) + lowerBoundRadius);
+    			result.put("UpperBound", ( ((IURNNode)sel.get((sel.size()-1))).getY()) + upperBoundRadius);
+    			
+    		}else{
+    			int lowerBoundRadius, upperBoundRadius;
+    			
+    			if( MetadataHelper.getMetaData( ((URNmodelElement)sel.get(0)), "_width" ) != null){
+    				lowerBoundRadius = Integer.valueOf(MetadataHelper.getMetaData( ((URNmodelElement)sel.get(0)), "_width" ))/2;
+    				upperBoundRadius = Integer.valueOf(MetadataHelper.getMetaData( ((URNmodelElement)sel.get((sel.size()-1))), "_width" ))/2;	
+    			}else{
+    				lowerBoundRadius = 0;
+    				upperBoundRadius = 0;
+    			}
+    			
+    			result.put("LowerBound", ( ((IURNNode)sel.get(0)).getX())  + lowerBoundRadius);
+    			
+    			result.put("UpperBound", ( ((IURNNode)sel.get((sel.size()-1))).getX()) + upperBoundRadius);
+    			
     		}
     	
     	return result;
