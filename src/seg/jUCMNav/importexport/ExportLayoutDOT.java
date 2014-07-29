@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import org.eclipse.draw2d.IFigure;
 
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.preferences.AutoLayoutPreferences;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
@@ -87,7 +88,18 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
             IURNNode node = (IURNNode) map.getNodes().get(i);
             // we only want loose nodes components
             if (node.getContRef() == null) {
-                dot.append(AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement) node).getId() + ";\n"); //$NON-NLS-1$
+            	
+            	double height = 0.0;
+            	double width = 0.0;
+            	
+            	if ( MetadataHelper.getMetaData((URNmodelElement)node, "_height") != null && 
+            			MetadataHelper.getMetaData((URNmodelElement)node, "_width") != null ){
+            		height = Double.valueOf(MetadataHelper.getMetaData((URNmodelElement)node, "_height"));
+            		width = Double.valueOf(MetadataHelper.getMetaData((URNmodelElement)node, "_width"));
+            	}
+            	
+                dot.append(AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement) node).getId() + 
+                		"[height=\"" + height/72.0 + "\", width=\"" + width/72.0 + "\"];\n"); //$NON-NLS-1$
             }
         }
 

@@ -7,18 +7,26 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.NodeEditPart;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.services.ISourceProviderService;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
+import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.importexport.ExportLayoutDOT;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
@@ -27,7 +35,9 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintContainerRefCom
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
 import seg.jUCMNav.model.util.AutoLayoutCommandComparator;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.URNElementFinder;
+import seg.jUCMNav.sourceProviders.AlignStateSourceProvider;
 import seg.jUCMNav.views.preferences.AutoLayoutPreferences;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
@@ -37,6 +47,7 @@ import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
+import urncore.URNmodelElement;
 
 /**
  * The autolayout wizard. Uses graphviz dot.
@@ -128,10 +139,13 @@ public class AutoLayoutWizard extends Wizard {
 
         if (trimEmptyPoints() == false)
             return false;
-
+        
+        addIntentionalElemRefDimensions();
+        
         String initial = ExportLayoutDOT.convertUCMToDot(map);
         String positioned = autoLayoutDotString(initial);
 
+	    
         try {
             CompoundCommand cmd2 = repositionLayout(map, positioned);
 
@@ -156,7 +170,32 @@ public class AutoLayoutWizard extends Wizard {
         return true;
     }
 
-    /**
+    public void addIntentionalElemRefDimensions() {
+        UCMNavMultiPageEditor multi = (UCMNavMultiPageEditor)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+        Collection<EditPart> editparts = ((UrnEditor)multi.getCurrentPage()).getGraphicalViewer().getEditPartRegistry().values();
+		
+        for (EditPart editPart : editparts){
+        	
+        	if (editPart instanceof NodeEditPart){
+        		NodeEditPart nodeEditPart = (NodeEditPart)editPart;
+        		
+        		if ( nodeEditPart instanceof IntentionalElementEditPart){
+			        int height = nodeEditPart.getFigure().getBounds().height;
+					int width = nodeEditPart.getFigure().getBounds().width;
+					
+					IURNNode node = (IURNNode) nodeEditPart.getModel();
+					
+					MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(),
+							(URNmodelElement)node, "_height", String.valueOf(height));
+					MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(),
+							(URNmodelElement)node, "_width", String.valueOf(width));
+			}
+        	}
+        }
+		
+	}
+
+	/**
      * @return success
      */
     public boolean trimEmptyPoints() {
@@ -242,7 +281,8 @@ public class AutoLayoutWizard extends Wizard {
                      * resize = new SetConstraintBoundContainerRefCompoundCommand(compRef, compRef.getX(), height-compRef.getY()-36, 54, 36); cmd.add(resize); }
                      */
                 }
-            } else if (line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\"?.+\"?, height=\"?.+\"?];")) { //$NON-NLS-1$ //$NON-NLS-2$
+            } else if (line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\"?.+\"?, height=\"?.+\"?];") ||
+            		line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[height=\"?.+\"?, width=\"?.+\"?, pos=\"\\d+,\\d+\"];")) { //$NON-NLS-1$ //$NON-NLS-2$
                 // ex: PathNode5 [pos="76,122", width="1.22", height="0.50"];
                 line = line.trim();
                 IURNNode pn = URNElementFinder.findNode(usecasemap, line.substring(AutoLayoutPreferences.PATHNODEPREFIX.length(), line.indexOf(" "))); //$NON-NLS-1$
@@ -252,7 +292,8 @@ public class AutoLayoutWizard extends Wizard {
                             Messages.getString("AutoLayoutWizard.cantFindPathNode") + line.substring(AutoLayoutPreferences.PATHNODEPREFIX.length(), line.indexOf(" ")) //$NON-NLS-1$ //$NON-NLS-2$
                                     + Messages.getString("AutoLayoutWizard.inMap")); //$NON-NLS-1$
 
-                String subline = line.substring(line.indexOf("\"") + 1, line.indexOf("\"", line.indexOf("\"") + 1)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                String subline = line.substring(line.indexOf("pos=\"") + 5, line.lastIndexOf("]")-1); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                //old way is ->> //String subline = line.substring(line.indexOf("\"") + 1, line.indexOf("\"", line.indexOf("\"") + 1)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 String[] coords = subline.split(","); //$NON-NLS-1$
                 Command move = new SetConstraintCommand(pn, Integer.parseInt(coords[0]) + PADDING, pageHeight - Integer.parseInt(coords[1]));
                 cmd.add(move);
