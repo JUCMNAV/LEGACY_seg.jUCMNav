@@ -99,7 +99,7 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
             	}
             	
                 dot.append(AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement) node).getId() + 
-                		"[height=\"" + height/72.0 + "\", width=\"" + width/72.0 + "\"];\n"); //$NON-NLS-1$
+                		"[height=\"" + height/72.1 + "\", width=\"" + width/72.1 + "\"];\n"); //$NON-NLS-1$
             }
         }
 

@@ -141,11 +141,15 @@ public class AutoLayoutWizard extends Wizard {
             return false;
         
         addIntentionalElemRefDimensions();
+
         
         String initial = ExportLayoutDOT.convertUCMToDot(map);
         String positioned = autoLayoutDotString(initial);
 
-	    
+        System.out.println(initial);
+        System.out.println("**************************************************************************************");
+        System.out.println(positioned);
+        
         try {
             CompoundCommand cmd2 = repositionLayout(map, positioned);
 
@@ -234,8 +238,13 @@ public class AutoLayoutWizard extends Wizard {
                 }
 
             } else if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\"\\];")) { //$NON-NLS-1$
+            	// version 2.28
                 pageHeight = PADDING + Integer.parseInt(line.substring(line.lastIndexOf(",") + 1, line.lastIndexOf("\""))); //$NON-NLS-1$ //$NON-NLS-2$
-            } else if (line.matches("\\s*subgraph " + AutoLayoutPreferences.COMPONENTPREFIX + "\\d+ \\{")) { // ex: //$NON-NLS-1$ //$NON-NLS-2$
+            } else if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\",")) { //$NON-NLS-1$
+            	// version 2.38à
+            	line = line.substring(0, line.lastIndexOf(",")-1);
+                pageHeight = PADDING + Integer.parseInt(line.substring(line.lastIndexOf(",") + 1)); //$NON-NLS-1$ //$NON-NLS-2$
+            }else if (line.matches("\\s*subgraph " + AutoLayoutPreferences.COMPONENTPREFIX + "\\d+ \\{")) { // ex: //$NON-NLS-1$ //$NON-NLS-2$
                 // subgraph
                 // cluster_0
                 // {
@@ -297,7 +306,28 @@ public class AutoLayoutWizard extends Wizard {
                 String[] coords = subline.split(","); //$NON-NLS-1$
                 Command move = new SetConstraintCommand(pn, Integer.parseInt(coords[0]) + PADDING, pageHeight - Integer.parseInt(coords[1]));
                 cmd.add(move);
-            } else if (line
+            } else if ( line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+\t \\[height=\\d+\\.\\d+,") ||
+            				line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+\t \\[height=\\d+,")) { //$NON-NLS-1$ //$NON-NLS-2$
+                // updated for compatibility with version 2.30 and up
+            	// ex: PathNode5	 [height=0.50,
+            	//		pos="7406,612",
+            	line = line.trim();
+                IURNNode pn = URNElementFinder.findNode(usecasemap, line.substring(AutoLayoutPreferences.PATHNODEPREFIX.length(), line.indexOf("\t"))); //$NON-NLS-1$
+                
+                line = reader.readLine();
+                line = line.trim();
+                
+                if (pn == null)
+                    throw new Exception(
+                            Messages.getString("AutoLayoutWizard.cantFindPathNode") + line.substring(AutoLayoutPreferences.PATHNODEPREFIX.length(), line.indexOf(" ")) //$NON-NLS-1$ //$NON-NLS-2$
+                                    + Messages.getString("AutoLayoutWizard.inMap")); //$NON-NLS-1$
+
+                String subline = line.substring(line.indexOf("pos=\"") + 5, line.lastIndexOf(",")-1); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                //old way is ->> //String subline = line.substring(line.indexOf("\"") + 1, line.indexOf("\"", line.indexOf("\"") + 1)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                String[] coords = subline.split(","); //$NON-NLS-1$
+                Command move = new SetConstraintCommand(pn, (int)Math.round(Double.parseDouble(coords[0])) + PADDING, pageHeight - (int)Math.round(Double.parseDouble(coords[1])));
+                cmd.add(move);
+            }else if (line
                     .matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+\\s*->\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[pos=\"e,(\\d+,\\d+\\s+)*\\d+,\\d+\"];")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 // ex: PathNode50 -> PathNode34 [pos="e,436,488 436,524 436,516
                 // 436,507 436,498"];
