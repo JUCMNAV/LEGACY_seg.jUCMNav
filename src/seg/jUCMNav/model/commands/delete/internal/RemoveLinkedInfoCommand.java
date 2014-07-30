@@ -28,7 +28,9 @@ import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urncore.Component;
+import urncore.Concern;
 import urncore.Condition;
+import urncore.IURNDiagram;
 
 /**
  * Given a ComponentRef, PathNode, NodeConnection or Map, remove its performance/scenario information.
@@ -56,6 +58,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     private List components; // Single Component or list of ComponentRegular
     private List perfMeasures;
     private List kpiEvalValueSet;
+    private Concern concern;
 
     /**
      * 
@@ -187,6 +190,8 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
             KPIConversion conv = (KPIConversion) element;
             this.kpiEvalValueSet = new ArrayList();
             this.kpiEvalValueSet.addAll(conv.getKpiEvalValueSet());
+        } else if (element instanceof UCMmap || element instanceof GRLGraph) {
+        	this.concern = ((IURNDiagram) element).getConcern();
         }
         redo();
     }
@@ -220,6 +225,8 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 KPIEvalValueSet kpi = (KPIEvalValueSet) iterator.next();
                 kpi.setKpiConv(null);
             }
+        } else if (element instanceof UCMmap || element instanceof GRLGraph) {
+        	((IURNDiagram) element).setConcern(null);
         }
 
         testPostConditions();
@@ -259,6 +266,8 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 KPIEvalValueSet kpi = (KPIEvalValueSet) iterator.next();
                 kpi.setKpiConv(conv);
             }
+        } else if (element instanceof UCMmap || element instanceof GRLGraph) {
+        	((IURNDiagram) element).setConcern(concern);
         }
 
         testPreConditions();
@@ -302,6 +311,10 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
 
         if (element instanceof KPIConversion) {
             assert kpiEvalValueSet != null : "post kpi set null";
+        }
+        
+        if ((element instanceof UCMmap || element instanceof GRLGraph) && concern != null) {
+        	assert ((IURNDiagram) element).getConcern() == null : "concern not removed"; //@NON-NLS-1$
         }
     }
 
