@@ -41,7 +41,7 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
         // ensure visibility
         // dot.append("cheaptrick[shape=\"none\",label=\"\"];\n");
 
-        dot.append("CheapTrick" + id++ + " [pos=\"\", width=\"1\", height=\"0.01\"];\n"); //$NON-NLS-1$ //$NON-NLS-2$
+        dot.append("CheapTrick" + id++ + " [pos=\"\", width=\""+ compRef.getWidth()/72 +"\", height=\""+ compRef.getHeight()/72 +"\"];\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
         IURNContainerRef child;
         for (int i = 0; i < compRef.getChildren().size(); i++) {

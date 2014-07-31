@@ -145,10 +145,8 @@ public class AutoLayoutWizard extends Wizard {
         
         String initial = ExportLayoutDOT.convertUCMToDot(map);
         String positioned = autoLayoutDotString(initial);
-
-        System.out.println(initial);
-        System.out.println("**************************************************************************************");
-        System.out.println(positioned);
+        
+     
         
         try {
             CompoundCommand cmd2 = repositionLayout(map, positioned);
@@ -241,7 +239,7 @@ public class AutoLayoutWizard extends Wizard {
             	// version 2.28
                 pageHeight = PADDING + Integer.parseInt(line.substring(line.lastIndexOf(",") + 1, line.lastIndexOf("\""))); //$NON-NLS-1$ //$NON-NLS-2$
             } else if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\",")) { //$NON-NLS-1$
-            	// version 2.38à
+            	// version 2.38
             	line = line.substring(0, line.lastIndexOf(",")-1);
                 pageHeight = PADDING + Integer.parseInt(line.substring(line.lastIndexOf(",") + 1)); //$NON-NLS-1$ //$NON-NLS-2$
             }else if (line.matches("\\s*subgraph " + AutoLayoutPreferences.COMPONENTPREFIX + "\\d+ \\{")) { // ex: //$NON-NLS-1$ //$NON-NLS-2$
@@ -272,10 +270,10 @@ public class AutoLayoutWizard extends Wizard {
                             - Integer.parseInt(coords[1]) - 10);
                     cmd.add(resize);
                     if (compRef.getParent() != null) {
-                        SetConstraintContainerRefCommand cmd2 = new SetConstraintContainerRefCommand(compRef, PADDING + Integer.parseInt(coords[0]), pageHeight
-                                - Integer.parseInt(coords[3]) + 40, Integer.parseInt(coords[2]) - Integer.parseInt(coords[0]), Integer.parseInt(coords[3])
-                                - Integer.parseInt(coords[1]) - 40);
-                        cmd.add(cmd2);
+                      SetConstraintContainerRefCommand cmd2 = 
+                    		  new SetConstraintContainerRefCommand(compRef, PADDING + Integer.parseInt(coords[0]), pageHeight - Integer.parseInt(coords[3]) + 40, 
+                    				  Integer.parseInt(coords[2]) - Integer.parseInt(coords[0]), Integer.parseInt(coords[3]) - Integer.parseInt(coords[1]) - 40);
+                      cmd.add(cmd2);
                     }
                 } else if (line.matches("\\s*graph \\[bb=\"\"];")) { // ex: //$NON-NLS-1$
                     // graph
@@ -293,6 +291,7 @@ public class AutoLayoutWizard extends Wizard {
             } else if (line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\"?.+\"?, height=\"?.+\"?];") ||
             		line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[height=\"?.+\"?, width=\"?.+\"?, pos=\"\\d+,\\d+\"];")) { //$NON-NLS-1$ //$NON-NLS-2$
                 // ex: PathNode5 [pos="76,122", width="1.22", height="0.50"];
+            	// for GraphViz v2.28
                 line = line.trim();
                 IURNNode pn = URNElementFinder.findNode(usecasemap, line.substring(AutoLayoutPreferences.PATHNODEPREFIX.length(), line.indexOf(" "))); //$NON-NLS-1$
 
@@ -300,15 +299,21 @@ public class AutoLayoutWizard extends Wizard {
                     throw new Exception(
                             Messages.getString("AutoLayoutWizard.cantFindPathNode") + line.substring(AutoLayoutPreferences.PATHNODEPREFIX.length(), line.indexOf(" ")) //$NON-NLS-1$ //$NON-NLS-2$
                                     + Messages.getString("AutoLayoutWizard.inMap")); //$NON-NLS-1$
-
-                String subline = line.substring(line.indexOf("pos=\"") + 5, line.lastIndexOf("]")-1); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                //old way is ->> //String subline = line.substring(line.indexOf("\"") + 1, line.indexOf("\"", line.indexOf("\"") + 1)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                
+                String subline;
+                
+                if (line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\"?.+\"?, height=\"?.+\"?];")){
+                	subline = line.substring(line.indexOf("\"") + 1, line.indexOf("\"", line.indexOf("\"") + 1)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                }else{
+                    subline = line.substring(line.indexOf("pos=\"") + 5, line.lastIndexOf("]")-1); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                }
                 String[] coords = subline.split(","); //$NON-NLS-1$
+                
                 Command move = new SetConstraintCommand(pn, Integer.parseInt(coords[0]) + PADDING, pageHeight - Integer.parseInt(coords[1]));
                 cmd.add(move);
             } else if ( line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+\t \\[height=\\d+\\.\\d+,") ||
             				line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+\t \\[height=\\d+,")) { //$NON-NLS-1$ //$NON-NLS-2$
-                // updated for compatibility with version 2.30 and up
+                // updated for compatibility with GraphViz v2.38 
             	// ex: PathNode5	 [height=0.50,
             	//		pos="7406,612",
             	line = line.trim();
