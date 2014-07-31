@@ -1,5 +1,6 @@
 package seg.jUCMNav.figures;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
@@ -36,16 +37,15 @@ public class LinkRefConnection extends PolylineConnection {
     private PolylineDecoration contribution;
     private PolylineDecoration line;
     private PolygonDecoration depend;
-    private PolylineDecoration optional;
     private PolylineDecoration mandatory;
+    
+    private CircleDecoration optional = new CircleDecoration();
     
     private RotatableDecoration middleDec;
 
     public static final PointList DEPENDENCY_FIG = new PointList();
 
     public static final PointList LINE = new PointList();
-
-    public static final PointList OPTIONAL_FIG = new PointList();
     
     public static final PointList MANDATORY_FIG = new PointList();
     static {
@@ -69,11 +69,6 @@ public class LinkRefConnection extends PolylineConnection {
         LINE.addPoint(-1, -1);
         
         int r = 50;
-        for (int alpha = 0; alpha <= 360; alpha += 15)
-        {
-                double rad = alpha * Math.PI / 180;
-                OPTIONAL_FIG.addPoint((int)Math.round(r * Math.sin(rad)) - r, (int)Math.round(r * Math.cos(rad)));
-        }
         for (int j = r; j > 0; j--) {
             for (int alpha = 0; alpha <= 360; alpha += 15)
             {
@@ -97,11 +92,8 @@ public class LinkRefConnection extends PolylineConnection {
         contribution.setScale(17, 7);
         contribution.setAntialias(GeneralPreferencePage.getAntialiasingPref());
       
-        optional = new PolylineDecoration();
-        optional.setTemplate(OPTIONAL_FIG);
-        optional.setLineWidth(2);
-        optional.setScale(0.1, 0.1);
-        optional.setAntialias(GeneralPreferencePage.getAntialiasingPref());
+        optional.setBackgroundColor(ColorConstants.white);
+        optional.setFill(true);
         
         mandatory = new PolylineDecoration();
         mandatory.setTemplate(MANDATORY_FIG);
