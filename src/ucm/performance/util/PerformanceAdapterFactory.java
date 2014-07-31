@@ -6,6 +6,7 @@
  */
 package ucm.performance.util;
 
+import ca.mcgill.sel.core.CORENamedElement;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -90,7 +91,7 @@ public class PerformanceAdapterFactory extends AdapterFactoryImpl {
 			public Object caseDemand(Demand object) {
 				return createDemandAdapter();
 			}
-			public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
+			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {

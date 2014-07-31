@@ -6,6 +6,7 @@
  */
 package grl;
 
+import ca.mcgill.sel.core.CorePackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -73,13 +74,49 @@ public interface GrlPackage extends EPackage {
     int GR_LSPEC = 0;
 
     /**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GR_LSPEC__NAME = CorePackage.CORE_FEATURE_MODEL__NAME;
+
+				/**
+	 * The feature id for the '<em><b>Reuses</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GR_LSPEC__REUSES = CorePackage.CORE_FEATURE_MODEL__REUSES;
+
+				/**
+	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GR_LSPEC__MODEL_ELEMENTS = CorePackage.CORE_FEATURE_MODEL__MODEL_ELEMENTS;
+
+				/**
+	 * The feature id for the '<em><b>Realizes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GR_LSPEC__REALIZES = CorePackage.CORE_FEATURE_MODEL__REALIZES;
+
+				/**
 	 * The feature id for the '<em><b>Urnspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__URNSPEC = 0;
+    int GR_LSPEC__URNSPEC = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 0;
 
     /**
 	 * The feature id for the '<em><b>Int Elements</b></em>' containment reference list.
@@ -88,7 +125,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__INT_ELEMENTS = 1;
+    int GR_LSPEC__INT_ELEMENTS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 1;
 
     /**
 	 * The feature id for the '<em><b>Actors</b></em>' containment reference list.
@@ -97,7 +134,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__ACTORS = 2;
+    int GR_LSPEC__ACTORS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 2;
 
     /**
 	 * The feature id for the '<em><b>Links</b></em>' containment reference list.
@@ -106,7 +143,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__LINKS = 3;
+    int GR_LSPEC__LINKS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 3;
 
     /**
 	 * The feature id for the '<em><b>Groups</b></em>' containment reference list.
@@ -115,7 +152,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__GROUPS = 4;
+    int GR_LSPEC__GROUPS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Strategies</b></em>' containment reference list.
@@ -124,7 +161,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__STRATEGIES = 5;
+    int GR_LSPEC__STRATEGIES = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 5;
 
     /**
 	 * The feature id for the '<em><b>Contribution Groups</b></em>' containment reference list.
@@ -133,7 +170,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GR_LSPEC__CONTRIBUTION_GROUPS = 6;
+	int GR_LSPEC__CONTRIBUTION_GROUPS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 6;
 
 				/**
 	 * The feature id for the '<em><b>Contribution Contexts</b></em>' containment reference list.
@@ -142,7 +179,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GR_LSPEC__CONTRIBUTION_CONTEXTS = 7;
+	int GR_LSPEC__CONTRIBUTION_CONTEXTS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 7;
 
 				/**
 	 * The feature id for the '<em><b>Kpi Information Elements</b></em>' containment reference list.
@@ -151,7 +188,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__KPI_INFORMATION_ELEMENTS = 8;
+    int GR_LSPEC__KPI_INFORMATION_ELEMENTS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 8;
 
     /**
 	 * The feature id for the '<em><b>Kpi Model Links</b></em>' containment reference list.
@@ -160,7 +197,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__KPI_MODEL_LINKS = 9;
+    int GR_LSPEC__KPI_MODEL_LINKS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 9;
 
     /**
 	 * The feature id for the '<em><b>Indicator Group</b></em>' containment reference list.
@@ -169,7 +206,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__INDICATOR_GROUP = 10;
+    int GR_LSPEC__INDICATOR_GROUP = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 10;
 
     /**
 	 * The feature id for the '<em><b>KPI Conversion</b></em>' containment reference list.
@@ -178,7 +215,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GR_LSPEC__KPI_CONVERSION = 11;
+	int GR_LSPEC__KPI_CONVERSION = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 11;
 
 				/**
 	 * The number of structural features of the '<em>GR Lspec</em>' class.
@@ -187,7 +224,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC_FEATURE_COUNT = 12;
+    int GR_LSPEC_FEATURE_COUNT = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 12;
 
     /**
 	 * The meta object id for the '{@link grl.impl.GRLNodeImpl <em>GRL Node</em>}' class.
@@ -1087,40 +1124,13 @@ public interface GrlPackage extends EPackage {
 	int GRL_GRAPH__COMMENTS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
 
 				/**
-	 * The feature id for the '<em><b>Reuses</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GRL_GRAPH__REUSES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
-
-				/**
-	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GRL_GRAPH__MODEL_ELEMENTS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
-
-				/**
-	 * The feature id for the '<em><b>Realizes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GRL_GRAPH__REALIZES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
-
-				/**
 	 * The number of structural features of the '<em>GRL Graph</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int GRL_GRAPH_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
+    int GRL_GRAPH_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
 
     /**
 	 * The meta object id for the '{@link grl.impl.ActorRefImpl <em>Actor Ref</em>}' class.

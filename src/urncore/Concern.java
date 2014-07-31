@@ -6,6 +6,7 @@
  */
 package urncore;
 
+import ca.mcgill.sel.core.COREConcern;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -102,12 +103,12 @@ public interface Concern extends URNmodelElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Core Concern</em>' reference.
-	 * @see #setCoreConcern(ca.mcgill.sel.core.COREConcern)
+	 * @see #setCoreConcern(COREConcern)
 	 * @see urncore.UrncorePackage#getConcern_CoreConcern()
 	 * @model
 	 * @generated
 	 */
-	ca.mcgill.sel.core.COREConcern getCoreConcern();
+	COREConcern getCoreConcern();
 
 				/**
 	 * Sets the value of the '{@link urncore.Concern#getCoreConcern <em>Core Concern</em>}' reference.
@@ -117,7 +118,7 @@ public interface Concern extends URNmodelElement {
 	 * @see #getCoreConcern()
 	 * @generated
 	 */
-	void setCoreConcern(ca.mcgill.sel.core.COREConcern value);
+	void setCoreConcern(COREConcern value);
 
 				/**
 	 * Returns the value of the '<em><b>Condition</b></em>' containment reference.

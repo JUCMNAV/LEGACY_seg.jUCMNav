@@ -55,7 +55,7 @@ public class FmFactoryImpl extends EFactoryImpl implements FmFactory {
 	 */
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case FmPackage.FEATURE_MODEL: return createFeatureModel();
+			case FmPackage.FEATURE_DIAGRAM: return createFeatureDiagram();
 			case FmPackage.FEATURE: return createFeature();
 			case FmPackage.MANDATORY_FM_LINK: return createMandatoryFMLink();
 			case FmPackage.OPTIONAL_FM_LINK: return createOptionalFMLink();
@@ -69,9 +69,9 @@ public class FmFactoryImpl extends EFactoryImpl implements FmFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public FeatureModel createFeatureModel() {
-		FeatureModelImpl featureModel = new FeatureModelImpl();
-		return featureModel;
+	public FeatureDiagram createFeatureDiagram() {
+		FeatureDiagramImpl featureDiagram = new FeatureDiagramImpl();
+		return featureDiagram;
 	}
 
 	/**

@@ -8,6 +8,7 @@ package grl.impl;
 
 import asd.AsdPackage;
 import asd.impl.AsdPackageImpl;
+import ca.mcgill.sel.core.CorePackage;
 import fm.FmPackage;
 import fm.impl.FmPackageImpl;
 import grl.Actor;
@@ -343,7 +344,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		ca.mcgill.sel.core.CorePackage.eINSTANCE.eClass();
+		CorePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		FmPackageImpl theFmPackage = (FmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) instanceof FmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) : FmPackage.eINSTANCE);
@@ -1620,21 +1621,22 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 		// Obtain other dependent packages
 		KpimodelPackage theKpimodelPackage = (KpimodelPackage)EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI);
+		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 		UrnPackage theUrnPackage = (UrnPackage)EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI);
 		UrncorePackage theUrncorePackage = (UrncorePackage)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
-		ca.mcgill.sel.core.CorePackage theCorePackage = (ca.mcgill.sel.core.CorePackage)EPackage.Registry.INSTANCE.getEPackage(ca.mcgill.sel.core.CorePackage.eNS_URI);
 
 		// Add subpackages
 		getESubpackages().add(theKpimodelPackage);
 
 		// Add supertypes to classes
+		grLspecEClass.getESuperTypes().add(theCorePackage.getCOREFeatureModel());
+		grLspecEClass.getESuperTypes().add(theCorePackage.getCOREImpactModel());
 		beliefEClass.getESuperTypes().add(this.getGRLNode());
 		intentionalElementEClass.getESuperTypes().add(this.getGRLLinkableElement());
 		actorEClass.getESuperTypes().add(this.getGRLLinkableElement());
 		actorEClass.getESuperTypes().add(theUrncorePackage.getIURNContainer());
 		grlGraphEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
 		grlGraphEClass.getESuperTypes().add(theUrncorePackage.getIURNDiagram());
-		grlGraphEClass.getESuperTypes().add(theCorePackage.getCOREImpactModel());
 		actorRefEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
 		actorRefEClass.getESuperTypes().add(theUrncorePackage.getIURNContainerRef());
 		intentionalElementRefEClass.getESuperTypes().add(this.getGRLNode());

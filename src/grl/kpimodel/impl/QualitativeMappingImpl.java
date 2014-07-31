@@ -7,16 +7,12 @@
 package grl.kpimodel.impl;
 
 import grl.QualitativeLabel;
-
 import grl.kpimodel.KpimodelPackage;
 import grl.kpimodel.QualitativeMapping;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +30,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class QualitativeMappingImpl extends EObjectImpl implements QualitativeMapping {
+public class QualitativeMappingImpl extends MinimalEObjectImpl.Container implements QualitativeMapping {
 	/**
 	 * The default value of the '{@link #getRealWorldLabel() <em>Real World Label</em>}' attribute.
 	 * <!-- begin-user-doc -->

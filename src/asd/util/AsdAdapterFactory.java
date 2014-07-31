@@ -19,6 +19,7 @@ import asd.Outcome;
 import asd.Rule;
 import asd.Subject;
 import asd.Tool;
+import ca.mcgill.sel.core.CORENamedElement;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -132,7 +133,7 @@ public class AsdAdapterFactory extends AdapterFactoryImpl {
 			public Object caseOutcome(Outcome object) {
 				return createOutcomeAdapter();
 			}
-			public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
+			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {

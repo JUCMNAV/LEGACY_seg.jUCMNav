@@ -1,6 +1,6 @@
 package seg.jUCMNav.model;
 
-import fm.FeatureModel;
+import fm.FeatureDiagram;
 import fm.FmFactory;
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
@@ -45,7 +45,6 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.resource.StringConverter;
 
@@ -556,9 +555,9 @@ public class ModelCreationFactory implements CreationFactory {
                     // create a graph
                     result = grlfactory.createGRLGraph();
                     URNNamingHelper.setElementNameAndID(urn, result);
-                } else if (targetClass.equals(FeatureModel.class)) {
+                } else if (targetClass.equals(FeatureDiagram.class)) {
                     // create a diagram
-                    result = fmfactory.createFeatureModel();
+                    result = fmfactory.createFeatureDiagram();
                     URNNamingHelper.setElementNameAndID(urn, result);
                 } else if (targetClass.equals(IntentionalElementRef.class)) {
                     // create the intentional Element ref
@@ -741,7 +740,7 @@ public class ModelCreationFactory implements CreationFactory {
         
         // add a new FMD diagram to the FMDspec, if desired.
         if (createFmd) {
-            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, FeatureModel.class));
+            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, FeatureDiagram.class));
         }
 
         // Create a Strategy and Strategy Group

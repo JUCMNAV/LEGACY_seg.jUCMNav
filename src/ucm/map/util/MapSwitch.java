@@ -6,6 +6,8 @@
  */
 package ucm.map.util;
 
+import ca.mcgill.sel.core.COREModel;
+import ca.mcgill.sel.core.CORENamedElement;
 import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -700,7 +702,7 @@ public class MapSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
+	public Object caseCORENamedElement(CORENamedElement object) {
 		return null;
 	}
 
@@ -790,7 +792,7 @@ public class MapSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREModel(ca.mcgill.sel.core.COREModel object) {
+	public Object caseCOREModel(COREModel object) {
 		return null;
 	}
 

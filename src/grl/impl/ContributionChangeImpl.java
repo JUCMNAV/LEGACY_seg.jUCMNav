@@ -12,13 +12,12 @@ import grl.ContributionContext;
 import grl.ContributionRange;
 import grl.ContributionType;
 import grl.GrlPackage;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -38,7 +37,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *
  * @generated
  */
-public class ContributionChangeImpl extends EObjectImpl implements ContributionChange {
+public class ContributionChangeImpl extends MinimalEObjectImpl.Container implements ContributionChange {
 	/**
 	 * The default value of the '{@link #getNewContribution() <em>New Contribution</em>}' attribute.
 	 * <!-- begin-user-doc -->

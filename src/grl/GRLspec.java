@@ -6,9 +6,9 @@
  */
 package grl;
 
+import ca.mcgill.sel.core.COREFeatureModel;
+import ca.mcgill.sel.core.COREImpactModel;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-
 import urn.URNspec;
 
 /**
@@ -38,7 +38,7 @@ import urn.URNspec;
  * @model
  * @generated
  */
-public interface GRLspec extends EObject {
+public interface GRLspec extends COREFeatureModel, COREImpactModel {
     /**
 	 * Returns the value of the '<em><b>Urnspec</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link urn.URNspec#getGrlspec <em>Grlspec</em>}'.

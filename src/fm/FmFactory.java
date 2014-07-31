@@ -22,13 +22,13 @@ public interface FmFactory extends EFactory {
 	FmFactory eINSTANCE = fm.impl.FmFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Feature Model</em>'.
+	 * Returns a new object of class '<em>Feature Diagram</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Feature Model</em>'.
+	 * @return a new object of class '<em>Feature Diagram</em>'.
 	 * @generated
 	 */
-	FeatureModel createFeatureModel();
+	FeatureDiagram createFeatureDiagram();
 
 	/**
 	 * Returns a new object of class '<em>Feature</em>'.

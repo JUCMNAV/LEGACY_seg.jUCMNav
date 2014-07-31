@@ -7,18 +7,16 @@
 package ucm.impl;
 
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import ucm.UCMspec;
 import ucm.UcmPackage;
 import ucm.performance.GeneralResource;
@@ -47,7 +45,7 @@ import urn.UrnPackage;
  *
  * @generated
  */
-public class UCMspecImpl extends EObjectImpl implements UCMspec {
+public class UCMspecImpl extends MinimalEObjectImpl.Container implements UCMspec {
     /**
 	 * The cached value of the '{@link #getResources() <em>Resources</em>}' containment reference list.
 	 * <!-- begin-user-doc -->

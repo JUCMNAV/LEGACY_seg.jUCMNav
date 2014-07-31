@@ -4,7 +4,7 @@
     editorDirectory="/seg.jUCMNav.editor/src" modelPluginID="seg.jUCMNav" runtimeJar="true"
     modelName="URN" editPluginClass="grl.provider.URNEditPlugin" editorPluginClass="grl.presentation.URNEditorPlugin"
     importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Users\damyot\Documents\work\jucmnav\URN_27.mdl</foreignModel>
+  <foreignModel>C:\Users\gm\gM\new\URN\Metamodel\URN_27-GM.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -781,7 +781,7 @@
     </genClasses>
   </genPackages>
   <genPackages prefix="Fm" disposableProviderFactory="true" ecorePackage="fm.ecore#/">
-    <genClasses ecoreClass="fm.ecore#//FeatureModel"/>
+    <genClasses ecoreClass="fm.ecore#//FeatureDiagram"/>
     <genClasses ecoreClass="fm.ecore#//Feature">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute fm.ecore#//Feature/selectable"/>
     </genClasses>
@@ -791,11 +791,11 @@
   <genPackages prefix="Core" disposableProviderFactory="true" ecorePackage="core.ecore#/">
     <genClasses image="false" ecoreClass="core.ecore#//COREFeatureModel"/>
     <genClasses image="false" ecoreClass="core.ecore#//COREFeature"/>
-    <genClasses image="false" ecoreClass="core.ecore#//COREModel"/>
     <genClasses image="false" ecoreClass="core.ecore#//COREImpactModel"/>
     <genClasses ecoreClass="core.ecore#//COREConcern"/>
     <genClasses image="false" ecoreClass="core.ecore#//CORENamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute core.ecore#//CORENamedElement/name"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="core.ecore#//COREModel"/>
   </genPackages>
 </genmodel:GenModel>

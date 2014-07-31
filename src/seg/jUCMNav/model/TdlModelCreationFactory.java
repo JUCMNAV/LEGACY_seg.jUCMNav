@@ -1,6 +1,5 @@
 package seg.jUCMNav.model;
 
-import fm.FeatureModel;
 import fm.FmFactory;
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;

@@ -11,7 +11,7 @@ import seg.jUCMNav.model.commands.IGlobalStackCommand;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 import urncore.IURNDiagram;
-import fm.FeatureModel;
+import fm.FeatureDiagram;
 
 /**
  * This command add a new FeatureModel graph to the model
@@ -19,7 +19,7 @@ import fm.FeatureModel;
 public class CreateFMDCommand extends Command implements JUCMNavCommand, IGlobalStackCommand {
 
     private URNspec urn;
-    private FeatureModel diagram;
+    private FeatureDiagram diagram;
     private int oldCount;
     private int index=-1;
 
@@ -27,7 +27,7 @@ public class CreateFMDCommand extends Command implements JUCMNavCommand, IGlobal
         this.urn = urn;
 
         // must be created here for getDiagram() to work properly.
-        diagram = (FeatureModel) ModelCreationFactory.getNewObject(urn, FeatureModel.class);
+        diagram = (FeatureDiagram) ModelCreationFactory.getNewObject(urn, FeatureDiagram.class);
         setLabel(Messages.getString("CreateFMDCommand.createFMD")); //$NON-NLS-1$
     }
 
@@ -46,7 +46,7 @@ public class CreateFMDCommand extends Command implements JUCMNavCommand, IGlobal
         redo();
     }
 
-    public FeatureModel getDiagram() {
+    public FeatureDiagram getDiagram() {
         return diagram;
     }
 

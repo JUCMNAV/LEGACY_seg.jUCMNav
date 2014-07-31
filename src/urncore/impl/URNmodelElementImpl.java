@@ -6,6 +6,7 @@
  */
 package urncore.impl;
 
+import ca.mcgill.sel.core.impl.CORENamedElementImpl;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -41,7 +42,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public abstract class URNmodelElementImpl extends ca.mcgill.sel.core.impl.CORENamedElementImpl implements URNmodelElement {
+public abstract class URNmodelElementImpl extends CORENamedElementImpl implements URNmodelElement {
     /**
 	 * The cached value of the '{@link #getFromLinks() <em>From Links</em>}' reference list.
 	 * <!-- begin-user-doc -->

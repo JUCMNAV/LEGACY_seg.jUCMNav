@@ -6,6 +6,7 @@
  */
 package ucm.map;
 
+import ca.mcgill.sel.core.COREModel;
 import org.eclipse.emf.common.util.EList;
 import urncore.IURNDiagram;
 import urncore.UCMmodelElement;
@@ -27,7 +28,7 @@ import urncore.UCMmodelElement;
  * @model
  * @generated
  */
-public interface UCMmap extends UCMmodelElement, IURNDiagram, ca.mcgill.sel.core.COREModel {
+public interface UCMmap extends UCMmodelElement, IURNDiagram, COREModel {
     /**
 	 * Returns the value of the '<em><b>Singleton</b></em>' attribute.
 	 * The default value is <code>"true"</code>.

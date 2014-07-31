@@ -19,5 +19,5 @@ import urncore.IURNDiagram;
  * @model
  * @generated
  */
-public interface GRLGraph extends GRLmodelElement, IURNDiagram, ca.mcgill.sel.core.COREImpactModel {
+public interface GRLGraph extends GRLmodelElement, IURNDiagram {
 } // GRLGraph

@@ -9,8 +9,7 @@ package urncore.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import urncore.Label;
 import urncore.UrncorePackage;
 
@@ -28,7 +27,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public abstract class LabelImpl extends EObjectImpl implements Label {
+public abstract class LabelImpl extends MinimalEObjectImpl.Container implements Label {
     /**
 	 * The default value of the '{@link #getDeltaX() <em>Delta X</em>}' attribute.
 	 * <!-- begin-user-doc -->

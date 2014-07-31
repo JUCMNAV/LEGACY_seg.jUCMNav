@@ -11,9 +11,8 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import urncore.Comment;
 import urncore.IURNDiagram;
 import urncore.UrncorePackage;
@@ -37,7 +36,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public class CommentImpl extends EObjectImpl implements Comment {
+public class CommentImpl extends MinimalEObjectImpl.Container implements Comment {
 	/**
 	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->

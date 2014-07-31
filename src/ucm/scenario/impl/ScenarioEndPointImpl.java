@@ -11,9 +11,8 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
 import ucm.scenario.ScenarioDef;
@@ -36,7 +35,7 @@ import ucm.scenario.ScenarioPackage;
  *
  * @generated
  */
-public class ScenarioEndPointImpl extends EObjectImpl implements ScenarioEndPoint {
+public class ScenarioEndPointImpl extends MinimalEObjectImpl.Container implements ScenarioEndPoint {
     /**
 	 * The default value of the '{@link #isEnabled() <em>Enabled</em>}' attribute.
 	 * <!-- begin-user-doc -->

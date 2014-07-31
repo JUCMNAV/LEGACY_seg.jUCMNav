@@ -19,6 +19,7 @@ import asd.Outcome;
 import asd.Rule;
 import asd.Subject;
 import asd.Tool;
+import ca.mcgill.sel.core.CORENamedElement;
 import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -530,7 +531,7 @@ public class AsdSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
+	public Object caseCORENamedElement(CORENamedElement object) {
 		return null;
 	}
 

@@ -57,14 +57,14 @@ public interface FmPackage extends EPackage {
 	FmPackage eINSTANCE = fm.impl.FmPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link fm.impl.FeatureModelImpl <em>Feature Model</em>}' class.
+	 * The meta object id for the '{@link fm.impl.FeatureDiagramImpl <em>Feature Diagram</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fm.impl.FeatureModelImpl
-	 * @see fm.impl.FmPackageImpl#getFeatureModel()
+	 * @see fm.impl.FeatureDiagramImpl
+	 * @see fm.impl.FmPackageImpl#getFeatureDiagram()
 	 * @generated
 	 */
-	int FEATURE_MODEL = 0;
+	int FEATURE_DIAGRAM = 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -73,7 +73,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__NAME = GrlPackage.GRL_GRAPH__NAME;
+	int FEATURE_DIAGRAM__NAME = GrlPackage.GRL_GRAPH__NAME;
 
 	/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
@@ -82,7 +82,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__FROM_LINKS = GrlPackage.GRL_GRAPH__FROM_LINKS;
+	int FEATURE_DIAGRAM__FROM_LINKS = GrlPackage.GRL_GRAPH__FROM_LINKS;
 
 	/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
@@ -91,7 +91,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__TO_LINKS = GrlPackage.GRL_GRAPH__TO_LINKS;
+	int FEATURE_DIAGRAM__TO_LINKS = GrlPackage.GRL_GRAPH__TO_LINKS;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -100,7 +100,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__ID = GrlPackage.GRL_GRAPH__ID;
+	int FEATURE_DIAGRAM__ID = GrlPackage.GRL_GRAPH__ID;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -109,7 +109,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__DESCRIPTION = GrlPackage.GRL_GRAPH__DESCRIPTION;
+	int FEATURE_DIAGRAM__DESCRIPTION = GrlPackage.GRL_GRAPH__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
@@ -118,7 +118,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__METADATA = GrlPackage.GRL_GRAPH__METADATA;
+	int FEATURE_DIAGRAM__METADATA = GrlPackage.GRL_GRAPH__METADATA;
 
 	/**
 	 * The feature id for the '<em><b>Inconcern</b></em>' reference.
@@ -127,7 +127,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__INCONCERN = GrlPackage.GRL_GRAPH__INCONCERN;
+	int FEATURE_DIAGRAM__INCONCERN = GrlPackage.GRL_GRAPH__INCONCERN;
 
 	/**
 	 * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -136,7 +136,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__URNDEFINITION = GrlPackage.GRL_GRAPH__URNDEFINITION;
+	int FEATURE_DIAGRAM__URNDEFINITION = GrlPackage.GRL_GRAPH__URNDEFINITION;
 
 	/**
 	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
@@ -145,7 +145,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__NODES = GrlPackage.GRL_GRAPH__NODES;
+	int FEATURE_DIAGRAM__NODES = GrlPackage.GRL_GRAPH__NODES;
 
 	/**
 	 * The feature id for the '<em><b>Cont Refs</b></em>' containment reference list.
@@ -154,7 +154,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__CONT_REFS = GrlPackage.GRL_GRAPH__CONT_REFS;
+	int FEATURE_DIAGRAM__CONT_REFS = GrlPackage.GRL_GRAPH__CONT_REFS;
 
 	/**
 	 * The feature id for the '<em><b>Connections</b></em>' containment reference list.
@@ -163,7 +163,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__CONNECTIONS = GrlPackage.GRL_GRAPH__CONNECTIONS;
+	int FEATURE_DIAGRAM__CONNECTIONS = GrlPackage.GRL_GRAPH__CONNECTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Concern</b></em>' reference.
@@ -172,7 +172,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__CONCERN = GrlPackage.GRL_GRAPH__CONCERN;
+	int FEATURE_DIAGRAM__CONCERN = GrlPackage.GRL_GRAPH__CONCERN;
 
 	/**
 	 * The feature id for the '<em><b>Comments</b></em>' containment reference list.
@@ -181,43 +181,16 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__COMMENTS = GrlPackage.GRL_GRAPH__COMMENTS;
+	int FEATURE_DIAGRAM__COMMENTS = GrlPackage.GRL_GRAPH__COMMENTS;
 
 	/**
-	 * The feature id for the '<em><b>Reuses</b></em>' containment reference list.
+	 * The number of structural features of the '<em>Feature Diagram</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__REUSES = GrlPackage.GRL_GRAPH__REUSES;
-
-	/**
-	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_MODEL__MODEL_ELEMENTS = GrlPackage.GRL_GRAPH__MODEL_ELEMENTS;
-
-	/**
-	 * The feature id for the '<em><b>Realizes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_MODEL__REALIZES = GrlPackage.GRL_GRAPH__REALIZES;
-
-	/**
-	 * The number of structural features of the '<em>Feature Model</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_MODEL_FEATURE_COUNT = GrlPackage.GRL_GRAPH_FEATURE_COUNT + 0;
+	int FEATURE_DIAGRAM_FEATURE_COUNT = GrlPackage.GRL_GRAPH_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link fm.impl.FeatureImpl <em>Feature</em>}' class.
@@ -728,14 +701,14 @@ public interface FmPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link fm.FeatureModel <em>Feature Model</em>}'.
+	 * Returns the meta object for class '{@link fm.FeatureDiagram <em>Feature Diagram</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Feature Model</em>'.
-	 * @see fm.FeatureModel
+	 * @return the meta object for class '<em>Feature Diagram</em>'.
+	 * @see fm.FeatureDiagram
 	 * @generated
 	 */
-	EClass getFeatureModel();
+	EClass getFeatureDiagram();
 
 	/**
 	 * Returns the meta object for class '{@link fm.Feature <em>Feature</em>}'.
@@ -801,14 +774,14 @@ public interface FmPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link fm.impl.FeatureModelImpl <em>Feature Model</em>}' class.
+		 * The meta object literal for the '{@link fm.impl.FeatureDiagramImpl <em>Feature Diagram</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fm.impl.FeatureModelImpl
-		 * @see fm.impl.FmPackageImpl#getFeatureModel()
+		 * @see fm.impl.FeatureDiagramImpl
+		 * @see fm.impl.FmPackageImpl#getFeatureDiagram()
 		 * @generated
 		 */
-		EClass FEATURE_MODEL = eINSTANCE.getFeatureModel();
+		EClass FEATURE_DIAGRAM = eINSTANCE.getFeatureDiagram();
 
 		/**
 		 * The meta object literal for the '{@link fm.impl.FeatureImpl <em>Feature</em>}' class.

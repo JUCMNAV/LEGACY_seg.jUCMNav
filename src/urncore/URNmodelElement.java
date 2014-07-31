@@ -6,6 +6,7 @@
  */
 package urncore;
 
+import ca.mcgill.sel.core.CORENamedElement;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -29,7 +30,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface URNmodelElement extends ca.mcgill.sel.core.CORENamedElement {
+public interface URNmodelElement extends CORENamedElement {
     /**
 	 * Returns the value of the '<em><b>From Links</b></em>' reference list.
 	 * The list contents are of type {@link urn.URNlink}.

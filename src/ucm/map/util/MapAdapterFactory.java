@@ -6,6 +6,8 @@
  */
 package ucm.map.util;
 
+import ca.mcgill.sel.core.COREModel;
+import ca.mcgill.sel.core.CORENamedElement;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -145,7 +147,7 @@ public class MapAdapterFactory extends AdapterFactoryImpl {
 			public Object caseResponsibilityBinding(ResponsibilityBinding object) {
 				return createResponsibilityBindingAdapter();
 			}
-			public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
+			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {
@@ -163,7 +165,7 @@ public class MapAdapterFactory extends AdapterFactoryImpl {
 			public Object caseIURNDiagram(IURNDiagram object) {
 				return createIURNDiagramAdapter();
 			}
-			public Object caseCOREModel(ca.mcgill.sel.core.COREModel object) {
+			public Object caseCOREModel(COREModel object) {
 				return createCOREModelAdapter();
 			}
 			public Object caseIURNContainerRef(IURNContainerRef object) {

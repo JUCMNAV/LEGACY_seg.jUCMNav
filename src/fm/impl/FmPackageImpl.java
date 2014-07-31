@@ -3,32 +3,54 @@
 package fm.impl;
 
 import asd.AsdPackage;
+
 import asd.impl.AsdPackageImpl;
+
+import ca.mcgill.sel.core.CorePackage;
+
 import fm.Feature;
-import fm.FeatureModel;
+import fm.FeatureDiagram;
 import fm.FmFactory;
 import fm.FmPackage;
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
+
 import grl.GrlPackage;
+
 import grl.impl.GrlPackageImpl;
+
 import grl.kpimodel.KpimodelPackage;
+
 import grl.kpimodel.impl.KpimodelPackageImpl;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import ucm.UcmPackage;
+
 import ucm.impl.UcmPackageImpl;
+
 import ucm.map.MapPackage;
+
 import ucm.map.impl.MapPackageImpl;
+
 import ucm.performance.PerformancePackage;
+
 import ucm.performance.impl.PerformancePackageImpl;
+
 import ucm.scenario.ScenarioPackage;
+
 import ucm.scenario.impl.ScenarioPackageImpl;
+
 import urn.UrnPackage;
+
 import urn.impl.UrnPackageImpl;
+
 import urncore.UrncorePackage;
+
 import urncore.impl.UrncorePackageImpl;
 
 /**
@@ -43,7 +65,7 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass featureModelEClass = null;
+	private EClass featureDiagramEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -113,7 +135,7 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		ca.mcgill.sel.core.CorePackage.eINSTANCE.eClass();
+		CorePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackage.eINSTANCE);
@@ -164,8 +186,8 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getFeatureModel() {
-		return featureModelEClass;
+	public EClass getFeatureDiagram() {
+		return featureDiagramEClass;
 	}
 
 	/**
@@ -232,7 +254,7 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 		isCreated = true;
 
 		// Create classes and their features
-		featureModelEClass = createEClass(FEATURE_MODEL);
+		featureDiagramEClass = createEClass(FEATURE_DIAGRAM);
 
 		featureEClass = createEClass(FEATURE);
 		createEAttribute(featureEClass, FEATURE__SELECTABLE);
@@ -267,18 +289,17 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 
 		// Obtain other dependent packages
 		GrlPackage theGrlPackage = (GrlPackage)EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI);
-		ca.mcgill.sel.core.CorePackage theCorePackage = (ca.mcgill.sel.core.CorePackage)EPackage.Registry.INSTANCE.getEPackage(ca.mcgill.sel.core.CorePackage.eNS_URI);
+		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 
 		// Add supertypes to classes
-		featureModelEClass.getESuperTypes().add(theGrlPackage.getGRLGraph());
-		featureModelEClass.getESuperTypes().add(theCorePackage.getCOREFeatureModel());
+		featureDiagramEClass.getESuperTypes().add(theGrlPackage.getGRLGraph());
 		featureEClass.getESuperTypes().add(theGrlPackage.getIntentionalElement());
 		featureEClass.getESuperTypes().add(theCorePackage.getCOREFeature());
 		mandatoryFMLinkEClass.getESuperTypes().add(theGrlPackage.getContribution());
 		optionalFMLinkEClass.getESuperTypes().add(theGrlPackage.getContribution());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(featureModelEClass, FeatureModel.class, "FeatureModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(featureDiagramEClass, FeatureDiagram.class, "FeatureDiagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(featureEClass, Feature.class, "Feature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFeature_Selectable(), ecorePackage.getEBoolean(), "selectable", "false", 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

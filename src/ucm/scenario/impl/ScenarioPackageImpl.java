@@ -8,6 +8,7 @@ package ucm.scenario.impl;
 
 import asd.AsdPackage;
 import asd.impl.AsdPackageImpl;
+import ca.mcgill.sel.core.CorePackage;
 import fm.FmPackage;
 import fm.impl.FmPackageImpl;
 import grl.GrlPackage;
@@ -142,7 +143,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		isInited = true;
 
 		// Initialize simple dependencies
-		ca.mcgill.sel.core.CorePackage.eINSTANCE.eClass();
+		CorePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		FmPackageImpl theFmPackage = (FmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) instanceof FmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) : FmPackage.eINSTANCE);

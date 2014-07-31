@@ -8,6 +8,7 @@ package urncore.impl;
 
 import asd.AsdPackage;
 import asd.impl.AsdPackageImpl;
+import ca.mcgill.sel.core.CorePackage;
 import fm.FmPackage;
 import fm.impl.FmPackageImpl;
 import grl.GrlPackage;
@@ -255,7 +256,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		ca.mcgill.sel.core.CorePackage.eINSTANCE.eClass();
+		CorePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		FmPackageImpl theFmPackage = (FmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) instanceof FmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) : FmPackage.eINSTANCE);
@@ -1510,7 +1511,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		PerformancePackage thePerformancePackage = (PerformancePackage)EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI);
 		MapPackage theMapPackage = (MapPackage)EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI);
 		ScenarioPackage theScenarioPackage = (ScenarioPackage)EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI);
-		ca.mcgill.sel.core.CorePackage theCorePackage = (ca.mcgill.sel.core.CorePackage)EPackage.Registry.INSTANCE.getEPackage(ca.mcgill.sel.core.CorePackage.eNS_URI);
+		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 
 		// Add supertypes to classes
 		responsibilityEClass.getESuperTypes().add(this.getUCMmodelElement());

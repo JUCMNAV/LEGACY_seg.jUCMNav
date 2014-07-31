@@ -7,18 +7,16 @@
 package ucm.map.impl;
 
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import ucm.map.ComponentBinding;
 import ucm.map.InBinding;
 import ucm.map.MapPackage;
@@ -53,7 +51,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public class PluginBindingImpl extends EObjectImpl implements PluginBinding {
+public class PluginBindingImpl extends MinimalEObjectImpl.Container implements PluginBinding {
     /**
 	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->

@@ -2,15 +2,23 @@
  */
 package fm.util;
 
+import ca.mcgill.sel.core.COREFeature;
+import ca.mcgill.sel.core.COREModelElement;
+import ca.mcgill.sel.core.CORENamedElement;
+
 import fm.*;
+
 import grl.Contribution;
 import grl.ElementLink;
 import grl.GRLGraph;
 import grl.GRLLinkableElement;
 import grl.IntentionalElement;
+
 import java.util.List;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+
 import urncore.GRLmodelElement;
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
@@ -89,17 +97,14 @@ public class FmSwitch {
 	 */
 	protected Object doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case FmPackage.FEATURE_MODEL: {
-				FeatureModel featureModel = (FeatureModel)theEObject;
-				Object result = caseFeatureModel(featureModel);
-				if (result == null) result = caseGRLGraph(featureModel);
-				if (result == null) result = caseCOREFeatureModel(featureModel);
-				if (result == null) result = caseGRLmodelElement(featureModel);
-				if (result == null) result = caseIURNDiagram(featureModel);
-				if (result == null) result = caseCOREImpactModel(featureModel);
-				if (result == null) result = caseURNmodelElement(featureModel);
-				if (result == null) result = caseCOREModel(featureModel);
-				if (result == null) result = caseCORENamedElement(featureModel);
+			case FmPackage.FEATURE_DIAGRAM: {
+				FeatureDiagram featureDiagram = (FeatureDiagram)theEObject;
+				Object result = caseFeatureDiagram(featureDiagram);
+				if (result == null) result = caseGRLGraph(featureDiagram);
+				if (result == null) result = caseGRLmodelElement(featureDiagram);
+				if (result == null) result = caseIURNDiagram(featureDiagram);
+				if (result == null) result = caseURNmodelElement(featureDiagram);
+				if (result == null) result = caseCORENamedElement(featureDiagram);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -143,17 +148,17 @@ public class FmSwitch {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Feature Model</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Feature Diagram</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Feature Model</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Feature Diagram</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseFeatureModel(FeatureModel object) {
+	public Object caseFeatureDiagram(FeatureDiagram object) {
 		return null;
 	}
 
@@ -213,7 +218,7 @@ public class FmSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
+	public Object caseCORENamedElement(CORENamedElement object) {
 		return null;
 	}
 
@@ -263,36 +268,6 @@ public class FmSwitch {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>CORE Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>CORE Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseCOREModel(ca.mcgill.sel.core.COREModel object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>CORE Impact Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>CORE Impact Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseCOREImpactModel(ca.mcgill.sel.core.COREImpactModel object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>GRL Graph</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -304,21 +279,6 @@ public class FmSwitch {
 	 * @generated
 	 */
 	public Object caseGRLGraph(GRLGraph object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>CORE Feature Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>CORE Feature Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseCOREFeatureModel(ca.mcgill.sel.core.COREFeatureModel object) {
 		return null;
 	}
 
@@ -363,7 +323,7 @@ public class FmSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREModelElement(ca.mcgill.sel.core.COREModelElement object) {
+	public Object caseCOREModelElement(COREModelElement object) {
 		return null;
 	}
 
@@ -378,7 +338,7 @@ public class FmSwitch {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseCOREFeature(ca.mcgill.sel.core.COREFeature object) {
+	public Object caseCOREFeature(COREFeature object) {
 		return null;
 	}
 

@@ -1,6 +1,6 @@
 package seg.jUCMNav.editors;
 
-import fm.FeatureModel;
+import fm.FeatureDiagram;
 import grl.GRLGraph;
 
 import java.util.ArrayList;
@@ -19,7 +19,6 @@ import seg.jUCMNav.editors.palette.FmdPaletteRoot;
 import seg.jUCMNav.editors.palette.GrlPaletteRoot;
 import seg.jUCMNav.editparts.GrlConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GrlGraphicalEditPartFactory;
-import seg.jUCMNav.model.ModelCreationFactory;
 import urncore.IURNDiagram;
 
 /**
@@ -107,7 +106,7 @@ public class GrlEditor extends UrnEditor {
     public PaletteRoot getPaletteRoot() {
     	if (graphModel == null) return paletteRoot;
         if (null == paletteRoot) {
-        	if (graphModel instanceof FeatureModel) {
+        	if (graphModel instanceof FeatureDiagram) {
                 paletteRoot = new FmdPaletteRoot(parent);
         	} else {
                 paletteRoot = new GrlPaletteRoot(parent);

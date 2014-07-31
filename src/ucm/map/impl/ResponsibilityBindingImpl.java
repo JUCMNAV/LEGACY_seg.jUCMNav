@@ -11,9 +11,8 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import ucm.map.MapPackage;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
@@ -36,7 +35,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public class ResponsibilityBindingImpl extends EObjectImpl implements ResponsibilityBinding {
+public class ResponsibilityBindingImpl extends MinimalEObjectImpl.Container implements ResponsibilityBinding {
     /**
 	 * The cached value of the '{@link #getPluginResp() <em>Plugin Resp</em>}' reference.
 	 * <!-- begin-user-doc -->

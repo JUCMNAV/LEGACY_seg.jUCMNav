@@ -6,6 +6,10 @@
  */
 package grl.util;
 
+import ca.mcgill.sel.core.COREFeatureModel;
+import ca.mcgill.sel.core.COREImpactModel;
+import ca.mcgill.sel.core.COREModel;
+import ca.mcgill.sel.core.CORENamedElement;
 import grl.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -149,8 +153,17 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 			public Object caseContributionRange(ContributionRange object) {
 				return createContributionRangeAdapter();
 			}
-			public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
+			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
+			}
+			public Object caseCOREModel(COREModel object) {
+				return createCOREModelAdapter();
+			}
+			public Object caseCOREFeatureModel(COREFeatureModel object) {
+				return createCOREFeatureModelAdapter();
+			}
+			public Object caseCOREImpactModel(COREImpactModel object) {
+				return createCOREImpactModelAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {
 				return createURNmodelElementAdapter();
@@ -166,12 +179,6 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseIURNDiagram(IURNDiagram object) {
 				return createIURNDiagramAdapter();
-			}
-			public Object caseCOREModel(ca.mcgill.sel.core.COREModel object) {
-				return createCOREModelAdapter();
-			}
-			public Object caseCOREImpactModel(ca.mcgill.sel.core.COREImpactModel object) {
-				return createCOREImpactModelAdapter();
 			}
 			public Object caseIURNContainerRef(IURNContainerRef object) {
 				return createIURNContainerRefAdapter();
@@ -642,6 +649,20 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCOREModelAdapter() {
+		return null;
+	}
+
+				/**
+	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREFeatureModel <em>CORE Feature Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ca.mcgill.sel.core.COREFeatureModel
+	 * @generated
+	 */
+	public Adapter createCOREFeatureModelAdapter() {
 		return null;
 	}
 

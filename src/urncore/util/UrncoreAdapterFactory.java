@@ -6,6 +6,7 @@
  */
 package urncore.util;
 
+import ca.mcgill.sel.core.CORENamedElement;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -127,7 +128,7 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
 			public Object caseComment(Comment object) {
 				return createCommentAdapter();
 			}
-			public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
+			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
 			public Object defaultCase(EObject object) {

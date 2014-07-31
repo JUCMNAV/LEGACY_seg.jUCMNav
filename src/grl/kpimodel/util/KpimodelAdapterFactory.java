@@ -6,6 +6,7 @@
  */
 package grl.kpimodel.util;
 
+import ca.mcgill.sel.core.CORENamedElement;
 import grl.GRLLinkableElement;
 import grl.GRLNode;
 import grl.IntentionalElement;
@@ -110,7 +111,7 @@ public class KpimodelAdapterFactory extends AdapterFactoryImpl {
 			public Object caseQualitativeMapping(QualitativeMapping object) {
 				return createQualitativeMappingAdapter();
 			}
-			public Object caseCORENamedElement(ca.mcgill.sel.core.CORENamedElement object) {
+			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {

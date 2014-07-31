@@ -10,20 +10,17 @@ import grl.ElementLink;
 import grl.GrlPackage;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
-
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import urncore.ConnectionLabel;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
@@ -47,7 +44,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public class LinkRefImpl extends EObjectImpl implements LinkRef {
+public class LinkRefImpl extends MinimalEObjectImpl.Container implements LinkRef {
     /**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->

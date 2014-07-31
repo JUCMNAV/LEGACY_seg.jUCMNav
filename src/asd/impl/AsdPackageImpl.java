@@ -20,6 +20,7 @@ import asd.Outcome;
 import asd.Rule;
 import asd.Subject;
 import asd.Tool;
+import ca.mcgill.sel.core.CorePackage;
 import fm.FmPackage;
 import fm.impl.FmPackageImpl;
 import grl.GrlPackage;
@@ -217,7 +218,7 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		ca.mcgill.sel.core.CorePackage.eINSTANCE.eClass();
+		CorePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		FmPackageImpl theFmPackage = (FmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) instanceof FmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI) : FmPackage.eINSTANCE);

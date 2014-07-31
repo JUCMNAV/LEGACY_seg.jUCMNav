@@ -9,15 +9,13 @@ package grl.kpimodel.impl;
 import grl.kpimodel.KPIModelLink;
 import grl.kpimodel.KPIModelLinkRef;
 import grl.kpimodel.KpimodelPackage;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import urncore.ConnectionLabel;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
@@ -40,7 +38,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public class KPIModelLinkRefImpl extends EObjectImpl implements KPIModelLinkRef {
+public class KPIModelLinkRefImpl extends MinimalEObjectImpl.Container implements KPIModelLinkRef {
     /**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->

@@ -6,14 +6,20 @@
  */
 package grl.impl;
 
+import ca.mcgill.sel.core.COREFeature;
+import ca.mcgill.sel.core.COREImpactModelElement;
+import ca.mcgill.sel.core.impl.COREFeatureModelImpl;
+import fm.Feature;
 import grl.Actor;
 import grl.ContributionContext;
 import grl.ContributionContextGroup;
 import grl.ElementLink;
+import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.GrlPackage;
 import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 import grl.StrategiesGroup;
 import grl.kpimodel.IndicatorGroup;
 import grl.kpimodel.KPIConversion;
@@ -22,6 +28,11 @@ import grl.kpimodel.KPIModelLink;
 import grl.kpimodel.KpimodelPackage;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -29,11 +40,19 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import seg.jUCMNav.core.COREFactory4URN;
+import seg.jUCMNav.editparts.IntentionalElementEditPart;
+import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
+import seg.jUCMNav.model.commands.create.CreateStrategyCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeNumericalEvaluationCommand;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.util.FeatureUtil;
 import urn.URNspec;
 import urn.UrnPackage;
 
@@ -61,7 +80,7 @@ import urn.UrnPackage;
  *
  * @generated
  */
-public class GRLspecImpl extends EObjectImpl implements GRLspec {
+public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
     /**
 	 * The cached value of the '{@link #getIntElements() <em>Int Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -623,4 +642,123 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
 		return super.eIsSet(featureID);
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	public COREFeature getGlobalRoot() {
+		COREFactory4URN.setCOREInterfaceActive(true);
+//		GRLspec grl = this.getUrndefinition().getUrnspec().getGrlspec();
+//		List<Feature> roots = FeatureUtil.getRootFeatures(grl);
+		List<Feature> roots = FeatureUtil.getRootFeatures(this);
+		// only returns the first of possible many roots (URN does not constrain feature models to one root)
+		if (roots.isEmpty())
+			return (COREFeature) COREFactory4URN.returnResult(null);
+		else
+			return (COREFeature) COREFactory4URN.returnResult(roots.get(0)); 
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	public EvaluationResult select(List<COREFeature> features) {
+		COREFactory4URN.setCOREInterfaceActive(true);
+		if (features.size() == 0)
+			return (EvaluationResult) COREFactory4URN.returnResult(null);
+		Iterator<COREFeature> it = features.iterator();
+		URNspec urn = null;
+		Vector<IntentionalElementRef> featureRefs = new Vector<IntentionalElementRef>();
+		HashMap<COREFeature, String> featuresHash = new HashMap<COREFeature, String>();
+		while (it.hasNext()) {
+			COREFeature feature = it.next();
+			if (feature instanceof Feature) {
+				if (urn == null)
+					urn = ((Feature) feature).getGrlspec().getUrnspec();
+				if (!((Feature) feature).getRefs().isEmpty()) {
+					featureRefs.add((IntentionalElementRef) ((Feature) feature).getRefs().get(0));
+					featuresHash.put(feature, "");
+				}
+			}
+		}
+		if (urn == null)
+			return (EvaluationResult) COREFactory4URN.returnResult(null);
+
+		// create a new strategy based on the list of selected features
+		// TODO this creates a new strategy group each time, there should be a dedicated group for CORE
+		StrategiesGroup group = (StrategiesGroup) ModelCreationFactory.getNewObject(urn, StrategiesGroup.class);
+		CreateStrategiesGroupCommand csgCmd = new CreateStrategiesGroupCommand(urn, group);
+		if (csgCmd.canExecute())
+			csgCmd.execute();
+		else
+			return (EvaluationResult) COREFactory4URN.returnResult(null);
+		CreateStrategyCommand csCmd = new CreateStrategyCommand(urn, group);
+		EvaluationStrategy strategy = csCmd.getStrategy();
+		if (csCmd.canExecute())
+			csCmd.execute();
+		else 
+			return (EvaluationResult) COREFactory4URN.returnResult(null);
+		// select the new strategy and set the values of the selected features
+        EvaluationStrategyManager.getInstance().setStrategy(strategy);
+		ChangeNumericalEvaluationCommand cneCmd = new ChangeNumericalEvaluationCommand(featureRefs, ChangeNumericalEvaluationCommand.USER_ENTRY, 100, null);
+		if (cneCmd.canExecute())
+			cneCmd.execute();
+		else
+			return (EvaluationResult) COREFactory4URN.returnResult(null);
+
+		// execute the strategy by calling setStrategy again
+		EvaluationStrategyManager.getInstance().setStrategy(strategy);
+
+		// collect the results and prepare the EvaluationResult
+		// TODO only features are done so far, impact model results still need to be done
+		EvaluationResult er = new EvaluationResult();
+		Iterator it2 = urn.getGrlspec().getIntElements().iterator();
+		while (it2.hasNext()) {
+			IntentionalElement ie = (IntentionalElement) it2.next();
+			Evaluation evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(ie);
+			String color = IntentionalElementEditPart.determineColor(urn, ie, evaluation, false, IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL);
+			boolean warning = IntentionalElementEditPart.determineOverriddenWarning(ie, IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) || 
+					IntentionalElementEditPart.determineOrXorWarning(ie, IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL);
+			if (ie instanceof COREFeature) {
+				// color 96,255,96 = SELECTED unless in featuresHash, then USER_SELECTED
+				// color 169,169,169 = NOT_SELECTED_NO_ACTION
+				// color anything else but the above two = NOT_SELECTED
+				// warning = WARNING
+				SelectionStatus selectionStatus = SelectionStatus.NOT_SELECTED;
+				if (warning)
+					selectionStatus = SelectionStatus.WARNING;
+				else if (color.equals("169,169,169"))
+					selectionStatus = SelectionStatus.NOT_SELECTED_NO_ACTION;
+				else if (color.equals("96,255,96")) {
+					if (featuresHash.containsKey(ie))
+						selectionStatus = SelectionStatus.USER_SELECTED;
+					else
+						selectionStatus = SelectionStatus.SELECTED;
+				}
+				er.featureResult.put((COREFeature) ie, selectionStatus);
+			}			
+		}
+
+		// return the evaluation result
+		return (EvaluationResult) COREFactory4URN.returnResult(er);
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	public class EvaluationResult {
+		public Map<COREFeature, SelectionStatus> featureResult = new HashMap<COREFeature, SelectionStatus>();
+		public Map<COREImpactModelElement, Integer> impactResult = new HashMap<COREImpactModelElement, Integer>();	
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	public enum SelectionStatus {
+		SELECTED, NOT_SELECTED, USER_SELECTED, NOT_SELECTED_NO_ACTION, WARNING;		
+	}
+
+	
 } //GRLspecImpl

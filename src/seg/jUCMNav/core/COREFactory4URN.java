@@ -1,7 +1,8 @@
 package seg.jUCMNav.core;
 
-import fm.FeatureModel;
+import fm.FeatureDiagram;
 import grl.GRLGraph;
+import grl.GRLspec;
 import grl.IntentionalElementRef;
 
 import java.util.Iterator;
@@ -39,50 +40,60 @@ public class COREFactory4URN extends AbstractConcernFactory {
 	@Override
 	protected COREFeatureModel createFeatureModel(COREConcern cc) {
 		setCOREInterfaceActive(true);
-		// consistency checks: correct parameter, feature model does not exist, does impact model exist?
+		// consistency checks: correct parameter, does feature model exist? does feature diagram exist?
 		if (cc == null)
 			return (COREFeatureModel) returnResult(null);
-		GRLGraph im = null;		
+		GRLspec grl = null;		
 		Iterator<COREModel> it = cc.getModels().iterator();
 		while (it.hasNext()) {
 			COREModel model = it.next();
-			if (model instanceof COREFeatureModel && model instanceof FeatureModel)
-				return (COREFeatureModel) returnResult(null);
-			// need to check that model is not a FeatureModel because any FeatureModel is also a GRLGraph/COREImpactModel
-			if (model instanceof COREImpactModel && model instanceof GRLGraph && !(model instanceof FeatureModel))
-				im = (GRLGraph) model;			
+			if (model instanceof COREFeatureModel && model instanceof GRLspec) {
+				// a GRLspec (i.e., feature model) exists, but has a feature diagram already been added
+				grl = (GRLspec) model;
+				Iterator it2 = grl.getUrnspec().getUrndef().getSpecDiagrams().iterator();
+				while (it2.hasNext()) {
+					IURNDiagram diagram = (IURNDiagram) it2.next();
+					if (diagram instanceof FeatureDiagram) {
+						// feature model and diagram exist --> cannot create feature model
+						return (COREFeatureModel) returnResult(null);
+					}
+				}
+				break;
+			}
 		}
 		
-		// if impact model already exists, add feature model to the existing URN model
+		// if feature model already exists, but feature diagram has not been added, add a new feature diagram to the existing URN model
 		URNspec urn = null;
-		FeatureModel fm = null;		
-		if (im != null) {
-			// use existing urn model to add feature model
-			urn = im.getUrndefinition().getUrnspec();
+		FeatureDiagram fd = null;
+		if (grl != null) {
+			// use existing urn model to add feature diagram
+			urn = grl.getUrnspec();
 			CreateFMDCommand cfCmd = new CreateFMDCommand(urn);
 			if (cfCmd.canExecute())
 				cfCmd.execute();
 			else
 				return (COREFeatureModel) returnResult(null);
-			fm = cfCmd.getDiagram();
+			fd = cfCmd.getDiagram();
 		}
 		else {
-			// creates the urn model with one feature model
+			// create the urn model with one feature model
 			urn = ModelCreationFactory.getNewURNspec(false, false, true);
 			// get the created feature model
+			grl = urn.getGrlspec();
+			// get the created feature diagram
 			Iterator it2 = urn.getUrndef().getSpecDiagrams().iterator();
 			while (it2.hasNext()) {
 				IURNDiagram diagram = (IURNDiagram) it2.next();
-				if (diagram instanceof FeatureModel)
-					fm = (FeatureModel) diagram;
+				if (diagram instanceof FeatureDiagram)
+					fd = (FeatureDiagram) diagram;
 			}
-			if (fm == null)
-				return (COREFeatureModel) returnResult(null);
 		}
+		if (fd == null)
+			return (COREFeatureModel) returnResult(null);
 		
-		// create root feature with the same name as concern and add to feature model
+		// create root feature with the same name as concern and add to feature diagram
 		IntentionalElementRef ref = (IntentionalElementRef) ModelCreationFactory.getNewObject(urn, IntentionalElementRef.class, ModelCreationFactory.FEATURE);
-        AddIntentionalElementRefCommand aierCmd = new AddIntentionalElementRefCommand(fm, ref);
+        AddIntentionalElementRefCommand aierCmd = new AddIntentionalElementRefCommand(fd, ref);
         if (aierCmd.canExecute())
         	aierCmd.execute();
         else
@@ -93,65 +104,75 @@ public class COREFactory4URN extends AbstractConcernFactory {
         else
         	return (COREFeatureModel) returnResult(null);
         
-        Concern concern = createURNConcern(cc, urn, fm);
+        Concern concern = createURNConcern(cc, urn, fd);
         if (concern == null)
         	return (COREFeatureModel) returnResult(null);
 		
 		// return feature model
-		return (COREFeatureModel) returnResult(fm);
+		return (COREFeatureModel) returnResult(grl);
 	}
 
 	@Override
 	protected COREImpactModel createImpactModel(COREConcern cc) {
 		setCOREInterfaceActive(true);
-		// consistency checks: correct parameter, impact model does not exist, does feature model exist?
+		// consistency checks: correct parameter, does impact model exist? does impact graph exist?
 		if (cc == null)
 			return (COREImpactModel) returnResult(null);
-		FeatureModel fm = null;		
+		GRLspec grl = null;
+		FeatureDiagram fm = null;		// TOOD fm --> fd
 		Iterator<COREModel> it = cc.getModels().iterator();
 		while (it.hasNext()) {
 			COREModel model = it.next();
-			if (model instanceof COREFeatureModel && model instanceof FeatureModel)
-				fm = (FeatureModel) model;
-			// need to check that model is not a FeatureModel because any FeatureModel is also a GRLGraph/COREImpactModel
-			if (model instanceof COREImpactModel && model instanceof GRLGraph && !(model instanceof FeatureModel))
-				return (COREImpactModel) returnResult(null);			
+			if (model instanceof COREImpactModel && model instanceof GRLspec) {
+				// a GRLspec (i.e., impact model) exists, but has an impact graph already been added
+				grl = (GRLspec) model;
+				Iterator it2 = grl.getUrnspec().getUrndef().getSpecDiagrams().iterator();
+				while (it2.hasNext()) {
+					IURNDiagram diagram = (IURNDiagram) it2.next();
+					// need to check that model is not a FeatureDiagram because any FeatureDiagram is also a GRLGraph
+					if (diagram instanceof GRLGraph && !(diagram instanceof FeatureDiagram)) {
+						// impact model and impact graph exist --> cannot create impact model
+						return (COREImpactModel) returnResult(null);
+					}
+				}
+				break;
+			}
 		}
 		
-		// if feature model already exists, add impact model to the existing URN model
+		// if impact model already exists, but an impact graph has not been added, add a new impact graph to the existing URN model
 		URNspec urn = null;
-		GRLGraph im = null;		
-		if (fm != null) {
-			// use existing urn model to add feature model
-			urn = fm.getUrndefinition().getUrnspec();
+		GRLGraph ig = null;
+		if (grl != null) {
+			// use existing urn model to add impact graph
+			urn = grl.getUrnspec();
 			CreateGrlGraphCommand cggCmd = new CreateGrlGraphCommand(urn);
 			if (cggCmd.canExecute())
 				cggCmd.execute();
 			else
 				return (COREImpactModel) returnResult(null);
-			im = cggCmd.getDiagram();
+			ig = cggCmd.getDiagram();
 		}
 		else {
-			// creates the urn model with one impact model
+			// creates the urn model with one impact graph
 			urn = ModelCreationFactory.getNewURNspec(false, true, false);
-			// get the created impact model
+			// get the created impact graph
 			Iterator it2 = urn.getUrndef().getSpecDiagrams().iterator();
 			while (it2.hasNext()) {
 				IURNDiagram diagram = (IURNDiagram) it2.next();
 				// need to check that model is not a FeatureModel because any FeatureModel is also a GRLGraph
-				if (diagram instanceof GRLGraph && !(diagram instanceof FeatureModel))
-					im = (GRLGraph) diagram;
+				if (diagram instanceof GRLGraph && !(diagram instanceof FeatureDiagram))
+					ig = (GRLGraph) diagram;
 			}
-			if (im == null)
-				return (COREImpactModel) returnResult(null);
 		}
+		if (ig == null)
+			return (COREImpactModel) returnResult(null);
 		
-        Concern concern = createURNConcern(cc, urn, im);
+        Concern concern = createURNConcern(cc, urn, ig);
         if (concern == null)
         	return (COREImpactModel) returnResult(null);
         
 		// return impact model
-		return (COREImpactModel) returnResult(im);
+		return (COREImpactModel) returnResult(grl);
 	}
 
 	private Concern createURNConcern(COREConcern cc, URNspec urn, GRLGraph model) {

@@ -11,9 +11,8 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
@@ -36,7 +35,7 @@ import ucm.map.PluginBinding;
  *
  * @generated
  */
-public class OutBindingImpl extends EObjectImpl implements OutBinding {
+public class OutBindingImpl extends MinimalEObjectImpl.Container implements OutBinding {
     /**
 	 * The cached value of the '{@link #getEndPoint() <em>End Point</em>}' reference.
 	 * <!-- begin-user-doc -->

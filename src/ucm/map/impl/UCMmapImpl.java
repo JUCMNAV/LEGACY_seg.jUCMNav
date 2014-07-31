@@ -6,6 +6,11 @@
  */
 package ucm.map.impl;
 
+import ca.mcgill.sel.core.COREFeature;
+import ca.mcgill.sel.core.COREModel;
+import ca.mcgill.sel.core.COREModelElement;
+import ca.mcgill.sel.core.COREReuse;
+import ca.mcgill.sel.core.CorePackage;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -114,7 +119,7 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ca.mcgill.sel.core.COREReuse> reuses;
+	protected EList<COREReuse> reuses;
 
 				/**
 	 * The cached value of the '{@link #getModelElements() <em>Model Elements</em>}' reference list.
@@ -124,7 +129,7 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ca.mcgill.sel.core.COREModelElement> modelElements;
+	protected EList<COREModelElement> modelElements;
 
 				/**
 	 * The cached value of the '{@link #getRealizes() <em>Realizes</em>}' reference list.
@@ -134,7 +139,7 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ca.mcgill.sel.core.COREFeature> realizes;
+	protected EList<COREFeature> realizes;
 
 				/**
 	 * The default value of the '{@link #isSingleton() <em>Singleton</em>}' attribute.
@@ -338,9 +343,9 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ca.mcgill.sel.core.COREReuse> getReuses() {
+	public EList<COREReuse> getReuses() {
 		if (reuses == null) {
-			reuses = new EObjectContainmentEList(ca.mcgill.sel.core.COREReuse.class, this, MapPackage.UC_MMAP__REUSES);
+			reuses = new EObjectContainmentEList(COREReuse.class, this, MapPackage.UC_MMAP__REUSES);
 		}
 		return reuses;
 	}
@@ -350,9 +355,9 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ca.mcgill.sel.core.COREModelElement> getModelElements() {
+	public EList<COREModelElement> getModelElements() {
 		if (modelElements == null) {
-			modelElements = new EObjectResolvingEList(ca.mcgill.sel.core.COREModelElement.class, this, MapPackage.UC_MMAP__MODEL_ELEMENTS);
+			modelElements = new EObjectResolvingEList(COREModelElement.class, this, MapPackage.UC_MMAP__MODEL_ELEMENTS);
 		}
 		return modelElements;
 	}
@@ -362,9 +367,9 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ca.mcgill.sel.core.COREFeature> getRealizes() {
+	public EList<COREFeature> getRealizes() {
 		if (realizes == null) {
-			realizes = new EObjectWithInverseResolvingEList.ManyInverse(ca.mcgill.sel.core.COREFeature.class, this, MapPackage.UC_MMAP__REALIZES, ca.mcgill.sel.core.CorePackage.CORE_FEATURE__REALIZED_BY);
+			realizes = new EObjectWithInverseResolvingEList.ManyInverse(COREFeature.class, this, MapPackage.UC_MMAP__REALIZES, CorePackage.CORE_FEATURE__REALIZED_BY);
 		}
 		return realizes;
 	}
@@ -648,11 +653,11 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				default: return -1;
 			}
 		}
-		if (baseClass == ca.mcgill.sel.core.COREModel.class) {
+		if (baseClass == COREModel.class) {
 			switch (derivedFeatureID) {
-				case MapPackage.UC_MMAP__REUSES: return ca.mcgill.sel.core.CorePackage.CORE_MODEL__REUSES;
-				case MapPackage.UC_MMAP__MODEL_ELEMENTS: return ca.mcgill.sel.core.CorePackage.CORE_MODEL__MODEL_ELEMENTS;
-				case MapPackage.UC_MMAP__REALIZES: return ca.mcgill.sel.core.CorePackage.CORE_MODEL__REALIZES;
+				case MapPackage.UC_MMAP__REUSES: return CorePackage.CORE_MODEL__REUSES;
+				case MapPackage.UC_MMAP__MODEL_ELEMENTS: return CorePackage.CORE_MODEL__MODEL_ELEMENTS;
+				case MapPackage.UC_MMAP__REALIZES: return CorePackage.CORE_MODEL__REALIZES;
 				default: return -1;
 			}
 		}
@@ -676,11 +681,11 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				default: return -1;
 			}
 		}
-		if (baseClass == ca.mcgill.sel.core.COREModel.class) {
+		if (baseClass == COREModel.class) {
 			switch (baseFeatureID) {
-				case ca.mcgill.sel.core.CorePackage.CORE_MODEL__REUSES: return MapPackage.UC_MMAP__REUSES;
-				case ca.mcgill.sel.core.CorePackage.CORE_MODEL__MODEL_ELEMENTS: return MapPackage.UC_MMAP__MODEL_ELEMENTS;
-				case ca.mcgill.sel.core.CorePackage.CORE_MODEL__REALIZES: return MapPackage.UC_MMAP__REALIZES;
+				case CorePackage.CORE_MODEL__REUSES: return MapPackage.UC_MMAP__REUSES;
+				case CorePackage.CORE_MODEL__MODEL_ELEMENTS: return MapPackage.UC_MMAP__MODEL_ELEMENTS;
+				case CorePackage.CORE_MODEL__REALIZES: return MapPackage.UC_MMAP__REALIZES;
 				default: return -1;
 			}
 		}

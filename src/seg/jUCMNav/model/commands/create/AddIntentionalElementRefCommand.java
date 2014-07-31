@@ -3,7 +3,6 @@
  */
 package seg.jUCMNav.model.commands.create;
 
-import fm.FeatureModel;
 import grl.GRLGraph;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
@@ -11,7 +10,6 @@ import grl.IntentionalElementRef;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 

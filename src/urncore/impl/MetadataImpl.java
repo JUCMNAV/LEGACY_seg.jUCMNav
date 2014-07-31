@@ -9,8 +9,7 @@ package urncore.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import urncore.Metadata;
 import urncore.UrncorePackage;
 
@@ -28,7 +27,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public class MetadataImpl extends EObjectImpl implements Metadata {
+public class MetadataImpl extends MinimalEObjectImpl.Container implements Metadata {
     /**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->

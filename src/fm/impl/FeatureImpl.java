@@ -2,15 +2,19 @@
  */
 package fm.impl;
 
+import ca.mcgill.sel.core.COREConfiguration;
+import ca.mcgill.sel.core.COREFeature;
 import ca.mcgill.sel.core.COREFeatureRelationshipType;
+import ca.mcgill.sel.core.COREModel;
+import ca.mcgill.sel.core.COREModelElement;
+import ca.mcgill.sel.core.COREStrategy;
+import ca.mcgill.sel.core.CorePackage;
 import fm.Feature;
-import fm.FeatureModel;
+import fm.FeatureDiagram;
 import fm.FmPackage;
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
-import grl.ContributionType;
 import grl.Decomposition;
-import grl.Dependency;
 import grl.ElementLink;
 import grl.GRLNode;
 import grl.IntentionalElement;
@@ -34,11 +38,9 @@ import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
 import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
-import seg.jUCMNav.model.commands.delete.DeleteGRLNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeDecompositionTypeCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
-import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urn.URNspec;
 
 /**
@@ -66,7 +68,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ca.mcgill.sel.core.COREModel> realizedBy;
+	protected EList<COREModel> realizedBy;
 
 	/**
 	 * The cached value of the '{@link #getStrategies() <em>Strategies</em>}' containment reference list.
@@ -76,7 +78,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ca.mcgill.sel.core.COREStrategy> strategies;
+	protected EList<COREStrategy> strategies;
 
 	/**
 	 * The cached value of the '{@link #getConfigurations() <em>Configurations</em>}' containment reference list.
@@ -86,7 +88,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ca.mcgill.sel.core.COREConfiguration> configurations;
+	protected EList<COREConfiguration> configurations;
 
 	/**
 	 * The default value of the '{@link #isSelectable() <em>Selectable</em>}' attribute.
@@ -131,9 +133,9 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ca.mcgill.sel.core.COREModel> getRealizedBy() {
+	public EList<COREModel> getRealizedBy() {
 		if (realizedBy == null) {
-			realizedBy = new EObjectWithInverseResolvingEList.ManyInverse(ca.mcgill.sel.core.COREModel.class, this, FmPackage.FEATURE__REALIZED_BY, ca.mcgill.sel.core.CorePackage.CORE_MODEL__REALIZES);
+			realizedBy = new EObjectWithInverseResolvingEList.ManyInverse(COREModel.class, this, FmPackage.FEATURE__REALIZED_BY, CorePackage.CORE_MODEL__REALIZES);
 		}
 		return realizedBy;
 	}
@@ -143,9 +145,9 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ca.mcgill.sel.core.COREStrategy> getStrategies() {
+	public EList<COREStrategy> getStrategies() {
 		if (strategies == null) {
-			strategies = new EObjectContainmentEList(ca.mcgill.sel.core.COREStrategy.class, this, FmPackage.FEATURE__STRATEGIES);
+			strategies = new EObjectContainmentEList(COREStrategy.class, this, FmPackage.FEATURE__STRATEGIES);
 		}
 		return strategies;
 	}
@@ -155,9 +157,9 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ca.mcgill.sel.core.COREConfiguration> getConfigurations() {
+	public EList<COREConfiguration> getConfigurations() {
 		if (configurations == null) {
-			configurations = new EObjectContainmentEList(ca.mcgill.sel.core.COREConfiguration.class, this, FmPackage.FEATURE__CONFIGURATIONS);
+			configurations = new EObjectContainmentEList(COREConfiguration.class, this, FmPackage.FEATURE__CONFIGURATIONS);
 		}
 		return configurations;
 	}
@@ -181,87 +183,6 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		selectable = newSelectable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, FmPackage.FEATURE__SELECTABLE, oldSelectable, selectable));
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 */
-	public void addFeature(String childName, COREFeatureRelationshipType relationship) {
-		COREFactory4URN.setCOREInterfaceActive(true);
-		if (relationship == COREFeatureRelationshipType.MANDATORY || relationship == COREFeatureRelationshipType.OPTIONAL ||
-				relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
-			// find the feature model of this feature, do not add new feature if feature model does not exist 
-			// TODO this assumes that there is only one feature model where this feature is used; if there are more than one, then use the one where the feature is not a leaf
-			FeatureModel fm = null;
-			if (this.getRefs() != null) {
-				Iterator it = this.getRefs().iterator();
-				while (it.hasNext()) {
-					GRLNode node = (GRLNode) it.next();
-					if (node.getDiagram() instanceof FeatureModel) {
-						fm = (FeatureModel) node.getDiagram();						
-						break;
-					}
-				}
-				if (fm != null) {
-					// add new feature with childName and add to feature model
-					URNspec urn = this.getGrlspec().getUrnspec();
-					IntentionalElementRef ref = (IntentionalElementRef) ModelCreationFactory.getNewObject(urn, IntentionalElementRef.class, ModelCreationFactory.FEATURE);
-					AddIntentionalElementRefCommand aierCmd = new AddIntentionalElementRefCommand(fm, ref);
-					if (aierCmd.canExecute()) {
-						aierCmd.execute();
-						ChangeGrlNodeNameCommand cgnnCmd = new ChangeGrlNodeNameCommand(ref, childName);
-						if (cgnnCmd.canExecute()) {
-							cgnnCmd.execute();
-
-							ElementLink link = null;
-							int type = 0;
-							if (relationship == COREFeatureRelationshipType.MANDATORY) {
-								// add mandatory link between this feature and the new child feature
-								link = (ElementLink) ModelCreationFactory.getNewObject(urn, MandatoryFMLink.class);								
-							} else if (relationship == COREFeatureRelationshipType.OPTIONAL) {
-								// add optional link between this feature and the new child feature
-								link = (ElementLink) ModelCreationFactory.getNewObject(urn, OptionalFMLink.class);
-							} else if (relationship == COREFeatureRelationshipType.XOR) {
-								// add XOR decomposition link between this feature and the new child feature
-								link = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
-								type = 2;
-							} else if (relationship == COREFeatureRelationshipType.OR) {
-								// add OR decomposition link between this feature and the new child feature
-								link = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
-								type = 1;
-							}
-							CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) ref.getDef(), link);
-							celCmd.setTarget(this);
-							if (celCmd.canExecute())
-								celCmd.execute();
-							if (relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
-								ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef) this.getRefs().get(0), type);
-								if (cdtCmd.canExecute())
-									cdtCmd.execute();
-							}
-						}
-					}
-				}
-			}
-			COREFactory4URN.setCOREInterfaceActive(false);
-		}
-		else {
-			COREFactory4URN.setCOREInterfaceActive(false);
-			throw new UnsupportedOperationException();			
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 */
-	public void delete() {
-		COREFactory4URN.setCOREInterfaceActive(true);
-		DeleteIntentionalElementCommand dieCmd = new DeleteIntentionalElementCommand(this);
-		if (dieCmd.canExecute())
-			dieCmd.execute();
-		COREFactory4URN.setCOREInterfaceActive(false);
 	}
 
 	/**
@@ -291,7 +212,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void changeParent(ca.mcgill.sel.core.COREFeature feature, COREFeatureRelationshipType new_association) {
+	public void changeParent(COREFeature feature, COREFeatureRelationshipType new_association) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -302,7 +223,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void requires(ca.mcgill.sel.core.COREFeature feature) {
+	public void requires(COREFeature feature) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -313,7 +234,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void excludes(ca.mcgill.sel.core.COREFeature feature) {
+	public void excludes(COREFeature feature) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -324,7 +245,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void removeConstraint(ca.mcgill.sel.core.COREFeature feature) {
+	public void removeConstraint(COREFeature feature) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -335,7 +256,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void addRealizedBy(ca.mcgill.sel.core.COREModel model) {
+	public void addRealizedBy(COREModel model) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -464,16 +385,16 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @generated
 	 */
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
-		if (baseClass == ca.mcgill.sel.core.COREModelElement.class) {
+		if (baseClass == COREModelElement.class) {
 			switch (derivedFeatureID) {
 				default: return -1;
 			}
 		}
-		if (baseClass == ca.mcgill.sel.core.COREFeature.class) {
+		if (baseClass == COREFeature.class) {
 			switch (derivedFeatureID) {
-				case FmPackage.FEATURE__REALIZED_BY: return ca.mcgill.sel.core.CorePackage.CORE_FEATURE__REALIZED_BY;
-				case FmPackage.FEATURE__STRATEGIES: return ca.mcgill.sel.core.CorePackage.CORE_FEATURE__STRATEGIES;
-				case FmPackage.FEATURE__CONFIGURATIONS: return ca.mcgill.sel.core.CorePackage.CORE_FEATURE__CONFIGURATIONS;
+				case FmPackage.FEATURE__REALIZED_BY: return CorePackage.CORE_FEATURE__REALIZED_BY;
+				case FmPackage.FEATURE__STRATEGIES: return CorePackage.CORE_FEATURE__STRATEGIES;
+				case FmPackage.FEATURE__CONFIGURATIONS: return CorePackage.CORE_FEATURE__CONFIGURATIONS;
 				default: return -1;
 			}
 		}
@@ -486,16 +407,16 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @generated
 	 */
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
-		if (baseClass == ca.mcgill.sel.core.COREModelElement.class) {
+		if (baseClass == COREModelElement.class) {
 			switch (baseFeatureID) {
 				default: return -1;
 			}
 		}
-		if (baseClass == ca.mcgill.sel.core.COREFeature.class) {
+		if (baseClass == COREFeature.class) {
 			switch (baseFeatureID) {
-				case ca.mcgill.sel.core.CorePackage.CORE_FEATURE__REALIZED_BY: return FmPackage.FEATURE__REALIZED_BY;
-				case ca.mcgill.sel.core.CorePackage.CORE_FEATURE__STRATEGIES: return FmPackage.FEATURE__STRATEGIES;
-				case ca.mcgill.sel.core.CorePackage.CORE_FEATURE__CONFIGURATIONS: return FmPackage.FEATURE__CONFIGURATIONS;
+				case CorePackage.CORE_FEATURE__REALIZED_BY: return FmPackage.FEATURE__REALIZED_BY;
+				case CorePackage.CORE_FEATURE__STRATEGIES: return FmPackage.FEATURE__STRATEGIES;
+				case CorePackage.CORE_FEATURE__CONFIGURATIONS: return FmPackage.FEATURE__CONFIGURATIONS;
 				default: return -1;
 			}
 		}
@@ -515,6 +436,87 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		result.append(selectable);
 		result.append(')');
 		return result.toString();
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	public void addFeature(String childName, COREFeatureRelationshipType relationship) {
+		COREFactory4URN.setCOREInterfaceActive(true);
+		if (relationship == COREFeatureRelationshipType.MANDATORY || relationship == COREFeatureRelationshipType.OPTIONAL ||
+				relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
+			// find the feature diagram of this feature, do not add new feature if feature diagram does not exist 
+			// TODO this assumes that there is only one feature diagram where this feature is used; if there are more than one, then use the one where the feature is not a leaf
+			FeatureDiagram fd = null;
+			if (this.getRefs() != null) {
+				Iterator it = this.getRefs().iterator();
+				while (it.hasNext()) {
+					GRLNode node = (GRLNode) it.next();
+					if (node.getDiagram() instanceof FeatureDiagram) {
+						fd = (FeatureDiagram) node.getDiagram();						
+						break;
+					}
+				}
+				if (fd != null) {
+					// add new feature with childName and add to feature diagram
+					URNspec urn = this.getGrlspec().getUrnspec();
+					IntentionalElementRef ref = (IntentionalElementRef) ModelCreationFactory.getNewObject(urn, IntentionalElementRef.class, ModelCreationFactory.FEATURE);
+					AddIntentionalElementRefCommand aierCmd = new AddIntentionalElementRefCommand(fd, ref);
+					if (aierCmd.canExecute()) {
+						aierCmd.execute();
+						ChangeGrlNodeNameCommand cgnnCmd = new ChangeGrlNodeNameCommand(ref, childName);
+						if (cgnnCmd.canExecute()) {
+							cgnnCmd.execute();
+
+							ElementLink link = null;
+							int type = 0;
+							if (relationship == COREFeatureRelationshipType.MANDATORY) {
+								// add mandatory link between this feature and the new child feature
+								link = (ElementLink) ModelCreationFactory.getNewObject(urn, MandatoryFMLink.class);								
+							} else if (relationship == COREFeatureRelationshipType.OPTIONAL) {
+								// add optional link between this feature and the new child feature
+								link = (ElementLink) ModelCreationFactory.getNewObject(urn, OptionalFMLink.class);
+							} else if (relationship == COREFeatureRelationshipType.XOR) {
+								// add XOR decomposition link between this feature and the new child feature
+								link = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
+								type = 2;
+							} else if (relationship == COREFeatureRelationshipType.OR) {
+								// add OR decomposition link between this feature and the new child feature
+								link = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
+								type = 1;
+							}
+							CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) ref.getDef(), link);
+							celCmd.setTarget(this);
+							if (celCmd.canExecute())
+								celCmd.execute();
+							if (relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
+								ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef) this.getRefs().get(0), type);
+								if (cdtCmd.canExecute())
+									cdtCmd.execute();
+							}
+						}
+					}
+				}
+			}
+			COREFactory4URN.setCOREInterfaceActive(false);
+		}
+		else {
+			COREFactory4URN.setCOREInterfaceActive(false);
+			throw new UnsupportedOperationException();			
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	public void delete() {
+		COREFactory4URN.setCOREInterfaceActive(true);
+		DeleteIntentionalElementCommand dieCmd = new DeleteIntentionalElementCommand(this);
+		if (dieCmd.canExecute())
+			dieCmd.execute();
+		COREFactory4URN.setCOREInterfaceActive(false);
 	}
 
 } //FeatureImpl
