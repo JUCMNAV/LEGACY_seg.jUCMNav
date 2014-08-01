@@ -83,13 +83,13 @@ public interface GrlPackage extends EPackage {
 	int GR_LSPEC__NAME = CorePackage.CORE_FEATURE_MODEL__NAME;
 
 				/**
-	 * The feature id for the '<em><b>Reuses</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Model Reuse</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GR_LSPEC__REUSES = CorePackage.CORE_FEATURE_MODEL__REUSES;
+	int GR_LSPEC__MODEL_REUSE = CorePackage.CORE_FEATURE_MODEL__MODEL_REUSE;
 
 				/**
 	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.

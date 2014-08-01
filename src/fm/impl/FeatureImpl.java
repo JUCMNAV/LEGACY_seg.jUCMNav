@@ -2,13 +2,6 @@
  */
 package fm.impl;
 
-import ca.mcgill.sel.core.COREConfiguration;
-import ca.mcgill.sel.core.COREFeature;
-import ca.mcgill.sel.core.COREFeatureRelationshipType;
-import ca.mcgill.sel.core.COREModel;
-import ca.mcgill.sel.core.COREModelElement;
-import ca.mcgill.sel.core.COREStrategy;
-import ca.mcgill.sel.core.CorePackage;
 import fm.Feature;
 import fm.FeatureDiagram;
 import fm.FmPackage;
@@ -42,6 +35,12 @@ import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeDecompositionTypeCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import urn.URNspec;
+import ca.mcgill.sel.core.COREFeature;
+import ca.mcgill.sel.core.COREFeatureRelationshipType;
+import ca.mcgill.sel.core.COREModel;
+import ca.mcgill.sel.core.COREModelElement;
+import ca.mcgill.sel.core.COREReuse;
+import ca.mcgill.sel.core.CorePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,8 +50,7 @@ import urn.URNspec;
  * The following features are implemented:
  * <ul>
  *   <li>{@link fm.impl.FeatureImpl#getRealizedBy <em>Realized By</em>}</li>
- *   <li>{@link fm.impl.FeatureImpl#getStrategies <em>Strategies</em>}</li>
- *   <li>{@link fm.impl.FeatureImpl#getConfigurations <em>Configurations</em>}</li>
+ *   <li>{@link fm.impl.FeatureImpl#getReuses <em>Reuses</em>}</li>
  *   <li>{@link fm.impl.FeatureImpl#isSelectable <em>Selectable</em>}</li>
  * </ul>
  * </p>
@@ -71,24 +69,14 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	protected EList<COREModel> realizedBy;
 
 	/**
-	 * The cached value of the '{@link #getStrategies() <em>Strategies</em>}' containment reference list.
+	 * The cached value of the '{@link #getReuses() <em>Reuses</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getStrategies()
+	 * @see #getReuses()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<COREStrategy> strategies;
-
-	/**
-	 * The cached value of the '{@link #getConfigurations() <em>Configurations</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getConfigurations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<COREConfiguration> configurations;
+	protected EList<COREReuse> reuses;
 
 	/**
 	 * The default value of the '{@link #isSelectable() <em>Selectable</em>}' attribute.
@@ -145,23 +133,11 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<COREStrategy> getStrategies() {
-		if (strategies == null) {
-			strategies = new EObjectContainmentEList(COREStrategy.class, this, FmPackage.FEATURE__STRATEGIES);
+	public EList<COREReuse> getReuses() {
+		if (reuses == null) {
+			reuses = new EObjectContainmentEList(COREReuse.class, this, FmPackage.FEATURE__REUSES);
 		}
-		return strategies;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<COREConfiguration> getConfigurations() {
-		if (configurations == null) {
-			configurations = new EObjectContainmentEList(COREConfiguration.class, this, FmPackage.FEATURE__CONFIGURATIONS);
-		}
-		return configurations;
+		return reuses;
 	}
 
 	/**
@@ -201,7 +177,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void changeLink(COREFeatureRelationshipType new_association) {
+	public boolean changeParent(COREFeature feature, COREFeatureRelationshipType new_association) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -212,7 +188,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void changeParent(COREFeature feature, COREFeatureRelationshipType new_association) {
+	public boolean requires(COREFeature feature) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -223,7 +199,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void requires(COREFeature feature) {
+	public boolean excludes(COREFeature feature) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -234,7 +210,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void excludes(COREFeature feature) {
+	public boolean removeConstraint(COREFeature feature) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -245,18 +221,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void removeConstraint(COREFeature feature) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void addRealizedBy(COREModel model) {
+	public boolean AssociateReuse(COREReuse reuse, EList<?> selected, EList<?> reexposed) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -284,10 +249,8 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		switch (featureID) {
 			case FmPackage.FEATURE__REALIZED_BY:
 				return ((InternalEList)getRealizedBy()).basicRemove(otherEnd, msgs);
-			case FmPackage.FEATURE__STRATEGIES:
-				return ((InternalEList)getStrategies()).basicRemove(otherEnd, msgs);
-			case FmPackage.FEATURE__CONFIGURATIONS:
-				return ((InternalEList)getConfigurations()).basicRemove(otherEnd, msgs);
+			case FmPackage.FEATURE__REUSES:
+				return ((InternalEList)getReuses()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -301,10 +264,8 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		switch (featureID) {
 			case FmPackage.FEATURE__REALIZED_BY:
 				return getRealizedBy();
-			case FmPackage.FEATURE__STRATEGIES:
-				return getStrategies();
-			case FmPackage.FEATURE__CONFIGURATIONS:
-				return getConfigurations();
+			case FmPackage.FEATURE__REUSES:
+				return getReuses();
 			case FmPackage.FEATURE__SELECTABLE:
 				return isSelectable() ? Boolean.TRUE : Boolean.FALSE;
 		}
@@ -322,13 +283,9 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 				getRealizedBy().clear();
 				getRealizedBy().addAll((Collection)newValue);
 				return;
-			case FmPackage.FEATURE__STRATEGIES:
-				getStrategies().clear();
-				getStrategies().addAll((Collection)newValue);
-				return;
-			case FmPackage.FEATURE__CONFIGURATIONS:
-				getConfigurations().clear();
-				getConfigurations().addAll((Collection)newValue);
+			case FmPackage.FEATURE__REUSES:
+				getReuses().clear();
+				getReuses().addAll((Collection)newValue);
 				return;
 			case FmPackage.FEATURE__SELECTABLE:
 				setSelectable(((Boolean)newValue).booleanValue());
@@ -347,11 +304,8 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 			case FmPackage.FEATURE__REALIZED_BY:
 				getRealizedBy().clear();
 				return;
-			case FmPackage.FEATURE__STRATEGIES:
-				getStrategies().clear();
-				return;
-			case FmPackage.FEATURE__CONFIGURATIONS:
-				getConfigurations().clear();
+			case FmPackage.FEATURE__REUSES:
+				getReuses().clear();
 				return;
 			case FmPackage.FEATURE__SELECTABLE:
 				setSelectable(SELECTABLE_EDEFAULT);
@@ -369,10 +323,8 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		switch (featureID) {
 			case FmPackage.FEATURE__REALIZED_BY:
 				return realizedBy != null && !realizedBy.isEmpty();
-			case FmPackage.FEATURE__STRATEGIES:
-				return strategies != null && !strategies.isEmpty();
-			case FmPackage.FEATURE__CONFIGURATIONS:
-				return configurations != null && !configurations.isEmpty();
+			case FmPackage.FEATURE__REUSES:
+				return reuses != null && !reuses.isEmpty();
 			case FmPackage.FEATURE__SELECTABLE:
 				return selectable != SELECTABLE_EDEFAULT;
 		}
@@ -393,8 +345,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		if (baseClass == COREFeature.class) {
 			switch (derivedFeatureID) {
 				case FmPackage.FEATURE__REALIZED_BY: return CorePackage.CORE_FEATURE__REALIZED_BY;
-				case FmPackage.FEATURE__STRATEGIES: return CorePackage.CORE_FEATURE__STRATEGIES;
-				case FmPackage.FEATURE__CONFIGURATIONS: return CorePackage.CORE_FEATURE__CONFIGURATIONS;
+				case FmPackage.FEATURE__REUSES: return CorePackage.CORE_FEATURE__REUSES;
 				default: return -1;
 			}
 		}
@@ -415,8 +366,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		if (baseClass == COREFeature.class) {
 			switch (baseFeatureID) {
 				case CorePackage.CORE_FEATURE__REALIZED_BY: return FmPackage.FEATURE__REALIZED_BY;
-				case CorePackage.CORE_FEATURE__STRATEGIES: return FmPackage.FEATURE__STRATEGIES;
-				case CorePackage.CORE_FEATURE__CONFIGURATIONS: return FmPackage.FEATURE__CONFIGURATIONS;
+				case CorePackage.CORE_FEATURE__REUSES: return FmPackage.FEATURE__REUSES;
 				default: return -1;
 			}
 		}
@@ -437,12 +387,21 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		result.append(')');
 		return result.toString();
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	public boolean addFeature(String childName, COREFeatureRelationshipType relationship) {
+		return addFeature(-1, childName, relationship);
+	}
+
 	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 */
-	public void addFeature(String childName, COREFeatureRelationshipType relationship) {
+	public boolean addFeature(int position, String childName, COREFeatureRelationshipType relationship) {
 		COREFactory4URN.setCOREInterfaceActive(true);
 		if (relationship == COREFeatureRelationshipType.MANDATORY || relationship == COREFeatureRelationshipType.OPTIONAL ||
 				relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
@@ -486,6 +445,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 								link = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
 								type = 1;
 							}
+							// TODO add position to createelementlinkcommand
 							CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) ref.getDef(), link);
 							celCmd.setTarget(this);
 							if (celCmd.canExecute())
@@ -500,10 +460,11 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 				}
 			}
 			COREFactory4URN.setCOREInterfaceActive(false);
+			return true;
 		}
 		else {
 			COREFactory4URN.setCOREInterfaceActive(false);
-			throw new UnsupportedOperationException();			
+			return false;
 		}
 	}
 
@@ -511,12 +472,111 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 */
-	public void delete() {
+	public boolean delete() {
 		COREFactory4URN.setCOREInterfaceActive(true);
 		DeleteIntentionalElementCommand dieCmd = new DeleteIntentionalElementCommand(this);
 		if (dieCmd.canExecute())
 			dieCmd.execute();
+		else {
+			COREFactory4URN.setCOREInterfaceActive(false);
+			return false;
+		}
 		COREFactory4URN.setCOREInterfaceActive(false);
+		return true;
 	}
+
+	// TODO only experimental code at the moment
+	public void reorder(int newPosition) {
+	    
+	    ElementLink link = (ElementLink) getLinksSrc().get(0);
+	    IntentionalElement element = (IntentionalElement) link.getDest();
+	    element.getLinksDest().remove(link);
+	    element.getLinksDest().add(newPosition, link);
+	   
+	}
+	
+	// TODO only experimental code at the moment
+	public boolean changeLink(COREFeatureRelationshipType relationship) {
+		COREFactory4URN.setCOREInterfaceActive(true);
+		int type;
+
+		ElementLink link = (ElementLink) getLinksSrc().get(0);
+		IntentionalElement element = (IntentionalElement) link.getDest();
+		int position = element.getLinksDest().indexOf(link);
+		element.getLinksDest().remove(link);
+		getLinksSrc().clear();
+		URNspec urn = this.getGrlspec().getUrnspec();
+		urn.getGrlspec().getLinks().remove(link);
+
+		ElementLink newLink = null;
+		if (relationship == COREFeatureRelationshipType.MANDATORY) {
+			// add mandatory link between this feature and the new child feature
+			newLink = (ElementLink) ModelCreationFactory.getNewObject(urn, MandatoryFMLink.class);                             
+		} else if (relationship == COREFeatureRelationshipType.OPTIONAL) {
+			// add optional link between this feature and the new child feature
+			newLink = (ElementLink) ModelCreationFactory.getNewObject(urn, OptionalFMLink.class);
+		} else if (relationship == COREFeatureRelationshipType.XOR) {
+			// add XOR decomposition link between this feature and the new child feature
+			newLink = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
+			type = 2;
+		} else if (relationship == COREFeatureRelationshipType.OR) {
+			// add OR decomposition link between this feature and the new child feature
+			newLink = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
+			type = 1;
+		}
+
+
+		if(relationship == COREFeatureRelationshipType.OPTIONAL || relationship == COREFeatureRelationshipType.MANDATORY ) {
+			element.setDecompositionType(decompositionType.AND_LITERAL);
+
+		} else if (relationship == COREFeatureRelationshipType.XOR) {
+			element.setDecompositionType(decompositionType.XOR_LITERAL);
+
+		} else if (relationship == COREFeatureRelationshipType.OR) {
+			element.setDecompositionType(decompositionType.OR_LITERAL);
+		}
+
+		try {
+
+			// TODO use the new command with position
+			CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) this, newLink);
+			celCmd.setTarget(element);
+			if (celCmd.canExecute())
+				celCmd.execute();
+
+			// newLink.setDest(element);
+			// newLink.setSrc(this);
+		}
+		catch(Exception e) {
+
+		}
+		COREFactory4URN.setCOREInterfaceActive(false);
+		return true;
+	}
+
+	// TODO only experimental code at the moment
+    public boolean addRealizedBy(COREModel model) {
+        // TODO: implement this method
+        // Ensure that you remove @generated or mark it @generated NOT
+            getRealizedBy().add(0,model);
+            return true;
+    }
+
+	// TODO only experimental code at the moment
+//    public FeatureModel getFeatureModel() {
+//        FeatureModel fm = null;
+//        if (this.getRefs() != null) {
+//            Iterator it = this.getRefs().iterator();
+//            while (it.hasNext()) {
+//                GRLNode node = (GRLNode) it.next();
+//                if (node.getDiagram() instanceof FeatureModel) {
+//                    fm = (FeatureModel) node.getDiagram();                      
+//                    break;
+//                }
+//            }
+//        }
+//        return fm;
+//    }
+
 
 } //FeatureImpl

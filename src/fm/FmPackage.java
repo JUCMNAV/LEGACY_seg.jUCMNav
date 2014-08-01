@@ -374,22 +374,13 @@ public interface FmPackage extends EPackage {
 	int FEATURE__REALIZED_BY = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Strategies</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Reuses</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE__STRATEGIES = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Configurations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE__CONFIGURATIONS = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 2;
+	int FEATURE__REUSES = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Selectable</b></em>' attribute.
@@ -398,7 +389,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE__SELECTABLE = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 3;
+	int FEATURE__SELECTABLE = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Feature</em>' class.
@@ -407,7 +398,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_FEATURE_COUNT = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 4;
+	int FEATURE_FEATURE_COUNT = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link fm.impl.MandatoryFMLinkImpl <em>Mandatory FM Link</em>}' class.

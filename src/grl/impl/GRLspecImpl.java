@@ -1,14 +1,7 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package grl.impl;
 
-import ca.mcgill.sel.core.COREFeature;
-import ca.mcgill.sel.core.COREImpactModelElement;
-import ca.mcgill.sel.core.impl.COREFeatureModelImpl;
 import fm.Feature;
 import grl.Actor;
 import grl.ContributionContext;
@@ -55,6 +48,10 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.strategies.util.FeatureUtil;
 import urn.URNspec;
 import urn.UrnPackage;
+import ca.mcgill.sel.core.COREFeature;
+import ca.mcgill.sel.core.COREFeatureSelectionStatus;
+import ca.mcgill.sel.core.COREImpactModelElement;
+import ca.mcgill.sel.core.impl.COREFeatureModelImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -81,57 +78,57 @@ import urn.UrnPackage;
  * @generated
  */
 public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
-    /**
+	/**
 	 * The cached value of the '{@link #getIntElements() <em>Int Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getIntElements()
 	 * @generated
 	 * @ordered
 	 */
-    protected EList intElements;
+	protected EList intElements;
 
-    /**
+	/**
 	 * The cached value of the '{@link #getActors() <em>Actors</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getActors()
 	 * @generated
 	 * @ordered
 	 */
-    protected EList actors;
+	protected EList actors;
 
-    /**
+	/**
 	 * The cached value of the '{@link #getLinks() <em>Links</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLinks()
 	 * @generated
 	 * @ordered
 	 */
-    protected EList links;
+	protected EList links;
 
-    /**
+	/**
 	 * The cached value of the '{@link #getGroups() <em>Groups</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getGroups()
 	 * @generated
 	 * @ordered
 	 */
-    protected EList groups;
+	protected EList groups;
 
-    /**
+	/**
 	 * The cached value of the '{@link #getStrategies() <em>Strategies</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getStrategies()
 	 * @generated
 	 * @ordered
 	 */
-    protected EList strategies;
+	protected EList strategies;
 
-    /**
+	/**
 	 * The cached value of the '{@link #getContributionGroups() <em>Contribution Groups</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -141,7 +138,7 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 	 */
 	protected EList contributionGroups;
 
-				/**
+	/**
 	 * The cached value of the '{@link #getContributionContexts() <em>Contribution Contexts</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -151,37 +148,37 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 	 */
 	protected EList contributionContexts;
 
-				/**
+	/**
 	 * The cached value of the '{@link #getKpiInformationElements() <em>Kpi Information Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getKpiInformationElements()
 	 * @generated
 	 * @ordered
 	 */
-    protected EList kpiInformationElements;
+	protected EList kpiInformationElements;
 
-    /**
+	/**
 	 * The cached value of the '{@link #getKpiModelLinks() <em>Kpi Model Links</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getKpiModelLinks()
 	 * @generated
 	 * @ordered
 	 */
-    protected EList kpiModelLinks;
+	protected EList kpiModelLinks;
 
-    /**
+	/**
 	 * The cached value of the '{@link #getIndicatorGroup() <em>Indicator Group</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getIndicatorGroup()
 	 * @generated
 	 * @ordered
 	 */
-    protected EList indicatorGroup;
+	protected EList indicatorGroup;
 
-    /**
+	/**
 	 * The cached value of the '{@link #getKPIConversion() <em>KPI Conversion</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -191,35 +188,35 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 	 */
 	protected EList kpiConversion;
 
-				/**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    protected GRLspecImpl() {
+	protected GRLspecImpl() {
 		super();
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    protected EClass eStaticClass() {
+	protected EClass eStaticClass() {
 		return GrlPackage.Literals.GR_LSPEC;
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public URNspec getUrnspec() {
+	public URNspec getUrnspec() {
 		if (eContainerFeatureID() != GrlPackage.GR_LSPEC__URNSPEC) return null;
 		return (URNspec)eInternalContainer();
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -229,12 +226,12 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 		return msgs;
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setUrnspec(URNspec newUrnspec) {
+	public void setUrnspec(URNspec newUrnspec) {
 		if (newUrnspec != eInternalContainer() || (eContainerFeatureID() != GrlPackage.GR_LSPEC__URNSPEC && newUrnspec != null)) {
 			if (EcoreUtil.isAncestor(this, newUrnspec))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -250,67 +247,67 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GR_LSPEC__URNSPEC, newUrnspec, newUrnspec));
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getIntElements() {
+	public EList getIntElements() {
 		if (intElements == null) {
 			intElements = new EObjectContainmentWithInverseEList(IntentionalElement.class, this, GrlPackage.GR_LSPEC__INT_ELEMENTS, GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC);
 		}
 		return intElements;
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getActors() {
+	public EList getActors() {
 		if (actors == null) {
 			actors = new EObjectContainmentWithInverseEList(Actor.class, this, GrlPackage.GR_LSPEC__ACTORS, GrlPackage.ACTOR__GRLSPEC);
 		}
 		return actors;
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getLinks() {
+	public EList getLinks() {
 		if (links == null) {
 			links = new EObjectContainmentWithInverseEList(ElementLink.class, this, GrlPackage.GR_LSPEC__LINKS, GrlPackage.ELEMENT_LINK__GRLSPEC);
 		}
 		return links;
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getGroups() {
+	public EList getGroups() {
 		if (groups == null) {
 			groups = new EObjectContainmentWithInverseEList(StrategiesGroup.class, this, GrlPackage.GR_LSPEC__GROUPS, GrlPackage.STRATEGIES_GROUP__GRLSPEC);
 		}
 		return groups;
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getStrategies() {
+	public EList getStrategies() {
 		if (strategies == null) {
 			strategies = new EObjectContainmentWithInverseEList(EvaluationStrategy.class, this, GrlPackage.GR_LSPEC__STRATEGIES, GrlPackage.EVALUATION_STRATEGY__GRLSPEC);
 		}
 		return strategies;
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -322,7 +319,7 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 		return contributionGroups;
 	}
 
-				/**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -334,43 +331,43 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 		return contributionContexts;
 	}
 
-				/**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getKpiInformationElements() {
+	public EList getKpiInformationElements() {
 		if (kpiInformationElements == null) {
 			kpiInformationElements = new EObjectContainmentWithInverseEList(KPIInformationElement.class, this, GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS, KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC);
 		}
 		return kpiInformationElements;
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getKpiModelLinks() {
+	public EList getKpiModelLinks() {
 		if (kpiModelLinks == null) {
 			kpiModelLinks = new EObjectContainmentWithInverseEList(KPIModelLink.class, this, GrlPackage.GR_LSPEC__KPI_MODEL_LINKS, KpimodelPackage.KPI_MODEL_LINK__GRLSPEC);
 		}
 		return kpiModelLinks;
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getIndicatorGroup() {
+	public EList getIndicatorGroup() {
 		if (indicatorGroup == null) {
 			indicatorGroup = new EObjectContainmentWithInverseEList(IndicatorGroup.class, this, GrlPackage.GR_LSPEC__INDICATOR_GROUP, KpimodelPackage.INDICATOR_GROUP__GRLSPEC);
 		}
 		return indicatorGroup;
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -382,7 +379,7 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 		return kpiConversion;
 	}
 
-				/**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -419,7 +416,7 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -454,7 +451,7 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -467,7 +464,7 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -502,7 +499,7 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -560,7 +557,7 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 		super.eSet(featureID, newValue);
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -607,7 +604,7 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 		super.eUnset(featureID);
 	}
 
-    /**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -722,18 +719,19 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 			if (ie instanceof COREFeature) {
 				// color 96,255,96 = SELECTED unless in featuresHash, then USER_SELECTED
 				// color 169,169,169 = NOT_SELECTED_NO_ACTION
-				// color anything else but the above two = NOT_SELECTED
+				// color anything else but the above two = NOT_SELECTED_ACTION_REQUIRED
 				// warning = WARNING
-				SelectionStatus selectionStatus = SelectionStatus.NOT_SELECTED;
+				COREFeatureSelectionStatus selectionStatus = COREFeatureSelectionStatus.NOT_SELECTED_ACTION_REQUIRED;
 				if (warning)
-					selectionStatus = SelectionStatus.WARNING;
+					// TODO needs to differentiate between user selected and auto selected
+					selectionStatus = COREFeatureSelectionStatus.WARNING_USER_SELECTED;
 				else if (color.equals("169,169,169"))
-					selectionStatus = SelectionStatus.NOT_SELECTED_NO_ACTION;
+					selectionStatus = COREFeatureSelectionStatus.NOT_SELECTED_NO_ACTION;
 				else if (color.equals("96,255,96")) {
 					if (featuresHash.containsKey(ie))
-						selectionStatus = SelectionStatus.USER_SELECTED;
+						selectionStatus = COREFeatureSelectionStatus.USER_SELECTED;
 					else
-						selectionStatus = SelectionStatus.SELECTED;
+						selectionStatus = COREFeatureSelectionStatus.AUTO_SELECTED;
 				}
 				er.featureResult.put((COREFeature) ie, selectionStatus);
 			}			
@@ -748,17 +746,8 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 	 * <!-- end-user-doc -->
 	 */
 	public class EvaluationResult {
-		public Map<COREFeature, SelectionStatus> featureResult = new HashMap<COREFeature, SelectionStatus>();
+		public Map<COREFeature, COREFeatureSelectionStatus> featureResult = new HashMap<COREFeature, COREFeatureSelectionStatus>();
 		public Map<COREImpactModelElement, Integer> impactResult = new HashMap<COREImpactModelElement, Integer>();	
 	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 */
-	public enum SelectionStatus {
-		SELECTED, NOT_SELECTED, USER_SELECTED, NOT_SELECTED_NO_ACTION, WARNING;		
-	}
-
 	
 } //GRLspecImpl

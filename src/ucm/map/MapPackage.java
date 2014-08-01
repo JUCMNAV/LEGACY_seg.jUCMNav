@@ -2111,13 +2111,13 @@ public interface MapPackage extends EPackage {
     int UC_MMAP__COMMENTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
 
     /**
-	 * The feature id for the '<em><b>Reuses</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Model Reuse</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MMAP__REUSES = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
+	int UC_MMAP__MODEL_REUSE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
 
 				/**
 	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.

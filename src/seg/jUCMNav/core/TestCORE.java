@@ -12,7 +12,6 @@ import grl.GRLspec;
 import grl.IntentionalElementRef;
 import grl.impl.GRLspecImpl;
 import grl.impl.GRLspecImpl.EvaluationResult;
-import grl.impl.GRLspecImpl.SelectionStatus;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,11 +19,11 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import urncore.IURNDiagram;
-import urncore.URNmodelElement;
 import ca.mcgill.sel.core.COREConcern;
 import ca.mcgill.sel.core.COREFeature;
 import ca.mcgill.sel.core.COREFeatureModel;
 import ca.mcgill.sel.core.COREFeatureRelationshipType;
+import ca.mcgill.sel.core.COREFeatureSelectionStatus;
 import ca.mcgill.sel.core.COREImpactModel;
 import ca.mcgill.sel.core.COREModel;
 
@@ -130,17 +129,17 @@ public class TestCORE extends TestCase {
 			Iterator<COREFeature> it2 = er.featureResult.keySet().iterator();
 			while (it2.hasNext()) {
 				COREFeature cf = it2.next();
-				SelectionStatus ss = er.featureResult.get(cf);
+				COREFeatureSelectionStatus ss = er.featureResult.get(cf);
 				if (cf.getName().equals("testing"))
-					assertTrue(SelectionStatus.SELECTED == ss);
+					assertTrue(COREFeatureSelectionStatus.AUTO_SELECTED == ss);
 				else if (cf.getName().equals("child"))
-					assertTrue(SelectionStatus.USER_SELECTED == ss);
+					assertTrue(COREFeatureSelectionStatus.USER_SELECTED == ss);
 				else if (cf.getName().equals("grandchild"))
-					assertTrue(SelectionStatus.WARNING == ss);
+					assertTrue(COREFeatureSelectionStatus.WARNING_USER_SELECTED == ss);
 				else if (cf.getName().equals("secondgrandchild"))
-					assertTrue(SelectionStatus.WARNING == ss);
+					assertTrue(COREFeatureSelectionStatus.WARNING_USER_SELECTED == ss);
 				else if (cf.getName().equals("grandgrandchild"))
-					assertTrue(SelectionStatus.NOT_SELECTED_NO_ACTION == ss);
+					assertTrue(COREFeatureSelectionStatus.NOT_SELECTED_NO_ACTION == ss);
 			}
 		} else {
 			fail("root does not exist");

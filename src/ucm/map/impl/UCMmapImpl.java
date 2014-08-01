@@ -9,7 +9,7 @@ package ucm.map.impl;
 import ca.mcgill.sel.core.COREFeature;
 import ca.mcgill.sel.core.COREModel;
 import ca.mcgill.sel.core.COREModelElement;
-import ca.mcgill.sel.core.COREReuse;
+import ca.mcgill.sel.core.COREModelReuse;
 import ca.mcgill.sel.core.CorePackage;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
@@ -50,7 +50,7 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.map.impl.UCMmapImpl#getConnections <em>Connections</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getConcern <em>Concern</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getComments <em>Comments</em>}</li>
- *   <li>{@link ucm.map.impl.UCMmapImpl#getReuses <em>Reuses</em>}</li>
+ *   <li>{@link ucm.map.impl.UCMmapImpl#getModelReuse <em>Model Reuse</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getModelElements <em>Model Elements</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getRealizes <em>Realizes</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#isSingleton <em>Singleton</em>}</li>
@@ -112,14 +112,14 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	protected EList comments;
 
 				/**
-	 * The cached value of the '{@link #getReuses() <em>Reuses</em>}' containment reference list.
+	 * The cached value of the '{@link #getModelReuse() <em>Model Reuse</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getReuses()
+	 * @see #getModelReuse()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<COREReuse> reuses;
+	protected EList<COREModelReuse> modelReuse;
 
 				/**
 	 * The cached value of the '{@link #getModelElements() <em>Model Elements</em>}' reference list.
@@ -343,11 +343,11 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<COREReuse> getReuses() {
-		if (reuses == null) {
-			reuses = new EObjectContainmentEList(COREReuse.class, this, MapPackage.UC_MMAP__REUSES);
+	public EList<COREModelReuse> getModelReuse() {
+		if (modelReuse == null) {
+			modelReuse = new EObjectContainmentEList(COREModelReuse.class, this, MapPackage.UC_MMAP__MODEL_REUSE);
 		}
-		return reuses;
+		return modelReuse;
 	}
 
 				/**
@@ -457,8 +457,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return basicSetConcern(null, msgs);
 			case MapPackage.UC_MMAP__COMMENTS:
 				return ((InternalEList)getComments()).basicRemove(otherEnd, msgs);
-			case MapPackage.UC_MMAP__REUSES:
-				return ((InternalEList)getReuses()).basicRemove(otherEnd, msgs);
+			case MapPackage.UC_MMAP__MODEL_REUSE:
+				return ((InternalEList)getModelReuse()).basicRemove(otherEnd, msgs);
 			case MapPackage.UC_MMAP__REALIZES:
 				return ((InternalEList)getRealizes()).basicRemove(otherEnd, msgs);
 			case MapPackage.UC_MMAP__PARENT_STUB:
@@ -500,8 +500,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return basicGetConcern();
 			case MapPackage.UC_MMAP__COMMENTS:
 				return getComments();
-			case MapPackage.UC_MMAP__REUSES:
-				return getReuses();
+			case MapPackage.UC_MMAP__MODEL_REUSE:
+				return getModelReuse();
 			case MapPackage.UC_MMAP__MODEL_ELEMENTS:
 				return getModelElements();
 			case MapPackage.UC_MMAP__REALIZES:
@@ -543,9 +543,9 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				getComments().clear();
 				getComments().addAll((Collection)newValue);
 				return;
-			case MapPackage.UC_MMAP__REUSES:
-				getReuses().clear();
-				getReuses().addAll((Collection)newValue);
+			case MapPackage.UC_MMAP__MODEL_REUSE:
+				getModelReuse().clear();
+				getModelReuse().addAll((Collection)newValue);
 				return;
 			case MapPackage.UC_MMAP__REALIZES:
 				getRealizes().clear();
@@ -587,8 +587,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 			case MapPackage.UC_MMAP__COMMENTS:
 				getComments().clear();
 				return;
-			case MapPackage.UC_MMAP__REUSES:
-				getReuses().clear();
+			case MapPackage.UC_MMAP__MODEL_REUSE:
+				getModelReuse().clear();
 				return;
 			case MapPackage.UC_MMAP__REALIZES:
 				getRealizes().clear();
@@ -622,8 +622,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return concern != null;
 			case MapPackage.UC_MMAP__COMMENTS:
 				return comments != null && !comments.isEmpty();
-			case MapPackage.UC_MMAP__REUSES:
-				return reuses != null && !reuses.isEmpty();
+			case MapPackage.UC_MMAP__MODEL_REUSE:
+				return modelReuse != null && !modelReuse.isEmpty();
 			case MapPackage.UC_MMAP__MODEL_ELEMENTS:
 				return modelElements != null && !modelElements.isEmpty();
 			case MapPackage.UC_MMAP__REALIZES:
@@ -655,7 +655,7 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 		}
 		if (baseClass == COREModel.class) {
 			switch (derivedFeatureID) {
-				case MapPackage.UC_MMAP__REUSES: return CorePackage.CORE_MODEL__REUSES;
+				case MapPackage.UC_MMAP__MODEL_REUSE: return CorePackage.CORE_MODEL__MODEL_REUSE;
 				case MapPackage.UC_MMAP__MODEL_ELEMENTS: return CorePackage.CORE_MODEL__MODEL_ELEMENTS;
 				case MapPackage.UC_MMAP__REALIZES: return CorePackage.CORE_MODEL__REALIZES;
 				default: return -1;
@@ -683,7 +683,7 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 		}
 		if (baseClass == COREModel.class) {
 			switch (baseFeatureID) {
-				case CorePackage.CORE_MODEL__REUSES: return MapPackage.UC_MMAP__REUSES;
+				case CorePackage.CORE_MODEL__MODEL_REUSE: return MapPackage.UC_MMAP__MODEL_REUSE;
 				case CorePackage.CORE_MODEL__MODEL_ELEMENTS: return MapPackage.UC_MMAP__MODEL_ELEMENTS;
 				case CorePackage.CORE_MODEL__REALIZES: return MapPackage.UC_MMAP__REALIZES;
 				default: return -1;
