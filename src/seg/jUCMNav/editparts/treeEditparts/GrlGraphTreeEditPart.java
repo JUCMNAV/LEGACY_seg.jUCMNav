@@ -1,5 +1,6 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
+import fm.FeatureDiagram;
 import grl.GRLGraph;
 import grl.GRLNode;
 
@@ -15,6 +16,7 @@ import org.eclipse.swt.graphics.Image;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.GRLGraphComponentEditPolicy;
 import seg.jUCMNav.model.util.DelegatingElementComparator;
+
 
 /**
  * Tree edit part for the GrlGraph
@@ -71,8 +73,14 @@ public class GrlGraphTreeEditPart extends UrnModelElementTreeEditPart {
      * Returns an icon representing a GrlGraph.
      */
     protected Image getImage() {
-        if (super.getImage() == null)
-            setImage((JUCMNavPlugin.getImage("icons/grl16.gif"))); //$NON-NLS-1$
+        if (super.getImage() == null) {
+        	if (getGraph() instanceof FeatureDiagram)
+        		// FM icon
+        		setImage((JUCMNavPlugin.getImage("icons/fmd16.gif"))); //$NON-NLS-1$
+        	else 
+        		// GRL icon
+    			setImage((JUCMNavPlugin.getImage("icons/grl16.gif"))); //$NON-NLS-1$
+        }
         return super.getImage();
     }
 
