@@ -925,23 +925,23 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new ContainerRefBindChildCommand(aRef1, ieRef1);
-        assertTrue("Can't execute ContainerRefBindChildCoomand", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
+        assertTrue("Can't execute ContainerRefBindChildCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd); // @@@ WHERE THIS IS FAILING
         cmd = new MoveNodeCommand(ieRef2, 487, 132);
         assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new ContainerRefBindChildCommand(aRef1, ieRef2);
-        assertTrue("Can't execute ContainerRefBindChildCoomand", cmd.canExecute()); //$NON-NLS-1$
+        assertTrue("Can't execute ContainerRefBindChildCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new MoveNodeCommand(ieRef3, 797, 157);
         assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new ContainerRefBindChildCommand(aRef1, ieRef3);
-        assertTrue("Can't execute ContainerRefBindChildCoomand", cmd.canExecute()); //$NON-NLS-1$
+        assertTrue("Can't execute ContainerRefBindChildCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         //cmd = new ContainerRefBindChildCommand(aRef1, ieRef1);
-        //assertTrue("Can't execute ContainerRefBindChildCoomand", cmd.canExecute());
+        //assertTrue("Can't execute ContainerRefBindChildCommand", cmd.canExecute());
         //cs.execute(cmd);
         
         assertTrue(aRef1.getNodes().size() == 3);
@@ -958,19 +958,19 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new ContainerRefBindChildCommand(aRef2, ieRef4);
-        assertTrue("Can't execute ContainerRefBindChildCoomand", cmd.canExecute()); //$NON-NLS-1$
+        assertTrue("Can't execute ContainerRefBindChildCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new MoveNodeCommand(ieRef6, 155, 362);
         assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new ContainerRefBindChildCommand(aRef2, ieRef6);
-        assertTrue("Can't execute ContainerRefBindChildCoomand", cmd.canExecute()); //$NON-NLS-1$
+        assertTrue("Can't execute ContainerRefBindChildCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new MoveNodeCommand(ieRef7, 353, 366);
         assertTrue("Can't execute MoveNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new ContainerRefBindChildCommand(aRef2, ieRef7);
-        assertTrue("Can't execute ContainerRefBindChildCoomand", cmd.canExecute()); //$NON-NLS-1$
+        assertTrue("Can't execute ContainerRefBindChildCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         assertTrue(aRef2.getNodes().size() == 3);
@@ -1005,7 +1005,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
         cs.execute(cmd);
         
         cmd = new ContainerRefBindChildCommand(aRef3, ieRef16);
-        assertTrue("Can't execute ContainerRefBindChildCoomand", cmd.canExecute()); //$NON-NLS-1$
+        assertTrue("Can't execute ContainerRefBindChildCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         assertTrue(aRef3.getNodes().size() == 1);
