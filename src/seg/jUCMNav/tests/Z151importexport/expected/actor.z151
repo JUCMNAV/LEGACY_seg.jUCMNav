@@ -15,6 +15,10 @@
             <startPoints></startPoints>
         </scenarioDefs>
     </ucmspec>
+    <metadata>
+        <name>_Use0to100EvaluationRange</name>
+        <value>false</value>
+    </metadata>
     <grlspec>
         <actors>
             <id>11</id>

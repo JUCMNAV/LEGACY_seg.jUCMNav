@@ -66,6 +66,17 @@ public class SkeletonClassesGenerator extends TestCase {
 		dstDirPath = generatedHome + "\\unmarshal\\urncore\\"; //$NON-NLS-1$
 		myPackageName = "urncore"; //$NON-NLS-1$
 		generateUNMarshalClasses(myPackageName, srcDirPath, dstDirPath, "", myPackageName); //$NON-NLS-1$
+
+		srcDirPath = jUCMNavHome + "\\src\\asd\\"; //$NON-NLS-1$
+		dstDirPath = generatedHome + "\\unmarshal\\asd\\"; //$NON-NLS-1$
+		myPackageName = "asd"; //$NON-NLS-1$
+		generateUNMarshalClasses(myPackageName, srcDirPath, dstDirPath, "", myPackageName); //$NON-NLS-1$
+
+		srcDirPath = jUCMNavHome + "\\src\\fm\\"; //$NON-NLS-1$
+		dstDirPath = generatedHome + "\\unmarshal\\fm\\"; //$NON-NLS-1$
+		myPackageName = "asd"; //$NON-NLS-1$
+		generateUNMarshalClasses(myPackageName, srcDirPath, dstDirPath, "", myPackageName); //$NON-NLS-1$
+
 	}
 
 	private void generateUNMarshalClasses(String myPackageName, String srcDirPath, String dstDirPath, String srcPrefix, String dstPrefix) {
@@ -256,7 +267,7 @@ public class SkeletonClassesGenerator extends TestCase {
 	}
 
 	private String getPrefix(String className) {
-		String[] suggestedPackage = { "grl", "urn", "urncore", "ucm", "ucm.map", "ucm.performance", "ucm.scenario" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+		String[] suggestedPackage = { "grl", "urn", "urncore", "ucm", "ucm.map", "ucm.performance", "ucm.scenario", "asd", "fm" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 		for (String packageName : suggestedPackage) {
 			try {
 				Class c = Class.forName(packageName + ".impl." + className + "Impl"); //$NON-NLS-1$ //$NON-NLS-2$

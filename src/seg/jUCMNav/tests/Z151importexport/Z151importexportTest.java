@@ -41,8 +41,6 @@ public class Z151importexportTest extends TestCase {
 		String actualPath= jUCMNavHome+actual+Z151file;
 		urn.URNspec urn = mockImport(expectedPath);
 		mockExport(urn, actualPath);
-		File expectedFile = new File(expectedPath);
-		File actualFile = new File(jUCMNavHome+actual+Z151file);
 		String expected =  ResolveIds(readFileAsString(expectedPath));
 		String actual =  ResolveIds(readFileAsString(actualPath));
 		System.out.println(expected);
@@ -79,7 +77,7 @@ public class Z151importexportTest extends TestCase {
 		MHandler mh = null;
 		FileOutputStream fos;
 		
-		// Marchal the URN spec to XML...
+		// Marshal the URN spec to XML...
 		try {
 			fos = new FileOutputStream(outputFile);
 			mh = new URNspecMHandler();
