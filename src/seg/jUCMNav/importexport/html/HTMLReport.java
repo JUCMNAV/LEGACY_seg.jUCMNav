@@ -3,7 +3,6 @@ package seg.jUCMNav.importexport.html;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
-import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLLinkableElement;
@@ -39,10 +38,6 @@ import java.util.Vector;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.widgets.Display;
-
-import com.lowagie.text.Cell;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Table;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.ExportImageGIF;
@@ -108,7 +103,6 @@ public class HTMLReport extends URNReport {
 	public static final int UCM_SCENARIOS = 1;
 	public static final int GRL_DEFINITIONS = 2;
 
-	private static Evaluation evaluation = null;
 	private static int evalValue = 0;
 
 	private HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>> evalTable = new HashMap<EvaluationStrategy, HashMap<GRLLinkableElement, Integer>>();
@@ -150,7 +144,6 @@ public class HTMLReport extends URNReport {
 	 * 
 	 */
 	public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
-		FileOutputStream imgFos = null;
 		IFigure pane;
 
 		// fetch the values of the UCMSHOWUCMDIAGRAMS, UCMSHOWSCENARIOINFO/EXEC, GRLSHOWGRLDIAGRAMS and
@@ -690,7 +683,6 @@ public class HTMLReport extends URNReport {
 			sb.append("</head>\n"); //$NON-NLS-1$
 			sb.append("<body style=\"margin: 3px; padding: 3px\">\n"); //$NON-NLS-1$
 
-			boolean hasStub = false;
 			Iterator nodeIter = null;
 
 			EList nodes = diagram.getNodes();
@@ -713,7 +705,6 @@ public class HTMLReport extends URNReport {
 
 					if (obj instanceof StubImpl) {
 						numOfStub++;
-						hasStub = true;
 						StubImpl stub = (StubImpl) obj;
 
 						EList bindings = stub.getBindings();
@@ -727,7 +718,7 @@ public class HTMLReport extends URNReport {
 							int width = 15;
 
 							bindIter = bindings.iterator();
-							int j = 0;
+
 							while (bindIter.hasNext()) {
 								obj = bindIter.next();
 								if (obj instanceof PluginBindingImpl) {
@@ -1661,9 +1652,7 @@ public class HTMLReport extends URNReport {
 			for (Iterator iter = ucmspec.getVariables().iterator(); iter.hasNext();) {
 
 				Variable var = (Variable) iter.next();
-				String varName = var.getName();
 				String varType = var.getType();
-				String varDescription = var.getDescription();
 
 				sb.append("&nbsp;&nbsp;&nbsp;" + i++ + ". " + EscapeUtils.escapeHTML(var.getName()) ); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -2038,7 +2027,7 @@ public class HTMLReport extends URNReport {
             }
             
         } catch (Exception e) {
-            jUCMNavErrorDialog error = new jUCMNavErrorDialog(e.getMessage());
+            new jUCMNavErrorDialog(e.getMessage());
             e.printStackTrace();
 
         }
@@ -2078,6 +2067,8 @@ public class HTMLReport extends URNReport {
 						strategies.put(columnNo, strategy);
 						columnNo++;
 					}
+
+					strategies = BatchEvaluationUtil.sortStrategies(strategies, 0);
 
 					outputStrategiesLegend( strategies, evalGroup, sb );
 					this.calculateAllEvaluations( strategies.values(), grlspec ); // build evaluations table
@@ -2171,6 +2162,9 @@ public class HTMLReport extends URNReport {
 						strategies.put(columnNo, strategy);
 						columnNo++;
 					}
+					
+					strategies = BatchEvaluationUtil.sortStrategies(strategies, 0);
+
 					outputStrategiesLegend( strategies, evalGroup, sb );
 					this.calculateAllEvaluations( strategies.values(), grlspec ); // build evaluations table
 
@@ -2270,8 +2264,6 @@ public class HTMLReport extends URNReport {
      */
     private void writeKpiConversionTables(GRLspec grlspec, StringBuffer sb) {
 		
-    	HashMap<Integer, EvaluationStrategy> strategies;
-
 		for( Object obj : grlspec.getKPIConversion()){
     		
 			QualitativeMappingsImpl currentKpiConv = (QualitativeMappingsImpl) obj;
