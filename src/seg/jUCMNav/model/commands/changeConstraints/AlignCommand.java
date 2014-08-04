@@ -33,6 +33,8 @@ public class AlignCommand extends AlignDistributeCommand {
 
     private int newCoordinate;
     private int newPositionElemDimension;
+    private boolean containerSel;
+    private String alignModelId;
 
     
     /**
@@ -52,6 +54,8 @@ public class AlignCommand extends AlignDistributeCommand {
     	this.sel = sel;
     	this.selType = selType;
     	this.moveType = moveType;
+    	containerSel = false;
+    	alignModelId = "notValidId";
     	
     	if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 ||
     			moveType.compareTo("seg.jUCMNav.AlignTop") == 0 ||
@@ -59,10 +63,14 @@ public class AlignCommand extends AlignDistributeCommand {
     		verticalMove = true;
     		axis = "y";
     	}
+    	
+       	if (Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
+    			Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
+       		containerSel = true;
+       		}
   	
     	
-    	if (Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
-    			Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
+    	if (containerSel){
     		
     		coordinatesValuesContainer = new HashMap<IURNContainerRef, HashMap <String, Integer>>() ;
     		newCoordinate = findCoordinatecontainer();
@@ -83,8 +91,7 @@ public class AlignCommand extends AlignDistributeCommand {
 
 	private void addMoveCommand() {
 		
-		if ( Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
-				Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
+		if ( containerSel ){
 			// adds the move command to be executed on the Command stack after this command
 	    	for(IURNContainerRef currentContainer : (List<IURNContainerRef>)sel){
 				add( new SetConstraintBoundContainerRefCompoundCommand(currentContainer, coordinatesValuesContainer.get(currentContainer).get("x"), 
@@ -117,10 +124,13 @@ public class AlignCommand extends AlignDistributeCommand {
 
     	// assigns a new coordinate for the URNmodelElement depending on the moveType variable
     	if( moveType.compareTo("seg.jUCMNav.AlignTop") == 0 || moveType.compareTo("seg.jUCMNav.AlignLeft") == 0){
-    		if( verticalMove)
+    		alignModelId = ((URNmodelElement)sel.get(0)).getId();
+    		
+    		if( verticalMove){
     			result = ((IURNNode)sel.get(0)).getY();
-    		else
+    		}else{
     			result = ((IURNNode)sel.get(0)).getX();
+    		}
     	}else if( moveType.compareTo("seg.jUCMNav.AlignMiddle") == 0 || moveType.compareTo("seg.jUCMNav.AlignCenter") == 0){
     		if( verticalMove){
     			result = ((IURNNode)sel.get(0)).getY() + 
@@ -132,6 +142,8 @@ public class AlignCommand extends AlignDistributeCommand {
     						((IURNNode)sel.get(0)).getX() )/2);
     		}
     	}else if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 || moveType.compareTo("seg.jUCMNav.AlignRight") == 0){
+    		alignModelId = ((URNmodelElement)sel.get(sel.size()-1)).getId();
+    		
     		if (verticalMove)
     			result = ((IURNNode)sel.get(sel.size()-1)).getY();
     		else
@@ -159,6 +171,8 @@ public class AlignCommand extends AlignDistributeCommand {
     	
     	// assigns a new coordinate for the URNmodelElement depending on the moveType variable
     	if( moveType.compareTo("seg.jUCMNav.AlignTop") == 0 || moveType.compareTo("seg.jUCMNav.AlignLeft") == 0){
+    		alignModelId = ((URNmodelElement)sel.get(0)).getId();
+    		
     		if (verticalMove)
     			result = selTemp.get(0).getY();
     		else
@@ -174,6 +188,8 @@ public class AlignCommand extends AlignDistributeCommand {
     						(selTemp.get(0).getX())) /2);
     		}
     	}else if( moveType.compareTo("seg.jUCMNav.AlignBottom") == 0 || moveType.compareTo("seg.jUCMNav.AlignRight") == 0){
+    		alignModelId = ((URNmodelElement)sel.get(sel.size()-1)).getId();
+    		
     		if (verticalMove)
     			result = selTemp.get(selTemp.size()-1).getY();
     		else
@@ -194,7 +210,7 @@ public class AlignCommand extends AlignDistributeCommand {
 			}else{
 				currentMeta = MetadataHelper.getMetaData(currentElem, "_width");
 			}
-				if ( coordinatesValues.get(currentElem.getId()).get(axis).compareTo(newCoordinate) == 0){	
+				if ( currentElem.getId().compareTo(alignModelId) == 0){	
 					if ( currentMeta != null){
 						newPositionElemDimension = Integer.valueOf(currentMeta);
 					}else{
@@ -223,7 +239,7 @@ public class AlignCommand extends AlignDistributeCommand {
 				}
 					// sets the new coordinate for each URNmodelElement differently depending on the moveType
 					
-					if ( coordinatesValues.get(currentElem.getId()).get(axis).compareTo(newCoordinate) != 0){	
+					if ( currentElem.getId().compareTo(alignModelId) != 0){	
 						
 				    	if( moveType.compareTo("seg.jUCMNav.AlignTop") == 0 || moveType.compareTo("seg.jUCMNav.AlignLeft") == 0){
 				    			coordinatesValues.get(currentElem.getId()).put(axis, newCoordinate);
@@ -243,11 +259,11 @@ public class AlignCommand extends AlignDistributeCommand {
     	// finds the height/width of the URNmodelElement for which the Y coordinate equals the newY variable
 		for(IURNContainerRef currentRef : (List<IURNContainerRef>) sel){	
 			if( verticalMove){
-					if ( coordinatesValuesContainer.get(currentRef).get("y").compareTo(newCoordinate) == 0){	
+					if ( ((URNmodelElement)currentRef).getId().compareTo(alignModelId) == 0){	
 						newPositionElemDimension = currentRef.getHeight();
 					}
 			}else{
-				if ( coordinatesValuesContainer.get(currentRef).get("x").compareTo(newCoordinate) == 0){	
+				if ( ((URNmodelElement)currentRef).getId().compareTo(alignModelId) == 0){	
 					newPositionElemDimension = currentRef.getWidth();
 				}
 			}
@@ -267,7 +283,7 @@ public class AlignCommand extends AlignDistributeCommand {
 				}
 				
 				// sets the new coordinate for each URNmodelElement differently depending on the moveType
-				if ( coordinatesValuesContainer.get(currentRef).get(axis).compareTo(newCoordinate) != 0){	
+				if ( ((URNmodelElement)currentRef).getId().compareTo(alignModelId) != 0){	
 						
 				    	if( moveType.compareTo("seg.jUCMNav.AlignTop") == 0 || moveType.compareTo("seg.jUCMNav.AlignLeft") == 0){
 				    			coordinatesValuesContainer.get(currentRef).put(axis, newCoordinate);
