@@ -1,6 +1,7 @@
 package seg.jUCMNav.model;
 
 import fm.FeatureDiagram;
+import fm.FeatureModel;
 import fm.FmFactory;
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
@@ -21,6 +22,7 @@ import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLspec;
 import grl.GrlFactory;
+import grl.ImpactModel;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
@@ -277,6 +279,10 @@ public class ModelCreationFactory implements CreationFactory {
                 result = ucmfactory.createUCMspec();
             } else if (targetClass.equals(GRLspec.class)) {
                 result = grlfactory.createGRLspec();
+            } else if (targetClass.equals(FeatureModel.class)) {
+                result = fmfactory.createFeatureModel();
+            } else if (targetClass.equals(ImpactModel.class)) {
+                result = grlfactory.createImpactModel();
             } else if (targetClass.equals(URNdefinition.class)) {
                 result = urncorefactory.createURNdefinition();
             } else if (targetClass.equals(URNlink.class)) {
@@ -727,6 +733,10 @@ public class ModelCreationFactory implements CreationFactory {
 
         // add its GRLspec
         urnspec.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
+        
+        // add feature model and impact model to GRLspec
+        urnspec.getGrlspec().setFeatureModel((FeatureModel) ModelCreationFactory.getNewObject(null, FeatureModel.class));
+        urnspec.getGrlspec().setImpactModel((ImpactModel) ModelCreationFactory.getNewObject(null, ImpactModel.class));
 
         // add a new GRL diagram to the GRLspec, if desired
         if (createGrl) {

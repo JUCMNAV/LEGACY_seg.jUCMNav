@@ -242,6 +242,15 @@ public interface GrlFactory extends EFactory {
 	ContributionRange createContributionRange();
 
 				/**
+	 * Returns a new object of class '<em>Impact Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Impact Model</em>'.
+	 * @generated
+	 */
+	ImpactModel createImpactModel();
+
+				/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

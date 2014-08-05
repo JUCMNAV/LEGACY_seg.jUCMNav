@@ -36,6 +36,7 @@ import grl.GRLNode;
 import grl.GRLspec;
 import grl.GrlFactory;
 import grl.GrlPackage;
+import grl.ImpactModel;
 import grl.ImportanceType;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
@@ -247,6 +248,13 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	private EClass contributionRangeEClass = null;
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass impactModelEClass = null;
 
 				/**
 	 * <!-- begin-user-doc -->
@@ -473,19 +481,19 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getGRLspec_KpiInformationElements() {
+	public EReference getGRLspec_ImpactModel() {
 		return (EReference)grLspecEClass.getEStructuralFeatures().get(8);
 	}
 
-    /**
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getGRLspec_KpiModelLinks() {
+    public EReference getGRLspec_KpiInformationElements() {
 		return (EReference)grLspecEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -494,8 +502,17 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getGRLspec_IndicatorGroup() {
+    public EReference getGRLspec_KpiModelLinks() {
 		return (EReference)grLspecEClass.getEStructuralFeatures().get(10);
+	}
+
+    /**
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 */
+    public EReference getGRLspec_IndicatorGroup() {
+		return (EReference)grLspecEClass.getEStructuralFeatures().get(11);
 	}
 
     /**
@@ -504,7 +521,16 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	public EReference getGRLspec_KPIConversion() {
-		return (EReference)grLspecEClass.getEStructuralFeatures().get(11);
+		return (EReference)grLspecEClass.getEStructuralFeatures().get(12);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGRLspec_FeatureModel() {
+		return (EReference)grLspecEClass.getEStructuralFeatures().get(13);
 	}
 
 				/**
@@ -1364,6 +1390,24 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getImpactModel() {
+		return impactModelEClass;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getImpactModel_Grlspec() {
+		return (EReference)impactModelEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1462,10 +1506,12 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		createEReference(grLspecEClass, GR_LSPEC__STRATEGIES);
 		createEReference(grLspecEClass, GR_LSPEC__CONTRIBUTION_GROUPS);
 		createEReference(grLspecEClass, GR_LSPEC__CONTRIBUTION_CONTEXTS);
+		createEReference(grLspecEClass, GR_LSPEC__IMPACT_MODEL);
 		createEReference(grLspecEClass, GR_LSPEC__KPI_INFORMATION_ELEMENTS);
 		createEReference(grLspecEClass, GR_LSPEC__KPI_MODEL_LINKS);
 		createEReference(grLspecEClass, GR_LSPEC__INDICATOR_GROUP);
 		createEReference(grLspecEClass, GR_LSPEC__KPI_CONVERSION);
+		createEReference(grLspecEClass, GR_LSPEC__FEATURE_MODEL);
 
 		beliefEClass = createEClass(BELIEF);
 		createEAttribute(beliefEClass, BELIEF__AUTHOR);
@@ -1586,6 +1632,9 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		createEAttribute(contributionRangeEClass, CONTRIBUTION_RANGE__STEP);
 		createEReference(contributionRangeEClass, CONTRIBUTION_RANGE__CHANGE);
 
+		impactModelEClass = createEClass(IMPACT_MODEL);
+		createEReference(impactModelEClass, IMPACT_MODEL__GRLSPEC);
+
 		// Create enums
 		criticalityEEnum = createEEnum(CRITICALITY);
 		intentionalElementTypeEEnum = createEEnum(INTENTIONAL_ELEMENT_TYPE);
@@ -1621,16 +1670,15 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 		// Obtain other dependent packages
 		KpimodelPackage theKpimodelPackage = (KpimodelPackage)EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI);
-		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 		UrnPackage theUrnPackage = (UrnPackage)EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI);
+		FmPackage theFmPackage = (FmPackage)EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI);
 		UrncorePackage theUrncorePackage = (UrncorePackage)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
+		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 
 		// Add subpackages
 		getESubpackages().add(theKpimodelPackage);
 
 		// Add supertypes to classes
-		grLspecEClass.getESuperTypes().add(theCorePackage.getCOREFeatureModel());
-		grLspecEClass.getESuperTypes().add(theCorePackage.getCOREImpactModel());
 		beliefEClass.getESuperTypes().add(this.getGRLNode());
 		intentionalElementEClass.getESuperTypes().add(this.getGRLLinkableElement());
 		actorEClass.getESuperTypes().add(this.getGRLLinkableElement());
@@ -1654,6 +1702,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		contributionContextEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
 		grlLinkableElementEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
 		collapsedActorRefEClass.getESuperTypes().add(this.getGRLNode());
+		impactModelEClass.getESuperTypes().add(theCorePackage.getCOREImpactModel());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(grLspecEClass, GRLspec.class, "GRLspec", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1665,10 +1714,12 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEReference(getGRLspec_Strategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_Grlspec(), "strategies", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGRLspec_ContributionGroups(), this.getContributionContextGroup(), this.getContributionContextGroup_Grlspec(), "contributionGroups", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGRLspec_ContributionContexts(), this.getContributionContext(), this.getContributionContext_Grlspec(), "contributionContexts", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGRLspec_ImpactModel(), this.getImpactModel(), this.getImpactModel_Grlspec(), "impactModel", null, 0, 1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGRLspec_KpiInformationElements(), theKpimodelPackage.getKPIInformationElement(), theKpimodelPackage.getKPIInformationElement_Grlspec(), "kpiInformationElements", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGRLspec_KpiModelLinks(), theKpimodelPackage.getKPIModelLink(), theKpimodelPackage.getKPIModelLink_Grlspec(), "kpiModelLinks", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGRLspec_IndicatorGroup(), theKpimodelPackage.getIndicatorGroup(), theKpimodelPackage.getIndicatorGroup_Grlspec(), "indicatorGroup", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGRLspec_KPIConversion(), theKpimodelPackage.getKPIConversion(), theKpimodelPackage.getKPIConversion_Grlspec(), "KPIConversion", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGRLspec_FeatureModel(), theFmPackage.getFeatureModel(), theFmPackage.getFeatureModel_Grlspec(), "featureModel", null, 0, 1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(beliefEClass, Belief.class, "Belief", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBelief_Author(), ecorePackage.getEString(), "author", null, 0, 1, Belief.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1788,6 +1839,9 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEAttribute(getContributionRange_End(), ecorePackage.getEInt(), "end", null, 0, 1, ContributionRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getContributionRange_Step(), ecorePackage.getEInt(), "step", "1", 0, 1, ContributionRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getContributionRange_Change(), this.getContributionChange(), this.getContributionChange_ContribRange(), "change", null, 1, 1, ContributionRange.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(impactModelEClass, ImpactModel.class, "ImpactModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getImpactModel_Grlspec(), this.getGRLspec(), this.getGRLspec_ImpactModel(), "grlspec", null, 1, 1, ImpactModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(criticalityEEnum, Criticality.class, "Criticality");

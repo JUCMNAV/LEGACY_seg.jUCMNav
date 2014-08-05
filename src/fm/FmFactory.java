@@ -58,6 +58,15 @@ public interface FmFactory extends EFactory {
 	OptionalFMLink createOptionalFMLink();
 
 	/**
+	 * Returns a new object of class '<em>Feature Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Feature Model</em>'.
+	 * @generated
+	 */
+	FeatureModel createFeatureModel();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

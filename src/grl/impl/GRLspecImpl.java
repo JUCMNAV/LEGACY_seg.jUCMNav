@@ -2,18 +2,20 @@
  */
 package grl.impl;
 
-import fm.Feature;
+import fm.FeatureModel;
+import fm.FmPackage;
+
 import grl.Actor;
 import grl.ContributionContext;
 import grl.ContributionContextGroup;
 import grl.ElementLink;
-import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.GrlPackage;
+import grl.ImpactModel;
 import grl.IntentionalElement;
-import grl.IntentionalElementRef;
 import grl.StrategiesGroup;
+
 import grl.kpimodel.IndicatorGroup;
 import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIInformationElement;
@@ -21,37 +23,24 @@ import grl.kpimodel.KPIModelLink;
 import grl.kpimodel.KpimodelPackage;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import seg.jUCMNav.core.COREFactory4URN;
-import seg.jUCMNav.editparts.IntentionalElementEditPart;
-import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
-import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
-import seg.jUCMNav.model.commands.create.CreateStrategyCommand;
-import seg.jUCMNav.model.commands.transformations.ChangeNumericalEvaluationCommand;
-import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import seg.jUCMNav.strategies.util.FeatureUtil;
 import urn.URNspec;
 import urn.UrnPackage;
-import ca.mcgill.sel.core.COREFeature;
-import ca.mcgill.sel.core.COREFeatureSelectionStatus;
-import ca.mcgill.sel.core.COREImpactModelElement;
-import ca.mcgill.sel.core.impl.COREFeatureModelImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -68,16 +57,18 @@ import ca.mcgill.sel.core.impl.COREFeatureModelImpl;
  *   <li>{@link grl.impl.GRLspecImpl#getStrategies <em>Strategies</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getContributionGroups <em>Contribution Groups</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getContributionContexts <em>Contribution Contexts</em>}</li>
+ *   <li>{@link grl.impl.GRLspecImpl#getImpactModel <em>Impact Model</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getKpiInformationElements <em>Kpi Information Elements</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getKpiModelLinks <em>Kpi Model Links</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getIndicatorGroup <em>Indicator Group</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getKPIConversion <em>KPI Conversion</em>}</li>
+ *   <li>{@link grl.impl.GRLspecImpl#getFeatureModel <em>Feature Model</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
+public class GRLspecImpl extends MinimalEObjectImpl.Container implements GRLspec {
 	/**
 	 * The cached value of the '{@link #getIntElements() <em>Int Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -149,6 +140,16 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 	protected EList contributionContexts;
 
 	/**
+	 * The cached value of the '{@link #getImpactModel() <em>Impact Model</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImpactModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected ImpactModel impactModel;
+
+	/**
 	 * The cached value of the '{@link #getKpiInformationElements() <em>Kpi Information Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -187,6 +188,16 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 	 * @ordered
 	 */
 	protected EList kpiConversion;
+
+	/**
+	 * The cached value of the '{@link #getFeatureModel() <em>Feature Model</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFeatureModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected FeatureModel featureModel;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -336,6 +347,66 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ImpactModel getImpactModel() {
+		if (impactModel != null && impactModel.eIsProxy()) {
+			InternalEObject oldImpactModel = (InternalEObject)impactModel;
+			impactModel = (ImpactModel)eResolveProxy(oldImpactModel);
+			if (impactModel != oldImpactModel) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.GR_LSPEC__IMPACT_MODEL, oldImpactModel, impactModel));
+			}
+		}
+		return impactModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ImpactModel basicGetImpactModel() {
+		return impactModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetImpactModel(ImpactModel newImpactModel, NotificationChain msgs) {
+		ImpactModel oldImpactModel = impactModel;
+		impactModel = newImpactModel;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.GR_LSPEC__IMPACT_MODEL, oldImpactModel, newImpactModel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setImpactModel(ImpactModel newImpactModel) {
+		if (newImpactModel != impactModel) {
+			NotificationChain msgs = null;
+			if (impactModel != null)
+				msgs = ((InternalEObject)impactModel).eInverseRemove(this, GrlPackage.IMPACT_MODEL__GRLSPEC, ImpactModel.class, msgs);
+			if (newImpactModel != null)
+				msgs = ((InternalEObject)newImpactModel).eInverseAdd(this, GrlPackage.IMPACT_MODEL__GRLSPEC, ImpactModel.class, msgs);
+			msgs = basicSetImpactModel(newImpactModel, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GR_LSPEC__IMPACT_MODEL, newImpactModel, newImpactModel));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList getKpiInformationElements() {
 		if (kpiInformationElements == null) {
 			kpiInformationElements = new EObjectContainmentWithInverseEList(KPIInformationElement.class, this, GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS, KpimodelPackage.KPI_INFORMATION_ELEMENT__GRLSPEC);
@@ -384,6 +455,66 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public FeatureModel getFeatureModel() {
+		if (featureModel != null && featureModel.eIsProxy()) {
+			InternalEObject oldFeatureModel = (InternalEObject)featureModel;
+			featureModel = (FeatureModel)eResolveProxy(oldFeatureModel);
+			if (featureModel != oldFeatureModel) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.GR_LSPEC__FEATURE_MODEL, oldFeatureModel, featureModel));
+			}
+		}
+		return featureModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FeatureModel basicGetFeatureModel() {
+		return featureModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetFeatureModel(FeatureModel newFeatureModel, NotificationChain msgs) {
+		FeatureModel oldFeatureModel = featureModel;
+		featureModel = newFeatureModel;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.GR_LSPEC__FEATURE_MODEL, oldFeatureModel, newFeatureModel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFeatureModel(FeatureModel newFeatureModel) {
+		if (newFeatureModel != featureModel) {
+			NotificationChain msgs = null;
+			if (featureModel != null)
+				msgs = ((InternalEObject)featureModel).eInverseRemove(this, FmPackage.FEATURE_MODEL__GRLSPEC, FeatureModel.class, msgs);
+			if (newFeatureModel != null)
+				msgs = ((InternalEObject)newFeatureModel).eInverseAdd(this, FmPackage.FEATURE_MODEL__GRLSPEC, FeatureModel.class, msgs);
+			msgs = basicSetFeatureModel(newFeatureModel, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GR_LSPEC__FEATURE_MODEL, newFeatureModel, newFeatureModel));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case GrlPackage.GR_LSPEC__URNSPEC:
@@ -404,6 +535,10 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 				return ((InternalEList)getContributionGroups()).basicAdd(otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS:
 				return ((InternalEList)getContributionContexts()).basicAdd(otherEnd, msgs);
+			case GrlPackage.GR_LSPEC__IMPACT_MODEL:
+				if (impactModel != null)
+					msgs = ((InternalEObject)impactModel).eInverseRemove(this, GrlPackage.IMPACT_MODEL__GRLSPEC, ImpactModel.class, msgs);
+				return basicSetImpactModel((ImpactModel)otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS:
 				return ((InternalEList)getKpiInformationElements()).basicAdd(otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__KPI_MODEL_LINKS:
@@ -412,6 +547,10 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 				return ((InternalEList)getIndicatorGroup()).basicAdd(otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
 				return ((InternalEList)getKPIConversion()).basicAdd(otherEnd, msgs);
+			case GrlPackage.GR_LSPEC__FEATURE_MODEL:
+				if (featureModel != null)
+					msgs = ((InternalEObject)featureModel).eInverseRemove(this, FmPackage.FEATURE_MODEL__GRLSPEC, FeatureModel.class, msgs);
+				return basicSetFeatureModel((FeatureModel)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -439,6 +578,8 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 				return ((InternalEList)getContributionGroups()).basicRemove(otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS:
 				return ((InternalEList)getContributionContexts()).basicRemove(otherEnd, msgs);
+			case GrlPackage.GR_LSPEC__IMPACT_MODEL:
+				return basicSetImpactModel(null, msgs);
 			case GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS:
 				return ((InternalEList)getKpiInformationElements()).basicRemove(otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__KPI_MODEL_LINKS:
@@ -447,6 +588,8 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 				return ((InternalEList)getIndicatorGroup()).basicRemove(otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
 				return ((InternalEList)getKPIConversion()).basicRemove(otherEnd, msgs);
+			case GrlPackage.GR_LSPEC__FEATURE_MODEL:
+				return basicSetFeatureModel(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -487,6 +630,9 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 				return getContributionGroups();
 			case GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS:
 				return getContributionContexts();
+			case GrlPackage.GR_LSPEC__IMPACT_MODEL:
+				if (resolve) return getImpactModel();
+				return basicGetImpactModel();
 			case GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS:
 				return getKpiInformationElements();
 			case GrlPackage.GR_LSPEC__KPI_MODEL_LINKS:
@@ -495,6 +641,9 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 				return getIndicatorGroup();
 			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
 				return getKPIConversion();
+			case GrlPackage.GR_LSPEC__FEATURE_MODEL:
+				if (resolve) return getFeatureModel();
+				return basicGetFeatureModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -537,6 +686,9 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 				getContributionContexts().clear();
 				getContributionContexts().addAll((Collection)newValue);
 				return;
+			case GrlPackage.GR_LSPEC__IMPACT_MODEL:
+				setImpactModel((ImpactModel)newValue);
+				return;
 			case GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS:
 				getKpiInformationElements().clear();
 				getKpiInformationElements().addAll((Collection)newValue);
@@ -552,6 +704,9 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
 				getKPIConversion().clear();
 				getKPIConversion().addAll((Collection)newValue);
+				return;
+			case GrlPackage.GR_LSPEC__FEATURE_MODEL:
+				setFeatureModel((FeatureModel)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -588,6 +743,9 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 			case GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS:
 				getContributionContexts().clear();
 				return;
+			case GrlPackage.GR_LSPEC__IMPACT_MODEL:
+				setImpactModel((ImpactModel)null);
+				return;
 			case GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS:
 				getKpiInformationElements().clear();
 				return;
@@ -599,6 +757,9 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 				return;
 			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
 				getKPIConversion().clear();
+				return;
+			case GrlPackage.GR_LSPEC__FEATURE_MODEL:
+				setFeatureModel((FeatureModel)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -627,6 +788,8 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 				return contributionGroups != null && !contributionGroups.isEmpty();
 			case GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS:
 				return contributionContexts != null && !contributionContexts.isEmpty();
+			case GrlPackage.GR_LSPEC__IMPACT_MODEL:
+				return impactModel != null;
 			case GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS:
 				return kpiInformationElements != null && !kpiInformationElements.isEmpty();
 			case GrlPackage.GR_LSPEC__KPI_MODEL_LINKS:
@@ -635,119 +798,10 @@ public class GRLspecImpl extends COREFeatureModelImpl implements GRLspec {
 				return indicatorGroup != null && !indicatorGroup.isEmpty();
 			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
 				return kpiConversion != null && !kpiConversion.isEmpty();
+			case GrlPackage.GR_LSPEC__FEATURE_MODEL:
+				return featureModel != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 */
-	public COREFeature getGlobalRoot() {
-		COREFactory4URN.setCOREInterfaceActive(true);
-//		GRLspec grl = this.getUrndefinition().getUrnspec().getGrlspec();
-//		List<Feature> roots = FeatureUtil.getRootFeatures(grl);
-		List<Feature> roots = FeatureUtil.getRootFeatures(this);
-		// only returns the first of possible many roots (URN does not constrain feature models to one root)
-		if (roots.isEmpty())
-			return (COREFeature) COREFactory4URN.returnResult(null);
-		else
-			return (COREFeature) COREFactory4URN.returnResult(roots.get(0)); 
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 */
-	public EvaluationResult select(List<COREFeature> features) {
-		COREFactory4URN.setCOREInterfaceActive(true);
-		if (features.size() == 0)
-			return (EvaluationResult) COREFactory4URN.returnResult(null);
-		Iterator<COREFeature> it = features.iterator();
-		URNspec urn = null;
-		Vector<IntentionalElementRef> featureRefs = new Vector<IntentionalElementRef>();
-		HashMap<COREFeature, String> featuresHash = new HashMap<COREFeature, String>();
-		while (it.hasNext()) {
-			COREFeature feature = it.next();
-			if (feature instanceof Feature) {
-				if (urn == null)
-					urn = ((Feature) feature).getGrlspec().getUrnspec();
-				if (!((Feature) feature).getRefs().isEmpty()) {
-					featureRefs.add((IntentionalElementRef) ((Feature) feature).getRefs().get(0));
-					featuresHash.put(feature, "");
-				}
-			}
-		}
-		if (urn == null)
-			return (EvaluationResult) COREFactory4URN.returnResult(null);
-
-		// create a new strategy based on the list of selected features
-		// TODO this creates a new strategy group each time, there should be a dedicated group for CORE
-		StrategiesGroup group = (StrategiesGroup) ModelCreationFactory.getNewObject(urn, StrategiesGroup.class);
-		CreateStrategiesGroupCommand csgCmd = new CreateStrategiesGroupCommand(urn, group);
-		if (csgCmd.canExecute())
-			csgCmd.execute();
-		else
-			return (EvaluationResult) COREFactory4URN.returnResult(null);
-		CreateStrategyCommand csCmd = new CreateStrategyCommand(urn, group);
-		EvaluationStrategy strategy = csCmd.getStrategy();
-		if (csCmd.canExecute())
-			csCmd.execute();
-		else 
-			return (EvaluationResult) COREFactory4URN.returnResult(null);
-		// select the new strategy and set the values of the selected features
-        EvaluationStrategyManager.getInstance().setStrategy(strategy);
-		ChangeNumericalEvaluationCommand cneCmd = new ChangeNumericalEvaluationCommand(featureRefs, ChangeNumericalEvaluationCommand.USER_ENTRY, 100, null);
-		if (cneCmd.canExecute())
-			cneCmd.execute();
-		else
-			return (EvaluationResult) COREFactory4URN.returnResult(null);
-
-		// execute the strategy by calling setStrategy again
-		EvaluationStrategyManager.getInstance().setStrategy(strategy);
-
-		// collect the results and prepare the EvaluationResult
-		// TODO only features are done so far, impact model results still need to be done
-		EvaluationResult er = new EvaluationResult();
-		Iterator it2 = urn.getGrlspec().getIntElements().iterator();
-		while (it2.hasNext()) {
-			IntentionalElement ie = (IntentionalElement) it2.next();
-			Evaluation evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(ie);
-			String color = IntentionalElementEditPart.determineColor(urn, ie, evaluation, false, IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL);
-			boolean warning = IntentionalElementEditPart.determineOverriddenWarning(ie, IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) || 
-					IntentionalElementEditPart.determineOrXorWarning(ie, IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL);
-			if (ie instanceof COREFeature) {
-				// color 96,255,96 = SELECTED unless in featuresHash, then USER_SELECTED
-				// color 169,169,169 = NOT_SELECTED_NO_ACTION
-				// color anything else but the above two = NOT_SELECTED_ACTION_REQUIRED
-				// warning = WARNING
-				COREFeatureSelectionStatus selectionStatus = COREFeatureSelectionStatus.NOT_SELECTED_ACTION_REQUIRED;
-				if (warning)
-					// TODO needs to differentiate between user selected and auto selected
-					selectionStatus = COREFeatureSelectionStatus.WARNING_USER_SELECTED;
-				else if (color.equals("169,169,169"))
-					selectionStatus = COREFeatureSelectionStatus.NOT_SELECTED_NO_ACTION;
-				else if (color.equals("96,255,96")) {
-					if (featuresHash.containsKey(ie))
-						selectionStatus = COREFeatureSelectionStatus.USER_SELECTED;
-					else
-						selectionStatus = COREFeatureSelectionStatus.AUTO_SELECTED;
-				}
-				er.featureResult.put((COREFeature) ie, selectionStatus);
-			}			
-		}
-
-		// return the evaluation result
-		return (EvaluationResult) COREFactory4URN.returnResult(er);
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 */
-	public class EvaluationResult {
-		public Map<COREFeature, COREFeatureSelectionStatus> featureResult = new HashMap<COREFeature, COREFeatureSelectionStatus>();
-		public Map<COREImpactModelElement, Integer> impactResult = new HashMap<COREImpactModelElement, Integer>();	
-	}
-	
 } //GRLspecImpl

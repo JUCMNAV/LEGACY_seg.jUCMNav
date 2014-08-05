@@ -6,9 +6,9 @@
  */
 package grl;
 
-import ca.mcgill.sel.core.COREFeatureModel;
-import ca.mcgill.sel.core.COREImpactModel;
+import fm.FeatureModel;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import urn.URNspec;
 
 /**
@@ -27,10 +27,12 @@ import urn.URNspec;
  *   <li>{@link grl.GRLspec#getStrategies <em>Strategies</em>}</li>
  *   <li>{@link grl.GRLspec#getContributionGroups <em>Contribution Groups</em>}</li>
  *   <li>{@link grl.GRLspec#getContributionContexts <em>Contribution Contexts</em>}</li>
+ *   <li>{@link grl.GRLspec#getImpactModel <em>Impact Model</em>}</li>
  *   <li>{@link grl.GRLspec#getKpiInformationElements <em>Kpi Information Elements</em>}</li>
  *   <li>{@link grl.GRLspec#getKpiModelLinks <em>Kpi Model Links</em>}</li>
  *   <li>{@link grl.GRLspec#getIndicatorGroup <em>Indicator Group</em>}</li>
  *   <li>{@link grl.GRLspec#getKPIConversion <em>KPI Conversion</em>}</li>
+ *   <li>{@link grl.GRLspec#getFeatureModel <em>Feature Model</em>}</li>
  * </ul>
  * </p>
  *
@@ -38,7 +40,7 @@ import urn.URNspec;
  * @model
  * @generated
  */
-public interface GRLspec extends COREFeatureModel, COREImpactModel {
+public interface GRLspec extends EObject {
     /**
 	 * Returns the value of the '<em><b>Urnspec</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link urn.URNspec#getGrlspec <em>Grlspec</em>}'.
@@ -194,6 +196,34 @@ public interface GRLspec extends COREFeatureModel, COREImpactModel {
 	EList getContributionContexts();
 
 				/**
+	 * Returns the value of the '<em><b>Impact Model</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link grl.ImpactModel#getGrlspec <em>Grlspec</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Impact Model</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Impact Model</em>' reference.
+	 * @see #setImpactModel(ImpactModel)
+	 * @see grl.GrlPackage#getGRLspec_ImpactModel()
+	 * @see grl.ImpactModel#getGrlspec
+	 * @model opposite="grlspec"
+	 * @generated
+	 */
+	ImpactModel getImpactModel();
+
+				/**
+	 * Sets the value of the '{@link grl.GRLspec#getImpactModel <em>Impact Model</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Impact Model</em>' reference.
+	 * @see #getImpactModel()
+	 * @generated
+	 */
+	void setImpactModel(ImpactModel value);
+
+				/**
 	 * Returns the value of the '<em><b>Kpi Information Elements</b></em>' containment reference list.
 	 * The list contents are of type {@link grl.kpimodel.KPIInformationElement}.
 	 * It is bidirectional and its opposite is '{@link grl.kpimodel.KPIInformationElement#getGrlspec <em>Grlspec</em>}'.
@@ -264,5 +294,33 @@ public interface GRLspec extends COREFeatureModel, COREImpactModel {
 	 * @generated
 	 */
 	EList getKPIConversion();
+
+				/**
+	 * Returns the value of the '<em><b>Feature Model</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link fm.FeatureModel#getGrlspec <em>Grlspec</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Feature Model</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Feature Model</em>' reference.
+	 * @see #setFeatureModel(FeatureModel)
+	 * @see grl.GrlPackage#getGRLspec_FeatureModel()
+	 * @see fm.FeatureModel#getGrlspec
+	 * @model opposite="grlspec"
+	 * @generated
+	 */
+	FeatureModel getFeatureModel();
+
+				/**
+	 * Sets the value of the '{@link grl.GRLspec#getFeatureModel <em>Feature Model</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Feature Model</em>' reference.
+	 * @see #getFeatureModel()
+	 * @generated
+	 */
+	void setFeatureModel(FeatureModel value);
 
 } // GRLspec

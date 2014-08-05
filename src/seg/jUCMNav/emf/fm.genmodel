@@ -12,6 +12,9 @@
     </genClasses>
     <genClasses ecoreClass="fm.ecore#//MandatoryFMLink"/>
     <genClasses ecoreClass="fm.ecore#//OptionalFMLink"/>
+    <genClasses ecoreClass="fm.ecore#//FeatureModel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference fm.ecore#//FeatureModel/grlspec"/>
+    </genClasses>
   </genPackages>
   <genPackages prefix="Grl" resource="XML" disposableProviderFactory="true" ecorePackage="grl.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="grl.ecore#//Criticality">
@@ -71,10 +74,12 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/strategies"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/contributionGroups"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/contributionContexts"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/impactModel"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/kpiInformationElements"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/kpiModelLinks"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/indicatorGroup"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/KPIConversion"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/featureModel"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//Belief">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Belief/author"/>
@@ -188,6 +193,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//ContributionRange/end"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//ContributionRange/step"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//ContributionRange/change"/>
+    </genClasses>
+    <genClasses ecoreClass="grl.ecore#//ImpactModel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//ImpactModel/grlspec"/>
     </genClasses>
     <nestedGenPackages prefix="Kpimodel" resource="XML" disposableProviderFactory="true"
         ecorePackage="grl.ecore#//kpimodel">

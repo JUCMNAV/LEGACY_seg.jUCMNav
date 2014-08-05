@@ -59,6 +59,7 @@ public class FmFactoryImpl extends EFactoryImpl implements FmFactory {
 			case FmPackage.FEATURE: return createFeature();
 			case FmPackage.MANDATORY_FM_LINK: return createMandatoryFMLink();
 			case FmPackage.OPTIONAL_FM_LINK: return createOptionalFMLink();
+			case FmPackage.FEATURE_MODEL: return createFeatureModel();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -102,6 +103,16 @@ public class FmFactoryImpl extends EFactoryImpl implements FmFactory {
 	public OptionalFMLink createOptionalFMLink() {
 		OptionalFMLinkImpl optionalFMLink = new OptionalFMLinkImpl();
 		return optionalFMLink;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FeatureModel createFeatureModel() {
+		FeatureModelImpl featureModel = new FeatureModelImpl();
+		return featureModel;
 	}
 
 	/**

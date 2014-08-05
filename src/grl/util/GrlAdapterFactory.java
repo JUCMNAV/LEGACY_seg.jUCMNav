@@ -6,7 +6,6 @@
  */
 package grl.util;
 
-import ca.mcgill.sel.core.COREFeatureModel;
 import ca.mcgill.sel.core.COREImpactModel;
 import ca.mcgill.sel.core.COREModel;
 import ca.mcgill.sel.core.CORENamedElement;
@@ -153,17 +152,11 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 			public Object caseContributionRange(ContributionRange object) {
 				return createContributionRangeAdapter();
 			}
+			public Object caseImpactModel(ImpactModel object) {
+				return createImpactModelAdapter();
+			}
 			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
-			}
-			public Object caseCOREModel(COREModel object) {
-				return createCOREModelAdapter();
-			}
-			public Object caseCOREFeatureModel(COREFeatureModel object) {
-				return createCOREFeatureModelAdapter();
-			}
-			public Object caseCOREImpactModel(COREImpactModel object) {
-				return createCOREImpactModelAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {
 				return createURNmodelElementAdapter();
@@ -185,6 +178,12 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseIURNConnection(IURNConnection object) {
 				return createIURNConnectionAdapter();
+			}
+			public Object caseCOREModel(COREModel object) {
+				return createCOREModelAdapter();
+			}
+			public Object caseCOREImpactModel(COREImpactModel object) {
+				return createCOREImpactModelAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
@@ -555,6 +554,20 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 				/**
+	 * Creates a new adapter for an object of class '{@link grl.ImpactModel <em>Impact Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see grl.ImpactModel
+	 * @generated
+	 */
+	public Adapter createImpactModelAdapter() {
+		return null;
+	}
+
+				/**
 	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.CORENamedElement <em>CORE Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -649,20 +662,6 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCOREModelAdapter() {
-		return null;
-	}
-
-				/**
-	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREFeatureModel <em>CORE Feature Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ca.mcgill.sel.core.COREFeatureModel
-	 * @generated
-	 */
-	public Adapter createCOREFeatureModelAdapter() {
 		return null;
 	}
 

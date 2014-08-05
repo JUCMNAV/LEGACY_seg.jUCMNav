@@ -74,49 +74,13 @@ public interface GrlPackage extends EPackage {
     int GR_LSPEC = 0;
 
     /**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GR_LSPEC__NAME = CorePackage.CORE_FEATURE_MODEL__NAME;
-
-				/**
-	 * The feature id for the '<em><b>Model Reuse</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GR_LSPEC__MODEL_REUSE = CorePackage.CORE_FEATURE_MODEL__MODEL_REUSE;
-
-				/**
-	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GR_LSPEC__MODEL_ELEMENTS = CorePackage.CORE_FEATURE_MODEL__MODEL_ELEMENTS;
-
-				/**
-	 * The feature id for the '<em><b>Realizes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GR_LSPEC__REALIZES = CorePackage.CORE_FEATURE_MODEL__REALIZES;
-
-				/**
 	 * The feature id for the '<em><b>Urnspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__URNSPEC = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 0;
+    int GR_LSPEC__URNSPEC = 0;
 
     /**
 	 * The feature id for the '<em><b>Int Elements</b></em>' containment reference list.
@@ -125,7 +89,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__INT_ELEMENTS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 1;
+    int GR_LSPEC__INT_ELEMENTS = 1;
 
     /**
 	 * The feature id for the '<em><b>Actors</b></em>' containment reference list.
@@ -134,7 +98,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__ACTORS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 2;
+    int GR_LSPEC__ACTORS = 2;
 
     /**
 	 * The feature id for the '<em><b>Links</b></em>' containment reference list.
@@ -143,7 +107,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__LINKS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 3;
+    int GR_LSPEC__LINKS = 3;
 
     /**
 	 * The feature id for the '<em><b>Groups</b></em>' containment reference list.
@@ -152,7 +116,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__GROUPS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 4;
+    int GR_LSPEC__GROUPS = 4;
 
     /**
 	 * The feature id for the '<em><b>Strategies</b></em>' containment reference list.
@@ -161,7 +125,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__STRATEGIES = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 5;
+    int GR_LSPEC__STRATEGIES = 5;
 
     /**
 	 * The feature id for the '<em><b>Contribution Groups</b></em>' containment reference list.
@@ -170,7 +134,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GR_LSPEC__CONTRIBUTION_GROUPS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 6;
+	int GR_LSPEC__CONTRIBUTION_GROUPS = 6;
 
 				/**
 	 * The feature id for the '<em><b>Contribution Contexts</b></em>' containment reference list.
@@ -179,7 +143,16 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GR_LSPEC__CONTRIBUTION_CONTEXTS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 7;
+	int GR_LSPEC__CONTRIBUTION_CONTEXTS = 7;
+
+				/**
+	 * The feature id for the '<em><b>Impact Model</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GR_LSPEC__IMPACT_MODEL = 8;
 
 				/**
 	 * The feature id for the '<em><b>Kpi Information Elements</b></em>' containment reference list.
@@ -188,7 +161,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__KPI_INFORMATION_ELEMENTS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 8;
+    int GR_LSPEC__KPI_INFORMATION_ELEMENTS = 9;
 
     /**
 	 * The feature id for the '<em><b>Kpi Model Links</b></em>' containment reference list.
@@ -197,7 +170,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__KPI_MODEL_LINKS = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 9;
+    int GR_LSPEC__KPI_MODEL_LINKS = 10;
 
     /**
 	 * The feature id for the '<em><b>Indicator Group</b></em>' containment reference list.
@@ -206,7 +179,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC__INDICATOR_GROUP = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 10;
+    int GR_LSPEC__INDICATOR_GROUP = 11;
 
     /**
 	 * The feature id for the '<em><b>KPI Conversion</b></em>' containment reference list.
@@ -215,7 +188,16 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GR_LSPEC__KPI_CONVERSION = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 11;
+	int GR_LSPEC__KPI_CONVERSION = 12;
+
+				/**
+	 * The feature id for the '<em><b>Feature Model</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GR_LSPEC__FEATURE_MODEL = 13;
 
 				/**
 	 * The number of structural features of the '<em>GR Lspec</em>' class.
@@ -224,7 +206,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GR_LSPEC_FEATURE_COUNT = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 12;
+    int GR_LSPEC_FEATURE_COUNT = 14;
 
     /**
 	 * The meta object id for the '{@link grl.impl.GRLNodeImpl <em>GRL Node</em>}' class.
@@ -3050,6 +3032,70 @@ public interface GrlPackage extends EPackage {
 	int CONTRIBUTION_RANGE_FEATURE_COUNT = 4;
 
 				/**
+	 * The meta object id for the '{@link grl.impl.ImpactModelImpl <em>Impact Model</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see grl.impl.ImpactModelImpl
+	 * @see grl.impl.GrlPackageImpl#getImpactModel()
+	 * @generated
+	 */
+	int IMPACT_MODEL = 25;
+
+				/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPACT_MODEL__NAME = CorePackage.CORE_IMPACT_MODEL__NAME;
+
+				/**
+	 * The feature id for the '<em><b>Model Reuse</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPACT_MODEL__MODEL_REUSE = CorePackage.CORE_IMPACT_MODEL__MODEL_REUSE;
+
+				/**
+	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPACT_MODEL__MODEL_ELEMENTS = CorePackage.CORE_IMPACT_MODEL__MODEL_ELEMENTS;
+
+				/**
+	 * The feature id for the '<em><b>Realizes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPACT_MODEL__REALIZES = CorePackage.CORE_IMPACT_MODEL__REALIZES;
+
+				/**
+	 * The feature id for the '<em><b>Grlspec</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPACT_MODEL__GRLSPEC = CorePackage.CORE_IMPACT_MODEL_FEATURE_COUNT + 0;
+
+				/**
+	 * The number of structural features of the '<em>Impact Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPACT_MODEL_FEATURE_COUNT = CorePackage.CORE_IMPACT_MODEL_FEATURE_COUNT + 1;
+
+				/**
 	 * The meta object id for the '{@link grl.Criticality <em>Criticality</em>}' enum.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3057,7 +3103,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getCriticality()
 	 * @generated
 	 */
-    int CRITICALITY = 25;
+    int CRITICALITY = 26;
 
     /**
 	 * The meta object id for the '{@link grl.IntentionalElementType <em>Intentional Element Type</em>}' enum.
@@ -3067,7 +3113,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getIntentionalElementType()
 	 * @generated
 	 */
-    int INTENTIONAL_ELEMENT_TYPE = 26;
+    int INTENTIONAL_ELEMENT_TYPE = 27;
 
     /**
 	 * The meta object id for the '{@link grl.Priority <em>Priority</em>}' enum.
@@ -3077,7 +3123,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getPriority()
 	 * @generated
 	 */
-    int PRIORITY = 27;
+    int PRIORITY = 28;
 
     /**
 	 * The meta object id for the '{@link grl.ContributionType <em>Contribution Type</em>}' enum.
@@ -3087,7 +3133,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getContributionType()
 	 * @generated
 	 */
-    int CONTRIBUTION_TYPE = 28;
+    int CONTRIBUTION_TYPE = 29;
 
     /**
 	 * The meta object id for the '{@link grl.DecompositionType <em>Decomposition Type</em>}' enum.
@@ -3097,7 +3143,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getDecompositionType()
 	 * @generated
 	 */
-    int DECOMPOSITION_TYPE = 29;
+    int DECOMPOSITION_TYPE = 30;
 
 
     /**
@@ -3108,7 +3154,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getQualitativeLabel()
 	 * @generated
 	 */
-	int QUALITATIVE_LABEL = 30;
+	int QUALITATIVE_LABEL = 31;
 
 
 				/**
@@ -3119,7 +3165,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getImportanceType()
 	 * @generated
 	 */
-	int IMPORTANCE_TYPE = 31;
+	int IMPORTANCE_TYPE = 32;
 
 
 				/**
@@ -3221,6 +3267,17 @@ public interface GrlPackage extends EPackage {
 	EReference getGRLspec_ContributionContexts();
 
 				/**
+	 * Returns the meta object for the reference '{@link grl.GRLspec#getImpactModel <em>Impact Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Impact Model</em>'.
+	 * @see grl.GRLspec#getImpactModel()
+	 * @see #getGRLspec()
+	 * @generated
+	 */
+	EReference getGRLspec_ImpactModel();
+
+				/**
 	 * Returns the meta object for the containment reference list '{@link grl.GRLspec#getKpiInformationElements <em>Kpi Information Elements</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3263,6 +3320,17 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getGRLspec_KPIConversion();
+
+				/**
+	 * Returns the meta object for the reference '{@link grl.GRLspec#getFeatureModel <em>Feature Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Feature Model</em>'.
+	 * @see grl.GRLspec#getFeatureModel()
+	 * @see #getGRLspec()
+	 * @generated
+	 */
+	EReference getGRLspec_FeatureModel();
 
 				/**
 	 * Returns the meta object for class '{@link grl.Belief <em>Belief</em>}'.
@@ -4286,6 +4354,27 @@ public interface GrlPackage extends EPackage {
 	EReference getContributionRange_Change();
 
 				/**
+	 * Returns the meta object for class '{@link grl.ImpactModel <em>Impact Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Impact Model</em>'.
+	 * @see grl.ImpactModel
+	 * @generated
+	 */
+	EClass getImpactModel();
+
+				/**
+	 * Returns the meta object for the reference '{@link grl.ImpactModel#getGrlspec <em>Grlspec</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Grlspec</em>'.
+	 * @see grl.ImpactModel#getGrlspec()
+	 * @see #getImpactModel()
+	 * @generated
+	 */
+	EReference getImpactModel_Grlspec();
+
+				/**
 	 * Returns the meta object for enum '{@link grl.Criticality <em>Criticality</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4452,6 +4541,14 @@ public interface GrlPackage extends EPackage {
 		EReference GR_LSPEC__CONTRIBUTION_CONTEXTS = eINSTANCE.getGRLspec_ContributionContexts();
 
 								/**
+		 * The meta object literal for the '<em><b>Impact Model</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GR_LSPEC__IMPACT_MODEL = eINSTANCE.getGRLspec_ImpactModel();
+
+								/**
 		 * The meta object literal for the '<em><b>Kpi Information Elements</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -4482,6 +4579,14 @@ public interface GrlPackage extends EPackage {
 		 * @generated
 		 */
 		EReference GR_LSPEC__KPI_CONVERSION = eINSTANCE.getGRLspec_KPIConversion();
+
+								/**
+		 * The meta object literal for the '<em><b>Feature Model</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GR_LSPEC__FEATURE_MODEL = eINSTANCE.getGRLspec_FeatureModel();
 
 								/**
 		 * The meta object literal for the '{@link grl.impl.BeliefImpl <em>Belief</em>}' class.
@@ -5290,6 +5395,24 @@ public interface GrlPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CONTRIBUTION_RANGE__CHANGE = eINSTANCE.getContributionRange_Change();
+
+								/**
+		 * The meta object literal for the '{@link grl.impl.ImpactModelImpl <em>Impact Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see grl.impl.ImpactModelImpl
+		 * @see grl.impl.GrlPackageImpl#getImpactModel()
+		 * @generated
+		 */
+		EClass IMPACT_MODEL = eINSTANCE.getImpactModel();
+
+								/**
+		 * The meta object literal for the '<em><b>Grlspec</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IMPACT_MODEL__GRLSPEC = eINSTANCE.getImpactModel_Grlspec();
 
 								/**
 		 * The meta object literal for the '{@link grl.Criticality <em>Criticality</em>}' enum.

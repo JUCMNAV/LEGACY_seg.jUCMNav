@@ -6,7 +6,6 @@
  */
 package grl.util;
 
-import ca.mcgill.sel.core.COREFeatureModel;
 import ca.mcgill.sel.core.COREImpactModel;
 import ca.mcgill.sel.core.COREModel;
 import ca.mcgill.sel.core.CORENamedElement;
@@ -99,10 +98,6 @@ public class GrlSwitch {
 			case GrlPackage.GR_LSPEC: {
 				GRLspec grLspec = (GRLspec)theEObject;
 				Object result = caseGRLspec(grLspec);
-				if (result == null) result = caseCOREFeatureModel(grLspec);
-				if (result == null) result = caseCOREImpactModel(grLspec);
-				if (result == null) result = caseCOREModel(grLspec);
-				if (result == null) result = caseCORENamedElement(grLspec);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -315,6 +310,15 @@ public class GrlSwitch {
 			case GrlPackage.CONTRIBUTION_RANGE: {
 				ContributionRange contributionRange = (ContributionRange)theEObject;
 				Object result = caseContributionRange(contributionRange);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GrlPackage.IMPACT_MODEL: {
+				ImpactModel impactModel = (ImpactModel)theEObject;
+				Object result = caseImpactModel(impactModel);
+				if (result == null) result = caseCOREImpactModel(impactModel);
+				if (result == null) result = caseCOREModel(impactModel);
+				if (result == null) result = caseCORENamedElement(impactModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -698,6 +702,21 @@ public class GrlSwitch {
 	}
 
 				/**
+	 * Returns the result of interpreting the object as an instance of '<em>Impact Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Impact Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseImpactModel(ImpactModel object) {
+		return null;
+	}
+
+				/**
 	 * Returns the result of interpreting the object as an instance of '<em>CORE Named Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -724,21 +743,6 @@ public class GrlSwitch {
 	 * @generated
 	 */
 	public Object caseCOREModel(COREModel object) {
-		return null;
-	}
-
-				/**
-	 * Returns the result of interpreting the object as an instance of '<em>CORE Feature Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>CORE Feature Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseCOREFeatureModel(COREFeatureModel object) {
 		return null;
 	}
 

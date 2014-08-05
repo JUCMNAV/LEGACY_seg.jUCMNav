@@ -10,6 +10,7 @@ import ca.mcgill.sel.core.CorePackage;
 
 import fm.Feature;
 import fm.FeatureDiagram;
+import fm.FeatureModel;
 import fm.FmFactory;
 import fm.FmPackage;
 import fm.MandatoryFMLink;
@@ -26,6 +27,7 @@ import grl.kpimodel.impl.KpimodelPackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
@@ -87,6 +89,13 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 	 * @generated
 	 */
 	private EClass optionalFMLinkEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass featureModelEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -231,6 +240,24 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getFeatureModel() {
+		return featureModelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFeatureModel_Grlspec() {
+		return (EReference)featureModelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public FmFactory getFmFactory() {
 		return (FmFactory)getEFactoryInstance();
 	}
@@ -262,6 +289,9 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 		mandatoryFMLinkEClass = createEClass(MANDATORY_FM_LINK);
 
 		optionalFMLinkEClass = createEClass(OPTIONAL_FM_LINK);
+
+		featureModelEClass = createEClass(FEATURE_MODEL);
+		createEReference(featureModelEClass, FEATURE_MODEL__GRLSPEC);
 	}
 
 	/**
@@ -297,6 +327,7 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 		featureEClass.getESuperTypes().add(theCorePackage.getCOREFeature());
 		mandatoryFMLinkEClass.getESuperTypes().add(theGrlPackage.getContribution());
 		optionalFMLinkEClass.getESuperTypes().add(theGrlPackage.getContribution());
+		featureModelEClass.getESuperTypes().add(theCorePackage.getCOREFeatureModel());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(featureDiagramEClass, FeatureDiagram.class, "FeatureDiagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -307,6 +338,9 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 		initEClass(mandatoryFMLinkEClass, MandatoryFMLink.class, "MandatoryFMLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(optionalFMLinkEClass, OptionalFMLink.class, "OptionalFMLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(featureModelEClass, FeatureModel.class, "FeatureModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFeatureModel_Grlspec(), theGrlPackage.getGRLspec(), theGrlPackage.getGRLspec_FeatureModel(), "grlspec", null, 1, 1, FeatureModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

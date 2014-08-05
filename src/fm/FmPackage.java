@@ -2,11 +2,14 @@
  */
 package fm;
 
+import ca.mcgill.sel.core.CorePackage;
+
 import grl.GrlPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -690,6 +693,70 @@ public interface FmPackage extends EPackage {
 	 */
 	int OPTIONAL_FM_LINK_FEATURE_COUNT = GrlPackage.CONTRIBUTION_FEATURE_COUNT + 0;
 
+	/**
+	 * The meta object id for the '{@link fm.impl.FeatureModelImpl <em>Feature Model</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fm.impl.FeatureModelImpl
+	 * @see fm.impl.FmPackageImpl#getFeatureModel()
+	 * @generated
+	 */
+	int FEATURE_MODEL = 4;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_MODEL__NAME = CorePackage.CORE_FEATURE_MODEL__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Model Reuse</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_MODEL__MODEL_REUSE = CorePackage.CORE_FEATURE_MODEL__MODEL_REUSE;
+
+	/**
+	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_MODEL__MODEL_ELEMENTS = CorePackage.CORE_FEATURE_MODEL__MODEL_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Realizes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_MODEL__REALIZES = CorePackage.CORE_FEATURE_MODEL__REALIZES;
+
+	/**
+	 * The feature id for the '<em><b>Grlspec</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_MODEL__GRLSPEC = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Feature Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_MODEL_FEATURE_COUNT = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 1;
+
 
 	/**
 	 * Returns the meta object for class '{@link fm.FeatureDiagram <em>Feature Diagram</em>}'.
@@ -741,6 +808,27 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getOptionalFMLink();
+
+	/**
+	 * Returns the meta object for class '{@link fm.FeatureModel <em>Feature Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Feature Model</em>'.
+	 * @see fm.FeatureModel
+	 * @generated
+	 */
+	EClass getFeatureModel();
+
+	/**
+	 * Returns the meta object for the reference '{@link fm.FeatureModel#getGrlspec <em>Grlspec</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Grlspec</em>'.
+	 * @see fm.FeatureModel#getGrlspec()
+	 * @see #getFeatureModel()
+	 * @generated
+	 */
+	EReference getFeatureModel_Grlspec();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -811,6 +899,24 @@ public interface FmPackage extends EPackage {
 		 * @generated
 		 */
 		EClass OPTIONAL_FM_LINK = eINSTANCE.getOptionalFMLink();
+
+		/**
+		 * The meta object literal for the '{@link fm.impl.FeatureModelImpl <em>Feature Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fm.impl.FeatureModelImpl
+		 * @see fm.impl.FmPackageImpl#getFeatureModel()
+		 * @generated
+		 */
+		EClass FEATURE_MODEL = eINSTANCE.getFeatureModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Grlspec</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FEATURE_MODEL__GRLSPEC = eINSTANCE.getFeatureModel_Grlspec();
 
 	}
 

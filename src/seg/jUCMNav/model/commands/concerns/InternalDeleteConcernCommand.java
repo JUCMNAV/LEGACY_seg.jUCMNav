@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.concerns;
 
 import org.eclipse.gef.commands.Command;
 
+import ca.mcgill.sel.core.COREConcern;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urncore.Concern;
 import urncore.URNdefinition;
@@ -17,6 +18,7 @@ public class InternalDeleteConcernCommand extends Command implements JUCMNavComm
     private Concern concern;
     // the URNdefinition in which it is contained (undo information)
     private URNdefinition oldUrnDefinition;
+    private COREConcern	oldCoreConcern;
 
     /**
      * @param concern
@@ -42,6 +44,7 @@ public class InternalDeleteConcernCommand extends Command implements JUCMNavComm
     public void execute() {
         // remember for undo
         oldUrnDefinition = concern.getUrndefinition();
+        oldCoreConcern = concern.getCoreConcern();
         redo();
     }
 
@@ -52,6 +55,7 @@ public class InternalDeleteConcernCommand extends Command implements JUCMNavComm
         testPreConditions();
         // break remaining association and thus remove concern since all other associations have already been deleted
         concern.setUrndefinition(null);
+        concern.setCoreConcern(null);
         testPostConditions();
     }
 
@@ -62,6 +66,7 @@ public class InternalDeleteConcernCommand extends Command implements JUCMNavComm
         testPostConditions();
         // re-add concern to the model
         concern.setUrndefinition(oldUrnDefinition);
+        concern.setCoreConcern(oldCoreConcern);
         testPreConditions();
     }
 

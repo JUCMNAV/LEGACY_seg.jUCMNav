@@ -3,6 +3,8 @@
 package fm.util;
 
 import ca.mcgill.sel.core.COREFeature;
+import ca.mcgill.sel.core.COREFeatureModel;
+import ca.mcgill.sel.core.COREModel;
 import ca.mcgill.sel.core.COREModelElement;
 import ca.mcgill.sel.core.CORENamedElement;
 
@@ -143,6 +145,15 @@ public class FmSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case FmPackage.FEATURE_MODEL: {
+				FeatureModel featureModel = (FeatureModel)theEObject;
+				Object result = caseFeatureModel(featureModel);
+				if (result == null) result = caseCOREFeatureModel(featureModel);
+				if (result == null) result = caseCOREModel(featureModel);
+				if (result == null) result = caseCORENamedElement(featureModel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -204,6 +215,21 @@ public class FmSwitch {
 	 * @generated
 	 */
 	public Object caseOptionalFMLink(OptionalFMLink object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Feature Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Feature Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseFeatureModel(FeatureModel object) {
 		return null;
 	}
 
@@ -369,6 +395,36 @@ public class FmSwitch {
 	 * @generated
 	 */
 	public Object caseContribution(Contribution object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>CORE Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CORE Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCOREModel(COREModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>CORE Feature Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CORE Feature Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCOREFeatureModel(COREFeatureModel object) {
 		return null;
 	}
 

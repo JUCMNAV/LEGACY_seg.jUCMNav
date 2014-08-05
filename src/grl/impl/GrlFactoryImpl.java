@@ -113,6 +113,7 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 			case GrlPackage.COLLAPSED_ACTOR_REF: return createCollapsedActorRef();
 			case GrlPackage.EVALUATION_RANGE: return createEvaluationRange();
 			case GrlPackage.CONTRIBUTION_RANGE: return createContributionRange();
+			case GrlPackage.IMPACT_MODEL: return createImpactModel();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -408,6 +409,16 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 	public ContributionRange createContributionRange() {
 		ContributionRangeImpl contributionRange = new ContributionRangeImpl();
 		return contributionRange;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ImpactModel createImpactModel() {
+		ImpactModelImpl impactModel = new ImpactModelImpl();
+		return impactModel;
 	}
 
 				/**
