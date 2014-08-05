@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,16 +31,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel {
-	/**
-	 * The cached value of the '{@link #getGrlspec() <em>Grlspec</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getGrlspec()
-	 * @generated
-	 * @ordered
-	 */
-	protected GRLspec grlspec;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -64,24 +55,8 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 	 * @generated
 	 */
 	public GRLspec getGrlspec() {
-		if (grlspec != null && grlspec.eIsProxy()) {
-			InternalEObject oldGrlspec = (InternalEObject)grlspec;
-			grlspec = (GRLspec)eResolveProxy(oldGrlspec);
-			if (grlspec != oldGrlspec) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.IMPACT_MODEL__GRLSPEC, oldGrlspec, grlspec));
-			}
-		}
-		return grlspec;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public GRLspec basicGetGrlspec() {
-		return grlspec;
+		if (eContainerFeatureID() != GrlPackage.IMPACT_MODEL__GRLSPEC) return null;
+		return (GRLspec)eInternalContainer();
 	}
 
 	/**
@@ -90,12 +65,7 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 	 * @generated
 	 */
 	public NotificationChain basicSetGrlspec(GRLspec newGrlspec, NotificationChain msgs) {
-		GRLspec oldGrlspec = grlspec;
-		grlspec = newGrlspec;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.IMPACT_MODEL__GRLSPEC, oldGrlspec, newGrlspec);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
+		msgs = eBasicSetContainer((InternalEObject)newGrlspec, GrlPackage.IMPACT_MODEL__GRLSPEC, msgs);
 		return msgs;
 	}
 
@@ -105,10 +75,12 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 	 * @generated
 	 */
 	public void setGrlspec(GRLspec newGrlspec) {
-		if (newGrlspec != grlspec) {
+		if (newGrlspec != eInternalContainer() || (eContainerFeatureID() != GrlPackage.IMPACT_MODEL__GRLSPEC && newGrlspec != null)) {
+			if (EcoreUtil.isAncestor(this, newGrlspec))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
-			if (grlspec != null)
-				msgs = ((InternalEObject)grlspec).eInverseRemove(this, GrlPackage.GR_LSPEC__IMPACT_MODEL, GRLspec.class, msgs);
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
 			if (newGrlspec != null)
 				msgs = ((InternalEObject)newGrlspec).eInverseAdd(this, GrlPackage.GR_LSPEC__IMPACT_MODEL, GRLspec.class, msgs);
 			msgs = basicSetGrlspec(newGrlspec, msgs);
@@ -126,8 +98,8 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case GrlPackage.IMPACT_MODEL__GRLSPEC:
-				if (grlspec != null)
-					msgs = ((InternalEObject)grlspec).eInverseRemove(this, GrlPackage.GR_LSPEC__IMPACT_MODEL, GRLspec.class, msgs);
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetGrlspec((GRLspec)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -151,11 +123,23 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case GrlPackage.IMPACT_MODEL__GRLSPEC:
+				return eInternalContainer().eInverseRemove(this, GrlPackage.GR_LSPEC__IMPACT_MODEL, GRLspec.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case GrlPackage.IMPACT_MODEL__GRLSPEC:
-				if (resolve) return getGrlspec();
-				return basicGetGrlspec();
+				return getGrlspec();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -196,7 +180,7 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case GrlPackage.IMPACT_MODEL__GRLSPEC:
-				return grlspec != null;
+				return getGrlspec() != null;
 		}
 		return super.eIsSet(featureID);
 	}

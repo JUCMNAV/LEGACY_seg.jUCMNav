@@ -196,7 +196,7 @@ public interface GRLspec extends EObject {
 	EList getContributionContexts();
 
 				/**
-	 * Returns the value of the '<em><b>Impact Model</b></em>' reference.
+	 * Returns the value of the '<em><b>Impact Model</b></em>' containment reference.
 	 * It is bidirectional and its opposite is '{@link grl.ImpactModel#getGrlspec <em>Grlspec</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -204,20 +204,20 @@ public interface GRLspec extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Impact Model</em>' reference.
+	 * @return the value of the '<em>Impact Model</em>' containment reference.
 	 * @see #setImpactModel(ImpactModel)
 	 * @see grl.GrlPackage#getGRLspec_ImpactModel()
 	 * @see grl.ImpactModel#getGrlspec
-	 * @model opposite="grlspec"
+	 * @model opposite="grlspec" containment="true"
 	 * @generated
 	 */
 	ImpactModel getImpactModel();
 
 				/**
-	 * Sets the value of the '{@link grl.GRLspec#getImpactModel <em>Impact Model</em>}' reference.
+	 * Sets the value of the '{@link grl.GRLspec#getImpactModel <em>Impact Model</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Impact Model</em>' reference.
+	 * @param value the new value of the '<em>Impact Model</em>' containment reference.
 	 * @see #getImpactModel()
 	 * @generated
 	 */
@@ -296,7 +296,7 @@ public interface GRLspec extends EObject {
 	EList getKPIConversion();
 
 				/**
-	 * Returns the value of the '<em><b>Feature Model</b></em>' reference.
+	 * Returns the value of the '<em><b>Feature Model</b></em>' containment reference.
 	 * It is bidirectional and its opposite is '{@link fm.FeatureModel#getGrlspec <em>Grlspec</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -304,20 +304,20 @@ public interface GRLspec extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Feature Model</em>' reference.
+	 * @return the value of the '<em>Feature Model</em>' containment reference.
 	 * @see #setFeatureModel(FeatureModel)
 	 * @see grl.GrlPackage#getGRLspec_FeatureModel()
 	 * @see fm.FeatureModel#getGrlspec
-	 * @model opposite="grlspec"
+	 * @model opposite="grlspec" containment="true"
 	 * @generated
 	 */
 	FeatureModel getFeatureModel();
 
 				/**
-	 * Sets the value of the '{@link grl.GRLspec#getFeatureModel <em>Feature Model</em>}' reference.
+	 * Sets the value of the '{@link grl.GRLspec#getFeatureModel <em>Feature Model</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Feature Model</em>' reference.
+	 * @param value the new value of the '<em>Feature Model</em>' containment reference.
 	 * @see #getFeatureModel()
 	 * @generated
 	 */

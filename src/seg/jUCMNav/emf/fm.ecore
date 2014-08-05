@@ -10,6 +10,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="OptionalFMLink" eSuperTypes="grl.ecore#//Contribution"/>
   <eClassifiers xsi:type="ecore:EClass" name="FeatureModel" eSuperTypes="../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREFeatureModel">
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
-        eType="ecore:EClass grl.ecore#//GRLspec" eOpposite="grl.ecore#//GRLspec/featureModel"/>
+        eType="ecore:EClass grl.ecore#//GRLspec" transient="true" eOpposite="grl.ecore#//GRLspec/featureModel"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -19,7 +19,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="contributionContexts" upperBound="-1"
         eType="#//ContributionContext" containment="true" eOpposite="#//ContributionContext/grlspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="impactModel" eType="#//ImpactModel"
-        eOpposite="#//ImpactModel/grlspec"/>
+        containment="true" eOpposite="#//ImpactModel/grlspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="kpiInformationElements"
         upperBound="-1" eType="#//kpimodel/KPIInformationElement" containment="true"
         eOpposite="#//kpimodel/KPIInformationElement/grlspec"/>
@@ -30,7 +30,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="KPIConversion" upperBound="-1"
         eType="#//kpimodel/KPIConversion" containment="true" eOpposite="#//kpimodel/KPIConversion/grlspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="featureModel" eType="ecore:EClass fm.ecore#//FeatureModel"
-        eOpposite="fm.ecore#//FeatureModel/grlspec"/>
+        containment="true" eOpposite="fm.ecore#//FeatureModel/grlspec"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Belief" eSuperTypes="#//GRLNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -256,7 +256,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ImpactModel" eSuperTypes="../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREImpactModel">
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
-        eType="#//GRLspec" eOpposite="#//GRLspec/impactModel"/>
+        eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/impactModel"/>
   </eClassifiers>
   <eSubpackages name="kpimodel" nsURI="http:///grl/kpimodel.ecore" nsPrefix="grl.kpimodel">
     <eClassifiers xsi:type="ecore:EClass" name="IndicatorGroup" eSuperTypes="urncore.ecore#//GRLmodelElement">

@@ -340,7 +340,7 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 		initEClass(optionalFMLinkEClass, OptionalFMLink.class, "OptionalFMLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(featureModelEClass, FeatureModel.class, "FeatureModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getFeatureModel_Grlspec(), theGrlPackage.getGRLspec(), theGrlPackage.getGRLspec_FeatureModel(), "grlspec", null, 1, 1, FeatureModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFeatureModel_Grlspec(), theGrlPackage.getGRLspec(), theGrlPackage.getGRLspec_FeatureModel(), "grlspec", null, 1, 1, FeatureModel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

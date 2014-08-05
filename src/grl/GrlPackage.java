@@ -146,7 +146,7 @@ public interface GrlPackage extends EPackage {
 	int GR_LSPEC__CONTRIBUTION_CONTEXTS = 7;
 
 				/**
-	 * The feature id for the '<em><b>Impact Model</b></em>' reference.
+	 * The feature id for the '<em><b>Impact Model</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -191,7 +191,7 @@ public interface GrlPackage extends EPackage {
 	int GR_LSPEC__KPI_CONVERSION = 12;
 
 				/**
-	 * The feature id for the '<em><b>Feature Model</b></em>' reference.
+	 * The feature id for the '<em><b>Feature Model</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3078,7 +3078,7 @@ public interface GrlPackage extends EPackage {
 	int IMPACT_MODEL__REALIZES = CorePackage.CORE_IMPACT_MODEL__REALIZES;
 
 				/**
-	 * The feature id for the '<em><b>Grlspec</b></em>' reference.
+	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -3267,10 +3267,10 @@ public interface GrlPackage extends EPackage {
 	EReference getGRLspec_ContributionContexts();
 
 				/**
-	 * Returns the meta object for the reference '{@link grl.GRLspec#getImpactModel <em>Impact Model</em>}'.
+	 * Returns the meta object for the containment reference '{@link grl.GRLspec#getImpactModel <em>Impact Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Impact Model</em>'.
+	 * @return the meta object for the containment reference '<em>Impact Model</em>'.
 	 * @see grl.GRLspec#getImpactModel()
 	 * @see #getGRLspec()
 	 * @generated
@@ -3322,10 +3322,10 @@ public interface GrlPackage extends EPackage {
 	EReference getGRLspec_KPIConversion();
 
 				/**
-	 * Returns the meta object for the reference '{@link grl.GRLspec#getFeatureModel <em>Feature Model</em>}'.
+	 * Returns the meta object for the containment reference '{@link grl.GRLspec#getFeatureModel <em>Feature Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Feature Model</em>'.
+	 * @return the meta object for the containment reference '<em>Feature Model</em>'.
 	 * @see grl.GRLspec#getFeatureModel()
 	 * @see #getGRLspec()
 	 * @generated
@@ -4364,10 +4364,10 @@ public interface GrlPackage extends EPackage {
 	EClass getImpactModel();
 
 				/**
-	 * Returns the meta object for the reference '{@link grl.ImpactModel#getGrlspec <em>Grlspec</em>}'.
+	 * Returns the meta object for the container reference '{@link grl.ImpactModel#getGrlspec <em>Grlspec</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Grlspec</em>'.
+	 * @return the meta object for the container reference '<em>Grlspec</em>'.
 	 * @see grl.ImpactModel#getGrlspec()
 	 * @see #getImpactModel()
 	 * @generated
@@ -4541,7 +4541,7 @@ public interface GrlPackage extends EPackage {
 		EReference GR_LSPEC__CONTRIBUTION_CONTEXTS = eINSTANCE.getGRLspec_ContributionContexts();
 
 								/**
-		 * The meta object literal for the '<em><b>Impact Model</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Impact Model</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -4581,7 +4581,7 @@ public interface GrlPackage extends EPackage {
 		EReference GR_LSPEC__KPI_CONVERSION = eINSTANCE.getGRLspec_KPIConversion();
 
 								/**
-		 * The meta object literal for the '<em><b>Feature Model</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Feature Model</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -5407,7 +5407,7 @@ public interface GrlPackage extends EPackage {
 		EClass IMPACT_MODEL = eINSTANCE.getImpactModel();
 
 								/**
-		 * The meta object literal for the '<em><b>Grlspec</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Grlspec</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

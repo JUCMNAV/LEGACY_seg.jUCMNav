@@ -140,7 +140,7 @@ public class GRLspecImpl extends MinimalEObjectImpl.Container implements GRLspec
 	protected EList contributionContexts;
 
 	/**
-	 * The cached value of the '{@link #getImpactModel() <em>Impact Model</em>}' reference.
+	 * The cached value of the '{@link #getImpactModel() <em>Impact Model</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getImpactModel()
@@ -190,7 +190,7 @@ public class GRLspecImpl extends MinimalEObjectImpl.Container implements GRLspec
 	protected EList kpiConversion;
 
 	/**
-	 * The cached value of the '{@link #getFeatureModel() <em>Feature Model</em>}' reference.
+	 * The cached value of the '{@link #getFeatureModel() <em>Feature Model</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getFeatureModel()
@@ -348,23 +348,6 @@ public class GRLspecImpl extends MinimalEObjectImpl.Container implements GRLspec
 	 * @generated
 	 */
 	public ImpactModel getImpactModel() {
-		if (impactModel != null && impactModel.eIsProxy()) {
-			InternalEObject oldImpactModel = (InternalEObject)impactModel;
-			impactModel = (ImpactModel)eResolveProxy(oldImpactModel);
-			if (impactModel != oldImpactModel) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.GR_LSPEC__IMPACT_MODEL, oldImpactModel, impactModel));
-			}
-		}
-		return impactModel;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ImpactModel basicGetImpactModel() {
 		return impactModel;
 	}
 
@@ -456,23 +439,6 @@ public class GRLspecImpl extends MinimalEObjectImpl.Container implements GRLspec
 	 * @generated
 	 */
 	public FeatureModel getFeatureModel() {
-		if (featureModel != null && featureModel.eIsProxy()) {
-			InternalEObject oldFeatureModel = (InternalEObject)featureModel;
-			featureModel = (FeatureModel)eResolveProxy(oldFeatureModel);
-			if (featureModel != oldFeatureModel) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.GR_LSPEC__FEATURE_MODEL, oldFeatureModel, featureModel));
-			}
-		}
-		return featureModel;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public FeatureModel basicGetFeatureModel() {
 		return featureModel;
 	}
 
@@ -537,7 +503,7 @@ public class GRLspecImpl extends MinimalEObjectImpl.Container implements GRLspec
 				return ((InternalEList)getContributionContexts()).basicAdd(otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__IMPACT_MODEL:
 				if (impactModel != null)
-					msgs = ((InternalEObject)impactModel).eInverseRemove(this, GrlPackage.IMPACT_MODEL__GRLSPEC, ImpactModel.class, msgs);
+					msgs = ((InternalEObject)impactModel).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - GrlPackage.GR_LSPEC__IMPACT_MODEL, null, msgs);
 				return basicSetImpactModel((ImpactModel)otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS:
 				return ((InternalEList)getKpiInformationElements()).basicAdd(otherEnd, msgs);
@@ -549,7 +515,7 @@ public class GRLspecImpl extends MinimalEObjectImpl.Container implements GRLspec
 				return ((InternalEList)getKPIConversion()).basicAdd(otherEnd, msgs);
 			case GrlPackage.GR_LSPEC__FEATURE_MODEL:
 				if (featureModel != null)
-					msgs = ((InternalEObject)featureModel).eInverseRemove(this, FmPackage.FEATURE_MODEL__GRLSPEC, FeatureModel.class, msgs);
+					msgs = ((InternalEObject)featureModel).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - GrlPackage.GR_LSPEC__FEATURE_MODEL, null, msgs);
 				return basicSetFeatureModel((FeatureModel)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -631,8 +597,7 @@ public class GRLspecImpl extends MinimalEObjectImpl.Container implements GRLspec
 			case GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS:
 				return getContributionContexts();
 			case GrlPackage.GR_LSPEC__IMPACT_MODEL:
-				if (resolve) return getImpactModel();
-				return basicGetImpactModel();
+				return getImpactModel();
 			case GrlPackage.GR_LSPEC__KPI_INFORMATION_ELEMENTS:
 				return getKpiInformationElements();
 			case GrlPackage.GR_LSPEC__KPI_MODEL_LINKS:
@@ -642,8 +607,7 @@ public class GRLspecImpl extends MinimalEObjectImpl.Container implements GRLspec
 			case GrlPackage.GR_LSPEC__KPI_CONVERSION:
 				return getKPIConversion();
 			case GrlPackage.GR_LSPEC__FEATURE_MODEL:
-				if (resolve) return getFeatureModel();
-				return basicGetFeatureModel();
+				return getFeatureModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

@@ -24,15 +24,15 @@ import grl.GRLspec;
  */
 public interface FeatureModel extends COREFeatureModel {
 	/**
-	 * Returns the value of the '<em><b>Grlspec</b></em>' reference.
+	 * Returns the value of the '<em><b>Grlspec</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link grl.GRLspec#getFeatureModel <em>Feature Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Grlspec</em>' reference isn't clear,
+	 * If the meaning of the '<em>Grlspec</em>' container reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Grlspec</em>' reference.
+	 * @return the value of the '<em>Grlspec</em>' container reference.
 	 * @see #setGrlspec(GRLspec)
 	 * @see fm.FmPackage#getFeatureModel_Grlspec()
 	 * @see grl.GRLspec#getFeatureModel
@@ -42,10 +42,10 @@ public interface FeatureModel extends COREFeatureModel {
 	GRLspec getGrlspec();
 
 	/**
-	 * Sets the value of the '{@link fm.FeatureModel#getGrlspec <em>Grlspec</em>}' reference.
+	 * Sets the value of the '{@link fm.FeatureModel#getGrlspec <em>Grlspec</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Grlspec</em>' reference.
+	 * @param value the new value of the '<em>Grlspec</em>' container reference.
 	 * @see #getGrlspec()
 	 * @generated
 	 */

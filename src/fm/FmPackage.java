@@ -740,7 +740,7 @@ public interface FmPackage extends EPackage {
 	int FEATURE_MODEL__REALIZES = CorePackage.CORE_FEATURE_MODEL__REALIZES;
 
 	/**
-	 * The feature id for the '<em><b>Grlspec</b></em>' reference.
+	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -820,10 +820,10 @@ public interface FmPackage extends EPackage {
 	EClass getFeatureModel();
 
 	/**
-	 * Returns the meta object for the reference '{@link fm.FeatureModel#getGrlspec <em>Grlspec</em>}'.
+	 * Returns the meta object for the container reference '{@link fm.FeatureModel#getGrlspec <em>Grlspec</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Grlspec</em>'.
+	 * @return the meta object for the container reference '<em>Grlspec</em>'.
 	 * @see fm.FeatureModel#getGrlspec()
 	 * @see #getFeatureModel()
 	 * @generated
@@ -911,7 +911,7 @@ public interface FmPackage extends EPackage {
 		EClass FEATURE_MODEL = eINSTANCE.getFeatureModel();
 
 		/**
-		 * The meta object literal for the '<em><b>Grlspec</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Grlspec</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
