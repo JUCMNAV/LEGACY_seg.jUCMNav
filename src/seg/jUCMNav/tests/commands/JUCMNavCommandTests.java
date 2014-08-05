@@ -1720,11 +1720,39 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue(start.getX() == startOldXCoordinate);
         assertTrue(resp2.getX() == resp2OldXCoordinate);
         assertTrue(resp.getX() == respOldXCoordinate);
+        
+        // test distribute horizontally with nodes
+      	DistributeCommand cmd9 = new DistributeCommand(nodes, 4, "seg.jUCMNav.DistributeHorizontally", false);
+        assertTrue("Can't execute DistributeCommand.", cmd9.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd9);
+
+        assertTrue(start.getX() == startOldXCoordinate);
+        assertTrue(resp.getX() == respOldXCoordinate);
+        assertTrue(resp2.getX() == startOldXCoordinate + (respOldXCoordinate - startOldXCoordinate)/2 );
+        
+        cs.undo();
+        assertTrue(start.getX() == startOldXCoordinate);
+        assertTrue(resp2.getX() == resp2OldXCoordinate);
+        assertTrue(resp.getX() == respOldXCoordinate);
 
         // test distribute centers vertically with nodes
       	DistributeCommand cmd5 = new DistributeCommand(nodes, 4, "seg.jUCMNav.DistributeCentersVertically", false);
         assertTrue("Can't execute DistributeCommand.", cmd5.canExecute()); //$NON-NLS-1$
         cs.execute(cmd5);
+
+        assertTrue(start.getY() == startOldYCoordinate);
+        assertTrue(resp.getY() == respOldYCoordinate);
+        assertTrue(resp2.getY() == startOldYCoordinate + (respOldYCoordinate - startOldYCoordinate)/2 );
+        
+        cs.undo();
+        assertTrue(start.getY() == startOldYCoordinate);
+        assertTrue(resp2.getY() == resp2OldYCoordinate);
+        assertTrue(resp.getY() == respOldYCoordinate);
+        
+        // test distribute vertically with nodes
+      	DistributeCommand cmd10 = new DistributeCommand(nodes, 4, "seg.jUCMNav.DistributeVertically", false);
+        assertTrue("Can't execute DistributeCommand.", cmd10.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd10);
 
         assertTrue(start.getY() == startOldYCoordinate);
         assertTrue(resp.getY() == respOldYCoordinate);
@@ -1755,6 +1783,19 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue(compRef2.getX() == compRef2OldXCoordinate);
         assertTrue(compRef3.getX() == compRef3OldXCoordinate);
         
+        // test distribute horizontally with components
+      	DistributeCommand cmd11 = new DistributeCommand(components, 3, "seg.jUCMNav.DistributeHorizontally", false);
+        assertTrue("Can't execute DistributeCommand.", cmd11.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd11);
+        
+        assertTrue(compRef3.getX() == (compRefOldXCoordinate + compRef.getWidth() + 25));
+        assertTrue(compRef2.getX() == (compRefOldXCoordinate + compRef.getWidth() + 50 + compRef3.getWidth()));
+        
+        cs.undo();
+        assertTrue(compRef.getX() == compRefOldXCoordinate);
+        assertTrue(compRef2.getX() == compRef2OldXCoordinate);
+        assertTrue(compRef3.getX() == compRef3OldXCoordinate);
+        
         // test distribute centers vertically with components
       	DistributeCommand cmd8 = new DistributeCommand(components, 3, "seg.jUCMNav.DistributeCentersVertically", false);
         assertTrue("Can't execute DistributeCommand.", cmd8.canExecute()); //$NON-NLS-1$
@@ -1763,6 +1804,19 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue(compRef3.getY() == 
         	( (compRef.getY()+compRef.getHeight()/2) + ((compRef2.getY()+compRef2.getHeight()/2) - 
         			(compRef.getY()+compRef.getHeight()/2))/2 - compRef3.getHeight()/2));
+        cs.undo();
+        assertTrue(compRef.getY() == compRefOldYCoordinate);
+        assertTrue(compRef2.getY() == compRef2OldYCoordinate);
+        assertTrue(compRef3.getY() == compRef3OldYCoordinate);
+        
+        // test distribute vertically with components
+      	DistributeCommand cmd12 = new DistributeCommand(components, 3, "seg.jUCMNav.DistributeVertically", false);
+        assertTrue("Can't execute DistributeCommand.", cmd12.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd12);
+         
+        assertTrue(compRef3.getY() == (compRefOldYCoordinate + compRef.getHeight() + 25));
+        assertTrue(compRef2.getY() == (compRefOldYCoordinate + compRef.getHeight() + 50 + compRef3.getHeight()));
+        
         cs.undo();
         assertTrue(compRef.getY() == compRefOldYCoordinate);
         assertTrue(compRef2.getY() == compRef2OldYCoordinate);

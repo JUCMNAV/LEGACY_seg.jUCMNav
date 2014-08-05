@@ -1725,6 +1725,20 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(ieRef2.getX() == ieRef2OldXCoordinate);
         assertTrue(ieRef3.getX() == ieRef3OldXCoordinate);
         
+        // test distribute horizontally with intentional elements
+      	DistributeCommand cmd11 = new DistributeCommand(intElems, 1, "seg.jUCMNav.DistributeHorizontally", false);
+        assertTrue("Can't execute DistributeCommand.", cmd11.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd11);
+
+        
+        assertTrue(ieRef3.getX() == (ieRef1OldXCoordinate + ieRef1width + 25 ));
+        assertTrue(ieRef2.getX() == (ieRef1OldXCoordinate + ieRef1width + ieRef3width + 50));
+        
+        cs.undo();
+        assertTrue(ieRef1.getX() == ieRef1OldXCoordinate);
+        assertTrue(ieRef2.getX() == ieRef2OldXCoordinate);
+        assertTrue(ieRef3.getX() == ieRef3OldXCoordinate);
+        
         // test distribute centers vertically with intentional elements
       	DistributeCommand cmd8 = new DistributeCommand(intElems, 1, "seg.jUCMNav.DistributeCentersVertically", false);
         assertTrue("Can't execute DistributeCommand.", cmd8.canExecute()); //$NON-NLS-1$
@@ -1742,6 +1756,19 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(ieRef2.getY() == ieRef2OldYCoordinate);
         assertTrue(ieRef3.getY() == ieRef3OldYCoordinate);
  
+        // test distribute vertically with intentional elements
+      	DistributeCommand cmd12 = new DistributeCommand(intElems, 1, "seg.jUCMNav.DistributeVertically", false);
+        assertTrue("Can't execute DistributeCommand.", cmd12.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd12);
+        
+        assertTrue(ieRef3.getY() == (ieRef1OldYCoordinate + ieRef1height + 25 ));
+        assertTrue(ieRef2.getY() == (ieRef1OldYCoordinate + ieRef1height + ieRef3height + 50));
+        
+        cs.undo();
+        assertTrue(ieRef1.getY() == ieRef1OldYCoordinate);
+        assertTrue(ieRef2.getY() == ieRef2OldYCoordinate);
+        assertTrue(ieRef3.getY() == ieRef3OldYCoordinate);
+        
         // test distribute centers horizontally with actors
       	DistributeCommand cmd9 = new DistributeCommand(actors, 2, "seg.jUCMNav.DistributeCentersHorizontally", false);
         assertTrue("Can't execute DistributeCommand.", cmd9.canExecute()); //$NON-NLS-1$
@@ -1755,6 +1782,20 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(actorref2.getX() == actorref2OldXCoordinate);
         assertTrue(actorref3.getX() == actorref3OldXCoordinate);
         
+        // test distribute horizontally with actors
+      	DistributeCommand cmd13 = new DistributeCommand(actors, 2, "seg.jUCMNav.DistributeHorizontally", false);
+        assertTrue("Can't execute DistributeCommand.", cmd13.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd13);
+        
+        assertTrue(actorref3.getX() == (actorrefOldXCoordinate + actorref.getWidth() + 25));
+        assertTrue(actorref2.getX() == (actorrefOldXCoordinate + actorref.getWidth() + 50 + actorref3.getWidth()));
+        
+        cs.undo();
+        assertTrue(actorref.getX() == actorrefOldXCoordinate);
+        assertTrue(actorref2.getX() == actorref2OldXCoordinate);
+        assertTrue(actorref3.getX() == actorref3OldXCoordinate);
+
+        
         // test distribute centers vertically with actors
       	DistributeCommand cmd10 = new DistributeCommand(actors, 2, "seg.jUCMNav.DistributeCentersVertically", false);
         assertTrue("Can't execute DistributeCommand.", cmd10.canExecute()); //$NON-NLS-1$
@@ -1767,7 +1808,21 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(actorref.getY() == actorrefOldYCoordinate);
         assertTrue(actorref2.getY() == actorref2OldYCoordinate);
         assertTrue(actorref3.getY() == actorref3OldYCoordinate);
+
     	
+        // test distribute vertically with actors
+      	DistributeCommand cmd14 = new DistributeCommand(actors, 2, "seg.jUCMNav.DistributeVertically", false);
+        assertTrue("Can't execute DistributeCommand.", cmd14.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd14);
+         
+        assertTrue(actorref3.getY() == (actorrefOldYCoordinate + actorref.getHeight() + 25));
+        assertTrue(actorref2.getY() == (actorrefOldYCoordinate + actorref.getHeight() + 50 + actorref3.getHeight()));
+        
+        cs.undo();
+        assertTrue(actorref.getY() == actorrefOldYCoordinate);
+        assertTrue(actorref2.getY() == actorref2OldYCoordinate);
+        assertTrue(actorref3.getY() == actorref3OldYCoordinate);
+        
         cs.undo();
         cs.undo();
         
