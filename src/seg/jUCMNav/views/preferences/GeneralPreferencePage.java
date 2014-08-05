@@ -3,6 +3,7 @@ package seg.jUCMNav.views.preferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -33,6 +34,8 @@ import seg.jUCMNav.figures.ColorManager;
 public class GeneralPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
     public static final String PREF_AUTHOR = "PREF_AUTHOR"; //$NON-NLS-1$
+    public static final String PREF_DISTRIBUTE_SPACING = "PREF_DISTRIBUTE_SPACING"; //$NON-NLS-1$
+    public static final int DEFAULT_DISTRIBUTE_SPACING = 25; //$NON-NLS-1$
     public static final String PREF_STRICTCODEEDITOR = "PREF_STRICTCODEEDITOR"; //$NON-NLS-1$
     public static final String PREF_METADATAINDVISIBLE = "PREF_METADATAINDVISIBLE"; //$NON-NLS-1$
     public static final String PREF_ANTIALIASING = "PREF_ANTIALIASING"; //$NON-NLS-1$
@@ -66,7 +69,11 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     protected void createFieldEditors() {
         StringFieldEditor author = new StringFieldEditor(PREF_AUTHOR, Messages.getString("GeneralPreferencePage.author"), getFieldEditorParent()); //$NON-NLS-1$
         addField(author);
-
+        
+       
+        StringFieldEditor distributeSpacing = new StringFieldEditor(PREF_DISTRIBUTE_SPACING, Messages.getString("GeneralPreferencePage.distributeSpacing"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(distributeSpacing);
+        
         // Group for display options
         Group displayOptions = new Group(getFieldEditorParent(), SWT.SHADOW_ETCHED_IN);
         displayOptions.setText(Messages.getString("GeneralPreferencePage.DisplayOptions")); //$NON-NLS-1$
@@ -174,6 +181,23 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     	if (COREFactory4URN.isCOREInterfaceActive())
     		return COREFactory4URN.AUTHOR_NAME;
         return JUCMNavPlugin.getDefault().getPreferenceStore().getString(PREF_AUTHOR);
+    }
+    
+     
+    /**
+     * 
+     * @return the distribute spacing value
+     */
+    public static String getDistributeSpacing() {
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getString(PREF_DISTRIBUTE_SPACING);
+    }
+    
+    /**
+     * 
+     * @return the distribute spacing value
+     */
+    public static void setDistributeSpacing(int value) {
+        JUCMNavPlugin.getDefault().getPreferenceStore().setValue(PREF_DISTRIBUTE_SPACING, value);
     }
 
     /**

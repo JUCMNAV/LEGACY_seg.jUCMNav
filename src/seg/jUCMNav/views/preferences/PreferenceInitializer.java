@@ -31,6 +31,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         PreferenceConverter.setDefault(store, ColorManagementPreferencePage.PREF_POINTCUTBORDERCOLOR, ColorManager.DARKGRAY.getRGB());
 
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_AUTHOR, System.getProperty("user.name")); //$NON-NLS-1$
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_DISTRIBUTE_SPACING, GeneralPreferencePage.DEFAULT_DISTRIBUTE_SPACING); //$NON-NLS-1$
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_STRICTCODEEDITOR, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_METADATAINDVISIBLE, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_ANTIALIASING, true);
