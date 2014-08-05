@@ -20,47 +20,47 @@ import urncore.IURNDiagram;
  */
 public class AutoLayoutActionDelegate implements IEditorActionDelegate {
 
-    private UCMNavMultiPageEditor editor;
+	private UCMNavMultiPageEditor editor;
 
-    /**
-     * 
-     * Sets the {@link UCMNavMultiPageEditor}.
-     * 
-     */
-    public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-    	// DB: avoid class cast exception with e4
-    	if ( targetEditor instanceof UCMNavMultiPageEditor ) {
-    		editor = (UCMNavMultiPageEditor) targetEditor;
-    	}
-    }
+	/**
+	 * 
+	 * Sets the {@link UCMNavMultiPageEditor}.
+	 * 
+	 */
+	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
+		// DB: avoid class cast exception with e4
+		if ( targetEditor instanceof UCMNavMultiPageEditor ) {
+			editor = (UCMNavMultiPageEditor) targetEditor;
+		}
+	}
 
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
-     */
-    public void selectionChanged(IAction action, ISelection selection) {
-        // we dont' depend on the selection.
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+	 */
+	public void selectionChanged(IAction action, ISelection selection) {
+		// we dont' depend on the selection.
 
-    }
+	}
 
-    /**
-     * Launches the {@link AutoLayoutWizard}
-     */
-    public void run(IAction action) {
-        if (editor.getCurrentPage() != null) {
-            if (editor.getCurrentPage() instanceof UrnEditor) {
-                IURNDiagram map = ((editor.getCurrentPage()).getModel());
+	/**
+	 * Launches the {@link AutoLayoutWizard}
+	 */
+	public void run(IAction action) {
+		if (editor.getCurrentPage() != null) {
+			if (editor.getCurrentPage() instanceof UrnEditor) {
+				IURNDiagram diagram = ((editor.getCurrentPage()).getModel());
 
-                AutoLayoutWizard wizard = new AutoLayoutWizard(editor.getCurrentPage(), map);
+				AutoLayoutWizard wizard = new AutoLayoutWizard(editor.getCurrentPage(), diagram);
 
-                WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
+				WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
 
-                dialog.open();
-            } else {
-                System.out.println(Messages.getString("AutoLayoutActionDelegate.AutolayoutNotAvailable")); //$NON-NLS-1$
-            }
-        }
-    }
+				dialog.open();
+			} else {
+				System.out.println(Messages.getString("AutoLayoutActionDelegate.AutolayoutNotAvailable")); //$NON-NLS-1$
+			}
+		}
+	}
 
 }

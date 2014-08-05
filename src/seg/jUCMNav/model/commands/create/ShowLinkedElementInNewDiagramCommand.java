@@ -234,7 +234,7 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
 		AutoLayoutWizard wizard = new AutoLayoutWizard(urneditor, (IURNDiagram) newGraph);
  
 		wizard.addIntentionalElemRefDimensions();
-	    String initial = ExportLayoutDOT.convertUCMToDot((IURNDiagram) newGraph);
+	    String initial = ExportLayoutDOT.convertURNToDot((IURNDiagram) newGraph);
 	    String positioned = wizard.autoLayoutDotString(initial);
 	    
 	    CompoundCommand cmdResult = null;
