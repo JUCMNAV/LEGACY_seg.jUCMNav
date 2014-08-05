@@ -1708,8 +1708,8 @@ public class JUCMNavGRLCommandTests extends TestCase {
         actors.add(actorref2);
         actors.add(actorref3);
         
-        // test distribute horizontally with intentional elements
-      	DistributeCommand cmd6 = new DistributeCommand(intElems, 1, "seg.jUCMNav.DistributeHorizontally");
+        // test distribute centers horizontally with intentional elements
+      	DistributeCommand cmd6 = new DistributeCommand(intElems, 1, "seg.jUCMNav.DistributeCentersHorizontally", false);
         assertTrue("Can't execute DistributeCommand.", cmd6.canExecute()); //$NON-NLS-1$
         cs.execute(cmd6);
         
@@ -1725,8 +1725,8 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(ieRef2.getX() == ieRef2OldXCoordinate);
         assertTrue(ieRef3.getX() == ieRef3OldXCoordinate);
         
-        // test distribute vertically with intentional elements
-      	DistributeCommand cmd8 = new DistributeCommand(intElems, 1, "seg.jUCMNav.DistributeVertically");
+        // test distribute centers vertically with intentional elements
+      	DistributeCommand cmd8 = new DistributeCommand(intElems, 1, "seg.jUCMNav.DistributeCentersVertically", false);
         assertTrue("Can't execute DistributeCommand.", cmd8.canExecute()); //$NON-NLS-1$
         cs.execute(cmd8);
         
@@ -1742,8 +1742,8 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(ieRef2.getY() == ieRef2OldYCoordinate);
         assertTrue(ieRef3.getY() == ieRef3OldYCoordinate);
  
-        // test distribute horizontally with actors
-      	DistributeCommand cmd9 = new DistributeCommand(actors, 2, "seg.jUCMNav.DistributeHorizontally");
+        // test distribute centers horizontally with actors
+      	DistributeCommand cmd9 = new DistributeCommand(actors, 2, "seg.jUCMNav.DistributeCentersHorizontally", false);
         assertTrue("Can't execute DistributeCommand.", cmd9.canExecute()); //$NON-NLS-1$
         cs.execute(cmd9);
         
@@ -1755,8 +1755,8 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue(actorref2.getX() == actorref2OldXCoordinate);
         assertTrue(actorref3.getX() == actorref3OldXCoordinate);
         
-        // test distribute vertically with actors
-      	DistributeCommand cmd10 = new DistributeCommand(actors, 2, "seg.jUCMNav.DistributeVertically");
+        // test distribute centers vertically with actors
+      	DistributeCommand cmd10 = new DistributeCommand(actors, 2, "seg.jUCMNav.DistributeCentersVertically", false);
         assertTrue("Can't execute DistributeCommand.", cmd10.canExecute()); //$NON-NLS-1$
         cs.execute(cmd10);
          

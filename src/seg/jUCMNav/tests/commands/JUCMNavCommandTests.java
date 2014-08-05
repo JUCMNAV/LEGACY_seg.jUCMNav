@@ -1707,8 +1707,8 @@ public class JUCMNavCommandTests extends TestCase {
         components.add(compRef2);
         components.add(compRef3);
         
-        // test distribute horizontally with nodes
-      	DistributeCommand cmd4 = new DistributeCommand(nodes, 4, "seg.jUCMNav.DistributeHorizontally");
+        // test distribute centers horizontally with nodes
+      	DistributeCommand cmd4 = new DistributeCommand(nodes, 4, "seg.jUCMNav.DistributeCentersHorizontally", false);
         assertTrue("Can't execute DistributeCommand.", cmd4.canExecute()); //$NON-NLS-1$
         cs.execute(cmd4);
 
@@ -1721,8 +1721,8 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue(resp2.getX() == resp2OldXCoordinate);
         assertTrue(resp.getX() == respOldXCoordinate);
 
-        // test distribute vertically with nodes
-      	DistributeCommand cmd5 = new DistributeCommand(nodes, 4, "seg.jUCMNav.DistributeVertically");
+        // test distribute centers vertically with nodes
+      	DistributeCommand cmd5 = new DistributeCommand(nodes, 4, "seg.jUCMNav.DistributeCentersVertically", false);
         assertTrue("Can't execute DistributeCommand.", cmd5.canExecute()); //$NON-NLS-1$
         cs.execute(cmd5);
 
@@ -1742,8 +1742,8 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue(resp2.getY() == startOldYCoordinate + (respOldYCoordinate - startOldYCoordinate)/2 );
         cs.undo();
         
-        // test distribute horizontally with components
-      	DistributeCommand cmd6 = new DistributeCommand(components, 3, "seg.jUCMNav.DistributeHorizontally");
+        // test distribute centers horizontally with components
+      	DistributeCommand cmd6 = new DistributeCommand(components, 3, "seg.jUCMNav.DistributeCentersHorizontally", false);
         assertTrue("Can't execute DistributeCommand.", cmd6.canExecute()); //$NON-NLS-1$
         cs.execute(cmd6);
          
@@ -1755,8 +1755,8 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue(compRef2.getX() == compRef2OldXCoordinate);
         assertTrue(compRef3.getX() == compRef3OldXCoordinate);
         
-        // test distribute vertically with components
-      	DistributeCommand cmd8 = new DistributeCommand(components, 3, "seg.jUCMNav.DistributeVertically");
+        // test distribute centers vertically with components
+      	DistributeCommand cmd8 = new DistributeCommand(components, 3, "seg.jUCMNav.DistributeCentersVertically", false);
         assertTrue("Can't execute DistributeCommand.", cmd8.canExecute()); //$NON-NLS-1$
         cs.execute(cmd8);
          
