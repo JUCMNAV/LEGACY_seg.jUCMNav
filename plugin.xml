@@ -891,16 +891,9 @@
                label="Align">
             <command
                   commandId="seg.jUCMNav.AlignPulldownCommand"
-                  icon="icons/AlignIcon.ico"
+                  icon="icons/AlignLeft.ico"
                   id="seg.jUCMNav.AlignCommandPulldown"
                   label="%Align"
-                  style="pulldown">
-            </command>
-            <command
-                  commandId="seg.jUCMNav.DistributePulldown"
-                  icon="icons/Distribute.png"
-                  id="seg.jUCMNav.DistributeCommandPulldown"
-                  label="%Distribute"
                   style="pulldown">
             </command>
          </toolbar>
@@ -968,13 +961,35 @@
                   value="seg.jUCMNav.AlignRight">
             </parameter>
          </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:seg.jUCMNav.DistributeCommandPulldown">
+         <separator
+               name="seg.jUCMNav.separator1"
+               visible="true">
+         </separator>
          <command
                commandId="seg.jUCMNav.DistributeCommand"
-               icon="icons/DistributeVertical.png"
+               icon="icons/DistributeCentersVertically.ico"
+               id="Distribute Centers Vertically"
+               label="%DistributeCentersVertically"
+               style="push">
+            <parameter
+                  name="seg.jUCMNav.DistributeType"
+                  value="seg.jUCMNav.DistributeCentersVertically">
+            </parameter>
+         </command>
+         <command
+               commandId="seg.jUCMNav.DistributeCommand"
+               icon="icons/DistributeCentersHorizontally.ico"
+               id="Distribute Centers Horizontally"
+               label="%DistributeCentersHorizontally"
+               style="push">
+            <parameter
+                  name="seg.jUCMNav.DistributeType"
+                  value="seg.jUCMNav.DistributeCentersHorizontally">
+            </parameter>
+         </command>
+         <command
+               commandId="seg.jUCMNav.DistributeCommand"
+               icon="icons/DistributeVertically.ico"
                id="Distribute Vertically"
                label="%DistributeVertically"
                style="push">
@@ -985,13 +1000,23 @@
          </command>
          <command
                commandId="seg.jUCMNav.DistributeCommand"
-               icon="icons/DistributeHorizontal.png"
+               icon="icons/DistributeHorizontally.ico"
                id="Distribute Horizontally"
                label="%DistributeHorizontally"
                style="push">
             <parameter
                   name="seg.jUCMNav.DistributeType"
                   value="seg.jUCMNav.DistributeHorizontally">
+            </parameter>
+         </command>
+         <command
+               commandId="seg.jUCMNav.DistributeCommand"
+               id="Distribute Custom"
+               label="%DistributeCustom"
+               style="push">
+            <parameter
+                  name="seg.jUCMNav.DistributeType"
+                  value="seg.jUCMNav.DistributeCustom">
             </parameter>
          </command>
       </menuContribution>
@@ -1013,12 +1038,8 @@
          </commandParameter>
       </command>
       <command
-            id="seg.jUCMNav.DistributePulldown"
-            name="DistributePulldown">
-      </command>
-      <command
             id="seg.jUCMNav.DistributeCommand"
-            name="Distribute">
+            name="%Distribute">
          <commandParameter
                id="seg.jUCMNav.DistributeType"
                name="Distribute Type"
@@ -1054,18 +1075,6 @@
          </enabledWhen>
       </handler>
       <handler
-            class="seg.jUCMNav.model.commands.handlers.DistributePulldownCommandHandler"
-            commandId="seg.jUCMNav.DistributePulldown">
-         <enabledWhen>
-            <with
-                  variable="seg.jUCMNav.selectionState">
-               <equals
-                     value="valid">
-               </equals>
-            </with>
-         </enabledWhen>
-      </handler>
-      <handler
             class="seg.jUCMNav.model.commands.handlers.DistributeCommandHandler"
             commandId="seg.jUCMNav.DistributeCommand">
          <enabledWhen>
@@ -1074,6 +1083,14 @@
                <equals
                      value="valid">
                </equals>
+               <and>
+                  <with
+                        variable="seg.jUCMNav.enoughSelected">
+                     <equals
+                           value="greaterThan2">
+                     </equals>
+                  </with>
+               </and>
             </with>
          </enabledWhen>
       </handler>
@@ -1088,6 +1105,10 @@
          </variable>
          <variable
                name="seg.jUCMNav.AlignSelectionType"
+               priorityLevel="workbench">
+         </variable>
+         <variable
+               name="seg.jUCMNav.enoughSelected"
                priorityLevel="workbench">
          </variable>
       </sourceProvider>

@@ -14,6 +14,9 @@ public class DistributeTypeCommandParameter implements IParameterValues {
 		
 		parameters.put("DistributeVertically", "seg.jUCMNav.DistributeVertically");
 		parameters.put("DistributeHorizontally", "seg.jUCMNav.DistributeHorizontally");
+		parameters.put("DistributeCentersVertically", "seg.jUCMNav.DistributeCentersVertically");
+		parameters.put("DistributeCentersHorizontally", "seg.jUCMNav.DistributeCentersHorizontally");
+		parameters.put("DistributeCustom","seg.jUCMNav.DistributeCustom" );
 		
 		return parameters;
 	}

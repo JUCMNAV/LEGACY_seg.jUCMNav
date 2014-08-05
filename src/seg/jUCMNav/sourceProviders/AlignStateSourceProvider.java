@@ -40,11 +40,14 @@ import urncore.URNmodelElement;
 public class AlignStateSourceProvider extends AbstractSourceProvider {
 	
 	public final static String SELECTION_STATE = "seg.jUCMNav.selectionState";
-	
+	public final static String ENOUGH_SELECTED = "seg.jUCMNav.enoughSelected";	
 	public final static String SELECTION_TYPE = "seg.jUCMNav.AlignSelectionType";
 	
 	private final static String SEL_VALID = "valid"; 
     private final static String SEL_NOTVALID = "notValid"; 
+    private final static String NOT_ENOUGH_SELECTED = "notEnough";
+    private final static String ENOUGH_SELECTED_2 = "greaterThan1";
+    private final static String ENOUGH_SELECTED_3 = "greaterThan2";
 	
 	 	private static final String SELTYPE_INTENTIONALELEMENT = "1";
 	 	private static final String SELTYPE_ACTOR = "2";
@@ -63,6 +66,7 @@ public class AlignStateSourceProvider extends AbstractSourceProvider {
 	    private List<ComponentRef> componentList;
 	    private List<PathNode> pathNodeList;
 	    private List<String> notEmptyTypes;
+	    private int num;
 	
 	    boolean isSelectionValid;
 	
@@ -87,6 +91,8 @@ public class AlignStateSourceProvider extends AbstractSourceProvider {
 			String typeState = selType;
 			currentState.put(SELECTION_TYPE, typeState);
 		}
+		
+		
 
 		return currentState;
 	}
@@ -112,6 +118,33 @@ public class AlignStateSourceProvider extends AbstractSourceProvider {
 		this.isSelectionValid = isSelectionValid;
 		String state = isSelectionValid?SEL_VALID:SEL_NOTVALID;
 		fireSourceChanged(ISources.WORKBENCH, SELECTION_STATE, state);
+	}
+	
+	/*
+	 * Sets the ENOUGH_SELECTED to the right string
+	 * if there has been a changed in the state.
+	 * 
+	 * @param num
+	 * 		0 if less than 1 elem selected, 1 if more than 1 elem selected
+	 * and 2 if more than 2 elem selected
+	 */
+	
+	public void setEnoughSelected(int num){
+		
+		String state = null;
+		
+		if( num == this.num){
+			return; // no change
+		}else if ( num == 0){
+			state = NOT_ENOUGH_SELECTED;
+		}else if( num == 1){
+			state = ENOUGH_SELECTED_2;
+		}else if ( num  == 2){
+			state = ENOUGH_SELECTED_3;
+		}
+		
+		this.num = num;
+		fireSourceChanged(ISources.WORKBENCH, ENOUGH_SELECTED, state);
 	}
 	
 	/*
@@ -205,8 +238,18 @@ public class AlignStateSourceProvider extends AbstractSourceProvider {
               	}
         	}
         	if (wholeSelection != null){
-        		if( wholeSelection.size() < 2)
+        		
+        		if( wholeSelection.size() < 2){
         			result = false;
+        			setEnoughSelected(0);
+        		}
+        		
+        		if ( wholeSelection.size() == 2 ){
+        			setEnoughSelected(1);
+        		}
+        		
+        		if( wholeSelection.size() > 2)
+        			setEnoughSelected(2);
         	}
         	
         }catch(Exception e){
@@ -246,5 +289,6 @@ public class AlignStateSourceProvider extends AbstractSourceProvider {
 			MetadataHelper.addMetaData(node.getDiagram().getUrndefinition().getUrnspec(),
 					(URNmodelElement)node, "_width", String.valueOf(width));
 			}
+	
 	
 }

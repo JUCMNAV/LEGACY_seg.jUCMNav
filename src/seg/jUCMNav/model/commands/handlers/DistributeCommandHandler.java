@@ -3,6 +3,7 @@ package seg.jUCMNav.model.commands.handlers;
 import grl.ActorRef;
 import grl.IntentionalElementRef;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import seg.jUCMNav.editparts.StubEditPart;
 import seg.jUCMNav.model.commands.changeConstraints.AlignCommand;
 import seg.jUCMNav.model.commands.changeConstraints.DistributeCommand;
 import seg.jUCMNav.sourceProviders.AlignStateSourceProvider;
+import seg.jUCMNav.views.wizards.DistributeCustomDialog;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import urn.URNspec;
@@ -42,7 +44,7 @@ public class DistributeCommandHandler extends AbstractHandler implements IHandle
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
-		CommandStack cmdStack = ((UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
+		final CommandStack cmdStack = ((UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
 				getActiveEditor()).getDelegatingCommandStack();
 		
 		// getting the selection type
@@ -51,14 +53,27 @@ public class DistributeCommandHandler extends AbstractHandler implements IHandle
         AlignStateSourceProvider alignStateSourceProvider = (AlignStateSourceProvider) 
         		service.getSourceProvider(AlignStateSourceProvider.SELECTION_TYPE);
        
-       String selectionType = alignStateSourceProvider.getCurrentState().get("seg.jUCMNav.AlignSelectionType");
+       final String selectionType = alignStateSourceProvider.getCurrentState().get("seg.jUCMNav.AlignSelectionType");
        
-       String distributeType = event.getParameter("seg.jUCMNav.DistributeType");
+       final String distributeType = event.getParameter("seg.jUCMNav.DistributeType");
        
-       List sel = alignStateSourceProvider.getFilterdSelection();
+       final List sel = alignStateSourceProvider.getFilterdSelection();
 
-       cmdStack.execute(new DistributeCommand(sel, Integer.valueOf(selectionType), distributeType ));
-
+      
+   	
+       if( distributeType.compareTo("seg.jUCMNav.DistributeCustom") == 0 ){
+   		  
+    	   DistributeCustomDialog dialog = new DistributeCustomDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+    	   HashMap<String, String> values = dialog.getValues();
+    	  
+    	   if( values != null){
+    		   cmdStack.execute(new DistributeCommand(sel, Integer.valueOf(selectionType), values.get("DistributeType"), true));
+    	   }
+    	  
+   		}else{
+       
+   			cmdStack.execute(new DistributeCommand(sel, Integer.valueOf(selectionType), distributeType, false));
+   		}
 		return null;
 	}
 	

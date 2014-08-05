@@ -1,94 +1,122 @@
 package seg.jUCMNav.model.commands.changeConstraints;
 
-import grl.IntentionalElementRef;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-
-import org.eclipse.gef.NodeEditPart;
-import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.MetadataHelper;
-import ucm.map.Connect;
-import ucm.map.NodeConnection;
-import urncore.IURNConnection;
-import urncore.IURNContainer;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.URNmodelElement;
-import urncore.Metadata;
 
 /**
- * This command is used to align URNmodelElements.
+ * This command is used to distribute URNmodelElements.
  * 
  * @author Patrice Boulet
  * 
  */
 public class DistributeCommand extends AlignDistributeCommand {
 
+	
     private HashMap<String, Integer> newCoordinates;
+    private HashMap<URNmodelElement, Integer> elemsRadius;
+   
     private int newPositionElemDimension;
     private int spacingDistance;
-    private HashMap<URNmodelElement, Integer> elemsRadius;
+   
+    private boolean custom;
+    private boolean equalGaps;
+    private boolean containerMove;
+    private boolean extendUpperBound;
+ 
+    
     
     /**
      * 
-     * @param node
-     *            The SpecificationNode to move
-     * @param x
-     *            the new X
-     * @param y
-     *            the new Y
+     * @param sel
+     *            Contains the selection to be distributed
+     * @param selType
+     *            Tells the type of selection we're dealing with (e.g. IntentionalElements)
+     * @param moveType
+     *            Tells the type of distribute move we're doing (e.g. DistributeCentersVertically)
      */
-    public DistributeCommand(List sel, int selType, String moveType) {
-        
+    public DistributeCommand(List sel, int selType, String moveType, boolean custom) {
+
 
     	setLabel(Messages.getString("SetConstraintCommand.Distribute")); //$NON-NLS-1$
         
     	this.sel = sel;
     	this.selType = selType;
     	this.moveType = moveType;
+    	this.custom = custom;
+    	
     	newCoordinates = new HashMap<String, Integer>();
     	elemsRadius = new HashMap<URNmodelElement, Integer>();
+    	equalGaps = false;
+    	containerMove = false;
+    	extendUpperBound = false;
     	
-    	if( moveType.compareTo("seg.jUCMNav.DistributeVertically") == 0 ){
+    	/*
+    	 * Sets the algorithm for a vertical move
+    	 */
+    	if( moveType.compareTo("seg.jUCMNav.DistributeCentersVertically") == 0 ||
+    			moveType.compareTo("seg.jUCMNav.DistributeVertically") == 0){
     		verticalMove = true;
     		axis = "y";
     	}
-  	
     	
+    	/*
+    	 * Sets the algorithm for a distribution with equal gaps between each object of the selection
+    	 */
+    	if( moveType.compareTo("seg.jUCMNav.DistributeVertically") == 0 || 
+    			moveType.compareTo("seg.jUCMNav.DistributeHorizontally") == 0 )
+    		equalGaps = true;
+    	
+  	
+    	/*
+    	 * Sets the algorithm to distribute IURNContainers
+    	 */
     	if (Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
-    			Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
+    			Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0)
+    		containerMove = true;
+    	
+    	
+    	/*
+    	 * This is the main control part of the class; decides which part of
+    	 * algorithm is called.
+    	 */
+    	if (containerMove){
     		
     		coordinatesValuesContainer = new HashMap<IURNContainerRef, HashMap <String, Integer>>() ;
     		newCoordinates = findBoundsCoordinatecontainer();
         	getOldCoordinates();
+          	getElementsRadius();
         	spacingDistance = getSpacingDistance();
-        	getElementsRadius();
     		
     	}else{
     		
     		coordinatesValues = new HashMap <String, HashMap <String, Integer>>();
     		newCoordinates = findBoundsCoordinate();
     		getOldCoordinates();
-    	  	spacingDistance = getSpacingDistance();
     	  	getElementsRadius();
+    	  	spacingDistance = getSpacingDistance();
+
     	}
-
     	addMoveCommand();
-
+    	
     }
 
+    /*
+     * Method that stores the radius in x/y of each element
+     * of the selection.
+     */
 	private void getElementsRadius() {
 		if(verticalMove){
 		
-			if (Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
-	    			Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
+			if (containerMove){
 				
 				for(IURNContainerRef container : (List<IURNContainerRef>)sel){
 					elemsRadius.put((URNmodelElement)container, container.getHeight()/2);
@@ -132,94 +160,178 @@ public class DistributeCommand extends AlignDistributeCommand {
 		
 	}
 
+	/*
+	 * A method that gets the distance that is going to
+	 * separate the x/y centers of each element of the distribution
+	 * or the equal distance that is going to separate each element
+	 * of the distribution depending on the type of move.
+	 */
 	private int getSpacingDistance() {
 			
 		int result;
 		
-		result = (newCoordinates.get("UpperBound") - newCoordinates.get("LowerBound"))/(sel.size()-1) ;
-		
+		if( equalGaps ){
+			
+			int sumOfAllDimensions = 0;
+			int distanceBetweenBounds = 0;
+			
+			for ( URNmodelElement elem : (List<URNmodelElement>) sel){
+				sumOfAllDimensions += (elemsRadius.get(elem)*2);
+			}
+			
+			distanceBetweenBounds = newCoordinates.get("UpperBound") - newCoordinates.get("LowerBound");
+			
+			result = (distanceBetweenBounds - sumOfAllDimensions)/(sel.size()-1);
+			
+			/*
+			 * If there's not enough space to fit all the elements of
+			 * the selection without doing some overlapping, put a default
+			 * value of spacing between each element of the distribution and extend
+			 * the upper bound.
+			 */
+			if( result < 0 || custom){
+
+				result = Integer.valueOf(GeneralPreferencePage.getDistributeSpacing());
+				extendUpperBound = true;
+			}
+			
+		}else{
+			result = (newCoordinates.get("UpperBound") - newCoordinates.get("LowerBound"))/(sel.size()-1) ;
+		}
 		return result;
 	}
 
 	private void addMoveCommand() {
 		
-		int currentCoordinateDistance = newCoordinates.get("LowerBound");
+		/*
+		 * The coordinate at which the algorithm is positioned after each iteration.
+		 */
+		int currentCoordinateDistance;
 		
+		if(equalGaps){
+			currentCoordinateDistance = newCoordinates.get("LowerBound") + elemsRadius.get((URNmodelElement)sel.get(0))*2;
+		}else{
+			currentCoordinateDistance = newCoordinates.get("LowerBound");
+		}
+		
+		/*
+		 *  Adds the move command accordingly to the moveType and selType to be 
+		 *  executed on the Command stack after this command.
+		 */
 		if(verticalMove){
-			if ( Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
-					Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
+			if ( containerMove){
 				// adds the move command to be executed on the Command stack after this command
 		    	for(IURNContainerRef currentContainer : (List<IURNContainerRef>)sel){
 					
-		    		if( ((URNmodelElement)currentContainer).getId() != ((List<URNmodelElement>)sel).get(0).getId() && 
-		    				((URNmodelElement)currentContainer).getId() != ((List<URNmodelElement>)sel).get(sel.size()-1).getId()){
-			    		int calculatedDistance = currentCoordinateDistance + spacingDistance - elemsRadius.get((URNmodelElement)currentContainer);
+		    		if( ((URNmodelElement)currentContainer).getId() != ((List<URNmodelElement>)sel).get(0).getId() ){
 			    		
+		    			if (((URNmodelElement)currentContainer).getId() == ((List<URNmodelElement>)sel).get(sel.size()-1).getId() &&
+		    					!extendUpperBound){
+		    				break;
+		    			}
+		    			
+		    			int calculatedDistance = findCalculatedDistance(currentCoordinateDistance, (URNmodelElement)currentContainer);
 			    		add( new SetConstraintBoundContainerRefCompoundCommand(currentContainer, currentContainer.getX(), 
-								 calculatedDistance , currentContainer.getWidth(),
-									currentContainer.getHeight(), true));
+								 calculatedDistance , currentContainer.getWidth(), currentContainer.getHeight(), true));
+			    		currentCoordinateDistance = calculateCurrentCoordinateDistance(currentCoordinateDistance, (URNmodelElement)currentContainer);
 			    		
-			    		currentCoordinateDistance = currentCoordinateDistance + spacingDistance;
+		    		}		
 		    	}
-		    		}	
 				
 			}else{
-				// adds the move command to be executed on the Command stack after this command
 		    	for(IURNNode currentNode : (List<IURNNode>)sel){
 		    		
-		    		if( ((URNmodelElement)currentNode).getId() != ((List<URNmodelElement>)sel).get(0).getId() && 
-		    				((URNmodelElement)currentNode).getId() != ((List<URNmodelElement>)sel).get(sel.size()-1).getId()){
+		    		if( ((URNmodelElement)currentNode).getId() != ((List<URNmodelElement>)sel).get(0).getId()){
 		    		
-		    			int calculatedDistance = currentCoordinateDistance + spacingDistance - elemsRadius.get((URNmodelElement)currentNode);
-		    		
-		    			add( new SetConstraintGrlNodeCommand(currentNode, currentNode.getX(),
-							calculatedDistance, true));
-				
-		    			currentCoordinateDistance = currentCoordinateDistance + spacingDistance;
+		    			if (((URNmodelElement)currentNode).getId() == ((List<URNmodelElement>)sel).get(sel.size()-1).getId() &&
+		    					!extendUpperBound){
+		    				break;
+		    			}
+		    			
+		    			int calculatedDistance = findCalculatedDistance(currentCoordinateDistance, (URNmodelElement)currentNode);
+		    			add( new SetConstraintGrlNodeCommand(currentNode, currentNode.getX(), calculatedDistance, true));
+		    			currentCoordinateDistance = calculateCurrentCoordinateDistance(currentCoordinateDistance, (URNmodelElement)currentNode);
 		    		}
 		    	}
 			}
 			
 		}else{
-			
-			if ( Integer.valueOf(selType).compareTo(SELTYPE_ACTOR) == 0 ||
-					Integer.valueOf(selType).compareTo(SELTYPE_COMPONENT) == 0){
-				// adds the move command to be executed on the Command stack after this command
+			if (containerMove){
+				
 		    	for(IURNContainerRef currentContainer : (List<IURNContainerRef>)sel){
-		    		if( ((URNmodelElement)currentContainer).getId() != ((List<URNmodelElement>)sel).get(0).getId() && 
-		    				((URNmodelElement)currentContainer).getId() != ((List<URNmodelElement>)sel).get(sel.size()-1).getId()){
-			    		int calculatedDistance = currentCoordinateDistance + spacingDistance - elemsRadius.get((URNmodelElement)currentContainer);
+		    		
+		    		if( ((URNmodelElement)currentContainer).getId() != ((List<URNmodelElement>)sel).get(0).getId()){
 			    		
+		    			if (((URNmodelElement)currentContainer).getId() == ((List<URNmodelElement>)sel).get(sel.size()-1).getId() &&
+		    					!extendUpperBound){
+		    				break;
+		    			}
+		    			
+		    			int calculatedDistance = findCalculatedDistance(currentCoordinateDistance, (URNmodelElement)currentContainer);
 			    		add( new SetConstraintBoundContainerRefCompoundCommand(currentContainer, calculatedDistance, 
-								 currentContainer.getY() , currentContainer.getWidth(),
-									currentContainer.getHeight(), true));
-			    		
-			    		currentCoordinateDistance = currentCoordinateDistance + spacingDistance;
+								 currentContainer.getY() , currentContainer.getWidth(), currentContainer.getHeight(), true));
+			    		currentCoordinateDistance = calculateCurrentCoordinateDistance(currentCoordinateDistance, (URNmodelElement)currentContainer);
 		    		}
 		    		}	
 				
 			}else{
-				// adds the move command to be executed on the Command stack after this command
+				
 		    	for(IURNNode currentNode : (List<IURNNode>)sel){
-		    		if( ((URNmodelElement)currentNode).getId() != ((List<URNmodelElement>)sel).get(0).getId() && 
-		    				((URNmodelElement)currentNode).getId() != ((List<URNmodelElement>)sel).get(sel.size()-1).getId()){
-			    		int calculatedDistance = currentCoordinateDistance + spacingDistance - elemsRadius.get((URNmodelElement)currentNode);
+		    		if( ((URNmodelElement)currentNode).getId() != ((List<URNmodelElement>)sel).get(0).getId()){
 			    		
-						add( new SetConstraintGrlNodeCommand(currentNode, calculatedDistance,
-								currentNode.getY(), true));
-					
-						currentCoordinateDistance = currentCoordinateDistance + spacingDistance;
-		    		}
+		    			if (((URNmodelElement)currentNode).getId() == ((List<URNmodelElement>)sel).get(sel.size()-1).getId() &&
+		    					!extendUpperBound){
+		    				break;
+		    			}
+		    			
+		    			int calculatedDistance = findCalculatedDistance(currentCoordinateDistance, (URNmodelElement)currentNode);
+						add( new SetConstraintGrlNodeCommand(currentNode, calculatedDistance, currentNode.getY(), true));
+						currentCoordinateDistance = calculateCurrentCoordinateDistance(currentCoordinateDistance, (URNmodelElement)currentNode);
+					}
 		    	}
 			}
 		}
+	}
+
+	/*
+	 * Calculates the position where the previous 
+	 * iteration of the algorithm left.
+	 */
+	private int calculateCurrentCoordinateDistance( int currentCoordinateDistance, URNmodelElement currentElem) {
+		
+		if( equalGaps){
+			currentCoordinateDistance = currentCoordinateDistance + spacingDistance + elemsRadius.get(currentElem)*2;
+		}else{
+			currentCoordinateDistance = currentCoordinateDistance + spacingDistance;
+		}
+		
+		return currentCoordinateDistance;
+	}
+
+	/*
+	 * Calculates the distance at which the element
+	 * of this iteration is going to be moved.
+	 */
+	private int findCalculatedDistance(int currentCoordinateDistance, URNmodelElement currentElem) {
+		
+		int calculatedDistance;
+		
+		if( equalGaps){
+			calculatedDistance = currentCoordinateDistance + spacingDistance;
+		}else{
+			calculatedDistance = currentCoordinateDistance + spacingDistance - elemsRadius.get(currentElem);
+		}
+		
+		return calculatedDistance;
 	}
     
     private HashMap<String, Integer> findBoundsCoordinate(){
        
     	HashMap<String, Integer> result = new HashMap<String, Integer>();
     	
-    		// sorts the elements in ascending order compared with their y value field
+    		/*
+    		 *  Sorts the elements in ascending order compared with their y/x value field
+    		 */
 	    	Collections.sort(sel, new Comparator<IURNNode>() {
 	    	    public int compare(IURNNode nodeA, IURNNode nodeB) {
 	    	    	if ( verticalMove)
@@ -229,7 +341,9 @@ public class DistributeCommand extends AlignDistributeCommand {
 	    	    }
 	    	});
 
-    	// assigns a new coordinate for the URNmodelElement depending on the moveType variable
+	    	/*
+	    	 * Assigns a new coordinate for the URNmodelElement depending on the moveType variable
+	    	 */
     		if( verticalMove){
     			int lowerBoundRadius, upperBoundRadius;
     			
@@ -240,9 +354,13 @@ public class DistributeCommand extends AlignDistributeCommand {
     				lowerBoundRadius = 0;
     				upperBoundRadius = 0;
     			}
-    			
-    			result.put("LowerBound", ( ((IURNNode)sel.get(0)).getY()) + lowerBoundRadius);
-    			result.put("UpperBound", ( ((IURNNode)sel.get((sel.size()-1))).getY()) + upperBoundRadius);
+    			if ( equalGaps){
+    				result.put("LowerBound", ( ((IURNNode)sel.get(0)).getY()));
+    				result.put("UpperBound", ( ((IURNNode)sel.get((sel.size()-1))).getY()) + upperBoundRadius*2);
+    			}else{
+    				result.put("LowerBound", ( ((IURNNode)sel.get(0)).getY()) + lowerBoundRadius);
+    				result.put("UpperBound", ( ((IURNNode)sel.get((sel.size()-1))).getY()) + upperBoundRadius);
+    			}
     			
     		}else{
     			int lowerBoundRadius, upperBoundRadius;
@@ -254,11 +372,13 @@ public class DistributeCommand extends AlignDistributeCommand {
     				lowerBoundRadius = 0;
     				upperBoundRadius = 0;
     			}
-    			
-    			result.put("LowerBound", ( ((IURNNode)sel.get(0)).getX())  + lowerBoundRadius);
-    			
-    			result.put("UpperBound", ( ((IURNNode)sel.get((sel.size()-1))).getX()) + upperBoundRadius);
-    			
+    			if ( equalGaps){
+    				result.put("LowerBound", ( ((IURNNode)sel.get(0)).getX()));
+    				result.put("UpperBound", ( ((IURNNode)sel.get((sel.size()-1))).getX()) + upperBoundRadius*2);
+    			}else{
+    				result.put("LowerBound", ( ((IURNNode)sel.get(0)).getX())  + lowerBoundRadius);
+    				result.put("UpperBound", ( ((IURNNode)sel.get((sel.size()-1))).getX()) + upperBoundRadius);
+    			}
     		}
     	
     	return result;
@@ -268,7 +388,9 @@ public class DistributeCommand extends AlignDistributeCommand {
         
     	HashMap<String, Integer> result = new HashMap<String, Integer>();
 	
-    		// sorts the elements in ascending order compared with their coordinate value field
+    		/*
+    		 *  Sorts the elements in ascending order compared with their y/x value field
+    		 */
 	    	Collections.sort(sel, new Comparator<IURNContainerRef>() {
 	    	    public int compare(IURNContainerRef containerA, IURNContainerRef containerB) {
 	    	        if( verticalMove)
@@ -280,17 +402,31 @@ public class DistributeCommand extends AlignDistributeCommand {
     	
 	    List<IURNContainerRef> selTemp = (List<IURNContainerRef>) sel;
     	
-    	// assigns a new coordinate for the URNmodelElement depending on the moveType variable
+    	/*
+    	 * Assigns a new coordinate for the URNmodelElement depending on the moveType variable
+    	 */
  		if( verticalMove){
-			result.put("LowerBound", (selTemp.get(0).getY()) + 
+			if ( equalGaps){
+				result.put("LowerBound", (selTemp.get(0).getY()) );
+				result.put("UpperBound", (selTemp.get((selTemp.size()-1)).getY()) + 
+						selTemp.get((selTemp.size()-1)).getHeight());
+			}else{
+ 			result.put("LowerBound", (selTemp.get(0).getY()) + 
 					selTemp.get(0).getHeight()/2 );
 			result.put("UpperBound", (selTemp.get((selTemp.size()-1)).getY()) + 
 					selTemp.get((selTemp.size()-1)).getHeight()/2);
+			}
 		}else{
+			if ( equalGaps){
+				result.put("LowerBound", (selTemp.get(0).getX()) );
+				result.put("UpperBound", (selTemp.get((selTemp.size()-1)).getX()) + 
+						selTemp.get((selTemp.size()-1)).getWidth());
+			}else{
 			result.put("LowerBound", ( (selTemp.get(0)).getX()) + 
 					selTemp.get(0).getWidth()/2);
 			result.put("UpperBound", ( (selTemp.get((sel.size()-1))).getX()) + 
 					selTemp.get((sel.size()-1)).getWidth()/2 );
+			}
 		}
     	
     	return result;
