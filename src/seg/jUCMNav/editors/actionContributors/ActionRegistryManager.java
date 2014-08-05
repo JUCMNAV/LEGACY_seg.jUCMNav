@@ -783,16 +783,16 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElement")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
-        action = new ShowLinkedElementInNewDiagramAction(editor);
-        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementInNewDiagram")); //$NON-NLS-1$
-        addEditPartAction((SelectionAction) action);
-        
         action = new ShowLinkedElementLevelTwoAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementLevelTwo")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new ShowLinkedElementLevelThreeAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementLevelThree")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ShowLinkedElementInNewDiagramAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementInNewDiagram")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new ShowContainingElementAction(editor);
@@ -836,7 +836,7 @@ public class ActionRegistryManager implements IDisposable {
         addEditPartAction((SelectionAction) action);
         
         action = new ShowLinkedElementAction(editor);
-        action.setText(Messages.getString("ActionRegistryManager.AlignGrlNodes")); //$NON-NLS-1$
+        action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElement")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         // keep at bottom

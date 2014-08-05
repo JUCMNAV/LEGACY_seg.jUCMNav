@@ -436,22 +436,14 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[0] = getActionRegistry().getAction(ShowLinkedElementAlternativeAction.SHOWLINKEDELEMENTALTERNATIVE);
         actions[1] = getActionRegistry().getAction(ShowLinkedElementAlternativeSubNodesAction.SHOWLINKEDELEMENTALTERNATIVESUBNODES);
         actions[2] = getActionRegistry().getAction(ShowLinkedElementAction.SHOWLINKEDELEMENT);
-        actions[3] = getActionRegistry().getAction(ShowLinkedElementInNewDiagramAction.SHOWLINKEDELEMENTINNEWDIAGRAM);  
-        actions[4] = getActionRegistry().getAction(ShowLinkedElementLevelTwoAction.SHOWLINKEDELEMENTLEVELTWO);
-        actions[5] = getActionRegistry().getAction(ShowLinkedElementLevelThreeAction.SHOWLINKEDELEMENTLEVELTHREE);
+        actions[3] = getActionRegistry().getAction(ShowLinkedElementLevelTwoAction.SHOWLINKEDELEMENTLEVELTWO);  
+        actions[4] = getActionRegistry().getAction(ShowLinkedElementLevelThreeAction.SHOWLINKEDELEMENTLEVELTHREE);
+        actions[5] = getActionRegistry().getAction(ShowLinkedElementInNewDiagramAction.SHOWLINKEDELEMENTINNEWDIAGRAM); 
         actions[6] = getActionRegistry().getAction(ShowContainingActorAction.SHOWCONTAININGACTOR);
         actions[7] = getActionRegistry().getAction(ShowLinkedElementCompleteAction.SHOWLINKEDELEMENTCOMPLETE);
         actions[8] = getActionRegistry().getAction(ShowLinkedElementCompleteSubNodesAction.SHOWLINKEDELEMENTCOMPLETESUBNODES);	
         
         submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.LinkedElement"), Messages.getString("UrnContextMenuProvider.LinkedElement"), JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        if (submenu.getActiveOperationCount() > 0)
-            manager.appendToGroup(GROUP_UNCOMMON, submenu);
-        
-        actions = new IAction[2];
-        actions[0] = getActionRegistry().getAction(ShowLinkedElementAlternativeAction.SHOWLINKEDELEMENTALTERNATIVE);
-        actions[1] = getActionRegistry().getAction(ShowLinkedElementAlternativeSubNodesAction.SHOWLINKEDELEMENTALTERNATIVESUBNODES);	
-        
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.AlignGrlNodes"), Messages.getString("UrnContextMenuProvider.AlignGrlNodes"), JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
         
