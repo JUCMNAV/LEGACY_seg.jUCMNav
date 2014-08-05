@@ -112,6 +112,9 @@ public class ShowNonLeafElementsInSeparateDiagramsCommand extends Command implem
 	        			objName = currentMeta.getValue();
 	        		}
 	        	}
+	        	if( objName.isEmpty()){
+        			objName = ((IntentionalElementRef)currentRef).getDef().getName();
+	        	}
 	        }
         newDiagramNames.put(currentRef, objName);
         

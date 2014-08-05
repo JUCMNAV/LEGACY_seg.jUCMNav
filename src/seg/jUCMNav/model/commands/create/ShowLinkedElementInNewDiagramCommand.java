@@ -128,6 +128,9 @@ public class ShowLinkedElementInNewDiagramCommand extends Command implements JUC
             			objName = currentMeta.getValue();
             		}
             	}
+            	if( objName.isEmpty()){
+            			objName = elemRef.getName();
+            	}
             }
             
             newRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
