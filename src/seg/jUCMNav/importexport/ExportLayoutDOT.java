@@ -1,5 +1,6 @@
 package seg.jUCMNav.importexport;
 
+import grl.Actor;
 import grl.BeliefLink;
 import grl.LinkRef;
 
@@ -37,7 +38,6 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
 	private static void buildCluster(IURNContainerRef contRef, StringBuffer dot) {
 
 		dot.append("subgraph " + AutoLayoutPreferences.CONTAINERPREFIX + ((URNmodelElement) contRef).getId() + " {\r\n"); //$NON-NLS-1$ //$NON-NLS-2$
-
 		dot.append("CheapTrick" + id++ + " [pos=\"\", width=\""+ contRef.getWidth()/72.0 +"\", height=\""+ contRef.getHeight()/72.0 +"\"];\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		IURNContainerRef child;

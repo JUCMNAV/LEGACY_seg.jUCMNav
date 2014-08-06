@@ -142,8 +142,10 @@ public class AutoLayoutWizard extends Wizard {
 		String initial = ExportLayoutDOT.convertURNToDot(diagram);
 		String positioned = autoLayoutDotString(initial);
 
-
-
+		System.out.println(initial);
+		System.out.println("***********************************************************************");
+		System.out.println(positioned);
+		
 		try {
 			CompoundCommand cmd2 = repositionLayout(diagram, positioned);
 
@@ -255,20 +257,23 @@ public class AutoLayoutWizard extends Wizard {
 				if (line == null)
 					break;
 				// ex: graph [bb="0,0,192,212"];
-				if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\"];")) { //$NON-NLS-1$
-					String subline = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\"")); //$NON-NLS-1$ //$NON-NLS-2$
-					String[] coords = subline.split(","); //$NON-NLS-1$
-					// we've got lower left x, y, upper right x, y
-					Command resize = new SetConstraintBoundContainerRefCompoundCommand(contRef, PADDING + Integer.parseInt(coords[0]), pageHeight
-							- Integer.parseInt(coords[3]), Integer.parseInt(coords[2]) - Integer.parseInt(coords[0]), Integer.parseInt(coords[3])
-							- Integer.parseInt(coords[1]) - 10);
-					cmd.add(resize);
-					if (contRef.getParent() != null) {
-						SetConstraintContainerRefCommand cmd2 = 
-								new SetConstraintContainerRefCommand(contRef, PADDING + Integer.parseInt(coords[0]), pageHeight - Integer.parseInt(coords[3]) + 40, 
-										Integer.parseInt(coords[2]) - Integer.parseInt(coords[0]), Integer.parseInt(coords[3]) - Integer.parseInt(coords[1]) - 40);
-						cmd.add(cmd2);
-					}
+				if (line.matches("\\s*graph \\[bb=\"?[0-9]*(.[0-9]+)?,?[0-9]*(.[0-9]+)?,?[0-9]*(.[0-9]+)?,?[0-9]*(.[0-9]+)?\"];")) { //$NON-NLS-1$
+						String subline = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\"")); //$NON-NLS-1$ //$NON-NLS-2$
+						String[] coords = subline.split(","); //$NON-NLS-1$
+						// we've got lower left x, y, upper right x, y
+						Command resize = new SetConstraintBoundContainerRefCompoundCommand(contRef, PADDING + (int)Math.round(Double.parseDouble( coords[0])), pageHeight
+								- (int)Math.round(Double.parseDouble(coords[3])), (int)Math.round(Double.parseDouble(coords[2])) - (int)Math.round(Double.parseDouble(coords[0])), 
+								(int)Math.round(Double.parseDouble(coords[3])) - (int)Math.round(Double.parseDouble(coords[1])) - 10);
+						cmd.add(resize);
+						if (contRef.getParent() != null) {
+							SetConstraintContainerRefCommand cmd2 = 
+									new SetConstraintContainerRefCommand(contRef, 
+											PADDING + (int)Math.round(Double.parseDouble(coords[0])), 	// x position
+											pageHeight - (int)Math.round(Double.parseDouble(coords[3]))+ 40, // y position
+											(int)Math.round(Double.parseDouble(coords[2])) - (int)Math.round(Double.parseDouble(coords[0])), // width
+											(int)Math.round(Double.parseDouble(coords[3])) - (int)Math.round(Double.parseDouble(coords[1])) - 40);	//height
+							cmd.add(cmd2);
+						}
 				} else if (line.matches("\\s*graph \\[bb=\"\"];")) { // ex: //$NON-NLS-1$
 					// graph
 					// [bb=""];
@@ -300,7 +305,8 @@ public class AutoLayoutWizard extends Wizard {
 				Command move = new SetConstraintCommand(pn, Integer.parseInt(coords[0]) + PADDING, pageHeight - Integer.parseInt(coords[1]));
 				cmd.add(move);
 			} else if ( line.matches("\\s*" + AutoLayoutPreferences.URNODEPREFIX + "\\d+\t \\[height=\\d+\\.\\d+,") ||
-					line.matches("\\s*" + AutoLayoutPreferences.URNODEPREFIX + "\\d+\t \\[height=\\d+,")) { //$NON-NLS-1$ //$NON-NLS-2$
+					line.matches("\\s*" + AutoLayoutPreferences.URNODEPREFIX + "\\d+\t \\[height=\\d+,") ||
+						line.matches("\\s*" + AutoLayoutPreferences.URNODEPREFIX + "\\d+\\s* \\[height=[0-9]*.?[0-9],")) { //$NON-NLS-1$ //$NON-NLS-2$
 				// updated for compatibility with GraphViz v2.38 
 				// ex: UrnNode5	 [height=0.50,
 				//		pos="7406,612",
