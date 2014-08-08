@@ -12,9 +12,11 @@ import grl.ElementLink;
 import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.LinkRef;
 import grl.impl.IntentionalElementImpl;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -32,6 +34,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
 import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
+import seg.jUCMNav.model.commands.delete.DeleteLinkRefCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeDecompositionTypeCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import urn.URNspec;
@@ -163,24 +166,73 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * @author Patrice Boulet
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public void rename(String core_feature_name) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		
+		COREFactory4URN.setCOREInterfaceActive(true);
+	
+		ChangeGrlNodeNameCommand changeNameCmd = new ChangeGrlNodeNameCommand(this, core_feature_name);		
+		if ( changeNameCmd.canExecute()){
+			changeNameCmd.execute();
+		}
+		
+		COREFactory4URN.setCOREInterfaceActive(false);
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * @author Patrice boulet
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public boolean changeParent(COREFeature feature, COREFeatureRelationshipType new_association) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+	
+		COREFactory4URN.setCOREInterfaceActive(true);
+		if (feature != null && 
+				(new_association == COREFeatureRelationshipType.MANDATORY || 
+					new_association == COREFeatureRelationshipType.OPTIONAL ||
+						new_association == COREFeatureRelationshipType.XOR ||
+							new_association == COREFeatureRelationshipType.OR)) {
+			
+			URNspec urn = this.getGrlspec().getUrnspec();
+			
+			if( this.getLinksSrc().size() == 1){
+				
+				// find and delete the parent link
+				ElementLink parentLink = (ElementLink)this.getLinksSrc().get(0);
+				DeleteLinkRefCommand deleteParentLinkCmd = new DeleteLinkRefCommand((LinkRef)parentLink.getRefs().get(0));
+				if( deleteParentLinkCmd.canExecute() ){
+					deleteParentLinkCmd.execute();
+				}
+				
+				HashMap<String, Object> linkAndType = chooseRelationshipTypeAndLink(new_association, urn);
+				ElementLink link = (ElementLink) linkAndType.get("Link");
+				int type = Integer.valueOf(linkAndType.get("Type").toString());
+				
+				// add new link with desired parent
+				CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) this, link);
+				celCmd.setTarget((IntentionalElement)feature);
+				if (celCmd.canExecute())
+					celCmd.execute();
+				if (new_association == COREFeatureRelationshipType.XOR || new_association == COREFeatureRelationshipType.OR) {
+					ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef)((IntentionalElement) feature).getRefs().get(0), type);
+					if (cdtCmd.canExecute())
+						cdtCmd.execute();
+				}
+				
+				return true;
+				
+			}else{
+				// has more than 1 parent ?
+				COREFactory4URN.setCOREInterfaceActive(false);
+				return false;
+			}
+			
+		} else {
+			COREFactory4URN.setCOREInterfaceActive(false);
+			return false;
+		}
 	}
 
 	/**
@@ -396,7 +448,6 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		return addFeature(-1, childName, relationship);
 	}
 
-	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -428,23 +479,10 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 						if (cgnnCmd.canExecute()) {
 							cgnnCmd.execute();
 
-							ElementLink link = null;
-							int type = 0;
-							if (relationship == COREFeatureRelationshipType.MANDATORY) {
-								// add mandatory link between this feature and the new child feature
-								link = (ElementLink) ModelCreationFactory.getNewObject(urn, MandatoryFMLink.class);								
-							} else if (relationship == COREFeatureRelationshipType.OPTIONAL) {
-								// add optional link between this feature and the new child feature
-								link = (ElementLink) ModelCreationFactory.getNewObject(urn, OptionalFMLink.class);
-							} else if (relationship == COREFeatureRelationshipType.XOR) {
-								// add XOR decomposition link between this feature and the new child feature
-								link = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
-								type = 2;
-							} else if (relationship == COREFeatureRelationshipType.OR) {
-								// add OR decomposition link between this feature and the new child feature
-								link = (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class);
-								type = 1;
-							}
+							HashMap<String, Object> linkAndType = chooseRelationshipTypeAndLink(relationship, urn);
+							ElementLink link = (ElementLink) linkAndType.get("Link");
+							int type = Integer.valueOf(linkAndType.get("Type").toString());
+							
 							// TODO add position to createelementlinkcommand
 							CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) ref.getDef(), link);
 							celCmd.setTarget(this);
@@ -579,4 +617,26 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 //    }
 
 
+    private HashMap<String, Object> chooseRelationshipTypeAndLink(COREFeatureRelationshipType relationship, URNspec urn){
+    	HashMap<String, Object> result = new HashMap<String, Object>();
+    	result.put("Type", new Integer(0));
+    	
+		if (relationship == COREFeatureRelationshipType.MANDATORY) {
+			// add mandatory link between this feature and the new child feature
+			result.put("Link", (ElementLink) ModelCreationFactory.getNewObject(urn, MandatoryFMLink.class));								
+		} else if (relationship == COREFeatureRelationshipType.OPTIONAL) {
+			// add optional link between this feature and the new child feature
+			result.put("Link", (ElementLink) ModelCreationFactory.getNewObject(urn, OptionalFMLink.class));
+		} else if (relationship == COREFeatureRelationshipType.XOR) {
+			// add XOR decomposition link between this feature and the new child feature
+			result.put("Link", (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class));
+			result.put("Type", new Integer(2));
+		} else if (relationship == COREFeatureRelationshipType.OR) {
+			// add OR decomposition link between this feature and the new child feature
+			result.put("Link", (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class));
+			result.put("Type", new Integer(1));
+		}
+		
+    	return result;
+    }
 } //FeatureImpl

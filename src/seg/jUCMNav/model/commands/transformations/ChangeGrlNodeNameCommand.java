@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.model.commands.transformations;
 
+import fm.Feature;
 import grl.Belief;
 import grl.GRLNode;
 import grl.IntentionalElementRef;
@@ -13,6 +14,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import urncore.GRLmodelElement;
 
 /**
  * Rename the reference of the grl node. If it is a belief, modify the description instead
@@ -22,20 +24,21 @@ import seg.jUCMNav.model.util.URNNamingHelper;
  */
 public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand {
 
-    private GRLNode elem;
+    private GRLmodelElement elem;
 
     private String name, oldName;
 
     /**
      * Constructor
      */
-    public ChangeGrlNodeNameCommand(GRLNode node, String name) {
-        this.elem = node;
+    public ChangeGrlNodeNameCommand(GRLmodelElement grlModelElem, String name) {
+        this.elem = grlModelElem;
         this.name = name;
+
         setLabel(Messages.getString("ChangeGrlNodeNameCommand.changeGrlNodeName")); //$NON-NLS-1$
     }
 
-    public GRLNode getElement() {
+    public GRLmodelElement getElement() {
         return elem;
     }
 
@@ -45,10 +48,14 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
     public void execute() {
         if (elem instanceof IntentionalElementRef) {
             oldName = (((IntentionalElementRef) elem).getDef()).getName();
+        } else if (elem instanceof Feature) {
+            oldName = ((Feature) elem).getName();
         } else if (elem instanceof KPIInformationElementRef) {
             oldName = (((KPIInformationElementRef) elem).getDef()).getName();
         } else if (elem instanceof Belief) {
             oldName = ((Belief) elem).getDescription();
+        } else if( elem instanceof Feature){
+        	oldName = ((Feature) elem).getName();
         }
         redo();
     }
@@ -60,6 +67,8 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
         if (elem instanceof IntentionalElementRef) {
             return verifyUniqueness(name);
         } else if (elem instanceof KPIInformationElementRef) {
+            return verifyUniqueness(name);
+        } else if (elem instanceof Feature) {
             return verifyUniqueness(name);
         } else if (elem instanceof Belief) {
             return true;
@@ -112,6 +121,8 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
 
         if (elem instanceof IntentionalElementRef) {
             (((IntentionalElementRef) elem).getDef()).setName(name);
+        } else if (elem instanceof Feature) {
+            ((Feature) elem).setName(name);
         } else if (elem instanceof KPIInformationElementRef) {
             (((KPIInformationElementRef) elem).getDef()).setName(name);
         } else if (elem instanceof Belief) {
@@ -128,6 +139,8 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
 
         if (elem instanceof IntentionalElementRef) {
             (((IntentionalElementRef) elem).getDef()).setName(oldName);
+        } else if (elem instanceof Feature) {
+            ((Feature) elem).setName(oldName);
         } else if (elem instanceof KPIInformationElementRef) {
             (((KPIInformationElementRef) elem).getDef()).setName(oldName);
         } else if (elem instanceof Belief) {

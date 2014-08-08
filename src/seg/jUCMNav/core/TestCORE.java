@@ -29,6 +29,7 @@ import grl.ElementLink;
 import grl.GRLGraph;
 import grl.ImpactModel;
 import grl.IntentionalElementRef;
+import grl.LinkRef;
 
 public class TestCORE extends TestCase {
 
@@ -44,6 +45,7 @@ public class TestCORE extends TestCase {
 		FeatureDiagram fd = null;
 		IntentionalElementRef root = null;
 		GRLGraph ig = null;
+		Feature feature1 = null;
 		
 		Iterator<COREModel> it = (Iterator<COREModel>) concern.getModels().iterator();
 		while (it.hasNext()) {
@@ -84,7 +86,7 @@ public class TestCORE extends TestCase {
 		
 		if (root != null && root.getDef() instanceof Feature) {
 			((Feature) root.getDef()).addFeature("child", COREFeatureRelationshipType.MANDATORY);
-
+			
 			assertEquals(2, fd.getNodes().size());
 			Feature child = (Feature) ((IntentionalElementRef) fd.getNodes().get(1)).getDef();
 			assertEquals("child", child.getName());
@@ -93,6 +95,13 @@ public class TestCORE extends TestCase {
 			ElementLink link = (ElementLink) child.getLinksSrc().get(0);
 			assertTrue(link instanceof MandatoryFMLink);
 
+			//******begin of testing rename method of fm.FeatureImpl*****************//
+			feature1 = child;
+			feature1.rename("Feature1NewName");
+			assertTrue(feature1.getName().compareTo("Feature1NewName") == 0);
+			feature1 = null;
+			//*******end of testing rename method of fm.FeatureImpl******************//
+			
 			child.delete();
 			assertEquals(1, fd.getNodes().size());
 			IntentionalElementRef root2 = (IntentionalElementRef) fd.getNodes().get(0);
@@ -141,6 +150,27 @@ public class TestCORE extends TestCase {
 			assertTrue(link instanceof Decomposition);
 			assertEquals(DecompositionType.XOR_LITERAL, child.getDecompositionType());
 
+			//******begin of testing changeParent method of fm.FeatureImpl*****************//
+			
+			Feature nodeToBeChangedParent = secondgrandchild;
+			Feature oldParent = child;
+			
+			assertTrue(root.getPred().size() == 1); 
+			nodeToBeChangedParent.changeParent((Feature)root.getDef(), COREFeatureRelationshipType.MANDATORY);
+			// test if we correctly deleted the link with the old parent
+			assertTrue(((IntentionalElementRef) fd.getNodes().get(1)).getPred().size() == 1);
+			assertTrue(root.getPred().size() == 2); 
+			// test if we moved the right element
+			LinkRef newLink = ((LinkRef)root.getPred().get(root.getPred().size()-1));
+			// test if it's the right type of link
+			assertTrue(newLink.getLink() instanceof MandatoryFMLink);
+			// test if we moved the right element
+			assertTrue(((Feature)((IntentionalElementRef)(newLink.getSource())).getDef()).getName().compareTo("secondgrandchild") == 0);
+			nodeToBeChangedParent.changeParent(oldParent, COREFeatureRelationshipType.XOR);
+			assertTrue(root.getPred().size() == 1); 
+			
+			//*******end of testing changeParent method of fm.FeatureImpl******************//
+			
 			List<COREFeature> features = new ArrayList<COREFeature>();
 			features.add((COREFeature) child);
 			features.add((COREFeature) grandchild);
