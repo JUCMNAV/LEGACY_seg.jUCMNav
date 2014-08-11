@@ -38,6 +38,10 @@ import seg.jUCMNav.actions.ChangeColorAction;
 import seg.jUCMNav.actions.ChangeComponentTypeAction;
 import seg.jUCMNav.actions.ChangeCorrelationAction;
 import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
+import seg.jUCMNav.actions.ChangeLinkMandatoryAction;
+import seg.jUCMNav.actions.ChangeLinkORAction;
+import seg.jUCMNav.actions.ChangeLinkOptionalAction;
+import seg.jUCMNav.actions.ChangeLinkXORAction;
 import seg.jUCMNav.actions.ChangeStubTypeAction;
 import seg.jUCMNav.actions.ChangeWaitPlaceTypeAction;
 import seg.jUCMNav.actions.ConnectAction;
@@ -398,6 +402,17 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        
+        actions = new IAction[4];
+        actions[0] = getActionRegistry().getAction(ChangeLinkMandatoryAction.CHANGELINKMANDATORY);
+        actions[1] = getActionRegistry().getAction(ChangeLinkOptionalAction.CHANGELINKOPTIONAL);
+        actions[2] = getActionRegistry().getAction(ChangeLinkORAction.CHANGELINKOR);
+        actions[3] = getActionRegistry().getAction(ChangeLinkXORAction.CHANGELINKXOR);
+        
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.ChangeLink"), Messages.getString("UrnContextMenuProvider.ChangeLink"), null, true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GROUP_UNCOMMON, submenu);
+        
         actions = new IAction[3];
         for (int i = 0; i <= 2; i++)
             actions[i] = getActionRegistry().getAction(ChangeDecompositionTypeAction.generateId(i));
@@ -446,7 +461,6 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.LinkedElement"), Messages.getString("UrnContextMenuProvider.LinkedElement"), JUCMNavPlugin.getImageDescriptor("icons/ShowLinkedElement.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GROUP_UNCOMMON, submenu);
-        
         
         action = getActionRegistry().getAction(ShowContainingElementAction.SHOWCONTAININGELEMENT);
         if (action.isEnabled())

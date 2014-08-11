@@ -55,6 +55,11 @@ import seg.jUCMNav.actions.ChangeColorAction;
 import seg.jUCMNav.actions.ChangeComponentTypeAction;
 import seg.jUCMNav.actions.ChangeCorrelationAction;
 import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
+import seg.jUCMNav.actions.ChangeLinkAction;
+import seg.jUCMNav.actions.ChangeLinkMandatoryAction;
+import seg.jUCMNav.actions.ChangeLinkORAction;
+import seg.jUCMNav.actions.ChangeLinkOptionalAction;
+import seg.jUCMNav.actions.ChangeLinkXORAction;
 import seg.jUCMNav.actions.ChangeStubTypeAction;
 import seg.jUCMNav.actions.ChangeWaitPlaceTypeAction;
 import seg.jUCMNav.actions.ConnectAction;
@@ -769,6 +774,26 @@ public class ActionRegistryManager implements IDisposable {
         
         action = new ShowLinkedElementAlternativeSubNodesAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElementAlternativeSubNodes")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ChangeLinkAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ChangeLink")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ChangeLinkMandatoryAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ChangeLinkMandatory")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ChangeLinkOptionalAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ChangeLinkOptional")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ChangeLinkORAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ChangeLinkOR")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ChangeLinkXORAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ChangeLinkXOR")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new ShowLinkedElementCompleteAction(editor);
