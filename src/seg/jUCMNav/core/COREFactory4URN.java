@@ -42,7 +42,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
 	public static boolean ALWAYS_DELETE = true;
 	
 	@Override
-	protected COREFeatureModel createFeatureModel(COREConcern cc) {
+	public COREFeatureModel createFeatureModel(COREConcern cc) {
 		setCOREInterfaceActive(true);
 		// consistency checks: correct parameter, does feature model exist? does feature diagram exist? does the root feature exist and is it placed on a feature diagram?
 		if (cc == null)
@@ -159,7 +159,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
 	}
 	
 	@Override
-	protected COREImpactModel createImpactModel(COREConcern cc) {
+	public COREImpactModel createImpactModel(COREConcern cc) {
 		setCOREInterfaceActive(true);
 		// consistency checks: correct parameter, does impact model exist? does impact graph exist?
 		if (cc == null)
