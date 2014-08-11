@@ -208,7 +208,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 throw new SAXException("Invalid intentional element id in dependency"); //$NON-NLS-1$
             }
             Dependency depend = (Dependency) ModelCreationFactory.getNewObject(urn, Dependency.class);
-            CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, depender, depend);
+            CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, depender, depend, null);
             linkCmd.setTarget(dependee);
             if (linkCmd.canExecute()) {
                 linkCmd.execute();
@@ -231,7 +231,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 throw new SAXException("Invalid intentional element id in decomposition"); //$NON-NLS-1$
             }
             Decomposition decomp = (Decomposition) ModelCreationFactory.getNewObject(urn, Decomposition.class);
-            CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, src, decomp);
+            CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, src, decomp, null);
             linkCmd.setTarget(dest);
             if (linkCmd.canExecute()) {
                 // Set the name and description
@@ -254,7 +254,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 throw new SAXException("Invalid intentional element id in contribution"); //$NON-NLS-1$
             }
             Contribution contrib = (Contribution) ModelCreationFactory.getNewObject(urn, Contribution.class);
-            CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, src, contrib);
+            CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, src, contrib, null);
             linkCmd.setTarget(dest);
             if (linkCmd.canExecute()) {
                 linkCmd.execute();
@@ -419,7 +419,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
               }
               
               Contribution contrib = (Contribution) ModelCreationFactory.getNewObject(urn, Contribution.class);
-              CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, src, contrib);
+              CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, src, contrib, null);
               linkCmd.setTarget(dest);
               if (linkCmd.canExecute()) {
                   linkCmd.execute();

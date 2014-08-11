@@ -24,12 +24,14 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
     private IntentionalElement src, dest;
     private URNspec urnspec;
     private ElementLink link;
-
+    private String position;
+    
     /**
      * 
      */
-    public AddStandardElementLinkCommand(URNspec urn, IntentionalElement source, ElementLink link) {
-
+    public AddStandardElementLinkCommand(URNspec urn, IntentionalElement source, ElementLink link, String position) {
+    	
+    	this.position = position;
         this.urnspec = urn;
         this.link = link;
         this.src = source;
@@ -66,8 +68,14 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
         testPreConditions();
 
         // Set the source and destination
+
         src.getLinksSrc().add(link);
-        dest.getLinksDest().add(link);
+       
+        if( position != null ){
+        	dest.getLinksDest().add(Integer.valueOf(position), link);
+        }else{
+        	dest.getLinksDest().add(link);
+        }
 
         urnspec.getGrlspec().getLinks().add(link);
 

@@ -9,6 +9,7 @@ import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
 import urncore.Concern;
 import urncore.IURNDiagram;
+import urncore.URNmodelElement;
 import ca.mcgill.sel.core.COREConcern;
 import ca.mcgill.sel.core.COREFeature;
 import ca.mcgill.sel.core.COREFeatureModel;
@@ -17,7 +18,6 @@ import ca.mcgill.sel.core.COREFeatureSelectionStatus;
 import ca.mcgill.sel.core.COREImpactModel;
 import ca.mcgill.sel.core.COREModel;
 import ca.mcgill.sel.core.CoreFactory;
-
 import fm.Feature;
 import fm.FeatureDiagram;
 import fm.FeatureModel;
@@ -61,6 +61,7 @@ public class JUCMNavCOREandFMTests extends TestCase {
 	public Feature child = null;
 	public Feature grandchild = null;
 	public Feature secondgrandchild = null;
+	public Feature thirdgrandchild = null;
 	public Feature grandgrandchild = null;
 	
 	
@@ -88,10 +89,11 @@ public class JUCMNavCOREandFMTests extends TestCase {
     }
 
     /**
-	 * 
+	 * Test case (iii): neither feature model nor impact model exist before creating
+	 * COREModel
 	 */
 	public void testCreateCOREModelCaseIII() {
-		// test case (iii): neither feature model nor impact model exist
+
 		concern = fact.createConcern("testing");
 		
 		assertEquals("testing", concern.getName());
@@ -136,7 +138,7 @@ public class JUCMNavCOREandFMTests extends TestCase {
 	}
     
 	/**
-	 * 
+	 * Tests the AddFeature method of fm.Feature
 	 */
 	public void testAddFeature() {
 		
@@ -228,11 +230,11 @@ public class JUCMNavCOREandFMTests extends TestCase {
 	}
 
 	/**
-	 * 
+	 * Tests the method "rename" of fm.Feature
 	 */
 	public void testRename() {
 
-		testAddFeature();
+		createTestingModel();
 		
 		feature1 = child;
 		feature1.rename("Feature1NewName");
@@ -241,11 +243,11 @@ public class JUCMNavCOREandFMTests extends TestCase {
 	}
 
 	/**
-	 * Tests the ChangeParent method of fm.Feature
+	 * Tests the method "changeParent" of fm.Feature
 	 */
 	public void testChangeParent() {
 		
-		testAddFeature();
+		createTestingModel();
 		
 		Feature nodeToBeChangedParent = secondgrandchild;
 		Feature oldParent = child;
@@ -253,7 +255,7 @@ public class JUCMNavCOREandFMTests extends TestCase {
 		assertTrue(root.getPred().size() == 1); 
 		nodeToBeChangedParent.changeParent((Feature)root.getDef(), COREFeatureRelationshipType.MANDATORY);
 		// test if we correctly deleted the link with the old parent
-		assertTrue(((IntentionalElementRef) fd.getNodes().get(1)).getPred().size() == 1);
+		assertTrue(((IntentionalElementRef) fd.getNodes().get(1)).getPred().size() == 2);
 		assertTrue(root.getPred().size() == 2); 
 		// test if we moved the right element
 		LinkRef newLink = ((LinkRef)root.getPred().get(root.getPred().size()-1));
@@ -266,11 +268,43 @@ public class JUCMNavCOREandFMTests extends TestCase {
 		
 	}
 
+	/**
+	 * Tests the method "changeLink" of fm.Feature
+	 */
+	public void testChangeLink() {
+		
+		createTestingModel();
+	
+		Feature featureToChangeLink = secondgrandchild;
+		ElementLink linkToChange = (ElementLink) featureToChangeLink.getLinksSrc().get(0);
+		int oldPosition = child.getLinksDest().indexOf(linkToChange);
+		
+		featureToChangeLink.changeLink(COREFeatureRelationshipType.MANDATORY);
+
+		// test if it's the right type of link
+		assertTrue(child.getLinksDest().get(oldPosition) instanceof MandatoryFMLink);
+		// test if the feature is still at the same position regarding it's parent
+		assertTrue( ((URNmodelElement)((ElementLink)child.getLinksDest().get(oldPosition)).getSrc()).getId() == 
+				((URNmodelElement)featureToChangeLink).getId());
+		
+		featureToChangeLink.changeLink(COREFeatureRelationshipType.OPTIONAL);
+		// test if it's the right type of link
+		assertTrue(child.getLinksDest().get(oldPosition) instanceof OptionalFMLink);
+		
+		featureToChangeLink.changeLink(COREFeatureRelationshipType.XOR);
+		// test if it's the right type of link
+		assertTrue(child.getLinksDest().get(oldPosition) instanceof Decomposition);
+
+		featureToChangeLink.changeLink(COREFeatureRelationshipType.OR);
+		// test if it's the right type of link
+		assertTrue(child.getLinksDest().get(oldPosition) instanceof Decomposition);
+	}
 	
     /**
-     * 
-     *  
+     * Tests most of the cases for creating Feature and Impact
+     * Models 
      */
+	
     public void testCreatingFeatureAndImpactModels() {
     	 testCreateCOREModelCaseIII();
 		
@@ -384,7 +418,80 @@ public class JUCMNavCOREandFMTests extends TestCase {
 
     }
 
-	
-   
+    /**
+     * Creates a FeatureModel to test methods.
+     * 
+     * Visualization of the model ( nodes are Features ) :
+     * 
+     *  		        root
+     *			   		 /  
+     *			   		OR   
+     *		    	   /
+     *  		    child  ---XOR---- thirdgrandchild	
+     *  		   /     \
+     *           XOR    XOR
+     *           /		   \
+     *     grandchild	 secondgrandchild
+     *        /
+     *    OPTIONAL
+     *    	/
+     * grandgrandchild
+     * 
+     */
     
+	private void createTestingModel(){
+		
+		concern = fact.createConcern("testing");
+	
+		Iterator<COREModel> it = (Iterator<COREModel>) concern.getModels().iterator();
+		while (it.hasNext()) {
+			COREModel model = it.next();
+			if (model instanceof COREFeatureModel && model instanceof FeatureModel) {
+				fm = (FeatureModel) model;
+			} else if (model instanceof COREImpactModel && model instanceof ImpactModel) {
+				im = (ImpactModel) model;
+			}
+		}
+		
+		Iterator it2 = fm.getGrlspec().getUrnspec().getUrndef().getSpecDiagrams().iterator();
+		while (it2.hasNext()) {
+			IURNDiagram diagram = (IURNDiagram) it2.next();
+			if (diagram instanceof FeatureDiagram) {
+				fd = (FeatureDiagram) diagram;
+				root = (IntentionalElementRef) fd.getNodes().get(0);
+			}
+			else if (diagram instanceof GRLGraph) {
+				ig = (GRLGraph) diagram;
+			}
+		} 
+		
+		if (root != null && root.getDef() instanceof Feature) {
+			((Feature) root.getDef()).addFeature("child", COREFeatureRelationshipType.MANDATORY);
+
+			
+			IntentionalElementRef root2 = (IntentionalElementRef) fd.getNodes().get(0);
+			((Feature) root.getDef()).addFeature("child", COREFeatureRelationshipType.OR);
+
+			child = (Feature) ((IntentionalElementRef) fd.getNodes().get(1)).getDef();
+			child.addFeature("grandchild", COREFeatureRelationshipType.XOR);
+			grandchild = (Feature) ((IntentionalElementRef) fd.getNodes().get(3)).getDef();
+			grandchild.addFeature("grandgrandchild", COREFeatureRelationshipType.OPTIONAL);
+			grandgrandchild = (Feature) ((IntentionalElementRef) fd.getNodes().get(4)).getDef();
+			child.addFeature("secondgrandchild", COREFeatureRelationshipType.XOR);
+			secondgrandchild = (Feature) ((IntentionalElementRef) fd.getNodes().get(5)).getDef();
+			child.addFeature("thirdgrandchild", COREFeatureRelationshipType.XOR);
+			thirdgrandchild = (Feature) ((IntentionalElementRef) fd.getNodes().get(6)).getDef();
+			
+			
+			List<COREFeature> features = new ArrayList<COREFeature>();
+			features.add((COREFeature) child);
+			features.add((COREFeature) grandchild);
+			features.add((COREFeature) secondgrandchild);
+			EvaluationResult er = ((FeatureModelImpl) fm).select(features);
+
+		} else {
+			fail("root does not exist");
+		}
+	}
+	
 }

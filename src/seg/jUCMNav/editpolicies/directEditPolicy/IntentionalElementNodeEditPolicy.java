@@ -56,7 +56,7 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
         if (request.getNewObject() instanceof ElementLink) {
             IntentionalElementRef source = (IntentionalElementRef) getHost().getModel();
             CreateElementLinkCommand cmd = new CreateElementLinkCommand(source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(),
-                    (ElementLink) request.getNewObject());
+                    (ElementLink) request.getNewObject(), null);
             request.setStartCommand(cmd);
             return cmd;
         }

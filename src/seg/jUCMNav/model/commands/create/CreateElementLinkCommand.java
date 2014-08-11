@@ -31,14 +31,14 @@ public class CreateElementLinkCommand extends CompoundCommand {
     /**
      * 
      */
-    public CreateElementLinkCommand(URNspec urn, IntentionalElement source, ElementLink link) {
+    public CreateElementLinkCommand(URNspec urn, IntentionalElement source, ElementLink link, String position) {
         this.src = source;
         this.link = link;
 
         if (link instanceof Dependency) {
-            add(new AddDependencyElementLinkCommand(urn, source, (Dependency) link));
+            add(new AddDependencyElementLinkCommand(urn, source, (Dependency) link, position));
         } else {
-            add(new AddStandardElementLinkCommand(urn, source, link));
+            add(new AddStandardElementLinkCommand(urn, source, link, position));
         }
         setLabel(Messages.getString("CreateElementLinkCommand.createElementLink")); //$NON-NLS-1$
     }

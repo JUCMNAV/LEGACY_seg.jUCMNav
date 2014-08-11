@@ -249,7 +249,7 @@ public class JUCMNavKPICommandTests extends TestCase {
         // Create links between ref1 and ref2
         Contribution contrib = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
 
-        cmd = new CreateElementLinkCommand(urnspec, ref2.getDef(), contrib);
+        cmd = new CreateElementLinkCommand(urnspec, ref2.getDef(), contrib, null);
         ((CreateElementLinkCommand) cmd).setTarget(ref1.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);

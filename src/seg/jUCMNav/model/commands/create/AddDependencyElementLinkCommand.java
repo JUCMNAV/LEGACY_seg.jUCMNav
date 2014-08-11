@@ -25,12 +25,15 @@ public class AddDependencyElementLinkCommand extends Command implements JUCMNavC
     private IntentionalElement depender, dependee;
     private URNspec urnspec;
     private Dependency link;
-
+    private String position;
+    
     /**
      * 
      */
-    public AddDependencyElementLinkCommand(URNspec urn, IntentionalElement dependee, Dependency link) {
-        this.urnspec = urn;
+    public AddDependencyElementLinkCommand(URNspec urn, IntentionalElement dependee, Dependency link, String position) {
+        
+    	this.position = position;
+    	this.urnspec = urn;
         this.link = link;
         this.dependee = dependee;
 
@@ -66,9 +69,15 @@ public class AddDependencyElementLinkCommand extends Command implements JUCMNavC
         testPreConditions();
 
         // Set the source and destination
-        depender.getLinksSrc().add(link);
-        dependee.getLinksDest().add(link);
 
+        depender.getLinksSrc().add(link);
+       
+        if( position != null ){
+        	dependee.getLinksDest().add(Integer.valueOf(position), link);
+        }else{
+        	dependee.getLinksDest().add(link);
+        }
+        
         urnspec.getGrlspec().getLinks().add(link);
 
         EvaluationStrategyManager.getInstance().calculateEvaluation();

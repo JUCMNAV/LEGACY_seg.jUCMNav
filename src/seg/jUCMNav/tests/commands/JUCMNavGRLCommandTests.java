@@ -285,7 +285,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
         cs.execute(cmd);
 
         // Link the 2 elements
-        cmd = new AddDependencyElementLinkCommand(urnspec, ref.getDef(), dependency);
+        cmd = new AddDependencyElementLinkCommand(urnspec, ref.getDef(), dependency, null);
         ((AddDependencyElementLinkCommand) cmd).setTarget(destination.getDef());
         assertTrue("Can't execute AddDependencyElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -338,7 +338,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
 
         // Link the 2 elements
 
-        cmd = new AddStandardElementLinkCommand(urnspec, ref.getDef(), decomposition);
+        cmd = new AddStandardElementLinkCommand(urnspec, ref.getDef(), decomposition, null);
         ((AddStandardElementLinkCommand) cmd).setTarget(destination.getDef());
         assertTrue("Can't execute AddStandardElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -449,7 +449,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
         Contribution contrib = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         // Decomposition decomp = (Decomposition)ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
 
-        cmd = new CreateElementLinkCommand(urnspec, ref1.getDef(), contrib);
+        cmd = new CreateElementLinkCommand(urnspec, ref1.getDef(), contrib, null);
         ((CreateElementLinkCommand) cmd).setTarget(ref2.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -500,7 +500,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        cmd = new CreateElementLinkCommand(urnspec, ref.getDef(), link);
+        cmd = new CreateElementLinkCommand(urnspec, ref.getDef(), link, null);
         ((CreateElementLinkCommand) cmd).setTarget(destination.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -518,7 +518,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
         assertTrue("Can't execute AddIntentionalElementRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        cmd = new CreateElementLinkCommand(urnspec, ref.getDef(), link);
+        cmd = new CreateElementLinkCommand(urnspec, ref.getDef(), link, null);
         ((CreateElementLinkCommand) cmd).setTarget(destination.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -748,28 +748,28 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         Contribution contrib1 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef3.getDef(), contrib1);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef3.getDef(), contrib1, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef1.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Contribution contrib2 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef2.getDef(), contrib2);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef2.getDef(), contrib2, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef1.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Decomposition decomp1 = (Decomposition) ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef4.getDef(), decomp1);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef4.getDef(), decomp1, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef2.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Decomposition decomp2 = (Decomposition) ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef5.getDef(), decomp2);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef5.getDef(), decomp2, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef2.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -788,14 +788,14 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         Contribution contrib3 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef6.getDef(), contrib3);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef6.getDef(), contrib3, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef4.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Contribution contrib4 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef7.getDef(), contrib4);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef7.getDef(), contrib4, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef4.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -814,14 +814,14 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         Contribution contrib5 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef8.getDef(), contrib5);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef8.getDef(), contrib5, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef6.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Contribution contrib6 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef9.getDef(), contrib6);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef9.getDef(), contrib6, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef6.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -840,14 +840,14 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         Contribution contrib7 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef10.getDef(), contrib7);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef10.getDef(), contrib7, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef7.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Contribution contrib8 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef11.getDef(), contrib8);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef11.getDef(), contrib8, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef7.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -866,14 +866,14 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         Decomposition decomp3 = (Decomposition) ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef12.getDef(), decomp3);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef12.getDef(), decomp3, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef3.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Decomposition decomp4 = (Decomposition) ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef13.getDef(), decomp4);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef13.getDef(), decomp4, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef3.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -886,14 +886,14 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         Contribution contrib9 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef6.getDef(), contrib9);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef6.getDef(), contrib9, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef14.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         Contribution contrib10 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef14.getDef(), contrib10);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef14.getDef(), contrib10, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef1.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -906,7 +906,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
         
         Contribution contrib11 = (Contribution) ModelCreationFactory.getNewObject(urnspec, Contribution.class);
         
-        cmd = new CreateElementLinkCommand(urnspec, ieRef15.getDef(), contrib11);
+        cmd = new CreateElementLinkCommand(urnspec, ieRef15.getDef(), contrib11, null);
         ((CreateElementLinkCommand) cmd).setTarget(ieRef5.getDef());
         assertTrue("Can't execute CreateElementLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
