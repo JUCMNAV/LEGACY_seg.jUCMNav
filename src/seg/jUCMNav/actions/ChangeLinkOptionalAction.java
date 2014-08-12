@@ -59,8 +59,10 @@ public class ChangeLinkOptionalAction extends ChangeLinkAction
             if( elementRef.getDef() instanceof Feature){
             	
             	Feature feature = (Feature)elementRef.getDef();
-            	if ( feature.getLinksSrc().get(0) instanceof OptionalFMLink){
-            		return false;
+            	if( feature.getLinksSrc().size() != 0){
+            	  	if ( feature.getLinksSrc().get(0) instanceof OptionalFMLink){
+                		return false;
+                	}
             	}
             	return true;
             }else

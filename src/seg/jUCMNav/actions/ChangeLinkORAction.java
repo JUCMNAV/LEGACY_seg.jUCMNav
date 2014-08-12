@@ -61,13 +61,15 @@ public class ChangeLinkORAction extends ChangeLinkAction
             if( elementRef.getDef() instanceof Feature){
             	
             	Feature feature = (Feature)elementRef.getDef();
-            	if ( feature.getLinksSrc().get(0) instanceof Decomposition ){
-            		IntentionalElement intElem = (IntentionalElement)((ElementLink)feature.getLinksSrc().get(0)).getDest();
-            		int decompType = intElem.getDecompositionType().getValue();
-            	
-            		if ( decompType == 1 ) /* OR */ {
-            			return false;
-            		}
+            	if( feature.getLinksSrc().size() != 0){ 
+	            	if ( feature.getLinksSrc().get(0) instanceof Decomposition ){
+	            		IntentionalElement intElem = (IntentionalElement)((ElementLink)feature.getLinksSrc().get(0)).getDest();
+	            		int decompType = intElem.getDecompositionType().getValue();
+	            	
+	            		if ( decompType == 1 ) /* OR */ {
+	            			return false;
+	            		}
+	            	}
             	}
             	return true;
             }else

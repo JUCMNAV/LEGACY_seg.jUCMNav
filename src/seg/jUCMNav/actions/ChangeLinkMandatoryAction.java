@@ -58,8 +58,10 @@ public class ChangeLinkMandatoryAction extends ChangeLinkAction
             if( elementRef.getDef() instanceof Feature){
             	
             	Feature feature = (Feature)elementRef.getDef();
-            	if ( feature.getLinksSrc().get(0) instanceof MandatoryFMLink){
-            		return false;
+            	if( feature.getLinksSrc().size() != 0){
+            	  	if ( feature.getLinksSrc().get(0) instanceof MandatoryFMLink){
+                		return false;
+                	}
             	}
             	return true;
             }else
