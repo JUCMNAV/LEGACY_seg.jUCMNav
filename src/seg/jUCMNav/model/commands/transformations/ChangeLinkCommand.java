@@ -42,7 +42,7 @@ import urncore.Metadata;
  */
 public class ChangeLinkCommand extends Command implements JUCMNavCommand {
 
-	private Feature feature = null;
+	private Feature feature;
 	private COREFeatureRelationshipType newRelationship;
     private COREFeatureRelationshipType oldRelationship;
 	

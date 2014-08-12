@@ -7,6 +7,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
 import urncore.Concern;
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
@@ -298,6 +299,14 @@ public class JUCMNavCOREandFMTests extends TestCase {
 		featureToChangeLink.changeLink(COREFeatureRelationshipType.OR);
 		// test if it's the right type of link
 		assertTrue(child.getLinksDest().get(oldPosition) instanceof Decomposition);
+		
+		ChangeLinkCommand changeLinkCmd = 
+				new ChangeLinkCommand(COREFeatureRelationshipType.MANDATORY, ((IntentionalElementRef) fd.getNodes().get(5)));
+		if ( changeLinkCmd.canExecute()){
+			changeLinkCmd.execute();
+		}
+		// test if it's the right type of link
+		assertTrue(child.getLinksDest().get(oldPosition) instanceof MandatoryFMLink);
 	}
 	
     /**
