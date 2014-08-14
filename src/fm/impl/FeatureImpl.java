@@ -415,16 +415,14 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 								return (Boolean) COREFactory4URN.returnResult(false);
 							
 						}else
-							return false;
+							return (Boolean) COREFactory4URN.returnResult(false);
 					}
 				}
 			}
-			COREFactory4URN.setCOREInterfaceActive(false);
-			return true;
+			return (Boolean) COREFactory4URN.returnResult(true);
 		}
 		else {
-			COREFactory4URN.setCOREInterfaceActive(false);
-			return false;
+			return (Boolean) COREFactory4URN.returnResult(false);
 		}
 	}
 
@@ -438,11 +436,9 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		if (dieCmd.canExecute())
 			dieCmd.execute();
 		else {
-			COREFactory4URN.setCOREInterfaceActive(false);
-			return false;
+			return (Boolean) COREFactory4URN.returnResult(false);
 		}
-		COREFactory4URN.setCOREInterfaceActive(false);
-		return true;
+		return (Boolean) COREFactory4URN.returnResult(true);
 	}
 
 	// TODO only experimental code at the moment
