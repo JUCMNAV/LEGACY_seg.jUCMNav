@@ -474,6 +474,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	}
 	
 	public boolean changeLink(COREFeatureRelationshipType relationship) {
+		
 		COREFactory4URN.setCOREInterfaceActive(true);
 
 		ElementLink link = (ElementLink) getLinksSrc().get(0);
@@ -483,10 +484,11 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		URNspec urn = this.getGrlspec().getUrnspec();
 
 		DeleteLinkRefCommand deleteParentLinkCmd = new DeleteLinkRefCommand((LinkRef)link.getRefs().get(0));
-		if( deleteParentLinkCmd.canExecute() )
+		if( deleteParentLinkCmd.canExecute() ){
 			deleteParentLinkCmd.execute();
-		else
-			return false;
+		}else{
+			return (Boolean) COREFactory4URN.returnResult(false);
+		}
 		
 		HashMap<String, Object> linkAndType = chooseRelationshipTypeAndLink(relationship, urn);
 		ElementLink newLink = (ElementLink) linkAndType.get("Link");
@@ -504,13 +506,13 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 
 		CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) this, newLink, position);
 		celCmd.setTarget(element);
-		if (celCmd.canExecute())
+		if (celCmd.canExecute()){
 			celCmd.execute();
-		else
-			return false;
+		}else{
+			return (Boolean) COREFactory4URN.returnResult(false);
+		}
 
-		COREFactory4URN.setCOREInterfaceActive(false);
-		return true;
+		return (Boolean) COREFactory4URN.returnResult(true);
 	}
 
 	// TODO only experimental code at the moment
@@ -578,6 +580,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	public boolean changeParent(COREFeature feature, COREFeatureRelationshipType new_association) {
 	
 		COREFactory4URN.setCOREInterfaceActive(true);
+		
 		if (feature != null && 
 				(new_association == COREFeatureRelationshipType.MANDATORY || 
 					new_association == COREFeatureRelationshipType.OPTIONAL ||
@@ -595,6 +598,8 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 				DeleteLinkRefCommand deleteParentLinkCmd = new DeleteLinkRefCommand((LinkRef)parentLink.getRefs().get(0));
 				if( deleteParentLinkCmd.canExecute() ){
 					deleteParentLinkCmd.execute();
+				}else{
+					return (Boolean) COREFactory4URN.returnResult(false);
 				}
 				
 				HashMap<String, Object> linkAndType = chooseRelationshipTypeAndLink(new_association, urn);
@@ -604,25 +609,30 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 				// add new link with desired parent
 				CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) this, link, null);
 				celCmd.setTarget((IntentionalElement)feature);
-				if (celCmd.canExecute())
+				if (celCmd.canExecute()){
 					celCmd.execute();
-				if (new_association == COREFeatureRelationshipType.XOR || new_association == COREFeatureRelationshipType.OR) {
-					ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef)((IntentionalElement) feature).getRefs().get(0), type);
-					if (cdtCmd.canExecute())
-						cdtCmd.execute();
+				}else{
+					return (Boolean) COREFactory4URN.returnResult(false);
 				}
 				
-				return true;
+				if (new_association == COREFeatureRelationshipType.XOR || new_association == COREFeatureRelationshipType.OR) {
+					ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef)((IntentionalElement) feature).getRefs().get(0), type);
+					if (cdtCmd.canExecute()){
+						cdtCmd.execute();
+					}else{
+						return (Boolean) COREFactory4URN.returnResult(false);
+					}
+				}
+				
+				return (Boolean) COREFactory4URN.returnResult(true);
 				
 			}else{
 				// has more than 1 parent ?
-				COREFactory4URN.setCOREInterfaceActive(false);
-				return false;
+				return (Boolean) COREFactory4URN.returnResult(false);
 			}
 			
 		} else {
-			COREFactory4URN.setCOREInterfaceActive(false);
-			return false;
+			return (Boolean) COREFactory4URN.returnResult(false);
 		}
 	}
 	
@@ -646,9 +656,11 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 			ChangeGrlNodeNameCommand changeNameCmd = new ChangeGrlNodeNameCommand(intElemRef, core_feature_name);		
 			if ( changeNameCmd.canExecute()){
 				changeNameCmd.execute();
+			}else{
+				COREFactory4URN.returnResult(false);
 			}
 		}
 		
-		COREFactory4URN.returnResult(false);
+		COREFactory4URN.returnResult(true);
 	}
 } //FeatureImpl
