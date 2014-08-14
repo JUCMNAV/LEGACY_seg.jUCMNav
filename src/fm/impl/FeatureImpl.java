@@ -417,32 +417,17 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 							ElementLink link = (ElementLink) linkAndType.get("Link");
 							int type = Integer.valueOf(linkAndType.get("Type").toString());
 							
-							CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) ref.getDef(), link, strPosition);
-							celCmd.setTarget(this);
-							if (celCmd.canExecute())
-								celCmd.execute();
-							else 
-								return false;
-							
-			
-							if (relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
-								ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef) this.getRefs().get(0), type);
-								if (cdtCmd.canExecute())
-									cdtCmd.execute();
-								else
-									return false;
-							}
+							if ( ! createNewLink((IntentionalElement)this, (IntentionalElement) ref.getDef(), relationship, urn, link, type, strPosition) )
+								return (Boolean) COREFactory4URN.returnResult(false);
 						}else
-							return false;
+							return (Boolean) COREFactory4URN.returnResult(false);
 					}
 				}
 			}
-			COREFactory4URN.setCOREInterfaceActive(false);
-			return true;
+			return (Boolean) COREFactory4URN.returnResult(true);
 		}
 		else {
-			COREFactory4URN.setCOREInterfaceActive(false);
-			return false;
+			return (Boolean) COREFactory4URN.returnResult(false);
 		}
 	}
 
@@ -571,6 +556,35 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		
     	return result;
     }
+  
+    /**
+	 * @param feature
+	 * @param relationship
+	 * @param urn
+	 * @param link
+	 * @param type
+	 */
+	private boolean createNewLink(IntentionalElement linkTarget, IntentionalElement linkSource, COREFeatureRelationshipType relationship, 
+						URNspec urn, ElementLink link, int type, String strPosition) {
+		
+		CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, linkSource, link, strPosition);
+		celCmd.setTarget(linkTarget);
+		if (celCmd.canExecute()){
+			celCmd.execute();
+		}else{
+			return false;
+		}
+		
+		if (relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
+			ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef)linkTarget.getRefs().get(0), type);
+			if (cdtCmd.canExecute()){
+				cdtCmd.execute();
+			}else{
+				return false;
+			}
+		}
+		return true;
+	}
     
     /**
 	 * <!-- begin-user-doc -->
@@ -607,22 +621,8 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 				int type = Integer.valueOf(linkAndType.get("Type").toString());
 				
 				// add new link with desired parent
-				CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) this, link, null);
-				celCmd.setTarget((IntentionalElement)feature);
-				if (celCmd.canExecute()){
-					celCmd.execute();
-				}else{
+				if ( ! createNewLink((IntentionalElement)feature, (IntentionalElement) this, new_association, urn, link, type, null) )
 					return (Boolean) COREFactory4URN.returnResult(false);
-				}
-				
-				if (new_association == COREFeatureRelationshipType.XOR || new_association == COREFeatureRelationshipType.OR) {
-					ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef)((IntentionalElement) feature).getRefs().get(0), type);
-					if (cdtCmd.canExecute()){
-						cdtCmd.execute();
-					}else{
-						return (Boolean) COREFactory4URN.returnResult(false);
-					}
-				}
 				
 				return (Boolean) COREFactory4URN.returnResult(true);
 				
