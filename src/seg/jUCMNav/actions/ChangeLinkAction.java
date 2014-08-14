@@ -8,29 +8,22 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
-import ca.mcgill.sel.core.COREFeatureRelationshipType;
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
-import seg.jUCMNav.model.commands.create.ShowLinkedElementCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
-import urn.URNspec;
-import urncore.URNmodelElement;
+import ca.mcgill.sel.core.COREFeatureRelationshipType;
 
 /**
- * Action for showing linked element(s).
+ * Action for changing a Feature's link type with its parent.
  * 
- * @author rouzbahan
+ * @author Patrice Boulet
  * 
  */
 public class ChangeLinkAction extends URNSelectionAction
 {
     public static final String CHANGELINK = "seg.jUCMNav.ChangeLink"; //$NON-NLS-1$
   
-    private URNmodelElement element;
     private IntentionalElementRef elementRef;
-    private URNspec urnspec;
     protected COREFeatureRelationshipType relationship = null;
-    private Feature feature;
     
     public ChangeLinkAction(IWorkbenchPart part)
     {
@@ -39,19 +32,20 @@ public class ChangeLinkAction extends URNSelectionAction
     }
     
     /**
-     * True if we have selected a valid URNmodelElement.
+     * True if we have selected a Feature that is connected to a parent Feature.
      */
     @SuppressWarnings("static-access")
 	protected boolean calculateEnabled() 
     {
-        List objects = getSelectedObjects();
+        @SuppressWarnings("unchecked")
+		List<Object> objects = (List<Object>)getSelectedObjects();
 
         if (objects.size() != 1)
             return false;
 
         SelectionHelper sel = new SelectionHelper(objects);
-        urnspec = sel.getUrnspec();
-        element = HyperlinkUtils.findURNmodelElement(sel);
+        sel.getUrnspec();
+        HyperlinkUtils.findURNmodelElement(sel);
         
         if (sel.getSelectionType() == sel.INTENTIONALELEMENTREF) {
             elementRef = sel.getIntentionalElementRef(); 
@@ -64,7 +58,7 @@ public class ChangeLinkAction extends URNSelectionAction
     }
     
     /**
-     * Trying to Add linked element to environment.
+     * Trying to change the link type.
      * 
      */
     protected Command getCommand() 

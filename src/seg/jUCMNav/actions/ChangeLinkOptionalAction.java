@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions;
 
 import fm.Feature;
-import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
 import grl.IntentionalElementRef;
 
@@ -10,27 +9,21 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
-import ca.mcgill.sel.core.COREFeatureRelationshipType;
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
-import seg.jUCMNav.model.commands.create.ShowLinkedElementCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
-import urn.URNspec;
-import urncore.URNmodelElement;
+import ca.mcgill.sel.core.COREFeatureRelationshipType;
 
 /**
- * Action for showing linked element(s).
+ * Action for changing a Feature's link type with its parent to Optional.
  * 
- * @author rouzbahan
+ * @author Patrice Boulet
  * 
  */
 public class ChangeLinkOptionalAction extends ChangeLinkAction
 {
     public static final String CHANGELINKOPTIONAL = "seg.jUCMNav.ChangeLinkOptional"; //$NON-NLS-1$
   
-    private URNmodelElement element;
     private IntentionalElementRef elementRef;
-    private URNspec urnspec;
     
     public ChangeLinkOptionalAction(IWorkbenchPart part)
     {
@@ -40,19 +33,21 @@ public class ChangeLinkOptionalAction extends ChangeLinkAction
     }
     
     /**
-     * True if we have selected a valid URNmodelElement.
+     * True if we have selected a Feature and it's link type is not Optional already.
      */
     @SuppressWarnings("static-access")
 	protected boolean calculateEnabled() 
     {
-        List objects = getSelectedObjects();
+    	@SuppressWarnings("unchecked")
+		List<Object> objects = (List<Object>)getSelectedObjects();
+
 
         if (objects.size() != 1)
             return false;
 
         SelectionHelper sel = new SelectionHelper(objects);
-        urnspec = sel.getUrnspec();
-        element = HyperlinkUtils.findURNmodelElement(sel);
+        sel.getUrnspec();
+        HyperlinkUtils.findURNmodelElement(sel);
         
         if (sel.getSelectionType() == sel.INTENTIONALELEMENTREF) {
             elementRef = sel.getIntentionalElementRef(); 
@@ -73,7 +68,7 @@ public class ChangeLinkOptionalAction extends ChangeLinkAction
     }
     
     /**
-     * Trying to Add linked element to environment.
+     * Trying to change the link type.
      * 
      */
     protected Command getCommand() 
