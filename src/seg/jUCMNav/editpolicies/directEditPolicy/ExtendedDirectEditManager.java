@@ -1,5 +1,5 @@
 package seg.jUCMNav.editpolicies.directEditPolicy;
-
+ 
 import grl.ActorRef;
 import grl.GRLNode;
 import grl.IntentionalElementRef;
@@ -209,7 +209,7 @@ public class ExtendedDirectEditManager extends DirectEditManager {
                             cmd = new ChangeDefinitionCommand(urn, rename.getRenamedLabel(), rename.getName());
                         } else if (command instanceof ChangeGrlNodeNameCommand) {
                             ChangeGrlNodeNameCommand rename = ((ChangeGrlNodeNameCommand) command);
-                            cmd = new ChangeDefinitionCommand(urn, (Label)rename.getElement(), rename.getName());
+                            cmd = new ChangeDefinitionCommand(urn, rename.getElement(), rename.getName());
 
                         }
                         if (cmd != null && cmd.canExecute())

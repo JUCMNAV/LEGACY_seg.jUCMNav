@@ -166,25 +166,6 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * @author Patrice Boulet
-	 * <!-- end-user-doc -->
-	 */
-	public void rename(String core_feature_name) {
-		
-		COREFactory4URN.setCOREInterfaceActive(true);
-	
-		ChangeGrlNodeNameCommand changeNameCmd = new ChangeGrlNodeNameCommand(this, core_feature_name);		
-		if ( changeNameCmd.canExecute()){
-			changeNameCmd.execute();
-		}
-		
-		COREFactory4URN.setCOREInterfaceActive(false);
-	}
-
-	
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -443,6 +424,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 							else 
 								return false;
 							
+			
 							if (relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
 								ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef) this.getRefs().get(0), type);
 								if (cdtCmd.canExecute())
@@ -509,8 +491,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		HashMap<String, Object> linkAndType = chooseRelationshipTypeAndLink(relationship, urn);
 		ElementLink newLink = (ElementLink) linkAndType.get("Link");
 		int type = Integer.valueOf(linkAndType.get("Type").toString());
-
-
+		
 		if(relationship == COREFeatureRelationshipType.OPTIONAL || relationship == COREFeatureRelationshipType.MANDATORY ) {
 			element.setDecompositionType(decompositionType.AND_LITERAL);
 
@@ -556,7 +537,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 //        return fm;
 //    }
 
-/*
+/**
  * Used to set a relationship type and create a new Element link from this type.
  * 
  * @param relationship
@@ -565,7 +546,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
  * 		the current URNspec
  * @return result
  * 		a HashMap containing the ElementLink at the key "Link" and it's type at the key "Type"
- */
+ **/
     private HashMap<String, Object> chooseRelationshipTypeAndLink(COREFeatureRelationshipType relationship, URNspec urn){
     	HashMap<String, Object> result = new HashMap<String, Object>();
     	result.put("Type", new Integer(0));
@@ -643,5 +624,31 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 			COREFactory4URN.setCOREInterfaceActive(false);
 			return false;
 		}
+	}
+	
+	/**
+	 * Renames <b>this</b> Feature.
+	 * 
+	 * @param core_feature_name
+	 * 		new name for <b>this</b> Feature.
+	 * @author Patrice Boulet
+	 */
+	public void rename(String core_feature_name) {
+		
+		COREFactory4URN.setCOREInterfaceActive(true);
+	
+		for( Object obj : getRefs()){
+			
+			IntentionalElementRef intElemRef = null;
+			if( obj instanceof IntentionalElementRef)
+				intElemRef = (IntentionalElementRef) obj;
+			
+			ChangeGrlNodeNameCommand changeNameCmd = new ChangeGrlNodeNameCommand(intElemRef, core_feature_name);		
+			if ( changeNameCmd.canExecute()){
+				changeNameCmd.execute();
+			}
+		}
+		
+		COREFactory4URN.returnResult(false);
 	}
 } //FeatureImpl
