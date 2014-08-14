@@ -23,7 +23,7 @@ public class ChangeLinkAction extends URNSelectionAction
     public static final String CHANGELINK = "seg.jUCMNav.ChangeLink"; //$NON-NLS-1$
   
     private IntentionalElementRef elementRef;
-    protected COREFeatureRelationshipType relationship = null;
+    protected String relationship = null;
     
     public ChangeLinkAction(IWorkbenchPart part)
     {

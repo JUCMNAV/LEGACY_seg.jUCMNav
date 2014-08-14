@@ -31,7 +31,7 @@ public class ChangeLinkXORAction extends ChangeLinkAction
     {
         super(part);        
         setId(CHANGELINKXOR);
-    	relationship = COREFeatureRelationshipType.XOR;
+    	relationship = ChangeLinkCommand.FEATURE_XOR_RELATIONSHIP;
     }
     
     /**

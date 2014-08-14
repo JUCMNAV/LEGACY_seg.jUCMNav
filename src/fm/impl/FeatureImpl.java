@@ -5,9 +5,6 @@ package fm.impl;
 import fm.Feature;
 import fm.FeatureDiagram;
 import fm.FmPackage;
-import fm.MandatoryFMLink;
-import fm.OptionalFMLink;
-import grl.Decomposition;
 import grl.ElementLink;
 import grl.GRLNode;
 import grl.IntentionalElement;
@@ -16,8 +13,8 @@ import grl.LinkRef;
 import grl.impl.IntentionalElementImpl;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -32,11 +29,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
-import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
-import seg.jUCMNav.model.commands.delete.DeleteLinkRefCommand;
-import seg.jUCMNav.model.commands.transformations.ChangeDecompositionTypeCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
 import urn.URNspec;
 import ca.mcgill.sel.core.COREFeature;
 import ca.mcgill.sel.core.COREFeatureRelationshipType;
@@ -385,6 +380,8 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		COREFactory4URN.setCOREInterfaceActive(true);
 		
 		String strPosition = null;
+		String strRelationship = convertCOREFeatureRelationshipTypeToString(relationship);
+		
 		if (position > 0)
 			strPosition = String.valueOf(position);
 	
@@ -412,22 +409,22 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 						ChangeGrlNodeNameCommand cgnnCmd = new ChangeGrlNodeNameCommand(ref, childName);
 						if (cgnnCmd.canExecute()) {
 							cgnnCmd.execute();
-
-							HashMap<String, Object> linkAndType = chooseRelationshipTypeAndLink(relationship, urn);
-							ElementLink link = (ElementLink) linkAndType.get("Link");
-							int type = Integer.valueOf(linkAndType.get("Type").toString());
 							
-							if ( ! createNewLink((IntentionalElement)this, (IntentionalElement) ref.getDef(), relationship, urn, link, type, strPosition) )
+							ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
+							if ( ! changeLinkCmd.createNewLink((IntentionalElement)this, (IntentionalElement) ref.getDef(), urn, strPosition, strRelationship, null) )
 								return (Boolean) COREFactory4URN.returnResult(false);
+							
 						}else
-							return (Boolean) COREFactory4URN.returnResult(false);
+							return false;
 					}
 				}
 			}
-			return (Boolean) COREFactory4URN.returnResult(true);
+			COREFactory4URN.setCOREInterfaceActive(false);
+			return true;
 		}
 		else {
-			return (Boolean) COREFactory4URN.returnResult(false);
+			COREFactory4URN.setCOREInterfaceActive(false);
+			return false;
 		}
 	}
 
@@ -458,45 +455,34 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	   
 	}
 	
+	@SuppressWarnings("unchecked")
 	public boolean changeLink(COREFeatureRelationshipType relationship) {
 		
 		COREFactory4URN.setCOREInterfaceActive(true);
-
-		ElementLink link = (ElementLink) getLinksSrc().get(0);
-		IntentionalElement element = (IntentionalElement) link.getDest();
 		
-		String position = String.valueOf(element.getLinksDest().indexOf(link));
-		URNspec urn = this.getGrlspec().getUrnspec();
-
-		DeleteLinkRefCommand deleteParentLinkCmd = new DeleteLinkRefCommand((LinkRef)link.getRefs().get(0));
-		if( deleteParentLinkCmd.canExecute() ){
-			deleteParentLinkCmd.execute();
-		}else{
-			return (Boolean) COREFactory4URN.returnResult(false);
+		ChangeLinkCommand changeLinkCmd = null;
+		
+		/* A String representation of the relationship for use in jUCMNav */
+		String strRelationship = null;
+		
+		if( relationship == COREFeatureRelationshipType.MANDATORY){
+			strRelationship = ChangeLinkCommand.FEATURE_MANDATORY_RELATIONSHIP;
+		}else if (relationship == COREFeatureRelationshipType.OPTIONAL){
+			strRelationship = ChangeLinkCommand.FEATURE_OPTIONAL_RELATIONSHIP;
+		}else if (relationship == COREFeatureRelationshipType.OR){
+			strRelationship = ChangeLinkCommand.FEATURE_OR_RELATIONSHIP;
+		}else if (relationship == COREFeatureRelationshipType.XOR){
+			strRelationship = ChangeLinkCommand.FEATURE_XOR_RELATIONSHIP;
 		}
 		
-		HashMap<String, Object> linkAndType = chooseRelationshipTypeAndLink(relationship, urn);
-		ElementLink newLink = (ElementLink) linkAndType.get("Link");
-		int type = Integer.valueOf(linkAndType.get("Type").toString());
+		for( IntentionalElementRef intElemRef : (List<IntentionalElementRef>)getRefs()){
+			changeLinkCmd = new ChangeLinkCommand(strRelationship, intElemRef);
+			if( changeLinkCmd.canExecute())
+				changeLinkCmd.execute();
+			else 
+				return (Boolean) COREFactory4URN.returnResult(false);
+		}
 		
-		if(relationship == COREFeatureRelationshipType.OPTIONAL || relationship == COREFeatureRelationshipType.MANDATORY ) {
-			element.setDecompositionType(decompositionType.AND_LITERAL);
-
-		} else if (relationship == COREFeatureRelationshipType.XOR) {
-			element.setDecompositionType(decompositionType.XOR_LITERAL);
-
-		} else if (relationship == COREFeatureRelationshipType.OR) {
-			element.setDecompositionType(decompositionType.OR_LITERAL);
-		}
-
-		CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, (IntentionalElement) this, newLink, position);
-		celCmd.setTarget(element);
-		if (celCmd.canExecute()){
-			celCmd.execute();
-		}else{
-			return (Boolean) COREFactory4URN.returnResult(false);
-		}
-
 		return (Boolean) COREFactory4URN.returnResult(true);
 	}
 
@@ -523,77 +509,18 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 //        }
 //        return fm;
 //    }
-
-/**
- * Used to set a relationship type and create a new Element link from this type.
- * 
- * @param relationship
- * 		the type of COREFeatureRelationshipType wanted
- * @param urn
- * 		the current URNspec
- * @return result
- * 		a HashMap containing the ElementLink at the key "Link" and it's type at the key "Type"
- **/
-    private HashMap<String, Object> chooseRelationshipTypeAndLink(COREFeatureRelationshipType relationship, URNspec urn){
-    	HashMap<String, Object> result = new HashMap<String, Object>();
-    	result.put("Type", new Integer(0));
-    	
-		if (relationship == COREFeatureRelationshipType.MANDATORY) {
-			// add mandatory link between this feature and the new child feature
-			result.put("Link", (ElementLink) ModelCreationFactory.getNewObject(urn, MandatoryFMLink.class));								
-		} else if (relationship == COREFeatureRelationshipType.OPTIONAL) {
-			// add optional link between this feature and the new child feature
-			result.put("Link", (ElementLink) ModelCreationFactory.getNewObject(urn, OptionalFMLink.class));
-		} else if (relationship == COREFeatureRelationshipType.XOR) {
-			// add XOR decomposition link between this feature and the new child feature
-			result.put("Link", (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class));
-			result.put("Type", new Integer(2));
-		} else if (relationship == COREFeatureRelationshipType.OR) {
-			// add OR decomposition link between this feature and the new child feature
-			result.put("Link", (ElementLink) ModelCreationFactory.getNewObject(urn, Decomposition.class));
-			result.put("Type", new Integer(1));
-		}
-		
-    	return result;
-    }
-  
-    /**
-	 * @param feature
-	 * @param relationship
-	 * @param urn
-	 * @param link
-	 * @param type
-	 */
-	private boolean createNewLink(IntentionalElement linkTarget, IntentionalElement linkSource, COREFeatureRelationshipType relationship, 
-						URNspec urn, ElementLink link, int type, String strPosition) {
-		
-		CreateElementLinkCommand celCmd = new CreateElementLinkCommand(urn, linkSource, link, strPosition);
-		celCmd.setTarget(linkTarget);
-		if (celCmd.canExecute()){
-			celCmd.execute();
-		}else{
-			return false;
-		}
-		
-		if (relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
-			ChangeDecompositionTypeCommand cdtCmd = new ChangeDecompositionTypeCommand((IntentionalElementRef)linkTarget.getRefs().get(0), type);
-			if (cdtCmd.canExecute()){
-				cdtCmd.execute();
-			}else{
-				return false;
-			}
-		}
-		return true;
-	}
     
     /**
-	 * <!-- begin-user-doc -->
-	 * @author Patrice boulet
-	 * <!-- end-user-doc -->
+	 * 
+	 *
+	 * @author pboul037
+	 *
 	 */
 	public boolean changeParent(COREFeature feature, COREFeatureRelationshipType new_association) {
 	
 		COREFactory4URN.setCOREInterfaceActive(true);
+		
+		String strRelationship = convertCOREFeatureRelationshipTypeToString(new_association);
 		
 		if (feature != null && 
 				(new_association == COREFeatureRelationshipType.MANDATORY || 
@@ -607,21 +534,11 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 				LinkRef linkRef = null;
 				
 				// find and delete the parent link
-				ElementLink parentLink = (ElementLink)this.getLinksSrc().get(0);
+				ElementLink oldLink = (ElementLink)this.getLinksSrc().get(0);
 				
-				DeleteLinkRefCommand deleteParentLinkCmd = new DeleteLinkRefCommand((LinkRef)parentLink.getRefs().get(0));
-				if( deleteParentLinkCmd.canExecute() ){
-					deleteParentLinkCmd.execute();
-				}else{
-					return (Boolean) COREFactory4URN.returnResult(false);
-				}
-				
-				HashMap<String, Object> linkAndType = chooseRelationshipTypeAndLink(new_association, urn);
-				ElementLink link = (ElementLink) linkAndType.get("Link");
-				int type = Integer.valueOf(linkAndType.get("Type").toString());
-				
+				ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
 				// add new link with desired parent
-				if ( ! createNewLink((IntentionalElement)feature, (IntentionalElement) this, new_association, urn, link, type, null) )
+				if ( ! changeLinkCmd.createNewLink((IntentionalElement)feature, (IntentionalElement) this, urn, null, strRelationship, oldLink) )
 					return (Boolean) COREFactory4URN.returnResult(false);
 				
 				return (Boolean) COREFactory4URN.returnResult(true);
@@ -641,7 +558,8 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * 
 	 * @param core_feature_name
 	 * 		new name for <b>this</b> Feature.
-	 * @author Patrice Boulet
+	 * 
+	 * @author pboul037
 	 */
 	public void rename(String core_feature_name) {
 		
@@ -663,4 +581,22 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		
 		COREFactory4URN.returnResult(true);
 	}
+	
+	private String convertCOREFeatureRelationshipTypeToString(COREFeatureRelationshipType relationship){
+		
+		/* A String representation of the relationship for use in jUCMNav */
+		String strRelationship = null;
+		
+		if( relationship == COREFeatureRelationshipType.MANDATORY){
+			strRelationship = ChangeLinkCommand.FEATURE_MANDATORY_RELATIONSHIP;
+		}else if (relationship == COREFeatureRelationshipType.OPTIONAL){
+			strRelationship = ChangeLinkCommand.FEATURE_OPTIONAL_RELATIONSHIP;
+		}else if (relationship == COREFeatureRelationshipType.OR){
+			strRelationship = ChangeLinkCommand.FEATURE_OR_RELATIONSHIP;
+		}else if (relationship == COREFeatureRelationshipType.XOR){
+			strRelationship = ChangeLinkCommand.FEATURE_XOR_RELATIONSHIP;
+		}
+		return strRelationship;
+	}
+	
 } //FeatureImpl

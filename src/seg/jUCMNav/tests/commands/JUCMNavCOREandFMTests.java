@@ -301,7 +301,7 @@ public class JUCMNavCOREandFMTests extends TestCase {
 		assertTrue(child.getLinksDest().get(oldPosition) instanceof Decomposition);
 		
 		ChangeLinkCommand changeLinkCmd = 
-				new ChangeLinkCommand(COREFeatureRelationshipType.MANDATORY, ((IntentionalElementRef) fd.getNodes().get(5)));
+				new ChangeLinkCommand(ChangeLinkCommand.FEATURE_MANDATORY_RELATIONSHIP, ((IntentionalElementRef) fd.getNodes().get(5)));
 		if ( changeLinkCmd.canExecute()){
 			changeLinkCmd.execute();
 		}

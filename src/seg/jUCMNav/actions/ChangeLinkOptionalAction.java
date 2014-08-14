@@ -29,7 +29,7 @@ public class ChangeLinkOptionalAction extends ChangeLinkAction
     {
         super(part);        
         setId(CHANGELINKOPTIONAL);
-    	relationship = COREFeatureRelationshipType.OPTIONAL;
+    	relationship = ChangeLinkCommand.FEATURE_OPTIONAL_RELATIONSHIP;
     }
     
     /**

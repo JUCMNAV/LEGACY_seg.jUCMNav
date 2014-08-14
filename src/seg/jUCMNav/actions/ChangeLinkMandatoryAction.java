@@ -29,7 +29,7 @@ public class ChangeLinkMandatoryAction extends ChangeLinkAction
     {
         super(part);        
         setId(CHANGELINKMANDATORY);
-    	relationship = COREFeatureRelationshipType.MANDATORY;
+    	relationship = ChangeLinkCommand.FEATURE_MANDATORY_RELATIONSHIP;
     }
     
     /**
