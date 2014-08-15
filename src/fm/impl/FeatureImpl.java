@@ -373,8 +373,18 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Adds a child <b>Feature</b> to <b>this</b> <b>Feature</b>.
+	 * 
+	 *  @param position
+	 *  	position in the list of child <b>Feature</b> of <b>this</b>.
+	 *  @param childName
+	 *  	name of the new child <b>Feature</b>
+	 *  @param relationship
+	 *  	type of the new link between <b>this</b> and the new child.
+	 *  @return
+	 * 		true if the replacement as been executed without errors, false otherwise.
+	 * 
+	 *  @author gunterm, pboul037
 	 */
 	public boolean addFeature(int position, String childName, COREFeatureRelationshipType relationship) {
 		COREFactory4URN.setCOREInterfaceActive(true);
@@ -450,15 +460,22 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	    element.getLinksDest().add(newPosition, link);
 	   
 	}
+	/**
+	 * Changes the link type between <b>this</b> and it's parent.
+	 * 
+	 * @param relationship
+	 * 		new link type
+ 	 * @return
+	 * 		true if the replacement as been executed without errors, false otherwise.
+	 * 
+	 * @author pboul037
+	 */
 	
 	@SuppressWarnings("unchecked")
 	public boolean changeLink(COREFeatureRelationshipType relationship) {
 		
 		COREFactory4URN.setCOREInterfaceActive(true);
-		
 		ChangeLinkCommand changeLinkCmd = null;
-		
-		/* A String representation of the relationship for use in jUCMNav */
 		String strRelationship = null;
 		
 		if( relationship == COREFeatureRelationshipType.MANDATORY){
@@ -507,11 +524,20 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 //    }
     
     /**
+	 * Changes the parent of a Feature and the link type connecting them.
 	 * 
+	 * @param feature
+	 * 		<b>COREFeature</b> parent to connect <b>this</b> with
+	 * @param new_association
+	 * 		type of link between <b>this</b> and the new parent
+	 * 
+	 * @return
+	 * 		true if the replacement as been executed without errors, false otherwise.
 	 *
 	 * @author pboul037
 	 *
 	 */
+    
 	public boolean changeParent(COREFeature feature, COREFeatureRelationshipType new_association) {
 	
 		COREFactory4URN.setCOREInterfaceActive(true);
@@ -527,7 +553,6 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 			URNspec urn = this.getGrlspec().getUrnspec();
 			
 			if( this.getLinksSrc().size() == 1){
-				LinkRef linkRef = null;
 				
 				// find and delete the parent link
 				ElementLink oldLink = (ElementLink)this.getLinksSrc().get(0);
@@ -578,6 +603,18 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		COREFactory4URN.returnResult(true);
 	}
 	
+	/**
+	 * Helper method to convert a <b>COREFeatureRelationshipType</b> to a
+	 * String representation of it for use in jUCMNav commands.
+	 * 
+	 * @param relationship
+	 * 		type of relationship to convert
+	 * 
+	 * @return
+	 * 		a String representation of <b>relationship</b> for use in jUCMNav commands.
+	 * 
+	 * @author pboul037
+	 */
 	private String convertCOREFeatureRelationshipTypeToString(COREFeatureRelationshipType relationship){
 		
 		/* A String representation of the relationship for use in jUCMNav */
