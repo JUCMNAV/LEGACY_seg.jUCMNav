@@ -62,6 +62,11 @@ public class UpdateConcernCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
         concern.setName(name);
+        
+        if( concern.getCoreConcern() != null){
+        	concern.getCoreConcern().setName(name);
+        }
+        
         concern.setDescription(description);
         testPostConditions();
     }
