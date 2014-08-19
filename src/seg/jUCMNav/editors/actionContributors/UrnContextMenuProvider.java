@@ -401,7 +401,6 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ListDefinitionReferencesAction.LISTREFERENCES);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
         
         actions = new IAction[4];
         actions[0] = getActionRegistry().getAction(ChangeLinkMandatoryAction.CHANGELINKMANDATORY);
@@ -409,9 +408,9 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         actions[2] = getActionRegistry().getAction(ChangeLinkORAction.CHANGELINKOR);
         actions[3] = getActionRegistry().getAction(ChangeLinkXORAction.CHANGELINKXOR);
         
-        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.ChangeLink"), Messages.getString("UrnContextMenuProvider.ChangeLink"), null, true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        submenu = new SubmenuAction(actions, Messages.getString("UrnContextMenuProvider.ChangeLink"), Messages.getString("UrnContextMenuProvider.ChangeLink"), JUCMNavPlugin.getImageDescriptor("icons/ChangeLinkCommandIcon.ico"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         if (submenu.getActiveOperationCount() > 0)
-            manager.appendToGroup(GROUP_UNCOMMON, submenu);
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
         
         actions = new IAction[3];
         for (int i = 0; i <= 2; i++)
