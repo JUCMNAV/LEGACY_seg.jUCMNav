@@ -586,11 +586,9 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		
 		COREFactory4URN.setCOREInterfaceActive(true);
 	
-		for( Object obj : getRefs()){
+		if( getRefs() != null && getRefs().size() > 0 ){
 			
-			IntentionalElementRef intElemRef = null;
-			if( obj instanceof IntentionalElementRef)
-				intElemRef = (IntentionalElementRef) obj;
+			IntentionalElementRef intElemRef = (IntentionalElementRef)getRefs().get(0);
 			
 			ChangeGrlNodeNameCommand changeNameCmd = new ChangeGrlNodeNameCommand(intElemRef, core_feature_name);		
 			if ( changeNameCmd.canExecute()){
