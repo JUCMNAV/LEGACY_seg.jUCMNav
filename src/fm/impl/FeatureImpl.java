@@ -474,15 +474,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		ChangeLinkCommand changeLinkCmd = null;
 		String strRelationship = null;
 		
-		if( relationship == COREFeatureRelationshipType.MANDATORY){
-			strRelationship = ChangeLinkCommand.FEATURE_MANDATORY_RELATIONSHIP;
-		}else if (relationship == COREFeatureRelationshipType.OPTIONAL){
-			strRelationship = ChangeLinkCommand.FEATURE_OPTIONAL_RELATIONSHIP;
-		}else if (relationship == COREFeatureRelationshipType.OR){
-			strRelationship = ChangeLinkCommand.FEATURE_OR_RELATIONSHIP;
-		}else if (relationship == COREFeatureRelationshipType.XOR){
-			strRelationship = ChangeLinkCommand.FEATURE_XOR_RELATIONSHIP;
-		}
+		strRelationship = convertCOREFeatureRelationshipTypeToString(relationship);
 		
 		for( IntentionalElementRef intElemRef : (List<IntentionalElementRef>)getRefs()){
 			changeLinkCmd = new ChangeLinkCommand(strRelationship, intElemRef);
