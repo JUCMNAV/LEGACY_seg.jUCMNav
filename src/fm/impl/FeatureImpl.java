@@ -421,19 +421,15 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 							cgnnCmd.execute();
 							
 							ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
-							if ( ! changeLinkCmd.createNewLink((IntentionalElement)this, (IntentionalElement) ref.getDef(), urn, strPosition, strRelationship, null) )
-								return (Boolean) COREFactory4URN.returnResult(false);
+							if ( changeLinkCmd.createNewLink((IntentionalElement)this, (IntentionalElement) ref.getDef(), urn, strPosition, strRelationship, null) )
+								return (Boolean) COREFactory4URN.returnResult(true);
 							
-						}else
-							return (Boolean) COREFactory4URN.returnResult(false);
+						}
 					}
 				}
 			}
-			return (Boolean) COREFactory4URN.returnResult(true);
 		}
-		else {
 			return (Boolean) COREFactory4URN.returnResult(false);
-		}
 	}
 
 	/**
