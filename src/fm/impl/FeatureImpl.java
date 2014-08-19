@@ -7,21 +7,16 @@ import fm.FeatureDiagram;
 import fm.FmPackage;
 import fm.MandatoryFMLink;
 import grl.ElementLink;
-import grl.GRLLinkableElement;
 import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
-import grl.LinkRef;
 import grl.impl.IntentionalElementImpl;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.LinkedTransferQueue;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -40,7 +35,6 @@ import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
 import urn.URNspec;
-import urncore.URNmodelElement;
 import ca.mcgill.sel.core.COREFeature;
 import ca.mcgill.sel.core.COREFeatureRelationshipType;
 import ca.mcgill.sel.core.COREModel;
@@ -641,9 +635,6 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
 	private void isSelectableVisit(Feature feature, List<Stack<Feature>> allPathsToRoot, Stack<Feature> currentPathToRoot ) {
-		
-		if( currentPathToRoot == null)
-			currentPathToRoot = new Stack<Feature>();
 		
 		Feature currentParent = null;
 		if( currentPathToRoot == null)
