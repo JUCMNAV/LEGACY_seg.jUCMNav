@@ -547,19 +547,11 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 				
 				ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
 				// add new link with desired parent
-				if ( ! changeLinkCmd.createNewLink((IntentionalElement)feature, (IntentionalElement) this, urn, null, strRelationship, oldLink) )
-					return (Boolean) COREFactory4URN.returnResult(false);
-				
-				return (Boolean) COREFactory4URN.returnResult(true);
-				
-			}else{
-				// has more than 1 parent ?
-				return (Boolean) COREFactory4URN.returnResult(false);
+				if ( changeLinkCmd.createNewLink((IntentionalElement)feature, (IntentionalElement) this, urn, null, strRelationship, oldLink) )
+					return (Boolean) COREFactory4URN.returnResult(true);	
 			}
-			
-		} else {
-			return (Boolean) COREFactory4URN.returnResult(false);
-		}
+		} 
+		return (Boolean) COREFactory4URN.returnResult(false);
 	}
 	
 	/**
