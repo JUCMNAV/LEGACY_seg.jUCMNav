@@ -2,6 +2,7 @@ package seg.jUCMNav.tests.commands;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -204,12 +205,26 @@ public class JUCMNavCOREandFMTests extends TestCase {
 			assertTrue(link instanceof Decomposition);
 			assertEquals(DecompositionType.XOR_LITERAL, child.getDecompositionType());
 			
+			// test FeatureModel.select(...) with an empty list as input
+			List<COREFeature> emptyFeatureList = new LinkedList<COREFeature>();
+			EvaluationResult emptyFeatureListER = ((FeatureModelImpl)fm).select(emptyFeatureList);
+			
+			assertTrue(emptyFeatureListER != null);
+			Iterator<COREFeature> it99 = emptyFeatureListER.featureResult.keySet().iterator();
+			while (it99.hasNext()) {
+				COREFeature cf = it99.next();
+				COREFeatureSelectionStatus ss = emptyFeatureListER.featureResult.get(cf);
+				
+				//System.out.println( cf.getName() + " : " + ss);
+			}
+			
+			// test FeatureModel.select(...) with an non-empty list as input
 			List<COREFeature> features = new ArrayList<COREFeature>();
 			features.add((COREFeature) child);
 			features.add((COREFeature) grandchild);
 			features.add((COREFeature) secondgrandchild);
 			EvaluationResult er = ((FeatureModelImpl) fm).select(features);
-
+			
 			Iterator<COREFeature> it4 = er.featureResult.keySet().iterator();
 			while (it4.hasNext()) {
 				COREFeature cf = it4.next();

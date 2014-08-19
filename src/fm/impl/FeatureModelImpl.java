@@ -228,25 +228,19 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
 	 */
 	public EvaluationResult select(List<COREFeature> features) {
 		COREFactory4URN.setCOREInterfaceActive(true);
-		if (features.size() == 0)
-			return (EvaluationResult) COREFactory4URN.returnResult(null);
 		Iterator<COREFeature> it = features.iterator();
-		URNspec urn = null;
+		URNspec urn = getGrlspec().getUrnspec();
 		Vector<IntentionalElementRef> featureRefs = new Vector<IntentionalElementRef>();
 		HashMap<COREFeature, String> featuresHash = new HashMap<COREFeature, String>();
 		while (it.hasNext()) {
 			COREFeature feature = it.next();
 			if (feature instanceof Feature) {
-				if (urn == null)
-					urn = ((Feature) feature).getGrlspec().getUrnspec();
 				if (!((Feature) feature).getRefs().isEmpty()) {
 					featureRefs.add((IntentionalElementRef) ((Feature) feature).getRefs().get(0));
 					featuresHash.put(feature, "");
 				}
 			}
 		}
-		if (urn == null)
-			return (EvaluationResult) COREFactory4URN.returnResult(null);
 
 		// create a new strategy based on the list of selected features
 		// TODO this creates a new strategy group each time, there should be a dedicated group for CORE
