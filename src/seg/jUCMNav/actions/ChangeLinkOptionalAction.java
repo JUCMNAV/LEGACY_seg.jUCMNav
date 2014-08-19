@@ -9,9 +9,7 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.actions.hyperlinks.HyperlinkUtils;
 import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
-import ca.mcgill.sel.core.COREFeatureRelationshipType;
 
 /**
  * Action for changing a Feature's link type with its parent to Optional.
@@ -46,8 +44,6 @@ public class ChangeLinkOptionalAction extends ChangeLinkAction
             return false;
 
         SelectionHelper sel = new SelectionHelper(objects);
-        sel.getUrnspec();
-        HyperlinkUtils.findURNmodelElement(sel);
         
         if (sel.getSelectionType() == sel.INTENTIONALELEMENTREF) {
             elementRef = sel.getIntentionalElementRef(); 
