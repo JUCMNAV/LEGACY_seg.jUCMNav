@@ -5,7 +5,9 @@ package fm.impl;
 import fm.Feature;
 import fm.FeatureDiagram;
 import fm.FmPackage;
+import fm.MandatoryFMLink;
 import grl.ElementLink;
+import grl.GRLLinkableElement;
 import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
@@ -136,15 +138,6 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 			reuses = new EObjectContainmentEList(COREReuse.class, this, FmPackage.FEATURE__REUSES);
 		}
 		return reuses;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSelectable() {
-		return selectable;
 	}
 
 	/**
@@ -579,6 +572,37 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		}
 		
 		COREFactory4URN.returnResult(true);
+	}
+	
+	/**
+	 * Tells if <b>this</b> feature is
+	 * selectable, i.e. if it has only optional/OR/XOR
+	 * links with all this parent features.
+	 * 
+	 * @return
+	 * 		true if <b>this</b> feature is selectable, false otherwise.
+	 * 
+	 * @author pboul037
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean isSelectable() {
+		
+		COREFactory4URN.setCOREInterfaceActive(true);
+		
+		if (getLinksSrc() != null ){
+			
+			if( getLinksSrc().size() == 0) // if this is a root 
+				return (Boolean) COREFactory4URN.returnResult(false);	
+			else
+				for ( ElementLink currentParentLink : (List<ElementLink>)getLinksSrc()){
+					if ( currentParentLink instanceof MandatoryFMLink ){
+						return (Boolean) COREFactory4URN.returnResult(false);	
+					}
+				}
+		}
+		
+		return (Boolean) COREFactory4URN.returnResult(true);	
 	}
 	
 	/**
