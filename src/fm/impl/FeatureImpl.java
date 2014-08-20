@@ -587,76 +587,25 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean isSelectable() {
-
-		if ( getLinksSrc() != null ){
 		
-			List<Stack<Feature>> allPathsToRoot = new LinkedList<Stack<Feature>>();
-			// retrieve every path of feature that leads to the root with recursive approach
-			isSelectableVisit(this, allPathsToRoot, null);
-
-			// check every possible path from this to the root to see if there's one where it is mandatory
-			for(Stack<Feature> currentStack : allPathsToRoot){
-				while( !currentStack.isEmpty()){
-					Feature currentFeature = (Feature)currentStack.pop();
-					for ( ElementLink currentLink : (List<ElementLink>)currentFeature.getLinksDest()){
-						Feature currentChild = (Feature)currentLink.getSrc();
-						
-						// Is this the next Feature in this path?
-						if ( !currentStack.isEmpty()){
-							if ( currentChild.getId().compareTo(((Feature)currentStack.peek()).getId()) == 0){
-								// This link is not mandatory, thus all the childs of <b>this<\b> feature are optional.
-								if( !(currentLink instanceof MandatoryFMLink) ){
-									return true;
-								}
-							}
-						}
-
+		COREFactory4URN.setCOREInterfaceActive(true);
+		
+		if (getLinksSrc() != null ){
+			
+			if( getLinksSrc().size() == 0){ // if this is a root 
+				setSelectable(false);
+				return false;	
+			}
+			else
+				for ( ElementLink currentParentLink : (List<ElementLink>)getLinksSrc()){
+					if ( currentParentLink instanceof MandatoryFMLink ){
+						setSelectable(false);
+						return false;	
 					}
 				}
-			}
 		}
-		
-		return false;	
-	}
-	
-	/**
-	 * Recursive method that traverses and stores all the paths
-	 * from <b>feature<\b> to the root.
-	 * 
-	 * @param feature
-	 * 		feature to visit
-	 * @param allPathsToRoot
-	 * 		a reference to a list of all the paths visited for this feature
-	 * @param currentPathToRoot
-	 * 		a reference to the path that is currently being visited/built
-	 * 
-	 * @author pboul037
-	 * 
-	 */
-	@SuppressWarnings({ "unchecked", "unused" })
-	private void isSelectableVisit(Feature feature, List<Stack<Feature>> allPathsToRoot, Stack<Feature> currentPathToRoot ) {
-		
-		Feature currentParent = null;
-		if( currentPathToRoot == null)
-			currentPathToRoot = new Stack<Feature>();
-		currentPathToRoot.add(feature);
-		
-		if( String.valueOf(feature.getLinksSrc().size()).compareTo(String.valueOf(0)) == 0){
-			allPathsToRoot.add(currentPathToRoot);
-			return;
-		}else if ( String.valueOf(feature.getLinksSrc().size()).compareTo(String.valueOf(1)) == 0){
-			currentParent = (Feature)((ElementLink)feature.getLinksSrc().get(0)).getDest();
-			isSelectableVisit(currentParent, allPathsToRoot, currentPathToRoot);
-			return;
-		}else{
-			for( ElementLink currentLink : (List<ElementLink>)feature.getLinksSrc()){
-				currentParent = (Feature)currentLink.getDest();
-				Stack<Feature> newPathToRoot = (Stack<Feature>)currentPathToRoot.clone();
-				isSelectableVisit(currentParent, allPathsToRoot, newPathToRoot);
-			}
-			return;
-		}
-		
+		setSelectable(true);
+		return true;	
 	}
 	
 	
