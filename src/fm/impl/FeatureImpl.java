@@ -14,9 +14,7 @@ import grl.impl.IntentionalElementImpl;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -587,8 +585,6 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean isSelectable() {
-		
-		COREFactory4URN.setCOREInterfaceActive(true);
 		
 		if (getLinksSrc() != null ){
 			
