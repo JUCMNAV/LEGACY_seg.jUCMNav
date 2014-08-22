@@ -211,6 +211,14 @@
             icon="icons/KPIView.gif"
             id="seg.jUCMNav.views.KPIView"
             name="%KPI"/>
+      <view
+            category="seg.jUCMNav"
+            class="org.eclipse.ui.navigator.CommonNavigator"
+            icon="icons/CustomCommonNavigator.gif"
+            id="seg.jUCMNav.CustomCommonNavigator"
+            name="%CustomCommonNavigator"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.help.toc">
@@ -1112,6 +1120,62 @@
                priorityLevel="workbench">
          </variable>
       </sourceProvider>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            contentProvider="seg.jUCMNav.views.customCommonNavigator.CustomCommonNavigatorContentProvider"
+            id="seg.jUCMNav.CustomCommonNavigatorContent"
+            labelProvider="seg.jUCMNav.views.customCommonNavigator.CustomCommonNavigatorLabelProvider"
+            name="Custom Common Navigator Content">
+         <triggerPoints>
+            <instanceof
+                  value="org.eclipse.core.resources.IWorkspaceRoot">
+            </instanceof></triggerPoints>
+      </navigatorContent>
+      <navigatorContent
+            contentProvider="seg.jUCMNav.views.customCommonNavigator.JUCMConcernNavigatorContentProvider"
+            id="seg.jUCMNavJUCMConcernNavigatorContent"
+            labelProvider="seg.jUCMNav.views.customCommonNavigator.JUCMConcernNavigatorLabelProvider"
+            name="JUCM Concern Navigator Content">
+         <triggerPoints>
+            <and>
+               <instanceof
+                     value="org.eclipse.core.resources.IResource">
+               </instanceof>
+               <test
+                     forcePluginActivation="true"
+                     property="org.eclipse.core.resources.extension"
+                     value="jucm">
+               </test>
+            </and>
+         </triggerPoints>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="seg.jUCMNav.CustomCommonNavigator">
+         <includes>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resourceContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.filters.*">
+            </contentExtension>
+            <contentExtension
+                  pattern="seg.jUCMNavJUCMConcernNavigatorContent">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+      <viewerActionBinding
+            viewerId="seg.jUCMNav.CustomCommonNavigator">
+         <includes>
+            <actionExtension
+                  pattern="org.eclipse.ui.navigator.resources.*">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
    </extension>
 
 </plugin>
