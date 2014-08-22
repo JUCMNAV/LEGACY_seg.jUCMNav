@@ -367,8 +367,10 @@ public class MultiPageFileManager {
 		    		coreFileAlreadyCreated = true;
 		    		coreModelManager.setConcern(concern);
 					File currentCoreFile = coreModelManager.getCoreFile();
-					if ( currentCoreFile.getName().substring(0, currentCoreFile.getName().lastIndexOf(".")).compareTo(file.getName()) != 0 ){
-						currentCoreFile.renameTo(coreConcernPath.toFile());
+					if( currentCoreFile != null){
+						if ( currentCoreFile.getName().substring(0, currentCoreFile.getName().lastIndexOf(".")).compareTo(file.getName()) != 0 ){
+							currentCoreFile.renameTo(coreConcernPath.toFile());
+						}
 					}
 				}
 				coreFileToSave = true;

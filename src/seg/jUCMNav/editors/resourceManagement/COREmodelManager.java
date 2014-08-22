@@ -211,10 +211,11 @@ public class COREmodelManager extends EmfModelManager {
      */
     @SuppressWarnings("unchecked")
 	protected void updateCoreConcern(URNspec urnspec) {
+    	if ( coreConcern != null){
+    		if( coreConcern.getInterface() == null){
+    			coreConcern.setInterface(CoreFactory.eINSTANCE.createCOREInterface());
+    		}
     	
-    	if( coreConcern.getInterface() == null){
-    		coreConcern.setInterface(CoreFactory.eINSTANCE.createCOREInterface());
-    	}
     	FeatureModel jucmFeatureModel = null;
     	ImpactModel jucmImpactModel = null;
     	
@@ -296,6 +297,6 @@ public class COREmodelManager extends EmfModelManager {
     		}
     	}
     
-
+    	}
     }
 }
