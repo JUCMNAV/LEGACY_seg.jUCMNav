@@ -169,7 +169,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand, ICreate
             bDefAlreadyExists = diagram.getUrndefinition().getResponsibilities().contains(existingDef);
             
             // Is definition is contained in another resource's concern?
-            if( !bDefAlreadyExists ){
+            if( !bDefAlreadyExists && existingDef != null &&
+            		existingDef.getUrndefinition() != null){
             	if (existingDef.getUrndefinition().getResponsibilities().contains(existingDef))
             		bDefAlreadyExists = true;
             }
