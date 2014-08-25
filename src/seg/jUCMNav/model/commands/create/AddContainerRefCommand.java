@@ -1,11 +1,14 @@
 package seg.jUCMNav.model.commands.create;
 
+import grl.Actor;
+
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ICreateElementCommand;
 import urn.URNspec;
+import urncore.Component;
 import urncore.GRLmodelElement;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
@@ -58,8 +61,26 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand, I
 
         if (compRef instanceof UCMmodelElement) {
             bDefAlreadyExists = diagram.getUrndefinition().getUrnspec().getUrndef().getComponents().contains(compRef.getContDef());
+          
+            // Is definition is contained in another resource's concern?
+            if( !bDefAlreadyExists && existingDef != null &&
+            		((Component)existingDef).getUrndefinition() != null){
+            	
+            	if ( ((Component)existingDef).getUrndefinition().getComponents().contains(existingDef))
+            		bDefAlreadyExists = true;
+            }
+            
         } else if (compRef instanceof GRLmodelElement) {
             bDefAlreadyExists = diagram.getUrndefinition().getUrnspec().getGrlspec().getActors().contains(existingDef);
+            
+            // Is definition is contained in another resource's concern?
+            if( !bDefAlreadyExists && existingDef != null &&
+            		(((Actor)existingDef).getGrlspec() != null)){
+            	
+            	if ( ((Actor)existingDef).getGrlspec().getActors().contains(existingDef))
+            		bDefAlreadyExists = true;
+            }
+            
         }
 
         redo();
