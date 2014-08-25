@@ -50,6 +50,12 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
 
         existingDef = elementRef.getDef();
         bDefAlreadyExists = graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(existingDef);
+        
+        if ( !bDefAlreadyExists && existingDef != null &&
+        		existingDef.getGrlspec() != null){
+        	if( existingDef.getGrlspec().getIntElements().contains(existingDef))
+        		bDefAlreadyExists = true;
+        }
         redo();
     }
 
