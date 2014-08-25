@@ -77,7 +77,8 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
         URNspec urn;
 
         UCMNavMultiPageEditor editor = null;
-        if (getViewer() instanceof UrnTreeViewer) {
+        
+        if (getViewer() instanceof UrnTreeViewer || getViewer() == null) {
             editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
             // ((UrnTreeViewer)getViewer()).getContents().getModel() you can get parent urn from this
         } else if (getViewer() instanceof OutlineRootEditPart)

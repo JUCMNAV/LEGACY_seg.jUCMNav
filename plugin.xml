@@ -1176,6 +1176,10 @@
             </actionExtension>
          </includes>
       </viewerActionBinding>
+      <dragAssistant
+            class="seg.jUCMNav.views.dnd.CustomCommonNavigatorDragAssistant"
+            viewerId="seg.jUCMNav.CustomCommonNavigator">
+      </dragAssistant>
    </extension>
 
 </plugin>
