@@ -12,24 +12,19 @@ import grl.ImpactModel;
 import grl.IntentionalElement;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
-import ucm.UCMspec;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.Component;
@@ -37,16 +32,14 @@ import urncore.Concern;
 import urncore.IURNDiagram;
 import urncore.Responsibility;
 import urncore.URNdefinition;
-import urncore.URNmodelElement;
  
 /**
  * @author pboul037
  */
 public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider, IResourceChangeListener {
- 
+  
     private static final Object[]   NO_CHILDREN = {};
     Viewer _viewer;
-    private int _count = 1;
     private UrnModelManager jucmModelManager;
     private HashMap<Object, Concern> concerns;
  
@@ -60,15 +53,13 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
      * (non-Javadoc)
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
      */
-    @Override
+    @Override 
+    @SuppressWarnings("unchecked")
     public Object[] getChildren(Object parentElement) {
-        System.out.println("ContentProvider.getChildren: " + parentElement.getClass().getName()); //$NON-NLS-1$
         Object[] children = null;
         
-        
-        // .jucm file Resource
         if (IResource.class.isInstance(parentElement)) {
-        	
+        	// .jucm file Resource
         	IResource currentJucmResource = (IResource)parentElement;
         	jucmModelManager = new UrnModelManager();
         	try{
@@ -175,7 +166,6 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
        	
        	}else if (URNdefinition.class.isInstance(parentElement)){
        		URNdefinition urnDef = (URNdefinition)parentElement;
-       		Concern concern = concerns.get(urnDef);
        		
        		List<Component> componentChildren = new LinkedList<Component>();
             List<Responsibility> responsibilityChildren = new LinkedList<Responsibility>();
@@ -246,7 +236,6 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
      */
     @Override
     public Object getParent(Object element) {
-        System.out.println("ContentProvider.getParent: " + element.getClass().getName()); //$NON-NLS-1$
         Object parent = null;
  
         if (List.class.isInstance(element)) {
@@ -283,11 +272,18 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
      * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
      */
     @Override
+    @SuppressWarnings("unchecked")
     public boolean hasChildren(Object element) {
-        System.out.println("ContentProvider.hasChildren: " + element.getClass().getName()); //$NON-NLS-1$
         boolean hasChildren = false;
        
-        if (Concern.class.isInstance(element)) {
+        if (IResource.class.isInstance(element)) {
+        	if( IFile.class.isInstance(element)){
+        		IFile currentFile = (IFile)element;
+        		if(currentFile.getFullPath().getFileExtension().compareTo("jucm") == 0 ||
+        				currentFile.getFullPath().getFileExtension().compareTo("core") == 0)
+        			hasChildren = true;
+        	}
+        }else if (Concern.class.isInstance(element)) {
         	
         	Concern currentConcern = (Concern)element;
         	if( currentConcern.getUrndefinition().getUrnspec().getGrlspec() != null){
@@ -370,7 +366,6 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
     @Override
     public Object[] getElements(Object inputElement) {
         // This is the same as getChildren() so we will call that instead
-        System.out.println("ContentProvider.getElements: " + inputElement.getClass().getName()); //$NON-NLS-1$
         return getChildren(inputElement);
     }
  

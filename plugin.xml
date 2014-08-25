@@ -1124,16 +1124,6 @@
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
       <navigatorContent
-            contentProvider="seg.jUCMNav.views.customCommonNavigator.CustomCommonNavigatorContentProvider"
-            id="seg.jUCMNav.CustomCommonNavigatorContent"
-            labelProvider="seg.jUCMNav.views.customCommonNavigator.CustomCommonNavigatorLabelProvider"
-            name="Custom Common Navigator Content">
-         <triggerPoints>
-            <instanceof
-                  value="org.eclipse.core.resources.IWorkspaceRoot">
-            </instanceof></triggerPoints>
-      </navigatorContent>
-      <navigatorContent
             contentProvider="seg.jUCMNav.views.customCommonNavigator.JUCMConcernNavigatorContentProvider"
             id="seg.jUCMNavJUCMConcernNavigatorContent"
             labelProvider="seg.jUCMNav.views.customCommonNavigator.JUCMConcernNavigatorLabelProvider"
@@ -1143,11 +1133,17 @@
                <instanceof
                      value="org.eclipse.core.resources.IResource">
                </instanceof>
-               <test
-                     forcePluginActivation="true"
-                     property="org.eclipse.core.resources.extension"
-                     value="jucm">
-               </test>
+               <or>
+                  <test
+                        forcePluginActivation="true"
+                        property="org.eclipse.core.resources.extension"
+                        value="jucm">
+                  </test>
+                  <test
+                        property="org.eclipse.core.resources.extension"
+                        value="core">
+                  </test>
+               </or>
             </and>
          </triggerPoints>
       </navigatorContent>
