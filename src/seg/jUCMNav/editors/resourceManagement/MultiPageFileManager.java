@@ -407,7 +407,7 @@ public class MultiPageFileManager {
 		       	    }
 		       	    // Is this the .core file associated with our .jucm file?
 		       	    if ( fileToCheck.getName().substring(0, fileToCheck.getName().lastIndexOf(".")).compareTo(
-		       	    		file.getName().substring(0, fileToCheck.getName().lastIndexOf("."))) == 0){ //YES
+		       	    		file.getName().substring(0, file.getName().lastIndexOf("."))) == 0){ //YES
 		        	   
 		        	  	Concern concern = (Concern)urn.getUrndef().getConcerns().get(0);
 		        	  	COREConcern coreConcern = (COREConcern)coreModelManager.resource.getContents().get(0);
