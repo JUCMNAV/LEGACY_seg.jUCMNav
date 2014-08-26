@@ -1133,17 +1133,27 @@
                <instanceof
                      value="org.eclipse.core.resources.IResource">
                </instanceof>
-               <or>
-                  <test
-                        forcePluginActivation="true"
-                        property="org.eclipse.core.resources.extension"
-                        value="jucm">
-                  </test>
-                  <test
-                        property="org.eclipse.core.resources.extension"
-                        value="core">
-                  </test>
-               </or>
+               <test
+                     property="org.eclipse.core.resources.extension"
+                     value="jucm">
+               </test>
+            </and>
+         </triggerPoints>
+      </navigatorContent>
+      <navigatorContent
+            contentProvider="seg.jUCMNav.views.customCommonNavigator.COREConcernNavigatorContentProvider"
+            id="seg.jUCMNavCOREConcernNavigatorContent"
+            labelProvider="seg.jUCMNav.views.customCommonNavigator.COREConcernNavigatorLabelProvider"
+            name="CORE Concern Navigator Content">
+         <triggerPoints>
+            <and>
+               <instanceof
+                     value="org.eclipse.core.resources.IResource">
+               </instanceof>
+               <test
+                     property="org.eclipse.core.resources.extension"
+                     value="core">
+               </test>
             </and>
          </triggerPoints>
       </navigatorContent>
@@ -1161,6 +1171,9 @@
             </contentExtension>
             <contentExtension
                   pattern="seg.jUCMNavJUCMConcernNavigatorContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="seg.jUCMNavCOREConcernNavigatorContent">
             </contentExtension>
          </includes>
       </viewerContentBinding>
