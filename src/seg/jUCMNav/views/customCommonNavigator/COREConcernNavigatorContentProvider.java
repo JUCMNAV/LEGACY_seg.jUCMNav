@@ -19,6 +19,9 @@ import ca.mcgill.sel.core.COREInterface;
 import ca.mcgill.sel.core.COREModel;
  
 /**
+ * Content provider for .core files
+ * in the Custom Common Navigator view.
+ * 
  * @author pboul037
  */
 public class COREConcernNavigatorContentProvider implements ITreeContentProvider, IResourceChangeListener {

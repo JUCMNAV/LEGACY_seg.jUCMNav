@@ -34,6 +34,9 @@ import urncore.Responsibility;
 import urncore.URNdefinition;
  
 /**
+ * Content provider for .jucm files
+ * in the Custom Common Navigator view.
+ * 
  * @author pboul037
  */
 public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider, IResourceChangeListener {

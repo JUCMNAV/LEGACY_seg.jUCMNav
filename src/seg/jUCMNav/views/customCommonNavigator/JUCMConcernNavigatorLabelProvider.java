@@ -25,8 +25,10 @@ import urncore.Responsibility;
 import urncore.URNdefinition;
  
 /**
+ * Label provider for .core files
+ * in the Custom Common Navigator view.
+ * 
  * @author pboul037
- *
  */
 public class JUCMConcernNavigatorLabelProvider implements ILabelProvider {
  
