@@ -40,15 +40,6 @@ public class JUCMConcernNavigatorLabelProvider implements ILabelProvider {
         Image image = null;
         if( Concern.class.isInstance(element)){
         	image = JUCMNavPlugin.getImage(JUCMNavPlugin.getImageDescriptor("icons/Concern16.gif"));
-       	}else if (FeatureModel.class.isInstance(element)){
-       		FeatureModel fm = (FeatureModel)element;
-       		// TODO: Add image for FeatureModel
-       	}else if (ImpactModel.class.isInstance(element)){
-       		ImpactModel im = (ImpactModel)element;
-       		// TODO: Add image for ImpactModel
-       	}else if (URNdefinition.class.isInstance(element)){
-       		URNdefinition urnDef = (URNdefinition)element;
-       		// TODO: Add image for UCMspec
        	}else if (IURNDiagram.class.isInstance(element)){
        		IURNDiagram currentDiagram = (IURNDiagram)element;
        		if ( currentDiagram instanceof FeatureDiagram){
@@ -111,13 +102,7 @@ public class JUCMConcernNavigatorLabelProvider implements ILabelProvider {
         String text = ""; //$NON-NLS-1$
         if (Concern.class.isInstance(element)) {
             text = ((Concern)element).getName() + " (" +((Concern)element).getId() + ")";
-    	}else if (FeatureModel.class.isInstance(element)){
-       		text = "Feature Model";
-       	}else if (ImpactModel.class.isInstance(element)){
-       		text = "Impact Model";
-       	}else if (URNdefinition.class.isInstance(element)){
-       		text = "Scenario Model";
-       	}else if (IURNDiagram.class.isInstance(element)){
+    	}else if (IURNDiagram.class.isInstance(element)){
        		IURNDiagram currentDiagram = (IURNDiagram)element;
        		if ( currentDiagram instanceof FeatureDiagram){
        			text = ((FeatureDiagram)element).getName() + " (" +((FeatureDiagram)element).getId() + ")";
@@ -141,7 +126,13 @@ public class JUCMConcernNavigatorLabelProvider implements ILabelProvider {
        	}else if (List.class.isInstance(element)) {
             List<?> elemList = (List<?>)element;
             for ( Object obj : elemList){
-            	if( obj instanceof FeatureDiagram){
+            	if (FeatureModel.class.isInstance(obj)){
+               		text = "Feature Model";
+               	}else if (ImpactModel.class.isInstance(obj)){
+               		text = "Impact Model";
+               	}else if (URNdefinition.class.isInstance(obj)){
+               		text = "Scenario Model";
+               	}else if( obj instanceof FeatureDiagram){
             		text = "Feature Diagrams";
             	}else if (obj instanceof GRLGraph && !(obj instanceof FeatureDiagram)){
             		text = "Impact Diagrams";

@@ -24,6 +24,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import ca.mcgill.sel.core.COREModel;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import ucm.map.UCMmap;
 import urn.URNspec;
@@ -78,134 +79,132 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
         }else if (Concern.class.isInstance(parentElement)) {
         	
         	Concern currentConcern = (Concern)parentElement;
-        	List<Object> models = new LinkedList<Object>();
+        	List<Object> fmElements = new LinkedList<Object>();
+        	List<Object> imElements = new LinkedList<Object>();
+        	List<Object> ucmElements = new LinkedList<Object>();
+        	List<List<Object>> modelsChildren = new LinkedList<List<Object>>();
         	
+        	// Fills fmElements list for this and the next tree level to keep track of currentConcern.
         	if( currentConcern.getUrndefinition().getUrnspec().getGrlspec() != null){
         		GRLspec grlspec = currentConcern.getUrndefinition().getUrnspec().getGrlspec();
         		if (grlspec.getFeatureModel() != null){
         			FeatureModel fm = grlspec.getFeatureModel();
-        			models.add(fm);
-        			concerns.put(fm, currentConcern);
+        			fmElements.add(fm);
+        			
+        			List<FeatureDiagram> fmDiagramChildren = new LinkedList<FeatureDiagram>();
+                    List<Feature> fmFeatureChildren = new LinkedList<Feature>();
+                    
+               		for ( IURNDiagram diag : (List<IURNDiagram>)currentConcern.getSpecDiagrams()){
+               			if( diag instanceof FeatureDiagram){
+               				fmDiagramChildren.add((FeatureDiagram)diag);
+               			}
+               		}
+               		for (IntentionalElement intElem : (List<IntentionalElement>)fm.getGrlspec().getIntElements()){
+               			if (intElem instanceof Feature)
+               				fmFeatureChildren.add((Feature)intElem);
+            		}
+               		if (fmDiagramChildren.size() > 0 )
+              			fmElements.add(fmDiagramChildren);
+               		if (fmFeatureChildren.size() > 0 )
+          				fmElements.add(fmFeatureChildren);	
+               			
+               		modelsChildren.add(fmElements);
         		}
+        		
+        		// Fills imElements list for this and the next tree level to keep track of currentConcern.
         		if (grlspec.getImpactModel() != null){
         			ImpactModel im = grlspec.getImpactModel();
-        			models.add(im);
-        			concerns.put(im, currentConcern);
+        			imElements.add(im);
+        			
+        			List<GRLGraph> imDiagramChildren = new LinkedList<GRLGraph>();
+                    List<IntentionalElement> imIntElemChildren = new LinkedList<IntentionalElement>();
+                    List<Belief> imBeliefChildren = new LinkedList<Belief>();
+                    List<Actor> imActorChildren = new LinkedList<Actor>();
+
+               		for ( IURNDiagram diag : (List<IURNDiagram>)currentConcern.getSpecDiagrams()){
+               			if( diag instanceof GRLGraph && !(diag instanceof FeatureDiagram)){
+               				GRLGraph grlGraph = (GRLGraph)diag;
+               				for (GRLNode node : (List<GRLNode>)grlGraph.getNodes()){
+               					if ( node instanceof Belief){
+               						imBeliefChildren.add((Belief)node);
+               					}
+               				}
+               				imDiagramChildren.add((GRLGraph)diag);
+               			}
+               		}
+            		for (IntentionalElement intElem : (List<IntentionalElement>)im.getGrlspec().getIntElements()){
+               			if (!(intElem instanceof Feature))
+               				imIntElemChildren.add((IntentionalElement)intElem);
+            		}
+            		
+            		for (Actor actor : (List<Actor>)im.getGrlspec().getActors()){
+               				imActorChildren.add(actor);
+            		}
+            		
+           			if (imDiagramChildren.size() > 0 )
+           				imElements.add(imDiagramChildren);
+           			if (imIntElemChildren.size() > 0 )
+           				imElements.add(imIntElemChildren);
+           			if (imActorChildren.size() > 0 )
+           				imElements.add(imActorChildren);
+           			if (imBeliefChildren.size() > 0 )
+           				imElements.add(imBeliefChildren);
+           			
+           			modelsChildren.add(imElements);
         		}
         	}
         	
         	if( currentConcern.getUrndefinition() != null){
         		URNdefinition urnDef = currentConcern.getUrndefinition();
-        		models.add(urnDef);
-        		concerns.put(urnDef, currentConcern);
+        		ucmElements.add(urnDef);
+        		
+           		
+           		List<Component> componentChildren = new LinkedList<Component>();
+                List<Responsibility> responsibilityChildren = new LinkedList<Responsibility>();
+                List<UCMmap> ucmMapChildren = new LinkedList<UCMmap>();
+                
+            	if ( currentConcern.getSpecDiagrams() != null){
+        			for ( IURNDiagram diag : (List<IURNDiagram>)currentConcern.getSpecDiagrams()){
+        				if( diag instanceof UCMmap){
+        					ucmMapChildren.add((UCMmap)diag);
+        				}
+        			}
+        		}
+                
+        		if ( urnDef.getResponsibilities() != null && urnDef.getResponsibilities().size() > 0){
+        			for ( Responsibility resp : (List<Responsibility>)urnDef.getResponsibilities()){
+        				responsibilityChildren.add(resp);
+        			}
+        		}
+        		if ( urnDef.getComponents() != null && urnDef.getComponents().size() > 0){
+        			for ( Component comp : (List<Component>)urnDef.getComponents()){
+       				componentChildren.add(comp);
+        			}
+        		}
+        		if (ucmMapChildren.size() > 0 )
+       				ucmElements.add(ucmMapChildren);
+     			if (responsibilityChildren.size() > 0 )
+       				ucmElements.add(responsibilityChildren);
+       			if (componentChildren.size() > 0 )
+       				ucmElements.add(componentChildren);
+       			if( ucmElements.size() > 0)	
+       				modelsChildren.add(ucmElements);
         	}
-        	if ( models.size() > 0)
-        		children = models.toArray();
         	
-        }else if (FeatureModel.class.isInstance(parentElement)){
-           
-        	List<FeatureDiagram> fmDiagramChildren = new LinkedList<FeatureDiagram>();
-            List<Feature> fmFeatureChildren = new LinkedList<Feature>();
-            List<Object> fmChildren = new LinkedList<Object>();
-            
-        	FeatureModel fm = (FeatureModel)parentElement;
-       		Concern concern = concerns.get(fm);
-       		for ( IURNDiagram diag : (List<IURNDiagram>)concern.getSpecDiagrams()){
-       			if( diag instanceof FeatureDiagram){
-       				fmDiagramChildren.add((FeatureDiagram)diag);
-       			}
-       		}
-       		for (IntentionalElement intElem : (List<IntentionalElement>)fm.getGrlspec().getIntElements()){
-       			if (intElem instanceof Feature)
-       				fmFeatureChildren.add((Feature)intElem);
-    		}
-       		if (fmDiagramChildren.size() > 0 )
-      			fmChildren.add(fmDiagramChildren);
-       		if (fmFeatureChildren.size() > 0 )
-  				fmChildren.add(fmFeatureChildren);
-       		if( fmChildren.size() > 0)	
-       			children = fmChildren.toArray();
- 	
-       	}else if (ImpactModel.class.isInstance(parentElement)){
-       		
-        	List<GRLGraph> imDiagramChildren = new LinkedList<GRLGraph>();
-            List<IntentionalElement> imIntElemChildren = new LinkedList<IntentionalElement>();
-            List<Belief> imBeliefChildren = new LinkedList<Belief>();
-            List<Actor> imActorChildren = new LinkedList<Actor>();
-            List<Object> imChildren = new LinkedList<Object>();
-       		
-       		ImpactModel im = (ImpactModel)parentElement;
-       		Concern concern = concerns.get(im);
-       		for ( IURNDiagram diag : (List<IURNDiagram>)concern.getSpecDiagrams()){
-       			if( diag instanceof GRLGraph && !(diag instanceof FeatureDiagram)){
-       				GRLGraph grlGraph = (GRLGraph)diag;
-       				for (GRLNode node : (List<GRLNode>)grlGraph.getNodes()){
-       					if ( node instanceof Belief){
-       						imBeliefChildren.add((Belief)node);
-       					}
-       				}
-       				imDiagramChildren.add((GRLGraph)diag);
-       			}
-       		}
-    		for (IntentionalElement intElem : (List<IntentionalElement>)im.getGrlspec().getIntElements()){
-       			if (!(intElem instanceof Feature))
-       				imIntElemChildren.add((IntentionalElement)intElem);
-    		}
-    		
-    		for (Actor actor : (List<Actor>)im.getGrlspec().getActors()){
-       				imActorChildren.add(actor);
-    		}
-    		
-   			if (imDiagramChildren.size() > 0 )
-   				imChildren.add(imDiagramChildren);
-   			if (imIntElemChildren.size() > 0 )
-   				imChildren.add(imIntElemChildren);
-   			if (imActorChildren.size() > 0 )
-   				imChildren.add(imActorChildren);
-   			if (imBeliefChildren.size() > 0 )
-   				imChildren.add(imBeliefChildren);
-   			if( imChildren.size() > 0)	
-   				children = imChildren.toArray();
-       	
-       	}else if (URNdefinition.class.isInstance(parentElement)){
-       		URNdefinition urnDef = (URNdefinition)parentElement;
-       		
-       		List<Component> componentChildren = new LinkedList<Component>();
-            List<Responsibility> responsibilityChildren = new LinkedList<Responsibility>();
-            List<UCMmap> ucmMapChildren = new LinkedList<UCMmap>();
-            List<Object> ucmChildren = new LinkedList<Object>();
-            
-        	if ( urnDef.getSpecDiagrams() != null){
-    			for ( IURNDiagram diag : (List<IURNDiagram>)urnDef.getSpecDiagrams()){
-    				if( diag instanceof UCMmap){
-    					ucmMapChildren.add((UCMmap)diag);
-    				}
-    			}
-    		}
-            
-    		if ( urnDef.getResponsibilities() != null && urnDef.getResponsibilities().size() > 0){
-    			for ( Responsibility resp : (List<Responsibility>)urnDef.getResponsibilities()){
-    				responsibilityChildren.add(resp);
-    			}
-    		}
-    		if ( urnDef.getComponents() != null && urnDef.getComponents().size() > 0){
-    			for ( Component comp : (List<Component>)urnDef.getComponents()){
-   				componentChildren.add(comp);
-    			}
-    		}
-    		if (ucmMapChildren.size() > 0 )
-   				ucmChildren.add(ucmMapChildren);
- 			if (responsibilityChildren.size() > 0 )
-   				ucmChildren.add(responsibilityChildren);
-   			if (componentChildren.size() > 0 )
-   				ucmChildren.add(componentChildren);
-   			if( ucmChildren.size() > 0)	
-   				children = ucmChildren.toArray();
-   			
-       	}else  if (List.class.isInstance(parentElement)) {
+        	if ( modelsChildren.size() > 0)
+        		children = modelsChildren.toArray();
+        	
+        }else if (List.class.isInstance(parentElement)) {
             List<?> elemList = (List<?>)parentElement;
+            boolean modelsList = false;
+            
             for ( Object obj : elemList){
-            	if( obj instanceof FeatureDiagram){
+            	if( (obj instanceof COREModel || obj instanceof URNdefinition) && !(obj instanceof UCMmap) ){
+            		if ( elemList.size() > 1)
+            			modelsList = true;
+            	}else if( obj instanceof List<?>){
+            		children = getChildren(obj);
+            	}else if( obj instanceof FeatureDiagram){
             		children = ((List<FeatureDiagram>)parentElement).toArray();
             	}else if (obj instanceof GRLGraph && !(obj instanceof FeatureDiagram)){
             		children = ((List<GRLGraph>)parentElement).toArray();
@@ -225,6 +224,13 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
             		children = ((List<Responsibility>)parentElement).toArray();
             	}
             	break;
+            }
+            if( modelsList){
+            	List<Object> modelsListElements = new LinkedList<Object>();
+            	for ( int ctr = 1; ctr < elemList.size(); ctr++){
+            		modelsListElements.add(elemList.get(ctr));
+            	}
+            	children = modelsListElements.toArray();
             }
         }else {
             children = NO_CHILDREN;
@@ -355,8 +361,15 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
     		
        	}else if (List.class.isInstance(element)) {
             List<?> elemList = (List<?>)element;
-            if ( elemList.size() > 0)
-            	hasChildren = true;
+            for (Object obj : elemList){
+	            if( (obj instanceof COREModel || obj instanceof URNdefinition) && !(obj instanceof UCMmap) ){
+	        		if ( elemList.size() > 1)
+	        			hasChildren = true;
+	        	}else if ( elemList.size() > 0){
+	            	hasChildren = true;
+	        	}
+	            break;
+            }
         }
  
         return hasChildren;
