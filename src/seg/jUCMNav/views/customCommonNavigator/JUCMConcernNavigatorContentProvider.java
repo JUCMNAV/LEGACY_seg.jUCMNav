@@ -190,7 +190,7 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
     		}
     		if ( urnDef.getComponents() != null && urnDef.getComponents().size() > 0){
     			for ( Component comp : (List<Component>)urnDef.getComponents()){
-    				componentChildren.add(comp);
+   				componentChildren.add(comp);
     			}
     		}
     		if (ucmMapChildren.size() > 0 )

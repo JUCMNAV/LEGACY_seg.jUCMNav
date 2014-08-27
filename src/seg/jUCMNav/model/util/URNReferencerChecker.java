@@ -49,10 +49,11 @@ public class URNReferencerChecker {
                 // verify that all component refs have definitions
                 for (Iterator iter = map.getContRefs().iterator(); iter.hasNext();) {
                     ComponentRef compRef = (ComponentRef) iter.next();
-                    if (compRef.getContDef() == null)
+                    if (compRef.getContDef() == null){
                         // not linked? create one.
                         compRef.setContDef((Component) ModelCreationFactory.getNewObject(urn, Component.class, ComponentKind.TEAM));
-                    urn.getUrndef().getComponents().add(compRef.getContDef());
+                        urn.getUrndef().getComponents().add(compRef.getContDef());
+                    }
                 }
 
                 // verify that all responsibility references have definitions
