@@ -33,8 +33,11 @@ import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
 import urn.URNspec;
+import urncore.IURNDiagram;
+import ca.mcgill.sel.core.COREConcern;
 import ca.mcgill.sel.core.COREFeature;
 import ca.mcgill.sel.core.COREFeatureRelationshipType;
+import ca.mcgill.sel.core.COREInterface;
 import ca.mcgill.sel.core.COREModel;
 import ca.mcgill.sel.core.COREModelElement;
 import ca.mcgill.sel.core.COREReuse;
@@ -412,9 +415,10 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 							cgnnCmd.execute();
 							
 							ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
-							if ( changeLinkCmd.createNewLink((IntentionalElement)this, (IntentionalElement) ref.getDef(), urn, strPosition, strRelationship, null) )
+							if ( changeLinkCmd.createNewLink((IntentionalElement)this, (IntentionalElement) ref.getDef(), urn, strPosition, strRelationship, null) ){
+								updateCoreInterfaceSelectables(false);
 								return (Boolean) COREFactory4URN.returnResult(true);
-							
+							}
 						}
 					}
 				}
@@ -423,16 +427,20 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 			return (Boolean) COREFactory4URN.returnResult(false);
 	}
 
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 */
 	public boolean delete() {
 		COREFactory4URN.setCOREInterfaceActive(true);
+		
+		updateCoreInterfaceSelectables(true);
 		DeleteIntentionalElementCommand dieCmd = new DeleteIntentionalElementCommand(this);
 		if (dieCmd.canExecute())
 			dieCmd.execute();
 		else {
+			updateCoreInterfaceSelectables(false);
 			return (Boolean) COREFactory4URN.returnResult(false);
 		}
 		return (Boolean) COREFactory4URN.returnResult(true);
@@ -474,7 +482,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 			else 
 				return (Boolean) COREFactory4URN.returnResult(false);
 		}
-		
+		updateCoreInterfaceSelectables(false);
 		return (Boolean) COREFactory4URN.returnResult(true);
 	}
 
@@ -538,8 +546,10 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 				
 				ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
 				// add new link with desired parent
-				if ( changeLinkCmd.createNewLink((IntentionalElement)feature, (IntentionalElement) this, urn, null, strRelationship, oldLink) )
+				if ( changeLinkCmd.createNewLink((IntentionalElement)feature, (IntentionalElement) this, urn, null, strRelationship, oldLink) ){
+					updateCoreInterfaceSelectables(false);
 					return (Boolean) COREFactory4URN.returnResult(true);	
+				}
 			}
 		} 
 		return (Boolean) COREFactory4URN.returnResult(false);
@@ -603,8 +613,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		setSelectable(true);
 		return true;	
 	}
-	
-	
+		
 	/**
 	 * Helper method to convert a <b>COREFeatureRelationshipType</b> to a
 	 * String representation of it for use in jUCMNav commands.
@@ -634,4 +643,39 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		return strRelationship;
 	}
 	
+	/**
+	 * Updates the selectables list, if applicable, of 
+	 * the COREInterface of the COREConcern associated 
+	 * with<b>this</b> feature.
+	 * 
+	 * @param featureDeleted
+	 * 		true if the feature was deleted, false otherwise
+	 * 
+	 * @author pboul037
+	 */
+	@SuppressWarnings("unchecked")
+	private void updateCoreInterfaceSelectables(boolean featureDeleted) {
+		
+		for ( IURNDiagram diagram : (List<IURNDiagram>)getGrlspec().getUrnspec().getUrndef().getSpecDiagrams()){
+				if( diagram.getNodes().contains(this)){
+					if( diagram.getConcern() != null){
+						COREConcern coreConcern = diagram.getConcern().getCoreConcern();
+						if( coreConcern != null){
+							isSelectable();
+							COREInterface coreInterface = coreConcern.getInterface();
+							if( coreInterface != null ){
+								if(!selectable || featureDeleted){
+									if( coreInterface.getSelectable().contains(this) )
+										coreInterface.getSelectable().remove(this);
+								}else {
+									if( !coreInterface.getSelectable().contains(this)){
+										coreInterface.getSelectable().add(this);
+									}
+								}
+							}
+						}
+					}
+			}
+		}
+	}
 } //FeatureImpl
