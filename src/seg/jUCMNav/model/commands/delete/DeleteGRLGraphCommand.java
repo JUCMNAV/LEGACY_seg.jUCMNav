@@ -9,6 +9,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.IGlobalStackCommand;
+import seg.jUCMNav.model.commands.concerns.UpdateConcernCommand;
 import seg.jUCMNav.model.commands.delete.internal.CleanRelationshipsCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteGRLGraphRefDefLinksCommand;
 import urncore.IURNDiagram;
@@ -29,10 +30,19 @@ public class DeleteGRLGraphCommand extends CompoundCommand implements IGlobalSta
     public DeleteGRLGraphCommand(GRLGraph diagram) {
         setLabel(Messages.getString("DeleteGRLGraphCommand.deleteGrlGraph")); //$NON-NLS-1$
         setDiagram(diagram);
-
+        
+        UpdateConcernCommand updateConcernCmd = null;
+        if( diagram.getConcern() != null)
+        	updateConcernCmd = new UpdateConcernCommand(diagram.getConcern());
+        
         add(new CleanRelationshipsCommand(diagram));
         // Command to delete information about link between GRL and UCM should be add in the CleanRelationshipCommand
         add(new DeleteGRLGraphRefDefLinksCommand(diagram));
+        
+        if( updateConcernCmd != null){
+        	if( diagram.getConcern().getCoreConcern() != null)
+        		add(updateConcernCmd);
+        }
     }
 
     public IURNDiagram getDiagram() {

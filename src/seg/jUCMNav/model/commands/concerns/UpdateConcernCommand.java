@@ -2,6 +2,10 @@ package seg.jUCMNav.model.commands.concerns;
 
 import org.eclipse.gef.commands.Command;
 
+import ca.mcgill.sel.core.COREConcern;
+import ca.mcgill.sel.core.COREModel;
+import fm.FeatureModel;
+import grl.ImpactModel;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urncore.Concern;
@@ -36,6 +40,21 @@ public class UpdateConcernCommand extends Command implements JUCMNavCommand {
         this.description = description;
         setLabel(Messages.getString("UpdateConcernCommand.UpdateConcern")); //$NON-NLS-1$
     }
+    
+    /**
+     * @param concern
+     *            to be changed
+     * @param name
+     *            of the concern
+     * @param description
+     *            of the concern
+     */
+    public UpdateConcernCommand(Concern concern) {
+        this.concern = concern;
+        this.name = concern.getName();
+        this.description = concern.getDescription();
+        setLabel(Messages.getString("UpdateConcernCommand.UpdateConcern")); //$NON-NLS-1$
+    }
 
     /**
      * checks all conditions of testPreConditions that can be checked before execute()
@@ -63,8 +82,24 @@ public class UpdateConcernCommand extends Command implements JUCMNavCommand {
         testPreConditions();
         concern.setName(name);
         
+        // update coreConcern with current COREModel of .jucm file.
         if( concern.getCoreConcern() != null){
-        	concern.getCoreConcern().setName(name);
+        	COREConcern coreConcern = concern.getCoreConcern();
+        	coreConcern.setName(name);
+        	if( coreConcern.getModels() != null && coreConcern.getModels().size() > 0){
+        		for ( COREModel model : coreConcern.getModels()){
+        			if( model instanceof FeatureModel){
+        				coreConcern.getModels().remove(model);
+        				if ( concern.getUrndefinition().getUrnspec().getGrlspec().getFeatureModel() != null )
+        						coreConcern.getModels().add(concern.getUrndefinition().getUrnspec().getGrlspec().getFeatureModel());
+        			}else if ( model instanceof ImpactModel){
+        				coreConcern.getModels().remove(model);
+        				if (concern.getUrndefinition().getUrnspec().getGrlspec().getImpactModel() != null)
+        					coreConcern.getModels().add(concern.getUrndefinition().getUrnspec().getGrlspec().getImpactModel());
+        			}
+        				
+        		}
+        	}
         }
         
         concern.setDescription(description);

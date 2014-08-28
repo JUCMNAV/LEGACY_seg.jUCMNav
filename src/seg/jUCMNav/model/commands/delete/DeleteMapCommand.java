@@ -3,6 +3,7 @@ package seg.jUCMNav.model.commands.delete;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.IGlobalStackCommand;
+import seg.jUCMNav.model.commands.concerns.UpdateConcernCommand;
 import seg.jUCMNav.model.commands.delete.internal.CleanRelationshipsCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteMapRefDefLinksCommand;
 import ucm.map.UCMmap;
@@ -26,11 +27,20 @@ public class DeleteMapCommand extends CompoundCommand implements IGlobalStackCom
      */
     public DeleteMapCommand(UCMmap map) {
         setLabel("DeleteMapCommand");//$NON-NLS-1$
-
         setDiagram(map);
+        
+        UpdateConcernCommand updateConcernCmd = null;
+        if ( map.getConcern() != null)
+        	updateConcernCmd = new UpdateConcernCommand(map.getConcern());
+        
         add(new CleanRelationshipsCommand(map));
         // remove the map itself.
         add(new DeleteMapRefDefLinksCommand(map));
+        
+        if( updateConcernCmd != null){
+        	if( map.getConcern().getCoreConcern() != null)
+        		add(updateConcernCmd);
+        }
     }
 
     public IURNDiagram getDiagram() {
