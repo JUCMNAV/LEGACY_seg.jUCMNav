@@ -33,7 +33,7 @@ public class DeleteGRLGraphCommand extends CompoundCommand implements IGlobalSta
         
         UpdateConcernCommand updateConcernCmd = null;
         if( diagram.getConcern() != null)
-        	updateConcernCmd = new UpdateConcernCommand(diagram.getConcern());
+        	updateConcernCmd = new UpdateConcernCommand(diagram.getConcern(), true);
         
         add(new CleanRelationshipsCommand(diagram));
         // Command to delete information about link between GRL and UCM should be add in the CleanRelationshipCommand

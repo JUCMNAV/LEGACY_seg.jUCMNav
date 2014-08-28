@@ -31,7 +31,7 @@ public class DeleteMapCommand extends CompoundCommand implements IGlobalStackCom
         
         UpdateConcernCommand updateConcernCmd = null;
         if ( map.getConcern() != null)
-        	updateConcernCmd = new UpdateConcernCommand(map.getConcern());
+        	updateConcernCmd = new UpdateConcernCommand(map.getConcern(), true);
         
         add(new CleanRelationshipsCommand(map));
         // remove the map itself.
