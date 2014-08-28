@@ -36,6 +36,7 @@ import urn.URNspec;
 import urncore.IURNDiagram;
 import ca.mcgill.sel.core.COREConcern;
 import ca.mcgill.sel.core.COREFeature;
+import ca.mcgill.sel.core.COREFeatureModel;
 import ca.mcgill.sel.core.COREFeatureRelationshipType;
 import ca.mcgill.sel.core.COREInterface;
 import ca.mcgill.sel.core.COREModel;
@@ -416,7 +417,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 							
 							ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
 							if ( changeLinkCmd.createNewLink((IntentionalElement)this, (IntentionalElement) ref.getDef(), urn, strPosition, strRelationship, null) ){
-								updateCoreInterfaceSelectables(false);
+								updateCoreConcernSelectablesAndModels(false);
 								return (Boolean) COREFactory4URN.returnResult(true);
 							}
 						}
@@ -435,12 +436,12 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	public boolean delete() {
 		COREFactory4URN.setCOREInterfaceActive(true);
 		
-		updateCoreInterfaceSelectables(true);
+		updateCoreConcernSelectablesAndModels(true);
 		DeleteIntentionalElementCommand dieCmd = new DeleteIntentionalElementCommand(this);
 		if (dieCmd.canExecute())
 			dieCmd.execute();
 		else {
-			updateCoreInterfaceSelectables(false);
+			updateCoreConcernSelectablesAndModels(false);
 			return (Boolean) COREFactory4URN.returnResult(false);
 		}
 		return (Boolean) COREFactory4URN.returnResult(true);
@@ -482,7 +483,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 			else 
 				return (Boolean) COREFactory4URN.returnResult(false);
 		}
-		updateCoreInterfaceSelectables(false);
+		updateCoreConcernSelectablesAndModels(false);
 		return (Boolean) COREFactory4URN.returnResult(true);
 	}
 
@@ -547,7 +548,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 				ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
 				// add new link with desired parent
 				if ( changeLinkCmd.createNewLink((IntentionalElement)feature, (IntentionalElement) this, urn, null, strRelationship, oldLink) ){
-					updateCoreInterfaceSelectables(false);
+					updateCoreConcernSelectablesAndModels(false);
 					return (Boolean) COREFactory4URN.returnResult(true);	
 				}
 			}
@@ -654,13 +655,23 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 * @author pboul037
 	 */
 	@SuppressWarnings("unchecked")
-	private void updateCoreInterfaceSelectables(boolean featureDeleted) {
-		
+	private void updateCoreConcernSelectablesAndModels(boolean featureDeleted) {
+		 
 		for ( IURNDiagram diagram : (List<IURNDiagram>)getGrlspec().getUrnspec().getUrndef().getSpecDiagrams()){
 				if( diagram.getNodes().contains(this)){
 					if( diagram.getConcern() != null){
 						COREConcern coreConcern = diagram.getConcern().getCoreConcern();
 						if( coreConcern != null){
+							
+							// updates the models list of the COREConcern
+							for( COREModel model : coreConcern.getModels()){
+								if ( model instanceof COREFeatureModel){
+									coreConcern.getModels().remove((COREFeatureModel)model);
+									coreConcern.getModels().add(this.getGrlspec().getFeatureModel());
+								}
+							}
+							
+							// updates the selectables list of the COREConcern
 							isSelectable();
 							COREInterface coreInterface = coreConcern.getInterface();
 							if( coreInterface != null ){
