@@ -29,6 +29,7 @@ import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
 import grl.QualitativeLabel;
+import grl.Reuse;
 import grl.StrategiesGroup;
 import grl.kpimodel.Indicator;
 import grl.kpimodel.IndicatorGroup;
@@ -355,6 +356,8 @@ public class ModelCreationFactory implements CreationFactory {
             	result = grlfactory.createDecomposition();
             } else if (targetClass.equals(Contribution.class)) {
             	result = grlfactory.createContribution();
+            } else if (targetClass.equals(Reuse.class)) {
+            	result = grlfactory.createReuse();
             } else if (targetClass.equals(MandatoryFMLink.class)) {
             	result = fmfactory.createMandatoryFMLink();
             } else if (targetClass.equals(OptionalFMLink.class)) {

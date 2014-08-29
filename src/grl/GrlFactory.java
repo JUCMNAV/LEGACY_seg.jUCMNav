@@ -98,6 +98,15 @@ public interface GrlFactory extends EFactory {
     Contribution createContribution();
 
     /**
+	 * Returns a new object of class '<em>Contribution</em>'.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Contribution</em>'.
+	 * @generated
+	 */
+    Reuse createReuse();
+    
+    /**
 	 * Returns a new object of class '<em>Link Ref</em>'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

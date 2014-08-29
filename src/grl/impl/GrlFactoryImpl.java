@@ -250,6 +250,16 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 		ContributionImpl contribution = new ContributionImpl();
 		return contribution;
 	}
+    
+    /**
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 */
+    public Reuse createReuse() {
+		Reuse reuse = new ReuseImpl();
+		return reuse;
+	}
 
     /**
 	 * <!-- begin-user-doc -->
