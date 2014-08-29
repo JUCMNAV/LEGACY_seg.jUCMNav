@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import grl.Dependency;
 import grl.ElementLink;
+import grl.GRLGraph;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 
@@ -97,7 +98,7 @@ public class CreateElementLinkCommand extends CompoundCommand {
      *            that target endpoint (a non-null IntentionalElement instance)
      */
     public void setTarget(IntentionalElement target) {
-        this.dest = target;
+    	this.dest = target;
         for (Iterator iter = getCommands().iterator(); iter.hasNext();) {
             Command cmd = (Command) iter.next();
             if (cmd instanceof AddStandardElementLinkCommand) {
@@ -119,8 +120,10 @@ public class CreateElementLinkCommand extends CompoundCommand {
                 IntentionalElementRef srcRef = (IntentionalElementRef) iter.next();
                 for (Iterator destiter = dest.getRefs().iterator(); destiter.hasNext();) {
                     IntentionalElementRef destRef = (IntentionalElementRef) destiter.next();
-                    if (srcRef.getDiagram().equals(destRef.getDiagram())) {
-                        add(new AddLinkRefCommand(destRef.getDiagram(), srcRef, destRef, link));
+                    if( srcRef.getDiagram() != null && destRef.getDiagram() != null){
+                        if (srcRef.getDiagram().equals(destRef.getDiagram())) {
+                            add(new AddLinkRefCommand(destRef.getDiagram(), srcRef, destRef, link));
+                        }
                     }
                 }
             }

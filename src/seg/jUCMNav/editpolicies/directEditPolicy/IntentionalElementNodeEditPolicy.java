@@ -5,6 +5,7 @@ package seg.jUCMNav.editpolicies.directEditPolicy;
 
 import grl.ElementLink;
 import grl.IntentionalElementRef;
+import grl.Reuse;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
@@ -42,7 +43,7 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
         } else if (cmd instanceof CreateKPIModelLinkCommand) {
             ((CreateKPIModelLinkCommand) cmd).setTarget(((IntentionalElementRef) getHost().getModel()).getDef());
         } else {
-            ((CreateElementLinkCommand) cmd).setTarget(((IntentionalElementRef) getHost().getModel()).getDef());
+            ((CreateElementLinkCommand) cmd).setTarget(((IntentionalElementRef) getHost().getModel()).getDef());     
         }
         return cmd;
     }
@@ -53,8 +54,14 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-        if (request.getNewObject() instanceof ElementLink) {
+    	if (request.getNewObject() instanceof ElementLink) {
+        	ElementLink link = (ElementLink)request.getNewObject();
             IntentionalElementRef source = (IntentionalElementRef) getHost().getModel();
+        	if( link instanceof Reuse){
+        		// Is the source definition located in another concern?
+        		if( source.getDef().getGrlspec().getUrnspec().getUrndef().equals(source.getDiagram().getUrndefinition()) ) 
+        				return null; // NO, then cannot create Reuse 
+        	}
             CreateElementLinkCommand cmd = new CreateElementLinkCommand(source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(),
                     (ElementLink) request.getNewObject(), null);
             request.setStartCommand(cmd);

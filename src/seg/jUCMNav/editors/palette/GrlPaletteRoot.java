@@ -8,6 +8,7 @@ import grl.Decomposition;
 import grl.Dependency;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
+import grl.Reuse;
 import grl.kpimodel.KPIInformationElementRef;
 import grl.kpimodel.KPIModelLink;
 
@@ -83,6 +84,14 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
         linksDrawer.add(entry);
         keyboardMapping.put("c", entry); //$NON-NLS-1$
 
+        // Add a reuse
+        entry = new BaseConnectionCreationToolEntry(
+                Messages.getString("GrlPaletteRoot.reuse"), Messages.getString("GrlPaletteRoot.createReuse"), new ModelCreationFactory(getURNspec(), Reuse.class), //$NON-NLS-1$ //$NON-NLS-2$
+                JUCMNavPlugin.getImageDescriptor("icons/Contribution16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Contribution24.gif")); //$NON-NLS-1$
+        linksDrawer.add(entry);
+        keyboardMapping.put("u", entry); //$NON-NLS-1$
+        
         // Add a dependency
         entry = new BaseConnectionCreationToolEntry(
                 Messages.getString("GrlPaletteRoot.dependency"), Messages.getString("GrlPaletteRoot.createDependency"), new ModelCreationFactory(getURNspec(), Dependency.class), //$NON-NLS-1$ //$NON-NLS-2$

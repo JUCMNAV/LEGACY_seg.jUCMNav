@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import grl.ElementLink;
 import grl.IntentionalElement;
+import grl.Reuse;
 
 import org.eclipse.gef.commands.Command;
 
@@ -48,7 +49,15 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
         // disallow source -> source connections
         if (src.equals(dest)) {
             return false;
+        }else{
+        	if( src != null && dest != null){
+            	if ( src.getGrlspec().getUrnspec().getCreated().compareTo(dest.getGrlspec().getUrnspec().getCreated()) == 0) {
+            		// src and dest are in the same urndef, not a reuse case
+            		return false;
+           		}
+        	}
         }
+
         return true;
     }
 
@@ -92,6 +101,16 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
      */
     public void setTarget(IntentionalElement target) {
         this.dest = target;
+    }
+    
+    /**
+     * Returns the target endpoint for the connection.
+     * 
+     * @return target
+     *            that target endpoint (a non-null IntentionalElement instance)
+     */
+    public IntentionalElement getTarget() {
+        return dest;
     }
 
     /*

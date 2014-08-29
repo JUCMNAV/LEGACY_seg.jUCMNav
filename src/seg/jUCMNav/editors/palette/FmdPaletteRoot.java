@@ -4,6 +4,7 @@ import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
 import grl.Decomposition;
 import grl.IntentionalElementRef;
+import grl.Reuse;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -64,6 +65,14 @@ public class FmdPaletteRoot extends GrlPaletteRoot {
                         JUCMNavPlugin.class, "icons/Decomposition24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);
         keyboardMapping.put("d", entry); //$NON-NLS-1$
+        
+        // Add a reuse
+        entry = new BaseConnectionCreationToolEntry(
+                Messages.getString("FmdPaletteRoot.reuse"), Messages.getString("FmdPaletteRoot.createReuse"), new ModelCreationFactory(getURNspec(), Reuse.class), //$NON-NLS-1$ //$NON-NLS-2$
+                JUCMNavPlugin.getImageDescriptor("icons/Contribution16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Contribution24.gif")); //$NON-NLS-1$
+        linksDrawer.add(entry);
+        keyboardMapping.put("u", entry); //$NON-NLS-1$
         
         // Add a mandatory
         entry = new BaseConnectionCreationToolEntry(
