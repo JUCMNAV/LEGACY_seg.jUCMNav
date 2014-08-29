@@ -31,10 +31,24 @@ public class COREConcernNavigatorLabelProvider implements ILabelProvider {
         if( COREConcern.class.isInstance(element)){
         	image = JUCMNavPlugin.getImage(JUCMNavPlugin.getImageDescriptor("icons/Concern16.gif"));
        	}else if (COREModel.class.isInstance(element)){
-       		// TODO: Add image for COREModel
+    		if ( element instanceof COREFeatureModel)
+       			image = JUCMNavPlugin.getImage(JUCMNavPlugin.getImageDescriptor("icons/fmd16.gif"));
+    		else if( element instanceof COREImpactModel)
+       			image = JUCMNavPlugin.getImage(JUCMNavPlugin.getImageDescriptor("icons/grl16.gif"));
+    		else{
+    			image = JUCMNavPlugin.getImage(JUCMNavPlugin.getImageDescriptor("icons/CORE16.ico"));
+    		}
        	}else if (COREFeature.class.isInstance(element)){
        		image = JUCMNavPlugin.getImage(JUCMNavPlugin.getImageDescriptor("icons/Feature16.gif"));
-       	}
+       	}else if (List.class.isInstance(element)) {
+            List<?> elemList = (List<?>)element;
+            for ( Object obj : elemList){
+            	if (obj instanceof COREModel){
+            		image = JUCMNavPlugin.getImage(JUCMNavPlugin.getImageDescriptor("icons/CORE16.ico"));
+            	}
+            	break;
+            }
+        }
         // else ignore the element
          
         return image;
@@ -54,7 +68,7 @@ public class COREConcernNavigatorLabelProvider implements ILabelProvider {
     		else if( element instanceof COREImpactModel)
     			text = "Impact Model";
     		else{
-    			//TODO: Implement for two other types of COREModel?
+    			text = "CORE Model";
     		}
        	}else if (COREFeature.class.isInstance(element)){
        		text = ((COREFeature)element).getName();
