@@ -70,20 +70,36 @@ public class IntentionalElementRefTreeEditPart extends UrnModelElementTreeEditPa
         IntentionalElementRef element = getIntentionalElementRef();
 
         if (super.getImage() == null && element.getDef() != null) {
-            if (element.getDef().getType().getValue() == IntentionalElementType.GOAL)
-                setImage((JUCMNavPlugin.getImage("icons/Goal16.gif"))); //$NON-NLS-1$
-            else if (element.getDef().getType().getValue() == IntentionalElementType.SOFTGOAL)
-                setImage((JUCMNavPlugin.getImage("icons/Softgoal16.gif"))); //$NON-NLS-1$
-            else if (element.getDef().getType().getValue() == IntentionalElementType.TASK)
-            	if (element.getDef() instanceof Feature)
-            		setImage((JUCMNavPlugin.getImage("icons/Feature16.gif"))); //$NON-NLS-1$
-            	else
-            		setImage((JUCMNavPlugin.getImage("icons/Task16.gif"))); //$NON-NLS-1$
-            else if (element.getDef().getType().getValue() == IntentionalElementType.RESSOURCE)
-                setImage((JUCMNavPlugin.getImage("icons/Resource16.gif"))); //$NON-NLS-1$
-            else if (element.getDef().getType().getValue() == IntentionalElementType.INDICATOR)
-                setImage((JUCMNavPlugin.getImage("icons/Indicator16.gif"))); //$NON-NLS-1$
-        }
+        	if( element.getDef().getGrlspec().getUrnspec().equals(((IntentionalElementRef)element).getDiagram().getUrndefinition().getUrnspec())){
+        	  	if (element.getDef().getType().getValue() == IntentionalElementType.GOAL)
+                    setImage((JUCMNavPlugin.getImage("icons/Goal16.gif"))); //$NON-NLS-1$
+                else if (element.getDef().getType().getValue() == IntentionalElementType.SOFTGOAL)
+                    setImage((JUCMNavPlugin.getImage("icons/Softgoal16.gif"))); //$NON-NLS-1$
+                else if (element.getDef().getType().getValue() == IntentionalElementType.TASK){
+                       	if (element.getDef() instanceof Feature)
+                    		setImage((JUCMNavPlugin.getImage("icons/Feature16.gif"))); //$NON-NLS-1$
+                    	else
+                    		setImage((JUCMNavPlugin.getImage("icons/Task16.gif"))); //$NON-NLS-1$
+                }else if (element.getDef().getType().getValue() == IntentionalElementType.RESSOURCE)
+                    setImage((JUCMNavPlugin.getImage("icons/Resource16.gif"))); //$NON-NLS-1$
+                else if (element.getDef().getType().getValue() == IntentionalElementType.INDICATOR)
+                    setImage((JUCMNavPlugin.getImage("icons/Indicator16.gif"))); //$NON-NLS-1$
+            }else{ // Its a reused element
+        	  	if (element.getDef().getType().getValue() == IntentionalElementType.GOAL)
+                    setImage((JUCMNavPlugin.getImage("icons/ReusedGoal16.ico"))); //$NON-NLS-1$
+                else if (element.getDef().getType().getValue() == IntentionalElementType.SOFTGOAL)
+                    setImage((JUCMNavPlugin.getImage("icons/ReusedSoftgoal16.ico"))); //$NON-NLS-1$
+                else if (element.getDef().getType().getValue() == IntentionalElementType.TASK){
+                       	if (element.getDef() instanceof Feature)
+                    		setImage((JUCMNavPlugin.getImage("icons/ReusedFeature16.ico"))); //$NON-NLS-1$
+                    	else
+                    		setImage((JUCMNavPlugin.getImage("icons/ReusedTask16.ico"))); //$NON-NLS-1$
+                }else if (element.getDef().getType().getValue() == IntentionalElementType.RESSOURCE)
+                    setImage((JUCMNavPlugin.getImage("icons/ReusedResource16.ico"))); //$NON-NLS-1$
+                else if (element.getDef().getType().getValue() == IntentionalElementType.INDICATOR)
+                    setImage((JUCMNavPlugin.getImage("icons/ReusedIndicator16.ico"))); //$NON-NLS-1$
+            }
+        	}
 
         return super.getImage();
     }
