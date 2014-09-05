@@ -30,6 +30,7 @@ import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
+import seg.jUCMNav.model.commands.helpers.ChangeGrlNodeNameCommandHelper;
 import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
 import urn.URNspec;
@@ -566,21 +567,21 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 */
 	public void rename(String core_feature_name) {
 		
-		COREFactory4URN.setCOREInterfaceActive(true);
+		//COREFactory4URN.setCOREInterfaceActive(true);
 	
 		if( getRefs() != null && getRefs().size() > 0 ){
 			
 			IntentionalElementRef intElemRef = (IntentionalElementRef)getRefs().get(0);
 			
-			ChangeGrlNodeNameCommand changeNameCmd = new ChangeGrlNodeNameCommand(intElemRef, core_feature_name);		
-			if ( changeNameCmd.canExecute()){
+			ChangeGrlNodeNameCommandHelper changeNameCmd = new ChangeGrlNodeNameCommandHelper(intElemRef, core_feature_name);		
+			if (changeNameCmd.canExecute()){
 				changeNameCmd.execute();
 			}else{
-				COREFactory4URN.returnResult(false);
+				//COREFactory4URN.returnResult(false);
 			}
 		}
 		
-		COREFactory4URN.returnResult(true);
+		//COREFactory4URN.returnResult(true);
 	}
 	
 	/**
