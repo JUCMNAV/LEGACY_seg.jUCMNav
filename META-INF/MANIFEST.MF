@@ -145,8 +145,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.swt,
  org.eclipse.ui.workbench,
  org.eclipse.ui,
- org.eclipse.ui.navigator;bundle-version="3.5.400",
- org.eclipse.ui.navigator.resources;bundle-version="3.4.700"
+ org.eclipse.ui.navigator
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
 
