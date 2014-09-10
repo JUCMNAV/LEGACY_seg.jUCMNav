@@ -28,10 +28,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
-import seg.jUCMNav.model.commands.delete.DeleteIntentionalElementCommand;
+import seg.jUCMNav.model.commands.helpers.AddIntentionalElementRefCommandHelper;
 import seg.jUCMNav.model.commands.helpers.ChangeGrlNodeNameCommandHelper;
-import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
+import seg.jUCMNav.model.commands.helpers.ChangeLinkCommandHelper;
+import seg.jUCMNav.model.commands.helpers.DeleteIntentionalElementCommandHelper;
 import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
 import urn.URNspec;
 import urncore.IURNDiagram;
@@ -409,14 +409,14 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 					// add new feature with childName and add to feature diagram
 					URNspec urn = this.getGrlspec().getUrnspec();
 					IntentionalElementRef ref = (IntentionalElementRef) ModelCreationFactory.getNewObject(urn, IntentionalElementRef.class, ModelCreationFactory.FEATURE);
-					AddIntentionalElementRefCommand aierCmd = new AddIntentionalElementRefCommand(fd, ref);
+					AddIntentionalElementRefCommandHelper aierCmd = new AddIntentionalElementRefCommandHelper(fd, ref);
 					if (aierCmd.canExecute()) {
 						aierCmd.execute();
-						ChangeGrlNodeNameCommand cgnnCmd = new ChangeGrlNodeNameCommand(ref, childName);
+						ChangeGrlNodeNameCommandHelper cgnnCmd = new ChangeGrlNodeNameCommandHelper(ref, childName);
 						if (cgnnCmd.canExecute()) {
 							cgnnCmd.execute();
 							
-							ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
+							ChangeLinkCommandHelper changeLinkCmd = new ChangeLinkCommandHelper(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
 							if ( changeLinkCmd.createNewLink((IntentionalElement)this, (IntentionalElement) ref.getDef(), urn, strPosition, strRelationship, null) ){
 								updateCoreConcernSelectablesAndModels(false);
 								return (Boolean) COREFactory4URN.returnResult(true);
@@ -438,7 +438,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		COREFactory4URN.setCOREInterfaceActive(true);
 		
 		updateCoreConcernSelectablesAndModels(true);
-		DeleteIntentionalElementCommand dieCmd = new DeleteIntentionalElementCommand(this);
+		DeleteIntentionalElementCommandHelper dieCmd = new DeleteIntentionalElementCommandHelper(this);
 		if (dieCmd.canExecute())
 			dieCmd.execute();
 		else {
@@ -472,13 +472,13 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	public boolean changeLink(COREFeatureRelationshipType relationship) {
 		
 		COREFactory4URN.setCOREInterfaceActive(true);
-		ChangeLinkCommand changeLinkCmd = null;
+		ChangeLinkCommandHelper changeLinkCmd = null;
 		String strRelationship = null;
 		
 		strRelationship = convertCOREFeatureRelationshipTypeToString(relationship);
 		
 		for( IntentionalElementRef intElemRef : (List<IntentionalElementRef>)getRefs()){
-			changeLinkCmd = new ChangeLinkCommand(strRelationship, intElemRef);
+			changeLinkCmd = new ChangeLinkCommandHelper(strRelationship, intElemRef);
 			if( changeLinkCmd.canExecute())
 				changeLinkCmd.execute();
 			else 
@@ -546,7 +546,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 				// find and delete the parent link
 				ElementLink oldLink = (ElementLink)this.getLinksSrc().get(0);
 				
-				ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
+				ChangeLinkCommandHelper changeLinkCmd = new ChangeLinkCommandHelper(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
 				// add new link with desired parent
 				if ( changeLinkCmd.createNewLink((IntentionalElement)feature, (IntentionalElement) this, urn, null, strRelationship, oldLink) ){
 					updateCoreConcernSelectablesAndModels(false);
