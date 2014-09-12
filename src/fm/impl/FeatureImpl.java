@@ -567,7 +567,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 	 */
 	public void rename(String core_feature_name) {
 		
-		//COREFactory4URN.setCOREInterfaceActive(true);
+		COREFactory4URN.setCOREInterfaceActive(true);
 	
 		if( getRefs() != null && getRefs().size() > 0 ){
 			
@@ -577,11 +577,11 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 			if (changeNameCmd.canExecute()){
 				changeNameCmd.execute();
 			}else{
-				//COREFactory4URN.returnResult(false);
+				COREFactory4URN.returnResult(false);
 			}
 		}
 		
-		//COREFactory4URN.returnResult(true);
+		COREFactory4URN.returnResult(true);
 	}
 	
 	/**

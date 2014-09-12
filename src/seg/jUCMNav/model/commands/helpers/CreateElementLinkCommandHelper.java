@@ -43,7 +43,9 @@ public class CreateElementLinkCommandHelper extends CompoundCommand {
         if (connectionExist()) {
             return false;
         }
-        return super.canExecute();
+        return true;
+        // instead of
+        // return super.canExecute();
     }
 
     /**
