@@ -105,10 +105,13 @@ public class DeleteIntentionalElementCommandHelper extends CompoundCommand {
      * 
      */
     private void build() {
+        
+        System.out.println(element.getRefs().size());
 
         // Verify if the definition can be delete.
-        if (element.getRefs().size() == 0 || DeletePreferences.getDeleteReference(element)) {
+        if (element.getRefs().size() == 0 ) {
             // Delete all the URNlink
+            System.out.println("Here");
             for (Iterator it = element.getFromLinks().iterator(); it.hasNext();) {
                 URNlink link = (URNlink) it.next();
                 append(new DeleteURNlinkCommandHelper(link));
@@ -128,8 +131,8 @@ public class DeleteIntentionalElementCommandHelper extends CompoundCommand {
             // Delete of all the references
             for (Iterator it = element.getRefs().iterator(); it.hasNext();) {
                 IntentionalElementRef reference = (IntentionalElementRef) it.next();
-          //      append(new PreDeleteUrnModelElementCommand(reference));
-          //      append(new RemoveURNmodelElementCommand(reference));
+                append(new PreDeleteUrnModelElementCommandHelper(reference));
+                append(new RemoveURNmodelElementCommandHelper(reference));
             }
 
             append(new RemoveIntentionalElementCommandHelper(element));

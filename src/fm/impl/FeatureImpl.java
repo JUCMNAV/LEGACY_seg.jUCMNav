@@ -4,6 +4,7 @@ package fm.impl;
 
 import fm.Feature;
 import fm.FeatureDiagram;
+import fm.FeatureModel;
 import fm.FmPackage;
 import fm.MandatoryFMLink;
 import grl.ElementLink;
@@ -31,6 +32,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.helpers.AddIntentionalElementRefCommandHelper;
 import seg.jUCMNav.model.commands.helpers.ChangeGrlNodeNameCommandHelper;
 import seg.jUCMNav.model.commands.helpers.ChangeLinkCommandHelper;
+import seg.jUCMNav.model.commands.helpers.DeleteGRLNodeCommandHelper;
 import seg.jUCMNav.model.commands.helpers.DeleteIntentionalElementCommandHelper;
 import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
 import urn.URNspec;
@@ -438,7 +440,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		COREFactory4URN.setCOREInterfaceActive(true);
 		
 		updateCoreConcernSelectablesAndModels(true);
-		DeleteIntentionalElementCommandHelper dieCmd = new DeleteIntentionalElementCommandHelper(this);
+		DeleteGRLNodeCommandHelper dieCmd = new DeleteGRLNodeCommandHelper((GRLNode) this.getRefs().get(0));
 		if (dieCmd.canExecute())
 			dieCmd.execute();
 		else {
@@ -690,4 +692,20 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 			}
 		}
 	}
+	
+    public FeatureModel getFeatureModel() {
+        FeatureDiagram fd = null;
+        if (this.getRefs() != null) {
+            Iterator it = this.getRefs().iterator();
+            while (it.hasNext()) {
+                GRLNode node = (GRLNode) it.next();
+                if (node.getDiagram() instanceof FeatureDiagram) {
+                    fd = (FeatureDiagram) node.getDiagram();                        
+                    break;
+                }
+            }
+        }
+        
+        return(fd.getUrndefinition().getUrnspec().getGrlspec().getFeatureModel());
+    }
 } //FeatureImpl

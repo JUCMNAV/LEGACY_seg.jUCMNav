@@ -39,7 +39,8 @@ public class AddStandardElementLinkCommandHelper implements Command {
         // disallow source -> source connections
         if (src.equals(dest)) {
             return false;
-        }else{
+        }
+        else{
             if( src != null && dest != null){
                 if ( src.getGrlspec().getUrnspec().getCreated().compareTo(dest.getGrlspec().getUrnspec().getCreated()) == 0) {
                     // src and dest are in the same urndef, not a reuse case
@@ -78,7 +79,7 @@ public class AddStandardElementLinkCommandHelper implements Command {
 
         urnspec.getGrlspec().getLinks().add(link);
 
-        EvaluationStrategyManager.getInstance().calculateEvaluation();
+ //       EvaluationStrategyManager.getInstance().calculateEvaluation();
 
         testPostConditions();
     }

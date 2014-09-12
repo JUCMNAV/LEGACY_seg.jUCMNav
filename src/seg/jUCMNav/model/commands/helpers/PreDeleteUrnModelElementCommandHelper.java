@@ -127,17 +127,17 @@ public class PreDeleteUrnModelElementCommandHelper extends CompoundCommand {
 //        append(new CleanRelationshipsCommand(ar));
 //    }
 //
-//    /**
-//     * @param ref
-//     *            the GRLNode to be deleted.
-//     */
-//    public PreDeleteUrnModelElementCommandHelper(GRLNode ref) {
-//
-//        append(new CleanRelationshipsCommand(ref));
-//        append(new DisconnectGRLNodeCommand(ref));
-//
-//    }
-//
+    /**
+     * @param ref
+     *            the GRLNode to be deleted.
+     */
+    public PreDeleteUrnModelElementCommandHelper(GRLNode ref) {
+
+        append(new CleanRelationshipsCommandHelper(ref));
+        append(new DisconnectGRLNodeCommandHelper(ref));
+
+    }
+
 //    /**
 //     * 
 //     * @param resx

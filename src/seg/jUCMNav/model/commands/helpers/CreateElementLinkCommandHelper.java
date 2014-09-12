@@ -40,12 +40,13 @@ public class CreateElementLinkCommandHelper extends CompoundCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
+     
         if (connectionExist()) {
             return false;
         }
         return true;
         // instead of
-        // return super.canExecute();
+      //   return super.canExecute();
     }
 
     /**
