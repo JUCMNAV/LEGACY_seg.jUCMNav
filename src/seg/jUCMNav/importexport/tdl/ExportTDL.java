@@ -249,7 +249,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				 * A HashMap of all the Connections of the current TestConfiguration containing
 				 * an Endpoint as a key and its Connecting Endpoints in a List as value
 				 */
-				
+				 
 				HashMap<String, List<String>> connections = new HashMap<String, List<String>>();
 
 				// Sets the owningPackage for default parameters
