@@ -3,43 +3,59 @@ package seg.jUCMNav.importexport.tdl;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Vector;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.LinkedList;
 
-
-
-
-
-import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.etsi.mts.tdl.ComponentType;
+import org.etsi.mts.tdl.Action;
+import org.etsi.mts.tdl.ActionReference;
+import org.etsi.mts.tdl.AlternativeBehaviour;
+import org.etsi.mts.tdl.Annotation;
+import org.etsi.mts.tdl.AnnotationType;
+import org.etsi.mts.tdl.AtomicBehaviour;
+import org.etsi.mts.tdl.Block;
 import org.etsi.mts.tdl.ComponentInstance;
-import org.etsi.mts.tdl.TdlFactory;
+import org.etsi.mts.tdl.ComponentType;
+import org.etsi.mts.tdl.Connection;
+import org.etsi.mts.tdl.ElementImport;
+import org.etsi.mts.tdl.GateType;
+import org.etsi.mts.tdl.Interaction;
 import org.etsi.mts.tdl.Package;
-import org.etsi.mts.tdl.impl.*;
-import org.etsi.mts.tdl.*;
+import org.etsi.mts.tdl.ParallelBehaviour;
+import org.etsi.mts.tdl.TdlFactory;
+import org.etsi.mts.tdl.TdlPackage;
+import org.etsi.mts.tdl.TestConfiguration;
+import org.etsi.mts.tdl.TestDescription;
+import org.etsi.mts.tdl.Time;
+import org.etsi.mts.tdl.TimeOperation;
+import org.etsi.mts.tdl.TimeUnit;
+import org.etsi.mts.tdl.Timer;
+import org.etsi.mts.tdl.TimerOperation;
+import org.etsi.mts.tdl.TimerStart;
+import org.etsi.mts.tdl.VerdictType;
 
-import seg.jUCMNav.editors.resourceManagement.TdlModelManager;
-import seg.jUCMNav.editors.resourceManagement.UcmScenariosModelManager;
-import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.importexport.msc.ExportMSC;
-import seg.jUCMNav.importexport.msc.MscTraversalListener;
-import seg.jUCMNav.importexport.msc.ScenarioGenerator;
+import seg.jUCMNav.editors.resourceManagement.TdlModelManager;
+import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.importexport.reports.utils.jUCMNavErrorDialog;
 import seg.jUCMNav.importexport.scenariosTools.ExportScenarios;
-import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
-import seg.jUCMNav.views.preferences.ScenarioExportPreferences;
-import ucmscenarios.*;
+import ucmscenarios.Component;
+import ucmscenarios.Condition;
+import ucmscenarios.Event;
+import ucmscenarios.Instance;
+import ucmscenarios.Message;
+import ucmscenarios.Metadata;
+import ucmscenarios.Parallel;
+import ucmscenarios.ScenarioDef;
+import ucmscenarios.ScenarioGroup;
+import ucmscenarios.ScenarioSpec;
+import ucmscenarios.Sequence;
+import ucmscenarios.SequenceElement;
 import urn.URNspec;
 
 
@@ -110,7 +126,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 
         Vector v = new Vector();
         // TODO: find original filename
-        v.add(new TdlTraversalListener(this.oldFilename, this.newFilename, this.EXPORT_TYPE));
+        v.add(new TdlTraversalListener(this.oldFilename, this.newFilename, ExportTDL.EXPORT_TYPE));
 
             ScenarioUtils.setActiveScenario(urn.getUcmspec(), v); 
         }
@@ -232,12 +248,12 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				
 				if(tempFirstFile == false){
 					file = new File(path);
-					System.out.println("This is a separator" + file.separator);
-					tempPath = path.substring(0, path.lastIndexOf(file.separator));
+					//System.out.println("This is a separator" + file.separator);
+					tempPath = path.substring(0, path.lastIndexOf(File.separator));
 					tempFirstFile = true;
 				}
 				
-				path = tempPath + file.separator + currentUCMScenario.getName() + file.separator + "TDL" + file.separator + currentUCMScenario.getName() + ".tdl";
+				path = tempPath + File.separator + currentUCMScenario.getName() + File.separator + "TDL" + File.separator + currentUCMScenario.getName() + ".tdl";
 				
 				file = new File(path);
 				
