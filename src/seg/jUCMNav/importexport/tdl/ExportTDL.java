@@ -16,6 +16,8 @@ import java.util.LinkedList;
 
 
 
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.etsi.mts.tdl.ComponentType;
@@ -229,11 +231,13 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				tdlPackage = seg.jUCMNav.model.TdlModelCreationFactory.getNewTdlPackage(currentUCMScenario.getName());
 				
 				if(tempFirstFile == false){
-					tempPath = path.substring(0, path.lastIndexOf('\\'));
+					file = new File(path);
+					System.out.println("This is a separator" + file.separator);
+					tempPath = path.substring(0, path.lastIndexOf(file.separator));
 					tempFirstFile = true;
 				}
 				
-				path = tempPath + "\\" + currentUCMScenario.getName() + "\\TDL\\" + currentUCMScenario.getName() + ".tdl";
+				path = tempPath + file.separator + currentUCMScenario.getName() + file.separator + "TDL" + file.separator + currentUCMScenario.getName() + ".tdl";
 				
 				file = new File(path);
 				
