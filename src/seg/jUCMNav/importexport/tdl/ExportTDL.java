@@ -248,7 +248,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				
 				if(tempFirstFile == false){
 					file = new File(path);
-					//System.out.println("This is a separator" + file.separator);
+					//System.out.println("This is a separator" + file.separator); 
 					tempPath = path.substring(0, path.lastIndexOf(File.separator));
 					tempFirstFile = true;
 				}
