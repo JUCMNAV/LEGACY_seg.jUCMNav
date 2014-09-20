@@ -242,7 +242,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 				System.out.println("\n************Processing Scenario named: " + currentUCMScenario.toString());
 				
 				/*
-				 * A reference to the top element (tdlPackage) of the tdl model.
+				 * A reference to the top element (tdlPackage) of the tdl model. 
 				 */
 				tdlPackage = seg.jUCMNav.model.TdlModelCreationFactory.getNewTdlPackage(currentUCMScenario.getName());
 				
