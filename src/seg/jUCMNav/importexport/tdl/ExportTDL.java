@@ -552,7 +552,7 @@ public class ExportTDL extends ExportScenarios implements IURNExport{
 			SequenceElement currentSeqElem = seqElemListIt.next();
 			//System.out.println("\n" + currentSeqElem.toString());
 		
-			//Verifying the type of SequenceElement
+			//Verifying the type of SequenceElement 
 			if (currentSeqElem instanceof Parallel){
 				
 				Parallel parallelCurrentSeqElem = (Parallel)currentSeqElem;
