@@ -55,19 +55,25 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
      */
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
     	if (request.getNewObject() instanceof ElementLink) {
-        	ElementLink link = (ElementLink)request.getNewObject();
-            IntentionalElementRef source = (IntentionalElementRef) getHost().getModel();
-        	if( link instanceof Reuse){
-        		// Is the source definition located in another concern?
-        		if( source.getDef().getGrlspec().getUrnspec().getUrndef().equals(source.getDiagram().getUrndefinition()) ) 
-        				return null; // NO, then cannot create Reuse 
-        	}
-            CreateElementLinkCommand cmd = new CreateElementLinkCommand(source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(),
-                    (ElementLink) request.getNewObject(), null);
-            request.setStartCommand(cmd);
-            return cmd;
-        }
-        return null;
+    		IntentionalElementRef source = (IntentionalElementRef) getHost().getModel();
+    		CreateElementLinkCommand cmd;
+    		// is this a reuse situation? (i.e., source definition is located in another URN model)
+    		boolean reuseSituation = !source.getDef().getGrlspec().getUrnspec().getUrndef().equals(source.getDiagram().getUrndefinition());
+    		if (request.getNewObject() instanceof Reuse && reuseSituation) {
+    			// reuse case (pass in the sourceRef to be able create the LinkRef)
+    			cmd = new CreateElementLinkCommand(source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(), source, 
+    						(ElementLink) request.getNewObject(), null);
+    		} else if (!(request.getNewObject() instanceof Reuse) && !reuseSituation) {
+    			// not reuse case (use the original command)
+    			cmd = new CreateElementLinkCommand(source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(), 
+    					(ElementLink) request.getNewObject(), null);
+    		} else {
+    			return null;
+    		}
+    		request.setStartCommand(cmd);
+    		return cmd;
+    	}
+    	return null;
     }
 
     /*

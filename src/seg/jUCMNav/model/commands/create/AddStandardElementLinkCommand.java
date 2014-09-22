@@ -49,13 +49,6 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
         // disallow source -> source connections
         if (src.equals(dest)) {
             return false;
-        }else{
-        	if( src != null && dest != null){
-            	if ( src.getGrlspec().getUrnspec().getCreated().compareTo(dest.getGrlspec().getUrnspec().getCreated()) == 0) {
-            		// src and dest are in the same urndef, not a reuse case
-            		return false;
-           		}
-        	}
         }
 
         return true;

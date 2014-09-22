@@ -71,7 +71,6 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
         else
             elementRef.setDef(existingDef);
         graph.getNodes().add(elementRef);
-        elementRef.setDiagram(graph);
         
         testPostConditions();
     }

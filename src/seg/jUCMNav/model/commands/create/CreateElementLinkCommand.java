@@ -5,9 +5,9 @@ package seg.jUCMNav.model.commands.create;
 
 import grl.Dependency;
 import grl.ElementLink;
-import grl.GRLGraph;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.Reuse;
 
 import java.util.Iterator;
 
@@ -27,6 +27,7 @@ import urn.URNspec;
 public class CreateElementLinkCommand extends CompoundCommand {
 
     IntentionalElement src, dest;
+    IntentionalElementRef sourceRef;
     ElementLink link;
 
     /**
@@ -34,6 +35,25 @@ public class CreateElementLinkCommand extends CompoundCommand {
      */
     public CreateElementLinkCommand(URNspec urn, IntentionalElement source, ElementLink link, String position) {
         this.src = source;
+        this.sourceRef = null;
+        this.link = link;
+
+        if (link instanceof Dependency) {
+            add(new AddDependencyElementLinkCommand(urn, source, (Dependency) link, position));
+        } else {
+            add(new AddStandardElementLinkCommand(urn, source, link, position));
+        }
+        setLabel(Messages.getString("CreateElementLinkCommand.createElementLink")); //$NON-NLS-1$
+    }
+    
+    /**
+     * 
+     */
+    public CreateElementLinkCommand(URNspec urn, IntentionalElement source, IntentionalElementRef sourceRef, ElementLink link, String position) {
+        this.src = source;
+    	this.sourceRef = null;
+    	if (link != null && link instanceof Reuse)
+        	this.sourceRef = sourceRef;
         this.link = link;
 
         if (link instanceof Dependency) {
@@ -53,6 +73,9 @@ public class CreateElementLinkCommand extends CompoundCommand {
         if (connectionExist()) {
             return false;
         }
+        // if we are trying to create a Reuse link, the sourceRef must be specified
+        if (link!= null && link instanceof Reuse && sourceRef == null)
+        	return false;
         return super.canExecute();
     }
 
@@ -115,19 +138,29 @@ public class CreateElementLinkCommand extends CompoundCommand {
      */
     private void addLinkRefCommand() {
 
-        if (canExecute()) {
-            for (Iterator iter = src.getRefs().iterator(); iter.hasNext();) {
-                IntentionalElementRef srcRef = (IntentionalElementRef) iter.next();
-                for (Iterator destiter = dest.getRefs().iterator(); destiter.hasNext();) {
-                    IntentionalElementRef destRef = (IntentionalElementRef) destiter.next();
-                    if( srcRef.getDiagram() != null && destRef.getDiagram() != null){
-                        if (srcRef.getDiagram().equals(destRef.getDiagram())) {
-                            add(new AddLinkRefCommand(destRef.getDiagram(), srcRef, destRef, link));
-                        }
-                    }
-                }
-            }
-        }
+    	if (canExecute()) {
+    		if (link!= null && link instanceof Reuse && sourceRef != null) {
+        		// Reuse case: cannot go through all srcRefs of src to find the corresponding srcRef, because in the reuse case src is in a different file and 
+    			// srcRefs in a different file (i.e., the current file) are not tracked by src. Therefore, there is not a single srcRef of src that is on the same
+    			// diagram as any destRef. Therefore, sourceRef in the current file must be used to create a LinkRef!
+    			for (Iterator destiter = dest.getRefs().iterator(); destiter.hasNext();) {
+					IntentionalElementRef destRef = (IntentionalElementRef) destiter.next();
+					if (sourceRef.getDiagram().equals(destRef.getDiagram())) {
+						add(new AddLinkRefCommand(destRef.getDiagram(), sourceRef, destRef, link));
+					}
+				}
+    		} else {
+    			for (Iterator iter = src.getRefs().iterator(); iter.hasNext();) {
+    				IntentionalElementRef srcRef = (IntentionalElementRef) iter.next();
+    				for (Iterator destiter = dest.getRefs().iterator(); destiter.hasNext();) {
+    					IntentionalElementRef destRef = (IntentionalElementRef) destiter.next();
+    					if (srcRef.getDiagram().equals(destRef.getDiagram())) {
+    						add(new AddLinkRefCommand(destRef.getDiagram(), srcRef, destRef, link));
+    					}
+    				}
+    			}
+    		}
+    	}
     }
 
 }
