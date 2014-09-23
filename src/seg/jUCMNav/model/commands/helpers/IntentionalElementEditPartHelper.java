@@ -64,7 +64,7 @@ public class IntentionalElementEditPartHelper  {
      * @param model
      *            the intentional element ref to draw
      */
-    public IntentionalElementEditPart(IURNNode model) {
+    public IntentionalElementEditPartHelper(IURNNode model) {
        // super();
        // setModel(model);
     }
