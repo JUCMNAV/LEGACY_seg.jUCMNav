@@ -316,8 +316,8 @@ public class MultiPageFileManager {
 		    try{
 		    		coreModelManager.updateCoreConcern(editor.getModel());
 		    		if( !coreFileAlreadyCreated )
-		    			coreModelManager.createCoreConcern(coreModelManager.getCoreFile(), coreModelManager.getCOREConcern());
-		    		coreModelManager.save(coreModelManager.getCoreFile());
+		    			coreModelManager.createCoreConcern(coreModelManager.getcoreConcernPath(), coreModelManager.getCOREConcern());
+		    		coreModelManager.save(coreModelManager.getcoreConcernPath());
 
 				
 		    }catch(Exception e){
@@ -351,10 +351,10 @@ public class MultiPageFileManager {
 				else																			
 					coreConcern = CoreFactory.eINSTANCE.createCOREConcern();
 				
-				IPath coreConcernPath = file.getLocation().removeLastSegments(1);
+				IPath coreConcernPath = file.getFullPath().removeLastSegments(1);
 				coreConcernPath = coreConcernPath.append("/" + 
 						file.getName().substring(0, file.getName().lastIndexOf(".")) + ".core");
-				
+
 				// If there's no .core file present assigned to this concern
 				// create a new coreModelManager and assign it to this concern
 				if( coreModelManager == null){
@@ -362,7 +362,7 @@ public class MultiPageFileManager {
 					coreModelManager.setCoreFile(coreConcernPath.toFile());
 					coreModelManager.setCOREConcern(coreConcern);
 		    		coreModelManager.getCOREConcern().setName(concern.getName());
-		    		coreModelManager.createCoreConcern(coreModelManager.getCoreFile());
+		    		coreModelManager.createCoreConcern(coreConcernPath);
 				}else{ 
 		    		coreFileAlreadyCreated = true;
 		    		coreModelManager.setConcern(concern);
