@@ -29,6 +29,7 @@ import urn.URNspec;
 import ca.mcgill.sel.core.COREFeature;
 import ca.mcgill.sel.core.COREFeatureSelectionStatus;
 import ca.mcgill.sel.core.COREImpactModelElement;
+import ca.mcgill.sel.core.CORENamedElement;
 import ca.mcgill.sel.core.impl.COREFeatureModelImpl;
 import fm.Feature;
 import fm.FeatureModel;
@@ -269,7 +270,6 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
         EvaluationStrategyManagerHelper.getInstance().setStrategy(strategy);
 
         // collect the results and prepare the EvaluationResult
-        // TODO only features are done so far, impact model results still need to be done
         EvaluationResult er = new EvaluationResult();
         Iterator it2 = urn.getGrlspec().getIntElements().iterator();
         while (it2.hasNext()) {
@@ -298,7 +298,8 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
                 er.featureResult.put((COREFeature) ie, selectionStatus);
             }           
 			else {
-				er.impactResult.put((COREImpactModelElement) ie, evaluation.getEvaluation());
+		        // TODO change to COREImpactModelElement after metamodel update
+				er.impactResult.put((CORENamedElement) ie, evaluation.getEvaluation());
 			}
         }
 
@@ -313,7 +314,8 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
 	 */
 	public class EvaluationResult {
 		public Map<COREFeature, COREFeatureSelectionStatus> featureResult = new HashMap<COREFeature, COREFeatureSelectionStatus>();
-		public Map<COREImpactModelElement, Integer> impactResult = new HashMap<COREImpactModelElement, Integer>();	
+		// TODO changed back to COREImpactModelElement
+		public Map<CORENamedElement, Integer> impactResult = new HashMap<CORENamedElement, Integer>();	
 	}
 	
 } //FeatureModelImpl
