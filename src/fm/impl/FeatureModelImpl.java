@@ -297,6 +297,9 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
                 }
                 er.featureResult.put((COREFeature) ie, selectionStatus);
             }           
+			else {
+				er.impactResult.put((COREImpactModelElement) ie, evaluation.getEvaluation());
+			}
         }
 
         // return the evaluation result
