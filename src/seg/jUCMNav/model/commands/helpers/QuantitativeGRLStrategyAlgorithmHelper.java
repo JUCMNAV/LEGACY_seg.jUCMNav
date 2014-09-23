@@ -25,7 +25,7 @@ import seg.jUCMNav.strategies.PropagationGRLStrategyAlgorithm;
 import seg.jUCMNav.strategies.StrategyAlgorithmImplementationHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 
-public class QuantitativeGRLStrategyAlgorithmHelper extends PropagationGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
+public class QuantitativeGRLStrategyAlgorithmHelper extends PropagationGRLStrategyAlgorithmHelper implements IGRLStrategyAlgorithm {
 
     int minRange;
 
