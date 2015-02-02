@@ -4,13 +4,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.helpers.AddIntentionalElementRefCommandHelper;
-import seg.jUCMNav.model.commands.helpers.AssignConcernDiagramCommandHelper;
-import seg.jUCMNav.model.commands.helpers.ChangeGrlNodeNameCommandHelper;
-import seg.jUCMNav.model.commands.helpers.CreateFMDCommandHelper;
-import seg.jUCMNav.model.commands.helpers.CreateGrlGraphCommandHelper;
-import seg.jUCMNav.model.commands.helpers.InternalCreateConcernCommandHelper;
-import seg.jUCMNav.model.commands.helpers.UpdateConcernCommandHelper;
+import seg.jUCMNav.model.commands.concerns.AssignConcernDiagramCommand;
+import seg.jUCMNav.model.commands.concerns.InternalCreateConcernCommand;
+import seg.jUCMNav.model.commands.concerns.UpdateConcernCommand;
+import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
+import seg.jUCMNav.model.commands.create.CreateFMDCommand;
+import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
 import seg.jUCMNav.strategies.util.FeatureUtil;
 import urn.URNspec;
 import urncore.Concern;
@@ -119,7 +119,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
 			urn = fm.getGrlspec().getUrnspec(); 
 			if (fd == null) {
 				// if feature model already exists, but feature diagram has not been added, add a new feature diagram to the existing URN model
-				CreateFMDCommandHelper cfCmd = new CreateFMDCommandHelper(urn);
+				CreateFMDCommand cfCmd = new CreateFMDCommand(urn);
 				if (cfCmd.canExecute())
 					cfCmd.execute();
 				else
@@ -138,12 +138,12 @@ public class COREFactory4URN extends AbstractConcernFactory {
 			if (root != null) {
 				ref.setDef(root);
 			}
-	        AddIntentionalElementRefCommandHelper aierCmd = new AddIntentionalElementRefCommandHelper(fd, ref);
+	        AddIntentionalElementRefCommand aierCmd = new AddIntentionalElementRefCommand(fd, ref);
 	        if (aierCmd.canExecute())
 	        	aierCmd.execute();
 	        else
 	        	return (COREFeatureModel) returnResult(null);
-	        ChangeGrlNodeNameCommandHelper cgnnCmd = new ChangeGrlNodeNameCommandHelper(ref, cc.getName());
+	        ChangeGrlNodeNameCommand cgnnCmd = new ChangeGrlNodeNameCommand(ref, cc.getName());
 	        if (cgnnCmd.canExecute())
 	        	cgnnCmd.execute();
 	        else
@@ -220,7 +220,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
 			urn = im.getGrlspec().getUrnspec();			
 			if (ig == null) {
 				// if impact model already exists, but impact graph has not been added, add a new impact graph to the existing URN model
-				CreateGrlGraphCommandHelper cggCmd = new CreateGrlGraphCommandHelper(urn);
+				CreateGrlGraphCommand cggCmd = new CreateGrlGraphCommand(urn);
 				if (cggCmd.canExecute())
 					cggCmd.execute();
 				else
@@ -247,7 +247,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
         if (it.hasNext()) {
         	// use existing concern, but rename it
         	concern = (Concern) it.next();
-        	UpdateConcernCommandHelper ucCmd = new UpdateConcernCommandHelper(concern, cc.getName(), "");
+        	UpdateConcernCommand ucCmd = new UpdateConcernCommand(concern, cc.getName(), "");
         	if (ucCmd.canExecute())
         		ucCmd.execute();
         	else
@@ -255,7 +255,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
         }
         else {
     		// create concern and name it
-    		InternalCreateConcernCommandHelper iccCmd = new InternalCreateConcernCommandHelper(urn, cc.getName(), "");
+    		InternalCreateConcernCommand iccCmd = new InternalCreateConcernCommand(urn, cc.getName(), "");
     		if (iccCmd.canExecute())
     			iccCmd.execute();
     		else
@@ -264,7 +264,7 @@ public class COREFactory4URN extends AbstractConcernFactory {
         }
         
 		// assign feature diagram/impact graph to the concern
-		AssignConcernDiagramCommandHelper acdCmd = new AssignConcernDiagramCommandHelper(diagram, concern);
+		AssignConcernDiagramCommand acdCmd = new AssignConcernDiagramCommand(diagram, concern);
 		if (acdCmd.canExecute())
 			acdCmd.execute();
 		else
