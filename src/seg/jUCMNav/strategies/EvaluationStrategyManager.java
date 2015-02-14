@@ -628,6 +628,14 @@ public class EvaluationStrategyManager {
             HashMap recursiveEvaluations = new HashMap();
             getRecursiveEvaluations(strategy, recursiveEvaluations);
 
+            // Associate elements involved in an evaluation but not present in the grl
+            // (reused elements) to the evaluations hash map
+            for (Object intElement : recursiveEvaluations.keySet()) {
+                if ( !grl.getIntElements().contains(intElement) ) {
+                    evaluations.put(intElement, recursiveEvaluations.get(intElement));
+                }
+            }
+            
             Iterator it = grl.getIntElements().iterator();
             while (it.hasNext()) {
                 IntentionalElement elem = (IntentionalElement) it.next();
@@ -637,8 +645,8 @@ public class EvaluationStrategyManager {
                     eval = (Evaluation) ModelCreationFactory.getNewObject(grl.getUrnspec(), Evaluation.class);
                 }
                 evaluations.put(elem, eval);
-            }
-
+            }          
+            
             // Go through all the KPIInformationElement and create a new KPIInformationConfig object if no one exist for this strategy
             grl = strategy.getGrlspec();
             HashMap recursiveKPIInformationConfig = new HashMap();
