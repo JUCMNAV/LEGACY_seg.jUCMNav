@@ -525,7 +525,8 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
         Object result = null;
 
         // if this attribute comes from the referenced object
-        if (propertyid.getEClass().getName() == "IntentionalElement" || propertyid.getEClass().getName() == "Indicator") //$NON-NLS-1$ //$NON-NLS-2$
+        if (propertyid.getEClass().getName() == "IntentionalElement" || propertyid.getEClass().getName() == "Indicator"
+        		|| propertyid.getEClass().getName() == "Feature") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             result = def.eGet(feature);
         else if (propertyid.getEClass().getName() == "EvaluationStrategy") { //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationStrategy().eGet(feature);
