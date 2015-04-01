@@ -22,6 +22,7 @@ import seg.jUCMNav.Messages;
 public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 	
 	private BooleanFieldEditor autoSelectMandatoryFeatures;
+	private IntegerFieldEditor tolerance;
 
     public StrategyEvaluationPreferencePage() {
         super(FieldEditorPreferencePage.GRID);
@@ -59,7 +60,7 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
                 .getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm"), algos, getFieldEditorParent()); //$NON-NLS-1$
         addField(pref_algorithm);
 
-        IntegerFieldEditor tolerance = new IntegerFieldEditor(StrategyEvaluationPreferences.PREF_TOLERANCE, Messages
+        tolerance = new IntegerFieldEditor(StrategyEvaluationPreferences.PREF_TOLERANCE, Messages
                 .getString("GeneralPreferencePage.GRLEvaluationAlgorithmTolerance"), getFieldEditorParent()); //$NON-NLS-1$
         addField(tolerance);
 
@@ -77,8 +78,12 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
     	String algoChoice = StrategyEvaluationPreferences.getAlgorithm();
 		if (algoChoice.equals(Integer.toString(StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM))) {
 			autoSelectMandatoryFeatures.setEnabled(true, getFieldEditorParent());
+			StrategyEvaluationPreferences.setTolerance(0);
+			tolerance.setStringValue("0"); //$NON-NLS-1$
+			tolerance.setEnabled(false, getFieldEditorParent());
 		} else {
 			autoSelectMandatoryFeatures.setEnabled(false, getFieldEditorParent());
+			tolerance.setEnabled(true, getFieldEditorParent());
 		}
 
     }
@@ -101,8 +106,14 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
     		if (fieldEditor.getPreferenceName().equals(StrategyEvaluationPreferences.PREF_ALGORITHM)) {
     			if (event.getNewValue().equals(Integer.toString(StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM))) {
     				autoSelectMandatoryFeatures.setEnabled(true, getFieldEditorParent());
+    				StrategyEvaluationPreferences.setTolerance(0);
+    				tolerance.setStringValue("0"); //$NON-NLS-1$
+    				tolerance.setEnabled(false, getFieldEditorParent());
     			} else {
     				autoSelectMandatoryFeatures.setEnabled(false, getFieldEditorParent());
+    				StrategyEvaluationPreferences.setTolerance(StrategyEvaluationPreferences.DEFAULT_TOLERANCE);
+    				tolerance.setStringValue(StrategyEvaluationPreferences.DEFAULT_TOLERANCE+""); //$NON-NLS-1$
+    				tolerance.setEnabled(true, getFieldEditorParent());
     			}
     		}
     	}
