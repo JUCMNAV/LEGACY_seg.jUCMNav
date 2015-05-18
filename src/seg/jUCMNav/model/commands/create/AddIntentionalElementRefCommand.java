@@ -11,6 +11,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 import urn.URNspec;
 
 /**
@@ -100,7 +101,10 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
         assert graph != null : "post graph"; //$NON-NLS-1$
 
         assert graph.getNodes().contains(elementRef) : "post elementref in graph"; //$NON-NLS-1$
-        assert graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(elementRef.getDef()) : "post elementDef in model"; //$NON-NLS-1$
+        // Need to check if it is a reference to a reused intentional element or the assertion will produce an error
+        // since reused intentional elements are not defined in the grlspec where they are being reused
+        assert graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(elementRef.getDef()) 
+        	|| ReusedElementUtil.isReusedElement(graph.getUrndefinition().getUrnspec().getGrlspec(), elementRef.getDef()): "post elementDef in model"; //$NON-NLS-1$
     }
 
     /**

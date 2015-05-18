@@ -1,5 +1,7 @@
 package seg.jUCMNav.actions;
 
+import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
 import grl.Contribution;
 import grl.LinkRef;
 
@@ -12,6 +14,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeCorrelationCommand;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 
 /**
  * Changes the correlation attribute of a GRL Contribution.
@@ -42,8 +45,9 @@ public class ChangeCorrelationAction extends URNSelectionAction {
                 return false;
 
             LinkRef lr = (LinkRef) (((LinkRefEditPart) obj).getModel());
-            if (!(lr.getLink() instanceof Contribution))
-                return false; // not a contribution
+            if (!(lr.getLink() instanceof Contribution) || lr.getLink() instanceof OptionalFMLink
+            		|| lr.getLink() instanceof MandatoryFMLink || ReusedElementUtil.isReuseLink(lr.getLink()))
+                return false;
         }
 
         linkRefs = new Vector(); // all tests passed, create list

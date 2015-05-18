@@ -3,6 +3,9 @@
  */
 package seg.jUCMNav.views.property;
 
+import fm.Feature;
+import fm.FeatureDiagram;
+import fm.FeatureModel;
 import grl.Evaluation;
 import grl.EvaluationRange;
 import grl.EvaluationStrategy;
@@ -28,6 +31,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
@@ -41,11 +45,13 @@ import seg.jUCMNav.model.commands.delete.DeleteAllLinkRefCommand;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.descriptors.CustomTextPropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.EvaluationRangePropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.IndicatorGroupPropertyDescriptor;
 import urn.URNspec;
+import urncore.Concern;
 import urncore.IURNNode;
 import urncore.URNmodelElement;
 
@@ -249,21 +255,49 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 || ((IntentionalElementRef) getEditableValue()).getDiagram().getUrndefinition() == null)
             return;
         URNspec urn = ((IntentionalElementRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
-        Vector list = new Vector(urn.getGrlspec().getIntElements());
-        Collections.sort(list, new EObjectClassNameComparator());
+        if (ReusedElementUtil.isReusedElement(urn.getGrlspec(), ((IntentionalElementRef) getEditableValue()).getDef())) {
+            PropertyDescriptor def = new PropertyDescriptor(propertyid, "definition"); //$NON-NLS-1$
+            def.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$
+            def.setLabelProvider(new LabelProvider() {
+            	@Override
+            	public String getText(Object element) {
+					String text = null;
+					if (element instanceof IntentionalElement) {
+						String elemName = ((IntentionalElement) element).getName();
+						String elemId = ((IntentionalElement) element).getId();
+						String concernName = ((Concern) ((IntentionalElement) element).getGrlspec().getUrnspec()
+								.getUrndef().getConcerns().get(0)).getName();
+						text = "[" + concernName + "]." + elemName + " (" + elemId + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					}
+					return text;
+            	}
+            });
+            descriptors.add(def);
+        } else {
+            Vector list = new Vector(urn.getGrlspec().getIntElements());
 
-        String[] values = new String[list.size()];
-        for (int i = 0; i < list.size(); i++) {
+        	if (((IntentionalElementRef) getEditableValue()).getDiagram() instanceof FeatureDiagram) {
+        		for (Iterator it = list.iterator(); it.hasNext();) {
+        			if (!(it.next() instanceof Feature)) {
+            			it.remove();
+            		}
+            	}
+            }
 
-            values[i] = EObjectClassNameComparator.getSortableElementName((IntentionalElement) list.get(i));
-            if (values[i] == null)
-                values[i] = Messages.getString("IntentionalElementPropertySource.Unnamed"); //$NON-NLS-1$
+            Collections.sort(list, new EObjectClassNameComparator());
+
+            String[] values = new String[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+
+                values[i] = EObjectClassNameComparator.getSortableElementName((IntentionalElement) list.get(i));
+                if (values[i] == null)
+                    values[i] = Messages.getString("IntentionalElementPropertySource.Unnamed"); //$NON-NLS-1$
+            }
+            
+            ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "definition", values); //$NON-NLS-1$
+            pd.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$ 
+            descriptors.add(pd);
         }
-
-        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "definition", values); //$NON-NLS-1$
-        pd.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$ 
-        descriptors.add(pd);
-
     }
 
     /**

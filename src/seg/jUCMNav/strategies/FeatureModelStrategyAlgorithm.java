@@ -15,13 +15,16 @@ import grl.IntentionalElement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.util.FeatureUtil;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 
 /**
@@ -34,6 +37,15 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
 
     public static final String METADATA_WARNING = "_userSetEvaluationWarning"; //$NON-NLS-1$
     public static final String METADATA_AUTO_SELECTED = "_autoSelected"; //$NON-NLS-1$
+    
+    private EvaluationStrategy strategy;
+    
+    public void init(EvaluationStrategy strategy, HashMap evaluations) {
+    	super.init(strategy, evaluations);
+    	this.strategy = strategy;
+    	setupReusedElementsEvaluations();
+    	evalReady.addAll(0, ReusedElementUtil.getReusedElements(strategy.getGrlspec()));
+    }
     
     /*
      * (non-Javadoc)
@@ -62,7 +74,7 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
         // if there are incoming links, calculate the result from the incoming links
         int result = 0;
         boolean incomingLinks = false;
-        if (element.getLinksDest().size() > 0) {
+        if (!ReusedElementUtil.isReusedElement(strategy.getGrlspec(), element) && element.getLinksDest().size() > 0) {
         	incomingLinks = true;
             int decompositionValue = -10000;
             int dependencyValue = 10000;
@@ -89,9 +101,11 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
                     Contribution contrib = (Contribution) link;
                     
                     // update contribution values of mandatory and optional links
-                    if (element instanceof Feature && (link instanceof MandatoryFMLink || link instanceof OptionalFMLink)) {
+                    if (element instanceof Feature && (link instanceof MandatoryFMLink || link instanceof OptionalFMLink || ReusedElementUtil.isReuseLink(link))) {
                     	int quantitativeContrib;
-                    	if (mandatoryLinksNumber == 0)
+                    	if (ReusedElementUtil.isReuseLink(link)) {
+                    		quantitativeContrib = 100;
+                    	} else if (mandatoryLinksNumber == 0)
                     		// the element contains only optional links --> each optional link's contribution is 100
                     		quantitativeContrib = 100;
                     	else {
@@ -152,6 +166,12 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
     		if (elem instanceof Feature)
     			MetadataHelper.removeMetaData(elem, METADATA_AUTO_SELECTED);
     	}
+    	
+    	for (IntentionalElement intElem : ReusedElementUtil.getReusedElements(strategy.getGrlspec())) {
+    		if (intElem instanceof Feature) {
+    			MetadataHelper.removeMetaData(intElem, METADATA_AUTO_SELECTED);
+    		}
+    	}
     }
 
 
@@ -161,6 +181,7 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
 		// this implementation does not assume that there is only one root feature and
 		// it also does not assume that a feature only has one parent
 		List<Feature> rootFeatures = FeatureUtil.getRootFeatures(strategy.getGrlspec());
+		
 		List<Feature> candidates = new ArrayList<Feature>();
 		Iterator it = rootFeatures.iterator();
 		while (it.hasNext()) {
@@ -174,25 +195,56 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
 	}
 
 	private void autoSelectChildren(Feature parent, List<Feature> candidates, String timeStamp, EvaluationStrategy strategy) {
+		// A reuse feature is a leaf
+		if ( ReusedElementUtil.isReusedElement(strategy.getGrlspec(), parent) ) {
+			return;
+		}
+
 		Iterator it = parent.getLinksDest().iterator();
+
 		// all children of a parent (either root feature or selected feature) are auto selected 
 		// as long as the link between the child and the parent is mandatory or an AND decomposition
 		while (it.hasNext()) {
 			ElementLink link = (ElementLink) it.next();
 			IntentionalElement child = (IntentionalElement) link.getSrc();
+
 			// auto selection only applies to features
 			if (child instanceof Feature) {
-				if (link instanceof MandatoryFMLink || (link instanceof Decomposition && parent.getDecompositionType() == DecompositionType.AND_LITERAL)) {
+				if (link instanceof MandatoryFMLink || (link instanceof Decomposition && parent.getDecompositionType() == DecompositionType.AND_LITERAL) 
+						|| ReusedElementUtil.isReuseLink(link)) {
 					// the child feature is auto selectable --> add metadata tag to this element
 					MetadataHelper.addMetaData(strategy.getGrlspec().getUrnspec(), child, METADATA_AUTO_SELECTED, timeStamp);
 					// add child to list of features that will need to have their children examined for auto selection
 					candidates.add((Feature) child);
 				} else if (FeatureUtil.checkSelectionStatus((Feature) child, true)) {
+					
 					// the child feature is not auto selectable --> add child to list of features that will need to have their children examined for auto selection but only if the child is selected
 					candidates.add((Feature) child);
 				}
 			}
+			
 		}
 	}
+    
+    public IntentionalElement nextNode() {
+        if (ReusedElementUtil.isReusedElement(strategy.getGrlspec(), evalReady.firstElement())) {
+        	IntentionalElement intElem = (IntentionalElement) evalReady.remove(0);
+        	for (IntentionalElement reusingElement : ReusedElementUtil.getReusingElements(strategy.getGrlspec(), intElem)) {
+	        	addToEvalReadyIfCovered(reusingElement);
+        	}
+        	return intElem;
+        } else {
+        	return super.nextNode();
+        }
+    }
+
+    private void setupReusedElementsEvaluations() {
+        for ( IntentionalElement intElem : ReusedElementUtil.getReusedElements(strategy.getGrlspec())) {
+    		if ( !evaluations.containsKey(intElem) || (evaluations.get(intElem) == null) ) {
+    			Evaluation evaluation = (Evaluation)  ModelCreationFactory.getNewObject( strategy.getGrlspec().getUrnspec(), Evaluation.class );
+            	evaluations.put(intElem, evaluation);
+    		}
+        }
+    }
 
 }

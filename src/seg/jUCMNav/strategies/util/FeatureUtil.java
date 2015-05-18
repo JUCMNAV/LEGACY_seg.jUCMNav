@@ -3,6 +3,7 @@ package seg.jUCMNav.strategies.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.MetadataHelper;
@@ -41,7 +42,10 @@ public class FeatureUtil {
 	 * @param elem
 	 * @return
 	 */
-	private static boolean isRootFeature(Feature elem) {
+	private static boolean isRootFeature(Feature elem, GRLspec grl) {
+		if (ReusedElementUtil.isReusedElement(grl, elem)) {
+			return false;
+		}
         Iterator it = elem.getLinksSrc().iterator();
         while (it.hasNext()) {
             ElementLink link = (ElementLink) it.next();
@@ -62,7 +66,7 @@ public class FeatureUtil {
 		List<Feature> rootFeatures = new ArrayList<Feature>();
 		while (it.hasNext()) {
 			IntentionalElement elem = (IntentionalElement) it.next();
-			if (elem instanceof Feature && isRootFeature((Feature) elem))
+			if (elem instanceof Feature && isRootFeature((Feature) elem, grl))
 				rootFeatures.add((Feature) elem);
 		}
 		return rootFeatures;
@@ -96,8 +100,10 @@ public class FeatureUtil {
      * @param elem
      * @return
      */
-    public static boolean containsOnlyOptionalSrcLinkToFeature(Feature elem) {
-    	if (FeatureUtil.isRootFeature(elem))
+    public static boolean containsOnlyOptionalSrcLinkToFeature(Feature elem, GRLspec grl) {
+    	if (FeatureUtil.isRootFeature(elem, grl))
+    		return false;
+    	if (ReusedElementUtil.isReusedElement(grl, elem))
     		return false;
         Iterator it = elem.getLinksSrc().iterator();
         if (!it.hasNext()) {
@@ -118,11 +124,23 @@ public class FeatureUtil {
 	 * @param elem
 	 * @return
 	 */
-	public static boolean containsOnlySrcLinkToNotSelectedFeature(Feature elem) {
-		if (FeatureUtil.isRootFeature(elem))
+	public static boolean containsOnlySrcLinkToNotSelectedFeature(Feature elem, GRLspec grl) {
+		if (FeatureUtil.isRootFeature(elem, grl))
 			return false;
-        Iterator it = elem.getLinksSrc().iterator();
-        if (!it.hasNext()) {
+		if (ReusedElementUtil.isReusedElement(grl, elem)) {
+			Set<IntentionalElement> reusingElements = ReusedElementUtil.getReusingElements(grl, elem);
+			if (reusingElements.isEmpty()) {
+				return false;
+			}
+			for (IntentionalElement reusingElem : reusingElements) {
+				if (reusingElem instanceof Feature && !(checkSelectionStatus((Feature) reusingElem, false))) {
+					return false;
+				}
+			}
+			return true;
+		}
+		Iterator it = elem.getLinksSrc().iterator();
+		if (!it.hasNext()) {
             return false;
         }
         while (it.hasNext()) {

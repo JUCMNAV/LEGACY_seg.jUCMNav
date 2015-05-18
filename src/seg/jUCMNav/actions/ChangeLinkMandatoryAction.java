@@ -2,7 +2,9 @@ package seg.jUCMNav.actions;
 
 import fm.Feature;
 import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
 import grl.IntentionalElementRef;
+import grl.LinkRef;
 
 import java.util.List;
 
@@ -58,6 +60,15 @@ public class ChangeLinkMandatoryAction extends ChangeLinkAction
             	return true;
             }else
             	return false;
+        } else if (sel.getSelectionType() == sel.LINKREF) {
+        	LinkRef linkRef = sel.getLinkref();
+        	elementRef = (IntentionalElementRef) linkRef.getSource();
+        	
+        	if (elementRef.getDef() instanceof Feature && linkRef.getLink() instanceof OptionalFMLink) {
+        		return true;
+        	} else {
+        		return false;
+        	}
         } else
             return false;
   

@@ -82,18 +82,22 @@ public abstract class PropagationGRLStrategyAlgorithm {
         for (Iterator j = intElem.getLinksSrc().iterator(); j.hasNext();) {
             // TODO Need to make sure this GRLLinkableElement is really an IntentionalElement
             IntentionalElement temp = (IntentionalElement) ((ElementLink) j.next()).getDest();
-            if (evaluationCalculation.containsKey(temp)) {
-                EvaluationCalculation calc = (EvaluationCalculation) evaluationCalculation.get(temp);
-                calc.incrementLinkCalc();
-                if (calc.hasReachedTotalLink()) {
-                    evaluationCalculation.remove(temp);
-                    // add this new element into the first position of the vector, so that the original order of the evalReady elements is respected 
-                    // (first all leaf nodes plus all nodes that can be reached from them, then feature model leaf nodes...) 
-                    evalReady.add(0, calc.getElement());
-                }
-            }
+            addToEvalReadyIfCovered(temp);
         }
         return intElem;
+    }
+    
+    protected void addToEvalReadyIfCovered(IntentionalElement intElem) {
+        if (evaluationCalculation.containsKey(intElem)) {
+            EvaluationCalculation calc = (EvaluationCalculation) evaluationCalculation.get(intElem);
+            calc.incrementLinkCalc();
+            if (calc.hasReachedTotalLink()) {
+                evaluationCalculation.remove(intElem);
+                // add this new element into the first position of the vector, so that the original order of the evalReady elements is respected 
+                // (first all leaf nodes plus all nodes that can be reached from them, then feature model leaf nodes...) 
+                evalReady.add(0, calc.getElement());
+            }
+        }
     }
 
 }

@@ -16,6 +16,7 @@ import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 
 /**
  * This action is used to select one or several features (set numerical evaluation to 100).
@@ -47,7 +48,9 @@ public class SelectFeatureAction extends URNSelectionAction {
 		for (Iterator<?> iter = getSelectedObjects().iterator(); iter.hasNext();) {
 			Object obj = iter.next();
 			if (!(obj instanceof IntentionalElementEditPart) || 
-					(obj instanceof IntentionalElementEditPart) && !(((IntentionalElementRef)((IntentionalElementEditPart) obj).getModel()).getDef() instanceof Feature)) 
+					(obj instanceof IntentionalElementEditPart) && !(((IntentionalElementRef)((IntentionalElementEditPart) obj).getModel()).getDef() instanceof Feature)
+					|| (obj instanceof IntentionalElementEditPart) && (((IntentionalElementRef)((IntentionalElementEditPart) obj).getModel()).getDef() instanceof Feature) 
+						&& ReusedElementUtil.isReusedElement(strategy.getGrlspec(), ((IntentionalElementRef)((IntentionalElementEditPart) obj).getModel()).getDef()))
 				return false;
 			else {
                 Evaluation evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(((IntentionalElementRef)((IntentionalElementEditPart) obj).getModel()).getDef());

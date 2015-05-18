@@ -15,6 +15,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
 import seg.jUCMNav.model.commands.create.AddBeliefLinkCommand;
 import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
 import seg.jUCMNav.model.commands.create.CreateKPIModelLinkCommand;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 
 /**
  * Edit policy to create connection between Intentional Element references
@@ -59,6 +60,12 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
     		CreateElementLinkCommand cmd;
     		// is this a reuse situation? (i.e., source definition is located in another URN model)
     		boolean reuseSituation = !source.getDef().getGrlspec().getUrnspec().getUrndef().equals(source.getDiagram().getUrndefinition());
+    		if (request.getNewObject() instanceof Reuse 
+    				&& ReusedElementUtil.isReusedElement(source.getDiagram().getUrndefinition().getUrnspec().getGrlspec(), source.getDef())
+    				&& !source.getSucc().isEmpty()) {
+    	        // Only one reuse link can exist per reference to a reused element
+    			return null;
+    		}
     		if (request.getNewObject() instanceof Reuse && reuseSituation) {
     			// reuse case (pass in the sourceRef to be able create the LinkRef)
     			cmd = new CreateElementLinkCommand(source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(), source, 

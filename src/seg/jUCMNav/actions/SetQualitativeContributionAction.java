@@ -1,5 +1,7 @@
 package seg.jUCMNav.actions;
 
+import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
 import grl.Contribution;
 import grl.ContributionType;
 import grl.LinkRef;
@@ -15,6 +17,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeQualitativeContributionCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 
 /**
  * 
@@ -70,9 +73,10 @@ public class SetQualitativeContributionAction extends URNSelectionAction {
                 return false;
 
             LinkRef lr = (LinkRef) (((LinkRefEditPart) obj).getModel());
-            if (!(lr.getLink() instanceof Contribution))
-                return false; // not a contribution
-
+            if (!(lr.getLink() instanceof Contribution) || lr.getLink() instanceof OptionalFMLink
+            		|| lr.getLink() instanceof MandatoryFMLink || ReusedElementUtil.isReuseLink(lr.getLink()))
+                return false;
+            
             if (id < ChangeQualitativeContributionCommand.INCREASE) // operation is not increase or decrease, skip further tests
                 continue;
 

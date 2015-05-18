@@ -15,6 +15,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
 
@@ -71,6 +72,11 @@ public class SetNumericalEvaluationAction extends URNSelectionAction {
             		((obj instanceof IntentionalElementEditPart) && (((IntentionalElementRef)((IntentionalElementEditPart) obj).getModel()).getDef() instanceof Feature)))
                 return false;
 
+            if (ReusedElementUtil.isReusedElement(EvaluationStrategyManager.getInstance().getEvaluationStrategy().getGrlspec(),
+            		((IntentionalElementRef) ((IntentionalElementEditPart) obj).getModel()).getDef())) {
+            	return false;
+            }
+            
             if (id < ChangeNumericalEvaluationCommand.INCREASE) // operation is not increase or decrease, skip further tests
                 continue;
 

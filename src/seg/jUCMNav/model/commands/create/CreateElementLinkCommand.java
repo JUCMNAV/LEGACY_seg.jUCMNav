@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import grl.Dependency;
 import grl.ElementLink;
+import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.Reuse;
@@ -16,6 +17,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 import urn.URNspec;
 
 /**
@@ -26,6 +28,7 @@ import urn.URNspec;
  */
 public class CreateElementLinkCommand extends CompoundCommand {
 
+	GRLspec grl;
     IntentionalElement src, dest;
     IntentionalElementRef sourceRef;
     ElementLink link;
@@ -34,7 +37,8 @@ public class CreateElementLinkCommand extends CompoundCommand {
      * 
      */
     public CreateElementLinkCommand(URNspec urn, IntentionalElement source, ElementLink link, String position) {
-        this.src = source;
+    	this.grl = urn.getGrlspec();
+    	this.src = source;
         this.sourceRef = null;
         this.link = link;
 
@@ -50,7 +54,8 @@ public class CreateElementLinkCommand extends CompoundCommand {
      * 
      */
     public CreateElementLinkCommand(URNspec urn, IntentionalElement source, IntentionalElementRef sourceRef, ElementLink link, String position) {
-        this.src = source;
+    	this.grl = urn.getGrlspec();
+    	this.src = source;
     	this.sourceRef = null;
     	if (link != null && link instanceof Reuse)
         	this.sourceRef = sourceRef;
@@ -75,6 +80,9 @@ public class CreateElementLinkCommand extends CompoundCommand {
         }
         // if we are trying to create a Reuse link, the sourceRef must be specified
         if (link!= null && link instanceof Reuse && sourceRef == null)
+        	return false;
+        // Links to reused elements cannot be created
+        if (grl != null && dest != null && ReusedElementUtil.isReusedElement(grl, dest))
         	return false;
         return super.canExecute();
     }

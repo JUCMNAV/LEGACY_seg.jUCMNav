@@ -15,6 +15,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeQualitativeEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 
 /**
  * 
@@ -76,6 +77,11 @@ public class SetQualitativeEvaluationAction extends URNSelectionAction {
             		((obj instanceof IntentionalElementEditPart) && (((IntentionalElementRef)((IntentionalElementEditPart) obj).getModel()).getDef() instanceof Feature)))
                 return false;
 
+            if (ReusedElementUtil.isReusedElement(esm.getEvaluationStrategy().getGrlspec(),
+            		((IntentionalElementRef) ((IntentionalElementEditPart) obj).getModel()).getDef())) {
+            	return false;
+            }
+            
             if (id < ChangeQualitativeEvaluationCommand.INCREASE) // operation is not increase or decrease, skip further tests
                 continue;
 

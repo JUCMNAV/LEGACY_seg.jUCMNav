@@ -258,7 +258,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
-        if (getParent() == null || getNode().getDef() == null)
+        if (getParent() == null || getNode().getDef() == null || getNode().getDiagram() == null)
             return;
         refreshTargetConnections();
         refreshSourceConnections();
@@ -373,8 +373,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     if (StrategyEvaluationPreferences.getFillElements()) {
                         String color, lineColor;
             		    URNspec urn = null;
-            		    if (getNode() != null && getNode().getDef() != null && getNode().getDef().getGrlspec() != null)
-            		        urn = getNode().getDef().getGrlspec().getUrnspec();
+            		    if (getNode() != null && getNode().getDiagram() != null &&
+            		            getNode().getDiagram().getUrndefinition() != null &&
+            		            getNode().getDiagram().getUrndefinition().getUrnspec() != null)
+            		         urn = getNode().getDiagram().getUrndefinition().getUrnspec();
                         color = determineColor(urn, elem, evaluation, ignored, evalType);
 
                         if (EvaluationStrategyManager.getInstance().isConditionResource(getNode().getDef())) {
@@ -582,8 +584,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 		    color = "192,192,192"; //$NON-NLS-1$
 		} else if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && elem instanceof Feature && 
 				FeatureUtil.checkSelectionStatus((Feature) elem, false) && 
-				(FeatureUtil.containsOnlySrcLinkToNotSelectedFeature((Feature) elem) || 
-						FeatureUtil.containsOnlyOptionalSrcLinkToFeature((Feature) elem) || 
+				(FeatureUtil.containsOnlySrcLinkToNotSelectedFeature((Feature) elem, urn.getGrlspec()) || 
+						FeatureUtil.containsOnlyOptionalSrcLinkToFeature((Feature) elem, urn.getGrlspec()) || 
 						FeatureUtil.hasSelectedOrXorBrother((Feature) elem, true, true))) {
 		    	// if feature model algorithm and own evaluation is 0, check if need to set to light gray color
 				// case A: set to light gray if all links to other features are to features with an evaluation of 0

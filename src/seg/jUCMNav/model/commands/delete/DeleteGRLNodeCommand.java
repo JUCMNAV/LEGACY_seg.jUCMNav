@@ -12,6 +12,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
+import seg.jUCMNav.strategies.util.ReusedElementUtil;
 import seg.jUCMNav.views.preferences.DeletePreferences;
 
 /**
@@ -44,8 +45,11 @@ public class DeleteGRLNodeCommand extends CompoundCommand {
 
             IntentionalElementRef intElement = (IntentionalElementRef) ref;
 
-            // Verify if this reference is the only one
-            if (intElement.getDef().getRefs().size() == 1 && DeletePreferences.getDeleteDefinition(ref)) {
+            // Verify if this reference is the only one and it is not a reused element since the
+            // definition should not be deleted (it is found in another model)
+            if (!ReusedElementUtil.isReusedElement(intElement.getDiagram().getUrndefinition().getUrnspec()
+            		.getGrlspec(), intElement.getDef()) && intElement.getDef().getRefs().size() == 1 
+            		&& DeletePreferences.getDeleteDefinition(ref)) {
                 // Add a command to delete the intentional element before execution
                 add(new DeleteIntentionalElementCommand(intElement.getDef()));
             }
