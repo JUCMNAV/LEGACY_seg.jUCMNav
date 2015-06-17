@@ -167,7 +167,7 @@ public class JUCMConcernNavigatorLabelProvider implements ILabelProvider {
     public void addListener(ILabelProviderListener listener) {
         System.out.println("LabelProvider.addListener: " + listener.getClass().getName()); //$NON-NLS-1$
         // TODO Auto-generated method stub
- 
+       System.out.println("This is added to listen to the tabbed .jucm file");
     }
  
     /* (non-Javadoc)
