@@ -129,8 +129,12 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
         {
             addAllIfMatch(list, root.getUrndef().getUrnspec().getUcmspec().getResources());
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.concerns"))) //$NON-NLS-1$
-            addAllIfMatch(list, root.getUrndef().getConcerns());
-
+        {   
+        	addAllIfMatch(list, root.getUrndef().getConcerns());
+        }else if(getLabel().equals(Messages.getString("LabelTreeEditPart.reusedConcerns"))){ //$NON-NLS-1$
+        	
+        }
+           
         Collections.sort(list, new DelegatingElementComparator());
         return list;
     }
@@ -174,7 +178,9 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             return getLabel();
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.concerns"))) { //$NON-NLS-1$
             return getLabel();
-        } else
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.reusedConcerns"))){ //$NON-NLS-1$
+        	return getLabel();
+        }else
             return null;
 
     }
@@ -201,7 +207,8 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             setImage((JUCMNavPlugin.getImage("icons/Process16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.concerns"))) //$NON-NLS-1$
             setImage((JUCMNavPlugin.getImage("icons/Concern16.gif"))); //$NON-NLS-1$
-
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.reusedConcerns"))) //$NON-NLS-1$
+        	setImage((JUCMNavPlugin.getImage("icons/Concern16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 }

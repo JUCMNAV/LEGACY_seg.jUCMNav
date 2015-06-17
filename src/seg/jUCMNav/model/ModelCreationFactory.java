@@ -1,5 +1,6 @@
 package seg.jUCMNav.model;
 
+import fm.Feature;
 import fm.FeatureDiagram;
 import fm.FeatureModel;
 import fm.FmFactory;
@@ -53,6 +54,7 @@ import org.eclipse.jface.resource.StringConverter;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.figures.ColorManager;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
@@ -110,12 +112,14 @@ import urncore.Concern;
 import urncore.Condition;
 import urncore.ConnectionLabel;
 import urncore.GRLmodelElement;
+import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.Metadata;
 import urncore.NodeLabel;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
 import urncore.URNdefinition;
+import urncore.URNmodelElement;
 import urncore.UrncoreFactory;
 
 /**
@@ -691,6 +695,13 @@ public class ModelCreationFactory implements CreationFactory {
         		GeneralPreferencePage.getNewGRL(),
         		GeneralPreferencePage.getNewFMD());
     }
+    
+    public static URNspec getNewURNspec(String filename) {
+        // Will also create one if no GRL or UCM diagrams were selected (so at least one diagram is present)
+        return getNewURNspec(GeneralPreferencePage.getNewUCM() || ((!GeneralPreferencePage.getNewGRL()) && (!GeneralPreferencePage.getNewFMD())),
+        		GeneralPreferencePage.getNewGRL(),
+        		GeneralPreferencePage.getNewFMD(),GeneralPreferencePage.getNewCRN(),filename);
+    } 
 
     /**
      * 
@@ -702,17 +713,27 @@ public class ModelCreationFactory implements CreationFactory {
      *            should a blank GRL graph be created?
      * @param createFmd
      *            should a blank FMD graph be created?
+     * @param createCRN         
+     *            if the .jucm file is concern-oriented ?
+     *            
      * @return a new URN spec
      */
+    
     public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolean createFmd) {
-    	    	
+    	return getNewURNspec(createUcm, createGrl,createFmd, false,"");
+        
+    }
+    
+public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolean createFmd,boolean createCRN,String filename) {
+    	
         URNspec result = null;
 
         // create the URN spec
         URNspec urnspec = UrnFactory.eINSTANCE.createURNspec();
 
         // name the URNspec
-        urnspec.setName(URNNamingHelper.getPrefix(URNspec.class));
+         urnspec.setName(URNNamingHelper.getPrefix(URNspec.class));
+       
 
         // seed the global id
         urnspec.setNextGlobalID("1"); //$NON-NLS-1$
@@ -741,6 +762,7 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.getGrlspec().setFeatureModel((FeatureModel) ModelCreationFactory.getNewObject(null, FeatureModel.class));
         urnspec.getGrlspec().setImpactModel((ImpactModel) ModelCreationFactory.getNewObject(null, ImpactModel.class));
 
+        
         // add a new GRL diagram to the GRLspec, if desired
         if (createGrl) {
             urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, GRLGraph.class));
@@ -753,9 +775,24 @@ public class ModelCreationFactory implements CreationFactory {
         
         // add a new FMD diagram to the FMDspec, if desired.
         if (createFmd) {
-            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, FeatureDiagram.class));
+              urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, FeatureDiagram.class));      
         }
-
+        
+        //add a  group of diagrams under the concern of concern-oriented .jucm file, if desired.  
+        
+        if (createCRN) {
+        	
+        	Concern concern = (Concern) ModelCreationFactory.getNewObject(urnspec, Concern.class);
+        	String concernName = filename.substring(0,1).toUpperCase() + filename.substring(1);
+        	concern.setName(concernName);
+        	urnspec.getUrndef().getConcerns().add(concern);
+        	concern.getSpecDiagrams().addAll(urnspec.getUrndef().getSpecDiagrams());
+        	
+        	MetadataHelper.addMetaData(urnspec, "CoURN","true");
+        	
+        }
+        
+        
         // Create a Strategy and Strategy Group
         StrategiesGroup group = (StrategiesGroup) ModelCreationFactory.getNewObject(urnspec, StrategiesGroup.class);
         urnspec.getGrlspec().getGroups().add(group);
@@ -796,5 +833,4 @@ public class ModelCreationFactory implements CreationFactory {
         result = urnspec;
         return result;
     }
-
 }

@@ -4,17 +4,16 @@ import grl.GrlPackage;
 
 import java.net.URI;
 
-
-
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
@@ -56,10 +55,12 @@ import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
 import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.sourceProviders.AlignStateSourceProvider;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.ConcernURNPerspectiveFactory;
 import seg.jUCMNav.views.OpenEditorQuickFix;
 import seg.jUCMNav.views.QuickFixer;
 import seg.jUCMNav.views.UCMPerspectiveFactory;
@@ -69,6 +70,7 @@ import seg.jUCMNav.views.property.tabbed.GEFTabbedPropertySheetPage;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
 import urn.URNspec;
+import urncore.Concern;
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
@@ -617,8 +619,25 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         try {
             // IDE.openEditor(page, file, true);
-            PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-
+        	String value=MetadataHelper.getMetaData((URNspec)getModel(),"CoURN");
+        	if(value!=null && value.equals("true") && getModel().getUrndef().getConcerns().size()>0){
+        		
+        		// when loading and opening the editor of file, check if the name of concern is matched with the name of file
+        		IFile file = ((IFileEditorInput) input).getFile();
+        		String fileName= file.getName().substring(0,file.getName().lastIndexOf("."));
+        		String potent_ConcernName= fileName.substring(0,1).toUpperCase()+fileName.substring(1);
+        		EList tempConcern= getModel().getUrndef().getConcerns();
+        		if (tempConcern!=null && (tempConcern.get(0))!=null){
+                   if (!(((Concern)tempConcern.get(0)).getName().equals(potent_ConcernName))){
+                	    ((Concern)tempConcern.get(0)).setName(potent_ConcernName);
+                   }
+        		}
+        		getFileManager().doSave(new NullProgressMonitor());
+        		PlatformUI.getWorkbench().showPerspective(ConcernURNPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+        		
+        	}else{
+                PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+        	}
         } catch (PartInitException e) {
             // ignore
         } catch (WorkbenchException e) {
@@ -680,7 +699,6 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     protected void pageChange(int newPageIndex) {
         super.pageChange(newPageIndex);
         getMultiPageTabManager().pageChange(newPageIndex);
-
     }
 
     /**

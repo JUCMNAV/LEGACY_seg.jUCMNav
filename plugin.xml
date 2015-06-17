@@ -142,6 +142,11 @@
             icon="icons/urnstratscenon16.gif"
             id="seg.jUCMNav.UCMEditorExecution"
             name="%jUCMNavExecution"/>
+      <perspective
+            class="seg.jUCMNav.views.ConcernURNPerspectiveFactory"
+            icon="icons/concern16.gif"
+            id="seg.jUCMNav.ConcernURNEditor"
+            name="Concern-Oriented URN" />
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
@@ -177,6 +182,14 @@
          <viewShortcut id="seg.jUCMNav.views.StrategiesView"/>
          <newWizardShortcut id="seg.jUCMNav.views.wizards.NewUcmFileWizard"/>
          <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
+         <viewShortcut id="org.eclipse.ui.views.ContentOutline"/>
+         <viewShortcut id="org.eclipse.ui.views.PropertySheet"/>
+         <viewShortcut id="org.eclipse.ui.views.ProblemView"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="seg.jUCMNav.ConcernURNEditor">
+          <viewShortcut id="seg.jUCMNav.views.StrategiesView"/>
+          <newWizardShortcut id="seg.jUCMNav.views.wizards.NewUcmFileWizard"/>
+          <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
          <viewShortcut id="org.eclipse.ui.views.ContentOutline"/>
          <viewShortcut id="org.eclipse.ui.views.PropertySheet"/>
          <viewShortcut id="org.eclipse.ui.views.ProblemView"/>

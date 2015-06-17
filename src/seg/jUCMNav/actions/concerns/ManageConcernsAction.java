@@ -8,6 +8,7 @@ import org.eclipse.ui.PlatformUI;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.wizards.concerns.ConcernsManager;
 import urn.URNspec;
@@ -36,14 +37,15 @@ public class ManageConcernsAction extends URNSelectionAction {
     }
 
     /**
-     * Returns true if a map, a grl graph, or a concern in selected; false otherwise
+     * Returns true if current .jucm file is not concern oriented and
+     * URNspec,a map, a grl graph(FMD), or a concern is selected ; false otherwise
      * 
      * @see seg.jUCMNav.actions.URNSelectionAction#calculateEnabled()
      */
     protected boolean calculateEnabled() {
         if(!DisplayPreferences.getInstance().isAdvancedControlEnabled() || !DisplayPreferences.getInstance().isShowAspect())
             return false;
-        
+         
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         element = sel.getURNmodelElement();
         switch (sel.getSelectionType()) {
@@ -51,9 +53,16 @@ public class ManageConcernsAction extends URNSelectionAction {
         case SelectionHelper.MAP:
         case SelectionHelper.GRLGRAPH:
         case SelectionHelper.CONCERN:
-            urn = sel.getUrnspec();
-            return true;
-        default:
+        	urn = sel.getUrnspec();
+        	// this part is added to enable the freely turn the manageconcern 
+        	// option on or off according to whether diagram is concern oriented or not
+        	String value=MetadataHelper.getMetaData(urn, "CoURN");
+        	if (value!= null && value.equals("true") && urn.getUrndef().getSpecDiagrams().size()>0){
+        		return false;
+        	}else{
+        		return true;	
+        	}
+         default:
             return false;
         }
     }

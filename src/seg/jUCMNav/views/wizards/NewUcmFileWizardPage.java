@@ -66,7 +66,7 @@ public class NewUcmFileWizardPage extends WizardPage {
         Composite container = new Composite(parent, SWT.NULL);
         GridLayout layout = new GridLayout();
         container.setLayout(layout);
-        layout.numColumns = 3;
+        layout.numColumns = 3;  
         layout.verticalSpacing = 9;
         Label label = new Label(container, SWT.NULL);
         label.setText(Messages.getString("NewUcmFileWizardPage.Container")); //$NON-NLS-1$
@@ -129,6 +129,22 @@ public class NewUcmFileWizardPage extends WizardPage {
         fmdButton.setImage(JUCMNavPlugin.getImage("icons/fmd16.gif")); //$NON-NLS-1$
         fmdButton.setText("FMD");
         fmdButton.addListener(SWT.Selection, checkGroupListener);
+        
+        // modified .jucm file options newly modified 
+        // Selection buttons for choosing whether or not to be concern oriented 
+        Label concernlabel = new Label(container, SWT.NULL); // Skip last column
+        Label addConcernLabel = new Label(container, SWT.NULL);
+        addConcernLabel.setText(Messages.getString("NewUcmFileWizardPage.ConcernOrientedURNModel")); //$NON-NLS-1$
+
+        Composite concernComposite = new Composite(container,SWT.NO_RADIO_GROUP);
+        RowLayout diagLayout2 = new RowLayout();
+        concernComposite.setLayout(diagLayout2);
+        Button crnButton = new Button(concernComposite, SWT.CHECK);
+        crnButton.setImage(JUCMNavPlugin.getImage("icons/Concern16.gif"));
+        crnButton.setText("Concern");
+        crnButton.addListener(SWT.Selection, checkGroupListener);
+        
+        
 
         if (GeneralPreferencePage.getNewGRL()) {
             grlButton.setSelection(true);
@@ -142,6 +158,13 @@ public class NewUcmFileWizardPage extends WizardPage {
         	fmdButton.setSelection(true);
         	doDiagramSelection(fmdButton);
         }
+        if (GeneralPreferencePage.getNewCRN()){
+        	crnButton.setSelection(true);
+        	doDiagramSelection(crnButton);
+        }
+        
+        
+        
 
         initialize();
         dialogChanged();
@@ -149,7 +172,7 @@ public class NewUcmFileWizardPage extends WizardPage {
     }
 
     /**
-     * Updates preferences for new UCM/GRL/FMD diagrams based on checkbox (un)selected.
+     * Updates preferences for new UCM/GRL/FMD Concern group diagrams based on checkbox (un)selected.
      */
     static void doDiagramSelection(Button button) {
         if (button.getSelection()) {
@@ -162,6 +185,10 @@ public class NewUcmFileWizardPage extends WizardPage {
             else if (button.getText().equals("FMD")) { //$NON-NLS-1$
             	GeneralPreferencePage.setNewFMD(true);
             }
+            else if(button.getText().equals("Concern")){ //$NON-NLS-1$
+            	GeneralPreferencePage.setNewCRN(true);
+            }
+            
         } else {
             if (button.getText().equals("GRL")) { //$NON-NLS-1$
                 GeneralPreferencePage.setNewGRL(false);
@@ -171,6 +198,9 @@ public class NewUcmFileWizardPage extends WizardPage {
             }
             else if (button.getText().equals("FMD")) { //$NON-NLS-1$
             	GeneralPreferencePage.setNewFMD(false);
+            }
+            else if(button.getText().equals("Concern")) {
+            	GeneralPreferencePage.setNewCRN(false);
             }
         }
     }
@@ -239,6 +269,7 @@ public class NewUcmFileWizardPage extends WizardPage {
             updateStatus(Messages.getString("NewUcmFileWizardPage.fileExtensionJUCM")); //$NON-NLS-1$
             return;
         }
+        
 
         updateStatus(null);
     }

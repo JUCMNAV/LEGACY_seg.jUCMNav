@@ -6,8 +6,10 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.IGlobalStackCommand;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.MetadataHelper;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.Concern;
 import urncore.IURNDiagram;
 
 /**
@@ -63,7 +65,12 @@ public class CreateMapCommand extends Command implements JUCMNavCommand, IGlobal
             urn.getUrndef().getSpecDiagrams().add(index, map);
         else
             urn.getUrndef().getSpecDiagrams().add(map);
-
+        // if the file is concern-oriented
+        String value=MetadataHelper.getMetaData(urn, "CoURN");
+    	if (value!= null && value.equals("true") && urn.getUrndef().getConcerns().size()>0){
+           Concern tempConcern=(Concern)urn.getUrndef().getConcerns().get(0);
+           tempConcern.getSpecDiagrams().add(getMap());
+    	}
         testPostConditions();
     }
 

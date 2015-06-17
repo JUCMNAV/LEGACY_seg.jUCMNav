@@ -26,7 +26,9 @@ import org.eclipse.ui.WorkbenchException;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.views.ConcernURNPerspectiveFactory;
 import seg.jUCMNav.views.UCMPerspectiveFactory;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.wizards.importexport.jUCMNavLoader;
 
 /**
@@ -108,8 +110,12 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
         // final IFile file = container.getFile(new Path(fileName));
         try {
             jUCMNavLoader loader = new jUCMNavLoader(workbenchPage, getShell());
-            loader.createAndOpenFile(fileName, containerName, ModelCreationFactory.getNewURNspec(), false, page.overwrite);
-
+           
+            // fileName is added as parameter of getNewURNspec to be able to name a concern after the name of .jucm file
+            loader.createAndOpenFile(fileName, containerName, ModelCreationFactory.getNewURNspec(fileName.substring(0,fileName.lastIndexOf("."))), false, page.overwrite);
+            
+            
+            
             // InputStream stream = openContentStream();
             // if (file.exists()) {
             // file.setContents(stream, true, true, monitor);
@@ -123,13 +129,21 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
         }
         monitor.worked(1);
         monitor.setTaskName(Messages.getString("NewUcmFileWizard.openingForEditing")); //$NON-NLS-1$
+        
         getShell().getDisplay().asyncExec(new Runnable() {
             public void run() {
                 // IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                 try {
                     // IDE.openEditor(page, file, true);
+                	
+                	if (GeneralPreferencePage.getNewCRN()){
+                		PlatformUI.getWorkbench().showPerspective(ConcernURNPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID,
+                                PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+                		
+                	}else{
                     PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID,
-                            PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+                            PlatformUI.getWorkbench().getActiveWorkbenchWindow());                    
+                	}
 
                 } catch (PartInitException e) {
                     e.printStackTrace();

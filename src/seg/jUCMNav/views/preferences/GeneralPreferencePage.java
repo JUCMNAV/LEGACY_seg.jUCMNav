@@ -3,7 +3,6 @@ package seg.jUCMNav.views.preferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -16,7 +15,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
-import ca.mcgill.sel.core.COREInterface;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.core.COREFactory4URN;
@@ -47,10 +45,11 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_UCMEMPTYPOINTVISIBLE = "PREF_UCMEMPTYPOINTVISIBLE"; //$NON-NLS-1$
     public static final String PREF_UCMSTUBLABELVISIBLE = "PREF_UCMSTUBLABELVISIBLE"; //$NON-NLS-1$
     
-    // Preferences for new .jucm files
+    // Preferences for new .jucm file
     public static final String PREF_NEWGRL = "PREF_NEWGRL"; //$NON-NLS-1$
     public static final String PREF_NEWUCM = "PREF_NEWUCM"; //$NON-NLS-1$
     public static final String PREF_NEWFMD = "PREF_NEWFMD"; //$NON-NLS-1$
+    public static final String PREF_NEWCRN = "PREF_NEWCRN"; //$NON-NLS-1$
     
     // To accelerate access to preferences...
     private static int antialising_pref = SWT.ON;
@@ -291,6 +290,14 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static boolean getNewUCM() {
         return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_NEWUCM);
     }
+    
+    /**
+     * @return whether the .jucm file is concern-oriented or not
+     */
+    public static boolean getNewCRN(){
+    	return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_NEWCRN);
+    }
+    
 
     /**
      * Set whether a new GRL diagram should be created in a new .jucm file
@@ -312,7 +319,15 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static void setNewUCM(boolean value) {
         JUCMNavPlugin.getDefault().getPreferenceStore().setValue(PREF_NEWUCM, value);
     }
-
+    
+    /**
+     * Set whether a new Concern group diagram should be created in a new .jucm file
+     */
+    
+    public static void setNewCRN(boolean value){
+    	JUCMNavPlugin.getDefault().getPreferenceStore().setValue(PREF_NEWCRN, value);
+    }
+    
     public boolean performOk() {
 
         boolean b = super.performOk();

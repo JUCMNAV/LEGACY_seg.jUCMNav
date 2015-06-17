@@ -1,6 +1,9 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
 import java.util.ArrayList;
+
+import org.eclipse.emf.common.util.EList;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -9,9 +12,13 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.model.util.DelegatingElementComparator;
+import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 import urn.URNspec;
+import urncore.Concern;
 import urncore.URNmodelElement;
 
 /**
@@ -29,6 +36,7 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
      * @param onlyDefinitions
      *            do we show only UCM/GRL definitions
      */
+   
     public URNspecTreeEditPart(URNspec model, boolean onlyDefinitions) {
         super(model);
         this.onlyDefinitions = onlyDefinitions;
@@ -101,18 +109,35 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
             list.add(Messages.getString("URNspecTreeEditPart.ucmDefs")); //$NON-NLS-1$
         if (!globalFilter || DisplayPreferences.getInstance().getShowGRLS())
             list.add(Messages.getString("URNspecTreeEditPart.grlDefs")); //$NON-NLS-1$
-        if ((!globalFilter || (!onlyDefinitions && DisplayPreferences.getInstance().getShowConcerns())) && (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect()))
-            list.add(Messages.getString("URNspecTreeEditPart.concerns")); //$NON-NLS-1$
-
-        return list;
+        if ((!globalFilter || (!onlyDefinitions && DisplayPreferences.getInstance().getShowConcerns())) && (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect()))           
+        { 
+        	String value=MetadataHelper.getMetaData(getURNspec(), "CoURN");
+        	if(value !=null && value.equals("true")){
+        		list.add(Messages.getString("URNspecTreeEditPart.reusedConcerns")); //$NON-NLS-1$
+        	}else{
+        		list.add(Messages.getString("URNspecTreeEditPart.concerns"));
+        	}
+        } 
+       return list;
 
     }
 
     /**
-     * @return the URNspec name.
+     * @return the URNspec name 
+     * if .jucm file is concern-oriented,return the name of concern 
+     * 
      */
     protected String getText() {
-        return getURNspec().getName();
+    	String value = MetadataHelper.getMetaData(getURNspec(),"CoURN");
+    	if (value != null && value.equals( "true"))
+    	{ 
+    		// get the name of concern 
+    		EList concerns= getURNspec().getUrndef().getConcerns();
+    		if  (concerns !=null && (concerns.get(0)!=null)){
+               return ((Concern)concerns.get(0)).getName()+" Concern";     
+    		}
+    	}
+    	return getURNspec().getName();
     }
 
     /**

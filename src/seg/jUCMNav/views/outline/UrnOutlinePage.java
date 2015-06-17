@@ -45,10 +45,12 @@ import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editparts.concernsTreeEditparts.ConcernsTreeEditPartFactory;
 import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
 import seg.jUCMNav.editparts.treeEditparts.TreeEditPartFactory;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.views.JUCMNavRefreshableView;
 import seg.jUCMNav.views.dnd.UrnTemplateTransferDragSourceListener;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 import ucm.map.UCMmap;
+import urn.URNspec;
 
 /**
  * Creates an outline pagebook for both UCMNavMultiPageEditor and UcmEditor. Supports three views: hierarchical model element tree view hierarchical concern
@@ -140,10 +142,11 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         showDefinitionsAction.setText(Messages.getString("UrnOutlinePage.Definitions")); //$NON-NLS-1$
         tbm.add(showDefinitionsAction);
 
-        showConcernsAction = new Action() {
+        showConcernsAction = new Action(){
             public void run() {
-                // concern tree view
-                showPage(ID_CONCERNS);
+
+            	   showPage(ID_CONCERNS);	
+
             }
         };
         showConcernsAction.setId("UrnOutlinePage.ConcernOutline"); //$NON-NLS-1$
@@ -154,8 +157,14 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         showConcernsActionItem = new ActionContributionItem(showConcernsAction);
 
         if (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect())
-            tbm.add(showConcernsActionItem);
-
+        {
+        	 URNspec spec= (URNspec)multieditor.getModel();
+             final String value=MetadataHelper.getMetaData(spec,"CoURN");
+    	     if (!(value!= null && value.equals("true"))){
+    	    	 tbm.add(showConcernsActionItem);
+    	     } 		
+        } 	
+        	
         showOverviewAction = new Action() {
             public void run() {
                 // outline view
@@ -205,12 +214,17 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
 
         // disabled.
         // tbm.add(showNodeNumberAction);
-
+        
         IMenuManager mm = getSite().getActionBars().getMenuManager();
         mm.add(showOutlineAction);
         mm.add(showDefinitionsAction);
-        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect())
-            mm.add(showConcernsActionItem);
+        if (DisplayPreferences.getInstance().isAdvancedControlEnabled() && DisplayPreferences.getInstance().isShowAspect()){
+        	URNspec spec= (URNspec)multieditor.getModel();
+            final String value=MetadataHelper.getMetaData(spec,"CoURN");
+        	if (!(value!= null && value.equals("true"))){
+        	    mm.add(showConcernsActionItem);
+            }
+        }
         mm.add(showOverviewAction);
     }
 
