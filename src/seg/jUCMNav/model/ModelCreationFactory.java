@@ -1,6 +1,5 @@
 package seg.jUCMNav.model;
 
-import fm.Feature;
 import fm.FeatureDiagram;
 import fm.FeatureModel;
 import fm.FmFactory;
@@ -112,14 +111,12 @@ import urncore.Concern;
 import urncore.Condition;
 import urncore.ConnectionLabel;
 import urncore.GRLmodelElement;
-import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.Metadata;
 import urncore.NodeLabel;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
 import urncore.URNdefinition;
-import urncore.URNmodelElement;
 import urncore.UrncoreFactory;
 
 /**

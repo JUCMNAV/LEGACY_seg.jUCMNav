@@ -57,7 +57,7 @@ public class ManageConcernsAction extends URNSelectionAction {
         	// this part is added to enable the freely turn the manageconcern 
         	// option on or off according to whether diagram is concern oriented or not
         	String value=MetadataHelper.getMetaData(urn, "CoURN");
-        	if (value!= null && value.equals("true") && urn.getUrndef().getSpecDiagrams().size()>0){
+        	if (value!= null && value.equals("true")){
         		return false;
         	}else{
         		return true;	
