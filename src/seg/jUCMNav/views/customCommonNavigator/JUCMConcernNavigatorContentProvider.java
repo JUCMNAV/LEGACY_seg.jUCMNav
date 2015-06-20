@@ -23,6 +23,7 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.widgets.Display;
 
 import ca.mcgill.sel.core.COREModel;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
@@ -406,7 +407,11 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
  
     @Override
     public void resourceChanged(IResourceChangeEvent event) {
-        _viewer.refresh();
+        Display.getDefault().asyncExec(new Runnable() {
+            public void run() {
+            	_viewer.refresh();
+            }
+         });   
     }
  
 }

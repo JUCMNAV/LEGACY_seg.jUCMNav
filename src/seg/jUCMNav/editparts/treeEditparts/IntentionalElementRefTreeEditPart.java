@@ -69,7 +69,7 @@ public class IntentionalElementRefTreeEditPart extends UrnModelElementTreeEditPa
 
         IntentionalElementRef element = getIntentionalElementRef();
 
-        if (super.getImage() == null && element.getDef() != null) {
+        if (super.getImage() == null && element.getDef() != null && element.getDef().getGrlspec() != null) {
         	if( element.getDef().getGrlspec().getUrnspec().equals(((IntentionalElementRef)element).getDiagram().getUrndefinition().getUrnspec())){
         	  	if (element.getDef().getType().getValue() == IntentionalElementType.GOAL)
                     setImage((JUCMNavPlugin.getImage("icons/Goal16.gif"))); //$NON-NLS-1$
