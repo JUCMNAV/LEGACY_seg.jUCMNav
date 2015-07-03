@@ -39,7 +39,6 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editparts.URNRootEditPart;
@@ -111,15 +110,11 @@ public class EvaluationStrategyManager {
         EvaluationStrategyManager soleInstance = null;
 
         if (multieditor == null) {
-        	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
-        	// the plugin environment is not defined which causes a ClassNotFound exception here
-        	if (!COREFactory4URN.isCOREInterfaceActive()) {
-        		if (PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
-        				&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
-        				&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
-        			multieditor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-        		}        		
-        	}
+       		if (PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
+       				&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+       				&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+       			multieditor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+       		}        		
         }
 
         if (multieditor != null) {
@@ -318,11 +313,8 @@ public class EvaluationStrategyManager {
         // evaluate for the first time (this is all that is needed for all algorithms except for the Feature Model evaluation)
         evaluateModel();
         
-        // if Feature Model evaluation and auto selection is set, execute auto selection of mandatory features, then evaluate again (check first 
-        // if jCUMNav is currently accessed through the CORE interface, because in this case getAutoSelectMandatoryFeatures causes a null pointer 
-        // exception here) 
-        if (algo instanceof FeatureModelStrategyAlgorithm && 
-        		(COREFactory4URN.isCOREInterfaceActive() || StrategyEvaluationPreferences.getAutoSelectMandatoryFeatures())) {
+        // if Feature Model evaluation and auto selection is set, execute auto selection of mandatory features, then evaluate again 
+        if (algo instanceof FeatureModelStrategyAlgorithm && StrategyEvaluationPreferences.getAutoSelectMandatoryFeatures()) {
         	((FeatureModelStrategyAlgorithm) algo).autoSelectAllMandatoryFeatures(strategy);
         	algo.init(strategy, evaluations);
         	evaluateModel();
@@ -428,13 +420,7 @@ public class EvaluationStrategyManager {
      * 
      */
     public synchronized void setupEvaluationAlgorithm() {
-    	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
-    	// the plugin environment is not defined which causes a null pointer exception here
-    	String algoChoice = null;
-    	if (COREFactory4URN.isCOREInterfaceActive())
-    		algoChoice = StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM + "";
-    	else
-        	algoChoice = StrategyEvaluationPreferences.getAlgorithm();
+    	String algoChoice = StrategyEvaluationPreferences.getAlgorithm();
         
         if ((StrategyEvaluationPreferences.MIXED_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
             algo = new MixedGRLStrategyAlgorithm();

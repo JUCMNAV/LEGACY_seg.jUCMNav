@@ -8,7 +8,6 @@ import seg.jUCMNav.tests.commands.JUCMNavKPICommandTests;
 import seg.jUCMNav.tests.progress.ProgressTests;
 import seg.jUCMNav.tests.scenarios.ScenarioTraversalTests;
 import seg.jUCMNav.tests.scenarios.jUCMNavParserTest;
-import seg.jUCMNav.tests.commands.JUCMNavCOREandFMTests;
 
 /**
  * Central location to test all of our test cases.
@@ -26,7 +25,6 @@ public class TestAllTestSuite {
         suite.addTestSuite(jUCMNavParserTest.class);
         suite.addTestSuite(ProgressTests.class);
         suite.addTestSuite(ScenarioTraversalTests.class);
-        suite.addTestSuite(JUCMNavCOREandFMTests.class);
         return suite;
     }
 

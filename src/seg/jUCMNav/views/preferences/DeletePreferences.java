@@ -10,7 +10,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.model.commands.delete.DeletionContext;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import urncore.URNmodelElement;
@@ -89,10 +88,6 @@ public class DeletePreferences {
      */
     public static boolean getDeleteReference(URNmodelElement element) {
         if (DeletionContext.isPerformingCutAction() || DeletionContext.isPerformingPasteAction()) return false;
-        // this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
-    	// the plugin environment is not defined which causes a null pointer exception here
-    	if (COREFactory4URN.isCOREInterfaceActive())
-    		return COREFactory4URN.ALWAYS_DELETE;
         String currentPrefValue = getPreferenceStore().getString(PREF_DELREFERENCE);
         if (currentPrefValue.equals(PREF_ALWAYS)) {
             return true;

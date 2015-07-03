@@ -2,12 +2,6 @@
  */
 package fm.impl;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -15,30 +9,11 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import seg.jUCMNav.core.COREFactory4URN;
-import seg.jUCMNav.editparts.IntentionalElementEditPart;
-import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
-import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
-import seg.jUCMNav.model.commands.create.CreateStrategyCommand;
-import seg.jUCMNav.model.commands.transformations.ChangeNumericalEvaluationCommand;
-import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import seg.jUCMNav.strategies.util.FeatureUtil;
-import urn.URNspec;
-import ca.mcgill.sel.core.COREFeature;
-import ca.mcgill.sel.core.COREFeatureSelectionStatus;
-import ca.mcgill.sel.core.CORENamedElement;
 import ca.mcgill.sel.core.impl.COREFeatureModelImpl;
-import fm.Feature;
 import fm.FeatureModel;
 import fm.FmPackage;
-import grl.Evaluation;
-import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.GrlPackage;
-import grl.IntentionalElement;
-import grl.IntentionalElementRef;
-import grl.StrategiesGroup;
 
 /**
  * <!-- begin-user-doc -->
@@ -207,113 +182,4 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
 		}
 		return super.eIsSet(featureID);
 	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 */
-	public COREFeature getGlobalRoot() {
-		COREFactory4URN.setCOREInterfaceActive(true);
-		List<Feature> roots = FeatureUtil.getRootFeatures(this.getGrlspec());
-		// only returns the first of possible many roots (URN does not constrain feature models to one root)
-		if (roots.isEmpty())
-			return (COREFeature) COREFactory4URN.returnResult(null);
-		else
-			return (COREFeature) COREFactory4URN.returnResult(roots.get(0)); 
-	}
-
-	/**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     */
-    public EvaluationResult select(List<COREFeature> features) {
-        COREFactory4URN.setCOREInterfaceActive(true);
-        Iterator<COREFeature> it = features.iterator();
-        URNspec urn = getGrlspec().getUrnspec();
-        Vector<IntentionalElementRef> featureRefs = new Vector<IntentionalElementRef>();
-        HashMap<COREFeature, String> featuresHash = new HashMap<COREFeature, String>();
-        while (it.hasNext()) {
-            COREFeature feature = it.next();
-            if (feature instanceof Feature) {
-                if (!((Feature) feature).getRefs().isEmpty()) {
-                    featureRefs.add((IntentionalElementRef) ((Feature) feature).getRefs().get(0));
-                    featuresHash.put(feature, "");
-                }
-            }
-        }
-
-        // create a new strategy based on the list of selected features
-        // TODO this creates a new strategy group each time, there should be a dedicated group for CORE
-        StrategiesGroup group = (StrategiesGroup) ModelCreationFactory.getNewObject(urn, StrategiesGroup.class);
-        CreateStrategiesGroupCommand csgCmd = new CreateStrategiesGroupCommand(urn, group);
-        if (csgCmd.canExecute())
-            csgCmd.execute();
-        else
-            return (EvaluationResult) COREFactory4URN.returnResult(null);
-        CreateStrategyCommand csCmd = new CreateStrategyCommand(urn, group);
-        EvaluationStrategy strategy = csCmd.getStrategy();
-        if (csCmd.canExecute())
-            csCmd.execute();
-        else 
-            return (EvaluationResult) COREFactory4URN.returnResult(null);
-        // select the new strategy and set the values of the selected features
-        EvaluationStrategyManager.getInstance().setStrategy(strategy);
-        ChangeNumericalEvaluationCommand cneCmd = new ChangeNumericalEvaluationCommand(featureRefs, ChangeNumericalEvaluationCommand.USER_ENTRY, 100, null);
-        if (cneCmd.canExecute())
-            cneCmd.execute();
-        else
-            return (EvaluationResult) COREFactory4URN.returnResult(null);
-
-        // execute the strategy by calling setStrategy again
-        EvaluationStrategyManager.getInstance().setStrategy(strategy);
-
-        // collect the results and prepare the EvaluationResult
-        EvaluationResult er = new EvaluationResult();
-        Iterator it2 = urn.getGrlspec().getIntElements().iterator();
-        while (it2.hasNext()) {
-            IntentionalElement ie = (IntentionalElement) it2.next();
-            Evaluation evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(ie);
-            String color = IntentionalElementEditPart.determineColor(urn, ie, evaluation, false, IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL);
-            boolean warning = IntentionalElementEditPart.determineOverriddenWarning(ie, IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL) || 
-                    IntentionalElementEditPart.determineOrXorWarning(ie, IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL);
-            if (ie instanceof COREFeature) {
-                // color 96,255,96 = SELECTED unless in featuresHash, then USER_SELECTED
-                // color 169,169,169 = NOT_SELECTED_NO_ACTION
-                // color anything else but the above two = NOT_SELECTED_ACTION_REQUIRED
-                // warning = WARNING
-                COREFeatureSelectionStatus selectionStatus = COREFeatureSelectionStatus.NOT_SELECTED_ACTION_REQUIRED;
-                if (warning)
-                    // TODO needs to differentiate between user selected and auto selected
-                    selectionStatus = COREFeatureSelectionStatus.WARNING_USER_SELECTED;
-                else if (color.equals("169,169,169"))
-                    selectionStatus = COREFeatureSelectionStatus.NOT_SELECTED_NO_ACTION;
-                else if (color.equals("96,255,96")) {
-                    if (featuresHash.containsKey(ie))
-                        selectionStatus = COREFeatureSelectionStatus.USER_SELECTED;
-                    else
-                        selectionStatus = COREFeatureSelectionStatus.AUTO_SELECTED;
-                }
-                er.featureResult.put((COREFeature) ie, selectionStatus);
-            }           
-			else {
-		        // TODO change to COREImpactModelElement after metamodel update
-				er.impactResult.put((CORENamedElement) ie, evaluation.getEvaluation());
-			}
-        }
-
-        // return the evaluation result
-        return (EvaluationResult) COREFactory4URN.returnResult(er);
-
-    }
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 */
-	public class EvaluationResult {
-		public Map<COREFeature, COREFeatureSelectionStatus> featureResult = new HashMap<COREFeature, COREFeatureSelectionStatus>();
-		// TODO changed back to COREImpactModelElement
-		public Map<CORENamedElement, Integer> impactResult = new HashMap<CORENamedElement, Integer>();	
-	}
-	
 } //FeatureModelImpl

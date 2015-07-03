@@ -8,7 +8,6 @@ import java.util.List;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
 
-import seg.jUCMNav.core.COREFactory4URN;
 import ucm.map.impl.MapPackageImpl;
 import urn.URNspec;
 import urncore.Concern;
@@ -32,7 +31,7 @@ import grl.IntentionalElementRef;
  */
 public class COREmodelManager extends EmfModelManager {
    
-	COREFactory4URN fact = new COREFactory4URN();
+//	COREFactory4URN fact = new COREFactory4URN();
     Concern concern = null;
 	COREConcern coreConcern = null;
 	IPath coreConcernPath = null;

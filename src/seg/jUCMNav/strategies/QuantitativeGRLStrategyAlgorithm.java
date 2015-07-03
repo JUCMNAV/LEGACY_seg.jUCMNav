@@ -17,7 +17,6 @@ import grl.kpimodel.QualitativeMappings;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
@@ -149,11 +148,7 @@ public class QuantitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgo
                 result = minRange;
             }
 
-        	// this if statement was added to support the CORE interface; when jUCMNav is accessed through the CORE interface,
-        	// the plugin environment is not defined which causes a null pointer exception here
-            int tolerance = 0;
-            if (!COREFactory4URN.isCOREInterfaceActive())
-            	tolerance = StrategyEvaluationPreferences.getTolerance();
+            int tolerance = StrategyEvaluationPreferences.getTolerance();
             				
             if (result >= (100 - tolerance) && !hasSatisfy) {
                 if (contribValue > 0)

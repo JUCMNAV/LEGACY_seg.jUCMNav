@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import seg.jUCMNav.core.COREFactory4URN;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
@@ -66,9 +65,8 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
     	// the quickReturn result is not null when the element does not have any incoming links, has a user-defined value, or has a KPI conversion
     	// contrary to the formula-based algorithm, do not return this result immediately, but compare it against the calculated result from the incoming links
         Integer quickReturn = preGetEvaluation(element, eval);
-        // set quickReturn result to 100 if feature is auto selected (check first if jCUMNav is currently accessed through the 
-        // CORE interface, because in this case getAutoSelectMandatoryFeatures causes a null pointer exception here)
-        if ((COREFactory4URN.isCOREInterfaceActive() || StrategyEvaluationPreferences.getAutoSelectMandatoryFeatures()) &&
+        // set quickReturn result to 100 if feature is auto selected
+        if (StrategyEvaluationPreferences.getAutoSelectMandatoryFeatures() &&
         		element instanceof Feature && MetadataHelper.getMetaDataObj(element, FeatureModelStrategyAlgorithm.METADATA_AUTO_SELECTED) != null)
         	quickReturn = FEATURE_SELECTED;
         // if there are incoming links, calculate the result from the incoming links

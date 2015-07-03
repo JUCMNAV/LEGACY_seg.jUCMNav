@@ -3,18 +3,12 @@
 package fm.impl;
 
 import fm.Feature;
-import fm.FeatureDiagram;
-import fm.FeatureModel;
 import fm.FmPackage;
 import fm.MandatoryFMLink;
 import grl.ElementLink;
-import grl.GRLNode;
-import grl.IntentionalElement;
-import grl.IntentionalElementRef;
 import grl.impl.IntentionalElementImpl;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -27,19 +21,8 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import seg.jUCMNav.core.COREFactory4URN;
-import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
-import seg.jUCMNav.model.commands.delete.DeleteGRLNodeCommand;
-import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
-import seg.jUCMNav.model.commands.transformations.ChangeLinkCommand;
-import urn.URNspec;
-import urncore.IURNDiagram;
-import ca.mcgill.sel.core.COREConcern;
 import ca.mcgill.sel.core.COREFeature;
-import ca.mcgill.sel.core.COREFeatureModel;
 import ca.mcgill.sel.core.COREFeatureRelationshipType;
-import ca.mcgill.sel.core.COREInterface;
 import ca.mcgill.sel.core.COREModel;
 import ca.mcgill.sel.core.COREModelElement;
 import ca.mcgill.sel.core.COREReuse;
@@ -359,230 +342,6 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		result.append(')');
 		return result.toString();
 	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 */
-	public boolean addFeature(String childName, COREFeatureRelationshipType relationship) {
-		return addFeature(-1, childName, relationship);
-	}
-
-	/**
-	 * Adds a child <b>Feature</b> to <b>this</b> <b>Feature</b>.
-	 * 
-	 *  @param position
-	 *  	position in the list of child <b>Feature</b> of <b>this</b>.
-	 *  @param childName
-	 *  	name of the new child <b>Feature</b>
-	 *  @param relationship
-	 *  	type of the new link between <b>this</b> and the new child.
-	 *  @return
-	 * 		true if the replacement as been executed without errors, false otherwise.
-	 * 
-	 *  @author gunterm, pboul037
-	 */
-	public boolean addFeature(int position, String childName, COREFeatureRelationshipType relationship) {
-		COREFactory4URN.setCOREInterfaceActive(true);
-		
-		String strPosition = null;
-		String strRelationship = convertCOREFeatureRelationshipTypeToString(relationship);
-		
-		if (position > 0)
-			strPosition = String.valueOf(position);
-	
-		if (relationship == COREFeatureRelationshipType.MANDATORY || relationship == COREFeatureRelationshipType.OPTIONAL ||
-				relationship == COREFeatureRelationshipType.XOR || relationship == COREFeatureRelationshipType.OR) {
-			// find the feature diagram of this feature, do not add new feature if feature diagram does not exist 
-			// TODO this assumes that there is only one feature diagram where this feature is used; if there are more than one, then use the one where the feature is not a leaf
-			FeatureDiagram fd = null;
-			if (this.getRefs() != null) {
-				Iterator it = this.getRefs().iterator();
-				while (it.hasNext()) {
-					GRLNode node = (GRLNode) it.next();
-					if (node.getDiagram() instanceof FeatureDiagram) {
-						fd = (FeatureDiagram) node.getDiagram();						
-						break;
-					}
-				}
-				if (fd != null) {
-					// add new feature with childName and add to feature diagram
-					URNspec urn = this.getGrlspec().getUrnspec();
-					IntentionalElementRef ref = (IntentionalElementRef) ModelCreationFactory.getNewObject(urn, IntentionalElementRef.class, ModelCreationFactory.FEATURE);
-					AddIntentionalElementRefCommand aierCmd = new AddIntentionalElementRefCommand(fd, ref);
-					if (aierCmd.canExecute()) {
-						aierCmd.execute();
-						ChangeGrlNodeNameCommand cgnnCmd = new ChangeGrlNodeNameCommand(ref, childName);
-						if (cgnnCmd.canExecute()) {
-							cgnnCmd.execute();
-							
-							ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
-							if ( changeLinkCmd.createNewLink((IntentionalElement)this, (IntentionalElement) ref.getDef(), urn, strPosition, strRelationship, null) ){
-								updateCoreConcernSelectablesAndModels(false);
-								return (Boolean) COREFactory4URN.returnResult(true);
-							}
-						}
-					}
-				}
-			}
-		}
-			return (Boolean) COREFactory4URN.returnResult(false);
-	}
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 */
-	public boolean delete() {
-		COREFactory4URN.setCOREInterfaceActive(true);
-		
-		updateCoreConcernSelectablesAndModels(true);
-		DeleteGRLNodeCommand dieCmd = new DeleteGRLNodeCommand((GRLNode) this.getRefs().get(0));
-		if (dieCmd.canExecute())
-			dieCmd.execute();
-		else {
-			updateCoreConcernSelectablesAndModels(false);
-			return (Boolean) COREFactory4URN.returnResult(false);
-		}
-		return (Boolean) COREFactory4URN.returnResult(true);
-	}
-
-	// TODO only experimental code at the moment
-	public void reorder(int newPosition) {
-	    
-	    ElementLink link = (ElementLink) getLinksSrc().get(0);
-	    IntentionalElement element = (IntentionalElement) link.getDest();
-	    element.getLinksDest().remove(link);
-	    element.getLinksDest().add(newPosition, link);
-	   
-	}
-	/**
-	 * Changes the link type between <b>this</b> and it's parent.
-	 * 
-	 * @param relationship
-	 * 		new link type
- 	 * @return
-	 * 		true if the replacement as been executed without errors, false otherwise.
-	 * 
-	 * @author pboul037
-	 */
-	
-	@SuppressWarnings("unchecked")
-	public boolean changeLink(COREFeatureRelationshipType relationship) {
-		
-		COREFactory4URN.setCOREInterfaceActive(true);
-		ChangeLinkCommand changeLinkCmd = null;
-		String strRelationship = null;
-		
-		strRelationship = convertCOREFeatureRelationshipTypeToString(relationship);
-		
-		for( IntentionalElementRef intElemRef : (List<IntentionalElementRef>)getRefs()){
-			changeLinkCmd = new ChangeLinkCommand(strRelationship, intElemRef);
-			if( changeLinkCmd.canExecute())
-				changeLinkCmd.execute();
-			else 
-				return (Boolean) COREFactory4URN.returnResult(false);
-		}
-		updateCoreConcernSelectablesAndModels(false);
-		return (Boolean) COREFactory4URN.returnResult(true);
-	}
-
-	// TODO only experimental code at the moment
-    public boolean addRealizedBy(COREModel model) {
-        // TODO: implement this method
-        // Ensure that you remove @generated or mark it @generated NOT
-            getRealizedBy().add(0,model);
-            return true;
-    }
-
-	// TODO only experimental code at the moment
-//    public FeatureModel getFeatureModel() {
-//        FeatureModel fm = null;
-//        if (this.getRefs() != null) {
-//            Iterator it = this.getRefs().iterator();
-//            while (it.hasNext()) {
-//                GRLNode node = (GRLNode) it.next();
-//                if (node.getDiagram() instanceof FeatureModel) {
-//                    fm = (FeatureModel) node.getDiagram();                      
-//                    break;
-//                }
-//            }
-//        }
-//        return fm;
-//    }
-    
-    /**
-	 * Changes the parent of a Feature and the link type connecting them.
-	 * 
-	 * @param feature
-	 * 		<b>COREFeature</b> parent to connect <b>this</b> with
-	 * @param new_association
-	 * 		type of link between <b>this</b> and the new parent
-	 * 
-	 * @return
-	 * 		true if the replacement as been executed without errors, false otherwise.
-	 *
-	 * @author pboul037
-	 *
-	 */
-    
-	public boolean changeParent(COREFeature feature, COREFeatureRelationshipType new_association) {
-	
-		COREFactory4URN.setCOREInterfaceActive(true);
-		
-		String strRelationship = convertCOREFeatureRelationshipTypeToString(new_association);
-		
-		if (feature != null && 
-				(new_association == COREFeatureRelationshipType.MANDATORY || 
-					new_association == COREFeatureRelationshipType.OPTIONAL ||
-						new_association == COREFeatureRelationshipType.XOR ||
-							new_association == COREFeatureRelationshipType.OR)) {
-			
-			URNspec urn = this.getGrlspec().getUrnspec();
-			
-			if( this.getLinksSrc().size() == 1){
-				
-				// find and delete the parent link
-				ElementLink oldLink = (ElementLink)this.getLinksSrc().get(0);
-				
-				ChangeLinkCommand changeLinkCmd = new ChangeLinkCommand(strRelationship, (IntentionalElementRef)this.getRefs().get(0));
-				// add new link with desired parent
-				if ( changeLinkCmd.createNewLink((IntentionalElement)feature, (IntentionalElement) this, urn, null, strRelationship, oldLink) ){
-					updateCoreConcernSelectablesAndModels(false);
-					return (Boolean) COREFactory4URN.returnResult(true);	
-				}
-			}
-		} 
-		return (Boolean) COREFactory4URN.returnResult(false);
-	}
-	
-	/**
-	 * Renames <b>this</b> Feature.
-	 * 
-	 * @param core_feature_name
-	 * 		new name for <b>this</b> Feature.
-	 * 
-	 * @author pboul037
-	 */
-	public void rename(String core_feature_name) {
-		
-		COREFactory4URN.setCOREInterfaceActive(true);
-	
-		if( getRefs() != null && getRefs().size() > 0 ){
-			
-			IntentionalElementRef intElemRef = (IntentionalElementRef)getRefs().get(0);
-			
-			ChangeGrlNodeNameCommand changeNameCmd = new ChangeGrlNodeNameCommand(intElemRef, core_feature_name);		
-			if (changeNameCmd.canExecute()){
-				changeNameCmd.execute();
-			}else{
-				COREFactory4URN.returnResult(false);
-			}
-		}
-		
-		COREFactory4URN.returnResult(true);
-	}
 	
 	/**
 	 * Tells if <b>this</b> feature is
@@ -615,95 +374,41 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		setSelectable(true);
 		return true;	
 	}
-		
-	/**
-	 * Helper method to convert a <b>COREFeatureRelationshipType</b> to a
-	 * String representation of it for use in jUCMNav commands.
-	 * 
-	 * @param relationship
-	 * 		type of relationship to convert
-	 * 
-	 * @return
-	 * 		a String representation of <b>relationship</b> for use in jUCMNav commands.
-	 * 
-	 * @author pboul037
-	 */
-	private String convertCOREFeatureRelationshipTypeToString(COREFeatureRelationshipType relationship){
-		
-		/* A String representation of the relationship for use in jUCMNav */
-		String strRelationship = null;
-		
-		if( relationship == COREFeatureRelationshipType.MANDATORY){
-			strRelationship = ChangeLinkCommand.FEATURE_MANDATORY_RELATIONSHIP;
-		}else if (relationship == COREFeatureRelationshipType.OPTIONAL){
-			strRelationship = ChangeLinkCommand.FEATURE_OPTIONAL_RELATIONSHIP;
-		}else if (relationship == COREFeatureRelationshipType.OR){
-			strRelationship = ChangeLinkCommand.FEATURE_OR_RELATIONSHIP;
-		}else if (relationship == COREFeatureRelationshipType.XOR){
-			strRelationship = ChangeLinkCommand.FEATURE_XOR_RELATIONSHIP;
-		}
-		return strRelationship;
-	}
 	
-	/**
-	 * Updates the selectables list, if applicable, of 
-	 * the COREInterface of the COREConcern associated 
-	 * with<b>this</b> feature.
-	 * 
-	 * @param featureDeleted
-	 * 		true if the feature was deleted, false otherwise
-	 * 
-	 * @author pboul037
-	 */
-	@SuppressWarnings("unchecked")
-	private void updateCoreConcernSelectablesAndModels(boolean featureDeleted) {
-		 
-		for ( IURNDiagram diagram : (List<IURNDiagram>)getGrlspec().getUrnspec().getUrndef().getSpecDiagrams()){
-				if( diagram.getNodes().contains(this)){
-					if( diagram.getConcern() != null){
-						COREConcern coreConcern = diagram.getConcern().getCoreConcern();
-						if( coreConcern != null){
-							
-							// updates the models list of the COREConcern
-							for( COREModel model : coreConcern.getModels()){
-								if ( model instanceof COREFeatureModel){
-									coreConcern.getModels().remove((COREFeatureModel)model);
-									coreConcern.getModels().add(this.getGrlspec().getFeatureModel());
-								}
-							}
-							
-							// updates the selectables list of the COREConcern
-							isSelectable();
-							COREInterface coreInterface = coreConcern.getInterface();
-							if( coreInterface != null ){
-								if(!selectable || featureDeleted){
-									if( coreInterface.getSelectable().contains(this) )
-										coreInterface.getSelectable().remove(this);
-								}else {
-									if( !coreInterface.getSelectable().contains(this)){
-										coreInterface.getSelectable().add(this);
-									}
-								}
-							}
-						}
-					}
-			}
-		}
+	@Override
+	public boolean addFeature(String arg0, COREFeatureRelationshipType arg1) {
+		// TODO Auto-generated method stub
+		return false;
 	}
-	
-    public FeatureModel getFeatureModel() {
-        FeatureDiagram fd = null;
-        if (this.getRefs() != null) {
-            Iterator it = this.getRefs().iterator();
-            while (it.hasNext()) {
-                GRLNode node = (GRLNode) it.next();
-                if (node.getDiagram() instanceof FeatureDiagram) {
-                    fd = (FeatureDiagram) node.getDiagram();                        
-                    break;
-                }
-            }
-        }
-        
-        return(fd.getUrndefinition().getUrnspec().getGrlspec().getFeatureModel());
-    }
+
+	@Override
+	public boolean changeLink(COREFeatureRelationshipType arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean changeParent(COREFeature arg0,
+			COREFeatureRelationshipType arg1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delete() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void rename(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean addRealizedBy(COREModel arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 } //FeatureImpl
