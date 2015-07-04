@@ -3,12 +3,12 @@
  */
 package seg.jUCMNav.model.commands.create;
 
+import fm.ReuseLink;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
-import grl.Reuse;
 
 import java.util.Iterator;
 
@@ -57,7 +57,7 @@ public class CreateElementLinkCommand extends CompoundCommand {
     	this.grl = urn.getGrlspec();
     	this.src = source;
     	this.sourceRef = null;
-    	if (link != null && link instanceof Reuse)
+    	if (link != null && link instanceof ReuseLink)
         	this.sourceRef = sourceRef;
         this.link = link;
 
@@ -79,7 +79,7 @@ public class CreateElementLinkCommand extends CompoundCommand {
             return false;
         }
         // if we are trying to create a Reuse link, the sourceRef must be specified
-        if (link!= null && link instanceof Reuse && sourceRef == null)
+        if (link!= null && link instanceof ReuseLink && sourceRef == null)
         	return false;
         // Links to reused elements cannot be created
         if (grl != null && dest != null && ReusedElementUtil.isReusedElement(grl, dest))
@@ -147,7 +147,7 @@ public class CreateElementLinkCommand extends CompoundCommand {
     private void addLinkRefCommand() {
 
     	if (canExecute()) {
-    		if (link!= null && link instanceof Reuse && sourceRef != null) {
+    		if (link!= null && link instanceof ReuseLink && sourceRef != null) {
         		// Reuse case: cannot go through all srcRefs of src to find the corresponding srcRef, because in the reuse case src is in a different file and 
     			// srcRefs in a different file (i.e., the current file) are not tracked by src. Therefore, there is not a single srcRef of src that is on the same
     			// diagram as any destRef. Therefore, sourceRef in the current file must be used to create a LinkRef!

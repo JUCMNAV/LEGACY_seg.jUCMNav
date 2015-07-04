@@ -1,6 +1,5 @@
 package seg.jUCMNav.editors.resourceManagement;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -34,9 +33,6 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
 import urn.URNspec;
-import urncore.Concern;
-import ca.mcgill.sel.core.COREConcern;
-import ca.mcgill.sel.core.CoreFactory;
 
 /**
  * Originally included in the UCMNavMultiPageEditor, this code was factored out.
@@ -53,10 +49,6 @@ public class MultiPageFileManager {
     /** the model manager handles serialization */
     private UrnModelManager modelManager = new UrnModelManager();
     
-    /** handles serialization of COREConcern */
-    private COREmodelManager coreModelManager = null;   
-    private boolean coreFileToSave;
-
     /**
      * 
      * @param editor
@@ -64,7 +56,6 @@ public class MultiPageFileManager {
      */
     public MultiPageFileManager(UCMNavMultiPageEditor editor) {
         this.editor = editor;
-        coreFileToSave = false;
     }
 
     /**
@@ -80,9 +71,6 @@ public class MultiPageFileManager {
         if (file.exists()) {
             urn = create(file.getFullPath());
         }
-        
-        // load .core file
-        loadCORE(file, urn);
         
         return urn;
     }
@@ -145,17 +133,9 @@ public class MultiPageFileManager {
                 editor.getModel().setModified(sDate);
                 setVersions();            
                 
-                // create .core file
-                boolean coreFileAlreadyCreated = false;             
-                coreFileAlreadyCreated = createCORE(file, coreFileAlreadyCreated);
-
-                
                 // MetadataHelper.cleanRunTimeMetadata(getEditor().getModel()); *** does not work here. Refresh/adds metadata while deleting --> infinite loop!
                 save(file, monitor);
-                
-                // save .core file
-                saveCORE(coreFileAlreadyCreated);
-                
+
                 getEditor().getMultiPageCommandStackListener().markSaveLocations();
  
             }
@@ -211,14 +191,8 @@ public class MultiPageFileManager {
             setVersions();
             // MetadataHelper.cleanRunTimeMetadata(getEditor().getModel()); *** does not work here. Refresh/adds metadata while deleting --> infinite loop!
 
-            boolean coreFileAlreadyCreated = false;             
-            coreFileAlreadyCreated = createCORE(file, coreFileAlreadyCreated);
-            
             // save the new file
             modelManager.save(path);
-            
-            // save .core file
-            saveCORE(coreFileAlreadyCreated);
             
             // we used to reinit everything without closing the editor but this caused bugs that appeared out of nowhere and made the whole codebase weaker.
             // therefore, we're closing the editor and reopening it.
@@ -305,127 +279,4 @@ public class MultiPageFileManager {
         modelManager.createURNspec(file.getFullPath().toFile(), spec);
     }
     
-	/**
-	 * Saves .core file.
-	 * 
-	 * @param coreFileAlreadyCreated
-	 * 		true if a .core file already exists, false otherwise
-	 */
-	public void saveCORE(boolean coreFileAlreadyCreated) {
-		if(coreFileToSave){
-		    try{
-		    		coreModelManager.updateCoreConcern(editor.getModel());
-		    		if( !coreFileAlreadyCreated )
-		    			coreModelManager.createCoreConcern(coreModelManager.getcoreConcernPath(), coreModelManager.getCOREConcern());
-		    		coreModelManager.save(coreModelManager.getcoreConcernPath());
-
-				
-		    }catch(Exception e){
-		    	e.printStackTrace();
-		    }
-		}
-	}
-	
-	/**
-	 * Creates a new .core file if no .core file 
-	 * is associated with the current .jucm file, otherwise
-	 * simply stores the .core file in memory.
-	 * 
-	 * @param file
-	 * 		.jucm file
-	 * @param coreFileAlreadyCreated
-	 * 		true if a .core file exists for <b>file<\b>, false otherwise
-	 * 
-	 * @return	coreFileAlreadyCreated
-	 */
-	public boolean createCORE(IFile file, boolean coreFileAlreadyCreated) {
-		// Does the urnspec have at least one Concern?
-		if ( editor.getModel().getUrndef().getConcerns() != null && editor.getModel().getUrndef().getConcerns().size() != 0){	// YES								// YES
-				
-				Concern concern = (Concern)editor.getModel().getUrndef().getConcerns().get(0);
-				COREConcern coreConcern = null;
-				
-				// Does this concern has a COREConcern assigned?
-				if( concern.getCoreConcern() != null )
-					coreConcern = concern.getCoreConcern();
-				else																			
-					coreConcern = CoreFactory.eINSTANCE.createCOREConcern();
-				
-				IPath coreConcernPath = file.getFullPath().removeLastSegments(1);
-				coreConcernPath = coreConcernPath.append("/" + 
-						file.getName().substring(0, file.getName().lastIndexOf(".")) + ".core");
-
-				// If there's no .core file present assigned to this concern
-				// create a new coreModelManager and assign it to this concern
-				if( coreModelManager == null){
-					coreModelManager = new COREmodelManager(concern);
-					coreModelManager.setCoreFile(coreConcernPath.toFile());
-					coreModelManager.setCOREConcern(coreConcern);
-		    		coreModelManager.getCOREConcern().setName(concern.getName());
-		    		coreModelManager.createCoreConcern(coreConcernPath);
-				}else{ 
-		    		coreFileAlreadyCreated = true;
-		    		coreModelManager.setConcern(concern);
-					File currentCoreFile = coreModelManager.getCoreFile();
-					if( currentCoreFile != null){
-						if ( currentCoreFile.getName().substring(0, currentCoreFile.getName().lastIndexOf(".")).compareTo(file.getName()) != 0 ){
-							currentCoreFile.renameTo(coreConcernPath.toFile());
-						}
-					}
-				}
-				coreFileToSave = true;
-			}
-		return coreFileAlreadyCreated;
-	}
-	
-	/**
-	 * Loads .core file when .jucm is loaded if .core
-	 * file exists, does nothing otherwise.
-	 * 
-	 * @param file
-	 * 		the .jucm file
-	 * @param urn
-	 * 		current URNspec
-	 */
-	public void loadCORE(IFile file, URNspec urn) {
-		if( urn.getUrndef().getConcerns() != null && urn.getUrndef().getConcerns().size() > 0){
-	        	
-			// find the .core file(s)
-		    File projectDir = file.getLocation().removeLastSegments(1).toFile();
-		    File[] projectFileList = projectDir.listFiles();
-		    for( File fileToCheck : projectFileList){
-	        	String filename = fileToCheck.getName();
-	        	String fileExtension = filename.substring(filename.lastIndexOf(".") + 1);
-	        	if ( fileExtension.compareTo("core") == 0){
-		        	
-		       	    // Is this the .core file associated with our .jucm file?
-		       	    if ( fileToCheck.getName().substring(0, fileToCheck.getName().lastIndexOf(".")).compareTo(
-		       	    		file.getName().substring(0, file.getName().lastIndexOf("."))) == 0){ //YES
-			       		coreModelManager = new COREmodelManager();
-		        		
-			       		try{
-			       	    	coreModelManager.load(fileToCheck);
-			       	    }catch( IOException e){
-			       	    	
-			       	    }
-		       	    	
-		        	  	Concern concern = (Concern)urn.getUrndef().getConcerns().get(0);
-		        	  	COREConcern coreConcern = (COREConcern)coreModelManager.resource.getContents().get(0);
-		        	  	concern.setCoreConcern(coreConcern);
-		        	  	if ( concern.getCoreConcern() != null){
-		         			coreModelManager.setConcern(concern);
-		       	  			coreModelManager.setCOREConcern(coreConcern);
-		       				coreModelManager.setCoreFile(fileToCheck);
-		   	  				// Does the name of this Concern matches this COREConcern's name?
-		        	 		if ( concern.getCoreConcern().getName().compareTo(coreConcern.getName()) == 0 ){ // YES
-		       	  				if( concern.getName().compareTo(concern.getCoreConcern().getName()) != 0 ){
-		       	  					concern.setName(concern.getCoreConcern().getName());
-		       	  					}
-			       	  			}
-			       	  		}
-		        	    }
-		        	}
-		        }
-        }
-	}
 }

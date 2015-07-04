@@ -6,6 +6,7 @@
  */
 package grl.impl;
 
+import ca.mcgill.sel.core.COREImpactNode;
 import grl.DecompositionType;
 import grl.GRLspec;
 import grl.GrlPackage;
@@ -32,6 +33,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.IntentionalElementImpl#getType <em>Type</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getDecompositionType <em>Decomposition Type</em>}</li>
@@ -42,8 +44,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link grl.impl.IntentionalElementImpl#isFilled <em>Filled</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getRefs <em>Refs</em>}</li>
+ *   <li>{@link grl.impl.IntentionalElementImpl#getCoreImpactNode <em>Core Impact Node</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -199,6 +201,16 @@ public class IntentionalElementImpl extends GRLLinkableElementImpl implements In
     protected EList refs;
 
     /**
+	 * The cached value of the '{@link #getCoreImpactNode() <em>Core Impact Node</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCoreImpactNode()
+	 * @generated
+	 * @ordered
+	 */
+	protected COREImpactNode coreImpactNode;
+
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -421,6 +433,44 @@ public class IntentionalElementImpl extends GRLLinkableElementImpl implements In
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public COREImpactNode getCoreImpactNode() {
+		if (coreImpactNode != null && coreImpactNode.eIsProxy()) {
+			InternalEObject oldCoreImpactNode = (InternalEObject)coreImpactNode;
+			coreImpactNode = (COREImpactNode)eResolveProxy(oldCoreImpactNode);
+			if (coreImpactNode != oldCoreImpactNode) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.INTENTIONAL_ELEMENT__CORE_IMPACT_NODE, oldCoreImpactNode, coreImpactNode));
+			}
+		}
+		return coreImpactNode;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public COREImpactNode basicGetCoreImpactNode() {
+		return coreImpactNode;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCoreImpactNode(COREImpactNode newCoreImpactNode) {
+		COREImpactNode oldCoreImpactNode = coreImpactNode;
+		coreImpactNode = newCoreImpactNode;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT__CORE_IMPACT_NODE, oldCoreImpactNode, coreImpactNode));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC:
@@ -486,6 +536,9 @@ public class IntentionalElementImpl extends GRLLinkableElementImpl implements In
 				return getGrlspec();
 			case GrlPackage.INTENTIONAL_ELEMENT__REFS:
 				return getRefs();
+			case GrlPackage.INTENTIONAL_ELEMENT__CORE_IMPACT_NODE:
+				if (resolve) return getCoreImpactNode();
+				return basicGetCoreImpactNode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -525,6 +578,9 @@ public class IntentionalElementImpl extends GRLLinkableElementImpl implements In
 				getRefs().clear();
 				getRefs().addAll((Collection)newValue);
 				return;
+			case GrlPackage.INTENTIONAL_ELEMENT__CORE_IMPACT_NODE:
+				setCoreImpactNode((COREImpactNode)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -563,6 +619,9 @@ public class IntentionalElementImpl extends GRLLinkableElementImpl implements In
 			case GrlPackage.INTENTIONAL_ELEMENT__REFS:
 				getRefs().clear();
 				return;
+			case GrlPackage.INTENTIONAL_ELEMENT__CORE_IMPACT_NODE:
+				setCoreImpactNode((COREImpactNode)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -592,6 +651,8 @@ public class IntentionalElementImpl extends GRLLinkableElementImpl implements In
 				return getGrlspec() != null;
 			case GrlPackage.INTENTIONAL_ELEMENT__REFS:
 				return refs != null && !refs.isEmpty();
+			case GrlPackage.INTENTIONAL_ELEMENT__CORE_IMPACT_NODE:
+				return coreImpactNode != null;
 		}
 		return super.eIsSet(featureID);
 	}

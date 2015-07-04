@@ -2,8 +2,6 @@
  */
 package fm;
 
-import ca.mcgill.sel.core.CorePackage;
-
 import grl.GrlPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -368,22 +366,13 @@ public interface FmPackage extends EPackage {
 	int FEATURE__REFS = GrlPackage.INTENTIONAL_ELEMENT__REFS;
 
 	/**
-	 * The feature id for the '<em><b>Realized By</b></em>' reference list.
+	 * The feature id for the '<em><b>Core Impact Node</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE__REALIZED_BY = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Reuses</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE__REUSES = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 1;
+	int FEATURE__CORE_IMPACT_NODE = GrlPackage.INTENTIONAL_ELEMENT__CORE_IMPACT_NODE;
 
 	/**
 	 * The feature id for the '<em><b>Selectable</b></em>' attribute.
@@ -392,7 +381,16 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE__SELECTABLE = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 2;
+	int FEATURE__SELECTABLE = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Core Feature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE__CORE_FEATURE = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Feature</em>' class.
@@ -401,7 +399,7 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_FEATURE_COUNT = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 3;
+	int FEATURE_FEATURE_COUNT = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link fm.impl.MandatoryFMLinkImpl <em>Mandatory FM Link</em>}' class.
@@ -538,6 +536,15 @@ public interface FmPackage extends EPackage {
 	 * @ordered
 	 */
 	int MANDATORY_FM_LINK__CORRELATION = GrlPackage.CONTRIBUTION__CORRELATION;
+
+	/**
+	 * The feature id for the '<em><b>Core Contribution</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANDATORY_FM_LINK__CORE_CONTRIBUTION = GrlPackage.CONTRIBUTION__CORE_CONTRIBUTION;
 
 	/**
 	 * The number of structural features of the '<em>Mandatory FM Link</em>' class.
@@ -685,6 +692,15 @@ public interface FmPackage extends EPackage {
 	int OPTIONAL_FM_LINK__CORRELATION = GrlPackage.CONTRIBUTION__CORRELATION;
 
 	/**
+	 * The feature id for the '<em><b>Core Contribution</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPTIONAL_FM_LINK__CORE_CONTRIBUTION = GrlPackage.CONTRIBUTION__CORE_CONTRIBUTION;
+
+	/**
 	 * The number of structural features of the '<em>Optional FM Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -704,49 +720,22 @@ public interface FmPackage extends EPackage {
 	int FEATURE_MODEL = 4;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_MODEL__NAME = CorePackage.CORE_FEATURE_MODEL__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Model Reuse</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_MODEL__MODEL_REUSE = CorePackage.CORE_FEATURE_MODEL__MODEL_REUSE;
-
-	/**
-	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_MODEL__MODEL_ELEMENTS = CorePackage.CORE_FEATURE_MODEL__MODEL_ELEMENTS;
-
-	/**
-	 * The feature id for the '<em><b>Realizes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_MODEL__REALIZES = CorePackage.CORE_FEATURE_MODEL__REALIZES;
-
-	/**
 	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL__GRLSPEC = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 0;
+	int FEATURE_MODEL__GRLSPEC = 0;
+
+	/**
+	 * The feature id for the '<em><b>Core Feature Model</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_MODEL__CORE_FEATURE_MODEL = 1;
 
 	/**
 	 * The number of structural features of the '<em>Feature Model</em>' class.
@@ -755,7 +744,369 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_MODEL_FEATURE_COUNT = CorePackage.CORE_FEATURE_MODEL_FEATURE_COUNT + 1;
+	int FEATURE_MODEL_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link fm.impl.FeatureImpactElementImpl <em>Feature Impact Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fm.impl.FeatureImpactElementImpl
+	 * @see fm.impl.FmPackageImpl#getFeatureImpactElement()
+	 * @generated
+	 */
+	int FEATURE_IMPACT_ELEMENT = 5;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__NAME = GrlPackage.INTENTIONAL_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>From Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__FROM_LINKS = GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>To Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__TO_LINKS = GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__ID = GrlPackage.INTENTIONAL_ELEMENT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__DESCRIPTION = GrlPackage.INTENTIONAL_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__METADATA = GrlPackage.INTENTIONAL_ELEMENT__METADATA;
+
+	/**
+	 * The feature id for the '<em><b>Inconcern</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__INCONCERN = GrlPackage.INTENTIONAL_ELEMENT__INCONCERN;
+
+	/**
+	 * The feature id for the '<em><b>Links Dest</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__LINKS_DEST = GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST;
+
+	/**
+	 * The feature id for the '<em><b>Links Src</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__LINKS_SRC = GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__TYPE = GrlPackage.INTENTIONAL_ELEMENT__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Decomposition Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__DECOMPOSITION_TYPE = GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Importance</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__IMPORTANCE = GrlPackage.INTENTIONAL_ELEMENT__IMPORTANCE;
+
+	/**
+	 * The feature id for the '<em><b>Importance Quantitative</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__IMPORTANCE_QUANTITATIVE = GrlPackage.INTENTIONAL_ELEMENT__IMPORTANCE_QUANTITATIVE;
+
+	/**
+	 * The feature id for the '<em><b>Line Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__LINE_COLOR = GrlPackage.INTENTIONAL_ELEMENT__LINE_COLOR;
+
+	/**
+	 * The feature id for the '<em><b>Fill Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__FILL_COLOR = GrlPackage.INTENTIONAL_ELEMENT__FILL_COLOR;
+
+	/**
+	 * The feature id for the '<em><b>Filled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__FILLED = GrlPackage.INTENTIONAL_ELEMENT__FILLED;
+
+	/**
+	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__GRLSPEC = GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC;
+
+	/**
+	 * The feature id for the '<em><b>Refs</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__REFS = GrlPackage.INTENTIONAL_ELEMENT__REFS;
+
+	/**
+	 * The feature id for the '<em><b>Core Impact Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__CORE_IMPACT_NODE = GrlPackage.INTENTIONAL_ELEMENT__CORE_IMPACT_NODE;
+
+	/**
+	 * The feature id for the '<em><b>Core Feature Impact Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT__CORE_FEATURE_IMPACT_NODE = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Feature Impact Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_IMPACT_ELEMENT_FEATURE_COUNT = GrlPackage.INTENTIONAL_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link fm.impl.ReuseLinkImpl <em>Reuse Link</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fm.impl.ReuseLinkImpl
+	 * @see fm.impl.FmPackageImpl#getReuseLink()
+	 * @generated
+	 */
+	int REUSE_LINK = 6;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__NAME = GrlPackage.CONTRIBUTION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>From Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__FROM_LINKS = GrlPackage.CONTRIBUTION__FROM_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>To Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__TO_LINKS = GrlPackage.CONTRIBUTION__TO_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__ID = GrlPackage.CONTRIBUTION__ID;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__DESCRIPTION = GrlPackage.CONTRIBUTION__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__METADATA = GrlPackage.CONTRIBUTION__METADATA;
+
+	/**
+	 * The feature id for the '<em><b>Inconcern</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__INCONCERN = GrlPackage.CONTRIBUTION__INCONCERN;
+
+	/**
+	 * The feature id for the '<em><b>Refs</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__REFS = GrlPackage.CONTRIBUTION__REFS;
+
+	/**
+	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__GRLSPEC = GrlPackage.CONTRIBUTION__GRLSPEC;
+
+	/**
+	 * The feature id for the '<em><b>Dest</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__DEST = GrlPackage.CONTRIBUTION__DEST;
+
+	/**
+	 * The feature id for the '<em><b>Src</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__SRC = GrlPackage.CONTRIBUTION__SRC;
+
+	/**
+	 * The feature id for the '<em><b>Contribution</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__CONTRIBUTION = GrlPackage.CONTRIBUTION__CONTRIBUTION;
+
+	/**
+	 * The feature id for the '<em><b>Quantitative Contribution</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__QUANTITATIVE_CONTRIBUTION = GrlPackage.CONTRIBUTION__QUANTITATIVE_CONTRIBUTION;
+
+	/**
+	 * The feature id for the '<em><b>Correlation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__CORRELATION = GrlPackage.CONTRIBUTION__CORRELATION;
+
+	/**
+	 * The feature id for the '<em><b>Core Contribution</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__CORE_CONTRIBUTION = GrlPackage.CONTRIBUTION__CORE_CONTRIBUTION;
+
+	/**
+	 * The feature id for the '<em><b>Reuse Link In FM</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK__REUSE_LINK_IN_FM = GrlPackage.CONTRIBUTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Reuse Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSE_LINK_FEATURE_COUNT = GrlPackage.CONTRIBUTION_FEATURE_COUNT + 1;
 
 
 	/**
@@ -788,6 +1139,17 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getFeature_Selectable();
+
+	/**
+	 * Returns the meta object for the reference '{@link fm.Feature#getCoreFeature <em>Core Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Core Feature</em>'.
+	 * @see fm.Feature#getCoreFeature()
+	 * @see #getFeature()
+	 * @generated
+	 */
+	EReference getFeature_CoreFeature();
 
 	/**
 	 * Returns the meta object for class '{@link fm.MandatoryFMLink <em>Mandatory FM Link</em>}'.
@@ -829,6 +1191,59 @@ public interface FmPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getFeatureModel_Grlspec();
+
+	/**
+	 * Returns the meta object for the reference '{@link fm.FeatureModel#getCoreFeatureModel <em>Core Feature Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Core Feature Model</em>'.
+	 * @see fm.FeatureModel#getCoreFeatureModel()
+	 * @see #getFeatureModel()
+	 * @generated
+	 */
+	EReference getFeatureModel_CoreFeatureModel();
+
+	/**
+	 * Returns the meta object for class '{@link fm.FeatureImpactElement <em>Feature Impact Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Feature Impact Element</em>'.
+	 * @see fm.FeatureImpactElement
+	 * @generated
+	 */
+	EClass getFeatureImpactElement();
+
+	/**
+	 * Returns the meta object for the reference '{@link fm.FeatureImpactElement#getCoreFeatureImpactNode <em>Core Feature Impact Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Core Feature Impact Node</em>'.
+	 * @see fm.FeatureImpactElement#getCoreFeatureImpactNode()
+	 * @see #getFeatureImpactElement()
+	 * @generated
+	 */
+	EReference getFeatureImpactElement_CoreFeatureImpactNode();
+
+	/**
+	 * Returns the meta object for class '{@link fm.ReuseLink <em>Reuse Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Reuse Link</em>'.
+	 * @see fm.ReuseLink
+	 * @generated
+	 */
+	EClass getReuseLink();
+
+	/**
+	 * Returns the meta object for the reference '{@link fm.ReuseLink#getReuseLinkInFM <em>Reuse Link In FM</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Reuse Link In FM</em>'.
+	 * @see fm.ReuseLink#getReuseLinkInFM()
+	 * @see #getReuseLink()
+	 * @generated
+	 */
+	EReference getReuseLink_ReuseLinkInFM();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -881,6 +1296,14 @@ public interface FmPackage extends EPackage {
 		EAttribute FEATURE__SELECTABLE = eINSTANCE.getFeature_Selectable();
 
 		/**
+		 * The meta object literal for the '<em><b>Core Feature</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FEATURE__CORE_FEATURE = eINSTANCE.getFeature_CoreFeature();
+
+		/**
 		 * The meta object literal for the '{@link fm.impl.MandatoryFMLinkImpl <em>Mandatory FM Link</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -917,6 +1340,50 @@ public interface FmPackage extends EPackage {
 		 * @generated
 		 */
 		EReference FEATURE_MODEL__GRLSPEC = eINSTANCE.getFeatureModel_Grlspec();
+
+		/**
+		 * The meta object literal for the '<em><b>Core Feature Model</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FEATURE_MODEL__CORE_FEATURE_MODEL = eINSTANCE.getFeatureModel_CoreFeatureModel();
+
+		/**
+		 * The meta object literal for the '{@link fm.impl.FeatureImpactElementImpl <em>Feature Impact Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fm.impl.FeatureImpactElementImpl
+		 * @see fm.impl.FmPackageImpl#getFeatureImpactElement()
+		 * @generated
+		 */
+		EClass FEATURE_IMPACT_ELEMENT = eINSTANCE.getFeatureImpactElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Core Feature Impact Node</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FEATURE_IMPACT_ELEMENT__CORE_FEATURE_IMPACT_NODE = eINSTANCE.getFeatureImpactElement_CoreFeatureImpactNode();
+
+		/**
+		 * The meta object literal for the '{@link fm.impl.ReuseLinkImpl <em>Reuse Link</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fm.impl.ReuseLinkImpl
+		 * @see fm.impl.FmPackageImpl#getReuseLink()
+		 * @generated
+		 */
+		EClass REUSE_LINK = eINSTANCE.getReuseLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Reuse Link In FM</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REUSE_LINK__REUSE_LINK_IN_FM = eINSTANCE.getReuseLink_ReuseLinkInFM();
 
 	}
 

@@ -1,5 +1,6 @@
 package seg.jUCMNav.editors.palette;
 
+import fm.ReuseLink;
 import grl.ActorRef;
 import grl.Belief;
 import grl.BeliefLink;
@@ -8,7 +9,6 @@ import grl.Decomposition;
 import grl.Dependency;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
-import grl.Reuse;
 import grl.kpimodel.KPIInformationElementRef;
 import grl.kpimodel.KPIModelLink;
 
@@ -86,7 +86,7 @@ public class GrlPaletteRoot extends UcmPaletteRoot {
 
         // Add a reuse
         entry = new BaseConnectionCreationToolEntry(
-                Messages.getString("GrlPaletteRoot.reuse"), Messages.getString("GrlPaletteRoot.createReuse"), new ModelCreationFactory(getURNspec(), Reuse.class), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("GrlPaletteRoot.reuse"), Messages.getString("GrlPaletteRoot.createReuse"), new ModelCreationFactory(getURNspec(), ReuseLink.class), //$NON-NLS-1$ //$NON-NLS-2$
                 JUCMNavPlugin.getImageDescriptor("icons/Contribution16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Contribution24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);

@@ -2,18 +2,24 @@
  */
 package fm.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import ca.mcgill.sel.core.COREFeatureModel;
 
-import ca.mcgill.sel.core.impl.COREFeatureModelImpl;
 import fm.FeatureModel;
 import fm.FmPackage;
+
 import grl.GRLspec;
 import grl.GrlPackage;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,14 +27,25 @@ import grl.GrlPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link fm.impl.FeatureModelImpl#getGrlspec <em>Grlspec</em>}</li>
+ *   <li>{@link fm.impl.FeatureModelImpl#getCoreFeatureModel <em>Core Feature Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
-public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureModel {
+public class FeatureModelImpl extends MinimalEObjectImpl.Container implements FeatureModel {
+	/**
+	 * The cached value of the '{@link #getCoreFeatureModel() <em>Core Feature Model</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCoreFeatureModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected COREFeatureModel coreFeatureModel;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -93,6 +110,44 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public COREFeatureModel getCoreFeatureModel() {
+		if (coreFeatureModel != null && coreFeatureModel.eIsProxy()) {
+			InternalEObject oldCoreFeatureModel = (InternalEObject)coreFeatureModel;
+			coreFeatureModel = (COREFeatureModel)eResolveProxy(oldCoreFeatureModel);
+			if (coreFeatureModel != oldCoreFeatureModel) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, FmPackage.FEATURE_MODEL__CORE_FEATURE_MODEL, oldCoreFeatureModel, coreFeatureModel));
+			}
+		}
+		return coreFeatureModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public COREFeatureModel basicGetCoreFeatureModel() {
+		return coreFeatureModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCoreFeatureModel(COREFeatureModel newCoreFeatureModel) {
+		COREFeatureModel oldCoreFeatureModel = coreFeatureModel;
+		coreFeatureModel = newCoreFeatureModel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, FmPackage.FEATURE_MODEL__CORE_FEATURE_MODEL, oldCoreFeatureModel, coreFeatureModel));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case FmPackage.FEATURE_MODEL__GRLSPEC:
@@ -138,6 +193,9 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
 		switch (featureID) {
 			case FmPackage.FEATURE_MODEL__GRLSPEC:
 				return getGrlspec();
+			case FmPackage.FEATURE_MODEL__CORE_FEATURE_MODEL:
+				if (resolve) return getCoreFeatureModel();
+				return basicGetCoreFeatureModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -151,6 +209,9 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
 		switch (featureID) {
 			case FmPackage.FEATURE_MODEL__GRLSPEC:
 				setGrlspec((GRLspec)newValue);
+				return;
+			case FmPackage.FEATURE_MODEL__CORE_FEATURE_MODEL:
+				setCoreFeatureModel((COREFeatureModel)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -166,6 +227,9 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
 			case FmPackage.FEATURE_MODEL__GRLSPEC:
 				setGrlspec((GRLspec)null);
 				return;
+			case FmPackage.FEATURE_MODEL__CORE_FEATURE_MODEL:
+				setCoreFeatureModel((COREFeatureModel)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -179,7 +243,10 @@ public class FeatureModelImpl extends COREFeatureModelImpl implements FeatureMod
 		switch (featureID) {
 			case FmPackage.FEATURE_MODEL__GRLSPEC:
 				return getGrlspec() != null;
+			case FmPackage.FEATURE_MODEL__CORE_FEATURE_MODEL:
+				return coreFeatureModel != null;
 		}
 		return super.eIsSet(featureID);
 	}
+
 } //FeatureModelImpl

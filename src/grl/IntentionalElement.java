@@ -6,6 +6,7 @@
  */
 package grl;
 
+import ca.mcgill.sel.core.COREImpactNode;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -15,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.IntentionalElement#getType <em>Type</em>}</li>
  *   <li>{@link grl.IntentionalElement#getDecompositionType <em>Decomposition Type</em>}</li>
@@ -25,8 +27,8 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link grl.IntentionalElement#isFilled <em>Filled</em>}</li>
  *   <li>{@link grl.IntentionalElement#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.IntentionalElement#getRefs <em>Refs</em>}</li>
+ *   <li>{@link grl.IntentionalElement#getCoreImpactNode <em>Core Impact Node</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getIntentionalElement()
  * @model
@@ -273,5 +275,31 @@ public interface IntentionalElement extends GRLLinkableElement {
 	 * @generated
 	 */
     EList getRefs();
+
+				/**
+	 * Returns the value of the '<em><b>Core Impact Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Core Impact Node</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Core Impact Node</em>' reference.
+	 * @see #setCoreImpactNode(COREImpactNode)
+	 * @see grl.GrlPackage#getIntentionalElement_CoreImpactNode()
+	 * @model
+	 * @generated
+	 */
+	COREImpactNode getCoreImpactNode();
+
+				/**
+	 * Sets the value of the '{@link grl.IntentionalElement#getCoreImpactNode <em>Core Impact Node</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Core Impact Node</em>' reference.
+	 * @see #getCoreImpactNode()
+	 * @generated
+	 */
+	void setCoreImpactNode(COREImpactNode value);
 
 } // IntentionalElement

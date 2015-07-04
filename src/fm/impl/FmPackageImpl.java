@@ -10,11 +10,13 @@ import ca.mcgill.sel.core.CorePackage;
 
 import fm.Feature;
 import fm.FeatureDiagram;
+import fm.FeatureImpactElement;
 import fm.FeatureModel;
 import fm.FmFactory;
 import fm.FmPackage;
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
+import fm.ReuseLink;
 
 import grl.GrlPackage;
 
@@ -96,6 +98,20 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 	 * @generated
 	 */
 	private EClass featureModelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass featureImpactElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass reuseLinkEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -222,6 +238,15 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getFeature_CoreFeature() {
+		return (EReference)featureEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMandatoryFMLink() {
 		return mandatoryFMLinkEClass;
 	}
@@ -258,6 +283,51 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getFeatureModel_CoreFeatureModel() {
+		return (EReference)featureModelEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFeatureImpactElement() {
+		return featureImpactElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFeatureImpactElement_CoreFeatureImpactNode() {
+		return (EReference)featureImpactElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReuseLink() {
+		return reuseLinkEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReuseLink_ReuseLinkInFM() {
+		return (EReference)reuseLinkEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public FmFactory getFmFactory() {
 		return (FmFactory)getEFactoryInstance();
 	}
@@ -285,6 +355,7 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 
 		featureEClass = createEClass(FEATURE);
 		createEAttribute(featureEClass, FEATURE__SELECTABLE);
+		createEReference(featureEClass, FEATURE__CORE_FEATURE);
 
 		mandatoryFMLinkEClass = createEClass(MANDATORY_FM_LINK);
 
@@ -292,6 +363,13 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 
 		featureModelEClass = createEClass(FEATURE_MODEL);
 		createEReference(featureModelEClass, FEATURE_MODEL__GRLSPEC);
+		createEReference(featureModelEClass, FEATURE_MODEL__CORE_FEATURE_MODEL);
+
+		featureImpactElementEClass = createEClass(FEATURE_IMPACT_ELEMENT);
+		createEReference(featureImpactElementEClass, FEATURE_IMPACT_ELEMENT__CORE_FEATURE_IMPACT_NODE);
+
+		reuseLinkEClass = createEClass(REUSE_LINK);
+		createEReference(reuseLinkEClass, REUSE_LINK__REUSE_LINK_IN_FM);
 	}
 
 	/**
@@ -324,16 +402,17 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 		// Add supertypes to classes
 		featureDiagramEClass.getESuperTypes().add(theGrlPackage.getGRLGraph());
 		featureEClass.getESuperTypes().add(theGrlPackage.getIntentionalElement());
-		featureEClass.getESuperTypes().add(theCorePackage.getCOREFeature());
 		mandatoryFMLinkEClass.getESuperTypes().add(theGrlPackage.getContribution());
 		optionalFMLinkEClass.getESuperTypes().add(theGrlPackage.getContribution());
-		featureModelEClass.getESuperTypes().add(theCorePackage.getCOREFeatureModel());
+		featureImpactElementEClass.getESuperTypes().add(theGrlPackage.getIntentionalElement());
+		reuseLinkEClass.getESuperTypes().add(theGrlPackage.getContribution());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(featureDiagramEClass, FeatureDiagram.class, "FeatureDiagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(featureEClass, Feature.class, "Feature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFeature_Selectable(), ecorePackage.getEBoolean(), "selectable", "false", 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFeature_CoreFeature(), theCorePackage.getCOREFeature(), null, "coreFeature", null, 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mandatoryFMLinkEClass, MandatoryFMLink.class, "MandatoryFMLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -341,6 +420,13 @@ public class FmPackageImpl extends EPackageImpl implements FmPackage {
 
 		initEClass(featureModelEClass, FeatureModel.class, "FeatureModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFeatureModel_Grlspec(), theGrlPackage.getGRLspec(), theGrlPackage.getGRLspec_FeatureModel(), "grlspec", null, 1, 1, FeatureModel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFeatureModel_CoreFeatureModel(), theCorePackage.getCOREFeatureModel(), null, "coreFeatureModel", null, 0, 1, FeatureModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(featureImpactElementEClass, FeatureImpactElement.class, "FeatureImpactElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFeatureImpactElement_CoreFeatureImpactNode(), theCorePackage.getCOREFeatureImpactNode(), null, "coreFeatureImpactNode", null, 0, 1, FeatureImpactElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(reuseLinkEClass, ReuseLink.class, "ReuseLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getReuseLink_ReuseLinkInFM(), this.getReuseLink(), null, "reuseLinkInFM", null, 0, 1, ReuseLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -6,13 +6,11 @@
  */
 package grl;
 
-import ca.mcgill.sel.core.CorePackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import urncore.UrncorePackage;
 
 /**
@@ -780,13 +778,22 @@ public interface GrlPackage extends EPackage {
     int INTENTIONAL_ELEMENT__REFS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 8;
 
     /**
+	 * The feature id for the '<em><b>Core Impact Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENTIONAL_ELEMENT__CORE_IMPACT_NODE = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 9;
+
+				/**
 	 * The number of structural features of the '<em>Intentional Element</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int INTENTIONAL_ELEMENT_FEATURE_COUNT = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 9;
+    int INTENTIONAL_ELEMENT_FEATURE_COUNT = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 10;
 
     /**
 	 * The meta object id for the '{@link grl.impl.ActorImpl <em>Actor</em>}' class.
@@ -1722,13 +1729,22 @@ public interface GrlPackage extends EPackage {
     int CONTRIBUTION__CORRELATION = ELEMENT_LINK_FEATURE_COUNT + 2;
 
     /**
+	 * The feature id for the '<em><b>Core Contribution</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRIBUTION__CORE_CONTRIBUTION = ELEMENT_LINK_FEATURE_COUNT + 3;
+
+				/**
 	 * The number of structural features of the '<em>Contribution</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int CONTRIBUTION_FEATURE_COUNT = ELEMENT_LINK_FEATURE_COUNT + 3;
+    int CONTRIBUTION_FEATURE_COUNT = ELEMENT_LINK_FEATURE_COUNT + 4;
 
     /**
 	 * The meta object id for the '{@link grl.impl.LinkRefImpl <em>Link Ref</em>}' class.
@@ -2213,13 +2229,22 @@ public interface GrlPackage extends EPackage {
     int EVALUATION_STRATEGY__AUTHOR = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
 
     /**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVALUATION_STRATEGY__TYPE = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+				/**
 	 * The feature id for the '<em><b>Evaluations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int EVALUATION_STRATEGY__EVALUATIONS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+    int EVALUATION_STRATEGY__EVALUATIONS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
 	 * The feature id for the '<em><b>Group</b></em>' reference.
@@ -2228,7 +2253,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int EVALUATION_STRATEGY__GROUP = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+    int EVALUATION_STRATEGY__GROUP = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
 	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
@@ -2237,7 +2262,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int EVALUATION_STRATEGY__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
+    int EVALUATION_STRATEGY__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
 	 * The feature id for the '<em><b>Included Strategies</b></em>' reference list.
@@ -2246,7 +2271,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EVALUATION_STRATEGY__INCLUDED_STRATEGIES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
+	int EVALUATION_STRATEGY__INCLUDED_STRATEGIES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
 
 				/**
 	 * The feature id for the '<em><b>Parent Strategies</b></em>' reference list.
@@ -2255,7 +2280,16 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EVALUATION_STRATEGY__PARENT_STRATEGIES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
+	int EVALUATION_STRATEGY__PARENT_STRATEGIES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
+
+				/**
+	 * The feature id for the '<em><b>Reused Strategies</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVALUATION_STRATEGY__REUSED_STRATEGIES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
 
 				/**
 	 * The feature id for the '<em><b>Kpi Info Config</b></em>' containment reference list.
@@ -2264,7 +2298,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int EVALUATION_STRATEGY__KPI_INFO_CONFIG = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
+    int EVALUATION_STRATEGY__KPI_INFO_CONFIG = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
 
     /**
 	 * The number of structural features of the '<em>Evaluation Strategy</em>' class.
@@ -2273,7 +2307,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int EVALUATION_STRATEGY_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
+    int EVALUATION_STRATEGY_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
 
     /**
 	 * The meta object id for the '{@link grl.impl.LinkRefBendpointImpl <em>Link Ref Bendpoint</em>}' class.
@@ -3042,49 +3076,22 @@ public interface GrlPackage extends EPackage {
 	int IMPACT_MODEL = 25;
 
 				/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPACT_MODEL__NAME = CorePackage.CORE_IMPACT_MODEL__NAME;
-
-				/**
-	 * The feature id for the '<em><b>Model Reuse</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPACT_MODEL__MODEL_REUSE = CorePackage.CORE_IMPACT_MODEL__MODEL_REUSE;
-
-				/**
-	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPACT_MODEL__MODEL_ELEMENTS = CorePackage.CORE_IMPACT_MODEL__MODEL_ELEMENTS;
-
-				/**
-	 * The feature id for the '<em><b>Realizes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPACT_MODEL__REALIZES = CorePackage.CORE_IMPACT_MODEL__REALIZES;
-
-				/**
 	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMPACT_MODEL__GRLSPEC = CorePackage.CORE_IMPACT_MODEL_FEATURE_COUNT + 0;
+	int IMPACT_MODEL__GRLSPEC = 0;
+
+				/**
+	 * The feature id for the '<em><b>Core Impact Model</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPACT_MODEL__CORE_IMPACT_MODEL = 1;
 
 				/**
 	 * The number of structural features of the '<em>Impact Model</em>' class.
@@ -3093,7 +3100,188 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IMPACT_MODEL_FEATURE_COUNT = CorePackage.CORE_IMPACT_MODEL_FEATURE_COUNT + 1;
+	int IMPACT_MODEL_FEATURE_COUNT = 2;
+
+				/**
+	 * The meta object id for the '{@link grl.impl.ReusedStrategyImpl <em>Reused Strategy</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see grl.impl.ReusedStrategyImpl
+	 * @see grl.impl.GrlPackageImpl#getReusedStrategy()
+	 * @generated
+	 */
+	int REUSED_STRATEGY = 26;
+
+				/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__NAME = EVALUATION_STRATEGY__NAME;
+
+				/**
+	 * The feature id for the '<em><b>From Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__FROM_LINKS = EVALUATION_STRATEGY__FROM_LINKS;
+
+				/**
+	 * The feature id for the '<em><b>To Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__TO_LINKS = EVALUATION_STRATEGY__TO_LINKS;
+
+				/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__ID = EVALUATION_STRATEGY__ID;
+
+				/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__DESCRIPTION = EVALUATION_STRATEGY__DESCRIPTION;
+
+				/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__METADATA = EVALUATION_STRATEGY__METADATA;
+
+				/**
+	 * The feature id for the '<em><b>Inconcern</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__INCONCERN = EVALUATION_STRATEGY__INCONCERN;
+
+				/**
+	 * The feature id for the '<em><b>Author</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__AUTHOR = EVALUATION_STRATEGY__AUTHOR;
+
+				/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__TYPE = EVALUATION_STRATEGY__TYPE;
+
+				/**
+	 * The feature id for the '<em><b>Evaluations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__EVALUATIONS = EVALUATION_STRATEGY__EVALUATIONS;
+
+				/**
+	 * The feature id for the '<em><b>Group</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__GROUP = EVALUATION_STRATEGY__GROUP;
+
+				/**
+	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__GRLSPEC = EVALUATION_STRATEGY__GRLSPEC;
+
+				/**
+	 * The feature id for the '<em><b>Included Strategies</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__INCLUDED_STRATEGIES = EVALUATION_STRATEGY__INCLUDED_STRATEGIES;
+
+				/**
+	 * The feature id for the '<em><b>Parent Strategies</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__PARENT_STRATEGIES = EVALUATION_STRATEGY__PARENT_STRATEGIES;
+
+				/**
+	 * The feature id for the '<em><b>Reused Strategies</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__REUSED_STRATEGIES = EVALUATION_STRATEGY__REUSED_STRATEGIES;
+
+				/**
+	 * The feature id for the '<em><b>Kpi Info Config</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__KPI_INFO_CONFIG = EVALUATION_STRATEGY__KPI_INFO_CONFIG;
+
+				/**
+	 * The feature id for the '<em><b>Reusingstrategies</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__REUSINGSTRATEGIES = EVALUATION_STRATEGY_FEATURE_COUNT + 0;
+
+				/**
+	 * The feature id for the '<em><b>Reuse Link In FM</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY__REUSE_LINK_IN_FM = EVALUATION_STRATEGY_FEATURE_COUNT + 1;
+
+				/**
+	 * The number of structural features of the '<em>Reused Strategy</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REUSED_STRATEGY_FEATURE_COUNT = EVALUATION_STRATEGY_FEATURE_COUNT + 2;
 
 				/**
 	 * The meta object id for the '{@link grl.Criticality <em>Criticality</em>}' enum.
@@ -3103,7 +3291,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getCriticality()
 	 * @generated
 	 */
-    int CRITICALITY = 26;
+    int CRITICALITY = 27;
 
     /**
 	 * The meta object id for the '{@link grl.IntentionalElementType <em>Intentional Element Type</em>}' enum.
@@ -3113,7 +3301,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getIntentionalElementType()
 	 * @generated
 	 */
-    int INTENTIONAL_ELEMENT_TYPE = 27;
+    int INTENTIONAL_ELEMENT_TYPE = 28;
 
     /**
 	 * The meta object id for the '{@link grl.Priority <em>Priority</em>}' enum.
@@ -3123,7 +3311,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getPriority()
 	 * @generated
 	 */
-    int PRIORITY = 28;
+    int PRIORITY = 29;
 
     /**
 	 * The meta object id for the '{@link grl.ContributionType <em>Contribution Type</em>}' enum.
@@ -3133,7 +3321,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getContributionType()
 	 * @generated
 	 */
-    int CONTRIBUTION_TYPE = 29;
+    int CONTRIBUTION_TYPE = 30;
 
     /**
 	 * The meta object id for the '{@link grl.DecompositionType <em>Decomposition Type</em>}' enum.
@@ -3143,7 +3331,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getDecompositionType()
 	 * @generated
 	 */
-    int DECOMPOSITION_TYPE = 30;
+    int DECOMPOSITION_TYPE = 31;
 
 
     /**
@@ -3154,7 +3342,7 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getQualitativeLabel()
 	 * @generated
 	 */
-	int QUALITATIVE_LABEL = 31;
+	int QUALITATIVE_LABEL = 32;
 
 
 				/**
@@ -3165,7 +3353,18 @@ public interface GrlPackage extends EPackage {
 	 * @see grl.impl.GrlPackageImpl#getImportanceType()
 	 * @generated
 	 */
-	int IMPORTANCE_TYPE = 32;
+	int IMPORTANCE_TYPE = 33;
+
+
+				/**
+	 * The meta object id for the '{@link grl.StrategyType <em>Strategy Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see grl.StrategyType
+	 * @see grl.impl.GrlPackageImpl#getStrategyType()
+	 * @generated
+	 */
+	int STRATEGY_TYPE = 34;
 
 
 				/**
@@ -3463,6 +3662,17 @@ public interface GrlPackage extends EPackage {
     EReference getIntentionalElement_Refs();
 
     /**
+	 * Returns the meta object for the reference '{@link grl.IntentionalElement#getCoreImpactNode <em>Core Impact Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Core Impact Node</em>'.
+	 * @see grl.IntentionalElement#getCoreImpactNode()
+	 * @see #getIntentionalElement()
+	 * @generated
+	 */
+	EReference getIntentionalElement_CoreImpactNode();
+
+				/**
 	 * Returns the meta object for class '{@link grl.Actor <em>Actor</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3645,6 +3855,17 @@ public interface GrlPackage extends EPackage {
     EAttribute getContribution_Correlation();
 
     /**
+	 * Returns the meta object for the reference '{@link grl.Contribution#getCoreContribution <em>Core Contribution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Core Contribution</em>'.
+	 * @see grl.Contribution#getCoreContribution()
+	 * @see #getContribution()
+	 * @generated
+	 */
+	EReference getContribution_CoreContribution();
+
+				/**
 	 * Returns the meta object for class '{@link grl.LinkRef <em>Link Ref</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3870,6 +4091,17 @@ public interface GrlPackage extends EPackage {
     EAttribute getEvaluationStrategy_Author();
 
     /**
+	 * Returns the meta object for the attribute '{@link grl.EvaluationStrategy#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see grl.EvaluationStrategy#getType()
+	 * @see #getEvaluationStrategy()
+	 * @generated
+	 */
+	EAttribute getEvaluationStrategy_Type();
+
+				/**
 	 * Returns the meta object for the containment reference list '{@link grl.EvaluationStrategy#getEvaluations <em>Evaluations</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3923,6 +4155,17 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEvaluationStrategy_ParentStrategies();
+
+				/**
+	 * Returns the meta object for the reference list '{@link grl.EvaluationStrategy#getReusedStrategies <em>Reused Strategies</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Reused Strategies</em>'.
+	 * @see grl.EvaluationStrategy#getReusedStrategies()
+	 * @see #getEvaluationStrategy()
+	 * @generated
+	 */
+	EReference getEvaluationStrategy_ReusedStrategies();
 
 				/**
 	 * Returns the meta object for the containment reference list '{@link grl.EvaluationStrategy#getKpiInfoConfig <em>Kpi Info Config</em>}'.
@@ -4375,6 +4618,49 @@ public interface GrlPackage extends EPackage {
 	EReference getImpactModel_Grlspec();
 
 				/**
+	 * Returns the meta object for the reference '{@link grl.ImpactModel#getCoreImpactModel <em>Core Impact Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Core Impact Model</em>'.
+	 * @see grl.ImpactModel#getCoreImpactModel()
+	 * @see #getImpactModel()
+	 * @generated
+	 */
+	EReference getImpactModel_CoreImpactModel();
+
+				/**
+	 * Returns the meta object for class '{@link grl.ReusedStrategy <em>Reused Strategy</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Reused Strategy</em>'.
+	 * @see grl.ReusedStrategy
+	 * @generated
+	 */
+	EClass getReusedStrategy();
+
+				/**
+	 * Returns the meta object for the reference list '{@link grl.ReusedStrategy#getReusingstrategies <em>Reusingstrategies</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Reusingstrategies</em>'.
+	 * @see grl.ReusedStrategy#getReusingstrategies()
+	 * @see #getReusedStrategy()
+	 * @generated
+	 */
+	EReference getReusedStrategy_Reusingstrategies();
+
+				/**
+	 * Returns the meta object for the reference '{@link grl.ReusedStrategy#getReuseLinkInFM <em>Reuse Link In FM</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Reuse Link In FM</em>'.
+	 * @see grl.ReusedStrategy#getReuseLinkInFM()
+	 * @see #getReusedStrategy()
+	 * @generated
+	 */
+	EReference getReusedStrategy_ReuseLinkInFM();
+
+				/**
 	 * Returns the meta object for enum '{@link grl.Criticality <em>Criticality</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4443,6 +4729,16 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getImportanceType();
+
+				/**
+	 * Returns the meta object for enum '{@link grl.StrategyType <em>Strategy Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Strategy Type</em>'.
+	 * @see grl.StrategyType
+	 * @generated
+	 */
+	EEnum getStrategyType();
 
 				/**
 	 * Returns the factory that creates the instances of the model.
@@ -4689,6 +4985,14 @@ public interface GrlPackage extends EPackage {
 		EReference INTENTIONAL_ELEMENT__REFS = eINSTANCE.getIntentionalElement_Refs();
 
         /**
+		 * The meta object literal for the '<em><b>Core Impact Node</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INTENTIONAL_ELEMENT__CORE_IMPACT_NODE = eINSTANCE.getIntentionalElement_CoreImpactNode();
+
+								/**
 		 * The meta object literal for the '{@link grl.impl.ActorImpl <em>Actor</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4835,6 +5139,14 @@ public interface GrlPackage extends EPackage {
 		EAttribute CONTRIBUTION__CORRELATION = eINSTANCE.getContribution_Correlation();
 
         /**
+		 * The meta object literal for the '<em><b>Core Contribution</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONTRIBUTION__CORE_CONTRIBUTION = eINSTANCE.getContribution_CoreContribution();
+
+								/**
 		 * The meta object literal for the '{@link grl.impl.LinkRefImpl <em>Link Ref</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5015,6 +5327,14 @@ public interface GrlPackage extends EPackage {
 		EAttribute EVALUATION_STRATEGY__AUTHOR = eINSTANCE.getEvaluationStrategy_Author();
 
         /**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EVALUATION_STRATEGY__TYPE = eINSTANCE.getEvaluationStrategy_Type();
+
+								/**
 		 * The meta object literal for the '<em><b>Evaluations</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5053,6 +5373,14 @@ public interface GrlPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EVALUATION_STRATEGY__PARENT_STRATEGIES = eINSTANCE.getEvaluationStrategy_ParentStrategies();
+
+								/**
+		 * The meta object literal for the '<em><b>Reused Strategies</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EVALUATION_STRATEGY__REUSED_STRATEGIES = eINSTANCE.getEvaluationStrategy_ReusedStrategies();
 
 								/**
 		 * The meta object literal for the '<em><b>Kpi Info Config</b></em>' containment reference list feature.
@@ -5415,6 +5743,40 @@ public interface GrlPackage extends EPackage {
 		EReference IMPACT_MODEL__GRLSPEC = eINSTANCE.getImpactModel_Grlspec();
 
 								/**
+		 * The meta object literal for the '<em><b>Core Impact Model</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IMPACT_MODEL__CORE_IMPACT_MODEL = eINSTANCE.getImpactModel_CoreImpactModel();
+
+								/**
+		 * The meta object literal for the '{@link grl.impl.ReusedStrategyImpl <em>Reused Strategy</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see grl.impl.ReusedStrategyImpl
+		 * @see grl.impl.GrlPackageImpl#getReusedStrategy()
+		 * @generated
+		 */
+		EClass REUSED_STRATEGY = eINSTANCE.getReusedStrategy();
+
+								/**
+		 * The meta object literal for the '<em><b>Reusingstrategies</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REUSED_STRATEGY__REUSINGSTRATEGIES = eINSTANCE.getReusedStrategy_Reusingstrategies();
+
+								/**
+		 * The meta object literal for the '<em><b>Reuse Link In FM</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REUSED_STRATEGY__REUSE_LINK_IN_FM = eINSTANCE.getReusedStrategy_ReuseLinkInFM();
+
+								/**
 		 * The meta object literal for the '{@link grl.Criticality <em>Criticality</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5483,6 +5845,16 @@ public interface GrlPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum IMPORTANCE_TYPE = eINSTANCE.getImportanceType();
+
+								/**
+		 * The meta object literal for the '{@link grl.StrategyType <em>Strategy Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see grl.StrategyType
+		 * @see grl.impl.GrlPackageImpl#getStrategyType()
+		 * @generated
+		 */
+		EEnum STRATEGY_TYPE = eINSTANCE.getStrategyType();
 
 	}
 

@@ -25,7 +25,6 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Display;
 
-import ca.mcgill.sel.core.COREModel;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import ucm.map.UCMmap;
 import urn.URNspec;
@@ -200,7 +199,7 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
             boolean modelsList = false;
             
             for ( Object obj : elemList){
-            	if( (obj instanceof COREModel || obj instanceof URNdefinition) && !(obj instanceof UCMmap) ){
+            	if( (obj instanceof FeatureModel || obj instanceof ImpactModel || obj instanceof URNdefinition) && !(obj instanceof UCMmap) ){
             		if ( elemList.size() > 1)
             			modelsList = true;
             	}else if( obj instanceof List<?>){
@@ -363,7 +362,7 @@ public class JUCMConcernNavigatorContentProvider implements ITreeContentProvider
        	}else if (List.class.isInstance(element)) {
             List<?> elemList = (List<?>)element;
             for (Object obj : elemList){
-	            if( (obj instanceof COREModel || obj instanceof URNdefinition) && !(obj instanceof UCMmap) ){
+	            if( (obj instanceof FeatureModel || obj instanceof ImpactModel || obj instanceof URNdefinition) && !(obj instanceof UCMmap) ){
 	        		if ( elemList.size() > 1)
 	        			hasChildren = true;
 	        	}else if ( elemList.size() > 0){

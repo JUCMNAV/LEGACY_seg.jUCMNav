@@ -23,8 +23,8 @@
         eType="#//URNlink" containment="true" eOpposite="#//URNlink/urnspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="metadata" upperBound="-1"
         eType="ecore:EClass urncore.ecore#//Metadata" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="asdspec" lowerBound="1"
-        eType="ecore:EClass asd.ecore#//ASDspec" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="asdspec" eType="ecore:EClass asd.ecore#//ASDspec"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="URNlink">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

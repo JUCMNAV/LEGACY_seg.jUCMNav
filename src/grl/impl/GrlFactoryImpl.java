@@ -114,6 +114,7 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 			case GrlPackage.EVALUATION_RANGE: return createEvaluationRange();
 			case GrlPackage.CONTRIBUTION_RANGE: return createContributionRange();
 			case GrlPackage.IMPACT_MODEL: return createImpactModel();
+			case GrlPackage.REUSED_STRATEGY: return createReusedStrategy();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -140,6 +141,8 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 				return createQualitativeLabelFromString(eDataType, initialValue);
 			case GrlPackage.IMPORTANCE_TYPE:
 				return createImportanceTypeFromString(eDataType, initialValue);
+			case GrlPackage.STRATEGY_TYPE:
+				return createStrategyTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -166,6 +169,8 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 				return convertQualitativeLabelToString(eDataType, instanceValue);
 			case GrlPackage.IMPORTANCE_TYPE:
 				return convertImportanceTypeToString(eDataType, instanceValue);
+			case GrlPackage.STRATEGY_TYPE:
+				return convertStrategyTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -251,16 +256,6 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 		return contribution;
 	}
     
-    /**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public Reuse createReuse() {
-		Reuse reuse = new ReuseImpl();
-		return reuse;
-	}
-
     /**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -436,6 +431,16 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ReusedStrategy createReusedStrategy() {
+		ReusedStrategyImpl reusedStrategy = new ReusedStrategyImpl();
+		return reusedStrategy;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Criticality createCriticalityFromString(EDataType eDataType, String initialValue) {
 		Criticality result = Criticality.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -568,6 +573,26 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
 	 * @generated
 	 */
 	public String convertImportanceTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StrategyType createStrategyTypeFromString(EDataType eDataType, String initialValue) {
+		StrategyType result = StrategyType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertStrategyTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

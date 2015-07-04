@@ -2,10 +2,6 @@
  */
 package fm.util;
 
-import ca.mcgill.sel.core.COREFeature;
-import ca.mcgill.sel.core.COREFeatureModel;
-import ca.mcgill.sel.core.COREModel;
-import ca.mcgill.sel.core.COREModelElement;
 import ca.mcgill.sel.core.CORENamedElement;
 
 import fm.*;
@@ -97,6 +93,12 @@ public class FmAdapterFactory extends AdapterFactoryImpl {
 			public Object caseFeatureModel(FeatureModel object) {
 				return createFeatureModelAdapter();
 			}
+			public Object caseFeatureImpactElement(FeatureImpactElement object) {
+				return createFeatureImpactElementAdapter();
+			}
+			public Object caseReuseLink(ReuseLink object) {
+				return createReuseLinkAdapter();
+			}
 			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
@@ -118,23 +120,11 @@ public class FmAdapterFactory extends AdapterFactoryImpl {
 			public Object caseIntentionalElement(IntentionalElement object) {
 				return createIntentionalElementAdapter();
 			}
-			public Object caseCOREModelElement(COREModelElement object) {
-				return createCOREModelElementAdapter();
-			}
-			public Object caseCOREFeature(COREFeature object) {
-				return createCOREFeatureAdapter();
-			}
 			public Object caseElementLink(ElementLink object) {
 				return createElementLinkAdapter();
 			}
 			public Object caseContribution(Contribution object) {
 				return createContributionAdapter();
-			}
-			public Object caseCOREModel(COREModel object) {
-				return createCOREModelAdapter();
-			}
-			public Object caseCOREFeatureModel(COREFeatureModel object) {
-				return createCOREFeatureModelAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
@@ -221,6 +211,34 @@ public class FmAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFeatureModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fm.FeatureImpactElement <em>Feature Impact Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fm.FeatureImpactElement
+	 * @generated
+	 */
+	public Adapter createFeatureImpactElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fm.ReuseLink <em>Reuse Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fm.ReuseLink
+	 * @generated
+	 */
+	public Adapter createReuseLinkAdapter() {
 		return null;
 	}
 
@@ -323,34 +341,6 @@ public class FmAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREModelElement <em>CORE Model Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ca.mcgill.sel.core.COREModelElement
-	 * @generated
-	 */
-	public Adapter createCOREModelElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREFeature <em>CORE Feature</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ca.mcgill.sel.core.COREFeature
-	 * @generated
-	 */
-	public Adapter createCOREFeatureAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link grl.ElementLink <em>Element Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -375,34 +365,6 @@ public class FmAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createContributionAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREModel <em>CORE Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ca.mcgill.sel.core.COREModel
-	 * @generated
-	 */
-	public Adapter createCOREModelAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREFeatureModel <em>CORE Feature Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ca.mcgill.sel.core.COREFeatureModel
-	 * @generated
-	 */
-	public Adapter createCOREFeatureModelAdapter() {
 		return null;
 	}
 

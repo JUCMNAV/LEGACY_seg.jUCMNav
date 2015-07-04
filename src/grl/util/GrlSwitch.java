@@ -6,8 +6,6 @@
  */
 package grl.util;
 
-import ca.mcgill.sel.core.COREImpactModel;
-import ca.mcgill.sel.core.COREModel;
 import ca.mcgill.sel.core.CORENamedElement;
 import grl.*;
 import java.util.List;
@@ -316,9 +314,16 @@ public class GrlSwitch {
 			case GrlPackage.IMPACT_MODEL: {
 				ImpactModel impactModel = (ImpactModel)theEObject;
 				Object result = caseImpactModel(impactModel);
-				if (result == null) result = caseCOREImpactModel(impactModel);
-				if (result == null) result = caseCOREModel(impactModel);
-				if (result == null) result = caseCORENamedElement(impactModel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GrlPackage.REUSED_STRATEGY: {
+				ReusedStrategy reusedStrategy = (ReusedStrategy)theEObject;
+				Object result = caseReusedStrategy(reusedStrategy);
+				if (result == null) result = caseEvaluationStrategy(reusedStrategy);
+				if (result == null) result = caseGRLmodelElement(reusedStrategy);
+				if (result == null) result = caseURNmodelElement(reusedStrategy);
+				if (result == null) result = caseCORENamedElement(reusedStrategy);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -717,6 +722,21 @@ public class GrlSwitch {
 	}
 
 				/**
+	 * Returns the result of interpreting the object as an instance of '<em>Reused Strategy</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Reused Strategy</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseReusedStrategy(ReusedStrategy object) {
+		return null;
+	}
+
+				/**
 	 * Returns the result of interpreting the object as an instance of '<em>CORE Named Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -728,36 +748,6 @@ public class GrlSwitch {
 	 * @generated
 	 */
 	public Object caseCORENamedElement(CORENamedElement object) {
-		return null;
-	}
-
-				/**
-	 * Returns the result of interpreting the object as an instance of '<em>CORE Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>CORE Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseCOREModel(COREModel object) {
-		return null;
-	}
-
-				/**
-	 * Returns the result of interpreting the object as an instance of '<em>CORE Impact Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>CORE Impact Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseCOREImpactModel(COREImpactModel object) {
 		return null;
 	}
 

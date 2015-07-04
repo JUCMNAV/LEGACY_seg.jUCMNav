@@ -67,6 +67,24 @@ public interface FmFactory extends EFactory {
 	FeatureModel createFeatureModel();
 
 	/**
+	 * Returns a new object of class '<em>Feature Impact Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Feature Impact Element</em>'.
+	 * @generated
+	 */
+	FeatureImpactElement createFeatureImpactElement();
+
+	/**
+	 * Returns a new object of class '<em>Reuse Link</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reuse Link</em>'.
+	 * @generated
+	 */
+	ReuseLink createReuseLink();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

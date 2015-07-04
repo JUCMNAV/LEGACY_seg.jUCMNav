@@ -5,7 +5,6 @@ package seg.jUCMNav.model.commands.create;
 
 import grl.ElementLink;
 import grl.IntentionalElement;
-import grl.Reuse;
 
 import org.eclipse.gef.commands.Command;
 

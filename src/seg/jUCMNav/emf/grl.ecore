@@ -51,6 +51,7 @@
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/intElements"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="refs" upperBound="-1" eType="#//IntentionalElementRef"
         eOpposite="#//IntentionalElementRef/def"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coreImpactNode" eType="ecore:EClass ../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREImpactNode"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//GRLLinkableElement urncore.ecore#//IURNContainer">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importance" eType="#//ImportanceType"
@@ -102,6 +103,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="25"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="correlation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coreContribution" eType="ecore:EClass ../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREContribution"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ContributionType">
     <eLiterals name="Make"/>
@@ -155,6 +157,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EvaluationStrategy" eSuperTypes="urncore.ecore#//GRLmodelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//StrategyType"
+        defaultValueLiteral="Private"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="evaluations" upperBound="-1"
         eType="#//Evaluation" containment="true" eOpposite="#//Evaluation/strategies"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="group" lowerBound="1" eType="#//StrategiesGroup"
@@ -165,6 +169,8 @@
         eType="#//EvaluationStrategy" eOpposite="#//EvaluationStrategy/parentStrategies"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentStrategies" upperBound="-1"
         eType="#//EvaluationStrategy" eOpposite="#//EvaluationStrategy/includedStrategies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reusedStrategies" upperBound="-1"
+        eType="#//ReusedStrategy" eOpposite="#//ReusedStrategy/reusingstrategies"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="kpiInfoConfig" upperBound="-1"
         eType="#//kpimodel/KPIInformationConfig" containment="true" eOpposite="#//kpimodel/KPIInformationConfig/strategies"/>
   </eClassifiers>
@@ -254,9 +260,22 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="change" lowerBound="1"
         eType="#//ContributionChange" transient="true" eOpposite="#//ContributionChange/contribRange"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ImpactModel" eSuperTypes="../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREImpactModel">
+  <eClassifiers xsi:type="ecore:EClass" name="ImpactModel">
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/impactModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coreImpactModel" eType="ecore:EClass ../../../../../ca.mcgill.sel.core/model/CORE.ecore#//COREImpactModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="StrategyType">
+    <eLiterals name="Default"/>
+    <eLiterals name="Public" value="1"/>
+    <eLiterals name="Selected" value="2"/>
+    <eLiterals name="Private" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReusedStrategy" eSuperTypes="#//EvaluationStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reusingstrategies" lowerBound="1"
+        upperBound="-1" eType="#//EvaluationStrategy" eOpposite="#//EvaluationStrategy/reusedStrategies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reuseLinkInFM" lowerBound="1"
+        eType="ecore:EClass fm.ecore#//ReuseLink"/>
   </eClassifiers>
   <eSubpackages name="kpimodel" nsURI="http:///grl/kpimodel.ecore" nsPrefix="grl.kpimodel">
     <eClassifiers xsi:type="ecore:EClass" name="IndicatorGroup" eSuperTypes="urncore.ecore#//GRLmodelElement">

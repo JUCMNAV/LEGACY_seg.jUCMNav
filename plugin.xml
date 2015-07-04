@@ -793,12 +793,6 @@
             genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
    </extension>
 
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <!-- @generated fm -->
-      <parser
-            type="kpimodel"
-            class="grl.kpimodel.util.KpimodelResourceFactoryImpl"/>
-   </extension>
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
@@ -816,13 +810,6 @@
             genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
    </extension>
 
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <!-- @generated fm -->
-      <parser
-            type="performance"
-            class="ucm.performance.util.PerformanceResourceFactoryImpl"/>
-   </extension>
-
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated URN -->
       <package
@@ -831,26 +818,12 @@
             genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
    </extension>
 
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <!-- @generated fm -->
-      <parser
-            type="map"
-            class="ucm.map.util.MapResourceFactoryImpl"/>
-   </extension>
-
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated URN -->
       <package
             uri="http:///ucm/scenario.ecore"
             class="ucm.scenario.ScenarioPackage"
             genModel="src/seg/jUCMNav/emf/URN.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <!-- @generated fm -->
-      <parser
-            type="scenario"
-            class="ucm.scenario.util.ScenarioResourceFactoryImpl"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">

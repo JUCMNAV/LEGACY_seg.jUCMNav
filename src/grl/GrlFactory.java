@@ -98,15 +98,6 @@ public interface GrlFactory extends EFactory {
     Contribution createContribution();
 
     /**
-	 * Returns a new object of class '<em>Contribution</em>'.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Contribution</em>'.
-	 * @generated
-	 */
-    Reuse createReuse();
-    
-    /**
 	 * Returns a new object of class '<em>Link Ref</em>'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -258,6 +249,15 @@ public interface GrlFactory extends EFactory {
 	 * @generated
 	 */
 	ImpactModel createImpactModel();
+
+				/**
+	 * Returns a new object of class '<em>Reused Strategy</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reused Strategy</em>'.
+	 * @generated
+	 */
+	ReusedStrategy createReusedStrategy();
 
 				/**
 	 * Returns the package supported by this factory.

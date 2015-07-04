@@ -6,8 +6,6 @@
  */
 package grl.util;
 
-import ca.mcgill.sel.core.COREImpactModel;
-import ca.mcgill.sel.core.COREModel;
 import ca.mcgill.sel.core.CORENamedElement;
 import grl.*;
 import org.eclipse.emf.common.notify.Adapter;
@@ -155,6 +153,9 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 			public Object caseImpactModel(ImpactModel object) {
 				return createImpactModelAdapter();
 			}
+			public Object caseReusedStrategy(ReusedStrategy object) {
+				return createReusedStrategyAdapter();
+			}
 			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
@@ -178,12 +179,6 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseIURNConnection(IURNConnection object) {
 				return createIURNConnectionAdapter();
-			}
-			public Object caseCOREModel(COREModel object) {
-				return createCOREModelAdapter();
-			}
-			public Object caseCOREImpactModel(COREImpactModel object) {
-				return createCOREImpactModelAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
@@ -568,6 +563,20 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 				/**
+	 * Creates a new adapter for an object of class '{@link grl.ReusedStrategy <em>Reused Strategy</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see grl.ReusedStrategy
+	 * @generated
+	 */
+	public Adapter createReusedStrategyAdapter() {
+		return null;
+	}
+
+				/**
 	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.CORENamedElement <em>CORE Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -652,34 +661,6 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
 	}
 
     /**
-	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREModel <em>CORE Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ca.mcgill.sel.core.COREModel
-	 * @generated
-	 */
-	public Adapter createCOREModelAdapter() {
-		return null;
-	}
-
-				/**
-	 * Creates a new adapter for an object of class '{@link ca.mcgill.sel.core.COREImpactModel <em>CORE Impact Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ca.mcgill.sel.core.COREImpactModel
-	 * @generated
-	 */
-	public Adapter createCOREImpactModelAdapter() {
-		return null;
-	}
-
-				/**
 	 * Creates a new adapter for an object of class '{@link urncore.IURNContainerRef <em>IURN Container Ref</em>}'.
 	 * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;

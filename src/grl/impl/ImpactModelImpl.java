@@ -2,19 +2,16 @@
  */
 package grl.impl;
 
-import ca.mcgill.sel.core.impl.COREImpactModelImpl;
-
+import ca.mcgill.sel.core.COREImpactModel;
 import grl.GRLspec;
 import grl.GrlPackage;
 import grl.ImpactModel;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -23,14 +20,25 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.ImpactModelImpl#getGrlspec <em>Grlspec</em>}</li>
+ *   <li>{@link grl.impl.ImpactModelImpl#getCoreImpactModel <em>Core Impact Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
-public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel {
+public class ImpactModelImpl extends MinimalEObjectImpl.Container implements ImpactModel {
+	/**
+	 * The cached value of the '{@link #getCoreImpactModel() <em>Core Impact Model</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCoreImpactModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected COREImpactModel coreImpactModel;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -95,6 +103,44 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public COREImpactModel getCoreImpactModel() {
+		if (coreImpactModel != null && coreImpactModel.eIsProxy()) {
+			InternalEObject oldCoreImpactModel = (InternalEObject)coreImpactModel;
+			coreImpactModel = (COREImpactModel)eResolveProxy(oldCoreImpactModel);
+			if (coreImpactModel != oldCoreImpactModel) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.IMPACT_MODEL__CORE_IMPACT_MODEL, oldCoreImpactModel, coreImpactModel));
+			}
+		}
+		return coreImpactModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public COREImpactModel basicGetCoreImpactModel() {
+		return coreImpactModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCoreImpactModel(COREImpactModel newCoreImpactModel) {
+		COREImpactModel oldCoreImpactModel = coreImpactModel;
+		coreImpactModel = newCoreImpactModel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.IMPACT_MODEL__CORE_IMPACT_MODEL, oldCoreImpactModel, coreImpactModel));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case GrlPackage.IMPACT_MODEL__GRLSPEC:
@@ -140,6 +186,9 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 		switch (featureID) {
 			case GrlPackage.IMPACT_MODEL__GRLSPEC:
 				return getGrlspec();
+			case GrlPackage.IMPACT_MODEL__CORE_IMPACT_MODEL:
+				if (resolve) return getCoreImpactModel();
+				return basicGetCoreImpactModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -153,6 +202,9 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 		switch (featureID) {
 			case GrlPackage.IMPACT_MODEL__GRLSPEC:
 				setGrlspec((GRLspec)newValue);
+				return;
+			case GrlPackage.IMPACT_MODEL__CORE_IMPACT_MODEL:
+				setCoreImpactModel((COREImpactModel)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -168,6 +220,9 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 			case GrlPackage.IMPACT_MODEL__GRLSPEC:
 				setGrlspec((GRLspec)null);
 				return;
+			case GrlPackage.IMPACT_MODEL__CORE_IMPACT_MODEL:
+				setCoreImpactModel((COREImpactModel)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -181,6 +236,8 @@ public class ImpactModelImpl extends COREImpactModelImpl implements ImpactModel 
 		switch (featureID) {
 			case GrlPackage.IMPACT_MODEL__GRLSPEC:
 				return getGrlspec() != null;
+			case GrlPackage.IMPACT_MODEL__CORE_IMPACT_MODEL:
+				return coreImpactModel != null;
 		}
 		return super.eIsSet(featureID);
 	}

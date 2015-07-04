@@ -6,12 +6,14 @@
  */
 package grl.impl;
 
+import ca.mcgill.sel.core.COREContribution;
 import grl.Contribution;
 import grl.ContributionType;
 import grl.GrlPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -20,12 +22,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.ContributionImpl#getContribution <em>Contribution</em>}</li>
  *   <li>{@link grl.impl.ContributionImpl#getQuantitativeContribution <em>Quantitative Contribution</em>}</li>
  *   <li>{@link grl.impl.ContributionImpl#isCorrelation <em>Correlation</em>}</li>
+ *   <li>{@link grl.impl.ContributionImpl#getCoreContribution <em>Core Contribution</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -91,6 +94,16 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
     protected boolean correlation = CORRELATION_EDEFAULT;
 
     /**
+	 * The cached value of the '{@link #getCoreContribution() <em>Core Contribution</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCoreContribution()
+	 * @generated
+	 * @ordered
+	 */
+	protected COREContribution coreContribution;
+
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -175,6 +188,44 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public COREContribution getCoreContribution() {
+		if (coreContribution != null && coreContribution.eIsProxy()) {
+			InternalEObject oldCoreContribution = (InternalEObject)coreContribution;
+			coreContribution = (COREContribution)eResolveProxy(oldCoreContribution);
+			if (coreContribution != oldCoreContribution) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.CONTRIBUTION__CORE_CONTRIBUTION, oldCoreContribution, coreContribution));
+			}
+		}
+		return coreContribution;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public COREContribution basicGetCoreContribution() {
+		return coreContribution;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCoreContribution(COREContribution newCoreContribution) {
+		COREContribution oldCoreContribution = coreContribution;
+		coreContribution = newCoreContribution;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION__CORE_CONTRIBUTION, oldCoreContribution, coreContribution));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case GrlPackage.CONTRIBUTION__CONTRIBUTION:
@@ -183,6 +234,9 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
 				return new Integer(getQuantitativeContribution());
 			case GrlPackage.CONTRIBUTION__CORRELATION:
 				return isCorrelation() ? Boolean.TRUE : Boolean.FALSE;
+			case GrlPackage.CONTRIBUTION__CORE_CONTRIBUTION:
+				if (resolve) return getCoreContribution();
+				return basicGetCoreContribution();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -202,6 +256,9 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
 				return;
 			case GrlPackage.CONTRIBUTION__CORRELATION:
 				setCorrelation(((Boolean)newValue).booleanValue());
+				return;
+			case GrlPackage.CONTRIBUTION__CORE_CONTRIBUTION:
+				setCoreContribution((COREContribution)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -223,6 +280,9 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
 			case GrlPackage.CONTRIBUTION__CORRELATION:
 				setCorrelation(CORRELATION_EDEFAULT);
 				return;
+			case GrlPackage.CONTRIBUTION__CORE_CONTRIBUTION:
+				setCoreContribution((COREContribution)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -240,6 +300,8 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
 				return quantitativeContribution != QUANTITATIVE_CONTRIBUTION_EDEFAULT;
 			case GrlPackage.CONTRIBUTION__CORRELATION:
 				return correlation != CORRELATION_EDEFAULT;
+			case GrlPackage.CONTRIBUTION__CORE_CONTRIBUTION:
+				return coreContribution != null;
 		}
 		return super.eIsSet(featureID);
 	}

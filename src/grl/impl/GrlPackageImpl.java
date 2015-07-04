@@ -45,7 +45,9 @@ import grl.LinkRef;
 import grl.LinkRefBendpoint;
 import grl.Priority;
 import grl.QualitativeLabel;
+import grl.ReusedStrategy;
 import grl.StrategiesGroup;
+import grl.StrategyType;
 import grl.kpimodel.KpimodelPackage;
 import grl.kpimodel.impl.KpimodelPackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
@@ -258,6 +260,13 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass reusedStrategyEClass = null;
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -304,6 +313,13 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	private EEnum importanceTypeEEnum = null;
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum strategyTypeEEnum = null;
 
 				/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -643,6 +659,15 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
     /**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIntentionalElement_CoreImpactNode() {
+		return (EReference)intentionalElementEClass.getEStructuralFeatures().get(9);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -795,6 +820,15 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getContribution_CoreContribution() {
+		return (EReference)contributionEClass.getEStructuralFeatures().get(3);
+	}
+
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -985,19 +1019,19 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
     /**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getEvaluationStrategy_Evaluations() {
-		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(1);
+	public EAttribute getEvaluationStrategy_Type() {
+		return (EAttribute)evaluationStrategyEClass.getEStructuralFeatures().get(1);
 	}
 
-    /**
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getEvaluationStrategy_Group() {
+    public EReference getEvaluationStrategy_Evaluations() {
 		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1006,8 +1040,17 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getEvaluationStrategy_Grlspec() {
+    public EReference getEvaluationStrategy_Group() {
 		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(3);
+	}
+
+    /**
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 */
+    public EReference getEvaluationStrategy_Grlspec() {
+		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(4);
 	}
 
     /**
@@ -1016,7 +1059,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	public EReference getEvaluationStrategy_IncludedStrategies() {
-		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(4);
+		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(5);
 	}
 
 				/**
@@ -1025,7 +1068,16 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	public EReference getEvaluationStrategy_ParentStrategies() {
-		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(5);
+		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(6);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEvaluationStrategy_ReusedStrategies() {
+		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(7);
 	}
 
 				/**
@@ -1034,7 +1086,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
     public EReference getEvaluationStrategy_KpiInfoConfig() {
-		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(6);
+		return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(8);
 	}
 
     /**
@@ -1408,6 +1460,42 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getImpactModel_CoreImpactModel() {
+		return (EReference)impactModelEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReusedStrategy() {
+		return reusedStrategyEClass;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReusedStrategy_Reusingstrategies() {
+		return (EReference)reusedStrategyEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReusedStrategy_ReuseLinkInFM() {
+		return (EReference)reusedStrategyEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1471,6 +1559,15 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getStrategyType() {
+		return strategyTypeEEnum;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1526,6 +1623,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__FILLED);
 		createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__GRLSPEC);
 		createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__REFS);
+		createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__CORE_IMPACT_NODE);
 
 		actorEClass = createEClass(ACTOR);
 		createEAttribute(actorEClass, ACTOR__IMPORTANCE);
@@ -1548,6 +1646,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		createEAttribute(contributionEClass, CONTRIBUTION__CONTRIBUTION);
 		createEAttribute(contributionEClass, CONTRIBUTION__QUANTITATIVE_CONTRIBUTION);
 		createEAttribute(contributionEClass, CONTRIBUTION__CORRELATION);
+		createEReference(contributionEClass, CONTRIBUTION__CORE_CONTRIBUTION);
 
 		linkRefEClass = createEClass(LINK_REF);
 		createEReference(linkRefEClass, LINK_REF__LINK);
@@ -1575,11 +1674,13 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 		evaluationStrategyEClass = createEClass(EVALUATION_STRATEGY);
 		createEAttribute(evaluationStrategyEClass, EVALUATION_STRATEGY__AUTHOR);
+		createEAttribute(evaluationStrategyEClass, EVALUATION_STRATEGY__TYPE);
 		createEReference(evaluationStrategyEClass, EVALUATION_STRATEGY__EVALUATIONS);
 		createEReference(evaluationStrategyEClass, EVALUATION_STRATEGY__GROUP);
 		createEReference(evaluationStrategyEClass, EVALUATION_STRATEGY__GRLSPEC);
 		createEReference(evaluationStrategyEClass, EVALUATION_STRATEGY__INCLUDED_STRATEGIES);
 		createEReference(evaluationStrategyEClass, EVALUATION_STRATEGY__PARENT_STRATEGIES);
+		createEReference(evaluationStrategyEClass, EVALUATION_STRATEGY__REUSED_STRATEGIES);
 		createEReference(evaluationStrategyEClass, EVALUATION_STRATEGY__KPI_INFO_CONFIG);
 
 		grlNodeEClass = createEClass(GRL_NODE);
@@ -1634,6 +1735,11 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 		impactModelEClass = createEClass(IMPACT_MODEL);
 		createEReference(impactModelEClass, IMPACT_MODEL__GRLSPEC);
+		createEReference(impactModelEClass, IMPACT_MODEL__CORE_IMPACT_MODEL);
+
+		reusedStrategyEClass = createEClass(REUSED_STRATEGY);
+		createEReference(reusedStrategyEClass, REUSED_STRATEGY__REUSINGSTRATEGIES);
+		createEReference(reusedStrategyEClass, REUSED_STRATEGY__REUSE_LINK_IN_FM);
 
 		// Create enums
 		criticalityEEnum = createEEnum(CRITICALITY);
@@ -1643,6 +1749,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		decompositionTypeEEnum = createEEnum(DECOMPOSITION_TYPE);
 		qualitativeLabelEEnum = createEEnum(QUALITATIVE_LABEL);
 		importanceTypeEEnum = createEEnum(IMPORTANCE_TYPE);
+		strategyTypeEEnum = createEEnum(STRATEGY_TYPE);
 	}
 
     /**
@@ -1672,8 +1779,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		KpimodelPackage theKpimodelPackage = (KpimodelPackage)EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI);
 		UrnPackage theUrnPackage = (UrnPackage)EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI);
 		FmPackage theFmPackage = (FmPackage)EPackage.Registry.INSTANCE.getEPackage(FmPackage.eNS_URI);
-		UrncorePackage theUrncorePackage = (UrncorePackage)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
 		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
+		UrncorePackage theUrncorePackage = (UrncorePackage)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
 
 		// Add subpackages
 		getESubpackages().add(theKpimodelPackage);
@@ -1702,7 +1809,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		contributionContextEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
 		grlLinkableElementEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
 		collapsedActorRefEClass.getESuperTypes().add(this.getGRLNode());
-		impactModelEClass.getESuperTypes().add(theCorePackage.getCOREImpactModel());
+		reusedStrategyEClass.getESuperTypes().add(this.getEvaluationStrategy());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(grLspecEClass, GRLspec.class, "GRLspec", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1734,6 +1841,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEAttribute(getIntentionalElement_Filled(), ecorePackage.getEBoolean(), "filled", "false", 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIntentionalElement_Grlspec(), this.getGRLspec(), this.getGRLspec_IntElements(), "grlspec", null, 1, 1, IntentionalElement.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIntentionalElement_Refs(), this.getIntentionalElementRef(), this.getIntentionalElementRef_Def(), "refs", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIntentionalElement_CoreImpactNode(), theCorePackage.getCOREImpactNode(), null, "coreImpactNode", null, 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(actorEClass, Actor.class, "Actor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getActor_Importance(), this.getImportanceType(), "importance", "None", 0, 1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1756,6 +1864,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEAttribute(getContribution_Contribution(), this.getContributionType(), "contribution", "Help", 0, 1, Contribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getContribution_QuantitativeContribution(), ecorePackage.getEInt(), "quantitativeContribution", "25", 0, 1, Contribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getContribution_Correlation(), ecorePackage.getEBoolean(), "correlation", "false", 0, 1, Contribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getContribution_CoreContribution(), theCorePackage.getCOREContribution(), null, "coreContribution", null, 0, 1, Contribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(linkRefEClass, LinkRef.class, "LinkRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLinkRef_Link(), this.getElementLink(), this.getElementLink_Refs(), "link", null, 1, 1, LinkRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1783,11 +1892,13 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 		initEClass(evaluationStrategyEClass, EvaluationStrategy.class, "EvaluationStrategy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEvaluationStrategy_Author(), ecorePackage.getEString(), "author", null, 0, 1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEvaluationStrategy_Type(), this.getStrategyType(), "type", "Private", 0, 1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluationStrategy_Evaluations(), this.getEvaluation(), this.getEvaluation_Strategies(), "evaluations", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluationStrategy_Group(), this.getStrategiesGroup(), this.getStrategiesGroup_Strategies(), "group", null, 1, 1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluationStrategy_Grlspec(), this.getGRLspec(), this.getGRLspec_Strategies(), "grlspec", null, 1, 1, EvaluationStrategy.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluationStrategy_IncludedStrategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_ParentStrategies(), "includedStrategies", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluationStrategy_ParentStrategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_IncludedStrategies(), "parentStrategies", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEvaluationStrategy_ReusedStrategies(), this.getReusedStrategy(), this.getReusedStrategy_Reusingstrategies(), "reusedStrategies", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluationStrategy_KpiInfoConfig(), theKpimodelPackage.getKPIInformationConfig(), theKpimodelPackage.getKPIInformationConfig_Strategies(), "kpiInfoConfig", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(grlNodeEClass, GRLNode.class, "GRLNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1842,6 +1953,11 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 		initEClass(impactModelEClass, ImpactModel.class, "ImpactModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getImpactModel_Grlspec(), this.getGRLspec(), this.getGRLspec_ImpactModel(), "grlspec", null, 1, 1, ImpactModel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getImpactModel_CoreImpactModel(), theCorePackage.getCOREImpactModel(), null, "coreImpactModel", null, 0, 1, ImpactModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(reusedStrategyEClass, ReusedStrategy.class, "ReusedStrategy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getReusedStrategy_Reusingstrategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_ReusedStrategies(), "reusingstrategies", null, 1, -1, ReusedStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReusedStrategy_ReuseLinkInFM(), theFmPackage.getReuseLink(), null, "reuseLinkInFM", null, 1, 1, ReusedStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(criticalityEEnum, Criticality.class, "Criticality");
@@ -1891,6 +2007,12 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		addEEnumLiteral(importanceTypeEEnum, ImportanceType.MEDIUM_LITERAL);
 		addEEnumLiteral(importanceTypeEEnum, ImportanceType.LOW_LITERAL);
 		addEEnumLiteral(importanceTypeEEnum, ImportanceType.NONE_LITERAL);
+
+		initEEnum(strategyTypeEEnum, StrategyType.class, "StrategyType");
+		addEEnumLiteral(strategyTypeEEnum, StrategyType.DEFAULT_LITERAL);
+		addEEnumLiteral(strategyTypeEEnum, StrategyType.PUBLIC_LITERAL);
+		addEEnumLiteral(strategyTypeEEnum, StrategyType.SELECTED_LITERAL);
+		addEEnumLiteral(strategyTypeEEnum, StrategyType.PRIVATE_LITERAL);
 
 		// Create resource
 		createResource(eNS_URI);

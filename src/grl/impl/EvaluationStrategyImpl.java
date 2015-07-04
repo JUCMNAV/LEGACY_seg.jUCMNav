@@ -10,7 +10,9 @@ import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.GrlPackage;
+import grl.ReusedStrategy;
 import grl.StrategiesGroup;
+import grl.StrategyType;
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KpimodelPackage;
 
@@ -35,16 +37,18 @@ import urncore.impl.GRLmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.EvaluationStrategyImpl#getAuthor <em>Author</em>}</li>
+ *   <li>{@link grl.impl.EvaluationStrategyImpl#getType <em>Type</em>}</li>
  *   <li>{@link grl.impl.EvaluationStrategyImpl#getEvaluations <em>Evaluations</em>}</li>
  *   <li>{@link grl.impl.EvaluationStrategyImpl#getGroup <em>Group</em>}</li>
  *   <li>{@link grl.impl.EvaluationStrategyImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.impl.EvaluationStrategyImpl#getIncludedStrategies <em>Included Strategies</em>}</li>
  *   <li>{@link grl.impl.EvaluationStrategyImpl#getParentStrategies <em>Parent Strategies</em>}</li>
+ *   <li>{@link grl.impl.EvaluationStrategyImpl#getReusedStrategies <em>Reused Strategies</em>}</li>
  *   <li>{@link grl.impl.EvaluationStrategyImpl#getKpiInfoConfig <em>Kpi Info Config</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -70,6 +74,26 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
     protected String author = AUTHOR_EDEFAULT;
 
     /**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final StrategyType TYPE_EDEFAULT = StrategyType.PRIVATE_LITERAL;
+
+				/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected StrategyType type = TYPE_EDEFAULT;
+
+				/**
 	 * The cached value of the '{@link #getEvaluations() <em>Evaluations</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -108,6 +132,16 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 	 * @ordered
 	 */
 	protected EList parentStrategies;
+
+				/**
+	 * The cached value of the '{@link #getReusedStrategies() <em>Reused Strategies</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReusedStrategies()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList reusedStrategies;
 
 				/**
 	 * The cached value of the '{@link #getKpiInfoConfig() <em>Kpi Info Config</em>}' containment reference list.
@@ -159,6 +193,27 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 	}
 
     /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StrategyType getType() {
+		return type;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(StrategyType newType) {
+		StrategyType oldType = type;
+		type = newType == null ? TYPE_EDEFAULT : newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION_STRATEGY__TYPE, oldType, type));
+	}
+
+				/**
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
@@ -297,6 +352,18 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getReusedStrategies() {
+		if (reusedStrategies == null) {
+			reusedStrategies = new EObjectWithInverseResolvingEList.ManyInverse(ReusedStrategy.class, this, GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES, GrlPackage.REUSED_STRATEGY__REUSINGSTRATEGIES);
+		}
+		return reusedStrategies;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -328,6 +395,8 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 				return ((InternalEList)getIncludedStrategies()).basicAdd(otherEnd, msgs);
 			case GrlPackage.EVALUATION_STRATEGY__PARENT_STRATEGIES:
 				return ((InternalEList)getParentStrategies()).basicAdd(otherEnd, msgs);
+			case GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES:
+				return ((InternalEList)getReusedStrategies()).basicAdd(otherEnd, msgs);
 			case GrlPackage.EVALUATION_STRATEGY__KPI_INFO_CONFIG:
 				return ((InternalEList)getKpiInfoConfig()).basicAdd(otherEnd, msgs);
 		}
@@ -351,6 +420,8 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 				return ((InternalEList)getIncludedStrategies()).basicRemove(otherEnd, msgs);
 			case GrlPackage.EVALUATION_STRATEGY__PARENT_STRATEGIES:
 				return ((InternalEList)getParentStrategies()).basicRemove(otherEnd, msgs);
+			case GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES:
+				return ((InternalEList)getReusedStrategies()).basicRemove(otherEnd, msgs);
 			case GrlPackage.EVALUATION_STRATEGY__KPI_INFO_CONFIG:
 				return ((InternalEList)getKpiInfoConfig()).basicRemove(otherEnd, msgs);
 		}
@@ -379,6 +450,8 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 		switch (featureID) {
 			case GrlPackage.EVALUATION_STRATEGY__AUTHOR:
 				return getAuthor();
+			case GrlPackage.EVALUATION_STRATEGY__TYPE:
+				return getType();
 			case GrlPackage.EVALUATION_STRATEGY__EVALUATIONS:
 				return getEvaluations();
 			case GrlPackage.EVALUATION_STRATEGY__GROUP:
@@ -390,6 +463,8 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 				return getIncludedStrategies();
 			case GrlPackage.EVALUATION_STRATEGY__PARENT_STRATEGIES:
 				return getParentStrategies();
+			case GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES:
+				return getReusedStrategies();
 			case GrlPackage.EVALUATION_STRATEGY__KPI_INFO_CONFIG:
 				return getKpiInfoConfig();
 		}
@@ -405,6 +480,9 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 		switch (featureID) {
 			case GrlPackage.EVALUATION_STRATEGY__AUTHOR:
 				setAuthor((String)newValue);
+				return;
+			case GrlPackage.EVALUATION_STRATEGY__TYPE:
+				setType((StrategyType)newValue);
 				return;
 			case GrlPackage.EVALUATION_STRATEGY__EVALUATIONS:
 				getEvaluations().clear();
@@ -424,6 +502,10 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 				getParentStrategies().clear();
 				getParentStrategies().addAll((Collection)newValue);
 				return;
+			case GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES:
+				getReusedStrategies().clear();
+				getReusedStrategies().addAll((Collection)newValue);
+				return;
 			case GrlPackage.EVALUATION_STRATEGY__KPI_INFO_CONFIG:
 				getKpiInfoConfig().clear();
 				getKpiInfoConfig().addAll((Collection)newValue);
@@ -442,6 +524,9 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 			case GrlPackage.EVALUATION_STRATEGY__AUTHOR:
 				setAuthor(AUTHOR_EDEFAULT);
 				return;
+			case GrlPackage.EVALUATION_STRATEGY__TYPE:
+				setType(TYPE_EDEFAULT);
+				return;
 			case GrlPackage.EVALUATION_STRATEGY__EVALUATIONS:
 				getEvaluations().clear();
 				return;
@@ -456,6 +541,9 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 				return;
 			case GrlPackage.EVALUATION_STRATEGY__PARENT_STRATEGIES:
 				getParentStrategies().clear();
+				return;
+			case GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES:
+				getReusedStrategies().clear();
 				return;
 			case GrlPackage.EVALUATION_STRATEGY__KPI_INFO_CONFIG:
 				getKpiInfoConfig().clear();
@@ -473,6 +561,8 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 		switch (featureID) {
 			case GrlPackage.EVALUATION_STRATEGY__AUTHOR:
 				return AUTHOR_EDEFAULT == null ? author != null : !AUTHOR_EDEFAULT.equals(author);
+			case GrlPackage.EVALUATION_STRATEGY__TYPE:
+				return type != TYPE_EDEFAULT;
 			case GrlPackage.EVALUATION_STRATEGY__EVALUATIONS:
 				return evaluations != null && !evaluations.isEmpty();
 			case GrlPackage.EVALUATION_STRATEGY__GROUP:
@@ -483,6 +573,8 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 				return includedStrategies != null && !includedStrategies.isEmpty();
 			case GrlPackage.EVALUATION_STRATEGY__PARENT_STRATEGIES:
 				return parentStrategies != null && !parentStrategies.isEmpty();
+			case GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES:
+				return reusedStrategies != null && !reusedStrategies.isEmpty();
 			case GrlPackage.EVALUATION_STRATEGY__KPI_INFO_CONFIG:
 				return kpiInfoConfig != null && !kpiInfoConfig.isEmpty();
 		}
@@ -500,6 +592,8 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (author: ");
 		result.append(author);
+		result.append(", type: ");
+		result.append(type);
 		result.append(')');
 		return result.toString();
 	}

@@ -3,9 +3,9 @@
  */
 package seg.jUCMNav.editpolicies.directEditPolicy;
 
+import fm.ReuseLink;
 import grl.ElementLink;
 import grl.IntentionalElementRef;
-import grl.Reuse;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
@@ -60,17 +60,17 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
     		CreateElementLinkCommand cmd;
     		// is this a reuse situation? (i.e., source definition is located in another URN model)
     		boolean reuseSituation = !source.getDef().getGrlspec().getUrnspec().getUrndef().equals(source.getDiagram().getUrndefinition());
-    		if (request.getNewObject() instanceof Reuse 
+    		if (request.getNewObject() instanceof ReuseLink 
     				&& ReusedElementUtil.isReusedElement(source.getDiagram().getUrndefinition().getUrnspec().getGrlspec(), source.getDef())
     				&& !source.getSucc().isEmpty()) {
     	        // Only one reuse link can exist per reference to a reused element
     			return null;
     		}
-    		if (request.getNewObject() instanceof Reuse && reuseSituation) {
+    		if (request.getNewObject() instanceof ReuseLink && reuseSituation) {
     			// reuse case (pass in the sourceRef to be able create the LinkRef)
     			cmd = new CreateElementLinkCommand(source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(), source, 
     						(ElementLink) request.getNewObject(), null);
-    		} else if (!(request.getNewObject() instanceof Reuse) && !reuseSituation) {
+    		} else if (!(request.getNewObject() instanceof ReuseLink) && !reuseSituation) {
     			// not reuse case (use the original command)
     			cmd = new CreateElementLinkCommand(source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(), 
     					(ElementLink) request.getNewObject(), null);

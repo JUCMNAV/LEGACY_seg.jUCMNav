@@ -17,16 +17,18 @@ import urncore.GRLmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.EvaluationStrategy#getAuthor <em>Author</em>}</li>
+ *   <li>{@link grl.EvaluationStrategy#getType <em>Type</em>}</li>
  *   <li>{@link grl.EvaluationStrategy#getEvaluations <em>Evaluations</em>}</li>
  *   <li>{@link grl.EvaluationStrategy#getGroup <em>Group</em>}</li>
  *   <li>{@link grl.EvaluationStrategy#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.EvaluationStrategy#getIncludedStrategies <em>Included Strategies</em>}</li>
  *   <li>{@link grl.EvaluationStrategy#getParentStrategies <em>Parent Strategies</em>}</li>
+ *   <li>{@link grl.EvaluationStrategy#getReusedStrategies <em>Reused Strategies</em>}</li>
  *   <li>{@link grl.EvaluationStrategy#getKpiInfoConfig <em>Kpi Info Config</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getEvaluationStrategy()
  * @model
@@ -60,6 +62,36 @@ public interface EvaluationStrategy extends GRLmodelElement {
     void setAuthor(String value);
 
     /**
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * The default value is <code>"Private"</code>.
+	 * The literals are from the enumeration {@link grl.StrategyType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see grl.StrategyType
+	 * @see #setType(StrategyType)
+	 * @see grl.GrlPackage#getEvaluationStrategy_Type()
+	 * @model default="Private"
+	 * @generated
+	 */
+	StrategyType getType();
+
+				/**
+	 * Sets the value of the '{@link grl.EvaluationStrategy#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see grl.StrategyType
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(StrategyType value);
+
+				/**
 	 * Returns the value of the '<em><b>Evaluations</b></em>' containment reference list.
 	 * The list contents are of type {@link grl.Evaluation}.
 	 * It is bidirectional and its opposite is '{@link grl.Evaluation#getStrategies <em>Strategies</em>}'.
@@ -168,6 +200,24 @@ public interface EvaluationStrategy extends GRLmodelElement {
 	 * @generated
 	 */
 	EList getParentStrategies();
+
+				/**
+	 * Returns the value of the '<em><b>Reused Strategies</b></em>' reference list.
+	 * The list contents are of type {@link grl.ReusedStrategy}.
+	 * It is bidirectional and its opposite is '{@link grl.ReusedStrategy#getReusingstrategies <em>Reusingstrategies</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Reused Strategies</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Reused Strategies</em>' reference list.
+	 * @see grl.GrlPackage#getEvaluationStrategy_ReusedStrategies()
+	 * @see grl.ReusedStrategy#getReusingstrategies
+	 * @model type="grl.ReusedStrategy" opposite="reusingstrategies"
+	 * @generated
+	 */
+	EList getReusedStrategies();
 
 				/**
 	 * Returns the value of the '<em><b>Kpi Info Config</b></em>' containment reference list.

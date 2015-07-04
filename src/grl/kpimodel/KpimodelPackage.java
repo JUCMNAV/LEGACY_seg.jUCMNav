@@ -345,6 +345,15 @@ public interface KpimodelPackage extends EPackage {
     int INDICATOR__REFS = GrlPackage.INTENTIONAL_ELEMENT__REFS;
 
     /**
+	 * The feature id for the '<em><b>Core Impact Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INDICATOR__CORE_IMPACT_NODE = GrlPackage.INTENTIONAL_ELEMENT__CORE_IMPACT_NODE;
+
+				/**
 	 * The feature id for the '<em><b>Kpi Model Links Dest</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

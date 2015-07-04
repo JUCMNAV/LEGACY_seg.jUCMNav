@@ -2,9 +2,9 @@ package seg.jUCMNav.editors.palette;
 
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
+import fm.ReuseLink;
 import grl.Decomposition;
 import grl.IntentionalElementRef;
-import grl.Reuse;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -68,7 +68,7 @@ public class FmdPaletteRoot extends GrlPaletteRoot {
         
         // Add a reuse
         entry = new BaseConnectionCreationToolEntry(
-                Messages.getString("FmdPaletteRoot.reuse"), Messages.getString("FmdPaletteRoot.createReuse"), new ModelCreationFactory(getURNspec(), Reuse.class), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("FmdPaletteRoot.reuse"), Messages.getString("FmdPaletteRoot.createReuse"), new ModelCreationFactory(getURNspec(), ReuseLink.class), //$NON-NLS-1$ //$NON-NLS-2$
                 JUCMNavPlugin.getImageDescriptor("icons/Contribution16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Contribution24.gif")); //$NON-NLS-1$
         linksDrawer.add(entry);

@@ -26,6 +26,7 @@ import urncore.URNdefinition;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urn.URNspec#getName <em>Name</em>}</li>
  *   <li>{@link urn.URNspec#getDescription <em>Description</em>}</li>
@@ -42,7 +43,6 @@ import urncore.URNdefinition;
  *   <li>{@link urn.URNspec#getMetadata <em>Metadata</em>}</li>
  *   <li>{@link urn.URNspec#getAsdspec <em>Asdspec</em>}</li>
  * </ul>
- * </p>
  *
  * @see urn.UrnPackage#getURNspec()
  * @model
@@ -386,7 +386,7 @@ public interface URNspec extends EObject {
 	 * @return the value of the '<em>Asdspec</em>' containment reference.
 	 * @see #setAsdspec(ASDspec)
 	 * @see urn.UrnPackage#getURNspec_Asdspec()
-	 * @model containment="true" required="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	ASDspec getAsdspec();

@@ -5,6 +5,7 @@ import fm.FeatureModel;
 import fm.FmFactory;
 import fm.MandatoryFMLink;
 import fm.OptionalFMLink;
+import fm.ReuseLink;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
@@ -29,7 +30,6 @@ import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
 import grl.QualitativeLabel;
-import grl.Reuse;
 import grl.StrategiesGroup;
 import grl.kpimodel.Indicator;
 import grl.kpimodel.IndicatorGroup;
@@ -357,8 +357,8 @@ public class ModelCreationFactory implements CreationFactory {
             	result = grlfactory.createDecomposition();
             } else if (targetClass.equals(Contribution.class)) {
             	result = grlfactory.createContribution();
-            } else if (targetClass.equals(Reuse.class)) {
-            	result = grlfactory.createReuse();
+            } else if (targetClass.equals(ReuseLink.class)) {
+            	result = fmfactory.createReuseLink();
             } else if (targetClass.equals(MandatoryFMLink.class)) {
             	result = fmfactory.createMandatoryFMLink();
             } else if (targetClass.equals(OptionalFMLink.class)) {
@@ -758,7 +758,6 @@ public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolea
         // add feature model and impact model to GRLspec
         urnspec.getGrlspec().setFeatureModel((FeatureModel) ModelCreationFactory.getNewObject(null, FeatureModel.class));
         urnspec.getGrlspec().setImpactModel((ImpactModel) ModelCreationFactory.getNewObject(null, ImpactModel.class));
-
         
         // add a new GRL diagram to the GRLspec, if desired
         if (createGrl) {

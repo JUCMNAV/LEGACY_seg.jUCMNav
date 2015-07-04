@@ -6,6 +6,8 @@
  */
 package grl;
 
+import ca.mcgill.sel.core.COREContribution;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -14,12 +16,13 @@ package grl;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.Contribution#getContribution <em>Contribution</em>}</li>
  *   <li>{@link grl.Contribution#getQuantitativeContribution <em>Quantitative Contribution</em>}</li>
  *   <li>{@link grl.Contribution#isCorrelation <em>Correlation</em>}</li>
+ *   <li>{@link grl.Contribution#getCoreContribution <em>Core Contribution</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getContribution()
  * @model
@@ -109,5 +112,31 @@ public interface Contribution extends ElementLink {
 	 * @generated
 	 */
     void setCorrelation(boolean value);
+
+				/**
+	 * Returns the value of the '<em><b>Core Contribution</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Core Contribution</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Core Contribution</em>' reference.
+	 * @see #setCoreContribution(COREContribution)
+	 * @see grl.GrlPackage#getContribution_CoreContribution()
+	 * @model
+	 * @generated
+	 */
+	COREContribution getCoreContribution();
+
+				/**
+	 * Sets the value of the '{@link grl.Contribution#getCoreContribution <em>Core Contribution</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Core Contribution</em>' reference.
+	 * @see #getCoreContribution()
+	 * @generated
+	 */
+	void setCoreContribution(COREContribution value);
 
 } // Contribution

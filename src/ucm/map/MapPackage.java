@@ -2111,13 +2111,13 @@ public interface MapPackage extends EPackage {
     int UC_MMAP__COMMENTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
 
     /**
-	 * The feature id for the '<em><b>Model Reuse</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Model Reuses</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MMAP__MODEL_REUSE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
+	int UC_MMAP__MODEL_REUSES = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
 
 				/**
 	 * The feature id for the '<em><b>Model Elements</b></em>' reference list.
@@ -2138,13 +2138,22 @@ public interface MapPackage extends EPackage {
 	int UC_MMAP__REALIZES = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
 
 				/**
+	 * The feature id for the '<em><b>Core Concern</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UC_MMAP__CORE_CONCERN = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
+
+				/**
 	 * The feature id for the '<em><b>Singleton</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int UC_MMAP__SINGLETON = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
+    int UC_MMAP__SINGLETON = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 10;
 
     /**
 	 * The feature id for the '<em><b>Parent Stub</b></em>' reference list.
@@ -2153,7 +2162,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UC_MMAP__PARENT_STUB = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 10;
+    int UC_MMAP__PARENT_STUB = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 11;
 
     /**
 	 * The number of structural features of the '<em>UC Mmap</em>' class.
@@ -2162,7 +2171,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UC_MMAP_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 11;
+    int UC_MMAP_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 12;
 
     /**
 	 * The meta object id for the '{@link ucm.map.impl.PluginBindingImpl <em>Plugin Binding</em>}' class.
