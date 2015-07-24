@@ -110,6 +110,9 @@ public class ReportWizardMapSelectionPage extends WizardPage {
             if ((diagramName.contains("-Map")) && (ReportGeneratorPreferences.getUCMSHOWUCMDIAGRAMS() || ReportGeneratorPreferences.getUCMSHOWSCENARIOINFO() || ReportGeneratorPreferences.getUCMSHOWSCENARIOEXEC())) { //$NON-NLS-1$
                 temp.add(this.mapsToExport.elementAt(i));
             }
+            else if ((diagramName.contains("-FeatureDiag")) && (ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS() || ReportGeneratorPreferences.getShowGRLShowEvals())) { //$NON-NLS-1$
+            	temp.add(this.mapsToExport.elementAt(i));
+            }
             else if ((diagramName.contains("-GRLGraph")) && (ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS() || ReportGeneratorPreferences.getShowGRLShowEvals())) { //$NON-NLS-1$
             	temp.add(this.mapsToExport.elementAt(i));
             }
@@ -266,6 +269,10 @@ public class ReportWizardMapSelectionPage extends WizardPage {
             diagramName = ReportWizard.getDiagramName(diagram);
             if (diagramName.contains("-Map")){ //$NON-NLS-1$
                 filteredName = diagramName.substring(0, diagramName.indexOf("-Map") + 1) //$NON-NLS-1$
+                        + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
+            }
+            else if (diagramName.contains("-FeatureDiag")){ //$NON-NLS-1$
+                filteredName = diagramName.substring(0, diagramName.indexOf("-FeatureDiag") + 1) //$NON-NLS-1$
                         + diagramName.substring(diagramName.lastIndexOf('-') + 1, diagramName.length());
             }
             else { 

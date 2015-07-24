@@ -324,6 +324,7 @@ public class ReportGeneratorPreferences {
     public static boolean getGRLShowIntentionalElements() {
         return getPreferenceStore().getBoolean(PREF_GRL_SHOW_INTENTIONAL_ELEMENTS);
     }
+   
 
     public static boolean getGRLShowBeliefs() {
         return getPreferenceStore().getBoolean(PREF_GRL_SHOW_BELIEFS);

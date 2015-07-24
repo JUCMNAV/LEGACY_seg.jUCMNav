@@ -60,6 +60,16 @@ redirect('<xsl:value-of select="@branchLink"/>');
 </a><br/>
 </xsl:template>
 
+<xsl:template match="branch[@id='FM']/leaf">
+<img src="grl16.gif"/>
+<a  target="mainFrame" >
+<xsl:attribute name="href" >
+<xsl:value-of select="link"/>
+</xsl:attribute>
+<xsl:value-of select="leafText"/>
+</a><br/>
+</xsl:template>
+
 <xsl:template match="branch[@id='DEF']/leaf[link='UCM_Definitions.html']">
 <img src="ucmdef16.gif"/>
 <a  target="mainFrame" >
@@ -81,6 +91,16 @@ redirect('<xsl:value-of select="@branchLink"/>');
 </xsl:template>
 
 <xsl:template match="branch[@id='DEF']/leaf[link='GRL_Definitions.html']">
+<img src="grldef16.gif"/>
+<a  target="mainFrame" >
+<xsl:attribute name="href" >
+<xsl:value-of select="link"/>
+</xsl:attribute>
+<xsl:value-of select="leafText"/>
+</a><br/>
+</xsl:template>
+
+<xsl:template match="branch[@id='DEF']/leaf[link='FM_Definitions.html']">
 <img src="grldef16.gif"/>
 <a  target="mainFrame" >
 <xsl:attribute name="href" >

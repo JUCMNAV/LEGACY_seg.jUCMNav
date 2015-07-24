@@ -1,5 +1,6 @@
 package seg.jUCMNav.importexport.html;
 
+import fm.FeatureDiagram;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
@@ -84,7 +85,7 @@ import urncore.IURNNode;
 import urncore.Metadata;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
-
+import javax.swing.JOptionPane;
 /**
  * Export an HTML suite from a URNspec.
  * 
@@ -102,6 +103,7 @@ public class HTMLReport extends URNReport {
 	public static final int UCM_DEFINITIONS = 0;
 	public static final int UCM_SCENARIOS = 1;
 	public static final int GRL_DEFINITIONS = 2;
+	public static final int FM_DEFINITIONS = 3;
 
 	private static int evalValue = 0;
 
@@ -153,6 +155,7 @@ public class HTMLReport extends URNReport {
     	prefShowScenarioExec = ReportGeneratorPreferences.getUCMSHOWSCENARIOEXEC();
     	prefShowGRLDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
     	prefShowEvals = ReportGeneratorPreferences.getShowGRLShowEvals();
+    	//prefShowFTRDiagrams = ReportGeneratorPreferences.getGRLSHOWGRLDIAGRAMS();
     	
     	prefShowTrend = ReportGeneratorPreferences.getShowGRLEvalStrategyTrend();
     	prefTrend = Integer.parseInt(ReportGeneratorPreferences.getGRLEvalStrategyTrend());
@@ -185,12 +188,12 @@ public class HTMLReport extends URNReport {
     	for (Iterator iter = mapDiagrams.keySet().iterator(); iter.hasNext();) {
     		IURNDiagram diagram = (IURNDiagram) iter.next();
     		
-			isLast = (i == mapDiagrams.size() - 1);
+			isLast = (i == mapDiagrams.size()-1 );
 			// get the high level IFigure to be saved
 			pane = (IFigure) mapDiagrams.get(diagram);
 			String diagramName = ExportWizard.getDiagramName(diagram);
 			// export the diagram only if the corresponding preference value is TRUE
-			if (((diagramName.contains("-Map")) && prefShowUCMDiagrams) || ((diagramName.contains("-GRLGraph")) && prefShowGRLDiagrams)) { //$NON-NLS-1$ //$NON-NLS-2$
+			if ( (diagramName.contains("-Map") && prefShowUCMDiagrams) || (diagramName.contains("-GRLGraph") && prefShowGRLDiagrams)  || (diagramName.contains("-FeatureDiag") && prefShowGRLDiagrams) ) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				
 				String imgPath = createImgPath(filename, diagramName);
 				// export the image file
@@ -206,13 +209,22 @@ public class HTMLReport extends URNReport {
 				// prepare the HTML menu item
 				HTMLMenuItem htmlMenuItem = new HTMLMenuItem();
 				htmlMenuItem.reset();
-
+      
 				htmlMenuItem.setDiagramName(EscapeUtils.escapeHTML(diagramName));
+				
 				if (diagram instanceof GRLGraph) {
-					htmlMenuItem.setType(HTMLMenuItem.TYPE_GRL);
-				} else {
+					if (diagram instanceof FeatureDiagram)
+					{
+						htmlMenuItem.setType(HTMLMenuItem.TYPE_FM);
+						}
+					else {				
+						htmlMenuItem.setType(HTMLMenuItem.TYPE_GRL);
+						} 
+					} 
+				else {
 					htmlMenuItem.setType(HTMLMenuItem.TYPE_UCM);
 				}
+				
 				htmlMenuItem.setLeafText(diagramName.substring(diagramName.lastIndexOf("-") + 1)); //$NON-NLS-1$
 				htmlMenuItem.setLink(diagramName + ".html"); //$NON-NLS-1$
 				htmlMenuItem.setBaseX(-pane.getBounds().x);
@@ -231,6 +243,7 @@ public class HTMLReport extends URNReport {
 					exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_DEFINITIONS);
 					exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_SCENARIOS);
 					exportGlobalDefinitions(urn, htmlPath, HTMLReport.GRL_DEFINITIONS);
+					exportGlobalDefinitions(urn, htmlPath, HTMLReport.FM_DEFINITIONS);
 					htmlMenuParser.writeToFile();
 					htmlMenuParser.resetDocument();
 					complete = true;
@@ -257,6 +270,7 @@ public class HTMLReport extends URNReport {
 	    		exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_DEFINITIONS);
 				exportGlobalDefinitions(urn, htmlPath, HTMLReport.UCM_SCENARIOS);
 				exportGlobalDefinitions(urn, htmlPath, HTMLReport.GRL_DEFINITIONS);
+				exportGlobalDefinitions(urn, htmlPath, HTMLReport.FM_DEFINITIONS);
 				htmlMenuParser.writeToFile();
 				htmlMenuParser.resetDocument();
     		}
@@ -407,7 +421,7 @@ public class HTMLReport extends URNReport {
 			desFile = htmlPath + PAGES_LOCATION + "icon16.gif"; //$NON-NLS-1$
 			copy(srcFile, desFile);
 			
-			// Generate the ucm16.gif (the UCM symbol) file
+			//Generate the ucm16.gif (the UCM symbol) file
 			srcFile = "htmltemplates/ucm16.gif"; //$NON-NLS-1$
 			desFile = htmlPath + PAGES_LOCATION + "ucm16.gif"; //$NON-NLS-1$
 			copy(srcFile, desFile);
@@ -794,12 +808,19 @@ public class HTMLReport extends URNReport {
 				OutputOrForkGuards(diagram, sb);
 				OutputStubBindings(diagram, sb);
 				OutputComponentURNlinks(diagram, sb);
-			} else { // GRLGraph
+			} else if (diagram instanceof FeatureDiagram) { // FMGraph
+				OutputFMDiagramInfo(diagram, sb);
+				OutputFMIntentionalElements(diagram, sb);
+				//OutputGRLBeliefs(diagram, sb);
+				//OutputIntentionalElementURNlinks(diagram, sb);
+				//OutputActorURNlinks(diagram, sb);
+			}else { // GRLGraph
 				OutputGRLDiagramInfo(diagram, sb);
 				OutputGRLIntentionalElements(diagram, sb);
 				OutputGRLBeliefs(diagram, sb);
 				OutputIntentionalElementURNlinks(diagram, sb);
 				OutputActorURNlinks(diagram, sb);
+				
 			}
 
 			// Add tool tips with an image map
@@ -896,7 +917,11 @@ public class HTMLReport extends URNReport {
 				outputUCM_Scenarios(urn.getUcmspec(), sb);
 				pageName = "UCM_Scenarios"; //$NON-NLS-1$
 				
-			} else { // GRL_DEFINITIONS
+			} else if ( type == FM_DEFINITIONS ) // FTR_DEFINITIONS 
+				{ 
+				outputFM_Definitions(urn, sb);
+				pageName = "FM_Definitions"; //$NON-NLS-1$
+			}else { // GRL_DEFINITIONS
 				outputGRL_Definitions(urn, sb);
 				pageName = "GRL_Definitions"; //$NON-NLS-1$
 			}
@@ -1302,7 +1327,17 @@ public class HTMLReport extends URNReport {
 
 		InsertMetadata(((GRLGraph) diagram).getMetadata(), sb);
 	}
+	// added to fm diagram info diagram instanceof FeatureDiagram
+	
+	private void OutputFMDiagramInfo(IURNDiagram diagram, StringBuffer sb) {
+		if (ReportUtils.notEmpty(((FeatureDiagram) diagram).getDescription())) {
+			sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.DiagramDesc") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append("&nbsp;&nbsp;&nbsp;" + EscapeUtils.escapeHTML(((FeatureDiagram) diagram).getDescription()) ); //$NON-NLS-1$
+		}
 
+		InsertMetadata(((FeatureDiagram) diagram).getMetadata(), sb);
+	}
+	//-----------------------------------------------------
 	private void InsertMetadata(EList metadata, StringBuffer sb) {
 
 		if (!this.isMetadataMeaningful(metadata))
@@ -1359,15 +1394,18 @@ public class HTMLReport extends URNReport {
 
 	private void OutputGRLIntentionalElements(IURNDiagram diagram, StringBuffer sb) {
 		boolean hasData = false;
-
+         
 		if (!ReportGeneratorPreferences.getGRLShowIntentionalElements())
 			return;
 
 		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
+			
 			if (currentElement instanceof IntentionalElementRef) {
 				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
-				hasData = hasGRLIntentionalElementData(ie);
+				
+				if (ie.getClass().toString().contains("grl") ) { //$NON-NLS-1$
+				hasData = hasGRLIntentionalElementData(ie);}
 			}
 		}
 
@@ -1377,27 +1415,72 @@ public class HTMLReport extends URNReport {
 		sb.append("<h2>" + Messages.getString("HTMLReport.IntentionalElements") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
 		sb.append("<tr><td><b>" + Messages.getString("HTMLReport.Name") + "</b></td><td><b>" + Messages.getString("HTMLReport.Description") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-
-		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+				for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
 			URNmodelElement currentElement = (URNmodelElement) iter.next();
-
+			
 			if (currentElement instanceof IntentionalElementRef) {
 				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
-
-				if (hasGRLIntentionalElementData(ie)) {
+				if (hasGRLIntentionalElementData(ie) ) {
+					
 					sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(ie.getDescription())) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					InsertMetadataInTable(ie.getMetadata(), sb);
 					sb.append("</tr>\n"); //$NON-NLS-1$
 				}
 			}
 		}
+		//JOptionPane.showMessageDialog(null,ie.getClass().toString().contains("grl")+" "+ie.getClass().toString());
+		//&& ie.getClass().toString().contains("grl")
 
 		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 	}
+	// added for FM
+	private void OutputFMIntentionalElements(IURNDiagram diagram, StringBuffer sb) {
+		boolean hasData = false;
+         
+		if (!ReportGeneratorPreferences.getGRLShowIntentionalElements())
+			return;
+
+		for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext() && !hasData;) {
+			URNmodelElement currentElement = (URNmodelElement) iter.next();
+			
+			if (currentElement instanceof IntentionalElementRef) {
+				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
+				
+				if (ie.getClass().toString().contains("fm") ) { //$NON-NLS-1$
+				hasData = hasGRLIntentionalElementData(ie);}
+			}
+		}
+
+		if (!hasData)
+			return;
+
+		sb.append("<h2>" + Messages.getString("HTMLReport.IntentionalElements") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
+		sb.append("<tr><td><b>" + Messages.getString("HTMLReport.Name") + "</b></td><td><b>" + Messages.getString("HTMLReport.Description") + "</b></td><td><b>" + Messages.getString("HTMLReport.Metadata") + "</b></td></tr>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+				for (Iterator iter = diagram.getNodes().iterator(); iter.hasNext();) {
+			URNmodelElement currentElement = (URNmodelElement) iter.next();
+			
+			if (currentElement instanceof IntentionalElementRef) {
+				IntentionalElement ie = ((IntentionalElementRef) currentElement).getDef();
+				if (hasGRLIntentionalElementData(ie) ) {
+					
+					sb.append("<tr><td>" + EscapeUtils.escapeHTML(ie.getName()) + "</td><td>" + EscapeUtils.escapeHTML(notNull(ie.getDescription())) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					InsertMetadataInTable(ie.getMetadata(), sb);
+					sb.append("</tr>\n"); //$NON-NLS-1$
+				}
+			}
+		}
+		//JOptionPane.showMessageDialog(null,ie.getClass().toString().contains("grl")+" "+ie.getClass().toString());
+		//&& ie.getClass().toString().contains("grl")
+
+		sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
+	}
+	//-----------------------------------------------------------
 
 	private boolean hasGRLIntentionalElementData(IntentionalElement ie) {
 		return (ReportUtils.notEmpty(ie.getDescription()) || isMetadataMeaningful( ie.getMetadata() ));
 	}
+	
 
 	private void OutputIntentionalElementURNlinks(IURNDiagram diagram, StringBuffer sb) {
 		boolean hasData = false;
@@ -1602,14 +1685,16 @@ public class HTMLReport extends URNReport {
 		else
 			return s;
 	}
-
+// to write the name of the map in the page
 	private String MapType(IURNDiagram diagram) {
 		if (diagram instanceof UCMmap) {
 			if (((UCMmap) diagram).getParentStub().size() == 0)
 				return Messages.getString("HTMLReport.UCMRootMap"); //$NON-NLS-1$
 			else
 				return Messages.getString("HTMLReport.UCMPluginMap"); //$NON-NLS-1$
-		} else
+		} else if (diagram instanceof FeatureDiagram)
+			return Messages.getString("HTMLReport.FMGraph"); //$NON-NLS-1$
+		else
 			return Messages.getString("HTMLReport.GRLGraph"); //$NON-NLS-1$
 	}
 
@@ -2042,7 +2127,14 @@ public class HTMLReport extends URNReport {
 		outputStrategies( grlspec, sb );
 		outputStrategiesKPI(grlspec, sb);
 	}
+	
+	private void outputFM_Definitions(URNspec urn, StringBuffer sb) {
 
+		GRLspec fmspec = urn.getGrlspec();
+
+		sb.append("<h1>" + Messages.getString("HTMLReport.FTRDefinitions") + "</h1>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		outputfm( fmspec, sb );
+	}
 	private void outputStrategies(GRLspec grlspec, StringBuffer sb) {
 			
 		HashMap<Integer, EvaluationStrategy> strategies;
@@ -2112,9 +2204,12 @@ public class HTMLReport extends URNReport {
 
 					// add Intentional Elements in first column, one per row
 					for (Iterator iter11 = grlspec.getIntElements().iterator(); iter11.hasNext();) {
-
+						
 						IntentionalElement intElement = (IntentionalElement) iter11.next();
+						if (intElement.getClass().toString().contains("grl")) //$NON-NLS-1$
+							{
 						sb.append("<tr><td>" + intElement.getName() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
+						
 
 						for( Integer index : strategies.keySet() ) {
 							EvaluationStrategy currentStrategy = strategies.get(index);
@@ -2129,6 +2224,7 @@ public class HTMLReport extends URNReport {
 						
 						sb.append("</tr>\n"); //$NON-NLS-1$
 					}
+						}
 
 					sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
 				}
@@ -2138,7 +2234,95 @@ public class HTMLReport extends URNReport {
 		}
 
 	}
-	
+//-------------create output of feature Diagram ------------------------------------------
+	private void outputfm(GRLspec grlspec, StringBuffer sb) {
+		
+		HashMap<Integer, EvaluationStrategy> strategies;
+
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.FTRDefinitions") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		if (prefShowEvals) {
+			for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
+
+				StrategiesGroup evalGroup = (StrategiesGroup) iter1.next();
+
+				evalGroup.sortStrategies();
+				
+				if (!evalGroup.getStrategies().isEmpty()) {
+
+					strategies = new HashMap<Integer, EvaluationStrategy>();
+
+					/***************************************************************************************************************************************
+					 * Create the header row
+				 	*/
+					sb.append("<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n"); //$NON-NLS-1$
+
+					sb.append("<tr><td><b>" + Messages.getString("HTMLReport.ElementName") + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+					for( Integer index : strategies.keySet() ) {
+						sb.append("<td><b>" + index + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$
+					}	
+					
+					if (prefShowTrend){
+						sb.append("<td><b>" + Messages.getString("HTMLReport.Trends") + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					}
+
+					sb.append("</tr>\n"); //$NON-NLS-1$
+
+					// add Actors in first column, one per row
+					for (Iterator iter = grlspec.getActors().iterator(); iter.hasNext();) {
+
+						Actor actor = (Actor) iter.next();
+						sb.append("<tr><td>" + actor.getName() + " (A)" + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+						for( Integer index : strategies.keySet() ) {
+							EvaluationStrategy currentStrategy = strategies.get(index);
+							int evalValue = evalTable.get(currentStrategy).get(actor);
+							sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + evalValue + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						}	
+
+						if(prefShowTrend){
+							int trend = BatchEvaluationUtil.calculateTrend(strategies, actor, evalTable, prefTrend);
+							sb.append(trendContent(trend));
+						}
+						
+						sb.append("</tr>\n");   				 //$NON-NLS-1$
+					}     
+
+					// add Intentional Elements in first column, one per row
+					for (Iterator iter11 = grlspec.getIntElements().iterator(); iter11.hasNext();) {
+						
+						IntentionalElement intElement = (IntentionalElement) iter11.next();
+						if (intElement.getClass().toString().contains("fm")) //$NON-NLS-1$
+							{
+						sb.append("<tr><td>" + intElement.getName() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
+						
+
+						for( Integer index : strategies.keySet() ) {
+							EvaluationStrategy currentStrategy = strategies.get(index);
+							int evalValue = evalTable.get(currentStrategy).get(intElement);
+							sb.append("<td bgcolor=" + getBackgroundColor(evalValue, grlspec.getUrnspec()) + "><b>" + evalValue + "</b></td>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						}	
+
+						if(prefShowTrend){
+							int trend = BatchEvaluationUtil.calculateTrend(strategies, intElement, evalTable, prefTrend);
+							sb.append(trendContent(trend));
+						}
+						
+						sb.append("</tr>\n"); //$NON-NLS-1$
+					}
+						}
+
+					sb.append("</tbody></table></br>\n"); //$NON-NLS-1$
+				}
+			}
+		} else {
+			sb.append("&nbsp;&nbsp;&nbsp;<i>" + Messages.getString("HTMLReport.NoEvalsPrefsDisabled") + "</i>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+
+	}
+
+//--------------------------------------------------------------
 	private void outputStrategiesKPI(GRLspec grlspec, StringBuffer sb) {
 		
 		HashMap<Integer, EvaluationStrategy> strategies;

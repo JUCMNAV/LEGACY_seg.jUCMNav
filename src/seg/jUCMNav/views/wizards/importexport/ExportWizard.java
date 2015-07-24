@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.wizards.importexport;
 
+import fm.FeatureDiagram;
 import grl.GRLGraph;
 
 import java.io.File;
@@ -503,9 +504,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
         String result = ""; //$NON-NLS-1$
         if (diagram instanceof UCMmap) {
             result = filename + "-" + "Map" + ((UCMmap) diagram).getId() + "-" + name; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        } else if (diagram instanceof FeatureDiagram) {
+            result = filename + "-" + "FeatureDiag" + ((FeatureDiagram) diagram).getId() + "-" + name; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         } else if (diagram instanceof GRLGraph) {
             result = filename + "-" + "GRLGraph" + ((GRLGraph) diagram).getId() + "-" + name; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        }
+       }
         return result;
     }
 

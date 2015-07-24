@@ -252,6 +252,19 @@ public class ExportWizardMapSelectionPage extends WizardPage {
                         filteredName = diagramName;
                     }
                 }
+                else if (diagramName.contains("-FeatureDiag")) //$NON-NLS-1$
+                {
+                    String[] splitName = diagramName.split("-FeatureDiag[0-9]*-");//$NON-NLS-1$
+                    if (splitName.length > 1)
+                    {
+                        filteredName = splitName[0] + "-" + splitName[1];  //$NON-NLS-1$
+                    }
+                    else
+                    {
+                        // Should not happen, but to be on the same side...
+                        filteredName = diagramName;
+                    }
+                }                                	
                 else
                 {
                     String[] splitName = diagramName.split("-GRLGraph[0-9]*-");//$NON-NLS-1$

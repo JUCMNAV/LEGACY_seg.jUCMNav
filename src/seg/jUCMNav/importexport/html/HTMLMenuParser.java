@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -134,16 +135,19 @@ public class HTMLMenuParser {
 	 * @param htmlMenuItem
 	 */
 	public void addMenu(HTMLMenuItem htmlMenuItem) {
+		
 		if (xmlDocument == null) {
 			parseMenu();
 		}
 
 		NodeList branchList = xmlDocument.getDocumentElement().getChildNodes();
 		int len = branchList.getLength();
+		
 		Element branch = null;
 		for (int i = 0; i < len; i++) {
 			Node childNode = branchList.item(i);
-			if (childNode.getNodeType() == Node.ELEMENT_NODE) {
+			
+				if (childNode.getNodeType() == Node.ELEMENT_NODE) {
 				branch = (Element) childNode;
 
 				String bid = branch.getAttribute(BRANCH_ID);
@@ -152,8 +156,10 @@ public class HTMLMenuParser {
 				}
 			}
 		}
-
+		
+		
 		if (branch != null) {
+			
 			if (htmlMenuItem.getType().equals(HTMLMenuItem.TYPE_GRL)) {
 				Element leaf = xmlDocument.createElement(LEAF);
 
@@ -174,12 +180,36 @@ public class HTMLMenuParser {
 				leaf.appendChild(baseX);
 				leaf.appendChild(baseY);
 				branch.appendChild(leaf);
+			} else if (htmlMenuItem.getType().equals(HTMLMenuItem.TYPE_FM)){
+				//--------------------
+				
+				Element leaf = xmlDocument.createElement(LEAF);
+
+				Element leafText = xmlDocument.createElement(LEAF_TEXT);
+				leafText.setTextContent(htmlMenuItem.getLeafText());
+
+				Element link = xmlDocument.createElement(LINK);
+				link.setTextContent(htmlMenuItem.getLink());
+
+				Element baseX = xmlDocument.createElement(BASE_X);
+				baseX.setTextContent(String.valueOf(htmlMenuItem.getBaseX()));
+
+				Element baseY = xmlDocument.createElement(BASE_Y);
+				baseY.setTextContent(String.valueOf(htmlMenuItem.getBaseY()));
+
+				leaf.appendChild(leafText);
+				leaf.appendChild(link);
+				leaf.appendChild(baseX);
+				leaf.appendChild(baseY);
+				branch.appendChild(leaf);
+				//---------------------------
 			} else if (htmlMenuItem.getType().equals(HTMLMenuItem.TYPE_UCM)) {
 				addUCMMenu(htmlMenuItem, branch);
 			}
 		}
 	}
 
+	
 	/**
 	 * Add new ucm menu to the given node's children
 	 * 
@@ -390,7 +420,7 @@ public class HTMLMenuParser {
 //				oldtext += line + "\r\n";  //$NON-NLS-1$
 //			}
 //			reader.close();
-//			String newtext = oldtext.replaceAll("</tree>", "\t<branch baseX=\"0\" baseY=\"0\" branchLink=\"notRedirect\" id=\"DEF\">\r\n\t\t<branchText>Definitions</branchText>\r\n\t\t<leaf><leafText>UCM Definitions</leafText><link>UCM_Definitions.html</link><baseX>215</baseX><baseY>2</baseY></leaf>\r\n\t\t<leaf><leafText>GRL Definitions</leafText><link>GRL_Definitions.html</link><baseX>215</baseX><baseY>2</baseY></leaf>\r\n\t</branch>\r\n</tree>");  //$NON-NLS-1$  //$NON-NLS-2$
+//			String newtext = oldtext.replaceAll("</tree>", "\t<branch baseX=\"0\" baseY=\"0\" branchLink=\"notRedirect\" id=\"DEF\">\r\n\t\t<branchText>Definitions</branchText>\r\n\t\t<leaf><leafText>UCM Definitions</leafText><link>UCM_Definitions.html</link><baseX>215</baseX><baseY>2</baseY></leaf>\r\n\t\t<leaf><leafText>GRL Definitions</leafText><link>GRL_Definitions.html</link><baseX>215</baseX><baseY>2</baseY></leaf>\r\n\t\t<leaf><leafText>FM Definitions</leafText><link>FM_Definitions.html</link><baseX>215</baseX><baseY>2</baseY></leaf>\r\n\t</branch>\r\n</tree>");  //$NON-NLS-1$  //$NON-NLS-2$
 //			FileWriter writer = new FileWriter(xmlFullPath);
 //			writer.write(newtext);
 //			writer.close();
@@ -456,6 +486,21 @@ public class HTMLMenuParser {
 					}
 					// set the default "no GRLs" message
 					emptyText = Messages.getString("HTMLMenuParser.NoGRLs"); //$NON-NLS-1$
+				} else if (bid.equals(HTMLMenuItem.TYPE_FM)) {
+					// the branch corresponds to the FM menu
+					// get the child node corresponding to the branch text (i.e. the menu name),
+					// fetch the menu name from the properties and assign this name as the text content of the node
+					NodeList childNodeList = childNode.getChildNodes();
+					int len2 = childNodeList.getLength();
+					for (int j=0; j < len2; j++) {
+						Node childNode2 = childNodeList.item(j);
+						if ((childNode2.getNodeName()).equals(BRANCH_TEXT)) {
+							childNode2.setTextContent(Messages.getString("HTMLMenuParser.FMDiagrams")); //$NON-NLS-1$
+							break;
+						}
+					}
+					// set the default "no FMs" message
+					emptyText = Messages.getString("HTMLMenuParser.NoFMs"); //$NON-NLS-1$
 				} else if (bid.equals(HTMLMenuItem.TYPE_MSC)) {
 					// the branch corresponds to the MSC menu
 					// get the child node corresponding to the branch text (i.e. the menu name),
@@ -483,7 +528,7 @@ public class HTMLMenuParser {
 							childNode2.setTextContent(Messages.getString("HTMLMenuParser.Definitions")); //$NON-NLS-1$
 						} else if ((childNode2.getNodeName()).equals(LEAF)) {
 							// the child nodes of the Definitions node are the UCM Definitions page, the UCM Scenarios page,
-							// the GRL Definitions page as well as the Title Page
+							// the GRL Definitions page, the FM Definitions as well as the Title Page
 							NodeList child2NodeList = childNode2.getChildNodes();
 							int len3 = child2NodeList.getLength();
 							// get the child node corresponding to the leaf text (i.e. the menu name),
@@ -497,6 +542,8 @@ public class HTMLMenuParser {
 										childNode3.setTextContent(Messages.getString("HTMLMenuParser.UCMScenarios")); //$NON-NLS-1$
 									} else if ((childNode3.getTextContent()).equals(HTMLMenuItem.TYPE_GRL_DEF)) {
 										childNode3.setTextContent(Messages.getString("HTMLMenuParser.GRLDefinitions")); //$NON-NLS-1$
+									} else if ((childNode3.getTextContent()).equals(HTMLMenuItem.TYPE_FM_DEF)) {
+										childNode3.setTextContent(Messages.getString("HTMLMenuParser.FMDefinitions")); //$NON-NLS-1$
 									} else {
 										childNode3.setTextContent(Messages.getString("HTMLMenuParser.TitlePage")); //$NON-NLS-1$
 									}
