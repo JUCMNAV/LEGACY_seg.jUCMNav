@@ -430,6 +430,10 @@ public class HTMLReport extends URNReport {
 			srcFile = "htmltemplates/grl16.gif"; //$NON-NLS-1$
 			desFile = htmlPath + PAGES_LOCATION + "grl16.gif"; //$NON-NLS-1$
 			copy(srcFile, desFile);
+			// Generate the fmd16.gif (the fm symbol) file
+						srcFile = "htmltemplates/fmd16.gif"; //$NON-NLS-1$
+						desFile = htmlPath + PAGES_LOCATION + "fmd16.gif"; //$NON-NLS-1$
+						copy(srcFile, desFile);
 						
 			// Generate the ucmdef16.gif (the UCMDEF symbol) file
 			srcFile = "htmltemplates/ucmdef16.gif"; //$NON-NLS-1$
@@ -445,6 +449,10 @@ public class HTMLReport extends URNReport {
 			srcFile = "htmltemplates/grldef16.gif"; //$NON-NLS-1$
 			desFile = htmlPath + PAGES_LOCATION + "grldef16.gif"; //$NON-NLS-1$
 			copy(srcFile, desFile);
+			// Generate the feature16.gif (the FMDEF symbol) file
+						srcFile = "htmltemplates/feature16.gif"; //$NON-NLS-1$
+						desFile = htmlPath + PAGES_LOCATION + "feature16.gif"; //$NON-NLS-1$
+						copy(srcFile, desFile);
 
 			// Generate the LogoFinal.gif file
 			srcFile = "htmltemplates/LogoFinal.gif"; //$NON-NLS-1$
@@ -2132,7 +2140,7 @@ public class HTMLReport extends URNReport {
 
 		GRLspec fmspec = urn.getGrlspec();
 
-		sb.append("<h1>" + Messages.getString("HTMLReport.FTRDefinitions") + "</h1>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<h1>" + Messages.getString("HTMLReport.FMDefinitions") + "</h1>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		outputfm( fmspec, sb );
 	}
 	private void outputStrategies(GRLspec grlspec, StringBuffer sb) {
@@ -2239,7 +2247,7 @@ public class HTMLReport extends URNReport {
 		
 		HashMap<Integer, EvaluationStrategy> strategies;
 
-		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.FTRDefinitions") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("</div>\n<div>\n<h2>" + Messages.getString("HTMLReport.EvaluationStrategies") + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		if (prefShowEvals) {
 			for (Iterator iter1 = grlspec.getGroups().iterator(); iter1.hasNext();) {
@@ -2251,6 +2259,19 @@ public class HTMLReport extends URNReport {
 				if (!evalGroup.getStrategies().isEmpty()) {
 
 					strategies = new HashMap<Integer, EvaluationStrategy>();
+
+					// create a hashmap containing strategies (one per column), key is column number starting with 1
+					int columnNo = 1;
+					for (Iterator iter2 = evalGroup.getStrategies().iterator(); iter2.hasNext();) {
+						EvaluationStrategy strategy = (EvaluationStrategy) iter2.next();
+						strategies.put(columnNo, strategy);
+						columnNo++;
+					}
+
+					strategies = BatchEvaluationUtil.sortStrategies(strategies, 0);
+
+					outputStrategiesLegend( strategies, evalGroup, sb );
+					this.calculateAllEvaluations( strategies.values(), grlspec ); // build evaluations table
 
 					/***************************************************************************************************************************************
 					 * Create the header row
@@ -2321,8 +2342,8 @@ public class HTMLReport extends URNReport {
 		}
 
 	}
-
-//--------------------------------------------------------------
+	//===========================================================================================
+	
 	private void outputStrategiesKPI(GRLspec grlspec, StringBuffer sb) {
 		
 		HashMap<Integer, EvaluationStrategy> strategies;

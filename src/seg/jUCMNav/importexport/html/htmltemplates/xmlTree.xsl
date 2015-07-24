@@ -61,7 +61,7 @@ redirect('<xsl:value-of select="@branchLink"/>');
 </xsl:template>
 
 <xsl:template match="branch[@id='FM']/leaf">
-<img src="grl16.gif"/>
+<img src="fmd16.gif"/>
 <a  target="mainFrame" >
 <xsl:attribute name="href" >
 <xsl:value-of select="link"/>
@@ -101,7 +101,7 @@ redirect('<xsl:value-of select="@branchLink"/>');
 </xsl:template>
 
 <xsl:template match="branch[@id='DEF']/leaf[link='FM_Definitions.html']">
-<img src="grldef16.gif"/>
+<img src="feature16.gif"/>
 <a  target="mainFrame" >
 <xsl:attribute name="href" >
 <xsl:value-of select="link"/>
