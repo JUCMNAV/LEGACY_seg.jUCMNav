@@ -14,10 +14,10 @@ package urncore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.ConnectionLabel#getConnection <em>Connection</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getConnectionLabel()
  * @model

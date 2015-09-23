@@ -34,6 +34,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.PluginBindingImpl#getId <em>Id</em>}</li>
  *   <li>{@link ucm.map.impl.PluginBindingImpl#getProbability <em>Probability</em>}</li>
@@ -47,7 +48,6 @@ import urncore.UrncorePackage;
  *   <li>{@link ucm.map.impl.PluginBindingImpl#getComponents <em>Components</em>}</li>
  *   <li>{@link ucm.map.impl.PluginBindingImpl#getResponsibilities <em>Responsibilities</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

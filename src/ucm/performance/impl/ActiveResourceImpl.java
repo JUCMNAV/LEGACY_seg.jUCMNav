@@ -20,11 +20,11 @@ import ucm.performance.TimeUnit;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.impl.ActiveResourceImpl#getOpTime <em>Op Time</em>}</li>
  *   <li>{@link ucm.performance.impl.ActiveResourceImpl#getUnit <em>Unit</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -20,10 +20,10 @@ import ucm.map.WaitingPlace;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.WaitingPlaceImpl#getWaitType <em>Wait Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

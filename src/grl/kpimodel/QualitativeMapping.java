@@ -17,13 +17,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.QualitativeMapping#getRealWorldLabel <em>Real World Label</em>}</li>
  *   <li>{@link grl.kpimodel.QualitativeMapping#getEvaluation <em>Evaluation</em>}</li>
  *   <li>{@link grl.kpimodel.QualitativeMapping#getQualitativeEvaluation <em>Qualitative Evaluation</em>}</li>
  *   <li>{@link grl.kpimodel.QualitativeMapping#isExceeds <em>Exceeds</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.kpimodel.KpimodelPackage#getQualitativeMapping()
  * @model

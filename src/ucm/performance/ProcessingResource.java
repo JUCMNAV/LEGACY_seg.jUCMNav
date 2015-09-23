@@ -15,11 +15,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.ProcessingResource#getKind <em>Kind</em>}</li>
  *   <li>{@link ucm.performance.ProcessingResource#getComponents <em>Components</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.performance.PerformancePackage#getProcessingResource()
  * @model

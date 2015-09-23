@@ -27,6 +27,7 @@ import urncore.impl.UCMmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.impl.WorkloadImpl#isClosed <em>Closed</em>}</li>
  *   <li>{@link ucm.performance.impl.WorkloadImpl#getArrivalPattern <em>Arrival Pattern</em>}</li>
@@ -39,7 +40,6 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.performance.impl.WorkloadImpl#getUnit <em>Unit</em>}</li>
  *   <li>{@link ucm.performance.impl.WorkloadImpl#getStartPoint <em>Start Point</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

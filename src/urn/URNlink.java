@@ -18,6 +18,7 @@ import urncore.URNmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urn.URNlink#getType <em>Type</em>}</li>
  *   <li>{@link urn.URNlink#getUrnspec <em>Urnspec</em>}</li>
@@ -25,7 +26,6 @@ import urncore.URNmodelElement;
  *   <li>{@link urn.URNlink#getToElem <em>To Elem</em>}</li>
  *   <li>{@link urn.URNlink#getMetadata <em>Metadata</em>}</li>
  * </ul>
- * </p>
  *
  * @see urn.UrnPackage#getURNlink()
  * @model

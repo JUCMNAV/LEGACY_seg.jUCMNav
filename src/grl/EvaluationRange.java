@@ -15,13 +15,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.EvaluationRange#getStart <em>Start</em>}</li>
  *   <li>{@link grl.EvaluationRange#getEnd <em>End</em>}</li>
  *   <li>{@link grl.EvaluationRange#getStep <em>Step</em>}</li>
  *   <li>{@link grl.EvaluationRange#getEval <em>Eval</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getEvaluationRange()
  * @model

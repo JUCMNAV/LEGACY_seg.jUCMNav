@@ -14,10 +14,10 @@ package urncore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.NodeLabel#getNode <em>Node</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getNodeLabel()
  * @model

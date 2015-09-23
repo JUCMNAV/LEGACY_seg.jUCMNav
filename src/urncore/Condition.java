@@ -19,6 +19,7 @@ import ucm.scenario.ScenarioDef;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.Condition#getLabel <em>Label</em>}</li>
  *   <li>{@link urncore.Condition#getExpression <em>Expression</em>}</li>
@@ -31,7 +32,6 @@ import ucm.scenario.ScenarioDef;
  *   <li>{@link urncore.Condition#getScenarioDefPre <em>Scenario Def Pre</em>}</li>
  *   <li>{@link urncore.Condition#getScenarioDefPost <em>Scenario Def Post</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getCondition()
  * @model

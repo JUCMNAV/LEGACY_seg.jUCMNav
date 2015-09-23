@@ -14,10 +14,10 @@ package ucm.map;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.FailurePoint#getExpression <em>Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getFailurePoint()
  * @model

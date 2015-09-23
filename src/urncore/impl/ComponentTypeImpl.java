@@ -29,11 +29,11 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urncore.impl.ComponentTypeImpl#getInstances <em>Instances</em>}</li>
  *   <li>{@link urncore.impl.ComponentTypeImpl#getUrndefinition <em>Urndefinition</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

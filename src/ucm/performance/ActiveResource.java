@@ -14,11 +14,11 @@ package ucm.performance;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.ActiveResource#getOpTime <em>Op Time</em>}</li>
  *   <li>{@link ucm.performance.ActiveResource#getUnit <em>Unit</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.performance.PerformancePackage#getActiveResource()
  * @model abstract="true"

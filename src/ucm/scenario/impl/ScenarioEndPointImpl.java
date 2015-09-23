@@ -25,13 +25,13 @@ import ucm.scenario.ScenarioPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.scenario.impl.ScenarioEndPointImpl#isEnabled <em>Enabled</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioEndPointImpl#isMandatory <em>Mandatory</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioEndPointImpl#getScenarioDef <em>Scenario Def</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioEndPointImpl#getEndPoint <em>End Point</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.Comment#getDescription <em>Description</em>}</li>
  *   <li>{@link urncore.Comment#getX <em>X</em>}</li>
@@ -24,7 +25,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link urncore.Comment#getFillColor <em>Fill Color</em>}</li>
  *   <li>{@link urncore.Comment#getDiagram <em>Diagram</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getComment()
  * @model

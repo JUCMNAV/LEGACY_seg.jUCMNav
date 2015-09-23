@@ -31,11 +31,11 @@ import urncore.impl.GRLmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.ContributionContextGroupImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.impl.ContributionContextGroupImpl#getContribs <em>Contribs</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

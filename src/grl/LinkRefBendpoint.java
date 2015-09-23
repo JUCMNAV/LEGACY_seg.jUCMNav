@@ -15,12 +15,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.LinkRefBendpoint#getX <em>X</em>}</li>
  *   <li>{@link grl.LinkRefBendpoint#getY <em>Y</em>}</li>
  *   <li>{@link grl.LinkRefBendpoint#getLinkref <em>Linkref</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getLinkRefBendpoint()
  * @model

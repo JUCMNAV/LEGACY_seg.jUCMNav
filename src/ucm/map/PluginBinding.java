@@ -22,6 +22,7 @@ import urncore.Condition;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.PluginBinding#getId <em>Id</em>}</li>
  *   <li>{@link ucm.map.PluginBinding#getProbability <em>Probability</em>}</li>
@@ -35,7 +36,6 @@ import urncore.Condition;
  *   <li>{@link ucm.map.PluginBinding#getComponents <em>Components</em>}</li>
  *   <li>{@link ucm.map.PluginBinding#getResponsibilities <em>Responsibilities</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getPluginBinding()
  * @model

@@ -19,10 +19,10 @@ import ucm.map.OrFork;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.OrForkImpl#getOrientation <em>Orientation</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

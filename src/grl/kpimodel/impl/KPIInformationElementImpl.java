@@ -33,12 +33,12 @@ import urncore.impl.GRLmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.impl.KPIInformationElementImpl#getRefs <em>Refs</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPIInformationElementImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPIInformationElementImpl#getKpiModelLinksSrc <em>Kpi Model Links Src</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.ASDlayout#getX <em>X</em>}</li>
  *   <li>{@link asd.ASDlayout#getY <em>Y</em>}</li>
@@ -20,7 +21,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link asd.ASDlayout#getAsNetwork <em>As Network</em>}</li>
  *   <li>{@link asd.ASDlayout#getAsDiagram <em>As Diagram</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getASDlayout()
  * @model

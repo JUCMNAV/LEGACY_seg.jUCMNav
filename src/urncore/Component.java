@@ -23,6 +23,7 @@ import ucm.performance.ProcessingResource;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.Component#getKind <em>Kind</em>}</li>
  *   <li>{@link urncore.Component#isProtected <em>Protected</em>}</li>
@@ -35,7 +36,6 @@ import ucm.performance.ProcessingResource;
  *   <li>{@link urncore.Component#getResource <em>Resource</em>}</li>
  *   <li>{@link urncore.Component#getHost <em>Host</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getComponent()
  * @model

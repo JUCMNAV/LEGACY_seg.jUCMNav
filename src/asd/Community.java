@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.Community#getPerforms <em>Performs</em>}</li>
  *   <li>{@link asd.Community#getAsdSpec <em>Asd Spec</em>}</li>
  *   <li>{@link asd.Community#getSubject <em>Subject</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getCommunity()
  * @model
@@ -70,31 +70,21 @@ public interface Community extends MediatedElement {
 	void setAsdSpec(ASDspec value);
 
 	/**
-	 * Returns the value of the '<em><b>Subject</b></em>' reference.
+	 * Returns the value of the '<em><b>Subject</b></em>' reference list.
+	 * The list contents are of type {@link asd.Subject}.
 	 * It is bidirectional and its opposite is '{@link asd.Subject#getMemberOf <em>Member Of</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Subject</em>' reference isn't clear,
+	 * If the meaning of the '<em>Subject</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Subject</em>' reference.
-	 * @see #setSubject(Subject)
+	 * @return the value of the '<em>Subject</em>' reference list.
 	 * @see asd.AsdPackage#getCommunity_Subject()
 	 * @see asd.Subject#getMemberOf
-	 * @model opposite="memberOf"
+	 * @model type="asd.Subject" opposite="memberOf"
 	 * @generated
 	 */
-	Subject getSubject();
-
-	/**
-	 * Sets the value of the '{@link asd.Community#getSubject <em>Subject</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Subject</em>' reference.
-	 * @see #getSubject()
-	 * @generated
-	 */
-	void setSubject(Subject value);
+	EList getSubject();
 
 } // Community

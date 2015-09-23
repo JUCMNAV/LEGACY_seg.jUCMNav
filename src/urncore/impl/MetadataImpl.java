@@ -19,11 +19,11 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urncore.impl.MetadataImpl#getName <em>Name</em>}</li>
  *   <li>{@link urncore.impl.MetadataImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

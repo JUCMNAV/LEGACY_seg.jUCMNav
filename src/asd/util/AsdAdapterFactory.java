@@ -2,28 +2,17 @@
  */
 package asd.util;
 
-import asd.ASDelement;
-import asd.ASDiagram;
-import asd.ASDlayout;
-import asd.ASDmodelElement;
-import asd.ASDspec;
-import asd.ASNetwork;
-import asd.AsdPackage;
-import asd.Community;
-import asd.DivisionOfLabour;
-import asd.MediatedElement;
-import asd.MediatingElement;
-import asd.Mediation;
-import asd.Motivation;
-import asd.Outcome;
-import asd.Rule;
-import asd.Subject;
-import asd.Tool;
+import asd.*;
+
 import ca.mcgill.sel.core.CORENamedElement;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
+
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
@@ -124,14 +113,17 @@ public class AsdAdapterFactory extends AdapterFactoryImpl {
 			public Object caseSubject(Subject object) {
 				return createSubjectAdapter();
 			}
-			public Object caseObject(asd.Object object) {
-				return createObjectAdapter();
+			public Object caseAim(Aim object) {
+				return createAimAdapter();
 			}
 			public Object caseMotivation(Motivation object) {
 				return createMotivationAdapter();
 			}
 			public Object caseOutcome(Outcome object) {
 				return createOutcomeAdapter();
+			}
+			public Object caseContradiction(Contradiction object) {
+				return createContradictionAdapter();
 			}
 			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
@@ -357,16 +349,16 @@ public class AsdAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link asd.Object <em>Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link asd.Aim <em>Aim</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see asd.Object
+	 * @see asd.Aim
 	 * @generated
 	 */
-	public Adapter createObjectAdapter() {
+	public Adapter createAimAdapter() {
 		return null;
 	}
 
@@ -395,6 +387,20 @@ public class AsdAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createOutcomeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asd.Contradiction <em>Contradiction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see asd.Contradiction
+	 * @generated
+	 */
+	public Adapter createContradictionAdapter() {
 		return null;
 	}
 

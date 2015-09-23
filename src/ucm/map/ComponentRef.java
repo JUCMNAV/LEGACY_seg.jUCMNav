@@ -22,6 +22,7 @@ import urncore.UCMmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.ComponentRef#getRole <em>Role</em>}</li>
  *   <li>{@link ucm.map.ComponentRef#getReplicationFactor <em>Replication Factor</em>}</li>
@@ -29,7 +30,6 @@ import urncore.UCMmodelElement;
  *   <li>{@link ucm.map.ComponentRef#getParentBindings <em>Parent Bindings</em>}</li>
  *   <li>{@link ucm.map.ComponentRef#getPluginBindings <em>Plugin Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getComponentRef()
  * @model

@@ -20,13 +20,13 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.impl.QualitativeMappingImpl#getRealWorldLabel <em>Real World Label</em>}</li>
  *   <li>{@link grl.kpimodel.impl.QualitativeMappingImpl#getEvaluation <em>Evaluation</em>}</li>
  *   <li>{@link grl.kpimodel.impl.QualitativeMappingImpl#getQualitativeEvaluation <em>Qualitative Evaluation</em>}</li>
  *   <li>{@link grl.kpimodel.impl.QualitativeMappingImpl#isExceeds <em>Exceeds</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

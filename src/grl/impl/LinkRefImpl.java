@@ -32,6 +32,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.LinkRefImpl#getSource <em>Source</em>}</li>
  *   <li>{@link grl.impl.LinkRefImpl#getTarget <em>Target</em>}</li>
@@ -40,7 +41,6 @@ import urncore.UrncorePackage;
  *   <li>{@link grl.impl.LinkRefImpl#getLink <em>Link</em>}</li>
  *   <li>{@link grl.impl.LinkRefImpl#getBendpoints <em>Bendpoints</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

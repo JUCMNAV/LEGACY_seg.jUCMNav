@@ -25,12 +25,12 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.impl.DemandImpl#getQuantity <em>Quantity</em>}</li>
  *   <li>{@link ucm.performance.impl.DemandImpl#getResponsibility <em>Responsibility</em>}</li>
  *   <li>{@link ucm.performance.impl.DemandImpl#getResource <em>Resource</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

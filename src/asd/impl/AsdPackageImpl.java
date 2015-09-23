@@ -8,9 +8,11 @@ import asd.ASDlayout;
 import asd.ASDmodelElement;
 import asd.ASDspec;
 import asd.ASNetwork;
+import asd.Aim;
 import asd.AsdFactory;
 import asd.AsdPackage;
 import asd.Community;
+import asd.Contradiction;
 import asd.DivisionOfLabour;
 import asd.MediatedElement;
 import asd.MediatingElement;
@@ -20,29 +22,50 @@ import asd.Outcome;
 import asd.Rule;
 import asd.Subject;
 import asd.Tool;
+
 import ca.mcgill.sel.core.CorePackage;
+
 import fm.FmPackage;
+
 import fm.impl.FmPackageImpl;
+
 import grl.GrlPackage;
+
 import grl.impl.GrlPackageImpl;
+
 import grl.kpimodel.KpimodelPackage;
+
 import grl.kpimodel.impl.KpimodelPackageImpl;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import ucm.UcmPackage;
+
 import ucm.impl.UcmPackageImpl;
+
 import ucm.map.MapPackage;
+
 import ucm.map.impl.MapPackageImpl;
+
 import ucm.performance.PerformancePackage;
+
 import ucm.performance.impl.PerformancePackageImpl;
+
 import ucm.scenario.ScenarioPackage;
+
 import ucm.scenario.impl.ScenarioPackageImpl;
+
 import urn.UrnPackage;
+
 import urn.impl.UrnPackageImpl;
+
 import urncore.UrncorePackage;
+
 import urncore.impl.UrncorePackageImpl;
 
 /**
@@ -155,7 +178,7 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass objectEClass = null;
+	private EClass aimEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -170,6 +193,13 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 * @generated
 	 */
 	private EClass outcomeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass contradictionEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -395,7 +425,7 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getASDelement_ParentElements() {
+	public EReference getASDelement_ParentElement() {
 		return (EReference)asDelementEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -415,6 +445,15 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 */
 	public EReference getASDelement_RequiredOutcomes() {
 		return (EReference)asDelementEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getASDelement_Contradictions() {
+		return (EReference)asDelementEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -478,6 +517,15 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 */
 	public EReference getASDiagram_ParentDoLs() {
 		return (EReference)asDiagramEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getASDiagram_Contradictions() {
+		return (EReference)asDiagramEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -683,6 +731,15 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTool_Dols() {
+		return (EReference)toolEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRule() {
 		return ruleEClass;
 	}
@@ -748,6 +805,15 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 */
 	public EReference getDivisionOfLabour_AsdSpec() {
 		return (EReference)divisionOfLabourEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDivisionOfLabour_Tools() {
+		return (EReference)divisionOfLabourEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -827,8 +893,8 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getObject() {
-		return objectEClass;
+	public EClass getAim() {
+		return aimEClass;
 	}
 
 	/**
@@ -836,8 +902,8 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getObject_AsdSpec() {
-		return (EReference)objectEClass.getEStructuralFeatures().get(0);
+	public EReference getAim_AsdSpec() {
+		return (EReference)aimEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -845,8 +911,8 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getObject_Outcomes() {
-		return (EReference)objectEClass.getEStructuralFeatures().get(1);
+	public EReference getAim_Outcomes() {
+		return (EReference)aimEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -854,8 +920,8 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getObject_Subjects() {
-		return (EReference)objectEClass.getEStructuralFeatures().get(2);
+	public EReference getAim_Subjects() {
+		return (EReference)aimEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -917,6 +983,42 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getContradiction() {
+		return contradictionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getContradiction_ContradictingAEs() {
+		return (EReference)contradictionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getContradiction_ConsideredAE() {
+		return (EReference)contradictionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getContradiction_Diagram() {
+		return (EReference)contradictionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AsdFactory getAsdFactory() {
 		return (AsdFactory)getEFactoryInstance();
 	}
@@ -955,9 +1057,10 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 
 		asDelementEClass = createEClass(AS_DELEMENT);
 		createEReference(asDelementEClass, AS_DELEMENT__DIAGRAMS);
-		createEReference(asDelementEClass, AS_DELEMENT__PARENT_ELEMENTS);
+		createEReference(asDelementEClass, AS_DELEMENT__PARENT_ELEMENT);
 		createEReference(asDelementEClass, AS_DELEMENT__REFINED_ELEMENTS);
 		createEReference(asDelementEClass, AS_DELEMENT__REQUIRED_OUTCOMES);
+		createEReference(asDelementEClass, AS_DELEMENT__CONTRADICTIONS);
 
 		asDiagramEClass = createEClass(AS_DIAGRAM);
 		createEReference(asDiagramEClass, AS_DIAGRAM__ELEMENTS);
@@ -966,6 +1069,7 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 		createEReference(asDiagramEClass, AS_DIAGRAM__MEDIATIONS);
 		createEReference(asDiagramEClass, AS_DIAGRAM__ASD_LAYOUTS);
 		createEReference(asDiagramEClass, AS_DIAGRAM__PARENT_DO_LS);
+		createEReference(asDiagramEClass, AS_DIAGRAM__CONTRADICTIONS);
 
 		mediatingElementEClass = createEClass(MEDIATING_ELEMENT);
 		createEReference(mediatingElementEClass, MEDIATING_ELEMENT__MEDIATIONS);
@@ -995,6 +1099,7 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 
 		toolEClass = createEClass(TOOL);
 		createEReference(toolEClass, TOOL__ASD_SPEC);
+		createEReference(toolEClass, TOOL__DOLS);
 
 		ruleEClass = createEClass(RULE);
 		createEReference(ruleEClass, RULE__DOLS);
@@ -1005,6 +1110,7 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 		createEReference(divisionOfLabourEClass, DIVISION_OF_LABOUR__REFINED_DIAGRAMS);
 		createEReference(divisionOfLabourEClass, DIVISION_OF_LABOUR__PERFORMED_BY);
 		createEReference(divisionOfLabourEClass, DIVISION_OF_LABOUR__ASD_SPEC);
+		createEReference(divisionOfLabourEClass, DIVISION_OF_LABOUR__TOOLS);
 
 		communityEClass = createEClass(COMMUNITY);
 		createEReference(communityEClass, COMMUNITY__PERFORMS);
@@ -1016,10 +1122,10 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 		createEReference(subjectEClass, SUBJECT__MEMBER_OF);
 		createEReference(subjectEClass, SUBJECT__OBJECTS);
 
-		objectEClass = createEClass(OBJECT);
-		createEReference(objectEClass, OBJECT__ASD_SPEC);
-		createEReference(objectEClass, OBJECT__OUTCOMES);
-		createEReference(objectEClass, OBJECT__SUBJECTS);
+		aimEClass = createEClass(AIM);
+		createEReference(aimEClass, AIM__ASD_SPEC);
+		createEReference(aimEClass, AIM__OUTCOMES);
+		createEReference(aimEClass, AIM__SUBJECTS);
 
 		motivationEClass = createEClass(MOTIVATION);
 		createEReference(motivationEClass, MOTIVATION__ASD_SPEC);
@@ -1028,6 +1134,11 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 		createEReference(outcomeEClass, OUTCOME__ENABLED_ELEMENTS);
 		createEReference(outcomeEClass, OUTCOME__ASD_SPEC);
 		createEReference(outcomeEClass, OUTCOME__OBJECTS);
+
+		contradictionEClass = createEClass(CONTRADICTION);
+		createEReference(contradictionEClass, CONTRADICTION__CONTRADICTING_AES);
+		createEReference(contradictionEClass, CONTRADICTION__CONSIDERED_AE);
+		createEReference(contradictionEClass, CONTRADICTION__DIAGRAM);
 	}
 
 	/**
@@ -1073,9 +1184,10 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 		divisionOfLabourEClass.getESuperTypes().add(this.getMediatingElement());
 		communityEClass.getESuperTypes().add(this.getMediatedElement());
 		subjectEClass.getESuperTypes().add(this.getMediatedElement());
-		objectEClass.getESuperTypes().add(this.getMediatedElement());
+		aimEClass.getESuperTypes().add(this.getMediatedElement());
 		motivationEClass.getESuperTypes().add(this.getASDelement());
 		outcomeEClass.getESuperTypes().add(this.getASDelement());
+		contradictionEClass.getESuperTypes().add(this.getASDmodelElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(asDspecEClass, ASDspec.class, "ASDspec", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1085,7 +1197,7 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 		initEReference(getASDspec_Dols(), this.getDivisionOfLabour(), this.getDivisionOfLabour_AsdSpec(), "dols", null, 0, -1, ASDspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getASDspec_Subjects(), this.getSubject(), this.getSubject_AsdSpec(), "subjects", null, 0, -1, ASDspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getASDspec_Communities(), this.getCommunity(), this.getCommunity_AsdSpec(), "communities", null, 0, -1, ASDspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getASDspec_Objects(), this.getObject(), this.getObject_AsdSpec(), "objects", null, 0, -1, ASDspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getASDspec_Objects(), this.getAim(), this.getAim_AsdSpec(), "objects", null, 0, -1, ASDspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getASDspec_Outcomes(), this.getOutcome(), this.getOutcome_AsdSpec(), "outcomes", null, 0, -1, ASDspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getASDspec_Motivations(), this.getMotivation(), this.getMotivation_AsdSpec(), "motivations", null, 0, -1, ASDspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getASDspec_Tools(), this.getTool(), this.getTool_AsdSpec(), "tools", null, 0, -1, ASDspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1093,9 +1205,10 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 
 		initEClass(asDelementEClass, ASDelement.class, "ASDelement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getASDelement_Diagrams(), this.getASDiagram(), this.getASDiagram_Elements(), "diagrams", null, 0, -1, ASDelement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getASDelement_ParentElements(), this.getASDelement(), this.getASDelement_RefinedElements(), "parentElements", null, 0, -1, ASDelement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getASDelement_RefinedElements(), this.getASDelement(), this.getASDelement_ParentElements(), "refinedElements", null, 0, -1, ASDelement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getASDelement_ParentElement(), this.getASDelement(), this.getASDelement_RefinedElements(), "parentElement", null, 0, 1, ASDelement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getASDelement_RefinedElements(), this.getASDelement(), this.getASDelement_ParentElement(), "refinedElements", null, 0, -1, ASDelement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getASDelement_RequiredOutcomes(), this.getOutcome(), this.getOutcome_EnabledElements(), "requiredOutcomes", null, 0, -1, ASDelement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getASDelement_Contradictions(), this.getContradiction(), this.getContradiction_ConsideredAE(), "contradictions", null, 0, -1, ASDelement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(asDiagramEClass, ASDiagram.class, "ASDiagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getASDiagram_Elements(), this.getASDelement(), this.getASDelement_Diagrams(), "elements", null, 7, -1, ASDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1104,6 +1217,7 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 		initEReference(getASDiagram_Mediations(), this.getMediation(), this.getMediation_RelevantASD(), "mediations", null, 0, -1, ASDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getASDiagram_AsdLayouts(), this.getASDlayout(), this.getASDlayout_AsDiagram(), "asdLayouts", null, 0, -1, ASDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getASDiagram_ParentDoLs(), this.getDivisionOfLabour(), this.getDivisionOfLabour_RefinedDiagrams(), "parentDoLs", null, 0, -1, ASDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getASDiagram_Contradictions(), this.getContradiction(), this.getContradiction_Diagram(), "contradictions", null, 0, -1, ASDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mediatingElementEClass, MediatingElement.class, "MediatingElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMediatingElement_Mediations(), this.getMediation(), this.getMediation_MediatedBy(), "mediations", null, 0, -1, MediatingElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1133,6 +1247,7 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 
 		initEClass(toolEClass, Tool.class, "Tool", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTool_AsdSpec(), this.getASDspec(), this.getASDspec_Tools(), "asdSpec", null, 1, 1, Tool.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTool_Dols(), this.getDivisionOfLabour(), this.getDivisionOfLabour_Tools(), "dols", null, 1, -1, Tool.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ruleEClass, Rule.class, "Rule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRule_Dols(), this.getDivisionOfLabour(), this.getDivisionOfLabour_Rules(), "dols", null, 1, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1141,23 +1256,24 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 		initEClass(divisionOfLabourEClass, DivisionOfLabour.class, "DivisionOfLabour", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDivisionOfLabour_Rules(), this.getRule(), this.getRule_Dols(), "rules", null, 0, -1, DivisionOfLabour.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDivisionOfLabour_RefinedDiagrams(), this.getASDiagram(), this.getASDiagram_ParentDoLs(), "refinedDiagrams", null, 0, -1, DivisionOfLabour.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDivisionOfLabour_PerformedBy(), this.getCommunity(), this.getCommunity_Performs(), "performedBy", null, 1, 1, DivisionOfLabour.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDivisionOfLabour_PerformedBy(), this.getCommunity(), this.getCommunity_Performs(), "performedBy", null, 1, -1, DivisionOfLabour.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDivisionOfLabour_AsdSpec(), this.getASDspec(), this.getASDspec_Dols(), "asdSpec", null, 1, 1, DivisionOfLabour.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDivisionOfLabour_Tools(), this.getTool(), this.getTool_Dols(), "tools", null, 0, -1, DivisionOfLabour.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(communityEClass, Community.class, "Community", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCommunity_Performs(), this.getDivisionOfLabour(), this.getDivisionOfLabour_PerformedBy(), "performs", null, 0, -1, Community.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCommunity_AsdSpec(), this.getASDspec(), this.getASDspec_Communities(), "asdSpec", null, 1, 1, Community.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCommunity_Subject(), this.getSubject(), this.getSubject_MemberOf(), "subject", null, 0, 1, Community.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCommunity_Subject(), this.getSubject(), this.getSubject_MemberOf(), "subject", null, 0, -1, Community.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(subjectEClass, Subject.class, "Subject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSubject_AsdSpec(), this.getASDspec(), this.getASDspec_Subjects(), "asdSpec", null, 1, 1, Subject.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSubject_MemberOf(), this.getCommunity(), this.getCommunity_Subject(), "memberOf", null, 1, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSubject_Objects(), this.getObject(), this.getObject_Subjects(), "objects", null, 1, -1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSubject_Objects(), this.getAim(), this.getAim_Subjects(), "objects", null, 1, -1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(objectEClass, asd.Object.class, "Object", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getObject_AsdSpec(), this.getASDspec(), this.getASDspec_Objects(), "asdSpec", null, 1, 1, asd.Object.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getObject_Outcomes(), this.getOutcome(), this.getOutcome_Objects(), "outcomes", null, 0, -1, asd.Object.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getObject_Subjects(), this.getSubject(), this.getSubject_Objects(), "subjects", null, 1, -1, asd.Object.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(aimEClass, Aim.class, "Aim", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAim_AsdSpec(), this.getASDspec(), this.getASDspec_Objects(), "asdSpec", null, 1, 1, Aim.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAim_Outcomes(), this.getOutcome(), this.getOutcome_Objects(), "outcomes", null, 1, -1, Aim.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAim_Subjects(), this.getSubject(), this.getSubject_Objects(), "subjects", null, 1, -1, Aim.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(motivationEClass, Motivation.class, "Motivation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMotivation_AsdSpec(), this.getASDspec(), this.getASDspec_Motivations(), "asdSpec", null, 1, 1, Motivation.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1165,7 +1281,12 @@ public class AsdPackageImpl extends EPackageImpl implements AsdPackage {
 		initEClass(outcomeEClass, Outcome.class, "Outcome", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOutcome_EnabledElements(), this.getASDelement(), this.getASDelement_RequiredOutcomes(), "enabledElements", null, 0, -1, Outcome.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOutcome_AsdSpec(), this.getASDspec(), this.getASDspec_Outcomes(), "asdSpec", null, 1, 1, Outcome.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOutcome_Objects(), this.getObject(), this.getObject_Outcomes(), "objects", null, 0, -1, Outcome.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOutcome_Objects(), this.getAim(), this.getAim_Outcomes(), "objects", null, 1, -1, Outcome.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(contradictionEClass, Contradiction.class, "Contradiction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getContradiction_ContradictingAEs(), this.getASDelement(), null, "contradictingAEs", null, 0, -1, Contradiction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getContradiction_ConsideredAE(), this.getASDelement(), this.getASDelement_Contradictions(), "consideredAE", null, 1, 1, Contradiction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getContradiction_Diagram(), this.getASDiagram(), this.getASDiagram_Contradictions(), "diagram", null, 1, 1, Contradiction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

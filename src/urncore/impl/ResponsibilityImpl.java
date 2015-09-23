@@ -34,6 +34,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urncore.impl.ResponsibilityImpl#isEmpty <em>Empty</em>}</li>
  *   <li>{@link urncore.impl.ResponsibilityImpl#getExpression <em>Expression</em>}</li>
@@ -43,7 +44,6 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.ResponsibilityImpl#getRespRefs <em>Resp Refs</em>}</li>
  *   <li>{@link urncore.impl.ResponsibilityImpl#getParentBindings <em>Parent Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -17,13 +17,13 @@ import urncore.GRLmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.ElementLink#getRefs <em>Refs</em>}</li>
  *   <li>{@link grl.ElementLink#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.ElementLink#getDest <em>Dest</em>}</li>
  *   <li>{@link grl.ElementLink#getSrc <em>Src</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getElementLink()
  * @model

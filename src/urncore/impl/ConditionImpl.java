@@ -30,6 +30,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urncore.impl.ConditionImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getExpression <em>Expression</em>}</li>
@@ -42,7 +43,6 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.ConditionImpl#getScenarioDefPre <em>Scenario Def Pre</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getScenarioDefPost <em>Scenario Def Post</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

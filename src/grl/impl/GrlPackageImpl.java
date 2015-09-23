@@ -1481,7 +1481,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReusedStrategy_Reusingstrategies() {
+	public EReference getReusedStrategy_ReusingStrategies() {
 		return (EReference)reusedStrategyEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1738,7 +1738,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		createEReference(impactModelEClass, IMPACT_MODEL__CORE_IMPACT_MODEL);
 
 		reusedStrategyEClass = createEClass(REUSED_STRATEGY);
-		createEReference(reusedStrategyEClass, REUSED_STRATEGY__REUSINGSTRATEGIES);
+		createEReference(reusedStrategyEClass, REUSED_STRATEGY__REUSING_STRATEGIES);
 		createEReference(reusedStrategyEClass, REUSED_STRATEGY__REUSE_LINK_IN_FM);
 
 		// Create enums
@@ -1898,7 +1898,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEReference(getEvaluationStrategy_Grlspec(), this.getGRLspec(), this.getGRLspec_Strategies(), "grlspec", null, 1, 1, EvaluationStrategy.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluationStrategy_IncludedStrategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_ParentStrategies(), "includedStrategies", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluationStrategy_ParentStrategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_IncludedStrategies(), "parentStrategies", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEvaluationStrategy_ReusedStrategies(), this.getReusedStrategy(), this.getReusedStrategy_Reusingstrategies(), "reusedStrategies", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEvaluationStrategy_ReusedStrategies(), this.getReusedStrategy(), this.getReusedStrategy_ReusingStrategies(), "reusedStrategies", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEvaluationStrategy_KpiInfoConfig(), theKpimodelPackage.getKPIInformationConfig(), theKpimodelPackage.getKPIInformationConfig_Strategies(), "kpiInfoConfig", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(grlNodeEClass, GRLNode.class, "GRLNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1956,7 +1956,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEReference(getImpactModel_CoreImpactModel(), theCorePackage.getCOREImpactModel(), null, "coreImpactModel", null, 0, 1, ImpactModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(reusedStrategyEClass, ReusedStrategy.class, "ReusedStrategy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getReusedStrategy_Reusingstrategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_ReusedStrategies(), "reusingstrategies", null, 1, -1, ReusedStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReusedStrategy_ReusingStrategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_ReusedStrategies(), "reusingStrategies", null, 1, -1, ReusedStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReusedStrategy_ReuseLinkInFM(), theFmPackage.getReuseLink(), null, "reuseLinkInFM", null, 1, 1, ReusedStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals

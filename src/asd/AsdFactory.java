@@ -112,13 +112,13 @@ public interface AsdFactory extends EFactory {
 	Subject createSubject();
 
 	/**
-	 * Returns a new object of class '<em>Object</em>'.
+	 * Returns a new object of class '<em>Aim</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Object</em>'.
+	 * @return a new object of class '<em>Aim</em>'.
 	 * @generated
 	 */
-	Object createObject();
+	Aim createAim();
 
 	/**
 	 * Returns a new object of class '<em>Motivation</em>'.
@@ -137,6 +137,15 @@ public interface AsdFactory extends EFactory {
 	 * @generated
 	 */
 	Outcome createOutcome();
+
+	/**
+	 * Returns a new object of class '<em>Contradiction</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Contradiction</em>'.
+	 * @generated
+	 */
+	Contradiction createContradiction();
 
 	/**
 	 * Returns the package supported by this factory.

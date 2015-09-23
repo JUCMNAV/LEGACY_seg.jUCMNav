@@ -23,6 +23,7 @@ import urncore.Condition;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.StartPoint#getWorkload <em>Workload</em>}</li>
  *   <li>{@link ucm.map.StartPoint#isLocal <em>Local</em>}</li>
@@ -31,7 +32,6 @@ import urncore.Condition;
  *   <li>{@link ucm.map.StartPoint#getPrecondition <em>Precondition</em>}</li>
  *   <li>{@link ucm.map.StartPoint#getScenarioStartPoints <em>Scenario Start Points</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getStartPoint()
  * @model

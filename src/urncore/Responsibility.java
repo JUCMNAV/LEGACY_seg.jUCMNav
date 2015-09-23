@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.Responsibility#isEmpty <em>Empty</em>}</li>
  *   <li>{@link urncore.Responsibility#getExpression <em>Expression</em>}</li>
@@ -24,7 +25,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link urncore.Responsibility#getRespRefs <em>Resp Refs</em>}</li>
  *   <li>{@link urncore.Responsibility#getParentBindings <em>Parent Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getResponsibility()
  * @model

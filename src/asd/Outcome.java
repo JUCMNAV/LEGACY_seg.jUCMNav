@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.Outcome#getEnabledElements <em>Enabled Elements</em>}</li>
  *   <li>{@link asd.Outcome#getAsdSpec <em>Asd Spec</em>}</li>
  *   <li>{@link asd.Outcome#getObjects <em>Objects</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getOutcome()
  * @model
@@ -71,8 +71,8 @@ public interface Outcome extends ASDelement {
 
 	/**
 	 * Returns the value of the '<em><b>Objects</b></em>' reference list.
-	 * The list contents are of type {@link asd.Object}.
-	 * It is bidirectional and its opposite is '{@link asd.Object#getOutcomes <em>Outcomes</em>}'.
+	 * The list contents are of type {@link asd.Aim}.
+	 * It is bidirectional and its opposite is '{@link asd.Aim#getOutcomes <em>Outcomes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Objects</em>' reference list isn't clear,
@@ -81,8 +81,8 @@ public interface Outcome extends ASDelement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Objects</em>' reference list.
 	 * @see asd.AsdPackage#getOutcome_Objects()
-	 * @see asd.Object#getOutcomes
-	 * @model type="asd.Object" opposite="outcomes"
+	 * @see asd.Aim#getOutcomes
+	 * @model type="asd.Aim" opposite="outcomes" required="true"
 	 * @generated
 	 */
 	EList getObjects();

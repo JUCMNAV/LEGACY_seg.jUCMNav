@@ -23,13 +23,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.ContributionRangeImpl#getStart <em>Start</em>}</li>
  *   <li>{@link grl.impl.ContributionRangeImpl#getEnd <em>End</em>}</li>
  *   <li>{@link grl.impl.ContributionRangeImpl#getStep <em>Step</em>}</li>
  *   <li>{@link grl.impl.ContributionRangeImpl#getChange <em>Change</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

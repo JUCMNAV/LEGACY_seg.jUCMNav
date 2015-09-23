@@ -17,11 +17,11 @@ import urncore.GRLmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.StrategiesGroup#getStrategies <em>Strategies</em>}</li>
  *   <li>{@link grl.StrategiesGroup#getGrlspec <em>Grlspec</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getStrategiesGroup()
  * @model

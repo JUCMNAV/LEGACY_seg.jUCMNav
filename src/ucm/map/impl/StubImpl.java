@@ -29,6 +29,7 @@ import ucm.map.Stub;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.StubImpl#isDynamic <em>Dynamic</em>}</li>
  *   <li>{@link ucm.map.impl.StubImpl#isShared <em>Shared</em>}</li>
@@ -40,7 +41,6 @@ import ucm.map.Stub;
  *   <li>{@link ucm.map.impl.StubImpl#getAspect <em>Aspect</em>}</li>
  *   <li>{@link ucm.map.impl.StubImpl#getBindings <em>Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

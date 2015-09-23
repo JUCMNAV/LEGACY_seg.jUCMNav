@@ -15,12 +15,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.scenario.Initialization#getValue <em>Value</em>}</li>
  *   <li>{@link ucm.scenario.Initialization#getScenarioDef <em>Scenario Def</em>}</li>
  *   <li>{@link ucm.scenario.Initialization#getVariable <em>Variable</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.scenario.ScenarioPackage#getInitialization()
  * @model

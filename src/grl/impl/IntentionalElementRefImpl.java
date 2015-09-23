@@ -24,12 +24,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.IntentionalElementRefImpl#getCriticality <em>Criticality</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementRefImpl#getPriority <em>Priority</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementRefImpl#getDef <em>Def</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

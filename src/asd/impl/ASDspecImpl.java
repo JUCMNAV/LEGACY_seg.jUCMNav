@@ -4,6 +4,7 @@ package asd.impl;
 
 import asd.ASDspec;
 import asd.ASNetwork;
+import asd.Aim;
 import asd.AsdPackage;
 import asd.Community;
 import asd.DivisionOfLabour;
@@ -12,12 +13,18 @@ import asd.Outcome;
 import asd.Rule;
 import asd.Subject;
 import asd.Tool;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
@@ -29,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asd.impl.ASDspecImpl#getASNetwork <em>AS Network</em>}</li>
  *   <li>{@link asd.impl.ASDspecImpl#getMotivation <em>Motivation</em>}</li>
@@ -42,7 +50,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link asd.impl.ASDspecImpl#getTools <em>Tools</em>}</li>
  *   <li>{@link asd.impl.ASDspecImpl#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -254,7 +261,7 @@ public class ASDspecImpl extends MinimalEObjectImpl.Container implements ASDspec
 	 */
 	public EList getObjects() {
 		if (objects == null) {
-			objects = new EObjectContainmentWithInverseEList(asd.Object.class, this, AsdPackage.AS_DSPEC__OBJECTS, AsdPackage.OBJECT__ASD_SPEC);
+			objects = new EObjectContainmentWithInverseEList(Aim.class, this, AsdPackage.AS_DSPEC__OBJECTS, AsdPackage.AIM__ASD_SPEC);
 		}
 		return objects;
 	}

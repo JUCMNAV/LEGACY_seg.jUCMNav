@@ -10,10 +10,10 @@ package asd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.Motivation#getAsdSpec <em>Asd Spec</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getMotivation()
  * @model

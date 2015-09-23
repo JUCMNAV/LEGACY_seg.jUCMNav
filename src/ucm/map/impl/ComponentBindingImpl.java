@@ -24,12 +24,12 @@ import ucm.map.PluginBinding;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.ComponentBindingImpl#getBinding <em>Binding</em>}</li>
  *   <li>{@link ucm.map.impl.ComponentBindingImpl#getParentComponent <em>Parent Component</em>}</li>
  *   <li>{@link ucm.map.impl.ComponentBindingImpl#getPluginComponent <em>Plugin Component</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

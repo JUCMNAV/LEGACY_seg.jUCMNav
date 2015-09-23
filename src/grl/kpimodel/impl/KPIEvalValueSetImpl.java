@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.impl.KPIEvalValueSetImpl#getTargetValue <em>Target Value</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPIEvalValueSetImpl#getThresholdValue <em>Threshold Value</em>}</li>
@@ -35,7 +36,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link grl.kpimodel.impl.KPIEvalValueSetImpl#getEval <em>Eval</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPIEvalValueSetImpl#getKpiConv <em>Kpi Conv</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

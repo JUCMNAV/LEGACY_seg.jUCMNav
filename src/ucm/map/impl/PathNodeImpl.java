@@ -34,6 +34,7 @@ import urncore.impl.UCMmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.PathNodeImpl#getX <em>X</em>}</li>
  *   <li>{@link ucm.map.impl.PathNodeImpl#getY <em>Y</em>}</li>
@@ -43,7 +44,6 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.map.impl.PathNodeImpl#getPred <em>Pred</em>}</li>
  *   <li>{@link ucm.map.impl.PathNodeImpl#getLabel <em>Label</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

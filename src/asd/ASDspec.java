@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.ASDspec#getASNetwork <em>AS Network</em>}</li>
  *   <li>{@link asd.ASDspec#getMotivation <em>Motivation</em>}</li>
@@ -26,7 +27,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link asd.ASDspec#getTools <em>Tools</em>}</li>
  *   <li>{@link asd.ASDspec#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getASDspec()
  * @model
@@ -139,8 +139,8 @@ public interface ASDspec extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Objects</b></em>' containment reference list.
-	 * The list contents are of type {@link asd.Object}.
-	 * It is bidirectional and its opposite is '{@link asd.Object#getAsdSpec <em>Asd Spec</em>}'.
+	 * The list contents are of type {@link asd.Aim}.
+	 * It is bidirectional and its opposite is '{@link asd.Aim#getAsdSpec <em>Asd Spec</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Objects</em>' containment reference list isn't clear,
@@ -149,8 +149,8 @@ public interface ASDspec extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Objects</em>' containment reference list.
 	 * @see asd.AsdPackage#getASDspec_Objects()
-	 * @see asd.Object#getAsdSpec
-	 * @model type="asd.Object" opposite="asdSpec" containment="true"
+	 * @see asd.Aim#getAsdSpec
+	 * @model type="asd.Aim" opposite="asdSpec" containment="true"
 	 * @generated
 	 */
 	EList getObjects();

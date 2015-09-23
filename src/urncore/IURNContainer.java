@@ -16,13 +16,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.IURNContainer#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link urncore.IURNContainer#getFillColor <em>Fill Color</em>}</li>
  *   <li>{@link urncore.IURNContainer#isFilled <em>Filled</em>}</li>
  *   <li>{@link urncore.IURNContainer#getContRefs <em>Cont Refs</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getIURNContainer()
  * @model interface="true" abstract="true"

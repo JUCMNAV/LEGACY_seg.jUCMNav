@@ -15,7 +15,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="communities" upperBound="-1"
         eType="#//Community" containment="true" eOpposite="#//Community/asdSpec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
-        eType="#//Object" containment="true" eOpposite="#//Object/asdSpec"/>
+        eType="#//Aim" containment="true" eOpposite="#//Aim/asdSpec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outcomes" upperBound="-1"
         eType="#//Outcome" containment="true" eOpposite="#//Outcome/asdSpec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="motivations" upperBound="-1"
@@ -28,12 +28,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="ASDelement" abstract="true" eSuperTypes="#//ASDmodelElement urncore.ecore#//URNmodelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="diagrams" upperBound="-1"
         eType="#//ASDiagram" eOpposite="#//ASDiagram/elements"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parentElements" upperBound="-1"
-        eType="#//ASDelement" eOpposite="#//ASDelement/refinedElements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentElement" eType="#//ASDelement"
+        eOpposite="#//ASDelement/refinedElements"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="refinedElements" upperBound="-1"
-        eType="#//ASDelement" eOpposite="#//ASDelement/parentElements"/>
+        eType="#//ASDelement" eOpposite="#//ASDelement/parentElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="requiredOutcomes" upperBound="-1"
         eType="#//Outcome" eOpposite="#//Outcome/enabledElements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contradictions" upperBound="-1"
+        eType="#//Contradiction" eOpposite="#//Contradiction/consideredAE"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ASDiagram" eSuperTypes="#//ASDmodelElement urncore.ecore#//URNmodelElement urncore.ecore#//IURNDiagram">
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" lowerBound="7"
@@ -48,6 +50,8 @@
         eType="#//ASDlayout" eOpposite="#//ASDlayout/asDiagram"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentDoLs" upperBound="-1"
         eType="#//DivisionOfLabour" eOpposite="#//DivisionOfLabour/refinedDiagrams"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contradictions" upperBound="-1"
+        eType="#//Contradiction" eOpposite="#//Contradiction/diagram"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MediatingElement" abstract="true" eSuperTypes="#//ASDelement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="mediations" upperBound="-1"
@@ -87,6 +91,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Tool" eSuperTypes="#//MediatingElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="asdSpec" lowerBound="1"
         eType="#//ASDspec" transient="true" eOpposite="#//ASDspec/tools"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dols" lowerBound="1" upperBound="-1"
+        eType="#//DivisionOfLabour" eOpposite="#//DivisionOfLabour/tools"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//MediatingElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="dols" lowerBound="1" upperBound="-1"
@@ -100,17 +106,19 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="refinedDiagrams" upperBound="-1"
         eType="#//ASDiagram" eOpposite="#//ASDiagram/parentDoLs"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="performedBy" lowerBound="1"
-        eType="#//Community" eOpposite="#//Community/performs"/>
+        upperBound="-1" eType="#//Community" eOpposite="#//Community/performs"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="asdSpec" lowerBound="1"
         eType="#//ASDspec" transient="true" eOpposite="#//ASDspec/dols"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tools" upperBound="-1"
+        eType="#//Tool" eOpposite="#//Tool/dols"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Community" eSuperTypes="#//MediatedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="performs" upperBound="-1"
         eType="#//DivisionOfLabour" eOpposite="#//DivisionOfLabour/performedBy"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="asdSpec" lowerBound="1"
         eType="#//ASDspec" transient="true" eOpposite="#//ASDspec/communities"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="subject" eType="#//Subject"
-        eOpposite="#//Subject/memberOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subject" upperBound="-1"
+        eType="#//Subject" eOpposite="#//Subject/memberOf"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Subject" eSuperTypes="#//MediatedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="asdSpec" lowerBound="1"
@@ -118,13 +126,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="memberOf" lowerBound="1"
         eType="#//Community" eOpposite="#//Community/subject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objects" lowerBound="1"
-        upperBound="-1" eType="#//Object" eOpposite="#//Object/subjects"/>
+        upperBound="-1" eType="#//Aim" eOpposite="#//Aim/subjects"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Object" eSuperTypes="#//MediatedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Aim" eSuperTypes="#//MediatedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="asdSpec" lowerBound="1"
         eType="#//ASDspec" transient="true" eOpposite="#//ASDspec/objects"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="outcomes" upperBound="-1"
-        eType="#//Outcome" eOpposite="#//Outcome/objects"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outcomes" lowerBound="1"
+        upperBound="-1" eType="#//Outcome" eOpposite="#//Outcome/objects"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subjects" lowerBound="1"
         upperBound="-1" eType="#//Subject" eOpposite="#//Subject/objects"/>
   </eClassifiers>
@@ -137,7 +145,15 @@
         eType="#//ASDelement" eOpposite="#//ASDelement/requiredOutcomes"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="asdSpec" lowerBound="1"
         eType="#//ASDspec" transient="true" eOpposite="#//ASDspec/outcomes"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
-        eType="#//Object" eOpposite="#//Object/outcomes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objects" lowerBound="1"
+        upperBound="-1" eType="#//Aim" eOpposite="#//Aim/outcomes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contradiction" eSuperTypes="#//ASDmodelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contradictingAEs" upperBound="-1"
+        eType="#//ASDelement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consideredAE" lowerBound="1"
+        eType="#//ASDelement" eOpposite="#//ASDelement/contradictions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
+        eType="#//ASDiagram" eOpposite="#//ASDiagram/contradictions"/>
   </eClassifiers>
 </ecore:EPackage>

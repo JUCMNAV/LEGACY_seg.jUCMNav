@@ -23,10 +23,10 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urncore.impl.ConnectionLabelImpl#getConnection <em>Connection</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

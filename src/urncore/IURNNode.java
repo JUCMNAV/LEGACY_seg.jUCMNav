@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.IURNNode#getX <em>X</em>}</li>
  *   <li>{@link urncore.IURNNode#getY <em>Y</em>}</li>
@@ -25,7 +26,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link urncore.IURNNode#getPred <em>Pred</em>}</li>
  *   <li>{@link urncore.IURNNode#getLabel <em>Label</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getIURNNode()
  * @model interface="true" abstract="true"

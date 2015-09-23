@@ -22,6 +22,7 @@ import urncore.UCMmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.scenario.ScenarioDef#getGroup <em>Group</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioDef#getParentScenarios <em>Parent Scenarios</em>}</li>
@@ -32,7 +33,6 @@ import urncore.UCMmodelElement;
  *   <li>{@link ucm.scenario.ScenarioDef#getStartPoints <em>Start Points</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioDef#getEndPoints <em>End Points</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.scenario.ScenarioPackage#getScenarioDef()
  * @model

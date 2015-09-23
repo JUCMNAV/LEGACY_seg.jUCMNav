@@ -15,7 +15,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link grl.ReusedStrategy#getReusingstrategies <em>Reusingstrategies</em>}</li>
+ *   <li>{@link grl.ReusedStrategy#getReusingStrategies <em>Reusing Strategies</em>}</li>
  *   <li>{@link grl.ReusedStrategy#getReuseLinkInFM <em>Reuse Link In FM</em>}</li>
  * </ul>
  *
@@ -25,22 +25,22 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface ReusedStrategy extends EvaluationStrategy {
 	/**
-	 * Returns the value of the '<em><b>Reusingstrategies</b></em>' reference list.
+	 * Returns the value of the '<em><b>Reusing Strategies</b></em>' reference list.
 	 * The list contents are of type {@link grl.EvaluationStrategy}.
 	 * It is bidirectional and its opposite is '{@link grl.EvaluationStrategy#getReusedStrategies <em>Reused Strategies</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Reusingstrategies</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Reusing Strategies</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Reusingstrategies</em>' reference list.
-	 * @see grl.GrlPackage#getReusedStrategy_Reusingstrategies()
+	 * @return the value of the '<em>Reusing Strategies</em>' reference list.
+	 * @see grl.GrlPackage#getReusedStrategy_ReusingStrategies()
 	 * @see grl.EvaluationStrategy#getReusedStrategies
 	 * @model type="grl.EvaluationStrategy" opposite="reusedStrategies" required="true"
 	 * @generated
 	 */
-	EList getReusingstrategies();
+	EList getReusingStrategies();
 
 	/**
 	 * Returns the value of the '<em><b>Reuse Link In FM</b></em>' reference.

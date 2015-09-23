@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.KPIEvalValueSet#getTargetValue <em>Target Value</em>}</li>
  *   <li>{@link grl.kpimodel.KPIEvalValueSet#getThresholdValue <em>Threshold Value</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link grl.kpimodel.KPIEvalValueSet#getEval <em>Eval</em>}</li>
  *   <li>{@link grl.kpimodel.KPIEvalValueSet#getKpiConv <em>Kpi Conv</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.kpimodel.KpimodelPackage#getKPIEvalValueSet()
  * @model

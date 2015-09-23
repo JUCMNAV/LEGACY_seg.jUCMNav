@@ -17,11 +17,11 @@ import urncore.IURNConnection;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.LinkRef#getLink <em>Link</em>}</li>
  *   <li>{@link grl.LinkRef#getBendpoints <em>Bendpoints</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getLinkRef()
  * @model

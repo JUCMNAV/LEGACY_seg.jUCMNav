@@ -2,20 +2,7 @@
  */
 package asd.impl;
 
-import asd.ASDiagram;
-import asd.ASDlayout;
-import asd.ASDspec;
-import asd.ASNetwork;
-import asd.AsdFactory;
-import asd.AsdPackage;
-import asd.Community;
-import asd.DivisionOfLabour;
-import asd.Mediation;
-import asd.Motivation;
-import asd.Outcome;
-import asd.Rule;
-import asd.Subject;
-import asd.Tool;
+import asd.*;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -78,9 +65,10 @@ public class AsdFactoryImpl extends EFactoryImpl implements AsdFactory {
 			case AsdPackage.DIVISION_OF_LABOUR: return createDivisionOfLabour();
 			case AsdPackage.COMMUNITY: return createCommunity();
 			case AsdPackage.SUBJECT: return createSubject();
-			case AsdPackage.OBJECT: return createObject();
+			case AsdPackage.AIM: return createAim();
 			case AsdPackage.MOTIVATION: return createMotivation();
 			case AsdPackage.OUTCOME: return createOutcome();
+			case AsdPackage.CONTRADICTION: return createContradiction();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -191,9 +179,9 @@ public class AsdFactoryImpl extends EFactoryImpl implements AsdFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public asd.Object createObject() {
-		ObjectImpl object = new ObjectImpl();
-		return object;
+	public Aim createAim() {
+		AimImpl aim = new AimImpl();
+		return aim;
 	}
 
 	/**
@@ -214,6 +202,16 @@ public class AsdFactoryImpl extends EFactoryImpl implements AsdFactory {
 	public Outcome createOutcome() {
 		OutcomeImpl outcome = new OutcomeImpl();
 		return outcome;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Contradiction createContradiction() {
+		ContradictionImpl contradiction = new ContradictionImpl();
+		return contradiction;
 	}
 
 	/**

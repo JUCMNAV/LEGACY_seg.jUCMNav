@@ -208,7 +208,7 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		result.append(')');
 		return result.toString();
 	}
-	
+
 	/**
 	 * Tells if <b>this</b> feature is
 	 * selectable, i.e. if it has only optional/OR/XOR
@@ -241,4 +241,5 @@ public class FeatureImpl extends IntentionalElementImpl implements Feature {
 		return true;	
 	}
 
+	
 } //FeatureImpl

@@ -15,8 +15,6 @@ import ucm.map.MapPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Anything</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

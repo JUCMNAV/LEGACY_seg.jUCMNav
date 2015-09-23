@@ -18,6 +18,7 @@ import urn.URNspec;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.UCMspec#getUrnspec <em>Urnspec</em>}</li>
  *   <li>{@link ucm.UCMspec#getResources <em>Resources</em>}</li>
@@ -25,7 +26,6 @@ import urn.URNspec;
  *   <li>{@link ucm.UCMspec#getVariables <em>Variables</em>}</li>
  *   <li>{@link ucm.UCMspec#getEnumerationTypes <em>Enumeration Types</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.UcmPackage#getUCMspec()
  * @model

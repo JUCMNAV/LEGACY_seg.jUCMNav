@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.ContributionChangeImpl#getNewContribution <em>New Contribution</em>}</li>
  *   <li>{@link grl.impl.ContributionChangeImpl#getNewQuantitativeContribution <em>New Quantitative Contribution</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link grl.impl.ContributionChangeImpl#getContribution <em>Contribution</em>}</li>
  *   <li>{@link grl.impl.ContributionChangeImpl#getContribRange <em>Contrib Range</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

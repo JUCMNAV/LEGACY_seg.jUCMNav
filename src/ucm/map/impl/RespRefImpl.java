@@ -29,13 +29,13 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.RespRefImpl#getRepetitionCount <em>Repetition Count</em>}</li>
  *   <li>{@link ucm.map.impl.RespRefImpl#getHostDemand <em>Host Demand</em>}</li>
  *   <li>{@link ucm.map.impl.RespRefImpl#getRespDef <em>Resp Def</em>}</li>
  *   <li>{@link ucm.map.impl.RespRefImpl#getPluginBindings <em>Plugin Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

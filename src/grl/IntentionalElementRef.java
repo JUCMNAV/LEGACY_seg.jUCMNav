@@ -14,12 +14,12 @@ package grl;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.IntentionalElementRef#getCriticality <em>Criticality</em>}</li>
  *   <li>{@link grl.IntentionalElementRef#getPriority <em>Priority</em>}</li>
  *   <li>{@link grl.IntentionalElementRef#getDef <em>Def</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getIntentionalElementRef()
  * @model

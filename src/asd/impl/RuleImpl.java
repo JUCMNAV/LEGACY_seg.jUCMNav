@@ -29,11 +29,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asd.impl.RuleImpl#getDols <em>Dols</em>}</li>
  *   <li>{@link asd.impl.RuleImpl#getAsdSpec <em>Asd Spec</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

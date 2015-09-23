@@ -26,13 +26,13 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.BeliefLinkImpl#getSource <em>Source</em>}</li>
  *   <li>{@link grl.impl.BeliefLinkImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link grl.impl.BeliefLinkImpl#getDiagram <em>Diagram</em>}</li>
  *   <li>{@link grl.impl.BeliefLinkImpl#getLabel <em>Label</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

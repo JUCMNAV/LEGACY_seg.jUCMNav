@@ -16,10 +16,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.ExternalOperation#getDemands <em>Demands</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.performance.PerformancePackage#getExternalOperation()
  * @model

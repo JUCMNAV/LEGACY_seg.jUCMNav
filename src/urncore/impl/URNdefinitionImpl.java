@@ -33,6 +33,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urncore.impl.URNdefinitionImpl#getUrnspec <em>Urnspec</em>}</li>
  *   <li>{@link urncore.impl.URNdefinitionImpl#getResponsibilities <em>Responsibilities</em>}</li>
@@ -41,7 +42,6 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.URNdefinitionImpl#getComponents <em>Components</em>}</li>
  *   <li>{@link urncore.impl.URNdefinitionImpl#getComponentTypes <em>Component Types</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

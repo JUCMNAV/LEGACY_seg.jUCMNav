@@ -3257,13 +3257,13 @@ public interface GrlPackage extends EPackage {
 	int REUSED_STRATEGY__KPI_INFO_CONFIG = EVALUATION_STRATEGY__KPI_INFO_CONFIG;
 
 				/**
-	 * The feature id for the '<em><b>Reusingstrategies</b></em>' reference list.
+	 * The feature id for the '<em><b>Reusing Strategies</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REUSED_STRATEGY__REUSINGSTRATEGIES = EVALUATION_STRATEGY_FEATURE_COUNT + 0;
+	int REUSED_STRATEGY__REUSING_STRATEGIES = EVALUATION_STRATEGY_FEATURE_COUNT + 0;
 
 				/**
 	 * The feature id for the '<em><b>Reuse Link In FM</b></em>' reference.
@@ -4639,15 +4639,15 @@ public interface GrlPackage extends EPackage {
 	EClass getReusedStrategy();
 
 				/**
-	 * Returns the meta object for the reference list '{@link grl.ReusedStrategy#getReusingstrategies <em>Reusingstrategies</em>}'.
+	 * Returns the meta object for the reference list '{@link grl.ReusedStrategy#getReusingStrategies <em>Reusing Strategies</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Reusingstrategies</em>'.
-	 * @see grl.ReusedStrategy#getReusingstrategies()
+	 * @return the meta object for the reference list '<em>Reusing Strategies</em>'.
+	 * @see grl.ReusedStrategy#getReusingStrategies()
 	 * @see #getReusedStrategy()
 	 * @generated
 	 */
-	EReference getReusedStrategy_Reusingstrategies();
+	EReference getReusedStrategy_ReusingStrategies();
 
 				/**
 	 * Returns the meta object for the reference '{@link grl.ReusedStrategy#getReuseLinkInFM <em>Reuse Link In FM</em>}'.
@@ -5761,12 +5761,12 @@ public interface GrlPackage extends EPackage {
 		EClass REUSED_STRATEGY = eINSTANCE.getReusedStrategy();
 
 								/**
-		 * The meta object literal for the '<em><b>Reusingstrategies</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Reusing Strategies</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference REUSED_STRATEGY__REUSINGSTRATEGIES = eINSTANCE.getReusedStrategy_Reusingstrategies();
+		EReference REUSED_STRATEGY__REUSING_STRATEGIES = eINSTANCE.getReusedStrategy_ReusingStrategies();
 
 								/**
 		 * The meta object literal for the '<em><b>Reuse Link In FM</b></em>' reference feature.

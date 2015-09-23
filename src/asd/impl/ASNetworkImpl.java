@@ -6,18 +6,25 @@ import asd.ASDlayout;
 import asd.ASDspec;
 import asd.ASNetwork;
 import asd.AsdPackage;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import urncore.Comment;
 import urncore.Concern;
 import urncore.IURNConnection;
@@ -32,6 +39,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asd.impl.ASNetworkImpl#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link asd.impl.ASNetworkImpl#getNodes <em>Nodes</em>}</li>
@@ -42,7 +50,6 @@ import urncore.UrncorePackage;
  *   <li>{@link asd.impl.ASNetworkImpl#getASDspec <em>AS Dspec</em>}</li>
  *   <li>{@link asd.impl.ASNetworkImpl#getAsdLayouts <em>Asd Layouts</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

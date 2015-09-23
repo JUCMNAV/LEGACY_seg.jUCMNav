@@ -27,11 +27,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.impl.IndicatorImpl#getKpiModelLinksDest <em>Kpi Model Links Dest</em>}</li>
  *   <li>{@link grl.kpimodel.impl.IndicatorImpl#getGroups <em>Groups</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -17,11 +17,11 @@ import urncore.GRLmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.ContributionContextGroup#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.ContributionContextGroup#getContribs <em>Contribs</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getContributionContextGroup()
  * @model

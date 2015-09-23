@@ -13,8 +13,6 @@ import urncore.impl.URNmodelElementImpl;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>AS Dmodel Element</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

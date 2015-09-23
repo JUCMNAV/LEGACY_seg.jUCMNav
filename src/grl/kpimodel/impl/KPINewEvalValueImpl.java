@@ -24,11 +24,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.impl.KPINewEvalValueImpl#getEvaluationValue <em>Evaluation Value</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPINewEvalValueImpl#getEval <em>Eval</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

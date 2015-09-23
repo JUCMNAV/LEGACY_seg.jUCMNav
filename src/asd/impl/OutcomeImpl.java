@@ -4,6 +4,7 @@ package asd.impl;
 
 import asd.ASDelement;
 import asd.ASDspec;
+import asd.Aim;
 import asd.AsdPackage;
 import asd.Outcome;
 
@@ -29,12 +30,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asd.impl.OutcomeImpl#getEnabledElements <em>Enabled Elements</em>}</li>
  *   <li>{@link asd.impl.OutcomeImpl#getAsdSpec <em>Asd Spec</em>}</li>
  *   <li>{@link asd.impl.OutcomeImpl#getObjects <em>Objects</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -137,7 +138,7 @@ public class OutcomeImpl extends ASDelementImpl implements Outcome {
 	 */
 	public EList getObjects() {
 		if (objects == null) {
-			objects = new EObjectWithInverseResolvingEList.ManyInverse(asd.Object.class, this, AsdPackage.OUTCOME__OBJECTS, AsdPackage.OBJECT__OUTCOMES);
+			objects = new EObjectWithInverseResolvingEList.ManyInverse(Aim.class, this, AsdPackage.OUTCOME__OBJECTS, AsdPackage.AIM__OUTCOMES);
 		}
 		return objects;
 	}

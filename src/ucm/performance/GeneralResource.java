@@ -16,12 +16,12 @@ import urncore.UCMmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.GeneralResource#getMultiplicity <em>Multiplicity</em>}</li>
  *   <li>{@link ucm.performance.GeneralResource#getSchedPolicy <em>Sched Policy</em>}</li>
  *   <li>{@link ucm.performance.GeneralResource#getUcmspec <em>Ucmspec</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.performance.PerformancePackage#getGeneralResource()
  * @model abstract="true"

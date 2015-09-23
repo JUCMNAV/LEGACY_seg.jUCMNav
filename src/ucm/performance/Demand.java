@@ -17,12 +17,12 @@ import urncore.Responsibility;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.Demand#getQuantity <em>Quantity</em>}</li>
  *   <li>{@link ucm.performance.Demand#getResponsibility <em>Responsibility</em>}</li>
  *   <li>{@link ucm.performance.Demand#getResource <em>Resource</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.performance.PerformancePackage#getDemand()
  * @model

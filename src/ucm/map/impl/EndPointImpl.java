@@ -31,13 +31,13 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.EndPointImpl#isLocal <em>Local</em>}</li>
  *   <li>{@link ucm.map.impl.EndPointImpl#getOutBindings <em>Out Bindings</em>}</li>
  *   <li>{@link ucm.map.impl.EndPointImpl#getPostcondition <em>Postcondition</em>}</li>
  *   <li>{@link ucm.map.impl.EndPointImpl#getScenarioEndPoints <em>Scenario End Points</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

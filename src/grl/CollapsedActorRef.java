@@ -14,10 +14,10 @@ package grl;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.CollapsedActorRef#getActor <em>Actor</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getCollapsedActorRef()
  * @model

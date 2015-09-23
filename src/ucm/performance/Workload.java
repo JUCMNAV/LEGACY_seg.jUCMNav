@@ -16,6 +16,7 @@ import urncore.UCMmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.Workload#isClosed <em>Closed</em>}</li>
  *   <li>{@link ucm.performance.Workload#getArrivalPattern <em>Arrival Pattern</em>}</li>
@@ -28,7 +29,6 @@ import urncore.UCMmodelElement;
  *   <li>{@link ucm.performance.Workload#getUnit <em>Unit</em>}</li>
  *   <li>{@link ucm.performance.Workload#getStartPoint <em>Start Point</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.performance.PerformancePackage#getWorkload()
  * @model

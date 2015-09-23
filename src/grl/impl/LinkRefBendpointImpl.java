@@ -23,12 +23,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.LinkRefBendpointImpl#getX <em>X</em>}</li>
  *   <li>{@link grl.impl.LinkRefBendpointImpl#getY <em>Y</em>}</li>
  *   <li>{@link grl.impl.LinkRefBendpointImpl#getLinkref <em>Linkref</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

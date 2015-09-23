@@ -14,6 +14,7 @@ import urncore.URNmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.ASDiagram#getElements <em>Elements</em>}</li>
  *   <li>{@link asd.ASDiagram#getASD <em>ASD</em>}</li>
@@ -21,8 +22,8 @@ import urncore.URNmodelElement;
  *   <li>{@link asd.ASDiagram#getMediations <em>Mediations</em>}</li>
  *   <li>{@link asd.ASDiagram#getAsdLayouts <em>Asd Layouts</em>}</li>
  *   <li>{@link asd.ASDiagram#getParentDoLs <em>Parent Do Ls</em>}</li>
+ *   <li>{@link asd.ASDiagram#getContradictions <em>Contradictions</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getASDiagram()
  * @model
@@ -136,5 +137,23 @@ public interface ASDiagram extends ASDmodelElement, URNmodelElement, IURNDiagram
 	 * @generated
 	 */
 	EList getParentDoLs();
+
+	/**
+	 * Returns the value of the '<em><b>Contradictions</b></em>' reference list.
+	 * The list contents are of type {@link asd.Contradiction}.
+	 * It is bidirectional and its opposite is '{@link asd.Contradiction#getDiagram <em>Diagram</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Contradictions</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Contradictions</em>' reference list.
+	 * @see asd.AsdPackage#getASDiagram_Contradictions()
+	 * @see asd.Contradiction#getDiagram
+	 * @model type="asd.Contradiction" opposite="diagram"
+	 * @generated
+	 */
+	EList getContradictions();
 
 } // ASDiagram

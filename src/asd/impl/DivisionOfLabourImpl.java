@@ -8,6 +8,7 @@ import asd.AsdPackage;
 import asd.Community;
 import asd.DivisionOfLabour;
 import asd.Rule;
+import asd.Tool;
 
 import java.util.Collection;
 
@@ -31,13 +32,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asd.impl.DivisionOfLabourImpl#getRules <em>Rules</em>}</li>
  *   <li>{@link asd.impl.DivisionOfLabourImpl#getRefinedDiagrams <em>Refined Diagrams</em>}</li>
  *   <li>{@link asd.impl.DivisionOfLabourImpl#getPerformedBy <em>Performed By</em>}</li>
  *   <li>{@link asd.impl.DivisionOfLabourImpl#getAsdSpec <em>Asd Spec</em>}</li>
+ *   <li>{@link asd.impl.DivisionOfLabourImpl#getTools <em>Tools</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -63,14 +65,24 @@ public class DivisionOfLabourImpl extends MediatingElementImpl implements Divisi
 	protected EList refinedDiagrams;
 
 	/**
-	 * The cached value of the '{@link #getPerformedBy() <em>Performed By</em>}' reference.
+	 * The cached value of the '{@link #getPerformedBy() <em>Performed By</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getPerformedBy()
 	 * @generated
 	 * @ordered
 	 */
-	protected Community performedBy;
+	protected EList performedBy;
+
+	/**
+	 * The cached value of the '{@link #getTools() <em>Tools</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTools()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList tools;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -119,59 +131,11 @@ public class DivisionOfLabourImpl extends MediatingElementImpl implements Divisi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Community getPerformedBy() {
-		if (performedBy != null && performedBy.eIsProxy()) {
-			InternalEObject oldPerformedBy = (InternalEObject)performedBy;
-			performedBy = (Community)eResolveProxy(oldPerformedBy);
-			if (performedBy != oldPerformedBy) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY, oldPerformedBy, performedBy));
-			}
+	public EList getPerformedBy() {
+		if (performedBy == null) {
+			performedBy = new EObjectWithInverseResolvingEList.ManyInverse(Community.class, this, AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY, AsdPackage.COMMUNITY__PERFORMS);
 		}
 		return performedBy;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Community basicGetPerformedBy() {
-		return performedBy;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetPerformedBy(Community newPerformedBy, NotificationChain msgs) {
-		Community oldPerformedBy = performedBy;
-		performedBy = newPerformedBy;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY, oldPerformedBy, newPerformedBy);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPerformedBy(Community newPerformedBy) {
-		if (newPerformedBy != performedBy) {
-			NotificationChain msgs = null;
-			if (performedBy != null)
-				msgs = ((InternalEObject)performedBy).eInverseRemove(this, AsdPackage.COMMUNITY__PERFORMS, Community.class, msgs);
-			if (newPerformedBy != null)
-				msgs = ((InternalEObject)newPerformedBy).eInverseAdd(this, AsdPackage.COMMUNITY__PERFORMS, Community.class, msgs);
-			msgs = basicSetPerformedBy(newPerformedBy, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY, newPerformedBy, newPerformedBy));
 	}
 
 	/**
@@ -220,6 +184,18 @@ public class DivisionOfLabourImpl extends MediatingElementImpl implements Divisi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getTools() {
+		if (tools == null) {
+			tools = new EObjectWithInverseResolvingEList.ManyInverse(Tool.class, this, AsdPackage.DIVISION_OF_LABOUR__TOOLS, AsdPackage.TOOL__DOLS);
+		}
+		return tools;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case AsdPackage.DIVISION_OF_LABOUR__RULES:
@@ -227,13 +203,13 @@ public class DivisionOfLabourImpl extends MediatingElementImpl implements Divisi
 			case AsdPackage.DIVISION_OF_LABOUR__REFINED_DIAGRAMS:
 				return ((InternalEList)getRefinedDiagrams()).basicAdd(otherEnd, msgs);
 			case AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY:
-				if (performedBy != null)
-					msgs = ((InternalEObject)performedBy).eInverseRemove(this, AsdPackage.COMMUNITY__PERFORMS, Community.class, msgs);
-				return basicSetPerformedBy((Community)otherEnd, msgs);
+				return ((InternalEList)getPerformedBy()).basicAdd(otherEnd, msgs);
 			case AsdPackage.DIVISION_OF_LABOUR__ASD_SPEC:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetAsdSpec((ASDspec)otherEnd, msgs);
+			case AsdPackage.DIVISION_OF_LABOUR__TOOLS:
+				return ((InternalEList)getTools()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -250,9 +226,11 @@ public class DivisionOfLabourImpl extends MediatingElementImpl implements Divisi
 			case AsdPackage.DIVISION_OF_LABOUR__REFINED_DIAGRAMS:
 				return ((InternalEList)getRefinedDiagrams()).basicRemove(otherEnd, msgs);
 			case AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY:
-				return basicSetPerformedBy(null, msgs);
+				return ((InternalEList)getPerformedBy()).basicRemove(otherEnd, msgs);
 			case AsdPackage.DIVISION_OF_LABOUR__ASD_SPEC:
 				return basicSetAsdSpec(null, msgs);
+			case AsdPackage.DIVISION_OF_LABOUR__TOOLS:
+				return ((InternalEList)getTools()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -282,10 +260,11 @@ public class DivisionOfLabourImpl extends MediatingElementImpl implements Divisi
 			case AsdPackage.DIVISION_OF_LABOUR__REFINED_DIAGRAMS:
 				return getRefinedDiagrams();
 			case AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY:
-				if (resolve) return getPerformedBy();
-				return basicGetPerformedBy();
+				return getPerformedBy();
 			case AsdPackage.DIVISION_OF_LABOUR__ASD_SPEC:
 				return getAsdSpec();
+			case AsdPackage.DIVISION_OF_LABOUR__TOOLS:
+				return getTools();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -306,10 +285,15 @@ public class DivisionOfLabourImpl extends MediatingElementImpl implements Divisi
 				getRefinedDiagrams().addAll((Collection)newValue);
 				return;
 			case AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY:
-				setPerformedBy((Community)newValue);
+				getPerformedBy().clear();
+				getPerformedBy().addAll((Collection)newValue);
 				return;
 			case AsdPackage.DIVISION_OF_LABOUR__ASD_SPEC:
 				setAsdSpec((ASDspec)newValue);
+				return;
+			case AsdPackage.DIVISION_OF_LABOUR__TOOLS:
+				getTools().clear();
+				getTools().addAll((Collection)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -329,10 +313,13 @@ public class DivisionOfLabourImpl extends MediatingElementImpl implements Divisi
 				getRefinedDiagrams().clear();
 				return;
 			case AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY:
-				setPerformedBy((Community)null);
+				getPerformedBy().clear();
 				return;
 			case AsdPackage.DIVISION_OF_LABOUR__ASD_SPEC:
 				setAsdSpec((ASDspec)null);
+				return;
+			case AsdPackage.DIVISION_OF_LABOUR__TOOLS:
+				getTools().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -350,9 +337,11 @@ public class DivisionOfLabourImpl extends MediatingElementImpl implements Divisi
 			case AsdPackage.DIVISION_OF_LABOUR__REFINED_DIAGRAMS:
 				return refinedDiagrams != null && !refinedDiagrams.isEmpty();
 			case AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY:
-				return performedBy != null;
+				return performedBy != null && !performedBy.isEmpty();
 			case AsdPackage.DIVISION_OF_LABOUR__ASD_SPEC:
 				return getAsdSpec() != null;
+			case AsdPackage.DIVISION_OF_LABOUR__TOOLS:
+				return tools != null && !tools.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

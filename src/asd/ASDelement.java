@@ -13,13 +13,14 @@ import urncore.URNmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.ASDelement#getDiagrams <em>Diagrams</em>}</li>
- *   <li>{@link asd.ASDelement#getParentElements <em>Parent Elements</em>}</li>
+ *   <li>{@link asd.ASDelement#getParentElement <em>Parent Element</em>}</li>
  *   <li>{@link asd.ASDelement#getRefinedElements <em>Refined Elements</em>}</li>
  *   <li>{@link asd.ASDelement#getRequiredOutcomes <em>Required Outcomes</em>}</li>
+ *   <li>{@link asd.ASDelement#getContradictions <em>Contradictions</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getASDelement()
  * @model abstract="true"
@@ -45,27 +46,37 @@ public interface ASDelement extends ASDmodelElement, URNmodelElement {
 	EList getDiagrams();
 
 	/**
-	 * Returns the value of the '<em><b>Parent Elements</b></em>' reference list.
-	 * The list contents are of type {@link asd.ASDelement}.
+	 * Returns the value of the '<em><b>Parent Element</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link asd.ASDelement#getRefinedElements <em>Refined Elements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Parent Elements</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Parent Element</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Parent Elements</em>' reference list.
-	 * @see asd.AsdPackage#getASDelement_ParentElements()
+	 * @return the value of the '<em>Parent Element</em>' reference.
+	 * @see #setParentElement(ASDelement)
+	 * @see asd.AsdPackage#getASDelement_ParentElement()
 	 * @see asd.ASDelement#getRefinedElements
-	 * @model type="asd.ASDelement" opposite="refinedElements"
+	 * @model opposite="refinedElements"
 	 * @generated
 	 */
-	EList getParentElements();
+	ASDelement getParentElement();
+
+	/**
+	 * Sets the value of the '{@link asd.ASDelement#getParentElement <em>Parent Element</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Parent Element</em>' reference.
+	 * @see #getParentElement()
+	 * @generated
+	 */
+	void setParentElement(ASDelement value);
 
 	/**
 	 * Returns the value of the '<em><b>Refined Elements</b></em>' reference list.
 	 * The list contents are of type {@link asd.ASDelement}.
-	 * It is bidirectional and its opposite is '{@link asd.ASDelement#getParentElements <em>Parent Elements</em>}'.
+	 * It is bidirectional and its opposite is '{@link asd.ASDelement#getParentElement <em>Parent Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Refined Elements</em>' reference list isn't clear,
@@ -74,8 +85,8 @@ public interface ASDelement extends ASDmodelElement, URNmodelElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Refined Elements</em>' reference list.
 	 * @see asd.AsdPackage#getASDelement_RefinedElements()
-	 * @see asd.ASDelement#getParentElements
-	 * @model type="asd.ASDelement" opposite="parentElements"
+	 * @see asd.ASDelement#getParentElement
+	 * @model type="asd.ASDelement" opposite="parentElement"
 	 * @generated
 	 */
 	EList getRefinedElements();
@@ -97,5 +108,23 @@ public interface ASDelement extends ASDmodelElement, URNmodelElement {
 	 * @generated
 	 */
 	EList getRequiredOutcomes();
+
+	/**
+	 * Returns the value of the '<em><b>Contradictions</b></em>' reference list.
+	 * The list contents are of type {@link asd.Contradiction}.
+	 * It is bidirectional and its opposite is '{@link asd.Contradiction#getConsideredAE <em>Considered AE</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Contradictions</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Contradictions</em>' reference list.
+	 * @see asd.AsdPackage#getASDelement_Contradictions()
+	 * @see asd.Contradiction#getConsideredAE
+	 * @model type="asd.Contradiction" opposite="consideredAE"
+	 * @generated
+	 */
+	EList getContradictions();
 
 } // ASDelement

@@ -2,6 +2,7 @@
  */
 package asd;
 
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -10,10 +11,11 @@ package asd;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.Tool#getAsdSpec <em>Asd Spec</em>}</li>
+ *   <li>{@link asd.Tool#getDols <em>Dols</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getTool()
  * @model
@@ -47,5 +49,23 @@ public interface Tool extends MediatingElement {
 	 * @generated
 	 */
 	void setAsdSpec(ASDspec value);
+
+	/**
+	 * Returns the value of the '<em><b>Dols</b></em>' reference list.
+	 * The list contents are of type {@link asd.DivisionOfLabour}.
+	 * It is bidirectional and its opposite is '{@link asd.DivisionOfLabour#getTools <em>Tools</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Dols</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Dols</em>' reference list.
+	 * @see asd.AsdPackage#getTool_Dols()
+	 * @see asd.DivisionOfLabour#getTools
+	 * @model type="asd.DivisionOfLabour" opposite="tools" required="true"
+	 * @generated
+	 */
+	EList getDols();
 
 } // Tool

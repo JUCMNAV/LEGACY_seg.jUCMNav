@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.IURNContainerRef#getX <em>X</em>}</li>
  *   <li>{@link urncore.IURNContainerRef#getY <em>Y</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link urncore.IURNContainerRef#getParent <em>Parent</em>}</li>
  *   <li>{@link urncore.IURNContainerRef#getChildren <em>Children</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getIURNContainerRef()
  * @model interface="true" abstract="true"

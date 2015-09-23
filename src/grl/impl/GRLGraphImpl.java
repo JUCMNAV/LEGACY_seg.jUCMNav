@@ -34,6 +34,7 @@ import urncore.impl.GRLmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.GRLGraphImpl#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link grl.impl.GRLGraphImpl#getNodes <em>Nodes</em>}</li>
@@ -42,7 +43,6 @@ import urncore.impl.GRLmodelElementImpl;
  *   <li>{@link grl.impl.GRLGraphImpl#getConcern <em>Concern</em>}</li>
  *   <li>{@link grl.impl.GRLGraphImpl#getComments <em>Comments</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

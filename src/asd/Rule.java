@@ -11,11 +11,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.Rule#getDols <em>Dols</em>}</li>
  *   <li>{@link asd.Rule#getAsdSpec <em>Asd Spec</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getRule()
  * @model

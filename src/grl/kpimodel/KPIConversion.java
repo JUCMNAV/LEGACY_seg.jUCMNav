@@ -19,11 +19,11 @@ import urncore.GRLmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.KPIConversion#getKpiEvalValueSet <em>Kpi Eval Value Set</em>}</li>
  *   <li>{@link grl.kpimodel.KPIConversion#getGrlspec <em>Grlspec</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.kpimodel.KpimodelPackage#getKPIConversion()
  * @model abstract="true"

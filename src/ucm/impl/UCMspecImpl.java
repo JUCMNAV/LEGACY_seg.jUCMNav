@@ -34,6 +34,7 @@ import urn.UrnPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.impl.UCMspecImpl#getUrnspec <em>Urnspec</em>}</li>
  *   <li>{@link ucm.impl.UCMspecImpl#getResources <em>Resources</em>}</li>
@@ -41,7 +42,6 @@ import urn.UrnPackage;
  *   <li>{@link ucm.impl.UCMspecImpl#getVariables <em>Variables</em>}</li>
  *   <li>{@link ucm.impl.UCMspecImpl#getEnumerationTypes <em>Enumeration Types</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

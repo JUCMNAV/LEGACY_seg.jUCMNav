@@ -15,12 +15,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.ComponentBinding#getBinding <em>Binding</em>}</li>
  *   <li>{@link ucm.map.ComponentBinding#getParentComponent <em>Parent Component</em>}</li>
  *   <li>{@link ucm.map.ComponentBinding#getPluginComponent <em>Plugin Component</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getComponentBinding()
  * @model

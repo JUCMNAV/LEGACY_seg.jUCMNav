@@ -204,7 +204,7 @@ public interface EvaluationStrategy extends GRLmodelElement {
 				/**
 	 * Returns the value of the '<em><b>Reused Strategies</b></em>' reference list.
 	 * The list contents are of type {@link grl.ReusedStrategy}.
-	 * It is bidirectional and its opposite is '{@link grl.ReusedStrategy#getReusingstrategies <em>Reusingstrategies</em>}'.
+	 * It is bidirectional and its opposite is '{@link grl.ReusedStrategy#getReusingStrategies <em>Reusing Strategies</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Reused Strategies</em>' reference list isn't clear,
@@ -213,8 +213,8 @@ public interface EvaluationStrategy extends GRLmodelElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Reused Strategies</em>' reference list.
 	 * @see grl.GrlPackage#getEvaluationStrategy_ReusedStrategies()
-	 * @see grl.ReusedStrategy#getReusingstrategies
-	 * @model type="grl.ReusedStrategy" opposite="reusingstrategies"
+	 * @see grl.ReusedStrategy#getReusingStrategies
+	 * @model type="grl.ReusedStrategy" opposite="reusingStrategies"
 	 * @generated
 	 */
 	EList getReusedStrategies();

@@ -25,13 +25,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.impl.KPIInformationConfigImpl#getLevelOfDimension <em>Level Of Dimension</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPIInformationConfigImpl#getValueOfDimension <em>Value Of Dimension</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPIInformationConfigImpl#getStrategies <em>Strategies</em>}</li>
  *   <li>{@link grl.kpimodel.impl.KPIInformationConfigImpl#getKpiInfoElement <em>Kpi Info Element</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

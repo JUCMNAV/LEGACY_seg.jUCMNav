@@ -6,6 +6,7 @@ import asd.ASDelement;
 import asd.ASDiagram;
 import asd.ASDlayout;
 import asd.AsdPackage;
+import asd.Contradiction;
 import asd.DivisionOfLabour;
 import asd.Mediation;
 
@@ -41,6 +42,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asd.impl.ASDiagramImpl#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link asd.impl.ASDiagramImpl#getNodes <em>Nodes</em>}</li>
@@ -54,8 +56,8 @@ import urncore.UrncorePackage;
  *   <li>{@link asd.impl.ASDiagramImpl#getMediations <em>Mediations</em>}</li>
  *   <li>{@link asd.impl.ASDiagramImpl#getAsdLayouts <em>Asd Layouts</em>}</li>
  *   <li>{@link asd.impl.ASDiagramImpl#getParentDoLs <em>Parent Do Ls</em>}</li>
+ *   <li>{@link asd.impl.ASDiagramImpl#getContradictions <em>Contradictions</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -169,6 +171,16 @@ public class ASDiagramImpl extends ASDmodelElementImpl implements ASDiagram {
 	 * @ordered
 	 */
 	protected EList parentDoLs;
+
+	/**
+	 * The cached value of the '{@link #getContradictions() <em>Contradictions</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContradictions()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList contradictions;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -414,6 +426,18 @@ public class ASDiagramImpl extends ASDmodelElementImpl implements ASDiagram {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getContradictions() {
+		if (contradictions == null) {
+			contradictions = new EObjectWithInverseResolvingEList(Contradiction.class, this, AsdPackage.AS_DIAGRAM__CONTRADICTIONS, AsdPackage.CONTRADICTION__DIAGRAM);
+		}
+		return contradictions;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case AsdPackage.AS_DIAGRAM__URNDEFINITION:
@@ -444,6 +468,8 @@ public class ASDiagramImpl extends ASDmodelElementImpl implements ASDiagram {
 				return ((InternalEList)getAsdLayouts()).basicAdd(otherEnd, msgs);
 			case AsdPackage.AS_DIAGRAM__PARENT_DO_LS:
 				return ((InternalEList)getParentDoLs()).basicAdd(otherEnd, msgs);
+			case AsdPackage.AS_DIAGRAM__CONTRADICTIONS:
+				return ((InternalEList)getContradictions()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -479,6 +505,8 @@ public class ASDiagramImpl extends ASDmodelElementImpl implements ASDiagram {
 				return ((InternalEList)getAsdLayouts()).basicRemove(otherEnd, msgs);
 			case AsdPackage.AS_DIAGRAM__PARENT_DO_LS:
 				return ((InternalEList)getParentDoLs()).basicRemove(otherEnd, msgs);
+			case AsdPackage.AS_DIAGRAM__CONTRADICTIONS:
+				return ((InternalEList)getContradictions()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -528,6 +556,8 @@ public class ASDiagramImpl extends ASDmodelElementImpl implements ASDiagram {
 				return getAsdLayouts();
 			case AsdPackage.AS_DIAGRAM__PARENT_DO_LS:
 				return getParentDoLs();
+			case AsdPackage.AS_DIAGRAM__CONTRADICTIONS:
+				return getContradictions();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -585,6 +615,10 @@ public class ASDiagramImpl extends ASDmodelElementImpl implements ASDiagram {
 				getParentDoLs().clear();
 				getParentDoLs().addAll((Collection)newValue);
 				return;
+			case AsdPackage.AS_DIAGRAM__CONTRADICTIONS:
+				getContradictions().clear();
+				getContradictions().addAll((Collection)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -632,6 +666,9 @@ public class ASDiagramImpl extends ASDmodelElementImpl implements ASDiagram {
 			case AsdPackage.AS_DIAGRAM__PARENT_DO_LS:
 				getParentDoLs().clear();
 				return;
+			case AsdPackage.AS_DIAGRAM__CONTRADICTIONS:
+				getContradictions().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -667,6 +704,8 @@ public class ASDiagramImpl extends ASDmodelElementImpl implements ASDiagram {
 				return asdLayouts != null && !asdLayouts.isEmpty();
 			case AsdPackage.AS_DIAGRAM__PARENT_DO_LS:
 				return parentDoLs != null && !parentDoLs.isEmpty();
+			case AsdPackage.AS_DIAGRAM__CONTRADICTIONS:
+				return contradictions != null && !contradictions.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

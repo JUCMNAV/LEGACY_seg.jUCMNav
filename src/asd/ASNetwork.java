@@ -13,11 +13,11 @@ import urncore.IURNDiagram;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.ASNetwork#getASDspec <em>AS Dspec</em>}</li>
  *   <li>{@link asd.ASNetwork#getAsdLayouts <em>Asd Layouts</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getASNetwork()
  * @model

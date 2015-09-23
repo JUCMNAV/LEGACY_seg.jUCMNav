@@ -11,10 +11,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.MediatingElement#getMediations <em>Mediations</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getMediatingElement()
  * @model abstract="true"

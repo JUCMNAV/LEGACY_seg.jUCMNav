@@ -35,6 +35,7 @@ import urncore.impl.GRLmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.ActorRefImpl#getX <em>X</em>}</li>
  *   <li>{@link grl.impl.ActorRefImpl#getY <em>Y</em>}</li>
@@ -48,7 +49,6 @@ import urncore.impl.GRLmodelElementImpl;
  *   <li>{@link grl.impl.ActorRefImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link grl.impl.ActorRefImpl#getChildren <em>Children</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

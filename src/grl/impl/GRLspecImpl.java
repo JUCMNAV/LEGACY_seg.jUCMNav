@@ -48,6 +48,7 @@ import urn.UrnPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.GRLspecImpl#getUrnspec <em>Urnspec</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getIntElements <em>Int Elements</em>}</li>
@@ -64,7 +65,6 @@ import urn.UrnPackage;
  *   <li>{@link grl.impl.GRLspecImpl#getKPIConversion <em>KPI Conversion</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getFeatureModel <em>Feature Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

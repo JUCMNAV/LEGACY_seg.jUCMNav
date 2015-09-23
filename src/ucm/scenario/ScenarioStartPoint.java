@@ -17,12 +17,12 @@ import ucm.map.StartPoint;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.scenario.ScenarioStartPoint#isEnabled <em>Enabled</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioStartPoint#getScenarioDef <em>Scenario Def</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioStartPoint#getStartPoint <em>Start Point</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.scenario.ScenarioPackage#getScenarioStartPoint()
  * @model

@@ -15,13 +15,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.ContributionRange#getStart <em>Start</em>}</li>
  *   <li>{@link grl.ContributionRange#getEnd <em>End</em>}</li>
  *   <li>{@link grl.ContributionRange#getStep <em>Step</em>}</li>
  *   <li>{@link grl.ContributionRange#getChange <em>Change</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getContributionRange()
  * @model

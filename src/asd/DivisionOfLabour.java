@@ -11,13 +11,14 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.DivisionOfLabour#getRules <em>Rules</em>}</li>
  *   <li>{@link asd.DivisionOfLabour#getRefinedDiagrams <em>Refined Diagrams</em>}</li>
  *   <li>{@link asd.DivisionOfLabour#getPerformedBy <em>Performed By</em>}</li>
  *   <li>{@link asd.DivisionOfLabour#getAsdSpec <em>Asd Spec</em>}</li>
+ *   <li>{@link asd.DivisionOfLabour#getTools <em>Tools</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getDivisionOfLabour()
  * @model
@@ -61,32 +62,22 @@ public interface DivisionOfLabour extends MediatingElement {
 	EList getRefinedDiagrams();
 
 	/**
-	 * Returns the value of the '<em><b>Performed By</b></em>' reference.
+	 * Returns the value of the '<em><b>Performed By</b></em>' reference list.
+	 * The list contents are of type {@link asd.Community}.
 	 * It is bidirectional and its opposite is '{@link asd.Community#getPerforms <em>Performs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Performed By</em>' reference isn't clear,
+	 * If the meaning of the '<em>Performed By</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Performed By</em>' reference.
-	 * @see #setPerformedBy(Community)
+	 * @return the value of the '<em>Performed By</em>' reference list.
 	 * @see asd.AsdPackage#getDivisionOfLabour_PerformedBy()
 	 * @see asd.Community#getPerforms
-	 * @model opposite="performs" required="true"
+	 * @model type="asd.Community" opposite="performs" required="true"
 	 * @generated
 	 */
-	Community getPerformedBy();
-
-	/**
-	 * Sets the value of the '{@link asd.DivisionOfLabour#getPerformedBy <em>Performed By</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Performed By</em>' reference.
-	 * @see #getPerformedBy()
-	 * @generated
-	 */
-	void setPerformedBy(Community value);
+	EList getPerformedBy();
 
 	/**
 	 * Returns the value of the '<em><b>Asd Spec</b></em>' container reference.
@@ -115,5 +106,23 @@ public interface DivisionOfLabour extends MediatingElement {
 	 * @generated
 	 */
 	void setAsdSpec(ASDspec value);
+
+	/**
+	 * Returns the value of the '<em><b>Tools</b></em>' reference list.
+	 * The list contents are of type {@link asd.Tool}.
+	 * It is bidirectional and its opposite is '{@link asd.Tool#getDols <em>Dols</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Tools</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Tools</em>' reference list.
+	 * @see asd.AsdPackage#getDivisionOfLabour_Tools()
+	 * @see asd.Tool#getDols
+	 * @model type="asd.Tool" opposite="dols"
+	 * @generated
+	 */
+	EList getTools();
 
 } // DivisionOfLabour

@@ -15,11 +15,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.Metadata#getName <em>Name</em>}</li>
  *   <li>{@link urncore.Metadata#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getMetadata()
  * @model

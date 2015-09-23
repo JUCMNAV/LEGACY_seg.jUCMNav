@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asd.impl.MediationImpl#getMediatedBy <em>Mediated By</em>}</li>
  *   <li>{@link asd.impl.MediationImpl#getMediates <em>Mediates</em>}</li>
  *   <li>{@link asd.impl.MediationImpl#getRelevantASD <em>Relevant ASD</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

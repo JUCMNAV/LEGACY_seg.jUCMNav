@@ -357,7 +357,7 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
 	 */
 	public EList getReusedStrategies() {
 		if (reusedStrategies == null) {
-			reusedStrategies = new EObjectWithInverseResolvingEList.ManyInverse(ReusedStrategy.class, this, GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES, GrlPackage.REUSED_STRATEGY__REUSINGSTRATEGIES);
+			reusedStrategies = new EObjectWithInverseResolvingEList.ManyInverse(ReusedStrategy.class, this, GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES, GrlPackage.REUSED_STRATEGY__REUSING_STRATEGIES);
 		}
 		return reusedStrategies;
 	}

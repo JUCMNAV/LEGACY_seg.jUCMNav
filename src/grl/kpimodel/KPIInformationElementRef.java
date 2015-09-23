@@ -15,10 +15,10 @@ import grl.GRLNode;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.KPIInformationElementRef#getDef <em>Def</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.kpimodel.KpimodelPackage#getKPIInformationElementRef()
  * @model

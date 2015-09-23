@@ -25,13 +25,13 @@ import ucm.map.PluginBinding;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.OutBindingImpl#getBinding <em>Binding</em>}</li>
  *   <li>{@link ucm.map.impl.OutBindingImpl#getEndPoint <em>End Point</em>}</li>
  *   <li>{@link ucm.map.impl.OutBindingImpl#getStubExit <em>Stub Exit</em>}</li>
  *   <li>{@link ucm.map.impl.OutBindingImpl#getPointcutEntry <em>Pointcut Entry</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link grl.impl.ReusedStrategyImpl#getReusingstrategies <em>Reusingstrategies</em>}</li>
+ *   <li>{@link grl.impl.ReusedStrategyImpl#getReusingStrategies <em>Reusing Strategies</em>}</li>
  *   <li>{@link grl.impl.ReusedStrategyImpl#getReuseLinkInFM <em>Reuse Link In FM</em>}</li>
  * </ul>
  *
@@ -39,14 +39,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class ReusedStrategyImpl extends EvaluationStrategyImpl implements ReusedStrategy {
 	/**
-	 * The cached value of the '{@link #getReusingstrategies() <em>Reusingstrategies</em>}' reference list.
+	 * The cached value of the '{@link #getReusingStrategies() <em>Reusing Strategies</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getReusingstrategies()
+	 * @see #getReusingStrategies()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList reusingstrategies;
+	protected EList reusingStrategies;
 
 	/**
 	 * The cached value of the '{@link #getReuseLinkInFM() <em>Reuse Link In FM</em>}' reference.
@@ -81,11 +81,11 @@ public class ReusedStrategyImpl extends EvaluationStrategyImpl implements Reused
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getReusingstrategies() {
-		if (reusingstrategies == null) {
-			reusingstrategies = new EObjectWithInverseResolvingEList.ManyInverse(EvaluationStrategy.class, this, GrlPackage.REUSED_STRATEGY__REUSINGSTRATEGIES, GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES);
+	public EList getReusingStrategies() {
+		if (reusingStrategies == null) {
+			reusingStrategies = new EObjectWithInverseResolvingEList.ManyInverse(EvaluationStrategy.class, this, GrlPackage.REUSED_STRATEGY__REUSING_STRATEGIES, GrlPackage.EVALUATION_STRATEGY__REUSED_STRATEGIES);
 		}
-		return reusingstrategies;
+		return reusingStrategies;
 	}
 
 	/**
@@ -133,8 +133,8 @@ public class ReusedStrategyImpl extends EvaluationStrategyImpl implements Reused
 	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case GrlPackage.REUSED_STRATEGY__REUSINGSTRATEGIES:
-				return ((InternalEList)getReusingstrategies()).basicAdd(otherEnd, msgs);
+			case GrlPackage.REUSED_STRATEGY__REUSING_STRATEGIES:
+				return ((InternalEList)getReusingStrategies()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -146,8 +146,8 @@ public class ReusedStrategyImpl extends EvaluationStrategyImpl implements Reused
 	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case GrlPackage.REUSED_STRATEGY__REUSINGSTRATEGIES:
-				return ((InternalEList)getReusingstrategies()).basicRemove(otherEnd, msgs);
+			case GrlPackage.REUSED_STRATEGY__REUSING_STRATEGIES:
+				return ((InternalEList)getReusingStrategies()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -159,8 +159,8 @@ public class ReusedStrategyImpl extends EvaluationStrategyImpl implements Reused
 	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case GrlPackage.REUSED_STRATEGY__REUSINGSTRATEGIES:
-				return getReusingstrategies();
+			case GrlPackage.REUSED_STRATEGY__REUSING_STRATEGIES:
+				return getReusingStrategies();
 			case GrlPackage.REUSED_STRATEGY__REUSE_LINK_IN_FM:
 				if (resolve) return getReuseLinkInFM();
 				return basicGetReuseLinkInFM();
@@ -175,9 +175,9 @@ public class ReusedStrategyImpl extends EvaluationStrategyImpl implements Reused
 	 */
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case GrlPackage.REUSED_STRATEGY__REUSINGSTRATEGIES:
-				getReusingstrategies().clear();
-				getReusingstrategies().addAll((Collection)newValue);
+			case GrlPackage.REUSED_STRATEGY__REUSING_STRATEGIES:
+				getReusingStrategies().clear();
+				getReusingStrategies().addAll((Collection)newValue);
 				return;
 			case GrlPackage.REUSED_STRATEGY__REUSE_LINK_IN_FM:
 				setReuseLinkInFM((ReuseLink)newValue);
@@ -193,8 +193,8 @@ public class ReusedStrategyImpl extends EvaluationStrategyImpl implements Reused
 	 */
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case GrlPackage.REUSED_STRATEGY__REUSINGSTRATEGIES:
-				getReusingstrategies().clear();
+			case GrlPackage.REUSED_STRATEGY__REUSING_STRATEGIES:
+				getReusingStrategies().clear();
 				return;
 			case GrlPackage.REUSED_STRATEGY__REUSE_LINK_IN_FM:
 				setReuseLinkInFM((ReuseLink)null);
@@ -210,8 +210,8 @@ public class ReusedStrategyImpl extends EvaluationStrategyImpl implements Reused
 	 */
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case GrlPackage.REUSED_STRATEGY__REUSINGSTRATEGIES:
-				return reusingstrategies != null && !reusingstrategies.isEmpty();
+			case GrlPackage.REUSED_STRATEGY__REUSING_STRATEGIES:
+				return reusingStrategies != null && !reusingStrategies.isEmpty();
 			case GrlPackage.REUSED_STRATEGY__REUSE_LINK_IN_FM:
 				return reuseLinkInFM != null;
 		}

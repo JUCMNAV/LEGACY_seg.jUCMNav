@@ -22,11 +22,11 @@ import urncore.UCMmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.scenario.ScenarioGroup#getUcmspec <em>Ucmspec</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioGroup#getScenarios <em>Scenarios</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.scenario.ScenarioPackage#getScenarioGroup()
  * @model

@@ -13,12 +13,12 @@ import urncore.URNmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.Mediation#getMediatedBy <em>Mediated By</em>}</li>
  *   <li>{@link asd.Mediation#getMediates <em>Mediates</em>}</li>
  *   <li>{@link asd.Mediation#getRelevantASD <em>Relevant ASD</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getMediation()
  * @model

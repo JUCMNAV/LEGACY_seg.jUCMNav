@@ -14,10 +14,10 @@ package urncore;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.ComponentLabel#getContRef <em>Cont Ref</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getComponentLabel()
  * @model

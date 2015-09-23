@@ -21,13 +21,13 @@ import urncore.Condition;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.EndPoint#isLocal <em>Local</em>}</li>
  *   <li>{@link ucm.map.EndPoint#getOutBindings <em>Out Bindings</em>}</li>
  *   <li>{@link ucm.map.EndPoint#getPostcondition <em>Postcondition</em>}</li>
  *   <li>{@link ucm.map.EndPoint#getScenarioEndPoints <em>Scenario End Points</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getEndPoint()
  * @model

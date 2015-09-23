@@ -14,10 +14,10 @@ package grl;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.Belief#getAuthor <em>Author</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getBelief()
  * @model

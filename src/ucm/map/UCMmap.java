@@ -18,11 +18,11 @@ import urncore.UCMmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.UCMmap#isSingleton <em>Singleton</em>}</li>
  *   <li>{@link ucm.map.UCMmap#getParentStub <em>Parent Stub</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getUCMmap()
  * @model

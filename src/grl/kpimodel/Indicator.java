@@ -17,11 +17,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.Indicator#getKpiModelLinksDest <em>Kpi Model Links Dest</em>}</li>
  *   <li>{@link grl.kpimodel.Indicator#getGroups <em>Groups</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.kpimodel.KpimodelPackage#getIndicator()
  * @model

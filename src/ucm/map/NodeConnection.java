@@ -18,6 +18,7 @@ import urncore.IURNConnection;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.NodeConnection#getProbability <em>Probability</em>}</li>
  *   <li>{@link ucm.map.NodeConnection#getThreshold <em>Threshold</em>}</li>
@@ -27,7 +28,6 @@ import urncore.IURNConnection;
  *   <li>{@link ucm.map.NodeConnection#getOutBindingsPlugin <em>Out Bindings Plugin</em>}</li>
  *   <li>{@link ucm.map.NodeConnection#getInBindingsPlugin <em>In Bindings Plugin</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getNodeConnection()
  * @model

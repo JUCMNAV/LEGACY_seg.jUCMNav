@@ -27,11 +27,11 @@ import urncore.impl.GRLmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.GRLLinkableElementImpl#getLinksDest <em>Links Dest</em>}</li>
  *   <li>{@link grl.impl.GRLLinkableElementImpl#getLinksSrc <em>Links Src</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

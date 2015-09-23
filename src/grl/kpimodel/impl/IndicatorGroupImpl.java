@@ -32,12 +32,12 @@ import urncore.impl.GRLmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.impl.IndicatorGroupImpl#isIsRedesignCategory <em>Is Redesign Category</em>}</li>
  *   <li>{@link grl.kpimodel.impl.IndicatorGroupImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.kpimodel.impl.IndicatorGroupImpl#getIndicators <em>Indicators</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

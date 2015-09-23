@@ -19,13 +19,13 @@ import urncore.GRLmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.KPIModelLink#getKpiInformationElementSrc <em>Kpi Information Element Src</em>}</li>
  *   <li>{@link grl.kpimodel.KPIModelLink#getRefs <em>Refs</em>}</li>
  *   <li>{@link grl.kpimodel.KPIModelLink#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.kpimodel.KPIModelLink#getIndDest <em>Ind Dest</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.kpimodel.KpimodelPackage#getKPIModelLink()
  * @model

@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.URNmodelElement#getFromLinks <em>From Links</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getToLinks <em>To Links</em>}</li>
@@ -24,7 +25,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link urncore.URNmodelElement#getMetadata <em>Metadata</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getInconcern <em>Inconcern</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getURNmodelElement()
  * @model abstract="true"

@@ -17,6 +17,7 @@ import urncore.GRLmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.ContributionContext#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.ContributionContext#getGroups <em>Groups</em>}</li>
@@ -24,7 +25,6 @@ import urncore.GRLmodelElement;
  *   <li>{@link grl.ContributionContext#getParentContexts <em>Parent Contexts</em>}</li>
  *   <li>{@link grl.ContributionContext#getIncludedContexts <em>Included Contexts</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getContributionContext()
  * @model

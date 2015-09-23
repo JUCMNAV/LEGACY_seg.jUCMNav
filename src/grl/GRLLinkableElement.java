@@ -17,11 +17,11 @@ import urncore.GRLmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.GRLLinkableElement#getLinksDest <em>Links Dest</em>}</li>
  *   <li>{@link grl.GRLLinkableElement#getLinksSrc <em>Links Src</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getGRLLinkableElement()
  * @model abstract="true"

@@ -4,17 +4,24 @@ package asd.impl;
 
 import asd.ASDspec;
 import asd.AsdPackage;
+import asd.DivisionOfLabour;
 import asd.Tool;
+
+import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,14 +29,25 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asd.impl.ToolImpl#getAsdSpec <em>Asd Spec</em>}</li>
+ *   <li>{@link asd.impl.ToolImpl#getDols <em>Dols</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
 public class ToolImpl extends MediatingElementImpl implements Tool {
+	/**
+	 * The cached value of the '{@link #getDols() <em>Dols</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDols()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList dols;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -94,12 +112,26 @@ public class ToolImpl extends MediatingElementImpl implements Tool {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getDols() {
+		if (dols == null) {
+			dols = new EObjectWithInverseResolvingEList.ManyInverse(DivisionOfLabour.class, this, AsdPackage.TOOL__DOLS, AsdPackage.DIVISION_OF_LABOUR__TOOLS);
+		}
+		return dols;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case AsdPackage.TOOL__ASD_SPEC:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetAsdSpec((ASDspec)otherEnd, msgs);
+			case AsdPackage.TOOL__DOLS:
+				return ((InternalEList)getDols()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -113,6 +145,8 @@ public class ToolImpl extends MediatingElementImpl implements Tool {
 		switch (featureID) {
 			case AsdPackage.TOOL__ASD_SPEC:
 				return basicSetAsdSpec(null, msgs);
+			case AsdPackage.TOOL__DOLS:
+				return ((InternalEList)getDols()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -139,6 +173,8 @@ public class ToolImpl extends MediatingElementImpl implements Tool {
 		switch (featureID) {
 			case AsdPackage.TOOL__ASD_SPEC:
 				return getAsdSpec();
+			case AsdPackage.TOOL__DOLS:
+				return getDols();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -152,6 +188,10 @@ public class ToolImpl extends MediatingElementImpl implements Tool {
 		switch (featureID) {
 			case AsdPackage.TOOL__ASD_SPEC:
 				setAsdSpec((ASDspec)newValue);
+				return;
+			case AsdPackage.TOOL__DOLS:
+				getDols().clear();
+				getDols().addAll((Collection)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -167,6 +207,9 @@ public class ToolImpl extends MediatingElementImpl implements Tool {
 			case AsdPackage.TOOL__ASD_SPEC:
 				setAsdSpec((ASDspec)null);
 				return;
+			case AsdPackage.TOOL__DOLS:
+				getDols().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -180,6 +223,8 @@ public class ToolImpl extends MediatingElementImpl implements Tool {
 		switch (featureID) {
 			case AsdPackage.TOOL__ASD_SPEC:
 				return getAsdSpec() != null;
+			case AsdPackage.TOOL__DOLS:
+				return dols != null && !dols.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

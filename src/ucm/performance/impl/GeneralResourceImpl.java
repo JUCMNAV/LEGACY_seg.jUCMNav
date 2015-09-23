@@ -25,12 +25,12 @@ import urncore.impl.UCMmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.impl.GeneralResourceImpl#getMultiplicity <em>Multiplicity</em>}</li>
  *   <li>{@link ucm.performance.impl.GeneralResourceImpl#getSchedPolicy <em>Sched Policy</em>}</li>
  *   <li>{@link ucm.performance.impl.GeneralResourceImpl#getUcmspec <em>Ucmspec</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.IURNDiagram#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link urncore.IURNDiagram#getNodes <em>Nodes</em>}</li>
@@ -24,7 +25,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link urncore.IURNDiagram#getConcern <em>Concern</em>}</li>
  *   <li>{@link urncore.IURNDiagram#getComments <em>Comments</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getIURNDiagram()
  * @model interface="true" abstract="true"

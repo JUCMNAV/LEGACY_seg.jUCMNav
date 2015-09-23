@@ -27,12 +27,12 @@ import urncore.GRLmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.IndicatorGroup#isIsRedesignCategory <em>Is Redesign Category</em>}</li>
  *   <li>{@link grl.kpimodel.IndicatorGroup#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.kpimodel.IndicatorGroup#getIndicators <em>Indicators</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.kpimodel.KpimodelPackage#getIndicatorGroup()
  * @model

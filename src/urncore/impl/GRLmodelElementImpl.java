@@ -15,8 +15,6 @@ import urncore.UrncorePackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>GR Lmodel Element</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

@@ -17,13 +17,13 @@ import urncore.Responsibility;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.RespRef#getRepetitionCount <em>Repetition Count</em>}</li>
  *   <li>{@link ucm.map.RespRef#getHostDemand <em>Host Demand</em>}</li>
  *   <li>{@link ucm.map.RespRef#getRespDef <em>Resp Def</em>}</li>
  *   <li>{@link ucm.map.RespRef#getPluginBindings <em>Plugin Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getRespRef()
  * @model

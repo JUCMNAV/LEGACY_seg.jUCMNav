@@ -26,12 +26,12 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.ResponsibilityBindingImpl#getBinding <em>Binding</em>}</li>
  *   <li>{@link ucm.map.impl.ResponsibilityBindingImpl#getPluginResp <em>Plugin Resp</em>}</li>
  *   <li>{@link ucm.map.impl.ResponsibilityBindingImpl#getParentResp <em>Parent Resp</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

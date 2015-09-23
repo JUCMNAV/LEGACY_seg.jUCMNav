@@ -17,13 +17,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.KPIInformationConfig#getLevelOfDimension <em>Level Of Dimension</em>}</li>
  *   <li>{@link grl.kpimodel.KPIInformationConfig#getValueOfDimension <em>Value Of Dimension</em>}</li>
  *   <li>{@link grl.kpimodel.KPIInformationConfig#getStrategies <em>Strategies</em>}</li>
  *   <li>{@link grl.kpimodel.KPIInformationConfig#getKpiInfoElement <em>Kpi Info Element</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.kpimodel.KpimodelPackage#getKPIInformationConfig()
  * @model

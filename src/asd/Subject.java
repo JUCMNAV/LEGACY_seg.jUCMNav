@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link asd.Subject#getAsdSpec <em>Asd Spec</em>}</li>
  *   <li>{@link asd.Subject#getMemberOf <em>Member Of</em>}</li>
  *   <li>{@link asd.Subject#getObjects <em>Objects</em>}</li>
  * </ul>
- * </p>
  *
  * @see asd.AsdPackage#getSubject()
  * @model
@@ -81,8 +81,8 @@ public interface Subject extends MediatedElement {
 
 	/**
 	 * Returns the value of the '<em><b>Objects</b></em>' reference list.
-	 * The list contents are of type {@link asd.Object}.
-	 * It is bidirectional and its opposite is '{@link asd.Object#getSubjects <em>Subjects</em>}'.
+	 * The list contents are of type {@link asd.Aim}.
+	 * It is bidirectional and its opposite is '{@link asd.Aim#getSubjects <em>Subjects</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Objects</em>' reference list isn't clear,
@@ -91,8 +91,8 @@ public interface Subject extends MediatedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Objects</em>' reference list.
 	 * @see asd.AsdPackage#getSubject_Objects()
-	 * @see asd.Object#getSubjects
-	 * @model type="asd.Object" opposite="subjects" required="true"
+	 * @see asd.Aim#getSubjects
+	 * @model type="asd.Aim" opposite="subjects" required="true"
 	 * @generated
 	 */
 	EList getObjects();

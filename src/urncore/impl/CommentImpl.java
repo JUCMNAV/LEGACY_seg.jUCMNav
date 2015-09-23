@@ -23,6 +23,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urncore.impl.CommentImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link urncore.impl.CommentImpl#getX <em>X</em>}</li>
@@ -32,7 +33,6 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.CommentImpl#getFillColor <em>Fill Color</em>}</li>
  *   <li>{@link urncore.impl.CommentImpl#getDiagram <em>Diagram</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

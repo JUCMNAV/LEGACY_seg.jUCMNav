@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.Stub#isDynamic <em>Dynamic</em>}</li>
  *   <li>{@link ucm.map.Stub#isShared <em>Shared</em>}</li>
@@ -26,7 +27,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ucm.map.Stub#getAspect <em>Aspect</em>}</li>
  *   <li>{@link ucm.map.Stub#getBindings <em>Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getStub()
  * @model

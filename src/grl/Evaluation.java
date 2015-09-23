@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.Evaluation#getEvaluation <em>Evaluation</em>}</li>
  *   <li>{@link grl.Evaluation#getQualitativeEvaluation <em>Qualitative Evaluation</em>}</li>
@@ -28,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link grl.Evaluation#getEvalRange <em>Eval Range</em>}</li>
  *   <li>{@link grl.Evaluation#getKpiNewEvalValue <em>Kpi New Eval Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getEvaluation()
  * @model

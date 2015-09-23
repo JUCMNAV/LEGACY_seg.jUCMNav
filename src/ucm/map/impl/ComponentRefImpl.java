@@ -35,6 +35,7 @@ import urncore.impl.UCMmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.impl.ComponentRefImpl#getX <em>X</em>}</li>
  *   <li>{@link ucm.map.impl.ComponentRefImpl#getY <em>Y</em>}</li>
@@ -53,7 +54,6 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.map.impl.ComponentRefImpl#getParentBindings <em>Parent Bindings</em>}</li>
  *   <li>{@link ucm.map.impl.ComponentRefImpl#getPluginBindings <em>Plugin Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

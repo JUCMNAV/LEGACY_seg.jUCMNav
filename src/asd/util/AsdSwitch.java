@@ -2,27 +2,15 @@
  */
 package asd.util;
 
-import asd.ASDelement;
-import asd.ASDiagram;
-import asd.ASDlayout;
-import asd.ASDmodelElement;
-import asd.ASDspec;
-import asd.ASNetwork;
-import asd.AsdPackage;
-import asd.Community;
-import asd.DivisionOfLabour;
-import asd.MediatedElement;
-import asd.MediatingElement;
-import asd.Mediation;
-import asd.Motivation;
-import asd.Outcome;
-import asd.Rule;
-import asd.Subject;
-import asd.Tool;
+import asd.*;
+
 import ca.mcgill.sel.core.CORENamedElement;
+
 import java.util.List;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+
 import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
@@ -230,14 +218,14 @@ public class AsdSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AsdPackage.OBJECT: {
-				asd.Object object = (asd.Object)theEObject;
-				Object result = caseObject(object);
-				if (result == null) result = caseMediatedElement(object);
-				if (result == null) result = caseASDelement(object);
-				if (result == null) result = caseASDmodelElement(object);
-				if (result == null) result = caseURNmodelElement(object);
-				if (result == null) result = caseCORENamedElement(object);
+			case AsdPackage.AIM: {
+				Aim aim = (Aim)theEObject;
+				Object result = caseAim(aim);
+				if (result == null) result = caseMediatedElement(aim);
+				if (result == null) result = caseASDelement(aim);
+				if (result == null) result = caseASDmodelElement(aim);
+				if (result == null) result = caseURNmodelElement(aim);
+				if (result == null) result = caseCORENamedElement(aim);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -258,6 +246,15 @@ public class AsdSwitch {
 				if (result == null) result = caseASDmodelElement(outcome);
 				if (result == null) result = caseURNmodelElement(outcome);
 				if (result == null) result = caseCORENamedElement(outcome);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AsdPackage.CONTRADICTION: {
+				Contradiction contradiction = (Contradiction)theEObject;
+				Object result = caseContradiction(contradiction);
+				if (result == null) result = caseASDmodelElement(contradiction);
+				if (result == null) result = caseURNmodelElement(contradiction);
+				if (result == null) result = caseCORENamedElement(contradiction);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -476,17 +473,17 @@ public class AsdSwitch {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Object</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Aim</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Object</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Aim</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseObject(asd.Object object) {
+	public Object caseAim(Aim object) {
 		return null;
 	}
 
@@ -517,6 +514,21 @@ public class AsdSwitch {
 	 * @generated
 	 */
 	public Object caseOutcome(Outcome object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Contradiction</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Contradiction</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseContradiction(Contradiction object) {
 		return null;
 	}
 

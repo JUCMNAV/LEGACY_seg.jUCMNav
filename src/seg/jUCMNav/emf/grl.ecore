@@ -170,7 +170,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentStrategies" upperBound="-1"
         eType="#//EvaluationStrategy" eOpposite="#//EvaluationStrategy/includedStrategies"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="reusedStrategies" upperBound="-1"
-        eType="#//ReusedStrategy" eOpposite="#//ReusedStrategy/reusingstrategies"/>
+        eType="#//ReusedStrategy" eOpposite="#//ReusedStrategy/reusingStrategies"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="kpiInfoConfig" upperBound="-1"
         eType="#//kpimodel/KPIInformationConfig" containment="true" eOpposite="#//kpimodel/KPIInformationConfig/strategies"/>
   </eClassifiers>
@@ -272,7 +272,7 @@
     <eLiterals name="Private" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReusedStrategy" eSuperTypes="#//EvaluationStrategy">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="reusingstrategies" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reusingStrategies" lowerBound="1"
         upperBound="-1" eType="#//EvaluationStrategy" eOpposite="#//EvaluationStrategy/reusedStrategies"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="reuseLinkInFM" lowerBound="1"
         eType="ecore:EClass fm.ecore#//ReuseLink"/>

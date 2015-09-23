@@ -3,6 +3,7 @@
 package asd.impl;
 
 import asd.ASDspec;
+import asd.Aim;
 import asd.AsdPackage;
 import asd.Community;
 import asd.Subject;
@@ -29,12 +30,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asd.impl.SubjectImpl#getAsdSpec <em>Asd Spec</em>}</li>
  *   <li>{@link asd.impl.SubjectImpl#getMemberOf <em>Member Of</em>}</li>
  *   <li>{@link asd.impl.SubjectImpl#getObjects <em>Objects</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -185,7 +186,7 @@ public class SubjectImpl extends MediatedElementImpl implements Subject {
 	 */
 	public EList getObjects() {
 		if (objects == null) {
-			objects = new EObjectWithInverseResolvingEList.ManyInverse(asd.Object.class, this, AsdPackage.SUBJECT__OBJECTS, AsdPackage.OBJECT__SUBJECTS);
+			objects = new EObjectWithInverseResolvingEList.ManyInverse(Aim.class, this, AsdPackage.SUBJECT__OBJECTS, AsdPackage.AIM__SUBJECTS);
 		}
 		return objects;
 	}

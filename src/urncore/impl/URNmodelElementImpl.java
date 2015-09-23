@@ -30,6 +30,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getFromLinks <em>From Links</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getToLinks <em>To Links</em>}</li>
@@ -38,7 +39,6 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.URNmodelElementImpl#getMetadata <em>Metadata</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getInconcern <em>Inconcern</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

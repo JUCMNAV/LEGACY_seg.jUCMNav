@@ -32,13 +32,13 @@ import urncore.impl.GRLmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.ElementLinkImpl#getRefs <em>Refs</em>}</li>
  *   <li>{@link grl.impl.ElementLinkImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.impl.ElementLinkImpl#getDest <em>Dest</em>}</li>
  *   <li>{@link grl.impl.ElementLinkImpl#getSrc <em>Src</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

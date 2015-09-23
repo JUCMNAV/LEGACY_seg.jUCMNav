@@ -15,10 +15,10 @@ import urncore.Component;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.performance.PassiveResource#getComponent <em>Component</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.performance.PerformancePackage#getPassiveResource()
  * @model

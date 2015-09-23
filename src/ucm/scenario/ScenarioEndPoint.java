@@ -17,13 +17,13 @@ import ucm.map.EndPoint;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.scenario.ScenarioEndPoint#isEnabled <em>Enabled</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioEndPoint#isMandatory <em>Mandatory</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioEndPoint#getScenarioDef <em>Scenario Def</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioEndPoint#getEndPoint <em>End Point</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.scenario.ScenarioPackage#getScenarioEndPoint()
  * @model

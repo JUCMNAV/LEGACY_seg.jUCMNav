@@ -31,12 +31,12 @@ import urncore.impl.UCMmodelElementImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ucm.scenario.impl.EnumerationTypeImpl#getValues <em>Values</em>}</li>
  *   <li>{@link ucm.scenario.impl.EnumerationTypeImpl#getUcmspec <em>Ucmspec</em>}</li>
  *   <li>{@link ucm.scenario.impl.EnumerationTypeImpl#getInstances <em>Instances</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

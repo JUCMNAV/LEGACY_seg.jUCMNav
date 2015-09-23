@@ -18,12 +18,12 @@ import urncore.UCMmodelElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.scenario.EnumerationType#getValues <em>Values</em>}</li>
  *   <li>{@link ucm.scenario.EnumerationType#getUcmspec <em>Ucmspec</em>}</li>
  *   <li>{@link ucm.scenario.EnumerationType#getInstances <em>Instances</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.scenario.ScenarioPackage#getEnumerationType()
  * @model

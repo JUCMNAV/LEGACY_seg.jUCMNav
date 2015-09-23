@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.Concern#getUrndefinition <em>Urndefinition</em>}</li>
  *   <li>{@link urncore.Concern#getSpecDiagrams <em>Spec Diagrams</em>}</li>
@@ -23,7 +24,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link urncore.Concern#getCoreConcern <em>Core Concern</em>}</li>
  *   <li>{@link urncore.Concern#getCondition <em>Condition</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getConcern()
  * @model

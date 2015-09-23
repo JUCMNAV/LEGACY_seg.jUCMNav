@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link grl.impl.EvaluationImpl#getEvaluation <em>Evaluation</em>}</li>
  *   <li>{@link grl.impl.EvaluationImpl#getQualitativeEvaluation <em>Qualitative Evaluation</em>}</li>
@@ -39,7 +40,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link grl.impl.EvaluationImpl#getEvalRange <em>Eval Range</em>}</li>
  *   <li>{@link grl.impl.EvaluationImpl#getKpiNewEvalValue <em>Kpi New Eval Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

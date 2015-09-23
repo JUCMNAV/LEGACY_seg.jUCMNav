@@ -6,23 +6,23 @@ import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Object</b></em>'.
+ * A representation of the model object '<em><b>Aim</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- *   <li>{@link asd.Object#getAsdSpec <em>Asd Spec</em>}</li>
- *   <li>{@link asd.Object#getOutcomes <em>Outcomes</em>}</li>
- *   <li>{@link asd.Object#getSubjects <em>Subjects</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link asd.Aim#getAsdSpec <em>Asd Spec</em>}</li>
+ *   <li>{@link asd.Aim#getOutcomes <em>Outcomes</em>}</li>
+ *   <li>{@link asd.Aim#getSubjects <em>Subjects</em>}</li>
+ * </ul>
  *
- * @see asd.AsdPackage#getObject()
+ * @see asd.AsdPackage#getAim()
  * @model
  * @generated
  */
-public interface Object extends MediatedElement {
+public interface Aim extends MediatedElement {
 	/**
 	 * Returns the value of the '<em><b>Asd Spec</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link asd.ASDspec#getObjects <em>Objects</em>}'.
@@ -34,7 +34,7 @@ public interface Object extends MediatedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Asd Spec</em>' container reference.
 	 * @see #setAsdSpec(ASDspec)
-	 * @see asd.AsdPackage#getObject_AsdSpec()
+	 * @see asd.AsdPackage#getAim_AsdSpec()
 	 * @see asd.ASDspec#getObjects
 	 * @model opposite="objects" required="true"
 	 * @generated
@@ -42,7 +42,7 @@ public interface Object extends MediatedElement {
 	ASDspec getAsdSpec();
 
 	/**
-	 * Sets the value of the '{@link asd.Object#getAsdSpec <em>Asd Spec</em>}' container reference.
+	 * Sets the value of the '{@link asd.Aim#getAsdSpec <em>Asd Spec</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Asd Spec</em>' container reference.
@@ -62,9 +62,9 @@ public interface Object extends MediatedElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Outcomes</em>' reference list.
-	 * @see asd.AsdPackage#getObject_Outcomes()
+	 * @see asd.AsdPackage#getAim_Outcomes()
 	 * @see asd.Outcome#getObjects
-	 * @model type="asd.Outcome" opposite="objects"
+	 * @model type="asd.Outcome" opposite="objects" required="true"
 	 * @generated
 	 */
 	EList getOutcomes();
@@ -80,11 +80,11 @@ public interface Object extends MediatedElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Subjects</em>' reference list.
-	 * @see asd.AsdPackage#getObject_Subjects()
+	 * @see asd.AsdPackage#getAim_Subjects()
 	 * @see asd.Subject#getObjects
 	 * @model type="asd.Subject" opposite="objects" required="true"
 	 * @generated
 	 */
 	EList getSubjects();
 
-} // Object
+} // Aim

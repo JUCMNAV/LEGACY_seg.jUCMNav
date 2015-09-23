@@ -23,10 +23,10 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urncore.impl.ComponentLabelImpl#getContRef <em>Cont Ref</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

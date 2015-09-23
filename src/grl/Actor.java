@@ -17,6 +17,7 @@ import urncore.IURNContainer;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.Actor#getImportance <em>Importance</em>}</li>
  *   <li>{@link grl.Actor#getImportanceQuantitative <em>Importance Quantitative</em>}</li>
@@ -25,7 +26,6 @@ import urncore.IURNContainer;
  *   <li>{@link grl.Actor#getIncludingActor <em>Including Actor</em>}</li>
  *   <li>{@link grl.Actor#getCollapsedRefs <em>Collapsed Refs</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getActor()
  * @model

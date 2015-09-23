@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.ContributionChange#getNewContribution <em>New Contribution</em>}</li>
  *   <li>{@link grl.ContributionChange#getNewQuantitativeContribution <em>New Quantitative Contribution</em>}</li>
@@ -22,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link grl.ContributionChange#getContribution <em>Contribution</em>}</li>
  *   <li>{@link grl.ContributionChange#getContribRange <em>Contrib Range</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getContributionChange()
  * @model

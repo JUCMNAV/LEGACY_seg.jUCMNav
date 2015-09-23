@@ -17,12 +17,12 @@ import urncore.Responsibility;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ucm.map.ResponsibilityBinding#getBinding <em>Binding</em>}</li>
  *   <li>{@link ucm.map.ResponsibilityBinding#getPluginResp <em>Plugin Resp</em>}</li>
  *   <li>{@link ucm.map.ResponsibilityBinding#getParentResp <em>Parent Resp</em>}</li>
  * </ul>
- * </p>
  *
  * @see ucm.map.MapPackage#getResponsibilityBinding()
  * @model

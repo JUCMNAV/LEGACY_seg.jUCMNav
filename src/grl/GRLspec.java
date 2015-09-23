@@ -18,6 +18,7 @@ import urn.URNspec;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.GRLspec#getUrnspec <em>Urnspec</em>}</li>
  *   <li>{@link grl.GRLspec#getIntElements <em>Int Elements</em>}</li>
@@ -34,7 +35,6 @@ import urn.URNspec;
  *   <li>{@link grl.GRLspec#getKPIConversion <em>KPI Conversion</em>}</li>
  *   <li>{@link grl.GRLspec#getFeatureModel <em>Feature Model</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.GrlPackage#getGRLspec()
  * @model

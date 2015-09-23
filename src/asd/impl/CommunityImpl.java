@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link asd.impl.CommunityImpl#getPerforms <em>Performs</em>}</li>
  *   <li>{@link asd.impl.CommunityImpl#getAsdSpec <em>Asd Spec</em>}</li>
  *   <li>{@link asd.impl.CommunityImpl#getSubject <em>Subject</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -51,14 +51,14 @@ public class CommunityImpl extends MediatedElementImpl implements Community {
 	protected EList performs;
 
 	/**
-	 * The cached value of the '{@link #getSubject() <em>Subject</em>}' reference.
+	 * The cached value of the '{@link #getSubject() <em>Subject</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getSubject()
 	 * @generated
 	 * @ordered
 	 */
-	protected Subject subject;
+	protected EList subject;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -85,7 +85,7 @@ public class CommunityImpl extends MediatedElementImpl implements Community {
 	 */
 	public EList getPerforms() {
 		if (performs == null) {
-			performs = new EObjectWithInverseResolvingEList(DivisionOfLabour.class, this, AsdPackage.COMMUNITY__PERFORMS, AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY);
+			performs = new EObjectWithInverseResolvingEList.ManyInverse(DivisionOfLabour.class, this, AsdPackage.COMMUNITY__PERFORMS, AsdPackage.DIVISION_OF_LABOUR__PERFORMED_BY);
 		}
 		return performs;
 	}
@@ -136,59 +136,11 @@ public class CommunityImpl extends MediatedElementImpl implements Community {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Subject getSubject() {
-		if (subject != null && subject.eIsProxy()) {
-			InternalEObject oldSubject = (InternalEObject)subject;
-			subject = (Subject)eResolveProxy(oldSubject);
-			if (subject != oldSubject) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AsdPackage.COMMUNITY__SUBJECT, oldSubject, subject));
-			}
+	public EList getSubject() {
+		if (subject == null) {
+			subject = new EObjectWithInverseResolvingEList(Subject.class, this, AsdPackage.COMMUNITY__SUBJECT, AsdPackage.SUBJECT__MEMBER_OF);
 		}
 		return subject;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Subject basicGetSubject() {
-		return subject;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetSubject(Subject newSubject, NotificationChain msgs) {
-		Subject oldSubject = subject;
-		subject = newSubject;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AsdPackage.COMMUNITY__SUBJECT, oldSubject, newSubject);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSubject(Subject newSubject) {
-		if (newSubject != subject) {
-			NotificationChain msgs = null;
-			if (subject != null)
-				msgs = ((InternalEObject)subject).eInverseRemove(this, AsdPackage.SUBJECT__MEMBER_OF, Subject.class, msgs);
-			if (newSubject != null)
-				msgs = ((InternalEObject)newSubject).eInverseAdd(this, AsdPackage.SUBJECT__MEMBER_OF, Subject.class, msgs);
-			msgs = basicSetSubject(newSubject, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AsdPackage.COMMUNITY__SUBJECT, newSubject, newSubject));
 	}
 
 	/**
@@ -205,9 +157,7 @@ public class CommunityImpl extends MediatedElementImpl implements Community {
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetAsdSpec((ASDspec)otherEnd, msgs);
 			case AsdPackage.COMMUNITY__SUBJECT:
-				if (subject != null)
-					msgs = ((InternalEObject)subject).eInverseRemove(this, AsdPackage.SUBJECT__MEMBER_OF, Subject.class, msgs);
-				return basicSetSubject((Subject)otherEnd, msgs);
+				return ((InternalEList)getSubject()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -224,7 +174,7 @@ public class CommunityImpl extends MediatedElementImpl implements Community {
 			case AsdPackage.COMMUNITY__ASD_SPEC:
 				return basicSetAsdSpec(null, msgs);
 			case AsdPackage.COMMUNITY__SUBJECT:
-				return basicSetSubject(null, msgs);
+				return ((InternalEList)getSubject()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -254,8 +204,7 @@ public class CommunityImpl extends MediatedElementImpl implements Community {
 			case AsdPackage.COMMUNITY__ASD_SPEC:
 				return getAsdSpec();
 			case AsdPackage.COMMUNITY__SUBJECT:
-				if (resolve) return getSubject();
-				return basicGetSubject();
+				return getSubject();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -275,7 +224,8 @@ public class CommunityImpl extends MediatedElementImpl implements Community {
 				setAsdSpec((ASDspec)newValue);
 				return;
 			case AsdPackage.COMMUNITY__SUBJECT:
-				setSubject((Subject)newValue);
+				getSubject().clear();
+				getSubject().addAll((Collection)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -295,7 +245,7 @@ public class CommunityImpl extends MediatedElementImpl implements Community {
 				setAsdSpec((ASDspec)null);
 				return;
 			case AsdPackage.COMMUNITY__SUBJECT:
-				setSubject((Subject)null);
+				getSubject().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -313,7 +263,7 @@ public class CommunityImpl extends MediatedElementImpl implements Community {
 			case AsdPackage.COMMUNITY__ASD_SPEC:
 				return getAsdSpec() != null;
 			case AsdPackage.COMMUNITY__SUBJECT:
-				return subject != null;
+				return subject != null && !subject.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

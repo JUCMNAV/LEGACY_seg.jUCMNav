@@ -35,6 +35,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urn.impl.URNspecImpl#getName <em>Name</em>}</li>
  *   <li>{@link urn.impl.URNspecImpl#getDescription <em>Description</em>}</li>
@@ -51,7 +52,6 @@ import urncore.UrncorePackage;
  *   <li>{@link urn.impl.URNspecImpl#getMetadata <em>Metadata</em>}</li>
  *   <li>{@link urn.impl.URNspecImpl#getAsdspec <em>Asdspec</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

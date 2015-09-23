@@ -15,10 +15,10 @@ import urncore.IURNConnection;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link grl.kpimodel.KPIModelLinkRef#getLink <em>Link</em>}</li>
  * </ul>
- * </p>
  *
  * @see grl.kpimodel.KpimodelPackage#getKPIModelLinkRef()
  * @model

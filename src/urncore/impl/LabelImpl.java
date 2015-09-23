@@ -19,11 +19,11 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urncore.impl.LabelImpl#getDeltaX <em>Delta X</em>}</li>
  *   <li>{@link urncore.impl.LabelImpl#getDeltaY <em>Delta Y</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

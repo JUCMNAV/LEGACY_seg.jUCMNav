@@ -18,6 +18,7 @@ import urn.URNspec;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link urncore.URNdefinition#getUrnspec <em>Urnspec</em>}</li>
  *   <li>{@link urncore.URNdefinition#getResponsibilities <em>Responsibilities</em>}</li>
@@ -26,7 +27,6 @@ import urn.URNspec;
  *   <li>{@link urncore.URNdefinition#getComponents <em>Components</em>}</li>
  *   <li>{@link urncore.URNdefinition#getComponentTypes <em>Component Types</em>}</li>
  * </ul>
- * </p>
  *
  * @see urncore.UrncorePackage#getURNdefinition()
  * @model

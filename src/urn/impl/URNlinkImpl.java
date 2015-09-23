@@ -31,6 +31,7 @@ import urncore.UrncorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link urn.impl.URNlinkImpl#getType <em>Type</em>}</li>
  *   <li>{@link urn.impl.URNlinkImpl#getUrnspec <em>Urnspec</em>}</li>
@@ -38,7 +39,6 @@ import urncore.UrncorePackage;
  *   <li>{@link urn.impl.URNlinkImpl#getToElem <em>To Elem</em>}</li>
  *   <li>{@link urn.impl.URNlinkImpl#getMetadata <em>Metadata</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

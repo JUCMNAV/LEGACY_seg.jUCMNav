@@ -340,13 +340,13 @@ public interface AsdPackage extends EPackage {
 	int AS_DELEMENT__DIAGRAMS = AS_DMODEL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AS_DELEMENT__PARENT_ELEMENTS = AS_DMODEL_ELEMENT_FEATURE_COUNT + 1;
+	int AS_DELEMENT__PARENT_ELEMENT = AS_DMODEL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -367,13 +367,22 @@ public interface AsdPackage extends EPackage {
 	int AS_DELEMENT__REQUIRED_OUTCOMES = AS_DMODEL_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AS_DELEMENT__CONTRADICTIONS = AS_DMODEL_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>AS Delement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AS_DELEMENT_FEATURE_COUNT = AS_DMODEL_ELEMENT_FEATURE_COUNT + 4;
+	int AS_DELEMENT_FEATURE_COUNT = AS_DMODEL_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link asd.impl.ASDiagramImpl <em>AS Diagram</em>}' class.
@@ -557,13 +566,22 @@ public interface AsdPackage extends EPackage {
 	int AS_DIAGRAM__PARENT_DO_LS = AS_DMODEL_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AS_DIAGRAM__CONTRADICTIONS = AS_DMODEL_ELEMENT_FEATURE_COUNT + 12;
+
+	/**
 	 * The number of structural features of the '<em>AS Diagram</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AS_DIAGRAM_FEATURE_COUNT = AS_DMODEL_ELEMENT_FEATURE_COUNT + 12;
+	int AS_DIAGRAM_FEATURE_COUNT = AS_DMODEL_ELEMENT_FEATURE_COUNT + 13;
 
 	/**
 	 * The meta object id for the '{@link asd.impl.MediatingElementImpl <em>Mediating Element</em>}' class.
@@ -648,13 +666,13 @@ public interface AsdPackage extends EPackage {
 	int MEDIATING_ELEMENT__DIAGRAMS = AS_DELEMENT__DIAGRAMS;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEDIATING_ELEMENT__PARENT_ELEMENTS = AS_DELEMENT__PARENT_ELEMENTS;
+	int MEDIATING_ELEMENT__PARENT_ELEMENT = AS_DELEMENT__PARENT_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -673,6 +691,15 @@ public interface AsdPackage extends EPackage {
 	 * @ordered
 	 */
 	int MEDIATING_ELEMENT__REQUIRED_OUTCOMES = AS_DELEMENT__REQUIRED_OUTCOMES;
+
+	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEDIATING_ELEMENT__CONTRADICTIONS = AS_DELEMENT__CONTRADICTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Mediations</b></em>' reference list.
@@ -884,13 +911,13 @@ public interface AsdPackage extends EPackage {
 	int MEDIATED_ELEMENT__DIAGRAMS = AS_DELEMENT__DIAGRAMS;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEDIATED_ELEMENT__PARENT_ELEMENTS = AS_DELEMENT__PARENT_ELEMENTS;
+	int MEDIATED_ELEMENT__PARENT_ELEMENT = AS_DELEMENT__PARENT_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -909,6 +936,15 @@ public interface AsdPackage extends EPackage {
 	 * @ordered
 	 */
 	int MEDIATED_ELEMENT__REQUIRED_OUTCOMES = AS_DELEMENT__REQUIRED_OUTCOMES;
+
+	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEDIATED_ELEMENT__CONTRADICTIONS = AS_DELEMENT__CONTRADICTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Mediations</b></em>' reference list.
@@ -1184,13 +1220,13 @@ public interface AsdPackage extends EPackage {
 	int TOOL__DIAGRAMS = MEDIATING_ELEMENT__DIAGRAMS;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TOOL__PARENT_ELEMENTS = MEDIATING_ELEMENT__PARENT_ELEMENTS;
+	int TOOL__PARENT_ELEMENT = MEDIATING_ELEMENT__PARENT_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -1211,6 +1247,15 @@ public interface AsdPackage extends EPackage {
 	int TOOL__REQUIRED_OUTCOMES = MEDIATING_ELEMENT__REQUIRED_OUTCOMES;
 
 	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOOL__CONTRADICTIONS = MEDIATING_ELEMENT__CONTRADICTIONS;
+
+	/**
 	 * The feature id for the '<em><b>Mediations</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1229,13 +1274,22 @@ public interface AsdPackage extends EPackage {
 	int TOOL__ASD_SPEC = MEDIATING_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Dols</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOOL__DOLS = MEDIATING_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Tool</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TOOL_FEATURE_COUNT = MEDIATING_ELEMENT_FEATURE_COUNT + 1;
+	int TOOL_FEATURE_COUNT = MEDIATING_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link asd.impl.RuleImpl <em>Rule</em>}' class.
@@ -1320,13 +1374,13 @@ public interface AsdPackage extends EPackage {
 	int RULE__DIAGRAMS = MEDIATING_ELEMENT__DIAGRAMS;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__PARENT_ELEMENTS = MEDIATING_ELEMENT__PARENT_ELEMENTS;
+	int RULE__PARENT_ELEMENT = MEDIATING_ELEMENT__PARENT_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -1345,6 +1399,15 @@ public interface AsdPackage extends EPackage {
 	 * @ordered
 	 */
 	int RULE__REQUIRED_OUTCOMES = MEDIATING_ELEMENT__REQUIRED_OUTCOMES;
+
+	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__CONTRADICTIONS = MEDIATING_ELEMENT__CONTRADICTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Mediations</b></em>' reference list.
@@ -1465,13 +1528,13 @@ public interface AsdPackage extends EPackage {
 	int DIVISION_OF_LABOUR__DIAGRAMS = MEDIATING_ELEMENT__DIAGRAMS;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIVISION_OF_LABOUR__PARENT_ELEMENTS = MEDIATING_ELEMENT__PARENT_ELEMENTS;
+	int DIVISION_OF_LABOUR__PARENT_ELEMENT = MEDIATING_ELEMENT__PARENT_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -1490,6 +1553,15 @@ public interface AsdPackage extends EPackage {
 	 * @ordered
 	 */
 	int DIVISION_OF_LABOUR__REQUIRED_OUTCOMES = MEDIATING_ELEMENT__REQUIRED_OUTCOMES;
+
+	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIVISION_OF_LABOUR__CONTRADICTIONS = MEDIATING_ELEMENT__CONTRADICTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Mediations</b></em>' reference list.
@@ -1519,7 +1591,7 @@ public interface AsdPackage extends EPackage {
 	int DIVISION_OF_LABOUR__REFINED_DIAGRAMS = MEDIATING_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Performed By</b></em>' reference.
+	 * The feature id for the '<em><b>Performed By</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1537,13 +1609,22 @@ public interface AsdPackage extends EPackage {
 	int DIVISION_OF_LABOUR__ASD_SPEC = MEDIATING_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Tools</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIVISION_OF_LABOUR__TOOLS = MEDIATING_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Division Of Labour</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIVISION_OF_LABOUR_FEATURE_COUNT = MEDIATING_ELEMENT_FEATURE_COUNT + 4;
+	int DIVISION_OF_LABOUR_FEATURE_COUNT = MEDIATING_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link asd.impl.CommunityImpl <em>Community</em>}' class.
@@ -1628,13 +1709,13 @@ public interface AsdPackage extends EPackage {
 	int COMMUNITY__DIAGRAMS = MEDIATED_ELEMENT__DIAGRAMS;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMMUNITY__PARENT_ELEMENTS = MEDIATED_ELEMENT__PARENT_ELEMENTS;
+	int COMMUNITY__PARENT_ELEMENT = MEDIATED_ELEMENT__PARENT_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -1653,6 +1734,15 @@ public interface AsdPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMMUNITY__REQUIRED_OUTCOMES = MEDIATED_ELEMENT__REQUIRED_OUTCOMES;
+
+	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMUNITY__CONTRADICTIONS = MEDIATED_ELEMENT__CONTRADICTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Mediations</b></em>' reference list.
@@ -1682,7 +1772,7 @@ public interface AsdPackage extends EPackage {
 	int COMMUNITY__ASD_SPEC = MEDIATED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Subject</b></em>' reference.
+	 * The feature id for the '<em><b>Subject</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1782,13 +1872,13 @@ public interface AsdPackage extends EPackage {
 	int SUBJECT__DIAGRAMS = MEDIATED_ELEMENT__DIAGRAMS;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT__PARENT_ELEMENTS = MEDIATED_ELEMENT__PARENT_ELEMENTS;
+	int SUBJECT__PARENT_ELEMENT = MEDIATED_ELEMENT__PARENT_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -1807,6 +1897,15 @@ public interface AsdPackage extends EPackage {
 	 * @ordered
 	 */
 	int SUBJECT__REQUIRED_OUTCOMES = MEDIATED_ELEMENT__REQUIRED_OUTCOMES;
+
+	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUBJECT__CONTRADICTIONS = MEDIATED_ELEMENT__CONTRADICTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Mediations</b></em>' reference list.
@@ -1854,14 +1953,14 @@ public interface AsdPackage extends EPackage {
 	int SUBJECT_FEATURE_COUNT = MEDIATED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link asd.impl.ObjectImpl <em>Object</em>}' class.
+	 * The meta object id for the '{@link asd.impl.AimImpl <em>Aim</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see asd.impl.ObjectImpl
-	 * @see asd.impl.AsdPackageImpl#getObject()
+	 * @see asd.impl.AimImpl
+	 * @see asd.impl.AsdPackageImpl#getAim()
 	 * @generated
 	 */
-	int OBJECT = 14;
+	int AIM = 14;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1870,7 +1969,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__NAME = MEDIATED_ELEMENT__NAME;
+	int AIM__NAME = MEDIATED_ELEMENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
@@ -1879,7 +1978,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__FROM_LINKS = MEDIATED_ELEMENT__FROM_LINKS;
+	int AIM__FROM_LINKS = MEDIATED_ELEMENT__FROM_LINKS;
 
 	/**
 	 * The feature id for the '<em><b>To Links</b></em>' reference list.
@@ -1888,7 +1987,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__TO_LINKS = MEDIATED_ELEMENT__TO_LINKS;
+	int AIM__TO_LINKS = MEDIATED_ELEMENT__TO_LINKS;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -1897,7 +1996,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__ID = MEDIATED_ELEMENT__ID;
+	int AIM__ID = MEDIATED_ELEMENT__ID;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1906,7 +2005,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__DESCRIPTION = MEDIATED_ELEMENT__DESCRIPTION;
+	int AIM__DESCRIPTION = MEDIATED_ELEMENT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
@@ -1915,7 +2014,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__METADATA = MEDIATED_ELEMENT__METADATA;
+	int AIM__METADATA = MEDIATED_ELEMENT__METADATA;
 
 	/**
 	 * The feature id for the '<em><b>Inconcern</b></em>' reference.
@@ -1924,7 +2023,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__INCONCERN = MEDIATED_ELEMENT__INCONCERN;
+	int AIM__INCONCERN = MEDIATED_ELEMENT__INCONCERN;
 
 	/**
 	 * The feature id for the '<em><b>Diagrams</b></em>' reference list.
@@ -1933,16 +2032,16 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__DIAGRAMS = MEDIATED_ELEMENT__DIAGRAMS;
+	int AIM__DIAGRAMS = MEDIATED_ELEMENT__DIAGRAMS;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__PARENT_ELEMENTS = MEDIATED_ELEMENT__PARENT_ELEMENTS;
+	int AIM__PARENT_ELEMENT = MEDIATED_ELEMENT__PARENT_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -1951,7 +2050,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__REFINED_ELEMENTS = MEDIATED_ELEMENT__REFINED_ELEMENTS;
+	int AIM__REFINED_ELEMENTS = MEDIATED_ELEMENT__REFINED_ELEMENTS;
 
 	/**
 	 * The feature id for the '<em><b>Required Outcomes</b></em>' reference list.
@@ -1960,7 +2059,16 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__REQUIRED_OUTCOMES = MEDIATED_ELEMENT__REQUIRED_OUTCOMES;
+	int AIM__REQUIRED_OUTCOMES = MEDIATED_ELEMENT__REQUIRED_OUTCOMES;
+
+	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AIM__CONTRADICTIONS = MEDIATED_ELEMENT__CONTRADICTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Mediations</b></em>' reference list.
@@ -1969,7 +2077,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__MEDIATIONS = MEDIATED_ELEMENT__MEDIATIONS;
+	int AIM__MEDIATIONS = MEDIATED_ELEMENT__MEDIATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Asd Spec</b></em>' container reference.
@@ -1978,7 +2086,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__ASD_SPEC = MEDIATED_ELEMENT_FEATURE_COUNT + 0;
+	int AIM__ASD_SPEC = MEDIATED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Outcomes</b></em>' reference list.
@@ -1987,7 +2095,7 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__OUTCOMES = MEDIATED_ELEMENT_FEATURE_COUNT + 1;
+	int AIM__OUTCOMES = MEDIATED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Subjects</b></em>' reference list.
@@ -1996,16 +2104,16 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT__SUBJECTS = MEDIATED_ELEMENT_FEATURE_COUNT + 2;
+	int AIM__SUBJECTS = MEDIATED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Object</em>' class.
+	 * The number of structural features of the '<em>Aim</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_FEATURE_COUNT = MEDIATED_ELEMENT_FEATURE_COUNT + 3;
+	int AIM_FEATURE_COUNT = MEDIATED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link asd.impl.MotivationImpl <em>Motivation</em>}' class.
@@ -2090,13 +2198,13 @@ public interface AsdPackage extends EPackage {
 	int MOTIVATION__DIAGRAMS = AS_DELEMENT__DIAGRAMS;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MOTIVATION__PARENT_ELEMENTS = AS_DELEMENT__PARENT_ELEMENTS;
+	int MOTIVATION__PARENT_ELEMENT = AS_DELEMENT__PARENT_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -2115,6 +2223,15 @@ public interface AsdPackage extends EPackage {
 	 * @ordered
 	 */
 	int MOTIVATION__REQUIRED_OUTCOMES = AS_DELEMENT__REQUIRED_OUTCOMES;
+
+	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MOTIVATION__CONTRADICTIONS = AS_DELEMENT__CONTRADICTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Asd Spec</b></em>' container reference.
@@ -2217,13 +2334,13 @@ public interface AsdPackage extends EPackage {
 	int OUTCOME__DIAGRAMS = AS_DELEMENT__DIAGRAMS;
 
 	/**
-	 * The feature id for the '<em><b>Parent Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OUTCOME__PARENT_ELEMENTS = AS_DELEMENT__PARENT_ELEMENTS;
+	int OUTCOME__PARENT_ELEMENT = AS_DELEMENT__PARENT_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Refined Elements</b></em>' reference list.
@@ -2242,6 +2359,15 @@ public interface AsdPackage extends EPackage {
 	 * @ordered
 	 */
 	int OUTCOME__REQUIRED_OUTCOMES = AS_DELEMENT__REQUIRED_OUTCOMES;
+
+	/**
+	 * The feature id for the '<em><b>Contradictions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUTCOME__CONTRADICTIONS = AS_DELEMENT__CONTRADICTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Enabled Elements</b></em>' reference list.
@@ -2278,6 +2404,115 @@ public interface AsdPackage extends EPackage {
 	 * @ordered
 	 */
 	int OUTCOME_FEATURE_COUNT = AS_DELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link asd.impl.ContradictionImpl <em>Contradiction</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see asd.impl.ContradictionImpl
+	 * @see asd.impl.AsdPackageImpl#getContradiction()
+	 * @generated
+	 */
+	int CONTRADICTION = 17;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION__NAME = AS_DMODEL_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>From Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION__FROM_LINKS = AS_DMODEL_ELEMENT__FROM_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>To Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION__TO_LINKS = AS_DMODEL_ELEMENT__TO_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION__ID = AS_DMODEL_ELEMENT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION__DESCRIPTION = AS_DMODEL_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION__METADATA = AS_DMODEL_ELEMENT__METADATA;
+
+	/**
+	 * The feature id for the '<em><b>Inconcern</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION__INCONCERN = AS_DMODEL_ELEMENT__INCONCERN;
+
+	/**
+	 * The feature id for the '<em><b>Contradicting AEs</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION__CONTRADICTING_AES = AS_DMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Considered AE</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION__CONSIDERED_AE = AS_DMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Diagram</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION__DIAGRAM = AS_DMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Contradiction</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRADICTION_FEATURE_COUNT = AS_DMODEL_ELEMENT_FEATURE_COUNT + 3;
 
 
 	/**
@@ -2433,15 +2668,15 @@ public interface AsdPackage extends EPackage {
 	EReference getASDelement_Diagrams();
 
 	/**
-	 * Returns the meta object for the reference list '{@link asd.ASDelement#getParentElements <em>Parent Elements</em>}'.
+	 * Returns the meta object for the reference '{@link asd.ASDelement#getParentElement <em>Parent Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Parent Elements</em>'.
-	 * @see asd.ASDelement#getParentElements()
+	 * @return the meta object for the reference '<em>Parent Element</em>'.
+	 * @see asd.ASDelement#getParentElement()
 	 * @see #getASDelement()
 	 * @generated
 	 */
-	EReference getASDelement_ParentElements();
+	EReference getASDelement_ParentElement();
 
 	/**
 	 * Returns the meta object for the reference list '{@link asd.ASDelement#getRefinedElements <em>Refined Elements</em>}'.
@@ -2464,6 +2699,17 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getASDelement_RequiredOutcomes();
+
+	/**
+	 * Returns the meta object for the reference list '{@link asd.ASDelement#getContradictions <em>Contradictions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Contradictions</em>'.
+	 * @see asd.ASDelement#getContradictions()
+	 * @see #getASDelement()
+	 * @generated
+	 */
+	EReference getASDelement_Contradictions();
 
 	/**
 	 * Returns the meta object for class '{@link asd.ASDiagram <em>AS Diagram</em>}'.
@@ -2540,6 +2786,17 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getASDiagram_ParentDoLs();
+
+	/**
+	 * Returns the meta object for the reference list '{@link asd.ASDiagram#getContradictions <em>Contradictions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Contradictions</em>'.
+	 * @see asd.ASDiagram#getContradictions()
+	 * @see #getASDiagram()
+	 * @generated
+	 */
+	EReference getASDiagram_Contradictions();
 
 	/**
 	 * Returns the meta object for class '{@link asd.MediatingElement <em>Mediating Element</em>}'.
@@ -2777,6 +3034,17 @@ public interface AsdPackage extends EPackage {
 	EReference getTool_AsdSpec();
 
 	/**
+	 * Returns the meta object for the reference list '{@link asd.Tool#getDols <em>Dols</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Dols</em>'.
+	 * @see asd.Tool#getDols()
+	 * @see #getTool()
+	 * @generated
+	 */
+	EReference getTool_Dols();
+
+	/**
 	 * Returns the meta object for class '{@link asd.Rule <em>Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2841,10 +3109,10 @@ public interface AsdPackage extends EPackage {
 	EReference getDivisionOfLabour_RefinedDiagrams();
 
 	/**
-	 * Returns the meta object for the reference '{@link asd.DivisionOfLabour#getPerformedBy <em>Performed By</em>}'.
+	 * Returns the meta object for the reference list '{@link asd.DivisionOfLabour#getPerformedBy <em>Performed By</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Performed By</em>'.
+	 * @return the meta object for the reference list '<em>Performed By</em>'.
 	 * @see asd.DivisionOfLabour#getPerformedBy()
 	 * @see #getDivisionOfLabour()
 	 * @generated
@@ -2861,6 +3129,17 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getDivisionOfLabour_AsdSpec();
+
+	/**
+	 * Returns the meta object for the reference list '{@link asd.DivisionOfLabour#getTools <em>Tools</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Tools</em>'.
+	 * @see asd.DivisionOfLabour#getTools()
+	 * @see #getDivisionOfLabour()
+	 * @generated
+	 */
+	EReference getDivisionOfLabour_Tools();
 
 	/**
 	 * Returns the meta object for class '{@link asd.Community <em>Community</em>}'.
@@ -2895,10 +3174,10 @@ public interface AsdPackage extends EPackage {
 	EReference getCommunity_AsdSpec();
 
 	/**
-	 * Returns the meta object for the reference '{@link asd.Community#getSubject <em>Subject</em>}'.
+	 * Returns the meta object for the reference list '{@link asd.Community#getSubject <em>Subject</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Subject</em>'.
+	 * @return the meta object for the reference list '<em>Subject</em>'.
 	 * @see asd.Community#getSubject()
 	 * @see #getCommunity()
 	 * @generated
@@ -2949,47 +3228,47 @@ public interface AsdPackage extends EPackage {
 	EReference getSubject_Objects();
 
 	/**
-	 * Returns the meta object for class '{@link asd.Object <em>Object</em>}'.
+	 * Returns the meta object for class '{@link asd.Aim <em>Aim</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Object</em>'.
-	 * @see asd.Object
+	 * @return the meta object for class '<em>Aim</em>'.
+	 * @see asd.Aim
 	 * @generated
 	 */
-	EClass getObject();
+	EClass getAim();
 
 	/**
-	 * Returns the meta object for the container reference '{@link asd.Object#getAsdSpec <em>Asd Spec</em>}'.
+	 * Returns the meta object for the container reference '{@link asd.Aim#getAsdSpec <em>Asd Spec</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Asd Spec</em>'.
-	 * @see asd.Object#getAsdSpec()
-	 * @see #getObject()
+	 * @see asd.Aim#getAsdSpec()
+	 * @see #getAim()
 	 * @generated
 	 */
-	EReference getObject_AsdSpec();
+	EReference getAim_AsdSpec();
 
 	/**
-	 * Returns the meta object for the reference list '{@link asd.Object#getOutcomes <em>Outcomes</em>}'.
+	 * Returns the meta object for the reference list '{@link asd.Aim#getOutcomes <em>Outcomes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Outcomes</em>'.
-	 * @see asd.Object#getOutcomes()
-	 * @see #getObject()
+	 * @see asd.Aim#getOutcomes()
+	 * @see #getAim()
 	 * @generated
 	 */
-	EReference getObject_Outcomes();
+	EReference getAim_Outcomes();
 
 	/**
-	 * Returns the meta object for the reference list '{@link asd.Object#getSubjects <em>Subjects</em>}'.
+	 * Returns the meta object for the reference list '{@link asd.Aim#getSubjects <em>Subjects</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Subjects</em>'.
-	 * @see asd.Object#getSubjects()
-	 * @see #getObject()
+	 * @see asd.Aim#getSubjects()
+	 * @see #getAim()
 	 * @generated
 	 */
-	EReference getObject_Subjects();
+	EReference getAim_Subjects();
 
 	/**
 	 * Returns the meta object for class '{@link asd.Motivation <em>Motivation</em>}'.
@@ -3054,6 +3333,49 @@ public interface AsdPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getOutcome_Objects();
+
+	/**
+	 * Returns the meta object for class '{@link asd.Contradiction <em>Contradiction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Contradiction</em>'.
+	 * @see asd.Contradiction
+	 * @generated
+	 */
+	EClass getContradiction();
+
+	/**
+	 * Returns the meta object for the reference list '{@link asd.Contradiction#getContradictingAEs <em>Contradicting AEs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Contradicting AEs</em>'.
+	 * @see asd.Contradiction#getContradictingAEs()
+	 * @see #getContradiction()
+	 * @generated
+	 */
+	EReference getContradiction_ContradictingAEs();
+
+	/**
+	 * Returns the meta object for the reference '{@link asd.Contradiction#getConsideredAE <em>Considered AE</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Considered AE</em>'.
+	 * @see asd.Contradiction#getConsideredAE()
+	 * @see #getContradiction()
+	 * @generated
+	 */
+	EReference getContradiction_ConsideredAE();
+
+	/**
+	 * Returns the meta object for the reference '{@link asd.Contradiction#getDiagram <em>Diagram</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Diagram</em>'.
+	 * @see asd.Contradiction#getDiagram()
+	 * @see #getContradiction()
+	 * @generated
+	 */
+	EReference getContradiction_Diagram();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -3194,12 +3516,12 @@ public interface AsdPackage extends EPackage {
 		EReference AS_DELEMENT__DIAGRAMS = eINSTANCE.getASDelement_Diagrams();
 
 		/**
-		 * The meta object literal for the '<em><b>Parent Elements</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Parent Element</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference AS_DELEMENT__PARENT_ELEMENTS = eINSTANCE.getASDelement_ParentElements();
+		EReference AS_DELEMENT__PARENT_ELEMENT = eINSTANCE.getASDelement_ParentElement();
 
 		/**
 		 * The meta object literal for the '<em><b>Refined Elements</b></em>' reference list feature.
@@ -3216,6 +3538,14 @@ public interface AsdPackage extends EPackage {
 		 * @generated
 		 */
 		EReference AS_DELEMENT__REQUIRED_OUTCOMES = eINSTANCE.getASDelement_RequiredOutcomes();
+
+		/**
+		 * The meta object literal for the '<em><b>Contradictions</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AS_DELEMENT__CONTRADICTIONS = eINSTANCE.getASDelement_Contradictions();
 
 		/**
 		 * The meta object literal for the '{@link asd.impl.ASDiagramImpl <em>AS Diagram</em>}' class.
@@ -3274,6 +3604,14 @@ public interface AsdPackage extends EPackage {
 		 * @generated
 		 */
 		EReference AS_DIAGRAM__PARENT_DO_LS = eINSTANCE.getASDiagram_ParentDoLs();
+
+		/**
+		 * The meta object literal for the '<em><b>Contradictions</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AS_DIAGRAM__CONTRADICTIONS = eINSTANCE.getASDiagram_Contradictions();
 
 		/**
 		 * The meta object literal for the '{@link asd.impl.MediatingElementImpl <em>Mediating Element</em>}' class.
@@ -3466,6 +3804,14 @@ public interface AsdPackage extends EPackage {
 		EReference TOOL__ASD_SPEC = eINSTANCE.getTool_AsdSpec();
 
 		/**
+		 * The meta object literal for the '<em><b>Dols</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TOOL__DOLS = eINSTANCE.getTool_Dols();
+
+		/**
 		 * The meta object literal for the '{@link asd.impl.RuleImpl <em>Rule</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3518,7 +3864,7 @@ public interface AsdPackage extends EPackage {
 		EReference DIVISION_OF_LABOUR__REFINED_DIAGRAMS = eINSTANCE.getDivisionOfLabour_RefinedDiagrams();
 
 		/**
-		 * The meta object literal for the '<em><b>Performed By</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Performed By</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -3532,6 +3878,14 @@ public interface AsdPackage extends EPackage {
 		 * @generated
 		 */
 		EReference DIVISION_OF_LABOUR__ASD_SPEC = eINSTANCE.getDivisionOfLabour_AsdSpec();
+
+		/**
+		 * The meta object literal for the '<em><b>Tools</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIVISION_OF_LABOUR__TOOLS = eINSTANCE.getDivisionOfLabour_Tools();
 
 		/**
 		 * The meta object literal for the '{@link asd.impl.CommunityImpl <em>Community</em>}' class.
@@ -3560,7 +3914,7 @@ public interface AsdPackage extends EPackage {
 		EReference COMMUNITY__ASD_SPEC = eINSTANCE.getCommunity_AsdSpec();
 
 		/**
-		 * The meta object literal for the '<em><b>Subject</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Subject</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -3602,14 +3956,14 @@ public interface AsdPackage extends EPackage {
 		EReference SUBJECT__OBJECTS = eINSTANCE.getSubject_Objects();
 
 		/**
-		 * The meta object literal for the '{@link asd.impl.ObjectImpl <em>Object</em>}' class.
+		 * The meta object literal for the '{@link asd.impl.AimImpl <em>Aim</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see asd.impl.ObjectImpl
-		 * @see asd.impl.AsdPackageImpl#getObject()
+		 * @see asd.impl.AimImpl
+		 * @see asd.impl.AsdPackageImpl#getAim()
 		 * @generated
 		 */
-		EClass OBJECT = eINSTANCE.getObject();
+		EClass AIM = eINSTANCE.getAim();
 
 		/**
 		 * The meta object literal for the '<em><b>Asd Spec</b></em>' container reference feature.
@@ -3617,7 +3971,7 @@ public interface AsdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference OBJECT__ASD_SPEC = eINSTANCE.getObject_AsdSpec();
+		EReference AIM__ASD_SPEC = eINSTANCE.getAim_AsdSpec();
 
 		/**
 		 * The meta object literal for the '<em><b>Outcomes</b></em>' reference list feature.
@@ -3625,7 +3979,7 @@ public interface AsdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference OBJECT__OUTCOMES = eINSTANCE.getObject_Outcomes();
+		EReference AIM__OUTCOMES = eINSTANCE.getAim_Outcomes();
 
 		/**
 		 * The meta object literal for the '<em><b>Subjects</b></em>' reference list feature.
@@ -3633,7 +3987,7 @@ public interface AsdPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference OBJECT__SUBJECTS = eINSTANCE.getObject_Subjects();
+		EReference AIM__SUBJECTS = eINSTANCE.getAim_Subjects();
 
 		/**
 		 * The meta object literal for the '{@link asd.impl.MotivationImpl <em>Motivation</em>}' class.
@@ -3686,6 +4040,40 @@ public interface AsdPackage extends EPackage {
 		 * @generated
 		 */
 		EReference OUTCOME__OBJECTS = eINSTANCE.getOutcome_Objects();
+
+		/**
+		 * The meta object literal for the '{@link asd.impl.ContradictionImpl <em>Contradiction</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see asd.impl.ContradictionImpl
+		 * @see asd.impl.AsdPackageImpl#getContradiction()
+		 * @generated
+		 */
+		EClass CONTRADICTION = eINSTANCE.getContradiction();
+
+		/**
+		 * The meta object literal for the '<em><b>Contradicting AEs</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONTRADICTION__CONTRADICTING_AES = eINSTANCE.getContradiction_ContradictingAEs();
+
+		/**
+		 * The meta object literal for the '<em><b>Considered AE</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONTRADICTION__CONSIDERED_AE = eINSTANCE.getContradiction_ConsideredAE();
+
+		/**
+		 * The meta object literal for the '<em><b>Diagram</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONTRADICTION__DIAGRAM = eINSTANCE.getContradiction_Diagram();
 
 	}
 
