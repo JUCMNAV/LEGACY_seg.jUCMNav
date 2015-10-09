@@ -12,6 +12,9 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.graphics.Image;
 
+import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
+import fm.impl.MandatoryFMLinkImpl;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.LabelFigure;
@@ -173,8 +176,18 @@ public class ConnectionLabelEditPart extends LabelEditPart {
             String type = contrib.getContribution().getName();
             if (!type.equals("Unknown")) { //$NON-NLS-1$
 
-
-                if (GeneralPreferencePage.getGrlTextVisible()) {
+                boolean textVisible = false;
+                boolean iconVisible = false;
+                
+                //If Optional/Mandatory FM link, check "Show FM Contributions" value 
+                if((contrib instanceof MandatoryFMLink) || (contrib instanceof OptionalFMLink)) {
+                	textVisible = GeneralPreferencePage.getFmContriVisible();
+                	iconVisible = textVisible;
+                } else {
+                	textVisible = GeneralPreferencePage.getGrlTextVisible();
+                	iconVisible = GeneralPreferencePage.getGrlIconVisible();
+                }
+                if (textVisible) {
                     if (algo instanceof QuantitativeGRLStrategyAlgorithm || evalType == IGRLStrategyAlgorithm.EVAL_CONSTRAINT_SOLVER) {
                         //int val = contrib.getQuantitativeContribution();
                         int val = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
@@ -216,7 +229,7 @@ public class ConnectionLabelEditPart extends LabelEditPart {
                 } else if (type.equals("Break")) { //$NON-NLS-1$
                     img = (JUCMNavPlugin.getImage("icons/Break.gif")); //$NON-NLS-1$
                 }
-                if (img != null && GeneralPreferencePage.getGrlIconVisible()) {
+                if (img != null && iconVisible) {
                     labelFigure.setIcon(img);
                 }
                 else

@@ -36,6 +36,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_STRICTCODEEDITOR = "PREF_STRICTCODEEDITOR"; //$NON-NLS-1$
     public static final String PREF_METADATAINDVISIBLE = "PREF_METADATAINDVISIBLE"; //$NON-NLS-1$
     public static final String PREF_ANTIALIASING = "PREF_ANTIALIASING"; //$NON-NLS-1$
+    public static final String PREF_FMCONTRIVISIBLE = "PREF_FMCONTRIVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLTEXTVISIBLE = "PREF_GRLTEXTVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLICONVISIBLE = "PREF_GRLICONVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLAUTOADDLINKS = "PREF_GRLAUTOADDLINKS"; //$NON-NLS-1$
@@ -95,7 +96,10 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         BooleanFieldEditor field  = new BooleanFieldEditor(PREF_METADATAINDVISIBLE,
                 Messages.getString("GeneralPreferencePage.ShowMetadataIndicator"), cOptions); //$NON-NLS-1$
         addField(field);
-
+        
+        field = new BooleanFieldEditor(PREF_FMCONTRIVISIBLE,
+                Messages.getString("GeneralPreferencePage.ShowFmContrib"), cOptions); //$NON-NLS-1$
+        addField(field);
 
         field = new BooleanFieldEditor(PREF_GRLICONVISIBLE,
                 Messages.getString("GeneralPreferencePage.ShowGrlContribIcons"), cOptions); //$NON-NLS-1$
@@ -213,6 +217,13 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
      */
     public static int getAntialiasingPref() {
         return antialising_pref;
+    }
+    
+    /**
+     * @return boolean TRUE if FM contribution should be visible.
+     */
+    public static boolean getFmContriVisible() {
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_FMCONTRIVISIBLE);
     }
 
     /**
