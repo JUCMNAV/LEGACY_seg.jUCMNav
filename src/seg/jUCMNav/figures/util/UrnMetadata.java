@@ -238,7 +238,7 @@ public class UrnMetadata {
                 if (link.getFromElem() instanceof IntentionalElement) {
                     classname = ((IntentionalElement) link.getFromElem()).getType().getName();
                 } else if (link.getFromElem() instanceof Component) {
-                    classname = ((Component) link.getToElem()).getKind().getName();
+                    classname = ((Component) link.getFromElem()).getKind().getName();
                 } else {
                     classname = link.getFromElem().getClass().toString();
                     classname = classname.substring(classname.lastIndexOf(".") + 1, classname.length() - 4); //$NON-NLS-1$
