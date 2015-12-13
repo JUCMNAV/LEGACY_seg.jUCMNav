@@ -623,12 +623,6 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             if(icon != null)
                 evaluationLabel.setIcon(icon);
         }
-        else {
-            if (evaluationImg != null && GeneralPreferencePage.getGrlSatisfactionIconVisible()) {
-                evaluationLabel.setIcon(evaluationImg);
-            } else
-                evaluationLabel.setIcon(null);
-        }
     }
 
     private static int limit(int value) {
