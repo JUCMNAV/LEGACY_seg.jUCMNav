@@ -93,13 +93,13 @@ public class QualitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgor
      * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluation(grl.IntentionalElement)
      */
     public int getEvaluation(IntentionalElement element) {
+    	
+    	//get Aggregate Contribution for element
+        getAggregation(element);
         Evaluation eval = (Evaluation) evaluations.get(element);
         if ((element.getLinksDest().size() == 0) || (eval.getIntElement() != null)) {
             return eval.getEvaluation();
         }
-        
-        //get Aggregate Contribution for element
-        getAggregation(element);
         
         int result = -1;
         int tempResult = 0;

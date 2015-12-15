@@ -70,13 +70,8 @@ public class QuantitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgo
      * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluation(grl.IntentionalElement)
      */
     public int getEvaluation(IntentionalElement element) {
-    	Evaluation eval = (Evaluation) evaluations.get(element);
-        Integer quickReturn = preGetEvaluation(element, eval);
-        if (quickReturn != null) {
-            return quickReturn.intValue();
-        }
-        
-        //get Aggregate Contribution for element if Quantitative GRL strategy selected
+    	
+    	 //get Aggregate Contribution for element if Quantitative GRL strategy selected
     	if(getEvaluationType() == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE){
         	getAggregation(element);
         }  
@@ -86,7 +81,12 @@ public class QuantitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgo
         	QualitativeGRLStrategyAlgorithm qgrl = new QualitativeGRLStrategyAlgorithm(); 
         	qgrl.getAggregation(element);
         }
-    	
+    	Evaluation eval = (Evaluation) evaluations.get(element);
+        Integer quickReturn = preGetEvaluation(element, eval);
+        if (quickReturn != null) {
+            return quickReturn.intValue();
+        }
+        
         int result = 0;
         int decompositionValue = -10000;
         int dependencyValue = 10000;
