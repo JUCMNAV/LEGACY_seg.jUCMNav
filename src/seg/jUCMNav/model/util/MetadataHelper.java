@@ -15,6 +15,7 @@ import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.strategies.BatchEvaluationUtil;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
 import urn.URNspec;
@@ -345,7 +346,18 @@ public class MetadataHelper {
 
         }
     }
-
+    
+    public static synchronized void cleanAggregateMetadata(URNspec model) {
+        if (model != null) {
+            // Remove run-time aggregate metadata attached to contribution links
+        	 for (Iterator iter = model.getGrlspec().getLinks().iterator(); iter.hasNext();) {
+                 ElementLink link = (ElementLink) iter.next();
+                 if (link instanceof Contribution)
+                 	MetadataHelper.removeMetaData(link, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL); //$NON-NLS-1$
+             }
+        }
+    }
+    
     /**
      * Indicates whether the named metadata was inserted at run-time (e.g. for GRL evaluation)
      * 
@@ -356,6 +368,7 @@ public class MetadataHelper {
     public static boolean isRuntimeMetadata(String name) {
         return name!=null && (name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_NUMEVAL) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_RANGEVALUES)
                 || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_QUALEVAL) || name.equalsIgnoreCase(PathNodeEditPart.METADATA_HITS) || name.equalsIgnoreCase(BatchEvaluationUtil.METADATA_TREND)
-                        || name.equalsIgnoreCase(WIDTH) || name.equalsIgnoreCase(HEIGHT)  );
+                        || name.equalsIgnoreCase(WIDTH) || name.equalsIgnoreCase(HEIGHT) || name.equalsIgnoreCase(QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL) 
+                				|| name.equalsIgnoreCase(QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR) );
     }
 }

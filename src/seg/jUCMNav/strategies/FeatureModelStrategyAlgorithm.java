@@ -61,6 +61,9 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
      * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#getEvaluation(grl.IntentionalElement)
      */
     public int getEvaluation(IntentionalElement element) {
+    	
+    	//get Aggregate Contribution for element
+    	getAggregation(element);
         Evaluation eval = (Evaluation) evaluations.get(element);
     	// the quickReturn result is not null when the element does not have any incoming links, has a user-defined value, or has a KPI conversion
     	// contrary to the formula-based algorithm, do not return this result immediately, but compare it against the calculated result from the incoming links
@@ -86,7 +89,7 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
             }
             // the sum of the contributions of mandatory links is always 100
             int remainingMandatoryContribution = 100;
-
+                       
             // return the list of elementlink
             Iterator it = element.getLinksDest().iterator();
             while (it.hasNext()) {

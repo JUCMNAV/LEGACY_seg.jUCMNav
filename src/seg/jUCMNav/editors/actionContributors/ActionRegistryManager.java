@@ -77,6 +77,7 @@ import seg.jUCMNav.actions.ListDefinitionReferencesAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.RefactorIntoStubAction;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
+import seg.jUCMNav.actions.SetAggregateContributionAction;
 import seg.jUCMNav.actions.SetNumericalContributionAction;
 import seg.jUCMNav.actions.SetNumericalEvaluationAction;
 import seg.jUCMNav.actions.SetNumericalImportanceAction;
@@ -518,6 +519,11 @@ public class ActionRegistryManager implements IDisposable {
         
         for (int i = 0; i <= 2; i++) {
             action = new ChangeDecompositionTypeAction(editor, i);
+            addEditPartAction((SelectionAction) action);
+        }
+        
+        for (int i = 0; i <= 2; i++) {
+            action = new SetAggregateContributionAction(editor, i);
             addEditPartAction((SelectionAction) action);
         }
 

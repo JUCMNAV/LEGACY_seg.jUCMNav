@@ -3,6 +3,7 @@ package seg.jUCMNav.strategies;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Contribution;
+import grl.ContributionType;
 import grl.Decomposition;
 import grl.DecompositionType;
 import grl.Dependency;
@@ -15,10 +16,14 @@ import grl.QualitativeLabel;
 
 import java.util.Iterator;
 
+import fm.MandatoryFMLink;
+import fm.OptionalFMLink;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.DependencyQualitativeLabelComparitor;
 import seg.jUCMNav.model.util.MetadataHelper;
+import urn.URNspec;
 import urncore.IURNNode;
+import urncore.Metadata;
 
 /**
  * This class implements the qualitative GRL evaluation algorithm.
@@ -35,7 +40,15 @@ public class QualitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgor
     private static int C = QualitativeLabel.CONFLICT;
     private static int U = QualitativeLabel.UNKNOWN;
     private static int N = QualitativeLabel.NONE;
-
+    
+    private static String ma = ContributionType.MAKE_LITERAL.getName();
+    private static String sp = ContributionType.SOME_POSITIVE_LITERAL.getName();
+    private static String he = ContributionType.HELP_LITERAL.getName();
+    private static String un = ContributionType.UNKNOWN_LITERAL.getName();
+    private static String hu = ContributionType.HURT_LITERAL.getName();
+    private static String sn = ContributionType.SOME_NEGATIVE_LITERAL.getName();
+    private static String br = ContributionType.BREAK_LITERAL.getName();
+    
     private static int[][] contribTable1 = {
             // M, H+, s+, u, s-, H-, B
             { D, WD, WD, N, WS, WS, S }, // D
@@ -84,7 +97,10 @@ public class QualitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgor
         if ((element.getLinksDest().size() == 0) || (eval.getIntElement() != null)) {
             return eval.getEvaluation();
         }
-
+        
+        //get Aggregate Contribution for element
+        getAggregation(element);
+        
         int result = -1;
         int tempResult = 0;
 
@@ -129,8 +145,19 @@ public class QualitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgor
                 }
             } else if (link instanceof Contribution) {
                 Contribution contrib = (Contribution) link;
-                // int contValue = contrib.getContribution().getValue();
-                int contValue = EvaluationStrategyManager.getInstance().getActiveContribution(contrib).getValue();
+                int contValue = 0;
+                String addAggrValue = "false";
+                Metadata metaNumerical = MetadataHelper.getMetaDataObj(link, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL);
+                if(MetadataHelper.getMetaDataObj(link.getSrc(), QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR) != null){
+                	addAggrValue = MetadataHelper.getMetaData(link.getSrc(), QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR);
+                }
+                
+                //If "Aggregate Contribution" is enabled and has a value, then 
+                //individual contribution of the link is ignored for evaluation
+                if((addAggrValue.compareTo("true") == 0) && metaNumerical != null)
+                	continue;
+                else
+                	contValue = EvaluationStrategyManager.getInstance().getActiveContribution(contrib).getValue();
                 QualitativeLabel srcNode = ((Evaluation) evaluations.get(link.getSrc())).getQualitativeEvaluation();
                 int qualValue = srcNode.getValue();
 
@@ -328,4 +355,317 @@ public class QualitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgor
         return false;
     }
 
+    /**
+     * Check if Aggregate Contribution needed for element and compute its value
+     */
+    public void getAggregation(IntentionalElement element){
+    	
+    	Iterator itSrc = element.getLinksSrc().iterator(); // Return the list of elementlink
+        while (itSrc.hasNext()) {
+            ElementLink linkSrc = (ElementLink) itSrc.next();
+            if (linkSrc instanceof Contribution) {
+            	
+            	boolean isDecomp = false;
+            	
+            	//Add Metadata to turn on/off aggregation for intentional elements 
+                Metadata metaAddAggr = MetadataHelper.getMetaDataObj(element, QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR);
+            	
+                //Set the metadata to default "false" if not added before
+                if (metaAddAggr == null){
+            		// Add new run-time metadata for this element
+                    URNspec urnSpec = element.getGrlspec().getUrnspec();
+            		MetadataHelper.addMetaData(urnSpec, element, QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR, "disable");
+            	}
+                for (Object link1: element.getLinksDest()) {
+                    if (link1 instanceof Decomposition){
+                    	isDecomp = true;
+                    	break;
+                    }
+                }
+            	
+            	//If the metadata for aggregation is "true" and link isn't mandatory or optional
+            	if(!(linkSrc instanceof MandatoryFMLink) && !(linkSrc instanceof OptionalFMLink) && 
+            		(MetadataHelper.getMetaData(element, QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR).compareTo("disable") != 0) && 
+            				(isDecomp == true) ){
+            		
+            		if(element.getDecompositionType().getValue() == DecompositionType.AND){
+            			computeAggregation(linkSrc,"And");
+                	} 
+                	else if(element.getDecompositionType().getValue() == DecompositionType.OR){
+                		computeAggregation(linkSrc,"Or");
+                	}
+                	else if(element.getDecompositionType().getValue() == DecompositionType.XOR){
+                		computeAggregation(linkSrc,"Xor");
+                	}
+            	}
+            	
+            	//If aggregation is disabled for the element, remove metadata from the link
+            	else if (MetadataHelper.getMetaData(element, QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR).compareTo("disable") == 0){
+            		Metadata metaNumerical = MetadataHelper.getMetaDataObj(linkSrc, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL);
+            		if (metaNumerical != null)
+                		MetadataHelper.removeMetaData(linkSrc, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL);
+            	}
+            }
+        }
+    }
+    
+    /**
+     * Compute Aggregate Contribution for link provided according to decomposition type
+     */
+    protected void computeAggregation(ElementLink link, String type){
+    	String contriValue = un;
+    	int needRangeAnd = 0;
+    	
+    	//Variables to store the count of contribution values of decomposed parts in following order:
+    	//{make, break, sp, sn, help, hurt, unknown}
+    	int[] minCount = {0, 0, 0, 0, 0, 0, 0}; 
+    	int[] maxCount = {0, 0, 0, 0, 0, 0, 0};     	
+    	Iterator it1 = link.getSrc().getLinksDest().iterator(); // Return the list of elementlink
+        while (it1.hasNext()) {
+        	
+            ElementLink link1 = (ElementLink) it1.next();
+            if (link1 instanceof Decomposition) {
+            	for (Iterator j = link1.getSrc().getLinksSrc().iterator(); j.hasNext();){
+            		
+            		ElementLink link2 = (ElementLink) j.next();
+            		
+            		//If the decomposed part of an intentional element is contributing to the same destination
+            		if((link2 instanceof Contribution) && (link2.getDest()==link.getDest())){
+            			Contribution contrib1 = (Contribution) link2;
+            			int minValue = 3, maxValue = 3;
+            			Metadata metaAggregate = MetadataHelper.getMetaDataObj(link2, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL);
+            			
+            			//If the contribution is aggregate contribution
+            			if (metaAggregate != null) {
+        					String metaAggreValue = MetadataHelper.getMetaData(link2, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL);
+        					if(metaAggreValue.contains("[")){
+        						minValue = ContributionType.getByName(metaAggreValue.substring(1, metaAggreValue.indexOf(","))).getValue();
+        						maxValue = ContributionType.getByName(metaAggreValue.
+        													substring(metaAggreValue.indexOf(",")+1, metaAggreValue.indexOf("]"))).getValue();
+        						
+        						//Variable to indicate "And" also needs range
+        						needRangeAnd = 1;        						
+        					}
+        					else{
+        						minValue = ContributionType.getByName(metaAggreValue).getValue();
+        						maxValue = ContributionType.getByName(metaAggreValue).getValue();
+        					}
+        					String addAggr = MetadataHelper.getMetaData(link2.getSrc(), QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR);
+    						if(addAggr.compareTo("false") == 0){
+    							minCount = updateCount(EvaluationStrategyManager.getInstance().getActiveContribution(contrib1).getValue(), minCount);
+    							maxCount = updateCount(EvaluationStrategyManager.getInstance().getActiveContribution(contrib1).getValue(), maxCount);
+    						}
+        				}
+            			else{
+            				minValue = EvaluationStrategyManager.getInstance().getActiveContribution(contrib1).getValue();
+        					
+        					//In case of normal contribution, no max or min values
+        					maxValue = minValue;
+            			}
+            			
+            			minCount = updateCount(minValue, minCount);
+            			maxCount = updateCount(maxValue, maxCount);
+            			
+            		}
+            	}
+            }           	
+        }
+        if ((type.compareTo("Or") == 0) || (type.compareTo("Xor") == 0))
+        	contriValue = getOrXorAggregate(minCount, maxCount);
+        else if (type.compareTo("And") == 0){
+        	if (needRangeAnd == 0)
+        		contriValue = getAndAggregate(minCount);
+        	else if (needRangeAnd == 1)
+        		contriValue = "[" + getAndAggregate(minCount) + "," + getAndAggregate(maxCount) + "]";
+        }
+        
+        Metadata metaNumerical = MetadataHelper.getMetaDataObj(link, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL);
+        if (metaNumerical != null) {
+                // Run-time metadata already exists for this element
+                metaNumerical.setValue(contriValue);
+            } else {
+                // Add new run-time metadata for this element
+                URNspec urnSpec = link.getGrlspec().getUrnspec();
+                MetadataHelper.addMetaData(urnSpec, link, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL, contriValue);
+            }
+    }
+    
+    /**
+     * Count contribution values as per their types
+     */
+    protected int[] updateCount(int val, int[] count){
+    	
+    	//Increment "Make" count
+		if (val == 0)
+			count[0] += 1;
+		//Increment "Break" count
+		else if (val == 6)
+			count[1] += 1;
+		//Increment "Some +ve" count
+		else if (val == 2)
+			count[2] += 1;
+		//Increment "Some -ve" count
+		else if (val == 4)
+			count[3] += 1;
+		//Increment "Help" count
+		else if (val == 1)
+			count[4] += 1;
+		//Increment "Hurt" count
+		else if (val == 5)
+			count[5] += 1;
+		//Increment "Unknown" count
+		else if (val == 3)
+			count[6] += 1;
+    	return count;
+    }
+    
+    /**
+     * Calculate Aggregate Contribution for decomposition types "Or" and "Xor"
+     */
+    protected String getOrXorAggregate(int[] minCount, int[] maxCount){
+    	String contriValue = un;
+    	
+    	//Initialize min and max to unknown
+    	int min = 3, max = 3;
+    	if (maxCount[0] > 0)
+    		max = 0;
+    	else if (maxCount[2] > 0)
+    		max = 2;
+    	else if (maxCount[4] > 0)
+    		max = 1;
+    	else if (maxCount[6] > 0)
+    		max = 3;
+    	else if (maxCount[5] > 0)
+    		max = 5;
+    	else if (maxCount[3] > 0)
+    		max = 4;
+    	else if (maxCount[1] > 0)
+    		max = 6;
+    	
+    	if (minCount[1] > 0)
+    		min = 6;
+    	else if (minCount[3] > 0)
+    		min = 4;
+    	else if (minCount[5] > 0)
+    		min = 5;
+    	else if (minCount[6] > 0)
+    		min = 3;
+    	else if (minCount[4] > 0)
+    		min = 1;   	
+    	else if (minCount[2] > 0)
+    		min = 2;
+    	else if (minCount[0] > 0)
+    		min = 0;
+    	
+    	contriValue = "[" + ContributionType.get(min).getName() + "," + ContributionType.get(max).getName() + "]";
+    	return contriValue;
+    }
+    
+    /**
+     * Calculate Aggregate Contribution for decomposition type "And"
+     */
+    protected String getAndAggregate(int[] count){
+    	String contriValue = un;
+    	
+    	//Get dominant in each type and initialize the weaker one to 0
+    	for (int i = 0; i <= 4; i = i + 2){
+	    	if (count[i] > count[i + 1]){
+	    		count[i] = count[i] - count[i + 1];
+	    		count[i+1] = 0;
+	    	}
+	    	else if (count[i] < count[i + 1]){
+	    		count[i + 1] = count[i + 1] - count[i];
+	    		count[i] = 0;
+	    	}
+	    	else{
+	    		count[i] = 0;
+	    		count[i + 1] = 0;
+	    	}
+    	}
+    	
+    	if(count[0] > 0){
+    		int temp = count[0];
+    		count[0] -= count[3];
+    		count[4] += temp; 
+    		count[3] -= temp;
+    		if (count[3] < 0)
+    			count[4] += count[3];
+    		if (count[0] > count[5])
+    			return ma;
+    		else if (count[0] > 0){
+    			count[5] -= count[0];
+    			count[4] += count[0];
+    		}
+    		if (count[3] <= 0){
+    			if (count[2] > count[5])
+    				return sp;
+    			else{
+    				count[5] -= count[2];
+    				count[4] += count[2];
+    			}
+    		}
+    		else{
+    			if (count[3] > count[4])
+    				return sn;
+    			else{
+    				count[4] -= count[3];
+    				count[5] += count[3];
+    			}
+    		}
+    	}
+    	else if(count[1] > 0){
+    		int temp = count[1];
+    		count[1] -= count[2];
+    		count[5] += temp; 
+    		count[2] -= temp;
+    		if (count[2] < 0)
+    			count[5] += count[2];
+    		if (count[1] > count[4])
+    			return br;
+    		else if (count[1] > 0){
+    			count[4] -= count[1];
+    			count[5] += count[1];
+    		}
+    		if (count[2] <= 0){
+    			if (count[3] > count[4])
+    				return sn;
+    			else{
+    				count[4] -= count[3];
+    				count[5] += count[3];
+    			}
+    		}
+    		else{
+    			if (count[2] > count[5])
+    				return sp;
+    			else{
+    				count[5] -= count[2];
+    				count[4] += count[2];
+    			}
+    		}
+    	}
+    	else if(count[2] > 0){
+    		if (count[2] > count[5])
+				return sp;
+			else{
+				count[5] -= count[2];
+				count[4] += count[2];
+			}
+    		
+    	}
+    	else if(count[3] > 0){
+    		if (count[3] > count[4])
+				return sn;
+			else{
+				count[4] -= count[3];
+				count[5] += count[3];
+			}
+    	}
+    	if (count[4] > count[5])
+			return he;
+		else if (count[4] == count[5])
+			return un;
+		else
+			return hu; 
+    }
+    
 }

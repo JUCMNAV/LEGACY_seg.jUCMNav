@@ -19,12 +19,16 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.LinkRefConnection;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.MixedGRLStrategyAlgorithm;
+import seg.jUCMNav.strategies.QualitativeGRLStrategyAlgorithm;
 import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import urncore.ConnectionLabel;
 import urncore.IURNConnection;
 import urncore.Label;
+import urncore.Metadata;
 
 /**
  * Editpart associated with urncore.ConnectionLabel; a special label.
@@ -174,6 +178,11 @@ public class ConnectionLabelEditPart extends LabelEditPart {
             Contribution contrib = (Contribution)((LinkRef)getConnection()).getLink();
             // Set the contribution Label
             String type = contrib.getContribution().getName();
+            
+            //Get the metadata related to Aggregate Contribution
+            Metadata metaAggr = MetadataHelper.getMetaDataObj(contrib, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL);  
+            String addAggr = MetadataHelper.getMetaData(contrib.getSrc(), QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR);
+            
             if (!type.equals("Unknown")) { //$NON-NLS-1$
 
                 boolean textVisible = false;
@@ -193,9 +202,46 @@ public class ConnectionLabelEditPart extends LabelEditPart {
                         int val = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
                         //val = StrategyEvaluationPreferences.getValueToVisualize(val);
                         
+                        //If Aggregate Contribution exists
+                        if(metaAggr != null && addAggr != null){
+                        	
+                        	//If "Set Aggregate Contribution" value is "Enable"
+                        	if (addAggr.compareTo("true") == 0)
+                        		labelFigure.setText("A: " + MetadataHelper.getMetaData(contrib, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL));
+                        	
+                        	//If "Set Aggregate Contribution" value is "Show"
+                        	else if (addAggr.compareTo("false") == 0)
+                            	labelFigure.setText(val + " + (A: " + MetadataHelper.getMetaData(contrib, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL) + ")");
+                        	
+                        	//If "Set Aggregate Contribution" value is "Disable"
+                        	else
+                            	labelFigure.setText("" + val);
                         
-                        labelFigure.setText("" + val); //$NON-NLS-1$
-                    } else {
+                        }
+                        else{                        
+                        	labelFigure.setText("" + val); //$NON-NLS-1$
+                        }
+                    } 
+                    else if (algo instanceof QualitativeGRLStrategyAlgorithm || algo instanceof MixedGRLStrategyAlgorithm) {
+                    	if(metaAggr != null && addAggr != null){
+                    		
+                    		//If "Set Aggregate Contribution" value is "Enable"
+                        	if (addAggr.compareTo("true") == 0)
+                        		labelFigure.setText("A: " + MetadataHelper.getMetaData(contrib, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL));
+                        	
+                        	//If "Set Aggregate Contribution" value is "Show"
+                        	else if (addAggr.compareTo("false") == 0)
+                            	labelFigure.setText(type + " + (A: " + MetadataHelper.getMetaData(contrib, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL) + ")");
+                        	
+                        	//If "Set Aggregate Contribution" value is "Disable"
+                        	else                      
+                            	labelFigure.setText(type); //$NON-NLS-1$
+                        }
+                        else{                        
+                        	labelFigure.setText(type); //$NON-NLS-1$
+                        }
+                    }
+                    else {
                         labelFigure.setText(type);
                     }
 
@@ -229,15 +275,53 @@ public class ConnectionLabelEditPart extends LabelEditPart {
                 } else if (type.equals("Break")) { //$NON-NLS-1$
                     img = (JUCMNavPlugin.getImage("icons/Break.gif")); //$NON-NLS-1$
                 }
-                if (img != null && iconVisible) {
+                if (img != null && iconVisible && ((addAggr == null) || (addAggr.compareTo("true") != 0))) {
                     labelFigure.setIcon(img);
+                }
+                
+              //If "Set Aggregate Contribution" value is "Enable", set the icon to show "Aggregate"
+                else if (iconVisible && ((addAggr == null) || (addAggr.compareTo("true") == 0))) {
+                    labelFigure.setIcon(JUCMNavPlugin.getImage("icons/Aggregate.gif"));
                 }
                 else
                     labelFigure.setIcon(null);
                 
                 labelFigure.setVisible(true);
                 
-            } else {
+            }
+            
+            //If Aggregate Contribution exists and individual contribution is unknown
+            else if(type.equals("Unknown") && (metaAggr != null && addAggr != null)){
+            	boolean textVisible = false, iconVisible = false;
+            	textVisible = GeneralPreferencePage.getGrlTextVisible();
+            	iconVisible = GeneralPreferencePage.getGrlIconVisible();
+            	if ((algo instanceof QuantitativeGRLStrategyAlgorithm || algo instanceof QualitativeGRLStrategyAlgorithm
+            			|| algo instanceof MixedGRLStrategyAlgorithm) && textVisible){
+            		
+            		//If "Set Aggregate Contribution" value is "Enable"
+            		if (addAggr.compareTo("true") == 0){
+                		labelFigure.setText("A: " + MetadataHelper.getMetaData(contrib, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL));
+                		if (iconVisible)
+                			labelFigure.setIcon(JUCMNavPlugin.getImage("icons/Aggregate.gif"));
+                		else
+                			labelFigure.setIcon(null);
+                		labelFigure.setVisible(true);
+            		}
+            		
+            		//If "Set Aggregate Contribution" value is "Show"
+                	else if (addAggr.compareTo("false") == 0){
+                    	labelFigure.setText("(A: " + MetadataHelper.getMetaData(contrib, QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL) + ")");
+                    	labelFigure.setIcon(null);
+                		labelFigure.setVisible(true);
+                	}
+                	else{
+                		labelFigure.setVisible(false);
+                	}
+            	}
+            	else
+            		labelFigure.setVisible(false);
+            }
+            else {
                 labelFigure.setVisible(false);
             }
         }

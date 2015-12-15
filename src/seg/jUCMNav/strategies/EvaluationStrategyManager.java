@@ -421,19 +421,36 @@ public class EvaluationStrategyManager {
      */
     public synchronized void setupEvaluationAlgorithm() {
     	String algoChoice = StrategyEvaluationPreferences.getAlgorithm();
+    	URNspec urn = null;
+    	if (strategy != null)
+    		urn = strategy.getGrlspec().getUrnspec();
         
-        if ((StrategyEvaluationPreferences.MIXED_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
-            algo = new MixedGRLStrategyAlgorithm();
+        if ((StrategyEvaluationPreferences.MIXED_ALGORITHM + "").equals(algoChoice)){ //$NON-NLS-1$
+        	algo = new MixedGRLStrategyAlgorithm();
+        }
         else if ((StrategyEvaluationPreferences.QUANTITATIVE_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
             algo = new QuantitativeGRLStrategyAlgorithm();
-        else if ((StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
+        else if ((StrategyEvaluationPreferences.QUALITATIVE_ALGORITHM + "").equals(algoChoice)){ //$NON-NLS-1$
             algo = new QualitativeGRLStrategyAlgorithm();
-        else if ((StrategyEvaluationPreferences.FORMULA_BASED_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
+        }
+        else if ((StrategyEvaluationPreferences.FORMULA_BASED_ALGORITHM + "").equals(algoChoice)){ //$NON-NLS-1$
             algo = new FormulaBasedGRLStrategyAlgorithm();
-        else if ((StrategyEvaluationPreferences.CONDITIONAL_GRL_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
+            
+            //Aggregate metadata not needed for this algorithm
+            MetadataHelper.cleanAggregateMetadata(urn);
+        }
+        else if ((StrategyEvaluationPreferences.CONDITIONAL_GRL_ALGORITHM + "").equals(algoChoice)){ //$NON-NLS-1$
             algo = new ConditionalBasedGRLStrategyAlgorithm();
-        else if ((StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
+            
+            //Aggregate metadata not needed for this algorithm
+            MetadataHelper.cleanAggregateMetadata(urn);
+        }
+        else if ((StrategyEvaluationPreferences.CONSTRAINT_SOLVER_ALGORITHM + "").equals(algoChoice)){ //$NON-NLS-1$
             algo = new Hao2011Algorithm();
+            
+            //Aggregate metadata not needed for this algorithm
+            MetadataHelper.cleanAggregateMetadata(urn);
+        }
         else if ((StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
             algo = new FeatureModelStrategyAlgorithm();
         else

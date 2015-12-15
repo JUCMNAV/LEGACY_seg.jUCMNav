@@ -16,10 +16,13 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalContributionCommand;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import seg.jUCMNav.strategies.util.ReusedElementUtil;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.wizards.IntegerInputRangeDialog;
+import urncore.Metadata;
 
 /**
  * 
@@ -78,6 +81,14 @@ public class SetNumericalContributionAction extends URNSelectionAction {
             if (!(lr.getLink() instanceof Contribution) || lr.getLink() instanceof OptionalFMLink
             		|| lr.getLink() instanceof MandatoryFMLink || ReusedElementUtil.isReuseLink(lr.getLink()))
                 return false;
+            
+            Metadata metaAggr = MetadataHelper.getMetaDataObj(lr.getLink(), QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL);
+            String addAggr = MetadataHelper.getMetaData(lr.getLink().getSrc(), QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR);
+            
+            //If aggregate contribution activated for a link, individual contribution is ignored and so shouldn't be changed
+            if(metaAggr != null && (addAggr.compareTo("true") == 0)){
+            	 return false;
+            }
             
             if (id < ChangeNumericalContributionCommand.INCREASE) // operation is not increase or decrease, skip further tests
                 continue;           

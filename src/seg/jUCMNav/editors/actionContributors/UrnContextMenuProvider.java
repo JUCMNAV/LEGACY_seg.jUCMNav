@@ -58,6 +58,7 @@ import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.ListDefinitionReferencesAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.RefactorIntoStubAction;
+import seg.jUCMNav.actions.SetAggregateContributionAction;
 import seg.jUCMNav.actions.SetNumericalContributionAction;
 import seg.jUCMNav.actions.SetNumericalEvaluationAction;
 import seg.jUCMNav.actions.SetNumericalImportanceAction;
@@ -357,6 +358,16 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         submenu = new SubmenuAction(
                 actions,
                 Messages.getString("UrnContextMenuProvider.SetQualitativeContribution"), Messages.getString("UrnContextMenuProvider.SetQualitativeContribution"), JUCMNavPlugin.getImageDescriptor("icons/ContributionQual16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+        if (submenu.getActiveOperationCount() > 0)
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
+        
+        //Aggregate Contribution
+        actions = new IAction[3];
+        for (int i = 0; i <= 2; i++)
+            actions[i] = getActionRegistry().getAction(SetAggregateContributionAction.generateId(i));
+        submenu = new SubmenuAction(
+                actions,
+                Messages.getString("UrnContextMenuProvider.SetAggregateContribution"), Messages.getString("UrnContextMenuProvider.SetAggregateContribution"), JUCMNavPlugin.getImageDescriptor("icons/Aggregate1.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
