@@ -40,7 +40,6 @@ public class ExportCSV implements IURNExport {
     private int totalElements;
     private final int DEFAULT_COLUMN_WIDTH = 7;
     private final int MIN_COLUMN_WIDTH = 5;
-    private final int MAX_COLUMN_WIDTH = 12;
     
     private String escape(String s)
     {

@@ -153,7 +153,7 @@ public class ReportGeneratorPreferences {
     }
 
     public static String getNumberCSV_Columns() {
-    	if (getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS).equals("") || Integer.parseInt(getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS)) < 5 || Integer.parseInt(getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS)) > 12){ //$NON-NLS-1$
+    	if (getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS).equals("") || Integer.parseInt(getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS)) < 5 ){ //$NON-NLS-1$
     		return "7"; //return 0 if blank
     	}else{
     		return getPreferenceStore().getString(PREF_NUMBER_CSV_COLUMNS);
