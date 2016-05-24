@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.model.commands.create;
 
+import fm.Feature;
 import fm.ReuseLink;
 import grl.Dependency;
 import grl.ElementLink;
@@ -17,6 +18,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.util.ReusedElementUtil;
 import urn.URNspec;
 
@@ -83,6 +85,10 @@ public class CreateElementLinkCommand extends CompoundCommand {
         	return false;
         // Links to reused elements cannot be created
         if (grl != null && dest != null && ReusedElementUtil.isReusedElement(grl, dest))
+        	return false;
+     // Links of root feature(IntentioanlElementRef) as source cannot be created
+        String value = MetadataHelper.getMetaData(src, "CoURN");
+        if (grl != null && dest != null && (dest instanceof Feature) && value !=null && value.equalsIgnoreCase("root feature"))
         	return false;
         return super.canExecute();
     }

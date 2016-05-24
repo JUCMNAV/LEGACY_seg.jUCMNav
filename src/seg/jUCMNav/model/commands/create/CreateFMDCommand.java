@@ -3,6 +3,9 @@
  */
 package seg.jUCMNav.model.commands.create;
 
+import java.util.Iterator;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
@@ -13,7 +16,10 @@ import seg.jUCMNav.model.util.MetadataHelper;
 import urn.URNspec;
 import urncore.Concern;
 import urncore.IURNDiagram;
+import fm.Feature;
 import fm.FeatureDiagram;
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 
 /**
  * This command add a new FeatureModel graph to the model
@@ -22,6 +28,7 @@ public class CreateFMDCommand extends Command implements JUCMNavCommand, IGlobal
 
     private URNspec urn;
     private FeatureDiagram diagram;
+    private Feature rootFeature; //record newly created root feature in the diagram 
     private int oldCount;
     private int index=-1;
 
@@ -58,19 +65,47 @@ public class CreateFMDCommand extends Command implements JUCMNavCommand, IGlobal
      */
     public void redo() {
         testPreConditions();
+        String value = MetadataHelper.getMetaData(urn, "CoURN");
+
         if (getIndex() >= 0 && getIndex() <= urn.getUrndef().getSpecDiagrams().size())
             urn.getUrndef().getSpecDiagrams().add(index, diagram);
         else
             urn.getUrndef().getSpecDiagrams().add(diagram);
-        String value=MetadataHelper.getMetaData(urn, "CoURN");
+       
     	if (value!= null && value.equals("true") && urn.getUrndef().getConcerns().size()>0 ){
            Concern tempConcern=(Concern)urn.getUrndef().getConcerns().get(0);
            tempConcern.getSpecDiagrams().add(getDiagram());
+           if(existRootFeature()==null){
+        	    String rootFeatureName = tempConcern.getName();
+        	    ModelCreationFactory.createRootFeature(urn, diagram, rootFeatureName, false ,null);
+   	                      
+           }else if(existRootFeature()!=null && existRootFeature().getRefs().size()==0){
+        	       IntentionalElement alreadyRootFeature = existRootFeature();   		   
+        		   ModelCreationFactory.createRootFeature(urn, diagram, null , true , alreadyRootFeature);
+           }
     	}
 
         testPostConditions();
     }
-
+    
+    /**
+     * return the root feature if it already exists in the CoURN
+     */
+    
+  public IntentionalElement existRootFeature(){
+    	
+    	for(Iterator it = urn.getGrlspec().getIntElements().iterator();it.hasNext();){
+    		IntentionalElement currElement = (IntentionalElement) it.next();
+    		if( currElement instanceof Feature){
+    			String metaName = MetadataHelper.getMetaData(currElement, "CoURN");
+    			if (metaName!=null && metaName.equalsIgnoreCase("root feature")){
+    				return currElement;
+    			}
+    		}
+    	}
+    	return null;
+    	
+    }
     /*
      * (non-Javadoc)
      * 
@@ -96,9 +131,15 @@ public class CreateFMDCommand extends Command implements JUCMNavCommand, IGlobal
 
     /**
      * @see org.eclipse.gef.commands.Command#undo()
+     * root feature will be deleted if it was just created along with the feature diagram
      */
     public void undo() {
         testPostConditions();
+        if (rootFeature !=null){
+        	diagram.getNodes().removeAll(rootFeature.getRefs());
+        	urn.getGrlspec().getIntElements().remove(rootFeature);
+        }
+        
         urn.getUrndef().getSpecDiagrams().remove(diagram);
         testPreConditions();
     }

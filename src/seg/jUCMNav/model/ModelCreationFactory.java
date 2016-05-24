@@ -52,6 +52,7 @@ import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.resource.StringConverter;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
@@ -679,6 +680,24 @@ public class ModelCreationFactory implements CreationFactory {
         return result;
 
     }
+    
+    public static void createRootFeature(URNspec urnspec,FeatureDiagram featureDiagram, String name, boolean existRootFeature,IntentionalElement rootFeatureDef){
+    	 IntentionalElementRef  featureRef ;
+    	 if (!existRootFeature){
+    	      featureRef=(IntentionalElementRef)getNewObject(urnspec,IntentionalElementRef.class,ModelCreationFactory.FEATURE);
+	          urnspec.getGrlspec().getIntElements().add(featureRef.getDef());
+	          featureRef.getDef().setName(name);     	      
+ 	      
+	          MetadataHelper.addMetaData(urnspec, featureRef.getDef(), "CoURN", "root feature");	      
+    	  }else{
+    		  featureRef = (IntentionalElementRef) ModelCreationFactory.getNewObject(urnspec, IntentionalElementRef.class);
+    		  rootFeatureDef.getRefs().add(featureRef);    		    		   
+    	  }
+    	  
+    	  featureRef.setX(10);
+    	  featureRef.setY(10);
+	      featureDiagram.getNodes().add(featureRef);
+    }
 
     /**
      * 
@@ -771,11 +790,21 @@ public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolea
         
         // add a new FMD diagram to the FMDspec, if desired.
         if (createFmd) {
-              urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, FeatureDiagram.class));      
+        	// add the root feature in the newly created feature diagram if it is CoURN
+        	 if(createCRN){
+        		 
+        	      FeatureDiagram fd = (FeatureDiagram) getNewObject(urnspec,FeatureDiagram.class);
+        	      String rootName = filename.substring(0,1).toUpperCase() + filename.substring(1);
+        	      createRootFeature(urnspec, fd , rootName ,false ,null);    	      
+        	 
+        	      urnspec.getUrndef().getSpecDiagrams().add(fd);
+        	      
+        	  }else{
+                  urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, FeatureDiagram.class));      
+             }
         }
         
         //add a  group of diagrams under the concern of concern-oriented .jucm file, if desired.  
-        
         if (createCRN) {
         	
         	Concern concern = (Concern) ModelCreationFactory.getNewObject(urnspec, Concern.class);

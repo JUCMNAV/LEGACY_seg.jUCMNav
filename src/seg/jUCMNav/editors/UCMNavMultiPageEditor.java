@@ -1,8 +1,12 @@
 package seg.jUCMNav.editors;
 
+import fm.Feature;
 import grl.GrlPackage;
+import grl.IntentionalElement;
+import grl.IntentionalElementType;
 
 import java.net.URI;
+import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -630,6 +634,16 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         		if (tempConcern!=null && (tempConcern.get(0))!=null){
                    if (!(((Concern)tempConcern.get(0)).getName().equals(potent_ConcernName))){
                 	    ((Concern)tempConcern.get(0)).setName(potent_ConcernName);
+                	      for(Iterator itr=((URNspec)getModel()).getGrlspec().getIntElements().iterator();itr.hasNext();){
+                	    	   IntentionalElement intElement = (IntentionalElement)itr.next();
+                	    	   String valueRootFea = MetadataHelper.getMetaData(intElement, "CoURN");
+                	    	   // here not sure instanceof Feature can be used here
+                	    	   if(intElement instanceof Feature && valueRootFea !=null && valueRootFea.equalsIgnoreCase("root feature")){
+                	    		   intElement.setName(potent_ConcernName);
+                	    	   }
+                	    	   System.out.println("The type of intelement is task "+ (intElement.getType().getValue()== IntentionalElementType.TASK));
+                	    	   System.out.println("If the intelement is an instance of Feature.class" + (intElement instanceof Feature));   
+                	      }
                    }
         		}
         		getFileManager().doSave(new NullProgressMonitor());

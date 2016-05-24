@@ -48,6 +48,7 @@ import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyTreeEditPartFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.FeatureModelStrategyAlgorithm;
 import seg.jUCMNav.views.JUCMNavRefreshableView;
 import seg.jUCMNav.views.dnd.UrnTemplateTransferDragSourceListener;
 import seg.jUCMNav.views.dnd.UrnTemplateTransferDropTargetListener;
@@ -520,8 +521,10 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     EvaluationStrategy scen = ((EvaluationStrategyTreeEditPart) obj).getEvaluationStrategy();
                     currentStrategy = scen;
                     if (currentView == ID_STRATEGY) {
+                    	
                         (EvaluationStrategyManager.getInstance(multieditor)).setStrategy(scen);
                         refreshScenarioIfNeeded();
+                        FeatureModelStrategyAlgorithm.refreshProblemsView();
                     }
                 } else if (obj instanceof ContributionContextTreeEditPart) {
                     if (currentContributionContextSelection != null) {
@@ -549,6 +552,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     currentScenario = scen;
                     if (currentView == ID_STRATEGY) {
                         ScenarioUtils.setActiveScenario(currentScenario);
+                      //  EvaluationUtil.setActiveStrategy(currentStrategy);
                         for (int i = 0; i < multieditor.getPageCount(); i++) {
                             UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                             ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);

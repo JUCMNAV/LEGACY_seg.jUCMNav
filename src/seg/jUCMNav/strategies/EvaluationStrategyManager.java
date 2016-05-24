@@ -302,6 +302,7 @@ public class EvaluationStrategyManager {
                 ((KPIRootEditPart) ep).refreshIndicatorTreeEditPart(ep);
             }
         }
+       
     }
 
     private void processNonConstraintSolverAlgorithm() {
@@ -675,6 +676,10 @@ public class EvaluationStrategyManager {
 
             }
             calculateEvaluation();
+          //  if(FeatureModelStrategyAlgorithm.getWarnings().size()>0){
+            	FeatureModelStrategyAlgorithm.refreshProblemsView();
+          //  }
+            
         }
 
         // Refresh the kpi list view
@@ -1711,7 +1716,6 @@ public class EvaluationStrategyManager {
                     change.setNewQuantitativeContribution(value);
                     // force a refresh of the GUI even if value does not change
                     contribution.setQuantitativeContribution(contribution.getQuantitativeContribution());
-
                     return;
                 } else if (contribution.getGrlspec() != null) {
                     ContributionChange newChange = (ContributionChange) ModelCreationFactory.getNewObject(contribution.getGrlspec().getUrnspec(),

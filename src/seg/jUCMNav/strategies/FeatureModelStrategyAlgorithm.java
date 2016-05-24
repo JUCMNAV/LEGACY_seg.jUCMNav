@@ -11,6 +11,7 @@ import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,13 +19,23 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
+
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.strategies.util.FeatureUtil;
 import seg.jUCMNav.strategies.util.ReusedElementUtil;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
+import urncore.URNmodelElement;
 
 /**
  * This class implements the evaluation algorithm for Feature Models.
@@ -37,6 +48,8 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
     public static final String METADATA_WARNING = "_userSetEvaluationWarning"; //$NON-NLS-1$
     public static final String METADATA_AUTO_SELECTED = "_autoSelected"; //$NON-NLS-1$
     
+    // Vector of warnings happened during the featureModel strategy executions
+    public static Vector<StrategyEvaluationWarning> warnings;
     private EvaluationStrategy strategy;
     
     public void init(EvaluationStrategy strategy, HashMap evaluations) {
@@ -44,6 +57,16 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
     	this.strategy = strategy;
     	setupReusedElementsEvaluations();
     	evalReady.addAll(0, ReusedElementUtil.getReusedElements(strategy.getGrlspec()));
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @return the warnings of featureModel strategy executions
+     */
+    public static Vector<StrategyEvaluationWarning> getWarnings(){
+    	if(warnings==null)
+    		warnings= new Vector<StrategyEvaluationWarning>();
+    	return warnings;
     }
     
     /*
@@ -247,5 +270,65 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
     		}
         }
     }
+    
+    /**
+     * Clears the warnings associated to this file and replaces them with those supplied in the vector.
+     * 
+     * @param warnings
+     *            a vector of {@link StrategyEvaluationWarning}s to be pushed to the problems view.
+     */
+    public static void refreshProblemsView() {
+        if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
+                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
+            try {
+
+                IMarker[] existingMarkers = resource.findMarkers("seg.jUCMNav.evaluationproblem", true, 3);  //$NON-NLS-1$
+                for (int i = 0; i < existingMarkers.length; i++) {
+                    IMarker marker = existingMarkers[i];
+                    marker.delete();
+                }
+            } catch (CoreException ex) {
+                System.out.println(ex);
+            }
+
+            if (getWarnings().size() > 0) {
+
+                for (Iterator iter = warnings.iterator(); iter.hasNext();) {
+                	StrategyEvaluationWarning o = (StrategyEvaluationWarning) iter.next();
+
+                    try {
+                        IMarker marker = resource.createMarker("seg.jUCMNav.evaluationproblem");  //$NON-NLS-1$
+                        marker.setAttribute(IMarker.SEVERITY, o.getSeverity());   //$NON-NLS-1$
+                        marker.setAttribute(IMarker.MESSAGE, o.toString());       //$NON-NLS-1$
+                        if (o.getLocation() instanceof URNmodelElement) {
+                            URNmodelElement elem = (URNmodelElement) o.getLocation();
+                            marker.setAttribute(IMarker.LOCATION, URNNamingHelper.getName(elem)); //$NON-NLS-1$
+                            if (o.getLocation() instanceof IntentionalElementRef){ 
+                            	marker.setAttribute("EObject", ((IntentionalElementRef)o.getLocation()).getId()); //$NON-NLS-1$
+                            }else{
+                                marker.setAttribute("EObject", ((URNmodelElement) o.getLocation()).getId()); //$NON-NLS-1$
+                            }
+                        } else if (o.getLocation() != null) {
+                            marker.setAttribute(IMarker.LOCATION, o.getLocation().toString());  //$NON-NLS-1$
+                        }
+
+                        
+                        resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1); //$NON-NLS-1$
+                    } catch (CoreException ex) {
+                        // System.out.println(ex);
+                    }
+
+                }
+                // throw new TraversalException(b.toString());
+
+            }
+        }
+    }
+    
+
+
+    
 
 }

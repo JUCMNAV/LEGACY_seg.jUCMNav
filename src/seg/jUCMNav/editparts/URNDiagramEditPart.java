@@ -16,6 +16,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 import seg.jUCMNav.model.util.SpecificationComponentRefAreaComparator;
+import seg.jUCMNav.strategies.FeatureModelStrategyAlgorithm;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
@@ -289,6 +290,7 @@ public abstract class URNDiagramEditPart extends ModelElementEditPart {
             AbstractGraphicalEditPart element = (AbstractGraphicalEditPart) iter.next();
             element.refresh();
         }
+//        FeatureModelStrategyAlgorithm.refreshProblemsView();
     }
 
     /**

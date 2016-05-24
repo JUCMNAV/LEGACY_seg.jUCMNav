@@ -85,13 +85,18 @@ public class UrnMetadata {
 
     	StringBuilder sb = new StringBuilder();
     	
+    	String value = MetadataHelper.getMetaData(parent, "CoURN");
+    	if( value!=null && value.equalsIgnoreCase("root feature")){
+    		sb.append(STEREOTYPE_OPEN + "root" + STEREOTYPE_CLOSE);
+    	}
+    	
     	if( UrnMetadata.getElementStereotypes( reference, sb) || UrnMetadata.getElementStereotypes( parent, sb) ) {
     		sb.append( METADATA_PRESENCE );
     	}
-    	
     	return sb.toString();
     }
     
+
     private static boolean getElementStereotypes( URNmodelElement element, StringBuilder sb ) {
         boolean otherMetadataTypes = false; // Indicates whether there are metadata elements that are not stereotypes
  	

@@ -9,15 +9,18 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchPart;
 
+import fm.Feature;
+import grl.IntentionalElementRef;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editparts.ConnectionLabelEditPart;
 import seg.jUCMNav.model.commands.delete.DeleteUselessStartNCEndCommand;
+import seg.jUCMNav.model.util.MetadataHelper;
 import ucm.map.UCMmap;
 import ucm.scenario.ScenarioDef;
 import urn.URNspec;
-
+import seg.jUCMNav.actions.SelectionHelper;
 /**
  * DeleteAction overridden from framework to delete small paths created after a mass deletion.
  * 
@@ -38,10 +41,33 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
     }
 
     protected boolean calculateEnabled() {
-        Command cmd = createDeleteCommand(getSelectedObjectsForDeletion());
-        if (cmd == null)
-            return false;
-        return cmd.canExecute();
+        Command cmd = createDeleteCommand(getSelectedObjects());
+		if (cmd == null)
+			return false;
+		else {
+			SelectionHelper sh = new SelectionHelper(getSelectedObjects());
+			switch (sh.getSelectionType()) {
+			case SelectionHelper.INTENTIONALELEMENT:
+			case SelectionHelper.INTENTIONALELEMENTREF:
+				Feature felement = null;
+				if (sh.getURNmodelElement() instanceof Feature) {
+					felement = (Feature) sh.getURNmodelElement();
+				} else if (sh.getURNmodelElement() instanceof IntentionalElementRef
+						&& ((IntentionalElementRef) sh.getURNmodelElement())
+								.getDef() instanceof Feature) {
+
+					felement = (Feature) ((IntentionalElementRef) sh
+							.getURNmodelElement()).getDef();
+				}
+				if (felement != null) {
+					String metaValue = MetadataHelper.getMetaData(felement, "CoURN"); //$NON-NLS-1$
+					if (metaValue != null && metaValue.equalsIgnoreCase("root feature")) //$NON-NLS-1$
+						return false;
+				}
+			}
+			return cmd.canExecute();
+		}
+     
     }
     
     public List getSelectedObjectsForDeletion() {
@@ -49,7 +75,9 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
         Vector result = new Vector();
         for (Iterator iterator = list.iterator(); iterator.hasNext();) {
             Object o = (Object) iterator.next();
+           
             if (!(o instanceof ConnectionLabelEditPart)) {
+            	System.out.println("The selected objects for delection is "+ o.toString());
                 result.add(o);
             }
         }

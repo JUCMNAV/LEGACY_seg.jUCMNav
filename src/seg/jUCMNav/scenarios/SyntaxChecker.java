@@ -1,5 +1,7 @@
 package seg.jUCMNav.scenarios;
 
+import grl.IntentionalElementRef;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
@@ -249,7 +251,7 @@ public class SyntaxChecker {
             IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
             try {
 
-                IMarker[] existingMarkers = resource.findMarkers(IMarker.PROBLEM, true, 3);
+                IMarker[] existingMarkers = resource.findMarkers("seg.jUCMNav.traverseproblem", true, 3); //$NON-NLS-1$
                 for (int i = 0; i < existingMarkers.length; i++) {
                     IMarker marker = existingMarkers[i];
                     marker.delete();
@@ -264,7 +266,7 @@ public class SyntaxChecker {
                     TraversalWarning o = (TraversalWarning) iter.next();
 
                     try {
-                        IMarker marker = resource.createMarker(IMarker.PROBLEM);
+                        IMarker marker = resource.createMarker("seg.jUCMNav.traverseproblem"); //$NON-NLS-1$
                         marker.setAttribute(IMarker.SEVERITY, o.getSeverity());
                         marker.setAttribute(IMarker.MESSAGE, o.toString());
                         if (o.getLocation() instanceof URNmodelElement) {
