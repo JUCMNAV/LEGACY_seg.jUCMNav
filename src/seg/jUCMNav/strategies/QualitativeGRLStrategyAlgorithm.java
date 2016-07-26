@@ -594,7 +594,7 @@ public class QualitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgor
     			return ma;
     		else if (count[0] > 0){
     			count[5] -= count[0];
-    			count[4] += count[0];
+    			count[2] += count[0];   //Updated to show Make + Hurt --> Some Positive
     		}
     		if (count[3] <= 0){
     			if (count[2] > count[5])
@@ -624,7 +624,7 @@ public class QualitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgor
     			return br;
     		else if (count[1] > 0){
     			count[4] -= count[1];
-    			count[5] += count[1];
+    			count[3] += count[1];    ////Updated to show Break + Help --> Some Negative
     		}
     		if (count[2] <= 0){
     			if (count[3] > count[4])
