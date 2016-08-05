@@ -652,10 +652,10 @@ public class QualitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgor
 			}
     		
     	}
-    	else if(count[3] > 0){
+    	else if (count[3] > 0){
     		if (count[3] > count[4])
 				return sn;
-			else{
+			else {
 				count[4] -= count[3];
 				count[5] += count[3];
 			}
