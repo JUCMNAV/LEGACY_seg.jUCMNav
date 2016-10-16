@@ -32,6 +32,8 @@ import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
 import urn.UrnPackage;
+import urn.dyncontext.DyncontextPackage;
+import urn.dyncontext.impl.DyncontextPackageImpl;
 import urncore.UrncorePackage;
 import urncore.impl.UrncorePackageImpl;
 
@@ -110,6 +112,7 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackage.eINSTANCE);
 		KpimodelPackageImpl theKpimodelPackage = (KpimodelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI) instanceof KpimodelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI) : KpimodelPackage.eINSTANCE);
 		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackage.eINSTANCE);
+		DyncontextPackageImpl theDyncontextPackage = (DyncontextPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DyncontextPackage.eNS_URI) instanceof DyncontextPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DyncontextPackage.eNS_URI) : DyncontextPackage.eINSTANCE);
 		UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackage.eINSTANCE);
 		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
 		MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackage.eINSTANCE);
@@ -122,6 +125,7 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		theGrlPackage.createPackageContents();
 		theKpimodelPackage.createPackageContents();
 		theUrncorePackage.createPackageContents();
+		theDyncontextPackage.createPackageContents();
 		theUcmPackage.createPackageContents();
 		thePerformancePackage.createPackageContents();
 		theMapPackage.createPackageContents();
@@ -134,6 +138,7 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		theGrlPackage.initializePackageContents();
 		theKpimodelPackage.initializePackageContents();
 		theUrncorePackage.initializePackageContents();
+		theDyncontextPackage.initializePackageContents();
 		theUcmPackage.initializePackageContents();
 		thePerformancePackage.initializePackageContents();
 		theMapPackage.initializePackageContents();
@@ -286,6 +291,33 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getURNspec_DynamicContexts() {
+		return (EReference)urNspecEClass.getEStructuralFeatures().get(14);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getURNspec_DynamicContextGroups() {
+		return (EReference)urNspecEClass.getEStructuralFeatures().get(15);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getURNspec_TimepointGroups() {
+		return (EReference)urNspecEClass.getEStructuralFeatures().get(16);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -381,6 +413,9 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		createEReference(urNspecEClass, UR_NSPEC__URN_LINKS);
 		createEReference(urNspecEClass, UR_NSPEC__METADATA);
 		createEReference(urNspecEClass, UR_NSPEC__ASDSPEC);
+		createEReference(urNspecEClass, UR_NSPEC__DYNAMIC_CONTEXTS);
+		createEReference(urNspecEClass, UR_NSPEC__DYNAMIC_CONTEXT_GROUPS);
+		createEReference(urNspecEClass, UR_NSPEC__TIMEPOINT_GROUPS);
 
 		urNlinkEClass = createEClass(UR_NLINK);
 		createEAttribute(urNlinkEClass, UR_NLINK__TYPE);
@@ -414,10 +449,14 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
+		DyncontextPackage theDyncontextPackage = (DyncontextPackage)EPackage.Registry.INSTANCE.getEPackage(DyncontextPackage.eNS_URI);
 		UcmPackage theUcmPackage = (UcmPackage)EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI);
 		GrlPackage theGrlPackage = (GrlPackage)EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI);
 		UrncorePackage theUrncorePackage = (UrncorePackage)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
 		AsdPackage theAsdPackage = (AsdPackage)EPackage.Registry.INSTANCE.getEPackage(AsdPackage.eNS_URI);
+
+		// Add subpackages
+		getESubpackages().add(theDyncontextPackage);
 
 		// Add supertypes to classes
 
@@ -437,6 +476,9 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 		initEReference(getURNspec_UrnLinks(), this.getURNlink(), this.getURNlink_Urnspec(), "urnLinks", null, 0, -1, URNspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getURNspec_Metadata(), theUrncorePackage.getMetadata(), null, "metadata", null, 0, -1, URNspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getURNspec_Asdspec(), theAsdPackage.getASDspec(), null, "asdspec", null, 0, 1, URNspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getURNspec_DynamicContexts(), theDyncontextPackage.getDynamicContext(), theDyncontextPackage.getDynamicContext_Urnspec(), "dynamicContexts", null, 0, -1, URNspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getURNspec_DynamicContextGroups(), theDyncontextPackage.getDynamicContextGroup(), theDyncontextPackage.getDynamicContextGroup_Urnspec(), "dynamicContextGroups", null, 0, -1, URNspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getURNspec_TimepointGroups(), theDyncontextPackage.getTimepointGroup(), theDyncontextPackage.getTimepointGroup_Urnspec(), "timepointGroups", null, 0, -1, URNspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(urNlinkEClass, URNlink.class, "URNlink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getURNlink_Type(), ecorePackage.getEString(), "type", null, 0, 1, URNlink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

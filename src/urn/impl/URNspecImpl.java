@@ -25,6 +25,10 @@ import ucm.UcmPackage;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnPackage;
+import urn.dyncontext.DynamicContext;
+import urn.dyncontext.DynamicContextGroup;
+import urn.dyncontext.DyncontextPackage;
+import urn.dyncontext.TimepointGroup;
 import urncore.Metadata;
 import urncore.URNdefinition;
 import urncore.UrncorePackage;
@@ -51,6 +55,9 @@ import urncore.UrncorePackage;
  *   <li>{@link urn.impl.URNspecImpl#getUrnLinks <em>Urn Links</em>}</li>
  *   <li>{@link urn.impl.URNspecImpl#getMetadata <em>Metadata</em>}</li>
  *   <li>{@link urn.impl.URNspecImpl#getAsdspec <em>Asdspec</em>}</li>
+ *   <li>{@link urn.impl.URNspecImpl#getDynamicContexts <em>Dynamic Contexts</em>}</li>
+ *   <li>{@link urn.impl.URNspecImpl#getDynamicContextGroups <em>Dynamic Context Groups</em>}</li>
+ *   <li>{@link urn.impl.URNspecImpl#getTimepointGroups <em>Timepoint Groups</em>}</li>
  * </ul>
  *
  * @generated
@@ -275,6 +282,36 @@ public class URNspecImpl extends MinimalEObjectImpl.Container implements URNspec
 	 * @ordered
 	 */
 	protected ASDspec asdspec;
+
+				/**
+	 * The cached value of the '{@link #getDynamicContexts() <em>Dynamic Contexts</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDynamicContexts()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList dynamicContexts;
+
+				/**
+	 * The cached value of the '{@link #getDynamicContextGroups() <em>Dynamic Context Groups</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDynamicContextGroups()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList dynamicContextGroups;
+
+				/**
+	 * The cached value of the '{@link #getTimepointGroups() <em>Timepoint Groups</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTimepointGroups()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList timepointGroups;
 
 				/**
 	 * <!-- begin-user-doc -->
@@ -663,6 +700,42 @@ public class URNspecImpl extends MinimalEObjectImpl.Container implements URNspec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getDynamicContexts() {
+		if (dynamicContexts == null) {
+			dynamicContexts = new EObjectContainmentWithInverseEList(DynamicContext.class, this, UrnPackage.UR_NSPEC__DYNAMIC_CONTEXTS, DyncontextPackage.DYNAMIC_CONTEXT__URNSPEC);
+		}
+		return dynamicContexts;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getDynamicContextGroups() {
+		if (dynamicContextGroups == null) {
+			dynamicContextGroups = new EObjectContainmentWithInverseEList(DynamicContextGroup.class, this, UrnPackage.UR_NSPEC__DYNAMIC_CONTEXT_GROUPS, DyncontextPackage.DYNAMIC_CONTEXT_GROUP__URNSPEC);
+		}
+		return dynamicContextGroups;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getTimepointGroups() {
+		if (timepointGroups == null) {
+			timepointGroups = new EObjectContainmentWithInverseEList(TimepointGroup.class, this, UrnPackage.UR_NSPEC__TIMEPOINT_GROUPS, DyncontextPackage.TIMEPOINT_GROUP__URNSPEC);
+		}
+		return timepointGroups;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case UrnPackage.UR_NSPEC__UCMSPEC:
@@ -679,6 +752,12 @@ public class URNspecImpl extends MinimalEObjectImpl.Container implements URNspec
 				return basicSetUrndef((URNdefinition)otherEnd, msgs);
 			case UrnPackage.UR_NSPEC__URN_LINKS:
 				return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXTS:
+				return ((InternalEList)getDynamicContexts()).basicAdd(otherEnd, msgs);
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXT_GROUPS:
+				return ((InternalEList)getDynamicContextGroups()).basicAdd(otherEnd, msgs);
+			case UrnPackage.UR_NSPEC__TIMEPOINT_GROUPS:
+				return ((InternalEList)getTimepointGroups()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -702,6 +781,12 @@ public class URNspecImpl extends MinimalEObjectImpl.Container implements URNspec
 				return ((InternalEList)getMetadata()).basicRemove(otherEnd, msgs);
 			case UrnPackage.UR_NSPEC__ASDSPEC:
 				return basicSetAsdspec(null, msgs);
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXTS:
+				return ((InternalEList)getDynamicContexts()).basicRemove(otherEnd, msgs);
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXT_GROUPS:
+				return ((InternalEList)getDynamicContextGroups()).basicRemove(otherEnd, msgs);
+			case UrnPackage.UR_NSPEC__TIMEPOINT_GROUPS:
+				return ((InternalEList)getTimepointGroups()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -741,6 +826,12 @@ public class URNspecImpl extends MinimalEObjectImpl.Container implements URNspec
 				return getMetadata();
 			case UrnPackage.UR_NSPEC__ASDSPEC:
 				return getAsdspec();
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXTS:
+				return getDynamicContexts();
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXT_GROUPS:
+				return getDynamicContextGroups();
+			case UrnPackage.UR_NSPEC__TIMEPOINT_GROUPS:
+				return getTimepointGroups();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -796,6 +887,18 @@ public class URNspecImpl extends MinimalEObjectImpl.Container implements URNspec
 			case UrnPackage.UR_NSPEC__ASDSPEC:
 				setAsdspec((ASDspec)newValue);
 				return;
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXTS:
+				getDynamicContexts().clear();
+				getDynamicContexts().addAll((Collection)newValue);
+				return;
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXT_GROUPS:
+				getDynamicContextGroups().clear();
+				getDynamicContextGroups().addAll((Collection)newValue);
+				return;
+			case UrnPackage.UR_NSPEC__TIMEPOINT_GROUPS:
+				getTimepointGroups().clear();
+				getTimepointGroups().addAll((Collection)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -849,6 +952,15 @@ public class URNspecImpl extends MinimalEObjectImpl.Container implements URNspec
 			case UrnPackage.UR_NSPEC__ASDSPEC:
 				setAsdspec((ASDspec)null);
 				return;
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXTS:
+				getDynamicContexts().clear();
+				return;
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXT_GROUPS:
+				getDynamicContextGroups().clear();
+				return;
+			case UrnPackage.UR_NSPEC__TIMEPOINT_GROUPS:
+				getTimepointGroups().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -888,6 +1000,12 @@ public class URNspecImpl extends MinimalEObjectImpl.Container implements URNspec
 				return metadata != null && !metadata.isEmpty();
 			case UrnPackage.UR_NSPEC__ASDSPEC:
 				return asdspec != null;
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXTS:
+				return dynamicContexts != null && !dynamicContexts.isEmpty();
+			case UrnPackage.UR_NSPEC__DYNAMIC_CONTEXT_GROUPS:
+				return dynamicContextGroups != null && !dynamicContextGroups.isEmpty();
+			case UrnPackage.UR_NSPEC__TIMEPOINT_GROUPS:
+				return timepointGroups != null && !timepointGroups.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -42,6 +42,7 @@ import urncore.UrncorePackage;
  *   <li>{@link grl.impl.ActorImpl#getContRefs <em>Cont Refs</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getImportance <em>Importance</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getImportanceQuantitative <em>Importance Quantitative</em>}</li>
+ *   <li>{@link grl.impl.ActorImpl#getCount <em>Count</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getIncludedActors <em>Included Actors</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getIncludingActor <em>Including Actor</em>}</li>
@@ -160,6 +161,26 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 	 * @ordered
 	 */
 	protected int importanceQuantitative = IMPORTANCE_QUANTITATIVE_EDEFAULT;
+
+				/**
+	 * The default value of the '{@link #getCount() <em>Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int COUNT_EDEFAULT = 1;
+
+				/**
+	 * The cached value of the '{@link #getCount() <em>Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected int count = COUNT_EDEFAULT;
 
 				/**
 	 * The cached value of the '{@link #getIncludedActors() <em>Included Actors</em>}' reference list.
@@ -324,6 +345,27 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 		importanceQuantitative = newImportanceQuantitative;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR__IMPORTANCE_QUANTITATIVE, oldImportanceQuantitative, importanceQuantitative));
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getCount() {
+		return count;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCount(int newCount) {
+		int oldCount = count;
+		count = newCount;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR__COUNT, oldCount, count));
 	}
 
 				/**
@@ -529,6 +571,8 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 				return getImportance();
 			case GrlPackage.ACTOR__IMPORTANCE_QUANTITATIVE:
 				return new Integer(getImportanceQuantitative());
+			case GrlPackage.ACTOR__COUNT:
+				return new Integer(getCount());
 			case GrlPackage.ACTOR__GRLSPEC:
 				return getGrlspec();
 			case GrlPackage.ACTOR__INCLUDED_ACTORS:
@@ -567,6 +611,9 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 				return;
 			case GrlPackage.ACTOR__IMPORTANCE_QUANTITATIVE:
 				setImportanceQuantitative(((Integer)newValue).intValue());
+				return;
+			case GrlPackage.ACTOR__COUNT:
+				setCount(((Integer)newValue).intValue());
 				return;
 			case GrlPackage.ACTOR__GRLSPEC:
 				setGrlspec((GRLspec)newValue);
@@ -611,6 +658,9 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 			case GrlPackage.ACTOR__IMPORTANCE_QUANTITATIVE:
 				setImportanceQuantitative(IMPORTANCE_QUANTITATIVE_EDEFAULT);
 				return;
+			case GrlPackage.ACTOR__COUNT:
+				setCount(COUNT_EDEFAULT);
+				return;
 			case GrlPackage.ACTOR__GRLSPEC:
 				setGrlspec((GRLspec)null);
 				return;
@@ -646,6 +696,8 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 				return importance != IMPORTANCE_EDEFAULT;
 			case GrlPackage.ACTOR__IMPORTANCE_QUANTITATIVE:
 				return importanceQuantitative != IMPORTANCE_QUANTITATIVE_EDEFAULT;
+			case GrlPackage.ACTOR__COUNT:
+				return count != COUNT_EDEFAULT;
 			case GrlPackage.ACTOR__GRLSPEC:
 				return getGrlspec() != null;
 			case GrlPackage.ACTOR__INCLUDED_ACTORS:
@@ -713,6 +765,8 @@ public class ActorImpl extends GRLLinkableElementImpl implements Actor {
 		result.append(importance);
 		result.append(", importanceQuantitative: ");
 		result.append(importanceQuantitative);
+		result.append(", count: ");
+		result.append(count);
 		result.append(')');
 		return result.toString();
 	}

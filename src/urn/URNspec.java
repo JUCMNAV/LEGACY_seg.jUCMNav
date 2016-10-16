@@ -42,6 +42,9 @@ import urncore.URNdefinition;
  *   <li>{@link urn.URNspec#getUrnLinks <em>Urn Links</em>}</li>
  *   <li>{@link urn.URNspec#getMetadata <em>Metadata</em>}</li>
  *   <li>{@link urn.URNspec#getAsdspec <em>Asdspec</em>}</li>
+ *   <li>{@link urn.URNspec#getDynamicContexts <em>Dynamic Contexts</em>}</li>
+ *   <li>{@link urn.URNspec#getDynamicContextGroups <em>Dynamic Context Groups</em>}</li>
+ *   <li>{@link urn.URNspec#getTimepointGroups <em>Timepoint Groups</em>}</li>
  * </ul>
  *
  * @see urn.UrnPackage#getURNspec()
@@ -400,5 +403,59 @@ public interface URNspec extends EObject {
 	 * @generated
 	 */
 	void setAsdspec(ASDspec value);
+
+				/**
+	 * Returns the value of the '<em><b>Dynamic Contexts</b></em>' containment reference list.
+	 * The list contents are of type {@link urn.dyncontext.DynamicContext}.
+	 * It is bidirectional and its opposite is '{@link urn.dyncontext.DynamicContext#getUrnspec <em>Urnspec</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Dynamic Contexts</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Dynamic Contexts</em>' containment reference list.
+	 * @see urn.UrnPackage#getURNspec_DynamicContexts()
+	 * @see urn.dyncontext.DynamicContext#getUrnspec
+	 * @model type="urn.dyncontext.DynamicContext" opposite="urnspec" containment="true"
+	 * @generated
+	 */
+	EList getDynamicContexts();
+
+				/**
+	 * Returns the value of the '<em><b>Dynamic Context Groups</b></em>' containment reference list.
+	 * The list contents are of type {@link urn.dyncontext.DynamicContextGroup}.
+	 * It is bidirectional and its opposite is '{@link urn.dyncontext.DynamicContextGroup#getUrnspec <em>Urnspec</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Dynamic Context Groups</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Dynamic Context Groups</em>' containment reference list.
+	 * @see urn.UrnPackage#getURNspec_DynamicContextGroups()
+	 * @see urn.dyncontext.DynamicContextGroup#getUrnspec
+	 * @model type="urn.dyncontext.DynamicContextGroup" opposite="urnspec" containment="true"
+	 * @generated
+	 */
+	EList getDynamicContextGroups();
+
+				/**
+	 * Returns the value of the '<em><b>Timepoint Groups</b></em>' containment reference list.
+	 * The list contents are of type {@link urn.dyncontext.TimepointGroup}.
+	 * It is bidirectional and its opposite is '{@link urn.dyncontext.TimepointGroup#getUrnspec <em>Urnspec</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Timepoint Groups</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Timepoint Groups</em>' containment reference list.
+	 * @see urn.UrnPackage#getURNspec_TimepointGroups()
+	 * @see urn.dyncontext.TimepointGroup#getUrnspec
+	 * @model type="urn.dyncontext.TimepointGroup" opposite="urnspec" containment="true"
+	 * @generated
+	 */
+	EList getTimepointGroups();
 
 } // URNspec

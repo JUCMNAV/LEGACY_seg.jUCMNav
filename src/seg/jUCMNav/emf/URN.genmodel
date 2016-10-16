@@ -4,7 +4,7 @@
     editorDirectory="/seg.jUCMNav.editor/src" modelPluginID="seg.jUCMNav" runtimeJar="true"
     modelName="URN" editPluginClass="grl.provider.URNEditPlugin" editorPluginClass="grl.presentation.URNEditorPlugin"
     importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Users\gm\gM\new\URN\Metamodel\URN_29.mdl</foreignModel>
+  <foreignModel>G:\Study_Materials\Thesis\New folder\URN_30.mdl</foreignModel>
   <genPackages prefix="Urn" disposableProviderFactory="true" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -21,6 +21,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/urnLinks"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/metadata"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/asdspec"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/dynamicContexts"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/dynamicContextGroups"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/timepointGroups"/>
     </genClasses>
     <genClasses ecoreClass="urn.ecore#//URNlink">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/type"/>
@@ -29,6 +32,68 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urn.ecore#//URNlink/toElem"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNlink/metadata"/>
     </genClasses>
+    <nestedGenPackages prefix="Dyncontext" disposableProviderFactory="true" ecorePackage="urn.ecore#//dyncontext">
+      <genClasses ecoreClass="urn.ecore#//dyncontext/QuadraticChange">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/QuadraticChange/quadraticCoefficient"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/QuadraticChange/linearCoefficient"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/QuadraticChange/constant"/>
+      </genClasses>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/TimepointGroup">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//dyncontext/TimepointGroup/timepoints"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//dyncontext/TimepointGroup/urnspec"/>
+      </genClasses>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/Timepoint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/Timepoint/timepoint"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//dyncontext/Timepoint/group"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="urn.ecore#//dyncontext/PropertyChange">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/PropertyChange/affectedProperty"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="urn.ecore#//dyncontext/NumericChange">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/NumericChange/sufficientOnceAchieved"/>
+      </genClasses>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/FormulaChange">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/FormulaChange/formula"/>
+      </genClasses>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/LinearChange">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/LinearChange/newValue"/>
+      </genClasses>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/EnumChange">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/EnumChange/newValue"/>
+      </genClasses>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/DynamicContext">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference urn.ecore#//dyncontext/DynamicContext/parentContexts"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference urn.ecore#//dyncontext/DynamicContext/includedContexts"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference urn.ecore#//dyncontext/DynamicContext/strategy"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference urn.ecore#//dyncontext/DynamicContext/contributionContext"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference urn.ecore#//dyncontext/DynamicContext/scenario"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//dyncontext/DynamicContext/urnspec"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference urn.ecore#//dyncontext/DynamicContext/groups"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//dyncontext/DynamicContext/changes"/>
+      </genClasses>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/DynamicContextGroup">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//dyncontext/DynamicContextGroup/urnspec"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference urn.ecore#//dyncontext/DynamicContextGroup/contexts"/>
+      </genClasses>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/DeactivationChange"/>
+      <genClasses ecoreClass="urn.ecore#//dyncontext/ConstantChange">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/ConstantChange/newValue"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="urn.ecore#//dyncontext/Change">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/Change/start"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//dyncontext/Change/end"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//dyncontext/Change/context"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference urn.ecore#//dyncontext/Change/element"/>
+      </genClasses>
+    </nestedGenPackages>
   </genPackages>
   <genPackages prefix="Urncore" disposableProviderFactory="true" ecorePackage="urncore.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="urncore.ecore#//ComponentKind">
@@ -259,6 +324,7 @@
     <genClasses ecoreClass="grl.ecore#//Actor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Actor/importance"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Actor/importanceQuantitative"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Actor/count"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//Actor/grlspec"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//Actor/includedActors"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//Actor/includingActor"/>

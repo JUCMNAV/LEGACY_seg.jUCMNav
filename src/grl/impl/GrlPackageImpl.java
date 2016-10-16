@@ -65,6 +65,8 @@ import ucm.performance.impl.PerformancePackageImpl;
 import ucm.scenario.ScenarioPackage;
 import ucm.scenario.impl.ScenarioPackageImpl;
 import urn.UrnPackage;
+import urn.dyncontext.DyncontextPackage;
+import urn.dyncontext.impl.DyncontextPackageImpl;
 import urn.impl.UrnPackageImpl;
 import urncore.UrncorePackage;
 import urncore.impl.UrncorePackageImpl;
@@ -375,6 +377,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		KpimodelPackageImpl theKpimodelPackage = (KpimodelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI) instanceof KpimodelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI) : KpimodelPackage.eINSTANCE);
 		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackage.eINSTANCE);
 		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackage.eINSTANCE);
+		DyncontextPackageImpl theDyncontextPackage = (DyncontextPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DyncontextPackage.eNS_URI) instanceof DyncontextPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DyncontextPackage.eNS_URI) : DyncontextPackage.eINSTANCE);
 		UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackage.eINSTANCE);
 		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
 		MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackage.eINSTANCE);
@@ -387,6 +390,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		theKpimodelPackage.createPackageContents();
 		theUrncorePackage.createPackageContents();
 		theUrnPackage.createPackageContents();
+		theDyncontextPackage.createPackageContents();
 		theUcmPackage.createPackageContents();
 		thePerformancePackage.createPackageContents();
 		theMapPackage.createPackageContents();
@@ -399,6 +403,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		theKpimodelPackage.initializePackageContents();
 		theUrncorePackage.initializePackageContents();
 		theUrnPackage.initializePackageContents();
+		theDyncontextPackage.initializePackageContents();
 		theUcmPackage.initializePackageContents();
 		thePerformancePackage.initializePackageContents();
 		theMapPackage.initializePackageContents();
@@ -695,11 +700,20 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
 				/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActor_Count() {
+		return (EAttribute)actorEClass.getEStructuralFeatures().get(2);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
     public EReference getActor_Grlspec() {
-		return (EReference)actorEClass.getEStructuralFeatures().get(2);
+		return (EReference)actorEClass.getEStructuralFeatures().get(3);
 	}
 
     /**
@@ -708,15 +722,6 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * @generated
 	 */
 	public EReference getActor_IncludedActors() {
-		return (EReference)actorEClass.getEStructuralFeatures().get(3);
-	}
-
-				/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getActor_IncludingActor() {
 		return (EReference)actorEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -725,8 +730,17 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getActor_CollapsedRefs() {
+	public EReference getActor_IncludingActor() {
 		return (EReference)actorEClass.getEStructuralFeatures().get(5);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getActor_CollapsedRefs() {
+		return (EReference)actorEClass.getEStructuralFeatures().get(6);
 	}
 
 				/**
@@ -1628,6 +1642,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		actorEClass = createEClass(ACTOR);
 		createEAttribute(actorEClass, ACTOR__IMPORTANCE);
 		createEAttribute(actorEClass, ACTOR__IMPORTANCE_QUANTITATIVE);
+		createEAttribute(actorEClass, ACTOR__COUNT);
 		createEReference(actorEClass, ACTOR__GRLSPEC);
 		createEReference(actorEClass, ACTOR__INCLUDED_ACTORS);
 		createEReference(actorEClass, ACTOR__INCLUDING_ACTOR);
@@ -1846,6 +1861,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 		initEClass(actorEClass, Actor.class, "Actor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getActor_Importance(), this.getImportanceType(), "importance", "None", 0, 1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getActor_ImportanceQuantitative(), ecorePackage.getEInt(), "importanceQuantitative", "0", 0, 1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActor_Count(), ecorePackage.getEInt(), "count", "1", 0, 1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_Grlspec(), this.getGRLspec(), this.getGRLspec_Actors(), "grlspec", null, 1, 1, Actor.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_IncludedActors(), this.getActor(), this.getActor_IncludingActor(), "includedActors", null, 0, -1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_IncludingActor(), this.getActor(), this.getActor_IncludedActors(), "includingActor", null, 0, 1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

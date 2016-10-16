@@ -36,6 +36,8 @@ import ucm.scenario.ScenarioPackage;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.UrnPackage;
+import urn.dyncontext.DyncontextPackage;
+import urn.dyncontext.impl.DyncontextPackageImpl;
 import urn.impl.UrnPackageImpl;
 import urncore.UrncorePackage;
 import urncore.impl.UrncorePackageImpl;
@@ -151,6 +153,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		KpimodelPackageImpl theKpimodelPackage = (KpimodelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI) instanceof KpimodelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(KpimodelPackage.eNS_URI) : KpimodelPackage.eINSTANCE);
 		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackage.eINSTANCE);
 		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackage.eINSTANCE);
+		DyncontextPackageImpl theDyncontextPackage = (DyncontextPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DyncontextPackage.eNS_URI) instanceof DyncontextPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DyncontextPackage.eNS_URI) : DyncontextPackage.eINSTANCE);
 		UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackage.eINSTANCE);
 		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
 		MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackage.eINSTANCE);
@@ -163,6 +166,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		theKpimodelPackage.createPackageContents();
 		theUrncorePackage.createPackageContents();
 		theUrnPackage.createPackageContents();
+		theDyncontextPackage.createPackageContents();
 		theUcmPackage.createPackageContents();
 		thePerformancePackage.createPackageContents();
 		theMapPackage.createPackageContents();
@@ -175,6 +179,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		theKpimodelPackage.initializePackageContents();
 		theUrncorePackage.initializePackageContents();
 		theUrnPackage.initializePackageContents();
+		theDyncontextPackage.initializePackageContents();
 		theUcmPackage.initializePackageContents();
 		thePerformancePackage.initializePackageContents();
 		theMapPackage.initializePackageContents();

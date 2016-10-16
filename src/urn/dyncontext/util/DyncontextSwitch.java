@@ -1,24 +1,16 @@
 /**
  */
-package fm.util;
+package urn.dyncontext.util;
 
 import ca.mcgill.sel.core.CORENamedElement;
-
-import fm.*;
-
-import grl.Contribution;
-import grl.ElementLink;
-import grl.GRLGraph;
-import grl.GRLLinkableElement;
-import grl.IntentionalElement;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import urncore.GRLmodelElement;
-import urncore.IURNDiagram;
+import urn.dyncontext.*;
+
 import urncore.URNmodelElement;
 
 /**
@@ -31,17 +23,17 @@ import urncore.URNmodelElement;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see fm.FmPackage
+ * @see urn.dyncontext.DyncontextPackage
  * @generated
  */
-public class FmSwitch {
+public class DyncontextSwitch {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static FmPackage modelPackage;
+	protected static DyncontextPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -49,9 +41,9 @@ public class FmSwitch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public FmSwitch() {
+	public DyncontextSwitch() {
 		if (modelPackage == null) {
-			modelPackage = FmPackage.eINSTANCE;
+			modelPackage = DyncontextPackage.eINSTANCE;
 		}
 	}
 
@@ -95,75 +87,103 @@ public class FmSwitch {
 	 */
 	protected Object doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case FmPackage.FEATURE_DIAGRAM: {
-				FeatureDiagram featureDiagram = (FeatureDiagram)theEObject;
-				Object result = caseFeatureDiagram(featureDiagram);
-				if (result == null) result = caseGRLGraph(featureDiagram);
-				if (result == null) result = caseGRLmodelElement(featureDiagram);
-				if (result == null) result = caseIURNDiagram(featureDiagram);
-				if (result == null) result = caseURNmodelElement(featureDiagram);
-				if (result == null) result = caseCORENamedElement(featureDiagram);
+			case DyncontextPackage.QUADRATIC_CHANGE: {
+				QuadraticChange quadraticChange = (QuadraticChange)theEObject;
+				Object result = caseQuadraticChange(quadraticChange);
+				if (result == null) result = caseNumericChange(quadraticChange);
+				if (result == null) result = casePropertyChange(quadraticChange);
+				if (result == null) result = caseChange(quadraticChange);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case FmPackage.FEATURE: {
-				Feature feature = (Feature)theEObject;
-				Object result = caseFeature(feature);
-				if (result == null) result = caseIntentionalElement(feature);
-				if (result == null) result = caseGRLLinkableElement(feature);
-				if (result == null) result = caseGRLmodelElement(feature);
-				if (result == null) result = caseURNmodelElement(feature);
-				if (result == null) result = caseCORENamedElement(feature);
+			case DyncontextPackage.TIMEPOINT_GROUP: {
+				TimepointGroup timepointGroup = (TimepointGroup)theEObject;
+				Object result = caseTimepointGroup(timepointGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case FmPackage.MANDATORY_FM_LINK: {
-				MandatoryFMLink mandatoryFMLink = (MandatoryFMLink)theEObject;
-				Object result = caseMandatoryFMLink(mandatoryFMLink);
-				if (result == null) result = caseContribution(mandatoryFMLink);
-				if (result == null) result = caseElementLink(mandatoryFMLink);
-				if (result == null) result = caseGRLmodelElement(mandatoryFMLink);
-				if (result == null) result = caseURNmodelElement(mandatoryFMLink);
-				if (result == null) result = caseCORENamedElement(mandatoryFMLink);
+			case DyncontextPackage.TIMEPOINT: {
+				Timepoint timepoint = (Timepoint)theEObject;
+				Object result = caseTimepoint(timepoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case FmPackage.OPTIONAL_FM_LINK: {
-				OptionalFMLink optionalFMLink = (OptionalFMLink)theEObject;
-				Object result = caseOptionalFMLink(optionalFMLink);
-				if (result == null) result = caseContribution(optionalFMLink);
-				if (result == null) result = caseElementLink(optionalFMLink);
-				if (result == null) result = caseGRLmodelElement(optionalFMLink);
-				if (result == null) result = caseURNmodelElement(optionalFMLink);
-				if (result == null) result = caseCORENamedElement(optionalFMLink);
+			case DyncontextPackage.PROPERTY_CHANGE: {
+				PropertyChange propertyChange = (PropertyChange)theEObject;
+				Object result = casePropertyChange(propertyChange);
+				if (result == null) result = caseChange(propertyChange);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case FmPackage.FEATURE_MODEL: {
-				FeatureModel featureModel = (FeatureModel)theEObject;
-				Object result = caseFeatureModel(featureModel);
+			case DyncontextPackage.NUMERIC_CHANGE: {
+				NumericChange numericChange = (NumericChange)theEObject;
+				Object result = caseNumericChange(numericChange);
+				if (result == null) result = casePropertyChange(numericChange);
+				if (result == null) result = caseChange(numericChange);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case FmPackage.FEATURE_IMPACT_ELEMENT: {
-				FeatureImpactElement featureImpactElement = (FeatureImpactElement)theEObject;
-				Object result = caseFeatureImpactElement(featureImpactElement);
-				if (result == null) result = caseIntentionalElement(featureImpactElement);
-				if (result == null) result = caseGRLLinkableElement(featureImpactElement);
-				if (result == null) result = caseGRLmodelElement(featureImpactElement);
-				if (result == null) result = caseURNmodelElement(featureImpactElement);
-				if (result == null) result = caseCORENamedElement(featureImpactElement);
+			case DyncontextPackage.FORMULA_CHANGE: {
+				FormulaChange formulaChange = (FormulaChange)theEObject;
+				Object result = caseFormulaChange(formulaChange);
+				if (result == null) result = caseNumericChange(formulaChange);
+				if (result == null) result = casePropertyChange(formulaChange);
+				if (result == null) result = caseChange(formulaChange);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case FmPackage.REUSE_LINK: {
-				ReuseLink reuseLink = (ReuseLink)theEObject;
-				Object result = caseReuseLink(reuseLink);
-				if (result == null) result = caseContribution(reuseLink);
-				if (result == null) result = caseElementLink(reuseLink);
-				if (result == null) result = caseGRLmodelElement(reuseLink);
-				if (result == null) result = caseURNmodelElement(reuseLink);
-				if (result == null) result = caseCORENamedElement(reuseLink);
+			case DyncontextPackage.LINEAR_CHANGE: {
+				LinearChange linearChange = (LinearChange)theEObject;
+				Object result = caseLinearChange(linearChange);
+				if (result == null) result = caseNumericChange(linearChange);
+				if (result == null) result = casePropertyChange(linearChange);
+				if (result == null) result = caseChange(linearChange);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DyncontextPackage.ENUM_CHANGE: {
+				EnumChange enumChange = (EnumChange)theEObject;
+				Object result = caseEnumChange(enumChange);
+				if (result == null) result = casePropertyChange(enumChange);
+				if (result == null) result = caseChange(enumChange);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DyncontextPackage.DYNAMIC_CONTEXT: {
+				DynamicContext dynamicContext = (DynamicContext)theEObject;
+				Object result = caseDynamicContext(dynamicContext);
+				if (result == null) result = caseURNmodelElement(dynamicContext);
+				if (result == null) result = caseCORENamedElement(dynamicContext);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DyncontextPackage.DYNAMIC_CONTEXT_GROUP: {
+				DynamicContextGroup dynamicContextGroup = (DynamicContextGroup)theEObject;
+				Object result = caseDynamicContextGroup(dynamicContextGroup);
+				if (result == null) result = caseURNmodelElement(dynamicContextGroup);
+				if (result == null) result = caseCORENamedElement(dynamicContextGroup);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DyncontextPackage.DEACTIVATION_CHANGE: {
+				DeactivationChange deactivationChange = (DeactivationChange)theEObject;
+				Object result = caseDeactivationChange(deactivationChange);
+				if (result == null) result = caseChange(deactivationChange);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DyncontextPackage.CONSTANT_CHANGE: {
+				ConstantChange constantChange = (ConstantChange)theEObject;
+				Object result = caseConstantChange(constantChange);
+				if (result == null) result = caseNumericChange(constantChange);
+				if (result == null) result = casePropertyChange(constantChange);
+				if (result == null) result = caseChange(constantChange);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DyncontextPackage.CHANGE: {
+				Change change = (Change)theEObject;
+				Object result = caseChange(change);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -172,107 +192,197 @@ public class FmSwitch {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Feature Diagram</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Quadratic Change</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Feature Diagram</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Quadratic Change</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseFeatureDiagram(FeatureDiagram object) {
+	public Object caseQuadraticChange(QuadraticChange object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Feature</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Timepoint Group</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Feature</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Timepoint Group</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseFeature(Feature object) {
+	public Object caseTimepointGroup(TimepointGroup object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Mandatory FM Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Timepoint</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Mandatory FM Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Timepoint</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseMandatoryFMLink(MandatoryFMLink object) {
+	public Object caseTimepoint(Timepoint object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Optional FM Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Property Change</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Optional FM Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Property Change</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseOptionalFMLink(OptionalFMLink object) {
+	public Object casePropertyChange(PropertyChange object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Feature Model</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Numeric Change</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Feature Model</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Numeric Change</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseFeatureModel(FeatureModel object) {
+	public Object caseNumericChange(NumericChange object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Feature Impact Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Formula Change</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Feature Impact Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Formula Change</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseFeatureImpactElement(FeatureImpactElement object) {
+	public Object caseFormulaChange(FormulaChange object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Reuse Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Linear Change</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Reuse Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Linear Change</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseReuseLink(ReuseLink object) {
+	public Object caseLinearChange(LinearChange object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Enum Change</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Enum Change</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseEnumChange(EnumChange object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Dynamic Context</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Dynamic Context</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseDynamicContext(DynamicContext object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Dynamic Context Group</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Dynamic Context Group</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseDynamicContextGroup(DynamicContextGroup object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Deactivation Change</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Deactivation Change</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseDeactivationChange(DeactivationChange object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Constant Change</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Constant Change</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseConstantChange(ConstantChange object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Change</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Change</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChange(Change object) {
 		return null;
 	}
 
@@ -307,111 +417,6 @@ public class FmSwitch {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>GR Lmodel Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>GR Lmodel Element</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseGRLmodelElement(GRLmodelElement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>IURN Diagram</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>IURN Diagram</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseIURNDiagram(IURNDiagram object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>GRL Graph</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>GRL Graph</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseGRLGraph(GRLGraph object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>GRL Linkable Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>GRL Linkable Element</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseGRLLinkableElement(GRLLinkableElement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intentional Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intentional Element</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseIntentionalElement(IntentionalElement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Element Link</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Element Link</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseElementLink(ElementLink object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Contribution</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Contribution</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseContribution(Contribution object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -426,4 +431,4 @@ public class FmSwitch {
 		return null;
 	}
 
-} //FmSwitch
+} //DyncontextSwitch

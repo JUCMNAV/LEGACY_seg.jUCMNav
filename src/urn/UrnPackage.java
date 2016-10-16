@@ -196,13 +196,40 @@ public interface UrnPackage extends EPackage {
 	int UR_NSPEC__ASDSPEC = 13;
 
 				/**
+	 * The feature id for the '<em><b>Dynamic Contexts</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UR_NSPEC__DYNAMIC_CONTEXTS = 14;
+
+				/**
+	 * The feature id for the '<em><b>Dynamic Context Groups</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UR_NSPEC__DYNAMIC_CONTEXT_GROUPS = 15;
+
+				/**
+	 * The feature id for the '<em><b>Timepoint Groups</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UR_NSPEC__TIMEPOINT_GROUPS = 16;
+
+				/**
 	 * The number of structural features of the '<em>UR Nspec</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int UR_NSPEC_FEATURE_COUNT = 14;
+    int UR_NSPEC_FEATURE_COUNT = 17;
 
     /**
 	 * The meta object id for the '{@link urn.impl.URNlinkImpl <em>UR Nlink</em>}' class.
@@ -434,6 +461,39 @@ public interface UrnPackage extends EPackage {
 	EReference getURNspec_Asdspec();
 
 				/**
+	 * Returns the meta object for the containment reference list '{@link urn.URNspec#getDynamicContexts <em>Dynamic Contexts</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Dynamic Contexts</em>'.
+	 * @see urn.URNspec#getDynamicContexts()
+	 * @see #getURNspec()
+	 * @generated
+	 */
+	EReference getURNspec_DynamicContexts();
+
+				/**
+	 * Returns the meta object for the containment reference list '{@link urn.URNspec#getDynamicContextGroups <em>Dynamic Context Groups</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Dynamic Context Groups</em>'.
+	 * @see urn.URNspec#getDynamicContextGroups()
+	 * @see #getURNspec()
+	 * @generated
+	 */
+	EReference getURNspec_DynamicContextGroups();
+
+				/**
+	 * Returns the meta object for the containment reference list '{@link urn.URNspec#getTimepointGroups <em>Timepoint Groups</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Timepoint Groups</em>'.
+	 * @see urn.URNspec#getTimepointGroups()
+	 * @see #getURNspec()
+	 * @generated
+	 */
+	EReference getURNspec_TimepointGroups();
+
+				/**
 	 * Returns the meta object for class '{@link urn.URNlink <em>UR Nlink</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -641,6 +701,30 @@ public interface UrnPackage extends EPackage {
 		 * @generated
 		 */
 		EReference UR_NSPEC__ASDSPEC = eINSTANCE.getURNspec_Asdspec();
+
+								/**
+		 * The meta object literal for the '<em><b>Dynamic Contexts</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UR_NSPEC__DYNAMIC_CONTEXTS = eINSTANCE.getURNspec_DynamicContexts();
+
+								/**
+		 * The meta object literal for the '<em><b>Dynamic Context Groups</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UR_NSPEC__DYNAMIC_CONTEXT_GROUPS = eINSTANCE.getURNspec_DynamicContextGroups();
+
+								/**
+		 * The meta object literal for the '<em><b>Timepoint Groups</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UR_NSPEC__TIMEPOINT_GROUPS = eINSTANCE.getURNspec_TimepointGroups();
 
 								/**
 		 * The meta object literal for the '{@link urn.impl.URNlinkImpl <em>UR Nlink</em>}' class.

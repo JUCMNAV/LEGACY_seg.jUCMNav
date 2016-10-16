@@ -941,13 +941,22 @@ public interface GrlPackage extends EPackage {
 	int ACTOR__IMPORTANCE_QUANTITATIVE = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 5;
 
 				/**
+	 * The feature id for the '<em><b>Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__COUNT = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 6;
+
+				/**
 	 * The feature id for the '<em><b>Grlspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int ACTOR__GRLSPEC = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 6;
+    int ACTOR__GRLSPEC = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 7;
 
     /**
 	 * The feature id for the '<em><b>Included Actors</b></em>' reference list.
@@ -956,7 +965,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR__INCLUDED_ACTORS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 7;
+	int ACTOR__INCLUDED_ACTORS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 8;
 
 				/**
 	 * The feature id for the '<em><b>Including Actor</b></em>' reference.
@@ -965,7 +974,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR__INCLUDING_ACTOR = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 8;
+	int ACTOR__INCLUDING_ACTOR = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 9;
 
 				/**
 	 * The feature id for the '<em><b>Collapsed Refs</b></em>' reference list.
@@ -974,7 +983,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR__COLLAPSED_REFS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 9;
+	int ACTOR__COLLAPSED_REFS = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 10;
 
 				/**
 	 * The number of structural features of the '<em>Actor</em>' class.
@@ -983,7 +992,7 @@ public interface GrlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int ACTOR_FEATURE_COUNT = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 10;
+    int ACTOR_FEATURE_COUNT = GRL_LINKABLE_ELEMENT_FEATURE_COUNT + 11;
 
     /**
 	 * The meta object id for the '{@link grl.impl.GRLGraphImpl <em>GRL Graph</em>}' class.
@@ -3705,6 +3714,17 @@ public interface GrlPackage extends EPackage {
 	EAttribute getActor_ImportanceQuantitative();
 
 				/**
+	 * Returns the meta object for the attribute '{@link grl.Actor#getCount <em>Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Count</em>'.
+	 * @see grl.Actor#getCount()
+	 * @see #getActor()
+	 * @generated
+	 */
+	EAttribute getActor_Count();
+
+				/**
 	 * Returns the meta object for the container reference '{@link grl.Actor#getGrlspec <em>Grlspec</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5017,6 +5037,14 @@ public interface GrlPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ACTOR__IMPORTANCE_QUANTITATIVE = eINSTANCE.getActor_ImportanceQuantitative();
+
+								/**
+		 * The meta object literal for the '<em><b>Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTOR__COUNT = eINSTANCE.getActor_Count();
 
 								/**
 		 * The meta object literal for the '<em><b>Grlspec</b></em>' container reference feature.

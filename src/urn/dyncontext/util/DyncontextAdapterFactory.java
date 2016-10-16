@@ -1,16 +1,8 @@
 /**
  */
-package fm.util;
+package urn.dyncontext.util;
 
 import ca.mcgill.sel.core.CORENamedElement;
-
-import fm.*;
-
-import grl.Contribution;
-import grl.ElementLink;
-import grl.GRLGraph;
-import grl.GRLLinkableElement;
-import grl.IntentionalElement;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -19,8 +11,8 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import urncore.GRLmodelElement;
-import urncore.IURNDiagram;
+import urn.dyncontext.*;
+
 import urncore.URNmodelElement;
 
 /**
@@ -28,17 +20,17 @@ import urncore.URNmodelElement;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see fm.FmPackage
+ * @see urn.dyncontext.DyncontextPackage
  * @generated
  */
-public class FmAdapterFactory extends AdapterFactoryImpl {
+public class DyncontextAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static FmPackage modelPackage;
+	protected static DyncontextPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -46,9 +38,9 @@ public class FmAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public FmAdapterFactory() {
+	public DyncontextAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = FmPackage.eINSTANCE;
+			modelPackage = DyncontextPackage.eINSTANCE;
 		}
 	}
 
@@ -76,55 +68,52 @@ public class FmAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected FmSwitch modelSwitch =
-		new FmSwitch() {
-			public Object caseFeatureDiagram(FeatureDiagram object) {
-				return createFeatureDiagramAdapter();
+	protected DyncontextSwitch modelSwitch =
+		new DyncontextSwitch() {
+			public Object caseQuadraticChange(QuadraticChange object) {
+				return createQuadraticChangeAdapter();
 			}
-			public Object caseFeature(Feature object) {
-				return createFeatureAdapter();
+			public Object caseTimepointGroup(TimepointGroup object) {
+				return createTimepointGroupAdapter();
 			}
-			public Object caseMandatoryFMLink(MandatoryFMLink object) {
-				return createMandatoryFMLinkAdapter();
+			public Object caseTimepoint(Timepoint object) {
+				return createTimepointAdapter();
 			}
-			public Object caseOptionalFMLink(OptionalFMLink object) {
-				return createOptionalFMLinkAdapter();
+			public Object casePropertyChange(PropertyChange object) {
+				return createPropertyChangeAdapter();
 			}
-			public Object caseFeatureModel(FeatureModel object) {
-				return createFeatureModelAdapter();
+			public Object caseNumericChange(NumericChange object) {
+				return createNumericChangeAdapter();
 			}
-			public Object caseFeatureImpactElement(FeatureImpactElement object) {
-				return createFeatureImpactElementAdapter();
+			public Object caseFormulaChange(FormulaChange object) {
+				return createFormulaChangeAdapter();
 			}
-			public Object caseReuseLink(ReuseLink object) {
-				return createReuseLinkAdapter();
+			public Object caseLinearChange(LinearChange object) {
+				return createLinearChangeAdapter();
+			}
+			public Object caseEnumChange(EnumChange object) {
+				return createEnumChangeAdapter();
+			}
+			public Object caseDynamicContext(DynamicContext object) {
+				return createDynamicContextAdapter();
+			}
+			public Object caseDynamicContextGroup(DynamicContextGroup object) {
+				return createDynamicContextGroupAdapter();
+			}
+			public Object caseDeactivationChange(DeactivationChange object) {
+				return createDeactivationChangeAdapter();
+			}
+			public Object caseConstantChange(ConstantChange object) {
+				return createConstantChangeAdapter();
+			}
+			public Object caseChange(Change object) {
+				return createChangeAdapter();
 			}
 			public Object caseCORENamedElement(CORENamedElement object) {
 				return createCORENamedElementAdapter();
 			}
 			public Object caseURNmodelElement(URNmodelElement object) {
 				return createURNmodelElementAdapter();
-			}
-			public Object caseGRLmodelElement(GRLmodelElement object) {
-				return createGRLmodelElementAdapter();
-			}
-			public Object caseIURNDiagram(IURNDiagram object) {
-				return createIURNDiagramAdapter();
-			}
-			public Object caseGRLGraph(GRLGraph object) {
-				return createGRLGraphAdapter();
-			}
-			public Object caseGRLLinkableElement(GRLLinkableElement object) {
-				return createGRLLinkableElementAdapter();
-			}
-			public Object caseIntentionalElement(IntentionalElement object) {
-				return createIntentionalElementAdapter();
-			}
-			public Object caseElementLink(ElementLink object) {
-				return createElementLinkAdapter();
-			}
-			public Object caseContribution(Contribution object) {
-				return createContributionAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
@@ -145,100 +134,184 @@ public class FmAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fm.FeatureDiagram <em>Feature Diagram</em>}'.
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.QuadraticChange <em>Quadratic Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fm.FeatureDiagram
+	 * @see urn.dyncontext.QuadraticChange
 	 * @generated
 	 */
-	public Adapter createFeatureDiagramAdapter() {
+	public Adapter createQuadraticChangeAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fm.Feature <em>Feature</em>}'.
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.TimepointGroup <em>Timepoint Group</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fm.Feature
+	 * @see urn.dyncontext.TimepointGroup
 	 * @generated
 	 */
-	public Adapter createFeatureAdapter() {
+	public Adapter createTimepointGroupAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fm.MandatoryFMLink <em>Mandatory FM Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.Timepoint <em>Timepoint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fm.MandatoryFMLink
+	 * @see urn.dyncontext.Timepoint
 	 * @generated
 	 */
-	public Adapter createMandatoryFMLinkAdapter() {
+	public Adapter createTimepointAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fm.OptionalFMLink <em>Optional FM Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.PropertyChange <em>Property Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fm.OptionalFMLink
+	 * @see urn.dyncontext.PropertyChange
 	 * @generated
 	 */
-	public Adapter createOptionalFMLinkAdapter() {
+	public Adapter createPropertyChangeAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fm.FeatureModel <em>Feature Model</em>}'.
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.NumericChange <em>Numeric Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fm.FeatureModel
+	 * @see urn.dyncontext.NumericChange
 	 * @generated
 	 */
-	public Adapter createFeatureModelAdapter() {
+	public Adapter createNumericChangeAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fm.FeatureImpactElement <em>Feature Impact Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.FormulaChange <em>Formula Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fm.FeatureImpactElement
+	 * @see urn.dyncontext.FormulaChange
 	 * @generated
 	 */
-	public Adapter createFeatureImpactElementAdapter() {
+	public Adapter createFormulaChangeAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fm.ReuseLink <em>Reuse Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.LinearChange <em>Linear Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fm.ReuseLink
+	 * @see urn.dyncontext.LinearChange
 	 * @generated
 	 */
-	public Adapter createReuseLinkAdapter() {
+	public Adapter createLinearChangeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.EnumChange <em>Enum Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.EnumChange
+	 * @generated
+	 */
+	public Adapter createEnumChangeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.DynamicContext <em>Dynamic Context</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.DynamicContext
+	 * @generated
+	 */
+	public Adapter createDynamicContextAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.DynamicContextGroup <em>Dynamic Context Group</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.DynamicContextGroup
+	 * @generated
+	 */
+	public Adapter createDynamicContextGroupAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.DeactivationChange <em>Deactivation Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.DeactivationChange
+	 * @generated
+	 */
+	public Adapter createDeactivationChangeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.ConstantChange <em>Constant Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.ConstantChange
+	 * @generated
+	 */
+	public Adapter createConstantChangeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urn.dyncontext.Change <em>Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urn.dyncontext.Change
+	 * @generated
+	 */
+	public Adapter createChangeAdapter() {
 		return null;
 	}
 
@@ -271,104 +344,6 @@ public class FmAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link urncore.GRLmodelElement <em>GR Lmodel Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.GRLmodelElement
-	 * @generated
-	 */
-	public Adapter createGRLmodelElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.IURNDiagram <em>IURN Diagram</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.IURNDiagram
-	 * @generated
-	 */
-	public Adapter createIURNDiagramAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link grl.GRLGraph <em>GRL Graph</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see grl.GRLGraph
-	 * @generated
-	 */
-	public Adapter createGRLGraphAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link grl.GRLLinkableElement <em>GRL Linkable Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see grl.GRLLinkableElement
-	 * @generated
-	 */
-	public Adapter createGRLLinkableElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link grl.IntentionalElement <em>Intentional Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see grl.IntentionalElement
-	 * @generated
-	 */
-	public Adapter createIntentionalElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link grl.ElementLink <em>Element Link</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see grl.ElementLink
-	 * @generated
-	 */
-	public Adapter createElementLinkAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link grl.Contribution <em>Contribution</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see grl.Contribution
-	 * @generated
-	 */
-	public Adapter createContributionAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for the default case.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null.
@@ -380,4 +355,4 @@ public class FmAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //FmAdapterFactory
+} //DyncontextAdapterFactory
