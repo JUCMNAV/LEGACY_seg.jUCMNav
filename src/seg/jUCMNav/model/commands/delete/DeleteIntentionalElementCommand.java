@@ -16,11 +16,15 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextUrnModelElementTreeEditPart;
+import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
 import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveIntentionalElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
 import seg.jUCMNav.views.preferences.DeletePreferences;
 import urn.URNlink;
+import urn.dyncontext.Change;
+import urn.dyncontext.DynamicContext;
 
 /**
  * Delete an IntentionalElement (including all the ElementLink associate to it)
@@ -103,6 +107,22 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
             }
         }
     }
+    
+    /**
+     * Deletes all the changes associated to the element 
+     */
+    private void deleteChanges() {
+    	
+    	for (Iterator it = element.getGrlspec().getUrnspec().getDynamicContexts().iterator(); it.hasNext();) {
+            DynamicContext dyn = (DynamicContext) it.next();
+            
+            //Delete Element Changes
+            for (Iterator itEval = DynamicContextsUtils.getAllAvailableChanges(element, dyn, element.getGrlspec().getUrnspec()).iterator(); itEval.hasNext();) {
+                Change change = (Change) itEval.next();
+                add(new DeleteChangeCommand(change));
+            }
+        }
+    }
 
     /**
      * Late building
@@ -120,6 +140,10 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
 
         // Verify if the definition can be delete.
         if (element.getRefs().size() == 0 || DeletePreferences.getDeleteReference(element)) {
+        	
+        	//Delete all the changes added to the Intentional Element
+            deleteChanges();
+            
             // Delete all the URNlink
             for (Iterator it = element.getFromLinks().iterator(); it.hasNext();) {
                 URNlink link = (URNlink) it.next();
@@ -129,6 +153,7 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
                 URNlink link = (URNlink) it.next();
                 add(new DeleteURNlinkCommand(link));
             }
+            
             deleteEvaluations();
 
             // Delete all the ElementLink associate with the IntentionalElement

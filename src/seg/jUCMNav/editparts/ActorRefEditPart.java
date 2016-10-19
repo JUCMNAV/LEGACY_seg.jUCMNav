@@ -5,6 +5,7 @@ package seg.jUCMNav.editparts;
 
 import grl.Actor;
 import grl.ActorRef;
+import grl.ElementLink;
 import grl.QualitativeLabel;
 
 import org.eclipse.draw2d.FreeformLayeredPane;
@@ -36,11 +37,12 @@ import seg.jUCMNav.strategies.QuantitativeGRLStrategyAlgorithm;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 import urn.URNspec;
+import urncore.Metadata;
 
 /**
  * Edit part for the Actor Ref, who listen for changes in both ref and def
  * 
- * @author Jean-Fran�ois Roy, sghanava
+ * @author Jean-François Roy, sghanava
  * 
  */
 public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
@@ -192,9 +194,25 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 // Set the tool tip
                 UrnMetadata.setToolTip(actor, figure);
                 if (getParent() != null && !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
-                    ((ActorFigure) figure).setColors(actor.getLineColor(), actor.getFillColor(), actor.isFilled());
+                	((ActorFigure) figure).setColors(actor.getLineColor(), actor.getFillColor(), actor.isFilled());
                 } else {
-                    ((ActorFigure) figure).setColors("25,25,25", actor.getFillColor(), actor.isFilled()); //$NON-NLS-1$
+                	
+                	//For TimedGRL
+        			Boolean ignored = false;
+        			Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+        			if (metaDeactStatus != null) {
+        				String deactStatus = MetadataHelper.getMetaData(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+        				if (deactStatus.equalsIgnoreCase("true"))
+        					ignored = true;
+        			}
+        			if (ignored) {
+        				((ActorFigure) figure).setColors("169,169,169", actor.getFillColor(), actor.isFilled());
+        				evaluationLabel.setForegroundColor(ColorManager.GRAY);
+        			}
+        			else {
+        				((ActorFigure) figure).setColors("25,25,25", actor.getFillColor(), actor.isFilled()); //$NON-NLS-1$
+        				evaluationLabel.setForegroundColor(ColorManager.BLACK);
+        			}
                 }
 
             }

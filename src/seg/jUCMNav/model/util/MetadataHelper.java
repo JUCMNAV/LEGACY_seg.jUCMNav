@@ -340,8 +340,9 @@ public class MetadataHelper {
 
             for (Iterator iter4 = model.getGrlspec().getLinks().iterator(); iter4.hasNext();) {
                 ElementLink link = (ElementLink) iter4.next();
-                if (link instanceof Contribution)
+                if (link instanceof Contribution) {
                 	MetadataHelper.removeMetaData(link, Messages.getString("ConditionalGRLStrategyAlgorithm_RuntimeContribution")); //$NON-NLS-1$
+                }
             }
 
         }
@@ -359,6 +360,41 @@ public class MetadataHelper {
     }
     
     /**
+     * Removes the run-time TimedGRL metadata elements created during GRL evaluation and/or UCM execution
+     * 
+     * @param model
+     *            the URNspec instance
+     */
+    public static synchronized void cleanTimedGRLMetadata(URNspec model) {
+        if (model != null) {
+        	
+        	// Remove run-time TimedGRL related metadata attached to actors
+            for (Iterator iter = model.getGrlspec().getActors().iterator(); iter.hasNext();) {
+                Actor actor = (Actor) iter.next();
+                MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_ORIGIMP);
+                MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_ORIGEVAL);
+                MetadataHelper.removeMetaData(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+            }
+            
+        	// Remove run-time TimedGRL related metadata attached to intentional elements
+            for (Iterator iter2 = model.getGrlspec().getIntElements().iterator(); iter2.hasNext();) {
+                IntentionalElement ie = (IntentionalElement) iter2.next();
+                MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_ORIGIMP);
+                MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_ORIGEVAL);
+                MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+                MetadataHelper.removeMetaData(ie, EvaluationStrategyManager.METADATA_ORIGDECOMPTYPE);
+            }
+            // Remove run-time TimedGRL metadata attached to contribution links
+        	 for (Iterator iter = model.getGrlspec().getLinks().iterator(); iter.hasNext();) {
+                 ElementLink link = (ElementLink) iter.next();
+                 MetadataHelper.removeMetaData(link, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+                 if (link instanceof Contribution)
+                	 MetadataHelper.removeMetaData(link, EvaluationStrategyManager.METADATA_ORIGCONTRIB); //$NON-NLS-1$
+             }
+        }
+    }
+    
+    /**
      * Indicates whether the named metadata was inserted at run-time (e.g. for GRL evaluation)
      * 
      * @param name
@@ -369,6 +405,8 @@ public class MetadataHelper {
         return name!=null && (name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_NUMEVAL) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_RANGEVALUES)
                 || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_QUALEVAL) || name.equalsIgnoreCase(PathNodeEditPart.METADATA_HITS) || name.equalsIgnoreCase(BatchEvaluationUtil.METADATA_TREND)
                         || name.equalsIgnoreCase(WIDTH) || name.equalsIgnoreCase(HEIGHT) || name.equalsIgnoreCase(QuantitativeGRLStrategyAlgorithm.METADATA_AGGREVAL) 
-                				|| name.equalsIgnoreCase(QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR) );
+                				|| name.equalsIgnoreCase(QuantitativeGRLStrategyAlgorithm.METADATA_ADDAGGR) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGIMP) 
+                					|| name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGEVAL) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGCONTRIB)
+                					|| name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_DEACTSTATUS) || name.equalsIgnoreCase(EvaluationStrategyManager.METADATA_ORIGDECOMPTYPE));
     }
 }

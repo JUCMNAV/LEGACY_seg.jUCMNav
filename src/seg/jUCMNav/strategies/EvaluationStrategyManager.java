@@ -1,47 +1,121 @@
+/*****************************************************************************************
+ * MXPARSER LICENSE
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved. 
+ * You may use this software under the condition of Simplified BSD License. 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 1) Redistributions of source code must retain the above copyright notice, 
+ *    this list of conditions and the following disclaimer.
+ * 2) Redistributions in binary form must reproduce the above copyright notice, 
+ *    this list of conditions and the following disclaimer in the documentation 
+ *    and/or other materials provided with the distribution.
+ *    
+ * THIS SOFTWARE IS PROVIDED BY MARIUSZ GROMADA ``AS IS'' AND ANY EXPRESS OR IMPLIED 
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY 
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL MARIUSZ GROMADA 
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, 
+ * OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * The views and conclusions contained in the software and documentation are those of the 
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of MARIUSZ GROMADA.
+ *******************************************************************************************/
 package seg.jUCMNav.strategies;
 
 import grl.Actor;
+import grl.ActorRef;
 import grl.Contribution;
 import grl.ContributionChange;
 import grl.ContributionContext;
 import grl.ContributionContextGroup;
 import grl.ContributionRange;
 import grl.ContributionType;
+import grl.DecompositionType;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationRange;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
+import grl.GrlPackage;
+import grl.ImpactModel;
 import grl.ImportanceType;
 import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 import grl.QualitativeLabel;
 import grl.StrategiesGroup;
+import grl.impl.GRLspecImpl;
+import grl.impl.GrlFactoryImpl;
 import grl.kpimodel.KPIConversion;
 import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
 import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPINewEvalValue;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
+import javax.management.loading.PrivateClassLoader;
+import javax.swing.plaf.multi.MultiViewportUI;
+
+import java.util.Date;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
+import org.mariuszgromada.math.mxparser.Argument;
+import org.mariuszgromada.math.mxparser.Expression;
 
+import fm.FeatureModel;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
+import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
+import seg.jUCMNav.editparts.ActorRefEditPart;
+import seg.jUCMNav.editparts.IntentionalElementEditPart;
+import seg.jUCMNav.editparts.LinkRefEditPart;
 import seg.jUCMNav.editparts.URNRootEditPart;
+import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
 import seg.jUCMNav.editparts.kpiTreeEditparts.KPIRootEditPart;
 import seg.jUCMNav.editparts.kpiViewEditparts.AbstractKPIViewEditPart;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
@@ -51,11 +125,28 @@ import seg.jUCMNav.model.commands.create.AddKPIInformationConfigCommand;
 import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
+import seg.jUCMNav.views.UCMPerspectiveFactory;
+import seg.jUCMNav.views.dynamicContexts.DynamicContextsView;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import seg.jUCMNav.views.strategies.StrategiesView;
+import seg.jUCMNav.views.wizards.dynamicContexts.ManageChangeEditorPage;
+import ucmscenarios.impl.InstanceImpl;
 import urn.URNspec;
+import urn.dyncontext.Change;
+import urn.dyncontext.ConstantChange;
+import urn.dyncontext.DeactivationChange;
+import urn.dyncontext.DynamicContext;
+import urn.dyncontext.EnumChange;
+import urn.dyncontext.FormulaChange;
+import urn.dyncontext.LinearChange;
+import urn.dyncontext.NumericChange;
+import urn.dyncontext.PropertyChange;
+import urn.dyncontext.QuadraticChange;
+import urn.dyncontext.Timepoint;
+import urn.dyncontext.TimepointGroup;
 import urncore.Metadata;
+import urncore.URNmodelElement;
 
 /**
  * This class is a singleton responsible to manage the current strategy. It does the evaluation calculation for IntentionalElement, create the Evaluation and
@@ -79,6 +170,31 @@ public class EvaluationStrategyManager {
      * Metadata name used to store the run-time evaluations when a range is executed.
      */
     public static final String METADATA_RANGEVALUES = "_rangeNumEvals"; //$NON-NLS-1$
+    
+    /**
+     * Metadata name used to store original quantitative importance of an intentional element
+     */
+    public static final String METADATA_ORIGIMP = "_origImp"; //$NON-NLS-1$
+    
+    /**
+     * Metadata name used to store original quantitative evaluation of an intentional element
+     */
+    public static final String METADATA_ORIGEVAL = "_origEval"; //$NON-NLS-1$
+    
+    /**
+     * Metadata name used to store original quantitative contribution of an intentional element
+     */
+    public static final String METADATA_ORIGCONTRIB = "_origContrib"; //$NON-NLS-1$
+    
+    /**
+     * Metadata name used to store original Decomposition Type of an intentional element
+     */
+    public static final String METADATA_ORIGDECOMPTYPE = "_origDecompType"; //$NON-NLS-1$
+    
+    /**
+     * Metadata name used to store deactivation status of an element
+     */
+    public static final String METADATA_DEACTSTATUS = "_deactStatus"; //$NON-NLS-1$
 
     private static HashMap<UCMNavMultiPageEditor, EvaluationStrategyManager> strategyManagerInstances = null;
     // just in case we're actually accessing it via some non UI thread during export and/or before the app loads.
@@ -98,9 +214,12 @@ public class EvaluationStrategyManager {
     private HashMap<Actor, Integer> comparisonActorEvaluations = null; // HashMap to store Actor evaluations for the first strategy in difference mode
     private EvaluationStrategy strategy, strategy1 = null, strategy2 = null; // strategy1, strategy2 used in difference mode
     private ContributionContext contributionContext = null;
+    private DynamicContext dynContext = null;
+    private Timepoint tp = null;
     private IGRLStrategyAlgorithm algo;
     private HashMap kpiInformationConfigs = new HashMap();
-
+    private EvaluationStrategy oldStrategy = null;
+    
     public static synchronized EvaluationStrategyManager getInstance(UCMNavMultiPageEditor multieditor, boolean canRefresh) {
 
         if (strategyManagerInstances == null) {
@@ -326,6 +445,16 @@ public class EvaluationStrategyManager {
 	private void evaluateModel() {
 		while (algo.hasNextNode()) {
             IntentionalElement element = algo.nextNode();
+            
+            if (algo instanceof TimedGRLStrategyAlgorithm) {
+	            //Check if the element is deactivated
+	            Boolean deactivated = false;
+	            deactivated = isIgnored(element);
+	    		
+	    		//If the element is deactivated, skip it
+	    		if (deactivated)
+	    			continue;
+            }
             Evaluation eval = (Evaluation) evaluations.get(element);
             int val = algo.getEvaluation(element);
             eval.setEvaluation(val);
@@ -371,15 +500,28 @@ public class EvaluationStrategyManager {
     }
 
     public synchronized int getActorEvaluation(Actor actor) {
-        int actorEval = algo.getActorEvaluation(actor);
+    	Boolean ignored = false;
+    	int actorEval = 0;
+    	if (algo instanceof TimedGRLStrategyAlgorithm) {
+			Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			if (metaDeactStatus != null) {
+				String deactStatus = MetadataHelper.getMetaData(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+				if (deactStatus.equalsIgnoreCase("true"))
+					ignored = true;
+			}
+    	}
+		if (ignored) 
+			actorEval = 0;
+		else
+			actorEval = algo.getActorEvaluation(actor);
         setEvaluationMetadata(actor, actorEval);
         currentActorEvaluations.put(actor, new Integer(actorEval));
         return actorEval;
     }
 
     public synchronized int getDisplayActorEvaluation(Actor actor) {
-
-        int currentEval = getActorEvaluation(actor);
+    	
+    	int currentEval = getActorEvaluation(actor);
 
         if (differenceMode && strategy1 != null && strategy2 != null && strategy == strategy2 && strategy2 != strategy1 && comparisonActorEvaluations != null
                 && comparisonActorEvaluations.containsKey(actor)) {
@@ -454,6 +596,9 @@ public class EvaluationStrategyManager {
         }
         else if ((StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
             algo = new FeatureModelStrategyAlgorithm();
+        //New Algorithm added for Timed GRL
+        else if ((StrategyEvaluationPreferences.TIMED_GRL_ALGORITHM + "").equals(algoChoice)) //$NON-NLS-1$
+            algo = new TimedGRLStrategyAlgorithm();
         else
             algo = new QuantitativeGRLStrategyAlgorithm(); // New default, just in case...
 
@@ -537,8 +682,30 @@ public class EvaluationStrategyManager {
                         return true;
                 } else if (md.getName().equals(Messages.getString("ConditionalGRLStrategyAlgorithm_IgnoreNode"))) { //$NON-NLS-1$
                     return true;
+                } else if (md.getName().equalsIgnoreCase("_DEACTSTATUS") && md.getValue().equalsIgnoreCase("true")) {
+                	return true;
                 }
             }
+        }
+        Iterator iter = elem.getRefs().iterator();
+        while (iter.hasNext()) {
+            
+        	// Parse through the node bound to this Intentional Element
+            IntentionalElementRef ref = (IntentionalElementRef) iter.next();
+            
+            //If the actor in which the intentional element is contained is deactivated, then deactivate the element as well
+	        if (ref.getContRef() != null && ref.getContRef() instanceof ActorRef) {
+	        	Actor actor = (Actor) ((ActorRef) ref.getContRef()).getContDef();
+	        	if (actor.getMetadata().size() > 0) {
+		        	for (Iterator iter1 = actor.getMetadata().iterator(); iter1.hasNext();) {
+		                Metadata md = (Metadata) iter1.next();
+		                if (md.getName().equalsIgnoreCase("_DEACTSTATUS") && md.getValue().equalsIgnoreCase("true")) {
+		                	return true;
+		                }
+		            }
+		        }
+	        }
+	        		
         }
         return false;
 
@@ -614,21 +781,29 @@ public class EvaluationStrategyManager {
         return v;
     }
 
-    public synchronized void setStrategy(EvaluationStrategy strategy) {
-        this.strategy = strategy;
+    public synchronized void setStrategy(EvaluationStrategy strategy3) {
+        this.strategy = strategy3;
 
         // Create a new hash map for the evaluation of this strategy
         evaluations = new HashMap();
 
         // Create a new hash map for the KPIInformationConfig this strategy
         kpiInformationConfigs = new HashMap();
-
+        
+        URNspec urn = multieditor.getModel();
+        
+        //Restore any value changed due to TimedGRL Evaluation and clean the related metadata
+        restoreOriginalValue(urn.getGrlspec());
+        MetadataHelper.cleanTimedGRLMetadata(urn);
+        
         if (strategy != null) {
+        	
+        	oldStrategy = strategy; 
+        	
             // Go through all the intentionalElement and create a new Evaluation object if no one exist for this strategy
             GRLspec grl = strategy.getGrlspec();
             
             MetadataHelper.cleanRunTimeMetadata(grl.getUrnspec());
-            
             HashMap recursiveEvaluations = new HashMap();
             getRecursiveEvaluations(strategy, recursiveEvaluations);
 
@@ -675,6 +850,13 @@ public class EvaluationStrategyManager {
                     calculateIndicatorEvalLevel(ev);
 
             }
+            
+            //Preprocessing for Timed GRL
+            if ((StrategyEvaluationPreferences.TIMED_GRL_ALGORITHM + "").equals(StrategyEvaluationPreferences.getAlgorithm()) 
+            		&& dynContext != null && tp != null) {
+            	grl = preProcessTimedGRL(grl, dynContext, tp);
+            }
+            
             calculateEvaluation();
           //  if(FeatureModelStrategyAlgorithm.getWarnings().size()>0){
             	FeatureModelStrategyAlgorithm.refreshProblemsView();
@@ -698,6 +880,24 @@ public class EvaluationStrategyManager {
     public synchronized void setContributionContext(ContributionContext context) {
         this.contributionContext = context;
         setStrategy(strategy);
+    }
+    
+    //new
+    public synchronized DynamicContext getDynamicContext() {
+        return dynContext;
+    }
+    
+    public synchronized void setDynamicContext(DynamicContext context) {
+        this.dynContext = context;
+        setStrategy(strategy);
+    }
+    
+    public synchronized Timepoint getTimepoint() {
+        return tp;
+    }
+    
+    public synchronized void setTimepoint(Timepoint tp) {
+        this.tp = tp;
     }
 
     /**
@@ -1889,4 +2089,452 @@ public class EvaluationStrategyManager {
     {
         return (HashMap) evaluations.clone();
     }
+    
+    /*
+     * Preprocesses and updates the GRL model according to the selected Dynamic Context and Timepoint
+     */
+    public GRLspec preProcessTimedGRL(GRLspec grl, DynamicContext dynContext, Timepoint tp) {
+    	GRLspec updatedGRLmodel = grl;
+    	List<Change> changes = null;
+    	List<String> affected = new ArrayList<String>();
+    	changes = collectChanges(dynContext, tp, affected);
+    	
+    	List<Change> actorChanges = new ArrayList<Change>();
+    	List<Change> intEltsChanges = new ArrayList<Change>();
+    	List<Change> linkChanges = new ArrayList<Change>();
+    	if (changes.size() != 0) {
+	    	for (Iterator j = changes.iterator(); j.hasNext();){ 
+	    		Change change = (Change) j.next();
+	    		if (change.getElement() instanceof ActorRef)
+	    			actorChanges.add(change);
+	    		else if (change.getElement() instanceof IntentionalElement)
+	    			intEltsChanges.add(change);
+	    		else
+	    			linkChanges.add(change);
+	    	}
+	    	
+	    	if (actorChanges.size() != 0) {
+		    	//First apply changes to Actors 
+		    	for (Iterator j = actorChanges.iterator(); j.hasNext();){ 
+		        	Change change = (Change) j.next();
+		    		updatedGRLmodel = applyChange(updatedGRLmodel, change, tp);
+		    	}
+	    	}
+	    	//Apply changes to Intentional Elements 
+	    	if (intEltsChanges.size() != 0) {
+		    	for (Iterator j = intEltsChanges.iterator(); j.hasNext();){ 
+		        	Change change = (Change) j.next();
+		    		updatedGRLmodel = applyChange(updatedGRLmodel, change, tp);
+		    	}
+	    	}
+	    	
+	    	//Apply changes to Links 
+	    	if (linkChanges.size() != 0) {
+		    	for (Iterator j = linkChanges.iterator(); j.hasNext();){ 
+		        	Change change = (Change) j.next();
+		    		updatedGRLmodel = applyChange(updatedGRLmodel, change, tp);
+		    	}
+	    	}
+    	}
+
+    	return updatedGRLmodel;
+    }
+    
+    /*
+     * Collects the list of changes applicable to the model according to the Timepoint selected 
+     */
+    private List<Change> collectChanges (DynamicContext dynContext, Timepoint tp, List affected) {
+    	List<Change> changes = new ArrayList<Change>();
+    	for (Iterator j = dynContext.getChanges().iterator(); j.hasNext();){
+    		Change change = (Change) j.next();
+    		if ((tp.getTimepoint().after(change.getStart()) || tp.getTimepoint().equals(change.getStart())) && tp.getTimepoint().before(change.getEnd())) {
+	    		String affectedProp = change.getElement().toString();
+	    		
+	    		if (change instanceof DeactivationChange) {
+	    			affectedProp = affectedProp + ".deactivate";
+	    		} else if (change instanceof PropertyChange) {
+	    			PropertyChange propChange = (PropertyChange) change;
+	    			affectedProp = affectedProp + propChange.getAffectedProperty();
+	    		}
+	    		if (affected == null || !affected.contains(affectedProp)) {
+	    			changes.add(change);
+	    			affected.add(affectedProp);
+	    		}
+	    		
+	    	} else if (tp.getTimepoint().equals(change.getEnd())) {
+	    		boolean consecutiveChangeExists = false;
+	    		Change consecutiveChange = null;
+	    		//Check if there is a consecutive change (The change directly following takes preference)
+	    		for (Iterator j2 = dynContext.getChanges().iterator(); j2.hasNext();){
+	        		Change change1 = (Change) j2.next();
+	        		if (change1.getStart().equals(change.getEnd()) && change1.getElement() == change.getElement()) {
+	        			consecutiveChangeExists = true;
+	        			consecutiveChange = change1;
+	        			break;
+	        		}	        		
+	    		}
+	    		String affectedProp = change.getElement().toString();
+	    		
+	    		if (change instanceof DeactivationChange) {
+	    			affectedProp = affectedProp + ".deactivate";
+	    		} else if (change instanceof PropertyChange) {
+	    			PropertyChange propChange = (PropertyChange) change;
+	    			if (consecutiveChangeExists && consecutiveChange instanceof PropertyChange && 
+	    					((PropertyChange) consecutiveChange).getAffectedProperty().equals(propChange.getAffectedProperty())) {
+	    				if (!(consecutiveChange instanceof LinearChange))
+	    					continue;
+	    				else {
+	    					//In case of linear changes, we need the previous change
+	    					affectedProp = affectedProp + propChange.getAffectedProperty() + "1";
+	    				}
+	    			} else
+		    			affectedProp = affectedProp + propChange.getAffectedProperty();
+	    		}
+	    		if (affected == null || !affected.contains(affectedProp)) {
+	    			changes.add(change);
+	    			affected.add(affectedProp);
+	    		}
+
+	    		
+	    	}
+    	}
+    	
+    	// handle included contexts
+		for (Iterator j1 = dynContext.getIncludedContexts().iterator(); j1.hasNext();){
+			DynamicContext incDynContext = (DynamicContext) j1.next();
+			changes.addAll(collectChanges(incDynContext, tp, affected));
+		}
+
+    	return changes;
+    }
+    
+    /*
+     * Updates the GRL model with updated values because of a particular change
+     */
+    private GRLspec applyChange(GRLspec grl, Change change, Timepoint tp) {
+    	if (change instanceof DeactivationChange){
+    		if (change.getElement() instanceof ActorRef)
+    			MetadataHelper.addMetaData(grl.getUrnspec(), (Actor) ((ActorRef) change.getElement()).getContDef(), METADATA_DEACTSTATUS, "true");
+    		else
+    			MetadataHelper.addMetaData(grl.getUrnspec(), change.getElement(), METADATA_DEACTSTATUS, "true");
+    		
+    	} else if (change instanceof PropertyChange) {
+    		
+    		if (change instanceof LinearChange) {
+    			LinearChange linChange = (LinearChange) change;
+    			float valueAtTp = calculateLinearChange(linChange, tp.getTimepoint());
+    			grl = updateValue(grl, linChange, Math.round(valueAtTp));
+    			
+    		} else {
+    			grl = updateValue(grl, tp, change);
+    		}
+    		
+    	}
+    	
+    	return grl;
+    }
+    
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+    }
+    
+    /*
+     * Updates the values in GRL model acording to the type of change seleced
+     */
+    private GRLspec updateValue(GRLspec grl, Timepoint tp, Change change) {
+    	EvaluationStrategy strategySave = null;
+    	if (change instanceof NumericChange) {
+    		int newVal = 0;
+	    	if (change instanceof ConstantChange){
+	    		ConstantChange constChange = (ConstantChange) change;
+	    		newVal = constChange.getNewValue();
+	    	} else if (change instanceof QuadraticChange){
+	    		QuadraticChange quadChange = (QuadraticChange) change;
+	    		float valueAtTp = calculateQuadraticChange(quadChange, tp.getTimepoint());
+	    		newVal = Math.round(valueAtTp);
+	    	} else if (change instanceof FormulaChange){
+	    		FormulaChange forChange = (FormulaChange) change;
+	    		float valueAtTp = calculateFormulaChange(forChange, tp.getTimepoint());
+	    		newVal = Math.round(valueAtTp);
+	    	}
+	    	if (change.getElement() instanceof IntentionalElement) {
+		    	IntentionalElement element = (IntentionalElement)change.getElement();
+		    	String affProp = ((NumericChange) change).getAffectedProperty();
+		    	if (affProp.equals("Quantitative Importance")) {
+		    		Integer origImportance = element.getImportanceQuantitative();
+		    		MetadataHelper.addMetaData(grl.getUrnspec(), element, METADATA_ORIGIMP, origImportance.toString());
+		    			
+		    		//Cap the importance values to "0" as minimum and "100" as maximum
+		    		if (newVal < 0)
+		    			newVal = 0;
+		    		else if (newVal > 100)
+		    			newVal = 100;
+		    		element.setImportanceQuantitative(newVal);
+		    	} else if (affProp.equals("Element's Evaluation")) {
+		    		Evaluation eval = (Evaluation) evaluations.get(element);
+		            int origEval = eval.getEvaluation();
+		            MetadataHelper.addMetaData(grl.getUrnspec(), element, METADATA_ORIGEVAL, Integer.toString(origEval));
+		            boolean range = StrategyEvaluationRangeHelper.getCurrentRange(grl.getUrnspec());
+	    	        
+	    	        //Cap the evaluation values to "-100" or "0" as minimum and "100" as maximum
+		    		if (!range && newVal < -100)
+		    			newVal = -100;
+		    		else if (range && newVal < 0)
+		    			newVal = 0;
+		    		else if (newVal > 100)
+		    			newVal = 100;
+		    		eval.setEvaluation(newVal);
+		    	} 
+	    	} else if (change.getElement() instanceof Contribution) {
+	    		Contribution link = (Contribution) change.getElement();
+	    		if (((NumericChange) change).getAffectedProperty().equals("Quantitative Contribution")) {
+	    			Contribution contrib = (Contribution) link;
+	    			int origContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
+	    			MetadataHelper.addMetaData(grl.getUrnspec(), link, METADATA_ORIGCONTRIB, Integer.toString(origContrib));
+	    				
+	    			//Cap the contribution values to "-100" as minimum and "100" as maximum
+		    		if (newVal < -100)
+		    			newVal = -100;
+		    		else if (newVal > 100)
+		    			newVal = 100;
+		    		link.setQuantitativeContribution(newVal);
+	    		}
+	    	}    	 
+	    } else if (change instanceof EnumChange) {
+    		EnumChange enumChange = (EnumChange) change;
+    		strategySave = strategy;
+    		
+    		//Make strategy null to successfully change decomposition type
+    		strategy = null;
+    		List<IntentionalElement> intElements = grl.getIntElements();
+			IntentionalElement element = intElements.get(intElements.indexOf(change.getElement()));
+			DecompositionType origDecompType = element.getDecompositionType();
+			MetadataHelper.addMetaData(grl.getUrnspec(), element, METADATA_ORIGDECOMPTYPE, origDecompType.getLiteral());
+			if (enumChange.getNewValue().equals("AND"))
+				element.setDecompositionType(DecompositionType.AND_LITERAL);
+			else if (enumChange.getNewValue().equals("OR"))
+				element.setDecompositionType(DecompositionType.OR_LITERAL);
+			else if (enumChange.getNewValue().equals("XOR"))
+				element.setDecompositionType(DecompositionType.XOR_LITERAL);
+			
+			//Restore Strategy
+			strategy = strategySave;
+    	}
+    	return grl;
+    }
+    
+    /*
+     * Solves a linear equation for a linear change
+     */
+    private float calculateLinearChange(LinearChange linChange, Date reqDate) {
+    	float valueAtTp = 0;
+    	float start = calculateInitialValue(linChange);
+    	long difference = getDateDiff(linChange.getStart(),linChange.getEnd(),TimeUnit.DAYS);
+		float slope = (float) ((long) (linChange.getNewValue() - start))/difference;
+		long timeInDays = getDateDiff(linChange.getStart(),reqDate,TimeUnit.DAYS);
+		valueAtTp = (slope * timeInDays) + start;
+    	return valueAtTp;
+    }
+    
+    /*
+     * Updates the values in the GRL model if the selected change is a Linear Change
+     */
+    private GRLspec updateValue(GRLspec grl, LinearChange linChange, int valueAtTp) {
+    	
+    	if (linChange.getElement() instanceof IntentionalElement) {
+    		IntentionalElement element = (IntentionalElement)linChange.getElement();
+    		if (linChange.getAffectedProperty().equals("Quantitative Importance")) {
+    			Metadata metaOrigImp = MetadataHelper.getMetaDataObj(element, METADATA_ORIGIMP);
+    	        if (metaOrigImp == null) {
+    	        	Integer origImportance = element.getImportanceQuantitative();
+    				MetadataHelper.addMetaData(grl.getUrnspec(), element, METADATA_ORIGIMP, origImportance.toString());
+    	        }
+    	        //Cap the importance values to "0" as minimum and "100" as maximum
+	    		if (valueAtTp < 0)
+	    			valueAtTp = 0;
+	    		else if (valueAtTp > 100)
+	    			valueAtTp = 100;
+    			element.setImportanceQuantitative(valueAtTp);
+    		}
+    		else if (linChange.getAffectedProperty().equals("Element's Evaluation")) {
+    			Metadata metaOrigEval = MetadataHelper.getMetaDataObj(element, METADATA_ORIGEVAL);
+    			Evaluation eval = (Evaluation) evaluations.get(element);
+    	        if (metaOrigEval == null) {
+	    			int origEval = eval.getEvaluation();
+	            	MetadataHelper.addMetaData(grl.getUrnspec(), element, METADATA_ORIGEVAL, Integer.toString(origEval));
+    	        }
+    	        
+    	        boolean range = StrategyEvaluationRangeHelper.getCurrentRange(grl.getUrnspec());
+    	        
+    	        //Cap the evaluation values to "-100" or "0" as minimum and "100" as maximum
+	    		if (!range && valueAtTp < -100)
+	    			valueAtTp = -100;
+	    		else if (range && valueAtTp < 0)
+	    			valueAtTp = 0;
+	    		else if (valueAtTp > 100)
+	    			valueAtTp = 100;
+            	eval.setEvaluation(Math.round(valueAtTp));
+
+    		}
+    	} else if (linChange.getElement() instanceof Contribution) {
+    		Contribution link = (Contribution) linChange.getElement();
+    		if (linChange.getAffectedProperty().equals("Quantitative Contribution")) {
+    			Metadata metaOrigContrib = MetadataHelper.getMetaDataObj(link, METADATA_ORIGCONTRIB);
+    	        if (metaOrigContrib == null) {
+	    			Contribution contrib = (Contribution) link;
+	    			int origContrib = EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
+	    			MetadataHelper.addMetaData(grl.getUrnspec(), link, METADATA_ORIGCONTRIB, Integer.toString(origContrib));
+    	        }
+    	        //Cap the contribution values to "-100" as minimum and "100" as maximum
+	    		if (valueAtTp < -100)
+	    			valueAtTp = -100;
+	    		else if (valueAtTp > 100)
+	    			valueAtTp = 100;
+    			link.setQuantitativeContribution(valueAtTp);
+    		}
+    	}
+    	return grl;
+    }
+    
+    /*
+     * Calculates initial value of a Linear change
+     */
+    private float calculateInitialValue(LinearChange change) {
+    	float startValue = 0;
+    	Boolean foundStartValue = false;
+    	Change previousChange = null;
+    	List availChanges = DynamicContextsUtils.getAllAvailableChanges(change.getElement(), change.getContext(), change.getContext().getUrnspec());
+    	for (Iterator iter = availChanges.iterator(); iter.hasNext();) {
+    		Change nextChange = (Change) iter.next();
+    		if (nextChange instanceof DeactivationChange || nextChange instanceof EnumChange)
+				continue;
+    		else {
+    			NumericChange nChange = (NumericChange) nextChange; 
+    			if (nChange.getEnd().equals(change.getStart()) && nChange.getAffectedProperty().equals(change.getAffectedProperty())){
+	    			if (nChange instanceof ConstantChange){
+	    				startValue = (float) ((ConstantChange) nChange).getNewValue();
+	    				foundStartValue = true;
+	    			} else if (nChange instanceof LinearChange) {
+	    				startValue = (float) ((LinearChange) nChange).getNewValue();
+	    				foundStartValue = true;
+	    			} else if (nChange instanceof QuadraticChange) {
+	    				startValue = calculateQuadraticChange((QuadraticChange) nChange, change.getStart());
+	    				foundStartValue = true;
+	    			} else if (nChange instanceof FormulaChange) {
+	    				startValue = calculateFormulaChange((FormulaChange) nChange, change.getStart());
+	    				foundStartValue = true;
+	    			}
+	    			break;		    			
+	    		}
+    		}
+    	}
+    	if (foundStartValue == false) {
+    		String affProperty = change.getAffectedProperty();
+    		if (change.getElement() instanceof Contribution) {
+    			if (affProperty.equals("Quantitative Contribution")) {
+    				Contribution contrib = (Contribution) change.getElement();
+    				startValue = (float) EvaluationStrategyManager.getInstance().getActiveQuantitativeContribution(contrib);
+    			}
+    		} else if (change.getElement() instanceof Actor) {
+    			if (affProperty.equals("Count")) 
+    				startValue = (float) ((Actor)change.getElement()).getCount();
+    			else if (affProperty.equals("Quantitative Importance"))
+    				startValue = (float) ((Actor) change.getElement()).getImportanceQuantitative();
+    		} else if (change.getElement() instanceof IntentionalElement) {
+    			if (affProperty.equals("Quantitative Importance"))
+    				startValue = (float) ((IntentionalElement) change.getElement()).getImportanceQuantitative();
+    			else if (affProperty.equals("Element's Evaluation"))
+    				startValue = 0;
+    		}  
+    	}
+    	return startValue;
+    }
+    
+    /*
+     * Solves quadratic equation for Quadratic change
+     */
+    private float calculateQuadraticChange(QuadraticChange quadChange, Date reqDate) {
+    	float valueAtTp = 0;
+    	long timeInDays = getDateDiff(quadChange.getStart(), reqDate, TimeUnit.DAYS);
+    	valueAtTp = (float) ((quadChange.getQuadraticCoefficient() * timeInDays * timeInDays) + (quadChange.getLinearCoefficient() * 
+    					timeInDays) + quadChange.getConstant());
+    	return valueAtTp;
+    }
+    
+    /*
+     * Calculates values for Formula change
+     */
+    private float calculateFormulaChange(FormulaChange forChange, Date reqDate) {
+    	float valueAtTp = 0;
+    	long timeInDays = getDateDiff(forChange.getStart(), reqDate, TimeUnit.DAYS);
+    	Argument t = new Argument("t", (float) timeInDays);
+    	Expression e = new Expression(forChange.getFormula(), t);
+    	valueAtTp = (float) e.calculate();
+    	return valueAtTp;
+    }
+    
+    /*
+     * Restores original values in the GRL model by removing all the updates due to application of changes
+     */
+    private void restoreOriginalValue(GRLspec grl) {
+    	EvaluationStrategy strategySave = null;
+    	
+    	// Restore original values for Intentional Elements
+        for (Iterator iter = grl.getIntElements().iterator(); iter.hasNext();) {
+            IntentionalElement ie = (IntentionalElement) iter.next();
+            Metadata metaOrigImp = MetadataHelper.getMetaDataObj(ie, METADATA_ORIGIMP);
+            if (metaOrigImp != null) {
+            	String origImp = MetadataHelper.getMetaData(ie, METADATA_ORIGIMP);
+            	int origImpInt = Integer.parseInt(origImp);
+            	ie.setImportanceQuantitative(origImpInt);
+            }
+            
+            if (strategy != null || oldStrategy != null) {
+	            Metadata metaOrigEval = MetadataHelper.getMetaDataObj(ie, METADATA_ORIGEVAL);
+	            if (metaOrigEval != null) {
+	            	String origEval = MetadataHelper.getMetaData(ie, METADATA_ORIGEVAL);
+	            	int origEvalInt = Integer.parseInt(origEval);
+	            	EvaluationStrategy thisStrategy = null;
+	            	if (strategy != null)
+	            		thisStrategy = strategy;
+	            	else
+	            		thisStrategy = oldStrategy;
+	            	for (Iterator iter1 = thisStrategy.getEvaluations().iterator(); iter1.hasNext();) {
+	            		Evaluation eval = (Evaluation) iter1.next();
+	            		if (eval.getIntElement() == ie) {
+	            			eval.setEvaluation(origEvalInt);
+	            			break;
+	            		}
+	            	}
+	            }
+            }
+            
+            Metadata metaOrigDecomp = MetadataHelper.getMetaDataObj(ie, METADATA_ORIGDECOMPTYPE);
+            if (metaOrigDecomp != null) {
+            	strategySave = strategy;
+            	strategy = null;
+            	String origDecomp = MetadataHelper.getMetaData(ie, METADATA_ORIGDECOMPTYPE);
+            	DecompositionType origDecompType = DecompositionType.get(origDecomp);
+            	ie.setDecompositionType(origDecompType);
+            	strategy = strategySave;
+            }
+            
+        }
+        
+        // Restore original values for  contribution links
+        for (Iterator iter2 = grl.getLinks().iterator(); iter2.hasNext();) {
+            ElementLink elLink = (ElementLink) iter2.next();
+            if (elLink instanceof Contribution) {
+            	Contribution link = (Contribution)elLink;
+            	Metadata metaOrigContrib = MetadataHelper.getMetaDataObj(link, METADATA_ORIGCONTRIB);
+            	if (metaOrigContrib != null) {
+                	String origContrib = MetadataHelper.getMetaData(link, METADATA_ORIGCONTRIB);
+                	int origContribInt = Integer.parseInt(origContrib);
+                	link.setQuantitativeContribution(origContribInt);
+                }
+            }
+        }
+    }
+    
 }

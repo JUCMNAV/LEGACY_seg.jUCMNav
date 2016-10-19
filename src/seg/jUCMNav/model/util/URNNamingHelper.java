@@ -18,6 +18,7 @@ import grl.kpimodel.KPIInformationElement;
 import grl.kpimodel.KPIInformationElementRef;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -51,6 +52,9 @@ import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.Variable;
 import urn.URNspec;
+import urn.dyncontext.Change;
+import urn.dyncontext.DeactivationChange;
+import urn.dyncontext.PropertyChange;
 import urncore.Component;
 import urncore.Condition;
 import urncore.GRLmodelElement;
@@ -996,6 +1000,22 @@ public class URNNamingHelper {
             //val = StrategyEvaluationPreferences.getValueToVisualize(val);
             return getName(contrib.getSrc()) + " (" + change.getNewContribution().getName() + "/" + val + ") " + getName(contrib.getDest()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
+    }
+    
+    //For Dynamic Context objects which aren't URNModelElements
+    public static String getName(Change change) {
+    	String property = null;
+    	DateFormat df = new SimpleDateFormat("MMddyy");
+    	if (change instanceof DeactivationChange)
+    		property = "Deactive";
+    	else
+    		property = ((PropertyChange) change).getAffectedProperty();
+    	
+    	if (change.getElement() instanceof Contribution)
+    		return change.getElement().getName() + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+    	else
+    		return getName(change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+        
     }
     /**
      * Returns the name of the definition if this is a reference, and its direct name otherwise.

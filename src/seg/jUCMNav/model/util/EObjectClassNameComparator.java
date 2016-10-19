@@ -2,10 +2,13 @@ package seg.jUCMNav.model.util;
 
 import grl.Actor;
 import grl.ActorRef;
+import grl.Contribution;
 import grl.IntentionalElementRef;
 import grl.kpimodel.KPIInformationElementRef;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 
 import org.eclipse.emf.ecore.EObject;
@@ -15,6 +18,9 @@ import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.RespRef;
 import ucm.performance.Demand;
+import urn.dyncontext.Change;
+import urn.dyncontext.DeactivationChange;
+import urn.dyncontext.PropertyChange;
 import urncore.Component;
 
 /**
@@ -87,6 +93,18 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
                 s = getSortableElementName(((Demand) o).getResponsibility());
             else
                 s = o.eClass().getName();
+        } else if (o instanceof Change) {                                 //Build name for a Change
+        	String property = null;
+        	Change change = (Change) o;
+        	DateFormat df = new SimpleDateFormat("MMddyy");
+        	if (change instanceof DeactivationChange)
+        		property = "Deactive";
+        	else
+        		property = ((PropertyChange) change).getAffectedProperty();
+        	if (change.getElement() instanceof Contribution)
+        		s = change.getElement().getName() + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
+        	else
+        		s = URNNamingHelper.getName(change.getElement()) + " (" + property + ") " + df.format(change.getStart()) + " -> " + df.format(change.getEnd());
         } else {
             try {
                 Object name = o.eGet(o.eClass().getEStructuralFeature("name")); //$NON-NLS-1$

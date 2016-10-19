@@ -27,10 +27,11 @@ public class StrategyEvaluationPreferences {
     public final static int CONSTRAINT_SOLVER_ALGORITHM = 4;
     public final static int CONDITIONAL_GRL_ALGORITHM = 5;
     public final static int FEATURE_MODEL_ALGORITHM = 6;
+    public final static int TIMED_GRL_ALGORITHM = 7; //added for the new TimedGRL algorithm
 
 
     public final static int DEFAULT_GRL_ALGORITHM = 0; // this should always be 0
-    public final static int NUM_ALGORITHMS = 7;
+    public final static int NUM_ALGORITHMS = 8;
 
     public static final String PREF_ALGORITHM = "PREF_ALGORITHM"; //$NON-NLS-1$    
     public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$

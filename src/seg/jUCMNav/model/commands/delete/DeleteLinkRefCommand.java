@@ -15,8 +15,11 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editparts.dynamicContextTreeEditparts.DynamicContextsUtils;
 import seg.jUCMNav.model.commands.delete.internal.RemoveElementLinkCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveLinkRefCommand;
+import urn.dyncontext.Change;
+import urn.dyncontext.DynamicContext;
 import urncore.ConnectionLabel;
 
 /**
@@ -59,13 +62,33 @@ public class DeleteLinkRefCommand extends CompoundCommand {
         build();
         super.execute();
     }
+    
+    /**
+     * Delete all the changes added to the Link
+     */
+    private void deleteChanges() {
+    	
+    	for (Iterator it = link.getGrlspec().getUrnspec().getDynamicContexts().iterator(); it.hasNext();) {
+            DynamicContext dyn = (DynamicContext) it.next();
+            
+            //Delete Link Changes
+            for (Iterator itEval = DynamicContextsUtils.getAllAvailableChanges(link, dyn, link.getGrlspec().getUrnspec()).iterator(); itEval.hasNext();) {
+                Change change = (Change) itEval.next();
+                if (change.getElement().equals(link)) {
+                    add(new DeleteChangeCommand(change));
+                }
+            }
+         
+        }
+    }
 
     /**
      * Builds a sequence of DeletePathNodeCommands
      * 
      */
     private void build() {
-        int size = linkref.getBendpoints().size();
+    	
+    	int size = linkref.getBendpoints().size();
         for (int i = 0; i < size; i++) {
             LinkRefBendpoint bendpoint = (LinkRefBendpoint) linkref.getBendpoints().get(size - 1 - i);
             add(new DeleteLinkRefBendpointCommand(bendpoint));
@@ -82,7 +105,11 @@ public class DeleteLinkRefCommand extends CompoundCommand {
                             add(new DeleteContributionChangeCommand(change));
                     }
                 }
+                
             }
+            
+            //Delete all the changes added to the Link
+            deleteChanges();
             add(new RemoveElementLinkCommand(link));
         }
     }

@@ -130,6 +130,9 @@ public class DisplayPreferences {
                             showView(page, "seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
                             showView(page, IPageLayout.ID_PROP_SHEET);
                             showView(page, "seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
+                            
+                            //Dynamic Context view
+                            showView(page, "seg.jUCMNav.views.DynamicContextsView");
 
                             addKpi(page);
                         } else if (!isShowKPI() && event.getProperty().equals(PREF_ADVANCEDUCMKPI)) {

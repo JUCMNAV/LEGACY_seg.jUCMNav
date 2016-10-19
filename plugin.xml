@@ -201,10 +201,12 @@
          <viewShortcut id="org.eclipse.ui.views.ProblemView"/>
          <viewShortcut id="seg.jUCMNav.views.KPIListView"/>
          <viewShortcut id="seg.jUCMNav.views.KPIView"/>
+         <viewShortcut id="seg.jUCMNav.views.DynamicContextsView"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="seg.jUCMNav.UCMEditorExecution">
          <viewShortcut id="seg.jUCMNav.views.ElementView"/>
          <viewShortcut id="seg.jUCMNav.views.StrategiesView"/>
+         <viewShortcut id="seg.jUCMNav.views.DynamicContextsView"/>
          <newWizardShortcut id="seg.jUCMNav.views.wizards.NewUcmFileWizard"/>
          <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
          <viewShortcut id="org.eclipse.ui.views.ContentOutline"/>
@@ -213,6 +215,7 @@
       </perspectiveExtension>
       <perspectiveExtension targetID="seg.jUCMNav.ConcernURNEditor">
           <viewShortcut id="seg.jUCMNav.views.StrategiesView"/>
+          <viewShortcut id="seg.jUCMNav.views.DynamicContextsView"/>
           <newWizardShortcut id="seg.jUCMNav.views.wizards.NewUcmFileWizard"/>
           <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
          <viewShortcut id="org.eclipse.ui.views.ContentOutline"/>
@@ -237,6 +240,12 @@
             icon="icons/urnstratscenon16.gif"
             id="seg.jUCMNav.views.StrategiesView"
             name="%Strategies"/>
+      <view
+            category="seg.jUCMNav"
+            class="seg.jUCMNav.views.dynamicContexts.DynamicContextsView"
+            icon="icons/urnstratscenon16.gif"
+            id="seg.jUCMNav.views.DynamicContextsView"
+            name="%DynamicContexts"/>
       <view
             category="seg.jUCMNav"
             class="seg.jUCMNav.views.kpi.KPIListView"
@@ -792,6 +801,14 @@
             genModel="archive:platform:/plugin/seg.jUCMNav/jUCMNav.jar!/seg/jUCMNav/emf/URN.genmodel"
             uri="http:///urn.ecore">
       </package>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated fm -->
+      <package
+            uri="http:///urn/dyncontext.ecore"
+            class="urn.dyncontext.DyncontextPackage"
+            genModel="src/seg/jUCMNav/emf/fm.genmodel"/>
    </extension>
    <extension
          point="org.eclipse.emf.ecore.generated_package">

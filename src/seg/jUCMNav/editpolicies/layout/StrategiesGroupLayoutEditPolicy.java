@@ -13,10 +13,16 @@ import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.model.commands.transformations.MoveContributionContextCommand;
+import seg.jUCMNav.model.commands.transformations.MoveDynamicContextCommand;
 import seg.jUCMNav.model.commands.transformations.MoveScenarioCommand;
 import seg.jUCMNav.model.commands.transformations.MoveStrategyCommand;
+import seg.jUCMNav.model.commands.transformations.MoveTimepointCommand;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
+import urn.dyncontext.DynamicContext;
+import urn.dyncontext.DynamicContextGroup;
+import urn.dyncontext.Timepoint;
+import urn.dyncontext.TimepointGroup;
 
 /**
  * 
@@ -60,6 +66,20 @@ public class StrategiesGroupLayoutEditPolicy extends LayoutEditPolicy {
             if (obj instanceof ContributionContext) {
                 ContributionContext def = (ContributionContext)obj;
                 return new MoveContributionContextCommand(group, def);
+            }
+        }	else  if (newObjectType == DynamicContext.class && getHost()!=null && getHost().getTargetEditPart(request)!=null && getHost().getTargetEditPart(request).getModel() instanceof DynamicContextGroup){
+            DynamicContextGroup group = (DynamicContextGroup) getHost().getTargetEditPart(request).getModel();
+            Object obj = request.getNewObject();
+            if (obj instanceof DynamicContext) {
+                DynamicContext dyn = (DynamicContext)obj;
+                return new MoveDynamicContextCommand(group, dyn);
+            }
+        }	else  if (newObjectType == Timepoint.class && getHost()!=null && getHost().getTargetEditPart(request)!=null && getHost().getTargetEditPart(request).getModel() instanceof TimepointGroup){
+            TimepointGroup group = (TimepointGroup) getHost().getTargetEditPart(request).getModel();
+            Object obj = request.getNewObject();
+            if (obj instanceof Timepoint) {
+                Timepoint tp = (Timepoint)obj;
+                return new MoveTimepointCommand(group, tp);
             }
         }
 

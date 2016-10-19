@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.jface.text.templates.GlobalTemplateVariables.Time;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
@@ -51,6 +52,10 @@ import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
 import urn.URNspec;
+import urn.dyncontext.DynamicContext;
+import urn.dyncontext.DynamicContextGroup;
+import urn.dyncontext.Timepoint;
+import urn.dyncontext.TimepointGroup;
 import urncore.Component;
 import urncore.Condition;
 import urncore.IURNContainerRef;
@@ -104,7 +109,13 @@ public class URNElementPropertySource extends EObjectPropertySource {
             strategyGroupDescriptor(descriptors, propertyid);
         } else if (type.getInstanceClass() == ContributionContextGroup.class && getEditableValue() instanceof ContributionContext) {
             contributionContextGroupDescriptor(descriptors, propertyid);
-        } else if (getEditableValue() instanceof Initialization && attr.getName().equals("value")) { //$NON-NLS-1$
+        } else if (type.getInstanceClass() == DynamicContextGroup.class && getEditableValue() instanceof DynamicContext) {  //Related to TimedGRL
+            dynamicContextGroupDescriptor(descriptors, propertyid);
+        } else if (type.getInstanceClass() == EvaluationStrategy.class && getEditableValue() instanceof DynamicContext) {  //Related to TimedGRL
+            dynamicContextStrategyDescriptor(descriptors, propertyid);
+        } else if (type.getInstanceClass() == ContributionContext.class && getEditableValue() instanceof DynamicContext) {  //Related to TimedGRL
+            dynamicContextContributionContextDescriptor(descriptors, propertyid);
+        }  else if (getEditableValue() instanceof Initialization && attr.getName().equals("value")) { //$NON-NLS-1$
             Initialization init = (Initialization) getEditableValue();
             if (init.getVariable() != null && init.getVariable().getType().equals(ScenarioUtils.sTypeInteger))
                 intDescriptor(descriptors, attr, propertyid);
@@ -356,6 +367,107 @@ public class URNElementPropertySource extends EObjectPropertySource {
         descriptors.add(pd);
 
     }
+    
+    /**
+     * Creates a drop down list for dynamic context groups.
+     * 
+     * @param descriptors
+     * @param propertyid
+     */
+    private void dynamicContextGroupDescriptor(Collection descriptors, PropertyID propertyid) {
+        if (((DynamicContext) getEditableValue()).getGroups().get(0) == null || ((DynamicContext) getEditableValue()).getUrnspec() == null)
+            return;
+        URNspec urn = ((DynamicContext) getEditableValue()).getUrnspec();
+        
+        //DynamicContextGroup of a Dynamic Context
+        Vector list;
+        list = new Vector(urn.getDynamicContextGroups());
+        Collections.sort(list, new EObjectClassNameComparator());
+
+        String[] values = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+
+            values[i] = EObjectClassNameComparator.getSortableElementName((DynamicContextGroup) list.get(i));
+            if (values[i] == null)
+                values[i] = Messages.getString("URNElementPropertySource.unnamed"); //$NON-NLS-1$
+        }
+
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "group", values); //$NON-NLS-1$
+        pd.setCategory(Messages.getString("URNElementPropertySource.DynamicContext")); //$NON-NLS-1$
+        descriptors.add(pd);
+        
+        /*//Evaluation Strategy of a Dynamic Context
+        list = new Vector(urn.getGrlspec().getStrategies());
+        Collections.sort(list, new EObjectClassNameComparator());
+
+        String[] values_str = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+
+        	values_str[i] = EObjectClassNameComparator.getSortableElementName((EvaluationStrategy) list.get(i));
+            if (values_str[i] == null)
+            	values_str[i] = Messages.getString("URNElementPropertySource.unnamed"); //$NON-NLS-1$
+        }
+
+        ComboBoxPropertyDescriptor pd1 = new ComboBoxPropertyDescriptor(propertyid, "strategy", values); //$NON-NLS-1$
+        pd1.setCategory(Messages.getString("URNElementPropertySource.DynamicContext")); //$NON-NLS-1$
+        descriptors.add(pd1);*/
+    }
+    
+    /**
+     * Creates a drop down list for Evaluation Strategy of a Dynamic Context
+     * 
+     * @param descriptors
+     * @param propertyid
+     */
+    private void dynamicContextStrategyDescriptor(Collection descriptors, PropertyID propertyid) {
+        if (((DynamicContext) getEditableValue()).getGroups().get(0) == null || ((DynamicContext) getEditableValue()).getUrnspec() == null)
+            return;
+        URNspec urn = ((DynamicContext) getEditableValue()).getUrnspec();
+        
+        //Evaluation Strategy of a Dynamic Context
+        Vector list = new Vector(urn.getGrlspec().getStrategies());
+        Collections.sort(list, new EObjectClassNameComparator());
+
+        String[] values = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+
+        	values[i] = EObjectClassNameComparator.getSortableElementName((EvaluationStrategy) list.get(i));
+            if (values[i] == null)
+            	values[i] = Messages.getString("URNElementPropertySource.unnamed"); //$NON-NLS-1$
+        }
+
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "strategy", values); //$NON-NLS-1$
+        pd.setCategory(Messages.getString("URNElementPropertySource.DynamicContext")); //$NON-NLS-1$
+        descriptors.add(pd);
+    }
+    
+    /**
+     * Creates a drop down list for Contribution Context of a Dynamic Context
+     * 
+     * @param descriptors
+     * @param propertyid
+     */
+    private void dynamicContextContributionContextDescriptor(Collection descriptors, PropertyID propertyid) {
+        if (((DynamicContext) getEditableValue()).getGroups().get(0) == null || ((DynamicContext) getEditableValue()).getUrnspec() == null)
+            return;
+        URNspec urn = ((DynamicContext) getEditableValue()).getUrnspec();
+        
+        //Contribution Context of a Dynamic Context
+        Vector list = new Vector(urn.getGrlspec().getContributionContexts());
+        Collections.sort(list, new EObjectClassNameComparator());
+
+        String[] values = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+
+        	values[i] = EObjectClassNameComparator.getSortableElementName((ContributionContext) list.get(i));
+            if (values[i] == null)
+            	values[i] = Messages.getString("URNElementPropertySource.unnamed"); //$NON-NLS-1$
+        }
+
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "contributionContext", values); //$NON-NLS-1$
+        pd.setCategory(Messages.getString("URNElementPropertySource.DynamicContext")); //$NON-NLS-1$
+        descriptors.add(pd);
+    }
 
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
         if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IURNContainerRef.class
@@ -445,6 +557,33 @@ public class URNElementPropertySource extends EObjectPropertySource {
             for (int i = 0; i < list.size(); i++) {
                 if (((ContributionContext) getEditableValue()).getGroups().size() > 0
                         && list.get(i).equals(((ContributionContext) getEditableValue()).getGroups().get(0)))
+                    result = new Integer(i);
+            }
+        } else if (getFeatureType(feature).getInstanceClass() == DynamicContextGroup.class && getEditableValue() instanceof DynamicContext) {
+            URNspec urn = ((DynamicContext) getEditableValue()).getUrnspec();
+            Vector list = new Vector(urn.getDynamicContextGroups());
+
+            Collections.sort(list, new EObjectClassNameComparator());
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).equals((DynamicContextGroup) ((DynamicContext) getEditableValue()).getGroups().get(0)))
+                    result = new Integer(i);
+            }
+        } else if (getFeatureType(feature).getInstanceClass() == EvaluationStrategy.class && getEditableValue() instanceof DynamicContext) {
+            URNspec urn = ((DynamicContext) getEditableValue()).getUrnspec();
+            Vector list = new Vector(urn.getGrlspec().getStrategies());
+
+            Collections.sort(list, new EObjectClassNameComparator());
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).equals(((DynamicContext) getEditableValue()).getStrategy()))
+                    result = new Integer(i);
+            }
+        } else if (getFeatureType(feature).getInstanceClass() == ContributionContext.class && getEditableValue() instanceof DynamicContext) {
+            URNspec urn = ((DynamicContext) getEditableValue()).getUrnspec();
+            Vector list = new Vector(urn.getGrlspec().getContributionContexts());
+
+            Collections.sort(list, new EObjectClassNameComparator());
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).equals(((DynamicContext) getEditableValue()).getContributionContext()))
                     result = new Integer(i);
             }
         } else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization) getEditableValue()).getVariable().getEnumerationType() != null && ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues() != null) { //$NON-NLS-1$)
@@ -549,6 +688,24 @@ public class URNElementPropertySource extends EObjectPropertySource {
             result = list.get(((Integer) value).intValue());
             ((ContributionContext) getEditableValue()).getGroups().set(0, result);
             // setReferencedObject(propertyid, feature, result);
+        } else if (getFeatureType(feature).getInstanceClass() == DynamicContextGroup.class && getEditableValue() instanceof DynamicContext) {
+
+            Vector list = new Vector(((DynamicContext) getEditableValue()).getUrnspec().getDynamicContextGroups());
+            Collections.sort(list, new EObjectClassNameComparator());
+            result = list.get(((Integer) value).intValue());
+            ((DynamicContext) getEditableValue()).getGroups().set(0, result);
+        } else if (getFeatureType(feature).getInstanceClass() == EvaluationStrategy.class && getEditableValue() instanceof DynamicContext) {
+
+            Vector list = new Vector(((DynamicContext) getEditableValue()).getUrnspec().getGrlspec().getStrategies());
+            Collections.sort(list, new EObjectClassNameComparator());
+            result = list.get(((Integer) value).intValue());
+            setReferencedObject(propertyid, feature, result);
+        } else if (getFeatureType(feature).getInstanceClass() == ContributionContext.class && getEditableValue() instanceof DynamicContext) {
+
+            Vector list = new Vector(((DynamicContext) getEditableValue()).getUrnspec().getGrlspec().getContributionContexts());
+            Collections.sort(list, new EObjectClassNameComparator());
+            result = list.get(((Integer) value).intValue());
+            setReferencedObject(propertyid, feature, result);
         } else if (getEditableValue() instanceof Initialization && getFeatureType(feature).getInstanceClass() == String.class && value instanceof Boolean) {
             super.setPropertyValue(id, ((Boolean) value).toString());
         } else if (feature.getName().equals("context")) { //$NON-NLS-1$

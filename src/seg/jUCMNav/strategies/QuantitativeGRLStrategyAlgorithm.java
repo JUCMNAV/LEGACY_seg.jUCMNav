@@ -71,7 +71,7 @@ public class QuantitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgo
      */
     public int getEvaluation(IntentionalElement element) {
     	
-    	 //get Aggregate Contribution for element if Quantitative GRL strategy selected
+    	//get Aggregate Contribution for element if Quantitative GRL strategy selected
     	if(getEvaluationType() == IGRLStrategyAlgorithm.EVAL_QUANTITATIVE){
         	getAggregation(element);
         }  
@@ -96,7 +96,6 @@ public class QuantitativeGRLStrategyAlgorithm extends PropagationGRLStrategyAlgo
         Iterator it = element.getLinksDest().iterator(); // Return the list of elementlink
         while (it.hasNext()) {
             ElementLink link = (ElementLink) it.next();
-            
             if (link instanceof Decomposition) {            	
                 decompositionValue = evaluateDecomposition(element, decompositionValue, it, link);
             } else if (link instanceof Dependency) {

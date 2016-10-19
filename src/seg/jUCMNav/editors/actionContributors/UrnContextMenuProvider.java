@@ -90,6 +90,7 @@ import seg.jUCMNav.actions.concerns.ManageConcernsAction;
 import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
+import seg.jUCMNav.actions.dynamicContexts.ManageChangeAction;
 import seg.jUCMNav.actions.features.AddFMDAction;
 import seg.jUCMNav.actions.features.SelectFeatureAction;
 import seg.jUCMNav.actions.features.UnselectFeatureAction;
@@ -432,7 +433,12 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (submenu.getActiveOperationCount() > 0)
             manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
-
+        
+        //Manage Change
+        action = getActionRegistry().getAction(ManageChangeAction.MANAGECHANGEACTION);
+        if (action.isEnabled())
+            manager.appendToGroup(GROUP_UNCOMMON, action);
+        
         action = getActionRegistry().getAction(AddMapAction.ADDMAP);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);

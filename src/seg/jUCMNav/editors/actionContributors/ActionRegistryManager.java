@@ -111,6 +111,16 @@ import seg.jUCMNav.actions.cutcopypaste.PasteAction;
 import seg.jUCMNav.actions.debug.MakeWellFormedAction;
 import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
+import seg.jUCMNav.actions.dynamicContexts.AddDynamicContextAction;
+import seg.jUCMNav.actions.dynamicContexts.AddDynamicContextContributionContextAction;
+import seg.jUCMNav.actions.dynamicContexts.AddDynamicContextScenarioAction;
+import seg.jUCMNav.actions.dynamicContexts.AddDynamicContextStrategyAction;
+import seg.jUCMNav.actions.dynamicContexts.AddDynamicContextsGroupAction;
+import seg.jUCMNav.actions.dynamicContexts.AddTimepointAction;
+import seg.jUCMNav.actions.dynamicContexts.AddTimepointsGroupAction;
+import seg.jUCMNav.actions.dynamicContexts.IncludeDynamicContextAction;
+import seg.jUCMNav.actions.dynamicContexts.ManageChangeAction;
+import seg.jUCMNav.actions.dynamicContexts.MoveDynamicContextAction;
 import seg.jUCMNav.actions.features.AddFMDAction;
 import seg.jUCMNav.actions.features.SelectFeatureAction;
 import seg.jUCMNav.actions.features.UnselectFeatureAction;
@@ -868,6 +878,51 @@ public class ActionRegistryManager implements IDisposable {
         
         action = new ShowLinkedElementAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.ShowLinkedElement")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        //Dynamic Context Elements
+        action = new AddDynamicContextsGroupAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.AddDynamicContextGroup")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new AddDynamicContextAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.AddDynamicContext")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new IncludeDynamicContextAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.IncludeDynamicContext")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddDynamicContextStrategyAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.AddDynamicContextStrategy")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddDynamicContextScenarioAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.AddDynamicContextScenario")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddDynamicContextContributionContextAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.AddDynamicContextContributionContext")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new MoveDynamicContextAction(editor, true);
+        action.setText(Messages.getString("ActionRegistryManager.MoveUp")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new MoveDynamicContextAction(editor, false);
+        action.setText(Messages.getString("ActionRegistryManager.MoveDown")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddTimepointsGroupAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.AddTimepointGroup")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new AddTimepointAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.AddTimepoint")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ManageChangeAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ManageChange")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         // keep at bottom

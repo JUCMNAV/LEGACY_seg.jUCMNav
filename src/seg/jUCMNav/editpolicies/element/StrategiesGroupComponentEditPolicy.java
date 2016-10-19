@@ -12,6 +12,8 @@ import org.eclipse.gef.requests.GroupRequest;
 
 import seg.jUCMNav.model.commands.delete.DeleteStrategiesGroupCommand;
 import ucm.scenario.ScenarioGroup;
+import urn.dyncontext.DynamicContextGroup;
+import urn.dyncontext.TimepointGroup;
 
 /**
  * ComponentEditPolicy for EvaluationGroup. Return the delete command
@@ -50,7 +52,24 @@ public class StrategiesGroupComponentEditPolicy extends ComponentEditPolicy {
                 return deleteCommand;
             } else
                 return null;
+        }	else if (obj instanceof DynamicContextGroup) {			//new
+
+            DynamicContextGroup group = (DynamicContextGroup) obj;
+            if (group.getContexts().size() == 0) {
+                DeleteStrategiesGroupCommand deleteCommand = new DeleteStrategiesGroupCommand(group);
+                return deleteCommand;
+            } else
+                return null;
+        }	else if (obj instanceof TimepointGroup) {				//new
+
+            TimepointGroup group = (TimepointGroup) obj;
+            if (group.getTimepoints().size() == 0) {
+                DeleteStrategiesGroupCommand deleteCommand = new DeleteStrategiesGroupCommand(group);
+                return deleteCommand;
+            } else
+                return null;
         }
+        
 
         return null;
     }

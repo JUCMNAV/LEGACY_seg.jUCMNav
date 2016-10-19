@@ -6,6 +6,7 @@ import grl.Contribution;
 import grl.Decomposition;
 import grl.DecompositionType;
 import grl.Dependency;
+import grl.ElementLink;
 import grl.GrlPackage;
 import grl.IntentionalElement;
 import grl.LinkRef;
@@ -36,15 +37,17 @@ import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.figures.util.UrnMetadata;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
+import urncore.Metadata;
 import urncore.UrncorePackage;
 
 /**
  * Edit part associate with the LinkRef in GRL diagram
  * 
- * @author Jean-Fran�ois Roy, sghanava
+ * @author Jean-François Roy, sghanava
  * 
  */
 public class LinkRefEditPart extends AbstractConnectionEditPart {
@@ -334,14 +337,26 @@ public class LinkRefEditPart extends AbstractConnectionEditPart {
         // Check if link should be grayed out in strategy view
         if( getRoot()!=null && ((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView() ) {
             if (getLinkRef()!=null && getLinkRef().getLink()!=null) {
-        	if( getLinkRef().getLink().getDest() instanceof IntentionalElement || getLinkRef().getLink().getSrc() instanceof IntentionalElement) {
-            		if( EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getDest() )
-            				|| EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getSrc()) ) {
-            			decompLabel.setForegroundColor(ColorManager.GRAY);
-            			contributionLabel.setForegroundColor(ColorManager.GRAY);
-            			stereotypeLabel.setForegroundColor(ColorManager.GRAY);
-            	        getLinkRefFigure().setForegroundColor(ColorManager.GRAY);
-            		}
+	        	if( getLinkRef().getLink().getDest() instanceof IntentionalElement || getLinkRef().getLink().getSrc() instanceof IntentionalElement) {
+	        		
+	        		//For TimedGRL
+	        		ElementLink link = getLinkRef().getLink();
+	        		Boolean ignored = false;
+	        		Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(link, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+	        		if (metaDeactStatus != null) {
+	        			String deactStatus = MetadataHelper.getMetaData(link, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+	        			if (deactStatus.equalsIgnoreCase("true"))
+	        				ignored = true;
+	        		}
+	        		if( EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getDest() )
+	        				|| EvaluationStrategyManager.getInstance().isIgnored( (IntentionalElement) getLinkRef().getLink().getSrc()) 
+	        				|| ignored == true) {
+	        			decompLabel.setForegroundColor(ColorManager.GRAY);
+	        			contributionLabel.setForegroundColor(ColorManager.GRAY);
+	        			stereotypeLabel.setForegroundColor(ColorManager.GRAY);
+	        			getLinkRefFigure().setForegroundColor(ColorManager.GRAY);
+	        		}
+            		
             	}
             }
         }

@@ -60,6 +60,10 @@ import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
+import urn.dyncontext.DynamicContext;
+import urn.dyncontext.DynamicContextGroup;
+import urn.dyncontext.Timepoint;
+import urn.dyncontext.TimepointGroup;
 import urncore.Comment;
 import urncore.Component;
 import urncore.ComponentLabel;
@@ -161,6 +165,12 @@ public class SelectionHelper {
     // Concerns
     public static final int CONCERN = 300;
     public static final int COMMENT = 400;
+    
+    //Dynamic Context Elements
+    public static final int DYNAMICCONTEXTGROUP = 500;
+    public static final int DYNAMICCONTEXT = 501;
+    public static final int TIMEPOINTGROUP = 502;
+    public static final int TIMEPOINT = 503;
 
     // internal variables; for quick reference.
     private AndFork andfork;
@@ -217,7 +227,13 @@ public class SelectionHelper {
     private ContributionContextGroup contributionContextGroup;
     private ContributionContext contributionContext;
     private ContributionChange contributionChange;
-
+    
+    //internal variables for dynamic context
+    private DynamicContextGroup dynamicGroup;
+    private DynamicContext dynContext;
+    private TimepointGroup timeGroup;
+    private Timepoint timepoint;
+    
     // internal variables for Concern and others
     private Concern concern;
     private UCMspec ucmspec;
@@ -410,6 +426,31 @@ public class SelectionHelper {
                 if (grlspec != null)
                     urnspec = grlspec.getUrnspec();
             }
+            
+        }
+        
+        //Dynamic Context
+        else if (model instanceof DynamicContextGroup) {
+            dynamicGroup = (DynamicContextGroup) model;
+            urnspec = dynamicGroup.getUrnspec();
+        } else if (model instanceof DynamicContext) {
+            dynContext = (DynamicContext) model;
+            dynamicGroup = (DynamicContextGroup) dynContext.getGroups().get(0);
+            if (dynamicGroup != null) {
+                urnspec = dynamicGroup.getUrnspec();
+            }
+        }
+        
+        //Timepoints
+        else if (model instanceof TimepointGroup) {
+            timeGroup = (TimepointGroup) model;
+            urnspec = timeGroup.getUrnspec();
+        } else if (model instanceof Timepoint) {
+            timepoint = (Timepoint) model;
+            timeGroup = timepoint.getGroup();
+            if (timeGroup != null) {
+                urnspec = timeGroup.getUrnspec();
+            }
         }
 
         // Connections
@@ -588,6 +629,14 @@ public class SelectionHelper {
                             urnspec = ((EvaluationStrategy) model).getGroup().getGrlspec().getUrnspec();
                         else if (model instanceof StrategiesGroup)
                             urnspec = ((StrategiesGroup) model).getGrlspec().getUrnspec();
+                        else if (model instanceof DynamicContext)
+                            urnspec = ((DynamicContextGroup) ((DynamicContext) model).getGroups().get(0)).getUrnspec();
+                        else if (model instanceof DynamicContextGroup)
+                            urnspec = ((DynamicContextGroup) model).getUrnspec();
+                        else if (model instanceof Timepoint)
+                            urnspec = ((Timepoint) model).getGroup().getUrnspec();
+                        else if (model instanceof TimepointGroup)
+                            urnspec = ((TimepointGroup) model).getUrnspec();
                     }
 
                     if (urnspec == null && element instanceof LabelTreeEditPart) {
@@ -727,6 +776,14 @@ public class SelectionHelper {
             selectionType = GRLGRAPH;
         else if (concern != null)
             selectionType = CONCERN;
+        else if (dynContext != null)
+            selectionType = DYNAMICCONTEXT;
+        else if (dynamicGroup != null)
+            selectionType = DYNAMICCONTEXTGROUP;
+        else if (timepoint != null)
+            selectionType = TIMEPOINT;
+        else if (timeGroup != null)
+            selectionType = TIMEPOINTGROUP;
         else if (urnspec != null)
             selectionType = URNSPEC;
         else
@@ -999,6 +1056,22 @@ public class SelectionHelper {
     public ContributionContextGroup getContributionContextGroup() {
         return contributionContextGroup;
     }
+    
+    public DynamicContextGroup getDynamicContextGroup() {
+        return dynamicGroup;
+    }
+
+    public TimepointGroup getTimepontGroup() {
+        return timeGroup;
+    }
+
+    public DynamicContext getDynamicContext() {
+        return dynContext;
+    }
+    
+    public Timepoint getTimepoint() {
+        return timepoint;
+    }
 
     public void setContributionContextGroup(ContributionContextGroup contributionContextGroup) {
         this.contributionContextGroup = contributionContextGroup;
@@ -1019,4 +1092,5 @@ public class SelectionHelper {
     public void setContributionChange(ContributionChange contributionChange) {
         this.contributionChange = contributionChange;
     }
+    
 }

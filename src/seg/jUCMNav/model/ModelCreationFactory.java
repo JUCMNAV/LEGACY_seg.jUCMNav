@@ -104,6 +104,17 @@ import ucm.scenario.Variable;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
+import urn.dyncontext.ConstantChange;
+import urn.dyncontext.DeactivationChange;
+import urn.dyncontext.DynamicContext;
+import urn.dyncontext.DynamicContextGroup;
+import urn.dyncontext.DyncontextFactory;
+import urn.dyncontext.EnumChange;
+import urn.dyncontext.FormulaChange;
+import urn.dyncontext.LinearChange;
+import urn.dyncontext.QuadraticChange;
+import urn.dyncontext.Timepoint;
+import urn.dyncontext.TimepointGroup;
 import urncore.Comment;
 import urncore.Component;
 import urncore.ComponentKind;
@@ -271,6 +282,7 @@ public class ModelCreationFactory implements CreationFactory {
         FmFactory fmfactory = FmFactory.eINSTANCE; 
         UrnFactory urnmainfactory = UrnFactory.eINSTANCE;
         KpimodelFactory kpiFactory = KpimodelFactory.eINSTANCE;
+        DyncontextFactory dynFactory = DyncontextFactory.eINSTANCE;
         Object result = null;
 
         if (targetClass != null) {
@@ -447,6 +459,52 @@ public class ModelCreationFactory implements CreationFactory {
                 result = grlfactory.createEvaluationRange();
             } else if (targetClass.equals(ContributionRange.class)) {
                 result = grlfactory.createContributionRange();
+            } else if (targetClass.equals(DynamicContextGroup.class)) { //Related to TimedGRL
+                result = dynFactory.createDynamicContextGroup();
+                URNNamingHelper.setElementNameAndID(urn, result);
+            } else if (targetClass.equals(DynamicContext.class)) {
+                if (definition != null)
+                    return definition; // drag & drop of existing
+                result = dynFactory.createDynamicContext();
+                URNNamingHelper.setElementNameAndID(urn, result);
+            } else if (targetClass.equals(TimepointGroup.class)) {
+                result = dynFactory.createTimepointGroup();
+                URNNamingHelper.setElementNameAndID(urn, result);
+            } else if (targetClass.equals(Timepoint.class)) {
+                if (definition != null)
+                    return definition; // drag & drop of existing
+                result = dynFactory.createTimepoint();
+                URNNamingHelper.setElementNameAndID(urn, result);
+            } else if (targetClass.equals(ConstantChange.class)) {
+                if (definition != null)
+                    return definition; // drag & drop of existing
+                result = dynFactory.createConstantChange();
+                URNNamingHelper.setElementNameAndID(urn, result);
+            } else if (targetClass.equals(LinearChange.class)) {
+                if (definition != null)
+                    return definition; // drag & drop of existing
+                result = dynFactory.createLinearChange();
+                URNNamingHelper.setElementNameAndID(urn, result);
+            } else if (targetClass.equals(QuadraticChange.class)) {
+                if (definition != null)
+                    return definition; // drag & drop of existing
+                result = dynFactory.createQuadraticChange();
+                URNNamingHelper.setElementNameAndID(urn, result);
+            } else if (targetClass.equals(FormulaChange.class)) {
+                if (definition != null)
+                    return definition; // drag & drop of existing
+                result = dynFactory.createFormulaChange();
+                URNNamingHelper.setElementNameAndID(urn, result);
+            } else if (targetClass.equals(DeactivationChange.class)) {
+                if (definition != null)
+                    return definition; // drag & drop of existing
+                result = dynFactory.createDeactivationChange();
+                URNNamingHelper.setElementNameAndID(urn, result);
+            } else if (targetClass.equals(EnumChange.class)) {
+                if (definition != null)
+                    return definition; // drag & drop of existing
+                result = dynFactory.createEnumChange();
+                URNNamingHelper.setElementNameAndID(urn, result);
             } else {
                 // complex creations
                 if (targetClass.equals(UCMmap.class)) {
@@ -851,6 +909,18 @@ public static URNspec getNewURNspec(boolean createUcm, boolean createGrl, boolea
         indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.flexibility")); //$NON-NLS-1$
         indicatorGroup.setIsRedesignCategory(true);
         urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
+        
+     // Create a Dynamic Context and Dynamic Context Group
+        DynamicContextGroup dynGroup = (DynamicContextGroup) ModelCreationFactory.getNewObject(urnspec, DynamicContextGroup.class);
+        urnspec.getDynamicContextGroups().add(dynGroup);
+        DynamicContext dynContext = (DynamicContext) ModelCreationFactory.getNewObject(urnspec, DynamicContext.class);
+        dynGroup.getContexts().add(dynContext);
+        urnspec.getDynamicContexts().add(dynContext);
+        
+     // Create a Timepoint Group
+        TimepointGroup tpGroup = (TimepointGroup) ModelCreationFactory.getNewObject(urnspec, TimepointGroup.class);
+        urnspec.getTimepointGroups().add(tpGroup);
+        
 
         // set default value.
         StrategyEvaluationRangeHelper.setCurrentRange(urnspec, StrategyEvaluationPreferences.getVisualizeAsPositiveRange(null));

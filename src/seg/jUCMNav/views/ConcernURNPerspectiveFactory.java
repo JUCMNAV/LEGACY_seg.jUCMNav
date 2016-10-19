@@ -27,6 +27,10 @@ public class ConcernURNPerspectiveFactory implements IPerspectiveFactory {
         left.addView(IPageLayout.ID_OUTLINE);
         left.addView("seg.jUCMNav.views.StrategiesView");
         
+        //add view for DynamicContext
+        left.addView("seg.jUCMNav.views.DynamicContextsView");
+       
+        
         IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, 0.75f,editorArea ); //$NON-NLS-1$ //$NON-NLS-2$
         bottom.addView(IPageLayout.ID_PROP_SHEET);
         bottom.addView(IPageLayout.ID_PROBLEM_VIEW);

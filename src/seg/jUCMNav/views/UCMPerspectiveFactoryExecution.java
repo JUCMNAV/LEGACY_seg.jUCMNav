@@ -22,6 +22,9 @@ public class UCMPerspectiveFactoryExecution implements IPerspectiveFactory {
 
         IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.20f, editorArea); //$NON-NLS-1$
         left.addView("seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
+        
+        //add view for DynamicContext
+        left.addView("seg.jUCMNav.views.DynamicContextsView"); //$NON-NLS-1$
         left.addView("seg.jUCMNav.CustomCommonNavigator");
 
         IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, 0.67f, "left"); //$NON-NLS-1$ //$NON-NLS-2$

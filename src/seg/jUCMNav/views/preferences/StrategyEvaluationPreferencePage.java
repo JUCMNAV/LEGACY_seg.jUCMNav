@@ -55,6 +55,9 @@ public class StrategyEvaluationPreferencePage extends FieldEditorPreferencePage 
         // Feature Model Diagram specific
         algos[StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM] = new String[] {
                 Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.FeatureModelStrategyAlgorithm"), (StrategyEvaluationPreferences.FEATURE_MODEL_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
+        // Timed GRL specific
+        algos[StrategyEvaluationPreferences.TIMED_GRL_ALGORITHM] = new String[] {
+                Messages.getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm.TimedGRLStrategyAlgorithm"), (StrategyEvaluationPreferences.TIMED_GRL_ALGORITHM + "") }; //$NON-NLS-1$ //$NON-NLS-2$
         
         ComboFieldEditor pref_algorithm = new ComboFieldEditor(StrategyEvaluationPreferences.PREF_ALGORITHM, Messages
                 .getString("GeneralPreferencePage.GrlStrategiesElementAlgorithm"), algos, getFieldEditorParent()); //$NON-NLS-1$
