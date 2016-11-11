@@ -2,14 +2,19 @@ package seg.jUCMNav.strategies;
 
 import java.util.Iterator;
 
+import grl.Actor;
+import grl.ActorRef;
 import grl.Contribution;
 import grl.Decomposition;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.MetadataHelper;
+import urncore.IURNContainerRef;
+import urncore.IURNNode;
 import urncore.Metadata;
 
 /**
@@ -83,6 +88,73 @@ public class TimedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlgorithm 
         result = ensureEvaluationWithinRange(result, decompositionValue, dependencyValue, contributionValues, contribArrayIt);
         result = postGetEvaluation(element, eval, result);
         return result;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm#getActorEvaluation(grl.Actor)
+     */
+    public int getActorEvaluation(Actor actor) {
+    	int sumEval = 0;
+        int sumImportance = 0;
+
+        Iterator iter = actor.getContRefs().iterator();
+        while (iter.hasNext()) {
+            // Parse through the node bound to this actor
+            ActorRef ref = (ActorRef) iter.next();
+            Iterator iterNode = ref.getNodes().iterator();
+            while (iterNode.hasNext()) {
+                IURNNode node = (IURNNode) iterNode.next();
+                if (node instanceof IntentionalElementRef) {
+                	IntentionalElementRef elementRef = (IntentionalElementRef) node;
+                    IntentionalElement element = elementRef.getDef();
+                    
+                    //Skip this element if it is deactivated
+                    Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(element, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+        			if (metaDeactStatus != null) {
+        				String deactStatus = MetadataHelper.getMetaData(element, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+        				if (deactStatus.equalsIgnoreCase("true"))
+        					continue;
+        			}
+                    int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element);
+                    int importance = element.getImportanceQuantitative();
+
+                    if (importance != 0 && StrategyAlgorithmImplementationHelper.isLegalStereotype(element)) {
+                        sumEval += evaluation * importance;
+                        sumImportance += importance;
+                    }
+                }
+            }
+            iterNode = ref.getChildren().iterator();
+            while (iterNode.hasNext()) {
+                IURNContainerRef node = (IURNContainerRef) iterNode.next();
+                if (node instanceof ActorRef) {
+                    ActorRef elementRef = (ActorRef) node;
+                    Actor element = (Actor) elementRef.getContDef();
+                    
+                  //Skip this actor if it is deactivated
+                    Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(element, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+        			if (metaDeactStatus != null) {
+        				String deactStatus = MetadataHelper.getMetaData(element, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+        				if (deactStatus.equalsIgnoreCase("true"))
+        					continue;
+        			}
+                    int evaluation = EvaluationStrategyManager.getInstance().getActorEvaluation(element);
+                    int importance = element.getImportanceQuantitative();
+
+                    if (importance != 0 && StrategyAlgorithmImplementationHelper.isLegalStereotype(element)) {
+                        sumEval += evaluation * importance;
+                        sumImportance += importance;
+                    }
+                }
+            }
+        }
+        if (sumImportance > 0) {
+            sumImportance = sumEval / sumImportance;
+        }
+
+        return sumImportance;
     }
 
 }

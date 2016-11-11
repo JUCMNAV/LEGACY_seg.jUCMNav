@@ -46,14 +46,25 @@ public class ManageChangeAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
     	
+    	int countElt = 0;
+    	int countChange = 0;
     	for (Iterator iter = getSelectedObjects().iterator(); iter.hasNext();) {
             Object obj = iter.next();
             if (!(obj instanceof LinkRefEditPart) && !(obj instanceof IntentionalElementEditPart) &&
             		!(obj instanceof ActorRefEditPart) && !(obj instanceof ChangeTreeEditPart))
                 return false;
-            
-         }
-            
+            else if ((obj instanceof LinkRefEditPart) || (obj instanceof IntentionalElementEditPart) ||
+            		(obj instanceof ActorRefEditPart))
+                countElt += 1;
+            else if (obj instanceof ChangeTreeEditPart)
+            	countChange += 1;
+        }
+    	
+    	//If more than one IntentionalElement/Link/Actor are selected, then this 
+    	//action should be disabled.
+        if (countElt > 1 || countChange > 1) 
+        	return false;
+        
         return true;
     }
 

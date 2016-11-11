@@ -315,8 +315,10 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
                 viewer.setContents(null);
             }
         }
-        showPage(ID_DESIGN);
         
+        //Setting strategy null before "showPage(ID_DESIGN)" to prevent null pointer exception
+        (EvaluationStrategyManager.getInstance(multieditor)).setStrategy(null);
+        showPage(ID_DESIGN);
         currentScenario = null;
         currentContext = null;
         currentSelection = null;
