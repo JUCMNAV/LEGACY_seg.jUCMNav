@@ -78,6 +78,7 @@ import seg.jUCMNav.actions.ShowLinkedElementInNewDiagramAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
 import seg.jUCMNav.actions.ShowNonLeafElementsInSeparateDiagramsAction;
+import seg.jUCMNav.actions.StaticSlicingAction;
 import seg.jUCMNav.actions.SubmenuAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
@@ -157,6 +158,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
         action = getActionRegistry().getAction(ActionFactory.DELETE.getId());
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+        
+        action = getActionRegistry().getAction(StaticSlicingAction.StaticSlicing);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 

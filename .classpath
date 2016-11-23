@@ -11,5 +11,10 @@
 	<classpathentry exported="true" kind="lib" path="lib/JaCoP-3.0-final.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/mxparser.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/axis.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/de.cau.cs.kieler.core_0.8.0.201212192152.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxrpc.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org-eclipse-gmf-runtime-diagram-ui-parts.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xerces.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

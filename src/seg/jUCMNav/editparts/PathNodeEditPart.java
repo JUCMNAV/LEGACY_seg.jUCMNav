@@ -50,6 +50,7 @@ import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.TimerFigure;
 import seg.jUCMNav.figures.util.UrnMetadata;
+import seg.jUCMNav.model.commands.Slicing.ColorUtils;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.PointcutBorderDetector;
 import seg.jUCMNav.scenarios.ScenarioUtils;
@@ -698,6 +699,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         // nodeFigure.setForegroundColor(
         //                    new Color(Display.getCurrent(),StringConverter.asRGB("0,0,0"))); //$NON-NLS-1$
         // }
+        if(ColorUtils.sliceON)
+            ColorUtils.doColor();
     }
 
     /**

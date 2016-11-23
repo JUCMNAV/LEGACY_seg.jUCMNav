@@ -97,6 +97,7 @@ import seg.jUCMNav.actions.ShowLinkedElementInNewDiagramAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelThreeAction;
 import seg.jUCMNav.actions.ShowLinkedElementLevelTwoAction;
 import seg.jUCMNav.actions.ShowNonLeafElementsInSeparateDiagramsAction;
+import seg.jUCMNav.actions.StaticSlicingAction;
 import seg.jUCMNav.actions.TagElementAction;
 import seg.jUCMNav.actions.ToggleEvaluationRangeAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
@@ -340,6 +341,10 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.cutPath")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action=new StaticSlicingAction(editor);
+        action.setText("Static Slicing");
+        addEditPartAction((SelectionAction)action);
+        
         action = new RefactorIntoStubAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.RefactorIntoStub")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
