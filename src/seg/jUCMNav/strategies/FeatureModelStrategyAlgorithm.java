@@ -282,17 +282,8 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
                 && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
             IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
-            try {
-
-                IMarker[] existingMarkers = resource.findMarkers("seg.jUCMNav.evaluationproblem", true, 3);  //$NON-NLS-1$
-                for (int i = 0; i < existingMarkers.length; i++) {
-                    IMarker marker = existingMarkers[i];
-                    marker.delete();
-                }
-            } catch (CoreException ex) {
-                System.out.println(ex);
-            }
-
+            clearProblemViews();
+            // resource.deleteMarkers("seg.jUCMNav.evaluationproblem", true, 3);
             if (getWarnings().size() > 0) {
 
                 for (Iterator iter = warnings.iterator(); iter.hasNext();) {
@@ -326,6 +317,27 @@ public class FeatureModelStrategyAlgorithm extends FormulaBasedGRLStrategyAlgori
             }
         }
     }
+
+	public static void clearProblemViews() {
+		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null
+                && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+            UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		   
+            IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
+            try {
+
+                IMarker[] existingMarkers = resource.findMarkers("seg.jUCMNav.evaluationproblem", true, 3);  //$NON-NLS-1$
+                for (int i = 0; i < existingMarkers.length; i++) {
+                    IMarker marker = existingMarkers[i];
+                    marker.delete();
+                }
+            } catch (CoreException ex) {
+                System.out.println(ex);
+            }
+		
+		}
+		
+	}
     
 
 

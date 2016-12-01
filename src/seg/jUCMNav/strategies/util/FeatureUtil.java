@@ -8,6 +8,8 @@ import java.util.Set;
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import urn.URNspec;
+import urncore.GRLmodelElement;
 import urncore.Metadata;
 import fm.Feature;
 import fm.MandatoryFMLink;
@@ -17,6 +19,7 @@ import grl.DecompositionType;
 import grl.ElementLink;
 import grl.GRLspec;
 import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 
 public class FeatureUtil {
     
@@ -42,7 +45,7 @@ public class FeatureUtil {
 	 * @param elem
 	 * @return
 	 */
-	private static boolean isRootFeature(Feature elem, GRLspec grl) {
+	public static boolean isRootFeature(Feature elem, GRLspec grl) {
 		if (ReusedElementUtil.isReusedElement(grl, elem)) {
 			return false;
 		}
@@ -171,12 +174,13 @@ public class FeatureUtil {
     }
     
     /**
-     * Returns true if elem has an OR/XOR src link, and there exists an OR/XOR brother element that has numerical evaluation at 100
+     * Returns true if elem has an OR/XOR src link, and there exists an OR/XOR brother element that has numerical evaluation at 100 or O
 	 * (only considers links to other features, may have other links to IntentionalElements that are not Features)
-	 * @param elem
+	 * @param elem, boolean checkForOR, boolean checkForXOR, 
+	 * @param (fake)selected true/false, if true means runtime _numVal==100, false mean runtime _numVal==0  
      * @return
      */
-    public static boolean hasSelectedOrXorBrother(Feature elem, boolean checkForOR, boolean checkForXOR) {
+    public static boolean hasSelectedOrXorBrother(Feature elem, boolean checkForOR, boolean checkForXOR ) {
         Iterator it = elem.getLinksSrc().iterator();
         // if it doesn't have source, return false
         if (!it.hasNext()) {
@@ -226,5 +230,65 @@ public class FeatureUtil {
     		value = IGRLStrategyAlgorithm.FEATURE_SELECTED;
     	return metaDataStr.equals(Integer.toString(value));
     }
+    
+    /**
+     * Returns true if elem is reexposed already 
+     * 
+     * @param elem
+     * @return
+     */
+	public static boolean isReexposed(GRLmodelElement elem) {
+		IntentionalElement intelem = null;
+		if( elem instanceof IntentionalElementRef){
+			  
+			   if( ((IntentionalElementRef)elem).getDef()  instanceof Feature )
+				   intelem = (Feature)((IntentionalElementRef)elem).getDef();
+		}
+		if( elem instanceof IntentionalElement && elem instanceof Feature){
+			intelem = (Feature) elem;
+		}
+		if( intelem != null){
+		    
+		    String value = MetadataHelper.getMetaData(elem, EvaluationStrategyManager.REEXPOSE_RUNTIMEMATADATA);
+		    if( value != null && value.equalsIgnoreCase(EvaluationStrategyManager.REEXPOSE_RUNTIMEMATADATAVAlUES))
+			    return true;
+		}
+		return false;
+	}
+
+	public static boolean hasOrXorBrother(Feature elem) {
+		// TODO Auto-generated method stub
+
+        Iterator it = elem.getLinksSrc().iterator();
+        // if it doesn't have source, return false
+        if (!it.hasNext()) {
+            return false;
+        }
+        while (it.hasNext()) {
+        	ElementLink link = (ElementLink) it.next();
+        	IntentionalElement srcElem = (IntentionalElement)link.getDest();
+        	if (srcElem instanceof Feature && link instanceof Decomposition) {
+        		// if decomposition type is XOR or OR and the relevant type needs to be checked
+        		if ( srcElem.getDecompositionType() == DecompositionType.OR_LITERAL || 
+        				srcElem.getDecompositionType() == DecompositionType.XOR_LITERAL) {
+        			Iterator srcIt = srcElem.getLinksDest().iterator();
+        			while (srcIt.hasNext()) {
+        				ElementLink broLink = (ElementLink) srcIt.next();
+        				if (broLink instanceof Decomposition) {
+        					// for each brother element
+        					IntentionalElement broElem = (IntentionalElement)broLink.getSrc();
+        					if (broElem instanceof Feature && !(broElem.equals(elem))) {
+        						return true;
+        					}
+        				}
+        			}
+        		}
+        	}
+        }
+        return false;
+    
+	}
+    
+	
 
 }

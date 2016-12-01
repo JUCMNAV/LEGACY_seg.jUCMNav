@@ -123,7 +123,9 @@ import seg.jUCMNav.actions.dynamicContexts.IncludeDynamicContextAction;
 import seg.jUCMNav.actions.dynamicContexts.ManageChangeAction;
 import seg.jUCMNav.actions.dynamicContexts.MoveDynamicContextAction;
 import seg.jUCMNav.actions.features.AddFMDAction;
+import seg.jUCMNav.actions.features.ReexposeFeatureAction;
 import seg.jUCMNav.actions.features.SelectFeatureAction;
+import seg.jUCMNav.actions.features.UnreexposeFeatureAction;
 import seg.jUCMNav.actions.features.UnselectFeatureAction;
 import seg.jUCMNav.actions.hyperlinks.AddHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.ChangeHyperlinkAction;
@@ -522,6 +524,14 @@ public class ActionRegistryManager implements IDisposable {
         
         action = new UnselectFeatureAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.UnselectFeature")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new ReexposeFeatureAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ReexposeFeature")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new UnreexposeFeatureAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.UnreexposeFeature")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddBeliefAction(editor);

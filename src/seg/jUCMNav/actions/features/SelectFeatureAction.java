@@ -8,6 +8,8 @@ import grl.IntentionalElementRef;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -15,8 +17,11 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.editparts.IntentionalElementEditPart;
 import seg.jUCMNav.model.commands.transformations.ChangeNumericalEvaluationCommand;
+import seg.jUCMNav.model.commands.transformations.UnreexposeFeatureCommand;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.strategies.util.ReusedElementUtil;
+import urncore.Metadata;
 
 /**
  * This action is used to select one or several features (set numerical evaluation to 100).
@@ -68,7 +73,16 @@ public class SelectFeatureAction extends URNSelectionAction {
 			IntentionalElementRef ier = (IntentionalElementRef) (((IntentionalElementEditPart) iter.next()).getModel());
 			intElementRefs.add(ier);
 		}
-		execute(new ChangeNumericalEvaluationCommand(intElementRefs, 0, 0, getCommandStack()));
+		EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();
+		CompoundCommand stack = new CompoundCommand();
+		stack.add(new ChangeNumericalEvaluationCommand(intElementRefs, 0, 0, getCommandStack()));
+		// if the selected IntentionalElement is reexposed, remove the reexpose metadata
+		Metadata metadataInt = MetadataHelper.getMetaDataObj(intElementRefs.get(0).getDef(), EvaluationStrategyManager.REEXPOSE_RUNTIMEMATADATA);
+		if ( metadataInt != null && metadataInt.getValue().equals(EvaluationStrategyManager.REEXPOSE_RUNTIMEMATADATAVAlUES)){
+			stack.add(new UnreexposeFeatureCommand( intElementRefs.get(0), strategy));
+		}
+		execute(stack);
+		//execute(new ChangeNumericalEvaluationCommand(intElementRefs, 0, 0, getCommandStack()));
 		intElementRefs.removeAllElements();
 	}
 

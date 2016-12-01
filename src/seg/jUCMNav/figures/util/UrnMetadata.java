@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.MetadataHelper;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import ucm.map.FailurePoint;
 import ucm.map.RespRef;
@@ -85,9 +86,13 @@ public class UrnMetadata {
 
     	StringBuilder sb = new StringBuilder();
     	
-    	String value = MetadataHelper.getMetaData(parent, "CoURN");
-    	if( value!=null && value.equalsIgnoreCase("root feature")){
-    		sb.append(STEREOTYPE_OPEN + "root" + STEREOTYPE_CLOSE);
+    	String value = MetadataHelper.getMetaData(parent, "CoURN");  //$NON-NLS-1$
+    	if( value!=null && value.equalsIgnoreCase("root feature")){  //$NON-NLS-1$
+    		sb.append(STEREOTYPE_OPEN + "root" + STEREOTYPE_CLOSE);  //$NON-NLS-1$
+    	}
+    	
+    	if( value != null && value.equalsIgnoreCase( EvaluationStrategyManager.REEXPOSE_RUNTIMEMATADATAVAlUES )){
+    		sb.append(STEREOTYPE_OPEN + EvaluationStrategyManager.REEXPOSE_RUNTIMEMATADATAVAlUES + STEREOTYPE_CLOSE);
     	}
     	
     	if( UrnMetadata.getElementStereotypes( reference, sb) || UrnMetadata.getElementStereotypes( parent, sb) ) {

@@ -633,6 +633,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
             if (currentStrategy != null) {
                 EvaluationStrategyManager.getInstance(multieditor).setStrategy(null);
+                EvaluationStrategyManager.clearAllRuntimeReexposeMetadata(currentStrategy.getGrlspec().getUrnspec());
                 disableStrategyView();
                 currentStrategy = null; // forget it so that we can start anew
             }

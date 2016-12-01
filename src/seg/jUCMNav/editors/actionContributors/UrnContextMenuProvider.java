@@ -93,7 +93,9 @@ import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
 import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
 import seg.jUCMNav.actions.dynamicContexts.ManageChangeAction;
 import seg.jUCMNav.actions.features.AddFMDAction;
+import seg.jUCMNav.actions.features.ReexposeFeatureAction;
 import seg.jUCMNav.actions.features.SelectFeatureAction;
+import seg.jUCMNav.actions.features.UnreexposeFeatureAction;
 import seg.jUCMNav.actions.features.UnselectFeatureAction;
 import seg.jUCMNav.actions.hyperlinks.AddHyperlinkAction;
 import seg.jUCMNav.actions.hyperlinks.ChangeHyperlinkAction;
@@ -311,6 +313,14 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(UnselectFeatureAction.UNSELECTFEATURE);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(ReexposeFeatureAction.REEXPOSEFEATURE);
+        if(action.isEnabled())
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(UnreexposeFeatureAction.UNREEXPOSEFEATURE);
+        if(action.isEnabled())
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         actions = new IAction[8];
         for (int i = 0; i <= 7; i++)

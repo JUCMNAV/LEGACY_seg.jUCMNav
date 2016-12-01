@@ -349,7 +349,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
           		    System.out.println("If the current feature and warning is equal ?"+ ((IntentionalElementRef)currWarning.getLocation()).getDef().equals(getNode().getDef()));
           		    if (((IntentionalElementRef)currWarning.getLocation()).getDef().equals(getNode().getDef())){
           		    	warningList.remove(currWarning);
-          		    	
+          		    	FeatureModelStrategyAlgorithm.getWarnings().remove(currWarning);
           		    	
           		    }
         		}
@@ -468,7 +468,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                         	
                         }
                         String value = MetadataHelper.getMetaData(getNode().getDef(), "CoURN");
-                        if (value!=null && value.equalsIgnoreCase("root feature") && evaluation.getEvaluation()==100){
+                        if (value!=null && value.equalsIgnoreCase("root feature") && evaluation.getEvaluation()!=100){
                         	lineColor = "160,0,0";
                         	if(getNode().getDiagram() instanceof FeatureDiagram)
                         	FeatureModelStrategyAlgorithm.getWarnings().add(new StrategyEvaluationWarning(Messages.getString("FeatureModelStrategyAlgorithm.RootFeatureEvaluation")
@@ -657,9 +657,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 		} else if (evalType == IGRLStrategyAlgorithm.EVAL_FEATURE_MODEL && elem instanceof Feature && 
 				FeatureUtil.checkSelectionStatus((Feature) elem, false) && 
 				(FeatureUtil.containsOnlySrcLinkToNotSelectedFeature((Feature) elem, urn.getGrlspec()) || 
-						FeatureUtil.containsOnlyOptionalSrcLinkToFeature((Feature) elem, urn.getGrlspec()) || 
-						FeatureUtil.hasSelectedOrXorBrother((Feature) elem, true, true))) {
-		    	// if feature model algorithm and own evaluation is 0, check if need to set to light gray color
+						FeatureUtil.containsOnlyOptionalSrcLinkToFeature((Feature) elem, urn.getGrlspec()) 
+						|| FeatureUtil.hasOrXorBrother((Feature)elem)) && !FeatureUtil.isReexposed(elem)){
+					//	|| FeatureUtil.hasSelectedOrXorBrother((Feature) elem, true, true)) ) {
+		    	// if feature model algorithm and own evaluation is 0 and is Un-reexposed, check if need to set to light gray color
 				// case A: set to light gray if all links to other features are to features with an evaluation of 0
 				// case B: set to light gray if all links to other features are optional
 				// case C: set to light gray if a brother of the same OR/XOR decomposition link is 100
@@ -682,6 +683,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 		    } else {
 		        color = partial + ",255,96"; //$NON-NLS-1$
 		    }
+		    //if( elem instanceof Feature && evalValue == 0 && FeatureUtil.isReexposed(elem))
 		}
 		return color;
 	}

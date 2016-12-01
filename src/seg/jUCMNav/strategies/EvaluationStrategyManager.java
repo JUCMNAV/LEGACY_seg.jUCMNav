@@ -61,8 +61,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
@@ -106,6 +108,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
 
+import fm.Feature;
 import fm.FeatureModel;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
@@ -125,6 +128,7 @@ import seg.jUCMNav.model.commands.create.AddKPIInformationConfigCommand;
 import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.StrategyEvaluationRangeHelper;
+import seg.jUCMNav.strategies.util.FeatureUtil;
 import seg.jUCMNav.views.UCMPerspectiveFactory;
 import seg.jUCMNav.views.dynamicContexts.DynamicContextsView;
 import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
@@ -196,6 +200,16 @@ public class EvaluationStrategyManager {
      */
     public static final String METADATA_DEACTSTATUS = "_deactStatus"; //$NON-NLS-1$
 
+    /**
+     * Metadata name used to store the run-time reexposed Feature(IntentionalElement).
+     */
+    public static final String REEXPOSE_RUNTIMEMATADATA = "CoURN";//$NON-NLS-1$
+    
+    /**
+     * Metadata value mapped to name of CoURN for reexposed Feature.
+     */
+    public static final String REEXPOSE_RUNTIMEMATADATAVAlUES = "_reexpose"; //$NON-NLS-1$
+    
     private static HashMap<UCMNavMultiPageEditor, EvaluationStrategyManager> strategyManagerInstances = null;
     // just in case we're actually accessing it via some non UI thread during export and/or before the app loads.
     private static EvaluationStrategyManager noEditorStrategyManagerInstance = null;
@@ -384,6 +398,8 @@ public class EvaluationStrategyManager {
         //        System.out.println("Time spent: " + (after - before) + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
 
         refreshDiagrams();
+        FeatureModelStrategyAlgorithm.refreshProblemsView();
+        // refresh problem views of the EvaluationStrategy
     }
 
     private void calculateEvaluationExecute() {
@@ -394,10 +410,50 @@ public class EvaluationStrategyManager {
             processConstraintSolverAlgorithm();
         } else {
             processNonConstraintSolverAlgorithm();
+            //if it is Feature Model algorithm , set MetaData of reexpose to the reexposed element
+            if( algo instanceof FeatureModelStrategyAlgorithm && strategy != null){
+            	URNspec urn = null;
+            	String reexposeIDs =  MetadataHelper.getMetaData(strategy, REEXPOSE_RUNTIMEMATADATA);
+            	if( strategy.getGrlspec()!= null && strategy.getGrlspec().getUrnspec()!= null)
+            		 urn = strategy.getGrlspec().getUrnspec();
+            	clearAllRuntimeReexposeMetadata( urn );
+            	if( reexposeIDs != null){
+            		 String[] reexposeArray = reexposeIDs.substring( reexposeIDs.indexOf(":") +1).split(",");
+            	     List<String> reexposeFeatureList = Arrays.asList(reexposeArray);
+            	     for(Iterator itr = urn.getGrlspec().getIntElements().iterator(); itr.hasNext();){
+            			  IntentionalElement elem = (IntentionalElement) itr.next();
+            			  if (elem instanceof Feature){
+            				  
+            				  Metadata runtimeEvalObj = MetadataHelper.getMetaDataObj(elem, METADATA_NUMEVAL);
+            				  if( reexposeFeatureList.contains( elem.getId()) && runtimeEvalObj !=null &&
+            						  Integer.valueOf(runtimeEvalObj.getValue()) == 0 ){
+            					  MetadataHelper.addMetaData(urn, elem, REEXPOSE_RUNTIMEMATADATA, REEXPOSE_RUNTIMEMATADATAVAlUES);
+            				  }
+            				    
+            			  }
+            		  }
+            	 } 
+            	
+            }
         }
     }
+    
+    // before it starts to execute applying the runtime metadata reexpose to IntentionalElement
+    public static void clearAllRuntimeReexposeMetadata(URNspec urn) {
+		// TODO Auto-generated method stub
+		LinkedList<Feature> list = new LinkedList<Feature>();
+		for(Iterator itr = urn.getGrlspec().getIntElements().iterator(); itr.hasNext();){
+			 IntentionalElement intElem = (IntentionalElement)itr.next();
+			 if( intElem instanceof Feature && FeatureUtil.isReexposed(intElem)){
+				 
+				  MetadataHelper.removeMetaData(intElem, REEXPOSE_RUNTIMEMATADATA );
+				 
+			 }
+			 
+		}
+	}
 
-    private synchronized void refreshDiagrams() {
+	private synchronized void refreshDiagrams() {
         // Refresh all the diagrams if canRefresh set to true
         if (canRefresh && multieditor != null) {
             for (int i = 0; i < multieditor.getPageCount(); i++) {
@@ -859,9 +915,11 @@ public class EvaluationStrategyManager {
             
             calculateEvaluation();
           //  if(FeatureModelStrategyAlgorithm.getWarnings().size()>0){
-            	FeatureModelStrategyAlgorithm.refreshProblemsView();
+          //      FeatureModelStrategyAlgorithm.refreshProblemsView();
           //  }
             
+        }else{
+        	FeatureModelStrategyAlgorithm.clearProblemViews();
         }
 
         // Refresh the kpi list view
