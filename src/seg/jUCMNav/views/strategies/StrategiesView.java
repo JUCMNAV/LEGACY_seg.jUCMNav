@@ -468,7 +468,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         // perform even if hasn't changed because our operation gets overridden by the main editor. 
         if (multieditor!=null) {
         	
-        	//The main editor calls the listeners to all the views, and strategy view being the last overrides the selection of
+        	//The main editor calls the listeners to all the views, and strategy view here overrides the selection of
         	//ID_STRATEGY or ID_DESIGN from Dynamic Context view, which isn't desirable. In order to avoid that, first the check needs to be done
         	//whether the Dynamic Context view is in strategy mode or not. If it is, then the refresh selection should prioritize its selection over
         	//strategies view.

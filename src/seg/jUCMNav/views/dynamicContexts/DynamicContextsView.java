@@ -468,10 +468,26 @@ public class DynamicContextsView extends ViewPart implements IPartListener2, ISe
         
         // perform even if hasn't changed because our operation gets overridden by the main editor. 
         if (multieditor!=null) { 
-            // bug 760; refresh selection after tab change.
+        	
+        	//The main editor calls the listeners to all the views, and dynamic contexts view here overrides the selection of
+        	//ID_STRATEGY or ID_DESIGN from Strategies view, which isn't desirable. In order to avoid that, first the check needs to be done
+        	//whether the Strategy view is in strategy mode or not. If it is, then the refresh selection should prioritize its selection over
+        	//dyn context view.
+        	boolean refreshStView = false;
+        	StrategiesView sv = null;
+        	if( (sv = EvaluationStrategyManager.getInstance(false).getStrategiesView()) != null ) {
+        		//If the currentView in Strategies view is ID_STRATEGY then true
+            	refreshStView = sv.isStrategyView();
+                   
+            }
+        	
+        	// bug 760; refresh selection after tab change.
             for (int i = 0; i < multieditor.getPageCount(); i++) {
                 UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(currentView == ID_STRATEGY);
+                if (refreshStView)
+                	((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(refreshStView);
+                else
+                	((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(currentView == ID_STRATEGY);
             }  
         }
 
