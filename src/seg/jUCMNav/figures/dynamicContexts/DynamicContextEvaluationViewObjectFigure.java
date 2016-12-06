@@ -269,7 +269,7 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     	int y = 0;
     	for (int i = 0; i < eltsEvalBar.length; i++) {
     		if (i == 0)
-	        	y = (DEFAULT_BAR_HEIGHT * 3) + LABEL_PADDING_Y;
+	        	y = intElemsFlowPage[0].getBounds().y;
         		//y = timepointsFlowPage[0].getBounds().y + timepointsTextFlow[0].getPreferredSize().height + LABEL_PADDING_Y;
 
 	        else 
@@ -303,7 +303,7 @@ public class DynamicContextEvaluationViewObjectFigure extends Figure {
     	for (int i = 0; i < colors.length; i++) {
     		if (i == 0) {
     			intElemsTextFlow[i].setText("System"); //$NON-NLS-1$ //$NON-NLS-2$
-	        	height = (DEFAULT_BAR_HEIGHT * 3) + LABEL_PADDING_Y;
+	        	height = (DEFAULT_BAR_HEIGHT * 3) + LABEL_PADDING_Y + 6;
 	        	setEvalTextFlowPageConstraint(intElemsFlowPage[i], LABEL_PADDING_X * moveToRight, height);
     		}
 	        else {
