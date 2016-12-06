@@ -30,7 +30,7 @@ public class DatePropertyDescriptor extends PropertyDescriptor {
     public DatePropertyDescriptor(Object id, Timepoint tp) {
         super(id, Messages.getString("DatePropertyDescriptor.SelectedDate")); //$NON-NLS-1$
         this.tp = tp;
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         final String name = df.format(tp.getTimepoint());
         setLabelProvider(new LabelProvider() {
             public String getText(Object element) {

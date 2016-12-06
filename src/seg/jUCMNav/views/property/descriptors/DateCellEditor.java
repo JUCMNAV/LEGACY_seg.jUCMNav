@@ -97,7 +97,7 @@ public class DateCellEditor extends DialogCellEditor {
      * We always show the same message.
      */
     protected void updateContents(Object value) {
-    	DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
     	String name = "";
     	if (tp != null)
     		name = df.format(tp.getTimepoint());

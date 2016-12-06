@@ -1005,7 +1005,7 @@ public class URNNamingHelper {
     //For Dynamic Context objects which aren't URNModelElements
     public static String getName(Change change) {
     	String property = null;
-    	DateFormat df = new SimpleDateFormat("MMddyy");
+    	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
     	if (change instanceof DeactivationChange)
     		property = "Deactive";
     	else

@@ -55,7 +55,7 @@ public class ChangeCellEditor extends DialogCellEditor {
     public ChangeCellEditor(Composite parent, Change change, String valueToChange) {
         super(parent);
         this.change = change;
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
     	if (valueToChange.equals("startDate")) {
         	name = df.format(change.getStart());
         } else if (valueToChange.equals("endDate")) {

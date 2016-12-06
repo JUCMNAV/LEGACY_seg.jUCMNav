@@ -38,7 +38,7 @@ public class ChangePropertyDescriptor extends PropertyDescriptor {
         super(id, valueToChange); //$NON-NLS-1$
         this.change = change;
         this.valueToChange = valueToChange;
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         if (valueToChange.equals("startDate")) {
         	name = df.format(change.getStart());
         } else if (valueToChange.equals("endDate")) {

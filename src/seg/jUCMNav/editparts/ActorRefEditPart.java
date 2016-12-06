@@ -199,12 +199,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 	
                 	//For TimedGRL
         			Boolean ignored = false;
-        			Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
-        			if (metaDeactStatus != null) {
-        				String deactStatus = MetadataHelper.getMetaData(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
-        				if (deactStatus.equalsIgnoreCase("true"))
-        					ignored = true;
-        			}
+        			ignored = EvaluationStrategyManager.getInstance().isActorIgnored(actor);
         			if (ignored) {
         				((ActorFigure) figure).setColors("169,169,169", actor.getFillColor(), actor.isFilled());
         				evaluationLabel.setForegroundColor(ColorManager.GRAY);

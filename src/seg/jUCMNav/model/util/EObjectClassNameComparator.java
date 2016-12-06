@@ -96,7 +96,7 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
         } else if (o instanceof Change) {                                 //Build name for a Change
         	String property = null;
         	Change change = (Change) o;
-        	DateFormat df = new SimpleDateFormat("MMddyy");
+        	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         	if (change instanceof DeactivationChange)
         		property = "Deactive";
         	else

@@ -317,7 +317,7 @@ public class ManageChangeEditorPage extends WizardPage {
             	column.setData(new Comparator<TableItem>() {
             	    @Override
             	    public int compare(TableItem t1, TableItem t2) {
-            	    	DateFormat df = new SimpleDateFormat("MM/dd/yyyy"); 
+            	    	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy"); 
             	    	Date startDate1 = null;
             	    	Date startDate2 = null;
             	    	try {
@@ -600,7 +600,7 @@ public class ManageChangeEditorPage extends WizardPage {
 				else{
 					Change addedChange = addChange();
 					TableItem item = new TableItem(availableChanges, SWT.NONE);
-					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+					DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
 					if (changeType.equals("Constant Change"))
 						item.setText(new String[] {((ConstantChange) addedChange).getAffectedProperty(), df.format(addedChange.getStart()), 
 		            		df.format(addedChange.getEnd()), changeType, Integer.toString(((ConstantChange) addedChange).getNewValue()), ""});
@@ -670,7 +670,7 @@ public class ManageChangeEditorPage extends WizardPage {
 				else if(wrongFormat)
 					setErrorMessage(Messages.getString("ManageChangePage.NumberFormatWrong"));
 				else{
-					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+					DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
 					java.util.List availChanges = DynamicContextsUtils.getAllAvailableChanges(ManageChangeEditorPage.this.parent, currentDynContext, urn);
 			    	Change changeToUpdate = null;
 			    	for (Iterator iter = availChanges.iterator(); iter.hasNext();) {
@@ -749,7 +749,7 @@ public class ManageChangeEditorPage extends WizardPage {
         		int msgId = dialog.open();
         		switch(msgId) {
                 case SWT.OK:
-                	DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
     				java.util.List availChanges = DynamicContextsUtils.getAllAvailableChanges(ManageChangeEditorPage.this.parent, currentDynContext, urn);
     		    	Change changeToDelete = null;
     		    	for (Iterator iter = availChanges.iterator(); iter.hasNext();) {
@@ -763,6 +763,10 @@ public class ManageChangeEditorPage extends WizardPage {
     		    	}
     		    	deleteChange(changeToDelete);
     		    	availableChanges.remove(availableChanges.getSelectionIndex());
+    		    	
+    		    	//Clear out all the fields
+    		    	clearChangeData();
+    		    	
                 case SWT.CANCEL:
                   // does nothing ...
               }
@@ -787,25 +791,7 @@ public class ManageChangeEditorPage extends WizardPage {
 			
         	@Override
 			public void widgetSelected(SelectionEvent e) {
-        		affectedProperties.deselectAll();
-            	affectedProperties.setEnabled(true);
-            	changes.deselectAll();
-            	Date today = new Date();
-            	startCalendar.setDate(today.getYear()+1900, today.getMonth(), today.getDate());
-            	startCalendar.setTime(0, 0, 0);
-            	endCalendar.setDate(today.getYear()+1900, today.getMonth(), today.getDate());
-            	endCalendar.setTime(0, 0, 0);
-            	newValueText.setText("");
-            	newValueDecomp.deselectAll();
-            	newValueQuad.setText("");
-            	newValueLin.setText("");
-            	newValueCon.setText("");
-            	newValueFor.setText("");
-            	availableChanges.deselectAll();
-            	addButton.setEnabled(true);
-            	updButton.setEnabled(false);
-            	delButton.setEnabled(false);
-            	deselButton.setEnabled(false);
+        		clearChangeData();
         	}
 			
 			@Override
@@ -836,7 +822,7 @@ public class ManageChangeEditorPage extends WizardPage {
         
         //Select the change in ManageChange page if opened from property view 
         if (selectedChange != null) {
-        	DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         	for (int i = 0; i < availableChanges.getItemCount(); i++) {
         		if (availableChanges.getItem(i).getText(0).startsWith("Selected")) {
 		    		if (selectedChange instanceof DeactivationChange && 
@@ -864,6 +850,28 @@ public class ManageChangeEditorPage extends WizardPage {
 
     }
     
+    private void clearChangeData() {
+    	affectedProperties.deselectAll();
+    	affectedProperties.setEnabled(true);
+    	changes.deselectAll();
+    	Date today = new Date();
+    	startCalendar.setDate(today.getYear()+1900, today.getMonth(), today.getDate());
+    	startCalendar.setTime(0, 0, 0);
+    	endCalendar.setDate(today.getYear()+1900, today.getMonth(), today.getDate());
+    	endCalendar.setTime(0, 0, 0);
+    	newValueText.setText("");
+    	newValueDecomp.deselectAll();
+    	newValueQuad.setText("");
+    	newValueLin.setText("");
+    	newValueCon.setText("");
+    	newValueFor.setText("");
+    	availableChanges.deselectAll();
+    	addButton.setEnabled(true);
+    	updButton.setEnabled(false);
+    	delButton.setEnabled(false);
+    	deselButton.setEnabled(false);
+    }
+    
     /*
      * Checks if the available changes overlap with the new change's start or end date
      */
@@ -885,6 +893,8 @@ public class ManageChangeEditorPage extends WizardPage {
      * Updates the fields in the dialog according to the selected change
      */
     private void updateItemInDialog(int i) {
+    	Date start = new Date();
+    	Date end = new Date();
     	int index = dynamicContexts.getSelectionIndex();
         oldDynContext = (DynamicContext) urn.getDynamicContexts().get(index);
     	String affProperty = availableChanges.getItem(i).getText(0);
@@ -893,13 +903,21 @@ public class ManageChangeEditorPage extends WizardPage {
     	changes.setItems(new String[] {availableChanges.getItem(i).getText(3)});
     	changes.setText(availableChanges.getItem(i).getText(3));
     	changes.setEnabled(false);
+    	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
     	String sDate = availableChanges.getItem(i).getText(1);
     	String eDate = availableChanges.getItem(i).getText(2);
-    	startCalendar.setDate(Integer.parseInt(sDate.substring(6, 10)), Integer.parseInt(sDate.substring(0, 2)) - 1, Integer.parseInt(sDate.substring(3, 5)));
+    	try {
+			start = df.parse(sDate);
+			end = df.parse(eDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	startCalendar.setDate(start.getYear() + 1900, start.getMonth(), start.getDate());
     	startCalendar.setTime(0, 0, 0);
     	startCalendar.update();
     	endCalendar.setTime(0, 0, 0);
-    	endCalendar.setDate(Integer.parseInt(eDate.substring(6, 10)), Integer.parseInt(eDate.substring(0, 2)) - 1, Integer.parseInt(eDate.substring(3, 5)));
+    	endCalendar.setDate(end.getYear() + 1900, end.getMonth(), end.getDate());
     	endCalendar.update();
     	addButton.setEnabled(false);
     	updButton.setEnabled(true);
@@ -1096,7 +1114,7 @@ public class ManageChangeEditorPage extends WizardPage {
 		            strings[i][4] = Integer.toString(((ConstantChange)possibleChange).getNewValue());
 		            strings[i][5] = " ";
 	            }
-	            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	            DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
 	            strings[i][1] = df.format(possibleChange.getStart());
 	            strings[i][2] = df.format(possibleChange.getEnd());
 	            

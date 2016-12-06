@@ -1,5 +1,6 @@
 package seg.jUCMNav.strategies;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import grl.Actor;
@@ -16,6 +17,7 @@ import seg.jUCMNav.model.util.MetadataHelper;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.Metadata;
+import urncore.URNmodelElement;
 
 /**
  * This class implements the Timed GRL evaluation algorithm.
@@ -98,7 +100,7 @@ public class TimedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlgorithm 
     public int getActorEvaluation(Actor actor) {
     	int sumEval = 0;
         int sumImportance = 0;
-
+        ArrayList<URNmodelElement> addedElts = new ArrayList<URNmodelElement>();
         Iterator iter = actor.getContRefs().iterator();
         while (iter.hasNext()) {
             // Parse through the node bound to this actor
@@ -109,6 +111,12 @@ public class TimedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlgorithm 
                 if (node instanceof IntentionalElementRef) {
                 	IntentionalElementRef elementRef = (IntentionalElementRef) node;
                     IntentionalElement element = elementRef.getDef();
+                    
+                    //Skip this element if already added because of more than one references,else add it to the list
+                    if (addedElts.contains(element))
+                    	continue;
+                    else
+	                    addedElts.add(element);
                     
                     //Skip this element if it is deactivated
                     Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(element, EvaluationStrategyManager.METADATA_DEACTSTATUS);
@@ -126,12 +134,19 @@ public class TimedGRLStrategyAlgorithm extends QuantitativeGRLStrategyAlgorithm 
                     }
                 }
             }
+            
             iterNode = ref.getChildren().iterator();
             while (iterNode.hasNext()) {
                 IURNContainerRef node = (IURNContainerRef) iterNode.next();
                 if (node instanceof ActorRef) {
                     ActorRef elementRef = (ActorRef) node;
                     Actor element = (Actor) elementRef.getContDef();
+                    
+                    //Skip this actor if already added because of more than one references,else add it to the list
+                    if (addedElts.contains(element))
+                    	continue;
+                    else
+	                    addedElts.add(element);
                     
                   //Skip this actor if it is deactivated
                     Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(element, EvaluationStrategyManager.METADATA_DEACTSTATUS);

@@ -263,11 +263,11 @@ public class ChangePropertySource extends URNElementPropertySource {
         	result = EObjectClassNameComparator.getSortableElementName(((Change) getEditableValue()).getContext());
             
         } else if (getFeatureType(feature).getInstanceClass() == Date.class && getEditableValue() instanceof Change && feature.getName().equals("start")) {
-        	DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
             result = df.format(((Change) getEditableValue()).getStart());
             
         } else if (getFeatureType(feature).getInstanceClass() == Date.class && getEditableValue() instanceof Change && feature.getName().equals("end")) {
-        	DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
             result = df.format(((Change) getEditableValue()).getEnd());
             
         } else if (getFeatureType(feature).getInstanceClass() == String.class && getEditableValue() instanceof Change && feature.getName().equals("affectedProperty")) {

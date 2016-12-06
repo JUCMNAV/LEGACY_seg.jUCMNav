@@ -1,5 +1,6 @@
 package seg.jUCMNav.editparts;
 
+import grl.Actor;
 import grl.ActorRef;
 import grl.GrlPackage;
 import grl.IntentionalElementRef;
@@ -353,8 +354,16 @@ public class LabelEditPart extends ModelElementEditPart {
             if (modelElement instanceof URNmodelElement) {
                 if (modelElement instanceof IURNContainerRef) { // use definition
                     IURNContainer componentElement = ((IURNContainerRef) modelElement).getContDef();
-                    if (componentElement != null)
-                        labelFigure.setSuffixText(UrnMetadata.getStereotypes(componentElement));
+                    if (componentElement != null) {
+                    	
+                    	//Updated to show importance for actors on the label
+                    	if (componentElement instanceof Actor) {
+                    		Actor act = (Actor) componentElement;
+                    		String importance = IntentionalElementEditPart.getImportanceSuffix(act.getImportanceQuantitative(), act.getImportance());
+                    		labelFigure.setSuffixText(importance + UrnMetadata.getStereotypes(componentElement));
+                    	} else
+                    		labelFigure.setSuffixText(UrnMetadata.getStereotypes(componentElement));
+                    }
 
                     if (modelElement instanceof ComponentRef) {
                         if (((ComponentRef) modelElement).getContDef() instanceof Component) {
@@ -488,8 +497,8 @@ public class LabelEditPart extends ModelElementEditPart {
 
         if (modelElement instanceof IURNContainerRef) { // use definition
             IURNContainer componentElement = ((IURNContainerRef) modelElement).getContDef();
-            if (componentElement != null)
-                labelFigure.setEditableText(((URNmodelElement) componentElement).getName());
+            if (componentElement != null) 
+            	labelFigure.setEditableText(((URNmodelElement) componentElement).getName());
             // componentref labels are in bold.
             labelFigure.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
         } else if (modelElement instanceof RespRef) { // use definition

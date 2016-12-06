@@ -57,9 +57,13 @@ public class DeleteActorRefCommand extends CompoundCommand {
 
     public void execute() {
         // Verify if this reference is the only one
-        if (actorRef.getContDef().getContRefs().size() <= 1 && DeletePreferences.getDeleteDefinition(actorRef)) {
+    	if (actorRef.getContDef().getContRefs().size() <= 1) {
+    		
+    		//Delete the changes everytime all the references are deleted
         	deleteChanges();
-            add(new DeleteActorCommand((Actor) actorRef.getContDef()));
+        	
+        	if (DeletePreferences.getDeleteDefinition(actorRef))
+        		add(new DeleteActorCommand((Actor) actorRef.getContDef()));
         }
         super.execute();
     }

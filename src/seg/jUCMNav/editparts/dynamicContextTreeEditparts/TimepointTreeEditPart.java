@@ -83,7 +83,7 @@ public class TimepointTreeEditPart extends DynamicContextUrnModelElementTreeEdit
         if (widget != null && !widget.isDisposed()) {
         	((TreeItem) widget).setForeground(BLACK);
         }
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         String name = df.format(getTimepoint().getTimepoint());
          
         return name;

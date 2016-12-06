@@ -149,6 +149,7 @@ import urn.dyncontext.PropertyChange;
 import urn.dyncontext.QuadraticChange;
 import urn.dyncontext.Timepoint;
 import urn.dyncontext.TimepointGroup;
+import urncore.GRLmodelElement;
 import urncore.Metadata;
 import urncore.URNmodelElement;
 
@@ -233,7 +234,7 @@ public class EvaluationStrategyManager {
     private IGRLStrategyAlgorithm algo;
     private HashMap kpiInformationConfigs = new HashMap();
     private EvaluationStrategy oldStrategy = null;
-    
+   
     public static synchronized EvaluationStrategyManager getInstance(UCMNavMultiPageEditor multieditor, boolean canRefresh) {
 
         if (strategyManagerInstances == null) {
@@ -504,7 +505,7 @@ public class EvaluationStrategyManager {
             
             if (algo instanceof TimedGRLStrategyAlgorithm) {
 	            //Check if the element is deactivated
-	            Boolean deactivated = false;
+	            boolean deactivated = false;
 	            deactivated = isIgnored(element);
 	    		
 	    		//If the element is deactivated, skip it
@@ -556,7 +557,7 @@ public class EvaluationStrategyManager {
     }
 
     public synchronized int getActorEvaluation(Actor actor) {
-    	Boolean ignored = false;
+    	boolean ignored = false;
     	int actorEval = 0;
     	if (algo instanceof TimedGRLStrategyAlgorithm) {
 			Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
@@ -752,14 +753,10 @@ public class EvaluationStrategyManager {
             //If the actor in which the intentional element is contained is deactivated, then deactivate the element as well
 	        if (ref.getContRef() != null && ref.getContRef() instanceof ActorRef) {
 	        	Actor actor = (Actor) ((ActorRef) ref.getContRef()).getContDef();
-	        	if (actor.getMetadata().size() > 0) {
-		        	for (Iterator iter1 = actor.getMetadata().iterator(); iter1.hasNext();) {
-		                Metadata md = (Metadata) iter1.next();
-		                if (md.getName().equalsIgnoreCase("_DEACTSTATUS") && md.getValue().equalsIgnoreCase("true")) {
-		                	return true;
-		                }
-		            }
-		        }
+	        	
+	        	//If this actor or any of its parent is ignored
+	        	if (isActorIgnored(actor))
+	        		return true;
 	        }
 	        		
         }
@@ -839,18 +836,19 @@ public class EvaluationStrategyManager {
 
     public synchronized void setStrategy(EvaluationStrategy strategy3) {
         this.strategy = strategy3;
-
+        
         // Create a new hash map for the evaluation of this strategy
         evaluations = new HashMap();
 
         // Create a new hash map for the KPIInformationConfig this strategy
         kpiInformationConfigs = new HashMap();
+        if (multieditor != null) {
+        	URNspec urn = multieditor.getModel();
         
-        URNspec urn = multieditor.getModel();
-        
-        //Restore any value changed due to TimedGRL Evaluation and clean the related metadata
-        restoreOriginalValue(urn.getGrlspec());
-        MetadataHelper.cleanTimedGRLMetadata(urn);
+	        //Restore any value changed due to TimedGRL Evaluation and clean the related metadata
+	        restoreOriginalValue(urn.getGrlspec());
+	        MetadataHelper.cleanTimedGRLMetadata(urn);
+        }
         
         if (strategy != null) {
         	
@@ -2273,7 +2271,7 @@ public class EvaluationStrategyManager {
     	if (change instanceof DeactivationChange){
     		if (change.getElement() instanceof ActorRef)
     			MetadataHelper.addMetaData(grl.getUrnspec(), (Actor) ((ActorRef) change.getElement()).getContDef(), METADATA_DEACTSTATUS, "true");
-    		else
+    		else if (change.getElement() instanceof GRLmodelElement)
     			MetadataHelper.addMetaData(grl.getUrnspec(), change.getElement(), METADATA_DEACTSTATUS, "true");
     		
     	} else if (change instanceof PropertyChange) {
@@ -2460,7 +2458,7 @@ public class EvaluationStrategyManager {
      */
     private float calculateInitialValue(LinearChange change) {
     	float startValue = 0;
-    	Boolean foundStartValue = false;
+    	boolean foundStartValue = false;
     	Change previousChange = null;
     	List availChanges = DynamicContextsUtils.getAllAvailableChanges(change.getElement(), change.getContext(), change.getContext().getUrnspec());
     	for (Iterator iter = availChanges.iterator(); iter.hasNext();) {
@@ -2593,6 +2591,43 @@ public class EvaluationStrategyManager {
                 }
             }
         }
+    }
+    
+    //Return true if the actor or its parent is deactivated
+    public boolean isActorIgnored(Actor actor) {
+    	boolean ignored = false;
+    	
+    	//If the actor itself has deactivation metadata
+    	Metadata metaDeactStatus = MetadataHelper.getMetaDataObj(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+		if (metaDeactStatus != null) {
+			String deactStatus = MetadataHelper.getMetaData(actor, EvaluationStrategyManager.METADATA_DEACTSTATUS);
+			if (deactStatus.equalsIgnoreCase("true"))
+				return true;
+		}
+		
+    	Iterator iter = actor.getContRefs().iterator();
+        while (iter.hasNext()) {
+            
+        	// Parse through the actor refs bound to this Actor
+            ActorRef ref = (ActorRef) iter.next();
+            
+            //If the actor in which this actor ref is contained is deactivated, then deactivate this actor as well
+	        if (ref.getParent() != null && ref.getParent() instanceof ActorRef) {
+	        	Actor act = (Actor) ((ActorRef) ref.getParent()).getContDef();
+	        	if (actor.getMetadata().size() > 0) {
+		        	for (Iterator iter1 = actor.getMetadata().iterator(); iter1.hasNext();) {
+		                Metadata md = (Metadata) iter1.next();
+		                if (md.getName().equalsIgnoreCase("_DEACTSTATUS") && md.getValue().equalsIgnoreCase("true")) {
+		                	return true;
+		                }
+		            }
+		        }
+	        	ignored = isActorIgnored(act);
+	        }
+	        		
+        }
+        return ignored;
+    	
     }
     
 }

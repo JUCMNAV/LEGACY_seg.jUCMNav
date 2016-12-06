@@ -43,6 +43,7 @@ public class RemoveDynamicContextCommand extends Command implements JUCMNavComma
         testPreConditions();
 
         group.getContexts().remove(dynContext);
+        urn.getDynamicContexts().remove(dynContext);
 
         testPostConditions();
     }
@@ -75,6 +76,7 @@ public class RemoveDynamicContextCommand extends Command implements JUCMNavComma
         testPostConditions();
 
         group.getContexts().add(dynContext);
+        urn.getDynamicContexts().add(dynContext);
 
         testPreConditions();
     }
