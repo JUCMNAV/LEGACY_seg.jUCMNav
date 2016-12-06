@@ -202,6 +202,7 @@
          <viewShortcut id="seg.jUCMNav.views.KPIListView"/>
          <viewShortcut id="seg.jUCMNav.views.KPIView"/>
          <viewShortcut id="seg.jUCMNav.views.DynamicContextsView"/>
+         <viewShortcut id="seg.jUCMNav.views.DynamicContextEvaluationView"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="seg.jUCMNav.UCMEditorExecution">
          <viewShortcut id="seg.jUCMNav.views.ElementView"/>
@@ -212,6 +213,7 @@
          <viewShortcut id="org.eclipse.ui.views.ContentOutline"/>
          <viewShortcut id="org.eclipse.ui.views.PropertySheet"/>
          <viewShortcut id="org.eclipse.ui.views.ProblemView"/>
+         <viewShortcut id="seg.jUCMNav.views.DynamicContextEvaluationView"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="seg.jUCMNav.ConcernURNEditor">
           <viewShortcut id="seg.jUCMNav.views.StrategiesView"/>
@@ -246,6 +248,12 @@
             icon="icons/urnstratscenon16.gif"
             id="seg.jUCMNav.views.DynamicContextsView"
             name="%DynamicContexts"/>
+      <view
+            category="seg.jUCMNav"
+            class="seg.jUCMNav.views.dynamicContexts.DynamicContextEvaluationView"
+            icon="icons/urnstratscenon16.gif"
+            id="seg.jUCMNav.views.DynamicContextEvaluationView"
+            name="%DynamicContextsEvaluation"/>
       <view
             category="seg.jUCMNav"
             class="seg.jUCMNav.views.kpi.KPIListView"

@@ -16,5 +16,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/jaxrpc.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/org-eclipse-gmf-runtime-diagram-ui-parts.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xerces.jar"/>
+	<classpathentry kind="lib" path="lib/org.swtchart.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

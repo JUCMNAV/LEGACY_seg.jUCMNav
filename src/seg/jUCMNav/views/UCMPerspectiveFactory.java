@@ -42,6 +42,9 @@ public class UCMPerspectiveFactory implements IPerspectiveFactory {
         bottomRight.addView(IPageLayout.ID_PROP_SHEET);
         bottomRight.addView(IPageLayout.ID_PROBLEM_VIEW);
         bottomRight.addView("seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
+        
+        //add view for DynamicContextEvaluation(TimepointGroup Evaluation)
+        bottomRight.addView("seg.jUCMNav.views.DynamicContextEvaluationView"); //$NON-NLS-1$
 
         layout.addPerspectiveShortcut(UCMPerspectiveFactoryExecution.JUCMNAV_PERSPECTIVE_ID);
     }

@@ -133,6 +133,7 @@ public class DisplayPreferences {
                             
                             //Dynamic Context view
                             showView(page, "seg.jUCMNav.views.DynamicContextsView");
+                            showView(page, "seg.jUCMNav.views.DynamicContextEvaluationView");
 
                             addKpi(page);
                         } else if (!isShowKPI() && event.getProperty().equals(PREF_ADVANCEDUCMKPI)) {

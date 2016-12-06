@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.part.ViewPart;
@@ -52,6 +53,7 @@ import seg.jUCMNav.strategies.FeatureModelStrategyAlgorithm;
 import seg.jUCMNav.views.JUCMNavRefreshableView;
 import seg.jUCMNav.views.dnd.UrnTemplateTransferDragSourceListener;
 import seg.jUCMNav.views.dnd.UrnTemplateTransferDropTargetListener;
+import seg.jUCMNav.views.dynamicContexts.DynamicContextsView;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
 import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.UCMspec;
@@ -464,11 +466,29 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         }
         
         // perform even if hasn't changed because our operation gets overridden by the main editor. 
-        if (multieditor!=null) { 
+        if (multieditor!=null) {
+        	
+        	//The main editor calls the listeners to all the views, and strategy view being the last overrides the selection of
+        	//ID_STRATEGY or ID_DESIGN from Dynamic Context view, which isn't desirable. In order to avoid that, first the check needs to be done
+        	//whether the Dynamic Context view is in strategy mode or not. If it is, then the refresh selection should prioritize its selection over
+        	//strategies view.
+        	boolean refreshDynView = false;
+        	if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+                    && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.DynamicContextsView") != null) { //$NON-NLS-1$
+            	DynamicContextsView dv = (DynamicContextsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.DynamicContextsView").getView(false);
+                if (dv != null && dv.getDynamicContext() != null) {
+                	
+                	//If the currentView in DynamicContexts view is ID_STRATEGY then true
+                	refreshDynView = dv.isDynamicView();
+                }
+            }
             // bug 760; refresh selection after tab change.
             for (int i = 0; i < multieditor.getPageCount(); i++) {
                 UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(currentView == ID_STRATEGY);
+                if (refreshDynView)
+                	((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(refreshDynView);
+                else
+                	((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(currentView == ID_STRATEGY);
             }  
         }
 
@@ -605,6 +625,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
      *            parameter indicating which view to display, passed when an appropriate button is pressed in the workbench
      */
     public void showPage(int id) {
+    	
         if (id == ID_DESIGN) {
             showDesignView.setChecked(true);
             showStrategiesView.setChecked(false);
@@ -625,6 +646,12 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
             
             currentView = ID_DESIGN;
+            
+            //Always set DynamicContext and Timepoint null in case "Scenarios and Strategies view"
+            (EvaluationStrategyManager.getInstance(multieditor)).setDynamicContext(null);
+        	(EvaluationStrategyManager.getInstance(multieditor)).setTimepoint(null);
+        	 EvaluationStrategyManager.getInstance(multieditor).setStrategy(null);
+        	
             if (currentContributionContext != null) {
                 EvaluationStrategyManager.getInstance(multieditor).setContributionContext(null);
                 enableStrategyView(); // refresh issue. 
@@ -648,6 +675,15 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                 MetadataHelper.cleanRunTimeMetadata(multieditor.getModel());
 
         } else if (id == ID_STRATEGY) {
+        	
+        	//Switch off the strategy mode of DynamicContextsView
+        	if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+                    && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.DynamicContextsView") != null) { //$NON-NLS-1$
+            	DynamicContextsView dv = (DynamicContextsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findViewReference("seg.jUCMNav.views.DynamicContextsView").getView(false);
+                if (dv != null && dv.getDynamicContext() != null) {
+                	dv.showPage(ID_DESIGN);
+                }
+            }
             showDesignView.setChecked(false);
             showStrategiesView.setChecked(true);
 
@@ -662,6 +698,10 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
 
             currentView = ID_STRATEGY;
+            
+            //Always set DynamicContext and Timepoint null in case "Scenarios and Strategies view"
+            (EvaluationStrategyManager.getInstance(multieditor)).setDynamicContext(null);
+        	(EvaluationStrategyManager.getInstance(multieditor)).setTimepoint(null);
             
             if (currentContributionContext != null && (currentContributionContext.getGroups().size()==0 || ((ContributionContextGroup)currentContributionContext.getGroups().get(0)).getGrlspec() == null)) {
                 // was deleted

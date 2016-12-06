@@ -34,6 +34,9 @@ public class UCMPerspectiveFactoryExecution implements IPerspectiveFactory {
 
         IFolderLayout bottomMiddle = layout.createFolder("bottomMiddle", IPageLayout.BOTTOM, 0.80f, editorArea); //$NON-NLS-1$
         bottomMiddle.addView(IPageLayout.ID_PROBLEM_VIEW);
+        
+        //add view for DynamicContextEvaluation(TimepointGroup Evaluation)
+        bottomMiddle.addView("seg.jUCMNav.views.DynamicContextEvaluationView"); //$NON-NLS-1$
 
         layout.addPerspectiveShortcut(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID);
     }
