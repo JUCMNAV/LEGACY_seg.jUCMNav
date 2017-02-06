@@ -8,9 +8,13 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemovePathNodeCommand;
 import seg.jUCMNav.model.util.URNElementFinder;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.wizards.NewUcmFileWizard;
+import seg.jUCMNav.views.wizards.importexport.jUCMNavLoader;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
@@ -43,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,6 +56,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 
+import javax.print.DocFlavor.URL;
 import javax.swing.JOptionPane;
 
 import org.eclipse.core.internal.utils.FileUtil;
@@ -110,6 +116,8 @@ import urncore.NodeLabel;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
+
+
 
 
 
@@ -272,10 +280,40 @@ public void redo() {
 		   //otherwise coloring is chosen,therefore no need for output file 
 	   else
 		   runSlicingAlg();
-		   
-	   
-	   
+	//newUCMFile();	   
 	  }
+/**
+ * tests the creation and loading of new ucm file 
+ */
+public void newUCMFile()
+{
+	
+	IWorkbenchPage workbenchPage=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+	 jUCMNavLoader loader = new jUCMNavLoader(workbenchPage, new Shell());
+	 //IWorkbench workbench= PlatformUI.getWorkbench();
+     	//IWorkbenchPage page=	 workbench.getActiveWorkbenchWindow().getActivePage();
+     	
+    //     UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) page.getActiveEditor();
+     	
+     	
+    	 //IEditorInput input=editor.getEditorInput();
+    	 //IFile file = ((IFileEditorInput)input).getFile();
+    	 //String sourceFile=file.getLocation().toOSString();
+    	
+	 String fileName="testNewFile.jucm";
+     String containerName="\\hh";
+     //GeneralPreferencePage.setNewUCM(true);
+     // fileName is added as parameter of getNewURNspec to be able to name a concern after the name of .jucm file
+     try {
+    	 //loader.createAndOpenFile(fileName, containerName, ModelCreationFactory.getNewURNspec(fileName.substring(0,fileName.lastIndexOf("."))));
+		loader.createAndOpenFile(fileName, containerName, ModelCreationFactory.getNewURNspec(fileName.substring(0,fileName.lastIndexOf("."))), false, true);
+	} catch (InvocationTargetException e) {
+		// TODO Auto-generated catch block
+		//e.printStackTrace();
+		//System.out.println("loading Error");
+	}
+    
+}
 /**
  * executes slicing with removal approach, this requires creating a new ucm file,opening it, and then 
  * executing the slicing algorithm by calling {@link #runSlicingAlg(IFile, IURNDiagram)}  
@@ -427,7 +465,7 @@ public void runSlicingAlg()
 		 {	
 			 slicing.forwardNodeConnections.clear();
 		 slicing.forwardCheck_criterion(forwardStartingNC, pathVisitedJoins);
-			System.out.println("criterion concurrent branches="+ slicing.forwardNodeConnections.size());
+			//System.out.println("criterion concurrent branches="+ slicing.forwardNodeConnections.size());
 			if(!slicing.forwardNodeConnections.isEmpty())
 			{
 				//if no variables are there, no need to create concurrency groups
@@ -494,15 +532,15 @@ public void runSlicingAlg()
 		for(RespRef resp:SlicingAlg.allRelevantRespRefList)
 			SlicingAlg.allNotRelevantRespRefList.removeAll(Collections.singleton(resp));	
 		
-		System.out.println("NO of Instances="+SlicingAlg.allPaths.size());
+		//System.out.println("NO of Instances="+SlicingAlg.allPaths.size());
 		if(criterionVariables!=null)
 		{
 		ConcurrencyHandler con=new ConcurrencyHandler();
 		con.handleGroups(SlicingAlg.concurrencyGroups);
 		}
 		
-		System.out.println("Number of unrelated respRef= "+ slicing.allNotRelevantRespRefList.size());
-		System.out.println("Related RespRef= "+slicing.allRelevantRespRefList.size());
+		//System.out.println("Number of unrelated respRef= "+ slicing.allNotRelevantRespRefList.size());
+		//System.out.println("Related RespRef= "+slicing.allRelevantRespRefList.size());
 		//Now check whether remove approach  or coloring is selected 
 		if(removeType)
 			if(criterionVariables!=null)
@@ -512,7 +550,7 @@ public void runSlicingAlg()
 		//otherwise coloring is selected
 		else
 		{    
-			System.out.println("coloring chosen");
+			//System.out.println("coloring chosen");
 			slicing.coloring();
 			//if criterion variables are there coloring is normally executed
 			//otherwise colorAll is invoked
@@ -573,7 +611,7 @@ public File copyfiles(String name)
 			 
 	 String targetFile=sourceFile.substring(0, sourceFile.lastIndexOf("\\")+1);
 	 targetFile+=name+".jucm";
-	  System.out.println("LOcation="+sourceFile+"\nnew file="+targetFile);
+	 //System.out.println("LOcation="+sourceFile+"\nnew file="+targetFile);
 	File source=new File(sourceFile);
 	File target=new File(targetFile);
 	

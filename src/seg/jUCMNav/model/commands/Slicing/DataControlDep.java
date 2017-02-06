@@ -40,7 +40,7 @@ public class DataControlDep {
 	{
 		
 		if(expression==null || expression.isEmpty())
-		{ System.err.println("empty");
+		{ //System.err.println("empty");
 			return null;
 		}
 		PrepareExpression();

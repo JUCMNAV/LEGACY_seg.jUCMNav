@@ -980,10 +980,11 @@ public class RemoveUnrelatedPaths {
 			     }
 			}
 			
+			/*
 			if(NCtemp!=null)
 				System.out.println("NCtemp!=null");
 			else 
-				System.out.println("IT IS NULL");
+				System.out.println("IT IS NULL");*/
 			//NodeConnection NCtemp=criterionExcludedNC.get(0);
 			criterionMergeStartPoint=(StartPoint) NCtemp.getSource();
 			criterionMergeEndPoint=(EndPoint) criterionNC.getTarget();
@@ -1041,7 +1042,7 @@ public class RemoveUnrelatedPaths {
 		 
 		 getCriterionNC(startNodeConnection, pathVisitedForks);
 		 PathNode tempPathNode;
-		 System.out.println("Criterion branches list="+criterionNCList.size());
+		 //System.out.println("Criterion branches list="+criterionNCList.size());
 		 NodeConnection tempNodeConnection;
 		 RemovePathNodeCommand removeNodes;
 		 if(criterionNCList.size()==1)
@@ -1255,7 +1256,7 @@ public class RemoveUnrelatedPaths {
 				 UCMmap map=(UCMmap) obj;
 			 if(!maps.contains(map))
 			 {
-				 System.out.println("map removed:"+((UCMmap) map).getName());
+				 //System.out.println("map removed:"+((UCMmap) map).getName());
 				 removeMap=new DeleteMapCommand(map);
 			      removeMap.execute();
 			 }
@@ -1345,15 +1346,15 @@ public class RemoveUnrelatedPaths {
 	  */
 	 public void removeComponentRefs()
 	 {
-		 System.out.println("number of components found: "+ compRefList.size());
+		 //System.out.println("number of components found: "+ compRefList.size());
 		 
 		 for (ComponentRef comp: compRefList)
 		 {
-			 System.out.println("Component: "+comp.getId());
+			 //System.out.println("Component: "+comp.getId());
 			 boolean emptyComponent=true;
 		 if(!comp.getNodes().isEmpty())
 		 {
-			 System.out.println("Has: "+ comp.getNodes().size()+" nodes");
+			 //System.out.println("Has: "+ comp.getNodes().size()+" nodes");
 			 for(Object element:comp.getNodes())
 		 {
 			 if(! (element instanceof DirectionArrow) && ! (element instanceof EmptyPoint)  )

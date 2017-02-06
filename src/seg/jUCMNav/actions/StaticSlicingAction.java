@@ -1,8 +1,19 @@
 package seg.jUCMNav.actions;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.util.BundleUtility;
+import org.eclipse.ui.part.FileEditorInput;
 
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,12 +34,29 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.Slicing.*;
+import seg.jUCMNav.model.commands.create.CreatePathCommand;
 import seg.jUCMNav.views.preferences.DisplayPreferences;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.wizards.NewUcmFileWizard;
+import seg.jUCMNav.views.wizards.importexport.jUCMNavLoader;
 import ucm.map.*;
 import urn.URNspec;
 import urncore.Responsibility;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -51,6 +79,12 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramGraphicalViewer;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
@@ -127,7 +161,10 @@ public class StaticSlicingAction extends URNSelectionAction {
      * @return a {@link StaticSlicingCommand}
      */
     protected Command getCommand() {
-    	
+    	//***********
+		
+         //*********************
+        
     	Boolean isEmptyExpression=false;
     	if(calculateEnabled())
         
@@ -185,16 +222,19 @@ public class StaticSlicingAction extends URNSelectionAction {
 	    	//removal can not be executed if no code exists, only coloring can
 	    	if(dialogFinished)
 	    	{
-	    		System.out.println("Finish clicked");
+	    		//System.out.println("Finish clicked");
     		StaticSlicingCommand slicing= new  StaticSlicingCommand(criterion,wiz.getSelectedVariables(),wiz.Removetype,wiz.fileName);
     		StaticSlicingCommand.prevCommand=slicing;
     		wiz.dispose();
-        	return  slicing;
+    		//CreatePathCommand path=new CreatePathCommand((UCMmap) ((PathNode)criterion).getDiagram(), 300,200);
+    		//path.execute();
+    		
+    		return  slicing;
 	    	
 	    	}
 	    	else
 	    	{
-	    		System.out.println("Cancel Pressed");
+	    		//System.out.println("Cancel Pressed");
 	    		return null;
 	    		
 	    	}

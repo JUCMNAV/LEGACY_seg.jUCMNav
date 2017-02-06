@@ -532,7 +532,7 @@ public  ArrayList<String> executeAlg(ArrayList<String> criVar,NodeConnection sta
 						return criterionVariables;
 					}
 				   }
-			   System.out.println("Loop break at:"+CurrentNode.getName());
+			   //System.out.println("Loop break at:"+CurrentNode.getName());
 				updateCriterionVariables(criterionVariables);
 				return criterionVariables;
 			   }
@@ -606,7 +606,7 @@ public  ArrayList<String> executeAlg(ArrayList<String> criVar,NodeConnection sta
 		         // otherwise it's a loop
 				else
 				{
-					System.out.println("Loop break at:"+CurrentNode.getName());
+					//System.out.println("Loop break at:"+CurrentNode.getName());
 					updateCriterionVariables(criterionVariables);
 					return criterionVariables;
 				}
@@ -794,7 +794,7 @@ public  ArrayList<String> executeAlg(ArrayList<String> criVar,NodeConnection sta
 						IURNDiagram map=stubEntry.getDiagram();
 						if(!maps.contains((UCMmap)map))
 							maps.add((UCMmap)map);
-							System.out.println("Map included: "+ ((UCMmap)map).getName()+((UCMmap)map).getId());
+							//System.out.println("Map included: "+ ((UCMmap)map).getName()+((UCMmap)map).getId());
 						//get the end point and add it if it's not added before
 						if(!visitedNodes.contains((EObject)stubEntry))
 							visitedNodes.add((EObject)stubEntry);
@@ -1052,7 +1052,7 @@ if((Criterion instanceof RespRef && !((RespRef)CurrentNode).equals((RespRef)visi
 			//otherwise it's a loop
 			else
 			{
-				System.out.println("Loop break at:"+CurrentNode.getName());
+				//System.out.println("Loop break at:"+CurrentNode.getName());
 				return ;
 			}
 		}
@@ -1089,7 +1089,7 @@ if((Criterion instanceof RespRef && !((RespRef)CurrentNode).equals((RespRef)visi
 		         // otherwise it's a loop
 				else
 				{
-					System.out.println("Loop break at:"+CurrentNode.getName());
+					//System.out.println("Loop break at:"+CurrentNode.getName());
 					
 					return ;
 				}
@@ -1104,7 +1104,7 @@ if((Criterion instanceof RespRef && !((RespRef)CurrentNode).equals((RespRef)visi
 				//and it will break the path 
 						else if (CurrentNode instanceof WaitingPlace)
 						{
-							System.out.println("Timer found here");
+							//System.out.println("Timer found here");
 							 //used to detect loop
 							if((Criterion instanceof NodeConnection && !(currentNodeConnection.equals((NodeConnection)visitedNodes.get(0)))) || (Criterion instanceof PathNode))
 							if(!visitedNodes.contains((EObject)CurrentNode))
@@ -1498,10 +1498,7 @@ if((Criterion instanceof RespRef && !((RespRef)CurrentNode).equals((RespRef)visi
 			 
 		       //refresh display
 		 		editor.recreatePages();
-		 		if(targetMap!=null)
-		 			System.out.println("Tmap Not Null: ");
-		 		else
-		 			System.out.println("Tmap is NULL");
+		 		
 		 		editor.setActivePage(targetMap);
 	
 	}
@@ -1522,7 +1519,7 @@ public void undoSlicing()
 	   
     catch (RuntimeException e)
     {
-    	System.out.println(e);
+    	//System.out.println(e);
     }
    //undo removal of unrelated paths and pathnodes coming after the criterion
    if(removePaths!=null)
@@ -2095,10 +2092,7 @@ public static Color getColor(EObject node)
 			}
 		}
 	}
-	if(color==null)
-		System.out.println("NULL");
-	else
-		System.out.println("NOT NULL");
+	
 	return color;
 }
 /**
