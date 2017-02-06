@@ -52,7 +52,7 @@ public class ColorUtils {
 				  // break;
 			   //color the criterion node connection
 			   NodeConnection criterionNC=element.getNodeConn_criterion();
-			   if(criterionNC!=null)
+			   if(criterionNC!=null && editor!=null)
 			   {
 				   for(int i=0; i<editor.getPageCount();i++)
 					{
