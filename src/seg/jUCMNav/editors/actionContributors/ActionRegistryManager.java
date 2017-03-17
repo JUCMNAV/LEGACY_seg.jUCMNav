@@ -335,6 +335,16 @@ public class ActionRegistryManager implements IDisposable {
         action.setText(Messages.getString("ActionRegistryManager.DeleteEvaluationRange")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
+        //GRL Change Impact Analysis Addition/Deletion action @hasanKaff
+        action = new ChangeImpactAnalysisAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ChangeImpactAnalysis"));
+        addEditPartAction((SelectionAction) action);
+        
+        //GRL Change Impact Analysis Modification action @hasanKaff
+        action = new ChangeImpactAnalysisModificationAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ChangeImpactAnalysisModification"));
+        addEditPartAction((SelectionAction) action);
+        
         action = new DeleteContributionRangeAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.DeleteContributionRange")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
