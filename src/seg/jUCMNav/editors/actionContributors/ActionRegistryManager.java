@@ -55,6 +55,8 @@ import seg.jUCMNav.actions.ChangeColorAction;
 import seg.jUCMNav.actions.ChangeComponentTypeAction;
 import seg.jUCMNav.actions.ChangeCorrelationAction;
 import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
+import seg.jUCMNav.actions.ChangeImpactAnalysisAction;
+import seg.jUCMNav.actions.ChangeImpactAnalysisModificationAction;
 import seg.jUCMNav.actions.ChangeLinkAction;
 import seg.jUCMNav.actions.ChangeLinkMandatoryAction;
 import seg.jUCMNav.actions.ChangeLinkORAction;
