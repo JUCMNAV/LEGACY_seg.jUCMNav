@@ -564,6 +564,41 @@ def: getAncestors():Set(Actor) =
 		else Set{}
 		endif
 		
+		
+--------------------------------------------------------------
+-- GRL IE Decomposition Hierarchy Helper Functions
+--------------------------------------------------------------
+
+context IntentionalElement
+
+-- Get the set of immediate parent IEs decomposed by the current IE
+def: getParentsDec():Set(grl::IntentionalElement)=
+		self.linksSrc ->
+		select(el | el.oclIsTypeOf(grl::Decomposition)).dest ->
+		select(gle | gle.oclIsTypeOf(grl::IntentionalElement)) ->
+		collect(ie | ie.oclAsType(grl::IntentionalElement)) ->
+		asSet()
+
+def: getAncestorDecSet(current:Set(grl::IntentionalElement)):Set(grl::IntentionalElement) =
+		-- Invoked by getAncestorsDec, to enable recursive construction of ancestors
+		let oneStep:Set(grl::IntentionalElement) = current
+			->collect(ie|ie.linksSrc->select(el|el.oclIsTypeOf(grl::Decomposition)).dest)
+			->select(gle | gle.oclIsTypeOf(grl::IntentionalElement))
+			->collect(ie | ie.oclAsType(grl::IntentionalElement))
+			->asSet()
+		in
+			if ( current->includesAll(oneStep) )  
+			then current
+			else getAncestorDecSet(current->union(oneStep))
+			endif
+
+-- Get all ancestor IEs along the decomposition relationship 
+def: getAncestorsDec():Set(grl::IntentionalElement) =
+		if self.linksSrc -> select(el | el.oclIsTypeOf(grl::Decomposition)) -> notEmpty()
+		then getAncestorDecSet( self.getParentsDec() )
+		else Set{}
+		endif
+
 --------------------------------------------------------------
 -- GRL Legal Profile Helper Functions
 --------------------------------------------------------------
